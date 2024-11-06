@@ -1,17 +1,19 @@
 import React, { AriaAttributes } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Toast.styles';
+import { getStyles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
 
@@ -61,6 +63,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
     ToastStatic.push(notification, action, showTime);
@@ -90,18 +94,26 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <ThemeContext.Provider value={this.theme}>
-              <RenderContainer>
-                <TransitionGroup>{this._renderToast()}</TransitionGroup>
-              </RenderContainer>
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
+                return (
+                  <ThemeContext.Provider value={this.theme}>
+                    <RenderContainer>
+                      <TransitionGroup>{this._renderToast()}</TransitionGroup>
+                    </RenderContainer>
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -150,6 +162,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       'aria-label': this.props['aria-label'],
       action,
     };
+    const styles = this.styles;
 
     return (
       <CSSTransition

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { Spinner } from '../Spinner';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { LinkProps } from './Link';
-import { styles } from './Link.styles';
+import { getStyles } from './Link.styles';
 
 export interface LinkIconProps extends Pick<LinkProps, 'icon' | 'loading'> {
   position?: 'left' | 'right';
@@ -14,10 +14,12 @@ export interface LinkIconProps extends Pick<LinkProps, 'icon' | 'loading'> {
 
 export const LinkIcon = ({ icon, loading, hasBothIcons, position }: LinkIconProps) => {
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
 
   return (
     <span
-      className={cx(
+      className={emotion.cx(
         styles.icon(),
         position === 'left' && styles.iconLeft(theme),
         position === 'right' && styles.iconRight(theme),

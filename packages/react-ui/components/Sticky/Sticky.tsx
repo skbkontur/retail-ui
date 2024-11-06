@@ -2,18 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { styles } from './Sticky.styles';
+import { getStyles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
@@ -80,6 +81,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   private inner: Nullable<HTMLElement>;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
   private reflowCounter = 0;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -106,6 +109,18 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   }
 
   public render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  public renderMain() {
     let { children } = this.props;
     const { side } = this.props;
     const offset = this.getProps().offset;
@@ -126,14 +141,14 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     if (isFunction(children)) {
       children = children(fixed);
     }
-
+    const styles = this.styles;
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={StickyDataTids.root} ref={this.refWrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
-            className={cx(styles.inner(), {
+            className={this.emotion.cx(styles.inner(), {
               [styles.fixed()]: fixed && !stopped,
               [styles.stopped()]: stopped,
             })}

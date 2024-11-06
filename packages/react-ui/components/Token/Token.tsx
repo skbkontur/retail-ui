@@ -1,18 +1,19 @@
 import React, { AriaAttributes } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { SizeProp } from '../../lib/types/props';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Token.styles';
+import { getStyles } from './Token.styles';
 import { TokenLocale, TokenLocaleHelper } from './locale';
 import { TokenView } from './TokenView';
 
@@ -54,17 +55,27 @@ export class Token extends React.Component<TokenProps> {
   public static displayName = 'Token';
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
   private readonly locale!: TokenLocale;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -99,7 +110,8 @@ export class Token extends React.Component<TokenProps> {
       />
     );
 
-    const classNames = cx(
+    const styles = this.styles;
+    const classNames = this.emotion.cx(
       styles.tokenIdle(theme),
       !isActive && !warning && !error && !disabled && styles.tokenHover(theme),
       isActive && styles.tokenActive(theme),

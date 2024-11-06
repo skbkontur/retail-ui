@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 
 export interface ModalSeparatorProps extends CommonProps {
   fixed?: boolean;
@@ -17,10 +17,12 @@ export interface ModalSeparatorProps extends CommonProps {
  */
 export function ModalSeparator({ fixed }: ModalSeparatorProps) {
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
 
   return (
     <div className={styles.modalSeparatorWrapper()}>
-      <div className={cx(styles.modalSeparator(theme), fixed && styles.modalSeparatorFixed())} />
+      <div className={emotion.cx(styles.modalSeparator(theme), fixed && styles.modalSeparatorFixed())} />
     </div>
   );
 }

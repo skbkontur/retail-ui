@@ -1,9 +1,12 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
-  root(t: Theme) {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
       width: 100%;
       height: 100%;
       flex-direction: column;
@@ -14,10 +17,10 @@ const styles = {
       padding-bottom: ${t.mobilePopupContainerBottomPadding};
       background: ${t.menuBgDefault};
     `;
-  },
+    },
 
-  wrapper() {
-    return css`
+    wrapper() {
+      return emotion.css`
       position: fixed;
       top: 0;
       bottom: 0;
@@ -25,26 +28,26 @@ const styles = {
       left: 0;
       overflow: auto;
     `;
-  },
+    },
 
-  content(t: Theme) {
-    return css`
+    content(t: Theme) {
+      return emotion.css`
       background-color: ${t.bgDefault};
     `;
-  },
+    },
 
-  container(t: Theme) {
-    return css`
+    container(t: Theme) {
+      return emotion.css`
       position: absolute;
       top: ${t.mobilePopupTopPadding};
       left: ${t.mobilePopupOuterIndentY};
       right: ${t.mobilePopupOuterIndentY};
       z-index: 100000;
     `;
-  },
+    },
 
-  bg() {
-    return css`
+    bg() {
+      return emotion.css`
       position: fixed;
       top: 0;
       bottom: 0;
@@ -55,19 +58,17 @@ const styles = {
       pointer-events: none;
       opacity: 50%;
     `;
-  },
+    },
 
-  bottomIndent() {
-    return css`
+    bottomIndent() {
+      return emotion.css`
       height: 80px;
     `;
-  },
+    },
 
-  zIndex() {
-    return css`
+    zIndex() {
+      return emotion.css`
       position: relative;
     `;
-  },
-};
-
-export const jsStyles = memoizeStyle(styles);
+    },
+  });

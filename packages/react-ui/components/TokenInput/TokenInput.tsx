@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { PopupIds } from '../../internal/Popup';
 import {
@@ -30,18 +31,18 @@ import { Menu } from '../../internal/Menu';
 import { Token, TokenProps, TokenSize } from '../Token';
 import { MenuItemState, MenuItem } from '../MenuItem';
 import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
-import { styles } from './TokenInput.styles';
+import { getStyles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
@@ -321,6 +322,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -375,16 +378,25 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private getLabelSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.labelLarge(this.theme);
@@ -397,6 +409,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private getInputSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.inputLarge(this.theme);
@@ -455,15 +468,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
-
-    const labelClassName = cx(styles.label(theme), this.getLabelSizeClassName(), {
+    const styles = this.styles;
+    const labelClassName = this.emotion.cx(styles.label(theme), this.getLabelSizeClassName(), {
       [styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
       [styles.labelDisabled(theme)]: !!disabled,
       [styles.labelFocused(theme)]: !!inFocus,
       [styles.error(theme)]: !!error,
       [styles.warning(theme)]: !!warning,
     });
-    const inputClassName = cx(styles.input(theme), this.getInputSizeClassName(), {
+    const inputClassName = this.emotion.cx(styles.input(theme), this.getInputSizeClassName(), {
       [styles.inputDisabled(theme)]: !!disabled,
     });
 
@@ -472,7 +485,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const inputNode = (
       <TokenView
         size={this.getProps().size}
-        className={cx({
+        className={this.emotion.cx({
           // input растягивается на всю ширину чтобы placeholder не обрезался
           [styles.inputPlaceholderWrapper()]: Boolean(placeholder),
         })}

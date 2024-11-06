@@ -1,11 +1,12 @@
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
@@ -15,7 +16,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
-import { styles, globalClasses } from './Radio.styles';
+import { getStyles, globalClasses } from './Radio.styles';
 
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -97,8 +98,11 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private inputEl = React.createRef<HTMLInputElement>();
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   private getRootSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.rootLarge(this.theme);
@@ -111,6 +115,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   }
 
   private getCircleSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.circleLarge(this.theme);
@@ -123,6 +128,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   }
 
   private getCheckedSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.checkedLarge(this.theme);
@@ -136,16 +142,24 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -177,9 +191,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       onValueChange,
       ...rest
     } = props;
+    const styles = this.styles;
 
     const radioProps = {
-      className: cx({
+      className: this.emotion.cx({
         [styles.circle(this.theme)]: true,
         [this.getCircleSizeClassName()]: true,
         [styles.checked(this.theme)]: this.props.checked,
@@ -212,7 +227,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     };
 
     const labelProps = {
-      className: cx(styles.root(this.theme), this.getRootSizeClassName(), {
+      className: this.emotion.cx(styles.root(this.theme), this.getRootSizeClassName(), {
         [styles.rootChecked(this.theme)]: this.props.checked,
         [styles.rootIE11()]: isIE11 || isEdge,
       }),
@@ -227,11 +242,11 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
-      labelProps.className = cx(styles.root(this.theme), this.getRootSizeClassName(), {
+      labelProps.className = this.emotion.cx(styles.root(this.theme), this.getRootSizeClassName(), {
         [styles.rootChecked(this.theme)]: checked,
         [styles.rootIE11()]: isIE11 || isEdge,
       });
-      radioProps.className = cx(radioProps.className, {
+      radioProps.className = this.emotion.cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
         [this.getCheckedSizeClassName()]: checked,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
@@ -254,7 +269,8 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderCaption() {
-    const captionClassNames = cx({
+    const styles = this.styles;
+    const captionClassNames = this.emotion.cx({
       [styles.caption(this.theme)]: true,
       [styles.captionDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
       [styles.captionIE11()]: isIE11 || isEdge,
