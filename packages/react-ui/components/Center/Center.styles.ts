@@ -1,38 +1,41 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
-      height: 100%;
-      text-align: center;
-    `;
-  },
+import { memoizeStyle } from '../../lib/theming/Emotion';
 
-  rootAlignLeft() {
-    return css`
-      text-align: left;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
+        height: 100%;
+        text-align: center;
+      `;
+    },
 
-  rootAlignRight() {
-    return css`
-      text-align: right;
-    `;
-  },
+    rootAlignLeft() {
+      return emotion.css`
+        text-align: left;
+      `;
+    },
 
-  spring() {
-    return css`
-      display: inline-block;
-      height: 100%;
-      vertical-align: middle;
-    `;
-  },
+    rootAlignRight() {
+      return emotion.css`
+        text-align: right;
+      `;
+    },
 
-  container() {
-    return css`
-      display: inline-block;
-      text-align: left;
-      vertical-align: middle;
-    `;
-  },
-});
+    spring() {
+      return emotion.css`
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+      `;
+    },
+
+    container() {
+      return emotion.css`
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+      `;
+    },
+  });
