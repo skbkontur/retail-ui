@@ -1,63 +1,66 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import { menuHeaderSizeMixin, withIconSizeMixin } from './MenuHeader.mixins';
 
-export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
-      color: ${t.menuHeaderColor};
-      cursor: default;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
+        color: ${t.menuHeaderColor};
+        cursor: default;
+      `;
+    },
 
-  rootSmall(t: Theme) {
-    return css`
-      ${menuHeaderSizeMixin(
-        t.menuHeaderPaddingXSmall,
-        t.menuHeaderFontSizeSmall,
-        t.menuHeaderLineHeightSmall,
-        t.menuHeaderPaddingTopSmall,
-        t.menuHeaderPaddingBottomSmall,
-      )};
-    `;
-  },
-  rootMedium(t: Theme) {
-    return css`
-      ${menuHeaderSizeMixin(
-        t.menuHeaderPaddingXMedium,
-        t.menuHeaderFontSizeMedium,
-        t.menuHeaderLineHeightMedium,
-        t.menuHeaderPaddingTopMedium,
-        t.menuHeaderPaddingBottomMedium,
-      )};
-    `;
-  },
-  rootLarge(t: Theme) {
-    return css`
-      ${menuHeaderSizeMixin(
-        t.menuHeaderPaddingXLarge,
-        t.menuHeaderFontSizeLarge,
-        t.menuHeaderLineHeightLarge,
-        t.menuHeaderPaddingTopLarge,
-        t.menuHeaderPaddingBottomLarge,
-      )};
-    `;
-  },
+    rootSmall(t: Theme) {
+      return emotion.css`
+        ${menuHeaderSizeMixin(emotion)(
+          t.menuHeaderPaddingXSmall,
+          t.menuHeaderFontSizeSmall,
+          t.menuHeaderLineHeightSmall,
+          t.menuHeaderPaddingTopSmall,
+          t.menuHeaderPaddingBottomSmall,
+        )};
+      `;
+    },
+    rootMedium(t: Theme) {
+      return emotion.css`
+        ${menuHeaderSizeMixin(emotion)(
+          t.menuHeaderPaddingXMedium,
+          t.menuHeaderFontSizeMedium,
+          t.menuHeaderLineHeightMedium,
+          t.menuHeaderPaddingTopMedium,
+          t.menuHeaderPaddingBottomMedium,
+        )};
+      `;
+    },
+    rootLarge(t: Theme) {
+      return emotion.css`
+        ${menuHeaderSizeMixin(emotion)(
+          t.menuHeaderPaddingXLarge,
+          t.menuHeaderFontSizeLarge,
+          t.menuHeaderLineHeightLarge,
+          t.menuHeaderPaddingTopLarge,
+          t.menuHeaderPaddingBottomLarge,
+        )};
+      `;
+    },
 
-  withLeftPaddingSmall(t: Theme) {
-    return css`
-      ${withIconSizeMixin(t.menuItemPaddingForIconSmall)}
-    `;
-  },
-  withLeftPaddingMedium(t: Theme) {
-    return css`
-      ${withIconSizeMixin(t.menuItemPaddingForIconMedium)}
-    `;
-  },
-  withLeftPaddingLarge(t: Theme) {
-    return css`
-      ${withIconSizeMixin(t.menuItemPaddingForIconLarge)}
-    `;
-  },
-});
+    withLeftPaddingSmall(t: Theme) {
+      return emotion.css`
+        ${withIconSizeMixin(emotion)(t.menuItemPaddingForIconSmall)}
+      `;
+    },
+    withLeftPaddingMedium(t: Theme) {
+      return emotion.css`
+        ${withIconSizeMixin(emotion)(t.menuItemPaddingForIconMedium)}
+      `;
+    },
+    withLeftPaddingLarge(t: Theme) {
+      return emotion.css`
+        ${withIconSizeMixin(emotion)(t.menuItemPaddingForIconLarge)}
+      `;
+    },
+  });

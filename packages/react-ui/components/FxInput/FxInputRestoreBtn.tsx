@@ -1,9 +1,9 @@
 import React, { AriaAttributes, useContext } from 'react';
 
 import { Input } from '../Input';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Button } from '../Button';
 import { SizeProp } from '../../lib/types/props';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { UndoIcon } from './UndoIcon';
 import { FxInputProps } from './FxInput';

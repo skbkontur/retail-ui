@@ -1,36 +1,39 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
-      padding-right: 10px;
-    `;
-  },
+import { memoizeStyle } from '../../lib/theming/Emotion';
 
-  absolute() {
-    return css`
-      position: absolute;
-      top: 0;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
+        padding-right: 10px;
+      `;
+    },
 
-  userSelectContain() {
-    return css`
-      user-select: text;
-      -ms-user-select: element;
-    `;
-  },
+    absolute() {
+      return emotion.css`
+        position: absolute;
+        top: 0;
+      `;
+    },
 
-  userSelectNone() {
-    return css`
-      user-select: none;
-    `;
-  },
+    userSelectContain() {
+      return emotion.css`
+        user-select: text;
+        -ms-user-select: element;
+      `;
+    },
 
-  rightSide() {
-    return css`
-      padding-left: 0;
-      visibility: visible;
-    `;
-  },
-});
+    userSelectNone() {
+      return emotion.css`
+        user-select: none;
+      `;
+    },
+
+    rightSide() {
+      return emotion.css`
+        padding-left: 0;
+        visibility: visible;
+      `;
+    },
+  });

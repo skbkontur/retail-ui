@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 
 import { Modal, ModalFooterProps } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalFooterProps extends ModalFooterProps {
@@ -23,6 +23,8 @@ export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooter
   'MiniModalFooter',
   ({ direction = 'row', children, ...rest }, ref) => {
     const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
+    const styles = getStyles(emotion);
 
     const childrenCount = React.Children.count(children);
     const _direction = childrenCount > 2 || childrenCount === 1 ? 'column' : direction;
@@ -32,7 +34,7 @@ export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooter
         <div
           ref={ref}
           data-tid={MiniModalDataTids.actions}
-          className={cx(
+          className={emotion.cx(
             styles.actions(),
             _direction === 'row' && styles.actionsRow(theme),
             _direction === 'column' && styles.actionsColumn(theme),

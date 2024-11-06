@@ -3,29 +3,30 @@ import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
 import { Nullable, Range } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
-import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
 import { CalendarContext, CalendarContextProps } from './CalendarContext';
+import { getStyles } from './Calendar.styles';
 import { CalendarDay, CalendarDayProps } from './CalendarDay';
 
 export interface CalendarProps extends CommonProps {
@@ -119,6 +120,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private getProps = createPropsGetter(Calendar.defaultProps);
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private wheelEndTimeout: SafeTimer;
   private root: Nullable<HTMLElement>;
   private animation = animation();
@@ -185,12 +188,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -325,7 +336,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
 
     const props = this.getProps();
-
     const context: CalendarContextProps = {
       value: this.getDateInNativeFormat(props.value),
       minDate: this.getDateInNativeFormat(props.minDate),
@@ -338,13 +348,17 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
-        <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
-          <div style={wrapperStyle} className={styles.wrapper()}>
+        <div
+          ref={this.refRoot}
+          data-tid={CalendarDataTids.root}
+          className={this.emotion.cx(this.styles.root(this.theme))}
+        >
+          <div style={wrapperStyle} className={this.styles.wrapper()}>
             <CalendarContext.Provider value={context}>
               {monthsForRender.map(this.renderMonth, this)}
             </CalendarContext.Provider>
           </div>
-          <div className={styles.separator(this.theme)} />
+          <div className={this.styles.separator(this.theme)} />
         </div>
       </CommonWrapper>
     );

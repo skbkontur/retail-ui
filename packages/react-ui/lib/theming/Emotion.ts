@@ -1,23 +1,38 @@
-import createEmotion from '@emotion/css/create-instance';
+import createEmotion, { Emotion } from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 import { globalObject } from '@skbkontur/global-object';
+import { createContext } from 'react';
 
 import { Upgrade } from '../Upgrades';
 import { AnyObject, FunctionWithParams } from '../utils';
 
 import { Theme } from './Theme';
 
-const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
+export const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
-export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
+export const getEmotion = ({
+  key = REACT_UI_PREFIX,
+  container,
+  nonce,
+}: {
+  container?: HTMLElement | null;
+  key?: string;
+  nonce?: string;
+}): Emotion =>
   createEmotion({
-    key: REACT_UI_PREFIX,
+    key,
     prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
-    container: globalObject.document?.head,
+    container: container ?? globalObject.document?.head,
+    nonce,
   });
+
+// breaking changes
+// todo убрать все экспорты, чтобы все компоненты управлялись через EmotionContext, пока оставили для обратной совместимости с icons/side-menu/Fias
+export const { injectGlobal, cache, css, cx, keyframes, getRegisteredStyles, hydrate, sheet, merge, flush } =
+  getEmotion({});
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
   return fn.length === 0;
@@ -59,3 +74,10 @@ export const prefix =
     Object.keys(classes).reduce((acc, key) => {
       return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
     }, {} as T);
+
+export const EmotionContext = createContext<Emotion>(getEmotion({}));
+export const EmotionConsumer = EmotionContext.Consumer;
+export const EmotionProvider = EmotionContext.Provider;
+
+EmotionContext.displayName = 'EmotionContext';
+EmotionContext.__KONTUR_REACT_UI__ = 'EmotionContext';

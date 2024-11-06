@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
@@ -7,19 +9,20 @@ export const modalGlobalClasses = prefix('modal')({
   container: 'container',
 });
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
       height: 100%;
       left: 0;
       position: fixed;
       top: 0;
       width: 100%;
     `;
-  },
+    },
 
-  bg(t: Theme) {
-    return css`
+    bg(t: Theme) {
+      return emotion.css`
       bottom: 0;
       left: 0;
       position: absolute;
@@ -28,10 +31,10 @@ export const styles = memoizeStyle({
       background: ${t.modalBackBg};
       opacity: ${t.modalBackOpacity};
     `;
-  },
+    },
 
-  container() {
-    return css`
+    container() {
+      return emotion.css`
       position: relative;
       white-space: nowrap;
       text-align: center;
@@ -46,20 +49,20 @@ export const styles = memoizeStyle({
         height: 80%; /* to vertical align modal 40%/60% of screen height */
       }
     `;
-  },
+    },
 
-  containerMobile(t: Theme) {
-    return css`
+    containerMobile(t: Theme) {
+      return emotion.css`
       height: ${t.mobileModalContainerHeight};
       margin-top: ${t.mobileModalContainerMarginTop};
       margin-right: ${t.mobileModalContainerMarginRight};
       margin-bottom: ${t.mobileModalContainerMarginBottom};
       margin-left: ${t.mobileModalContainerMarginLeft};
     `;
-  },
+    },
 
-  window(t: Theme) {
-    return css`
+    window(t: Theme) {
+      return emotion.css`
       position: relative;
       white-space: normal;
       margin: auto;
@@ -67,18 +70,18 @@ export const styles = memoizeStyle({
       background: ${t.modalBg};
       border-radius: ${t.modalBorderRadius};
     `;
-  },
+    },
 
-  mobileWindow() {
-    return css`
+    mobileWindow() {
+      return emotion.css`
       width: 100%;
       height: 100%;
       overflow: auto;
     `;
-  },
+    },
 
-  centerContainer() {
-    return css`
+    centerContainer() {
+      return emotion.css`
       position: relative;
       display: inline-block;
       text-align: left;
@@ -87,26 +90,26 @@ export const styles = memoizeStyle({
       z-index: 10;
       margin: 40px 20px;
     `;
-  },
+    },
 
-  mobileCenterContainer() {
-    return css`
+    mobileCenterContainer() {
+      return emotion.css`
       margin: 0;
       width: 100%;
       height: 100%;
     `;
-  },
+    },
 
-  alignTop() {
-    return css`
+    alignTop() {
+      return emotion.css`
       vertical-align: top;
     `;
-  },
+    },
 
-  close(t: Theme) {
-    const padding = parseInt(t.modalCloseButtonPadding);
-    return css`
-      ${resetButton()};
+    close(t: Theme) {
+      const padding = parseInt(t.modalCloseButtonPadding);
+      return emotion.css`
+      ${resetButton(emotion)};
       position: absolute;
       display: flex;
       right: ${padding}px;
@@ -130,70 +133,70 @@ export const styles = memoizeStyle({
         box-sizing: content-box;
       }
     `;
-  },
+    },
 
-  close5_1(t: Theme) {
-    return css`
-      justify-content: center;
-      align-items: center;
-      right: ${t.modalCloseButtonClickAreaRight};
-      top: ${t.modalCloseButtonClickAreaTop};
+    close5_1(t: Theme) {
+      return css`
+        justify-content: center;
+        align-items: center;
+        right: ${t.modalCloseButtonClickAreaRight};
+        top: ${t.modalCloseButtonClickAreaTop};
 
-      padding-top: ${t.modalCloseButtonClickAreaTop};
-      margin-top: -${t.modalCloseButtonClickAreaTop};
-      padding-right: ${t.modalCloseButtonClickAreaRight};
-      margin-right: -${t.modalCloseButtonClickAreaRight};
-      padding-bottom: ${t.modalCloseButtonClickAreaBottom};
-      margin-bottom: -${t.modalCloseButtonClickAreaBottom};
-      padding-left: ${t.modalCloseButtonClickAreaLeft};
-      margin-left: -${t.modalCloseButtonClickAreaLeft};
+        padding-top: ${t.modalCloseButtonClickAreaTop};
+        margin-top: -${t.modalCloseButtonClickAreaTop};
+        padding-right: ${t.modalCloseButtonClickAreaRight};
+        margin-right: -${t.modalCloseButtonClickAreaRight};
+        padding-bottom: ${t.modalCloseButtonClickAreaBottom};
+        margin-bottom: -${t.modalCloseButtonClickAreaBottom};
+        padding-left: ${t.modalCloseButtonClickAreaLeft};
+        margin-left: -${t.modalCloseButtonClickAreaLeft};
     `;
   },
 
-  closeMobile(t: Theme) {
-    return css`
-      right: ${t.mobileModalCloseButtonRightPadding};
-      top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
-      padding: ${t.mobileModalCloseButtonClickArea};
-      margin: -${t.mobileModalCloseButtonClickArea};
+    closeMobile(t: Theme) {
+      return css`
+        right: ${t.mobileModalCloseButtonRightPadding};
+        top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
+        padding: ${t.mobileModalCloseButtonClickArea};
+        margin: -${t.mobileModalCloseButtonClickArea};
 
-      & > svg {
-        width: ${t.mobileModalCloseIconSize};
-        height: ${t.mobileModalCloseIconSize};
-      }
-    `;
-  },
+        & > svg {
+          width: ${t.mobileModalCloseIconSize};
+          height: ${t.mobileModalCloseIconSize};
+        }
+      `;
+    },
 
-  closeMobile5_1(t: Theme) {
-    return css`
-      top: ${t.mobileModalCloseButtonTopPadding};
-    `;
-  },
+    closeMobile5_1(t: Theme) {
+      return css`
+        top: ${t.mobileModalCloseButtonTopPadding};
+      `;
+    },
 
-  mobileCloseWithoutHeader() {
-    return css`
+    mobileCloseWithoutHeader() {
+      return emotion.css`
       position: static;
     `;
-  },
+    },
 
-  closeWrapper(t: Theme) {
-    const padding = parseInt(t.modalCloseButtonPadding);
-    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
+    closeWrapper(t: Theme) {
+      const padding = parseInt(t.modalCloseButtonPadding);
+      const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
 
-    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
-    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
-    return css`
+      const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
+      const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
+      return emotion.css`
       position: relative;
       float: right;
       width: ${blockSizeX}px;
       height: ${blockSizeY}px;
     `;
-  },
+    },
 
-  mobileCloseWrapper(t: Theme) {
-    const size = parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea) * 2;
+    mobileCloseWrapper(t: Theme) {
+      const size = parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea) * 2;
 
-    return css`
+      return emotion.css`
       position: absolute;
       right: ${t.mobileModalCloseButtonRightPadding};
       top: ${t.mobileModalCloseButtonTopPadding};
@@ -207,18 +210,18 @@ export const styles = memoizeStyle({
       background: radial-gradient(50% 50% at 50% 50%, ${t.bgDefault} 60%, rgba(255, 255, 255, 0) 100%);
       border-radius: ${size}px;
     `;
-  },
+    },
 
-  disabled(t: Theme) {
-    return css`
+    disabled(t: Theme) {
+      return emotion.css`
       pointer-events: none;
       cursor: default;
       color: ${t.modalCloseButtonDisabledColor};
     `;
-  },
+    },
 
-  focus(t: Theme) {
-    return css`
+    focus(t: Theme) {
+      return emotion.css`
       color: ${t.modalCloseButtonHoverColor};
       outline: 2px solid ${t.borderColorFocus};
     `;
@@ -235,10 +238,10 @@ export const styles = memoizeStyle({
         border-radius: 4px;
       }
     `;
-  },
+    },
 
-  header(t: Theme) {
-    return css`
+    header(t: Theme) {
+      return emotion.css`
       font-size: ${t.modalHeaderFontSize};
       line-height: ${t.modalHeaderLineHeight};
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
@@ -247,19 +250,19 @@ export const styles = memoizeStyle({
       color: ${t.modalHeaderTextColor};
       font-weight: ${t.modalHeaderFontWeight};
     `;
-  },
+    },
 
-  mobileHeader(t: Theme) {
-    return css`
+    mobileHeader(t: Theme) {
+      return emotion.css`
       position: relative;
       font-size: ${t.mobileModalHeaderFontSize};
       line-height: ${t.mobileModalHeaderLineHeight};
       padding: ${t.mobileModalHeaderPadding};
     `;
-  },
+    },
 
-  body(t: Theme) {
-    return css`
+    body(t: Theme) {
+      return emotion.css`
       border-radius: ${t.modalBodyBorderRadius};
       padding-top: ${t.modalBodyPaddingTop};
       padding-right: ${t.modalPaddingRight};
@@ -267,56 +270,56 @@ export const styles = memoizeStyle({
       padding-left: ${t.modalPaddingLeft};
       color: ${t.modalBodyTextColor};
     `;
-  },
+    },
 
-  mobileBody(t: Theme) {
-    return css`
+    mobileBody(t: Theme) {
+      return emotion.css`
       padding: ${t.mobileModalBodyPadding};
       display: flex;
       flex-flow: column;
       flex: 1;
       font-size: ${t.mobileModalBodyFontSize};
     `;
-  },
+    },
 
-  headerWithClose(t: Theme) {
-    const rightPadding = 2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize);
+    headerWithClose(t: Theme) {
+      const rightPadding = 2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize);
 
-    return css`
+      return emotion.css`
       padding-right: ${rightPadding}px;
     `;
-  },
+    },
 
-  mobileHeaderWithClose(t: Theme) {
-    return css`
+    mobileHeaderWithClose(t: Theme) {
+      return emotion.css`
       padding-right: ${2 * parseInt(t.mobileModalCloseButtonRightPadding) + parseInt(t.mobileModalCloseIconSize)}px;
     `;
-  },
+    },
 
-  footer(t: Theme) {
-    return css`
+    footer(t: Theme) {
+      return emotion.css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalFooterTextColor};
       border-radius: 0 0 ${t.modalBorderRadius} ${t.modalBorderRadius};
     `;
-  },
+    },
 
-  mobileFooter(t: Theme) {
-    return css`
+    mobileFooter(t: Theme) {
+      return emotion.css`
       padding: ${t.mobileModalFooterPadding};
     `;
-  },
+    },
 
-  panel(t: Theme) {
-    return css`
+    panel(t: Theme) {
+      return emotion.css`
       padding-top: ${t.modalFooterPanelPaddingTop};
       padding-bottom: ${t.modalFooterPanelPaddingBottom};
       background: ${t.modalFooterBg};
     `;
-  },
+    },
 
-  fixedHeader(t: Theme) {
-    return css`
+    fixedHeader(t: Theme) {
+      return emotion.css`
       margin-bottom: ${t.modalFixedHeaderMarginBottom};
       padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
@@ -333,16 +336,16 @@ export const styles = memoizeStyle({
         box-shadow: ${t.modalFixedHeaderShadow};
       }
     `;
-  },
+    },
 
-  mobileFixedHeader(t: Theme) {
-    return css`
+    mobileFixedHeader(t: Theme) {
+      return emotion.css`
       padding-bottom: ${t.mobileModalHeaderPadding};
     `;
-  },
+    },
 
-  fixedFooter(t: Theme) {
-    return css`
+    fixedFooter(t: Theme) {
+      return emotion.css`
       padding-top: ${t.modalFixedFooterPaddingTop};
       margin-top: ${t.modalFixedFooterMarginTop};
       background: ${t.modalFixedHeaderBg};
@@ -359,79 +362,79 @@ export const styles = memoizeStyle({
         box-shadow: ${t.modalFixedFooterShadow};
       }
     `;
-  },
+    },
 
-  fixedPanel(t: Theme) {
-    return css`
+    fixedPanel(t: Theme) {
+      return emotion.css`
       &:before {
         box-shadow: ${t.modalFixedPanelShadow};
       }
     `;
-  },
+    },
 
-  headerAddPadding(t: Theme) {
-    return css`
+    headerAddPadding(t: Theme) {
+      return emotion.css`
       padding-bottom: ${t.modalHeaderAdditionalPaddingBottom};
     `;
-  },
+    },
 
-  bodyWithoutHeader(t: Theme) {
-    return css`
+    bodyWithoutHeader(t: Theme) {
+      return emotion.css`
       padding-top: ${t.modalPaddingTop};
     `;
-  },
+    },
 
-  mobileBodyWithoutHeader() {
-    return css`
+    mobileBodyWithoutHeader() {
+      return emotion.css`
       padding-top: 0px;
     `;
-  },
+    },
 
-  bodyWithoutPadding() {
-    return css`
+    bodyWithoutPadding() {
+      return emotion.css`
       padding: 0;
     `;
-  },
+    },
 
-  bodyAddPaddingForPanel(t: Theme) {
-    return css`
+    bodyAddPaddingForPanel(t: Theme) {
+      return emotion.css`
       padding-bottom: ${t.modalPaddingBottom};
     `;
-  },
+    },
 
-  mobileBodyAddPaddingForPanel(t: Theme) {
-    return css`
+    mobileBodyAddPaddingForPanel(t: Theme) {
+      return emotion.css`
       padding: ${t.mobileModalBodyPadding};
     `;
-  },
+    },
 
-  columnFlexContainer() {
-    return css`
+    columnFlexContainer() {
+      return emotion.css`
       height: 100%;
       display: flex;
       flex-flow: column;
       overflow-y: auto;
     `;
-  },
+    },
 
-  modalSeparatorWrapper() {
-    return css`
+    modalSeparatorWrapper() {
+      return emotion.css`
       position: absolute;
       width: 100%;
     `;
-  },
+    },
 
-  modalSeparator(t: Theme) {
-    return css`
+    modalSeparator(t: Theme) {
+      return emotion.css`
       border-bottom: ${t.modalSeparatorBorderBottom};
       margin: 0 32px;
       transition: margin 0.3s;
     `;
-  },
+    },
 
-  modalSeparatorFixed() {
-    return css`
+    modalSeparatorFixed() {
+      return emotion.css`
       margin: 0 16px;
     `;
-  },
-});
+    },
+  });

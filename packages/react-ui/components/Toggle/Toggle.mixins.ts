@@ -1,10 +1,11 @@
-import { css } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
 import { isChrome } from '../../lib/client';
 
 import { globalClasses } from './Toggle.styles';
 
-export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWidth: string) => {
-  return css`
+export const toggleSizeMixin = (emotion: Emotion) => (fontSize: string, toggleHeight: string, toggleWidth: string) => {
+  return emotion.css`
     line-height: ${toggleHeight};
     font-size: ${fontSize};
 
@@ -14,18 +15,20 @@ export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWi
   `;
 };
 
-export const buttonSizeMixin = (
-  labGrotesqueBaselineCompensation: string,
-  fontSize: string,
-  toggleHeight: string,
-  toggleWidth: string,
-  toggleBorderRadius: string,
-  toggleButtonOffsetY: string,
-) => {
-  const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
-  const buttonFontSize = parseInt(fontSize);
-  const baselineCompensation = buttonFontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
-  return css`
+export const buttonSizeMixin =
+  (emotion: Emotion) =>
+  (
+    labGrotesqueBaselineCompensation: string,
+    fontSize: string,
+    toggleHeight: string,
+    toggleWidth: string,
+    toggleBorderRadius: string,
+    toggleButtonOffsetY: string,
+  ) => {
+    const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
+    const buttonFontSize = parseInt(fontSize);
+    const baselineCompensation = buttonFontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
+    return emotion.css`
     height: ${toggleHeight};
     width: ${toggleWidth};
     flex: 1 0 ${toggleWidth};
@@ -35,33 +38,33 @@ export const buttonSizeMixin = (
 
     margin-top: calc(${toggleButtonOffsetY} + ${baselineCompensation}px);
   `;
-};
+  };
 
-export const captionSizeMixin = (fontSize: string, toggleHeight: string) => {
-  return css`
+export const captionSizeMixin = (emotion: Emotion) => (fontSize: string, toggleHeight: string) => {
+  return emotion.css`
     line-height: ${toggleHeight};
     font-size: ${fontSize};
   `;
 };
 
-export const handleMixin = (toggleHandleSize: string, toggleHandleBorderRadius: string) => {
-  return css`
+export const handleMixin = (emotion: Emotion) => (toggleHandleSize: string, toggleHandleBorderRadius: string) => {
+  return emotion.css`
     border-radius: ${toggleHandleBorderRadius};
     height: ${toggleHandleSize};
     width: ${toggleHandleSize};
   `;
 };
 
-export const containerSizeMixin = (toggleBorderRadius: string) => {
-  return css`
+export const containerSizeMixin = (emotion: Emotion) => (toggleBorderRadius: string) => {
+  return emotion.css`
     border-radius: ${toggleBorderRadius};
   `;
 };
 
-export const inputSizeMixin = (toggleHeight: string, toggleWidth: string) => {
+export const inputSizeMixin = (emotion: Emotion) => (toggleHeight: string, toggleWidth: string) => {
   const handleWidthWithBorders = toggleHeight;
   const height = parseInt(toggleHeight);
-  return css`
+  return emotion.css`
     &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
       border-radius: ${height * 0.5}px 0 0 ${height * 0.5}px;
     }

@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
 import { PopupHelper, PositionObject, Rect } from './PopupHelper';
-import { styles } from './PopupPin.styles';
+import { getStyles } from './PopupPin.styles';
 import { PopupDataTids } from './Popup';
 
 const borderStyles = {
@@ -95,13 +96,19 @@ export class PopupPin extends React.Component<Props> {
     );
 
     const styleWrapper = this.getWrapperStyle(options.outerLeft, options.outerTop, options.outerSize);
-
     return (
-      <div data-tid={PopupDataTids.popupPin} className={styles.wrapper()} style={styleWrapper}>
-        <div style={styleOuter}>
-          <div style={styleInner} />
-        </div>
-      </div>
+      <EmotionConsumer>
+        {(emotion) => {
+          const styles = getStyles(emotion);
+          return (
+            <div data-tid={PopupDataTids.popupPin} className={styles.wrapper()} style={styleWrapper}>
+              <div style={styleOuter}>
+                <div style={styleInner} />
+              </div>
+            </div>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 

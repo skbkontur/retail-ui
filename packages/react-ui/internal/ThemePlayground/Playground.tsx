@@ -5,19 +5,20 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Button, ButtonProps } from '../../components/Button';
 import { Tabs } from '../../components/Tabs';
 import { Gapped } from '../../components/Gapped';
 import { Link, LinkProps } from '../../components/Link';
 import { Input, InputProps } from '../../components/Input';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { FileUploader } from '../../components/FileUploader';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -32,8 +33,8 @@ import { RadioPlayground } from './RadioPlayground';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
-import { styles } from './Playground.styles';
 import { SizesGroup } from './SizesGroup';
+import { getStyles } from './Playground.styles';
 
 const useSticky = !isTestEnv;
 
@@ -45,20 +46,30 @@ export interface PlaygroundProps {
 
 export class Playground extends React.Component<PlaygroundProps> {
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private stopEl = React.createRef<HTMLDivElement>();
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
   private renderMain() {
-    const wrapperClassName = cx(styles.playground(), styles.playgroundWrapper(this.theme));
+    const wrapperClassName = this.emotion.cx(this.styles.playground(), this.styles.playgroundWrapper(this.theme));
     return (
       <div className={wrapperClassName}>
         <Gapped vertical gap={50}>
@@ -96,16 +107,16 @@ export class Playground extends React.Component<PlaygroundProps> {
   private renderTabs() {
     const { onThemeChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
-    const tabsOuterWrapperClass = cx({
-      [styles.tabsWrapper(this.theme)]: true,
-      [styles.stickyTabsWrapper(this.theme)]: useSticky,
+    const tabsOuterWrapperClass = this.emotion.cx({
+      [this.styles.tabsWrapper(this.theme)]: true,
+      [this.styles.stickyTabsWrapper(this.theme)]: useSticky,
     });
 
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped gap={40}>
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
-            <div className={styles.tabsInnerWrapper(this.theme)}>
+            <div className={this.styles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.LightTheme}>Тема 2022</Tabs.Tab>
               <Tabs.Tab id={ThemeType.DarkTheme}>Тема 2022 Тёмная</Tabs.Tab>
             </div>
@@ -238,7 +249,7 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderTooltip = () => {
     const tooltipContent = () => (
-      <div className={styles.tooltipContent()}>
+      <div className={this.styles.tooltipContent()}>
         {'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}
       </div>
     );

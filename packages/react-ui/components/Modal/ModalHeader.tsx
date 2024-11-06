@@ -1,12 +1,12 @@
 import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
 import { ModalContext } from './ModalContext';
 import { ModalSeparator } from './ModalSeparator';
@@ -29,11 +29,13 @@ export const ModalHeaderDataTids = {
  * @visibleName Modal.Header
  */
 function ModalHeader(props: ModalHeaderProps) {
+  const emotion = useContext(EmotionContext);
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
   const { sticky = !layout.isMobile, children } = props;
+  const styles = getStyles(emotion);
 
   useLayoutEffect(() => {
     modal.setHasHeader?.(true);
@@ -46,7 +48,7 @@ function ModalHeader(props: ModalHeaderProps) {
       <div>
         <div
           data-tid={ModalHeaderDataTids.root}
-          className={cx(
+          className={emotion.cx(
             styles.header(theme),
             layout.isMobile && styles.mobileHeader(theme),
             Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),

@@ -1,19 +1,20 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ButtonParams, Select } from '../../components/Select';
 import { MenuItem } from '../../components/MenuItem';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { globalClasses, styles } from './DateSelect.styles';
+import { getStyles, globalClasses } from './DateSelect.styles';
 
 const defaultMinMonth = 0;
 const defaultMaxMonth = 11;
@@ -80,17 +81,27 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
   }
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private readonly locale!: DatePickerLocale;
   private readonly selectRef = createRef<Select<number, number>>();
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -101,8 +112,9 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
     const width = this.getProps().width;
     const isInteractiveElement = !disabled;
     const Tag = isInteractiveElement ? 'button' : 'span';
+    const styles = this.styles;
     const rootProps = {
-      className: cx(styles.root(this.theme), disabled && styles.disabled()),
+      className: this.emotion.cx(styles.root(this.theme), disabled && styles.disabled()),
       style: { width },
       onClick: disabled ? undefined : params.onClick,
       'aria-expanded': isInteractiveElement ? params.opened : undefined,
@@ -120,7 +132,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
           {this.getItem(value)}
         </div>
         {isInteractiveElement && (
-          <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
+          <ArrowCollapseCVOpenIcon16Regular className={this.emotion.cx(globalClasses.arrow)} color="#ADADAD" />
         )}
       </Tag>
     );

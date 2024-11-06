@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Gapped } from '../../components/Gapped';
 import { Theme } from '../../lib/theming/Theme';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 
 interface ComponentsGroupProps {
   title: string;
@@ -14,6 +15,9 @@ interface ComponentsGroupProps {
 
 export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement<ComponentsGroupProps> => {
   const { title, children, style, theme } = props;
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
+
   return (
     <Gapped wrap verticalAlign="top" gap={40}>
       <div className={styles.title(theme)} style={style}>

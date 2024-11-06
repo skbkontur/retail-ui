@@ -1,89 +1,92 @@
+import type { Emotion } from '@emotion/css/create-instance';
+
 import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
-  icon() {
-    const space = `'${ZERO_WIDTH_SPACE_CSS}'`;
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    icon() {
+      const space = `'${ZERO_WIDTH_SPACE_CSS}'`;
+      return emotion.css`
       display: inline-block;
 
       &::before {
         content: ${space};
       }
     `;
-  },
+    },
 
-  iconSmall(t: Theme) {
-    return css`
+    iconSmall(t: Theme) {
+      return emotion.css`
       width: ${t.btnIconSizeSmall};
     `;
-  },
+    },
 
-  iconSmallLeft(t: Theme) {
-    return css`
+    iconSmallLeft(t: Theme) {
+      return emotion.css`
       margin-right: ${t.btnIconGapSmallLeft};
     `;
-  },
+    },
 
-  iconSmallRight(t: Theme) {
-    return css`
+    iconSmallRight(t: Theme) {
+      return emotion.css`
       margin-left: ${t.btnIconGapSmallRight};
     `;
-  },
+    },
 
-  iconMedium(t: Theme) {
-    return css`
+    iconMedium(t: Theme) {
+      return emotion.css`
       width: ${t.btnIconSizeMedium};
     `;
-  },
+    },
 
-  iconMediumLeft(t: Theme) {
-    return css`
+    iconMediumLeft(t: Theme) {
+      return emotion.css`
       margin-right: ${t.btnIconGapMediumRight};
     `;
-  },
+    },
 
-  iconMediumRight(t: Theme) {
-    return css`
+    iconMediumRight(t: Theme) {
+      return emotion.css`
       margin-left: ${t.btnIconGapMediumRight};
     `;
-  },
+    },
 
-  iconLarge(t: Theme) {
-    return css`
+    iconLarge(t: Theme) {
+      return emotion.css`
       width: ${t.btnIconSizeLarge};
     `;
-  },
+    },
 
-  iconLargeLeft(t: Theme) {
-    return css`
+    iconLargeLeft(t: Theme) {
+      return emotion.css`
       margin-right: ${t.btnIconGapLargeLeft};
     `;
-  },
+    },
 
-  iconLargeRight(t: Theme) {
-    return css`
+    iconLargeRight(t: Theme) {
+      return emotion.css`
       margin-left: ${t.btnIconGapLargeRight};
     `;
-  },
+    },
 
-  iconLeftLink(t: Theme) {
-    return css`
+    iconLeftLink(t: Theme) {
+      return emotion.css`
       margin-right: ${t.btnLinkIconMarginRight};
     `;
-  },
+    },
 
-  iconRightLink(t: Theme) {
-    return css`
+    iconRightLink(t: Theme) {
+      return emotion.css`
       margin-left: ${t.btnLinkIconMarginLeft};
     `;
-  },
+    },
 
-  iconNoMargin() {
-    return css`
+    iconNoMargin() {
+      return emotion.css`
       margin-right: 0;
       margin-left: 0;
     `;
-  },
-});
+    },
+  });

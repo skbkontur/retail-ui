@@ -9,8 +9,8 @@ import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ResponsiveLayout } from '../../ResponsiveLayout';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 const basicFontStyle = {
   fontSize: '14px',

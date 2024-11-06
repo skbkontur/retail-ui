@@ -1,18 +1,21 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
-      display: inline-block;
-      position: relative;
-      line-height: normal;
-    `;
-  },
+import { memoizeStyle } from '../../lib/theming/Emotion';
 
-  spinnerWrapper() {
-    return css`
-      display: inline-block;
-      margin-right: -5px;
-    `;
-  },
-});
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
+        display: inline-block;
+        position: relative;
+        line-height: normal;
+      `;
+    },
+
+    spinnerWrapper() {
+      return emotion.css`
+        display: inline-block;
+        margin-right: -5px;
+      `;
+    },
+  });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
@@ -22,6 +24,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
+  private emotion!: Emotion;
 
   private readonly rootId: string = RenderContainer.getRootId();
 
@@ -40,17 +43,37 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  private renderMain = () => {
     if (this.props.children) {
       this.mountContainer();
     }
 
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
-  }
+  };
 
   private createContainer() {
     const domContainer = globalObject.document?.createElement('div');
+
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
+      const root = this.emotion.sheet.container.getRootNode() as ShadowRoot | Document;
+      const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
+      if (isShadowRoot) {
+        domContainer.setAttribute(
+          'style',
+          `position: relative; top: -${root.firstElementChild?.getBoundingClientRect().height}px`,
+        );
+      }
       domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
       this.domContainer = domContainer;
     }
@@ -62,8 +85,13 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (!this.domContainer) {
       this.createContainer();
     }
-    if (this.domContainer && this.domContainer.parentNode !== globalObject.document?.body) {
-      globalObject.document?.body.appendChild(this.domContainer);
+
+    const stylesRoot = this.emotion.sheet?.container?.getRootNode();
+    const isShadowRoot = Boolean((stylesRoot as ShadowRoot)?.host?.shadowRoot);
+    const rootElement = isShadowRoot && stylesRoot ? stylesRoot : globalObject.document?.body;
+
+    if (this.domContainer && this.domContainer.parentNode !== rootElement) {
+      rootElement?.appendChild(this.domContainer);
 
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);

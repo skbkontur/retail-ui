@@ -1,9 +1,11 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import { memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
       font-weight: 400;
       font-size: 14px;
       padding-left: 300px;
@@ -15,15 +17,15 @@ export const styles = memoizeStyle({
         padding-left: 0;
       }
     `;
-  },
-  darkRoot(t: Theme) {
-    return css`
+    },
+    darkRoot(t: Theme) {
+      return emotion.css`
       background: ${t.bgDefault};
       color: ${t.textColorDefault};
     `;
-  },
-  wrapper() {
-    return css`
+    },
+    wrapper() {
+      return emotion.css`
       padding: 30px 40px;
       margin: 0 auto;
       max-width: 1000px;
@@ -33,12 +35,12 @@ export const styles = memoizeStyle({
         padding: 16px;
       }
     `;
-  },
-  content() {
-    return css``;
-  },
-  darkContent(t: Theme) {
-    return css`
+    },
+    content() {
+      return emotion.css``;
+    },
+    darkContent(t: Theme) {
+      return emotion.css`
       h1,
       h2,
       h3,
@@ -100,12 +102,12 @@ export const styles = memoizeStyle({
         border: 1px solid #444;
       }
     `;
-  },
-  header() {
-    return css`
+    },
+    header() {
+      return emotion.css`
       padding: 40px 40px 0 !important;
     `;
-  },
+    },
   heading() {
     return css`
       display: flex;
@@ -113,8 +115,8 @@ export const styles = memoizeStyle({
       align-items: center;
     `;
   },
-  sidebar() {
-    return css`
+    sidebar() {
+      return emotion.css`
       width: 300px;
       background: #41464e;
       font-size: 16px;
@@ -152,19 +154,19 @@ export const styles = memoizeStyle({
         font-weight: normal;
       }
     `;
-  },
-  sidebarNotice() {
-    return css`
-      padding-top: 72px;
+    },
+    sidebarNotice() {
+      return emotion.css`
+        padding-top: 72px;
 
-      @media (max-width: 768px) {
-        padding-top: 110px;
-      }
-    `;
-  },
-  github() {
-    return css`
-      display: inline-block;
-    `;
-  },
-});
+        @media (max-width: 768px) {
+          padding-top: 110px;
+        }
+      `;
+    },
+    github() {
+      return emotion.css`
+        display: inline-block;
+      `;
+    },
+  });
