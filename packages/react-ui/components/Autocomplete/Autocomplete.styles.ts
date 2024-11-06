@@ -1,16 +1,20 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
-      display: inline-block;
-      width: ${t.inputWidth};
-    `;
-  },
-  noPortal() {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
+        display: inline-block;
+        width: ${t.inputWidth};
+      `;
+    },
+
+    noPortal() {
+      return emotion.css`
       position: relative;
     `;
-  },
-});
+    },
+  });

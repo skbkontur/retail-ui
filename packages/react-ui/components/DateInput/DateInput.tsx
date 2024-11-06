@@ -1,6 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -9,17 +10,17 @@ import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
 import { CalendarIcon } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
-import { styles } from './DateInput.styles';
+import { getStyles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
 
@@ -116,6 +117,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private locale!: DatePickerLocale;
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
     .add(Actions.MoveSelectionLeft, () => this.shiftSelection(-1))
@@ -200,12 +203,20 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -242,7 +253,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             aria-label={this.props['aria-label']}
             aria-labelledby={this.props['aria-labelledby']}
           >
-            <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+            <span className={this.emotion.cx(this.styles.value(), { [this.styles.valueVisible()]: showValue })}>
               <DateFragmentsView
                 ref={this.dateFragmentsViewRef}
                 fragments={this.iDateMediator.getFragments()}
@@ -260,11 +271,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderIcon = () => {
     const { withIcon, disabled = false } = this.props;
     const size = this.getProps().size;
-
+    const styles = this.styles;
     if (withIcon) {
       const theme = this.theme;
       const icon = <CalendarIcon size={size} />;
-      const iconStyles = cx({
+      const iconStyles = this.emotion.cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',
         [styles.iconMedium(theme)]: size === 'medium',
