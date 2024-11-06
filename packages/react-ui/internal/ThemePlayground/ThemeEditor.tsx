@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { Gapped } from '../../components/Gapped';
 import { Loader } from '../../components/Loader';
 import { isNonNullable } from '../../lib/utils';
+import { EmotionConsumer, EmotionContext } from '../../lib/theming/Emotion';
 
 import { VariableValue } from './VariableValue';
-import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
+import { DEPRECATED_VARIABLES, VARIABLES_GROUPS } from './constants';
 import { ThemeErrorsType } from './ThemeContextPlayground';
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
@@ -35,9 +36,16 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   public render() {
     return this.state.isLoading ? (
-      <div className={styles.loaderWrapper()}>
-        <Loader type="big" active className={styles.loader()} />
-      </div>
+      <EmotionConsumer>
+        {(emotion) => {
+          const styles = getStyles(emotion);
+          return (
+            <div className={styles.loaderWrapper()}>
+              <Loader type="big" active className={styles.loader()} />
+            </div>
+          );
+        }}
+      </EmotionConsumer>
     ) : (
       this.renderGroups()
     );
@@ -99,6 +107,8 @@ interface GroupProps {
 }
 const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
 
   return variables.length > 0 ? (
     <React.Fragment>

@@ -2,25 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles, globalClasses } from './ScrollContainer.styles';
+import { getStyles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
 import {
-  getScrollYOffset,
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
+  getScrollYOffset,
 } from './ScrollContainer.helpers';
 import { ScrollAxis, ScrollBar, ScrollBarScrollState } from './ScrollBar';
 
@@ -137,6 +138,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private scrollY: Nullable<ScrollBar>;
   private setRootNode!: TSetRootNode;
   private initialIsScrollBarVisible = this.getProps().showScrollBar === 'always';
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public state: ScrollContainerState = {
     isScrollBarXVisible: this.initialIsScrollBarVisible,
@@ -172,7 +175,19 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
   }
 
-  public render = () => {
+  public render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  public renderMain = () => {
     const props = this.props;
 
     if (this.props.disabled) {
@@ -187,6 +202,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
     const scrollbarY = this.renderScrollbar('y');
     const scrollbarX = this.renderScrollbar('x');
+    const styles = this.styles;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -201,7 +217,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           <div
             style={innerStyle}
             ref={this.refInner}
-            className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
+            className={this.emotion.cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
             data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
           >

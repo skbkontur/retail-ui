@@ -7,8 +7,7 @@ import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { cx } from '../../../lib/theming/Emotion';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
@@ -17,8 +16,9 @@ import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import { SizeProp } from '../../../lib/types/props';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
-import { jsStyles } from './FileUploaderFile.styles';
+import { getStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
 
 interface FileUploaderFileProps {
@@ -83,6 +83,8 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
 
     const { removeFile, setIsMinLengthReached, isMinLengthReached } = useContext(FileUploaderControlContext);
     const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
+    const styles = getStyles(emotion);
 
     const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
 
@@ -119,9 +121,9 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const isInvalid = error || !isValid;
 
     const sizeIconClass = useFileUploaderSize(size, {
-      small: jsStyles.iconSmall(),
-      medium: jsStyles.iconMedium(),
-      large: jsStyles.iconLarge(),
+      small: styles.iconSmall(),
+      medium: styles.iconMedium(),
+      large: styles.iconLarge(),
     });
 
     const renderTooltipContent = useCallback((): ReactNode => {
@@ -129,14 +131,14 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     }, [isValid, error, message]);
 
     const sizeContentClass = useFileUploaderSize(size, {
-      small: jsStyles.contentSmall(theme),
-      medium: jsStyles.contentMedium(theme),
-      large: jsStyles.contentLarge(theme),
+      small: styles.contentSmall(theme),
+      medium: styles.contentMedium(theme),
+      large: styles.contentLarge(theme),
     });
 
-    const contentClassNames = cx(jsStyles.content(), {
+    const contentClassNames = emotion.cx(styles.content(), {
       [sizeContentClass]: true,
-      [jsStyles.error(theme)]: isInvalid,
+      [styles.error(theme)]: isInvalid,
     });
 
     const handleMouseEnter = useCallback(() => {
@@ -170,10 +172,10 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
       [removeUploadFile],
     );
 
-    const iconClassNames = cx(jsStyles.icon(theme), {
-      [jsStyles.focusedIcon(theme)]: focusedByTab,
+    const iconClassNames = emotion.cx(styles.icon(theme), {
+      [styles.focusedIcon(theme)]: focusedByTab,
       [sizeIconClass]: true,
-      [jsStyles.iconMultiple()]: multiple,
+      [styles.iconMultiple()]: multiple,
     });
 
     const isTruncated = truncatedFileName !== name;
@@ -181,7 +183,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     return (
       <div
         data-tid={FileUploaderFileDataTids.file}
-        className={jsStyles.root()}
+        className={styles.root()}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         ref={ref}
@@ -190,12 +192,12 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
           <div className={contentClassNames}>
             <TextWidthHelper ref={textHelperRef} text={name} />
             <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
-              <span data-tid={FileUploaderFileDataTids.fileName} ref={fileNameElementRef} className={jsStyles.name()}>
+              <span data-tid={FileUploaderFileDataTids.fileName} ref={fileNameElementRef} className={styles.name()}>
                 {truncatedFileName}
               </span>
             </Hint>
             {!!showSize && formattedSize && (
-              <span data-tid={FileUploaderFileDataTids.fileSize} className={jsStyles.size()}>
+              <span data-tid={FileUploaderFileDataTids.fileSize} className={styles.size()}>
                 {formattedSize}
               </span>
             )}
