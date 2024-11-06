@@ -7,10 +7,11 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { DateInput } from '../DateInput';
 import { Button } from '../Button';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
 import { DatePickerProps } from './DatePicker';
 import { DatePickerLocaleHelper } from './locale';
-import { styles } from './MobilePicker.styles';
+import { getStyles } from './MobilePicker.styles';
 import { getMobilePickerTheme } from './getMobilePickerTheme';
 
 export const MobilePickerDataTids = {
@@ -38,6 +39,7 @@ export interface MobilePickerProps
 export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   const locale = useLocaleForControl('DatePicker', DatePickerLocaleHelper);
   const theme = getMobilePickerTheme(useContext(ThemeContext));
+  const emotion = useContext(EmotionContext);
 
   const calendarRef = useRef<Calendar>(null);
   const inputRef = useRef<DateInput>(null);
@@ -94,7 +96,7 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
         <Calendar
           ref={calendarRef}
           value={props.value}
-          className={styles.calendarRoot()}
+          className={getStyles(emotion).calendarRoot()}
           minDate={props.minDate}
           maxDate={props.maxDate}
           onValueChange={onValueChange}

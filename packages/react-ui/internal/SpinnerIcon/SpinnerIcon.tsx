@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { isIE11 } from '../../lib/client';
 import {
-  SpinnerFallbackAnimationRunner,
-  createOffsetAnimation,
-  createLengthAnimation,
   createColorAnimation,
+  createLengthAnimation,
+  createOffsetAnimation,
   createRotationAnimation,
+  SpinnerFallbackAnimationRunner,
 } from '../../components/Spinner/SpinnerFallbackAnimation';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './SpinnerIcon.styles';
+import { getStyles } from './SpinnerIcon.styles';
 
 interface SpinnerIconSize {
   size: number;
@@ -52,6 +52,7 @@ const isSizeAlias = (size: unknown): size is keyof typeof sizes => {
 };
 
 export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: SpinnerIconProps) => {
+  const emotion = useContext(EmotionContext);
   const _size = isSizeAlias(size) ? sizes[size] : size;
   const currentSize = inline ? sizes.mini : _size;
   const svgRef = React.useRef<SVGSVGElement>(null);
@@ -64,7 +65,7 @@ export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: S
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { red, yellow, green, brand } = React.useContext(ThemeContext);
+    const { red, yellow, green, brand } = useContext(ThemeContext);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     React.useEffect(() => {
       const svg = svgRef.current;
@@ -96,12 +97,13 @@ export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: S
       };
     }, [dimmed, red, yellow, green, brand]);
   }
+  const styles = getStyles(emotion);
 
   return (
-    <span className={cx(styles.root(), { [styles.rootInline()]: inline })}>
+    <span className={emotion.cx(styles.root(), { [styles.rootInline()]: inline })}>
       <svg
         viewBox={`0 0 ${currentSize.size} ${currentSize.size}`}
-        className={cx(styles.icon(), className, {
+        className={emotion.cx(styles.icon(), className, {
           [styles.iconInline()]: inline,
         })}
         width={currentSize.size}

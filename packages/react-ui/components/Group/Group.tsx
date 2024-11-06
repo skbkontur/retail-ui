@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { isIE11, isEdge } from '../../lib/client';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { isEdge, isIE11 } from '../../lib/client';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import {
   isButton,
@@ -17,7 +18,7 @@ import {
   isSelect,
 } from '../../lib/utils';
 
-import { styles } from './Group.styles';
+import { getStyles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
   /** Задает длину компонента Group. */
@@ -106,12 +107,26 @@ export class Group extends React.Component<GroupProps> {
   public static displayName = 'Group';
 
   private setRootNode!: TSetRootNode;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   public render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  public renderMain() {
     const style: React.CSSProperties = {
       width: this.props.width,
     };
@@ -119,6 +134,7 @@ export class Group extends React.Component<GroupProps> {
     const childrenArray = React.Children.toArray(this.props.children);
     const firstChild = getFirstChild(childrenArray);
     const lastChild = getLastChild(childrenArray);
+    const styles = this.styles;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -136,14 +152,14 @@ export class Group extends React.Component<GroupProps> {
 
             return (
               <div
-                className={cx({
+                className={this.emotion.cx({
                   [styles.fixed()]: !isWidthInPercent,
                   [styles.stretch()]: isWidthInPercent,
                   [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
                 })}
               >
                 <div
-                  className={cx({
+                  className={this.emotion.cx({
                     [styles.item()]: true,
                     [styles.itemFirst()]: isFirstChild,
                   })}

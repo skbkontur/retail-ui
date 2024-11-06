@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -10,14 +11,14 @@ import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardE
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { isIE11 } from '../../lib/client';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { styles } from './PasswordInput.styles';
+import { getStyles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
 import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
 
@@ -74,6 +75,8 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
@@ -102,16 +105,24 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain(this.getProps())}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -199,6 +210,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private getEyeWrapperClassname() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);
@@ -212,13 +224,13 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private renderEye = () => {
     const { capsLockEnabled } = this.state;
-
+    const styles = this.styles;
     return (
       <span className={styles.iconWrapper()}>
         {capsLockEnabled && (
           <span className={styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
         )}
-        <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
+        <span className={this.emotion.cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
             <button
               type="button"
@@ -259,9 +271,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         onFocusOutside={this.handleFocusOutside}
         onClickOutside={this.handleFocusOutside}
       >
-        <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
-          <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
-        </div>
+         <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
+           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+         </div>
       </RenderLayer>
     );
   };

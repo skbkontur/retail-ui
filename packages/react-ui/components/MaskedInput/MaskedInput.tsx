@@ -1,11 +1,11 @@
-import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState, useEffect, useContext } from 'react';
 import { IMaskInputProps } from 'react-imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
 import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers';
+import { EmotionContext } from '../../lib/theming/Emotion';
 
 import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
@@ -85,6 +85,7 @@ export const MaskedInput = forwardRefAndName(
       ...inputProps
     } = props;
 
+    const emotion = useContext(EmotionContext);
     const inputRef = useRef<Input>(null);
 
     const [focused, setFocused] = useState(false);
@@ -124,7 +125,7 @@ export const MaskedInput = forwardRefAndName(
         onBlur={handleBlur}
         onInput={handleInput}
         onKeyDown={handleKeyDown}
-        className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
+        className={emotion.cx(globalClasses.root, uiFontGlobalClasses.root, className)}
         element={
           colored ? (
             <ColorableInputElement showOnFocus={false}>
