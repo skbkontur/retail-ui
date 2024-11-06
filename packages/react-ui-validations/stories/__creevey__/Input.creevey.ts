@@ -3,7 +3,7 @@ import { story, kind, test } from 'creevey';
 kind('Input', () => {
   story('TooltipTopLeft', () => {
     test('invalidTooltip', async function () {
-      const input = await this.browser.findElement({ css: '.react-ui-1xb4xgu' });
+      const input = await this.browser.findElement({ css: '[data-tid~="test-input"]' });
       await this.browser
         .actions({
           bridge: true,

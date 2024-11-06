@@ -1,37 +1,40 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
-  root() {
-    return css`
-      cursor: text;
-    `;
-  },
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root() {
+      return emotion.css`
+        cursor: text;
+      `;
+    },
 
-  selected(t: Theme) {
-    const getSelection = (background: string, color: string) =>
-      (background || color) &&
-      `& ::selection {
+    selected(t: Theme) {
+      const getSelection = (background: string, color: string) =>
+        (background || color) &&
+        `& ::selection {
       background: ${background};
       color: ${color};
     }`;
 
-    return css`
-      cursor: text;
+      return emotion.css`
+        cursor: text;
 
-      ${getSelection(t.dateInputComponentSelectedBgColor, t.dateInputComponentSelectedTextColor)}
-    `;
-  },
+        ${getSelection(t.dateInputComponentSelectedBgColor, t.dateInputComponentSelectedTextColor)}
+      `;
+    },
 
-  mask(t: Theme) {
-    return css`
-      color: ${t.dateInputMaskColor};
-    `;
-  },
+    mask(t: Theme) {
+      return emotion.css`
+        color: ${t.dateInputMaskColor};
+      `;
+    },
 
-  delimiterFilled() {
-    return css`
-      color: inherit;
-    `;
-  },
-});
+    delimiterFilled() {
+      return emotion.css`
+        color: inherit;
+      `;
+    },
+  });
