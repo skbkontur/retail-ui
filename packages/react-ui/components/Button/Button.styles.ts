@@ -1,6 +1,6 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { resetButton, resetText, disableTextSelect } from '../../lib/styles/Mixins';
+import { resetButton, resetText } from '../../lib/styles/Mixins';
 
 import {
   buttonUseMixin,
@@ -24,7 +24,6 @@ export const styles = memoizeStyle({
     return css`
       ${resetButton()};
       ${resetText()};
-      ${disableTextSelect()};
 
       transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction}
         ${t.btnBorderColorTransition ? `, ${t.btnBorderColorTransition}` : ''};
