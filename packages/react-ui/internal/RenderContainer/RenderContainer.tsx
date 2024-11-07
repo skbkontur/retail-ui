@@ -7,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
@@ -67,12 +68,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       const root = this.emotion.sheet.container.getRootNode() as ShadowRoot | Document;
-      const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
-      if (isShadowRoot) {
-        domContainer.setAttribute(
-          'style',
-          `position: relative; top: -${root.firstElementChild?.getBoundingClientRect().height}px`,
-        );
+      if (isShadowRoot(root)) {
+        domContainer.setAttribute('style', `position: relative; top: -${root.host.getBoundingClientRect().height}px`);
       }
       domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
       this.domContainer = domContainer;
@@ -87,8 +84,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
 
     const stylesRoot = this.emotion.sheet?.container?.getRootNode();
-    const isShadowRoot = Boolean((stylesRoot as ShadowRoot)?.host?.shadowRoot);
-    const rootElement = isShadowRoot && stylesRoot ? stylesRoot : globalObject.document?.body;
+    const rootElement = isShadowRoot(stylesRoot) && stylesRoot ? stylesRoot : globalObject.document?.body;
 
     if (this.domContainer && this.domContainer.parentNode !== rootElement) {
       rootElement?.appendChild(this.domContainer);

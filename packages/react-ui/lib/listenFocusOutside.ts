@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
+import { Nullable } from 'react-ui/typings/utility-types';
 
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../internal/RenderContainer';
 
@@ -86,8 +87,8 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
   if (newContainerId) {
     const selector = `[${PORTAL_INLET_ATTR}~="${newContainerId}"]`;
     const nextNode =
-      (rootNode.getRootNode() as ShadowRoot | Document)?.querySelector(selector) ||
-      globalObject.document?.querySelector(selector);
+      globalObject.document?.querySelector(selector) ||
+      (rootNode.getRootNode() as ShadowRoot | Document)?.querySelector(selector);
 
     if (!nextNode) {
       throw Error(`Origin node for render container was not found`);
@@ -114,4 +115,23 @@ export function listen(elements: Element[] | (() => Element[]), callback: (event
       }
     },
   };
+}
+
+export function clickOutsideContent(event: Event, node: Nullable<Element>, isShadowRootElement: boolean): boolean {
+  if (!node) {
+    return false;
+  }
+
+  if (
+    isShadowRootElement &&
+    ((event.composed && event.composedPath().indexOf(node) > -1) ||
+      (isInstanceOf(event.target, globalObject.Element) &&
+        containsTargetOrRenderContainer(event.composedPath()[0] as unknown as Element)(node)))
+  ) {
+    return false;
+  } else if (isInstanceOf(event.target, globalObject.Element) && containsTargetOrRenderContainer(event.target)(node)) {
+    return false;
+  }
+
+  return true;
 }

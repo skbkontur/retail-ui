@@ -31,6 +31,7 @@ import {
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
 import { mergeRefs } from '../../lib/mergeRefs';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -718,13 +719,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getRelativePos(root: unknown): { top: number; left: number } {
-    const isShadowRoot = Boolean((root as ShadowRoot)?.host?.shadowRoot);
     const relativePos: { top: number; left: number } = {
       top: 0,
       left: 0,
     };
-    if (isShadowRoot && globalObject.document) {
-      const childPos = PopupHelper.convertRectToAbsolute((root as ShadowRoot).host.getBoundingClientRect());
+    if (isShadowRoot(root) && globalObject.document) {
+      const childPos = PopupHelper.convertRectToAbsolute(root.host.getBoundingClientRect());
       relativePos.top = childPos.top;
       relativePos.left = childPos.left;
     }
@@ -757,7 +757,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       position = location.position;
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
 
-      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
+      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect, deltaParentPosition);
       const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
 
       if (
@@ -775,7 +775,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     for (position of positions) {
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
-      if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+      if (PopupHelper.isFullyVisible(coordinates, popupRect, deltaParentPosition)) {
         return { coordinates, position };
       }
     }

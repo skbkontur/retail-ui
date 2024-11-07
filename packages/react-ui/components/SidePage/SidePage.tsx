@@ -118,6 +118,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentDidMount() {
     globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
+
+    if (this.layout) {
+      this.layout.addEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   public componentDidUpdate(prevProps: SidePageProps) {
@@ -135,6 +139,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
+
+    if (this.layout) {
+      this.layout.removeEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   /**

@@ -1,4 +1,5 @@
 import React, { PropsWithChildren, isValidElement, cloneElement, ReactElement } from 'react';
+import type { Nullable } from 'react-ui/typings/utility-types';
 
 import { CommonWrapper } from '../CommonWrapper';
 
@@ -9,7 +10,10 @@ interface Props {
    * Использовать только когда на children нет пропса disabled
    */
   disabled?: boolean;
-
+  /**
+   * Ссылка на корневой html элемент
+   */
+  rootNodeRef?: (e: Nullable<React.ReactInstance>) => void;
   /**
    * Событие вызывается когда элемент потеряет фокус, и при этом он задисэйблен
    */

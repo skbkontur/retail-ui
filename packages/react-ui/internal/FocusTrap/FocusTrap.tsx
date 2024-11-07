@@ -1,10 +1,12 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import { Emotion } from '@emotion/css/create-instance';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { listen as listenFocusOutside, clickOutsideContent } from '../../lib/listenFocusOutside';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isInstanceOf } from '../../lib/isInstanceOf';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
@@ -15,6 +17,7 @@ export interface FocusTrapProps extends CommonProps {
 export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
   public static displayName = 'FocusTrap';
+  private emotion!: Emotion;
 
   private setRootNode!: TSetRootNode;
 
@@ -31,18 +34,25 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public render() {
     const { children, onBlur } = this.props;
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {React.cloneElement(React.Children.only(children), {
-          onFocus: (...args: any[]) => {
-            if (onBlur) {
-              this.attachListeners();
-            }
-            if (children.props && children.props.onFocus) {
-              children.props.onFocus(...args);
-            }
-          },
-        })}
-      </CommonWrapper>
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {React.cloneElement(React.Children.only(children), {
+                onFocus: (...args: any[]) => {
+                  if (onBlur) {
+                    this.attachListeners();
+                  }
+                  if (children.props && children.props.onFocus) {
+                    children.props.onFocus(...args);
+                  }
+                },
+              })}
+            </CommonWrapper>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 
@@ -78,13 +88,11 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   }
 
   private handleNativeDocClick = (event: Event) => {
-    const target = event.target || event.srcElement;
     const node = getRootNode(this);
-
-    if (node && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node)) {
-      return;
+    const isShadowRootElement = isShadowRoot(this.emotion.sheet.container.getRootNode());
+    const clickOutsideOfContent = clickOutsideContent(event, node, isShadowRootElement);
+    if (clickOutsideOfContent) {
+      this.onClickOutside(event);
     }
-
-    this.onClickOutside(event);
   };
 }

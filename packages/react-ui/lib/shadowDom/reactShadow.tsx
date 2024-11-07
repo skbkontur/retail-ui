@@ -1,19 +1,8 @@
-import React, {
-  useState,
-  useLayoutEffect,
-  forwardRef,
-  createContext,
-  useEffect,
-  useRef,
-  ReactNode,
-  useContext,
-} from 'react';
+import React, { useState, useLayoutEffect, forwardRef, createContext, useEffect, useRef, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { renderToString } from 'react-dom/server';
 
-export const Context = createContext(null);
-
-export function handleError({
+function handleError({
   error,
   styleSheets,
   root,
@@ -31,7 +20,7 @@ export function handleError({
   }
 }
 
-export function useEnsuredForwardedRef(forwardedRef: any) {
+function useEnsuredForwardedRef(forwardedRef: any) {
   const ensuredRef = useRef(forwardedRef && forwardedRef.current);
 
   useEffect(() => {
@@ -63,7 +52,7 @@ function ShadowContent({ root, children = null }: { root: Element; children?: Re
 }
 
 function create(options: {
-  tag: any;
+  tag: any; // todo type
   render: ({ root, ssr, children }: { root: any; ssr?: boolean; children: ReactNode }) => ReactNode;
   target?: Record<any, any>;
   id?: string;
@@ -117,7 +106,7 @@ function create(options: {
         <>
           <options.tag key={key} ref={node} {...props}>
             {(root || ssr) && (
-              <Context.Provider value={root}>
+              <ShadowDomContext.Provider value={root}>
                 {ssr ? (
                   <Template shadowroot={mode} shadowrootmode={mode}>
                     {options.render({
@@ -135,7 +124,7 @@ function create(options: {
                     })}
                   </ShadowContent>
                 )}
-              </Context.Provider>
+              </ShadowDomContext.Provider>
             )}
           </options.tag>
         </>
@@ -148,10 +137,6 @@ function create(options: {
 
 const tags = new Map();
 
-export function useShadowRoot() {
-  return useContext(Context);
-}
-
 const decamelize = (string: string | symbol, separator: string) =>
   string
     .toString()
@@ -159,6 +144,23 @@ const decamelize = (string: string | symbol, separator: string) =>
     .join(separator)
     .toLowerCase();
 
+const ShadowDomContext = createContext(null);
+
+/*
+example use:
+
+import shadowRoot from '../../lib/shadowDom/reactShadow';
+
+props:  mode: 'open' | 'closed';
+        delegatesFocus?: boolean;
+        styleSheets?: CSSStyleSheet[];
+        ssr?: boolean;
+        children?: ReactNode;
+
+<shadowRoot.div>
+    <Button>Click</Button>
+</shadowRoot.div>
+ */
 export function createProxy(
   target = {} as any,
   id = 'core',
