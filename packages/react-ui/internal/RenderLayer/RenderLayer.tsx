@@ -2,13 +2,13 @@ import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import { Emotion } from '@emotion/css/types/create-instance';
 
-import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
+import { clickOutsideContent, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOf } from '../../lib/isInstanceOf';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -128,23 +128,10 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   };
 
   private handleNativeDocClick = (event: Event) => {
-    const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
-
-    const isShadowRoot = Boolean((this.emotion.sheet.container.getRootNode() as ShadowRoot)?.host?.shadowRoot);
-
-    if (
-      !node ||
-      (isShadowRoot && event.composed && event.composedPath().indexOf(node) > -1) ||
-      (isShadowRoot &&
-        isInstanceOf(target, globalObject.Element) &&
-        containsTargetOrRenderContainer(event.composedPath()[0] as unknown as Element)(node)) ||
-      (!isShadowRoot && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))
-    ) {
-      return;
-    }
-
-    if (this.props.onClickOutside) {
+    const isShadowRootElement = isShadowRoot(this.emotion.sheet.container.getRootNode());
+    const clickOutsideOfContent = clickOutsideContent(event, node, isShadowRootElement);
+    if (clickOutsideOfContent && this.props.onClickOutside) {
       this.props.onClickOutside(event);
     }
   };
