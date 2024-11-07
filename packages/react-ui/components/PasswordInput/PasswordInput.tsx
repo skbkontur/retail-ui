@@ -28,6 +28,7 @@ export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, 
 
 export interface PasswordInputState {
   visible: boolean;
+  focused: boolean;
   capsLockEnabled?: boolean | null;
 }
 
@@ -63,6 +64,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   public state: PasswordInputState = {
     visible: false,
+    focused: false,
     capsLockEnabled: false,
   };
 
@@ -170,12 +172,24 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleToggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocus);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocusOnInput);
   };
 
-  private handleFocus = () => {
+  private handleFocusOnInput = () => {
     if (this.input) {
       this.input.focus();
+    }
+  };
+
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.state.focused) {
+      return;
+    }
+
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
     }
   };
 
@@ -229,6 +243,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private hideSymbols = () => {
     this.setState({ visible: false });
+
+    if (!this.state.focused) {
+      return;
+    }
+
+    this.setState({ focused: false });
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
@@ -238,10 +258,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
+      onFocus: this.handleFocus,
     };
 
     return (
-      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
+      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols} active={this.state.focused}>
         <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>

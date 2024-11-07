@@ -9,7 +9,7 @@ import { Popup, PopupPositionsType, PopupProps, ShortPopupPositionsType } from '
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
-import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { clickOutsideContent } from '../../lib/listenFocusOutside';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -17,7 +17,6 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { isInstanceOf } from '../../lib/isInstanceOf';
 import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import {
@@ -25,6 +24,7 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 import { getStyles } from './Tooltip.styles';
 
@@ -548,12 +548,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
   };
 
-  private isClickOutsideContent(event: Event) {
-    if (this.contentElement && isInstanceOf(event.target, globalObject.Element)) {
-      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
-    }
-
-    return true;
+  private isClickOutsideContent(event: Event): boolean {
+    const node = this.contentElement;
+    const isShadowRootElement = isShadowRoot(this.emotion.sheet.container.getRootNode());
+    return clickOutsideContent(event, node, isShadowRootElement);
   }
 
   private handleFocus = () => {
