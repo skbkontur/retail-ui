@@ -40,6 +40,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { getStyles } from './TokenInput.styles';
@@ -715,7 +716,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef && globalObject.document) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = event.relatedTarget || globalObject.document.activeElement;
+
+      const isShadowRootElement = isShadowRoot(this.emotion.sheet.container.getRootNode());
+      const relatedTarget =
+        (isShadowRootElement ? event.target : event.relatedTarget) ?? globalObject.document.activeElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;
