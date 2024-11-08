@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.0...@skbkontur/react-ui@5.0.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* **Button,Link:** return text select ([#3538](https://github.com/skbkontur/retail-ui/issues/3538)) ([0c87bee](https://github.com/skbkontur/retail-ui/commit/0c87beec78f480d750ff37fa8cb74d601a8ccac3))
+
+
+
+
+
 # [5.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.27.0...@skbkontur/react-ui@5.0.0) (2024-10-21)
 
 

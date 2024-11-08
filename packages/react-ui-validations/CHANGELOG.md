@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.0...react-ui-validations@2.0.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* **docs:** change router type ([#3536](https://github.com/skbkontur/retail-ui/issues/3536)) ([ba8035f](https://github.com/skbkontur/retail-ui/commit/ba8035f9edccf42ec3788c4c920ab32d26e509bf))
+
+
+
+
+
 # [2.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@1.16.3...react-ui-validations@2.0.0) (2024-10-21)
 
 
