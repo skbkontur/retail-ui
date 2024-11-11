@@ -1,16 +1,13 @@
 import { css } from '../../lib/theming/Emotion';
 
 export const menuFooterSizeMixin = (
-  menuFooterLegacyPaddingRight: string,
   menuFooterPaddingX: string,
   menuFooterFontSize: string,
   menuFooterLineHeight: string,
   menuFooterPaddingTop: string,
   menuFooterPaddingBottom: string,
 ) => {
-  const legacyPaddingRight = parseFloat(menuFooterLegacyPaddingRight);
-  const paddingRight =
-    legacyPaddingRight !== 0 ? `${parseFloat(menuFooterPaddingX) + legacyPaddingRight}px` : menuFooterPaddingX;
+  const paddingRight = menuFooterPaddingX;
 
   return css`
     font-size: ${menuFooterFontSize};

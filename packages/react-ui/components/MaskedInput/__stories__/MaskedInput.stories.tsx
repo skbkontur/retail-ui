@@ -31,13 +31,13 @@ export const Mask: Story = () => (
   />
 );
 
-// FIXME: починить тесты до 5.0
 Mask.parameters = {
   creevey: {
-    skip: true,
+    skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
   },
 };
 
+const ZERO_WIDTH_SPACE = String.fromCharCode(0x2060);
 const maskStates: InputState[] = [
   {},
   { defaultValue: '95678901' },
@@ -45,7 +45,7 @@ const maskStates: InputState[] = [
   { mask: '****', value: 'overflow' },
   { placeholder: 'mask with placeholder' },
   { alwaysShowMask: true },
-  { alwaysShowMask: true, maskChar: null },
+  { alwaysShowMask: true, maskChar: ZERO_WIDTH_SPACE },
   { alwaysShowMask: true, maskChar: 'X' },
   { alwaysShowMask: true, defaultValue: '95678901' },
   { alwaysShowMask: true, defaultValue: '956789010A' },
@@ -113,10 +113,9 @@ export const Validations: Story = () => (
   />
 );
 
-// FIXME: починить тесты до 5.0
 Validations.parameters = {
   creevey: {
-    skip: 'chrome2022Dark',
+    skip: { flaky: { in: 'chrome2022Dark' } },
   },
 };
 
@@ -239,7 +238,7 @@ export const AllLabGrotesqueStyles: Story = () => {
 
 AllLabGrotesqueStyles.parameters = {
   creevey: {
-    skip: true,
+    skip: true, // manual review only
   },
 };
 
@@ -298,7 +297,7 @@ export const CompareWithInput: Story = () => {
 
 CompareWithInput.parameters = {
   creevey: {
-    skip: true,
+    skip: true, // manual review only
   },
 };
 
@@ -396,6 +395,12 @@ export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
     <MaskedInput {...DEFAULT_PROPS} defaultValue="+7 123" alwaysShowMask />
   </>
 );
+
+IdleFocusBlurAndUncontrolledWithDefaultValue.parameters = {
+  creevey: {
+    skip: true, // manual review only
+  },
+};
 
 export const SelectAllByProp: Story = () => {
   const [value, setValue] = React.useState('12');

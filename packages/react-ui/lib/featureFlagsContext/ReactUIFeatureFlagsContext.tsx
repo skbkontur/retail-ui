@@ -1,13 +1,11 @@
 import React from 'react';
 
 export interface ReactUIFeatureFlags {
-  spinnerLoaderRemoveDefaultCaption?: boolean;
-  linkFocusOutline?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  spinnerLoaderRemoveDefaultCaption: false,
-  linkFocusOutline: false,
+  comboBoxAllowValueChangeInEditingState: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

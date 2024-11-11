@@ -297,12 +297,12 @@ interface TokenInputLocale {
 }
 
 const ru_RU = {
-  addButtonComment: 'Нажмите запятую или пробел',
+  addButtonComment: 'Нажмите запятую',
   addButtonTitle: 'Добавить',
 };
 
 const en_GB = {
-  addButtonComment: 'Type comma or space',
+  addButtonComment: 'Type comma',
   addButtonTitle: 'Add',
 };
 ```

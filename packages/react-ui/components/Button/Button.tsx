@@ -139,7 +139,7 @@ export interface ButtonInnerProps extends CommonProps {
   theme?: ThemeIn;
 }
 
-export const BUTTON_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'button';
+export const BUTTON_DEFAULT_COMPONENT = 'button';
 
 export type ButtonProps<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> =
   PolymorphicPropsWithoutRef<ButtonInnerProps, C>;
@@ -345,7 +345,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     if ((!isFocused || isLink) && !trueDisabled) {
       outlineNode = (
         <div
-          style={{ zIndex: isLink ? -1 : undefined }}
           className={cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,

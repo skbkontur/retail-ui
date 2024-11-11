@@ -116,7 +116,7 @@ export class Token extends React.Component<TokenProps> {
       disabled && styles.tokenDisabled(theme),
     );
 
-    const textholder = <span className={styles.text(this.theme)}>{children}</span>;
+    const textholder = <span className={styles.text()}>{children}</span>;
 
     const closeButton = (
       <span onClick={this.onRemoveClick} data-tid={TokenDataTids.removeIcon}>

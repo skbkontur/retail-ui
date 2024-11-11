@@ -100,4 +100,17 @@ describe('Toast', () => {
     });
     expect(handler).toHaveBeenCalled();
   });
+
+  it('has correct data-tids', () => {
+    const toastRef = React.createRef<Toast>();
+    const customDataTid = 'custom-data-tid';
+    render(<Toast data-tid={customDataTid} ref={toastRef} />);
+
+    act(() => {
+      toastRef.current?.push('message');
+    });
+
+    expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+    expect(screen.getByTestId(ToastDataTids.toastView)).toBeInTheDocument();
+  });
 });

@@ -57,7 +57,7 @@ export interface LinkInnerProps extends CommonProps {
   warning?: boolean;
 }
 
-const LINK_DEFAULT_COMPONENT: ButtonLinkAllowedValues = 'a';
+const LINK_DEFAULT_COMPONENT = 'a';
 
 export type LinkProps<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPONENT> = PolymorphicPropsWithoutRef<
   LinkInnerProps,
@@ -167,16 +167,6 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     );
     const nonInteractive = disabled || loading;
 
-    const outlineNode = (
-      <div
-        className={cx(
-          styles.outline(this.theme),
-          warning && styles.outlineWarning(this.theme),
-          error && styles.outlineError(this.theme),
-        )}
-      />
-    );
-
     const rootProps = {
       ...rest,
       className: cx({
@@ -192,6 +182,8 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
         [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
+        [styles.warning(this.theme)]: warning,
+        [styles.error(this.theme)]: error,
         [styles.lineFocus(this.theme)]: isFocused && use === 'default',
         [styles.lineFocusSuccess(this.theme)]: isFocused && use === 'success',
         [styles.lineFocusDanger(this.theme)]: isFocused && use === 'danger',
@@ -206,13 +198,10 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
     return (
       <Root data-tid={LinkDataTids.root} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
-        {outlineNode}
-        <span className={styles.content()}>
-          {leftIconElement}
-          {this.props.children}
-          {rightIconElement}
-          {arrow}
-        </span>
+        {leftIconElement}
+        {this.props.children}
+        {rightIconElement}
+        {arrow}
       </Root>
     );
   };
