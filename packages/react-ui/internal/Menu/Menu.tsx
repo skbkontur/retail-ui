@@ -412,11 +412,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
 
     if (isKeyArrowUp(event)) {
-      console.log('here');
       event.preventDefault();
       this.up();
     } else if (isKeyArrowDown(event)) {
-      console.log('there');
       event.preventDefault();
       this.down();
     } else if (isKeyEnter(event)) {
