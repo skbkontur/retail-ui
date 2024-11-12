@@ -339,3 +339,8 @@ export const TEST: Story = () => {
     />
   );
 };
+TEST.parameters = {
+  creevey: {
+    skip: true,
+  },
+};

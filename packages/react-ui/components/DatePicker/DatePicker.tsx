@@ -407,7 +407,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           aria-label={this.locale.todayAriaLabel}
           data-tid={DatePickerDataTids.pickerTodayWrapper}
           width="100%"
-          onClick={this.handleSelectToday(today)}
+          onClick={() => {this.handleSelect(today)}}
           icon={<ArrowAUpIcon16Light />}
         >
           {this.locale.today}
@@ -415,10 +415,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       </div>
     );
   }
-
-  private handleSelectToday = (today: string) => () => {
-    this.handleSelect(today);
-  };
 
   public getParent = () => {
     return getRootNode(this);
