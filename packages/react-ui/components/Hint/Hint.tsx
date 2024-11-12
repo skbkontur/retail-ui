@@ -176,6 +176,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           useWrapper={useWrapper}
           ref={this.popupRef}
           withoutMobile
+          data-tid={this.getProps()['data-tid']}
         >
           {this.renderContent()}
         </Popup>

@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
 import { Hint } from '../Hint';
+import { delay } from '../../../lib/utils';
 
 describe('Hint', () => {
   it('should render without crash', () => {
@@ -108,5 +109,18 @@ describe('Hint', () => {
     unmount();
 
     expect(clearTimeout).toHaveBeenCalledWith(timer);
+  });
+
+  it('passes data-tid', async () => {
+    const hintChildrenText = 'Базовая';
+    render(
+      <Hint text="Подсказка" data-tid="my-test-id">
+        {hintChildrenText}
+      </Hint>,
+    );
+
+    await userEvent.hover(screen.getByText(hintChildrenText));
+    await delay(500);
+    expect(screen.getByTestId('my-test-id')).toBeInTheDocument();
   });
 });
