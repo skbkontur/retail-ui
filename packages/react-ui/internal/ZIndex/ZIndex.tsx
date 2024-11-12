@@ -189,7 +189,8 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
 
       if (isInstanceOf(portal, globalObject.HTMLElement)) {
         const portalID = portal.getAttribute(PORTAL_OUTLET_ATTR);
-        const noscript = document.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
+        const root = element.getRootNode() as HTMLElement;
+        const noscript = root.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
         const parent = noscript?.parentElement?.closest('[style*=z-index]');
 
         if (isInstanceOf(parent, globalObject.HTMLElement)) {
