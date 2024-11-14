@@ -323,24 +323,3 @@ export const WithManualPosition: Story = () => {
   );
 };
 WithManualPosition.storyName = 'with manual position';
-
-export const TEST: Story = () => {
-  const [date, setDate] = useState('01.09.2024');
-
-  return (
-    <DatePicker
-      width={200}
-      value={date}
-      onValueChange={(date) => {
-        setDate(date);
-      }}
-      onMonthChange={(changeInfo) => console.log(changeInfo)}
-      enableTodayLink
-    />
-  );
-};
-TEST.parameters = {
-  creevey: {
-    skip: true,
-  },
-};
