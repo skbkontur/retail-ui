@@ -2,6 +2,7 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
+import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable';
 import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -175,10 +176,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentDidMount() {
-    if (this.props.scrollIntoView) {
-      this.rootRef?.scrollIntoView({
-        block: 'center',
-      });
+    if (this.props.scrollIntoView && this.rootRef) {
+      scrollYCenterIntoNearestScrollable(this.rootRef);
     }
     if (this.rootRef && isBrowser(globalObject)) {
       this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
