@@ -5208,7 +5208,7 @@
 
 "@storybook/addons@6.5.15", "@storybook/addons@7.6.18":
   version "7.6.18"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@storybook/addons/-/addons-7.6.18.tgz#bb588a349e9af7db67d4ba828930e3b40103bfb7"
+  resolved "https://registry.npmjs.org/@storybook/addons/-/addons-7.6.18.tgz#bb588a349e9af7db67d4ba828930e3b40103bfb7"
   integrity sha512-HjYkShjcTLmVk/PWvrY2kTRBKPibXXIzmbxR5flKEJnboqcDH3SwQjKJZJGnimQNpKK0QormkgVxCxDVfk/qag==
   dependencies:
     "@storybook/manager-api" "7.6.18"
@@ -5731,7 +5731,7 @@
 
 "@storybook/icons@^1.2.9":
   version "1.2.12"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@storybook/icons/-/icons-1.2.12.tgz#3e4c939113b67df7ab17b78f805dbb57f4acf0db"
+  resolved "https://registry.npmjs.org/@storybook/icons/-/icons-1.2.12.tgz#3e4c939113b67df7ab17b78f805dbb57f4acf0db"
   integrity sha512-UxgyK5W3/UV4VrI3dl6ajGfHM4aOqMAkFLWe2KibeQudLf6NJpDrDMSHwZj+3iKC4jFU7dkKbbtH2h/al4sW3Q==
 
 "@storybook/instrumenter@^6.4.0":
@@ -6897,7 +6897,7 @@
 
 "@types/webpack-env@1.16.0":
   version "1.16.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
+  resolved "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
   integrity sha512-Fx+NpfOO0CpeYX2g9bkvX8O5qh9wrU1sOF4g8sft4Mu7z+qfe387YlyY8w8daDyDsKY5vUxM0yxkAYnbkRbZEw==
 
 "@types/webpack-sources@*":
@@ -8139,7 +8139,7 @@ babel-plugin-search-and-replace@1.1.1:
 
 babel-plugin-transform-react-remove-prop-types@^0.4.24:
   version "0.4.24"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
+  resolved "https://registry.npmjs.org/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
   integrity sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==
 
 babel-plugin-tsconfig-paths@^1.0.3:
@@ -17840,7 +17840,7 @@ react-docgen-displayname-handler@^3.0.0:
 
 react-docgen-typescript@2.3.0-beta.0, react-docgen-typescript@^2.2.2:
   version "2.3.0-beta.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/react-docgen-typescript/-/react-docgen-typescript-2.3.0-beta.0.tgz#f7725a1a76afec30c636b3e538f4aff05cd269ca"
+  resolved "https://registry.npmjs.org/react-docgen-typescript/-/react-docgen-typescript-2.3.0-beta.0.tgz#f7725a1a76afec30c636b3e538f4aff05cd269ca"
   integrity sha512-Uh2ZHWNDF4TJZRodJ2+yN13k4vlzPya+6VqDDS+9F4fEdZDBvQvCkowyHQQNZ1If8688hHbSJYHXYNiD3kml3A==
 
 react-docgen@^5.0.0:
@@ -19774,7 +19774,7 @@ store2@^2.14.2:
 
 storybook-addon-multiselect@^2.0.1:
   version "2.0.1"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/storybook-addon-multiselect/-/storybook-addon-multiselect-2.0.1.tgz#ac32e53faf059bfcbb1d45667239ca29977c506f"
+  resolved "https://registry.npmjs.org/storybook-addon-multiselect/-/storybook-addon-multiselect-2.0.1.tgz#ac32e53faf059bfcbb1d45667239ca29977c506f"
   integrity sha512-DrSgjYeSS/fOgiLwoFTCA4rdXfFoOx9N1cYiRGSxqFK47TbG5qZHItO37Z/gF0IiX/enEs2peQdMxIeYC8r+CA==
 
 storybook@7.6.18:
