@@ -34,8 +34,6 @@
     }
   },
   "resolutions": {
-    "selenium-webdriver": "4.0.0-beta.4",
-    "@storybook/addons": "7.6.18",
-    "react-docgen-typescript": "2.3.0-beta.0"
+    "selenium-webdriver": "4.0.0-beta.4"
   }
 }
