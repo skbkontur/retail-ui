@@ -5061,7 +5061,7 @@
 
 "@skbkontur/storybook-addon-live-examples@0.0.4":
   version "0.0.4"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.4.tgz#c31f4815b4784b53dfa60ee0b638044dc17ef2dc"
+  resolved "https://registry.npmjs.org/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.4.tgz#c31f4815b4784b53dfa60ee0b638044dc17ef2dc"
   integrity sha512-CIl3mZwLWl18ERFhN3qcFOBQl3RfikpcK4EJIlYBxM9jPOyllBjg8+Af9ri6PejXC0fVGFumL61xbxVoCMKICg==
   dependencies:
     prettier "^3.2.5"
@@ -6933,7 +6933,7 @@
 
 "@types/webpack-env@1.16.0":
   version "1.16.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
+  resolved "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
   integrity sha512-Fx+NpfOO0CpeYX2g9bkvX8O5qh9wrU1sOF4g8sft4Mu7z+qfe387YlyY8w8daDyDsKY5vUxM0yxkAYnbkRbZEw==
 
 "@types/webpack-sources@*":

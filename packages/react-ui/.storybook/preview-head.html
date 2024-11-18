@@ -23,9 +23,13 @@
     min-height: 100%;
   }
 
-  .dark {
-    background: #1f1f1f;
+  .dark [data-role='code-wrapper'] {
     color: rgba(255, 255, 255, 0.865);
+  }
+
+  .dark [data-role='preview-wrapper'] > div,
+  .dark [data-role='preview-wrapper'] + div {
+    background: #1f1f1f;
   }
 
   * {
@@ -43,7 +47,7 @@
   }
 </style>
 <script>
-  window.addEventListener('error', function(e) {
+  window.addEventListener('error', function (e) {
     // prevent React's listener from firing
     e.stopImmediatePropagation();
     // prevent the browser's console error message
