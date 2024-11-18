@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Paging } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Paging',
@@ -26,10 +26,7 @@ export const Example1: Story = () => {
     }
   }
 
-  return (
-    <Paginator3000 />
-  );
-
+  return <Paginator3000 />;
 };
 Example1.storyName = 'Базовый пример';
 
@@ -37,14 +34,7 @@ export const Example2: Story = () => {
   const [activePage, setActivePage] = React.useState(3);
 
   return (
-    <Paging
-      disabled
-      onPageChange={(activePage) => setActivePage(activePage)}
-      activePage={activePage}
-      pagesCount={8}
-    />
+    <Paging disabled onPageChange={(activePage) => setActivePage(activePage)} activePage={activePage} pagesCount={8} />
   );
-
 };
 Example2.storyName = 'Пейджинг в отключенном состоянии';
-

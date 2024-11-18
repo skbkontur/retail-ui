@@ -34,7 +34,7 @@
     "styleguide": "node ../../scripts/patch-node-options.js \"styleguidist server --config .styleguide/config/dev.config.js\"",
     "styleguide:build": "node ../../scripts/patch-node-options.js \"node .styleguide/build\"",
     "lint": "run-p -c lint:*",
-    "lint:eslint": "cross-env TIMING=1 yarn eslint --ignore-pattern \"**/__docs__/**/*\" --ignore-pattern \"**/docsPages/**/*\" --ignore-pattern \"**/CHANGELOG.mdx\" ./",
+    "lint:eslint": "cross-env TIMING=1 yarn eslint ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:prettier": "prettier --check .",
     "fix": "run-s -c fix:*",

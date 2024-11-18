@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Switcher, Hint, Tooltip } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Button/Switcher',
@@ -13,14 +13,8 @@ export const Example1: Story = () => {
   const [value, setValue] = React.useState();
 
   return (
-    <Switcher
-      caption="Switch the switcher"
-      items={['One', 'Two', 'Three']}
-      value={value}
-      onValueChange={setValue}
-    />
+    <Switcher caption="Switch the switcher" items={['One', 'Two', 'Three']} value={value} onValueChange={setValue} />
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
@@ -39,18 +33,10 @@ export const Example2: Story = () => {
     {
       label: 'Three',
       value: '333',
-    }
+    },
   ];
 
-  return (
-    <Switcher
-      caption="Switch the switcher"
-      items={items}
-      value={value}
-      onValueChange={setValue}
-    />
-  );
-
+  return <Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} />;
 };
 Example2.storyName = 'items в виде объектов';
 
@@ -62,49 +48,44 @@ export const Example3: Story = () => {
       label: 'One',
       value: '111',
       buttonProps: {
-        'data-tid': "1-1-1",
+        'data-tid': '1-1-1',
         disabled: true,
-      }
+      },
     },
     {
       label: 'Three',
       value: '333',
       buttonProps: {
-        'data-tid': "1-1-1",
-        use: "primary",
-      }
+        'data-tid': '1-1-1',
+        use: 'primary',
+      },
     },
     {
       label: 'Two',
       value: '222',
       buttonProps: {
-        'data-tid': "1-1-1",
+        'data-tid': '1-1-1',
         arrow: true,
-      }
-    }
+      },
+    },
   ];
 
-  return (
-    <Switcher
-      caption="Switch the switcher"
-      items={items}
-      value={value}
-      onValueChange={setValue}
-    />
-  );
-
+  return <Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} />;
 };
 Example3.storyName = 'Кастомизация кнопки';
 
 /** Пример с методом `renderItem` для кастомизации `items`: */
 export const Example4: Story = () => {
-
   const [value, setValue] = React.useState();
   const items = ['One', 'Two', 'Three'];
 
   const renderItem = (label, value, buttonProps, renderDefault) => {
     if (value === 'One') {
-      return <Hint pos="bottom" text="Подсказка" opened manual>{renderDefault()}</Hint>;
+      return (
+        <Hint pos="bottom" text="Подсказка" opened manual>
+          {renderDefault()}
+        </Hint>
+      );
     }
     if (value === 'Three') {
       return (
@@ -114,7 +95,7 @@ export const Example4: Story = () => {
       );
     }
     return renderDefault();
-  }
+  };
 
   return (
     <Switcher
@@ -125,7 +106,5 @@ export const Example4: Story = () => {
       renderItem={renderItem}
     />
   );
-
 };
 Example4.storyName = 'Кастомизация items';
-

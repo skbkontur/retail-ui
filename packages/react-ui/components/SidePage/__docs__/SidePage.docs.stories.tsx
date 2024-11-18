@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { SidePage, Button } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/SidePage',
@@ -10,7 +10,6 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   const [opened, setOpened] = React.useState(false);
 
   function renderSidePage() {
@@ -57,7 +56,5 @@ export const Example1: Story = () => {
       <Button onClick={open}>Open</Button>
     </div>
   );
-
 };
 Example1.storyName = 'Базовый пример';
-

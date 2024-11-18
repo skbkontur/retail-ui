@@ -1,10 +1,19 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import OkIcon from '@skbkontur/react-icons/Ok';
 import MenuIcon from '@skbkontur/react-icons/Menu';
+import {
+  DropdownMenu,
+  Button,
+  MenuHeader,
+  MenuItem,
+  MenuSeparator,
+  Checkbox,
+  ThemeContext,
+  ThemeFactory,
+  Gapped,
+} from '@skbkontur/react-ui';
 
-import { DropdownMenu, Button, MenuHeader, MenuItem, MenuSeparator, Checkbox, ThemeContext, ThemeFactory, Gapped } from '@skbkontur/react-ui';
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/DropdownMenu',
@@ -13,7 +22,6 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -27,12 +35,10 @@ export const Example1: Story = () => {
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example1.storyName = 'Базовый пример меню';
 
 export const Example2: Story = () => {
-
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню c заданной шириной</Button>} menuWidth={350}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -46,12 +52,10 @@ export const Example2: Story = () => {
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example2.storyName = 'Ширина';
 
 export const Example3: Story = () => {
-
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню c заданной высотой</Button>} menuMaxHeight={150}>
       <MenuHeader>Заголовок меню</MenuHeader>
@@ -65,14 +69,12 @@ export const Example3: Story = () => {
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example3.storyName = 'Максимальная высота';
 
 export const Example4: Story = () => {
-
   return (
-    <DropdownMenu positions={["left middle"]} caption={<Button use="primary">Открыть меню</Button>}>
+    <DropdownMenu positions={['left middle']} caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -84,29 +86,25 @@ export const Example4: Story = () => {
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example4.storyName = 'Выпадашка слева по центру';
 
 export const Example5: Story = () => {
-
   return (
     <DropdownMenu
       header={<p>Это шапка в виде обычного текста</p>}
       footer={<Button>А это подвал в виде кнопки</Button>}
       caption={<Button use="primary">Открыть меню</Button>}
-      >
+    >
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example5.storyName = 'Меню c шапкой и подвалом';
 
 export const Example6: Story = () => {
-
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -115,12 +113,10 @@ export const Example6: Story = () => {
       <MenuItem>MenuItem3</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example6.storyName = 'Иконка и автовыравнивание текста';
 
 export const Example7: Story = () => {
-
   return (
     <DropdownMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -129,17 +125,12 @@ export const Example7: Story = () => {
       <MenuItem>MenuItem3</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example7.storyName = 'Иконка и отключенное автовыравнивание текста';
 
 export const Example8: Story = () => {
-
   return (
-    <DropdownMenu
-      disableAnimations
-      caption={<Button use="primary">Открыть меню без анимации</Button>}
-      >
+    <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню без анимации</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -147,13 +138,11 @@ export const Example8: Story = () => {
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example8.storyName = 'Отключенная анимация';
 
 /** В `caption` можно передать любой элемент. */
 export const Example9: Story = () => {
-
   return (
     <DropdownMenu
       caption={
@@ -168,12 +157,10 @@ export const Example9: Story = () => {
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example9.storyName = 'Подпись';
 
 export const Example10: Story = () => {
-
   const [checked, setChecked] = React.useState(false);
 
   let close;
@@ -210,13 +197,11 @@ export const Example10: Story = () => {
       </MenuItem>
     </DropdownMenu>
   );
-
 };
 Example10.storyName = 'Чекбокс внутри MenuItem';
 
 /** (с сохранением поведения [MenuItem](#/Components/MenuItem)) */
 export const Example11: Story = () => {
-
   const [showItems, setShowItems] = React.useState(false);
 
   const hiddenItems = [
@@ -226,12 +211,9 @@ export const Example11: Story = () => {
     <MenuItem>Я с вами</MenuItem>,
   ];
 
-
   return (
     <Gapped>
-      <Button onClick={() => setShowItems(!showItems)}>
-        {showItems ? 'Спрятать' : 'Показать'} элементы
-      </Button>
+      <Button onClick={() => setShowItems(!showItems)}>{showItems ? 'Спрятать' : 'Показать'} элементы</Button>
 
       <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
         <MenuItem>Меня видно всегда</MenuItem>
@@ -241,7 +223,5 @@ export const Example11: Story = () => {
       </DropdownMenu>
     </Gapped>
   );
-
 };
 Example11.storyName = 'Условный рендер элементов меню';
-

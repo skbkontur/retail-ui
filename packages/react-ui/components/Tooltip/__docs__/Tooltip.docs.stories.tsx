@@ -1,11 +1,10 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-
 import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/Tooltip',
@@ -15,7 +14,6 @@ export default {
 
 /** Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов */
 export const Example1: Story = () => {
-
   const [size, setSize] = React.useState('small');
 
   const render = () => (
@@ -26,8 +24,8 @@ export const Example1: Story = () => {
         fontFamily: 'Segoe UI',
       }}
     >
-      Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и модернизации
-      форм развития.
+      Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и
+      модернизации форм развития.
     </div>
   );
 
@@ -52,13 +50,11 @@ export const Example1: Story = () => {
       </Gapped>
     </div>
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
 /** Выравнивание базовой линии с RadioGroup требует дополнительных отступов. */
 export const Example2: Story = () => {
-
   const render = () => (
     <div
       style={{
@@ -86,16 +82,14 @@ export const Example2: Story = () => {
       </Tooltip>
     </div>
   );
-
 };
 Example2.storyName = 'Выравнивание базовой линии';
 
 /** Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов. */
 export const Example3: Story = () => {
-
   const S = 60;
 
-  const Block = ({ pos, trigger, top, left, onMouseDown }) => (
+  const Block = ({ pos, trigger, top, left }) => (
     <div
       style={{
         top,
@@ -141,7 +135,7 @@ export const Example3: Story = () => {
             render={() => 'Manual tooltip'}
             pos="bottom center"
             trigger="manual"
-            ref={element => {
+            ref={(element) => {
               this.tooltip = element;
             }}
           >
@@ -229,20 +223,18 @@ export const Example3: Story = () => {
       {!isManual && blocks.map((block, i) => <Block key={i} {...block} trigger={trigger} />)}
     </div>
   );
-
 };
 Example3.storyName = 'Расположение тултипа';
 
 /** Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения. */
 export const Example4: Story = () => {
-
   const S = 60;
   const blockStyle = {
     height: S - 5,
     width: S - 5,
     boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
     background: 'gray',
-    border: '1px solid'
+    border: '1px solid',
   };
   const containerStyle = {
     width: S * 9,
@@ -294,7 +286,7 @@ export const Example4: Story = () => {
               <div key={i} style={{ top, left, display: 'inline-block', position: 'absolute' }}>
                 <div
                   style={blockStyle}
-                  onMouseEnter={event => this.setState({ anchor: event.target })}
+                  onMouseEnter={(event) => this.setState({ anchor: event.target })}
                   onMouseLeave={() => this.setState({ anchor: null })}
                 />
               </div>
@@ -305,35 +297,27 @@ export const Example4: Story = () => {
     }
   }
 
-  return (
-    <AnchorTooltipExample />
-  );
-
+  return <AnchorTooltipExample />;
 };
 Example4.storyName = 'anchorElement';
 
 /** У тултипа можно переопределить задержку перед его появлением. Скрытие же происходит с задержкой по умолчанию. */
 export const Example5: Story = () => {
-
   const [delay, setDelay] = React.useState(100);
 
-  const render = () => (
-    <div>
-      {`Showed with ${delay}ms delay`}
-    </div>
-  );
+  const render = () => <div>{`Showed with ${delay}ms delay`}</div>;
 
   return (
     <div>
       <Gapped vertical>
-        <Gapped>Show delay: <Input value={delay} onValueChange={setDelay} /></Gapped>
+        <Gapped>
+          Show delay: <Input value={delay} onValueChange={setDelay} />
+        </Gapped>
         <Tooltip render={render} delayBeforeShow={delay} pos="right top">
           <HelpDotIcon />
         </Tooltip>
       </Gapped>
     </div>
   );
-
 };
 Example5.storyName = 'Задержка перед появлением';
-

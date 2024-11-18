@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Gapped, Button, Checkbox, Toggle } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Layout/Gapped',
@@ -10,19 +10,16 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   return (
     <Gapped gap={20}>
       <Button use="primary">Сохранить</Button>
       <Button>Отмена</Button>
     </Gapped>
   );
-
 };
 Example1.storyName = 'Вывод элементов с горизонтальным расположением';
 
 export const Example2: Story = () => {
-
   return (
     <Gapped vertical gap={20}>
       <Checkbox checked>Write todos</Checkbox>
@@ -30,7 +27,6 @@ export const Example2: Story = () => {
       <Checkbox>Make things done</Checkbox>
     </Gapped>
   );
-
 };
 Example2.storyName = 'Вертикальное расположение';
 
@@ -38,7 +34,6 @@ Example2.storyName = 'Вертикальное расположение';
 При этом между строчками будет отступ равный значению свойста `gap`
 В таком случае из-за особенности верстки `Gapped` может перекрывать элементы расположенные сверху-слева. */
 export const Example3: Story = () => {
-
   return (
     <>
       {"U Can't Touch This! => "}
@@ -53,7 +48,5 @@ export const Example3: Story = () => {
       </div>
     </>
   );
-
 };
 Example3.storyName = 'Wrap';
-

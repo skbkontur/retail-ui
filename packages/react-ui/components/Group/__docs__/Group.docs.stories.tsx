@@ -1,10 +1,9 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import FunctionIcon from '@skbkontur/react-icons/Function';
 import SearchIcon from '@skbkontur/react-icons/Search';
-
 import { Group, Button, Input } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Layout/Group',
@@ -13,7 +12,6 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   const [value, setValue] = React.useState('Foo');
 
   return (
@@ -28,7 +26,5 @@ export const Example1: Story = () => {
       <Button>Bar</Button>
     </Group>
   );
-
 };
 Example1.storyName = 'Базовый пример';
-

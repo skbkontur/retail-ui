@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Token, Gapped } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/TokenInput/Token',
@@ -10,17 +10,12 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
-  return (
-    <Token>Example</Token>
-  );
-
+  return <Token>Example</Token>;
 };
 Example1.storyName = 'Базовый пример';
 
 /** У разных токенов может быть разный цвет. */
 export const Example2: Story = () => {
-
   const colors = {
     default: {
       idle: 'defaultIdle',
@@ -98,12 +93,10 @@ export const Example2: Story = () => {
       </Gapped>
     </Gapped>
   );
-
 };
 Example2.storyName = 'Цвет токена';
 
 export const Example3: Story = () => {
-
   return (
     <Gapped gap={20} vertical>
       <Gapped gap={10}>
@@ -122,26 +115,16 @@ export const Example3: Story = () => {
       </Gapped>
     </Gapped>
   );
-
 };
 Example3.storyName = 'Состояние валидации';
 
 export const Example4: Story = () => {
-
   return (
     <Gapped vertical>
-      <Token size="small">
-        Маленький
-      </Token>
-      <Token size="medium">
-        Средний
-      </Token>
-      <Token size="large">
-        Большой
-      </Token>
+      <Token size="small">Маленький</Token>
+      <Token size="medium">Средний</Token>
+      <Token size="large">Большой</Token>
     </Gapped>
   );
-
 };
 Example4.storyName = 'Размер';
-

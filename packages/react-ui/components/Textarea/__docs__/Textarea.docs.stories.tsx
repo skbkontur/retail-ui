@@ -1,7 +1,7 @@
 import React from 'react';
-import { Story } from '../../../typings/stories';
-
 import { Textarea, Group, Button, Gapped } from '@skbkontur/react-ui';
+
+import { Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Textarea',
@@ -20,28 +20,21 @@ export const Example1: Story = () => {
       placeholder="Through faith we can reign in every area of life"
     />
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
 /** Очистить значение в `Textarea` можно только с помощью пустой строки */
 export const Example2: Story = () => {
-
   const [value, setValue] = React.useState('Значение');
 
   return (
     <Group>
-      <Textarea
-        value={value}
-        onValueChange={setValue}
-        autoResize
-        rows={1}
-        placeholder="Плейсхолдер"
-      />
-      <Button style={{ height: '52px' }} onClick={() => setValue('')}>Очистить значение</Button>
+      <Textarea value={value} onValueChange={setValue} autoResize rows={1} placeholder="Плейсхолдер" />
+      <Button style={{ height: '52px' }} onClick={() => setValue('')}>
+        Очистить значение
+      </Button>
     </Group>
   );
-
 };
 Example2.storyName = 'Очистка значения';
 
@@ -58,12 +51,10 @@ export const Example3: Story = () => {
       counterHelp="Hello 👋"
     />
   );
-
 };
 Example3.storyName = 'Счетчик введенных символов';
 
 export const Example4: Story = () => {
-
   return (
     <Gapped vertical>
       <Textarea size={'small'} value={'Маленький'} autoResize rows={1} />
@@ -71,7 +62,5 @@ export const Example4: Story = () => {
       <Textarea size={'large'} value={'Большой'} autoResize rows={1} />
     </Gapped>
   );
-
 };
 Example4.storyName = 'Размер';
-

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Center, Switcher, Gapped } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Layout/Center',
@@ -10,30 +10,24 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
-  const [alignAt, setAlignAt] = React.useState("center");
+  const [alignAt, setAlignAt] = React.useState('center');
 
   return (
     <Gapped vertical gap="12px">
       <Switcher
         items={[
-          {label: "Слева", value: "left"},
-          {label: "По центру", value: "center"},
-          {label: "Справа", value: "right"}
+          { label: 'Слева', value: 'left' },
+          { label: 'По центру', value: 'center' },
+          { label: 'Справа', value: 'right' },
         ]}
         value={alignAt}
         onValueChange={setAlignAt}
       />
 
-      <Center
-        align={alignAt}
-        style={{ background: '#fdd', height: 150 }}
-      >
+      <Center align={alignAt} style={{ background: '#fdd', height: 150 }}>
         <div style={{ background: 'black', width: 30, height: 30 }} />
       </Center>
     </Gapped>
   );
-
 };
 Example1.storyName = 'Пример использования';
-

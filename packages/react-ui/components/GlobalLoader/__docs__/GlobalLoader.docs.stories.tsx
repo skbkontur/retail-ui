@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { GlobalLoader, Button, Gapped, Toggle, ThemeContext, ThemeFactory, Modal } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/GlobalLoader',
@@ -10,21 +10,26 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   return (
     <Gapped>
-      <Button onClick={GlobalLoader.start} use="primary">start</Button>
-      <Button onClick={GlobalLoader.done} use="success">done</Button>
-      <Button onClick={GlobalLoader.reject} use="danger">reject</Button>
-      <Button onClick={GlobalLoader.accept} use="pay">accept</Button>
+      <Button onClick={GlobalLoader.start} use="primary">
+        start
+      </Button>
+      <Button onClick={GlobalLoader.done} use="success">
+        done
+      </Button>
+      <Button onClick={GlobalLoader.reject} use="danger">
+        reject
+      </Button>
+      <Button onClick={GlobalLoader.accept} use="pay">
+        accept
+      </Button>
     </Gapped>
   );
-
 };
 Example1.storyName = 'Все статические методы';
 
 export const Example2: Story = () => {
-
   const myTheme = ThemeFactory.create({ globalLoaderColor: 'red' });
 
   const [manually, setManually] = React.useState(false);
@@ -39,7 +44,7 @@ export const Example2: Story = () => {
     } else {
       setManually(true);
     }
-  }
+  };
 
   return (
     <Gapped vertical>
@@ -54,22 +59,23 @@ export const Example2: Story = () => {
       </Toggle>
 
       <ThemeContext.Provider value={myTheme}>
-        <GlobalLoader expectedResponseTime={2000} delayBeforeShow={1000} active={active} rejected={error}
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={1000}
+          active={active}
+          rejected={error}
           onStart={() => console.log('start')}
           onDone={() => console.log('done')}
           onReject={() => console.log('reject')}
           onAccept={() => console.log('accept')}
         />
       </ThemeContext.Provider>
-
     </Gapped>
   );
-
 };
 Example2.storyName = 'Монтирование и кастомизация';
 
 export const Example3: Story = () => {
-
   const [opened, setOpened] = React.useState(false);
 
   function renderModal() {
@@ -78,8 +84,12 @@ export const Example3: Story = () => {
         <Modal.Header>Заголовок</Modal.Header>
         <Modal.Body>
           <Gapped>
-            <Button onClick={GlobalLoader.start} use="primary">start</Button>
-            <Button onClick={GlobalLoader.done} use="success">done</Button>
+            <Button onClick={GlobalLoader.start} use="primary">
+              start
+            </Button>
+            <Button onClick={GlobalLoader.done} use="success">
+              done
+            </Button>
           </Gapped>
         </Modal.Body>
       </Modal>
@@ -100,7 +110,5 @@ export const Example3: Story = () => {
       <Button onClick={open}>Открыть</Button>
     </div>
   );
-
 };
 Example3.storyName = 'Статические методы в модалке';
-

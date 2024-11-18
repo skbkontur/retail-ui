@@ -1,11 +1,10 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import { Kebab, Gapped, MenuItem, Toast, MenuHeader } from '@skbkontur/react-ui';
 
-import { Kebab, Gapped, MenuItem, Toast, Button, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/Kebab',
@@ -14,8 +13,7 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -24,7 +22,7 @@ export const Example1: Story = () => {
     width: 250,
   };
 
-  let Card = ({ name, post }) => (
+  const Card = ({ name, post }) => (
     <div style={style}>
       <div>
         <h3>{name}</h3>
@@ -54,13 +52,11 @@ export const Example1: Story = () => {
       </Gapped>
     </Gapped>
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -69,7 +65,7 @@ export const Example2: Story = () => {
     width: 230,
   };
 
-  let Card = ({ title, size }) => (
+  const Card = ({ title, size }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -93,13 +89,11 @@ export const Example2: Story = () => {
       <Card title="Большой кебаб" size="large" />
     </Gapped>
   );
-
 };
 Example2.storyName = 'Размер';
 
 export const Example3: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -108,8 +102,7 @@ export const Example3: Story = () => {
     width: 250,
   };
 
-
-  let Card = ({ title }) => (
+  const Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -126,16 +119,12 @@ export const Example3: Story = () => {
     </div>
   );
 
-  return (
-    <Card title="С выпадашкой слева" />
-  );
-
+  return <Card title="С выпадашкой слева" />;
 };
 Example3.storyName = 'Кебаб-меню с выпадашкой слева';
 
 export const Example4: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -144,16 +133,13 @@ export const Example4: Story = () => {
     width: 250,
   };
 
-  let Card = ({ title }) => (
+  const Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
 
-      <Kebab
-        onOpen={() => Toast.push('Кебаб-меню открылось!')}
-        size="large"
-        >
+      <Kebab onOpen={() => Toast.push('Кебаб-меню открылось!')} size="large">
         <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
@@ -164,15 +150,11 @@ export const Example4: Story = () => {
     </div>
   );
 
-  return (
-    <Card title="С кастомным действием" />
-  );
-
+  return <Card title="С кастомным действием" />;
 };
 Example4.storyName = 'Кастомное действие при открытии';
 
 export const Example5: Story = () => {
-
   return (
     <Kebab>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -181,12 +163,10 @@ export const Example5: Story = () => {
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   );
-
 };
 Example5.storyName = 'Иконка и автовыравнивание';
 
 export const Example6: Story = () => {
-
   return (
     <Kebab preventIconsOffset>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -195,13 +175,11 @@ export const Example6: Story = () => {
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   );
-
 };
 Example6.storyName = 'Иконка и отключенное автовыравнивание';
 
 export const Example7: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -210,7 +188,7 @@ export const Example7: Story = () => {
     width: 250,
   };
 
-  let Card = ({ title }) => (
+  const Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -227,16 +205,12 @@ export const Example7: Story = () => {
     </div>
   );
 
-  return (
-    <Card title="Не нажимается :(" />
-  );
-
+  return <Card title="Не нажимается :(" />;
 };
 Example7.storyName = 'Отключенное кебаб-меню';
 
 export const Example8: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -245,7 +219,7 @@ export const Example8: Story = () => {
     width: 250,
   };
 
-  let Card = ({ title }) => (
+  const Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -262,16 +236,12 @@ export const Example8: Story = () => {
     </div>
   );
 
-  return (
-    <Card title="Без анимации" />
-  );
-
+  return <Card title="Без анимации" />;
 };
 Example8.storyName = 'Отключенная анимация';
 
 export const Example9: Story = () => {
-
-  let style = {
+  const style = {
     alignItems: 'center',
     border: '1px solid #dfdede',
     display: 'flex',
@@ -280,36 +250,21 @@ export const Example9: Story = () => {
     width: 250,
   };
 
-  let Card = ({ title }) => (
+  const Card = ({ title }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
       </div>
 
-      <Kebab
-        menuMaxHeight="100px"
-        size="large"
-        >
-        <MenuItem>
-          Действие
-        </MenuItem>
-        <MenuItem>
-          И ещё одно
-        </MenuItem>
-        <MenuItem>
-          Ещё действие
-        </MenuItem>
-        <MenuItem>
-          И последнее действие
-        </MenuItem>
+      <Kebab menuMaxHeight="100px" size="large">
+        <MenuItem>Действие</MenuItem>
+        <MenuItem>И ещё одно</MenuItem>
+        <MenuItem>Ещё действие</MenuItem>
+        <MenuItem>И последнее действие</MenuItem>
       </Kebab>
     </div>
   );
 
-  return (
-    <Card title="С заданной высотой" />
-  );
-
+  return <Card title="С заданной высотой" />;
 };
 Example9.storyName = 'Высота';
-

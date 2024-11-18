@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Hint, Button, Gapped } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/Hint',
@@ -10,10 +10,7 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-  return (
-    <Hint text="Подсказка">Базовая</Hint>
-  );
-
+  return <Hint text="Подсказка">Базовая</Hint>;
 };
 Example1.storyName = 'Базовый пример';
 
@@ -29,52 +26,47 @@ export const Example2: Story = () => {
       </svg>
     </Hint>
   );
-
 };
 Example2.storyName = 'Иконка';
 
 export const Example3: Story = () => {
   return (
-    <Hint pos={"left"} text="Подсказка слева">Всегда всплывает слева</Hint>
+    <Hint pos={'left'} text="Подсказка слева">
+      Всегда всплывает слева
+    </Hint>
   );
-
 };
 Example3.storyName = 'Сторона всплытия';
 
 export const Example4: Story = () => {
   return (
-    <Hint
-      maxWidth="150px"
-      text="Очень много текста, рассказывающего про этот очень непонятный элемент"
-      >
+    <Hint maxWidth="150px" text="Очень много текста, рассказывающего про этот очень непонятный элемент">
       Очень непонятный элемент
     </Hint>
   );
-
 };
 Example4.storyName = 'Ограниченная ширина';
 
 export const Example5: Story = () => {
-
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <Gapped>
-      <Hint opened={isOpen} manual text="Подсказка">Управляемая удалённо</Hint>
-      <Button onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? "Закрыть подсказку" : "Открыть подсказку"}
-      </Button>
+      <Hint opened={isOpen} manual text="Подсказка">
+        Управляемая удалённо
+      </Hint>
+      <Button onClick={() => setIsOpen(!isOpen)}>{isOpen ? 'Закрыть подсказку' : 'Открыть подсказку'}</Button>
     </Gapped>
   );
-
 };
 Example5.storyName = 'Открытие подсказки кнопкой';
 
 export const Example6: Story = () => {
   return (
-    <Hint disableAnimations text={"Нет анимации :("}>Есть анимация?</Hint>
+    <Hint disableAnimations text={'Нет анимации :('}>
+      Есть анимация?
+    </Hint>
   );
-
 };
 Example6.storyName = 'Всплытие без анимации';
 
@@ -87,7 +79,6 @@ export const Example7: Story = () => {
       <button disabled>native button</button>
     </Hint>
   );
-
 };
 Example7.storyName = 'Встроеная обёртка';
 
@@ -97,16 +88,18 @@ export const Example8: Story = () => {
   return (
     <>
       <Hint useWrapper text="Подсказа">
-        <button disabled style={{ height: 40 }}>useWrapper prop</button>
+        <button disabled style={{ height: 40 }}>
+          useWrapper prop
+        </button>
       </Hint>
       <Hint text="Подсказа">
         <span style={{ display: 'inline-block' }}>
-          <button disabled style={{ height: 40 }}>custom wrapper</button>
+          <button disabled style={{ height: 40 }}>
+            custom wrapper
+          </button>
         </span>
       </Hint>
     </>
   );
-
 };
 Example8.storyName = 'Кастомная обертка';
-

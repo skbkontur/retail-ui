@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Tabs } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Tabs',
@@ -19,7 +19,6 @@ export const Example1: Story = () => {
       <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
     </Tabs>
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
@@ -34,17 +33,16 @@ export const Example2: Story = () => {
       <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
     </Tabs>
   );
-
 };
 Example2.storyName = 'Расположение табов';
 
 export const Example3: Story = () => {
   const [active, setActive] = React.useState('fuji');
-  const renderCaption = (caption) => <span style={{display: "inline-block", width: 60}}>{caption}</span>;
+  const renderCaption = (caption) => <span style={{ display: 'inline-block', width: 60 }}>{caption}</span>;
   return (
     <div>
       <div>
-        {renderCaption("small")}
+        {renderCaption('small')}
         <Tabs value={active} onValueChange={setActive} size="small">
           <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
           <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
@@ -52,7 +50,7 @@ export const Example3: Story = () => {
         </Tabs>
       </div>
       <div>
-        {renderCaption("medium")}
+        {renderCaption('medium')}
         <Tabs value={active} onValueChange={setActive} size="medium">
           <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
           <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
@@ -60,7 +58,7 @@ export const Example3: Story = () => {
         </Tabs>
       </div>
       <div>
-        {renderCaption("large")}
+        {renderCaption('large')}
         <Tabs value={active} onValueChange={setActive} size="large">
           <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
           <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
@@ -69,7 +67,5 @@ export const Example3: Story = () => {
       </div>
     </div>
   );
-
 };
 Example3.storyName = 'Размер';
-

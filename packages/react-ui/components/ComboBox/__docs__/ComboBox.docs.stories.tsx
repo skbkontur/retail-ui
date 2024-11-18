@@ -1,11 +1,10 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
-import {MenuFooter} from '@skbkontur/react-ui/components/MenuFooter';
+import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import OkIcon from '@skbkontur/react-icons/Ok';
-
 import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/ComboBox',
@@ -14,12 +13,11 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const maybeReject = (x) => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
 
-  let maybeReject = x => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
-
-  let getItems = q =>
+  const getItems = (q) =>
     Promise.resolve(
       [
         { value: 1, label: 'First' },
@@ -28,7 +26,7 @@ export const Example1: Story = () => {
         { value: 4, label: 'Fourth' },
         { value: 5, label: 'Fifth' },
         { value: 6, label: 'Sixth' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
     )
       .then(delay(500))
       .then(maybeReject);
@@ -36,17 +34,17 @@ export const Example1: Story = () => {
   const [selected, setSelected] = React.useState({ value: 3, label: 'Third' });
   const [error, setError] = React.useState(false);
 
-  let handleValueChange = value => {
+  const handleValueChange = (value) => {
     setSelected(value);
     setError(false);
   };
 
-  let handleUnexpectedInput = () => {
+  const handleUnexpectedInput = () => {
     setSelected(null);
     setError(true);
   };
 
-  let handleFocus = () => setError(false);
+  const handleFocus = () => setError(false);
 
   return (
     <Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={error ? 'opened' : 'closed'}>
@@ -61,16 +59,14 @@ export const Example1: Story = () => {
       />
     </Tooltip>
   );
-
 };
 Example1.storyName = 'Комбобокс с валидацией';
 
 /** Очистить значение в `ComboBox`'е можно с помощью пустой строки, `null` или `undefined` */
 export const Example2: Story = () => {
-
   const [value, setValue] = React.useState({ value: 2, label: 'Second' });
 
-  const getItems = q => {
+  const getItems = (q) => {
     return Promise.resolve(
       [
         { value: 1, label: 'First' },
@@ -79,30 +75,23 @@ export const Example2: Story = () => {
         { value: 4, label: 'Fourth' },
         { value: 5, label: 'Fifth' },
         { value: 6, label: 'Sixth' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
-    )
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
   };
 
   return (
     <Group>
-      <ComboBox
-        getItems={getItems}
-        onValueChange={setValue}
-        placeholder="Введите число"
-        value={value}
-      />
+      <ComboBox getItems={getItems} onValueChange={setValue} placeholder="Введите число" value={value} />
       <Button onClick={() => setValue(null)}>Null</Button>
       <Button onClick={() => setValue(undefined)}>Undefined</Button>
       <Button onClick={() => setValue('')}>Пустая строка</Button>
     </Group>
   );
-
 };
 Example2.storyName = 'Очистка комбобокса';
 
 export const Example3: Story = () => {
-
-  let popularItems = [
+  const popularItems = [
     { Id: 956, City: 'Махачкала' },
     { Id: 4974, City: 'Верхняя-Пышма' },
     { Id: 4980, City: 'Екатеринбург' },
@@ -110,23 +99,23 @@ export const Example3: Story = () => {
 
   const [value, setValue] = React.useState(null);
 
-  let mapCity = ({ Id, City }) => ({
+  const mapCity = ({ Id, City }) => ({
     value: Id,
     label: City,
   });
 
-  let hasSelectedItem = itemsSets => itemsSets.some(items => items.find(item => value.value === item.Id));
+  const hasSelectedItem = (itemsSets) => itemsSets.some((items) => items.find((item) => value.value === item.Id));
 
-  let shouldInsertSelectedItem = (query, items) => value && !query && !hasSelectedItem([items, popularItems]);
+  const shouldInsertSelectedItem = (query, items) => value && !query && !hasSelectedItem([items, popularItems]);
 
-  let getPopularItems = query => (query ? [] : popularItems.map(mapCity));
-  let renderSeparator = query => (query ? [] : <MenuSeparator />);
-  let getSelectedItem = (query, items) => (!shouldInsertSelectedItem(query, items) ? [] : value);
+  const getPopularItems = (query) => (query ? [] : popularItems.map(mapCity));
+  const renderSeparator = (query) => (query ? [] : <MenuSeparator />);
+  const getSelectedItem = (query, items) => (!shouldInsertSelectedItem(query, items) ? [] : value);
 
-  let prepareItems = (query, items) =>
+  const prepareItems = (query, items) =>
     (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(mapCity);
 
-  let renderTotalCount = (foundCount, totalCount) =>
+  const renderTotalCount = (foundCount, totalCount) =>
     foundCount < totalCount ? (
       <MenuFooter>
         Показано {foundCount} из {totalCount} найденных городов.
@@ -135,7 +124,7 @@ export const Example3: Story = () => {
       []
     );
 
-  let getItems = query =>
+  const getItems = (query) =>
     getCities(query).then(({ foundItems, totalCount }) =>
       [].concat(
         getPopularItems(query),
@@ -146,7 +135,7 @@ export const Example3: Story = () => {
       ),
     );
 
-  let renderItem = item => (
+  const renderItem = (item) => (
     <Gapped>
       <div style={{ width: 40 }}>{item.value}</div>
       <div style={{ width: 210, whiteSpace: 'normal' }}>{item.label}</div>
@@ -162,15 +151,13 @@ export const Example3: Story = () => {
       renderItem={renderItem}
     />
   );
-
 };
 Example3.storyName = 'ComboBox with popular values, complex menu items and total count message';
 
 export const Example4: Story = () => {
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-
-  const getItems = q =>
+  const getItems = (q) =>
     Promise.resolve(
       [
         { approved: true, value: 1, label: 'Леонид Долецкий', email: 'first@skbkontur.ru' },
@@ -179,7 +166,7 @@ export const Example4: Story = () => {
         { approved: false, value: 4, label: 'Надежда Дубова', email: 'fourth@skbkontur.ru' },
         { approved: true, value: 5, label: 'Владислав Сташкеевич', email: 'fifth@skbkontur.ru' },
         { approved: true, value: 6, label: 'Василиса Александровна Поволоцкая', email: 'sixth@skbkontur.ru' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
     ).then(delay(500));
 
   const [selected, setSelected] = React.useState({
@@ -190,7 +177,7 @@ export const Example4: Story = () => {
   });
   const [error, setError] = React.useState(false);
 
-  const handleValueChange = value => {
+  const handleValueChange = (value) => {
     setSelected(value);
     setError(false);
   };
@@ -202,7 +189,7 @@ export const Example4: Story = () => {
 
   const handleFocus = () => setError(false);
 
-  const customRenderItem = item => (
+  const customRenderItem = (item) => (
     <div
       style={{
         display: 'flex',
@@ -241,15 +228,15 @@ export const Example4: Story = () => {
     </div>
   );
 
-  const customItemWrapper = item => {
+  const customItemWrapper = (item) => {
     if (item.value === 3) {
       return (props) => <div {...props} />;
     }
 
-    return (props) => <button {...props} />
-  }
+    return (props) => <button {...props} />;
+  };
 
-  const customRenderValue = item => (
+  const customRenderValue = (item) => (
     <div
       style={{
         display: 'flex',
@@ -259,7 +246,7 @@ export const Example4: Story = () => {
         style={{
           width: '55%',
           overflow: 'hidden',
-          textOverflow: 'ellipsis'
+          textOverflow: 'ellipsis',
         }}
       >
         {item.label}
@@ -293,15 +280,13 @@ export const Example4: Story = () => {
       />
     </Tooltip>
   );
-
 };
 Example4.storyName = 'Переопределение `renderValue`, `renderItem` и `itemWrapper`';
 
 export const Example5: Story = () => {
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-
-  const getItems = query =>
+  const getItems = (query) =>
     Promise.resolve(
       [
         { value: 1, label: 'First' },
@@ -311,7 +296,7 @@ export const Example5: Story = () => {
         { value: 5, label: 'Fifth' },
         { value: 6, label: 'Sixth' },
       ]
-        .filter(x => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query)
+        .filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query)
         .map(({ label, ...rest }) => {
           const start = label.toLowerCase().indexOf(query.toLowerCase());
           const end = start + query.length;
@@ -340,19 +325,19 @@ export const Example5: Story = () => {
   const [selected, setSelected] = React.useState({ value: 3, label: 'Third' });
   const [error, setError] = React.useState(false);
 
-  let handleValueChange = value => {
+  const handleValueChange = (value) => {
     setSelected(value);
     setError(false);
   };
 
-  let handleUnexpectedInput = () => {
+  const handleUnexpectedInput = () => {
     setSelected(null);
     setError(true);
   };
 
-  let handleFocus = () => setError(false);
+  const handleFocus = () => setError(false);
 
-  const renderItem = item => {
+  const renderItem = (item) => {
     if (item.highlightedLabel) {
       return item.highlightedLabel;
     }
@@ -374,13 +359,11 @@ export const Example5: Story = () => {
       />
     </Tooltip>
   );
-
 };
 Example5.storyName = 'Подсветка результата поиска';
 
 export const Example6: Story = () => {
-
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
   class ComboboxExample extends React.Component {
     constructor(props) {
@@ -430,12 +413,12 @@ export const Example6: Story = () => {
 
     getItems(q) {
       return Promise.resolve(
-        this.state.items.filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+        this.state.items.filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
       ).then(delay(500));
     }
 
     handleInputValueChange(query) {
-      const isItemExists = this.state.items.find(x => x.label.toLowerCase() == query.toLowerCase());
+      const isItemExists = this.state.items.find((x) => x.label.toLowerCase() === query.toLowerCase());
       this.setState({ query, shouldRenderAddButton: !isItemExists });
     }
 
@@ -463,7 +446,7 @@ export const Example6: Story = () => {
     }
 
     addItem() {
-      this.setState(currentState => {
+      this.setState((currentState) => {
         const newItem = {
           value: Math.max(...currentState.items.map(({ value }) => value)) + 1,
           label: currentState.query,
@@ -479,17 +462,13 @@ export const Example6: Story = () => {
     }
   }
 
-  return (
-    <ComboboxExample />
-  );
-
+  return <ComboboxExample />;
 };
 Example6.storyName = 'Добавление элементов в меню';
 
 /** Если нужно сбросить контрол без изменения `value`, то можно использовать метод `reset`. */
 export const Example7: Story = () => {
-
-  const [selected, setSelected] = React.useState({ value: 1, label: "First" });
+  const [selected, setSelected] = React.useState({ value: 1, label: 'First' });
   const ref = React.useRef(null);
 
   const handleReset = () => {
@@ -501,43 +480,30 @@ export const Example7: Story = () => {
   const getItems = (q) =>
     Promise.resolve(
       [
-        { value: 1, label: "First" },
-        { value: 2, label: "Second" },
-        { value: 3, label: "Third" }
-      ].filter(
-        (x) =>
-          x.label.toLowerCase().includes(q.toLowerCase()) ||
-          x.value.toString(10) === q
-      )
+        { value: 1, label: 'First' },
+        { value: 2, label: 'Second' },
+        { value: 3, label: 'Third' },
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
     );
 
   return (
     <div>
-      <ComboBox
-        ref={ref}
-        getItems={getItems}
-        onValueChange={setSelected}
-        placeholder="Enter number"
-        value={selected}
-      />
+      <ComboBox ref={ref} getItems={getItems} onValueChange={setSelected} placeholder="Enter number" value={selected} />
       <Button onClick={handleReset}>Reset</Button>
     </div>
-
   );
-
 };
 Example7.storyName = 'Сброс контрола';
 
 export const Example9: Story = () => {
-
-  const getItems = q => {
+  const getItems = (q) => {
     return Promise.resolve(
       [
         { value: 1, label: 'Маленький' },
         { value: 2, label: 'Средний' },
         { value: 3, label: 'Большой' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
-    )
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
   };
 
   const [valueSmall, setValueSmall] = React.useState('Маленький');
@@ -569,7 +535,5 @@ export const Example9: Story = () => {
       />
     </Gapped>
   );
-
 };
 Example9.storyName = 'Размер';
-

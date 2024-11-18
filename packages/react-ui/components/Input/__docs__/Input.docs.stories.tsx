@@ -1,9 +1,8 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import SearchIcon from '@skbkontur/react-icons/Search';
+import { Input, Button, Group, Gapped } from '@skbkontur/react-ui';
 
-import { Input, Button, Group, Gapped, Tooltip } from '@skbkontur/react-ui';
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Input',
@@ -12,26 +11,17 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
-  return (
-    <Input />
-  );
-
+  return <Input />;
 };
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-
-  return (
-    <Input leftIcon={<SearchIcon />} />
-  );
-
+  return <Input leftIcon={<SearchIcon />} />;
 };
 Example2.storyName = 'Иконка';
 
 /** Очистить значение в `Input`'е можно только с помощью пустой строки */
 export const Example3: Story = () => {
-
   const [value, setValue] = React.useState('Значение');
 
   return (
@@ -40,25 +30,15 @@ export const Example3: Story = () => {
       <Button onClick={() => setValue('')}>Очистить</Button>
     </Group>
   );
-
 };
 Example3.storyName = 'Очистка значения';
 
 export const Example4: Story = () => {
-
-  return (
-    <Input
-      width={400}
-      prefix="https://kontur.ru/search?query="
-      rightIcon={<SearchIcon />}
-    />
-  );
-
+  return <Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />;
 };
 Example4.storyName = 'Префикс';
 
 export const Example5: Story = () => {
-
   return (
     <Gapped vertical gap={20}>
       <Gapped gap={20}>
@@ -102,7 +82,5 @@ export const Example5: Story = () => {
       </Gapped>
     </Gapped>
   );
-
 };
 Example5.storyName = 'type';
-

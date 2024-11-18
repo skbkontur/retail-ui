@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
+import { MenuSeparator, Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
-import { MenuSeparator, Button, MenuHeader, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/MenuSeparator',
@@ -10,7 +10,6 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с разделителями</Button>}>
       <MenuItem>У меня есть разделитель</MenuItem>
@@ -21,7 +20,5 @@ export const Example1: Story = () => {
       <MenuItem>Как и у меня :(</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example1.storyName = 'Меню с разделителями';
-

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { MenuHeader, Button, MenuItem, DropdownMenu, Gapped } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/MenuHeader',
@@ -10,12 +10,8 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   return (
-    <DropdownMenu
-      menuMaxHeight="10rem"
-      caption={<Button use="primary">Сотрудники компании</Button>}
-      >
+    <DropdownMenu menuMaxHeight="10rem" caption={<Button use="primary">Сотрудники компании</Button>}>
       <MenuHeader>Разработчики</MenuHeader>
       <MenuItem>Вася</MenuItem>
       <MenuItem>Петя</MenuItem>
@@ -30,12 +26,10 @@ export const Example1: Story = () => {
       <MenuItem>Артём</MenuItem>
     </DropdownMenu>
   );
-
 };
 Example1.storyName = 'Базовый пример меню с заголовками';
 
 export const Example2: Story = () => {
-
   return (
     <Gapped vertical>
       <MenuHeader size={'small'}>Маленький</MenuHeader>
@@ -43,7 +37,5 @@ export const Example2: Story = () => {
       <MenuHeader size={'large'}>Большой</MenuHeader>
     </Gapped>
   );
-
 };
 Example2.storyName = 'Размер';
-

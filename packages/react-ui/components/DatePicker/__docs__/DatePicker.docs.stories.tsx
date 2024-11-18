@@ -1,10 +1,19 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
-import * as DatePickerHelpers from '../DatePickerHelpers';
+import {
+  DatePicker,
+  Gapped,
+  Tooltip,
+  DateOrder,
+  DateSeparator,
+  LocaleContext,
+  Select,
+  LangCodes,
+  CalendarDay,
+} from '@skbkontur/react-ui';
 
-import { DatePicker, Gapped, Tooltip, DateOrder, DateSeparator, LocaleContext, Select, LangCodes, CalendarDay } from '@skbkontur/react-ui';
+import { Meta, Story } from '../../../typings/stories';
+import * as DatePickerHelpers from '../DatePickerHelpers';
 
 export default {
   title: 'Input data/DatePicker',
@@ -14,7 +23,6 @@ export default {
 
 /** Пример с обработкой ошибок, когда пользователь ввел невалидную дату. */
 export const Example1: Story = () => {
-
   const [value, setValue] = React.useState();
   const [error, setError] = React.useState(false);
   const [tooltip, setTooltip] = React.useState(false);
@@ -28,12 +36,12 @@ export const Example1: Story = () => {
   };
 
   const validate = () => {
-    const errorNew = !!value && !DatePicker.validate(value, { minDate: minDate, maxDate: maxDate });
+    const errorNew = !!value && !DatePicker.validate(value, { minDate, maxDate });
     setError(errorNew);
     setTooltip(errorNew);
   };
 
-  let removeTooltip = () => setTooltip(false);
+  const removeTooltip = () => setTooltip(false);
 
   return (
     <Gapped gap={10} vertical>
@@ -58,13 +66,11 @@ export const Example1: Story = () => {
       </Tooltip>
     </Gapped>
   );
-
 };
 Example1.storyName = 'Валидация';
 
 /** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
 export const Example2: Story = () => {
-
   const [value, setValue] = React.useState();
 
   const createRandomHolidays = () => {
@@ -88,13 +94,6 @@ export const Example2: Story = () => {
   const holidays = createRandomHolidays();
 
   const isHoliday = (day, isWeekend) => {
-    const today = new Date();
-    const holiday = {
-      date: today.getDate(),
-      month: today.getMonth(),
-      year: today.getFullYear(),
-    };
-
     if (holidays.includes(day)) {
       return !isWeekend;
     }
@@ -102,15 +101,11 @@ export const Example2: Story = () => {
     return isWeekend;
   };
 
-  return (
-    <DatePicker isHoliday={isHoliday} value={value} onValueChange={setValue} enableTodayLink />
-  );
-
+  return <DatePicker isHoliday={isHoliday} value={value} onValueChange={setValue} enableTodayLink />;
 };
 Example2.storyName = '`isHoliday`';
 
 export const Example4: Story = () => {
-
   class DatePickerFormatting extends React.Component {
     constructor() {
       super();
@@ -131,7 +126,7 @@ export const Example4: Story = () => {
             <Select
               value={this.state.order}
               items={Object.keys(DateOrder)}
-              onValueChange={order => this.setState({ order })}
+              onValueChange={(order) => this.setState({ order })}
             />
           </div>
           <div>
@@ -141,7 +136,7 @@ export const Example4: Story = () => {
             <Select
               value={this.state.separator}
               items={Object.keys(DateSeparator)}
-              onValueChange={separator => this.setState({ separator })}
+              onValueChange={(separator) => this.setState({ separator })}
             />
           </div>
           <LocaleContext.Provider
@@ -155,23 +150,19 @@ export const Example4: Story = () => {
               },
             }}
           >
-            <DatePicker onValueChange={value => this.setState({ value })} value={this.state.value} />
+            <DatePicker onValueChange={(value) => this.setState({ value })} value={this.state.value} />
           </LocaleContext.Provider>
         </Gapped>
       );
     }
   }
 
-  return (
-    <DatePickerFormatting />
-  );
-
+  return <DatePickerFormatting />;
 };
 Example4.storyName = 'Ручное форматирование даты';
 
 /** Подбробный пример в [Calendar](#/Components/Calendar) */
 export const Example5: Story = () => {
-
   const [value, setValue] = React.useState('12.05.2022');
 
   const renderDay = (props) => {
@@ -179,16 +170,12 @@ export const Example5: Story = () => {
     const isEven = date % 2 === 0;
 
     if (isEven) {
-      return <CalendarDay {...props} style={{ background: '#e9f8e3' }} />
+      return <CalendarDay {...props} style={{ background: '#e9f8e3' }} />;
     }
 
-    return <CalendarDay {...props} />
+    return <CalendarDay {...props} />;
   };
 
-  return (
-    <DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />
-  );
-
+  return <DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 };
 Example5.storyName = 'Кастомный рендер дня';
-
