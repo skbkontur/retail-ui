@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.1...@skbkontur/react-ui@5.0.2) (2024-11-19)
+
+
+### Bug Fixes
+
+* **DatePicker:** scrolling to today ([#3539](https://github.com/skbkontur/retail-ui/issues/3539)) ([b3147ac](https://github.com/skbkontur/retail-ui/commit/b3147ac9f9b66ae7ffcb2bc28bfa9dfec4e20878))
+* **ZIndex:** change document to globalObject.document ([#3540](https://github.com/skbkontur/retail-ui/issues/3540)) ([aa1a055](https://github.com/skbkontur/retail-ui/commit/aa1a055e2c27e01abf4ced0249ce72a0b1642ba0))
+
+
+
+
+
 ## [5.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.0...@skbkontur/react-ui@5.0.1) (2024-11-08)
 
 
