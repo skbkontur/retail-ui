@@ -2,8 +2,8 @@ require('dotenv').config({ path: '../../.env' });
 const waitOn = require('wait-on');
 const config = require(`${process.cwd()}/${process.argv[2]}`);
 
-const STORYBOOK_USER_NOTICE_TIMEOUT = 2000;
 const STORYBOOK_NOT_RESPOND_TIMEOUT = 300000;
+const STORYBOOK_RUN_COMMAND = 'yarn storybook:test';
 
 if (!process.env.GRID_URL || !process.env.GET_IP_URL) {
     error('Для запуска Creevey создайте в корне файл .env c переменными GRID_URL= и GET_IP_URL=');
@@ -12,12 +12,7 @@ if (!process.env.GRID_URL || !process.env.GET_IP_URL) {
 }
 
 info('Waiting Storybook...\n');
-
-setTimeout(() => {
-    warn('It looks like Storybook is not running!')
-    warn(`Run Storybook via \`yarn storybook:test\` and check ${config.storybookUrl}\n`);
-    info('Waiting Storybook...');
-}, STORYBOOK_USER_NOTICE_TIMEOUT);
+info(`Storybook should be started via \`${STORYBOOK_RUN_COMMAND}\` and be accessible at ${config.storybookUrl}\n`);
 
 waitOn({
     resources: [config.storybookUrl],
@@ -27,17 +22,13 @@ waitOn({
     process.exit(0);
 }).catch((err) => {
     error(err);
-    error('Для запуска требуется запущенный Storybook');
+    error(`Для запуска требуется запущенный Storybook через \`${STORYBOOK_RUN_COMMAND}\``);
     error('Подробнее: https://github.com/skbkontur/retail-ui/blob/next/contributing.md#скриншотные-тесты\n');
     process.exit(1);
 });
 
 function info(text) {
     console.info(`\x1b[34mINFO\x1b[0m => ${text}`);
-}
-
-function warn(text) {
-    console.info(`\x1b[33mWARNING\x1b[0m => ${text}`);
 }
 
 function error(text) {
