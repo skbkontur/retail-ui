@@ -11,8 +11,8 @@ if (!process.env.GRID_URL || !process.env.GET_IP_URL) {
     process.exit(1);
 }
 
-info('Waiting Storybook...\n');
-info(`Storybook should be started via \`${STORYBOOK_RUN_COMMAND}\` and be accessible at ${config.storybookUrl}\n`);
+info(`Storybook should be started via \`${STORYBOOK_RUN_COMMAND}\` and be accessible at ${config.storybookUrl}`);
+info('Waiting Storybook...');
 
 waitOn({
     resources: [config.storybookUrl],
