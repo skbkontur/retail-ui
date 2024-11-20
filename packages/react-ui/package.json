@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -40,7 +40,7 @@
     "fix:prettier": "yarn prettier --write .",
     "test": "jest --detectOpenHandles",
     "test:watch": "yarn test --watch",
-    "creevey": "wait-on -t 300000 http-get://localhost:6060/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
+    "creevey": "node ../../scripts/creevey-prepare.js .creevey/config.js && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
     "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui",
     "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"

@@ -30,7 +30,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:pack": "tsc -p check-dts.tsconfig.json && jest --testMatch ** --testPathPattern=\\\"scripts/check-pack-files.js\\\"",
-    "creevey": "wait-on -t 300000 http-get://localhost:6060/ && creevey -c .creevey/config.js",
+    "creevey": "node ../../scripts/creevey-prepare.js .creevey/config.js && creevey -c .creevey/config.js",
     "creevey:update": "creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui"
   },
