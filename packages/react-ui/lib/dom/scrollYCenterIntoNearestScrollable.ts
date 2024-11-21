@@ -44,5 +44,5 @@ export function findNearestScrollableParent(element: HTMLElement) {
     parent = getParentOrShadowHost(parent);
   }
 
-  return element.ownerDocument.documentElement;
+  return globalObject.document.documentElement;
 }
