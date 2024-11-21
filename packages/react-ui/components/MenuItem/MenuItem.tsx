@@ -98,6 +98,7 @@ export interface MenuItemProps
   isNotSelectable?: boolean;
 
   isMobile?: boolean;
+  /** @ignore */
   scrollIntoView?: boolean;
 }
 
