@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Radio, Gapped, RadioGroup } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Radio',
@@ -10,15 +10,12 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   const [chosen, setChosen] = React.useState(null);
 
   return (
     <RadioGroup onValueChange={(value) => setChosen(value)}>
       <Gapped gap={3} vertical>
-        <Radio value={1}>
-          Обычная радио-кнопка
-        </Radio>
+        <Radio value={1}>Обычная радио-кнопка</Radio>
         <Radio value={2} disabled>
           Отключенная радио-кнопка
         </Radio>
@@ -37,7 +34,6 @@ export const Example1: Story = () => {
       </Gapped>
     </RadioGroup>
   );
-
 };
 Example1.storyName = 'Виды радио-кнопок';
 
@@ -48,26 +44,22 @@ export const Example2: Story = () => {
       Отключенная, отмеченная радио-кнопка в состоянии <b>warning</b>
     </Radio>
   );
-
 };
 Example2.storyName = 'Состояния';
 
 export const Example3: Story = () => {
-
   return (
     <Gapped vertical>
-      <Radio size="small" value="value" >
+      <Radio size="small" value="value">
         Маленький
       </Radio>
-      <Radio size="medium" value="value" >
+      <Radio size="medium" value="value">
         Средний
       </Radio>
-      <Radio size="large" value="value" >
+      <Radio size="large" value="value">
         Большой
       </Radio>
     </Gapped>
   );
-
 };
 Example3.storyName = 'Размер';
-

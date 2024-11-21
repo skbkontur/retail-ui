@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { RadioGroup, Gapped, Radio } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/RadioGroup',
@@ -10,17 +10,16 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
+  const items = ['One', 'Two', 'Three', 'Four'];
 
-  let items = ['One', 'Two', 'Three', 'Four'];
-
-  let simpleRadioGroup = (
+  const simpleRadioGroup = (
     <div>
       <h2>Numbers</h2>
       <RadioGroup name="number-simple" items={items} defaultValue="One" />
     </div>
   );
 
-  let complexRadioGroup = (
+  const complexRadioGroup = (
     <div>
       <h2>Numbers</h2>
       <RadioGroup name="number-complex" defaultValue="3">
@@ -52,7 +51,5 @@ export const Example1: Story = () => {
       {complexRadioGroup}
     </div>
   );
-
 };
 Example1.storyName = 'Базовый пример';
-

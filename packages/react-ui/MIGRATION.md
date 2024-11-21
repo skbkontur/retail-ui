@@ -1,6 +1,6 @@
 # Migration
 
-- [4.x - 5.0](#4x---50)
+- [@skbkontur/react-ui 4.x - 5.0](#skbkonturreact-ui-4x---50)
   - [Удаления в 5.0](#удаления-в-50)
   - [Новые актуальные темы](#новые-актуальные-темы)
   - [ButtonLink](#buttonlink)
@@ -8,6 +8,7 @@
   - [Другие небольшие улучшения](#другие-небольшие-улучшения)
   - [Остальные визуальные изменения](#остальные-визуальные-изменения)
   - [Совместимость 5.0 с другими](#совместимость-50-с-другими-пакетами)
+- [@skbkontur/react-ui-validations 1.x - 2.0](#skbkonturreact-ui-validations-1x---20)
 - [3.x - 4.0](#3x---40)
   - [Новые темы](#новые-темы)
   - [Адаптация под Lab Grotesque](#адаптация-под-lab-grotesque)
@@ -34,7 +35,7 @@
   - [Переход с кастомизации с помощью less](#переход-с-кастомизации-с-помощью-less)
   - [Подключение плоской темы](#подключение-плоской-темы)
 
-## 4.x - 5.0
+## @skbkontur/react-ui 4.x - 5.0
 
 ### Удаления в 5.0
 
@@ -42,13 +43,26 @@
 
 Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`. 
 
-Удалены фиче-флаги в [react-ui](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) и [react-ui-validations](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Их поведение было применено по умолчанию.
+Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) кроме `comboBoxAllowValueChangeInEditingState`. Краткий список вступивших в силу изменений:
+  1. в `TokenInput` из дефолтных разделителей удалён пробел
+  2. в `Hint` и `Kebab` убран pin
+  3. в `Spinner` и `Loader` убран дефолтный `caption`
+  4. в `SidePage` с пропом `blockBackground` активируется FocusLock
+  5. `MenuItem` остаются активными даже после обертки во что-либо
+  6. в `Textarea` фикс для Safari 17 применяется по умолчанию
+  7. в `Link` добавлена обводка при фокусе
+  8. `Hint` изменяет свое положения, если не попадает во viewport
+  9. логика выбора позиции в `Hint` и `Tooltip` унифицирована
 
-Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars).
+
+Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars). 
 
 В `ScrollContainer` и `SideMenu` удален проп `hideScrollBar`. Вместо него следует использовать `showScrollBar`. 
 
-Также удалены некоторые другие устаревшие сущности. Полный список доступен в [#3459](https://github.com/skbkontur/retail-ui/pull/3459) и [#3523](https://github.com/skbkontur/retail-ui/pull/3523).
+Также удалены некоторые другие устаревшие сущности. Полный список доступен в [#3459](https://github.com/skbkontur/retail-ui/pull/3459) и [#3523](https://github.com/skbkontur/retail-ui/pull/3523). Самые значимые из них:
+- удален проп `colors` из `Token` (рекомендуется использовать переменные `tokenBg`, `tokenColor`, `tokenBorderColor` и др.)
+- удален проп `color` в `Toggle` (рекомендуется использовать переменную `toggleBgChecked`)
+- удален проп `shouldBeVisibledWithLessThanTwoPages` в `Paging`
 
 ### Новые актуальные темы
 
@@ -69,15 +83,24 @@
 
 ### MaskedInput
 
-Значительно переработан компонент `MaskedInput`. По-умолчанию `value` теперь содержит все символы маски, даже не введённые. А новый проп `unmask` явным образом указывает компоненту возвращать очищенный `value`. Также был доработан шрифт, используемый внутри компонента. Подробнее в [#3390](https://github.com/skbkontur/retail-ui/pull/3390).
+Компонент значительно переработан. Кратко о ломающих изменениях:
 
-Старые пропы маски в `Input`, такие как `mask`, `maskChar`, `formatChars` и `alwaysShowMask`, уже были помечены устаревшими ранее, но пока остаются в библиотеке.
+1. По-умолчанию `value` содержит все символы маски, даже не введённые. Используйте проп `unmask` и символы `{}` в маске
+   для манипуляций с `value`.
+2. Событие `onChange` не вызывается. Используйте `onInput`.
+3. Проп `maskChar` не принимает `null`, а `''` и `undefined` будут заменяться на дефолтный символ. Используйте пробел
+   нулевой ширины `String.fromCharCode(0x2060)`.
+4. IE11 не поддерживается.
+
+Технические подробности можно почитать в [#3390](https://github.com/skbkontur/retail-ui/pull/3390), а примеры посмотреть
+на [странице компонента](#/Components/MaskedInput).
+
+Старые пропы маски в `Input`, такие, как `mask`, `maskChar`, `formatChars` и `alwaysShowMask`, уже были помечены
+устаревшими ранее, но пока остаются в библиотеке.
 
 ### Другие небольшие улучшения
 
 Подчеркивание в `Link` переделано на `text-decoration`. Подробнее в [#3462](https://github.com/skbkontur/retail-ui/pull/3462).
-
-Обертка в `ValidationWrapper` заменена на `div`, что решило проблемы с семантикой верстки и позиционированием сообщений валидации. Подробнее в [#3463](https://github.com/skbkontur/retail-ui/pull/3463).
 
 Публичный метод `scrollToMonth` в `DatePicker` и `Calendar` теперь принимает в аргумент номер месяца в формате `1-12`, а не `0-11`. Подробнее в [#3470](https://github.com/skbkontur/retail-ui/pull/3470).
 
@@ -104,6 +127,21 @@
 | `@skbkontur/react-ui-validations` | `2.0.0`  |
 | `@skbkontur/react-ui-addons`      | `5.0.0`  |
 | `@skbkontur/side-menu`            | `3.0.0`  |
+
+## @skbkontur/react-ui-validations 1.x - 2.0
+
+Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
+  1. применены актуальные цвета 
+  2. в компонентах обертки в span заменены на `div` c `display: inline`
+
+Замена оберток на `div` решает проблемы с семантикой верстки и позиционированием сообщений валидации. Подробнее в [#3463](https://github.com/skbkontur/retail-ui/pull/3463).
+
+В связи с ломающими изменениями совместимость с 2.0 других пакетов начинается с версий: 
+
+| Пакет                             | Версия   |
+| --------------------------------- | ---------|
+| `@skbkontur/react-ui`             | `5.0.0`  |
+| `@skbkontur/react-ui-addons`      | `5.0.0`  |
 
 ## 3.x - 4.0
 

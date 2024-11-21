@@ -283,7 +283,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         <div
           style={{ top: this.state.iconOffsetTop }}
           className={cx({
-            [styles.icon(this.theme)]: true,
+            [styles.icon()]: true,
             [this.getIconSizeClassName()]: true,
           })}
         >

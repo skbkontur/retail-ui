@@ -4,7 +4,7 @@
 
 ```typescript static
 export interface ReactUIFeatureFlags {
-  textareaUseSafari17Workaround?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
 }
 ```
 
@@ -20,28 +20,37 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 ## Использование
 
-### textareaUseSafari17Workaround
+### comboBoxAllowValueChangeInEditingState
 
-В браузере Safari версии 17.* возник баг в реактовом элементе `<textarea />`. Баг не позволяет нормально вводить текст в пустые строки.
-Но только если эти пустые строки были при монтировании элемента.
-Если пустые строки добавить сразу после монтирования, то проблема не наблюдается.
+Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
 
-Мы можем купировать этот баг на своей стороне, но только в рамках контрола `Textarea`.
-Также баг могут поправить на стороне Safari или React, из-за чего уже наше обходное решение может вызвать другой баг.
-Поэтому лучше добавить возможность выключить в любой момент наше обходное решение.
-
-Обходное решение само отслеживает Safari версии 17.*, и применяется только для него.
+В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
 
 ```jsx harmony
-import { Textarea, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-const [value, setValue] = React.useState('1\n\n\n\n2');
+const [value, setValue] = React.useState({ value: '', label: '' });
 
-<ReactUIFeatureFlagsContext.Provider value={{ textareaUseSafari17Workaround: true }}>
-  <Textarea
+const handleValueChange = () => {
+  setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
+};
+
+const getItems = () =>
+  Promise.resolve([
+    { value: 'Первый', label: 'Первый' },
+    { value: 'Второй', label: 'Второй' },
+  ]);
+
+<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+  <Button onClick={handleValueChange}>Обновить</Button>
+  <ComboBox
     value={value}
-    onValueChange={setValue}
-    rows={5}
+    searchOnFocus={false}
+    getItems={getItems}
+    onValueChange={(value) => setValue(value)}
+    onInputValueChange={(value) => {
+      setValue({ value, label: value });
+     }}
   />
 </ReactUIFeatureFlagsContext.Provider>
 ```

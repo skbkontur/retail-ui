@@ -1,7 +1,7 @@
 import React from 'react';
-import { Story } from '../../../typings/stories';
-
 import { Modal, Button, Toggle } from '@skbkontur/react-ui';
+
+import { Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/Modal',
@@ -10,7 +10,6 @@ export default {
 };
 
 export const Example1: Story = () => {
-
   const [opened, setOpened] = React.useState(false);
   const [panel, setPanel] = React.useState(false);
 
@@ -22,8 +21,7 @@ export const Example1: Story = () => {
           <p>Use rxjs operators with react hooks</p>
 
           <div>
-            <Toggle checked={panel} onValueChange={setPanel} /> Panel{' '}
-            {panel ? 'enabled' : 'disabled'}
+            <Toggle checked={panel} onValueChange={setPanel} /> Panel {panel ? 'enabled' : 'disabled'}
           </div>
         </Modal.Body>
         <Modal.Footer panel={panel}>
@@ -47,7 +45,5 @@ export const Example1: Story = () => {
       <Button onClick={open}>Open</Button>
     </div>
   );
-
 };
 Example1.storyName = 'Базовый пример';
-

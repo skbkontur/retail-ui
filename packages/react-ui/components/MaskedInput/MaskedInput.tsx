@@ -1,7 +1,6 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import { IMaskInputProps } from 'react-imask';
 
-import { Nullable } from '../../typings/utility-types';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
@@ -19,7 +18,7 @@ export interface MaskedProps {
 
   /** Устанавливает символ маски
    * @default _ */
-  maskChar?: Nullable<string>;
+  maskChar?: string;
 
   /** Задает словарь символов-регулярок для задания маски.
    * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' } */
@@ -56,7 +55,7 @@ export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'pas
 
 export interface MaskedInputProps
   extends MaskedProps,
-    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput'> {
+    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'> {
   type?: MaskInputType;
 }
 
@@ -94,7 +93,10 @@ export const MaskedInput = forwardRefAndName(
       () =>
         inputRef.current &&
         Object.assign(inputRef.current, {
-          selectAll: inputRef.current.delaySelectAll,
+          selectAll: () => {
+            inputRef.current?.focus();
+            inputRef.current?.delaySelectAll();
+          },
         }),
       [],
     );

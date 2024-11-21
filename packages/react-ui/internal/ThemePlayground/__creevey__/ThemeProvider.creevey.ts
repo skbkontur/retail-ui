@@ -55,4 +55,14 @@ kind('ThemeProvider', () => {
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 dark bottom');
     });
   });
+
+  story('UnlinkVars', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'themes do not affect logic': {
+          in: ['chrome2022Dark', 'firefox2022', 'firefox2022Dark'],
+        },
+      },
+    });
+  });
 });

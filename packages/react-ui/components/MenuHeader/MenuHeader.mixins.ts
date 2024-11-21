@@ -1,16 +1,13 @@
 import { css } from '../../lib/theming/Emotion';
 
 export const menuHeaderSizeMixin = (
-  menuHeaderLegacyPaddingRight: string,
   menuHeaderPaddingX: string,
   menuHeaderFontSize: string,
   menuHeaderLineHeight: string,
   menuHeaderPaddingTop: string,
   menuHeaderPaddingBottom: string,
 ) => {
-  const legacyPaddingRight = parseFloat(menuHeaderLegacyPaddingRight);
-  const paddingRight =
-    legacyPaddingRight !== 0 ? `${parseFloat(menuHeaderPaddingX) + legacyPaddingRight}px` : menuHeaderPaddingX;
+  const paddingRight = menuHeaderPaddingX;
 
   return css`
     font-size: ${menuHeaderFontSize};

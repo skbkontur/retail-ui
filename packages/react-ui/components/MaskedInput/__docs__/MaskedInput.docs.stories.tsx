@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { MaskedInput } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/MaskedInput',
@@ -18,24 +18,15 @@ export const Example1: Story = () => {
       <span>value: "{value}"</span>
       <br />
       <br />
-      <MaskedInput
-        mask="+7 (999) 999-99-99"
-        placeholder="Номер телефона"
-        value={value}
-        onValueChange={setValue}
-      />
+      <MaskedInput mask="+7 (999) 999-99-99" placeholder="Номер телефона" value={value} onValueChange={setValue} />
     </>
   );
-
 };
 Example1.storyName = 'Проп `mask`';
 
 /** Показывает маску всегда. */
 export const Example2: Story = () => {
-  return (
-    <MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask />
-  );
-
+  return <MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask />;
 };
 Example2.storyName = 'Проп `alwaysShowMask`';
 
@@ -58,7 +49,6 @@ export const Example3: Story = () => {
       />
     </>
   );
-
 };
 Example3.storyName = 'Проп `maskChar`';
 
@@ -82,7 +72,6 @@ export const Example4: Story = () => {
       onValueChange={setValue}
     />
   );
-
 };
 Example4.storyName = 'Проп `formatChars`';
 
@@ -95,16 +84,9 @@ export const Example5: Story = () => {
       <span>value: "{value}"</span>
       <br />
       <br />
-      <MaskedInput
-        mask="+7 (999) 999-99-99"
-        unmask
-        alwaysShowMask
-        value={value}
-        onValueChange={setValue}
-      />
+      <MaskedInput mask="+7 (999) 999-99-99" unmask alwaysShowMask value={value} onValueChange={setValue} />
     </>
   );
-
 };
 Example5.storyName = 'Проп `unmask`';
 
@@ -117,16 +99,8 @@ export const Example6: Story = () => {
       <span>value: "{value}"</span>
       <br />
       <br />
-      <MaskedInput
-        mask="+{7} (999) 999-99-99"
-        unmask
-        alwaysShowMask
-        value={value}
-        onValueChange={setValue}
-      />
+      <MaskedInput mask="+{7} (999) 999-99-99" unmask alwaysShowMask value={value} onValueChange={setValue} />
     </>
   );
-
 };
 Example6.storyName = 'Проп `unmask` с фигурными скобками';
-

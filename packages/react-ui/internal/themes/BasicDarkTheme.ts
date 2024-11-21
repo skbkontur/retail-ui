@@ -32,6 +32,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static bgDisabled = '#434343';
   public static bgDefault = '#1f1f1f';
   public static bgSecondary = '#333333';
+  public static bgChecked = '#EBEBEB';
   public static outlineColorFocus = '#EBEBEB';
   public static borderColorFocus = '#EBEBEB';
   public static get borderColorError() {
@@ -262,6 +263,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
   //#endregion Calendar
   //#region Paging
+  public static pagingPageLinkColor = 'rgba(255, 255, 255, 0.87)';
   public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
   public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
   public static pagingPageLinkDisabledActiveBg = 'rgba(255, 255, 255, 0.08)';
@@ -484,7 +486,9 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
     return this.checkboxShadow;
   }
 
-  public static checkboxCheckedBg = '#EBEBEB';
+  public static get checkboxCheckedBg() {
+    return this.bgChecked;
+  }
   public static checkboxCheckedColor = 'rgba(0, 0, 0, 0.87)';
   public static checkboxHoverBg = 'rgba(255, 255, 255, 0.16)';
   public static get checkboxCheckedHoverBg() {

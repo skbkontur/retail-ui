@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.1",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -34,7 +34,7 @@
     "styleguide": "node ../../scripts/patch-node-options.js \"styleguidist server --config .styleguide/config/dev.config.js\"",
     "styleguide:build": "node ../../scripts/patch-node-options.js \"node .styleguide/build\"",
     "lint": "run-p -c lint:*",
-    "lint:eslint": "cross-env TIMING=1 yarn eslint --ignore-pattern \"**/__docs__/**/*\" --ignore-pattern \"**/docsPages/**/*\" --ignore-pattern \"**/CHANGELOG.mdx\" ./",
+    "lint:eslint": "cross-env TIMING=1 yarn eslint ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:prettier": "prettier --check .",
     "fix": "run-s -c fix:*",
@@ -60,7 +60,7 @@
     "lodash.throttle": "^4.1.1",
     "normalize-wheel": "^1.0.1",
     "prop-types": "^15.8.1",
-    "react-focus-lock": "^2.11.2",
+    "react-focus-lock": "2.11.2",
     "react-imask": "7.6.1",
     "react-input-mask": "2.0.4",
     "react-is": "^18.3.1",
@@ -165,7 +165,7 @@
     "webpack": "^5.91.0"
   },
   "peerDependencies": {
-    "react": ">=17.0.2",
-    "react-dom": ">=17.0.2"
+    "react": ">=16.9",
+    "react-dom": ">=16.9"
   }
 }

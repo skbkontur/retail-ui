@@ -1,11 +1,10 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 import { MinusCircleIcon16Light } from '@skbkontur/icons/MinusCircleIcon16Light';
-import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular'
-
+import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
 import { Button, Gapped, Toast } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Button/Button',
@@ -15,32 +14,31 @@ export default {
 
 /** По умолчанию, кнопка принимает все пропы `HTMLButtonElement`. */
 export const Example1: Story = () => {
-
   return (
-    <Button onClick={alert} name="report">Создать отчёт</Button>
+    <Button onClick={alert} name="report">
+      Создать отчёт
+    </Button>
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
 /** Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`. Кнопка принимает все пропы переданного в `component` компонента. */
 export const Example2: Story = () => {
-
   return (
-    <Button component='a' href='https://kontur.ru' target="_blank">Ссылка, но выглядит как кнопка</Button>
+    <Button component="a" href="https://kontur.ru" target="_blank">
+      Ссылка, но выглядит как кнопка
+    </Button>
   );
-
 };
 Example2.storyName = 'Корневой компонент';
 
 export const Example3: Story = () => {
-
   const bgStyle = {
     backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(130, 130, 130, 0.5) 1px, transparent 1px)`,
     backgroundSize: `16px 16px`,
     backgroundPosition: `-8px -8px`,
-    padding: 16
+    padding: 16,
   };
 
   return (
@@ -67,21 +65,20 @@ export const Example3: Story = () => {
       </Gapped>
     </Gapped>
   );
-
 };
 Example3.storyName = 'Различные стили';
 
 /** В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно. */
 export const Example4: Story = () => {
-
   return (
     <Gapped gap={5}>
       <Button icon={<XIcon16Regular />}>Закрыть</Button>
-      <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>Закрыть</Button>
+      <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
+        Закрыть
+      </Button>
       <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
     </Gapped>
   );
-
 };
 Example4.storyName = 'Иконка';
 
@@ -89,8 +86,8 @@ export const Example5: Story = () => {
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "end",
+        display: 'flex',
+        alignItems: 'end',
         gap: '10px',
       }}
     >
@@ -99,15 +96,11 @@ export const Example5: Story = () => {
       <Button size="large">Большая</Button>
     </div>
   );
-
 };
 Example5.storyName = 'Размер';
 
 export const Example6: Story = () => {
-  return (
-    <Button width={40}>Закрыть</Button>
-  );
-
+  return <Button width={40}>Закрыть</Button>;
 };
 Example6.storyName = 'Ширина';
 
@@ -118,12 +111,10 @@ export const Example7: Story = () => {
       <Button error>Закрыть</Button>
     </Gapped>
   );
-
 };
 Example7.storyName = 'Состояние валидации';
 
 export const Example8: Story = () => {
-
   return (
     <Gapped gap={5}>
       <Button arrow="left" size="medium">
@@ -134,7 +125,6 @@ export const Example8: Story = () => {
       </Button>
     </Gapped>
   );
-
 };
 Example8.storyName = 'Стрелка';
 
@@ -142,16 +132,14 @@ Example8.storyName = 'Стрелка';
 Кнопка на время нахождения в состоянии загрузки отключается.
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая. */
 export const Example9: Story = () => {
-
   const [loading, setLoading] = React.useState(false);
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
   const handleLoadingStart = () => {
-    delay(2000)()
-      .then(() => {
-        setLoading(false);
-      })
+    delay(2000)().then(() => {
+      setLoading(false);
+    });
   };
 
   const handleClick = () => {
@@ -170,53 +158,58 @@ export const Example9: Story = () => {
       <Button rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
         Удалить
       </Button>
-      <Button icon={<MinusCircleIcon16Light />} rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+      <Button
+        icon={<MinusCircleIcon16Light />}
+        rightIcon={<MinusCircleIcon16Light />}
+        width={150}
+        onClick={handleClick}
+        loading={loading}
+      >
         Удалить
       </Button>
     </Gapped>
-
   );
-
 };
 Example9.storyName = 'Состояние загрузки';
 
 export const Example10: Story = () => {
-
   return (
     <Gapped>
-      <Button theme={{textColorDefault: '#C00000'}}>Ok</Button>
-      <Button use="link" theme={{linkColor: '#C00000'}}>Ok</Button>
+      <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
+      <Button use="link" theme={{ linkColor: '#C00000' }}>
+        Ok
+      </Button>
       <Button>Ok</Button>
     </Gapped>
   );
-
 };
 Example10.storyName = 'Проп темы';
 
 export const Example11: Story = () => {
-
   const textDecorationStyles = {
     btnLinkTextUnderlineOffset: '1px',
-  }
+  };
 
   const underlineOnHoverStyles = {
     btnLinkTextDecorationColor: 'transparent',
-  }
+  };
 
   const differentColorStyles = {
     btnLinkColor: 'blue',
     btnLinkHoverColor: 'blue',
     btnLinkActiveColor: 'blue',
-  }
+  };
 
   const stringify = (styles) => {
-    return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
-  }
+    return `${Object.entries(styles)
+      .map(([key, value]) => `${key}: "${value}"`)
+      .join(', ')}`;
+  };
 
   const copyStyles = (styles) => {
     navigator.clipboard.writeText(stringify(styles));
     Toast.push('Copied');
-  }
+  };
 
   const tableStyle = {
     borderCollapse: 'collapse',
@@ -232,20 +225,24 @@ export const Example11: Story = () => {
     return (
       <tr>
         <td style={tdStyle}>{title}</td>
-        <td style={tdStyle}><Button use={'link'} theme={styles}>Button-link</Button></td>
         <td style={tdStyle}>
-          <div style={{display: 'flex'}}>
-            <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-            <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
+          <Button use={'link'} theme={styles}>
+            Button-link
+          </Button>
+        </td>
+        <td style={tdStyle}>
+          <div style={{ display: 'flex' }}>
+            <div style={{ width: '80%', whiteSpace: 'pre-line' }}>{stringify(styles).replace(/, /g, '\n')}</div>
+            <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)} />
           </div>
         </td>
       </tr>
-    )
-  }
+    );
+  };
 
   return (
     <table style={tableStyle}>
-      <tr style={{textAlign: 'left'}}>
+      <tr style={{ textAlign: 'left' }}>
         <th style={tdStyle}></th>
         <th style={tdStyle}>Пример</th>
         <th style={tdStyle}>Переменные темы</th>
@@ -255,34 +252,20 @@ export const Example11: Story = () => {
       {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
     </table>
   );
-
 };
 Example11.storyName = 'Кастомизация кнопки-ссылки';
 
 export const Example12: Story = () => {
-
-  return (
-    <Button narrow>
-      Создать отчет
-    </Button>
-  );
-
+  return <Button narrow>Создать отчет</Button>;
 };
 Example12.storyName = 'Узкая Кнопка';
 
 export const Example13: Story = () => {
-
   return (
     <Gapped gap={5}>
-      <Button warning>
-        Warning
-      </Button>
-      <Button error>
-        Error
-      </Button>
+      <Button warning>Warning</Button>
+      <Button error>Error</Button>
     </Gapped>
   );
-
 };
 Example13.storyName = 'Состояния валидации';
-

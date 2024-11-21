@@ -1,9 +1,8 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
-
 import { TokenInput, Token } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/TokenInput/TokenInput',
@@ -12,15 +11,14 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   const [selectedItems, setSelectedItems] = React.useState([]);
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const getItems = q =>
+  const getItems = (q) =>
     Promise.resolve(
       ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-        x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
       ),
     ).then(delay(500));
 
@@ -70,56 +68,37 @@ export const Example1: Story = () => {
       />
     </div>
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-
   const [selectedItems, setSelectedItems] = React.useState([]);
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const getItems = q =>
+  const getItems = (q) =>
     Promise.resolve(
       ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-        x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
       ),
     ).then(delay(500));
 
   return (
     <div style={{ width: '300px' }}>
-      <TokenInput
-        size={'small'}
-        getItems={getItems}
-        selectedItems={selectedItems}
-        onValueChange={setSelectedItems}
-      />
-      <TokenInput
-        size={'medium'}
-        getItems={getItems}
-        selectedItems={selectedItems}
-        onValueChange={setSelectedItems}
-      />
-      <TokenInput
-        size={'large'}
-        getItems={getItems}
-        selectedItems={selectedItems}
-        onValueChange={setSelectedItems}
-      />
+      <TokenInput size={'small'} getItems={getItems} selectedItems={selectedItems} onValueChange={setSelectedItems} />
+      <TokenInput size={'medium'} getItems={getItems} selectedItems={selectedItems} onValueChange={setSelectedItems} />
+      <TokenInput size={'large'} getItems={getItems} selectedItems={selectedItems} onValueChange={setSelectedItems} />
     </div>
   );
-
 };
 Example2.storyName = 'Размер';
 
 export const Example3: Story = () => {
-
   const [selectedItems, setSelectedItems] = React.useState(['aaa', 'bbb', 'ccc']);
 
   async function getItems(query) {
     return ['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query));
-  };
+  }
 
   return (
     <TokenInput
@@ -129,20 +108,17 @@ export const Example3: Story = () => {
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}
       renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={item === 'bbb' || tokenProps.disabled} >
+        <Token key={item.toString()} {...tokenProps} disabled={item === 'bbb' || tokenProps.disabled}>
           {item}
         </Token>
       )}
     />
   );
-
 };
 Example3.storyName = 'Заблокированный TokenInput с кастомными Token';
 
 export const Example4: Story = () => {
-
-
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
   const cities = require('../../ComboBox/__mocks__/./kladr.json');
 
   const maxItems = 5;
@@ -167,7 +143,7 @@ export const Example4: Story = () => {
   );
 
   return (
-    <div style={{ width: "300px" }}>
+    <div style={{ width: '300px' }}>
       <TokenInput
         type={TokenInputType.Combined}
         selectedItems={value}
@@ -179,15 +155,13 @@ export const Example4: Story = () => {
       />
     </div>
   );
-
 };
 Example4.storyName = 'Ограничение количества токенов в выпадающем списке';
 
 export const Example5: Story = () => {
-
   const [selectedItems, setSelectedItems] = React.useState([]);
 
-  const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
   const getGenericItems = () => [
     { id: '111', value: 'aaa' },
     { id: '222', value: 'bbb' },
@@ -202,7 +176,7 @@ export const Example5: Story = () => {
   const getModelItems = async (query) => {
     await delay(400);
     return getGenericItems().filter((s) => s.value.includes(query));
-  }
+  };
 
   return (
     <div style={{ width: '300px' }}>
@@ -217,23 +191,18 @@ export const Example5: Story = () => {
         placeholder="placeholder"
         type={TokenInputType.Combined}
         renderToken={(item, tokenProps) => (
-          <Token
-            key={item.id}
-            {...tokenProps}
-          >
+          <Token key={item.id} {...tokenProps}>
             {item.value}
           </Token>
         )}
       />
     </div>
   );
-
 };
 Example5.storyName = 'Кастомный тип элементов меню';
 
 /** Функция debounce из lodash некорректно работает с async/promise, поэтому лучше использовать кастомную функцию, как в примере ниже. */
 export const Example6: Story = () => {
-
   const [value, setValue] = React.useState([]);
 
   function debounceAsync(callback, wait) {
@@ -255,16 +224,16 @@ export const Example6: Story = () => {
     };
   }
 
-  const items = ["kon", "kod", "kof", "kor", "kos"];
+  const items = ['kon', 'kod', 'kof', 'kor', 'kos'];
 
   const getItems = async (query) => {
-    console.log("query: ", query);
+    console.log('query: ', query);
     return items.filter((item) => item.includes(query));
   };
 
   return (
     <TokenInput
-      style={{ width: "300px" }}
+      style={{ width: '300px' }}
       type={TokenInputType.Combined}
       selectedItems={value}
       onValueChange={setValue}
@@ -272,7 +241,5 @@ export const Example6: Story = () => {
       placeholder="Начните вводить название"
     />
   );
-
 };
 Example6.storyName = 'Дебаунс функции getItems';
-

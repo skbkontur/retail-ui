@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { Loader, Button } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Loader',
@@ -10,17 +10,18 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   const [isActive, setIsActive] = React.useState(true);
 
   return (
     <>
       <Button onClick={() => setIsActive(!isActive)}>{isActive ? 'Остановить загрузку' : 'Продолжить загрузку'}</Button>
       <Loader type="big" active={isActive}>
-        <h1>Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."</h1>
+        <h1>
+          Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
+        </h1>
         <p>
-          No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus! Leela,
-          Bender, we're going grave robbing.
+          No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus!
+          Leela, Bender, we're going grave robbing.
         </p>
         <p>
           Are you crazy? I can't swallow that. Large bet on myself in round one. Hey, whatcha watching?
@@ -29,9 +30,9 @@ export const Example1: Story = () => {
         </p>
         <h2>Oh, I think we should just stay friends.</h2>
         <p>
-          No argument here. And when we woke up, we had these bodies. You guys go on without me! I'm going to go… look for
-          more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his wife
-          holding up? …To shreds, you say.
+          No argument here. And when we woke up, we had these bodies. You guys go on without me! I'm going to go… look
+          for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his
+          wife holding up? …To shreds, you say.
         </p>
         <ol>
           <li>No! The kind with looting and maybe starting a few fires!</li>
@@ -41,7 +42,5 @@ export const Example1: Story = () => {
       </Loader>
     </>
   );
-
 };
 Example1.storyName = 'Базовый пример';
-

@@ -6,8 +6,6 @@ import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -106,8 +104,6 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
-  private theme!: Theme;
-
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
@@ -133,17 +129,6 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
     const {
       width,
       onMouseLeave,
@@ -229,7 +214,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     const itemProps = {
       key: this.getKeyByItem(itemValue),
       className: cx({
-        [styles.item(this.theme)]: true,
+        [styles.item()]: true,
         [styles.itemFirst()]: index === 0,
         [styles.itemInline()]: !!this.props.inline,
       }),

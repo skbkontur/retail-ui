@@ -1,9 +1,8 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/SearchLoupeIcon16Regular';
-
 import { Autocomplete, Button, Group, Gapped } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Autocomplete',
@@ -12,21 +11,16 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('Kappa');
 
-  return (
-    <Autocomplete source={items} value={value} onValueChange={setValue} />
-  );
-
+  return <Autocomplete source={items} value={value} onValueChange={setValue} />;
 };
 Example1.storyName = 'Базовый пример';
 
 /** Очистить значение в `Autocomplete` можно только с помощью пустой строки. */
 export const Example2: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('Kappa');
@@ -37,12 +31,10 @@ export const Example2: Story = () => {
       <Button onClick={() => setValue('')}>Очистить</Button>
     </Group>
   );
-
 };
 Example2.storyName = 'Очистка Autocomplete';
 
 export const Example3: Story = () => {
-
   const items = ['Маленький', 'Средний', 'Большой'];
 
   const [valueSmall, setValueSmall] = React.useState('Маленький');
@@ -56,25 +48,19 @@ export const Example3: Story = () => {
       <Autocomplete source={items} value={valueLarge} onValueChange={setValueLarge} size={'large'} />
     </Gapped>
   );
-
 };
 Example3.storyName = 'Размер';
 
 export const Example4: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('');
 
-  return (
-    <Autocomplete source={items} value={value} onValueChange={setValue} selectAllOnFocus />
-  );
-
+  return <Autocomplete source={items} value={value} onValueChange={setValue} selectAllOnFocus />;
 };
 Example4.storyName = 'Выделение введеного значения при фокусе';
 
 export const Example5: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [valueLeft, setValueLeft] = React.useState('');
@@ -82,63 +68,55 @@ export const Example5: Story = () => {
 
   return (
     <Gapped>
-      <Autocomplete source={items} value={valueLeft} onValueChange={setValueLeft} leftIcon={<SearchLoupeIcon16Regular />} />
-      <Autocomplete source={items} value={valueRight} onValueChange={setValueRight} rightIcon={<SearchLoupeIcon16Regular />} />
+      <Autocomplete
+        source={items}
+        value={valueLeft}
+        onValueChange={setValueLeft}
+        leftIcon={<SearchLoupeIcon16Regular />}
+      />
+      <Autocomplete
+        source={items}
+        value={valueRight}
+        onValueChange={setValueRight}
+        rightIcon={<SearchLoupeIcon16Regular />}
+      />
     </Gapped>
   );
-
 };
 Example5.storyName = 'Иконка';
 
 export const Example6: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('');
 
-  return (
-    <Autocomplete source={items} value={value} onValueChange={setValue} menuWidth={'80%'} />
-  );
-
+  return <Autocomplete source={items} value={value} onValueChange={setValue} menuWidth={'80%'} />;
 };
 Example6.storyName = 'Ширина меню';
 
 export const Example7: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('');
 
-  return (
-    <Autocomplete source={items} value={value} onValueChange={setValue} menuPos={'top'} />
-  );
-
+  return <Autocomplete source={items} value={value} onValueChange={setValue} menuPos={'top'} />;
 };
 Example7.storyName = 'Расположение выпадающего окна Autocomplete';
 
 export const Example8: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('');
 
-  return (
-    <Autocomplete source={items} value={value} onValueChange={setValue} hasShadow />
-  );
-
+  return <Autocomplete source={items} value={value} onValueChange={setValue} hasShadow />;
 };
 Example8.storyName = 'Тень у выпадающего меню';
 
 export const Example9: Story = () => {
-
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
   const [value, setValue] = React.useState('Kappa');
 
-  return (
-    <Autocomplete source={items} value={value} onValueChange={setValue} borderless />
-  );
-
+  return <Autocomplete source={items} value={value} onValueChange={setValue} borderless />;
 };
 Example9.storyName = 'Режима прозрачной рамки';
-

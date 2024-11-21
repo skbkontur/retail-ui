@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { FxInput, Group, Button } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/FxInput',
@@ -23,16 +23,12 @@ export const Example1: Story = () => {
     setValue('auto');
   }
 
-  return (
-    <FxInput auto={auto} value={value} onValueChange={handleValueChange} onRestore={handleRestore} />
-  );
-
+  return <FxInput auto={auto} value={value} onValueChange={handleValueChange} onRestore={handleRestore} />;
 };
 Example1.storyName = 'Базовый пример';
 
 /** Очистить значение в `FxInput`'е можно с помощью пустой строки или `undefined` */
 export const Example2: Story = () => {
-
   const [value, setValue] = React.useState(12345);
 
   return (
@@ -42,7 +38,5 @@ export const Example2: Story = () => {
       <Button onClick={() => setValue('')}>Пустая строка</Button>
     </Group>
   );
-
 };
 Example2.storyName = 'Очистка значения';
-

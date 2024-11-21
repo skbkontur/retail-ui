@@ -1,7 +1,7 @@
 import React from 'react';
-import { Meta, Story } from '../../../typings/stories';
-
 import { ScrollContainer } from '@skbkontur/react-ui';
+
+import { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Layout/ScrollContainer',
@@ -11,14 +11,14 @@ export default {
 
 export const Example1: Story = () => {
   function items(count) {
-    var items = [];
-    for (var i = 0; i < count; ++i) {
+    const items = [];
+    for (let i = 0; i < count; ++i) {
       items.push(i);
     }
     return items;
   }
 
-  var divStyle = {
+  const divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -27,7 +27,7 @@ export const Example1: Story = () => {
     verticalAlign: 'top',
     width: 200,
   };
-  var absStyle = {
+  const absStyle = {
     border: '1px solid',
     boxSizing: 'border-box',
     position: 'absolute',
@@ -70,12 +70,11 @@ export const Example1: Story = () => {
       </div>
     </div>
   );
-
 };
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  var divStyle = {
+  const divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -84,7 +83,7 @@ export const Example2: Story = () => {
     verticalAlign: 'top',
     width: 200,
   };
-  var absStyle = {
+  const absStyle = {
     border: '1px solid',
     boxSizing: 'border-box',
     position: 'absolute',
@@ -92,22 +91,14 @@ export const Example2: Story = () => {
   };
 
   function items(count) {
-    var items = [];
-    for (var i = 0; i < count; ++i) {
+    const items = [];
+    for (let i = 0; i < count; ++i) {
       items.push(i);
     }
     return items;
   }
 
-  var containerStyle = {
-    display: 'inline-block',
-    border: '1px solid #f99',
-    height: 200,
-    margin: 1,
-    width: 200,
-  };
-
-  var innerStyle = {
+  const innerStyle = {
     width: 400,
   };
 
@@ -155,7 +146,6 @@ export const Example2: Story = () => {
       </div>
     </div>
   );
-
 };
 Example2.storyName = 'Горизонтальный scrollbar';
 
@@ -177,21 +167,20 @@ export const Example3: Story = () => {
   return (
     <div style={containerStyle}>
       <ScrollContainer offsetY={offsetY}>
-        {Array(30).fill(null).map((_,i) => (
-          <div key={i}>
-            {i}
-          </div>
-        ))}
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div key={i}>{i}</div>
+          ))}
       </ScrollContainer>
     </div>
   );
-
 };
 Example3.storyName = 'Смещение скроллбара';
 
 /** Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms) */
 export const Example4: Story = () => {
-  var divStyle = {
+  const divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -203,21 +192,20 @@ export const Example4: Story = () => {
   return (
     <div style={divStyle}>
       <ScrollContainer showScrollBar={'scroll'}>
-        {Array(30).fill(null).map((_,i) => (
-          <div key={i}>
-            {i}
-          </div>
-        ))}
+        {Array(30)
+          .fill(null)
+          .map((_, i) => (
+            <div key={i}>{i}</div>
+          ))}
       </ScrollContainer>
     </div>
   );
-
 };
 Example4.storyName = 'Скрытие если нет активности пользователя';
 
 /** Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером */
 export const Example5: Story = () => {
-  var divStyle = {
+  const divStyle = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -227,21 +215,18 @@ export const Example5: Story = () => {
     width: 200,
   };
 
-
   return (
     <span>
       <div style={divStyle}>
         <ScrollContainer showScrollBar={'hover'}>
-          {Array(30).fill(null).map((_,i) => (
-            <div key={i}>
-              {i}
-            </div>
-          ))}
+          {Array(30)
+            .fill(null)
+            .map((_, i) => (
+              <div key={i}>{i}</div>
+            ))}
         </ScrollContainer>
       </div>
     </span>
   );
-
 };
 Example5.storyName = 'Показ скролбара при наведении';
-
