@@ -28,10 +28,9 @@ import * as ReactUi from '../index';
 import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
 import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
 
-import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
+import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
-import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
-import { ThemeDecodator, themes } from './decorators/Theme/ThemeDecorator';
+import { ThemeDecodator } from './decorators/Theme/ThemeDecorator';
 
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
@@ -108,10 +107,8 @@ const preview: Preview = {
     viewport: {
       viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
     },
-    multiselect: featureFlagsConfig,
   },
   decorators: [
-    ThemeDecodator,
     (Story) => (
       <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
         <Story />
@@ -137,8 +134,6 @@ const preview: Preview = {
         </ThemeContext.Consumer>
       );
     },
-    LocaleDecorator,
-    FeatureFlagsDecorator,
   ],
 };
 
@@ -149,22 +144,11 @@ export const globalTypes = {
     name: 'Theme',
     description: 'React UI Theme',
     defaultValue: 'LIGHT_THEME',
-    toolbar: {
-      icon: 'paintbrush',
-      items: Object.keys(themes),
-      showName: true,
-    },
   },
   locale: {
     name: 'Locale',
     description: 'React UI Locale',
     defaultValue: 'ru',
-    toolbar: {
-      icon: 'globe',
-      items: Object.keys(toolbarItems),
-      showName: true,
-      dynamicTitle: true,
-    },
   },
 };
 
