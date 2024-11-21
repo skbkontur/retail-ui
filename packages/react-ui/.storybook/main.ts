@@ -4,11 +4,11 @@ const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 const config: StorybookConfig = {
   stories: [
-    '../components/Button/**/*.stories.tsx',
-    // '../internal/**/*.stories.tsx',
-    '../components/Button/**/*.mdx',
-    // '../.storybook/**/*.mdx',
-    // '../**/*.mdx',
+    '../components/**/*.stories.tsx',
+    '../internal/**/*.stories.tsx',
+    '../components/**/*.mdx',
+    '../.storybook/**/*.mdx',
+    '../**/*.mdx',
   ],
   docs: {
     docsMode: isDocsEnv,
