@@ -28,8 +28,9 @@ function findNearestScrollableParent(element: HTMLElement) {
   while (parent) {
     const { overflow } = globalObject.getComputedStyle(parent);
     const overflowValues = overflow.split(' ');
-
-    if (overflowValues.every((val) => val === 'auto' || val === 'scroll')) {
+    const isScrollbale = overflowValues.every((val) => val === 'auto' || val === 'scroll');
+    
+    if (isScrollbale) {
       return parent;
     }
 
