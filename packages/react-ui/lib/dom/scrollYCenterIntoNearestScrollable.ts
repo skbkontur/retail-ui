@@ -13,7 +13,7 @@ export function scrollYCenterIntoNearestScrollable(element: HTMLElement) {
 }
 
 function findNearestScrollableParent(element: HTMLElement) {
-  let parent = element.parentElement;
+  let parent : Element | null = element.parentElement;
 
   while (parent) {
     const { overflow } = window.getComputedStyle(parent);
@@ -23,7 +23,7 @@ function findNearestScrollableParent(element: HTMLElement) {
       return parent;
     }
 
-    parent = parent.parentElement;
+    parent = parent.parentElement || parent.shadowRoot!.host
   }
 
   return element.ownerDocument.documentElement;
