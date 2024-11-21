@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
@@ -6,7 +7,7 @@ import { ValidationContainer } from '../../../../src';
 import { Form } from '../../../Common/Form';
 import { Nullable } from '../../../../typings/Types';
 
-import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
+import { WrappedInput, WrappedDatePicker, lessThanDate } from './ControlsWithValidations';
 
 export default {
   title: 'Концепции/Встраиваемые валидации',
@@ -40,15 +41,20 @@ export const InlineValidations: Story = () => {
         <ValidationContainer ref={this.refContainer}>
           <Form>
             <Form.Line title="Имя">
-              <Input required value={data.name} onValueChange={(value) => this.handleChange({ name: value })} />
+              <WrappedInput required value={data.name} onValueChange={(value) => this.handleChange({ name: value })} />
             </Form.Line>
 
             <Form.Line title="E-mail">
-              <Input required email value={data.email} onValueChange={(value) => this.handleChange({ email: value })} />
+              <WrappedInput
+                required
+                email
+                value={data.email}
+                onValueChange={(value) => this.handleChange({ email: value })}
+              />
             </Form.Line>
 
             <Form.Line title="Дата рождения">
-              <DatePicker
+              <WrappedDatePicker
                 required
                 validations={[lessThanDate(new Date('2010-01-01'))]}
                 value={data.born}

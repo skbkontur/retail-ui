@@ -8,6 +8,7 @@ const config: StorybookConfig = {
     docsMode: isDocsEnv,
   },
   addons: [
+    '@skbkontur/storybook-addon-live-examples',
     'creevey',
     'storybook-addon-multiselect',
     '@storybook/blocks',

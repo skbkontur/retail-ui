@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './ValidationLevel.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -30,7 +30,7 @@ import * as DocsStories from './ValidationLevel.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.ValidationError}></Story>
+<Canvas of={DocsStories.ValidationError} />
 
 ```jsx static
 import React, { useState } from 'react';
@@ -91,7 +91,7 @@ export default function ValidationError() {
 
 ### Пример
 
-<Story of={DocsStories.ValidationWarning}></Story>
+<Canvas of={DocsStories.ValidationWarning} />
 
 ```jsx static
 import React, { useState } from 'react';

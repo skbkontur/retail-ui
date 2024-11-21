@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './Independent.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -19,7 +19,7 @@ import * as DocsStories from './Independent.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.LostfocusDependent}></Story>
+<Canvas of={DocsStories.LostfocusDependent} />
 
 ```jsx static
 import React from 'react';
@@ -113,7 +113,7 @@ export default class LostfocusDependentDemo extends React.Component {
 
 ### Пример
 
-<Story of={DocsStories.LostfocusIndependent}></Story>
+<Canvas of={DocsStories.LostfocusIndependent} />
 
 ```jsx static
 import React from 'react';
@@ -183,7 +183,7 @@ export default class LostfocusDependentErrorValidationDemo extends React.Compone
 
 ### Зависимые и независимые валидации в одной форме
 
-<Story of={DocsStories.Mixture}></Story>
+<Canvas of={DocsStories.Mixture} />
 
 ```jsx static
 import React from 'react';

@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './Arrays.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -65,7 +65,7 @@ const item = validation.getNode((x) => x[index]).get();
 
 ### Пример
 
-<Story of={DocsStories.PrimitiveTypeArray}></Story>
+<Canvas of={DocsStories.PrimitiveTypeArray} />
 
 ```jsx static
 import React from 'react';
@@ -162,7 +162,7 @@ export default class PrimitiveTypeArrayDemo extends React.Component {
 
 ### Пример
 
-<Story of={DocsStories.ObjectArray}></Story>
+<Canvas of={DocsStories.ObjectArray} />
 
 ```jsx static
 import React from 'react';

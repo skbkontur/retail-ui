@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './ErrorMessages.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -34,7 +34,7 @@ import * as DocsStories from './ErrorMessages.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.TooltipValidation}></Story>
+<Canvas of={DocsStories.TooltipValidation} />
 
 ```jsx static
 import React from 'react';
@@ -121,7 +121,7 @@ export default class TooltipValidationDemo extends React.Component {
 
 ### Пример
 
-<Story of={DocsStories.TextValidation}></Story>
+<Canvas of={DocsStories.TextValidation} />
 
 ```jsx static
 import React from 'react';

@@ -33,6 +33,8 @@ import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 import { ThemeDecodator, themes } from './decorators/Theme/ThemeDecorator';
 
+const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
+
 const customViewports = {
   iphone: {
     name: 'Iphone',
@@ -201,4 +203,5 @@ addons.setConfig({
     iconColor: '#029CFD',
     decorators: [ThemeDecodator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
+  showToolbar: !isDocsEnv,
 });

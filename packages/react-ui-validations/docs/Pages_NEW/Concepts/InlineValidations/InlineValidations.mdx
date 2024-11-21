@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas, Source } from '@storybook/blocks';
 import * as DocsStories from './InlineValidation.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -37,7 +37,9 @@ import { DatePicker, lessThan } from './ControlsWithValidations';
 
 ### Пример
 
-<Story of={DocsStories.InlineValidations}></Story>
+<Canvas of={DocsStories.InlineValidations} />
+
+<Source of={DocsStories.InlineValidations} />
 
 ```jsx static
 import React from 'react';

@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './MissingNodes.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -42,7 +42,7 @@ import * as DocsStories from './MissingNodes.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.MissingObjectNode}></Story>
+<Canvas of={DocsStories.MissingObjectNode} />
 
 ```jsx static
 import React from 'react';
@@ -194,7 +194,7 @@ export default class MissingObjectNodeDemo extends React.Component {
 
 ### Пример
 
-<Story of={DocsStories.MissingUiNode}></Story>
+<Canvas of={DocsStories.MissingUiNode} />
 
 ```jsx static
 import React from 'react';

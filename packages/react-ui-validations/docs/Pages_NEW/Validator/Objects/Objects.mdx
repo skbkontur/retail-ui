@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './Objects.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -111,7 +111,7 @@ const validationInfo = validation.getNode((x) => x.name).get();
 
 ### Пример
 
-<Story of={DocsStories.FlatObject}></Story>
+<Canvas of={DocsStories.FlatObject} />
 
 ```jsx static
 import React from 'react';
@@ -233,7 +233,7 @@ const validationInfo = validation.get();
 
 ### Пример
 
-<Story of={DocsStories.PrimitiveType}></Story>
+<Canvas of={DocsStories.PrimitiveType} />
 
 ```jsx static
 import React from 'react';
@@ -347,7 +347,7 @@ const validationInfo = validation.getNode((x) => x.fullName.name).get();
 
 ### Пример
 
-<Story of={DocsStories.NestedObject}></Story>
+<Canvas of={DocsStories.NestedObject} />
 
 ```jsx static
 import React from 'react';

@@ -1,11 +1,11 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './GettingStarted.docs.stories.tsx';
 
 <Meta of={DocsStories} />
 
 # Начало работы
 
-[![Version](https://img.shields.io/badge/npm-${process.env.libraryVersionEscaped}-orange.svg?style=flat-square)](https://www.npmjs.com/package/react-ui-validations)
+[![Version](https://img.shields.io/npm/v/@skbkontur/react-ui-validations?style=flat-square)](https://www.npmjs.com/package/@skbkontur/react-ui-validations)
 
 Исходный код [на GitHub](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations).
 
@@ -55,7 +55,7 @@ import * as DocsStories from './GettingStarted.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.StaticValidation}></Story>
+<Canvas of={DocsStories.StaticValidation} />
 
 ```jsx static
 import React from 'react';
@@ -101,7 +101,7 @@ const validationInfo = !isValid(value) ? { message: 'Error' } : null;
 
 ### Пример
 
-<Story of={DocsStories.ConditionalValidation}></Story>
+<Canvas of={DocsStories.ConditionalValidation} />
 
 ```jsx static
 import React from 'react';

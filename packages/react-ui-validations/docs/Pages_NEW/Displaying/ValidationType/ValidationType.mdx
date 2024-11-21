@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as DocsStories from './ValidationType.docs.stories.tsx';
 
 <Meta of={DocsStories} />
@@ -25,7 +25,7 @@ import * as DocsStories from './ValidationType.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.ImmediateValidation}></Story>
+<Canvas of={DocsStories.ImmediateValidation} />
 
 ```jsx static
 import React from 'react';
@@ -76,7 +76,7 @@ export default class ImmediateValidationDemo extends React.Component {
 
 ### Пример
 
-<Story of={DocsStories.LostfocusValidation}></Story>
+<Canvas of={DocsStories.LostfocusValidation} />
 
 ```jsx static
 import React from 'react';
@@ -140,7 +140,7 @@ export default class LostfocusValidationDemo extends React.Component {
 
 ### Пример
 
-<Story of={DocsStories.SubmitValidation}></Story>
+<Canvas of={DocsStories.SubmitValidation} />
 
 ```jsx static
 import React from 'react';
