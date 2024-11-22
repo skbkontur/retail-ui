@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.2...@skbkontur/react-ui@5.0.3) (2024-11-22)
+
+
+### Bug Fixes
+
+* **Calendar,MenuItem:** page jumps when opening DateSelect ([#3543](https://github.com/skbkontur/retail-ui/issues/3543)) ([7b4acd6](https://github.com/skbkontur/retail-ui/commit/7b4acd61f1645298062cdd6294ab780eb49f8669))
+* **SingleToast:** avoid flushSync error in react@16 ([#3546](https://github.com/skbkontur/retail-ui/issues/3546)) ([767c848](https://github.com/skbkontur/retail-ui/commit/767c848339591f1b26cacf7da2f0436c5535008a))
+
+
+
+
+
 ## [5.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.1...@skbkontur/react-ui@5.0.2) (2024-11-19)
 
 
