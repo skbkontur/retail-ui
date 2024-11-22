@@ -2,28 +2,23 @@ import { DocsContext } from '@storybook/blocks';
 import type { ModuleExports } from '@storybook/types';
 import React, { useContext } from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
-import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
 
-import { DropdownMenu } from '../components/DropdownMenu';
-import { MenuItem } from '../components/MenuItem';
-import { Toggle } from '../components/Toggle';
-import { css } from '../lib/theming/Emotion';
-import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
+import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { validationsFeatureFlagsDefault } from '../src';
 
-const languages = [
-  { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
-  { icon: '🇬🇧', caption: 'English', value: 'en' },
-];
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
   { icon: <WeatherSunIcon16Light />, caption: 'Light 2022', value: 'LIGHT_THEME_2022_0' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark 2022', value: 'DARK_THEME_2022_0' },
 ];
-const allFeatureFlags = Object.keys(reactUIFeatureFlagsDefault);
+const allFeatureFlags = Object.keys(validationsFeatureFlagsDefault);
 const styles = {
   menuWrap: css`
     height: 20px;
@@ -92,9 +87,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
   //@ts-expect-error: store is not public
   const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
   //@ts-expect-error: store is not public
-  const currentLocale = languages.find((language) => language.value === context.store.globals.globals.locale);
-  //@ts-expect-error: store is not public
-  const currentFeatureFlags: string[] = context.store.globals.globals.featureFlags;
+  const currentFeatureFlags: string[] = context.store.globals.globals.validationsFeatureFlags;
 
   return (
     <div className={styles.menuWrap}>
@@ -110,24 +103,6 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             <MenuItem
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
-            >
-              <div style={{ minWidth: 150 }}>
-                {caption} <div className={styles.menuIcon}>{icon}</div>
-              </div>
-            </MenuItem>
-          ))}
-        </DropdownMenu>
-        <DropdownMenu
-          caption={
-            <div className={styles.menuSelect}>
-              <LocationGlobeIcon16Light /> {currentLocale ? currentLocale.caption : languages[0].caption}
-            </div>
-          }
-        >
-          {languages.map(({ icon, caption, value }) => (
-            <MenuItem
-              comment={<div className={styles.menuComment}>{value}</div>}
-              onClick={() => context.channel.emit('updateGlobals', { globals: { locale: value } })}
             >
               <div style={{ minWidth: 150 }}>
                 {caption} <div className={styles.menuIcon}>{icon}</div>

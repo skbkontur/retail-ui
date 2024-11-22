@@ -9,10 +9,9 @@ const createFeatureFlagsWithBoolean = (featureFlags: string[]) =>
   }, {});
 
 const FeatureFlagsDecorator: Decorator = (Story, context) => {
-  const { globals } = context;
-  const { activeFeatureFlags }: { [key: string]: string[] } = globals.multiselect;
+  const { validationsFeatureFlags } = context.globals;
   const activeFeatureFlagsWithBoolean =
-    activeFeatureFlags?.length > 0 ? createFeatureFlagsWithBoolean(activeFeatureFlags) : {};
+    validationsFeatureFlags?.length > 0 ? createFeatureFlagsWithBoolean(validationsFeatureFlags) : {};
   return (
     <ValidationsFeatureFlagsContext.Provider value={{ ...activeFeatureFlagsWithBoolean }}>
       <Story />

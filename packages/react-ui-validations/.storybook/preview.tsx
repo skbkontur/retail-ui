@@ -10,7 +10,7 @@ import * as ReactUI from '../../react-ui/index';
 import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations';
 import { Form } from '../docs/Common/Form';
 
-import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
+import { ThemeDecodator } from '@skbkontur/react-ui/.storybook/decorators/Theme/ThemeDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 
 setFilter((fiber) => {
@@ -48,7 +48,19 @@ const preview: Preview = {
         order: ['FeatureFlags validations'],
       },
     },
-    multiselect: featureFlagsConfig,
+  },
+};
+
+export const globalTypes = {
+  theme: {
+    name: 'Theme',
+    description: 'React UI Theme',
+    defaultValue: 'LIGHT_THEME',
+  },
+  validationsFeatureFlags: {
+    name: 'React UI Validations Feature flags',
+    description: 'React UI Validations Feature flags',
+    defaultValue: [],
   },
 };
 
@@ -60,7 +72,7 @@ addons.setConfig({
       ...ControlsWithValidations,
       Form,
     },
-    decorators: [FeatureFlagsDecorator],
+    decorators: [ThemeDecodator, FeatureFlagsDecorator],
   } as LiveConfig,
   showToolbar: !isDocsEnv,
 });
