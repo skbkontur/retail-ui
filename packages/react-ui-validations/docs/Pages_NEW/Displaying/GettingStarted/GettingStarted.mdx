@@ -57,35 +57,6 @@ import * as DocsStories from './GettingStarted.docs.stories.tsx';
 
 <Canvas of={DocsStories.StaticValidation} />
 
-```jsx static
-import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
-
-export default class StaticValidationDemo extends React.Component {
-  public render() {
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Поле с ошибкой">
-            <ValidationWrapper validationInfo={{ message: <b>Ошибка</b> }}>
-              <Input value={'bad'} />
-            </ValidationWrapper>
-          </Form.Line>
-          <Form.Line title="Поле без ошибки">
-            <ValidationWrapper validationInfo={null}>
-              <Input value={'ok'} />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-}
-```
-
 Обычно валидация вычисляется динамически по текущему значению контрола.
 Для корректоного отображения нужно передавать всегда актуальное состояние валидации.
 Компонент `ValidationWrapper` сам в соответствии с Контур.Гайдами принимает решение, когда подсветить котрол и отобразить сообщение об ошибке.
@@ -102,42 +73,3 @@ const validationInfo = !isValid(value) ? { message: 'Error' } : null;
 ### Пример
 
 <Canvas of={DocsStories.ConditionalValidation} />
-
-```jsx static
-import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
-
-interface ConditionalValidationDemoState {
-  value: string;
-}
-export default class ConditionalValidationDemo extends React.Component {
-  public state: ConditionalValidationDemoState = {
-    value: '',
-  };
-
-  public render() {
-    const { value } = this.state;
-
-    const validationInfo = !/^\d*$/.test(value) ? { message: 'Только цифры' } : null;
-
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Номер">
-            <ValidationWrapper validationInfo={validationInfo}>
-              <Input
-                placeholder={'Только цифры'}
-                value={value}
-                onValueChange={(v) => this.setState({ value: v })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-}
-```

@@ -321,10 +321,7 @@ export const ValidationWithLevelWarning = () => {
   };
 
   const handleSubmit = async () => {
-    if (!refContainer.current) {
-      throw new Error('invalid state');
-    }
-    const isValid = await refContainer.current.validate();
+    const isValid = (await refContainer.current?.validate()) ?? false;
     setIsValid(isValid);
   };
 

@@ -7,112 +7,80 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Отображение/Сообщения об ошибках',
+  title: 'Displaying/ErrorMessages',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const TextValidation: Story = () => {
-  class TextValidationDemo extends React.Component {
-    public state = {
-      value: '',
-    };
+  const [value, setValue] = React.useState<string>('');
 
-    public render() {
-      const v = this.validate(this.state.value);
-      return (
-        <ValidationContainer>
-          <Form>
-            <Form.Line title="text()">
-              <ValidationWrapper validationInfo={v} renderMessage={text()}>
-                {this.renderInput()}
-              </ValidationWrapper>
-            </Form.Line>
-            <Form.Line title="text('right')">
-              <ValidationWrapper validationInfo={v} renderMessage={text('right')}>
-                {this.renderInput()}
-              </ValidationWrapper>
-            </Form.Line>
-            <Form.Line title="text('bottom')">
-              <ValidationWrapper validationInfo={v} renderMessage={text('bottom')}>
-                {this.renderInput()}
-              </ValidationWrapper>
-            </Form.Line>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private renderInput = () => {
-      return (
-        <Input
-          placeholder={'Только цифры'}
-          value={this.state.value}
-          onValueChange={(value) => this.setState({ value })}
-        />
-      );
-    };
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      if (!/^\d*$/.test(value)) {
-        return { message: 'Только цифры', type: 'lostfocus' };
-      }
-      return null;
-    };
+  function renderInput() {
+    return <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />;
   }
 
-  return <TextValidationDemo />;
+  function validate(value: string): Nullable<ValidationInfo> {
+    if (!/^\d*$/.test(value)) {
+      return { message: 'Только цифры', type: 'lostfocus' };
+    }
+    return null;
+  }
+
+  const validationInfo = validate(value);
+
+  return (
+    <ValidationContainer>
+      <Form>
+        <Form.Line title="text()">
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={text()}>
+            {renderInput()}
+          </ValidationWrapper>
+        </Form.Line>
+        <Form.Line title="text('right')">
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={text('right')}>
+            {renderInput()}
+          </ValidationWrapper>
+        </Form.Line>
+        <Form.Line title="text('bottom')">
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={text('bottom')}>
+            {renderInput()}
+          </ValidationWrapper>
+        </Form.Line>
+      </Form>
+    </ValidationContainer>
+  );
 };
 
 export const TooltipValidation: Story = () => {
-  interface TooltipValidationDemoState {
-    value: string;
+  const [value, setValue] = React.useState<string>('');
+  function renderInput() {
+    return <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />;
   }
 
-  class TooltipValidationDemo extends React.Component {
-    public state: TooltipValidationDemoState = {
-      value: '',
-    };
-
-    public render() {
-      const v = this.validate(this.state.value);
-      return (
-        <ValidationContainer>
-          <Form>
-            <Form.Line title="default">
-              <ValidationWrapper validationInfo={v}>{this.renderInput()}</ValidationWrapper>
-            </Form.Line>
-            <Form.Line title="tooltip('right top')">
-              <ValidationWrapper validationInfo={v} renderMessage={tooltip('right top')}>
-                {this.renderInput()}
-              </ValidationWrapper>
-            </Form.Line>
-            <Form.Line title="tooltip('top left')">
-              <ValidationWrapper validationInfo={v} renderMessage={tooltip('top left')}>
-                {this.renderInput()}
-              </ValidationWrapper>
-            </Form.Line>
-          </Form>
-        </ValidationContainer>
-      );
+  function validate(value: string): Nullable<ValidationInfo> {
+    if (!/^\d*$/.test(value)) {
+      return { message: 'Только цифры', type: 'lostfocus' };
     }
-
-    private renderInput = () => {
-      return (
-        <Input
-          placeholder={'Только цифры'}
-          value={this.state.value}
-          onValueChange={(value) => this.setState({ value })}
-        />
-      );
-    };
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      if (!/^\d*$/.test(value)) {
-        return { message: 'Только цифры', type: 'lostfocus' };
-      }
-      return null;
-    };
+    return null;
   }
 
-  return <TooltipValidationDemo />;
+  const validationInfo = validate(value);
+  return (
+    <ValidationContainer>
+      <Form>
+        <Form.Line title="default">
+          <ValidationWrapper validationInfo={validationInfo}>{renderInput()}</ValidationWrapper>
+        </Form.Line>
+        <Form.Line title="tooltip('right top')">
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={tooltip('right top')}>
+            {renderInput()}
+          </ValidationWrapper>
+        </Form.Line>
+        <Form.Line title="tooltip('top left')">
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={tooltip('top left')}>
+            {renderInput()}
+          </ValidationWrapper>
+        </Form.Line>
+      </Form>
+    </ValidationContainer>
+  );
 };

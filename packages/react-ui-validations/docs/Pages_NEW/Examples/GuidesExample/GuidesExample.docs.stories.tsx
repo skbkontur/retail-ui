@@ -4,11 +4,10 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Примеры/Пример из Контур.Гайдов',
+  title: 'Examples/GuidesExample',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
@@ -151,89 +150,71 @@ export const GuidesExample: Story = () => {
     );
   });
 
-  interface GuidesExampleDemoState {
-    organization: Organization;
+  const container = React.useRef<ValidationContainer>(null);
+  const [organization, setOrganization] = React.useState<Organization>({
+    name: '',
+    inn: '',
+    kpp: '',
+    email: '',
+    phone: '',
+  });
+
+  function handleChange(organization: Partial<Organization>): void {
+    setOrganization((prevState) => ({ ...prevState, ...organization }));
   }
-  class GuidesExampleDemo extends React.Component {
-    public state: GuidesExampleDemoState = {
-      organization: {
-        name: '',
-        inn: '',
-        kpp: '',
-        email: '',
-        phone: '',
-      },
-    };
 
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      const { organization } = this.state;
-      const v = validate(organization);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="Название организации">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
-                <Input value={organization.name} onValueChange={(value) => this.handleChange({ name: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="ИНН">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.inn).get()}>
-                <Input value={organization.inn} onValueChange={(value) => this.handleChange({ inn: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="КПП">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.kpp).get()}>
-                <Input value={organization.kpp} onValueChange={(value) => this.handleChange({ kpp: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.LineBreak />
-
-            <Form.Line title="Электронная почта">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
-                <Input value={organization.email} onValueChange={(value) => this.handleChange({ email: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Телефон">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.phone).get()}>
-                <Input
-                  mask={'+7 999 999-99-99'}
-                  value={organization.phone}
-                  onValueChange={(value) => this.handleChange({ phone: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
     }
-
-    private handleChange = (organization: Partial<Organization>): void => {
-      this.setState({ organization: { ...this.state.organization, ...organization } });
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
 
-  return <GuidesExampleDemo />;
+  const validationInfo = validate(organization);
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="Название организации">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.name).get()}>
+            <Input value={organization.name} onValueChange={(value) => handleChange({ name: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="ИНН">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.inn).get()}>
+            <Input value={organization.inn} onValueChange={(value) => handleChange({ inn: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="КПП">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.kpp).get()}>
+            <Input value={organization.kpp} onValueChange={(value) => handleChange({ kpp: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.LineBreak />
+
+        <Form.Line title="Электронная почта">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.email).get()}>
+            <Input value={organization.email} onValueChange={(value) => handleChange({ email: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Телефон">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.phone).get()}>
+            <Input
+              mask={'+7 999 999-99-99'}
+              value={organization.phone}
+              onValueChange={(value) => handleChange({ phone: value })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };

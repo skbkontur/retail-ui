@@ -7,7 +7,7 @@ import { ValidationContainer, ValidationWrapper, createValidator } from '../../.
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Описание валидаций/Зависимые валидации',
+  title: 'Validator/Dependent',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
@@ -26,46 +26,22 @@ export const Dependent: Story = () => {
     );
   });
 
-  interface LostfocusValidationDemoState {
-    data: Data;
-  }
-  class LostfocusValidationDemo extends React.Component {
-    public state: LostfocusValidationDemoState = {
-      data: {
-        onlyDigits: false,
-        value: '',
-      },
-    };
+  const [value, setValue] = React.useState<string>('');
+  const [onlyDigits, setOnlyDigits] = React.useState<boolean>(false);
 
-    public render() {
-      const v = validate(this.state.data);
-      return (
-        <ValidationContainer>
-          <Form>
-            <Form.Line title="Только цифры">
-              <Toggle
-                checked={this.state.data.onlyDigits}
-                onValueChange={(onlyDigits) => this.handleChange({ onlyDigits })}
-              />
-            </Form.Line>
-            <Form.Line title="Значение">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.value).get()}>
-                <Input
-                  placeholder={this.state.data.onlyDigits ? 'Только цифры' : 'Любые символы'}
-                  value={this.state.data.value}
-                  onValueChange={(value) => this.handleChange({ value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private handleChange = (data: Partial<Data>) => {
-      this.setState({ data: { ...this.state.data, ...data } });
-    };
-  }
-
-  return <LostfocusValidationDemo />;
+  const validationInfo = validate({ value, onlyDigits });
+  return (
+    <ValidationContainer>
+      <Form>
+        <Form.Line title="Только цифры">
+          <Toggle checked={onlyDigits} onValueChange={setOnlyDigits} />
+        </Form.Line>
+        <Form.Line title="Значение">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.value).get()}>
+            <Input placeholder={onlyDigits ? 'Только цифры' : 'Любые символы'} value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </Form.Line>
+      </Form>
+    </ValidationContainer>
+  );
 };

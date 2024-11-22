@@ -81,10 +81,7 @@ export default class FlatObjectDemo extends React.Component {
   };
 
   private handleSubmit = async (): Promise<void> => {
-    if (!this.container) {
-      throw new Error('invalid state');
-    }
-    if (await this.container.validate()) {
+    if (await this.container?.validate()) {
       alert('success');
     }
   };

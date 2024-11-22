@@ -12,6 +12,11 @@ import { Form } from '../docs/Common/Form';
 
 import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
+import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
+import styled from 'styled-components';
+import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
+import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
+import { SpaceFiller } from '../docs/Common/SpaceFiller';
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
@@ -59,6 +64,11 @@ addons.setConfig({
       ...ReactUI,
       ...ControlsWithValidations,
       Form,
+      isNonNullable,
+      styled,
+      ThumbDownIcon,
+      ThumbUpIcon,
+      SpaceFiller,
     },
     decorators: [FeatureFlagsDecorator],
   } as LiveConfig,

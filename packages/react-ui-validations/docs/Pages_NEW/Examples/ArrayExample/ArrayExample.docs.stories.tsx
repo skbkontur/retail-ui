@@ -6,19 +6,14 @@ import { Group } from '@skbkontur/react-ui/components/Group';
 
 import { isNonNullable } from '../../../../src/utils/isNonNullable';
 import { createValidator, text, ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Примеры/Пример массива',
+  title: 'Examples/ArrayExample',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const ArrayExample: Story = () => {
-  interface ArrayExampleDemoState {
-    values: string[];
-  }
-
   const getDuplicatesFor = (items: string[], index: number): number[] => {
     return items
       .map((x, i) => (x === items[index] && i !== index ? i : null))
@@ -36,72 +31,60 @@ export const ArrayExample: Story = () => {
       },
     );
   });
-  class ArrayExampleDemo extends React.Component {
-    public state: ArrayExampleDemoState = {
-      values: [''],
-    };
 
-    private container: Nullable<ValidationContainer> = null;
+  const container = React.useRef<ValidationContainer>(null);
+  const [values, setValues] = React.useState<string[]>(['']);
+  const validation = validate(values);
 
-    public render() {
-      const { values } = this.state;
-      const validation = validate(values);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="">
-              <Button onClick={this.handleAdd}>
-                <b>+</b> Добавить
-              </Button>
-            </Form.Line>
-
-            {values.map((value, i) => (
-              <Form.Line key={i} title={`Значение #${i + 1}`}>
-                <Group>
-                  <Button onClick={() => this.handleRemove(i)}>
-                    <b>x</b>
-                  </Button>
-                  <ValidationWrapper validationInfo={validation.getNodeByIndex(i).get()} renderMessage={text()}>
-                    <Input placeholder={'Только цифры'} value={value} onValueChange={(v) => this.handleChange(v, i)} />
-                  </ValidationWrapper>
-                </Group>
-              </Form.Line>
-            ))}
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private handleChange = (value: string, index: number): void => {
-      this.setState({ values: this.state.values.map((x, i) => (i === index ? value : x)) });
-    };
-
-    private handleAdd = (): void => {
-      this.setState({ values: [...this.state.values, ''] });
-    };
-
-    private handleRemove = (index: number): void => {
-      const values = this.state.values.filter((x, i) => i !== index);
-      this.setState({ values: values.length ? values : [''] });
-    };
-
-    private handleSubmit = async () => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
+  function handleChange(value: string, index: number): void {
+    setValues((values) => values.map((x, i) => (i === index ? value : x)));
   }
 
-  return <ArrayExampleDemo />;
+  function handleAdd(): void {
+    setValues((values) => [...values, '']);
+  }
+
+  function handleRemove(index: number): void {
+    setValues((values) => {
+      const filtered = values.filter((x, i) => i !== index);
+      return filtered.length ? filtered : [''];
+    });
+  }
+
+  async function handleSubmit() {
+    if (await container.current?.validate()) {
+      alert('success');
+    }
+  }
+
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="">
+          <Button onClick={handleAdd}>
+            <b>+</b> Добавить
+          </Button>
+        </Form.Line>
+
+        {values.map((value, i) => (
+          <Form.Line key={i} title={`Значение #${i + 1}`}>
+            <Group>
+              <Button onClick={() => handleRemove(i)}>
+                <b>x</b>
+              </Button>
+              <ValidationWrapper validationInfo={validation.getNodeByIndex(i).get()} renderMessage={text()}>
+                <Input placeholder={'Только цифры'} value={value} onValueChange={(v) => handleChange(v, i)} />
+              </ValidationWrapper>
+            </Group>
+          </Form.Line>
+        ))}
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };

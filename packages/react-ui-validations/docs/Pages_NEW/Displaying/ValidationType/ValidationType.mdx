@@ -27,43 +27,6 @@ import * as DocsStories from './ValidationType.docs.stories.tsx';
 
 <Canvas of={DocsStories.ImmediateValidation} />
 
-```jsx static
-import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
-
-export default class ImmediateValidationDemo extends React.Component {
-  public state = {
-    value: '',
-  };
-
-  public render() {
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Номер">
-            <ValidationWrapper validationInfo={this.validate(this.state.value)}>
-              <Input
-                placeholder={'Только цифры'}
-                value={this.state.value}
-                onValueChange={(value) => this.setState({ value })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-
-  private validate = (value: string): Nullable<ValidationInfo> => {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'immediate' } : null;
-  };
-}
-```
-
 ## По потере фокуса
 
 Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
@@ -78,121 +41,26 @@ export default class ImmediateValidationDemo extends React.Component {
 
 <Canvas of={DocsStories.LostfocusValidation} />
 
-```jsx static
-import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
-
-interface LostfocusValidationDemoState {
-  value: string;
-}
-export default class LostfocusValidationDemo extends React.Component {
-  public state: LostfocusValidationDemoState = {
-    value: '',
-  };
-
-  public render() {
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Номер">
-            <ValidationWrapper validationInfo={this.validate(this.state.value)}>
-              <Input
-                placeholder={'Только цифры'}
-                value={this.state.value}
-                onValueChange={(value) => this.setState({ value })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-
-  private validate = (value: string): Nullable<ValidationInfo> => {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'lostfocus' } : null;
-  };
-}
-```
-
 ## По отправке формы
 
 Валидация по отправке формы отображается при вызове метода `submit` на компоненте `ValidationContainer`.
 
 ```jsx static
-    <ValidationContainer ref={this.container}>
-      <ValidationWrapper validationInfo={{type: "submit", message: "..."}}>
-        //...
-      </ValidationWrapper>
-    </ValidationContainer>
+<ValidationContainer ref={this.container}>
+  <ValidationWrapper validationInfo={{type: "submit", message: "..."}}>
+    //...
+  </ValidationWrapper>
+</ValidationContainer>
 
-    <Button onClick={this.handleSubmit}>
-      Submit
-    </Button>
+<Button onClick={this.handleSubmit}>
+  Submit
+</Button>
 
-    handleSubmit = async () => {
-      await this.container.current.submit();
-    }
+handleSubmit = async () => {
+  await this.container.current.submit();
+}
 ```
 
 ### Пример
 
 <Canvas of={DocsStories.SubmitValidation} />
-
-```jsx static
-import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
-
-export default class SubmitValidationDemo extends React.Component {
-  public state = {
-    value: '',
-  };
-
-  private container: Nullable<ValidationContainer> = null;
-
-  public render() {
-    return (
-      <ValidationContainer ref={this.refContainer}>
-        <Form>
-          <Form.Line title="Номер">
-            <ValidationWrapper validationInfo={this.validate(this.state.value)}>
-              <Input
-                placeholder={'Только цифры'}
-                value={this.state.value}
-                onValueChange={(value) => this.setState({ value })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-
-          <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>
-              Submit
-            </Button>
-          </Form.ActionsBar>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-
-  private validate = (value: string): Nullable<ValidationInfo> => {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'submit' } : null;
-  };
-
-  private handleSubmit = async (): Promise<void> => {
-    if (!this.container) {
-      throw new Error('invalid state');
-    }
-    await this.container.submit();
-  };
-
-  private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
-}
-```

@@ -8,7 +8,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Описание валидаций/Валидация объектов',
+  title: 'Validator/Objects',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
@@ -34,72 +34,40 @@ export const FlatObject: Story = () => {
     );
   });
 
-  interface FlatObjectDemoState {
-    contactInfo: ContactInfo;
-  }
-  class FlatObjectDemo extends React.Component {
-    public state: FlatObjectDemoState = {
-      contactInfo: {
-        name: '',
-        email: '',
-      },
-    };
+  const container = React.useRef<ValidationContainer>(null);
+  const [name, setName] = React.useState<string>('');
+  const [email, setEmail] = React.useState<string>('');
 
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      const { contactInfo } = this.state;
-      const validation = validate(contactInfo);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="Имя">
-              <ValidationWrapper validationInfo={validation.getNode((x) => x.name).get()}>
-                <Input
-                  placeholder={'Любое'}
-                  value={contactInfo.name}
-                  onValueChange={(name) => this.handleChange({ name })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="E-mail">
-              <ValidationWrapper validationInfo={validation.getNode((x) => x.email).get()}>
-                <Input
-                  placeholder={'xxx@xxx.xx'}
-                  value={contactInfo.email}
-                  onValueChange={(email) => this.handleChange({ email })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
     }
-
-    private handleChange = (value: Partial<ContactInfo>): void => {
-      this.setState({ contactInfo: { ...this.state.contactInfo, ...value } });
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
 
-  return <FlatObjectDemo />;
+  const validation = validate({ email, name });
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="Имя">
+          <ValidationWrapper validationInfo={validation.getNode((x) => x.name).get()}>
+            <Input placeholder={'Любое'} value={name} onValueChange={setName} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="E-mail">
+          <ValidationWrapper validationInfo={validation.getNode((x) => x.email).get()}>
+            <Input placeholder={'xxx@xxx.xx'} value={email} onValueChange={setEmail} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };
 
 export const NestedObject: Story = () => {
@@ -140,144 +108,100 @@ export const NestedObject: Story = () => {
     );
   });
 
-  interface NestedObjectDemoState {
-    contactInfo: ContactInfo;
+  const container = React.useRef<ValidationContainer>(null);
+  const [contactInfo, setContactInfo] = React.useState<Nullable<Partial<ContactInfo>>>(null);
+
+  const fullName = contactInfo?.fullName;
+
+  function handleFullNameChange(value: Partial<FullName>): void {
+    handleChange({ fullName: { ...fullName!, ...value } });
   }
-  class NestedObjectDemo extends React.Component {
-    public state: NestedObjectDemoState = {
-      contactInfo: {
-        fullName: {
-          name: '',
-          surname: '',
-        },
-        email: '',
-      },
-    };
 
-    private container: Nullable<ValidationContainer> = null;
+  function handleChange(value: Partial<ContactInfo>): void {
+    setContactInfo((prevState) => ({ ...prevState, ...value }));
+  }
 
-    public render() {
-      const { contactInfo } = this.state;
-      const v = validate(contactInfo);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="Имя">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.fullName.name).get()}>
-                <Input
-                  placeholder={'Любое'}
-                  value={contactInfo.fullName.name}
-                  onValueChange={(name) => this.handleFullNameChange({ name })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Фамилия">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.fullName.surname).get()}>
-                <Input
-                  placeholder={'Любая'}
-                  value={contactInfo.fullName.surname}
-                  onValueChange={(surname) => this.handleFullNameChange({ surname })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="E-mail">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
-                <Input
-                  placeholder={'xxx@xxx.xx'}
-                  value={contactInfo.email}
-                  onValueChange={(email) => this.handleChange({ email })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
     }
-
-    private handleFullNameChange = (value: Partial<FullName>): void => {
-      this.handleChange({ fullName: { ...this.state.contactInfo.fullName, ...value } });
-    };
-
-    private handleChange = (value: Partial<ContactInfo>): void => {
-      this.setState({ contactInfo: { ...this.state.contactInfo, ...value } });
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
 
-  return <NestedObjectDemo />;
+  const validationInfo = validate((contactInfo ?? {}) as ContactInfo);
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="Имя">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.fullName.name).get()}>
+            <Input
+              placeholder={'Любое'}
+              value={fullName?.name}
+              onValueChange={(name) => handleFullNameChange({ name })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Фамилия">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.fullName.surname).get()}>
+            <Input
+              placeholder={'Любая'}
+              value={fullName?.surname}
+              onValueChange={(surname) => handleFullNameChange({ surname })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="E-mail">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.email).get()}>
+            <Input
+              placeholder={'xxx@xxx.xx'}
+              value={contactInfo?.email}
+              onValueChange={(email) => handleChange({ email })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };
 
 export const PrimitiveType: Story = () => {
-  interface PrimitiveTypeDemoState {
-    email: string;
-  }
-
   const validate = createValidator<string>((b) => {
     b.invalid((x) => !x, 'Укажите email', 'submit');
     b.invalid((x) => !x.includes('@'), 'Неверный формат email');
   });
 
-  class PrimitiveTypeDemo extends React.Component {
-    public state: PrimitiveTypeDemoState = {
-      email: '',
-    };
+  const container = React.useRef<ValidationContainer>(null);
+  const [email, setEmail] = React.useState<string>('');
 
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      const validation = validate(this.state.email);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="E-mail">
-              <ValidationWrapper validationInfo={validation.get()}>
-                <Input
-                  placeholder={'xxx@xxx.xx'}
-                  value={this.state.email}
-                  onValueChange={(email) => this.setState({ email })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
     }
-
-    public handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
 
-  return <PrimitiveTypeDemo />;
+  const validation = validate(email);
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="E-mail">
+          <ValidationWrapper validationInfo={validation.get()}>
+            <Input placeholder={'xxx@xxx.xx'} value={email} onValueChange={setEmail} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };

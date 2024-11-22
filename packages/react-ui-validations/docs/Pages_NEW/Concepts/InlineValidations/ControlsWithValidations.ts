@@ -95,9 +95,8 @@ export function lessThanDate(value: Date): (value: Nullable<string>) => Nullable
   return (actualValue) => {
     const actual = parseDate(actualValue);
     if (actual && !(actual < value)) {
-      return { message: 'Значение должно быть меньше чем ' + value.toString() };
+      return { message: 'Значение должно быть меньше чем ' + value.toLocaleDateString() };
     }
-    return undefined;
   };
 }
 

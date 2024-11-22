@@ -10,107 +10,90 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Отображение/Валидность формы',
+  title: 'Displaying/FormValidity',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const FormValidity: Story = () => {
-  interface FormValidityDemoState {
-    immediate: string;
-    lostfocus: string;
-    submit: string;
-    isValid: boolean | null;
-  }
+  const container = React.useRef<ValidationContainer>(null);
+  const [immediate, setImmediate] = React.useState<string>('');
+  const [lostfocus, setLostfocus] = React.useState<string>('');
+  const [submit, setSubmit] = React.useState<string>('');
+  const [isValid, setIsValid] = React.useState<boolean | null>(null);
 
-  class FormValidityDemo extends React.Component {
-    public state: FormValidityDemoState = {
-      immediate: '',
-      lostfocus: '',
-      submit: '',
-      isValid: null,
-    };
-
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      const { immediate, lostfocus, submit } = this.state;
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title={'immediate'}>
-              <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={immediate}
-                  onValueChange={(value) => this.handleChange({ immediate: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title={'lostfocus'}>
-              <ValidationWrapper validationInfo={this.validate(lostfocus, 'lostfocus')}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={lostfocus}
-                  onValueChange={(value) => this.handleChange({ lostfocus: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title={'submit'}>
-              <ValidationWrapper validationInfo={this.validate(submit, 'submit')}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={submit}
-                  onValueChange={(value) => this.handleChange({ submit: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Gapped wrap verticalAlign="middle">
-                <Button use={'primary'} onClick={this.handleSubmit}>
-                  Submit
-                </Button>
-                {this.renderFormState()}
-              </Gapped>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  function renderFormState() {
+    switch (isValid) {
+      case null:
+        return <b>Отправьте форму</b>;
+      case false:
+        return <b style={{ color: '#d70c17' }}>Форма невалидна</b>;
+      case true:
+        return <b style={{ color: '#5199db' }}>Форма валидна</b>;
+      default:
+        throw new Error('Invalid state');
     }
-
-    private renderFormState = () => {
-      switch (this.state.isValid) {
-        case null:
-          return <b>Отправьте форму</b>;
-        case false:
-          return <b style={{ color: '#d70c17' }}>Форма невалидна</b>;
-        case true:
-          return <b style={{ color: '#5199db' }}>Форма валидна</b>;
-        default:
-          throw new Error('Invalid state');
-      }
-    };
-
-    private validate = (v: string, type: ValidationBehaviour): Nullable<ValidationInfo> => {
-      return !/^\d*$/.test(v) ? { message: 'Только цифры', type } : null;
-    };
-
-    private handleChange = (value: Partial<FormValidityDemoState>) => {
-      this.setState({ ...value, isValid: null } as any);
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      const isValid = await this.container.validate();
-      this.setState({ isValid });
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
 
-  return <FormValidityDemo />;
+  function validate(v: string, type: ValidationBehaviour): Nullable<ValidationInfo> {
+    return !/^\d*$/.test(v) ? { message: 'Только цифры', type } : null;
+  }
+
+  async function handleSubmit(): Promise<void> {
+    const isValid = await container.current?.validate();
+    setIsValid(isValid);
+  }
+
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title={'immediate'}>
+          <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
+            <Input
+              placeholder={'Только цифры'}
+              value={immediate}
+              onValueChange={(value) => {
+                setImmediate(value);
+                setIsValid(null);
+              }}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title={'lostfocus'}>
+          <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
+            <Input
+              placeholder={'Только цифры'}
+              value={lostfocus}
+              onValueChange={(value) => {
+                setLostfocus(value);
+                setIsValid(null);
+              }}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title={'submit'}>
+          <ValidationWrapper validationInfo={validate(submit, 'submit')}>
+            <Input
+              placeholder={'Только цифры'}
+              value={submit}
+              onValueChange={(value) => {
+                setSubmit(value);
+                setIsValid(null);
+              }}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Gapped wrap verticalAlign="middle">
+            <Button use={'primary'} onClick={handleSubmit}>
+              Submit
+            </Button>
+            {renderFormState()}
+          </Gapped>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };
