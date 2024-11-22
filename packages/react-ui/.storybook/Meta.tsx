@@ -139,7 +139,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           caption={
             <div className={styles.menuSelect}>
               <FlagAIcon16Light /> Feature flags{' '}
-              {currentFeatureFlags[0] !== '' && (
+              {currentFeatureFlags.length !== 0 && (
                 <span className={styles.menuContuer}>{currentFeatureFlags.length}</span>
               )}
             </div>
