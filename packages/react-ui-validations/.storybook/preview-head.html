@@ -2,7 +2,7 @@
 <style>
   html,
   body {
-    min-height: 100%;
+    height: 100%;
   }
 
   body {
@@ -11,6 +11,44 @@
     margin: 0;
     background: white;
     color: rgba(0, 0, 0, 0.87);
+    padding: 0 !important;
+  }
+
+  html.relative {
+    position: relative;
+    height: auto;
+  }
+
+  #root {
+    min-height: 100%;
+  }
+
+  .dark {
+    background: #1f1f1f;
+    color: rgba(255, 255, 255, 0.865);
+  }
+
+  .dark [data-role='code-wrapper'] {
+    color: rgba(255, 255, 255, 0.865);
+  }
+
+  .dark [data-role='preview-wrapper'] > div,
+  .dark [data-role='preview-wrapper'] + div {
+    background: #1f1f1f;
+  }
+
+  * {
+    /* disable scrollbars for firefox 100 */
+    /* see ID-10438 */
+    scrollbar-width: none;
+  }
+
+  /*Кастомные стили*/
+  .sbdocs-wrapper:has(#disable-toc) > [data-comp-name~='TableOfContents'] {
+    display: none;
+  }
+  .docs-story div[scale='1'] {
+    transform: none;
   }
 </style>
 <script>
