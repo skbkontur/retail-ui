@@ -1,12 +1,10 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
-import { ArrowRoundTimeBackIcon16Regular } from '@skbkontur/icons/icons/ArrowRoundTimeBackIcon/ArrowRoundTimeBackIcon16Regular';
-import { ArrowCollapseTrianglesVOpenIcon16Regular } from '@skbkontur/icons/icons/ArrowCollapseTrianglesVOpenIcon/ArrowCollapseTrianglesVOpenIcon16Regular';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
@@ -174,8 +172,6 @@ if (isTestEnv) {
 
 addons.setConfig({
   [LIVE_EXAMPLES_ADDON_ID]: {
-    sandboxPath: '/docs/sandbox--docs',
-    previewBgColor: '#ffffff',
     scope: {
       ...ReactUi,
       DatePickerHelpers,
@@ -194,13 +190,6 @@ addons.setConfig({
       XIcon16Regular,
       MinusCircleIcon16Light,
     },
-    fontBase: "'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif",
-    fontCode: 'Consolas, "Liberation Mono", Menlo, monospace',
-    copyIcon: CopyIcon16Regular as unknown as ReactNode,
-    expandIcon: ArrowCollapseTrianglesVOpenIcon16Regular as unknown as ReactNode,
-    resetIcon: ArrowRoundTimeBackIcon16Regular as unknown as ReactNode,
-    borderColor: 'hsla(203, 50%, 30%, 0.15)',
-    iconColor: '#029CFD',
     decorators: [ThemeDecodator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
   showToolbar: !isDocsEnv,
