@@ -12,6 +12,7 @@ import { MenuItem } from '../components/MenuItem';
 import { Toggle } from '../components/Toggle';
 import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
+
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
   { icon: '🇬🇧', caption: 'English', value: 'en' },
@@ -22,7 +23,7 @@ const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light 2022', value: 'LIGHT_THEME_2022_0' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark 2022', value: 'DARK_THEME_2022_0' },
 ];
-const featureFlags = Object.entries(reactUIFeatureFlagsDefault);
+const allFeatureFlags = Object.keys(reactUIFeatureFlagsDefault);
 const styles = {
   menuWrap: css`
     height: 20px;
@@ -91,7 +92,10 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
   //@ts-expect-error: store is not public
   const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
   //@ts-expect-error: store is not public
-  const currentLocale = languages.find((theme) => theme.value === context.store.globals.globals.locale);
+  const currentLocale = languages.find((language) => language.value === context.store.globals.globals.locale);
+  //@ts-expect-error: store is not public
+  const currentFeatureFlags: string[] = context.store.globals.globals.featureFlags;
+  // console.log({ current: currentFeatureFlags });
 
   return (
     <div className={styles.menuWrap}>
@@ -135,18 +139,35 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
         <DropdownMenu
           caption={
             <div className={styles.menuSelect}>
-              {/* TODO: Брать значение из контекста */}
-              {/* TODO: Скрывать счётчик, если не выбрано */}
-              <FlagAIcon16Light /> Feature flags <span className={styles.menuContuer}>1</span>
+              <FlagAIcon16Light /> Feature flags{' '}
+              {currentFeatureFlags[0] !== '' && (
+                <span className={styles.menuContuer}>{currentFeatureFlags.length}</span>
+              )}
             </div>
           }
         >
-          {featureFlags.map(([flag, value]) => (
-            <MenuItem onClick={(e) => e.preventDefault()}>
+          {allFeatureFlags.map((flag) => (
+            <MenuItem /*onClick={(e) => e.preventDefault()}*/>
               <Toggle
-                checked={value}
-                // TODO: прокидывание контекста
-                onValueChange={console.log}
+                checked={currentFeatureFlags.includes(flag)}
+                onValueChange={(newValue) => {
+                  console.log({ flag, newValue });
+                  if (newValue) {
+                    context.channel.emit('updateGlobals', {
+                      globals: { featureFlags: [...currentFeatureFlags, flag] },
+                    });
+                    // @ts-ignore
+                    console.log(context.store.globals.globals.featureFlags);
+                  } else {
+                    context.channel.emit('updateGlobals', {
+                      globals: {
+                        featureFlags: currentFeatureFlags.filter((featureFlag) => featureFlag !== flag),
+                      },
+                    });
+                    // @ts-ignore
+                    console.log(context.store.globals.globals.featureFlags);
+                  }
+                }}
               >
                 {flag}
               </Toggle>

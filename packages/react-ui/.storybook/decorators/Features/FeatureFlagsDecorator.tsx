@@ -8,8 +8,9 @@ const createFeatureFlagsWithBoolean = (featureFlags: string[]) =>
   }, {});
 
 const FeatureFlagsDecorator: Decorator = (Story, context) => {
-  const { globals } = context;
-  const { activeFeatureFlags }: { [key: string]: string[] } = globals.multiselect;
+  const { featureFlags } = context.globals;
+  // console.log(featureFlags);
+  const { activeFeatureFlags } = featureFlags;
   const activeFeatureFlagsWithBoolean =
     activeFeatureFlags?.length > 0 ? createFeatureFlagsWithBoolean(activeFeatureFlags) : {};
 

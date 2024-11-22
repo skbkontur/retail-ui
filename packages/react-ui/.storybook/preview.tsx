@@ -150,6 +150,11 @@ export const globalTypes = {
     description: 'React UI Locale',
     defaultValue: 'ru',
   },
+  featureFlags: {
+    name: 'React UI Feature flags',
+    description: 'React UI Feature flags',
+    defaultValue: [],
+  },
 };
 
 if (isTestEnv) {
