@@ -9,7 +9,10 @@ const createFeatureFlagsWithBoolean = (featureFlags: string[]) =>
 
 const FeatureFlagsDecorator: Decorator = (Story, context) => {
   const { featureFlags } = context.globals;
-  const activeFeatureFlagsWithBoolean = featureFlags?.length > 0 ? createFeatureFlagsWithBoolean(featureFlags) : {};
+  // console.log(featureFlags);
+  const { activeFeatureFlags } = featureFlags;
+  const activeFeatureFlagsWithBoolean =
+    activeFeatureFlags?.length > 0 ? createFeatureFlagsWithBoolean(activeFeatureFlags) : {};
 
   return (
     <ReactUIFeatureFlagsContext.Provider value={{ ...activeFeatureFlagsWithBoolean }}>

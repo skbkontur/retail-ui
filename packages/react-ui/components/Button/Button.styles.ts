@@ -20,13 +20,6 @@ export const globalClasses = prefix('button')({
 });
 
 export const styles = memoizeStyle({
-  TEST() {
-    return css`
-      color: #f8ec58 !important;
-      background-color: #f8ec58 !important;
-    `;
-  },
-
   root(t: Theme) {
     return css`
       ${resetButton()};

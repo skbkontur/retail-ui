@@ -12,16 +12,6 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-/** Test. */
-export const TEST: Story = () => {
-  return (
-    <Button onClick={alert} name="report">
-      Создать отчёт
-    </Button>
-  );
-};
-TEST.storyName = 'TEST';
-
 /** По умолчанию, кнопка принимает все пропы `HTMLButtonElement`. */
 export const Example1: Story = () => {
   return (

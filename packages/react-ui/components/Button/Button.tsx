@@ -21,11 +21,6 @@ import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
@@ -157,7 +152,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   };
 
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
   private node: HTMLElement | null = null;
   private setRootNode!: TSetRootNode;
 
@@ -195,23 +189,16 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
   public render(): JSX.Element {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -226,6 +213,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     return tabIndex;
   }
+
   private renderMain = (props: CommonWrapperRestProps<ButtonProps>) => {
     const {
       corners,
@@ -268,7 +256,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     const trueDisabled = disabled || loading;
     const rootClassName = cx(
-      this.featureFlags.TEST && styles.TEST(),
       styles.root(this.theme),
       styles[use](this.theme),
       sizeClass,
@@ -293,7 +280,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
             checked && isFocused && styles.checkedFocused(this.theme),
             borderless && !checked && !isFocused && styles.borderless(),
           ]),
-      this.featureFlags.TEST && styles.TEST(),
     );
 
     const rootProps = {
