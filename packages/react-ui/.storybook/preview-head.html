@@ -46,7 +46,7 @@
   /*Кастомные стили*/
   :root {
     --sidebar-width: 13rem;
-    --sidebar-left-padding: .5rem;
+    --sidebar-left-padding: 0.5rem;
     --sidebar-inner-width: calc(var(--sidebar-width) - var(--sidebar-left-padding));
 
     --content-width: calc(100% - var(--sidebar-width));
@@ -69,7 +69,7 @@
     width: var(--content-width) !important;
   }
 
-  [data-comp-name="TableOfContents Insertion"] {
+  [data-comp-name='TableOfContents Insertion'] {
     order: -1;
     width: var(--sidebar-width) !important;
     padding-left: var(--sidebar-left-padding);
@@ -77,7 +77,7 @@
     background: white;
   }
 
-  [data-comp-name="TableOfContents Insertion"] > * {
+  [data-comp-name='TableOfContents Insertion'] > * {
     width: var(--sidebar-inner-width) !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -85,10 +85,10 @@
 
   .toc-list-item > a,
   .sbdocs-a {
-    color: #3C3C3C !important;
+    color: #3c3c3c !important;
     text-decoration: underline;
-    text-decoration-color: #ADADAD;
-    text-underline-offset: .2em;
+    text-decoration-color: #adadad;
+    text-underline-offset: 0.2em;
   }
 
   .toc-list-item > a:hover {
@@ -96,8 +96,8 @@
   }
 
   @media screen and (max-width: 1100px) {
-    [data-comp-name="TableOfContents Insertion"] {
-        display: none;
+    [data-comp-name='TableOfContents Insertion'] {
+      display: none;
     }
 
     .sbdocs-content {

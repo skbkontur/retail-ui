@@ -205,6 +205,6 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           </MenuFooter>
         </DropdownMenu>
       </div>
-    </div >
+    </div>
   );
 };
