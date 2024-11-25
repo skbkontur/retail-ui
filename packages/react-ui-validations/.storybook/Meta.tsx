@@ -5,11 +5,11 @@ import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Li
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
-
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
+
 import { validationsFeatureFlagsDefault } from '../src';
 
 const themes = [
