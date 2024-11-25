@@ -15,8 +15,6 @@ import { validationsFeatureFlagsDefault } from '../src';
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
-  { icon: <WeatherSunIcon16Light />, caption: 'Light 2022', value: 'LIGHT_THEME_2022_0' },
-  { icon: <WeatherMoonIcon16Light />, caption: 'Dark 2022', value: 'DARK_THEME_2022_0' },
 ];
 const allFeatureFlags = Object.keys(validationsFeatureFlagsDefault);
 const styles = {
