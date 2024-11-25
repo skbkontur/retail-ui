@@ -8,7 +8,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Displaying/ValidationType',
+  title: 'Displaying/Validation type',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

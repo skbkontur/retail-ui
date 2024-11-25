@@ -6,7 +6,7 @@ import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Displaying/GettingStarted',
+  title: 'Displaying/Getting started',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

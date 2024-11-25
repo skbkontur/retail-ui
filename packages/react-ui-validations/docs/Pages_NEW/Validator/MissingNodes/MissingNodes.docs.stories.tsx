@@ -9,7 +9,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Validator/MissingNodes',
+  title: 'Validator/Missing nodes',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

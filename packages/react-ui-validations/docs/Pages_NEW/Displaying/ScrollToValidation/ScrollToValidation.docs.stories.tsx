@@ -9,7 +9,7 @@ import { SpaceFiller } from '../../../Common/SpaceFiller';
 import { Nullable } from '../../../../typings/Types';
 
 export default {
-  title: 'Displaying/ScrollToValidation',
+  title: 'Displaying/Scroll to validation',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

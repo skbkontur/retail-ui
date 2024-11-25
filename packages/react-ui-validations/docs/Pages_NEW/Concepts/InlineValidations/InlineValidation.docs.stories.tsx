@@ -6,7 +6,7 @@ import { Form } from '../../../Common/Form';
 import { WrappedInput, WrappedDatePicker, lessThanDate } from './ControlsWithValidations';
 
 export default {
-  title: 'Concepts/InlineValidations',
+  title: 'Concepts/Inline validations',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

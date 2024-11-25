@@ -9,7 +9,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Displaying/FormValidity',
+  title: 'Displaying/Form validity',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

@@ -9,7 +9,7 @@ import { createValidator, text, ValidationContainer, ValidationWrapper } from '.
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Examples/ArrayExample',
+  title: 'Examples/Array example',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

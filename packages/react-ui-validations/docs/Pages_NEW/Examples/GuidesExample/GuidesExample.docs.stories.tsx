@@ -7,7 +7,7 @@ import { ValidationContainer, ValidationWrapper, createValidator } from '../../.
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Examples/GuidesExample',
+  title: 'Examples/Guides example',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

@@ -6,7 +6,7 @@ import { ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWra
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Examples/CustomControls',
+  title: 'Examples/Custom controls',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

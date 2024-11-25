@@ -7,7 +7,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Displaying/ErrorMessages',
+  title: 'Displaying/Error messages',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
