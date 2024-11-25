@@ -4,19 +4,19 @@ import React from 'react';
 import { Preview } from '@storybook/react';
 import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 import { addons } from '@storybook/manager-api';
+import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
+import styled from 'styled-components';
+import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
+import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
 
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
 import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations';
 import { Form } from '../docs/Common/Form';
+import { SpaceFiller } from '../docs/Common/SpaceFiller';
 
 import { ThemeDecodator } from '@skbkontur/react-ui/.storybook/decorators/Theme/ThemeDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
-import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
-import styled from 'styled-components';
-import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
-import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
-import { SpaceFiller } from '../docs/Common/SpaceFiller';
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
