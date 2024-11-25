@@ -100,11 +100,16 @@ export const Example5: Story = () => {
 Example5.storyName = 'Размер';
 
 export const Example6: Story = () => {
-  return <Button width={40}>Закрыть</Button>;
+  return <Button width={150}>Закрыть</Button>;
 };
 Example6.storyName = 'Ширина';
 
 export const Example7: Story = () => {
+  return <Button narrow>Создать отчет</Button>;
+};
+Example7.storyName = 'Узкая Кнопка';
+
+export const Example8: Story = () => {
   return (
     <Gapped gap={5}>
       <Button warning>Закрыть</Button>
@@ -112,9 +117,9 @@ export const Example7: Story = () => {
     </Gapped>
   );
 };
-Example7.storyName = 'Состояние валидации';
+Example8.storyName = 'Состояние валидации';
 
-export const Example8: Story = () => {
+export const Example9: Story = () => {
   return (
     <Gapped gap={5}>
       <Button arrow="left" size="medium">
@@ -126,12 +131,12 @@ export const Example8: Story = () => {
     </Gapped>
   );
 };
-Example8.storyName = 'Стрелка';
+Example9.storyName = 'Стрелка';
 
 /** **Поведение:**
 Кнопка на время нахождения в состоянии загрузки отключается.
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая. */
-export const Example9: Story = () => {
+export const Example10: Story = () => {
   const [loading, setLoading] = React.useState(false);
 
   const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
@@ -170,9 +175,9 @@ export const Example9: Story = () => {
     </Gapped>
   );
 };
-Example9.storyName = 'Состояние загрузки';
+Example10.storyName = 'Состояние загрузки';
 
-export const Example10: Story = () => {
+export const Example11: Story = () => {
   return (
     <Gapped>
       <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
@@ -183,9 +188,9 @@ export const Example10: Story = () => {
     </Gapped>
   );
 };
-Example10.storyName = 'Проп темы';
+Example11.storyName = 'Проп темы';
 
-export const Example11: Story = () => {
+export const Example12: Story = () => {
   const textDecorationStyles = {
     btnLinkTextUnderlineOffset: '1px',
   };
@@ -253,12 +258,7 @@ export const Example11: Story = () => {
     </table>
   );
 };
-Example11.storyName = 'Кастомизация кнопки-ссылки';
-
-export const Example12: Story = () => {
-  return <Button narrow>Создать отчет</Button>;
-};
-Example12.storyName = 'Узкая Кнопка';
+Example12.storyName = 'Кастомизация кнопки-ссылки';
 
 export const Example13: Story = () => {
   return (
