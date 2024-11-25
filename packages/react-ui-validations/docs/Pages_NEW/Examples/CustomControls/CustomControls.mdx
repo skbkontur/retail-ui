@@ -19,13 +19,13 @@ import { Meta } from '../../../../.storybook/Meta';
 В типах их можно представить так:
 
 ```jsx static
-    interface CustomControlProps<Elem = HTMLElement> {
-        ref?: React.ForwardedRef<Elem>;
-        error?: boolean;
-        warning?: boolean;
-        onBlur?: React.FocusEventHandler<Elem>;
-        onChange?: React.ChangeEventHandler<Elem>;
-    }
+interface CustomControlProps<Elem = HTMLElement> {
+    ref?: React.ForwardedRef<Elem>;
+    error?: boolean;
+    warning?: boolean;
+    onBlur?: React.FocusEventHandler<Elem>;
+    onChange?: React.ChangeEventHandler<Elem>;
+}
 ```
 
 Для контролов `react-ui` также прокидывается проп `onValueChange`. Чтобы избежать предупреждения в консоле (`Unknown event handler property 'onValueChange'`), этот проп можно "вырезать" из пропов (см. пример).

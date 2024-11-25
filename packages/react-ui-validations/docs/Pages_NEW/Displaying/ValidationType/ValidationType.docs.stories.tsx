@@ -8,122 +8,73 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Отображение/Виды валидаций',
+  title: 'Displaying/ValidationType',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const ImmediateValidation: Story = () => {
-  class ImmediateValidationDemo extends React.Component {
-    public state = {
-      value: '',
-    };
+  const [value, setValue] = React.useState<string>('');
 
-    public render() {
-      return (
-        <ValidationContainer>
-          <Form>
-            <Form.Line title="Номер">
-              <ValidationWrapper validationInfo={this.validate(this.state.value)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value}
-                  onValueChange={(value) => this.setState({ value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'immediate' } : null;
-    };
+  function validate(value: string): Nullable<ValidationInfo> {
+    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'immediate' } : null;
   }
-  return <ImmediateValidationDemo />;
+
+  return (
+    <ValidationContainer>
+      <Form>
+        <Form.Line title="Номер">
+          <ValidationWrapper validationInfo={validate(value)}>
+            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </Form.Line>
+      </Form>
+    </ValidationContainer>
+  );
 };
 
 export const LostfocusValidation: Story = () => {
-  interface LostfocusValidationDemoState {
-    value: string;
+  const [value, setValue] = React.useState<string>('');
+  function validate(value: string): Nullable<ValidationInfo> {
+    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'lostfocus' } : null;
   }
-
-  class LostfocusValidationDemo extends React.Component {
-    public state: LostfocusValidationDemoState = {
-      value: '',
-    };
-
-    public render() {
-      return (
-        <ValidationContainer>
-          <Form>
-            <Form.Line title="Номер">
-              <ValidationWrapper validationInfo={this.validate(this.state.value)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value}
-                  onValueChange={(value) => this.setState({ value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'lostfocus' } : null;
-    };
-  }
-
-  return <LostfocusValidationDemo />;
+  return (
+    <ValidationContainer>
+      <Form>
+        <Form.Line title="Номер">
+          <ValidationWrapper validationInfo={validate(value)}>
+            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </Form.Line>
+      </Form>
+    </ValidationContainer>
+  );
 };
 
 export const SubmitValidation: Story = () => {
-  class SubmitValidationDemo extends React.Component {
-    public state = {
-      value: '',
-    };
-
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="Номер">
-              <ValidationWrapper validationInfo={this.validate(this.state.value)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value}
-                  onValueChange={(value) => this.setState({ value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'submit' } : null;
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      await this.container.submit();
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
+  const container = React.useRef<ValidationContainer>(null);
+  const [value, setValue] = React.useState<string>('');
+  function validate(value: string): Nullable<ValidationInfo> {
+    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'submit' } : null;
+  }
+  async function handleSubmit(): Promise<void> {
+    await container.current?.submit();
   }
 
-  return <SubmitValidationDemo />;
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="Номер">
+          <ValidationWrapper validationInfo={validate(value)}>
+            <Input placeholder={'Только цифры'} value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };

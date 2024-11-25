@@ -3,7 +3,6 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 import {
   ValidationContainer,
@@ -14,15 +13,11 @@ import {
 } from '../../../../src';
 
 export default {
-  title: 'Описание валидаций/Переиспользуемые валидации',
+  title: 'Validator/Reusable',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Reusable: Story = () => {
-  interface ReusableDemoState {
-    email: string;
-  }
-
   const isValidEmail = (value: string): boolean => {
     return value.includes('@');
   };
@@ -42,48 +37,31 @@ export const Reusable: Story = () => {
 
   const validate = createValidator<string>(validateEmail);
 
-  class ReusableDemo extends React.Component {
-    public state: ReusableDemoState = {
-      email: '',
-    };
+  const container = React.useRef<ValidationContainer>(null);
+  const [email, setEmail] = React.useState<string>('');
 
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      const validation = validate(this.state.email);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="E-mail">
-              <ValidationWrapper validationInfo={validation.get()}>
-                <Input
-                  placeholder={'xxx@xxx.xx'}
-                  value={this.state.email}
-                  onValueChange={(email) => this.setState({ email })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
     }
-
-    public handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
-  return <ReusableDemo />;
+
+  const validation = validate(email);
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="E-mail">
+          <ValidationWrapper validationInfo={validation.get()}>
+            <Input placeholder={'xxx@xxx.xx'} value={email} onValueChange={setEmail} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };

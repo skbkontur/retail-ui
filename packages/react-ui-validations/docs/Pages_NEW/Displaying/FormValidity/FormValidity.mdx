@@ -9,19 +9,6 @@ import { Meta } from '../../../../.storybook/Meta';
 Чтобы провалидировать форму и узнать результат валидации, нужно вызвать метод `validate` на компоненте `ValidationContainer`.
 Метод `validate` асинхронный, возвращает `Promise<boolean>`.
 
-```jsx static
-    <ValidationContainer ref={this.сontainer}>
-      //...
-    </ValidationContainer>
-
-    <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
-
-    handleSubmit = async () => {
-      const isValid = await this.container.validate();
-      //...
-    };
-```
-
 ### Пример
 
 <Story of={DocsStories.FormValidity} />

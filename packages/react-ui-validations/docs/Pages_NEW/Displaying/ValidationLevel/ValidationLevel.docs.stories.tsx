@@ -1,5 +1,5 @@
 import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { ValidationContainer, ValidationWrapper, ValidationInfo, text } from '../../../../src';
@@ -7,7 +7,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Отображение/Уровни валидаций',
+  title: 'Displaying/ValidationLevel',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
@@ -20,14 +20,14 @@ export const ValidationError: Story = () => {
     return null;
   };
 
-  const [value, setValue] = useState('');
-  const v = validate(value);
+  const [value, setValue] = React.useState('');
+  const validationInfo = validate(value);
 
   return (
     <ValidationContainer>
       <Form>
         <Form.Line title="error">
-          <ValidationWrapper validationInfo={v} renderMessage={text()}>
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={text()}>
             <Input width={250} placeholder={'Только цифры'} value={value} onValueChange={setValue} />
           </ValidationWrapper>
         </Form.Line>
@@ -48,14 +48,14 @@ export const ValidationWarning: Story = () => {
     return null;
   };
 
-  const [value, setValue] = useState('');
-  const v = validate(value);
+  const [value, setValue] = React.useState('');
+  const validationInfo = validate(value);
 
   return (
     <ValidationContainer>
       <Form>
         <Form.Line title="warning">
-          <ValidationWrapper validationInfo={v} renderMessage={text()}>
+          <ValidationWrapper validationInfo={validationInfo} renderMessage={text()}>
             <Input width={250} placeholder={'Можно и буквы, но лучше цифры'} value={value} onValueChange={setValue} />
           </ValidationWrapper>
         </Form.Line>
