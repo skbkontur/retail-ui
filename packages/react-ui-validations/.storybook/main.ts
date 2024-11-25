@@ -3,12 +3,15 @@ import type { StorybookConfig } from '@storybook/react-webpack5';
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_VALIDATIONS_DOCS);
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.tsx', '../stories/**/*.mdx', '../docs/**/*.mdx', '../docs/**/*.docs.stories.tsx'],
+  stories: [
+    '../stories/**/*.stories.tsx',
+    ...(isDocsEnv ? ['../stories/**/*.mdx', '../docs/**/*.mdx', '../docs/**/*.docs.stories.tsx'] : []),
+  ],
   docs: {
     docsMode: isDocsEnv,
   },
   addons: [
-    '@skbkontur/storybook-addon-live-examples',
+    ...(isDocsEnv ? ['@skbkontur/storybook-addon-live-examples'] : []),
     'creevey',
     'storybook-addon-multiselect',
     '@storybook/blocks',
