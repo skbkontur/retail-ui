@@ -11,7 +11,6 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import styled from 'styled-components';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -23,16 +22,6 @@ export default {
 } as Meta;
 
 export const Editors: Story = () => {
-  interface LinkContainerProps {
-    error?: boolean;
-  }
-
-  const LinkContainer = styled.span<LinkContainerProps>`
-    background-color: ${(props) => (props.error ? '#FDE8E8' : 'transparent')}
-    padding: 1px 5px;
-    margin: -1px -5px;
-`;
-
   interface ContactInfo {
     name: string;
     email: string;

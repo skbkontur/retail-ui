@@ -1,5 +1,4 @@
 import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
-
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
@@ -39,7 +38,7 @@ export const FormValidity: Story = () => {
   }
 
   async function handleSubmit(): Promise<void> {
-    const isValid = await container.current?.validate();
+    const isValid = Boolean(await container.current?.validate());
     setIsValid(isValid);
   }
 
