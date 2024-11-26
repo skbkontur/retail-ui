@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.tsx'],
+  stories: ['../stories/**/!(*.docs)*.stories.tsx'],
   docs: {
     docsMode: false,
   },
