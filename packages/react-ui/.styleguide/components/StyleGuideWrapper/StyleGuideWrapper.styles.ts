@@ -14,32 +14,6 @@ export const styles = memoizeStyle({
       @media (max-width: 600px) {
         padding-left: 0;
       }
-
-      footer {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 149px;
-        height: 149px;
-        z-index: 999;
-        a {
-          position: relative;
-          right: -37px;
-          top: -22px;
-          display: block;
-          width: 190px;
-          padding: 4px 0;
-          text-align: center;
-          color: rgb(255, 255, 255);
-          font-size: 15px;
-          background: rgb(238, 153, 0) none repeat scroll 0 0;
-          text-decoration: none;
-          text-shadow: rgba(0, 0, 0, 0.15) 0px -1px 0px;
-          transform-origin: 0 0 0;
-          transform: rotate(45deg);
-          cursor: pointer;
-        }
-      }
     `;
   },
   darkRoot(t: Theme) {
@@ -57,6 +31,68 @@ export const styles = memoizeStyle({
 
       @media (max-width: 600px) {
         padding: 16px;
+      }
+    `;
+  },
+  notification() {
+    return css`
+      position: sticky;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 24px;
+      background: #ff4785;
+      color: white;
+      font-size: 16px;
+      font-family: 400;
+      line-height: 1.375;
+
+      @media screen and (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+    `;
+  },
+  notificationContent() {
+    return css`
+      max-width: 1080px;
+
+      a {
+        color: white;
+      }
+    `;
+  },
+  notificationButton() {
+    return css`
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 6px;
+      background: #fff;
+      opacity: 0.955;
+      color: #222222;
+      font-size: 16px;
+      font-family: inherit;
+      text-decoration: none;
+      transition: 0.15s ease;
+
+      @media (hover) {
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      &:active {
+        opacity: 0.92;
       }
     `;
   },
@@ -132,6 +168,13 @@ export const styles = memoizeStyle({
       padding: 40px 40px 0 !important;
     `;
   },
+  heading() {
+    return css`
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    `;
+  },
   sidebar() {
     return css`
       width: 300px;
@@ -142,6 +185,12 @@ export const styles = memoizeStyle({
       left: 0;
       bottom: 0;
       overflow: auto;
+      scrollbar-color: transparent transparent;
+      scrollbar-width: thin;
+
+      &:hover {
+        scrollbar-color: rgba(0, 0, 0, 0.8) transparent;
+      }
 
       @media (max-width: 600px) {
         position: static;
@@ -166,33 +215,22 @@ export const styles = memoizeStyle({
       }
     `;
   },
-  footer() {
+  sidebarNotice() {
     return css`
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 149px;
-      height: 149px;
-      z-index: 999;
+      padding-top: 72px;
+
+      @media (max-width: 1080px) {
+        padding-top: 110px;
+      }
+
+      @media (max-width: 768px) {
+        padding-top: 160px;
+      }
     `;
   },
-  footerLink() {
+  github() {
     return css`
-      position: relative;
-      right: -37px;
-      top: -22px;
-      display: block;
-      width: 190px;
-      padding: 4px 16px;
-      text-align: center;
-      color: rgb(255, 255, 255);
-      font-size: 15px;
-      background: rgb(238, 153, 0);
-      text-decoration: none;
-      text-shadow: rgb(0 0 0 / 15%) 0px -1px 0px;
-      transform-origin: 0 0;
-      transform: rotate(45deg);
-      cursor: pointer;
+      display: inline-block;
     `;
   },
 });
