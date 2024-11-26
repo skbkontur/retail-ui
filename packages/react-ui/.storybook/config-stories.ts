@@ -15,7 +15,6 @@ const config: StorybookConfig = {
         docs: false,
       },
     },
-    'storybook-addon-multiselect',
   ],
   framework: {
     name: '@storybook/react-webpack5',

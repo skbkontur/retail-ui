@@ -154,7 +154,6 @@
     "semver": "^7.6.2",
     "serve": "^13.0.2",
     "storybook": "7.6.18",
-    "storybook-addon-multiselect": "^2.0.1",
     "style-loader": "^4.0.0",
     "stylelint": "^16.6.0",
     "stylelint-config-standard": "^36.0.0",

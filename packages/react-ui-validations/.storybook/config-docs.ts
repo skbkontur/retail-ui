@@ -7,7 +7,6 @@ const config: StorybookConfig = {
   },
   addons: [
     '@skbkontur/storybook-addon-live-examples',
-    'storybook-addon-multiselect',
     '@storybook/blocks',
     '@storybook/addon-docs',
     {
