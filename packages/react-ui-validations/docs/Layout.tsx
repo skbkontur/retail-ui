@@ -3,9 +3,8 @@ import Helmet from 'react-helmet';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Notification } from '../../react-ui/.styleguide/components/Notification/Notification';
-import { checkAccess } from '../../react-ui/.styleguide/components/Notification/checkAccess';
-
+import { checkAccess } from './Common/Notification/checkAccess';
+import { Notification } from './Common/Notification';
 import { Displaying } from './Pages/Displaying';
 import { Validator } from './Pages/Validator';
 import { Examples } from './Pages/Examples';
