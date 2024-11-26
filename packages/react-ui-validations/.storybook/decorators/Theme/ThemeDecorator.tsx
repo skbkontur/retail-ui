@@ -16,7 +16,7 @@ export const themes = {
   DARK_THEME_2022_0,
 };
 
-export const ThemeDecodator: Decorator = (Story, context) => {
+export const ThemeDecorator: Decorator = (Story, context) => {
   const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
 
   if ([DARK_THEME].includes(storybookTheme) || [DARK_THEME_2022_0].includes(storybookTheme)) {

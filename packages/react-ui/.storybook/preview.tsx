@@ -28,7 +28,7 @@ import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/Mi
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
-import { ThemeDecodator } from './decorators/Theme/ThemeDecorator';
+import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
 
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
@@ -107,6 +107,7 @@ const preview: Preview = {
     },
   },
   decorators: [
+    ThemeDecorator,
     (Story) => (
       <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
         <Story />
@@ -179,7 +180,7 @@ addons.setConfig({
       XIcon16Regular,
       MinusCircleIcon16Light,
     },
-    decorators: [ThemeDecodator, LocaleDecorator, FeatureFlagsDecorator],
+    decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
   showToolbar: !isDocsEnv,
 });

@@ -8,7 +8,7 @@ import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import styled from 'styled-components';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
-import { ThemeDecodator } from '@skbkontur/react-ui/.storybook/decorators/Theme/ThemeDecorator';
+import { ThemeDecorator } from '@skbkontur/react-ui/.storybook/decorators/Theme/ThemeDecorator';
 
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
@@ -99,7 +99,7 @@ addons.setConfig({
       ThumbUpIcon,
       SpaceFiller,
     },
-    decorators: [ThemeDecodator, FeatureFlagsDecorator],
+    decorators: [ThemeDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
   showToolbar: !isDocsEnv,
 });
