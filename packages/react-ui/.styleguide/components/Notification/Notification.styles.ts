@@ -44,12 +44,12 @@ export const styles = memoizeStyle({
       padding: 8px 16px;
       border-radius: 6px;
       background: #fff;
-      opacity: .955;
+      opacity: 0.955;
       color: #222222;
       font-size: 16px;
       font-family: inherit;
       text-decoration: none;
-      transition: .15s ease;
+      transition: 0.15s ease;
 
       @media (hover) {
         &:hover {
@@ -58,8 +58,8 @@ export const styles = memoizeStyle({
       }
 
       &:active {
-        opacity: .92;
+        opacity: 0.92;
       }
     `;
-  }
+  },
 });
