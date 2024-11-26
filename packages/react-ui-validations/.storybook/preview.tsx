@@ -8,7 +8,6 @@ import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import styled from 'styled-components';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
-import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
 
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
@@ -17,6 +16,7 @@ import { Form } from '../docs/Common/Form';
 import { SpaceFiller } from '../docs/Common/SpaceFiller';
 
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
+import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
