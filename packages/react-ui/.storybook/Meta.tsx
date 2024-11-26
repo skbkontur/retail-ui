@@ -12,6 +12,9 @@ import { MenuItem } from '../components/MenuItem';
 import { Toggle } from '../components/Toggle';
 import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
+import { MenuSeparator } from '../components/MenuSeparator';
+import { MenuFooter } from '../components/MenuFooter';
+import { Link } from '../components/Link';
 
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
@@ -30,7 +33,7 @@ const styles = {
     position: fixed;
     display: flex;
     gap: 8px;
-    padding: 4px 16px;
+    padding: 4px 8px;
     align-items: center;
     width: 100%;
     top: 0;
@@ -52,9 +55,12 @@ const styles = {
       background: rgba(0, 0, 0, 0.1);
     }
   `,
+  menuItem: css`
+    min-width: 250px !important;
+  `,
   menuComment: css`
     position: relative;
-    font-size: 10px;
+    font-size: 11px;
     margin-top: -4px;
   `,
   menuIcon: css`
@@ -106,14 +112,25 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
         >
           {themes.map(({ icon, caption, value }) => (
             <MenuItem
+              className={styles.menuItem}
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
             >
-              <div style={{ minWidth: 150 }}>
-                {caption} <div className={styles.menuIcon}>{icon}</div>
-              </div>
+              {caption} <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
+
+          <MenuSeparator />
+          <MenuFooter>
+            <Link
+              target="_parent"
+              href="/?path=/docs/information-theme--docs"
+              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
+              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
+            >
+              Подробнее о темах
+            </Link>
+          </MenuFooter>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -124,14 +141,24 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
         >
           {languages.map(({ icon, caption, value }) => (
             <MenuItem
+              className={styles.menuItem}
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { locale: value } })}
             >
-              <div style={{ minWidth: 150 }}>
-                {caption} <div className={styles.menuIcon}>{icon}</div>
-              </div>
+              {caption} <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
+          <MenuSeparator />
+          <MenuFooter>
+            <Link
+              target="_parent"
+              href="/?path=/docs/information-locale--docs"
+              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
+              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
+            >
+              Подробнее о локализации
+            </Link>
+          </MenuFooter>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -144,7 +171,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           }
         >
           {allFeatureFlags.map((flag) => (
-            <MenuItem /*onClick={(e) => e.preventDefault()}*/>
+            <MenuItem className={styles.menuItem}>
               <Toggle
                 checked={currentFeatureFlags.includes(flag)}
                 onValueChange={(newValue) => {
@@ -165,6 +192,17 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               </Toggle>
             </MenuItem>
           ))}
+          <MenuSeparator />
+          <MenuFooter>
+            <Link
+              target="_parent"
+              href="/?path=/docs/information-feature-flags--docs"
+              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
+              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
+            >
+              Подробнее о фича-флагах
+            </Link>
+          </MenuFooter>
         </DropdownMenu>
       </div>
     </div>
