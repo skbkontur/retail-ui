@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { checkAccess } from './Common/Notification/checkAccess';
+import { checkNewDocsAccess } from './checkNewDocsAccess';
 import { Notification } from './Common/Notification';
 import { Displaying } from './Pages/Displaying';
 import { Validator } from './Pages/Validator';
@@ -19,7 +19,7 @@ export const Layout: React.FC<React.PropsWithChildren> = (props) => {
   const [hasNewDocsAccess, setHasNewDocsAccess] = useState(false);
 
   useEffect(() => {
-    checkAccess().then((status) => {
+    checkNewDocsAccess().then((status) => {
       setHasNewDocsAccess(status);
     });
   }, []);

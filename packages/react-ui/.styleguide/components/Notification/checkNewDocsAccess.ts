@@ -1,5 +1,5 @@
-export const checkAccess = (): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
+export const checkNewDocsAccess = (): Promise<boolean> => {
+  return new Promise((resolve) => {
     fetch('https://ui.gitlab-pages.kontur.host/storybook-documentation/', {
       mode: 'cors',
     })
@@ -10,7 +10,7 @@ export const checkAccess = (): Promise<boolean> => {
           resolve(false);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         resolve(false);
       });
   });

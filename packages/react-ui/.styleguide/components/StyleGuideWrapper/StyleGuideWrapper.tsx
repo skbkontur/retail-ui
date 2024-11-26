@@ -9,7 +9,7 @@ import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
 
 import { styles } from './StyleGuideWrapper.styles';
 import { Notification } from '../Notification/Notification';
-import { checkAccess } from '../Notification/checkAccess';
+import { checkNewDocsAccess } from '../Notification/checkNewDocsAccess';
 
 interface StyleGuideRendererProps {
   children: React.ReactNode;
@@ -39,7 +39,7 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
   const [hasNewDocsAccess, setHasNewDocsAccess] = useState(false);
 
   useEffect(() => {
-    checkAccess().then((status) => {
+    checkNewDocsAccess().then((status) => {
       setHasNewDocsAccess(status);
     });
   }, []);
