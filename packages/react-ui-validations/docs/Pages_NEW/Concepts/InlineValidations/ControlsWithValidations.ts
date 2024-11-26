@@ -88,16 +88,15 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
 const WrappedInput = wrapControl(Input);
 const WrappedDatePicker = wrapControl(DatePicker as ComponentType<DatePickerProps>);
 
-export { WrappedInput as Input };
-export { WrappedDatePicker as DatePicker };
+export { WrappedInput };
+export { WrappedDatePicker };
 
 export function lessThanDate(value: Date): (value: Nullable<string>) => Nullable<ValidationInfo> {
   return (actualValue) => {
     const actual = parseDate(actualValue);
     if (actual && !(actual < value)) {
-      return { message: 'Значение должно быть меньше чем ' + value.toString() };
+      return { message: 'Значение должно быть меньше чем ' + value.toLocaleDateString() };
     }
-    return undefined;
   };
 }
 

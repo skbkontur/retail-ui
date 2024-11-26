@@ -11,28 +11,17 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import styled from 'styled-components';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Примеры/Редакторы',
+  title: 'Examples/Editors',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const Editors: Story = () => {
-  interface LinkContainerProps {
-    error?: boolean;
-  }
-
-  const LinkContainer = styled.span<LinkContainerProps>`
-    background-color: ${(props) => (props.error ? '#FDE8E8' : 'transparent')}
-    padding: 1px 5px;
-    margin: -1px -5px;
-`;
-
   interface ContactInfo {
     name: string;
     email: string;
@@ -112,162 +101,140 @@ export const Editors: Story = () => {
     );
   });
 
-  interface EditorsDemoState {
-    data: ContactInfo;
+  const container = React.useRef<ValidationContainer>(null);
+  const [data, setData] = React.useState<ContactInfo>({
+    name: '',
+    email: '',
+    phone: '',
+    sex: null,
+    city: null,
+    confession: null,
+    confirmed: false,
+    about: '',
+    born: '',
+    clicked: false,
+  });
+
+  function handleChange(data: Partial<ContactInfo>): void {
+    setData((prevData) => ({ ...prevData, ...data }));
   }
-  class EditorsDemo extends React.Component {
-    public state: EditorsDemoState = {
-      data: {
-        name: '',
-        email: '',
-        phone: '',
-        sex: null,
-        city: null,
-        confession: null,
-        confirmed: false,
-        about: '',
-        born: '',
-        clicked: false,
-      },
-    };
 
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      const { data } = this.state;
-      const v = validate(data);
-
-      return (
-        <Form>
-          <ValidationContainer ref={this.refContainer}>
-            <Form.Line title="Имя">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
-                <Input value={data.name} onValueChange={(value) => this.handleChange({ name: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Email">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
-                <Input value={data.email} onValueChange={(value) => this.handleChange({ email: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Телефон">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.phone).get()}>
-                <Input
-                  mask={'+7 999 999-99-99'}
-                  value={data.phone}
-                  onValueChange={(value) => this.handleChange({ phone: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Пол">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.sex).get()}>
-                <RadioGroup<ContactInfo['sex']>
-                  value={data.sex}
-                  onValueChange={(value) => this.handleChange({ sex: value })}
-                  items={['male', 'female']}
-                  renderItem={(x) => <span>{x}</span>}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Город">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.city).get()}>
-                <ComboBox
-                  valueToString={(x) => x}
-                  renderValue={(x) => x}
-                  renderItem={(x) => x}
-                  itemToValue={(x) => x}
-                  value={data.city}
-                  onValueChange={(value) => this.handleChange({ city: value })}
-                  getItems={async (query) => {
-                    const cities = ['City 1', 'City 2', 'City 3'];
-                    return query
-                      ? cities.filter((x) => x.toLocaleUpperCase().includes(query.toLocaleUpperCase()))
-                      : cities;
-                  }}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Вероисповедание">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.confession).get()}>
-                <Select<ContactInfo['confession'], string>
-                  renderItem={(x) => x}
-                  renderValue={(x) => x}
-                  items={[
-                    ['Православие', 'Православие'],
-                    ['Католичество', 'Католичество'],
-                    ['Мормонизм', 'Мормонизм'],
-                  ]}
-                  value={data.confession}
-                  onValueChange={(value) => this.handleChange({ confession: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Согласен">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.confirmed).get()}>
-                <Checkbox checked={data.confirmed} onValueChange={(value) => this.handleChange({ confirmed: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="О себе">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.about).get()}>
-                <Textarea
-                  placeholder="Введите текст"
-                  value={data.about}
-                  onValueChange={(value) => this.handleChange({ about: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Дата рождения">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.born).get()}>
-                <DatePicker value={data.born} onValueChange={(value) => this.handleChange({ born: value })} />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title="Ссылка">
-              <ValidationWrapper validationInfo={v.getNode((x) => x.clicked).get()}>
-                <LinkContainer>
-                  <Link
-                    icon={data.clicked ? <ThumbUpIcon /> : <ThumbDownIcon />}
-                    onClick={() => this.handleChange({ clicked: !data.clicked })}
-                  >
-                    Нажми меня
-                  </Link>
-                </LinkContainer>
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </ValidationContainer>
-        </Form>
-      );
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
     }
-
-    private handleChange = (data: Partial<ContactInfo>): void => {
-      this.setState({ data: { ...this.state.data, ...data } });
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
   }
 
-  return <EditorsDemo />;
+  const validationInfo = validate(data);
+
+  return (
+    <Form>
+      <ValidationContainer ref={container}>
+        <Form.Line title="Имя">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.name).get()}>
+            <Input value={data.name} onValueChange={(value) => handleChange({ name: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Email">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.email).get()}>
+            <Input value={data.email} onValueChange={(value) => handleChange({ email: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Телефон">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.phone).get()}>
+            <Input
+              mask={'+7 999 999-99-99'}
+              value={data.phone}
+              onValueChange={(value) => handleChange({ phone: value })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Пол">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.sex).get()}>
+            <RadioGroup<ContactInfo['sex']>
+              value={data.sex}
+              onValueChange={(value) => handleChange({ sex: value })}
+              items={['male', 'female']}
+              renderItem={(x) => <span>{x}</span>}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Город">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.city).get()}>
+            <ComboBox
+              valueToString={(x) => x}
+              renderValue={(x) => x}
+              renderItem={(x) => x}
+              itemToValue={(x) => x}
+              value={data.city}
+              onValueChange={(value) => handleChange({ city: value })}
+              getItems={async (query) => {
+                const cities = ['City 1', 'City 2', 'City 3'];
+                return query ? cities.filter((x) => x.toLocaleUpperCase().includes(query.toLocaleUpperCase())) : cities;
+              }}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Вероисповедание">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.confession).get()}>
+            <Select<ContactInfo['confession'], string>
+              renderItem={(x) => x}
+              renderValue={(x) => x}
+              items={[
+                ['Православие', 'Православие'],
+                ['Католичество', 'Католичество'],
+                ['Мормонизм', 'Мормонизм'],
+              ]}
+              value={data.confession}
+              onValueChange={(value) => handleChange({ confession: value })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Согласен">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.confirmed).get()}>
+            <Checkbox checked={data.confirmed} onValueChange={(value) => handleChange({ confirmed: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="О себе">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.about).get()}>
+            <Textarea
+              placeholder="Введите текст"
+              value={data.about}
+              onValueChange={(value) => handleChange({ about: value })}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Дата рождения">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.born).get()}>
+            <DatePicker value={data.born} onValueChange={(value) => handleChange({ born: value })} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title="Ссылка">
+          <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.clicked).get()}>
+            <Link
+              icon={data.clicked ? <ThumbUpIcon /> : <ThumbDownIcon />}
+              onClick={() => handleChange({ clicked: !data.clicked })}
+            >
+              Нажми меня
+            </Link>
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </ValidationContainer>
+    </Form>
+  );
 };

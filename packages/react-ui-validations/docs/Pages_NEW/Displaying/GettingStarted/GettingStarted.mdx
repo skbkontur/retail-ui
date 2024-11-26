@@ -1,11 +1,12 @@
-import { Meta, Story } from '@storybook/blocks';
+import { Story } from '@storybook/blocks';
 import * as DocsStories from './GettingStarted.docs.stories.tsx';
+import { Meta } from '../../../../.storybook/Meta';
 
 <Meta of={DocsStories} />
 
 # Начало работы
 
-[![Version](https://img.shields.io/badge/npm-${process.env.libraryVersionEscaped}-orange.svg?style=flat-square)](https://www.npmjs.com/package/react-ui-validations)
+[![Version](https://img.shields.io/npm/v/@skbkontur/react-ui-validations?style=flat-square)](https://www.npmjs.com/package/@skbkontur/react-ui-validations)
 
 Исходный код [на GitHub](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations).
 
@@ -55,36 +56,7 @@ import * as DocsStories from './GettingStarted.docs.stories.tsx';
 
 ### Пример
 
-<Story of={DocsStories.StaticValidation}></Story>
-
-```jsx static
-import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
-
-export default class StaticValidationDemo extends React.Component {
-  public render() {
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Поле с ошибкой">
-            <ValidationWrapper validationInfo={{ message: <b>Ошибка</b> }}>
-              <Input value={'bad'} />
-            </ValidationWrapper>
-          </Form.Line>
-          <Form.Line title="Поле без ошибки">
-            <ValidationWrapper validationInfo={null}>
-              <Input value={'ok'} />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-}
-```
+<Story of={DocsStories.StaticValidation} />
 
 Обычно валидация вычисляется динамически по текущему значению контрола.
 Для корректоного отображения нужно передавать всегда актуальное состояние валидации.
@@ -101,43 +73,4 @@ const validationInfo = !isValid(value) ? { message: 'Error' } : null;
 
 ### Пример
 
-<Story of={DocsStories.ConditionalValidation}></Story>
-
-```jsx static
-import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
-
-interface ConditionalValidationDemoState {
-  value: string;
-}
-export default class ConditionalValidationDemo extends React.Component {
-  public state: ConditionalValidationDemoState = {
-    value: '',
-  };
-
-  public render() {
-    const { value } = this.state;
-
-    const validationInfo = !/^\d*$/.test(value) ? { message: 'Только цифры' } : null;
-
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Номер">
-            <ValidationWrapper validationInfo={validationInfo}>
-              <Input
-                placeholder={'Только цифры'}
-                value={value}
-                onValueChange={(v) => this.setState({ value: v })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-}
-```
+<Story of={DocsStories.ConditionalValidation} />

@@ -9,7 +9,7 @@ import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {
-  title: 'Описание валидаций/Отсутствующие узлы',
+  title: 'Validator/Missing nodes',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
@@ -20,7 +20,7 @@ export const MissingObjectNode: Story = () => {
   }
 
   interface Data {
-    contact: Nullable<ContactInfo>;
+    contact: Nullable<Partial<ContactInfo>>;
   }
 
   const validate = createValidator<Data>((b) => {
@@ -44,98 +44,77 @@ export const MissingObjectNode: Story = () => {
     );
   });
 
-  interface MissingObjectNodeDemoState {
-    data: Data;
+  const container = React.useRef<ValidationContainer>(null);
+  const [contact, setContact] = React.useState<Nullable<Partial<ContactInfo>>>(null);
+
+  function handleContactChange(value: Partial<ContactInfo>): void {
+    if (!contact) {
+      throw new Error('invalid state');
+    }
+    handleChange({ ...contact, ...value });
   }
-  class MissingObjectNodeDemo extends React.Component {
-    public state: MissingObjectNodeDemoState = {
-      data: {
-        contact: null,
-      },
-    };
 
-    private container: Nullable<ValidationContainer> = null;
+  function handleChange(value: Partial<ContactInfo> | null): void {
+    setContact((prevState) => ({ ...prevState, ...value }));
+  }
 
-    public render() {
-      const { data } = this.state;
-      const v = validate(data).getNode((x) => x.contact);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="Валидации">JSON</Form.Line>
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
+    }
+  }
 
-            <Form.Line title="Имя">{JSON.stringify(v.getNode((x) => x.name).get())}</Form.Line>
+  const v = validate({ contact }).getNode((x) => x.contact);
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="Валидации">JSON</Form.Line>
 
-            <Form.Line title="E-mail">{JSON.stringify(v.getNode((x) => x.email).get())}</Form.Line>
+        <Form.Line title="Имя">{JSON.stringify(v.getNode((x) => x.name).get())}</Form.Line>
 
-            <Form.LineBreak />
+        <Form.Line title="E-mail">{JSON.stringify(v.getNode((x) => x.email).get())}</Form.Line>
 
-            <Form.Line title="Указать контакты">
-              <Toggle
-                checked={!!data.contact}
-                onValueChange={(checked) => this.handleChange({ contact: checked ? { name: '', email: '' } : null })}
-              />
+        <Form.LineBreak />
+
+        <Form.Line title="Указать контакты">
+          <Toggle
+            checked={!!contact}
+            onValueChange={(checked) => handleChange(checked ? { name: '', email: '' } : null)}
+          />
+        </Form.Line>
+
+        {contact && (
+          <>
+            <Form.Line title="Имя">
+              <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
+                <Input
+                  placeholder={'Любое'}
+                  value={contact.name}
+                  onValueChange={(name) => handleContactChange({ name })}
+                />
+              </ValidationWrapper>
             </Form.Line>
 
-            {data.contact && (
-              <>
-                <Form.Line title="Имя">
-                  <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
-                    <Input
-                      placeholder={'Любое'}
-                      value={data.contact.name}
-                      onValueChange={(name) => this.handleContactChange({ name })}
-                    />
-                  </ValidationWrapper>
-                </Form.Line>
+            <Form.Line title="E-mail">
+              <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
+                <Input
+                  placeholder={'xxx@xxx.xx'}
+                  value={contact.email}
+                  onValueChange={(email) => handleContactChange({ email })}
+                />
+              </ValidationWrapper>
+            </Form.Line>
+          </>
+        )}
 
-                <Form.Line title="E-mail">
-                  <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
-                    <Input
-                      placeholder={'xxx@xxx.xx'}
-                      value={data.contact.email}
-                      onValueChange={(email) => this.handleContactChange({ email })}
-                    />
-                  </ValidationWrapper>
-                </Form.Line>
-              </>
-            )}
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private handleContactChange = (value: Partial<ContactInfo>): void => {
-      const contact = this.state.data.contact;
-      if (!contact) {
-        throw new Error('invalid state');
-      }
-      this.handleChange({ contact: { ...contact, ...value } });
-    };
-
-    private handleChange = (value: Partial<Data>): void => {
-      this.setState({ data: { ...this.state.data, ...value } });
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
-  }
-
-  return <MissingObjectNodeDemo />;
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };
 
 export const MissingUiNode: Story = () => {
@@ -170,93 +149,72 @@ export const MissingUiNode: Story = () => {
     );
   });
 
-  interface MissingObjectNodeState {
-    data: Data;
+  const container = React.useRef<ValidationContainer>(null);
+  const [withContact, setWithContact] = React.useState<boolean>(false);
+  const [contact, setContact] = React.useState<{
+    name: string;
+    email: string;
+  }>({
+    name: '',
+    email: '',
+  });
+
+  function handleContactChange(value: Partial<ContactInfo>): void {
+    setContact((prevState) => ({ ...prevState, ...value }));
   }
-  class MissingObjectNode extends React.Component {
-    public state: MissingObjectNodeState = {
-      data: {
-        withContact: false,
-        contact: {
-          name: '',
-          email: '',
-        },
-      },
-    };
 
-    private container: Nullable<ValidationContainer> = null;
+  async function handleSubmit(): Promise<void> {
+    if (await container.current?.validate()) {
+      alert('success');
+    }
+  }
 
-    public render() {
-      const { data } = this.state;
-      const v = validate(data).getNode((x) => x.contact);
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <Form.Line title="Валидации">JSON</Form.Line>
+  const v = validate({ contact, withContact }).getNode((x) => x.contact);
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <Form.Line title="Валидации">JSON</Form.Line>
 
-            <Form.Line title="Имя">{JSON.stringify(v.getNode((x) => x.name).get())}</Form.Line>
+        <Form.Line title="Имя">{JSON.stringify(v.getNode((x) => x.name).get())}</Form.Line>
 
-            <Form.Line title="E-mail">{JSON.stringify(v.getNode((x) => x.email).get())}</Form.Line>
+        <Form.Line title="E-mail">{JSON.stringify(v.getNode((x) => x.email).get())}</Form.Line>
 
-            <Form.LineBreak />
+        <Form.LineBreak />
 
-            <Form.Line title="Указать контакты">
-              <Toggle checked={data.withContact} onValueChange={(withContact) => this.handleChange({ withContact })} />
+        <Form.Line title="Указать контакты">
+          <Toggle checked={withContact} onValueChange={setWithContact} />
+        </Form.Line>
+
+        {withContact && (
+          <>
+            <Form.Line title="Имя">
+              <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
+                <Input
+                  placeholder={'Любое'}
+                  value={contact.name}
+                  onValueChange={(name) => handleContactChange({ name })}
+                />
+              </ValidationWrapper>
             </Form.Line>
 
-            {data.withContact && (
-              <>
-                <Form.Line title="Имя">
-                  <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
-                    <Input
-                      placeholder={'Любое'}
-                      value={data.contact.name}
-                      onValueChange={(name) => this.handleContactChange({ name })}
-                    />
-                  </ValidationWrapper>
-                </Form.Line>
+            <Form.Line title="E-mail">
+              <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
+                <Input
+                  placeholder={'xxx@xxx.xx'}
+                  value={contact.email}
+                  onValueChange={(email) => handleContactChange({ email })}
+                />
+              </ValidationWrapper>
+            </Form.Line>
+          </>
+        )}
 
-                <Form.Line title="E-mail">
-                  <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
-                    <Input
-                      placeholder={'xxx@xxx.xx'}
-                      value={data.contact.email}
-                      onValueChange={(email) => this.handleContactChange({ email })}
-                    />
-                  </ValidationWrapper>
-                </Form.Line>
-              </>
-            )}
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
-    }
-
-    private handleContactChange = (value: Partial<ContactInfo>): void => {
-      this.handleChange({ contact: { ...this.state.data.contact, ...value } });
-    };
-
-    private handleChange = (value: Partial<Data>): void => {
-      this.setState({ data: { ...this.state.data, ...value } });
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      if (await this.container.validate()) {
-        alert('success');
-      }
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
-  }
-
-  return <MissingObjectNode />;
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };

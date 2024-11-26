@@ -4,6 +4,7 @@
   body {
     height: 100%;
   }
+
   body {
     font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
     font-size: 14px;
@@ -12,27 +13,49 @@
     color: rgba(0, 0, 0, 0.87);
     padding: 0 !important;
   }
+
   html.relative {
     position: relative;
     height: auto;
   }
+
   #root {
     min-height: 100%;
   }
+
   .dark {
     background: #1f1f1f;
     color: rgba(255, 255, 255, 0.865);
   }
+
+  .dark [data-role='code-wrapper'] {
+    color: rgba(255, 255, 255, 0.865);
+  }
+
+  .dark [data-role='preview-wrapper'] > div,
+  .dark [data-role='preview-wrapper'] + div {
+    background: #1f1f1f;
+  }
+
   * {
     /* disable scrollbars for firefox 100 */
     /* see ID-10438 */
     scrollbar-width: none;
   }
+
   /*Кастомные стили*/
-  .sbdocs-wrapper:has(#disable-toc) > .css-1wizkyk[data-comp-name='TableOfContents Insertion5'] {
+  .sbdocs-wrapper:has(#disable-toc) > [data-comp-name~='TableOfContents'] {
     display: none;
   }
   .docs-story div[scale='1'] {
     transform: none;
   }
 </style>
+<script>
+  window.addEventListener('error', function (e) {
+    // prevent React's listener from firing
+    e.stopImmediatePropagation();
+    // prevent the browser's console error message
+    e.preventDefault();
+  });
+</script>

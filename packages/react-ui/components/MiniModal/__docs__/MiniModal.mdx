@@ -1,5 +1,6 @@
 import * as MiniModalStories from '../__docs__/MiniModal.docs.stories.tsx';
-import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks';
+import { Primary, Controls, Stories, Description } from '@storybook/blocks';
+import { Meta } from '../../../.storybook/Meta';
 
 <Meta of={MiniModalStories} />
 
@@ -17,8 +18,11 @@ import { Meta, Primary, Controls, Stories, Description } from '@storybook/blocks
 
 ## Пропы
 
-<Controls />
+<details>
+  <summary>Открыть таблицу с пропами</summary>
+  <Controls />
+</details>
 
 ## Примеры использования
 
-<Stories />
+<Stories title="" includePrimary={false} />

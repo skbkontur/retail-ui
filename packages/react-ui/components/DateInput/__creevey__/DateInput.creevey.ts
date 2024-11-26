@@ -51,7 +51,7 @@ kind('DateInput', () => {
     });
   });
 
-  story('BlurAlwaysAfterChange', ({ setStoryParameters }) => {
+  story('BlurAlwaysAfterChange', () => {
     test('value not changed', async function () {
       await this.browser.executeScript(function () {
         const input = window.document.querySelector("[data-comp-name~='DateInput']");

@@ -3,17 +3,34 @@ import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
+import { addons } from '@storybook/manager-api';
+import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
+import SearchIcon from '@skbkontur/react-icons/Search';
+import MenuIcon from '@skbkontur/react-icons/Menu';
+import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
+import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
+import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
+import OkIcon from '@skbkontur/react-icons/icons/Ok';
+import FunctionIcon from '@skbkontur/react-icons/Function';
+import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
+import PeopleIcon from '@skbkontur/react-icons/People';
+import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
-import { LIGHT_THEME_MOBILE } from '../lib/theming/themes/LightThemeMobile';
-import { LIGHT_THEME } from '../lib/theming/themes/LightTheme';
-import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
+import * as ReactUi from '../index';
+import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
+import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
 
-import { LocaleDecorator, toolbarItems } from './decorators/Locale/LocaleDecorator';
+import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
-import { featureFlagsConfig } from './featureFlagsConfig/featureFlagsConfig';
+import { ThemeDecodator } from './decorators/Theme/ThemeDecorator';
+
+const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 const customViewports = {
   iphone: {
@@ -34,12 +51,6 @@ const customViewports = {
   },
 };
 
-const themes = {
-  LIGHT_THEME,
-  DARK_THEME,
-  LIGHT_THEME_MOBILE,
-};
-
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
   const isControlComponent = !!findAmongParents(
@@ -54,6 +65,7 @@ setFilter((fiber) => {
 });
 
 const MOBILE_REGEXP = /Mobile.*/i;
+
 const preview: Preview = {
   parameters: {
     docs: {
@@ -93,32 +105,8 @@ const preview: Preview = {
     viewport: {
       viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
     },
-    multiselect: featureFlagsConfig,
   },
   decorators: [
-    (Story, context) => {
-      const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
-
-      if ([DARK_THEME].includes(storybookTheme)) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-      if (storybookTheme !== LIGHT_THEME) {
-        return (
-          <ThemeContext.Consumer>
-            {(theme) => {
-              return (
-                <ThemeContext.Provider value={ThemeFactory.create(theme, storybookTheme)}>
-                  <Story />
-                </ThemeContext.Provider>
-              );
-            }}
-          </ThemeContext.Consumer>
-        );
-      }
-      return <Story />;
-    },
     (Story) => (
       <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
         <Story />
@@ -144,8 +132,6 @@ const preview: Preview = {
         </ThemeContext.Consumer>
       );
     },
-    LocaleDecorator,
-    FeatureFlagsDecorator,
   ],
 };
 
@@ -155,26 +141,45 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'THEME_2022',
-    toolbar: {
-      icon: 'paintbrush',
-      items: Object.keys(themes),
-      showName: true,
-    },
+    defaultValue: 'LIGHT_THEME',
   },
   locale: {
     name: 'Locale',
     description: 'React UI Locale',
     defaultValue: 'ru',
-    toolbar: {
-      icon: 'globe',
-      items: Object.keys(toolbarItems),
-      showName: true,
-      dynamicTitle: true,
-    },
+  },
+  featureFlags: {
+    name: 'React UI Feature flags',
+    description: 'React UI Feature flags',
+    defaultValue: [],
   },
 };
 
 if (isTestEnv) {
   import('../lib/styles/HoldSelectionColor');
 }
+
+addons.setConfig({
+  [LIVE_EXAMPLES_ADDON_ID]: {
+    scope: {
+      ...ReactUi,
+      DatePickerHelpers,
+      ViewDateInputValidateChecks,
+      OkIcon,
+      MenuIcon,
+      PeopleIcon,
+      SearchIcon,
+      HelpDotIcon,
+      FunctionIcon,
+      CopyIcon16Regular,
+      TrashCanIcon,
+      MoneyTypeCoinsIcon,
+      NotificationBellAlarmIcon16Solid,
+      CheckAIcon16Light,
+      XIcon16Regular,
+      MinusCircleIcon16Light,
+    },
+    decorators: [ThemeDecodator, LocaleDecorator, FeatureFlagsDecorator],
+  } as LiveConfig,
+  showToolbar: !isDocsEnv,
+});

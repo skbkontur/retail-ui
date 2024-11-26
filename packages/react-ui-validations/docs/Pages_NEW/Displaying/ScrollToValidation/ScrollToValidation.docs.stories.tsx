@@ -9,98 +9,68 @@ import { SpaceFiller } from '../../../Common/SpaceFiller';
 import { Nullable } from '../../../../typings/Types';
 
 export default {
-  title: 'Отображение/Скролл к валидации',
+  title: 'Displaying/Scroll to validation',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
 export const ScrollToValidation: Story = () => {
-  class ScrollToValidationDemo extends React.Component {
-    public state = {
-      value0: '',
-      value1: '',
-      value2: '',
-      value3: '',
-    };
+  const container = React.useRef<ValidationContainer>(null);
+  const [value0, setValue0] = React.useState<string>('');
+  const [value1, setValue1] = React.useState<string>('');
+  const [value2, setValue2] = React.useState<string>('');
+  const [value3, setValue3] = React.useState<string>('');
 
-    private container: Nullable<ValidationContainer> = null;
-
-    public render() {
-      return (
-        <ValidationContainer ref={this.refContainer}>
-          <Form>
-            <SpaceFiller height={200}>Пустое место 200px</SpaceFiller>
-
-            <Form.Line title={'value0'}>
-              <ValidationWrapper validationInfo={this.validate(this.state.value0)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value0}
-                  onValueChange={(value) => this.setState({ value0: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title={'value1'}>
-              <ValidationWrapper validationInfo={this.validate(this.state.value1)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value1}
-                  onValueChange={(value) => this.setState({ value1: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <SpaceFiller height={1600}>Пустое место 1600px</SpaceFiller>
-
-            <Form.Line title={'value2'}>
-              <ValidationWrapper validationInfo={this.validate(this.state.value2)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value2}
-                  onValueChange={(value) => this.setState({ value2: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.Line title={'value3'}>
-              <ValidationWrapper validationInfo={this.validate(this.state.value3)}>
-                <Input
-                  placeholder={'Только цифры'}
-                  value={this.state.value3}
-                  onValueChange={(value) => this.setState({ value3: value })}
-                />
-              </ValidationWrapper>
-            </Form.Line>
-
-            <Form.ActionsBar>
-              <Button use={'primary'} onClick={this.handleSubmit}>
-                Submit
-              </Button>
-            </Form.ActionsBar>
-          </Form>
-        </ValidationContainer>
-      );
+  function validate(value: string): Nullable<ValidationInfo> {
+    if (!value) {
+      return { message: 'Укажите значение', type: 'submit' };
     }
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      if (!value) {
-        return { message: 'Укажите значение', type: 'submit' };
-      }
-      if (!/^\d*$/.test(value)) {
-        return { message: 'Только цифры' };
-      }
-      return null;
-    };
-
-    private handleSubmit = async (): Promise<void> => {
-      if (!this.container) {
-        throw new Error('invalid state');
-      }
-      await this.container.submit();
-    };
-
-    private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);
+    if (!/^\d*$/.test(value)) {
+      return { message: 'Только цифры' };
+    }
+    return null;
   }
 
-  return <ScrollToValidationDemo />;
+  async function handleSubmit(): Promise<void> {
+    await container.current?.submit();
+  }
+
+  return (
+    <ValidationContainer ref={container}>
+      <Form>
+        <SpaceFiller height={200}>Пустое место 200px</SpaceFiller>
+
+        <Form.Line title={'value0'}>
+          <ValidationWrapper validationInfo={validate(value0)}>
+            <Input placeholder={'Только цифры'} value={value0} onValueChange={setValue0} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title={'value1'}>
+          <ValidationWrapper validationInfo={validate(value1)}>
+            <Input placeholder={'Только цифры'} value={value1} onValueChange={setValue1} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <SpaceFiller height={1600}>Пустое место 1600px</SpaceFiller>
+
+        <Form.Line title={'value2'}>
+          <ValidationWrapper validationInfo={validate(value2)}>
+            <Input placeholder={'Только цифры'} value={value2} onValueChange={setValue2} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.Line title={'value3'}>
+          <ValidationWrapper validationInfo={validate(value3)}>
+            <Input placeholder={'Только цифры'} value={value3} onValueChange={setValue3} />
+          </ValidationWrapper>
+        </Form.Line>
+
+        <Form.ActionsBar>
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Form.ActionsBar>
+      </Form>
+    </ValidationContainer>
+  );
 };
