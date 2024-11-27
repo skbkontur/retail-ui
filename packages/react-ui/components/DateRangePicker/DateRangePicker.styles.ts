@@ -3,13 +3,11 @@ import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   root(t: Theme) {
-    return css`
-    `;
+    return css``;
   },
 
   rootMobile(t: Theme) {
-    return css`
-    `;
+    return css``;
   },
 
   calendarWrapper(t: Theme) {
