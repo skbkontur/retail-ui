@@ -25,6 +25,15 @@ export const styles = memoizeStyle({
       line-height: ${t.calendarCellLineHeight};
       border-radius: ${t.calendarCellBorderRadius};
 
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};
         color: ${t.calendarCellHoverColor};
