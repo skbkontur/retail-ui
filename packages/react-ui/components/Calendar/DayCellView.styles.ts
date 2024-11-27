@@ -24,6 +24,7 @@ export const styles = memoizeStyle({
       position: relative;
       line-height: ${t.calendarCellLineHeight};
       border-radius: ${t.calendarCellBorderRadius};
+      transition: 0.15s ease background-color, 0.15s ease opacity;
 
       &:before {
         content: '';
