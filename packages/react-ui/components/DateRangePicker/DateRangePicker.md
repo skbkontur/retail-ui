@@ -181,6 +181,58 @@ TODO: раздел валидации
 
 <br />
 
+### Выбор дат с ценами
+
+Пример с кастомизацией темы и кастомным рендером дня 
+
+```jsx harmony
+import { ThemeContext, ThemeFactory, CalendarDay } from '@skbkontur/react-ui';
+
+const theme = React.useContext(ThemeContext);
+
+function renderDay(props) {
+  const [date, month] = props.date.split('.').map(Number);
+  const randomDay = date % 6 === 0 || date % 7 === 0 || date % 8 === 0;
+  const randomPrice = Math.round((date / month) * 1000);
+
+  return (
+    <CalendarDay {...props}>
+      <div style={{ fontSize: theme.calendarCellFontSize }}>{date}</div>
+      <div style={{ fontSize: '11px', fontFeatureSettings: 'tnum', fontVariantNumeric: 'tabular-nums' }}>
+        {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.tokenTextColorDisabled }}>—</span>}
+      </div>
+    </CalendarDay>
+  );
+}
+
+ const [fromValue, setFromValue] = React.useState();
+ const [toValue, setToValue] = React.useState();
+ const minDate = "08.07.2024";
+ const maxDate = "18.08.2024";
+
+<ThemeContext.Provider
+  value={ThemeFactory.create({
+    calendarCellWidth: '52px',
+    calendarCellHeight: '44px',
+    calendarCellLineHeight: '1.5',
+    calendarWrapperHeight: '700px',
+    calendarCellBorderRadius: '10px'
+  }, theme)}
+>
+  <DateRangePicker
+    from={fromValue}
+    to={toValue}
+    minDate={minDate}
+    maxDate={maxDate}
+    size="medium"
+    onValueChange={console.log}
+    onFromValueChange={setFromValue}
+    onToValueChange={setToValue}
+    renderDay={renderDay}
+  />
+</ThemeContext.Provider>
+```
+
 ## Локали по умолчанию
 
 ```typescript static
