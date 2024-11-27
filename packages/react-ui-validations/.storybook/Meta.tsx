@@ -6,7 +6,10 @@ import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/W
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
+import { Link } from '@skbkontur/react-ui/components/Link';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 
@@ -47,9 +50,12 @@ const styles = {
       background: rgba(0, 0, 0, 0.1);
     }
   `,
+  menuItem: css`
+    min-width: 250px !important;
+  `,
   menuComment: css`
     position: relative;
-    font-size: 10px;
+    font-size: 11px;
     margin-top: -4px;
   `,
   menuIcon: css`
@@ -99,12 +105,11 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
         >
           {themes.map(({ icon, caption, value }) => (
             <MenuItem
+              className={styles.menuItem}
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
             >
-              <div style={{ minWidth: 150 }}>
-                {caption} <div className={styles.menuIcon}>{icon}</div>
-              </div>
+              {caption} <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
         </DropdownMenu>
@@ -119,7 +124,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           }
         >
           {allFeatureFlags.map((flag) => (
-            <MenuItem /*onClick={(e) => e.preventDefault()}*/>
+            <MenuItem className={styles.menuItem}>
               <Toggle
                 checked={currentFeatureFlags.includes(flag)}
                 onValueChange={(newValue) => {
@@ -140,6 +145,17 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               </Toggle>
             </MenuItem>
           ))}
+          <MenuSeparator />
+          <MenuFooter>
+            <Link
+              target="_parent"
+              href="/?path=/docs/displaying-feature-flags--docs"
+              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
+              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
+            >
+              Подробнее о фича-флагах
+            </Link>
+          </MenuFooter>
         </DropdownMenu>
       </div>
     </div>

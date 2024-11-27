@@ -44,13 +44,68 @@
   }
 
   /*Кастомные стили*/
+  :root {
+    --sidebar-width: 13rem;
+    --sidebar-left-padding: 0.5rem;
+    --sidebar-inner-width: calc(var(--sidebar-width) - var(--sidebar-left-padding));
+
+    --content-width: calc(100% - var(--sidebar-width));
+  }
+
   .sbdocs-wrapper:has(#disable-toc) > [data-comp-name~='TableOfContents'] {
     display: none;
   }
+
   .docs-story div[scale='1'] {
     transform: none;
   }
+
+  .sbdocs-wrapper {
+    gap: 2rem;
+    justify-content: flex-start !important;
+  }
+
+  .sbdocs-content {
+    width: var(--content-width) !important;
+  }
+
+  [data-comp-name='TableOfContents Insertion'] {
+    order: -1;
+    width: var(--sidebar-width) !important;
+    padding-left: var(--sidebar-left-padding);
+    flex-shrink: 0;
+    background: white;
+  }
+
+  [data-comp-name='TableOfContents Insertion'] > * {
+    width: var(--sidebar-inner-width) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .toc-list-item > a,
+  .sbdocs-a {
+    color: #3c3c3c !important;
+    text-decoration: underline;
+    text-decoration-color: #adadad;
+    text-underline-offset: 0.2em;
+  }
+
+  .toc-list-item > a:hover {
+    color: #222 !important;
+  }
+
+  @media screen and (max-width: 1100px) {
+    [data-comp-name='TableOfContents Insertion'] {
+      display: none;
+    }
+
+    .sbdocs-content {
+      width: 100% !important;
+    }
+  }
 </style>
+
 <script>
   window.addEventListener('error', function (e) {
     // prevent React's listener from firing
