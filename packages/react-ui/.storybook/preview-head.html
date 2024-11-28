@@ -83,16 +83,19 @@
     padding-right: 0 !important;
   }
 
-  .toc-list-item > a,
-  .sbdocs-a {
+  .sbdocs.sbdocs-a,
+  .toc-list-item > a {
     color: #3c3c3c !important;
     text-decoration: underline;
     text-decoration-color: #adadad;
     text-underline-offset: 0.2em;
   }
 
+  .sbdocs.sbdocs-a:hover,
   .toc-list-item > a:hover {
     color: #222 !important;
+    text-decoration-color: #222 !important;
+    transition: text-decoration-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
   }
 
   @media screen and (max-width: 1100px) {
