@@ -1,6 +1,6 @@
 import { DocsContext } from '@storybook/blocks';
 import type { ModuleExports } from '@storybook/types';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
 import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
@@ -88,15 +88,23 @@ const styles = {
   `,
 };
 
-let flag = true;
+const cache = new Map<string, boolean>();
 
 export const Meta = ({ of }: { of: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  if (flag && of) {
-    context.referenceMeta(of, flag); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
-    flag = false;
+  const key = of.default.title;
+  if (!cache.has(key) && of) {
+    context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
+    cache.set(key, true);
   }
+
+  useEffect(
+    () => () => {
+      cache.delete(key);
+    },
+    [],
+  );
 
   //@ts-expect-error: store is not public
   const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
