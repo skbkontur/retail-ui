@@ -1,6 +1,6 @@
 import { DocsContext } from '@storybook/blocks';
 import type { ModuleExports } from '@storybook/types';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
 import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
@@ -15,6 +15,8 @@ import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import { MenuSeparator } from '../components/MenuSeparator';
 import { MenuFooter } from '../components/MenuFooter';
 import { Link } from '../components/Link';
+
+const urlPath = window.location.origin + window.location.pathname;
 
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
@@ -64,6 +66,7 @@ const styles = {
     position: relative;
     font-size: 11px;
     margin-top: -4px;
+    text-transform: uppercase;
   `,
   menuIcon: css`
     position: absolute;
@@ -88,15 +91,23 @@ const styles = {
   `,
 };
 
-let doReferenceMetaOnce = true;
+const cache = new Map<string, boolean>();
 
 export const Meta = ({ of }: { of: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  if (doReferenceMetaOnce && of) {
-    context.referenceMeta(of, doReferenceMetaOnce); // если делать несколько раз attach -- дублируются истории на странице
-    doReferenceMetaOnce = false;
+  const key = of.default.title;
+  if (!cache.has(key) && of) {
+    context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
+    cache.set(key, true);
   }
+
+  useEffect(
+    () => () => {
+      cache.delete(key);
+    },
+    [],
+  );
 
   //@ts-expect-error: store is not public
   const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
@@ -130,7 +141,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/information-theme--docs"
+              href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >
@@ -159,7 +170,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/information-locale--docs"
+              href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >
@@ -203,7 +214,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/information-feature-flags--docs"
+              href={`${urlPath}/?path=/docs/react_ui_information-feature-flags--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >

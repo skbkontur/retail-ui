@@ -15,6 +15,8 @@ import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 
 import { validationsFeatureFlagsDefault } from '../src';
 
+const urlPath = window.location.origin + window.location.pathname;
+
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
@@ -57,6 +59,7 @@ const styles = {
     position: relative;
     font-size: 11px;
     margin-top: -4px;
+    text-transform: uppercase;
   `,
   menuIcon: css`
     position: absolute;
@@ -115,6 +118,17 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               {caption} <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
+          <MenuSeparator />
+          <MenuFooter>
+            <Link
+              target="_parent"
+              href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
+              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
+              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
+            >
+              Подробнее о локализации
+            </Link>
+          </MenuFooter>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -152,7 +166,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/displaying-feature-flags--docs"
+              href={`${urlPath}/?path=/docs/react_ui_validations_displaying-feature-flags--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >
