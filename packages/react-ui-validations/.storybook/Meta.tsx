@@ -115,7 +115,8 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
             >
-              {caption} <div className={styles.menuIcon}>{icon}</div>
+              {caption}
+              <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
           <MenuSeparator />

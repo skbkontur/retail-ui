@@ -23,18 +23,17 @@
     min-height: 100%;
   }
 
-  .dark {
-    background: #1f1f1f;
-    color: rgba(255, 255, 255, 0.865);
-  }
-
   .dark [data-role='code-wrapper'] {
     color: rgba(255, 255, 255, 0.865);
   }
 
+  .dark [data-role='code-wrapper'] button.active {
+    color: #fff;
+  }
+
   .dark [data-role='preview-wrapper'] > div,
   .dark [data-role='preview-wrapper'] + div {
-    background: #1f1f1f;
+    background: rgb(40, 42, 54);
   }
 
   * {
@@ -52,8 +51,13 @@
     --content-width: calc(100% - var(--sidebar-width));
   }
 
+  #storybook-docs {
+    margin-left: 38px;
+  }
+
   .sbdocs-wrapper {
     gap: 2rem;
+    padding-left: 0 !important;
     justify-content: flex-start !important;
   }
 
@@ -92,21 +96,21 @@
   }
 
   .toc-wrapper > .toc-list .toc-list,
-  [data-comp-name='TableOfContents Insertion'] .toc-wrapper > .toc-list {
+  div:has( > div > div.toc-wrapper) .toc-wrapper > .toc-list {
     border: 0 !important;
     margin: 0 !important;
   }
 
-  [data-comp-name='TableOfContents Insertion'] [data-comp-name='OptionalTitle Insertion'] {
+  div:has( > div > div.toc-wrapper) div:has(.toc-wrapper .toc-list) > div > p:first-child {
     display: none;
   }
 
-  [data-comp-name='TableOfContents Insertion'] .toc-list-item {
-    padding-left: 12px !important;
+  div:has( > div > div.toc-wrapper) .toc-list-item {
+    padding-left: 0 !important;
     margin-left: 0 !important;
   }
 
-  [data-comp-name='TableOfContents Insertion'] .toc-list-item::before {
+  div:has( > div > div.toc-wrapper) .toc-list-item::before {
     content: none;
   }
 
@@ -141,7 +145,7 @@
 </style>
 
 <script>
-  window.addEventListener('error', function (e) {
+  window.addEventListener('error', function(e) {
     // prevent React's listener from firing
     e.stopImmediatePropagation();
     // prevent the browser's console error message
