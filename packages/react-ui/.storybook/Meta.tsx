@@ -88,14 +88,14 @@ const styles = {
   `,
 };
 
-let flag = true;
+let doReferenceMetaOnce = true;
 
 export const Meta = ({ of }: { of: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  if (flag && of) {
-    context.referenceMeta(of, flag); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
-    flag = false;
+  if (doReferenceMetaOnce && of) {
+    context.referenceMeta(of, doReferenceMetaOnce); // если делать несколько раз attach -- дублируются истории на странице
+    doReferenceMetaOnce = false;
   }
 
   //@ts-expect-error: store is not public
