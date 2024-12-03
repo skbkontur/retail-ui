@@ -48,9 +48,11 @@ const styles = {
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 6px;
+
     &:hover {
       background: rgba(0, 0, 0, 0.06);
     }
+
     &:active {
       background: rgba(0, 0, 0, 0.1);
     }
@@ -86,11 +88,14 @@ const styles = {
   `,
 };
 
+let flag = true;
+
 export const Meta = ({ of }: { of: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  if (of) {
-    context.referenceMeta(of, true);
+  if (flag && of) {
+    context.referenceMeta(of, flag); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
+    flag = false;
   }
 
   //@ts-expect-error: store is not public
@@ -116,7 +121,8 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
             >
-              {caption} <div className={styles.menuIcon}>{icon}</div>
+              {caption}
+              <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
 
@@ -145,7 +151,8 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { locale: value } })}
             >
-              {caption} <div className={styles.menuIcon}>{icon}</div>
+              {caption}
+              <div className={styles.menuIcon}>{icon}</div>
             </MenuItem>
           ))}
           <MenuSeparator />
