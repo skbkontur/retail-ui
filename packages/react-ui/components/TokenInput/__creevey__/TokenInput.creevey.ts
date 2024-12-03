@@ -391,4 +391,23 @@ kind('TokenInput', () => {
       await this.expect(await this.takeScreenshot()).to.matchImage();
     });
   });
+
+  story('Size', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: '[data-tid="Gapped__vertical"]',
+    });
+
+    test('MenuItem inherits size', async function () {
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.TAB).perform();
+      const tab1 = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.TAB).perform();
+      const tab2 = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.TAB).perform();
+      const tab3 = await this.takeScreenshot();
+
+      await this.expect([tab1, tab2, tab3]).to.matchImages();
+    });
+  });
 });
