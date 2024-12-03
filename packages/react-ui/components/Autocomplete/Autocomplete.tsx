@@ -190,7 +190,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
    * @public
    */
   public blur() {
-    this.handleBlur();
+    this.handleBlurOutside();
   }
 
   public componentDidUpdate(prevProps: AutocompleteProps) {
@@ -246,11 +246,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
+      onBlur: this.handleBlurInput,
       ref: this.refInput,
     };
 
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
+      <RenderLayer onFocusOutside={this.handleBlurOutside} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
           className={cx(styles.root(this.theme), {
@@ -375,7 +376,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       isMobileOpened: false,
     });
 
-    this.handleBlur();
+    this.handleBlurOutside();
   };
 
   private handleKeyPressMobile = (e: KeyboardEvent) => {
@@ -400,7 +401,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
   };
 
-  private handleBlur = () => {
+  private handleBlurOutside = () => {
     if (!this.state.focused) {
       return;
     }
@@ -411,6 +412,15 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     if (this.input) {
       this.input.blur();
     }
+  };
+
+  private handleBlurInput = () => {
+    if (!this.state.focused) {
+      return;
+    }
+
+    this.opened = false;
+    this.setState({ items: null, focused: false });
 
     if (this.props.onBlur) {
       this.props.onBlur();
@@ -419,7 +429,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private handleClickOutside = (e: Event) => {
     fixClickFocusIE(e);
-    this.handleBlur();
+    this.handleBlurOutside();
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

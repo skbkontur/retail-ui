@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
@@ -382,6 +382,35 @@ describe('<Autocomplete />', () => {
 
     expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
   });
+
+  it(`don't call handleBlur() method when is no focus`, () => {
+    const handleBlur = jest.fn();
+    render(<Autocomplete value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />);
+
+    clickOutside();
+
+    expect(handleBlur).not.toHaveBeenCalled();
+  });
+
+  it(`call onBlur once by click outside`, () => {
+    const handleBlur = jest.fn();
+    render(<Autocomplete autoFocus value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />);
+
+    act(() => clickOutside());
+
+    expect(handleBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it(`call onBlur once by input.blur()`, () => {
+    const handleBlur = jest.fn();
+    const { getByRole } = render(
+      <Autocomplete autoFocus value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />,
+    );
+
+    act(() => getByRole('textbox').blur());
+
+    expect(handleBlur).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('<Autocomplete Enzyme/>', () => {
@@ -397,20 +426,6 @@ describe('<Autocomplete Enzyme/>', () => {
     const inputProps = wrapper.find('Input').props();
 
     expect(inputProps).toMatchObject(props);
-  });
-
-  //TODO: Придумать как перевести на RTL
-  it(`don't call handleBlur() method when where is no focus`, () => {
-    const handleBlur = jest.fn();
-    const props = { value: '', source: [], onValueChange: () => '' };
-    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
-
-    // @ts-expect-error: Use of private property.
-    wrapper.instance().handleBlur = handleBlur;
-
-    clickOutside();
-
-    expect(handleBlur).not.toHaveBeenCalled();
   });
 });
 
