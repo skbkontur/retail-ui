@@ -16,6 +16,8 @@ import { MenuSeparator } from '../components/MenuSeparator';
 import { MenuFooter } from '../components/MenuFooter';
 import { Link } from '../components/Link';
 
+const urlPath = window.location.origin + window.location.pathname;
+
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
   { icon: '🇬🇧', caption: 'English', value: 'en' },
@@ -64,6 +66,7 @@ const styles = {
     position: relative;
     font-size: 11px;
     margin-top: -4px;
+    text-transform: uppercase;
   `,
   menuIcon: css`
     position: absolute;
@@ -138,7 +141,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/information-theme--docs"
+              href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >
@@ -167,7 +170,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/information-locale--docs"
+              href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >
@@ -211,7 +214,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           <MenuFooter>
             <Link
               target="_parent"
-              href="/?path=/docs/information-feature-flags--docs"
+              href={`${urlPath}/?path=/docs/react_ui_information-feature-flags--docs`}
               theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
               style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
             >
