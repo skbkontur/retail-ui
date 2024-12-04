@@ -1,6 +1,6 @@
 import { DocsContext } from '@storybook/blocks';
 import type { ModuleExports } from '@storybook/types';
-import React, { useContext } from 'react';
+import React, {useContext, useEffect} from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
@@ -84,15 +84,22 @@ const styles = {
   `,
 };
 
-let doReferenceMetaOnce = true;
+let storyKeyCache = '';
 
 export const Meta = ({ of }: { of: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  if (doReferenceMetaOnce && of) {
-    context.referenceMeta(of, doReferenceMetaOnce); // если делать несколько раз attach -- дублируются истории на странице
-    doReferenceMetaOnce = false;
+  const key = of.default.title;
+  if (storyKeyCache !== key && of) {
+    context.referenceMeta(of, true); // если делать несколько раз attach -- дублируются истории на странице
+    storyKeyCache = key;
   }
+  useEffect(
+    () => () => {
+      storyKeyCache = '';
+    },
+    [],
+  );
 
   //@ts-expect-error: store is not public
   const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
