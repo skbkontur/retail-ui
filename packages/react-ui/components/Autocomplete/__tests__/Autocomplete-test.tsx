@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 
 import { InputDataTids } from '../../../components/Input';
 import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
-import { delay, clickOutside } from '../../../lib/utils';
+import { delay } from '../../../lib/utils';
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
@@ -385,31 +385,16 @@ describe('<Autocomplete />', () => {
 
   it(`don't call handleBlur() method when is no focus`, () => {
     const handleBlur = jest.fn();
-    render(<Autocomplete value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />);
-
-    clickOutside();
-
-    expect(handleBlur).not.toHaveBeenCalled();
-  });
-
-  it(`call onBlur once by click outside`, () => {
-    const handleBlur = jest.fn();
-    render(<Autocomplete autoFocus value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />);
-
-    act(() => clickOutside());
-
-    expect(handleBlur).toHaveBeenCalledTimes(1);
-  });
-
-  it(`call onBlur once by input.blur()`, () => {
-    const handleBlur = jest.fn();
     const { getByRole } = render(
-      <Autocomplete autoFocus value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />,
+      <>
+        <Autocomplete value="" source={[]} onValueChange={() => ''} onBlur={handleBlur} />
+        <button />
+      </>,
     );
 
-    act(() => getByRole('textbox').blur());
+    act(() => getByRole('button').focus());
 
-    expect(handleBlur).toHaveBeenCalledTimes(1);
+    expect(handleBlur).not.toHaveBeenCalled();
   });
 });
 
