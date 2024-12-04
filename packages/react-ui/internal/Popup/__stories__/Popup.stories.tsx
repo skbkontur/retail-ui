@@ -1,5 +1,4 @@
 import React from 'react';
-import { DropdownProps } from 'react-ui';
 
 import { Popup, PopupPositionsType, PopupProps } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
@@ -10,6 +9,7 @@ import { Select } from '../../../components/Select';
 import { RenderLayer } from '../../RenderLayer';
 import { isTestEnv } from '../../../lib/currentEnvironment';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { DropdownProps } from '../../../components/Dropdown';
 
 export default { title: 'Popup' };
 

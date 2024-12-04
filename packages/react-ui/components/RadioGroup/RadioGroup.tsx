@@ -1,5 +1,6 @@
 import React, { AriaAttributes } from 'react';
 import invariant from 'invariant';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
@@ -7,11 +8,11 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './RadioGroup.styles';
+import { getStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
@@ -115,6 +116,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
@@ -140,6 +143,18 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 
   public render() {
+    return (
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return this.renderMain();
+        }}
+      </EmotionConsumer>
+    );
+  }
+
+  public renderMain() {
     const {
       width,
       onMouseLeave,
@@ -165,7 +180,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
             data-tid={RadioGroupDataTids.root}
             ref={this.ref}
             style={style}
-            className={styles.root()}
+            className={this.styles.root()}
             role="radiogroup"
             {...handlers}
             aria-describedby={ariaDescribedby}
@@ -222,9 +237,10 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
+    const styles = this.styles;
     const itemProps = {
       key: this.getKeyByItem(itemValue),
-      className: cx({
+      className: this.emotion.cx({
         [styles.item()]: true,
         [styles.itemFirst()]: index === 0,
         [styles.itemInline()]: !!this.props.inline,

@@ -1,16 +1,18 @@
 import React, { AriaAttributes } from 'react';
 import { func, shape, string } from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './ToastView.styles';
+import { getStyles } from './ToastView.styles';
 import { Action, ToastDataTids } from './Toast';
 import { ToastLocale, ToastLocaleHelper } from './locale';
 
@@ -47,22 +49,33 @@ export class ToastView extends React.Component<ToastViewProps> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
   private readonly locale!: ToastLocale;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain = () => {
     const { action, onClose, onMouseEnter, onMouseLeave } = this.props;
+    const styles = this.styles;
 
     const link = action ? (
       <button

@@ -1,17 +1,18 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { ModalContext } from './ModalContext';
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { getModalBodyTheme } from './getModalBodyTheme';
 
 export interface ModalBodyProps extends CommonProps {
@@ -34,17 +35,27 @@ export class ModalBody extends React.Component<ModalBodyProps> {
   public static __MODAL_BODY__ = true;
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = getModalBodyTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = getModalBodyTheme(theme);
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -54,12 +65,14 @@ export class ModalBody extends React.Component<ModalBodyProps> {
 
   public renderMain(): JSX.Element {
     const { noPadding } = this.props;
+    const styles = this.styles;
+
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
           <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
-              className={cx({
+              className={this.emotion.cx({
                 [styles.body(this.theme)]: true,
                 [styles.mobileBody(this.theme)]: this.isMobileLayout,
                 [styles.bodyWithoutHeader(this.theme)]: !hasHeader,

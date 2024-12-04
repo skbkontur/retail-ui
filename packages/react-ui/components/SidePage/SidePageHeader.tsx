@@ -1,20 +1,21 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Sticky } from '../Sticky';
 import { isFunction } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageCloseButton } from './SidePageCloseButton';
+import { getStyles } from './SidePage.styles';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -56,6 +57,8 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private wrapper: HTMLElement | null = null;
   private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
@@ -97,12 +100,20 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -128,7 +139,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={SidePageHeaderDataTids.root} ref={this.wrapperRef} className={styles.headerWrapper()}>
+        <div data-tid={SidePageHeaderDataTids.root} ref={this.wrapperRef} className={this.styles.headerWrapper()}>
           {isStickyDesktop || isStickyMobile ? (
             <Sticky ref={this.stickyRef} side="top">
               {header}
@@ -142,18 +153,20 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   private renderHeader = (fixed = false) => {
+    const styles = this.styles;
     const isDisplayed = this.props.hasSeparator || fixed;
+
     return (
       <div>
         <div
-          className={cx(styles.header(this.theme), {
+          className={this.emotion.cx(styles.header(this.theme), {
             [styles.headerFixed(this.theme)]: fixed,
             [styles.mobileHeader(this.theme)]: this.isMobileLayout,
           })}
         >
           {this.renderClose(fixed)}
           <div
-            className={cx(styles.title(this.theme), {
+            className={this.emotion.cx(styles.title(this.theme), {
               [styles.mobileTitle(this.theme)]: this.isMobileLayout,
               [styles.titleFixed()]: fixed,
             })}
@@ -168,9 +181,11 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderClose = (fixed: boolean) => {
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
+    const styles = this.styles;
+
     return (
       <div
-        className={cx(styles.wrapperClose(this.theme), {
+        className={this.emotion.cx(styles.wrapperClose(this.theme), {
           [styles.wrapperCloseFixed(this.theme)]: fixed,
           [styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
         })}

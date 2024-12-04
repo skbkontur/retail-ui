@@ -1,14 +1,15 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
-import { styles, globalClasses } from './ScrollContainer.styles';
+import { getStyles, globalClasses } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
 import { ScrollContainerProps } from './ScrollContainer';
 
@@ -38,6 +39,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   private inner: Nullable<HTMLElement>;
   private containerRef = React.createRef<HTMLDivElement>();
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public node: Nullable<HTMLElement>;
   public state: ScrollBarState = {
@@ -54,12 +57,20 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -72,8 +83,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     }
 
     const { customScrollPos, customScrollSize } = scrollSizeParametersNames[this.props.axis];
-
-    const classNames = cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
+    const styles = this.styles;
+    const classNames = this.emotion.cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
       [styles.scrollBarInvert(this.theme)]: props.invert,
       [styles.visibleScrollBar()]: props.isVisible,
     });
@@ -148,26 +159,26 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
   private get scrollBarStyles() {
     const state = this.state;
-
+    const styles = this.styles;
     if (this.props.axis === 'x') {
-      return cx(styles.scrollBarX(this.theme), globalClasses.scrollbarX, {
+      return this.emotion.cx(styles.scrollBarX(this.theme), globalClasses.scrollbarX, {
         [styles.scrollBarXHover(this.theme)]: state.hover || state.scrollingByMouseDrag,
       });
     }
 
-    return cx(styles.scrollBarY(this.theme), globalClasses.scrollbarY, {
+    return this.emotion.cx(styles.scrollBarY(this.theme), globalClasses.scrollbarY, {
       [styles.scrollBarYHover(this.theme)]: state.hover || state.scrollingByMouseDrag,
     });
   }
 
   private get scrollBarContainerClassNames() {
     const { axis } = this.props;
-
+    const styles = this.styles;
     if (axis === 'x') {
-      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme));
+      return this.emotion.cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme));
     }
 
-    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY());
+    return this.emotion.cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY());
   }
 
   private refScroll = (element: HTMLElement | null) => {

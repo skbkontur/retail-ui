@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 
 import { Modal, ModalFooterProps } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isIE11 } from '../../lib/client';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalFooterProps extends ModalFooterProps {
@@ -29,6 +29,8 @@ export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooter
   'MiniModalFooter',
   ({ direction = 'row', children, ...rest }, ref) => {
     const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
+    const styles = getStyles(emotion);
 
     const childrenCount = React.Children.count(children);
     const _direction = childrenCount > 2 || childrenCount === 1 ? 'column' : direction;
@@ -36,7 +38,7 @@ export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooter
     // IE11 does not support CSS property `gap`
     const IE11FallbackClasses =
       isIE11 &&
-      cx(
+      emotion.cx(
         _direction === 'row' && styles.actionsRowIE11Fallback(theme),
         _direction === 'column' && styles.actionsColumnIE11Fallback(theme),
       );
@@ -46,7 +48,7 @@ export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooter
         <div
           ref={ref}
           data-tid={MiniModalDataTids.actions}
-          className={cx(
+          className={emotion.cx(
             styles.actions(theme),
             _direction === 'row' && styles.actionsRow(),
             _direction === 'column' && styles.actionsColumn(),

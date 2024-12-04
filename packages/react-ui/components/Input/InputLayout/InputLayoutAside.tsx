@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { InputProps } from '../Input';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 
-import { stylesLayout } from './InputLayout.styles';
+import { getStylesLayout } from './InputLayout.styles';
 import { InputLayoutAsideIcon } from './InputLayoutAsideIcon';
 import { InputLayoutAsideText } from './InputLayoutAsideText';
 
@@ -13,7 +14,8 @@ export interface InputLayoutAsideProps {
 }
 
 export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = ({ icon, text, side }) => {
-  const asideClassName = stylesLayout.aside();
+  const emotion = useContext(EmotionContext);
+  const asideClassName = getStylesLayout(emotion).aside();
 
   const _icon = <InputLayoutAsideIcon key="icon" icon={icon} side={side} />;
   const _text = <InputLayoutAsideText key="text" text={text} />;

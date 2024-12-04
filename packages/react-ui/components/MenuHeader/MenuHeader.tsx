@@ -1,12 +1,12 @@
 import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { SizeProp } from '../../lib/types/props';
 import { MenuContext } from '../../internal/Menu/MenuContext';
+import { EmotionContext } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './MenuHeader.styles';
+import { getStyles } from './MenuHeader.styles';
 
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   _enableIconPadding?: boolean;
@@ -28,6 +28,8 @@ export const MenuHeaderDataTids = {
  */
 function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
   const menuContext = useContext(MenuContext);
 
   function getRootSizeClassName() {
@@ -58,7 +60,7 @@ function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', 
       <div
         id={id}
         data-tid={MenuHeaderDataTids.root}
-        className={cx(getRootSizeClassName(), {
+        className={emotion.cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
           [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding || _enableIconPadding,
         })}

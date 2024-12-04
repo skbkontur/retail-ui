@@ -1,12 +1,12 @@
 import React, { AriaAttributes, KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -23,11 +23,12 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 
-import { styles } from './Autocomplete.styles';
 import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
 import { getAutocompleteTheme } from './getAutocompleteTheme';
+import { getStyles } from './Autocomplete.styles';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -163,6 +164,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private readonly locale!: AutocompleteLocale;
   private isMobileLayout!: boolean;
   private opened = false;
@@ -201,18 +204,26 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = getAutocompleteTheme(theme);
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <ThemeContext.Provider value={this.theme}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                {this.renderMain}
-              </CommonWrapper>
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = getAutocompleteTheme(theme);
+                return (
+                  <ThemeContext.Provider value={this.theme}>
+                    <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                      {this.renderMain}
+                    </CommonWrapper>
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
   public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
@@ -253,8 +264,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
-          className={cx(styles.root(this.theme), {
-            [styles.noPortal()]: disablePortal,
+          className={this.emotion.cx(this.styles.root(this.theme), {
+            [this.styles.noPortal()]: disablePortal,
           })}
           style={{ width }}
           ref={this.refRootSpan}

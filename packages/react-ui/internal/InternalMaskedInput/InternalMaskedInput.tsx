@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactInputMask, { InputState } from 'react-input-mask';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isNonNullable } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './InternalMaskedInput.styles';
+import { getStyles } from './InternalMaskedInput.styles';
 
 export interface InternalMaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -52,6 +53,8 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private reactInputMask: ReactInputMask | null = null;
 
   public constructor(props: InternalMaskedInputProps) {
@@ -82,12 +85,20 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -109,6 +120,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
     const leftHelper = style?.textAlign !== 'right' && (
       <span style={{ color: 'transparent' }}>{emptyValue.slice(0, originValue.length)}</span>
     );
+    const styles = this.styles;
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
 
     const rightHelper = emptyValue
@@ -133,7 +145,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
           style={{ ...style }}
         />
         {this.isMaskVisible() && (
-          <span className={cx(styles.inputMask(this.theme), leftClass)}>
+          <span className={this.emotion.cx(styles.inputMask(this.theme), leftClass)}>
             {leftHelper}
             {rightHelper}
           </span>
