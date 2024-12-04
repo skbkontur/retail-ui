@@ -16,7 +16,7 @@ export const MenuSeparatorDataTids = {
 /**
  * `MenuSeparator` добавляет разделительную линию между элементами меню.
  *
- * Сущности в которых может быть использован `MenuSeparator`: [DropdownMenu](?path=/docs/menu-dropdownmenu--docs), [Kebab](?path=/docs/menu-kebab--docs), [TooltipMenu](?path=/docs/menu-tooltipmenu--docs) и [Select](?path=/docs/input-data-select--docs).
+ * Сущности в которых может быть использован `MenuSeparator`: [DropdownMenu](/docs/menu-dropdownmenu--docs), [Kebab](/docs/menu-kebab--docs), [TooltipMenu](/docs/menu-tooltipmenu--docs) и [Select](/docs/input-data-select--docs).
  */
 function MenuSeparator(props: MenuSeparatorProps) {
   const theme = useContext(ThemeContext);

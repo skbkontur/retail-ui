@@ -53,7 +53,7 @@ export const ToastDataTids = {
  * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
  * Однако, при его использовании не работает кастомизация, они не поддерживаются в `React@18`, а также могут быть проблемы с перекрытием уведомления другими элементами страницы.
  *
- * Для статических тостов рекомендуется использовать компонент [SingleToast](?path=/docs/overlay-singletoast--docs) - в нём исправлены эти проблемы.
+ * Для статических тостов рекомендуется использовать компонент [SingleToast](/docs/overlay-singletoast--docs) - в нём исправлены эти проблемы.
  */
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {

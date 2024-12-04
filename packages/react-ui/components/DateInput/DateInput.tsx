@@ -86,7 +86,7 @@ export interface DateInputProps extends CommonProps, Pick<HTMLAttributes<HTMLEle
 type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
 
 /**
- * Компонент поля `DateInput` из [DatePicker](?path=/docs/input-data-datepicker--docs)'а помогает выбирать дату с клавиатуры.
+ * Компонент поля `DateInput` из [DatePicker](/docs/input-data-datepicker--docs)'а помогает выбирать дату с клавиатуры.
  */
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)

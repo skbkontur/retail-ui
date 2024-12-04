@@ -60,7 +60,7 @@ type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
  * Используйте `Tabs` для второстепенной навигации, для группировки или фильтрации контента.
  *
  * Не используйте `Tabs` для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
- * Не используйте `Tabs` для переключения состояний — для этого есть [RadioGroup](?path=/docs/input-data-radiogroup--docs), [Toggle](?path=/docs/input-data-toggle--docs) и [Switcher](?path=/docs/button-switcher--docs).
+ * Не используйте `Tabs` для переключения состояний — для этого есть [RadioGroup](/docs/input-data-radiogroup--docs), [Toggle](/docs/input-data-toggle--docs) и [Switcher](/docs/button-switcher--docs).
  */
 @rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {

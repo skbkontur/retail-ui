@@ -27,7 +27,7 @@ export const Example1: Story = () => {
         default:
           return 16;
       }
-    }
+    };
 
     return (
       <div

@@ -8,7 +8,7 @@ import { Toast, ToastProps } from '../Toast/Toast';
  * Результат может быть положительным, отрицательным или нейтральным.
  *
  * Позволяет вызывать тосты с помощью статических методов.
- * В отличие от статических методов из компонента [Toast](?path=/docs/overlay-toast--docs) их можно кастомизировать и они работают с `React@18`.
+ * В отличие от статических методов из компонента [Toast](/docs/overlay-toast--docs) их можно кастомизировать и они работают с `React@18`.
  */
 export class SingleToast extends React.Component<ToastProps> {
   public static __KONTUR_REACT_UI__ = 'SingleToast';

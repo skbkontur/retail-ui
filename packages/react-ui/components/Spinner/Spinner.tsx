@@ -48,9 +48,9 @@ type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
  * `Spinner` — это зацикленный индикатор, не отображающий прогресс выполнения задачи.
  *
  * Используйте `Spinner`, чтобы показать, что система выполняет команду, которую дал пользователь.
- * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен [GlobalLoader](?path=/docs/display-data-globalloader--docs).
+ * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен [GlobalLoader](/docs/display-data-globalloader--docs).
  *
- * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](?path=/docs/display-data-loader--docs).
+ * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](/docs/display-data-loader--docs).
  */
 @rootNode
 export class Spinner extends React.Component<SpinnerProps> {
