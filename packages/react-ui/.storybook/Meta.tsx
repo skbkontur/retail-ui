@@ -91,20 +91,20 @@ const styles = {
   `,
 };
 
-const cache = new Map<string, boolean>();
+let storyKeyCache = '';
 
 export const Meta = ({ of }: { of: ModuleExports }) => {
   const context = useContext(DocsContext);
 
   const key = of.default.title;
-  if (!cache.has(key) && of) {
+  if (storyKeyCache !== key && of) {
     context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
-    cache.set(key, true);
+    storyKeyCache = key;
   }
 
   useEffect(
     () => () => {
-      cache.delete(key);
+      storyKeyCache = '';
     },
     [],
   );
