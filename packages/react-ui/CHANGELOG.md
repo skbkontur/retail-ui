@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.3...@skbkontur/react-ui@5.0.4) (2024-12-04)
+
+
+### Bug Fixes
+
+* **TokenInput:** forward prop `size` to menu items ([#3553](https://github.com/skbkontur/retail-ui/issues/3553)) ([5a0c990](https://github.com/skbkontur/retail-ui/commit/5a0c990f99478adb12fce10b04f5875406b75e61))
+
+
+
+
+
 ## [5.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.2...@skbkontur/react-ui@5.0.3) (2024-11-22)
 
 
