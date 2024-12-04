@@ -1,51 +1,64 @@
 import React from 'react';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
+import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
+import { UiMenuBars3HIcon } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
+import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
+import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center, SizeProp } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/Tooltip',
   component: Tooltip,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
 
 /** Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов */
 export const Example1: Story = () => {
-  const [size, setSize] = React.useState('small');
+  const [size, setSize] = React.useState<SizeProp>('small');
 
-  const render = () => (
-    <div
-      style={{
-        width: 250,
-        fontSize: size === 'large' ? 16 : 14,
-        fontFamily: 'Segoe UI',
-      }}
-    >
-      Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и
-      модернизации форм развития.
-    </div>
-  );
+  const render = () => {
+    const getFontSize = () => {
+      switch (size) {
+        case 'large':
+          return 24;
+        case 'medium':
+          return 20;
+        case 'small':
+        default:
+          return 16;
+      }
+    }
+
+    return (
+      <div
+        style={{
+          width: 250,
+          fontSize: getFontSize(),
+        }}
+      >
+        Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и
+        модернизации форм развития.
+      </div>
+    );
+  };
 
   return (
-    <div style={{ fontFamily: 'Segoe UI' }}>
+    <div>
       <Gapped vertical>
         <Gapped>
           <div style={{ width: 40 }}>Size</div>
           <Select width={120} value={size} items={['small', 'medium', 'large']} onValueChange={setSize} size={size} />
         </Gapped>
         <Tooltip render={render} pos="right top">
-          <Input size={size} leftIcon={<SearchIcon />} width={170} />
+          <Input size={size} leftIcon={<SearchLoupeIcon />} width={170} />
         </Tooltip>
         <Tooltip render={render} pos="right top">
-          <Button size={size} icon={<MenuIcon />}>
+          <Button size={size} icon={<UiMenuBars3HIcon />}>
             Menu
           </Button>
         </Tooltip>
         <Tooltip render={render} pos="right top">
-          <HelpDotIcon />
+          <QuestionCircleIcon />
         </Tooltip>
       </Gapped>
     </div>
@@ -55,19 +68,10 @@ Example1.storyName = 'Базовый пример';
 
 /** Выравнивание базовой линии с RadioGroup требует дополнительных отступов. */
 export const Example2: Story = () => {
-  const render = () => (
-    <div
-      style={{
-        fontSize: 14,
-        fontFamily: 'Segoe UI',
-      }}
-    >
-      Выровнено по первому Radio
-    </div>
-  );
+  const render = () => <div>Выровнено по первому Radio</div>;
 
   return (
-    <div style={{ fontFamily: 'Segoe UI' }}>
+    <div>
       <Tooltip useWrapper={false} render={render} pos="right top">
         <div style={{ padding: '10px 0', display: 'inline-block' }}>
           <RadioGroup>
@@ -314,7 +318,7 @@ export const Example5: Story = () => {
           Show delay: <Input value={delay} onValueChange={setDelay} />
         </Gapped>
         <Tooltip render={render} delayBeforeShow={delay} pos="right top">
-          <HelpDotIcon />
+          <QuestionCircleIcon />
         </Tooltip>
       </Gapped>
     </div>

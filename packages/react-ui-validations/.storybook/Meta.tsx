@@ -1,6 +1,6 @@
 import { DocsContext } from '@storybook/blocks';
 import type { ModuleExports } from '@storybook/types';
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';

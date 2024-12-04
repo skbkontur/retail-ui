@@ -1,7 +1,7 @@
 import React from 'react';
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -206,7 +206,7 @@ export const Example4: Story = () => {
             minWidth: '20px',
           }}
         >
-          {item.approved ? <OkIcon size={14} /> : null}
+          {item.approved ? <CheckAIcon /> : null}
         </span>
         <span
           style={{

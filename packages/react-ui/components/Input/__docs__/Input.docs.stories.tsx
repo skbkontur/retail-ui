@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchIcon from '@skbkontur/react-icons/Search';
+import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { Input, Button, Group, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -16,7 +16,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  return <Input leftIcon={<SearchIcon />} />;
+  return <Input leftIcon={<SearchLoupeIcon />} />;
 };
 Example2.storyName = 'Иконка';
 

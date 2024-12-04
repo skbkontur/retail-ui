@@ -1,7 +1,7 @@
 import React from 'react';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
+import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { TooltipMenu, Button, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -111,7 +111,7 @@ export const Example6: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex="0">
-          <MenuIcon size={32} />
+          <UiMenuBars3HIcon32Regular />
         </span>
       }
       menuWidth="300px"
@@ -129,7 +129,7 @@ export const Example7: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex="0">
-          <LightbulbIcon size={32} />
+          <LightbulbIcon32Regula />
         </span>
       }
       menuWidth="300px"
@@ -148,7 +148,7 @@ export const Example8: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex="0">
-          <LightbulbIcon size={32} />
+          <LightbulbIcon32Regular />
         </span>
       }
       menuWidth="300px"
@@ -181,8 +181,8 @@ export const Example10: Story = () => {
   return (
     <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   );
@@ -193,8 +193,8 @@ export const Example11: Story = () => {
   return (
     <TooltipMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   );

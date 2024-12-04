@@ -1,6 +1,6 @@
 import React from 'react';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import MenuIcon from '@skbkontur/react-icons/Menu';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import {
   DropdownMenu,
   Button,
@@ -108,8 +108,8 @@ export const Example6: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </DropdownMenu>
   );
@@ -120,8 +120,8 @@ export const Example7: Story = () => {
   return (
     <DropdownMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </DropdownMenu>
   );
@@ -147,7 +147,7 @@ export const Example9: Story = () => {
     <DropdownMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex="0">
-          <MenuIcon size={32} />
+          <UiMenuBars3HIcon32Regular />
         </span>
       }
       menuWidth="300px"

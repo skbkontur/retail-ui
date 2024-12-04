@@ -96,21 +96,21 @@
   }
 
   .toc-wrapper > .toc-list .toc-list,
-  div:has( > div > div.toc-wrapper) .toc-wrapper > .toc-list {
+  div:has(> div > div.toc-wrapper) .toc-wrapper > .toc-list {
     border: 0 !important;
     margin: 0 !important;
   }
 
-  div:has( > div > div.toc-wrapper) div:has(.toc-wrapper .toc-list) > div > p:first-child {
+  div:has(> div > div.toc-wrapper) div:has(.toc-wrapper .toc-list) > div > p:first-child {
     display: none;
   }
 
-  div:has( > div > div.toc-wrapper) .toc-list-item {
+  div:has(> div > div.toc-wrapper) .toc-list-item {
     padding-left: 0 !important;
     margin-left: 0 !important;
   }
 
-  div:has( > div > div.toc-wrapper) .toc-list-item::before {
+  div:has(> div > div.toc-wrapper) .toc-list-item::before {
     content: none;
   }
 
@@ -145,7 +145,7 @@
 </style>
 
 <script>
-  window.addEventListener('error', function(e) {
+  window.addEventListener('error', function (e) {
     // prevent React's listener from firing
     e.stopImmediatePropagation();
     // prevent the browser's console error message

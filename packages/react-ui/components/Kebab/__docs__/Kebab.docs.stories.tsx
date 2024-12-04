@@ -1,7 +1,7 @@
 import React from 'react';
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon';
+import { TrashCanIcon, TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
 import { Kebab, Gapped, MenuItem, Toast, MenuHeader } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -30,10 +30,10 @@ export const Example1: Story = () => {
       </div>
 
       <Kebab size="large">
-        <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
-        <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
           Удалить
         </MenuItem>
       </Kebab>
@@ -72,10 +72,10 @@ export const Example2: Story = () => {
       </div>
 
       <Kebab size={size}>
-        <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        <MenuItem icon={<ToolPencilLineIcon />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
-        <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        <MenuItem icon={<TrashCanIcon />} onClick={() => Toast.push('Удалено')}>
           Удалить
         </MenuItem>
       </Kebab>
@@ -109,10 +109,10 @@ export const Example3: Story = () => {
       </div>
 
       <Kebab positions={['left middle']} size="large">
-        <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
-        <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
           Удалить
         </MenuItem>
       </Kebab>
@@ -140,10 +140,10 @@ export const Example4: Story = () => {
       </div>
 
       <Kebab onOpen={() => Toast.push('Кебаб-меню открылось!')} size="large">
-        <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
-        <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
           Удалить
         </MenuItem>
       </Kebab>
@@ -158,8 +158,8 @@ export const Example5: Story = () => {
   return (
     <Kebab>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   );
@@ -170,8 +170,8 @@ export const Example6: Story = () => {
   return (
     <Kebab preventIconsOffset>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   );
@@ -195,10 +195,10 @@ export const Example7: Story = () => {
       </div>
 
       <Kebab disabled size="large">
-        <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
-        <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
           Удалить
         </MenuItem>
       </Kebab>
@@ -226,10 +226,10 @@ export const Example8: Story = () => {
       </div>
 
       <Kebab disableAnimations size="large">
-        <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
           Редактировать
         </MenuItem>
-        <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
           Удалить
         </MenuItem>
       </Kebab>

@@ -1,7 +1,7 @@
 import React from 'react';
-import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
+import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
 import { MenuItem, Button, DropdownMenu, Link, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -66,11 +66,11 @@ Example4.storyName = 'Описание элементов';
 export const Example5: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с иконками</Button>}>
-      <MenuItem icon={<OkIcon />}>Базовый элемент меню c иконкой</MenuItem>
-      <MenuItem disabled icon={<ThumbDownIcon />}>
+      <MenuItem icon={<CheckAIcon />}>Базовый элемент меню c иконкой</MenuItem>
+      <MenuItem disabled icon={<HandThumbDownIcon />}>
         Отключённый элемент меню с иконкой
       </MenuItem>
-      <MenuItem icon={<DeviceSmartphoneIcon />} comment="А слева вы можете видеть икону 21-го века">
+      <MenuItem icon={<TechPhoneSmartIcon />} comment="А слева вы можете видеть икону 21-го века">
         Элемент меню с описанием и иконкой
       </MenuItem>
     </DropdownMenu>

@@ -18,6 +18,18 @@ import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/Da
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import PeopleIcon from '@skbkontur/react-icons/People';
 import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { UiMenuBars3HIcon, UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
+import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
+import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
+import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
+import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
+import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon';
+import { TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
+import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
+import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
+import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
+import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -179,6 +191,20 @@ addons.setConfig({
       CheckAIcon16Light,
       XIcon16Regular,
       MinusCircleIcon16Light,
+      CheckAIcon,
+      UiMenuBars3HIcon32Regular,
+      HandThumbDownIcon,
+      HandThumbUpIcon,
+      MathFunctionIcon,
+      SearchLoupeIcon,
+      ToolPencilLineIcon,
+      ToolPencilLineIcon24Regular,
+      TrashCanIcon24Regular,
+      TechPhoneSmartIcon,
+      People3Icon,
+      UiMenuBars3HIcon,
+      QuestionCircleIcon,
+      LightbulbIcon32Regular,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,

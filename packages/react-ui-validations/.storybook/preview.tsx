@@ -6,7 +6,8 @@ import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybo
 import { addons } from '@storybook/manager-api';
 import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import styled from 'styled-components';
-import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
+import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
+import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
 
 import * as Validations from '../src/index';
@@ -95,7 +96,8 @@ addons.setConfig({
       Form,
       isNonNullable,
       styled,
-      ThumbDownIcon,
+      HandThumbDownIcon,
+      HandThumbUpIcon,
       ThumbUpIcon,
       SpaceFiller,
     },
