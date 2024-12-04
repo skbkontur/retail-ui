@@ -70,8 +70,6 @@ export interface AutocompleteProps
         preventWindowScroll?: boolean;
         /** Вызывается при изменении `value` */
         onValueChange: (value: string) => void;
-        /** onBlur */
-        onBlur?: () => void;
         /** Размер инпута */
         size?: SizeProp;
         /** value */
@@ -190,7 +188,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
    * @public
    */
   public blur() {
-    this.handleBlurOutside();
+    this.input?.blur();
   }
 
   public componentDidUpdate(prevProps: AutocompleteProps) {
@@ -408,23 +406,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     this.opened = false;
     this.setState({ items: null, focused: false });
-
-    if (this.input) {
-      this.input.blur();
-    }
   };
 
-  private handleBlurInput = () => {
-    if (!this.state.focused) {
-      return;
+  private handleBlurInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!e.relatedTarget) {
+      this.handleBlurOutside();
     }
-
-    this.opened = false;
-    this.setState({ items: null, focused: false });
-
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
+    this.props.onBlur?.(e);
   };
 
   private handleClickOutside = (e: Event) => {
