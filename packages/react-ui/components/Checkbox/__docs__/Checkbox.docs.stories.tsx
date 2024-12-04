@@ -111,7 +111,7 @@ export const Example5: Story = () => {
 Example5.storyName = 'Неопределенное состояние';
 
 export const Example6: Story = () => {
-  const [checkedSiblings, setCheckedSiblings] = React.useState([]);
+  const [checkedSiblings, setCheckedSiblings] = React.useState<number[]>([]);
   const siblingCheckboxes = [1, 2];
 
   let parentCheckboxRef;
@@ -126,7 +126,17 @@ export const Example6: Story = () => {
 
   return (
     <>
-      <Checkbox checked={checkedSiblings.length === siblingCheckboxes.length} ref={(el) => (parentCheckboxRef = el)}>
+      <Checkbox
+        checked={checkedSiblings.length === siblingCheckboxes.length}
+        ref={(el) => (parentCheckboxRef = el)}
+        onValueChange={() => {
+          if (checkedSiblings.length === siblingCheckboxes.length) {
+            setCheckedSiblings(()=>[]);
+          } else {
+            setCheckedSiblings(() => [...siblingCheckboxes]);
+          }
+        }}
+      >
         Родитель
       </Checkbox>
       <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
