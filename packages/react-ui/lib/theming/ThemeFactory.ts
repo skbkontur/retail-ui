@@ -1,7 +1,8 @@
 import { BasicLightTheme } from '../../internal/themes/BasicLightTheme';
-import { isNonNullable, NoInfer } from '../utils';
+import type { NoInfer } from '../utils';
+import { isNonNullable } from '../utils';
 
-import { Theme, ThemeIn } from './Theme';
+import type { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 
 export class ThemeFactory {

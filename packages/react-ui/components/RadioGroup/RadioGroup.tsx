@@ -1,19 +1,23 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import invariant from 'invariant';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
-import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
+import type { RadioGroupContextType } from './RadioGroupContext';
+import { RadioGroupContext } from './RadioGroupContext';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
   /**

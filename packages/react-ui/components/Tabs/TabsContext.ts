@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { emptyHandler } from '../../lib/utils';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
-import { Tab } from './Tab';
+import type { Tab } from './Tab';
 
 export interface TabsContextType<T extends string = any> {
   vertical: boolean;

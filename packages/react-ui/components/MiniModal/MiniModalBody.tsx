@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { Modal, ModalBodyProps } from '../Modal';
+import type { ModalBodyProps } from '../Modal';
+import { Modal } from '../Modal';
 
 import { MiniModalDataTids } from './MiniModal';
 import { styles } from './MiniModal.styles';

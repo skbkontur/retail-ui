@@ -1,4 +1,4 @@
-import { Definitions } from 'imask';
+import type { Definitions } from 'imask';
 
 import { isNonNullable } from '../../lib/utils';
 

@@ -5,11 +5,13 @@ import debounce from 'lodash.debounce';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { Nullable } from '../../typings/utility-types';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -22,7 +24,8 @@ import {
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
 } from './ScrollContainer.helpers';
-import { ScrollAxis, ScrollBar, ScrollBarScrollState } from './ScrollBar';
+import type { ScrollAxis, ScrollBarScrollState } from './ScrollBar';
+import { ScrollBar } from './ScrollBar';
 
 export type ScrollContainerScrollStateX = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';

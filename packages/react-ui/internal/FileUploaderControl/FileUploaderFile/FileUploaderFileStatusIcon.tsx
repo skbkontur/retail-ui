@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFileStatus } from '../fileUtils';
 import { LoadingIcon } from '../../icons2022/LoadingIcon';
-import { SizeProp } from '../../../lib/types/props';
+import type { SizeProp } from '../../../lib/types/props';
 
 import { DeleteIcon } from './DeleteIcon';
 import { ErrorIcon } from './ErrorIcon';

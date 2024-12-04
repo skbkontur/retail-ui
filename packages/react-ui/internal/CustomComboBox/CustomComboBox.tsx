@@ -1,27 +1,28 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
-import { Input, InputIconType } from '../../components/Input';
-import { Menu } from '../Menu';
-import { InputLikeText } from '../InputLikeText';
-import { MenuItemState } from '../../components/MenuItem';
+import type { Nullable } from '../../typings/utility-types';
+import type { Input, InputIconType } from '../../components/Input';
+import type { Menu } from '../Menu';
+import type { InputLikeText } from '../InputLikeText';
+import type { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { SizeProp } from '../../lib/types/props';
-import {
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
-} from '../../lib/featureFlagsContext';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { ComboBoxExtendedItem } from '../../components/ComboBox';
+import type { SizeProp } from '../../lib/types/props';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
+import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
+import { reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T>

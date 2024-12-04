@@ -1,9 +1,9 @@
-import React from 'react';
+import type React from 'react';
 import EventEmitter from 'eventemitter3';
 import { globalObject } from '@skbkontur/global-object';
 
-import { SidePageProps } from '../components/SidePage';
-import { ModalProps } from '../components/Modal';
+import type { SidePageProps } from '../components/SidePage';
+import type { ModalProps } from '../components/Modal';
 
 interface StackInfo {
   emitter: EventEmitter;

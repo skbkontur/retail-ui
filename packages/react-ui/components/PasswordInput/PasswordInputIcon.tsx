@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PasswordInputProps, PasswordInputState } from './PasswordInput';
+import type { PasswordInputProps, PasswordInputState } from './PasswordInput';
 import { ClosedIcon } from './ClosedIcon';
 import { OpenedIcon } from './OpenedIcon';
 

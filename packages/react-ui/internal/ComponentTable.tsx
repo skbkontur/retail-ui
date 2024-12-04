@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { isFunctionalComponent, DefaultizeProps } from '../lib/utils';
+import type { DefaultizeProps } from '../lib/utils';
+import { isFunctionalComponent } from '../lib/utils';
 import { createPropsGetter } from '../lib/createPropsGetter';
 
 // TODO We should output state too

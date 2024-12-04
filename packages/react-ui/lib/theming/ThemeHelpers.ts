@@ -1,6 +1,6 @@
 import { isNonNullable } from '../utils';
 
-import { Theme, ThemeIn } from './Theme';
+import type { Theme, ThemeIn } from './Theme';
 
 export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
 export type Markers = Marker[];

@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { Meta, Story } from '../../../typings/stories';
-import { Input, InputProps } from '../Input';
+import type { Meta, Story } from '../../../typings/stories';
+import type { InputProps } from '../Input';
+import { Input } from '../Input';
 import { Gapped } from '../../Gapped';
 
 export default {

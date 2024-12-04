@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
-import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
+import type { TokenInputProps } from '../TokenInput';
+import { TokenInput, TokenInputType } from '../TokenInput';
 import { Token } from '../../Token';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';

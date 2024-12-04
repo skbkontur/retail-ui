@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 

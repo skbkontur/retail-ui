@@ -4,7 +4,7 @@ import React, { useState, useContext } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';

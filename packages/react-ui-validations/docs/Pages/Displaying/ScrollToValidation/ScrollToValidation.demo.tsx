@@ -2,10 +2,11 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
+import type { ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 import { SpaceFiller } from '../../../Common/SpaceFiller';
-import { Nullable } from '../../../../typings/Types';
+import type { Nullable } from '../../../../typings/Types';
 
 export default class ScrollToValidationDemo extends React.Component {
   public state = {

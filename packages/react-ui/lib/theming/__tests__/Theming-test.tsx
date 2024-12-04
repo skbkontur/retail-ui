@@ -2,11 +2,12 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { ThemeContext } from '../ThemeContext';
-import { applyMarkers, exposeGetters, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
+import type { Marker } from '../ThemeHelpers';
+import { applyMarkers, exposeGetters, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
-import { Theme } from '../Theme';
+import type { Theme } from '../Theme';
 import { BasicLightThemeInternal, BasicLightTheme } from '../../../internal/themes/BasicLightTheme';
-import { AnyObject } from '../../utils';
+import type { AnyObject } from '../../utils';
 
 const TEST_MARKERS = {
   test: {

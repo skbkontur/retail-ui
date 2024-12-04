@@ -2,11 +2,11 @@ import React from 'react';
 import { isForwardRef } from 'react-is';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { CurrencyInputProps } from '../components/CurrencyInput';
-import { PasswordInputProps } from '../components/PasswordInput';
-import { InputProps } from '../components/Input';
-import { AutocompleteProps } from '../components/Autocomplete';
-import { FxInputProps } from '../components/FxInput';
+import type { CurrencyInputProps } from '../components/CurrencyInput';
+import type { PasswordInputProps } from '../components/PasswordInput';
+import type { InputProps } from '../components/Input';
+import type { AutocompleteProps } from '../components/Autocomplete';
+import type { FxInputProps } from '../components/FxInput';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any

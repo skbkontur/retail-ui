@@ -1,8 +1,10 @@
-import React, { FC, useRef, useState } from 'react';
+import type { FC } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
-import { Nullable } from '../../typings/Types';
+import type { ValidationInfo } from '../../src';
+import { text, ValidationContainer, ValidationWrapper } from '../../src';
+import type { Nullable } from '../../typings/Types';
 
 interface SingleInputPageProps {
   initialValue?: string;

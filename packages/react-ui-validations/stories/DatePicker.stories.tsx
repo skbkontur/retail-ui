@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
 import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
-import { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types';
 
 export default {
   title: 'DatePicker',

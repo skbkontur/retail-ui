@@ -2,8 +2,9 @@ import React from 'react';
 
 import { forwardRefAndIconName } from '../../lib/forwardRefAndName';
 
-import { IconProps as BaseIconProps } from './BaseIcon';
-import { ALIASES_TO_SIZES, DEFAULT_ICON_ALIAS, IconSizeAliases } from './iconConstants';
+import type { IconProps as BaseIconProps } from './BaseIcon';
+import type { IconSizeAliases } from './iconConstants';
+import { ALIASES_TO_SIZES, DEFAULT_ICON_ALIAS } from './iconConstants';
 
 type Sizes = Record<IconSizeAliases, () => React.ReactElement>;
 

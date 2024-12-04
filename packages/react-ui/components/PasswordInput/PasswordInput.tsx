@@ -1,4 +1,5 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
@@ -7,19 +8,23 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
-import { Input, InputProps } from '../Input';
-import { Nullable } from '../../typings/utility-types';
+import type { InputProps } from '../Input';
+import { Input } from '../Input';
+import type { Nullable } from '../../typings/utility-types';
 import { isIE11 } from '../../lib/client';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { Theme } from '../../lib/theming/Theme';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
-import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
+import type { PasswordInputLocale } from './locale';
+import { PasswordInputLocaleHelper } from './locale';
 
 export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps, InputProps {
   detectCapsLock?: boolean;

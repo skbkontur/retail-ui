@@ -1,12 +1,8 @@
 import React from 'react';
 import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
 
-import {
-  ValidationBehaviour,
-  ValidationContainer,
-  ValidationInfo,
-  ValidationWrapper,
-} from '../../../../src';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
 interface CustomControlProps<Elem = HTMLElement> {

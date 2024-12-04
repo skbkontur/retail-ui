@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { globalObject } from '@skbkontur/global-object';
 
 import { ZIndex } from '../ZIndex';
-import { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
+import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {
