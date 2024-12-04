@@ -224,6 +224,85 @@ kind('Autocomplete', () => {
     });
   });
 
+  story('WithOnBlurOnFocusHandlers', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'no themes': { in: /^(?!\b(chrome2022)\b)/ },
+      },
+    });
+
+    test('idle-focus-input-select(blur) on keys', async function () {
+      const idle = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.TAB).perform();
+      const focus = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).sendKeys('a').perform();
+      const input = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.ARROW_DOWN).keyDown(this.keys.ENTER).perform();
+      const select = await this.takeScreenshot();
+
+      await this.expect({ idle, focus, input, select }).to.matchImages();
+    });
+
+    test('idle-focus-input-select(blur) on click', async function () {
+      const idle = await this.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' }))
+        .perform();
+      const focus = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).sendKeys('a').perform();
+      const input = await this.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+        .perform();
+      const select = await this.takeScreenshot();
+
+      await this.expect({ idle, focus, input, select }).to.matchImages();
+    });
+
+    test('idle-focus-input-blur on clickOutside', async function () {
+      const idle = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.TAB).perform();
+      const focus = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).sendKeys('a').perform();
+      const input = await this.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: 'body' }))
+        .perform();
+      const blur = await this.takeScreenshot();
+
+      await this.expect({ idle, focus, input, blur }).to.matchImages();
+    });
+
+    test('idle-focus-input-blur on input.blur()', async function () {
+      const idle = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).keyDown(this.keys.TAB).perform();
+      const focus = await this.takeScreenshot();
+
+      await this.browser.actions({ bridge: true }).sendKeys('a').perform();
+      const input = await this.takeScreenshot();
+
+      await this.browser.executeScript(() => {
+        document.querySelector('input')?.blur();
+      });
+      const blur = await this.takeScreenshot();
+
+      await this.expect({ idle, focus, input, blur }).to.matchImages();
+    });
+  });
+
   story('Size', () => {
     sizeTests();
   });

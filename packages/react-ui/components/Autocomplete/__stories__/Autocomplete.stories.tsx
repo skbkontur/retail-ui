@@ -74,13 +74,6 @@ export const WithFixedMenuSize = () => (
 WithFixedMenuSize.storyName = 'with fixed menu size';
 
 export const WithOnBlurOnFocusHandlers = () => <WithBlurFocusHandlersExample />;
-WithOnBlurOnFocusHandlers.storyName = 'with onBlur/onFocus handlers';
-
-WithOnBlurOnFocusHandlers.parameters = {
-  creevey: {
-    skip: true,
-  },
-};
 
 interface UncontrolledAutocompleteState {
   value: string;
