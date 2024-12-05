@@ -4,7 +4,7 @@ import { Tab, ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Display data/Tab',
+  title: 'Display data/Tabs/Tab',
   component: Tab,
   parameters: { creevey: { skip: true } },
 } as Meta;
