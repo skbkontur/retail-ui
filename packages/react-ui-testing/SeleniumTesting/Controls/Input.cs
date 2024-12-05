@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-
 using Kontur.Selone.Properties;
 
 using OpenQA.Selenium;
