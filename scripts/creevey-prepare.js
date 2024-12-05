@@ -1,6 +1,8 @@
 require('dotenv').config({ path: '../../.env' });
+const path = require('path');
+
 const waitOn = require('wait-on');
-const config = require(`${process.cwd()}/${process.argv[2]}`);
+const config = require(path.join(path.dirname(`${process.cwd()}/${process.argv[2]}`), 'storybook-url.js'));
 
 const STORYBOOK_NOT_RESPOND_TIMEOUT = 300000;
 const STORYBOOK_RUN_COMMAND = 'yarn storybook:test';

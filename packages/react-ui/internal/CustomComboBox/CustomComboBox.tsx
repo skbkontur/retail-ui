@@ -24,6 +24,8 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
+export * from './tids';
+
 export interface CustomComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
@@ -105,10 +107,6 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
   size: 'small',
 };
-
-export const CustomComboBoxDataTids = {
-  comboBoxView: 'ComboBoxView__root',
-} as const;
 
 @responsiveLayout
 @rootNode
