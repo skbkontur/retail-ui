@@ -40,6 +40,7 @@ export interface MenuItemProps
   icon?: React.ReactElement<any>;
   /**
    * Меняет цвет текста на синий.
+   * @deprecated
    */
   link?: boolean;
   /**
