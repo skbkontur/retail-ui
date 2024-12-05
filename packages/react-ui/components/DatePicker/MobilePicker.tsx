@@ -38,8 +38,13 @@ export interface MobilePickerProps
 
 export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   const locale = useLocaleForControl('DatePicker', DatePickerLocaleHelper);
-
   const theme = getMobilePickerTheme(useContext(ThemeContext));
+
+  const calendarRef = useRef<Calendar>(null);
+  const inputRef = useRef<DateInput>(null);
+
+  const [{ month: monthNative, year }] = useState(() => getTodayDate());
+  const month = getMonthInHumanFormat(monthNative);
 
   const onValueChange = (date: string) => {
     if (props.onValueChange) {
@@ -50,16 +55,9 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
     }
   };
 
-  const inputRef = useRef<DateInput>(null);
   useLayoutEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    setTimeout(() => inputRef.current?.focus());
   }, []);
-
-  const calendarRef = useRef<Calendar>(null);
-  const [{ month: monthNative, year }] = useState(() => getTodayDate());
-  const month = getMonthInHumanFormat(monthNative);
 
   const onTodayClick = () => {
     if (calendarRef.current) {
