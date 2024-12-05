@@ -23,6 +23,9 @@ import { Menu, MenuProps } from '../Menu';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
+import { PopupMenuDataTids } from './tids';
+
+export * from './tids'
 
 export interface PopupMenuCaptionProps {
   opened: boolean;
@@ -85,11 +88,6 @@ interface PopupMenuState {
 export const PopupMenuType = {
   Dropdown: 'dropdown',
   Tooltip: 'tooltip',
-} as const;
-
-export const PopupMenuDataTids = {
-  root: 'PopupMenu__root',
-  caption: 'PopupMenu__caption',
 } as const;
 
 const Positions: PopupPositionsType[] = [
