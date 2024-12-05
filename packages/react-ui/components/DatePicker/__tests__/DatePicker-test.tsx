@@ -15,6 +15,7 @@ import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { MenuDataTids } from '../../../internal/Menu';
+import { componentsLocales as DayCellViewLocalesRu } from '../../Calendar/locale/locales/ru';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -552,6 +553,32 @@ describe('DatePicker', () => {
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(expectedDate);
+    });
+
+    it('should call onBlur after value was changed when date picked on click', async () => {
+      const initialDate = '10.10.2010';
+      const expectedDate = '20.10.2010';
+      let blurredDate = '';
+      const MobilePickerWithOnBlur = () => {
+        const [date, setDate] = useState(initialDate);
+        const handleBlur = () => {
+          blurredDate = date;
+        };
+        return (
+          <DatePicker enableTodayLink width="auto" value={date || null} onValueChange={setDate} onBlur={handleBlur} />
+        );
+      };
+      render(<MobilePickerWithOnBlur />);
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      const ariaLabel = `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel}: ${new InternalDate({
+        value: expectedDate,
+      }).toA11YFormat()}`;
+
+      const expectedDateButton = screen.getByLabelText(ariaLabel);
+      await userEvent.click(expectedDateButton);
+
+      expect(blurredDate).toBe(expectedDate);
     });
   });
 });
