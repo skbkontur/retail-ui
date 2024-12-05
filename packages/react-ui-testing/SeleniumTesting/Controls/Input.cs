@@ -1,7 +1,5 @@
 ﻿using JetBrains.Annotations;
-
 using Kontur.Selone.Properties;
-
 using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Controls
