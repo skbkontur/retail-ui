@@ -47,12 +47,8 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   const month = getMonthInHumanFormat(monthNative);
 
   const onValueChange = (date: string) => {
-    if (props.onValueChange) {
-      props.onValueChange(date);
-    }
-    if (props.onCloseRequest) {
-      props.onCloseRequest();
-    }
+    props.onValueChange?.(date);
+    setTimeout(() => props.onCloseRequest?.());
   };
 
   useLayoutEffect(() => {
