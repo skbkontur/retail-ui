@@ -267,6 +267,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
       menuPos: this.props.menuPos,
+      menuAlign: this.props.menuAlign,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,
