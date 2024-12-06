@@ -1,4 +1,4 @@
-Базовый пример кебаб-меню.
+### Базовый пример
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
@@ -44,7 +44,7 @@ let Card = ({ name, post }) => (
 </Gapped>;
 ```
 
-Различные размеры кебаб-меню.
+### Размер
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
@@ -84,7 +84,7 @@ let Card = ({ title, size }) => (
 </Gapped>
 ```
 
-Кебаб-меню с выпадашкой слева.
+### Кебаб-меню с выпадашкой слева
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
@@ -121,7 +121,7 @@ let Card = ({ title }) => (
 <Card title="С выпадашкой слева" />
 ```
 
-С кастомным действием при открытии.
+### Кастомное действие при открытии
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
@@ -160,7 +160,7 @@ let Card = ({ title }) => (
 <Card title="С кастомным действием" />
 ```
 
-С иконками и включенным по-умолчанию автоматическим выравниванием текста.
+### Иконка и автовыравнивание
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/react-ui';
@@ -174,7 +174,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 </Kebab>;
 ```
 
-С иконками и отключенным автоматическим выравниванием текста.
+### Иконка и отключенное автовыравнивание
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/react-ui';
@@ -188,7 +188,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 </Kebab>
 ```
 
-Отключенное кебаб-меню.
+### Отключенное кебаб-меню
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
@@ -224,7 +224,7 @@ let Card = ({ title }) => (
 <Card title="Не нажимается :(" />
 ```
 
-Кебаб-меню с отключенной анимацией.
+### Отключенная анимация
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
@@ -260,7 +260,7 @@ let Card = ({ title }) => (
 <Card title="Без анимации" />
 ```
 
-Кебаб-меню с заданной высотой.
+### Высота
 
 ```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';

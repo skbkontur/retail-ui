@@ -10,6 +10,7 @@ import { Input, InputProps } from '../../Input';
 
 export default {
   title: 'MaskedInput',
+  component: MaskedInput,
   parameters: {
     creevey: {
       skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },

@@ -67,7 +67,10 @@ const DynamicContent: React.FC<
   );
 };
 
-export default { title: 'ScrollContainer' };
+export default {
+  title: 'ScrollContainer',
+  component: ScrollContainer,
+};
 
 export const WithLargeContentHeight = () => {
   return (

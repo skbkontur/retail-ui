@@ -1,23 +1,14 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
-const config: StorybookConfig = {
-  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
-  addons: [
-    'creevey',
-    '@storybook/addon-links',
-    '@storybook/addon-a11y',
-    {
-      name: '@storybook/addon-essentials',
-      options: {
-        docs: false,
-      },
-    },
-  ],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      strictMode: true,
-    },
-  },
-};
+import docsConfig from './config-docs';
+import storiesConfig from './config-stories';
+
+const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
+let config: StorybookConfig;
+if (isDocsEnv) {
+  config = docsConfig;
+} else {
+  config = storiesConfig;
+}
+
 export default config;

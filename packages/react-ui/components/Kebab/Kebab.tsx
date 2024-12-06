@@ -29,29 +29,28 @@ export interface KebabProps
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
+  /** Делает компонент недоступным. */
   disabled?: boolean;
+
+  /** Задает размер контрола. */
   size?: SizeProp;
-  /**
-   * Список позиций доступных для расположения выпадашки.
-   *
+
+  /** Определяет список позиций, доступных для расположения выпадашки относительно `kebab`.
    * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
-   *
-   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
-   * @default ['bottom left', 'bottom right', 'top left', 'top right']
-   */
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']. */
   positions?: PopupPositionsType[];
+  positions2?: string;
+
+  /** Задает максимальную высоту меню. */
   menuMaxHeight?: number | string;
-  /**
-   * Не показывать анимацию
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
-  /**
-   * Кастомная иконка
-   */
+
+  /** Добавляет иконку слева. */
   icon?: React.ReactNode;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
+
+  /** @ignore */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
@@ -66,6 +65,9 @@ export interface KebabState {
 
 type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations'>>;
 
+/**
+ * Кебаб-меню `Kebab` содержит действия с объектом.
+ */
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';

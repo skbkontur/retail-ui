@@ -8,6 +8,7 @@ import { Radio } from '../Radio';
 
 export default {
   title: 'Radio',
+  component: Radio,
   parameters: {
     creevey: {
       skip: {

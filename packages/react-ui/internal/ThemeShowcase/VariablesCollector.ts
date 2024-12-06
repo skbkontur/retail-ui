@@ -32,12 +32,10 @@ const ALL_USED_VARIABLES_SET = new Set<keyof Theme>();
 
 export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
-
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
   baseThemes.push(LIGHT_THEME);
   baseThemes.push(DARK_THEME);
-
   const componentsContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach((fileName) => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;

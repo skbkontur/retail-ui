@@ -52,9 +52,6 @@ export const LostfocusIndependentValidation = () => {
   });
 
   const handleSubmit = async (): Promise<void> => {
-    if (!refContainer.current) {
-      throw new Error('invalid state');
-    }
     const isValid = await refContainer.current?.validate(false);
     setValidation(isValid ? 'valid' : 'invalid');
   };

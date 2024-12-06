@@ -9,9 +9,16 @@ import { animations, styles } from './GlobalLoaderView.styles';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';
 
 export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
+  /** Устанавливает ожидаемое время(ms) ответа сервера. */
   expectedResponseTime: number;
+
+  /** Устанавливает задержку в миллисекундах до исчезновения лоадера. */
   delayBeforeHide: number;
+
+  /** Устанавливает статус операции. */
   status?: 'success' | 'error' | 'standard' | 'accept';
+
+  /** Отключает анимацию. */
   disableAnimations: boolean;
 }
 

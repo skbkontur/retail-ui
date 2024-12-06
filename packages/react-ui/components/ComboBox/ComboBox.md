@@ -1,4 +1,4 @@
-Combobox with error handling
+### Комбобокс с валидацией
 
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
@@ -49,6 +49,7 @@ let handleFocus = () => setError(false);
 </Tooltip>;
 ```
 
+### Очистка комбобокса
 Очистить значение в `ComboBox`'е можно с помощью пустой строки, `null` или `undefined`
 ```jsx harmony
 import { Group, ComboBox, Button } from '@skbkontur/react-ui';
@@ -81,11 +82,11 @@ const getItems = q => {
 </Group>
 ```
 
-ComboBox with popular values, complex menu items and total count message
+### ComboBox with popular values, complex menu items and total count message
 
 ```jsx harmony
-import { getCities } from './__mocks__/getCities';
-import { Gapped, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
+import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
+import { Gapped, MenuSeparator } from '@skbkontur/react-ui';
 import {MenuFooter} from "@skbkontur/react-ui/components/MenuFooter";
 
 let popularItems = [
@@ -148,7 +149,7 @@ let renderItem = item => (
 />;
 ```
 
-Переопределение `renderValue`, `renderItem` и `itemWrapper`:
+### Переопределение `renderValue`, `renderItem` и `itemWrapper`
 
 ```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
@@ -279,7 +280,7 @@ const customRenderValue = item => (
 </Tooltip>;
 ```
 
-С подсветкой результата поиска:
+### Подсветка результата поиска
 
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
@@ -359,7 +360,7 @@ const renderItem = item => {
 </Tooltip>;
 ```
 
-Добавление элементов в меню
+### Добавление элементов в меню
 
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
@@ -466,48 +467,48 @@ class ComboboxExample extends React.Component {
 <ComboboxExample />;
 ```
 
-
+### Сброс контрола
 Если нужно сбросить контрол без изменения `value`, то можно использовать метод `reset`.
 
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
-  const [selected, setSelected] = React.useState({ value: 1, label: "First" });
-  const ref = React.useRef(null);
+const [selected, setSelected] = React.useState({ value: 1, label: "First" });
+const ref = React.useRef(null);
 
-  const handleReset = () => {
-    if (ref.current) {
-      ref.current.reset();
-    }
-  };
+const handleReset = () => {
+  if (ref.current) {
+    ref.current.reset();
+  }
+};
 
-  const getItems = (q) =>
-    Promise.resolve(
-      [
-        { value: 1, label: "First" },
-        { value: 2, label: "Second" },
-        { value: 3, label: "Third" }
-      ].filter(
-        (x) =>
-          x.label.toLowerCase().includes(q.toLowerCase()) ||
-          x.value.toString(10) === q
-      )
-    );
+const getItems = (q) =>
+  Promise.resolve(
+    [
+      { value: 1, label: "First" },
+      { value: 2, label: "Second" },
+      { value: 3, label: "Third" }
+    ].filter(
+      (x) =>
+        x.label.toLowerCase().includes(q.toLowerCase()) ||
+        x.value.toString(10) === q
+    )
+  );
 
-  <div>
-    <ComboBox
-      ref={ref}
-      getItems={getItems}
-      onValueChange={setSelected}
-      placeholder="Enter number"
-      value={selected}
-    />
-    <Button onClick={handleReset}>Reset</Button>
-  </div>
+<div>
+  <ComboBox
+    ref={ref}
+    getItems={getItems}
+    onValueChange={setSelected}
+    placeholder="Enter number"
+    value={selected}
+  />
+  <Button onClick={handleReset}>Reset</Button>
+</div>
 
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface ComboBoxLocale {
@@ -529,7 +530,7 @@ const en_GB = {
 };
 ```
 
-У ComboBox есть 3 стандартных размера.
+### Размер
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 

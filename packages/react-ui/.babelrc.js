@@ -1,3 +1,5 @@
+const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
+
 module.exports = {
   assumptions: {
     setPublicClassFields: true,
@@ -12,5 +14,8 @@ module.exports = {
   plugins: [
     ['@babel/plugin-transform-runtime', { useESModules: true, version: '7.16.5' }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ...(isDocsEnv
+      ? [['transform-react-remove-prop-types', { mode: 'remove', ignoreFilenames: ['node_modules'] }]]
+      : []),
   ],
 };
