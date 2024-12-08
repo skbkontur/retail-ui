@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { DateInput, DateInputProps } from '../DateInput';
 
@@ -8,48 +8,81 @@ import { DateRangePickerDataTids } from './DateRangePicker';
 export const DateRangePickerField: React.FC<DateInputProps & { type: 'start' | 'end' }> = (props) => {
   const state = useContext(DateRangePickerContext);
 
+  const isStart = props.type === 'start';
+  const isEnd = props.type === 'end';
+
+  useEffect(() => {
+    switch (state.currentFocus) {
+      case 'start':
+        state.fromRef?.current?.focus();
+        return;
+      case 'end':
+        state.toRef?.current?.focus();
+        return;
+      case null:
+      default:
+        if (state.setShowCalendar) {
+          state.setShowCalendar(false);
+        }
+    }
+  }, [state.currentFocus]);
+
+  const handleBlur = () => {
+    if (state.currentFocus === null) {
+      return;
+    }
+
+    if (state.setCurrentFocus) {
+      state.setCurrentFocus(null);
+    }
+  };
+
+  const handleFocus = () => {
+    if (state.setCurrentFocus) {
+      state.setCurrentFocus(props.type);
+    }
+
+    if (state.setShowCalendar) {
+      state.setShowCalendar(true);
+    }
+
+    const period = isStart ? state.periodStart : state.periodEnd;
+
+    if (period) {
+      const [, month, year] = period.split('.').map(Number);
+
+      if (month && state.calendarRef) {
+        state.calendarRef?.current?.scrollToMonth(month - 1, year);
+      }
+    }
+  };
+
+  const handleChange = (value: string) => {
+    if (isStart && state.setPeriodStart) {
+      state.setPeriodStart(value);
+      return;
+    }
+
+    if (isEnd && state.setPeriodEnd) {
+      state.setPeriodEnd(value);
+      return;
+    }
+  };
+
   return (
-    <div style={{ display: 'inline-block' }}>
-      <DateInput
-        width="100%"
-        value={props.type === 'start' ? state.periodStart : state.periodEnd}
-        withIcon
-        size={props.size || state.size}
-        minDate={props.type === 'start' ? state.minDate : state.maxDate}
-        disabled={props.disabled}
-        // ref={state.start} или ref={state.end} в зависимости от focus
-        onFocus={() => {
-          if (state.setCurrentFocus) {
-            state.setCurrentFocus(props.type);
-          }
-
-          if (state.setShowCalendar) {
-            state.setShowCalendar(true);
-          }
-
-          if (props.type === 'start' ? state.periodStart : state.periodEnd) {
-            const [, month, year] = (props.type === 'start' ? state.periodStart || '' : state.periodEnd || '')
-              ?.split('.')
-              .map(Number);
-            if (month && state.calendarRef) {
-              state.calendarRef?.current?.scrollToMonth(month - 1, year);
-            }
-          }
-        }}
-        onValueChange={(value) => {
-          if (props.type === 'start' && state.setPeriodStart) {
-            state.setPeriodStart(value);
-            return;
-          }
-
-          if (props.type === 'end' && state.setPeriodEnd) {
-            state.setPeriodEnd(value);
-            return;
-          }
-        }}
-        data-tid={props.type === 'start' ? DateRangePickerDataTids.from : DateRangePickerDataTids.to}
-        {...props}
-      />
-    </div>
+    <DateInput
+      value={isStart ? state.periodStart : state.periodEnd}
+      withIcon
+      size={props.size || state.size}
+      minDate={isStart ? state.minDate : state.maxDate}
+      disabled={props.disabled}
+      onFocus={handleFocus}
+      onClick={handleFocus}
+      onBlur={handleBlur}
+      onValueChange={handleChange}
+      data-tid={isStart ? DateRangePickerDataTids.from : DateRangePickerDataTids.to}
+      ref={isStart ? state.fromRef : state.toRef}
+      {...props}
+    />
   );
 };
