@@ -299,7 +299,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                                 offsetY={parseInt(theme.datePickerMenuOffsetY)}
                                 getParent={() => dropdownContainer.current}
                               >
-                                <div className={styles.calendarWrapper(theme)}>
+                                <div
+                                  className={styles.calendarWrapper(theme)}
+                                  onMouseDown={(e) => e.preventDefault()}
+                                >
                                   <Calendar
                                     value={null}
                                     minDate={minDate}
