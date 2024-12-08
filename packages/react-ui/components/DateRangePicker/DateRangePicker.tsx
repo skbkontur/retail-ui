@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react';
 import { css, cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-// import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
@@ -66,15 +65,18 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const [periodEnd, setPeriodEnd] = useState<string | null>(null);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [currentFocus, setCurrentFocus] = useState<any>(null);
+  const [currentFocus, setCurrentFocus] = useState<'start' | 'end' | null>(null);
 
+  const fromRef = useRef(null);
+  const toRef = useRef(null);
   const dropdownContainer = useRef(null);
   const calendarRef = useRef(null);
 
-  function updatePeriod(value: string) {
+  const updatePeriod = (value: string) => {
     if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
       return;
     }
+
     const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
         setPeriodStart(value);
@@ -127,6 +129,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
     const resetPeriod = () => {
       setShowCalendar(false);
+      setCurrentFocus(null);
       setHoveredDay(null);
     };
 
@@ -137,7 +140,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     } else {
       handleFullPeriod(value);
     }
-  }
+  };
 
   const renderRange = (
     props: CalendarDayProps,
@@ -150,8 +153,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
     const isDayInHoveredPeriod = Boolean(
       isHover &&
-        ((currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)) ||
-          (currentFocus === 'start' && periodStart && isBetween(day, hoveredDay, periodStart))),
+      ((currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)) ||
+        (currentFocus === 'start' && periodStart && isBetween(day, hoveredDay, periodStart))),
     );
 
     const isDayBeforeFirstDay = periodStart && isLess(day, periodStart);
@@ -167,12 +170,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
     return (
       <div
-        onMouseOver={() => {
-          setHoveredDay(day);
-        }}
-        onMouseOut={() => {
-          setHoveredDay(null);
-        }}
+        onMouseOver={() => setHoveredDay(day)}
+        onMouseOut={() => setHoveredDay(null)}
         className={cx(
           css`
             border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
@@ -182,10 +181,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
             border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
 
             background: ${isDayInPeriod && t.calendarRangeCellBg};
-            transition: 0.15s ease background-color;
           `,
           isFirstOrLastDay &&
-            css`
+          css`
               position: relative;
 
               [data-tid=${CalendarDataTids.dayCell}] {
@@ -208,11 +206,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
               }
             `,
           isDayInHoveredPeriod &&
-            css`
+          css`
               background: ${t.calendarRangeCellBg};
             `,
           isDayInPeriod &&
-            css`
+          css`
               &:hover [data-tid=${CalendarDataTids.dayCell}] {
                 background: ${t.calendarRangeCellHoverBg};
               }
@@ -246,6 +244,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     setShowCalendar,
     setCurrentFocus,
 
+    fromRef,
+    toRef,
     calendarRef,
   };
 
