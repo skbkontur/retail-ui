@@ -262,6 +262,14 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   public static calendarCellHoverColor = 'rgba(255, 255, 255, 0.87)';
   public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
   //#endregion Calendar
+  
+  //#region DateRangePicker
+  public static calendarRangeCellBg = 'rgba(255, 255, 255, 0.08)';
+  public static calendarRangeCellHoverBg = 'rgba(255, 255, 255, 0.08)';
+  public static calendarRangeCellEndBg = 'rgba(255, 255, 255, 0.87)';
+  public static calendarRangeCellEndColor = '#222222';
+  //#endregion
+  
   //#region Paging
   public static pagingPageLinkColor = 'rgba(255, 255, 255, 0.87)';
   public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
