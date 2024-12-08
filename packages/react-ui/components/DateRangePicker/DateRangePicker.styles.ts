@@ -12,13 +12,11 @@ export const styles = memoizeStyle({
 
   calendarWrapper(t: Theme) {
     return css`
-      background: ${t.pickerBg};
       box-shadow: ${t.pickerShadow};
       display: inline-block;
       font-size: 0;
       z-index: 1000;
       touch-action: none;
-      border-radius: ${t.pickerBorderRadius};
     `;
   },
 });

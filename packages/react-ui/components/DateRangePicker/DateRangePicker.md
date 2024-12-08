@@ -34,13 +34,23 @@ const maxDate = "18.08.2024";
 Через параметр `size` доступны размеры `large`, `medium` и `small`.
 
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
+import { Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
-<Gapped vertical gap={24}>
-  <DateRangePicker size="large" />
-  <DateRangePicker size="medium" />
+const theme = React.useContext(ThemeContext);
+const createTheme = (tokens) => ThemeFactory.create(tokens, theme);
+
+<Gapped vertical gap={16}>
+  <ThemeContext.Provider value={createTheme({ calendarCellWidth: '44px', calendarCellHeight: '44px' })}>
+    <DateRangePicker size="large" />
+  </ThemeContext.Provider>
+  
+  <ThemeContext.Provider value={createTheme({ calendarCellWidth: '36px', calendarCellHeight: '36px' })}>
+    <DateRangePicker size="medium" />
+  </ThemeContext.Provider>
+
   <DateRangePicker size="small" />
 </Gapped>
+
 ```
 
 ### Адаптивность
@@ -212,9 +222,9 @@ function renderDay(props) {
 
 <ThemeContext.Provider
   value={ThemeFactory.create({
-    calendarCellWidth: '52px',
-    calendarCellHeight: '44px',
-    calendarCellLineHeight: '1.5',
+    calendarCellWidth: '48px',
+    calendarCellHeight: '48px',
+    calendarCellLineHeight: '18px',
     calendarWrapperHeight: '700px',
     calendarCellBorderRadius: '10px'
   }, theme)}

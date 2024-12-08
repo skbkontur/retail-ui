@@ -71,6 +71,7 @@ export const DateRangePickerField: React.FC<DateInputProps & { type: 'start' | '
 
   return (
     <DateInput
+      width="auto"
       value={isStart ? state.periodStart : state.periodEnd}
       withIcon
       size={props.size || state.size}

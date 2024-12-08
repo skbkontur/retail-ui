@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { css, cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
@@ -57,6 +57,7 @@ export interface DateRangePickerProps
   onValueChange: (from: string | null, to: string | null) => void;
   onFromValueChange?: (value: string) => void;
   onToValueChange?: (value: string) => void;
+  children?: React.ReactNode;
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> & {
@@ -178,6 +179,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         onMouseOut={() => setHoveredDay(null)}
         className={cx(
           css`
+            width: 100%;
+            height: 100%;
             border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
             border-bottom-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
 
@@ -252,6 +255,19 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     toRef
   };
 
+
+  const getSize = (t: Theme) => {
+    switch (props.size) {
+      case 'large':
+        return t.fontSizeLarge;
+      case 'medium':
+        return t.fontSizeMedium;
+      case 'small':
+      default:
+        return t.fontSizeSmall;
+    }
+  }
+
   return (
     <CommonWrapper {...props}>
       <ResponsiveLayout>
@@ -284,15 +300,27 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                           />
                         ) : (
                           <>
-                            {props.children ? (
-                              props.children
-                            ) : (
-                              <>
-                                <DateRangePickerFrom />
-                                <DateRangePickerSeparator />
-                                <DateRangePickerTo />
-                              </>
-                            )}
+                            <div className={
+                              css`
+                              display: inline-flex;
+                              align-items: center;
+                              font-size: ${getSize(theme)};
+                              min-width: ${parseInt(theme.calendarCellWidth) * 7 + parseInt(theme.calendarPaddingX) * 2}px;
+
+                              & > * {
+                                flex-grow: 1;
+                              }
+                            `}>
+                              {props.children ? (
+                                props.children
+                              ) : (
+                                <>
+                                  <DateRangePickerFrom />
+                                  <DateRangePickerSeparator />
+                                  <DateRangePickerTo />
+                                </>
+                              )}
+                            </div>
 
                             <div ref={popupContainerRef} data-tid={DateRangePickerDataTids.dropdown} />
                             {showCalendar && (
