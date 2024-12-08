@@ -57,7 +57,6 @@ export const MenuPos: Story = () => {
     </Gapped>
   );
 };
-MenuPos.storyName = 'MenuPos';
 MenuPos.parameters = {};
 
 export const DateRangePickerLocaleProvider = () => {
@@ -75,7 +74,6 @@ DateRangePickerLocaleProvider.parameters = { creevey: { skip: true } };
 export const Disabled: Story = () => {
   return <DateRangePicker onValueChange={() => void 0} disabled />;
 };
-Disabled.storyName = 'Disabled';
 Disabled.parameters = {};
 
 export const CustomChildren: Story = () => {
