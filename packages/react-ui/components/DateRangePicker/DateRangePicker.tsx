@@ -72,6 +72,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const calendarRef = useRef(null);
 
   function updatePeriod(value: string) {
+    if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
+      return;
+    }
     const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
         setPeriodStart(value);
