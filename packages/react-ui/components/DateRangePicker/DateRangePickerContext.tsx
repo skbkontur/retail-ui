@@ -22,6 +22,8 @@ export interface DateRangePickerContextProps {
   setHoveredDay?: (value: string | null) => void;
   setShowCalendar?: (value: boolean) => void;
   setCurrentFocus?: (value: 'start' | 'end' | null) => void;
+  fromRef?: React.RefObject<any>;
+  toRef?: React.RefObject<any>;
   calendarRef?: React.RefObject<Calendar>;
 }
 
