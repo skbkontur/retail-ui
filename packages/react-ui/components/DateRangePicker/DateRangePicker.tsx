@@ -7,16 +7,19 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { Calendar, CalendarDataTids, CalendarDay, CalendarDayProps } from '../Calendar';
-import { DropdownContainer } from '../../internal/DropdownContainer';
+import { Popup } from '../../internal/Popup';
 import { DateInputProps } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
 import { DatePickerProps } from '../DatePicker';
 import { MobilePicker } from '../DatePicker/MobilePicker';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
 import { DateRangePickerField } from './DateRangePickerField';
+import { getRootNode } from '../../lib/rootNode';
+import { getMenuPositions } from '../../lib/getMenuPositions';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -36,6 +39,7 @@ export interface DateRangePickerProps
     | 'isHoliday'
     | 'renderDay'
     | 'menuPos'
+    | 'menuAlign'
     | 'useMobileNativeDatePicker'
     | 'autoFocus'
     | 'disabled'
@@ -69,8 +73,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
   const fromRef = useRef(null);
   const toRef = useRef(null);
-  const dropdownContainer = useRef(null);
-  const calendarRef = useRef(null);
+  const popupContainerRef = useRef(null);
+  const calendarContainerRef = useRef<HTMLDivElement>(null);
 
   const updatePeriod = (value: string) => {
     if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
@@ -245,8 +249,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     setCurrentFocus,
 
     fromRef,
-    toRef,
-    calendarRef,
+    toRef
   };
 
   return (
@@ -267,7 +270,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                   )}
                 >
                   <CommonWrapper {...props}>
-                    <div className={styles.root(theme)} data-tid={DateRangePickerDataTids.root}>
+                    <div className={styles.root()} data-tid={DateRangePickerDataTids.root}>
                       <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
                         {isMobile ? (
                           <MobilePicker
@@ -291,17 +294,21 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                               </>
                             )}
 
-                            <div ref={dropdownContainer} data-tid={DateRangePickerDataTids.dropdown} />
+                            <div ref={popupContainerRef} data-tid={DateRangePickerDataTids.dropdown} />
                             {showCalendar && (
-                              <DropdownContainer
-                                menuPos={props.menuPos}
+                              <Popup
+                                opened
+                                hasShadow
+                                priority={ZIndex.priorities.PopupMenu}
+                                positions={getMenuPositions(props.menuPos, props.menuAlign)}
                                 data-tid={DateRangePickerDataTids.root}
-                                offsetY={parseInt(theme.datePickerMenuOffsetY)}
-                                getParent={() => dropdownContainer.current}
+                                anchorElement={getRootNode(popupContainerRef.current)}
+                                margin={parseInt(theme.datePickerMenuOffsetY)}
                               >
                                 <div
                                   className={styles.calendarWrapper(theme)}
                                   onMouseDown={(e) => e.preventDefault()}
+                                  ref={calendarContainerRef}
                                 >
                                   <Calendar
                                     value={null}
@@ -309,11 +316,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                                     maxDate={maxDate}
                                     renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
                                     onValueChange={(value) => updatePeriod(value)}
-                                    ref={calendarRef}
                                     data-tid={DateRangePickerDataTids.calendar}
                                   />
                                 </div>
-                              </DropdownContainer>
+                              </Popup>
                             )}
                           </>
                         )}
