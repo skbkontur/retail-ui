@@ -153,6 +153,7 @@
     "rimraf": "^5.0.7",
     "semver": "^7.6.2",
     "serve": "^13.0.2",
+    "string-replace-loader": "3.1.0",
     "storybook": "7.6.18",
     "style-loader": "^4.0.0",
     "stylelint": "^16.6.0",
