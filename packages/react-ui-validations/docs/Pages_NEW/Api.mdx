@@ -1,4 +1,4 @@
-import { Meta } from '../../.storybook/Meta';
+import { Meta } from '@storybook/blocks';
 
 <Meta title="API reference" />
 
@@ -23,21 +23,21 @@ import { Meta } from '../../.storybook/Meta';
 Аргументы:
 
 ```jsx static
-    submit(withoutFocus?: boolean): Promise<void>
-    submit(validationSettings: ValidationSettings): Promise<void>
+  submit(withoutFocus?: boolean): Promise<void>
+  submit(validationSettings: ValidationSettings): Promise<void>
 ```
 
 где
 
 ```jsx static
-    interface ValidationSettings[Displaying](Displaying) {
-      focusMode: FocusMode;
-    }
-    enum FocusMode {
-      Errors,
-      ErrorsAndWarnings,
-      None,
-    }
+  interface ValidationSettings[Displaying](Displaying) {
+    focusMode: FocusMode;
+  }
+  enum FocusMode {
+    Errors,
+    ErrorsAndWarnings,
+    None,
+  }
 ```
 
 - `withoutFocus`: отключает автофокус невалидных контролов.
@@ -49,21 +49,21 @@ import { Meta } from '../../.storybook/Meta';
 функции `submit()`. Кроме того функция возвращает признак валидности формы.
 
 ```jsx static
-    async handleSubmit() {
-        const isValid = await this.refs.container.validate();
-        if (isValid) {
-            await this.save();
-        }
+  async handleSubmit() {
+    const isValid = await this.refs.container.validate();
+    if (isValid) {
+      await this.save();
     }
+  }
 
-    render() {
-        return (
-            <ValidationContainer ref='container'>
-                // ...
-                <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
-            </ValidationContainer>
-        );
-    }
+  render() {
+    return (
+      <ValidationContainer ref='container'>
+        // ...
+        <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
+      </ValidationContainer>
+    );
+  }
 ```
 
 Аргументы аналогичны `submit()` - смотри выше.
@@ -97,10 +97,10 @@ prop-ов, используя соглашения react-ui. Для отрисо
 где
 
 ```jsx static
-    type ValidationInfo = {
-        type?: 'immediate' | 'lostfocus' | 'submit';
-        message: string;
-    };
+  type ValidationInfo = {
+    type?: 'immediate' | 'lostfocus' | 'submit';
+    message: string;
+  };
 ```
 
 способ передать результат валидаций в ValidationWrapper. Если значение определено, контрол считается
@@ -111,12 +111,12 @@ prop-ов, используя соглашения react-ui. Для отрисо
 где
 
 ```jsx static
-    type RenderErrorMessage =
-        (
-            control: React.Node,
-            hasError: boolean,
-            validation: ?Validation
-        ) => React.Node;
+  type RenderErrorMessage =
+    (
+      control: React.Node,
+      hasError: boolean,
+      validation: ?Validation
+    ) => React.Node;
 ```
 
 Способ кастомизации отображения сообщения об ошибке (не путать с
@@ -127,12 +127,12 @@ prop-ов, используя соглашения react-ui. Для отрисо
 Например,
 
 ```jsx static
-    // ...
-    <ValidationWrapper
-        renderMessage={tooltip('top center')}
-        validationInfo={{ ... }}>
-    // ...
-    </ValidationWrapper>
+  // ...
+  <ValidationWrapper
+    renderMessage={tooltip('top center')}
+    validationInfo={{ ... }}>
+  // ...
+  </ValidationWrapper>
 ```
 
 ### `tooltip(pos: string): RenderErrorMessage`
