@@ -1,11 +1,11 @@
 import React, { useContext, useRef } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
-import { animations, styles } from './GlobalLoaderView.styles';
+import { getAnimations, getStyles } from './GlobalLoaderView.styles';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';
 
 export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
@@ -29,8 +29,12 @@ export const GlobalLoaderView = ({
 }: GlobalLoaderViewProps) => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+
   const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
   const { left } = useGlobalLoaderPosition(ref);
+  const animations = getAnimations(emotion);
+  const styles = getStyles(emotion);
 
   const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
     if (!disableAnimations) {
@@ -66,7 +70,7 @@ export const GlobalLoaderView = ({
   return (
     <CommonWrapper {...rest} data-status={status}>
       <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
-        <div ref={ref} className={cx(styles.inner(theme), getAnimationClass(status))} />
+        <div ref={ref} className={emotion.cx(styles.inner(theme), getAnimationClass(status))} />
       </ZIndex>
     </CommonWrapper>
   );

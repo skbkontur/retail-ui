@@ -8,11 +8,11 @@ import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonUse } from '../Button';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { SizeProp } from '../../lib/types/props';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getDropdownTheme } from './getDropdownTheme';
 

@@ -1,20 +1,21 @@
 import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { getButtonCorners, Group } from '../Group';
 import { Button, ButtonProps } from '../Button';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 import { mod } from './helpers';
+import { getStyles } from './Switcher.styles';
 
 export type SwitcherItems = string | SwitcherItem;
 
@@ -99,21 +100,32 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = getSwitcherTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = getSwitcherTheme(theme);
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain() {
-    const listClassName = cx({
+    const styles = this.styles;
+    const listClassName = this.emotion.cx({
       [styles.error(this.theme)]: !!this.props.error,
     });
 
@@ -125,7 +137,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: styles.input(),
     };
 
-    const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
+    const captionClassName = this.emotion.cx(styles.caption(this.theme), this.getLabelSizeClassName());
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -270,12 +282,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
       case 'large':
-        return styles.captionLarge(this.theme);
+        return this.styles.captionLarge(this.theme);
       case 'medium':
-        return styles.captionMedium(this.theme);
+        return this.styles.captionMedium(this.theme);
       case 'small':
       default:
-        return styles.captionSmall(this.theme);
+        return this.styles.captionSmall(this.theme);
     }
   };
 }

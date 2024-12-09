@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { HTMLAttributes } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
@@ -13,14 +14,13 @@ import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } f
 import { Nullable } from '../../typings/utility-types';
 import { DateInput } from '../DateInput';
 import { filterProps } from '../../lib/filterProps';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
@@ -28,8 +28,10 @@ import { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './DatePicker.styles';
+import { getStyles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 import { MobilePicker } from './MobilePicker';
 
@@ -176,6 +178,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private readonly locale!: DatePickerLocale;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
@@ -262,19 +266,27 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                {this.renderMain}
-              </CommonWrapper>
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+
+                return (
+                  <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
+                    <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                      {this.renderMain}
+                    </CommonWrapper>
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -282,7 +294,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     let picker = null;
 
     const { minDate, maxDate, menuPos, menuAlign } = this.getProps();
-
     const isMobile = this.isMobileLayout;
 
     if (this.state.opened) {
@@ -326,7 +337,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             >
               <div
                 data-tid={DatePickerDataTids.pickerRoot}
-                className={styles.calendarWrapper(this.theme)}
+                className={this.styles.calendarWrapper(this.theme)}
                 onMouseDown={(e) => e.preventDefault()}
               >
                 <Calendar
@@ -347,7 +358,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
     return (
       <label
-        className={styles.root()}
+        className={this.styles.root()}
         style={this.getRootStyle()}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
