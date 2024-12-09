@@ -43,13 +43,8 @@ namespace SKBKontur.SeleniumTesting.Controls
                 x =>
                     {
                         var inputElement = x.FindElement(By.CssSelector("input"));
-                        inputElement.SendKeys(Keys.End);
-                        var length = inputElement.GetAttribute("value").Length;
-                        while(length > 0)
-                        {
-                            inputElement.SendKeys(Keys.Backspace);
-                            length--;
-                        }
+                        inputElement.SendKeys(Keys.Control + "a");
+                        inputElement.SendKeys(Keys.Delete);
                     },
                 "Clear");
         }
