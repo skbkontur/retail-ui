@@ -86,10 +86,7 @@ export default class ScrollToValidationDemo extends React.Component {
   };
 
   private handleSubmit = async (): Promise<void> => {
-    if (!this.container) {
-      throw new Error('invalid state');
-    }
-    await this.container.submit();
+    await this.container?.submit();
   };
 
   private refContainer = (el: Nullable<ValidationContainer>) => (this.container = el);

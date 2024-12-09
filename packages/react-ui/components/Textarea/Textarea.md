@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 const [value, setValue] = React.useState('');
 
@@ -9,6 +10,7 @@ const [value, setValue] = React.useState('');
 />;
 ```
 
+### Очистка значения
 Очистить значение в `Textarea` можно только с помощью пустой строки
 
 ```jsx harmony
@@ -28,7 +30,7 @@ const [value, setValue] = React.useState('Значение');
 </Group>
 ```
 
-Счетчик введенных символов
+### Счетчик введенных символов
 
 ```jsx harmony
 const [value, setValue] = React.useState('');
@@ -43,7 +45,7 @@ const [value, setValue] = React.useState('');
 />;
 ```
 
-У Textarea есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';

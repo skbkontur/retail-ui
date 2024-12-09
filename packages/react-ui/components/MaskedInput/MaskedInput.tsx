@@ -15,52 +15,39 @@ import { FixedIMaskInput } from './FixedIMaskInput';
 export interface MaskedProps {
   /** Паттерн маски */
   mask: string;
-  /**
-   * Символ маски
-   *
-   * @default _
-   */
+
+  /** Устанавливает символ маски
+   * @default _ */
   maskChar?: string;
-  /**
-   * Словарь символов-регулярок для маски
-   *
-   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-   */
+
+  /** Задает словарь символов-регулярок для задания маски.
+   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' } */
   formatChars?: Record<string, string>;
-  /**
-   * Всегда показывать символы маски
-   *
-   * @default false
-   */
+
+  /** Включает показ символов маски.
+   * @default false */
   alwaysShowMask?: boolean;
-  /**
-   * Обработчик неправильного ввода.
+
+  /** Задает обработчик неправильного ввода.
    * Вторым агрументом будет передан метод вспыхивания акцентным цветом.
    *
    * Если обработчик не задан, то инпут вспыхивает по-умолчанию.
-   *
    * @param value значение инпута.
    * @param blink вспыхнуть акцентным цвтетом.
    */
   onUnexpectedInput?: (value: string, blink: () => void) => void;
-  /**
-   * Убирать из value символы, не введённые пользователем
-   *
-   * @default false
-   */
+
+  /** Убирает из value символы, не введённые пользователем
+   * @default false */
   unmask?: boolean;
-  /**
-   * Раскрашивать символы маски
-   *
+
+  /** Раскрашивает символы маски.
    * @default true
-   * @ignore
-   */
+   * @ignore */
   colored?: boolean;
-  /**
-   * Пропы для компонента `IMaskInput`. Необходимы для юнит-тестов
-   *
-   * @ignore
-   */
+
+  /** Задает пропы для компонента `IMaskInput`. Необходимы для юнит-тестов
+   * @ignore */
   imaskProps?: IMaskInputProps<HTMLInputElement>;
 }
 

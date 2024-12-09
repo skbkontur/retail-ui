@@ -3,7 +3,10 @@ import React from 'react';
 import { CommonProps } from '../../internal/CommonWrapper';
 
 export interface CloseProps extends CommonProps {
+  /** Отключает событие onClose, также дизейблит кнопку закрытия модалки. */
   disableClose?: boolean;
+
+  /** Задает функцию, которая вызывается при клике по крестику или снаружи. */
   requestClose: () => void;
 }
 

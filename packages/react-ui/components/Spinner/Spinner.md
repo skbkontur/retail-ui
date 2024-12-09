@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import { Gapped, Spinner } from '@skbkontur/react-ui';
 
@@ -18,7 +19,7 @@ const reactNodeCaption = (
 </Gapped>;
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface SpinnerLocale {

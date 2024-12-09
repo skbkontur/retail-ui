@@ -411,7 +411,10 @@ class SmallModalOnTop extends React.Component {
   };
 }
 
-export default { title: 'Modal' };
+export default {
+  title: 'Modal',
+  component: Modal,
+};
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';

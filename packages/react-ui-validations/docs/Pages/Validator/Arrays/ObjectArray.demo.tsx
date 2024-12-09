@@ -97,10 +97,7 @@ export default class ObjectArrayDemo extends React.Component {
   };
 
   private handleSubmit = async () => {
-    if (!this.container) {
-      throw new Error('invalid state');
-    }
-    if (await this.container.validate()) {
+    if (await this.container?.validate()) {
       alert('success');
     }
   };

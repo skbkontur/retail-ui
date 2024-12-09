@@ -9,6 +9,7 @@ import { Gapped } from '../../Gapped';
 
 export default {
   title: 'MenuItem',
+  component: MenuItem,
 } as Meta;
 
 export const MobileMenuItemWithIcon = () => {
