@@ -4,7 +4,7 @@ import docsConfig from './config-docs';
 import storiesConfig from './config-stories';
 
 function getConfig(): StorybookConfig {
-  return Boolean(process.env.STORYBOOK_REACT_UI_DOCS) ? docsConfig : storiesConfig
+  return Boolean(process.env.STORYBOOK_REACT_UI_VALIDATIONS_DOCS) ? docsConfig : storiesConfig
 }
 
 const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
