@@ -68,18 +68,8 @@ export const Example5: Story = () => {
 
   return (
     <Gapped>
-      <Autocomplete
-        source={items}
-        value={valueLeft}
-        onValueChange={setValueLeft}
-        leftIcon={<SearchLoupeIcon />}
-      />
-      <Autocomplete
-        source={items}
-        value={valueRight}
-        onValueChange={setValueRight}
-        rightIcon={<SearchLoupeIcon />}
-      />
+      <Autocomplete source={items} value={valueLeft} onValueChange={setValueLeft} leftIcon={<SearchLoupeIcon />} />
+      <Autocomplete source={items} value={valueRight} onValueChange={setValueRight} rightIcon={<SearchLoupeIcon />} />
     </Gapped>
   );
 };
