@@ -131,7 +131,7 @@ export const Example6: Story = () => {
         ref={(el) => (parentCheckboxRef = el)}
         onValueChange={() => {
           if (checkedSiblings.length === siblingCheckboxes.length) {
-            setCheckedSiblings(()=>[]);
+            setCheckedSiblings(() => []);
           } else {
             setCheckedSiblings(() => [...siblingCheckboxes]);
           }

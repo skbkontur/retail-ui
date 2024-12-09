@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/SearchLoupeIcon16Regular';
+import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon';
 import { Autocomplete, Button, Group, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -72,13 +72,13 @@ export const Example5: Story = () => {
         source={items}
         value={valueLeft}
         onValueChange={setValueLeft}
-        leftIcon={<SearchLoupeIcon16Regular />}
+        leftIcon={<SearchLoupeIcon />}
       />
       <Autocomplete
         source={items}
         value={valueRight}
         onValueChange={setValueRight}
-        rightIcon={<SearchLoupeIcon16Regular />}
+        rightIcon={<SearchLoupeIcon />}
       />
     </Gapped>
   );
