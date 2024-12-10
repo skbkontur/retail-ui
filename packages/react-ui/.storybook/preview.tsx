@@ -100,10 +100,10 @@ const preview: Preview = {
       storySort: {
         method: 'alphabetical',
         order: [
-          'Versioning',
-          ['Versions', 'Migration', 'Changelog'],
           'Information',
-          ['Accessibility', 'Contributing', 'Ecosystem', 'Mobiles', 'Server Side Rendering'],
+          ['Mobiles', 'Server Side Rendering', 'DataTids', 'Theme', 'Locale', 'Feature flags'],
+          'Versioning',
+          ['Migration', 'Changelog'],
           'Button',
           'Input data',
           'Display data',

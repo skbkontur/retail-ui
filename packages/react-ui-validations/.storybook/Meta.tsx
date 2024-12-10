@@ -15,7 +15,9 @@ import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 
 import { validationsFeatureFlagsDefault } from '../src';
 
-const urlPath = window.location.origin + window.location.pathname;
+import { VersionsLibrary } from './VersionsDropdown/Versions';
+
+const urlPath = window.location.origin + window.location.pathname.replace('/iframe.html', '');
 
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
@@ -30,7 +32,7 @@ const styles = {
     position: fixed;
     display: flex;
     gap: 8px;
-    padding: 4px 16px;
+    padding: 4px 8px;
     align-items: center;
     width: 100%;
     top: 0;
@@ -181,6 +183,15 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               Подробнее о фича-флагах
             </Link>
           </MenuFooter>
+        </DropdownMenu>
+        <DropdownMenu
+          style={{ marginLeft: 'auto', marginRight: '16px' }}
+          caption={<div className={styles.menuSelect}>v {urlPath.split('/').pop()?.replace('-', ' ')}</div>}
+          menuMaxHeight="315px"
+          menuWidth="150px"
+          positions={['bottom right']}
+        >
+          <VersionsLibrary />
         </DropdownMenu>
       </div>
     </div>
