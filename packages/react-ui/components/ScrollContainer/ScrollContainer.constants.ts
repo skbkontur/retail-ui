@@ -1,4 +1,4 @@
-import { ScrollBarState } from './ScrollBar';
+import type { ScrollBarState } from './ScrollBar';
 
 export const MIN_SCROLL_SIZE = 20;
 

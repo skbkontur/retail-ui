@@ -1,7 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import { InternalMaskedInput, InternalMaskedInputProps } from '../InternalMaskedInput';
+import type { InternalMaskedInputProps } from '../InternalMaskedInput';
+import { InternalMaskedInput } from '../InternalMaskedInput';
 
 describe('MaskedInput', () => {
   it('Renders without crash', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import { LostfocusDependentValidation as LostfocusDependentValidationStory } from './SyncStories/LostfocusDependentValidation';
 import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from './SyncStories/LostfocusDynamicValidation';

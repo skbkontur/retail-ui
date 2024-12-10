@@ -1,8 +1,9 @@
 import { useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Nullable } from '../../../typings/utility-types';
-import { FileUploaderAttachedFile, FileUploaderFileStatus } from '../fileUtils';
+import type { Nullable } from '../../../typings/utility-types';
+import type { FileUploaderAttachedFile } from '../fileUtils';
+import { FileUploaderFileStatus } from '../fileUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 
 export const useUpload = (

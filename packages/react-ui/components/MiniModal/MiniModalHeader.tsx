@@ -1,6 +1,8 @@
-import React, { ReactNode, useContext } from 'react';
+import type { ReactNode } from 'react';
+import React, { useContext } from 'react';
 
-import { Modal, ModalHeaderProps } from '../Modal';
+import type { ModalHeaderProps } from '../Modal';
+import { Modal } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { InfoCircleIcon64Regular } from '../../internal/icons2022/InfoCircleIcon/InfoCircleIcon64Regular';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Toast, ToastProps } from '../Toast/Toast';
+import type { ToastProps } from '../Toast/Toast';
+import { Toast } from '../Toast/Toast';
 
 /**
  * Позволяет вызывать тосты с помощью статических методов. В отличие от статических методов из компонента `<Toast>` - их можно кастомизировать и они работают с `React@18`.

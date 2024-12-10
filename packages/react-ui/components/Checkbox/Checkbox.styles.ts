@@ -1,5 +1,5 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins';
 

@@ -4,12 +4,14 @@ import shallowEqual from 'shallowequal';
 import { globalObject } from '@skbkontur/global-object';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 

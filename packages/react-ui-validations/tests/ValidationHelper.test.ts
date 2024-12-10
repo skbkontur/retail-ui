@@ -1,5 +1,5 @@
-import { Nullable } from '../typings/Types';
-import { Validation, ValidationBehaviour } from '../src';
+import type { Nullable } from '../typings/Types';
+import type { Validation, ValidationBehaviour } from '../src';
 import { getVisibleValidation } from '../src/ValidationHelper';
 
 describe('ValidationHelper', () => {

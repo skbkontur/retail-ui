@@ -1,5 +1,5 @@
 import { Effect } from '../CustomComboBoxReducer';
-import { CustomComboBoxProps } from '../CustomComboBox';
+import type { CustomComboBoxProps } from '../CustomComboBox';
 
 interface ItemType {
   value: number;

@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { SearchLoupeIcon16Regular } from '../../../internal/icons2022/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import { Meta, Story } from '../../../typings/stories';
-import { MaskedInput, MaskedInputProps } from '../MaskedInput';
-import { Input, InputProps } from '../../Input';
+import type { Meta, Story } from '../../../typings/stories';
+import type { MaskedInputProps } from '../MaskedInput';
+import { MaskedInput } from '../MaskedInput';
+import type { InputProps } from '../../Input';
+import { Input } from '../../Input';
 
 export default {
   title: 'MaskedInput',

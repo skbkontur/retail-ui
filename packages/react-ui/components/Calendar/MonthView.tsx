@@ -4,7 +4,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
-import { Nullable } from '../..//typings/utility-types';
+import type { Nullable } from '../..//typings/utility-types';
 import { DateSelect } from '../../internal/DateSelect';
 
 import { styles } from './MonthView.styles';

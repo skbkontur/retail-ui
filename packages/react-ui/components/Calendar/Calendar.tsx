@@ -2,16 +2,19 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { SafeTimer } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { cx } from '../../lib/theming/Emotion';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
-import { Nullable, Range } from '../../typings/utility-types';
-import { Theme } from '../../lib/theming/Theme';
+import type { Nullable, Range } from '../../typings/utility-types';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
@@ -23,10 +26,13 @@ import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
-import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
+import type { CalendarDateShape } from './CalendarDateShape';
+import { create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
-import { CalendarContext, CalendarContextProps } from './CalendarContext';
-import { CalendarDay, CalendarDayProps } from './CalendarDay';
+import type { CalendarContextProps } from './CalendarContext';
+import { CalendarContext } from './CalendarContext';
+import type { CalendarDayProps } from './CalendarDay';
+import { CalendarDay } from './CalendarDay';
 
 export interface CalendarProps extends CommonProps {
   /**

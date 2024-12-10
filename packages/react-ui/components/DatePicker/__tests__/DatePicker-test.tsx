@@ -3,7 +3,8 @@ import { act, render, screen, waitFor, within, fireEvent } from '@testing-librar
 import userEvent from '@testing-library/user-event';
 
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../Calendar';
+import type { CalendarDayProps } from '../../Calendar';
+import { CalendarDataTids, CalendarDay } from '../../Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';

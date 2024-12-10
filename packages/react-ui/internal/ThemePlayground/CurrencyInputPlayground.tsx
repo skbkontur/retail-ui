@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Nullable } from '../../typings/utility-types';
-import { CurrencyInput, CurrencyInputProps } from '../../components/CurrencyInput';
+import type { Nullable } from '../../typings/utility-types';
+import type { CurrencyInputProps } from '../../components/CurrencyInput';
+import { CurrencyInput } from '../../components/CurrencyInput';
 
 interface CurrencyInputPlaygroundState {
   value: Nullable<number>;

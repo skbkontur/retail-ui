@@ -1,14 +1,16 @@
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 
 import { ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';

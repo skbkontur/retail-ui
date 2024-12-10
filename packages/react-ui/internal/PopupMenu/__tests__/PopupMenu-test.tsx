@@ -3,7 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
 import { PopupDataTids, PopupIds } from '../../Popup';
-import { PopupMenu, PopupMenuCaptionProps } from '../PopupMenu';
+import type { PopupMenuCaptionProps } from '../PopupMenu';
+import { PopupMenu } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';
 
 describe('PopupMenu', () => {

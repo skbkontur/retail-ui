@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
-import { Modal, ModalProps } from '../Modal';
+import type { ModalProps } from '../Modal';
+import { Modal } from '../Modal';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 

@@ -1,17 +1,20 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
+import type { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { resetButton } from '../../lib/styles/Mixins';
-import { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
+import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { DefaultizedProps } from '../../lib/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 

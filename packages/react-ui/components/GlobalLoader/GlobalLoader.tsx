@@ -3,10 +3,12 @@ import debounce from 'lodash.debounce';
 
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
+import type { GlobalLoaderViewProps } from './GlobalLoaderView';
+import { GlobalLoaderView } from './GlobalLoaderView';
 
 export interface GlobalLoaderProps {
   /**

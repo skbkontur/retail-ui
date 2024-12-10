@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
 import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { FxInputProps } from '..';
-import { SizeProp } from '../../../lib/types/props';
+import type { FxInputProps } from '..';
+import type { SizeProp } from '../../../lib/types/props';
 
 export default { title: 'FxInput' } as Meta;
 

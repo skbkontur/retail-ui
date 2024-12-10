@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 import { Menu } from '../Menu';
-import { MenuItem, MenuItemProps } from '../../../components/MenuItem';
+import type { MenuItemProps } from '../../../components/MenuItem';
+import { MenuItem } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 

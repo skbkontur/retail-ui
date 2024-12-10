@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Story } from '../../../typings/stories';
-import { Switcher, SwitcherProps } from '../Switcher';
+import type { Story } from '../../../typings/stories';
+import type { SwitcherProps } from '../Switcher';
+import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 import { Hint } from '../../Hint';
 import { Tooltip } from '../../Tooltip';
-import { ButtonProps } from '../../Button';
+import type { ButtonProps } from '../../Button';
 
 interface ComponentState {
   value: string;

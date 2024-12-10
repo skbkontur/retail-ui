@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isNonNullable } from '../../../lib/utils';
-import { Theme } from '../../../lib/theming/Theme';
+import type { Theme } from '../../../lib/theming/Theme';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 import { MenuFooter } from '../MenuFooter';
 import { Gapped } from '../../Gapped';
 

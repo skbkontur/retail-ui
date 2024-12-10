@@ -1,11 +1,7 @@
-import { InternalDate } from './InternalDate';
+import type { InternalDate } from './InternalDate';
 import { InternalDateGetter } from './InternalDateGetter';
-import {
-  InternalDateComponentRaw,
-  InternalDateComponentsNumber,
-  InternalDateComponentsRaw,
-  InternalDateComponentType,
-} from './types';
+import type { InternalDateComponentRaw, InternalDateComponentsNumber, InternalDateComponentsRaw } from './types';
+import { InternalDateComponentType } from './types';
 import { InternalDateTransformer } from './InternalDateTransformer';
 
 const calculateStartDate = (startDate: number | null) => {

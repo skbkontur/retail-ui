@@ -1,5 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 import { menuHeaderSizeMixin, withIconSizeMixin } from './MenuHeader.mixins';
 

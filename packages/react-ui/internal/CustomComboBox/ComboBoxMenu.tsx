@@ -3,20 +3,22 @@ import React from 'react';
 import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
-import { isMenuItem, MenuItem, MenuItemState } from '../../components/MenuItem';
+import type { MenuItemState } from '../../components/MenuItem';
+import { isMenuItem, MenuItem } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { MenuMessage } from '../MenuMessage';
-import { ComboBoxExtendedItem } from '../../components/ComboBox';
-import { Theme } from '../../lib/theming/Theme';
+import type { ComboBoxExtendedItem } from '../../components/ComboBox';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { MenuFooter } from '../../components/MenuFooter';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
+import type { ComboBoxLocale } from './locale';
+import { CustomComboBoxLocaleHelper } from './locale';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;

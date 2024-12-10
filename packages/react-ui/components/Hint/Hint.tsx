@@ -1,17 +1,21 @@
 import React from 'react';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { SafeTimer } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme } from '../../lib/theming/Theme';
-import { DUMMY_LOCATION, Popup, PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup';
-import { Nullable } from '../../typings/utility-types';
-import { MouseEventType } from '../../typings/event-types';
+import type { Theme } from '../../lib/theming/Theme';
+import type { PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup } from '../../internal/Popup';
+import type { Nullable } from '../../typings/utility-types';
+import type { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Hint.styles';

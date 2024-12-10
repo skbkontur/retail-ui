@@ -1,12 +1,13 @@
-import React, { AriaAttributes, useContext } from 'react';
+import type { AriaAttributes } from 'react';
+import React, { useContext } from 'react';
 
 import { Input } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Button } from '../Button';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
 import { UndoIcon } from './UndoIcon';
-import { FxInputProps } from './FxInput';
+import type { FxInputProps } from './FxInput';
 
 interface FxInputRestoreBtnProps
   extends Pick<AriaAttributes, 'aria-label'>,

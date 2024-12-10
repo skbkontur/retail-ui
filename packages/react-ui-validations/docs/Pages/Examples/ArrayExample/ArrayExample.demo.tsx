@@ -10,7 +10,7 @@ import {
   ValidationContainer,
   ValidationWrapper,
 } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 interface ArrayExampleDemoState {

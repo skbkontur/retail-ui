@@ -6,11 +6,12 @@ import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import { HTMLProps } from '../../../typings/html';
+import type { HTMLProps } from '../../../typings/html';
 import { InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
-import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
+import type { LocaleContextProps } from '../../../lib/locale';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox } from '../ComboBox';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
@@ -20,7 +21,7 @@ import { clickOutside, delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
-import { ComboBoxItem } from '..';
+import type { ComboBoxItem } from '..';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {

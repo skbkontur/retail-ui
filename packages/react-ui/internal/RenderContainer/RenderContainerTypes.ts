@@ -1,7 +1,7 @@
-import React from 'react';
+import type React from 'react';
 
-import { Nullable } from '../../typings/utility-types';
-import { CommonProps } from '../CommonWrapper';
+import type { Nullable } from '../../typings/utility-types';
+import type { CommonProps } from '../CommonWrapper';
 
 export interface PortalProps {
   rt_rootID: string;

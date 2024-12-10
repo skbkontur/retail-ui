@@ -1,8 +1,10 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
 
-import { AnyObject, delay } from '../../lib/utils';
+import type { AnyObject } from '../../lib/utils';
+import { delay } from '../../lib/utils';
 import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui

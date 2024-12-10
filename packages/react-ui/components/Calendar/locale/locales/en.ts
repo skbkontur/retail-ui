@@ -1,4 +1,4 @@
-import { CalendarLocale } from '../types';
+import type { CalendarLocale } from '../types';
 
 export const componentsLocales: CalendarLocale = {
   months: [

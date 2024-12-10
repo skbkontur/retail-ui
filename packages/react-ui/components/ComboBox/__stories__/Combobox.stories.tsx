@@ -5,18 +5,21 @@ import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Meta, Story } from '../../../typings/stories';
-import { ComboBox, ComboBoxProps } from '../ComboBox';
-import { MenuItem, MenuItemState } from '../../MenuItem';
+import type { Meta, Story } from '../../../typings/stories';
+import type { ComboBoxProps } from '../ComboBox';
+import { ComboBox } from '../ComboBox';
+import type { MenuItemState } from '../../MenuItem';
+import { MenuItem } from '../../MenuItem';
 import { MenuSeparator } from '../../MenuSeparator';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
-import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import type { TSetRootNode } from '../../../lib/rootNode';
+import { rootNode } from '../../../lib/rootNode';
 
 const { getCities } = require('../__mocks__/getCities.js');
 

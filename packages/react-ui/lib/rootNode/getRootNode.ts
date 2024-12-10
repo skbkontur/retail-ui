@@ -1,10 +1,10 @@
 import { findDOMNode } from 'react-dom';
-import React from 'react';
+import type React from 'react';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
 
