@@ -1,10 +1,11 @@
+### Вспомогательный интерфейс
 ```ts static
 interface ResponsiveLayoutFlags {
   isMobile: boolean;
 }
 ```
 
-Компонент ожидает в себя функцию, в которую аргументом передается объект с флагом лэйаута.
+### Компонент ожидает в себя функцию, в которую аргументом передается объект с флагом лэйаута.
 
 ```jsx static
 import { ResponsiveLayout } from '@skbkontur/react-ui';
@@ -24,7 +25,7 @@ class SomeComponent {
 }
 ```
 
-Также существует проп `onLayoutChange`, который вызывает переданный в него коллбэк при изменении лэйаута. Аргументом передается объект с флагом.
+### Также существует проп `onLayoutChange`, который вызывает переданный в него коллбэк при изменении лэйаута. Аргументом передается объект с флагом.
 
 ```jsx static
 import { ResponsiveLayout } from '@skbkontur/react-ui';
@@ -40,7 +41,7 @@ class SomeComponent {
 }
 ```
 
-В компонент можно передать проп `customMediaQueries: MediaQueriesType`, который позволяет кастомизировать возвращаемые флаги:
+### В компонент можно передать проп `customMediaQueries: MediaQueriesType`, который позволяет кастомизировать возвращаемые флаги:
 ```ts static
 type MediaQueriesType = Record<string, string>;
 ```

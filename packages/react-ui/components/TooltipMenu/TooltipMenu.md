@@ -1,4 +1,4 @@
-Базовый пример тултип-меню.
+### Базовый пример
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -16,6 +16,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
+### Управление состоянием тултип-меню
 В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню.
 
 ```jsx harmony
@@ -43,7 +44,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
-Тултип-меню с заданной шириной.
+### Ширина
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -64,7 +65,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
-Тултип-меню с заданной максимальной высотой.
+### Максимальная высота
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -85,7 +86,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
-Тултип-меню с отключенной анимацией.
+### Отключенная анимация
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -102,6 +103,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
+### Подпись
 В `caption` можно передать любой элемент.
 
 ```jsx harmony
@@ -122,7 +124,7 @@ import MenuIcon from '@skbkontur/react-icons/Menu';
 </TooltipMenu>;
 ```
 
-Тултип-меню всегда всплывающее справа от `caption`.
+### Тултип-меню всегда всплывающее справа от `caption`
 
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
@@ -143,7 +145,7 @@ import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 </TooltipMenu>;
 ```
 
-Тултип-меню всегда всплывающее сверху от `caption` и выравненное по правому краю `caption`.
+### Тултип-меню всегда всплывающее сверху от `caption` и выравненное по правому краю `caption`
 
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
@@ -164,7 +166,7 @@ import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 </TooltipMenu>;
 ```
 
-Тултип-меню c шапкой и подвалом.
+### Тултип-меню c шапкой и подвалом
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -180,7 +182,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
-С иконками и включенным по-умолчанию автоматическим выравниванием текста.
+### Иконки и автовыравнивание
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
@@ -194,7 +196,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 </TooltipMenu>;
 ```
 
-С иконками и отключенным автоматическим выравниванием текста.
+### Иконки и автовыравнивание
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
@@ -208,7 +210,8 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 </TooltipMenu>
 ```
 
-Условный рендер элементов тултип-меню (с сохранением поведения [MenuItem](#/Components/MenuItem)).
+### Условный рендер элементов тултип-меню
+(с сохранением поведения [MenuItem](#/Components/MenuItem)).
 
 ```jsx harmony
 import {Button, MenuItem, Gapped, MenuSeparator} from '@skbkontur/react-ui';

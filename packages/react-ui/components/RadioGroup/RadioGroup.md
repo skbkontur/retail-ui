@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import { Gapped, Radio } from '@skbkontur/react-ui';
 

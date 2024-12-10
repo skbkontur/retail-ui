@@ -1,9 +1,11 @@
+### Базовый пример
 ```jsx harmony
 const [value, setValue] = React.useState();
 
 <CurrencyInput value={value} fractionDigits={3} onValueChange={setValue} />
 ```
 
+### Очистка значения
 Очистить значение в `CurrencyInput` можно с помощью `null` или `undefined`
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
@@ -17,7 +19,7 @@ const [value, setValue] = React.useState();
 </Group>
 ```
 
-`fractionDigits={15}`
+### fractionDigits={15}
 
 ```jsx harmony
 const [value, setValue] = React.useState();

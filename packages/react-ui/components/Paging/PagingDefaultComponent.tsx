@@ -4,7 +4,10 @@ import { extractDataProps } from '../../lib/utils';
 import { CommonProps } from '../../internal/CommonWrapper';
 
 interface PagingDefaultComponentInterface {
+  /** Задает функцию, которая вызывается при клике на пейджинг. */
   onClick: () => void;
+
+  /** @ignore */
   children?: React.ReactNode;
 }
 

@@ -20,6 +20,8 @@ export * from './components/Input';
 export * from './components/Kebab';
 export * from './components/Link';
 export * from './components/Loader';
+export * from './components/MaskedInput';
+export * from './components/MenuFooter';
 export * from './components/MenuHeader';
 export * from './components/MenuItem';
 export * from './components/MenuSeparator';

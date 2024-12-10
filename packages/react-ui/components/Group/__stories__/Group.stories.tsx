@@ -11,7 +11,10 @@ import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
-export default { title: 'Group' };
+export default {
+  title: 'Group',
+  component: Group,
+};
 
 export const SimpleGroupWithInputAndButton: Story = () => (
   <Group width="300px">

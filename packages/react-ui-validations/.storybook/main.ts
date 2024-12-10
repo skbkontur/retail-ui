@@ -1,14 +1,11 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
-const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.tsx'],
-  addons: ['creevey'],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      strictMode: true,
-    },
-  },
-};
+import docsConfig from './config-docs';
+import storiesConfig from './config-stories';
 
+function getConfig(): StorybookConfig {
+  return process.env.STORYBOOK_REACT_UI_VALIDATIONS_DOCS ? docsConfig : storiesConfig;
+}
+
+const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
 export default config;

@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from './Modal.styles';
 
 export interface ModalSeparatorProps extends CommonProps {
+  /** Фиксирует позицию ModalSeparator. */
   fixed?: boolean;
 }
 

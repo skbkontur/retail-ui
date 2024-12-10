@@ -1,0 +1,14 @@
+import { Story } from '@storybook/blocks';
+import * as DocsStories from './FormValidity.docs.stories.tsx';
+import { Meta } from '../../../../.storybook/Meta';
+
+<Meta of={DocsStories} />
+
+# Валидность формы
+
+Чтобы провалидировать форму и узнать результат валидации, нужно вызвать метод `validate` на компоненте `ValidationContainer`.
+Метод `validate` асинхронный, возвращает `Promise<boolean>`.
+
+### Пример
+
+<Story of={DocsStories.FormValidity} />

@@ -1,4 +1,4 @@
-Базовый пример тогла.
+### Базовый пример
 
 ```jsx harmony
 const [checked, setChecked] = React.useState(false);
@@ -8,7 +8,7 @@ const [checked, setChecked] = React.useState(false);
 </Toggle>
 ```
 
-Пример тогла включенного по умолчанию.
+### Тогл включенный по умолчанию
 
 ```jsx harmony
 <Toggle defaultChecked>
@@ -16,7 +16,7 @@ const [checked, setChecked] = React.useState(false);
 </Toggle>
 ```
 
-Тогл с надписью слева от переключателя.
+### Надпись слева от переключателя
 
 ```jsx harmony
 const [checked, setChecked] = React.useState(false);
@@ -26,7 +26,7 @@ const [checked, setChecked] = React.useState(false);
 </Toggle>
 ```
 
-Тогл с внешним `<label/>`.
+### Тогл с внешним `<label/>`
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -39,7 +39,7 @@ const [checked, setChecked] = React.useState(false);
 </Gapped>
 ```
 
-Тогл получающий фокус после загрузки страницы.
+### Получение фокуса после загрузки страницы
 
 ```jsx harmony
 <Toggle autoFocus>
@@ -47,7 +47,7 @@ const [checked, setChecked] = React.useState(false);
 </Toggle>
 ```
 
-Тоглы в различных стилях.
+### Стили
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -68,7 +68,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-У тоглов есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -86,7 +86,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Тогл с кастомным действием при получении и потере фокуса.
+### Кастомное действие при получении и потере фокуса
 
 ```jsx harmony
 import { Toast } from '@skbkontur/react-ui';
@@ -99,7 +99,7 @@ import { Toast } from '@skbkontur/react-ui';
 </Toggle>
 ```
 
-Тогл с кастомным действием при переключении.
+### Кастомное действие при переключении
 
 ```jsx harmony
 import { Toast } from '@skbkontur/react-ui';
