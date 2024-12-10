@@ -113,11 +113,8 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
     let url;
     try {
       url = new URL(window.parent.location.toString());
-      console.log(url);
       if (url.hash) {
-        console.log(url.hash.substring(1));
         const element = document.getElementById(url.hash.substring(1));
-        console.log(element);
         if (element) {
           // Introducing a delay to ensure scrolling works when it's a full refresh.
           window.setTimeout(() => {
