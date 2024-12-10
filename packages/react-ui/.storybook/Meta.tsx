@@ -109,6 +109,28 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
     },
     [],
   );
+  useEffect(() => {
+    let url;
+    try {
+      url = new URL(window.parent.location.toString());
+      console.log(url);
+      if (url.hash) {
+        console.log(url.hash.substring(1));
+        const element = document.getElementById(url.hash.substring(1));
+        console.log(element);
+        if (element) {
+          // Introducing a delay to ensure scrolling works when it's a full refresh.
+          window.setTimeout(() => {
+            const yOffset = -65; // custom toolbar height + padding
+            const top = element.getBoundingClientRect().top + window.scrollY + yOffset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }, 2000);
+        }
+      }
+    } catch (err) {
+      // pass
+    }
+  });
 
   //@ts-expect-error: store is not public
   const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
