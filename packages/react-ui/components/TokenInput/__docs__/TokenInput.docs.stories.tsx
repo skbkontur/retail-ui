@@ -1,9 +1,9 @@
 import React from 'react';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 import { TokenInput, Token } from '@skbkontur/react-ui';
+import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 
 import { Meta, Story } from '../../../typings/stories';
-import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 
 export default {
   title: 'Input data/TokenInput/TokenInput',

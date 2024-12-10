@@ -40,7 +40,7 @@ Example1.storyName = 'Виды радио-кнопок';
 /** Радио-кнопки могут иметь сразу несколько состояний. */
 export const Example2: Story = () => {
   return (
-    <Radio disabled checked warning value={true}>
+    <Radio disabled checked warning value="true">
       Отключенная, отмеченная радио-кнопка в состоянии <b>warning</b>
     </Radio>
   );

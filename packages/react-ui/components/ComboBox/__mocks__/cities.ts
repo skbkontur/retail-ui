@@ -1,5 +1,9 @@
-export type CityType = { Id: number; City: string };
-export const cities: Array<CityType> = [
+export interface City {
+  Id: number;
+  City: string
+}
+
+export const cities: City[] = [
   {
     Id: 0,
     City: 'г. Белинский',

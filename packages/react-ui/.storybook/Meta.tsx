@@ -15,6 +15,7 @@ import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import { MenuSeparator } from '../components/MenuSeparator';
 import { MenuFooter } from '../components/MenuFooter';
 import { Link } from '../components/Link';
+
 import { VersionsLibrary } from './VersionsDropdown/Versions';
 
 const urlPath = window.location.origin + window.location.pathname.replace('/iframe.html', '');
