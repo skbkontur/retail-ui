@@ -3,6 +3,7 @@ import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 import { TokenInput, Token } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
+import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 
 export default {
   title: 'Input data/TokenInput/TokenInput',
@@ -119,8 +120,6 @@ Example3.storyName = 'Заблокированный TokenInput с кастом�
 
 export const Example4: Story = () => {
   const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
-  const cities = require('../../ComboBox/__mocks__/./kladr.json');
-
   const maxItems = 5;
 
   const [totalCount, setTotalCount] = React.useState(cities.length);

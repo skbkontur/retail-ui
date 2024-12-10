@@ -14,14 +14,14 @@ export const Example1: Story = () => {
 
   const simpleRadioGroup = (
     <div>
-      <h2>Numbers</h2>
+      <h5>Numbers</h5>
       <RadioGroup name="number-simple" items={items} defaultValue="One" />
     </div>
   );
 
   const complexRadioGroup = (
     <div>
-      <h2>Numbers</h2>
+      <h5>Numbers</h5>
       <RadioGroup name="number-complex" defaultValue="3">
         <Gapped gap={40}>
           <Gapped vertical gap={0}>

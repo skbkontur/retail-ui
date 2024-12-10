@@ -18,7 +18,7 @@ import { mergeRefs } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
-const { getCities } = require('../__mocks__/getCities.js');
+const { getCities } = require('../__mocks__/getCities.ts');
 
 export default {
   title: 'ComboBox',

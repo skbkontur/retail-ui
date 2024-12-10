@@ -129,7 +129,7 @@ export const Example7: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex="0">
-          <LightbulbIcon32Regula />
+          <LightbulbIcon32Regular />
         </span>
       }
       menuWidth="300px"

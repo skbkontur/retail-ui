@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react';
+import React from 'react';
 import { FileUploader } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -48,7 +48,7 @@ export const Example5: Story = () => {
     <FileUploader
       multiple
       initialFiles={initialFiles}
-      renderFile={(file, fileNode) => cloneElement(fileNode, { showSize: false })}
+      renderFile={(file, fileNode) => React.cloneElement(fileNode, { showSize: false })}
     />
   );
 };

@@ -15,6 +15,15 @@ import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon1
 import OkIcon from '@skbkontur/react-icons/icons/Ok';
 import FunctionIcon from '@skbkontur/react-icons/Function';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
+import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
+import {
+  isBetween,
+  isEqual,
+  isGreater,
+  isGreaterOrEqual,
+  isLess,
+  isLessOrEqual,
+} from '@skbkontur/react-ui/lib/date/comparison';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import PeopleIcon from '@skbkontur/react-icons/People';
 import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
@@ -177,6 +186,13 @@ addons.setConfig({
     scope: {
       ...ReactUi,
       DatePickerHelpers,
+      cities,
+      isBetween,
+      isEqual,
+      isGreater,
+      isGreaterOrEqual,
+      isLess,
+      isLessOrEqual,
       ViewDateInputValidateChecks,
       OkIcon,
       MenuIcon,

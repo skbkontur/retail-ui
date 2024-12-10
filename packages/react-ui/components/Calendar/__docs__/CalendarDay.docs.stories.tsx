@@ -1,5 +1,13 @@
 import React from 'react';
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';
+import {
+  isBetween,
+  isEqual,
+  isGreater,
+  isGreaterOrEqual,
+  isLess,
+  isLessOrEqual,
+} from '@skbkontur/react-ui/lib/date/comparison';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -28,16 +36,11 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
+/**
+`import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual }
+ from '@skbkontur/react-ui/lib/date/comparison';`
+*/
 export const Example2: Story = () => {
-  const {
-    isBetween,
-    isEqual,
-    isGreater,
-    isGreaterOrEqual,
-    isLess,
-    isLessOrEqual,
-  } = require('@skbkontur/react-ui/lib/date/comparison');
-
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
 
