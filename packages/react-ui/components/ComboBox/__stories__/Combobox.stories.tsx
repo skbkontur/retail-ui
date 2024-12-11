@@ -913,3 +913,44 @@ export const Size: Story = () => {
 };
 
 Size.storyName = 'size';
+
+export const WithMenuAlignAndMenuPos: Story = () => {
+  const row: Array<Partial<ComboBoxProps<any>>> = [
+    { menuPos: 'bottom', value: { label: 'bottom' }, getItems: async () => [{ label: 'short value' }] },
+    { menuPos: 'bottom', value: { label: 'bottom' }, getItems: async () => [{ label: 'looooooong value' }] },
+    {
+      menuPos: 'top',
+      value: { label: 'top' },
+      getItems: async () => [{ label: 'short value' }],
+      style: { marginTop: 40 },
+    },
+    { menuPos: 'top', value: { label: 'top' }, getItems: async () => [{ label: 'looooooong value' }] },
+  ];
+  const col: Array<Partial<ComboBoxProps<any>>> = [
+    { menuAlign: 'right', disablePortal: false },
+    { menuAlign: 'right', disablePortal: true },
+    { menuAlign: 'left', disablePortal: false },
+    { menuAlign: 'left', disablePortal: true },
+  ];
+  const renderSelect = (props: Partial<ComboBoxProps<any>>) => (
+    <ComboBox ref={(el) => el?.search('')} width={100} getItems={async () => []} {...props} />
+  );
+
+  return (
+    <div style={{ padding: '0 50px' }}>
+      <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
+        {col.map((props, i) => (
+          <code key={i}>portal: {String(!props.disablePortal)}</code>
+        ))}
+      </div>
+      {row.map((props1, key) => (
+        <div key={key} style={{ marginBottom: 50, display: 'flex', justifyContent: 'space-between', width: 550 }}>
+          {col.map((props2) => renderSelect({ ...props1, ...props2 }))}
+        </div>
+      ))}
+    </div>
+  );
+};
+WithMenuAlignAndMenuPos.parameters = {
+  creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
+};

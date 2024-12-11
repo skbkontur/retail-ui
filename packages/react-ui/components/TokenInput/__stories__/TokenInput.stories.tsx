@@ -294,7 +294,7 @@ CustomRenderTotalCount.storyName = 'custom render total count';
 
 export const Size = () => {
   return (
-    <Gapped vertical gap={10}>
+    <Gapped vertical gap={10} style={{ padding: '10px 10px 120px' }}>
       <Wrapper numberItems={5} getItems={getItems} size="small" />
       <Wrapper numberItems={5} getItems={getItems} size="medium" />
       <Wrapper numberItems={5} getItems={getItems} size="large" />

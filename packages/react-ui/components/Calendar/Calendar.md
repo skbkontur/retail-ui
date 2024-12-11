@@ -174,7 +174,8 @@ const [value, setValue] = React.useState(null);
 
 <ThemeContext.Provider
   value={ThemeFactory.create({
-    calendarCellSize: '56px',
+    calendarCellWidth: '56px',
+    calendarCellHeight: '56px',
     calendarCellLineHeight: '1.5',
     calendarWrapperHeight: '600px',
     calendarCellBorderRadius: '8px'

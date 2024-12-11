@@ -20,7 +20,11 @@ export class SingleToast extends React.Component<ToastProps> {
     SingleToast.ref.current?.push(...args);
   };
   public static close: typeof Toast.close = () => {
-    ReactDOM.flushSync(() => SingleToast.ref.current?.close());
+    if (React.version.search('18') === 0) {
+      ReactDOM.flushSync(() => SingleToast.ref.current?.close());
+    } else {
+      SingleToast.ref.current?.close();
+    }
   };
   render = () => {
     return <Toast ref={SingleToast.ref} {...this.props} />;

@@ -23,7 +23,7 @@ import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
-import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
+import { getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getMenuPositions } from '../../lib/getMenuPositions';
@@ -199,7 +199,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
-  private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
@@ -354,7 +353,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
                 onMouseDown={(e) => e.preventDefault()}
               >
                 <Calendar
-                  ref={(c) => (this.calendar = c)}
                   maxDate={this.parseValueToDate(maxDate)}
                   minDate={this.parseValueToDate(minDate)}
                   onValueChange={this.handleValueChange}
@@ -432,7 +430,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           aria-label={this.locale.todayAriaLabel}
           data-tid={DatePickerDataTids.pickerTodayWrapper}
           width="100%"
-          onClick={this.handleSelectToday(today)}
+          onClick={() => {
+            this.handleSelect(today);
+          }}
           icon={<ArrowAUpIcon16Light />}
         >
           {this.locale.today}
@@ -440,16 +440,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       </div>
     );
   }
-
-  private handleSelectToday = (today: string) => () => {
-    this.handleSelect(today);
-
-    if (this.calendar) {
-      const { month: monthNative, year } = this.state.today;
-      const month = getMonthInHumanFormat(monthNative);
-      this.calendar.scrollToMonth(month, year);
-    }
-  };
 
   public getParent = () => {
     return getRootNode(this);
