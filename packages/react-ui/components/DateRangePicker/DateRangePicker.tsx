@@ -310,24 +310,26 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                           />
                         ) : (
                           <>
-                            <div className={
-                              css`
-                              display: inline-flex;
-                              align-items: center;
-                              font-size: ${getSize(theme)};
-                              min-width: ${parseInt(theme.calendarCellWidth) * 7 + parseInt(theme.calendarPaddingX) * 2}px;
+                            <div
+                              className={css`
+                                display: inline-flex;
+                                align-items: center;
+                                font-size: ${getSize(theme)};
+                                min-width: ${parseInt(theme.calendarCellWidth) * 7 +
+                                parseInt(theme.calendarPaddingX) * 2}px;
 
-                              & > * {
-                                flex-grow: 1;
-                              }
-                            `}>
+                                & > * {
+                                  flex: 1 1 50%;
+                                }
+                              `}
+                            >
                               {props.children ? (
                                 props.children
                               ) : (
                                 <>
-                                  <DateRangePickerFrom />
+                                  <DateRangePickerFrom width="auto" />
                                   <DateRangePickerSeparator />
-                                  <DateRangePickerTo />
+                                  <DateRangePickerTo width="auto" />
                                 </>
                               )}
                             </div>
