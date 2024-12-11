@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { css, cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
@@ -11,15 +11,16 @@ import { Popup } from '../../internal/Popup';
 import { DateInputProps } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
 import { DatePickerProps } from '../DatePicker';
-import { MobilePicker } from '../DatePicker/MobilePicker';
 import { ZIndex } from '../../internal/ZIndex';
+import { getRootNode } from '../../lib/rootNode';
+import { getMenuPositions } from '../../lib/getMenuPositions';
+import { Button } from '../Button';
 
 import { styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
-import { DateRangePickerField } from './DateRangePickerField';
-import { getRootNode } from '../../lib/rootNode';
-import { getMenuPositions } from '../../lib/getMenuPositions';
+import { DateRangePickerField, DateRangePickerFieldProps } from './DateRangePickerField';
+import { MobilePicker } from '../DatePicker/MobilePicker';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -30,6 +31,8 @@ export const DateRangePickerDataTids = {
   optionalFromFieldButton: 'DateRangePicker__optionalFromFieldButton',
   optionalToFieldButton: 'DateRangePicker__optionalToFieldButton',
 } as const;
+
+type CurrentFocusType = 'start' | 'end' | null;
 
 export interface DateRangePickerProps
   extends Pick<
@@ -72,7 +75,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const [periodEnd, setPeriodEnd] = useState<string | null>(null);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [currentFocus, setCurrentFocus] = useState<'start' | 'end' | null>(null);
+  const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
 
   const fromRef = useRef<React.FC<DateRangePickerFieldProps>>(null);
   const toRef = useRef<React.FC<DateRangePickerFieldProps>>(null);
@@ -94,6 +97,12 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       return;
     }
 
+    const close = () => {
+      setShowCalendar(false);
+      setCurrentFocus(null);
+      setHoveredDay(null);
+    };
+
     const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
         setPeriodStart(value);
@@ -104,56 +113,68 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       }
     };
 
-    const handleSinglePeriod = (value: string) => {
-      if (isGreaterOrEqual(periodStart || '', value)) {
+    const handlePartialPeriod = (value: string) => {
+      if (currentFocus === 'start') {
+        if (periodStart) {
+          setPeriodStart(value);
+          setCurrentFocus('end');
+          return;
+        }
+
+        if (periodEnd && isGreaterOrEqual(value, periodEnd)) {
+          setPeriodStart(value);
+          setPeriodEnd(null);
+          setCurrentFocus('end');
+          return;
+        }
+
         setPeriodStart(value);
-        setPeriodEnd(periodStart);
-      } else {
+        close();
+      } else if (currentFocus === 'end') {
+        if (periodEnd) {
+          setPeriodEnd(value);
+          setCurrentFocus('start');
+          return;
+        }
+
+        if (periodStart && isLessOrEqual(value, periodStart)) {
+          setPeriodStart(value);
+          setPeriodEnd(null);
+          setCurrentFocus('end');
+          return;
+        }
+
         setPeriodEnd(value);
+        close();
       }
-      resetPeriod();
     };
 
     const handleFullPeriod = (value: string) => {
       if (currentFocus === 'start') {
-        updateStartPeriod(value);
-      } else {
-        updateEndPeriod(value);
+        if (periodEnd && isLessOrEqual(value, periodEnd)) {
+          setPeriodStart(value);
+          close();
+        } else {
+          setPeriodStart(value);
+          setPeriodEnd(null);
+          setCurrentFocus('end');
+        }
+      } else if (currentFocus === 'end') {
+        if (periodStart && isGreaterOrEqual(value, periodStart)) {
+          setPeriodEnd(value);
+          close();
+        } else {
+          setPeriodStart(value);
+          setPeriodEnd(null);
+          setCurrentFocus('end');
+        }
       }
-    };
-
-    const updateStartPeriod = (value: string) => {
-      if (isLessOrEqual(value, periodEnd || '')) {
-        setPeriodStart(value);
-        resetPeriod();
-      } else {
-        setPeriodStart(value);
-        setPeriodEnd(null);
-        setCurrentFocus('end');
-      }
-    };
-
-    const updateEndPeriod = (value: string) => {
-      if (isGreaterOrEqual(value, periodStart || '')) {
-        setPeriodEnd(value);
-        resetPeriod();
-      } else {
-        setPeriodStart(value);
-        setPeriodEnd(null);
-        setCurrentFocus('end');
-      }
-    };
-
-    const resetPeriod = () => {
-      setShowCalendar(false);
-      setCurrentFocus(null);
-      setHoveredDay(null);
     };
 
     if (!periodStart && !periodEnd) {
       handleInitialPeriod(value);
-    } else if (periodStart && !periodEnd) {
-      handleSinglePeriod(value);
+    } else if ((periodStart && !periodEnd) || (!periodStart && periodEnd)) {
+      handlePartialPeriod(value);
     } else {
       handleFullPeriod(value);
     }
@@ -252,11 +273,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
               }
             `,
           isDayInHoveredPeriod &&
-          css`
+            css`
               background: ${t.calendarRangeCellBg};
             `,
           isDayInPeriod &&
-          css`
+            css`
               &:hover [data-tid=${CalendarDataTids.dayCell}] {
                 background: ${t.calendarRangeCellHoverBg};
               }
@@ -294,7 +315,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     toRef,
   };
 
-
   const getSize = (t: Theme) => {
     switch (props.size) {
       case 'large':
@@ -305,7 +325,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       default:
         return t.fontSizeSmall;
     }
-  }
+  };
 
   return (
     <CommonWrapper {...props}>
