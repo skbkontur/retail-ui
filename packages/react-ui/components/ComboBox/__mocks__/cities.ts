@@ -1,6 +1,6 @@
 export interface City {
   Id: number;
-  City: string
+  City: string;
 }
 
 export const cities: City[] = [
