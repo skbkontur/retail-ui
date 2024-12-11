@@ -25,8 +25,10 @@ export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
   from: 'DateRangePicker__from',
   to: 'DateRangePicker__to',
-  dropdown: 'DateRangePicker__dropdown',
+  popup: 'DateRangePicker__popup',
   calendar: 'DateRangePicker__calendar',
+  optionalFromFieldButton: 'DateRangePicker__optionalFromFieldButton',
+  optionalToFieldButton: 'DateRangePicker__optionalToFieldButton',
 } as const;
 
 export interface DateRangePickerProps
@@ -296,7 +298,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                   )}
                 >
                   <CommonWrapper {...props}>
-                    <div className={styles.root()} data-tid={DateRangePickerDataTids.root}>
+                    <div className={styles.root()} data-tid={DateRangePickerDataTids.root} ref={popupContainerRef}>
                       <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
                         {isMobile ? (
                           <MobilePicker
@@ -334,7 +336,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                               )}
                             </div>
 
-                            <div ref={popupContainerRef} data-tid={DateRangePickerDataTids.dropdown} />
+                            <div data-tid={DateRangePickerDataTids.popup} />
                             {showCalendar && (
                               <Popup
                                 opened
