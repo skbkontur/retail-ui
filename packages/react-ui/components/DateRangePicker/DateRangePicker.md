@@ -103,22 +103,9 @@ import { Gapped } from '@skbkontur/react-ui';
 import { Checkbox } from '@skbkontur/react-ui';
 
 <DateRangePicker>
-  <div style={{ display: 'flex' }}>
-    <div>
-      <DateRangePicker.From optional />
-      <DateRangePicker.Separator />
-      <div>
-        <Checkbox>Любая дата</Checkbox>
-      </div>
-    </div>
-    
-    <div>
-      <DateRangePicker.To optional />
-      <div>
-        <Checkbox>Любая дата</Checkbox>
-      </div>
-    </div>
-  </div>
+  <DateRangePicker.From optional />
+  <DateRangePicker.Separator />
+  <DateRangePicker.To optional />
 </DateRangePicker>
 ```
 
