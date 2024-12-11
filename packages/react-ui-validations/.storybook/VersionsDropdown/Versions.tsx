@@ -9,7 +9,7 @@ interface ResponseData {
   versions: LibraryVersion[];
 }
 
-const untypicalVersionsToShow: string[] = ['mdx-exaples-on-storybook-7'];
+const untypicalVersionsToShow: string[] = [];
 const typicalVersionPattern = /^\d+\.\d+\.\d+$/;
 
 const baseUrl = 'https://ui.gitlab-pages.kontur.host/docs/storybook/react-ui-validations';
@@ -77,3 +77,8 @@ export const VersionsLibrary = () => {
 
   return <>{allVersions.sort(sortVersions).map((libraryVersion) => renderLibraryVersionItem(libraryVersion))}</>;
 };
+
+export const getCurrentVersion = () => {
+  const config = require("../../package.json");
+  return config.version;
+}

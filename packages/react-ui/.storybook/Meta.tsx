@@ -16,7 +16,7 @@ import { MenuSeparator } from '../components/MenuSeparator';
 import { MenuFooter } from '../components/MenuFooter';
 import { Link } from '../components/Link';
 
-import { VersionsLibrary } from './VersionsDropdown/Versions';
+import { getCurrentVersion, VersionsLibrary } from './VersionsDropdown/Versions';
 
 const urlPath = window.location.origin + window.location.pathname.replace('/iframe.html', '');
 
@@ -246,7 +246,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
 
         <DropdownMenu
           style={{ marginLeft: 'auto', marginRight: '16px' }}
-          caption={<div className={styles.menuSelect}>v {urlPath.split('/').pop()?.replace('-', ' ')}</div>}
+          caption={<div className={styles.menuSelect}>v {getCurrentVersion()}</div>}
           menuMaxHeight="315px"
           menuWidth="150px"
           positions={['bottom right']}
