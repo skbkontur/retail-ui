@@ -37,8 +37,6 @@ export const styles = {
   value() {
     return css`
       visibility: hidden;
-      font-feature-settings: 'tnum';
-      font-variant-numeric: 'tabular-nums';
     `;
   },
 
