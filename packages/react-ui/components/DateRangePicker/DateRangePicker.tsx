@@ -72,10 +72,20 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<'start' | 'end' | null>(null);
 
-  const fromRef = useRef(null);
-  const toRef = useRef(null);
+  const fromRef = useRef<React.FC<DateRangePickerFieldProps>>(null);
+  const toRef = useRef<React.FC<DateRangePickerFieldProps>>(null);
   const popupContainerRef = useRef(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
+
+  const setOptionalValue = (type: CurrentFocusType) => {
+    if (type === 'start') {
+      setPeriodStart(null);
+      setCurrentFocus('end');
+    } else if (type === 'end') {
+      setPeriodEnd(null);
+      setCurrentFocus('start');
+    }
+  };
 
   const updatePeriod = (value: string) => {
     if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
@@ -252,7 +262,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     setCurrentFocus,
 
     fromRef,
-    toRef
+    toRef,
   };
 
 
@@ -346,6 +356,26 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                                     onValueChange={(value) => updatePeriod(value)}
                                     data-tid={DateRangePickerDataTids.calendar}
                                   />
+                                  <div style={{ margin: 8 }}>
+                                    {currentFocus === 'start' && fromRef.current.props.optional && (
+                                      <Button
+                                        data-tid={DateRangePickerDataTids.optionalFromFieldButton}
+                                        width="100%"
+                                        onClick={() => setOptionalValue('start')}
+                                      >
+                                        Без первой даты
+                                      </Button>
+                                    )}
+                                    {currentFocus === 'end' && toRef.current.props.optional && (
+                                      <Button
+                                        data-tid={DateRangePickerDataTids.optionalToFieldButton}
+                                        width="100%"
+                                        onClick={() => setOptionalValue('end')}
+                                      >
+                                        Без второй даты
+                                      </Button>
+                                    )}
+                                  </div>
                                 </div>
                               </Popup>
                             )}

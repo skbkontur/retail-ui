@@ -5,7 +5,12 @@ import { DateInput, DateInputProps } from '../DateInput';
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
 
-export const DateRangePickerField: React.FC<DateInputProps & { type: 'start' | 'end' }> = (props) => {
+export interface DateRangePickerFieldProps extends DateInputProps {
+  type: 'start' | 'end';
+  optional?: boolean;
+}
+
+export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props) => {
   const state = useContext(DateRangePickerContext);
 
   const isStart = props.type === 'start';
@@ -71,7 +76,6 @@ export const DateRangePickerField: React.FC<DateInputProps & { type: 'start' | '
 
   return (
     <DateInput
-      width="auto"
       value={isStart ? state.periodStart : state.periodEnd}
       withIcon
       size={props.size || state.size}
