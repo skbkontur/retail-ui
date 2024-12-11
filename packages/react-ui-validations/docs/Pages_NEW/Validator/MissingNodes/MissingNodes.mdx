@@ -15,26 +15,26 @@ import { Meta } from '../../../../.storybook/Meta';
 Добавить правила валидации на узел, в котором лежит `null` - можно.
 
 ```jsx static
-    interface ContactInfo {
-      name: string;
-    }
+interface ContactInfo {
+  name: string;
+}
 
-    interface Data {
-      contact: ContactInfo | null;
-    }
+interface Data {
+  contact: ContactInfo | null;
+}
 
-    const validate = createValidator<Data>(b => {
-      b.prop(x => x.contact, b => {
-        b.prop(x => x.name, b => {
-          //...
-        });
-      });
+const validate = createValidator<Data>(b => {
+  b.prop(x => x.contact, b => {
+    b.prop(x => x.name, b => {
+      //...
     });
+  });
+});
 
-    const data: Data = {contact: null};
-    const validation = validate(data);
-    const validationInfo = validation.getNode(x => x.contact.name).get();
-    // -> null
+const data: Data = {contact: null};
+const validation = validate(data);
+const validationInfo = validation.getNode(x => x.contact.name).get();
+// -> null
 ```
 
 В данном примере узел `contact` имеет значение `null`, то есть он не является объектом.

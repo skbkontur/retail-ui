@@ -11,11 +11,11 @@ import { Meta } from '../../../../.storybook/Meta';
 Но, если проверять поля на пустое значение, то при потере фокуса на одном поле - подсветятся все.
 
 ```jsx static
-    const validate = (value: string): Nullable<ValidationInfo> => {
-      if (!value)
-        return { message: 'Не должно быть пустым', type: 'lostfocus' };
-      return null;
-    };
+const validate = (value: string): Nullable<ValidationInfo> => {
+  if (!value)
+    return { message: 'Не должно быть пустым', type: 'lostfocus' };
+  return null;
+};
 ```
 
 ### Пример
@@ -30,25 +30,25 @@ import { Meta } from '../../../../.storybook/Meta';
 Для этого укажите независимость валидации свойством `independent` в объекте `validationInfo`:
 
 ```jsx static
-    const validate = (value: string): Nullable<ValidationInfo> => {
-      if (!value)
-        return { message: 'Неправильный номер', type: 'lostfocus', independent: true };
-      return null;
-    };
+const validate = (value: string): Nullable<ValidationInfo> => {
+  if (!value)
+    return { message: 'Неправильный номер', type: 'lostfocus', independent: true };
+  return null;
+};
 
-    // Валидация объекта
-    const validateObject = createValidator((b) => {
-      b.prop(
-        (x) => x.value,
-        (b) => {
-          b.invalid((x) => !x, {
-            message: 'Не должно быть пустым',
-            type: 'lostfocus',
-            independent: true,
-          });
-        },
-      );
-    });
+// Валидация объекта
+const validateObject = createValidator((b) => {
+  b.prop(
+    (x) => x.value,
+    (b) => {
+      b.invalid((x) => !x, {
+        message: 'Не должно быть пустым',
+        type: 'lostfocus',
+        independent: true,
+      });
+    },
+  );
+});
 ```
 
 ### Пример

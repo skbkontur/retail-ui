@@ -544,16 +544,16 @@ ThemeFactory.overrideDefaultTheme(theme);
 1. Путь джедая:
    В начале времен, где-то в _App.(j|t)sx_
 
-   ```jsx harmony static
-   import ThemeProvider from '@skbkontur/react-ui/components/ThemeProvider';
-   import FlatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+```jsx harmony static
+import ThemeProvider from '@skbkontur/react-ui/components/ThemeProvider';
+import FlatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
-   const App = (
-     <ThemeContext.Provider value={FLAT_THEME}>
-       <div />
-     </ThemeContext.Provider>
-   );
-   ```
+const App = (
+ <ThemeContext.Provider value={FLAT_THEME}>
+   <div />
+ </ThemeContext.Provider>
+);
+```
 
 2. Для ленивых:
 
@@ -564,11 +564,11 @@ ThemeFactory.overrideDefaultTheme(theme);
 
    Должно получиться:
 
-   ```typescript static
-   import ThemeFactory from '@skbkontur/react-ui/lib/theming/ThemeFactory';
-   import FlatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+```typescript static
+import ThemeFactory from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import FlatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
-   // вместо:
-   // Uprgades.enableFlatDesign();
-   ThemeFactory.overrideDefaultTheme(FLAT_THEME);
+// вместо:
+// Uprgades.enableFlatDesign();
+ThemeFactory.overrideDefaultTheme(FLAT_THEME);
    ```

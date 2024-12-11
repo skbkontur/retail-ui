@@ -14,16 +14,16 @@ import { Meta } from '../../../../.storybook/Meta';
 Например, значение `value` должно состоять только из цифр, если флаг `onlyDigits` установлен в значение `true`.
 
 ```jsx static
-    interface Data {
-      onlyDigits: boolean;
-      value: string;
-    }
+interface Data {
+  onlyDigits: boolean;
+  value: string;
+}
 
-    const validate = createValidator<Data>((b, root) => {
-      b.prop(x => x.value, b => {
-        b.invalid(x => root.onlyDigits && !/^\d*$/.test(x), "Только цифры");
-      });
-    });
+const validate = createValidator<Data>((b, root) => {
+  b.prop(x => x.value, b => {
+    b.invalid(x => root.onlyDigits && !/^\d*$/.test(x), "Только цифры");
+  });
+});
 ```
 
 Вторым аргументом правила валидации узла можно получить значение узла.
@@ -47,11 +47,11 @@ const validate =
 Аналогично в правиле конфигурирования элемента массива можно получить значение текущего элемента, его индекс и сам массив.
 
 ```jsx static
-    const validate = createValidator<string[]>(b => {
-      b.array(x => x, (b, value, index, array) => {
-        //...
-      });
-    });
+const validate = createValidator<string[]>(b => {
+  b.array(x => x, (b, value, index, array) => {
+    //...
+  });
+});
 ```
 
 ### Пример

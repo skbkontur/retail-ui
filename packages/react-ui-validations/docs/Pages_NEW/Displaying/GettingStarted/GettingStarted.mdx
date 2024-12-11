@@ -25,13 +25,13 @@ import { Meta } from '../../../../.storybook/Meta';
 Компонент `ValidationContainer` оборачивает всю валидируемую форму, внутри которой используются компоненты `ValidationWrapper`.
 
 ```jsx static
-    <ValidationContainer>
-      //...
-      <ValidationWrapper validationInfo={...}>
-        <Input/>
-      </ValidationWrapper>
-      //...
-    </ValidationContainer>
+<ValidationContainer>
+  //...
+  <ValidationWrapper validationInfo={...}>
+    <Input/>
+  </ValidationWrapper>
+  //...
+</ValidationContainer>
 ```
 
 Значение валидации задается через проп `validationInfo` компонента `ValidationWrapper`.

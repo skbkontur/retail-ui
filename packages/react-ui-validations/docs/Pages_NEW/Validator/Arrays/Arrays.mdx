@@ -13,12 +13,12 @@ import { Meta } from '../../../../.storybook/Meta';
 ### Описание правил валидаций
 
 ```jsx static
-    const validate = createValidator<string[]>(b => {
-      b.array(x => x, b => {
-        b.invalid(x => !x, "Укажите email", "submit");
-        b.invalid(x => !x.includes('@'), "Неверный формат email");
-      });
-    });
+const validate = createValidator<string[]>(b => {
+  b.array(x => x, b => {
+    b.invalid(x => !x, "Укажите email", "submit");
+    b.invalid(x => !x.includes('@'), "Неверный формат email");
+  });
+});
 ```
 
 Метод `array` прогружается до узла содержащего массив.
@@ -73,21 +73,21 @@ const item = validation.getNode((x) => x[index]).get();
 Если элементом массива является объект, то прогрузка до вложенных узлов осуществляется методом `prop`.
 
 ```jsx static
-    interface ContactInfo {
-      name: string;
-      email: string;
-    }
+interface ContactInfo {
+  name: string;
+  email: string;
+}
 
-    const validate = createValidator<ContactInfo[]>(b => {
-      b.array(x => x, b => {
-        b.prop(x => x.name, b => {
-          //...
-        });
-        b.prop(x => x.email, b => {
-          //...
-        });
-      });
+const validate = createValidator<ContactInfo[]>(b => {
+  b.array(x => x, b => {
+    b.prop(x => x.name, b => {
+      //...
     });
+    b.prop(x => x.email, b => {
+      //...
+    });
+  });
+});
 ```
 
 ### Пример
@@ -100,33 +100,33 @@ const item = validation.getNode((x) => x[index]).get();
 Прогрузку до массива можно указать прямо в методе `array`.
 
 ```jsx static
-    interface Root {
-      items: string[];
-    }
+interface Root {
+  items: string[];
+}
 
-    const validate = createValidator<Root>(b => {
-      b.array(x => x.items, b => {
-        //...
-      });
-    });
+const validate = createValidator<Root>(b => {
+  b.array(x => x.items, b => {
+    //...
+  });
+});
 ```
 
 Можно задать валидацию не только для элементов массива, но и для узла, в котором лежит массив.
 
 ```jsx static
-    interface Root {
-      items: string[];
-    }
+interface Root {
+  items: string[];
+}
 
-    const validate = createValidator<Root>(b => {
-      b.prop(x => x.items, b => {
-        b.invalid(...); //правило для узла items
-        b.array(x => x, b => {
-          //...
-        });
-      });
+const validate = createValidator<Root>(b => {
+  b.prop(x => x.items, b => {
+    b.invalid(...); //правило для узла items
+    b.array(x => x, b => {
+      //...
     });
+  });
+});
 
-    const validation = validate(root);
-    const validationInfo = validation.getNode(x => x.items).get();
+const validation = validate(root);
+const validationInfo = validation.getNode(x => x.items).get();
 ```
