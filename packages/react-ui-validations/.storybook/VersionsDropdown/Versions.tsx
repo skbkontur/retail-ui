@@ -79,6 +79,6 @@ export const VersionsLibrary = () => {
 };
 
 export const getCurrentVersion = () => {
-  const config = require("../../package.json");
+  const config = require('../../package.json');
   return config.version;
-}
+};
