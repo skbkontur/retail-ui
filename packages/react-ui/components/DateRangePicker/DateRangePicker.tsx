@@ -165,25 +165,54 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     renderDayFn: ((props: CalendarDayProps) => React.ReactElement) | undefined,
   ) => {
     const day = props.date;
-    const isHover = hoveredDay !== null;
-    const isHoverCurrent = hoveredDay === day;
 
-    const isDayInHoveredPeriod = Boolean(
-      isHover &&
-      ((currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)) ||
-        (currentFocus === 'start' && periodStart && isBetween(day, hoveredDay, periodStart))),
-    );
-
-    const isDayBeforeFirstDay = periodStart && isLess(day, periodStart);
-    const isDayAfterLastDay = periodEnd && isGreater(day, periodEnd);
-
+    const isDayFirst = periodStart === day;
+    const isDayLast = periodEnd === day;
     const isDayInPeriod = Boolean(periodStart && periodEnd && isBetween(day, periodStart, periodEnd));
-    const isFirstDay = periodStart === day;
-    const isLastDay = periodEnd === day;
-    const isFirstOrLastDay = isFirstDay || isLastDay;
 
-    const hasLeftRoundings = (!isHover && isFirstDay) || (isHoverCurrent && isDayBeforeFirstDay);
-    const hasRightRoundings = (!isHover && isLastDay) || (isHoverCurrent && isDayAfterLastDay);
+    const hasHoveredDay = hoveredDay !== null;
+    const isDayInHoveredPeriod =
+      hasHoveredDay &&
+      Boolean(
+        (currentFocus === 'start' && periodEnd && isBetween(day, hoveredDay, periodEnd)) ||
+          (currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)),
+      );
+
+    let hasLeftRoundings;
+    let hasRightRoundings;
+
+    if (hasHoveredDay) {
+      // TODO: check if periodStart / periodEnd not setted
+      const isDayBeforeFirstInPeriod = periodStart ? isLess(hoveredDay, periodStart) : periodEnd;
+      const isDayAfterLastInPeriod = periodEnd ? isGreater(hoveredDay, periodEnd) : periodStart;
+
+      if (isDayFirst && (isGreaterOrEqual(hoveredDay, periodStart) || currentFocus === 'end')) {
+        hasLeftRoundings = true;
+      }
+
+      if (isDayLast && (isLessOrEqual(hoveredDay, periodEnd) || currentFocus === 'start')) {
+        hasRightRoundings = true;
+      }
+
+      const isDayHovered = hoveredDay === day;
+      if (isDayHovered) {
+        if (isDayBeforeFirstInPeriod) {
+          hasLeftRoundings = true;
+        }
+
+        if (isDayAfterLastInPeriod) {
+          hasRightRoundings = true;
+        }
+      }
+    } else {
+      if (isDayFirst) {
+        hasLeftRoundings = true;
+      }
+
+      if (isDayLast) {
+        hasRightRoundings = true;
+      }
+    }
 
     return (
       <div
@@ -193,16 +222,14 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           css`
             width: 100%;
             height: 100%;
+            background: ${isDayInPeriod && t.calendarRangeCellBg};
             border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
             border-bottom-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
-
             border-top-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
             border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
-
-            background: ${isDayInPeriod && t.calendarRangeCellBg};
           `,
-          isFirstOrLastDay &&
-          css`
+          (isDayFirst || isDayLast) &&
+            css`
               position: relative;
 
               [data-tid=${CalendarDataTids.dayCell}] {
