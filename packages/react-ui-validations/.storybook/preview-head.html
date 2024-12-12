@@ -7,7 +7,7 @@
 
   body {
     font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
     background: white;
     color: rgba(0, 0, 0, 0.87);
@@ -51,14 +51,9 @@
     --content-width: calc(100% - var(--sidebar-width));
   }
 
-  #storybook-docs {
-    margin-left: 38px;
-  }
-
   .sbdocs-wrapper {
     gap: 2rem;
-    padding-left: 0 !important;
-    justify-content: flex-start !important;
+    padding-left: 38px !important;
   }
 
   .sbdocs-wrapper:has(#disable-toc) > [data-comp-name~='TableOfContents'] {
