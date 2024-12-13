@@ -88,37 +88,38 @@ import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 </DropdownMenu>
 ```
 
-Меню с элементами меню обёрнутыми в контрол ссылки.
+В элементы меню можно передавать проп `href`, чтобы превратить их в ссылку. Лучше выделять такие элементы иконками.
 
 ```jsx harmony
-import { Button, MenuItem, DropdownMenu, Link } from '@skbkontur/react-ui';
-
-const LinkMenuItem = ({link, title}) => {
-  return <MenuItem
-    href={link}
-    component={({ href, ...rest }) => {
-      return <Link target="_blank" rel="noopener noreferrer" href={href} {...rest} />
-    }}
-    >
-    {title}
-  </MenuItem>
-}
+import { Button, MenuItem, DropdownMenu, MenuSeparator } from '@skbkontur/react-ui';
+import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon';
 
 <DropdownMenu
   caption={<Button use="primary">Открыть меню с ссылками</Button>}
   >
-  <LinkMenuItem
-    link="http://tech.skbkontur.ru/react-ui/"
-    title="Начало документации"
-    />
-  <LinkMenuItem
-    link="https://guides.kontur.ru/"
-    title="Контур Гайды"
-    />
-  <LinkMenuItem
-    link="https://github.com/skbkontur/retail-ui/graphs/contributors"
-    title="Список прекрасных людей"
-    />
+  <MenuItem
+    href="http://tech.skbkontur.ru/react-ui/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Начало документации
+  </MenuItem>
+  <MenuItem
+    href="https://github.com/skbkontur/retail-ui/graphs/contributors"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Список прекрасных людей
+  </MenuItem>
+  <MenuSeparator />
+  <MenuItem
+    icon={< ArrowUiCornerOutUpRightIcon />}
+    href="https://guides.kontur.ru/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Подробнее в Контур Гайдах
+  </MenuItem>
 </DropdownMenu>
 ```
 
