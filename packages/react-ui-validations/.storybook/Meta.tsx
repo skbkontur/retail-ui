@@ -6,9 +6,7 @@ import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/W
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
-import { Link } from '@skbkontur/react-ui/components/Link';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
@@ -148,16 +146,12 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuFooter>
-            <Link
-              target="_parent"
-              href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
-              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
-              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
-            >
-              Подробнее о локализации
-            </Link>
-          </MenuFooter>
+          <MenuItem
+            href={`https://ui.gitlab-pages.kontur.host/storybook-documentation/?path=/docs/react_ui_information-theme--docs`}
+            style={{ cursor: 'pointer' }}
+          >
+            Подробнее о темах
+          </MenuItem>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -191,17 +185,13 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               </Toggle>
             </MenuItem>
           ))}
-          <MenuSeparator />
-          <MenuFooter>
-            <Link
-              target="_parent"
-              href={`${urlPath}/?path=/docs/react_ui_validations_displaying-feature-flags--docs`}
-              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
-              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
-            >
-              Подробнее о фича-флагах
-            </Link>
-          </MenuFooter>
+          {allFeatureFlags.length !== 0 && <MenuSeparator />}
+          <MenuItem
+            href={`${urlPath}/?path=/docs/react_ui_validations_displaying-feature-flags--docs`}
+            style={{ cursor: 'pointer' }}
+          >
+            Подробнее о фича-флагах
+          </MenuItem>
         </DropdownMenu>
         <DropdownMenu
           style={{ marginLeft: 'auto', marginRight: '16px' }}

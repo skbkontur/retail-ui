@@ -13,8 +13,6 @@ import { Toggle } from '../components/Toggle';
 import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import { MenuSeparator } from '../components/MenuSeparator';
-import { MenuFooter } from '../components/MenuFooter';
-import { Link } from '../components/Link';
 
 import { getCurrentVersion, VersionsLibrary } from './VersionsDropdown/Versions';
 
@@ -159,16 +157,12 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           ))}
 
           <MenuSeparator />
-          <MenuFooter>
-            <Link
-              target="_parent"
-              href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`}
-              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
-              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
-            >
-              Подробнее о темах
-            </Link>
-          </MenuFooter>
+          <MenuItem
+            href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`}
+            style={{ cursor: 'pointer' }}
+          >
+            Подробнее о темах
+          </MenuItem>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -188,16 +182,12 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuFooter>
-            <Link
-              target="_parent"
-              href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
-              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
-              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
-            >
-              Подробнее о локализации
-            </Link>
-          </MenuFooter>
+          <MenuItem
+            href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
+            style={{ cursor: 'pointer' }}
+          >
+            Подробнее о локализации
+          </MenuItem>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -231,17 +221,13 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
               </Toggle>
             </MenuItem>
           ))}
-          <MenuSeparator />
-          <MenuFooter>
-            <Link
-              target="_parent"
-              href={`${urlPath}/?path=/docs/react_ui_information-feature-flags--docs`}
-              theme={{ linkTextDecorationColor: 'rgba(0,0,0,.15)' }}
-              style={{ display: 'block', marginTop: 2, marginBottom: -6, cursor: 'pointer' }}
-            >
-              Подробнее о фича-флагах
-            </Link>
-          </MenuFooter>
+          {allFeatureFlags.length !== 0 && <MenuSeparator />}
+          <MenuItem
+            href={`${urlPath}/?path=/docs/react_ui_information-feature-flags--docs`}
+            style={{ cursor: 'pointer' }}
+          >
+            Подробнее о фича-флагах
+          </MenuItem>
         </DropdownMenu>
 
         <DropdownMenu
