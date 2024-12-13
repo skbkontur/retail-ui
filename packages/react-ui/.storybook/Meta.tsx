@@ -6,6 +6,7 @@ import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIc
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
+import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light';
 
 import { DropdownMenu } from '../components/DropdownMenu';
 import { MenuItem } from '../components/MenuItem';
@@ -158,7 +159,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
 
           <MenuSeparator />
           <MenuItem href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`} style={{ cursor: 'pointer' }}>
-            Подробнее о темах
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu
@@ -180,7 +181,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           ))}
           <MenuSeparator />
           <MenuItem href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`} style={{ cursor: 'pointer' }}>
-            Подробнее о локализации
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о локализации
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu
@@ -220,7 +221,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             href={`${urlPath}/?path=/docs/react_ui_information-feature-flags--docs`}
             style={{ cursor: 'pointer' }}
           >
-            Подробнее о фича-флагах
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
           </MenuItem>
         </DropdownMenu>
 

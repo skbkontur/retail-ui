@@ -5,6 +5,7 @@ import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Li
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
+import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
@@ -150,7 +151,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             href={`https://ui.gitlab-pages.kontur.host/storybook-documentation/?path=/docs/react_ui_information-theme--docs`}
             style={{ cursor: 'pointer' }}
           >
-            Подробнее о темах
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu
@@ -190,7 +191,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             href={`${urlPath}/?path=/docs/react_ui_validations_displaying-feature-flags--docs`}
             style={{ cursor: 'pointer' }}
           >
-            Подробнее о фича-флагах
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu
