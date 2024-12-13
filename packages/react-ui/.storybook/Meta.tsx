@@ -157,10 +157,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
           ))}
 
           <MenuSeparator />
-          <MenuItem
-            href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`}
-            style={{ cursor: 'pointer' }}
-          >
+          <MenuItem href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`} style={{ cursor: 'pointer' }}>
             Подробнее о темах
           </MenuItem>
         </DropdownMenu>
@@ -182,10 +179,7 @@ export const Meta = ({ of }: { of: ModuleExports }) => {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuItem
-            href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`}
-            style={{ cursor: 'pointer' }}
-          >
+          <MenuItem href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`} style={{ cursor: 'pointer' }}>
             Подробнее о локализации
           </MenuItem>
         </DropdownMenu>
