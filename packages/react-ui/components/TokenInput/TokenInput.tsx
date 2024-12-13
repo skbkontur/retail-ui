@@ -537,6 +537,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 menuAlign={menuAlign}
                 renderTotalCount={renderTotalCount}
                 totalCount={totalCount}
+                size={this.getProps().size}
               />
             )}
             {this.renderTokensEnd()}

@@ -104,6 +104,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         withoutMobile
       >
         <ComboBoxMenu
+          size={this.props.size}
           items={items}
           loading={loading}
           hasMargin={false}

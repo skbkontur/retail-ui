@@ -290,7 +290,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [rootClassNameWithArrow, arrowNode] = useButtonArrow(
       { ...this.props, isFocused: Boolean(isFocused) },
       this.theme,
