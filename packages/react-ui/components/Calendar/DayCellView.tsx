@@ -18,8 +18,12 @@ export const DayCellView = (props: DayCellViewProps) => {
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
   const theme = useContext(ThemeContext);
 
+  const isDisabled = !CDS.isBetween(date, minDate, maxDate);
+
   const handleClick = () => {
-    onDateClick?.(date);
+    if (!isDisabled) {
+      onDateClick?.(date);
+    }
   };
 
   const humanDateString = InternalDateTransformer.dateToHumanString(date);
@@ -27,7 +31,7 @@ export const DayCellView = (props: DayCellViewProps) => {
   const dayProps: CalendarDayProps = {
     isToday: Boolean(today && CDS.isEqual(date, today)),
     isSelected: Boolean(value && CDS.isEqual(date, value)),
-    isDisabled: !CDS.isBetween(date, minDate, maxDate),
+    isDisabled,
     isWeekend: isHoliday?.(humanDateString, date.isWeekend) ?? date.isWeekend,
     date: humanDateString,
   };
