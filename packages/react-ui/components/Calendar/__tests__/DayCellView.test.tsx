@@ -1,11 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { PointerEventsCheckLevel, userEvent } from '@testing-library/user-event';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar, CalendarDataTids } from '../Calendar';
 import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru';
 import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en';
 import { InternalDate } from '../../../lib/date/InternalDate';
+import { CalendarLocaleHelper } from '../locale';
 
 describe('DayCellView', () => {
   describe('a11y', () => {
@@ -50,5 +52,27 @@ describe('DayCellView', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
     });
+  });
+
+  it('should not call onClick when disabled', async () => {
+    const date = '03.11.2021';
+    const minDate = '02.11.2021';
+    const maxDate = '05.11.2021';
+    const onValueChange = jest.fn();
+
+    render(<Calendar value={date} minDate={minDate} maxDate={maxDate} onValueChange={onValueChange} />);
+
+    const button = screen.getByRole('button', {
+      name: `${CalendarLocaleHelper.get(LangCodes.ru_RU).dayCellChooseDateAriaLabel}: ${new InternalDate({
+        langCode: LangCodes.ru_RU,
+        value: '06.11.2021',
+      }).toA11YFormat()}`,
+    });
+
+    await userEvent.click(button, {
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    });
+
+    expect(onValueChange).not.toHaveBeenCalled();
   });
 });
