@@ -5,7 +5,11 @@ import { Switcher, SwitcherProps } from '../Switcher';
 import { Gapped } from '../../Gapped';
 import { Hint } from '../../Hint';
 import { Tooltip } from '../../Tooltip';
-import { ButtonProps } from '../../Button';
+import { Button, ButtonProps } from '../../Button';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { Select } from '../../Select';
+import { SizeProp } from '../../../lib/types/props';
 
 interface ComponentState {
   value: string;
@@ -116,3 +120,62 @@ export const WithCustomRenderItems: Story = () => {
 };
 
 WithCustomRenderItems.storyName = 'with custom render item';
+
+export const CompareWithButton: Story = () => {
+  const [value, setValue] = React.useState<string>();
+  const [view, setView] = React.useState<'switcher' | 'button'>('switcher');
+  const [size, setSize] = React.useState<SizeProp>('small');
+  return (
+    <div>
+      <ThemeContext.Provider
+        value={ThemeFactory.create({
+          borderColorError: 'red',
+        })}
+      >
+        {view === 'button' && (
+          <Gapped vertical gap={5}>
+            <Button width="148px" size={size}>
+              Button
+            </Button>
+            <Button error width="148px" size={size}>
+              Button
+            </Button>
+          </Gapped>
+        )}
+        {view === 'switcher' && (
+          <Gapped vertical gap={5}>
+            <Switcher
+              value={value}
+              onValueChange={setValue}
+              size={size}
+              style={{ display: 'inline-block' }}
+              items={['1', '2', '3'].map((i) => ({ label: i, value: i, buttonProps: { width: 50, autoFocus: true } }))}
+            />
+            <Switcher
+              error
+              value={value}
+              onValueChange={setValue}
+              size={size}
+              style={{ display: 'inline-block' }}
+              items={['1', '2', '3'].map((i) => ({ label: i, value: i, buttonProps: { width: 50, autoFocus: true } }))}
+            />
+          </Gapped>
+        )}
+      </ThemeContext.Provider>
+      <br />
+      <br />
+      <Switcher
+        style={{ display: 'inline-block' }}
+        items={['switcher', 'button']}
+        value={view}
+        onValueChange={setView as any}
+      />
+      <br />
+      <br />
+      <Select items={['small', 'medium', 'large'] as SizeProp[]} value={size} onValueChange={setSize} />
+    </div>
+  );
+};
+CompareWithButton.parameters = {
+  creevey: { skip: true },
+};

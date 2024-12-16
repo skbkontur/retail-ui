@@ -113,10 +113,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain() {
-    const listClassName = cx({
-      [styles.error(this.theme)]: !!this.props.error,
-    });
-
     const inputProps = {
       type: 'checkbox',
       onKeyDown: this.handleKey,
@@ -126,14 +122,15 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     };
 
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
+    const wrapClassName = cx(styles.wrap(), this.props.error && styles.error(this.theme));
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SwitcherDataTids.root} className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
-          <div className={styles.wrap()}>
+          <div className={wrapClassName}>
             <input {...inputProps} />
-            <div className={listClassName}>
+            <div>
               <Group>{this._renderItems()}</Group>
             </div>
           </div>
