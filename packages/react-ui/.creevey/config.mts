@@ -32,7 +32,7 @@ const config: CreeveyConfig = {
   testsDir: path.join(__dirname, '../'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: process.env.GRID_URL,
+  gridUrl: process.env.GRID_4_URL,
   maxRetries: process.env.TEAMCITY_VERSION ? 5 : 0,
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
