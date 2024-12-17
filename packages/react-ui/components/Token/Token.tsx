@@ -53,7 +53,7 @@ export const TokenDataTids = {
 /**
  * Однородный элемент — `Token`.
  *
- * Используется в компоненте [поле с токенами TokenInput](/docs/input-data-tokeninput-tokeninput--docs).
+ * Используется в компоненте поле с токенами TokenInput.
  */
 @rootNode
 @locale('Token', TokenLocaleHelper)

@@ -115,7 +115,7 @@ export const DropdownDataTids = {
  * * когда названия действий очень длинные.
  * * когда действия редко используются или объединены по смыслу.
  *
- * Не используйте `Dropdown` для выбора значения из набора вариантов. В таком случае воспользуйтесь компонентом [Select](/docs/input-data-select--docs).
+ * Не используйте `Dropdown` для выбора значения из набора вариантов. В таком случае воспользуйтесь компонентом Select.
  */
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {

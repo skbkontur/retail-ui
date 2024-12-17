@@ -55,12 +55,12 @@ export const TabsDataTids = {
 type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 
 /**
- * Родитель компонента [Tab](/docs/display-data-tab--docs). Связывает `Tab`'ы в группу и позволяет управлять их состоянием, помогают в навигации.
+ * Родитель компонента Tab. Связывает `Tab`'ы в группу и позволяет управлять их состоянием, помогают в навигации.
  *
  * Используйте `Tabs` для второстепенной навигации, для группировки или фильтрации контента.
  *
  * Не используйте `Tabs` для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
- * Не используйте `Tabs` для переключения состояний — для этого есть [RadioGroup](/docs/input-data-radiogroup--docs), [Toggle](/docs/input-data-toggle--docs) и [Switcher](/docs/button-switcher--docs).
+ * Не используйте `Tabs` для переключения состояний — для этого есть RadioGroup, Toggle и Switcher.
  */
 @rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {

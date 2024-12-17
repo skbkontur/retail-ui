@@ -163,10 +163,10 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
  * Используйте поле ввода для коротких текстовых или цифровых значений без предсказуемого формата.
  *
  *  Если вводимое значение имеет определенный формат, используйте специальную версию поля:
- * * Поле с паролем [PasswordInput](/docs/input-data-passwordinput--docs).
- * * Поле с валютой [CurrencyInput](/docs/input-data-currencyinput--docs).
- * * Поле с маской [MaskedInput](/docs/input-data-maskedinput--docs).
- * * Автополе [FxInput](/docs/input-data-fxinput--docs).
+ * * Поле с паролем PasswordInput.
+ * * Поле с валютой CurrencyInput.
+ * * Поле с маской MaskedInput.
+ * * Автополе FxInput.
  *
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  */

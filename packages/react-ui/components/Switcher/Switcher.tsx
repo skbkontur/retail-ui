@@ -74,9 +74,9 @@ interface SwitcherItem {
 }
 
 /**
- * Переключатель `Switcher` — это замена [RadioGroup](/docs/input-data-radiogroup--docs).
+ * Переключатель `Switcher` — это замена RadioGroup.
  *
- * Не используйте переключатель в качестве навигации, для этого лучше подходят [Tabs](/docs/display-data-tabs--docs).
+ * Не используйте переключатель в качестве навигации, для этого лучше подходят Tabs.
  */
 @rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
