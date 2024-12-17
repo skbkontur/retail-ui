@@ -1,6 +1,10 @@
-import { Meta } from '@storybook/blocks';
+import { Story } from '@storybook/blocks';
 
-<Meta title="Information/Feature flags" />
+import { Meta } from '../../Meta';
+
+import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
+
+<Meta of={FeatureFlagsStories} />
 
 # Включение и отключение отдельных фич через `ReactUIFeatureFlagsContext`
 
@@ -32,34 +36,7 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
 
-```jsx harmony
-import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
-
-const [value, setValue] = React.useState({ value: '', label: '' });
-
-const handleValueChange = () => {
-  setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
-};
-
-const getItems = () =>
-  Promise.resolve([
-    { value: 'Первый', label: 'Первый' },
-    { value: 'Второй', label: 'Второй' },
-  ]);
-
-<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
-  <Button onClick={handleValueChange}>Обновить</Button>
-  <ComboBox
-    value={value}
-    searchOnFocus={false}
-    getItems={getItems}
-    onValueChange={(value) => setValue(value)}
-    onInputValueChange={(value) => {
-      setValue({ value, label: value });
-    }}
-  />
-</ReactUIFeatureFlagsContext.Provider>;
-```
+<Story of={FeatureFlagsStories.Example1} />
 
 ## Объект со всеми флагами
 

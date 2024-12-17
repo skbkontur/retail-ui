@@ -1,6 +1,10 @@
-import { Markdown, Meta } from '@storybook/blocks';
+import { Markdown, Story } from '@storybook/blocks';
 
-<Meta title="Information/Theme" />
+import { Meta } from '../../Meta';
+
+import * as ThemeStories from './Theme.docs.stories';
+
+<Meta of={ThemeStories} />
 
 # ThemeContext
 
@@ -60,18 +64,7 @@ public context: Theme = this.context;
 
 Собственные значения нужно передать в `ThemeFactory.create` и получившуюся тему можно использовать в `ThemeContext.Provider`. `ThemeFactory` расширяет переданный объект, задавая в качестве прототипа объект темы по умолчанию.
 
-```jsx harmony
-import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
-
-const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });
-
-<ThemeContext.Provider value={myTheme}>
-  <div style={{ height: '100%', background: '#fff', padding: '16px' }}>
-    <ShowcaseGroup title="My Theme" />
-  </div>
-</ThemeContext.Provider>;
-```
+<Story of={ThemeStories.Example1} />
 
 Вторым аргументом `ThemeFactory.create` может принимать объект, который будет использован в качестве базовой темы.
 
@@ -83,49 +76,13 @@ const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, LIGHT_
 
 ### Использование темы в своих компонентах
 
-```jsx harmony
-import { useContext } from 'react';
-import { ThemeContext, Button } from '@skbkontur/react-ui';
-
-function ButtonLinkWrapper(props) {
-  const theme = useContext(ThemeContext);
-
-  return (
-    <Button use="link" {...props}>
-      {props.children}
-      <span style={{ color: theme.textColorDefault }}> ↗</span>
-    </Button>
-  );
-}
-
-<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
-```
+<Story of={ThemeStories.Example2} />
 
 ### Добавление своих переменных
 
 Если вы хотите дополнить одну из тем новыми переменными для своих компонентов, то вы можете использовать отдельный контекст в расширенным объектом темы.
 
-```jsx harmony
-import { useContext } from 'react';
-import { ThemeFactory, Button } from '@skbkontur/react-ui';
-
-const MyThemeContext = React.createContext(ThemeFactory.create({ myTextColor: 'orange' }));
-
-MyThemeContext.displayName = 'MyThemeContext';
-
-function ButtonLinkWrapper(props) {
-  const theme = useContext(MyThemeContext);
-
-  return (
-    <Button use="link" {...props}>
-      {props.children}
-      <span style={{ color: theme.myTextColor }}> ↗</span>
-    </Button>
-  );
-}
-
-<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
-```
+<Story of={ThemeStories.Example3} />
 
 ### Кастомизация в legacy-приложениях
 
@@ -174,31 +131,7 @@ const CombinedComponents = () => (
 
 <br />
 
-```jsx harmony
-import { ThemeContext, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
-
-const wrapperStyles = {
-  border: '1px solid rgb(188, 187, 187)',
-  padding: '0 15px 15px',
-  marginTop: 25,
-};
-
-const NestedThemes = () => (
-  <ThemeContext.Provider value={LIGHT_THEME}>
-    <div style={{ ...wrapperStyles, width: 750, background: '#fff' }}>
-      <ShowcaseGroup title="LIGHT_THEME" />
-      <ThemeContext.Provider value={DARK_THEME}>
-        <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
-          <ShowcaseGroup title="DARK_THEME" />
-        </div>
-      </ThemeContext.Provider>
-    </div>
-  </ThemeContext.Provider>
-);
-
-<NestedThemes />;
-```
+<Story of={ThemeStories.Example5} />
 
 ## Кастомизация @skbkontur/react-ui-addons
 

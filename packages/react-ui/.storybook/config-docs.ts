@@ -4,6 +4,7 @@ const config: StorybookConfig = {
   stories: [
     '../components/**/*.stories.tsx',
     '../internal/**/*.stories.tsx',
+    '../.storybook/**/*.stories.tsx',
     '../components/**/*.mdx',
     '../.storybook/**/*.mdx',
     '../**/*.mdx',
