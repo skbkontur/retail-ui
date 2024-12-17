@@ -7,6 +7,7 @@ import { LIGHT_THEME_2022_0 } from '../../../lib/theming/themes/LightTheme2022_0
 import { DARK_THEME_2022_0 } from '../../../lib/theming/themes/DarkTheme2022_0';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 export const themes = {
   LIGHT_THEME,
@@ -18,7 +19,7 @@ export const themes = {
 export const ThemeDecorator: Decorator = (Story, context) => {
   const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
 
-  if ([DARK_THEME].includes(storybookTheme) || [DARK_THEME_2022_0].includes(storybookTheme)) {
+  if (isDarkTheme(storybookTheme)) {
     document.body.classList.add('dark');
   } else {
     document.body.classList.remove('dark');

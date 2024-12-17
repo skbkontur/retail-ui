@@ -1,13 +1,5 @@
 [
   {
-    "version": "next",
-    "path": "https://tech.skbkontur.ru/react-ui/next/"
-  },
-  {
-    "version": "lts",
-    "path": "https://tech.skbkontur.ru/react-ui/lts/"
-  },
-  {
     "version": "5.0.4",
     "path": "https://tech.skbkontur.ru/react-ui/5.0.4/"
   },
