@@ -20,11 +20,11 @@ describe('stop() cases', () => {
     expect(taskStopCallback).not.toBeCalled();
 
     task.start();
-    await new Promise((r) => setTimeout(r, delayBeforeTaskStart));
+    await delay(delayBeforeTaskStart);
     expect(taskStartCallback).toBeCalled();
     task.stop();
     expect(taskStopCallback).not.toBeCalled();
-    await new Promise((r) => setTimeout(r, durationOfTask));
+    await delay(durationOfTask);
     expect(taskStopCallback).toBeCalled();
   });
 
@@ -46,9 +46,9 @@ describe('stop() cases', () => {
     expect(taskStopCallback).not.toBeCalled();
 
     task.start();
-    await new Promise((r) => setTimeout(r, delayBeforeTaskStart));
+    await delay(delayBeforeTaskStart);
     expect(taskStartCallback).toBeCalled();
-    await new Promise((r) => setTimeout(r, durationOfTask));
+    await delay(durationOfTask);
     task.stop();
     expect(taskStopCallback).toBeCalled();
   });
@@ -71,9 +71,9 @@ describe('stop() cases', () => {
     expect(taskStopCallback).not.toBeCalled();
 
     task.start();
-    await new Promise((r) => setTimeout(r, 100));
+    await delay(100);
     task.stop();
-    await new Promise((r) => setTimeout(r, delayBeforeTaskStart));
+    await dekay(delayBeforeTaskStart);
     expect(taskStartCallback).not.toBeCalled();
     expect(taskStopCallback).not.toBeCalled();
   });
@@ -94,11 +94,11 @@ describe('stop() cases', () => {
     task.start(); // запускаем таску "короткую"
     await delay(delayBeforeTaskStart + 900); // ждем пока закончится "короткая" таска
     task.stop(); // пытаемся остановить таски, но еще запущена "длинная" таска
-    task.start(); // запускаем новую короткую таску пока запущена "длинная" таска
+    task.start(); // пытаемся запустить новую короткую таску пока запущена "длинная" таска (она не должна запуститься)
     await delay(200);
-    task.stop(); // пытаемся остановить таски, но еще запущена "длинная" таска
+    task.stop(); // пытаемся остановить таски, "длинная" уже закончилась, короткая еще бы не успела запуститься
 
-    await delay(delayBeforeTaskStart + durationOfTask); // можно ждать сколько угодно, taskStopCallback не вызовется
+    await delay(delayBeforeTaskStart + durationOfTask); // можно ждать сколько угодно, taskStopCallback должен быть вызван, если короткая в итоге не запустилась
     expect(taskStopCallback).toBeCalled();
   });
 });
