@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 const [value, setValue] = React.useState();
 
@@ -9,7 +10,8 @@ const [value, setValue] = React.useState();
 />;
 ```
 
-Случай, когда `items` принимает объект типа `{ label: string, value: string }`:
+### items в виде объектов
+Случай, когда `items` принимает объект типа `{ label: string, value: string }`
 
 ```jsx harmony
 const [value, setValue] = React.useState();
@@ -36,7 +38,8 @@ const items = [
 />;
 ```
 
-Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку:
+### Кастомизация кнопки
+Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку
 
 ```jsx harmony
 const [value, setValue] = React.useState();
@@ -75,6 +78,7 @@ const items = [
 />;
 ```
 
+### Кастомизация items
 Пример с методом `renderItem` для кастомизации `items`:
 
 ```jsx harmony

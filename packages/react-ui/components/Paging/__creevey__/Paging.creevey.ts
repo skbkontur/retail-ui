@@ -10,8 +10,9 @@ kind('Paging', () => {
           in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hover', 'Move to page by Ender'],
         },
+
         flaky: {
-          in: ['firefox2022', 'firefox2022Dark'],
+          in: ['firefox', 'firefox2022', 'firefox2022Dark'],
           tests: ['Move focus right', 'Move to page by Ender'],
         },
       },

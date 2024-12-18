@@ -16,18 +16,16 @@ import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
+  /** @ignore */
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-  /**
-   * Включает серый цвет в футере
-   */
+
+  /** Включает серый цвет в футере. */
   panel?: boolean;
-  /**
-   * Закрепляет футер снизу сайдпейджа
-   */
+
+  /** Закрепляет футер снизу сайдпейджа. */
   sticky?: boolean;
-  /**
-   * Задаёт отступ между элементами футера
-   */
+
+  /** Задает расстояние между элементами футера в пикселях. */
   gap?: GappedProps['gap'];
 }
 

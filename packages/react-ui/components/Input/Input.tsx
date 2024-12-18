@@ -53,102 +53,94 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Иконка слева
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
+        /** Задает иконку слева.
+         * При использовании `ReactNode` применяются дефолтные стили для иконки.
+         * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         leftIcon?: InputIconType;
-        /**
-         * Иконка справа
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
+
+        /** Добавляет иконку справа.
+         * При использовании `ReactNode` применяются дефолтные стили для иконки.
+         * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         rightIcon?: InputIconType;
-        /**
-         * Состояние валидации при ошибке.
-         */
+
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /** Режим прозрачной рамки */
+
+        /** Убирает обводку. */
         borderless?: boolean;
-        /** Выравнивание текста */
+
+        /** Задает выравнивание контента. */
         align?: InputAlign;
-        /**
-         * Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+
+        /** Задает паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         mask?: Nullable<string>;
-        /**
-         * Символ маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+
+        /** Устанавливает символ маски.
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         maskChar?: Nullable<string>;
-        /**
-         * Словарь символов-регулярок для задания маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-         */
+
+        /** Задает словарь символов-регулярок для задания маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput.
+         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }. */
         formatChars?: Record<string, string>;
-        /**
-         * Показывать символы маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+
+        /** Включает показ символов маски.
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         alwaysShowMask?: boolean;
-        /** Размер */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /** onValueChange */
+
+        /** Задает функцию, которая вызывается при изменении значения в инпуте. */
         onValueChange?: (value: string) => void;
-        /** Вызывается на label */
+
+        /** @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+
+        /** @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+
+        /** @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email'
-         * */
+
+        /** Задает тип инпута. */
         type?: InputType;
-        /** Значение */
+
+        /** Задает значение. */
         value?: string;
+
+        ///** */
         capture?: boolean;
 
-        /**
-         * Префикс
-         * `ReactNode` перед значением, но после иконки
-         */
+        /** Устанавливает префикс `ReactNode` перед значением, но после иконки. */
         prefix?: React.ReactNode;
-        /**
-         * Суффикс
-         * `ReactNode` после значения, но перед правой иконкой
-         */
+
+        /** Устанавливает суффикс `ReactNode` после значения, но перед правой иконкой. */
         suffix?: React.ReactNode;
-        /** Выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
+
+        /** Определяет, нужно ли выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
         selectAllOnFocus?: boolean;
-        /**
-         * Обработчик неправильного ввода.
-         * По-умолчанию, инпут вспыхивает акцентным цветом.
-         * Если передан - вызывается переданный обработчик,
-         * в таком случае вспыхивание можно вызвать
-         * публичным методом инстанса `blink()`.
-         *
-         * @param value значение инпута.
-         */
+
+        /** Задает функцию для обработки ввода.
+         * При неправильном вводе инпут по-умолчанию вспыхивает акцентным цветом.
+         * Если `onUnexpectedInput` передан - вызывается переданный обработчик b вспыхивание можно вызвать публичным методом инстанса `blink()`.
+         * @param {string} value - значение инпута. */
         onUnexpectedInput?: (value: string) => void;
-        /** @ignore */
+
+        /** Устанавливает радиус скруглений углов.
+         * @ignore */
         corners?: Partial<
           Pick<
             React.CSSProperties,
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
-        /**
-         * Элемент заменяет нативный input.
-         * Должен иметь пропы `InputElementProps` и тип `InputElement`
-         * */
+
+        /** Устанавливает элемент, заменяющий нативный input. Должен иметь пропы `InputElementProps` и тип `InputElement`. */
         element?: ReactElement<InputElementProps>;
       }
     > {}
@@ -166,8 +158,17 @@ export const InputDataTids = {
 type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
 
 /**
+ * Поле ввода `Input` дает возможность указать значение с помощью клавиатуры.
+ *
+ * Используйте поле ввода для коротких текстовых или цифровых значений без предсказуемого формата.
+ *
+ *  Если вводимое значение имеет определенный формат, используйте специальную версию поля:
+ * * Поле с паролем PasswordInput.
+ * * Поле с валютой CurrencyInput.
+ * * Поле с маской MaskedInput.
+ * * Автополе FxInput.
+ *
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
- *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {

@@ -10,11 +10,8 @@ import { styles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalHeaderProps extends ModalHeaderProps {
-  /**
-   * Пиктограмма в шапке компонента.
-   *
-   * @default InfoCircleIcon64Regular
-   */
+  /** Задает иконку в шапку компонента.
+   * @default InfoCircleIcon64Regular */
   icon?: ReactNode;
 }
 

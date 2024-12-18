@@ -1,3 +1,5 @@
+### Базовый пример
+
 ```jsx harmony
 import { Button, Toggle } from '@skbkontur/react-ui';
 
@@ -37,7 +39,7 @@ function close() {
 </div>;
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface ModalLocale {

@@ -12,6 +12,7 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'MiniModal',
+  component: MiniModal,
   parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
 } as Meta;
 

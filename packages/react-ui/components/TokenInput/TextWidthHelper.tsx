@@ -12,8 +12,13 @@ import { styles } from '../Token/Token.styles';
 const THIN_SPACE = '\u2009';
 
 export interface TextWidthHelperProps {
+  /** Задает текст в поле ввода, еще не ставший токеном. */
   text?: string;
+
+  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme: Theme;
+
+  /** Задает размер контрола. */
   size: TokenSize;
 }
 /**

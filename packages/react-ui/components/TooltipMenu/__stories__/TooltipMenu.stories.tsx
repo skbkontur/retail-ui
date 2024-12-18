@@ -11,6 +11,7 @@ import { Button } from '../../Button';
 
 export default {
   title: 'TooltipMenu',
+  component: TooltipMenu,
   decorators: [
     (Story: () => JSX.Element) => (
       <div

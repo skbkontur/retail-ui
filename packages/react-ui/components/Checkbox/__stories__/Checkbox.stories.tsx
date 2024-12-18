@@ -92,7 +92,20 @@ class IndeterminatePlayground extends React.Component<React.PropsWithChildren> {
   };
 }
 
-export default { title: 'Checkbox' } as Meta;
+export default {
+  title: 'Checkbox',
+  component: Checkbox,
+} as Meta;
+
+export const Default: Story = () => {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <Checkbox checked={checked} onValueChange={setChecked} data-tid="test-checkbox">
+      Обычный чекбокс
+    </Checkbox>
+  );
+};
 
 export const Plain: Story = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
 Plain.storyName = 'plain';

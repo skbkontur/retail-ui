@@ -1,13 +1,16 @@
+### Пример с введенной датой
 ```jsx harmony
 <DateInput value="27.04.1992" />
 ```
 
+### Пример с изменяющимся значением
 ```jsx harmony
 const [value, setValue] = React.useState();
 
 <DateInput value={value} onValueChange={setValue} />
 ```
 
+### Disabled
 ```jsx harmony
 <DateInput disabled value="27.04.1992" />
 ```
@@ -18,7 +21,8 @@ const [value, setValue] = React.useState();
 import { Gapped, LangCodes, LocaleContext, Select } from '@skbkontur/react-ui';
 
 class DateInputFormatting2 extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props);
     this.state = {
       langCode: LangCodes.ru_RU,
       value: '21.12.2012',
@@ -56,7 +60,8 @@ class DateInputFormatting2 extends React.Component {
 import { DateOrder, DateSeparator, Gapped, LocaleContext, Select } from '@skbkontur/react-ui';
 
 class DateInputFormatting extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props);
     this.state = {
       order: DateOrder.YMD,
       separator: 'Dot',

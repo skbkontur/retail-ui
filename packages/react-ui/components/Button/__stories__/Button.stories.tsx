@@ -10,19 +10,34 @@ import {
   CheckAIcon24Regular,
 } from '@skbkontur/icons/icons/CheckAIcon';
 
+import { Meta, Story } from '../../../typings/stories';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
 
 export default {
   title: 'Button',
-};
+  component: Button,
+  argTypes: {
+    size: { control: 'radio' },
+  },
+  parameters: {
+    creevey: {
+      skip: {
+        'kind-skip-0': { stories: 'Default' },
+      },
+    },
+  },
+} as Meta;
 
 type ButtonState = Partial<ButtonProps<'button' | 'a'>>;
+
+export const Default: Story = () => (
+  <Button data-tid="test-button">Здесь рисуется первая история из файла .stories.tsx</Button>
+);
 
 const useStates2022: ButtonState[] = [
   { use: 'default' },
