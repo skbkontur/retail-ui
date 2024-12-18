@@ -5,7 +5,7 @@ import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/Show
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Information/Theme',
+  title: 'Information/Theme/ThemeContext',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
