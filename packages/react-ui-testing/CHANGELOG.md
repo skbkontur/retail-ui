@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.8.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.7.1...react-ui-testing@3.8.0) (2024-12-09)
+
+
+### Bug Fixes
+
+* **selenium-testing:** speed up input's "clear" method  ([#3555](https://github.com/skbkontur/retail-ui/issues/3555)) ([11227a0](https://github.com/skbkontur/retail-ui/commit/11227a005873c5c452911e2ff7ddde3b14bfddbe))
+
+
+### Features
+
+* **Popup:** replace DropdownContainer, unify shadows  ([#3451](https://github.com/skbkontur/retail-ui/issues/3451)) ([723ec43](https://github.com/skbkontur/retail-ui/commit/723ec43470bec9f0dd89b5f899ffffb90004a538))
+* **react-ui:** remove deprecated entities ([#3523](https://github.com/skbkontur/retail-ui/issues/3523)) ([edfa035](https://github.com/skbkontur/retail-ui/commit/edfa03543e630f9090639bcb46dd18ed9edd16f2))
+* update dependencies ([#3400](https://github.com/skbkontur/retail-ui/issues/3400)) ([d54f08d](https://github.com/skbkontur/retail-ui/commit/d54f08db9b10e2b10cb2d40c695a79f4e93271f5))
+
+
+
+
+
 ## [3.7.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.7.0...react-ui-testing@3.7.1) (2024-04-09)
 
 **Note:** Version bump only for package react-ui-testing

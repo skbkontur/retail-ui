@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.4...@skbkontur/react-ui@5.0.5) (2024-12-09)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix menuAlign prop ([#3559](https://github.com/skbkontur/retail-ui/issues/3559)) ([d3c8edd](https://github.com/skbkontur/retail-ui/commit/d3c8edd59e26fb65f1c18b68f4a3c44f383b56e4))
+
+
+
+
+
 ## [5.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.3...@skbkontur/react-ui@5.0.4) (2024-12-04)
 
 
