@@ -4,7 +4,7 @@ import { Modal, Button, Toggle } from '@skbkontur/react-ui';
 import { Story } from '../../../typings/stories';
 
 export default {
-  title: 'Overlay/Modal',
+  title: 'Overlay/Modal/Modal',
   component: Modal,
   parameters: { creevey: { skip: true } },
 };

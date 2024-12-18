@@ -8,7 +8,7 @@ import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Overlay/MiniModal',
+  title: 'Overlay/MiniModal/MiniModal',
   component: MiniModal,
   parameters: { creevey: { skip: true } },
 } as Meta;

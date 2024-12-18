@@ -4,7 +4,7 @@ import { SidePage, Button } from '@skbkontur/react-ui';
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Overlay/SidePage',
+  title: 'Overlay/SidePage/SidePage',
   component: SidePage,
   parameters: { creevey: { skip: true } },
 } as Meta;
