@@ -5059,10 +5059,10 @@
   dependencies:
     semver "7.3.5"
 
-"@skbkontur/storybook-addon-live-examples@0.0.6":
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.6.tgz#9a696b498bbff71b7cfa67bf6beb650b38118974"
-  integrity sha512-X9hHJ5s1SUIfICtN+cPp9w91vzRAHYlhlhtCeofMoJlV8uEMLFt62L+76Rjd+3Isj3oGYuAAifgRjoLS7BRwgw==
+"@skbkontur/storybook-addon-live-examples@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npmjs.org/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.7.tgz#7b42ebc934ae6d9b6fed2c7c45fdfa8591da71d7"
+  integrity sha512-WVocdzsl7QUTnk4EcrvZ7cWGDBye5bZ63i4M3wyBuuSDjzX119X4QyJlwajQMZ70/g1oTXMsWKr8TuAIPqpBUQ==
   dependencies:
     "@storybook/icons" "^1.2.12"
     prettier "^3.2.5"
@@ -5779,7 +5779,7 @@
   resolved "https://registry.npmjs.org/@storybook/global/-/global-5.0.0.tgz#b793d34b94f572c1d7d9e0f44fac4e0dbc9572ed"
   integrity sha512-FcOqPAXACP0I3oJ/ws6/rrPT9WGhu915Cg8D02a9YxLo0DE9zI+a9A5gRGvmQ09fiWPukqI8ZAEoQEdWUKMQdQ==
 
-"@storybook/icons@^1.2.12", "@storybook/icons@^1.2.9":
+"@storybook/icons@^1.2.12":
   version "1.2.12"
   resolved "https://registry.npmjs.org/@storybook/icons/-/icons-1.2.12.tgz#3e4c939113b67df7ab17b78f805dbb57f4acf0db"
   integrity sha512-UxgyK5W3/UV4VrI3dl6ajGfHM4aOqMAkFLWe2KibeQudLf6NJpDrDMSHwZj+3iKC4jFU7dkKbbtH2h/al4sW3Q==
@@ -6973,11 +6973,6 @@
   version "3.0.3"
   resolved "https://registry.npmjs.org/@types/warning/-/warning-3.0.3.tgz#d1884c8cc4a426d1ac117ca2611bf333834c6798"
   integrity sha512-D1XC7WK8K+zZEveUPY+cf4+kgauk8N4eHr/XIHXGlGYkHLud6hK9lYfZk1ry1TNh798cZUCgb6MqGEG8DkJt6Q==
-
-"@types/webpack-env@1.16.0":
-  version "1.16.0"
-  resolved "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
-  integrity sha512-Fx+NpfOO0CpeYX2g9bkvX8O5qh9wrU1sOF4g8sft4Mu7z+qfe387YlyY8w8daDyDsKY5vUxM0yxkAYnbkRbZEw==
 
 "@types/webpack-env@^1.16.0":
   version "1.18.5"

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-eval */
 import React from 'react';
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';
 import {

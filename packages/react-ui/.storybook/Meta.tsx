@@ -94,10 +94,10 @@ const styles = {
 
 let storyKeyCache = '';
 
-export const Meta = ({ of }: { of: ModuleExports }) => {
+export const Meta = ({ of }: { of?: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  const key = of.default.title;
+  const key = of?.default.title;
   if (storyKeyCache !== key && of) {
     context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
     storyKeyCache = key;

@@ -8,6 +8,7 @@ import {
   ThemeContext,
   ThemeFactory,
 } from '@skbkontur/react-ui';
+import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
 export const themes = {
   LIGHT_THEME,
@@ -19,7 +20,7 @@ export const themes = {
 export const ThemeDecorator: Decorator = (Story, context) => {
   const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
 
-  if ([DARK_THEME].includes(storybookTheme) || [DARK_THEME_2022_0].includes(storybookTheme)) {
+  if (isDarkTheme(storybookTheme)) {
     document.body.classList.add('dark');
   } else {
     document.body.classList.remove('dark');

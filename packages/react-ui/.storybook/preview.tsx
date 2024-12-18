@@ -92,7 +92,8 @@ const preview: Preview = {
     docs: {
       toc: {
         title: 'Содержание',
-        headingSelector: 'h2, h3, h4',
+        headingSelector: 'h2, h3, h4, h1#change-log ~ h1',
+        ignoreSelector: 'h1#change-log ~ h3',
       },
       controls: {
         sort: 'alpha',
@@ -178,7 +179,7 @@ export const globalTypes = {
 };
 
 if (isTestEnv) {
-  import('../lib/styles/HoldSelectionColor');
+  import('./styles/forScreenshotTests');
 }
 
 addons.setConfig({

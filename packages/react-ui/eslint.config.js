@@ -39,17 +39,4 @@ module.exports = [
       'react/no-unstable-nested-components': 0,
     },
   },
-  {
-    files: ['**/Tab.docs.stories.tsx'],
-    rules: {
-      'jsx-a11y/anchor-has-content': 0,
-    },
-  },
-  {
-    files: ['**/CalendarDay.docs.stories.tsx'],
-    rules: {
-      'no-eval': 0,
-      '@typescript-eslint/no-unused-vars': 0,
-    },
-  },
 ];
