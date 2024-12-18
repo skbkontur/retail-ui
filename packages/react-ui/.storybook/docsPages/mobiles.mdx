@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/blocks';
+import { Meta } from '../Meta';
 
 <Meta title="Information/Mobiles" />
 
@@ -7,7 +7,7 @@ import { Meta } from '@storybook/blocks';
 Начиная с версии 4.0 многие компоненты, такие как `Modal`, `SidePage`, `ComboBox`, `Autocomplete`, `Select`, `Hint`, `Tooltip`, `Kebab`, `Dropdown` и `DropdownMenu`, стали адаптивными, получив новую верстку, которая активируются на мобильных устройствах.
 
 Механизм адаптивности основан на [медиазапросах](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries) и управляется переменной темы `mobileMediaQuery`. В зависимости от того, удовлетворяет текущее устройство медиазапросу из переменной или нет, компоненты переходят в мобильный режим и обратно. По умолчанию, значение переменной равно `(max-width: 576px) and (hover: none) and (pointer: coarse)`, т.е. опирается на ширину вьюпорта и наличие сенсорного экрана.
-Так же можно передавать свои медиазапросы в хук `useResponsiveLayout` или через проп `options` в [ResponsiveLayout](/docs/layout-responsivelayout--docs).
+Так же можно передавать свои медиазапросы в хук `useResponsiveLayout` или через проп `options` в ResponsiveLayout.
 
 ## Настройка адаптивности
 
@@ -87,4 +87,4 @@ function SomeComponent(props) {
 }
 ```
 
-Как альтернативу можно использовать отдельный компонент [ResponsiveLayout](/docs/layout-responsivelayout--docs).
+Как альтернативу можно использовать отдельный компонент ResponsiveLayout.

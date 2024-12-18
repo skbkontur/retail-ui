@@ -46,6 +46,7 @@ import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import * as ReactUi from '../index';
 import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
 import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
+import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -222,6 +223,9 @@ addons.setConfig({
       UiMenuBars3HIcon,
       QuestionCircleIcon,
       LightbulbIcon32Regular,
+      ShowcaseGroup,
+      ThemeContext,
+      ThemeFactory,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
