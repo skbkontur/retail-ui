@@ -112,9 +112,13 @@
     content: none !important;
   }
 
-  .sbdocs.sbdocs-a,
+  div:has(> .toc-wrapper) > p,
   .toc-list-item > a {
     color: #3c3c3c !important;
+  }
+
+  .sbdocs.sbdocs-a,
+  .toc-list-item > a {
     text-decoration: underline;
     text-decoration-color: #adadad;
     text-underline-offset: 0.2em;
