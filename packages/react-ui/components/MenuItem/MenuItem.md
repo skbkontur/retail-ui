@@ -89,7 +89,9 @@ import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 </DropdownMenu>
 ```
 
-### В элементы меню можно передавать проп `href`, чтобы превратить их в ссылку. Лучше выделять такие элементы иконками.
+### Проп href
+
+В элементы меню можно передавать проп `href`, чтобы превратить их в ссылку. Лучше выделять такие элементы иконками.
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu, MenuSeparator } from '@skbkontur/react-ui';

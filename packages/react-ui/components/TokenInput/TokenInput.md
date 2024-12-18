@@ -133,7 +133,7 @@ import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
 
 const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-const cities = require('../ComboBox/__mocks__/./kladr.json');
+const { cities } = require('../ComboBox/__mocks__/cities');
 
 const maxItems = 5;
 
