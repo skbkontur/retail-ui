@@ -362,4 +362,13 @@ describe('DateInput as InputlikeText', () => {
 
     expect(screen.getByTestId(DateInputDataTids.icon)).toBeInTheDocument();
   });
+
+  it('should not select date fragments in disabled state', async () => {
+    const value = '24.08.2022';
+    const dateFragment = value.slice(0, 2);
+    renderRTL(<DateInput value={value} disabled />);
+    await userEvent.click(screen.getByText(dateFragment));
+    await delay(0);
+    expect(getSelection()?.toString()).toBe('');
+  });
 });
