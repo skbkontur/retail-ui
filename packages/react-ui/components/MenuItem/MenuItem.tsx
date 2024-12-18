@@ -34,8 +34,10 @@ export interface MenuItemProps
 
   /** Добавляет иконку элементу меню. */
   icon?: React.ReactElement<any>;
-
-  /** Меняет цвет текста на синий. */
+  /**
+   * Меняет цвет текста на синий.
+   * @deprecated
+   */
   link?: boolean;
 
   /** Задает размер контрола. */

@@ -1286,6 +1286,9 @@ export class BasicLightThemeInternal {
   public static get menuItemHoverColor() {
     return this.menuItemTextColor;
   }
+  /**
+   * @deprecated
+   */
   public static get menuItemLinkColor() {
     return this.linkColor;
   }

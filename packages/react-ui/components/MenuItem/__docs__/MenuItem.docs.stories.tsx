@@ -2,7 +2,8 @@ import React from 'react';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
-import { MenuItem, Button, DropdownMenu, Link, Gapped } from '@skbkontur/react-ui';
+import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon';
+import { MenuItem, Button, DropdownMenu, Gapped, MenuSeparator } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -78,29 +79,33 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'Иконки в элементах';
 
+/** В элементы меню можно передавать проп `href`, чтобы превратить их в ссылку. Лучше выделять такие элементы иконками. */
 export const Example6: Story = () => {
-  const LinkMenuItem = ({ link, title }) => {
-    return (
-      <MenuItem
-        href={link}
-        component={({ href, ...rest }) => {
-          return <Link target="_blank" rel="noopener noreferrer" href={href} {...rest} />;
-        }}
-      >
-        {title}
-      </MenuItem>
-    );
-  };
-
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с ссылками</Button>}>
-      <LinkMenuItem link="http://tech.skbkontur.ru/react-ui/" title="Начало документации" />
-      <LinkMenuItem link="https://guides.kontur.ru/" title="Контур Гайды" />
-      <LinkMenuItem link="https://github.com/skbkontur/retail-ui/graphs/contributors" title="Список прекрасных людей" />
+      <MenuItem href="http://tech.skbkontur.ru/react-ui/" target="_blank" rel="noopener noreferrer">
+        Начало документации
+      </MenuItem>
+      <MenuItem
+        href="https://github.com/skbkontur/retail-ui/graphs/contributors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Список прекрасных людей
+      </MenuItem>
+      <MenuSeparator />
+      <MenuItem
+        icon={<ArrowUiCornerOutUpRightIcon />}
+        href="https://guides.kontur.ru/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Подробнее в Контур Гайдах
+      </MenuItem>
     </DropdownMenu>
   );
 };
-Example6.storyName = 'Меню с элементами меню обёрнутыми в контрол ссылки';
+Example6.storyName = 'Проп href';
 
 export const Example7: Story = () => {
   return (
