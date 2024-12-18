@@ -2,9 +2,12 @@ const path = require('path');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
+const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 module.exports = async ({ config }) => {
-  config.devtool = 'eval-source-map';
+  if (!isDocsEnv) {
+    config.devtool = 'eval-source-map';
+  }
 
   if (isTestEnv) {
     config.entry.unshift('@skbkontur/react-props2attrs');

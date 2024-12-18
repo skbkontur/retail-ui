@@ -12,7 +12,6 @@ import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
 import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
-import OkIcon from '@skbkontur/react-icons/icons/Ok';
 import FunctionIcon from '@skbkontur/react-icons/Function';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
@@ -196,7 +195,6 @@ addons.setConfig({
       isLess,
       isLessOrEqual,
       ViewDateInputValidateChecks,
-      OkIcon,
       MenuIcon,
       PeopleIcon,
       SearchIcon,
