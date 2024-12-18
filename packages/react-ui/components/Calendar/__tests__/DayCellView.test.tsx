@@ -58,19 +58,19 @@ describe('DayCellView', () => {
     const initialDate = '03.11.2021';
     const minDate = '02.11.2021';
     const maxDate = '05.11.2021';
-    const outOfRangeDay = '06.11.2021';
+    const expectedDate = '06.11.2021';
     const onValueChange = jest.fn();
 
     render(<Calendar value={initialDate} minDate={minDate} maxDate={maxDate} onValueChange={onValueChange} />);
 
-    const button = screen.getByRole('button', {
+    const outOfRangeDay = screen.getByRole('button', {
       name: `${CalendarLocaleHelper.get(LangCodes.ru_RU).dayCellChooseDateAriaLabel}: ${new InternalDate({
         langCode: LangCodes.ru_RU,
-        value: outOfRangeDay,
+        value: expectedDate,
       }).toA11YFormat()}`,
     });
 
-    await userEvent.click(button, {
+    await userEvent.click(outOfRangeDay, {
       pointerEventsCheck: PointerEventsCheckLevel.Never,
     });
 
