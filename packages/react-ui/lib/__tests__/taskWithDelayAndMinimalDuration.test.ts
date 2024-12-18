@@ -73,7 +73,7 @@ describe('stop() cases', () => {
     task.start();
     await delay(100);
     task.stop();
-    await dekay(delayBeforeTaskStart);
+    await delay(delayBeforeTaskStart);
     expect(taskStartCallback).not.toBeCalled();
     expect(taskStopCallback).not.toBeCalled();
   });
