@@ -63,6 +63,10 @@
     width: var(--content-width) !important;
   }
 
+  div:has(> .toc-wrapper) {
+    scrollbar-width: none;
+  }
+
   div:has(> div > div.toc-wrapper) {
     order: -1;
     width: var(--sidebar-width) !important;
