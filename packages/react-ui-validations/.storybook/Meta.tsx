@@ -88,8 +88,7 @@ const styles = {
 export const Meta = ({ of }: { of?: ModuleExports }) => {
   const context = useContext(DocsContext);
 
-  const isRegistered = context.componentStories().some((x) => x.title === of?.default.title);
-  if (!isRegistered && of) {
+  if (of && !context.componentStories().some((x) => x.title === of.default.title)) {
     context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
   }
 
