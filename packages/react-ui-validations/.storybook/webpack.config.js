@@ -1,13 +1,17 @@
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
+const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 module.exports = async ({ config }) => {
-  config.resolve.extensions.unshift('.ts', '.tsx');
-
   if (isTestEnv) {
     config.entry.unshift('@skbkontur/react-props2attrs');
   }
 
+  if (isDocsEnv) {
+    config.devtool = false;
+  }
+
   config.entry.unshift('core-js/stable');
+  config.resolve.extensions.unshift('.ts', '.tsx');
 
   // storybook's rule for css doesn't handle css-modules
   const filteredStorybooksWebpackRules = (config.module.rules || []).filter((r) => r.test && !r.test.test('.css'));

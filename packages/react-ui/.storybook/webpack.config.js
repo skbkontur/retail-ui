@@ -5,16 +5,12 @@ const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 module.exports = async ({ config }) => {
-  if (!isDocsEnv) {
-    config.devtool = 'eval-source-map';
-  }
-
   if (isTestEnv) {
     config.entry.unshift('@skbkontur/react-props2attrs');
   }
 
+  config.devtool = isDocsEnv ? false : 'eval-source-map';
   config.entry.unshift('core-js/stable');
-
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   // storybook's rule for css doesn't handle css-modules
