@@ -52,7 +52,10 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   };
 
   useLayoutEffect(() => {
-    setTimeout(() => inputRef.current?.focus());
+    // fix DateInput flushSync warning in React 18
+    setTimeout(() => {
+      inputRef.current?.focus();
+    });
   }, []);
 
   const onTodayClick = () => {
