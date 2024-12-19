@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, useCallback, useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -20,10 +20,6 @@ export const DayCellView = (props: DayCellViewProps) => {
 
   const isDisabled = !CDS.isBetween(date, minDate, maxDate);
 
-  const handleClick = () => {
-    onDateClick?.(date);
-  };
-
   const humanDateString = InternalDateTransformer.dateToHumanString(date);
 
   const dayProps: CalendarDayProps = {
@@ -35,12 +31,18 @@ export const DayCellView = (props: DayCellViewProps) => {
   };
 
   const dayElement: ReactElement<CalendarDayProps> = renderDay?.(dayProps) ?? <CalendarDay {...dayProps} />;
+  const customDayClickHandler = dayElement.props.onClick;
+
+  const dayClickHandler = useCallback<NonNullable<typeof customDayClickHandler>>(
+    (e) => {
+      customDayClickHandler?.(e);
+      onDateClick?.(date);
+    },
+    [customDayClickHandler, onDateClick, date],
+  );
 
   const dayElementWithClickHandler = React.cloneElement<CalendarDayProps>(dayElement, {
-    onClick: (e) => {
-      dayElement.props.onClick?.(e);
-      handleClick();
-    },
+    onClick: dayClickHandler,
   });
 
   return <div className={styles.cell(theme)}>{dayElementWithClickHandler}</div>;
