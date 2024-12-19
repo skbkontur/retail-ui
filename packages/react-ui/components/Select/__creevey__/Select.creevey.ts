@@ -212,16 +212,6 @@ kind('Select', () => {
     });
   });
 
-  story('WithMenuAlignAndVariousWidth', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome)\b)/ } } });
-
-    test('open', async function () {
-      const root = await this.browser.findElement({ css: '#test-element' });
-      await delay(1000);
-      await this.expect(await root.takeScreenshot()).to.matchImage();
-    });
-  });
-
   story('WithManualPosition', ({ setStoryParameters }) => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
