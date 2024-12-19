@@ -48,7 +48,7 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
 
   const onValueChange = (date: string) => {
     props.onValueChange?.(date);
-    setTimeout(() => props.onCloseRequest?.());
+    props.onCloseRequest?.();
   };
 
   useLayoutEffect(() => {
