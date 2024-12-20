@@ -6,7 +6,7 @@ const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 module.exports = async ({ config }) => {
   if (isTestEnv) {
-    config.entry.unshift('@skbkontur/react-props2attrs');
+    config.entry.unshift(path.join(__dirname, './scripts/props2attrs'));
   }
 
   config.devtool = isDocsEnv ? false : 'eval-source-map';
