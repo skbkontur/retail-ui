@@ -6,21 +6,18 @@ const config: StorybookConfig = {
     docsMode: true,
   },
   addons: [
-    '@skbkontur/storybook-addon-live-examples',
-    '@storybook/blocks',
-    '@storybook/addon-docs',
     {
       name: '@storybook/addon-essentials',
       options: {
         docsMode: true,
       },
     },
+    '@skbkontur/storybook-addon-live-examples',
   ],
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      fastRefresh: true,
-      strictMode: true,
+      legacyRootApi: false,
     },
   },
   core: {
