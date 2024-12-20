@@ -76,7 +76,7 @@ const styles = {
     transform: translateY(-50%);
     font-size: 16px;
   `,
-  menuContuer: css`
+  menuCountry: css`
     display: inline-block;
     background: #3d3d3d;
     font-size: 10px !important;
@@ -138,6 +138,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
         >
           {themes.map(({ icon, caption, value }) => (
             <MenuItem
+              key={caption}
               className={styles.menuItem}
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
@@ -161,6 +162,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
         >
           {languages.map(({ icon, caption, value }) => (
             <MenuItem
+              key={caption}
               className={styles.menuItem}
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { locale: value } })}
@@ -179,13 +181,13 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             <div className={styles.menuSelect}>
               <FlagAIcon16Light /> Feature flags{' '}
               {currentFeatureFlags.length !== 0 && (
-                <span className={styles.menuContuer}>{currentFeatureFlags.length}</span>
+                <span className={styles.menuCountry}>{currentFeatureFlags.length}</span>
               )}
             </div>
           }
         >
           {allFeatureFlags.map((flag) => (
-            <MenuItem className={styles.menuItem}>
+            <MenuItem key={flag} className={styles.menuItem}>
               <Toggle
                 checked={currentFeatureFlags.includes(flag)}
                 onValueChange={(newValue) => {
