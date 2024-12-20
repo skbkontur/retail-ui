@@ -356,6 +356,4 @@ function foo() {}
 
 # Помощь
 
-По любым возникающим вопросам можно обращаться в канал поддержки в Слаке:
-* если вы из Контура - [#infra_front_support](https://kontur.slack.com/archives/C013HTCE18Q)
-* если нет — написать письмо на адрес [канала](mailto:infra_front_support-aaaacbgbb3vpa72paf5w4xwtge@kontur.slack.com).
+По любым возникающим вопросам можно обращаться в канал поддержки в Маттермосте - [#infra_front_support](https://chat.skbkontur.ru/kontur/channels/infra_front_support)
