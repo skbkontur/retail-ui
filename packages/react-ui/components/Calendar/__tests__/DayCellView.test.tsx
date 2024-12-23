@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { PointerEventsCheckLevel, userEvent } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar, CalendarProps, CalendarDataTids } from '../Calendar';
@@ -71,8 +71,8 @@ describe('DayCellView', () => {
       }).toA11YFormat()}`,
     });
 
-    await userEvent.click(outOfRangeDay, {
-      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    await userEvent.click(outOfRangeDay, undefined, {
+      skipPointerEventsCheck: true,
     });
 
     expect(onValueChange).not.toHaveBeenCalled();
@@ -94,8 +94,8 @@ describe('DayCellView', () => {
       }).toA11YFormat()}`,
     });
 
-    await userEvent.click(dayToClickOn, {
-      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    userEvent.click(dayToClickOn, undefined, {
+      skipPointerEventsCheck: true,
     });
 
     expect(onValueChange).toHaveBeenCalled();
