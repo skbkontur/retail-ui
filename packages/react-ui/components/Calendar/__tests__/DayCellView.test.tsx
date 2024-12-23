@@ -71,7 +71,7 @@ describe('DayCellView', () => {
       }).toA11YFormat()}`,
     });
 
-    await userEvent.click(outOfRangeDay, undefined, {
+    userEvent.click(outOfRangeDay, undefined, {
       skipPointerEventsCheck: true,
     });
 
