@@ -237,7 +237,7 @@ export const styles = memoizeStyle({
       & > svg {
         width: ${t.sidePageCloseIconSize};
         height: ${t.sidePageCloseIconSize};
-        box-sizing: border-box;
+        box-sizing: content-box;
       }
     `;
   },
