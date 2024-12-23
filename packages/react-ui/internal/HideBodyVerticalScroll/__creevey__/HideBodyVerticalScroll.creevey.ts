@@ -54,4 +54,30 @@ kind('HideBodyVerticalScroll', () => {
     });
     testScrollLockUnlock();
   });
+
+  story('DisorderlyUnmountAndResize', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+    });
+    test('idle, hide, show, resize', async function () {
+      const toggle = async (index: number) => {
+        await this.browser.findElement({ css: `div:nth-of-type(${index}) [data-tid~="toggle-lock"]` }).click();
+      };
+
+      const idle = await this.browser.takeScreenshot();
+
+      await toggle(1);
+      await toggle(2);
+      const hide = await this.browser.takeScreenshot();
+
+      await toggle(1);
+      await toggle(2);
+      const show = await this.browser.takeScreenshot();
+
+      await this.browser.findElement({ css: '[data-tid="resize"]' }).click();
+      const resize = await this.browser.takeScreenshot();
+
+      await this.expect({ idle, hide, show, resize }).to.matchImages();
+    });
+  });
 });

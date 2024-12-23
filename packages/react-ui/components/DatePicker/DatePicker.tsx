@@ -244,11 +244,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: DatePickerProps, prevState: DatePickerState) {
     const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
+    }
+
+    if (prevState.opened && !opened && this.isMobileLayout) {
+      this.handleBlur();
     }
   }
 
@@ -318,7 +322,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             onValueChange={this.props.onValueChange}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.props.isHoliday}
-            onCloseRequest={this.handleBlur}
+            onCloseRequest={this.handleMobileCloseRequest}
             renderDay={props.renderDay}
             onMonthChange={props.onMonthChange}
           />
@@ -494,5 +498,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }
+  };
+
+  private handleMobileCloseRequest = () => {
+    this.close();
   };
 }
