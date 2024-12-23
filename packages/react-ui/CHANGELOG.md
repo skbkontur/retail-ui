@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.5...@skbkontur/react-ui@5.0.6) (2024-12-23)
+
+
+### Bug Fixes
+
+* **Calendar, DatePicker:** fix click on disabled dates ([#3564](https://github.com/skbkontur/retail-ui/issues/3564)) ([1b76455](https://github.com/skbkontur/retail-ui/commit/1b764557a99efc6494effc2f206ac525f3c2c1b4))
+* **DateInput:** disallow date fragment selection in disabled state ([#3547](https://github.com/skbkontur/retail-ui/issues/3547)) ([69184a6](https://github.com/skbkontur/retail-ui/commit/69184a61284e21c6cab8e48c857c509e9b9ba06f))
+* **DatePicker:** fix flushSync and onBlur on mobile ([#3556](https://github.com/skbkontur/retail-ui/issues/3556)) ([87b990e](https://github.com/skbkontur/retail-ui/commit/87b990e71ff737b2c27383328cdf72d9e4eeaf48))
+* **HideBodyVerticalScroll:** fix disorderly unmount and resize ([#3565](https://github.com/skbkontur/retail-ui/issues/3565)) ([0c45cf0](https://github.com/skbkontur/retail-ui/commit/0c45cf0d760306e3c04a496dff987194607f4d91))
+* **Loader:** prevent unwanted activation ([#3562](https://github.com/skbkontur/retail-ui/issues/3562)) ([fda0ed4](https://github.com/skbkontur/retail-ui/commit/fda0ed457323f7d2d07f418d196d9aaa2834d7f4))
+
+
+
+
+
 ## [5.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.4...@skbkontur/react-ui@5.0.5) (2024-12-09)
 
 
