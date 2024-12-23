@@ -6,13 +6,19 @@ import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { CommonProps } from '../../internal/CommonWrapper';
 
 import { styles } from './SidePage.styles';
 import { SidePageLocaleHelper } from './locale';
 import { SidePageHeaderDataTids } from './SidePageHeader';
 import { SidePageContext } from './SidePageContext';
 
-export const SidePageCloseButton = () => {
+export interface SidePageCloseButtonProps extends CommonProps {
+  isHeaderFixed: boolean;
+  isMobile?: boolean;
+}
+
+export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseButtonProps) => {
   const [isFocusedByTab, setIsFocusedByTab] = useState(false);
 
   const locale = useLocaleForControl('SidePage', SidePageLocaleHelper);
@@ -37,6 +43,8 @@ export const SidePageCloseButton = () => {
       aria-label={locale?.closeButtonAriaLabel}
       className={cx(styles.close(theme), {
         [styles.closeFocus(theme)]: isFocusedByTab,
+        [styles.closeSticky(theme)]: isHeaderFixed,
+        [styles.mobileClose(theme)]: isMobile,
       })}
       onFocus={handleFocus}
       onBlur={handleBlur}

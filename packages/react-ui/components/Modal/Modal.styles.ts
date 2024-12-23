@@ -104,21 +104,26 @@ export const styles = memoizeStyle({
   },
 
   close(t: Theme) {
-    const padding = parseInt(t.modalCloseButtonPadding);
     return css`
       ${resetButton()};
       position: absolute;
       display: flex;
-      right: ${padding}px;
-      top: ${padding}px;
+      right: ${t.modalCloseButtonClickAreaRight};
+      top: ${t.modalCloseButtonClickAreaTop};
       background: none;
       background: transparent;
       cursor: pointer;
       color: ${t.modalCloseButtonColor};
       text-align: center;
       vertical-align: middle;
-      padding: ${t.modalCloseButtonClickArea};
-      margin: -${t.modalCloseButtonClickArea};
+      padding-top: ${t.modalCloseButtonClickAreaTop};
+      margin-top: -${t.modalCloseButtonClickAreaTop};
+      padding-right: ${t.modalCloseButtonClickAreaRight};
+      margin-right: -${t.modalCloseButtonClickAreaRight};
+      padding-bottom: ${t.modalCloseButtonClickAreaBottom};
+      margin-bottom: -${t.modalCloseButtonClickAreaBottom};
+      padding-left: ${t.modalCloseButtonClickAreaLeft};
+      margin-left: -${t.modalCloseButtonClickAreaLeft};
 
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
@@ -135,7 +140,7 @@ export const styles = memoizeStyle({
   mobileClose(t: Theme) {
     return css`
       right: ${t.mobileModalCloseButtonRightPadding};
-      top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
+      top: ${t.mobileModalCloseButtonTopPadding};
       padding: ${t.mobileModalCloseButtonClickArea};
       margin: -${t.mobileModalCloseButtonClickArea};
 

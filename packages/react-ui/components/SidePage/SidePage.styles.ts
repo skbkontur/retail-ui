@@ -167,7 +167,10 @@ export const styles = memoizeStyle({
   },
 
   title(t: Theme) {
-    const paddingRight = parseInt(t.sidePageCloseButtonPadding) * 2 + parseInt(t.sidePageCloseIconSize);
+    const paddingRight =
+      parseInt(t.sidePageCloseButtonClickAreaLeft) +
+      parseInt(t.sidePageCloseIconSize) +
+      parseInt(t.sidePageCloseButtonClickAreaRight);
     return css`
       padding-left: ${t.sidePagePaddingLeft};
       padding-right: ${paddingRight}px;
@@ -216,8 +219,14 @@ export const styles = memoizeStyle({
       ${resetButton()};
       cursor: pointer;
       color: ${t.sidePageCloseButtonColor};
-      padding: ${t.sidePageCloseButtonClickArea};
-      margin: -${t.sidePageCloseButtonClickArea};
+      padding-top: ${t.sidePageCloseButtonClickAreaTop};
+      margin-top: -${t.sidePageCloseButtonClickAreaTop};
+      padding-right: ${t.sidePageCloseButtonClickAreaRight};
+      margin-right: -${t.sidePageCloseButtonClickAreaRight};
+      padding-bottom: ${t.sidePageCloseButtonClickAreaBottom};
+      margin-bottom: -${t.sidePageCloseButtonClickAreaBottom};
+      padding-left: ${t.sidePageCloseButtonClickAreaLeft};
+      margin-left: -${t.sidePageCloseButtonClickAreaLeft};
       font-size: 0;
 
       &:focus,
@@ -228,8 +237,16 @@ export const styles = memoizeStyle({
       & > svg {
         width: ${t.sidePageCloseIconSize};
         height: ${t.sidePageCloseIconSize};
-        box-sizing: content-box;
+        box-sizing: border-box;
       }
+    `;
+  },
+  closeSticky(t: Theme) {
+    return css`
+      padding-top: ${t.sidePageCloseButtonFixedClickAreaTop};
+      margin-top: -${t.sidePageCloseButtonFixedClickAreaTop};
+      padding-bottom: ${t.sidePageCloseButtonFixedClickAreaBottom};
+      margin-bottom: -${t.sidePageCloseButtonFixedClickAreaBottom};
     `;
   },
 
@@ -254,7 +271,7 @@ export const styles = memoizeStyle({
       line-height: ${t.sidePageHeaderLineHeight};
       padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       position: absolute;
-      right: ${t.sidePageCloseButtonPadding};
+      right: ${t.sidePageCloseButtonClickAreaRight};
       top: ${t.sidePageCloseButtonWrapperOffsetTop};
     `;
   },
@@ -263,7 +280,7 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.mobileSidePageHeaderLineHeight};
       padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
-      right: ${t.mobileSidePageCloseButtonRightPadding};
+      right: ${t.mobileSidePageCloseButtonPadding};
     `;
   },
 
@@ -279,6 +296,7 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+      top: ${t.sidePageCloseButtonWrapperFixedOffsetTop};
     `;
   },
 
