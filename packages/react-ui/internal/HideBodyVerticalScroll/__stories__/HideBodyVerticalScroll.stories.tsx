@@ -103,7 +103,7 @@ Multiple_WithScrollableContent.parameters = { creevey: { tests: testScrollLockUn
 export const DisorderlyUnmountAndResize: Story = () => (
   <>
     <button data-tid="resize" onClick={() => window.dispatchEvent(new Event('resize'))}>
-      window.dispatchEvent(new Event(`resize`))
+      window.dispatchEvent(new Event(&apos;resize&apos;))
     </button>
     <SampleLockScroll key="1" />
     <SampleLockScroll key="2" style={{ top: 60 }} />
