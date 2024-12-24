@@ -28,6 +28,43 @@ export class ValidationReader<T> {
     return this.node ? this.node.validation : null;
   }
 
+  private findValueInNestedObject(obj: Nullable<Record<string, any>>, valuesToFind: string[]) {
+    let foundKey = null;
+    if (!obj) {
+      return null;
+    }
+
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        const currentValue = obj[key];
+
+        if (valuesToFind.includes(currentValue)) {
+          return key;
+        }
+
+        if (typeof currentValue === 'object') {
+          foundKey = this.findValueInNestedObject(currentValue, valuesToFind);
+
+          if (foundKey !== null) {
+            return key;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  public getFirstNodeWithValidation(): number | null {
+    if (!this.node) {
+      return null;
+    }
+    if (this.node.validation) {
+      return 0;
+    }
+    return Number(this.findValueInNestedObject(this.node.children, ['invalid', 'warning']));
+  }
+
   private getReaderInternal<TChild>(path: string[]): ValidationReader<TChild> {
     const node = this.getNodeInternal<TChild>(path);
     return new ValidationReader<TChild>(node, this.tokens);
