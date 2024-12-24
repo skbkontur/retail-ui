@@ -16,7 +16,7 @@ import { ThemeIn } from 'react-ui/lib/theming/Theme';
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Dates/DateRangePicker',
+  title: 'Date Components/DateRangePicker',
   component: DateRangePicker,
   parameters: { creevey: { skip: true } },
 } as Meta;

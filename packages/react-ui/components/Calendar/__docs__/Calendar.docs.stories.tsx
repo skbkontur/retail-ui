@@ -7,7 +7,7 @@ import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Dates/Calendar',
+  title: 'Date Components/Calendar',
   component: Calendar,
   parameters: { creevey: { skip: true } },
 } as Meta;
