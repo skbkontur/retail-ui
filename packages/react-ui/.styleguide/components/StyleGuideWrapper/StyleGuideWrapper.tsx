@@ -24,6 +24,7 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
   const [theme, setTheme] = useState(DEFAULT_THEME_WRAPPER);
   document.body.style.fontFamily = 'Lab Grotesque, Roboto, Helvetica Neue, Arial, sans-serif';
   document.body.style.fontSize = '14px';
+  document.body.style.overscrollBehavior = 'none';
 
   const isThemeDark = theme.toLowerCase().includes('dark');
 
