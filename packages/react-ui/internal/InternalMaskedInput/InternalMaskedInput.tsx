@@ -133,7 +133,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
           style={{ ...style }}
         />
         {this.isMaskVisible() && (
-          <span className={cx(styles.inputMask(this.theme), leftClass)}>
+          <span className={cx(styles.inputMask(this.theme), leftClass)} translate="no">
             {leftHelper}
             {rightHelper}
           </span>
