@@ -137,7 +137,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileClose(t: Theme) {
+  closeMobile(t: Theme) {
     return css`
       right: ${t.mobileModalCloseButtonRightPadding};
       top: ${t.mobileModalCloseButtonTopPadding};
@@ -201,7 +201,8 @@ export const styles = memoizeStyle({
   focus(t: Theme) {
     return css`
       color: ${t.modalCloseButtonHoverColor};
-      outline: 2px solid ${t.borderColorFocus};
+      box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+      border-radius: 4px;
     `;
   },
 
