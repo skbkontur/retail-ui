@@ -12,6 +12,7 @@ import { Validator } from './Pages/Validator';
 import { Concepts } from './Pages/Concepts';
 
 import 'docs/styles/reset.less';
+import 'docs/styles/main.less';
 import 'docs/styles/typography.less';
 
 const App = hot(() => (
