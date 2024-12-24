@@ -43,7 +43,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
             aria-label={locale.closeButtonAriaLabel}
             className={cx({
               [styles.close(theme)]: true,
-              [styles.mobileClose(theme)]: isMobile,
+              [styles.closeMobile(theme)]: isMobile,
               [styles.disabled(theme)]: disableClose,
               [styles.focus(theme)]: focusedByTab,
             })}

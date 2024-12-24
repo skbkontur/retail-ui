@@ -44,7 +44,7 @@ export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseBu
       className={cx(styles.close(theme), {
         [styles.closeFocus(theme)]: isFocusedByTab,
         [styles.closeSticky(theme)]: isHeaderFixed,
-        [styles.mobileClose(theme)]: isMobile,
+        [styles.closeMobile(theme)]: isMobile,
       })}
       onFocus={handleFocus}
       onBlur={handleBlur}

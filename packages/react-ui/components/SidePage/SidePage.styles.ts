@@ -250,7 +250,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileClose(t: Theme) {
+  closeMobile(t: Theme) {
     return css`
       padding: ${t.mobileSidePageCloseButtonClickArea};
       margin: -${t.mobileSidePageCloseButtonClickArea};
@@ -260,7 +260,8 @@ export const styles = memoizeStyle({
 
   closeFocus(t: Theme) {
     return css`
-      outline: 2px solid ${t.borderColorFocus};
+      box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+      border-radius: 4px;
     `;
   },
 
