@@ -49,6 +49,10 @@ export class TaskWithDelayAndMinimalDuration {
 
     this.isTaskActive = true;
 
+    if (this.timeoutBeforeTaskStop) {
+      return;
+    }
+
     if (this.timeoutBeforeTaskStart) {
       this.clearTimeoutBeforeTaskStart();
     }

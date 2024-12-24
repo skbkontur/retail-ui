@@ -13,11 +13,6 @@ const config: StorybookConfig = {
     docsMode: true,
   },
   addons: [
-    'creevey',
-    '@storybook/addon-links',
-    '@storybook/addon-a11y',
-    '@storybook/blocks',
-    '@storybook/addon-docs',
     {
       name: '@storybook/addon-essentials',
       options: {
@@ -29,9 +24,7 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      legacyRootApi: true,
-      fastRefresh: true,
-      strictMode: true,
+      legacyRootApi: false,
     },
   },
   core: {
