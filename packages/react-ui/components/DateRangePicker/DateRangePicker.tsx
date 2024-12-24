@@ -71,8 +71,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   Separator: React.FC;
 } = (props) => {
   const { minDate, maxDate } = props;
-  const [periodStart, setPeriodStart] = useState<string | null>(null);
-  const [periodEnd, setPeriodEnd] = useState<string | null>(null);
+  const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.to);
+  const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.from);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
