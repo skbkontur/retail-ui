@@ -15,12 +15,12 @@ import { ZIndex } from '../../internal/ZIndex';
 import { getRootNode } from '../../lib/rootNode';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { Button } from '../Button';
+import { MobilePicker } from '../DatePicker/MobilePicker';
 
 import { styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
-import { DateRangePickerField, DateRangePickerFieldProps } from './DateRangePickerField';
-import { MobilePicker } from '../DatePicker/MobilePicker';
+import { DateRangePickerField } from './DateRangePickerField';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -59,7 +59,7 @@ export interface DateRangePickerProps
   > {
   from?: string;
   to?: string;
-  onValueChange: (from: string | null, to: string | null) => void;
+  onValueChange?: (from: string | null, to: string | null) => void;
   onFromValueChange?: (value: string) => void;
   onToValueChange?: (value: string) => void;
   children?: React.ReactNode;
@@ -77,8 +77,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
 
-  const fromRef = useRef<React.FC<DateRangePickerFieldProps>>(null);
-  const toRef = useRef<React.FC<DateRangePickerFieldProps>>(null);
+  const fromRef = useRef<any>(null);
+  const toRef = useRef<any>(null);
   const popupContainerRef = useRef(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 

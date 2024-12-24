@@ -4,7 +4,7 @@ import { DateInput, Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSep
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Input data/DateInput',
+  title: 'Dates/DateInput',
   component: DateInput,
   parameters: { creevey: { skip: true } },
 } as Meta;
