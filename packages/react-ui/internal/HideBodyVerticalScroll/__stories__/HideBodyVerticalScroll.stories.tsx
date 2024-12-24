@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { CreeveyTests, Meta, Story } from '../../../typings/stories';
@@ -39,13 +39,13 @@ const testScrollLockUnlock: CreeveyTests = {
   },
 };
 
-const SampleLockScroll = () => {
+const SampleLockScroll = ({ style }: { style?: React.CSSProperties }) => {
   const [locked, setLocked] = useState(false);
   const toggle = () => setLocked((prev) => !prev);
   const status = locked ? 'on page' : 'not mounted';
 
   return (
-    <div style={{ position: 'fixed', margin: 10, padding: 10, background: '#eee' }}>
+    <div style={{ position: 'fixed', margin: 10, padding: 10, background: '#eee', ...style }}>
       <div>
         <button onClick={toggle} data-tid="toggle-lock">
           toggle
@@ -74,9 +74,9 @@ export const WithScrollableContent: Story = () => (
 WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };
 
 export const WithHTMLOverflowYScroll: Story = () => {
-  document.documentElement.style.overflowY = 'scroll';
+  useLayoutEffect(() => {
+    document.documentElement.style.overflowY = 'scroll';
 
-  useEffect(() => {
     return () => {
       document.documentElement.style.overflowY = '';
     };
@@ -99,3 +99,42 @@ export const Multiple_WithScrollableContent: Story = () => (
   </>
 );
 Multiple_WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };
+
+export const DisorderlyUnmountAndResize: Story = () => (
+  <>
+    <button data-tid="resize" onClick={() => window.dispatchEvent(new Event('resize'))}>
+      window.dispatchEvent(new Event(&apos;resize&apos;))
+    </button>
+    <SampleLockScroll key="1" />
+    <SampleLockScroll key="2" style={{ top: 60 }} />
+    <div>{'s c r o l l . '.repeat(1000)}</div>
+  </>
+);
+
+DisorderlyUnmountAndResize.parameters = {
+  creevey: {
+    skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+    tests: {
+      async 'idle, hide, show, resize'() {
+        const toggle = async (index: number) => {
+          await this.browser.findElement({ css: `div:nth-of-type(${index}) [data-tid~="toggle-lock"]` }).click();
+        };
+
+        const idle = await this.browser.takeScreenshot();
+
+        await toggle(1);
+        await toggle(2);
+        const hide = await this.browser.takeScreenshot();
+
+        await toggle(1);
+        await toggle(2);
+        const show = await this.browser.takeScreenshot();
+
+        await this.browser.findElement({ css: '[data-tid="resize"]' }).click();
+        const resize = await this.browser.takeScreenshot();
+
+        await this.expect({ idle, hide, show, resize }).to.matchImages();
+      },
+    },
+  },
+};

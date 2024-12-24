@@ -18,14 +18,14 @@ export class HideBodyVerticalScroll extends React.Component {
     if (counter === 1) {
       this.master = true;
       this.initialScroll = globalObject.document?.documentElement ? globalObject.document.documentElement.scrollTop : 0;
-      this.updateScrollVisibility();
-      globalObject.addEventListener?.('resize', this.updateScrollVisibility);
+      HideBodyVerticalScroll.updateScrollVisibility();
+      globalObject.addEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
     }
   }
 
   public componentDidUpdate() {
     if (this.master) {
-      this.updateScrollVisibility();
+      HideBodyVerticalScroll.updateScrollVisibility();
     }
   }
 
@@ -33,7 +33,7 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this.restoreStyles();
-      globalObject.removeEventListener?.('resize', this.updateScrollVisibility);
+      globalObject.removeEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
     }
   }
 
@@ -41,14 +41,14 @@ export class HideBodyVerticalScroll extends React.Component {
     return null;
   }
 
-  private updateScrollVisibility = () => {
+  public static updateScrollVisibility = () => {
     const shouldHide = !disposeDocumentStyle;
     if (shouldHide) {
-      this.hideScroll();
+      HideBodyVerticalScroll.hideScroll();
     }
   };
 
-  private hideScroll = () => {
+  public static hideScroll = () => {
     if (!isBrowser(globalObject)) {
       return;
     }
@@ -60,10 +60,10 @@ export class HideBodyVerticalScroll extends React.Component {
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
     const className = generateDocumentStyle(documentMargin + scrollWidth);
 
-    disposeDocumentStyle = this.attachStyle(documentElement, className);
+    disposeDocumentStyle = HideBodyVerticalScroll.attachStyle(documentElement, className);
   };
 
-  private attachStyle = (element: HTMLElement, className: string) => {
+  public static attachStyle = (element: HTMLElement, className: string) => {
     element.classList.add(className);
     return () => {
       element.classList.remove(className);
