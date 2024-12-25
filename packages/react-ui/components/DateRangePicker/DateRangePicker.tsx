@@ -82,13 +82,19 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const popupContainerRef = useRef(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
+  const close = () => {
+    setShowCalendar(false);
+    setCurrentFocus(null);
+    setHoveredDay(null);
+  };
+
   const setOptionalValue = (type: CurrentFocusType) => {
     if (type === 'start') {
       setPeriodStart(null);
       setCurrentFocus('end');
     } else if (type === 'end') {
       setPeriodEnd(null);
-      setCurrentFocus('start');
+      close();
     }
   };
 
@@ -96,12 +102,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
       return;
     }
-
-    const close = () => {
-      setShowCalendar(false);
-      setCurrentFocus(null);
-      setHoveredDay(null);
-    };
 
     const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
