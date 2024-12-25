@@ -10,6 +10,7 @@ import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
 import { FixedSizeList as List } from 'react-window';
+
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
 import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations';

@@ -25,10 +25,7 @@ export interface ValidationContextType {
   unregister: (wrapper: ValidationWrapperInternal) => void;
   unregisterVirtual: (reader: ValidationListWrapperInternal) => void;
   instanceProcessBlur: (wrapper: ValidationWrapperInternal) => void;
-  onValidationUpdated: (
-    wrapper: ValidationWrapperInternal | ValidationListWrapperInternal,
-    isValid: boolean,
-  ) => void;
+  onValidationUpdated: (wrapper: ValidationWrapperInternal | ValidationListWrapperInternal, isValid: boolean) => void;
   getSettings: () => ValidationContextSettings;
   isAnyWrapperInChangingMode: () => boolean;
 }
@@ -96,10 +93,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     }
   }
 
-  public onValidationUpdated(
-    wrapper: ValidationWrapperInternal | ValidationListWrapperInternal,
-    isValid?: boolean,
-  ) {
+  public onValidationUpdated(wrapper: ValidationWrapperInternal | ValidationListWrapperInternal, isValid?: boolean) {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
       const isValidResult =

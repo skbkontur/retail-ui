@@ -11,7 +11,6 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-
 interface Data {
   title: string;
   value: {
@@ -33,7 +32,7 @@ export const VirtualizedListExample: Story = () => {
     array: data,
   };
 
-  const validator = createValidator<{ array: Data[]; }>((b) => {
+  const validator = createValidator<{ array: Data[] }>((b) => {
     b.prop(
       (x) => x.array,
       (b) => {
@@ -62,7 +61,6 @@ export const VirtualizedListExample: Story = () => {
       },
     );
   });
-
 
   const validationRules = validator(values);
   const [isValid, setIsValid] = React.useState(true);
@@ -98,7 +96,12 @@ export const VirtualizedListExample: Story = () => {
                     <div>
                       {data[index].title}
                       <ValidationWrapper
-                        validationInfo={validationRules.getNode((x) => x.array).getNodeByIndex(index).getNode((x) => x.value.value).get()}>
+                        validationInfo={validationRules
+                          .getNode((x) => x.array)
+                          .getNodeByIndex(index)
+                          .getNode((x) => x.value.value)
+                          .get()}
+                      >
                         <Token>{data[index].value.subtitle}</Token>
                       </ValidationWrapper>
                     </div>

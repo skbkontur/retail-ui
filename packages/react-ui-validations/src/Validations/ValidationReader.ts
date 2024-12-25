@@ -55,8 +55,8 @@ export class ValidationReader<T> {
     return null;
   }
 
-  public getFirstNodeWithValidation(level: "all" | "error" | "warning" = "all"): number | null {
-    const values = level === "all" ? ['invalid', 'warning'] : [level];
+  public getFirstNodeWithValidation(level: 'all' | 'error' | 'warning' = 'all'): number | null {
+    const values = level === 'all' ? ['invalid', 'warning'] : [level];
     if (!this.node) {
       return null;
     }
