@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { checkNewDocsAccess } from './checkNewDocsAccess';
+import { Notification } from './Common/Notification';
 import { Displaying } from './Pages/Displaying';
 import { Validator } from './Pages/Validator';
 import { Examples } from './Pages/Examples';
@@ -14,10 +16,21 @@ export const Layout: React.FC<React.PropsWithChildren> = (props) => {
     window.scrollTo(0, 0);
   }, [navigate]);
 
+  const [hasNewDocsAccess, setHasNewDocsAccess] = useState(false);
+
+  useEffect(() => {
+    checkNewDocsAccess().then((status) => {
+      setHasNewDocsAccess(status);
+    });
+  }, []);
+
   return (
     <Root>
       <Helmet defaultTitle="React-UI Validations" titleTemplate="%s | React-UI Validations" />
+
+      {hasNewDocsAccess && <Notification />}
       <NavigationBar>
+        {hasNewDocsAccess && <div style={{ height: 40 }} />}
         <MainHeader>
           <h3>react-ui-validations</h3>
         </MainHeader>

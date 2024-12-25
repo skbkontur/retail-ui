@@ -29,12 +29,13 @@ export interface ToastState {
 }
 
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
+  /** Задает функцию, которая вызывается при возникновении тоста. */
   onPush?: (notification: string, action?: Action) => void;
+
+  /** Задает функцию, которая вызывается при закрытии тоста. */
   onClose?: (notification: string, action?: Action) => void;
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+
+  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
 
@@ -46,13 +47,13 @@ export const ToastDataTids = {
 } as const;
 
 /**
- * Показывает уведомления.
+ * `Toast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.
+ * Результат может быть положительным, отрицательным или нейтральным.
  *
  * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
  * Однако, при его использовании не работает кастомизация, они не поддерживаются в `React@18`, а также могут быть проблемы с перекрытием уведомления другими элементами страницы.
  *
- * Для статических тостов <u>рекомендуется</u> использовать компонент [SingleToast](https://tech.skbkontur.ru/react-ui/#/Components/SingleToast) - в нём исправлены эти проблемы.
- *
+ * Для статических тостов рекомендуется использовать компонент SingleToast - в нём исправлены эти проблемы.
  */
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {

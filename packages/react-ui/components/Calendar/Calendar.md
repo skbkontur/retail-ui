@@ -1,6 +1,4 @@
-
-
-Календарь с заданной датой
+### Календарь с заданной датой
 
 ```jsx harmony
 const [date, setDate] = React.useState("01.11.2021");
@@ -11,6 +9,7 @@ const [date, setDate] = React.useState("01.11.2021");
 />
 ```
 
+### initialMonth и initialYear
 Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear`
 
 ```jsx harmony
@@ -35,12 +34,12 @@ const initialYear = 2000;
 </div>
 ```
 
-### `isHoliday`
+### isHoliday
 
 В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
 
 ```jsx harmony
-import * as DatePickerHelpers from '../DatePicker/DatePickerHelpers';
+import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 
 const [date, setDate] = React.useState();
 
@@ -82,6 +81,7 @@ const isHoliday = (day, isWeekend) => {
 <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 ```
 
+### Высота
 Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
 
 - Базовая высота календаря - `330px`
@@ -105,7 +105,6 @@ const theme = React.useContext(ThemeContext);
 ```
 
 ### Кастомный рендер дня
-
 Для кастомнизации дней в календаре используется метод `renderDay` и компонент [Calendar.Day](#/Components/Calendar/Calendar.Day)
 
 ```jsx harmony
@@ -147,11 +146,12 @@ const renderDay = (props) => {
 ```
 
 ### Календарь с ценами
-
-Пример с кастомизацией темы и кастомным рендером дня 
+Пример с кастомизацией темы и кастомным рендером дня.
 
 ```jsx harmony
-import { ThemeContext, ThemeFactory, CalendarDay } from '@skbkontur/react-ui';
+import { CalendarDay } from '@skbkontur/react-ui';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
 const theme = React.useContext(ThemeContext);
 
@@ -185,7 +185,7 @@ const [value, setValue] = React.useState(null);
 </ThemeContext.Provider>
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface CalendarLocale {
@@ -256,7 +256,7 @@ const calendarRef = React.useRef(null);
       ref={calendarRef}
       onValueChange={setValue}
     />
-    
+
     <Gapped vertical gap={8}>
       <Button onClick={() => calendarRef.current.scrollToMonth(1, 2023)}>
         I квартал

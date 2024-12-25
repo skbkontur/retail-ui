@@ -1,4 +1,4 @@
-Базовый пример использования компонента.
+### Базовый пример
 ```jsx harmony
 const [active, setActive] = React.useState('fuji');
 
@@ -9,6 +9,7 @@ const [active, setActive] = React.useState('fuji');
 </Tabs>;
 ```
 
+### Расположение табов
 Компонент может отображать табы двумя способами: горизонтально (по умолчанию) и вертикально.
 ```jsx harmony
 const [active, setActive] = React.useState('fuji');
@@ -20,7 +21,7 @@ const [active, setActive] = React.useState('fuji');
 </Tabs>;
 ```
 
-У табов есть 3 стандартных размера
+### Размер
 ```jsx harmony
 const [active, setActive] = React.useState('fuji');
 const renderCaption = (caption) => <span style={{display: "inline-block", width: 60}}>{caption}</span>;

@@ -362,7 +362,10 @@ class TabsTable extends React.Component {
   }
 }
 
-export default { title: 'Tabs' };
+export default {
+  title: 'Tabs',
+  component: Tabs,
+};
 
 export const Simple: Story = () => <UncTabs size="large" />;
 Simple.storyName = 'simple';

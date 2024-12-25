@@ -36,52 +36,58 @@ export const DateInputDataTids = {
 } as const;
 
 export interface DateInputProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
+
+  /** Устанавливает значение датаинпута. */
   value?: string;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Минимальная дата.
-   * @default '01.01.1900'
-   */
+
+  /** Задает минимальную возможную дату в формате `dd.mm.yyyy`. */
   minDate?: string;
-  /**
-   * Максимальная дата
-   * @default '31.12.2099'
-   */
+
+  /** Задает максимальную возможную дату в формате `dd.mm.yyyy` */
   maxDate?: string;
-  /**
-   * Ширина поля
-   * @default 125
-   */
+
+  /** Задает ширину поля. */
   width?: string | number;
+
+  /** Добавляет иконку календаря. */
   withIcon?: boolean;
-  /**
-   * Размер поля
-   * @default 'small'
-   */
+
+  /** Задает размер поля. */
   size?: SizeProp;
+
+  /** Задает функцию, которая вызывается при потере датаинпутом фокуса. */
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при клике на датаинпут. */
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при получении датаинпутом фокуса. */
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+
+  /** Задает функцию, которая вызывается при изменении value.
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange?: (value: string) => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
 
+/**
+ * Компонент поля `DateInput` из DatePicker'а помогает выбирать дату с клавиатуры.
+ */
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
@@ -145,7 +151,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     ) {
       this.updateFromProps(false);
     }
-    this.selectNode();
+    !this.props.disabled && this.selectNode();
   }
 
   public selectNode = () => {

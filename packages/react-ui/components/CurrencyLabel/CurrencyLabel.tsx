@@ -5,14 +5,17 @@ import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface CurrencyLabelProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
-  /**
-   * Минимальное количество отображаемых знаков после запятой
-   * @default 2
-   */
+  /** Устанавливает минимальное количество отображаемых знаков после запятой.
+   * @default 2 */
   fractionDigits?: number;
+
+  /** Устанавливает значение. */
   value: number;
+
+  /** Задает символ валюты. */
   currencySymbol?: React.ReactNode;
-  /** Убрать лишние нули после запятой */
+
+  /** Убирает лишние нули после запятой. */
   hideTrailingZeros?: boolean;
 }
 
@@ -22,6 +25,9 @@ export const CurrencyLabelDataTids = {
   root: 'CurrencyLabel__root',
 } as const;
 
+/**
+ * `CurrencyLabel` — подпись для денежных сумм (и других числовых значений).
+ */
 export const CurrencyLabel = ({
   id,
   value,

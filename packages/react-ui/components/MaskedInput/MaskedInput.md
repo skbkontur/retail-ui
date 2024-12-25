@@ -1,4 +1,4 @@
-#### `mask`
+### Проп `mask`
 
 Паттерн ввода. Пример с номером телефона.
 
@@ -18,7 +18,7 @@ const [value, setValue] = React.useState('');
 </>
 ```
 
-#### `alwaysShowMask`
+### Проп `alwaysShowMask`
 
 Показывает маску всегда.
 
@@ -26,7 +26,7 @@ const [value, setValue] = React.useState('');
 <MaskedInput mask="+7 (999) 999-99-99" alwaysShowMask />
 ```
 
-#### `maskChar`
+### Проп `maskChar`
 
 Символом маски может быть любой символ.
 
@@ -48,7 +48,7 @@ const [value, setValue] = React.useState('');
 </>
 ```
 
-#### `formatChars`
+### Проп `formatChars`
 
 При необходимости можно настроить собственный словарь.
 
@@ -71,7 +71,7 @@ const [value, setValue] = React.useState('');
 />
 ```
 
-#### `unmask`
+### Проп `unmask`
 
 Можно сразу получать очищенный value, содержащий только введённый пользователем символы.
 
@@ -91,6 +91,8 @@ const [value, setValue] = React.useState('');
   />
 </>
 ```
+
+### Проп `unmask` с фигурными скобками
 
 Если обернуть фиксированные символы в фигурные скобки, то они попадут в `value` при `unmask = true`.
 

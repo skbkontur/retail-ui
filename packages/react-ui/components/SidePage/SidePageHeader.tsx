@@ -18,7 +18,10 @@ import { SidePageCloseButton } from './SidePageCloseButton';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+  /** Закрепляет хедер сверху сайдпейджа. */
   sticky?: boolean;
+
+  /** Определяет, нужно ли показывать ModalSeparator. */
   hasSeparator?: boolean;
 }
 

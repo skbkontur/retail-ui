@@ -48,45 +48,61 @@ export interface DatePickerProps
   extends Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
+
   autoFocus?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Отвечает за отображение кнопки "Сегодня".
-   */
+
+  /** Отображает кнопку "Сегодня" в календаре. */
   enableTodayLink?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
+
+  /** Задает nекущую позицию выпадающего окна вручную. */
   menuPos?: 'top' | 'bottom';
+
+  /** Задает выравнивание меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает размер контрола. */
   size?: SizeProp;
+
+  /** Задает значение автокомплита. */
   value?: string | null;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задает ширину автокомплита. */
   width?: number | string;
+
+  /** Задает функцию, которая вызывается при потере датапикером фокуса. */
   onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+
+  /** Задает функцию, вызывающуюся при изменении value.
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange: (value: string) => void;
+
+  /** Задает функцию, которая вызывается при получении датапикером фокуса. */
   onFocus?: () => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (e: React.MouseEvent<any>) => void;
-  /**
-   * Использовать на мобильных устройствах нативный календарь для выбора дат.
-   *
-   * - На iOS нативный календарь не умеет работать с minDate и maxDate
-   */
+
+  /** Позволяет использовать на мобильных устройствах нативный календарь для выбора дат.
+   * На iOS нативный календарь не умеет работать с minDate и maxDate. */
   useMobileNativeDatePicker?: boolean;
 }
 
@@ -106,6 +122,13 @@ export const DatePickerDataTids = {
 
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
+/**
+ * Поле `DatePicker` помогает вводить дату с клавиатуры или выбирать ее с помощью мыши.
+ *
+ * Используйте поле с датой, когда нужно ввести дату в формате ДД.ММ.ГГГГ.
+ *
+ * Поле с датой отличается от обычного поля ввода наличием иконки, маски и блока календаря.
+ */
 @responsiveLayout
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -221,11 +244,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: DatePickerProps, prevState: DatePickerState) {
     const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
+    }
+
+    if (prevState.opened && !opened && this.isMobileLayout) {
+      this.handleBlur();
     }
   }
 
@@ -295,7 +322,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             onValueChange={this.props.onValueChange}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.props.isHoliday}
-            onCloseRequest={this.handleBlur}
+            onCloseRequest={this.handleMobileCloseRequest}
             renderDay={props.renderDay}
             onMonthChange={props.onMonthChange}
           />
@@ -471,5 +498,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }
+  };
+
+  private handleMobileCloseRequest = () => {
+    this.close();
   };
 }

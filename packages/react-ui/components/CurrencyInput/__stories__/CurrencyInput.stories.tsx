@@ -1,14 +1,17 @@
-// TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
 import { isNullable } from '../../../lib/utils';
-import { Meta, Story } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Toggle } from '../../Toggle';
 import { Nullable } from '../../../typings/utility-types';
+
+export default {
+  title: 'CurrencyInput',
+  component: CurrencyInput,
+};
 
 interface CurrencyInputDemoProps {
   borderless?: boolean;
@@ -156,45 +159,41 @@ class Sample extends React.Component<Partial<CurrencyInputProps>> {
   };
 }
 
-export default { title: 'CurrencyInput' } as Meta;
-
-export const Demo = () => <CurrencyInputDemo />;
+export const Demo: Story = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: true } };
-export const WithBorderless = () => <CurrencyInputDemo borderless />;
+export const WithBorderless: Story = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: true } };
 
 export const SampleStory: Story = () => <Sample fractionDigits={0} />;
 SampleStory.storyName = 'Sample';
 
-export const ManualMount = () => {
-  class ManualMounting extends React.Component {
-    public state = {
-      mounted: false,
-    };
+class ManualMounting extends React.Component {
+  public state = {
+    mounted: false,
+  };
 
-    public render() {
-      return (
-        <div>
-          <label>
-            Mounted <input type="checkbox" checked={this.state.mounted} onChange={this.handleChangeMounting} />
-          </label>
-          {this.state.mounted && (
-            <div>
-              <Sample autoFocus value={9909} />
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    private handleChangeMounting = (event: React.ChangeEvent<HTMLInputElement>) => {
-      this.setState({
-        mounted: event.target.checked,
-      });
-    };
+  public render() {
+    return (
+      <div>
+        <label>
+          Mounted <input type="checkbox" checked={this.state.mounted} onChange={this.handleChangeMounting} />
+        </label>
+        {this.state.mounted && (
+          <div>
+            <Sample autoFocus value={9909} />
+          </div>
+        )}
+      </div>
+    );
   }
-  return <ManualMounting />;
-};
+
+  private handleChangeMounting = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      mounted: event.target.checked,
+    });
+  };
+}
+export const ManualMount: Story = () => <ManualMounting />;
 ManualMount.storyName = 'Manual mount';
 ManualMount.parameters = { creevey: { skip: true } };

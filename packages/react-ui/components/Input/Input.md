@@ -1,9 +1,18 @@
+### Базовый пример
+```jsx harmony
+import SearchIcon from '@skbkontur/react-icons/Search';
+
+<Input />;
+```
+
+### Иконка
 ```jsx harmony
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 <Input leftIcon={<SearchIcon />} />;
 ```
 
+### Очистка значения
 Очистить значение в `Input`'е можно только с помощью пустой строки
 
 ```jsx harmony
@@ -17,7 +26,7 @@ const [value, setValue] = React.useState('Значение');
 </Group>
 ```
 
-Пример с префиксом:
+### Префикс
 
 ```jsx harmony
 import SearchIcon from '@skbkontur/react-icons/Search';
@@ -29,7 +38,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 />;
 ```
 
-Примеры разных значений `type`:
+### type
 
 ```jsx harmony
 import { Gapped, Input, Tooltip } from '@skbkontur/react-ui';

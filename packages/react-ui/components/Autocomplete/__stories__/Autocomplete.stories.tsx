@@ -9,6 +9,7 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {
   title: 'Autocomplete',
+  component: Autocomplete,
   decorators: [
     (Story) => (
       <div

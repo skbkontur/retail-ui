@@ -1,0 +1,67 @@
+import { Story } from '@storybook/blocks';
+import * as DocsStories from './ValidationType.docs.stories.tsx';
+import { Meta } from '../../../../.storybook/Meta';
+
+<Meta of={DocsStories} />
+
+# Виды валидаций
+
+[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
+
+Вид валидации задается с помощью свойства `type` в объекте `validationInfo`.
+
+```jsx static
+<ValidationWrapper validationInfo={{ type: '...', message: '...' }}>//...</ValidationWrapper>
+```
+
+Допустимые значения: `"immediate" | "lostfocus" | "submit"`.
+
+## Мгновенная
+
+Мгновенная валидация отображается всегда.
+
+```jsx static
+<ValidationWrapper validationInfo={{ type: 'immediate', message: '...' }}>//...</ValidationWrapper>
+```
+
+### Пример
+
+<Story of={DocsStories.ImmediateValidation} />
+
+## По потере фокуса
+
+Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
+
+Такую валидацию можно сделать [независимой](#/independent-validation).
+
+```jsx static
+<ValidationWrapper validationInfo={{ type: 'lostfocus', message: '...' }}>//...</ValidationWrapper>
+```
+
+### Пример
+
+<Story of={DocsStories.LostfocusValidation} />
+
+## По отправке формы
+
+Валидация по отправке формы отображается при вызове метода `submit` на компоненте `ValidationContainer`.
+
+```jsx static
+<ValidationContainer ref={this.container}>
+  <ValidationWrapper validationInfo={{type: "submit", message: "..."}}>
+    //...
+  </ValidationWrapper>
+</ValidationContainer>
+
+<Button onClick={this.handleSubmit}>
+  Submit
+</Button>
+
+handleSubmit = async () => {
+  await this.container.current.submit();
+}
+```
+
+### Пример
+
+<Story of={DocsStories.SubmitValidation} />

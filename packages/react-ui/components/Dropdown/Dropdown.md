@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import { Dropdown, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 <Dropdown caption="Click">
@@ -10,7 +11,7 @@ import { Dropdown, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-
 </Dropdown>;
 ```
 
-У Dropdown есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped, MenuItem, MenuSeparator, MenuHeader } from '@skbkontur/react-ui';

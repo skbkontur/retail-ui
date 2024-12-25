@@ -46,7 +46,10 @@ class Component extends React.Component<ComponentProps> {
   };
 }
 
-export default { title: 'PasswordInput' };
+export default {
+  title: 'PasswordInput',
+  component: PasswordInput,
+};
 
 export const Plain: Story = () => <Component />;
 export const CapsLockLabel = () => <Component capsLockEnabled />;

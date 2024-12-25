@@ -54,4 +54,30 @@ kind('HideBodyVerticalScroll', () => {
     });
     testScrollLockUnlock();
   });
+
+  story('DisorderlyUnmountAndResize', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+    });
+    test('idle, hide, show, resize', async (context) => {
+      const toggle = async (index: number) => {
+        await context.webdriver.findElement({ css: `div:nth-of-type(${index}) [data-tid~="toggle-lock"]` }).click();
+      };
+
+      const idle = await context.webdriver.takeScreenshot();
+
+      await toggle(1);
+      await toggle(2);
+      const hide = await context.webdriver.takeScreenshot();
+
+      await toggle(1);
+      await toggle(2);
+      const show = await context.webdriver.takeScreenshot();
+
+      await context.webdriver.findElement({ css: '[data-tid="resize"]' }).click();
+      const resize = await context.webdriver.takeScreenshot();
+
+      await context.matchImages({ idle, hide, show, resize });
+    });
+  });
 });

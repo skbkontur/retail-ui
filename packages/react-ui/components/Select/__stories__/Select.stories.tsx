@@ -433,9 +433,13 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     </div>
   );
 };
+WithMenuAlignAndVariousWidth.parameters = {
+  creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
+};
 
 export default {
   title: 'Select',
+  component: Select,
   decorators: [
     (Story: () => JSX.Element, context) => {
       if (

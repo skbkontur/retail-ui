@@ -32,7 +32,6 @@ const ALL_USED_VARIABLES_SET = new Set<keyof Theme>();
 
 export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
-
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
   baseThemes.push(LIGHT_THEME);

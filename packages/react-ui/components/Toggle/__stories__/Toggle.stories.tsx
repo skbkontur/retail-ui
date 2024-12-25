@@ -200,7 +200,10 @@ class SimpleChildrenLines extends React.Component {
   }
 }
 
-export default { title: 'Toggle' };
+export default {
+  title: 'Toggle',
+  component: Toggle,
+};
 
 export const Plain: Story = () => <Simple />;
 Plain.storyName = 'plain';
