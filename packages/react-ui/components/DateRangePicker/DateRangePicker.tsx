@@ -121,7 +121,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           return;
         }
 
-        if (periodEnd && isGreaterOrEqual(value, periodEnd)) {
+        if (periodEnd && isGreater(value, periodEnd)) {
           setPeriodStart(value);
           setPeriodEnd(null);
           setCurrentFocus('end');
@@ -137,7 +137,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           return;
         }
 
-        if (periodStart && isLessOrEqual(value, periodStart)) {
+        if (periodStart && isLess(value, periodStart)) {
           setPeriodStart(value);
           setPeriodEnd(null);
           setCurrentFocus('end');
