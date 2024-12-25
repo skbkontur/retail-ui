@@ -155,3 +155,44 @@ type RenderErrorMessage =
 ### `data-tid?: string`
 
 Позволяет задать кастомный `data-tid`, для доступа к содержимому ошибок.
+
+## ValidationListWrapper
+
+Обертка для виртуализированного списка, осуществляет поиск валидаций в "неотрендеренных" контролах.
+
+### `children: React.Node`
+
+Дочерний компонент должен быть ровно один. ValidationListWrapper контролирует его поведение путём передачи
+prop-ов ref и data-tid. Для работы с компонентом используется
+[React.cloneElement()](https://facebook.github.io/react/docs/react-api.html#cloneelement);
+
+### `validationInfos: ?ValidationReader<any[]>`
+
+Результат возвращаемый из функции createValidator передает валидации в ValidationListWrapper. Если на любом уровне, вложенных в объект значений есть невалидное
+- список считается невалидным.
+
+
+### `onValidation?: (index: number | null, validation: Nullable<Validation>) => void`
+
+Колбек для получения индекса невалидной строки и сообщения о невалидности
+
+
+### `level?: ValidationLevel`
+
+См. [Документацию](https://ui.gitlab-pages.kontur.host/storybook-documentation/?path=/docs/react_ui_validations_displaying-validation-level--docs)
+
+### `behaviour?: ValidationBehaviour`
+
+См. [Документацию](https://ui.gitlab-pages.kontur.host/storybook-documentation/?path=/docs/react_ui_validations_displaying-validation-type--docs)
+
+### `independent?: boolean`
+
+См. [Документацию](https://ui.gitlab-pages.kontur.host/storybook-documentation/?path=/docs/react_ui_validations_validator-independent--docs)
+
+### `scrollToElement?: (index: number) => void`
+
+Колбек, принимающий индекс невалидного элемента для возможности прокрутки к невалидному неотрендеренному элементу
+
+### `data-tid?: string`
+
+Позволяет задать кастомный `data-tid`, для доступа к содержимому ошибок.

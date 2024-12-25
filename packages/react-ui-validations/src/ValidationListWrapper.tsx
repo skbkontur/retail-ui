@@ -6,12 +6,12 @@ import { Validation } from './ValidationWrapperInternal';
 import {
   ValidationBehaviour,
   ValidationLevel,
-  ValidationWrapperVirtualizedInternal,
-  ValidationWrapperVirtualizedInternalProps,
-} from './ValidationWrapperVirtualizedInternal';
+  ValidationListWrapperInternal,
+  ValidationListInternalProps,
+} from './ValidationListWrapperInternal';
 import { ValidationReader } from './Validations';
 
-export interface ValidationWrapperVirtualizedProps extends Pick<ValidationWrapperVirtualizedInternalProps, 'data-tid'> {
+export interface ValidationListProps extends Pick<ValidationListInternalProps, 'data-tid'> {
   children?: React.ReactElement<any>;
   validationInfos: ValidationReader<any[]>;
   onValidation?: (index: number | null, validation: Nullable<Validation>) => void;
@@ -21,9 +21,9 @@ export interface ValidationWrapperVirtualizedProps extends Pick<ValidationWrappe
   scrollToElement?: (index: number) => void;
 }
 
-export class ValidationWrapperVirtualized extends React.Component<ValidationWrapperVirtualizedProps> {
-  public static __KONTUR_REACT_UI__ = 'ValidationWrapperVirtualized';
-  public static displayName = 'ValidationWrapperVirtualized';
+export class ValidationListWrapper extends React.Component<ValidationListProps> {
+  public static __KONTUR_REACT_UI__ = 'ValidationListWrapper';
+  public static displayName = 'ValidationListWrapper';
 
   public render() {
     const {
@@ -38,7 +38,7 @@ export class ValidationWrapperVirtualized extends React.Component<ValidationWrap
     } = this.props;
 
     return (
-      <ValidationWrapperVirtualizedInternal
+      <ValidationListWrapperInternal
         data-tid={datTid}
         onValidation={onValidation}
         validationInfos={validationInfos}
@@ -48,7 +48,7 @@ export class ValidationWrapperVirtualized extends React.Component<ValidationWrap
         level={level}
       >
         {children}
-      </ValidationWrapperVirtualizedInternal>
+      </ValidationListWrapperInternal>
     );
   }
 }

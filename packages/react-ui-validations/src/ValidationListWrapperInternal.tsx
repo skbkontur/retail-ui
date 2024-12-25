@@ -20,7 +20,7 @@ export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 
 export type ValidationLevel = 'error' | 'warning';
 
-export interface ValidationWrapperVirtualizedInternalProps {
+export interface ValidationListInternalProps {
   children?: React.ReactElement<any>;
   onValidation?: (index: number | null, validation: Nullable<Validation>) => void;
   validationInfos: ValidationReader<any[]>;
@@ -31,7 +31,7 @@ export interface ValidationWrapperVirtualizedInternalProps {
   'data-tid'?: string;
 }
 
-interface ValidationWrapperVirtualizedInternalState {
+interface ValidationListInternalState {
   validation: Nullable<Validation>;
 }
 
@@ -40,11 +40,11 @@ interface Point {
   y: number;
 }
 
-export class ValidationWrapperVirtualizedInternal extends React.Component<
-  ValidationWrapperVirtualizedInternalProps,
-  ValidationWrapperVirtualizedInternalState
+export class ValidationListWrapperInternal extends React.Component<
+  ValidationListInternalProps,
+  ValidationListInternalState
 > {
-  public state: ValidationWrapperVirtualizedInternalState = {
+  public state: ValidationListInternalState = {
     validation: null,
   };
 
@@ -64,7 +64,7 @@ export class ValidationWrapperVirtualizedInternal extends React.Component<
   public componentDidMount() {
     warning(
       this.context,
-      'ValidationWrapper should appears as child of ValidationContainer.\n' +
+      'ValidationListWrapper should appears as child of ValidationContainer.\n' +
         'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
     if (this.context) {

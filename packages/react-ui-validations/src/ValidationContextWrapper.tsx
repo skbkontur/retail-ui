@@ -4,7 +4,7 @@ import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 import { FocusMode } from './FocusMode';
-import { ValidationWrapperVirtualizedInternal } from './ValidationWrapperVirtualizedInternal';
+import { ValidationListWrapperInternal } from './ValidationListWrapperInternal';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -21,12 +21,12 @@ export interface ValidationContextWrapperProps {
 
 export interface ValidationContextType {
   register: (wrapper: ValidationWrapperInternal) => void;
-  registerVirtual: (reader: ValidationWrapperVirtualizedInternal) => void;
+  registerVirtual: (reader: ValidationListWrapperInternal) => void;
   unregister: (wrapper: ValidationWrapperInternal) => void;
-  unregisterVirtual: (reader: ValidationWrapperVirtualizedInternal) => void;
+  unregisterVirtual: (reader: ValidationListWrapperInternal) => void;
   instanceProcessBlur: (wrapper: ValidationWrapperInternal) => void;
   onValidationUpdated: (
-    wrapper: ValidationWrapperInternal | ValidationWrapperVirtualizedInternal,
+    wrapper: ValidationWrapperInternal | ValidationListWrapperInternal,
     isValid: boolean,
   ) => void;
   getSettings: () => ValidationContextSettings;
@@ -51,7 +51,7 @@ ValidationContext.displayName = 'ValidationContext';
 
 export class ValidationContextWrapper extends React.Component<ValidationContextWrapperProps> {
   public childWrappers: ValidationWrapperInternal[] = [];
-  public virtualWrappers: ValidationWrapperVirtualizedInternal[] = [];
+  public virtualWrappers: ValidationListWrapperInternal[] = [];
 
   public getSettings(): ValidationContextSettings {
     let scrollOffset: ScrollOffset = {};
@@ -76,7 +76,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     this.childWrappers.push(wrapper);
   }
 
-  public registerVirtual(reader: ValidationWrapperVirtualizedInternal) {
+  public registerVirtual(reader: ValidationListWrapperInternal) {
     this.virtualWrappers.push(reader);
   }
 
@@ -85,7 +85,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     this.onValidationRemoved();
   }
 
-  public unregisterVirtual(reader: ValidationWrapperVirtualizedInternal) {
+  public unregisterVirtual(reader: ValidationListWrapperInternal) {
     this.virtualWrappers.splice(this.virtualWrappers.indexOf(reader), 1);
     this.onVirtualValidationRemoved();
   }
@@ -97,7 +97,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   }
 
   public onValidationUpdated(
-    wrapper: ValidationWrapperInternal | ValidationWrapperVirtualizedInternal,
+    wrapper: ValidationWrapperInternal | ValidationListWrapperInternal,
     isValid?: boolean,
   ) {
     const { onValidationUpdated } = this.props;
@@ -139,7 +139,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     }
   }
 
-  public getChildWrappersSortedByPosition(): Array<ValidationWrapperInternal | ValidationWrapperVirtualizedInternal> {
+  public getChildWrappersSortedByPosition(): Array<ValidationWrapperInternal | ValidationListWrapperInternal> {
     const wrappersWithPosition = [...this.childWrappers, ...this.virtualWrappers].map((x) => ({
       target: x,
       position: x.getControlPosition(),

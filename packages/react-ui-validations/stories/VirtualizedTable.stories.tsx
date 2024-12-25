@@ -8,7 +8,7 @@ import {
   ValidationContainer,
   ValidationReader,
   ValidationWrapper,
-  ValidationWrapperVirtualized,
+  ValidationListWrapper,
 } from '../src';
 
 interface Props {
@@ -46,7 +46,7 @@ const Window: React.FC<WindowProps> = ({ rowHeight, data, validationInfos }) => 
   return (
     <div style={{ display: 'flex', width: '400px', flexDirection: 'column' }}>
       {firstInvalidRow ? `first invalid row is ${firstInvalidRow}` : null}
-      <ValidationWrapperVirtualized
+      <ValidationListWrapper
         validationInfos={validationInfos}
         onValidation={(index) => setFirstInvalidRow(index)}
         scrollToElement={(index) => {
@@ -73,7 +73,7 @@ const Window: React.FC<WindowProps> = ({ rowHeight, data, validationInfos }) => 
             );
           }}
         />
-      </ValidationWrapperVirtualized>
+      </ValidationListWrapper>
     </div>
   );
 };
@@ -155,5 +155,6 @@ export const Default = () => {
 };
 
 export default {
-  title: 'Virtualized',
+  title: 'Virtualize Table',
+  parameters: { creevey: { skip: true } },
 } as Meta;

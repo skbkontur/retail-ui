@@ -16,9 +16,9 @@ import type {
   ValidationBehaviour,
 } from './ValidationWrapperInternal';
 import { ValidationWrapper } from './ValidationWrapper';
-import { ValidationWrapperVirtualized } from './ValidationWrapperVirtualized';
+import { ValidationListWrapper } from './ValidationListWrapper';
 import type { ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
-import type { ValidationWrapperVirtualizedProps } from './ValidationWrapperVirtualized';
+import type { ValidationListProps } from './ValidationListWrapper';
 import type { ValidationContextType, ValidationContextWrapperProps } from './ValidationContextWrapper';
 import { ValidationContext, ValidationContextWrapper, ValidationContextSettings } from './ValidationContextWrapper';
 import {
@@ -34,7 +34,7 @@ export type {
   ValidationContextType,
   ValidationContextWrapperProps,
   ValidationWrapperProps,
-  ValidationWrapperVirtualizedProps,
+  ValidationListProps,
   ValidationTooltipProps,
   ScrollOffset,
   ValidationLevel,
@@ -57,7 +57,7 @@ export {
   ValidationContextWrapper,
   ValidationWrapper as ValidationWrapperV1,
   ValidationWrapper,
-  ValidationWrapperVirtualized,
+  ValidationListWrapper,
   ValidationTooltip,
   tooltip,
   text,
