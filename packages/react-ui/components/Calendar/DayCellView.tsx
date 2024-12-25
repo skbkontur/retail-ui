@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { ReactElement, useCallback, useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -18,25 +18,32 @@ export const DayCellView = (props: DayCellViewProps) => {
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
   const theme = useContext(ThemeContext);
 
-  const handleClick = () => {
-    onDateClick?.(date);
-  };
+  const isDisabled = !CDS.isBetween(date, minDate, maxDate);
 
   const humanDateString = InternalDateTransformer.dateToHumanString(date);
 
   const dayProps: CalendarDayProps = {
     isToday: Boolean(today && CDS.isEqual(date, today)),
     isSelected: Boolean(value && CDS.isEqual(date, value)),
-    isDisabled: !CDS.isBetween(date, minDate, maxDate),
+    isDisabled,
     isWeekend: isHoliday?.(humanDateString, date.isWeekend) ?? date.isWeekend,
     date: humanDateString,
   };
 
-  const dayElement = renderDay?.(dayProps) ?? <CalendarDay {...dayProps} />;
+  const dayElement: ReactElement<CalendarDayProps> = renderDay?.(dayProps) ?? <CalendarDay {...dayProps} />;
+  const customDayClickHandler = dayElement.props.onClick;
 
-  return (
-    <div onClick={handleClick} className={styles.cell(theme)}>
-      {dayElement}
-    </div>
+  const dayClickHandler = useCallback<NonNullable<typeof customDayClickHandler>>(
+    (e) => {
+      customDayClickHandler?.(e);
+      onDateClick?.(date);
+    },
+    [customDayClickHandler, onDateClick, date],
   );
+
+  const dayElementWithClickHandler = React.cloneElement<CalendarDayProps>(dayElement, {
+    onClick: dayClickHandler,
+  });
+
+  return <div className={styles.cell(theme)}>{dayElementWithClickHandler}</div>;
 };
