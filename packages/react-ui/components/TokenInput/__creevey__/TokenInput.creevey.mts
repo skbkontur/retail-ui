@@ -58,7 +58,7 @@ kind('TokenInput', () => {
         .sendKeys('a')
         .perform();
       await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -152,7 +152,7 @@ kind('TokenInput', () => {
         .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
         .sendKeys('zzz')
         .perform();
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -335,7 +335,7 @@ kind('TokenInput', () => {
         .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
         .sendKeys('a')
         .perform();
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -357,7 +357,7 @@ kind('TokenInput', () => {
         .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -368,7 +368,7 @@ kind('TokenInput', () => {
       },
     });
     test('idle', async (context) => {
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
 
     test('selected', async (context) => {
@@ -389,7 +389,7 @@ kind('TokenInput', () => {
         .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 

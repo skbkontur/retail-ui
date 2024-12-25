@@ -45,11 +45,7 @@ const testIdleFocusAppendRemoveBlur = () => {
     await click('input').sendKeys('953').perform();
     const appended = await context.takeScreenshot();
 
-    await click('input')
-      .sendKeys(Key.BACK_SPACE)
-      .sendKeys(Key.BACK_SPACE)
-      .sendKeys(Key.BACK_SPACE)
-      .perform();
+    await click('input').sendKeys(Key.BACK_SPACE).sendKeys(Key.BACK_SPACE).sendKeys(Key.BACK_SPACE).perform();
     const restored = await context.takeScreenshot();
 
     await click('body').perform();

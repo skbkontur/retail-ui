@@ -127,7 +127,7 @@ export const formatBytes = (bytes: number, decimals = 2): string | null => {
  * @param value Значение, которое нужно проверить и исключить из него типы
  * @returns Возвращает true, если переданный аргумент не является null или undefined иначе false
  */
-export const isNonNullable = <T,>(value: T): value is NonNullable<T> => {
+export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
 };
 
@@ -148,7 +148,7 @@ export const isNullable = (value: unknown): value is null | undefined => {
  * @param name Component name for which function will be created.
  * @returns A function that checks if the given `child` is an instance of the component specified by `name`.
  */
-export const isReactUIComponent = <P = any,>(name: string) => {
+export const isReactUIComponent = <P = any>(name: string) => {
   return (child: React.ReactNode): child is React.ReactElement<P> => {
     // @ts-expect-error: Property `type` doesn't exist on type `React.ReactNode`, but exists on type `React.ReactElement` meanwhile `React.ReactElement` is not compatible with `React` `children` type.
     return child?.type?.__KONTUR_REACT_UI__ === name;

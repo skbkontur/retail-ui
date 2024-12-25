@@ -25,7 +25,7 @@ import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
 import { PopupMenuDataTids } from './tids';
 
-export * from './tids'
+export * from './tids';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;

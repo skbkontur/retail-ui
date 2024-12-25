@@ -7,7 +7,7 @@ const kindTests = () => {
     const showToast = context.webdriver.findElement({ css: '[data-tid~="show-toast"]' });
     await context.webdriver.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
     await delay(1000);
-    await context.matchImage(await context.takeScreenshot(), );
+    await context.matchImage(await context.takeScreenshot());
   });
 };
 

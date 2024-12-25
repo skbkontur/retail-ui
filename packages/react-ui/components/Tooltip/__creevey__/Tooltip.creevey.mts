@@ -199,9 +199,7 @@ kind('Tooltip', () => {
         .click(context.webdriver.findElement({ css: '#Container-4 button' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.takeScreenshot(),
-        '10 - does not change bottom position if does not fit',
-      );
+      await context.matchImage(await context.takeScreenshot(), '10 - does not change bottom position if does not fit');
     });
 
     test('11 - does not change position on shrink', async (context) => {

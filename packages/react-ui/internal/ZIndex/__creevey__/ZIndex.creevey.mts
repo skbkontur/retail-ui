@@ -140,7 +140,7 @@ kind('ZIndex', () => {
         .click(context.webdriver.findElement({ css: '[data-comp-name~="Button"] button' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
 
@@ -161,7 +161,7 @@ kind('ZIndex', () => {
         .click(context.webdriver.findElement({ css: '[data-tid~="ToastView__close"]' }))
         .pause(500)
         .perform();
-      await context.matchImage(shown, );
+      await context.matchImage(shown);
     });
 
     test('refToast', async (context) => {
@@ -172,7 +172,7 @@ kind('ZIndex', () => {
         .click(context.webdriver.findElement({ css: 'body' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
 
@@ -185,7 +185,7 @@ kind('ZIndex', () => {
         .click(context.webdriver.findElement({ css: '[data-tid="dropdown_top"]' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
 
     test('dropdown lays under fixed header', async (context) => {
@@ -199,7 +199,7 @@ kind('ZIndex', () => {
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       });
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
 
     test('dropdown lays under fixed footer', async (context) => {
@@ -208,7 +208,7 @@ kind('ZIndex', () => {
         .click(context.webdriver.findElement({ css: '[data-tid="dropdown_bottom"]' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
 
     test('dropdown overlaps static footer', async (context) => {
@@ -222,7 +222,7 @@ kind('ZIndex', () => {
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       });
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
 });

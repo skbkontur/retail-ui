@@ -40,7 +40,9 @@ kind('SidePage', () => {
         .perform();
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }))
+        .click(
+          context.webdriver.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }),
+        )
         .perform();
       await context.matchImage(await context.webdriver.takeScreenshot(), 'close internal side-page');
     });
@@ -65,9 +67,12 @@ kind('SidePage', () => {
       });
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }))
+        .click(
+          context.webdriver.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }),
+        )
         .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(),
+      await context.matchImage(
+        await context.webdriver.takeScreenshot(),
         'sticky header, open and close internal side-page',
       );
     });
@@ -308,7 +313,7 @@ kind('SidePage', () => {
         .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), );
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
 });

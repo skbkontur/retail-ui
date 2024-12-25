@@ -1,11 +1,11 @@
-import path from 'path'
+import path from 'path';
 import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
 import { SeleniumWebdriver } from 'creevey/selenium';
 import { storybookUrl, resolveStorybookUrl } from './storybook-url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv({ path: '../../.env' });
 
@@ -42,7 +42,7 @@ const config: CreeveyConfig = {
         platformName: 'linux',
         browserVersion: '127.0',
         name: 'infrafront/chrome2022',
-        "se:teamname": "front_infra",
+        'se:teamname': 'front_infra',
         ...capabilities,
       },
       limit: 4,
@@ -55,7 +55,7 @@ const config: CreeveyConfig = {
         platformName: 'linux',
         browserVersion: '127.0',
         name: 'infrafront/chrome2022Dark',
-        "se:teamname": "front_infra",
+        'se:teamname': 'front_infra',
         ...capabilities,
       },
       limit: 4,
@@ -69,7 +69,7 @@ const config: CreeveyConfig = {
         platformName: 'linux',
         browserVersion: '128.0',
         name: 'infrafront/firefox2022',
-        "se:teamname": "front_infra",
+        'se:teamname': 'front_infra',
         ...capabilities,
       },
       limit: 4,
@@ -82,7 +82,7 @@ const config: CreeveyConfig = {
         platformName: 'linux',
         browserVersion: '128.0',
         name: 'infrafront/firefox2022Dark',
-        "se:teamname": "front_infra",
+        'se:teamname': 'front_infra',
         ...capabilities,
       },
       limit: 4,
@@ -96,7 +96,7 @@ const config: CreeveyConfig = {
         platformName: 'linux',
         browserVersion: '127.0',
         name: 'infrafront/chromeMobile',
-        "se:teamname": "front_infra",
+        'se:teamname': 'front_infra',
         ...capabilities,
       },
       viewport: { width: 400, height: 720 },

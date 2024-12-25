@@ -217,7 +217,7 @@ kind('Select', () => {
     test('open', async (context) => {
       const root = await context.webdriver.findElement({ css: '#test-element' });
       await delay(1000);
-      await context.matchImage(await root.takeScreenshot(), );
+      await context.matchImage(await root.takeScreenshot());
     });
   });
 
