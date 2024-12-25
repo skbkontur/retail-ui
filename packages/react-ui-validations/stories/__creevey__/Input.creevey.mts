@@ -14,7 +14,7 @@ kind('Input', () => {
         .click(input)
         .pause(500)
         .perform();
-      await context.matchImage(await context.takeScreenshot(), );
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 });
