@@ -5,9 +5,29 @@ export const styles = memoizeStyle({
   root() {
     return css``;
   },
-
   rootMobile() {
     return css``;
+  },
+  inputWrapper() {
+    return css`
+      display: inline-flex;
+      align-items: center;
+
+      & > * {
+        flex: 1 1 50%;
+      }
+    `;
+  },
+  inputVisuallyFocus(t: Theme) {
+    return css`
+      box-shadow: none;
+      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
+    `;
+  },
+  inputWrapperWidth(t: Theme) {
+    return css`
+      min-width: ${parseInt(t.calendarCellWidth) * 7 + parseInt(t.calendarPaddingX) * 2}px;
+    `;
   },
 
   calendarWrapper(t: Theme) {
