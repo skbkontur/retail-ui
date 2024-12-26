@@ -1007,6 +1007,11 @@ export class BasicLightThemeInternal {
   public static calendarRangeCellHoverBg = 'rgba(0, 0, 0, 0.1)';
   public static calendarRangeCellEndBg = '#1e1e1e';
   public static calendarRangeCellEndColor = 'white';
+  public static calendarRangeWrapperHeight = '450px';
+
+  public static mobileCalendarRangeWrapperHeight = '400px';
+  public static mobileCalendarRangeGridRowSpacing = '0px';
+  public static mobileCalendarRangeCellHeight = '48px';
   //#endregion
 
   //#region DateSelect
