@@ -130,9 +130,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={wrapClassName}>
             <input {...inputProps} />
-            <div>
-              <Group>{this._renderItems()}</Group>
-            </div>
+            <Group>{this._renderItems()}</Group>
           </div>
         </div>
       </CommonWrapper>
