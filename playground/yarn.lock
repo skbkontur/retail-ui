@@ -680,6 +680,11 @@
   resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/colors/-/colors-1.0.0.tgz#e95dd43cad760027b8619ad994b104038a64423f"
   integrity sha512-Xtw8eZjp2P9btF0Aj2WRZafSnmEpN8QldVDwdVyaMkDjhyLUD/EXxBqGS8ciyDTobta5zsbl7T4m49kTj7MCUg==
 
+"@skbkontur/experiments@^1.0.0":
+  version "1.0.0"
+  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/experiments/-/experiments-1.0.0.tgz#221d058aa447ba2a97e81a75b64698ee0ca37726"
+  integrity sha512-tUx86p/z5OvSTvuO7AcqOJn7JpJ4fSLkmkrWd1l/pHGtjQZnxb5NcNBSSKWPOdcMI08NNQiAv1Wdl9G4wlpRsA==
+
 "@skbkontur/global-object@^0.4.4":
   version "0.4.4"
   resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/global-object/-/global-object-0.4.4.tgz#216f2b8370547ccc2bf1af63f68b80207714a777"
