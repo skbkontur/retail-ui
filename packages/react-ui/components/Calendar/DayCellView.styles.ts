@@ -28,20 +28,24 @@ export const styles = memoizeStyle({
         0.15s ease background-color,
         0.15s ease opacity;
 
+      // Expand the clickable area
       &:before {
         content: '';
         position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
+        left: -1px;
+        top: -1px;
+        width: calc(100% + 2px);
+        height: calc(100% + 2px);
       }
 
-      &:hover {
-        background-color: ${t.calendarCellHoverBgColor};
-        color: ${t.calendarCellHoverColor};
-        cursor: pointer;
+      @media (hover: hover) {
+        &:hover {
+          background-color: ${t.calendarCellHoverBgColor};
+          color: ${t.calendarCellHoverColor};
+          cursor: pointer;
+        }
       }
+
       &:disabled {
         opacity: 0.5;
         pointer-events: none;
