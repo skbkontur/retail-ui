@@ -24,8 +24,8 @@ export default {
 export const Example1: Story = () => {
   const [fromValue, setFromValue] = React.useState('');
   const [toValue, setToValue] = React.useState('');
-  const minDate = '08.07.2024';
-  const maxDate = '18.08.2024';
+  const minDate = '08.07.2023';
+  const maxDate = '12.08.2025';
 
   return (
     <DateRangePicker
