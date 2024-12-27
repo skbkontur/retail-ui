@@ -793,7 +793,10 @@ export class BasicLightThemeInternal {
   public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static modalCloseButtonPadding = '32px';
   public static modalCloseButtonBottomPadding = '20px';
-  public static modalCloseButtonClickArea = '6px';
+  public static modalCloseButtonClickAreaTop = '30px';
+  public static modalCloseButtonClickAreaBottom = '22px';
+  public static modalCloseButtonClickAreaLeft = '24px';
+  public static modalCloseButtonClickAreaRight = '28px';
   public static modalCloseIconSize = '20px';
   public static modalBorderRadius = '16px';
   public static get modalFixedHeaderBg() {
@@ -848,9 +851,13 @@ export class BasicLightThemeInternal {
   public static get modalFooterPanelPaddingBottom() {
     return this.modalFooterPaddingBottom;
   }
-  public static mobileModalCloseButtonRightPadding = '16px';
-  public static mobileModalCloseButtonTopPadding = '8px';
-  public static mobileModalCloseButtonClickArea = '16px';
+  public static get mobileModalCloseButtonRightPadding() {
+    return this.mobileModalCloseButtonClickArea;
+  }
+  public static get mobileModalCloseButtonTopPadding() {
+    return this.mobileModalCloseButtonClickArea;
+  }
+  public static mobileModalCloseButtonClickArea = '22px';
   public static mobileModalCloseIconSize = '20px';
   public static mobileModalHeaderFontSize = '24px';
   public static mobileModalHeaderLineHeight = '32px';
@@ -898,9 +905,10 @@ export class BasicLightThemeInternal {
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '28px';
   public static sidePageHeaderFixedPaddingY = '10px';
-  public static sidePageHeaderStickyOffset = '9px';
-  public static sidePageCloseButtonPadding = '32px';
-  public static mobileSidePageCloseButtonPadding = '16px';
+  public static sidePageHeaderStickyOffset = '10px';
+  public static get mobileSidePageCloseButtonPadding() {
+    return this.mobileSidePageCloseButtonClickArea;
+  }
   public static get sidePageFooterPanelPaddingTop() {
     return this.sidePageFooterPaddingTop;
   }
@@ -908,8 +916,24 @@ export class BasicLightThemeInternal {
     return this.sidePageFooterPanelPaddingTop;
   }
   public static sidePageCloseIconSize = '20px';
-  public static sidePageCloseButtonClickArea = '6px';
-  public static mobileSidePageCloseButtonClickArea = '16px';
+  public static get sidePageCloseButtonClickAreaTop() {
+    return this.modalCloseButtonClickAreaTop;
+  }
+  public static get sidePageCloseButtonClickAreaBottom() {
+    return this.modalCloseButtonClickAreaBottom;
+  }
+  public static get sidePageCloseButtonClickAreaLeft() {
+    return this.modalCloseButtonClickAreaLeft;
+  }
+  public static get sidePageCloseButtonClickAreaRight() {
+    return this.modalCloseButtonClickAreaRight;
+  }
+  public static get sidePageCloseButtonFixedClickAreaTop() {
+    return this.sidePageCloseButtonFixedClickAreaBottom;
+  }
+  public static sidePageCloseButtonFixedClickAreaBottom = '14px';
+  public static mobileSidePageCloseButtonClickArea = '22px';
+
   public static get sidePageFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }
@@ -921,9 +945,9 @@ export class BasicLightThemeInternal {
   public static mobileSidePageHeaderLineHeight = '32px';
   public static mobileSidePageHeaderPaddingBottom = '16px';
   public static mobileSidePageHeaderPaddingTop = '16px';
-  public static mobileSidePageCloseButtonRightPadding = '12px';
   public static sidePageHeaderFontWeight = 'bold';
-  public static sidePageCloseButtonWrapperOffsetTop = '4px';
+  public static sidePageCloseButtonWrapperFixedOffsetTop = '4px';
+  public static sidePageCloseButtonWrapperOffsetTop = '2px';
   //#endregion SidePage
   //#region DateInput
   public static get dateInputIconColor() {
