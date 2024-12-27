@@ -745,3 +745,36 @@ export const SidePageWithChildrenFromOtherComponent: Story = () => {
 };
 
 SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Children';
+
+export const TEST: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+  const [edit, setEdit] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <SidePage onClose={close} blockBackground={edit} ignoreBackgroundClick={edit}>
+        <Button onClick={close}>Close</Button>
+        <Button
+          onClick={() => {
+            setEdit(!edit);
+          }}
+        >
+          Редактировать
+        </Button>
+      </SidePage>
+    );
+  }
+  function open() {
+    setOpened(true);
+  }
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderSidePage()}
+      <Button onClick={open}>Open</Button>
+    </div>
+  );
+};

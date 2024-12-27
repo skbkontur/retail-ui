@@ -117,6 +117,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
+  public componentDidUpdate(prevProps: SidePageProps) {
+    console.log('componentDidUpdate');
+    if (prevProps.blockBackground !== this.props.blockBackground) {
+      // по пропсам обновляем состояние
+      this.setState({
+        hasBackground: !!this.props.blockBackground,
+      });
+    }
+  }
+
   public componentWillUnmount() {
     globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
@@ -156,14 +166,31 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private renderMain() {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
-
+    const { width, fromLeft, 'aria-label': ariaLabel } = this.props;
+    const { offset } = this.getProps();
     return (
       <RenderContainer>
         <CommonWrapper {...this.props}>
           <div>
             <ResponsiveLayout>
               {({ isMobile }) => (
-                <>
+                <ZIndex
+                  aria-modal
+                  data-tid={SidePageDataTids.root}
+                  priority={'Sidepage'}
+                  aria-label={ariaLabel}
+                  createStackingContext
+                  style={
+                    // нужно, так как в PropsForwarding-test прокидывают ширину и проверяют, что компонент сузился. Дублируется в renderContainer
+                    isMobile
+                      ? undefined
+                      : {
+                          width: width || (blockBackground ? 800 : 500),
+                          right: fromLeft ? 'auto' : offset,
+                          left: fromLeft ? offset : 'auto',
+                        }
+                  }
+                >
                   {blockBackground && this.renderShadow(isMobile)}
                   <CSSTransition
                     in
@@ -181,7 +208,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                     {this.renderContainer(isMobile)}
                   </CSSTransition>
                   {isMobile && <HideBodyVerticalScroll />}
-                </>
+                </ZIndex>
               )}
             </ResponsiveLayout>
           </div>
@@ -203,16 +230,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
+    const { width, blockBackground, fromLeft } = this.props;
     const { offset, role } = this.getProps();
 
     return (
       <ZIndex
-        aria-modal
         role={role}
-        aria-label={ariaLabel}
-        priority={'Sidepage'}
-        data-tid={SidePageDataTids.root}
+        priority={'SidepageBody'}
         className={cx({
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
@@ -277,7 +301,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderShadow(isMobile: boolean): JSX.Element {
     return (
-      <ZIndex priority={'Sidepage'} className={styles.overlay()} onScroll={LayoutEvents.emit}>
+      <ZIndex priority={'SidepageVeil'} className={styles.overlay()} onScroll={LayoutEvents.emit}>
         {!isMobile && (
           <>
             <HideBodyVerticalScroll key="hbvs" />
