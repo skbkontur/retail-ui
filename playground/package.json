@@ -22,7 +22,8 @@
     "@skbkontur/react-error-pages": "^2.0.8",
     "@skbkontur/mini-skeleton": "^0.1.0",
     "@skbkontur/colors": "^1.0.0",
-    "@skbkontur/experiments": "^1.0.0"
+    "@skbkontur/experiments": "^1.0.0",
+    "@skbkontur/mass-actions-panel": "^0.3.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

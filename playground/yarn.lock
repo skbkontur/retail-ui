@@ -700,6 +700,13 @@
   resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/logos/-/logos-2.9.0.tgz#f9232a9c9df26848fdec3d5141399203eebde509"
   integrity sha512-vYk4hFDJZn+IzzlpWecOP+weje3wIQlApB4bOprnPvqgVk1ibLu7KAZ5UdN/VCXOhXP9SqHUK2Tsn+hhaSCQEQ==
 
+"@skbkontur/mass-actions-panel@^0.3.2":
+  version "0.3.2"
+  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/mass-actions-panel/-/mass-actions-panel-0.3.2.tgz#53ae1855bf79d504e1c048eda8b2fbf42fdc86f7"
+  integrity sha512-cBr8dk9zBDvROLOmifHiDfNOnOoGfpSA9au16fpTEu1CZVtWSwD2hXIduDLCVSbJg0aQEHAS7RbI4n0gy6dHOQ==
+  dependencies:
+    tslib "^1"
+
 "@skbkontur/mini-skeleton@^0.1.0":
   version "0.1.3"
   resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/mini-skeleton/-/mini-skeleton-0.1.3.tgz#c722e755db2cf0eb16060cb276441add5ef53ff4"
