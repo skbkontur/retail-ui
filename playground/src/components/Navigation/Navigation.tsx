@@ -5,6 +5,7 @@ import { SettingsGearIcon24Regular } from '@skbkontur/icons/icons/SettingsGearIc
 import { AttachLinkIcon } from '@skbkontur/icons/icons/AttachLinkIcon';
 import { WarningCircleIcon } from '@skbkontur/icons/icons/WarningCircleIcon';
 import { DocTextIcon } from '@skbkontur/icons/icons/DocTextIcon';
+import { ArrowCollapseTrianglesHOpenIcon } from '@skbkontur/icons/icons/ArrowCollapseTrianglesHOpenIcon';
 import { FC } from 'react';
 import { SideMenu } from '@skbkontur/side-menu';
 import { SideMenuRouterLink } from './SideMenuRouterLink';
@@ -17,6 +18,11 @@ export const Navigation: FC = () => {
         <SideMenuRouterLink icon={<AttachLinkIcon />} href={'/'} caption={'Home'} />
         <SideMenuRouterLink icon={<WarningCircleIcon />} href={'/error'} caption={'Error'} />
         <SideMenuRouterLink icon={<DocTextIcon />} href={'/expirements'} caption={'Expirements'} />
+        <SideMenuRouterLink
+          icon={<ArrowCollapseTrianglesHOpenIcon />}
+          href={'/mass-actions-panel'}
+          caption={'MassActionsPanel'}
+        />
       </SideMenu.Body>
       <SideMenu.Footer>
         <SideMenu.Organisations icon={<StackHDownIcon24Regular />}>
