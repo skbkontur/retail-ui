@@ -27,6 +27,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     setPeriodStart,
     setCurrentFocus,
     setShowCalendar,
+    onValueChange,
+    onFromValueChange,
+    onToValueChange
   } = useContext(DateRangePickerContext);
 
   const isStart = props.type === 'start';
@@ -69,12 +72,14 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   const handleValueChange = (value: string) => {
     if (isStart) {
       setPeriodStart?.(value);
-      return;
+      onFromValueChange?.(value);
+      onValueChange?.(value, periodEnd || '');
     }
 
     if (isEnd) {
       setPeriodEnd?.(value);
-      return;
+      onToValueChange?.(value);
+      onValueChange?.(periodStart || '', value);
     }
   };
 
