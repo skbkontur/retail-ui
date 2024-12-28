@@ -175,13 +175,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             <ResponsiveLayout>
               {({ isMobile }) => (
                 <ZIndex
+                  className={cx({
+                    [styles.root()]: true,
+                    [styles.mobileRoot()]: isMobile,
+                  })}
                   aria-modal
                   data-tid={SidePageDataTids.root}
                   priority={'Sidepage'}
                   aria-label={ariaLabel}
                   createStackingContext
                   style={
-                    // нужно, так как в PropsForwarding-test прокидывают ширину и проверяют, что компонент сузился. Дублируется в renderContainer
                     isMobile
                       ? undefined
                       : {

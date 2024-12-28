@@ -310,4 +310,37 @@ kind('SidePage', () => {
       await this.expect(await this.browser.takeScreenshot()).to.matchImage();
     });
   });
+
+  story('SidePageChangeBlockBgAndIgnoreBgClick', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: 'body',
+    })
+
+    test('change sidepage mode to view to edit to view', async function () {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
+        .perform();
+      await delay(100);
+      const viewModeSidePage = await this.takeScreenshot();
+
+      await this.browser
+        .actions({bridge: true})
+        .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Footer"] button' }))
+        .perform();
+      await delay(100);
+      const editModeSidePage = await this.browser.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Footer"] button' }))
+        .perform();
+      await delay(100);
+      const againViewModeSidePage = await this.takeScreenshot();
+
+      await delay(100);
+      await this.expect({viewModeSidePage, editModeSidePage, againViewModeSidePage}).to.matchImages();
+    });
+  });
 });
