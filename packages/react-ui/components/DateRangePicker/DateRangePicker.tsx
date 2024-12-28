@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { css, cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -21,6 +22,7 @@ import { DateRangePickerContext, DateRangePickerContextProps } from './DateRange
 import { DateRangePickerField } from './DateRangePickerField';
 import { MobileDateRangePicker } from './MobileDateRangePicker';
 import { getDateRangePickerTheme } from './DateRangePickerTheme';
+import { DatePickerLocaleHelper } from './locale';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -32,7 +34,7 @@ export const DateRangePickerDataTids = {
   optionalToFieldButton: 'DateRangePicker__optionalToFieldButton',
 } as const;
 
-type CurrentFocusType = 'start' | 'end' | null;
+export type CurrentFocusType = 'start' | 'end' | null;
 
 export interface DateRangePickerProps
   extends Pick<
@@ -72,6 +74,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   Separator: React.FC;
 } = (props) => {
   const { isMobile } = useResponsiveLayout();
+  const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
   const { minDate, maxDate } = props;
   const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.to);
   const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.from);
@@ -436,7 +439,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                                       data-tid={DateRangePickerDataTids.optionalFromFieldButton}
                                       onClick={() => setOptionalValue('start')}
                                     >
-                                      Без первой даты
+                                      {locale.withoutFirstDate}
                                     </Button>
                                   )}
                                   {currentFocus === 'end' && toRef.current.props.optional && (
@@ -445,7 +448,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                                       data-tid={DateRangePickerDataTids.optionalToFieldButton}
                                       onClick={() => setOptionalValue('end')}
                                     >
-                                      Без второй даты
+                                      {locale.withoutSecondDate}
                                     </Button>
                                   )}
                                 </div>
