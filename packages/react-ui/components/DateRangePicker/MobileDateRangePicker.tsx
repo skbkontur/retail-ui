@@ -23,7 +23,7 @@ export interface MobileDateRangePickerProps
     | 'renderDay'
     | 'onMonthChange'
   > {
-  onCalendarPickDay: (date: string, closePickerAfterSelect?: boolean) => void;
+  onCalendarPickDay: (date: string) => void;
   onCloseRequest?: () => void;
 }
 
@@ -49,7 +49,7 @@ export const MobileDateRangePicker: React.FC<MobileDateRangePickerProps> = (prop
           className={styles.calendarRoot()}
           minDate={props.minDate}
           maxDate={props.maxDate}
-          onValueChange={(value) => props.onCalendarPickDay(value, false)}
+          onValueChange={(value) => props.onCalendarPickDay(value)}
           renderDay={props.renderDay}
           onMonthChange={props.onMonthChange}
           ref={state.calendarRef}
