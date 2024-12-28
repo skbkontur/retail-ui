@@ -743,5 +743,56 @@ export const SidePageWithChildrenFromOtherComponent: Story = () => {
     </>
   );
 };
-
 SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Children';
+
+export const SidePageChangeBlockBgAndIgnoreBgClick: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+  const [edit, setEdit] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <SidePage onClose={close} blockBackground={edit} ignoreBackgroundClick={edit}>
+        <SidePage.Header>Title</SidePage.Header>
+        <SidePage.Body>
+          <div
+            style={{
+              background: `repeating-linear-gradient(
+                                60deg,
+                                #808080,
+                                #808080 20px,
+                                #d3d3d3 20px,
+                                #d3d3d3 40px
+                              )`,
+              height: 600,
+              padding: '20px 0',
+            }}
+          >
+            <SidePage.Container>
+              <p>Use rxjs operators with react hooks</p>
+            </SidePage.Container>
+          </div>
+        </SidePage.Body>
+        <SidePage.Footer panel>
+          <Button onClick={() => setEdit((prev) => !prev)}>Редактировать</Button>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+  function open() {
+    setOpened(true);
+  }
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderSidePage()}
+      <Button onClick={open} data-tid="open-side-page">
+        Open
+      </Button>
+    </div>
+  );
+};
+SidePageChangeBlockBgAndIgnoreBgClick.storyName =
+  'SidePage with dynamic change blockBackground and ignoreBackgroundClick';
