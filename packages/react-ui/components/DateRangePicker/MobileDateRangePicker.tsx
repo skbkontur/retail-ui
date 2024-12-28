@@ -18,7 +18,6 @@ export interface MobileDateRangePickerProps
     | 'value'
     | 'minDate'
     | 'maxDate'
-    | 'onValueChange'
     | 'enableTodayLink'
     | 'renderDay'
     | 'onMonthChange'

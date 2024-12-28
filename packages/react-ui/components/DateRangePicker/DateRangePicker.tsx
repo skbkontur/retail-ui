@@ -62,8 +62,6 @@ export interface DateRangePickerProps
   from?: string;
   to?: string;
   onValueChange?: (from: string | null, to: string | null) => void;
-  onFromValueChange?: (value: string) => void;
-  onToValueChange?: (value: string) => void;
   enableTodayLink?: boolean;
   children?: React.ReactNode;
 }
@@ -87,6 +85,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const calendarRef = useRef<any>(null);
   const popupContainerRef = useRef(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    props.onValueChange?.(periodStart || '', periodEnd || '');
+  }, [periodStart, periodEnd]);
 
   useEffect(() => {
     switch (currentFocus) {
@@ -328,8 +330,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     maxDate: props.maxDate,
     size: props.size,
     onValueChange: props.onValueChange,
-    onFromValueChange: props.onFromValueChange,
-    onToValueChange: props.onToValueChange,
 
     periodStart: periodStart || '',
     periodEnd: periodEnd || '',
