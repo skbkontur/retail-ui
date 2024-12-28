@@ -123,12 +123,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     }
   };
 
-  const updatePeriod = (value: string, closePickerAfterSelect = true) => {
+  const updatePeriod = (value: string) => {
     if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
       return;
     }
-
-    const closePicker = () => closePickerAfterSelect && close();
 
     const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
@@ -156,7 +154,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         }
 
         setPeriodStart(value);
-        closePicker();
+        close();
       } else if (currentFocus === 'end') {
         if (periodEnd) {
           setPeriodEnd(value);
@@ -172,7 +170,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         }
 
         setPeriodEnd(value);
-        closePicker();
+        close();
       }
     };
 
@@ -180,7 +178,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       if (currentFocus === 'start') {
         if (periodEnd && isLessOrEqual(value, periodEnd)) {
           setPeriodStart(value);
-          closePicker();
+          close();
         } else {
           setPeriodStart(value);
           setPeriodEnd(null);
@@ -189,7 +187,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       } else if (currentFocus === 'end') {
         if (periodStart && isGreaterOrEqual(value, periodStart)) {
           setPeriodEnd(value);
-          closePicker();
+          close();
         } else {
           setPeriodStart(value);
           setPeriodEnd(null);
