@@ -1,4 +1,4 @@
-import { BasicLightTheme } from '../../internal/themes/BasicLightTheme';
+import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
 import { isNonNullable, NoInfer } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
@@ -6,21 +6,21 @@ import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 
 export class ThemeFactory {
   public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
-    const base = baseTheme || BasicLightTheme;
+    const base = baseTheme || LIGHT_THEME;
     return this.constructTheme(base, theme);
   }
 
   public static overrideBaseTheme(theme: Theme) {
     // copying theme variables
-    ThemeFactory.getKeys(BasicLightTheme).forEach((variableName) => {
+    ThemeFactory.getKeys(LIGHT_THEME).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
-      Object.defineProperty(BasicLightTheme, variableName, descriptor);
+      Object.defineProperty(LIGHT_THEME, variableName, descriptor);
     });
 
     // copying theme markers
     Object.values(REACT_UI_THEME_MARKERS).forEach((marker) => {
       const descriptor = findPropertyDescriptor(theme, marker.key);
-      Object.defineProperty(BasicLightTheme, marker.key, descriptor);
+      Object.defineProperty(LIGHT_THEME, marker.key, descriptor);
     });
   }
 
