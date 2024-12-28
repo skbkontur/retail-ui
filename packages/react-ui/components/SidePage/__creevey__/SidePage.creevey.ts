@@ -315,7 +315,7 @@ kind('SidePage', () => {
     setStoryParameters({
       skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
       captureElement: 'body',
-    })
+    });
 
     test('change sidepage mode to view to edit to view', async function () {
       await this.browser
@@ -326,7 +326,7 @@ kind('SidePage', () => {
       const viewModeSidePage = await this.takeScreenshot();
 
       await this.browser
-        .actions({bridge: true})
+        .actions({ bridge: true })
         .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Footer"] button' }))
         .perform();
       await delay(100);
@@ -340,7 +340,7 @@ kind('SidePage', () => {
       const againViewModeSidePage = await this.takeScreenshot();
 
       await delay(100);
-      await this.expect({viewModeSidePage, editModeSidePage, againViewModeSidePage}).to.matchImages();
+      await this.expect({ viewModeSidePage, editModeSidePage, againViewModeSidePage }).to.matchImages();
     });
   });
 });

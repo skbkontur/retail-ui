@@ -788,8 +788,11 @@ export const SidePageChangeBlockBgAndIgnoreBgClick: Story = () => {
   return (
     <div>
       {opened && renderSidePage()}
-      <Button onClick={open} data-tid="open-side-page">Open</Button>
+      <Button onClick={open} data-tid="open-side-page">
+        Open
+      </Button>
     </div>
   );
 };
-SidePageChangeBlockBgAndIgnoreBgClick.storyName = 'SidePage with dynamic change blockBackground and ignoreBackgroundClick';
+SidePageChangeBlockBgAndIgnoreBgClick.storyName =
+  'SidePage with dynamic change blockBackground and ignoreBackgroundClick';
