@@ -1,5 +1,4 @@
 import { ThemeFactory } from '../ThemeFactory';
+import { DarkTheme2022_0 } from '../../../internal/themes/DarkTheme2022_0';
 
-import { DARK_THEME } from './DarkTheme';
-
-export const DARK_THEME_2022_0 = ThemeFactory.create({}, DARK_THEME);
+export const DARK_THEME_2022_0 = ThemeFactory.create({}, DarkTheme2022_0);

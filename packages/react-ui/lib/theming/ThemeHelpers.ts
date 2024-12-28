@@ -26,6 +26,10 @@ export const REACT_UI_THEME_MARKERS = {
     key: '__IS_REACT_UI_THEME_2022__',
     value: true,
   },
+  themeVersion: {
+    key: '__REACT_UI_THEME_2022_VERSION__',
+    value: 0,
+  },
 };
 
 // backward compatible
@@ -58,9 +62,25 @@ export const markAsTheme2022: Marker = (theme) => {
   });
 };
 
+export const markThemeVersion: (version: number) => Marker = (version) => (theme) => {
+  return Object.create(theme, {
+    [REACT_UI_THEME_MARKERS.themeVersion.key]: {
+      value: version,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    },
+  });
+};
+
 export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
   // @ts-expect-error: internal value.
   return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
+};
+
+export const isThemeVersionGreaterOrEqual = (theme: Theme | ThemeIn, version: number): boolean => {
+  // @ts-expect-error: internal value.
+  return theme[REACT_UI_THEME_MARKERS.themeVersion.value] >= version;
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {
@@ -76,9 +96,7 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
 }
 
 export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
-  let markedTheme: Readonly<Theme> = theme;
-  markers.forEach((marker) => {
-    markedTheme = marker(theme);
-  });
-  return markedTheme;
+  return markers.reduce((markedTheme, marker) => {
+    return marker(markedTheme);
+  }, Object.create(theme)) as typeof theme;
 }

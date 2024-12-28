@@ -1,5 +1,5 @@
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { exposeGetters } from '../../lib/theming/ThemeHelpers';
+import { applyMarkers, exposeGetters, markAsTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 export class BasicLightThemeInternal {
   //#region Common variables
@@ -2484,4 +2484,6 @@ export class BasicLightThemeInternal {
   //#endregion
 }
 
-export const BasicLightTheme = exposeGetters(BasicLightThemeInternal);
+export const BasicLightTheme = applyMarkers(exposeGetters(BasicLightThemeInternal), [
+  markAsTheme2022,
+]) as typeof BasicLightThemeInternal;
