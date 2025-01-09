@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { DateInput, DateInputProps } from '../DateInput';
 import { isGreater } from '../../lib/date/comparison';
+import { useResponsiveLayout } from '../ResponsiveLayout';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
@@ -19,7 +20,6 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     maxDate,
     size,
     currentFocus,
-    isMobile,
     fromRef,
     toRef,
     calendarRef,
@@ -31,11 +31,12 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
 
   const isStart = props.type === 'start';
   const isEnd = props.type === 'end';
+  const { isMobile } = useResponsiveLayout();
 
   const swapStartAndEndIfNeeded = () => {
     if (periodStart && periodEnd && isGreater(periodStart, periodEnd)) {
-      setPeriodEnd?.(periodStart);
-      setPeriodStart?.(periodEnd);
+      setPeriodEnd(periodStart);
+      setPeriodStart(periodEnd);
     }
   };
 
@@ -52,8 +53,8 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   };
 
   const handleFocus = () => {
-    setCurrentFocus?.(props.type);
-    setShowCalendar?.(true);
+    setCurrentFocus(props.type);
+    setShowCalendar(true);
 
     const period = isStart ? periodStart : periodEnd;
 
@@ -61,18 +62,18 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       const [, month, year] = period.split('.').map(Number);
 
       if (month) {
-        calendarRef?.current?.scrollToMonth(month, year);
+        calendarRef.current?.scrollToMonth(month, year);
       }
     }
   };
 
   const handleValueChange = (value: string) => {
     if (isStart) {
-      setPeriodStart?.(value);
+      setPeriodStart(value);
     }
 
     if (isEnd) {
-      setPeriodEnd?.(value);
+      setPeriodEnd(value);
     }
   };
 
