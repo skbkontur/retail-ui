@@ -1,6 +1,7 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -10,14 +11,14 @@ import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardE
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { isIE11 } from '../../lib/client';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { styles } from './PasswordInput.styles';
+import { getStyles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
 import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
 
@@ -28,6 +29,7 @@ export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, 
 
 export interface PasswordInputState {
   visible: boolean;
+  focused: boolean;
   capsLockEnabled?: boolean | null;
 }
 
@@ -65,10 +67,13 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   public state: PasswordInputState = {
     visible: false,
+    focused: false,
     capsLockEnabled: false,
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
@@ -97,16 +102,24 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain(this.props)}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                    {this.renderMain(this.props)}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -162,12 +175,24 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleToggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocus);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocusOnInput);
   };
 
-  private handleFocus = () => {
+  private handleFocusOnInput = () => {
     if (this.input) {
       this.input.focus();
+    }
+  };
+
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.state.focused) {
+      return;
+    }
+
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
     }
   };
 
@@ -178,6 +203,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private getEyeWrapperClassname() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);
@@ -191,13 +217,13 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private renderEye = () => {
     const { capsLockEnabled } = this.state;
-
+    const styles = this.styles;
     return (
       <span className={styles.iconWrapper()}>
         {capsLockEnabled && (
           <span className={styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
         )}
-        <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
+        <span className={this.emotion.cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
             <button
               type="button"
@@ -220,6 +246,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private hideSymbols = () => {
     this.setState({ visible: false });
+
+    if (!this.state.focused) {
+      return;
+    }
+
+    this.setState({ focused: false });
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
@@ -229,11 +261,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
+      onFocus: this.handleFocus,
     };
 
     return (
-      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
-        <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
+      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols} active={this.state.focused}>
+        <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>
       </RenderLayer>
