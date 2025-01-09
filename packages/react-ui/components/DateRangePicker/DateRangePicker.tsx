@@ -61,7 +61,7 @@ export interface DateRangePickerProps
   > {
   from?: string;
   to?: string;
-  onValueChange?: (from: string | null, to: string | null) => void;
+  onValueChange: (from: string | null, to: string | null) => void;
   enableTodayLink?: boolean;
   children?: React.ReactNode;
 }
@@ -71,9 +71,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   To: React.FC<DateInputProps>;
   Separator: React.FC;
 } = (props) => {
+  const { minDate, maxDate, size } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
-  const { minDate, maxDate } = props;
   const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.to);
   const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.from);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
@@ -82,8 +82,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
   const fromRef = useRef<any>(null);
   const toRef = useRef<any>(null);
-  const calendarRef = useRef<any>(null);
-  const popupContainerRef = useRef(null);
+  const calendarRef = useRef<Calendar>(null);
+  const popupContainerRef = useRef<HTMLDivElement>(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -326,9 +326,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const dateRangePickerContextProps: DateRangePickerContextProps = {
     from: props.from,
     to: props.to,
-    minDate: props.minDate,
-    maxDate: props.maxDate,
-    size: props.size,
+    minDate,
+    maxDate,
+    size,
     onValueChange: props.onValueChange,
 
     periodStart: periodStart || '',
@@ -339,11 +339,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
     setPeriodStart,
     setPeriodEnd,
-    setHoveredDay,
     setShowCalendar,
     setCurrentFocus,
-
-    isMobile,
 
     fromRef,
     toRef,
