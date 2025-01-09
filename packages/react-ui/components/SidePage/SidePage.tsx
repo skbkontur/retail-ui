@@ -118,9 +118,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   public componentDidUpdate(prevProps: SidePageProps) {
-    console.log('componentDidUpdate');
     if (prevProps.blockBackground !== this.props.blockBackground) {
-      // по пропсам обновляем состояние
       this.setState({
         hasBackground: !!this.props.blockBackground,
       });
@@ -164,9 +162,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { blockBackground, onOpened } = this.props;
+    const { blockBackground, onOpened, width, fromLeft, 'aria-label': ariaLabel } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
-    const { width, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { offset } = this.getProps();
     return (
       <RenderContainer>

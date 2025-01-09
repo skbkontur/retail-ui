@@ -1,6 +1,7 @@
 import { story, kind, test } from 'creevey';
 
 import { delay } from '../../../lib/utils';
+import { SidePageFooterDataTids } from '../SidePageFooter';
 
 const simpleTests = () => {
   test('open side-page', async function () {
@@ -327,14 +328,14 @@ kind('SidePage', () => {
 
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Footer"] button' }))
+        .click(this.browser.findElement({ css: `[data-tid~="${SidePageFooterDataTids.root}"] button` }))
         .perform();
       await delay(100);
       const editModeSidePage = await this.browser.takeScreenshot();
 
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement({ css: '[data-comp-name~="SidePage.Footer"] button' }))
+        .click(this.browser.findElement({ css: `[data-tid~="${SidePageFooterDataTids.root}"] button` }))
         .perform();
       await delay(100);
       const againViewModeSidePage = await this.takeScreenshot();
