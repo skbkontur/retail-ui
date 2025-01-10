@@ -20,8 +20,6 @@ export const componentPriorities = {
   Toast: 10000,
   GlobalLoader: 10,
   Sidepage: 9,
-  SidepageBody: 2,
-  SidepageVeil: 1,
   Modal: 9,
   Sticky: 7,
   PopupMenu: 5,
