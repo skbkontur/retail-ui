@@ -83,7 +83,7 @@ export class BasicLightThemeInternal {
   public static controlHeightSmall = '32px';
   public static controlHeightMedium = '40px';
   public static controlHeightLarge = '48px';
-  public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
+  public static mobileMediaQuery = '(max-width: 576px) and (pointer: coarse)';
 
   public static transitionDuration = '100ms';
   public static transitionTimingFunction = 'cubic-bezier(0.5, 1, 0.89, 1)';
