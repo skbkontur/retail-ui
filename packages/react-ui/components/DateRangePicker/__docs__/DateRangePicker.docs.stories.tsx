@@ -24,8 +24,12 @@ export default {
 export const Example1: Story = () => {
   const [fromValue, setFromValue] = React.useState('');
   const [toValue, setToValue] = React.useState('');
-  const minDate = '08.07.2023';
-  const maxDate = '12.08.2025';
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
+  const handleValueChange = (from: string, to: string) => {
+    setFromValue(from);
+    setToValue(to)
+  };
 
   return (
     <DateRangePicker
@@ -33,9 +37,7 @@ export const Example1: Story = () => {
       to={toValue}
       minDate={minDate}
       maxDate={maxDate}
-      onValueChange={console.log}
-      onFromValueChange={setFromValue}
-      onToValueChange={setToValue}
+      onValueChange={handleValueChange}
     />
   );
 };
@@ -65,6 +67,10 @@ export const ExamplePrices: Story = () => {
 
   const [fromValue, setFromValue] = React.useState('');
   const [toValue, setToValue] = React.useState('');
+  const handleValueChange = (from: string, to: string) => {
+    setFromValue(from);
+    setToValue(to)
+  };
   const minDate = '08.07.2024';
   const maxDate = '18.08.2024';
 
@@ -87,10 +93,8 @@ export const ExamplePrices: Story = () => {
         minDate={minDate}
         maxDate={maxDate}
         size="medium"
-        onValueChange={console.log}
-        onFromValueChange={setFromValue}
-        onToValueChange={setToValue}
         renderDay={renderDay}
+        onValueChange={handleValueChange}
       />
     </ThemeContext.Provider>
   );
@@ -131,9 +135,13 @@ ExampleSizes.storyName = 'Размеры';
 export const ExampleCustomWithoutDash: Story = () => {
   const [fromValue, setFromValue] = React.useState('');
   const [toValue, setToValue] = React.useState('');
+  const handleValueChange = (from: string, to: string) => {
+    setFromValue(from);
+    setToValue(to)
+  };
 
   return (
-    <DateRangePicker from={fromValue} to={toValue} onFromValueChange={setFromValue} onToValueChange={setToValue}>
+    <DateRangePicker from={fromValue} to={toValue} onValueChange={handleValueChange}>
       <DateRangePicker.From style={{ borderRadius: 0 }} />
       <DateRangePicker.To style={{ marginLeft: -1, borderRadius: 0 }} />
     </DateRangePicker>
@@ -142,16 +150,14 @@ export const ExampleCustomWithoutDash: Story = () => {
 
 ExampleCustomWithoutDash.storyName = 'Поля без тире';
 
-export const ExampleCustomVertical: Story = () => {
-  return (
-    <DateRangePicker>
-      <Gapped gap={4} vertical>
-        <DateRangePicker.From />
-        <DateRangePicker.To />
-      </Gapped>
-    </DateRangePicker>
-  );
-};
+export const ExampleCustomVertical: Story = () => (
+  <DateRangePicker>
+    <Gapped gap={4} vertical>
+      <DateRangePicker.From />
+      <DateRangePicker.To />
+    </Gapped>
+  </DateRangePicker>
+);
 
 ExampleCustomVertical.storyName = 'Вертикальное расположение';
 
@@ -160,8 +166,12 @@ ExampleCustomVertical.storyName = 'Вертикальное расположен
  */
 
 export const ExampleDateFormat: Story = () => {
-  const [from, setFromValue] = React.useState('21.12.2012');
-  const [to, setToValue] = React.useState('20.12.2025');
+  const [fromValue, setFromValue] = React.useState('');
+  const [toValue, setToValue] = React.useState('');
+  const handleValueChange = (from: string, to: string) => {
+    setFromValue(from);
+    setToValue(to)
+  };
   const [order, setOrder] = React.useState(DateOrder.YMD);
   const [separator, setSeparator] = React.useState(Object.keys(DateSeparator)[0]);
 
@@ -193,13 +203,7 @@ export const ExampleDateFormat: Story = () => {
           },
         }}
       >
-        <DateRangePicker
-          from={from}
-          to={to}
-          onValueChange={console.log}
-          onFromValueChange={setFromValue}
-          onToValueChange={setToValue}
-        />
+        <DateRangePicker from={fromValue} to={toValue} onValueChange={handleValueChange} />
       </LocaleContext.Provider>
     </Gapped>
   );

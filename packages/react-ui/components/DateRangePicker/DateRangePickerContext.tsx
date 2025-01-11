@@ -9,7 +9,7 @@ export interface DateRangePickerContextProps {
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
-  onValueChange: (from: string, to: string) => void;
+  onValueChange?: (from: string, to: string) => void;
   periodStart: string;
   periodEnd: string;
   hoveredDay: string | null;
