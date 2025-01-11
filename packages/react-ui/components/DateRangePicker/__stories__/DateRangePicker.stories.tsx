@@ -63,7 +63,7 @@ export const DateRangePickerLocaleProvider = () => {
   return (
     <div style={{ paddingTop: 200 }}>
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-        <DateRangePicker value="10.07.2024" minDate="05.07.2024" maxDate="30.08.2024" onValueChange={console.log} />
+        <DateRangePicker minDate="05.07.2024" maxDate="30.08.2024" onValueChange={console.log} />
       </LocaleContext.Provider>
     </div>
   );
