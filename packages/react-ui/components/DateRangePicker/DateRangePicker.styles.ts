@@ -5,9 +5,6 @@ export const styles = memoizeStyle({
   root() {
     return css``;
   },
-  rootMobile() {
-    return css``;
-  },
   inputWrapper() {
     return css`
       display: inline-flex;
@@ -30,6 +27,11 @@ export const styles = memoizeStyle({
     `;
   },
 
+  calendarMobile() {
+    return css`
+      width: auto;
+    `;
+  },
   calendarWrapper(t: Theme) {
     return css`
       box-shadow: ${t.pickerShadow};
