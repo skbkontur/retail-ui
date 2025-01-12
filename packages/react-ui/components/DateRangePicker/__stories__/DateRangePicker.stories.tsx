@@ -11,23 +11,56 @@ export default {
 } as Meta;
 
 export const Component = () => {
-  return <DateRangePicker onValueChange={console.log} />;
+  const [value, setValue] = React.useState(['', '']);
+
+  return (
+    <DateRangePicker value={value} onValueChange={setValue}>
+      <DateRangePicker.Start />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End />
+    </DateRangePicker>
+  );
 };
 Component.storyName = 'DateRangePicker';
 Component.parameters = {};
 
 export const Mobile: Story = () => {
-  return <DateRangePicker onValueChange={console.log} />;
+  const [value, setValue] = React.useState(['', '']);
+
+  return (
+    <DateRangePicker value={value} onValueChange={setValue}>
+      <DateRangePicker.Start />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End />
+    </DateRangePicker>
+  );
 };
 Mobile.parameters = { viewport: { defaultViewport: 'iphone' } };
 
 export const Sizes: Story = () => {
+  const [valueS, setValueS] = React.useState(['', '']);
+  const [valueM, setValueM] = React.useState(['', '']);
+  const [valueL, setValueL] = React.useState(['', '']);
   return (
     <>
       <Gapped vertical>
-        <DateRangePicker onValueChange={console.log} size="large" />
-        <DateRangePicker onValueChange={console.log} size="medium" />
-        <DateRangePicker onValueChange={console.log} size="small" />
+        <DateRangePicker size="large" value={valueL} onValueChange={setValueL}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
+
+        <DateRangePicker size="medium" value={valueM} onValueChange={setValueM}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
+
+        <DateRangePicker size="small" value={valueS} onValueChange={setValueS}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
       </Gapped>
     </>
   );
@@ -35,12 +68,26 @@ export const Sizes: Story = () => {
 Sizes.parameters = {};
 
 export const MinMax: Story = () => {
-  return <DateRangePicker minDate="05.07.2024" maxDate="15.08.2024" onValueChange={console.log} />;
+  const [value, setValue] = React.useState(['', '']);
+
+  return (
+    <DateRangePicker value={value} minDate="05.07.2024" maxDate="15.08.2024" onValueChange={setValue}>
+      <DateRangePicker.Start />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End />
+    </DateRangePicker>
+  );
 };
 MinMax.parameters = {};
 
 export const Autofocus: Story = () => {
-  return <DateRangePicker autoFocus onValueChange={console.log} />;
+  return (
+    <DateRangePicker value={['', '']} autoFocus>
+      <DateRangePicker.Start />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End />
+    </DateRangePicker>
+  );
 };
 Autofocus.parameters = {};
 
@@ -52,8 +99,17 @@ MenuAlign.parameters = {};
 export const MenuPos: Story = () => {
   return (
     <Gapped vertical gap={16} style={{ margin: 120 }}>
-      <DateRangePicker menuPos="top" onValueChange={console.log} />
-      <DateRangePicker menuPos="bottom" onValueChange={console.log} />
+      <DateRangePicker value={['', '']} menuPos="top">
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
+
+      <DateRangePicker value={['', '']} menuPos="bottom">
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
     </Gapped>
   );
 };
@@ -63,7 +119,11 @@ export const DateRangePickerLocaleProvider = () => {
   return (
     <div style={{ paddingTop: 200 }}>
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-        <DateRangePicker minDate="05.07.2024" maxDate="30.08.2024" onValueChange={console.log} />
+        <DateRangePicker value={['', '']} onValueChange={console.log}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
       </LocaleContext.Provider>
     </div>
   );
@@ -72,13 +132,19 @@ DateRangePickerLocaleProvider.storyName = 'LocaleProvider';
 DateRangePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
 export const Disabled: Story = () => {
-  return <DateRangePicker onValueChange={() => void 0} disabled />;
+  return (
+    <DateRangePicker value={['', '']}>
+      <DateRangePicker.Start disabled />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End disabled />
+    </DateRangePicker>
+  );
 };
 Disabled.parameters = {};
 
 export const CustomChildren: Story = () => {
   return (
-    <DateRangePicker onValueChange={console.log}>
+    <DateRangePicker value={['', '']}>
       <Gapped vertical gap={4}>
         <DateRangePicker.Start />
         <DateRangePicker.End />

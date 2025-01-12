@@ -19,11 +19,14 @@ import { Meta } from '../../../.storybook/Meta';
 
 Компонент `DateRangePicker` состоит из двух `<DateInput>` и одного общего `<Calendar>`.
 
-- Период задается в формате `value={['dd.mm.yyyy', 'dd.mm.yyyy']}` (формат настраивается  )
+- Период задается в формате `value={['dd.mm.yyyy', 'dd.mm.yyyy']}` (формат настраивается)
 - Минимальная и максимальная даты указываются через `minDate` и `maxDate`
 - Пустыми значениями считаются `""`, `null` и `undefined`
-
-<Primary />
+- Компонент состоих из 3-х дочерних элементов для настройки внешнего вида и валидаций:
+  - `<DateRangePicker.Start />` — поле «от», настройки как у `<DateInput>`
+  - `<DateRangePicker.End />` — поле «до», настройки как у `<DateInput>`
+  - `<DateRangePicker.Separator />` — разделитель
+    <Primary />
 
 ## Пропы
 

@@ -32,7 +32,11 @@ export const Example1: Story = () => {
       minDate={minDate}
       maxDate={maxDate}
       onValueChange={([start, end]) => setValue([start, end])}
-    />
+    >
+      <DateRangePicker.Start />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End />
+    </DateRangePicker>
   );
 };
 
@@ -83,7 +87,11 @@ export const ExamplePrices: Story = () => {
         size="medium"
         renderDay={renderDay}
         onValueChange={([start, end]) => setValue([start, end])}
-      />
+      >
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
     </ThemeContext.Provider>
   );
 };
@@ -94,20 +102,35 @@ ExamplePrices.storyName = 'Выбор дат с ценами';
  * Через параметр `size` доступны размеры `large`, `medium` и `small`. С помощью токенов `calendar*` можно управлять размерами календаря
  */
 export const ExampleSizes: Story = () => {
+  const [valueS, setValueS] = React.useState(['', '']);
+  const [valueM, setValueM] = React.useState(['', '']);
+  const [valueL, setValueL] = React.useState(['', '']);
+
   const theme = React.useContext(ThemeContext);
   const createTheme = (tokens: ThemeIn) => ThemeFactory.create(tokens, theme);
 
   return (
     <Gapped vertical gap={16}>
       <ThemeContext.Provider value={createTheme({ calendarCellWidth: '44px', calendarCellHeight: '44px' })}>
-        <DateRangePicker size="large" />
+        <DateRangePicker size="large" value={valueL} onValueChange={setValueL}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>{' '}
       </ThemeContext.Provider>
 
       <ThemeContext.Provider value={createTheme({ calendarCellWidth: '36px', calendarCellHeight: '36px' })}>
-        <DateRangePicker size="medium" />
+        <DateRangePicker size="medium" value={valueM} onValueChange={setValueM}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
       </ThemeContext.Provider>
-
-      <DateRangePicker size="small" />
+      <DateRangePicker size="small" value={valueS} onValueChange={setValueS}>
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
     </Gapped>
   );
 };
@@ -115,10 +138,10 @@ export const ExampleSizes: Story = () => {
 ExampleSizes.storyName = 'Размеры';
 
 /**
- * Для более гибкой кастомизации каждого из полей доступны дочерние элементы:
- * - `<DateRangePicker.Start />` — поле «от», настройки как у `<DateInput>`
- * - `<DateRangePicker.End />` — поле «до», настройки как у `<DateInput>`
- * - `<DateRangePicker.Separator />` — разделитель
+ * У дочерних элементов могут быть настроены `width`, `style`, `withIcon` и другие настройки `<DateInput>`
+ * - `<DateRangePicker.Start />`
+ * - `<DateRangePicker.End />`
+ * - `<DateRangePicker.Separator />`
  */
 export const ExampleCustomWithoutDash: Story = () => {
   const [value, setValue] = React.useState(['', '']);
@@ -132,14 +155,18 @@ export const ExampleCustomWithoutDash: Story = () => {
 
 ExampleCustomWithoutDash.storyName = 'Поля без тире';
 
-export const ExampleCustomVertical: Story = () => (
-  <DateRangePicker>
-    <Gapped gap={4} vertical>
-      <DateRangePicker.Start />
-      <DateRangePicker.End />
-    </Gapped>
-  </DateRangePicker>
-);
+export const ExampleCustomVertical: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+
+  return (
+    <DateRangePicker value={value} onValueChange={([start, end]) => setValue([start, end])}>
+      <Gapped gap={4} vertical>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </Gapped>
+    </DateRangePicker>
+  );
+};
 
 ExampleCustomVertical.storyName = 'Вертикальное расположение';
 
@@ -181,7 +208,11 @@ export const ExampleDateFormat: Story = () => {
           },
         }}
       >
-        <DateRangePicker value={value} onValueChange={setValue} />
+        <DateRangePicker value={value} onValueChange={([start, end]) => setValue([start, end])}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
       </LocaleContext.Provider>
     </Gapped>
   );
@@ -193,8 +224,10 @@ ExampleDateFormat.storyName = 'Ручное форматирование дат�
  * Для полей достпен параметр `optional`, чтобы указывать поля открытыми.
  */
 export const ExampleCustomOptional: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+
   return (
-    <DateRangePicker>
+    <DateRangePicker value={value} onValueChange={([start, end]) => setValue([start, end])}>
       <DateRangePicker.Start />
       <DateRangePicker.Separator />
       <DateRangePicker.End />
