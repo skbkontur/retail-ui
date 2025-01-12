@@ -70,7 +70,7 @@ export interface DateRangePickerProps
    * `<DateRangePicker.End />`
    */
   children: React.ReactNode;
-  onValueChange?: (value: string[]) => void;
+  onValueChange: (value: string[]) => void;
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> & {
@@ -94,7 +94,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    props.onValueChange?.([periodStart || '', periodEnd || '']);
+    props.onValueChange([periodStart || '', periodEnd || '']);
   }, [periodStart, periodEnd]);
 
   useEffect(() => {
