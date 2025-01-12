@@ -47,9 +47,10 @@ export interface DateRangePickerProps
     | 'menuAlign'
     | 'useMobileNativeDatePicker'
     | 'autoFocus'
-    | 'disabled'
-    | 'error'
     | 'warning'
+    | 'error'
+    | 'disabled'
+    | 'enableTodayLink'
     | 'onBlur'
     | 'onFocus'
     | 'onKeyDown'
@@ -59,10 +60,17 @@ export interface DateRangePickerProps
     | 'onMonthChange'
   > {
   /** Даты начала и окончания `[ dd.mm.yyyy, dd.mm.yyyy ]` */
-  value?: string[];
+  value: string[];
+  /** Открытые периоды начала и окончания */
+  valueOptional?: [boolean, boolean];
+  /**
+   * Элементы DateRangePicker:
+   * `<DateRangePicker.Start />`
+   * `<DateRangePicker.Separator />`
+   * `<DateRangePicker.End />`
+   */
+  children: React.ReactNode;
   onValueChange?: (value: string[]) => void;
-  enableTodayLink?: boolean;
-  children?: React.ReactNode;
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> & {
@@ -86,7 +94,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    props.onValueChange?.([ periodStart || '', periodEnd || '' ]);
+    props.onValueChange?.([periodStart || '', periodEnd || '']);
   }, [periodStart, periodEnd]);
 
   useEffect(() => {
@@ -225,7 +233,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       hasHoveredDay &&
       Boolean(
         (currentFocus === 'start' && periodEnd && isBetween(day, hoveredDay, periodEnd)) ||
-        (currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)),
+          (currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)),
       );
 
     let hasLeftRoundings;
@@ -279,7 +287,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
             border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
           `,
           (isDayFirst || isDayLast) &&
-          css`
+            css`
               position: relative;
 
               [data-tid=${CalendarDataTids.dayCell}] {
@@ -304,11 +312,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
               }
             `,
           isDayInHoveredPeriod &&
-          css`
+            css`
               background: ${t.calendarRangeCellBg};
             `,
           isDayInPeriod &&
-          css`
+            css`
               @media (hover: hover) {
                 &:hover [data-tid=${CalendarDataTids.dayCell}] {
                   background: ${t.calendarRangeCellHoverBg};
@@ -323,7 +331,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   };
 
   const dateRangePickerContextProps: DateRangePickerContextProps = {
-    value: props.value || ['',''],
+    value: props.value || ['', ''],
     minDate,
     maxDate,
     size,
@@ -339,7 +347,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     setCurrentFocus,
     fromRef,
     toRef,
-    calendarRef
+    calendarRef,
   };
 
   const getSize = (t: Theme) => {
@@ -347,7 +355,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       case 'large':
         return t.fontSizeLarge;
       case 'medium':
-      return t.fontSizeMedium;
+        return t.fontSizeMedium;
       case 'small':
       default:
         return t.fontSizeSmall;
@@ -363,7 +371,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       onValueChange={updatePeriod}
       ref={calendarRef}
       data-tid={DateRangePickerDataTids.calendar}
-      className={cx({[css`width: auto;`]: widthAuto})}
+      className={cx({
+        [css`
+          width: auto;
+        `]: widthAuto,
+      })}
     />
   );
 
@@ -402,20 +414,20 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                     styles.inputWrapper(),
                     styles.inputWrapperWidth(theme),
                     css`
-                          font-size: ${getSize(theme)};
-                        `,
-                    )}
-                  >
-                    {props.children ? (
-                      props.children
-                    ) : (
-                      <>
-                        <DateRangePickerStart width="auto" />
-                        <DateRangePickerSeparator />
-                        <DateRangePickerEnd width="auto" />
-                      </>
-                    )}
-                  </div>
+                      font-size: ${getSize(theme)};
+                    `,
+                  )}
+                >
+                  {props.children ? (
+                    props.children
+                  ) : (
+                    <>
+                      <DateRangePickerStart width="auto" />
+                      <DateRangePickerSeparator />
+                      <DateRangePickerEnd width="auto" />
+                    </>
+                  )}
+                </div>
 
                 {showCalendar && (
                   <>
