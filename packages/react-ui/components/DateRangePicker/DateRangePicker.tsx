@@ -58,10 +58,10 @@ export interface DateRangePickerProps
     | 'onMouseOver'
     | 'onMonthChange'
   > {
-  start?: string;
-  end?: string;
-  onValueChange?: (start: string, end: string) => void;
-  enableEnddayLink?: boolean;
+  /** Даты начала и окончания `[ dd.mm.yyyy, dd.mm.yyyy ]` */
+  value?: string[];
+  onValueChange?: (value: string[]) => void;
+  enableTodayLink?: boolean;
   children?: React.ReactNode;
 }
 
@@ -73,8 +73,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const { minDate, maxDate, size } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
-  const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.end);
-  const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.start);
+  const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.value?.[0]);
+  const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.value?.[1]);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
@@ -86,7 +86,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    props.onValueChange?.(periodStart || '', periodEnd || '');
+    props.onValueChange?.([ periodStart || '', periodEnd || '' ]);
   }, [periodStart, periodEnd]);
 
   useEffect(() => {
@@ -323,8 +323,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   };
 
   const dateRangePickerContextProps: DateRangePickerContextProps = {
-    start: props.start,
-    end: props.end,
+    value: props.value || ['',''],
     minDate,
     maxDate,
     size,

@@ -22,22 +22,16 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-  const [startValue, setStartValue] = React.useState('');
-  const [toValue, setEndValue] = React.useState('');
+  const [value, setValue] = React.useState(['', '']);
   const minDate = '08.07.2024';
   const maxDate = '18.08.2024';
-  const handleValueChange = (start: string, end: string) => {
-    setStartValue(start);
-    setEndValue(end)
-  };
 
   return (
     <DateRangePicker
-      start={startValue}
-      end={toValue}
+      value={value}
       minDate={minDate}
       maxDate={maxDate}
-      onValueChange={handleValueChange}
+      onValueChange={([start, end]) => setValue([start, end])}
     />
   );
 };
@@ -59,18 +53,13 @@ export const ExamplePrices: Story = () => {
       <CalendarDay {...props}>
         <div style={{ fontSize: theme.calendarCellFontSize }}>{date}</div>
         <div style={{ fontSize: '11px', fontFeatureSettings: 'tnum', fontVariantNumeric: 'tabular-nums' }}>
-          {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.endkenTextColorDisabled }}>—</span>}
+          {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.tokenTextColorDisabled }}>—</span>}
         </div>
       </CalendarDay>
     );
   }
 
-  const [startValue, setStartValue] = React.useState('');
-  const [toValue, setEndValue] = React.useState('');
-  const handleValueChange = (start: string, end: string) => {
-    setStartValue(start);
-    setEndValue(end)
-  };
+  const [value, setValue] = React.useState(['', '']);
   const minDate = '08.07.2024';
   const maxDate = '18.08.2024';
 
@@ -88,13 +77,12 @@ export const ExamplePrices: Story = () => {
       )}
     >
       <DateRangePicker
-        start={startValue}
-        end={toValue}
+        value={value}
         minDate={minDate}
         maxDate={maxDate}
         size="medium"
         renderDay={renderDay}
-        onValueChange={handleValueChange}
+        onValueChange={([start, end]) => setValue([start, end])}
       />
     </ThemeContext.Provider>
   );
@@ -133,15 +121,9 @@ ExampleSizes.storyName = 'Размеры';
  * - `<DateRangePicker.Separator />` — разделитель
  */
 export const ExampleCustomWithoutDash: Story = () => {
-  const [startValue, setStartValue] = React.useState('');
-  const [toValue, setEndValue] = React.useState('');
-  const handleValueChange = (start: string, end: string) => {
-    setStartValue(start);
-    setEndValue(end)
-  };
-
+  const [value, setValue] = React.useState(['', '']);
   return (
-    <DateRangePicker start={startValue} end={toValue} onValueChange={handleValueChange}>
+    <DateRangePicker value={value} onValueChange={setValue}>
       <DateRangePicker.Start style={{ borderRadius: 0 }} />
       <DateRangePicker.End style={{ marginLeft: -1, borderRadius: 0 }} />
     </DateRangePicker>
@@ -166,12 +148,7 @@ ExampleCustomVertical.storyName = 'Вертикальное расположен
  */
 
 export const ExampleDateFormat: Story = () => {
-  const [startValue, setStartValue] = React.useState('');
-  const [toValue, setEndValue] = React.useState('');
-  const handleValueChange = (start: string, end: string) => {
-    setStartValue(start);
-    setEndValue(end)
-  };
+  const [value, setValue] = React.useState(['', '']);
   const [order, setOrder] = React.useState(DateOrder.YMD);
   const [separator, setSeparator] = React.useState(Object.keys(DateSeparator)[0]);
 
@@ -197,13 +174,14 @@ export const ExampleDateFormat: Story = () => {
         value={{
           locale: {
             DatePicker: {
+              // @ts-ignore
               separator: DateSeparator[separator],
               order,
             },
           },
         }}
       >
-        <DateRangePicker start={startValue} end={toValue} onValueChange={handleValueChange} />
+        <DateRangePicker value={value} onValueChange={setValue} />
       </LocaleContext.Provider>
     </Gapped>
   );
@@ -217,9 +195,9 @@ ExampleDateFormat.storyName = 'Ручное форматирование дат�
 export const ExampleCustomOptional: Story = () => {
   return (
     <DateRangePicker>
-      <DateRangePicker.Start optional />
+      <DateRangePicker.Start />
       <DateRangePicker.Separator />
-      <DateRangePicker.End optional />
+      <DateRangePicker.End />
     </DateRangePicker>
   );
 };
