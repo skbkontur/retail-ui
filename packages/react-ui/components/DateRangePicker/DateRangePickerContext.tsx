@@ -8,6 +8,7 @@ export interface DateRangePickerContextProps {
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
+  autoFocus?: boolean;
   onValueChange?: (value: string[]) => void;
   periodStart: string;
   periodEnd: string;
