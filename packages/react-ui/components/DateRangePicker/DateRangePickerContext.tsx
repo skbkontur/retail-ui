@@ -4,12 +4,11 @@ import { SizeProp } from '../../lib/types/props';
 import { Calendar } from '../Calendar';
 
 export interface DateRangePickerContextProps {
-  start?: string;
-  end?: string;
+  value: string[];
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
-  onValueChange?: (start: string, end: string) => void;
+  onValueChange?: (value: string[]) => void;
   periodStart: string;
   periodEnd: string;
   hoveredDay: string | null;
