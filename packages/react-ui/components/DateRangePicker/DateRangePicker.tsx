@@ -78,7 +78,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   End: React.FC<DateInputProps>;
   Separator: React.FC;
 } = (props) => {
-  const { minDate, maxDate, size } = props;
+  const { minDate, maxDate, size, autoFocus } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
   const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.value?.[0]);
@@ -335,6 +335,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     minDate,
     maxDate,
     size,
+    autoFocus,
     onValueChange: props.onValueChange,
     periodStart: periodStart || '',
     periodEnd: periodEnd || '',
