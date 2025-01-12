@@ -22,19 +22,19 @@ export default {
 } as Meta;
 
 export const Example1: Story = () => {
-  const [fromValue, setFromValue] = React.useState('');
-  const [toValue, setToValue] = React.useState('');
+  const [startValue, setStartValue] = React.useState('');
+  const [toValue, setEndValue] = React.useState('');
   const minDate = '08.07.2024';
   const maxDate = '18.08.2024';
-  const handleValueChange = (from: string, to: string) => {
-    setFromValue(from);
-    setToValue(to)
+  const handleValueChange = (start: string, end: string) => {
+    setStartValue(start);
+    setEndValue(end)
   };
 
   return (
     <DateRangePicker
-      from={fromValue}
-      to={toValue}
+      start={startValue}
+      end={toValue}
       minDate={minDate}
       maxDate={maxDate}
       onValueChange={handleValueChange}
@@ -59,17 +59,17 @@ export const ExamplePrices: Story = () => {
       <CalendarDay {...props}>
         <div style={{ fontSize: theme.calendarCellFontSize }}>{date}</div>
         <div style={{ fontSize: '11px', fontFeatureSettings: 'tnum', fontVariantNumeric: 'tabular-nums' }}>
-          {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.tokenTextColorDisabled }}>—</span>}
+          {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.endkenTextColorDisabled }}>—</span>}
         </div>
       </CalendarDay>
     );
   }
 
-  const [fromValue, setFromValue] = React.useState('');
-  const [toValue, setToValue] = React.useState('');
-  const handleValueChange = (from: string, to: string) => {
-    setFromValue(from);
-    setToValue(to)
+  const [startValue, setStartValue] = React.useState('');
+  const [toValue, setEndValue] = React.useState('');
+  const handleValueChange = (start: string, end: string) => {
+    setStartValue(start);
+    setEndValue(end)
   };
   const minDate = '08.07.2024';
   const maxDate = '18.08.2024';
@@ -88,8 +88,8 @@ export const ExamplePrices: Story = () => {
       )}
     >
       <DateRangePicker
-        from={fromValue}
-        to={toValue}
+        start={startValue}
+        end={toValue}
         minDate={minDate}
         maxDate={maxDate}
         size="medium"
@@ -128,22 +128,22 @@ ExampleSizes.storyName = 'Размеры';
 
 /**
  * Для более гибкой кастомизации каждого из полей доступны дочерние элементы:
- * - `<DateRangePicker.From />` — поле «от», настройки как у `<DateInput>`
- * - `<DateRangePicker.To />` — поле «до», настройки как у `<DateInput>`
+ * - `<DateRangePicker.Start />` — поле «от», настройки как у `<DateInput>`
+ * - `<DateRangePicker.End />` — поле «до», настройки как у `<DateInput>`
  * - `<DateRangePicker.Separator />` — разделитель
  */
 export const ExampleCustomWithoutDash: Story = () => {
-  const [fromValue, setFromValue] = React.useState('');
-  const [toValue, setToValue] = React.useState('');
-  const handleValueChange = (from: string, to: string) => {
-    setFromValue(from);
-    setToValue(to)
+  const [startValue, setStartValue] = React.useState('');
+  const [toValue, setEndValue] = React.useState('');
+  const handleValueChange = (start: string, end: string) => {
+    setStartValue(start);
+    setEndValue(end)
   };
 
   return (
-    <DateRangePicker from={fromValue} to={toValue} onValueChange={handleValueChange}>
-      <DateRangePicker.From style={{ borderRadius: 0 }} />
-      <DateRangePicker.To style={{ marginLeft: -1, borderRadius: 0 }} />
+    <DateRangePicker start={startValue} end={toValue} onValueChange={handleValueChange}>
+      <DateRangePicker.Start style={{ borderRadius: 0 }} />
+      <DateRangePicker.End style={{ marginLeft: -1, borderRadius: 0 }} />
     </DateRangePicker>
   );
 };
@@ -153,8 +153,8 @@ ExampleCustomWithoutDash.storyName = 'Поля без тире';
 export const ExampleCustomVertical: Story = () => (
   <DateRangePicker>
     <Gapped gap={4} vertical>
-      <DateRangePicker.From />
-      <DateRangePicker.To />
+      <DateRangePicker.Start />
+      <DateRangePicker.End />
     </Gapped>
   </DateRangePicker>
 );
@@ -166,11 +166,11 @@ ExampleCustomVertical.storyName = 'Вертикальное расположен
  */
 
 export const ExampleDateFormat: Story = () => {
-  const [fromValue, setFromValue] = React.useState('');
-  const [toValue, setToValue] = React.useState('');
-  const handleValueChange = (from: string, to: string) => {
-    setFromValue(from);
-    setToValue(to)
+  const [startValue, setStartValue] = React.useState('');
+  const [toValue, setEndValue] = React.useState('');
+  const handleValueChange = (start: string, end: string) => {
+    setStartValue(start);
+    setEndValue(end)
   };
   const [order, setOrder] = React.useState(DateOrder.YMD);
   const [separator, setSeparator] = React.useState(Object.keys(DateSeparator)[0]);
@@ -203,7 +203,7 @@ export const ExampleDateFormat: Story = () => {
           },
         }}
       >
-        <DateRangePicker from={fromValue} to={toValue} onValueChange={handleValueChange} />
+        <DateRangePicker start={startValue} end={toValue} onValueChange={handleValueChange} />
       </LocaleContext.Provider>
     </Gapped>
   );
@@ -217,9 +217,9 @@ ExampleDateFormat.storyName = 'Ручное форматирование дат�
 export const ExampleCustomOptional: Story = () => {
   return (
     <DateRangePicker>
-      <DateRangePicker.From optional />
+      <DateRangePicker.Start optional />
       <DateRangePicker.Separator />
-      <DateRangePicker.To optional />
+      <DateRangePicker.End optional />
     </DateRangePicker>
   );
 };

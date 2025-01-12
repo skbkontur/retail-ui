@@ -26,12 +26,12 @@ import { DatePickerLocaleHelper } from './locale';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
-  from: 'DateRangePicker__from',
-  to: 'DateRangePicker__to',
+  start: 'DateRangePicker__from',
+  end: 'DateRangePicker__to',
   popup: 'DateRangePicker__popup',
   calendar: 'DateRangePicker__calendar',
-  optionalFromFieldButton: 'DateRangePicker__optionalFromFieldButton',
-  optionalToFieldButton: 'DateRangePicker__optionalToFieldButton',
+  optionalStartFieldButton: 'DateRangePicker__optionalStartFieldButton',
+  optionalEndFieldButton: 'DateRangePicker__optionalEndFieldButton',
 } as const;
 
 export type CurrentFocusType = 'start' | 'end' | null;
@@ -58,23 +58,23 @@ export interface DateRangePickerProps
     | 'onMouseOver'
     | 'onMonthChange'
   > {
-  from?: string;
-  to?: string;
-  onValueChange?: (from: string, to: string) => void;
-  enableTodayLink?: boolean;
+  start?: string;
+  end?: string;
+  onValueChange?: (start: string, end: string) => void;
+  enableEnddayLink?: boolean;
   children?: React.ReactNode;
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> & {
-  From: React.FC<DateInputProps>;
-  To: React.FC<DateInputProps>;
+  Start: React.FC<DateInputProps>;
+  End: React.FC<DateInputProps>;
   Separator: React.FC;
 } = (props) => {
   const { minDate, maxDate, size } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
-  const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.to);
-  const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.from);
+  const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.end);
+  const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.start);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
@@ -323,8 +323,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   };
 
   const dateRangePickerContextProps: DateRangePickerContextProps = {
-    from: props.from,
-    to: props.to,
+    start: props.start,
+    end: props.end,
     minDate,
     maxDate,
     size,
@@ -373,7 +373,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       {currentFocus === 'start' && fromRef?.current?.props?.optional && (
         <Button
           width="100%"
-          data-tid={DateRangePickerDataTids.optionalFromFieldButton}
+          data-tid={DateRangePickerDataTids.optionalStartFieldButton}
           onClick={() => setOptionalValue('start')}
         >
           {locale.withoutFirstDate}
@@ -382,7 +382,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       {currentFocus === 'end' && toRef?.current?.props?.optional && (
         <Button
           width="100%"
-          data-tid={DateRangePickerDataTids.optionalToFieldButton}
+          data-tid={DateRangePickerDataTids.optionalEndFieldButton}
           onClick={() => setOptionalValue('end')}
         >
           {locale.withoutSecondDate}
@@ -411,9 +411,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                       props.children
                     ) : (
                       <>
-                        <DateRangePickerFrom width="auto" />
+                        <DateRangePickerStart width="auto" />
                         <DateRangePickerSeparator />
-                        <DateRangePickerTo width="auto" />
+                        <DateRangePickerEnd width="auto" />
                       </>
                     )}
                   </div>
@@ -425,9 +425,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                         opened
                         headerChildComponent={
                           <div className={styles.inputWrapper()} style={{ width: '100%' }}>
-                            <DateRangePickerFrom width="auto" size="medium" />
+                            <DateRangePickerStart width="auto" size="medium" />
                             <DateRangePickerSeparator />
-                            <DateRangePickerTo width="auto" size="medium" />
+                            <DateRangePickerEnd width="auto" size="medium" />
                           </div>
                         }
                         onCloseRequest={close}
@@ -471,13 +471,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   );
 };
 
-export const DateRangePickerFrom = (props: DateInputProps) => <DateRangePickerField {...props} type="start" />;
+export const DateRangePickerStart = (props: DateInputProps) => <DateRangePickerField {...props} type="start" />;
 
-export const DateRangePickerTo = (props: DateInputProps) => <DateRangePickerField {...props} type="end" />;
+export const DateRangePickerEnd = (props: DateInputProps) => <DateRangePickerField {...props} type="end" />;
 
 DateRangePicker.__KONTUR_REACT_UI__ = 'DateRangePicker';
 DateRangePicker.displayName = 'DateRangePicker';
 
-DateRangePicker.From = DateRangePickerFrom;
-DateRangePicker.To = DateRangePickerTo;
+DateRangePicker.Start = DateRangePickerStart;
+DateRangePicker.End = DateRangePickerEnd;
 DateRangePicker.Separator = DateRangePickerSeparator;

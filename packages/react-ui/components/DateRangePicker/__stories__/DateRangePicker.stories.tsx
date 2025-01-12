@@ -80,8 +80,8 @@ export const CustomChildren: Story = () => {
   return (
     <DateRangePicker onValueChange={console.log}>
       <Gapped vertical gap={4}>
-        <DateRangePicker.From />
-        <DateRangePicker.To />
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
       </Gapped>
     </DateRangePicker>
   );

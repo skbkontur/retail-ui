@@ -91,9 +91,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
 
   switch (props.type) {
     case 'start':
-      return <DateInput value={periodStart} ref={fromRef} data-tid={DateRangePickerDataTids.from} {...commonProps} />;
+      return <DateInput value={periodStart} ref={fromRef} data-tid={DateRangePickerDataTids.start} {...commonProps} />;
 
     case 'end':
-      return <DateInput value={periodEnd} ref={toRef} data-tid={DateRangePickerDataTids.to} {...commonProps} />;
+      return <DateInput value={periodEnd} ref={toRef} data-tid={DateRangePickerDataTids.end} {...commonProps} />;
   }
 };
