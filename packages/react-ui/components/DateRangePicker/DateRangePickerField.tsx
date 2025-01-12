@@ -9,7 +9,6 @@ import { DateRangePickerDataTids } from './DateRangePicker';
 
 export interface DateRangePickerFieldProps extends DateInputProps {
   type: 'start' | 'end';
-  optional?: boolean;
 }
 
 export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props) => {
