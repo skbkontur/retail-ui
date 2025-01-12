@@ -19,7 +19,7 @@ import { Meta } from '../../../.storybook/Meta';
 
 Компонент `DateRangePicker` состоит из двух `<DateInput>` и одного общего `<Calendar>`.
 
-- Период задается через `from` и `to`
+- Период задается через `start` и `end`
 - Минимальная и максимальная даты указываются через `minDate` и `maxDate`
 - По умолчанию значения задаются строкой в формате `dd.mm.yyyy`
 - Пустыми значениями считаются `""`, `null` и `undefined`
@@ -83,7 +83,7 @@ const ru_RU = {
 };
 
 const en_GB = {
-  today: 'Today',
+  today: 'Endday',
   months: [
     'January',
     'February',
@@ -100,7 +100,7 @@ const en_GB = {
   ],
   order: DateOrder.MDY,
   separator: DateSeparator.Slash,
-  todayAriaLabel: "Go to today's date",
+  todayAriaLabel: "Go end today's date",
   selectMonthAriaLabel: 'month',
   selectYearAriaLabel: 'year',
   selectChosenAriaLabel: 'Chosen',
