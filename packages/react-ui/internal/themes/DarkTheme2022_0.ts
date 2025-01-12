@@ -4,7 +4,7 @@ import { BasicDarkTheme } from './BasicDarkTheme';
 
 export class DarkThemeInternal2022_0 extends (class {} as typeof BasicDarkTheme) {}
 
-export const DarkTheme2022_0 = Object.setPrototypeOf(
-  applyMarkers(exposeGetters(DarkThemeInternal2022_0), [markThemeVersion(0)]),
-  BasicDarkTheme,
+export const DarkTheme2022_0 = applyMarkers(
+  Object.setPrototypeOf(exposeGetters(DarkThemeInternal2022_0), BasicDarkTheme),
+  [markThemeVersion(0)],
 ) as typeof BasicDarkTheme;

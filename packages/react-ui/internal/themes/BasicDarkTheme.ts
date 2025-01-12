@@ -551,7 +551,7 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   //#endregion
 }
 
-export const BasicDarkTheme = Object.setPrototypeOf(
-  applyMarkers(exposeGetters(BasicDarkThemeInternal), [markAsDarkTheme]),
-  BasicLightTheme,
+export const BasicDarkTheme = applyMarkers(
+  Object.setPrototypeOf(exposeGetters(BasicDarkThemeInternal), BasicLightTheme),
+  [markAsDarkTheme],
 ) as typeof BasicDarkThemeInternal;
