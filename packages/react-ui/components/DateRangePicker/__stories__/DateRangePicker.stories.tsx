@@ -81,8 +81,10 @@ export const MinMax: Story = () => {
 MinMax.parameters = {};
 
 export const Autofocus: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+
   return (
-    <DateRangePicker value={['', '']} autoFocus>
+    <DateRangePicker value={value} onValueChange={setValue} autoFocus>
       <DateRangePicker.Start />
       <DateRangePicker.Separator />
       <DateRangePicker.End />
@@ -97,15 +99,18 @@ export const MenuAlign: Story = () => {
 MenuAlign.parameters = {};
 
 export const MenuPos: Story = () => {
+  const [valueTop, setValueTop] = React.useState(['', '']);
+  const [valueBottom, setValueBottom] = React.useState(['', '']);
+
   return (
     <Gapped vertical gap={16} style={{ margin: 120 }}>
-      <DateRangePicker value={['', '']} menuPos="top">
+      <DateRangePicker menuPos="top" value={valueTop} onValueChange={setValueTop}>
         <DateRangePicker.Start />
         <DateRangePicker.Separator />
         <DateRangePicker.End />
       </DateRangePicker>
 
-      <DateRangePicker value={['', '']} menuPos="bottom">
+      <DateRangePicker menuPos="bottom" value={valueBottom} onValueChange={setValueBottom}>
         <DateRangePicker.Start />
         <DateRangePicker.Separator />
         <DateRangePicker.End />
@@ -132,8 +137,10 @@ DateRangePickerLocaleProvider.storyName = 'LocaleProvider';
 DateRangePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
 export const Disabled: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+
   return (
-    <DateRangePicker value={['', '']}>
+    <DateRangePicker value={value} onValueChange={setValue}>
       <DateRangePicker.Start disabled />
       <DateRangePicker.Separator />
       <DateRangePicker.End disabled />
@@ -143,8 +150,10 @@ export const Disabled: Story = () => {
 Disabled.parameters = {};
 
 export const CustomChildren: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+
   return (
-    <DateRangePicker value={['', '']}>
+    <DateRangePicker value={value} onValueChange={setValue}>
       <Gapped vertical gap={4}>
         <DateRangePicker.Start />
         <DateRangePicker.End />
