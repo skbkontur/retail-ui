@@ -1,24 +1,24 @@
 Компонент `DateRangePicker` состоит из двух [DateInput](#/Components/DateInput) и одного общего [Calendar](#/Components/Calendar).
 
-- Период задается через `from` и `to`
+- Период задается через `start` и `end`
 - Минимальное и максимальные даты указываются через `minDate` и `maxDate`
 - Значения задаются строкой в формате `dd.mm.yyyy`
 - Пустыми значениями считаются `""`, `null` и `undefined`
 
 ```jsx harmony
-const [fromValue, setFromValue] = React.useState();
-const [toValue, setToValue] = React.useState();
+const [startValue, setStartValue] = React.useState();
+const [toValue, setEndValue] = React.useState();
 const minDate = "08.07.2024";
 const maxDate = "18.08.2024";
 
 <DateRangePicker
-  from={fromValue}
-  to={toValue}
+  start={startValue}
+  end={toValue}
   minDate={minDate}
   maxDate={maxDate}
   onValueChange={console.log}
-  onFromValueChange={setFromValue}
-  onToValueChange={setToValue}
+  onStartValueChange={setStartValue}
+  onEndValueChange={setEndValue}
 />
 ```
 
@@ -66,8 +66,8 @@ const createTheme = (tokens) => ThemeFactory.create(tokens, theme);
 ## Произвольная настройка полей
 
 Для более гибкой кастомизации каждого из полей доступны дочерние элементы:
-- `<DateRangePicker.From />` — поле «от», настройки как у [DateInput](#/Components/DateInput)
-- `<DateRangePicker.To />` — поле «до», настройки как у [DateInput](#/Components/DateInput)
+- `<DateRangePicker.Start />` — поле «от», настройки как у [DateInput](#/Components/DateInput)
+- `<DateRangePicker.End />` — поле «до», настройки как у [DateInput](#/Components/DateInput)
 - `<DateRangePicker.Separator />` — разделитель
 
 <br />
@@ -76,8 +76,8 @@ const createTheme = (tokens) => ThemeFactory.create(tokens, theme);
 
 ```jsx harmony
 <DateRangePicker>
-  <DateRangePicker.From style={{ borderRadius: 0 }} />
-  <DateRangePicker.To style={{ marginLeft: -1, borderRadius: 0 }} />
+  <DateRangePicker.Start style={{ borderRadius: 0 }} />
+  <DateRangePicker.End style={{ marginLeft: -1, borderRadius: 0 }} />
 </DateRangePicker>
 ```
 
@@ -88,8 +88,8 @@ import { Gapped } from '@skbkontur/react-ui';
 
 <DateRangePicker>
     <Gapped gap={4} vertical>
-      <DateRangePicker.From />
-      <DateRangePicker.To />
+      <DateRangePicker.Start />
+      <DateRangePicker.End />
     </Gapped>
 </DateRangePicker>
 ```
@@ -103,9 +103,9 @@ import { Gapped } from '@skbkontur/react-ui';
 import { Checkbox } from '@skbkontur/react-ui';
 
 <DateRangePicker>
-  <DateRangePicker.From optional />
+  <DateRangePicker.Start optional />
   <DateRangePicker.Separator />
-  <DateRangePicker.To optional />
+  <DateRangePicker.End optional />
 </DateRangePicker>
 ```
 
@@ -162,7 +162,7 @@ class DateInputFormatting extends React.Component {
             },
           }}}
         >
-          <DateRangePicker onValueChange={value => this.setState({ value })} from={this.state.value} />
+          <DateRangePicker onValueChange={value => this.setState({ value })} start={this.state.value} />
         </LocaleContext.Provider>
       </Gapped>
     );
@@ -196,14 +196,14 @@ function renderDay(props) {
     <CalendarDay {...props}>
       <div style={{ fontSize: theme.calendarCellFontSize }}>{date}</div>
       <div style={{ fontSize: '11px', fontFeatureSettings: 'tnum', fontVariantNumeric: 'tabular-nums' }}>
-        {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.tokenTextColorDisabled }}>—</span>}
+        {randomDay ? <>{randomPrice}&thinsp;₽</> : <span style={{ color: theme.endkenTextColorDisabled }}>—</span>}
       </div>
     </CalendarDay>
   );
 }
 
- const [fromValue, setFromValue] = React.useState();
- const [toValue, setToValue] = React.useState();
+ const [startValue, setStartValue] = React.useState();
+ const [toValue, setEndValue] = React.useState();
  const minDate = "08.07.2024";
  const maxDate = "18.08.2024";
 
@@ -217,14 +217,14 @@ function renderDay(props) {
   }, theme)}
 >
   <DateRangePicker
-    from={fromValue}
-    to={toValue}
+    start={startValue}
+    end={toValue}
     minDate={minDate}
     maxDate={maxDate}
     size="medium"
     onValueChange={console.log}
-    onFromValueChange={setFromValue}
-    onToValueChange={setToValue}
+    onStartValueChange={setStartValue}
+    onEndValueChange={setEndValue}
     renderDay={renderDay}
   />
 </ThemeContext.Provider>
@@ -271,7 +271,7 @@ const ru_RU = {
 };
 
 const en_GB = {
-  today: 'Today',
+  today: 'Endday',
   months: [
   'January',
   'February',
@@ -288,7 +288,7 @@ const en_GB = {
   ],
   order: DateOrder.MDY,
   separator: DateSeparator.Slash,
-  todayAriaLabel: "Go to today's date",
+  todayAriaLabel: "Go end today's date",
   selectMonthAriaLabel: 'month',
   selectYearAriaLabel: 'year',
   selectChosenAriaLabel: 'Chosen',
