@@ -27,6 +27,8 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     setStart,
     setCurrentFocus,
     setShowCalendar,
+    onFocus,
+    onBlur
   } = useContext(DateRangePickerContext);
 
   const isStart = props.type === 'start';
@@ -41,6 +43,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   };
 
   const handleBlur = () => {
+    onBlur?.();
     swapStartAndEndIfNeeded();
 
     if (!currentFocus) {
@@ -53,6 +56,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   };
 
   const handleFocus = () => {
+    onFocus?.();
     setCurrentFocus(props.type);
     setShowCalendar(true);
 
