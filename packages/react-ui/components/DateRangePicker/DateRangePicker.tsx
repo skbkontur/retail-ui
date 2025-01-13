@@ -78,18 +78,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   End: React.FC<DateInputProps>;
   Separator: React.FC;
 } = (props) => {
-  const {
-    value = ['', ''],
-    minDate,
-    maxDate,
-    size,
-    autoFocus,
-    optional = [false, false]
-  } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
-  const [start, setStart] = useState<string | null>(value[0]);
-  const [end, setEnd] = useState<string | null>(value[1]);
+  
+  const [start, setStart] = useState<string | null>(props.value[0]);
+  const [end, setEnd] = useState<string | null>(props.value[1]);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
@@ -143,7 +136,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   };
 
   const updatePeriod = (value: string) => {
-    if ((minDate && isLess(value, minDate)) || (maxDate && isGreater(value, maxDate))) {
+    if (
+      (props.minDate && isLess(value, props.minDate)) ||
+      (props.maxDate && isGreater(value, props.maxDate))
+    ) {
       return;
     }
 
@@ -338,14 +334,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   };
 
   const dateRangePickerContextProps: DateRangePickerContextProps = {
-    value: props.value || ['', ''],
-    minDate,
-    maxDate,
-    size,
-    autoFocus,
+    start,
+    end,
+    minDate: props.minDate,
+    maxDate: props.maxDate,
+    size: props.size,
+    autoFocus: props.autoFocus,
     onValueChange: props.onValueChange,
-    start: start || '',
-    end: end || '',
     hoveredDay,
     showCalendar,
     currentFocus,
@@ -373,8 +368,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const renderCalendar = (theme: Theme, widthAuto = false) => (
     <Calendar
       value={null}
-      minDate={minDate}
-      maxDate={maxDate}
+      minDate={props.minDate}
+      maxDate={props.maxDate}
       renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
       onValueChange={updatePeriod}
       ref={calendarRef}
@@ -389,7 +384,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
   const renderButtons = () => (
     <>
-      {currentFocus === 'start' && optional?.[0] && (
+      {currentFocus === 'start' && props.optional?.[0] && (
         <div style={{ margin: 8 }}>
           <Button
             width="100%"
@@ -400,7 +395,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           </Button>
         </div>
       )}
-      {currentFocus === 'end' && optional?.[1] && (
+      {currentFocus === 'end' && props.optional?.[1] && (
         <div style={{ margin: 8 }}>
           <Button
             width="100%"
@@ -430,15 +425,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                     `,
                   )}
                 >
-                  {props.children ? (
-                    props.children
-                  ) : (
-                    <>
-                      <DateRangePickerStart width="auto" />
-                      <DateRangePickerSeparator />
-                      <DateRangePickerEnd width="auto" />
-                    </>
-                  )}
+                  {props.children}
                 </div>
 
                 {showCalendar && (
