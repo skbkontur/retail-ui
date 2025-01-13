@@ -125,7 +125,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentDidUpdate(prevProps: SidePageProps) {
     if (prevProps.blockBackground !== this.props.blockBackground) {
       this.setState({
-        hasBackground: !!this.props.blockBackground,
+        hasBackground: !!this.props.blockBackground || ModalStack.isBlocking(this),
       });
     }
   }
