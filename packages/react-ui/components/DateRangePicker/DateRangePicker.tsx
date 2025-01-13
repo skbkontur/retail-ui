@@ -378,6 +378,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       onValueChange={updatePeriod}
       ref={calendarRef}
       data-tid={DateRangePickerDataTids.calendar}
+      onMonthChange={props.onMonthChange}
       className={cx({
         [css`
           width: auto;
