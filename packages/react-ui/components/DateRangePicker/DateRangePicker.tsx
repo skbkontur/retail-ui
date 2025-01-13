@@ -27,6 +27,7 @@ import { DateRangePickerContext, DateRangePickerContextProps } from './DateRange
 import { DateRangePickerField } from './DateRangePickerField';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DatePickerLocaleHelper } from './locale';
+import { dateRangePickerValidate } from './dateRangePickerValidate';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -78,6 +79,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   Start: React.FC<DateInputProps>;
   End: React.FC<DateInputProps>;
   Separator: React.FC;
+  validate: typeof dateRangePickerValidate;
 } = (props) => {
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
@@ -550,3 +552,4 @@ DateRangePicker.displayName = 'DateRangePicker';
 DateRangePicker.Start = DateRangePickerStart;
 DateRangePicker.End = DateRangePickerEnd;
 DateRangePicker.Separator = DateRangePickerSeparator;
+DateRangePicker.validate = dateRangePickerValidate;
