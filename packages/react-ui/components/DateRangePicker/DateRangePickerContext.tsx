@@ -11,13 +11,13 @@ export interface DateRangePickerContextProps {
   size?: SizeProp;
   autoFocus?: boolean;
   onValueChange?: (value: string[]) => void;
-  periodStart: string;
-  periodEnd: string;
+  start: string;
+  end: string;
   hoveredDay: string | null;
   showCalendar: boolean;
   currentFocus: 'start' | 'end' | null;
-  setPeriodStart: (value: string | null) => void;
-  setPeriodEnd: (value: string | null) => void;
+  setStart: (value: string | null) => void;
+  setEnd: (value: string | null) => void;
   setShowCalendar: (value: boolean) => void;
   setCurrentFocus: (value: 'start' | 'end' | null) => void;
   startRef: React.RefObject<DateInput>;
