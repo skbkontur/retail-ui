@@ -478,7 +478,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                   {props.children}
                 </div>
 
-                {props.useMobileNativeDatePicker
+                {props.useMobileNativeDatePicker && isMobile
                   ? renderNativeDateInput()
                   : showCalendar && (
                       <>
