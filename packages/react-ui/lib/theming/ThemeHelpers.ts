@@ -101,19 +101,19 @@ export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
   }, Object.create(theme)) as typeof theme;
 }
 
-export function composeThemeObject({
-  variablesObj,
-  baseThemeObj,
-  themeMarkers = [],
-}: {
-  variablesObj: ThemeIn;
-  baseThemeObj?: Theme;
-  themeMarkers?: Markers;
-}): Theme {
-  const themeObj = exposeGetters(variablesObj);
-  if (baseThemeObj) {
-    Object.setPrototypeOf(themeObj, baseThemeObj);
+export function composeThemeObject(
+  themeObject: ThemeIn,
+  options?: {
+    prototypeTheme?: Theme;
+    themeMarkers?: Markers;
+  },
+): Theme {
+  const theme = exposeGetters(themeObject);
+  const { prototypeTheme, themeMarkers = [] } = options || {};
+
+  if (prototypeTheme) {
+    Object.setPrototypeOf(theme, prototypeTheme);
   }
-  //@ts-ignore
-  return applyMarkers(themeObj, themeMarkers);
+
+  return applyMarkers(theme as Theme, themeMarkers);
 }

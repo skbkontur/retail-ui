@@ -1,7 +1,8 @@
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { composeThemeObject, markAsTheme2022 } from '../../lib/theming/ThemeHelpers';
 
-export class BasicLightThemeInternal {
+export const BasicThemeClassToExtend = class {} as typeof BasicThemeClass;
+
+export class BasicThemeClass {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
   public static brand = '#2291ff';
@@ -2483,8 +2484,3 @@ export class BasicLightThemeInternal {
   public static validationsTextColorWarning = '#ef8b17';
   //#endregion
 }
-
-export const BasicLightTheme = composeThemeObject({
-  variablesObj: BasicLightThemeInternal,
-  themeMarkers: [markAsTheme2022],
-});
