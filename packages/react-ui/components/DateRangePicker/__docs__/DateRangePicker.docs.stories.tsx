@@ -227,11 +227,7 @@ export const ExampleCustomOptional: Story = () => {
   const [value, setValue] = React.useState(['', '']);
 
   return (
-    <DateRangePicker
-      value={value}
-      optional={[true, true]}
-      onValueChange={([start, end]) => setValue([start, end])}
-    >
+    <DateRangePicker value={value} optional={[true, true]} onValueChange={([start, end]) => setValue([start, end])}>
       <DateRangePicker.Start />
       <DateRangePicker.Separator />
       <DateRangePicker.End />
