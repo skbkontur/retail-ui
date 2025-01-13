@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SizeProp } from '../../lib/types/props';
 import { Calendar } from '../Calendar';
+import type { DateInput } from '../DateInput';
 
 export interface DateRangePickerContextProps {
   value: string[];
@@ -19,8 +20,8 @@ export interface DateRangePickerContextProps {
   setPeriodEnd: (value: string | null) => void;
   setShowCalendar: (value: boolean) => void;
   setCurrentFocus: (value: 'start' | 'end' | null) => void;
-  fromRef: React.RefObject<any>;
-  toRef: React.RefObject<any>;
+  startRef: React.RefObject<DateInput>;
+  endRef: React.RefObject<DateInput>;
   calendarRef: React.RefObject<Calendar>;
 }
 
