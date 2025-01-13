@@ -5,14 +5,13 @@ import { Calendar } from '../Calendar';
 import type { DateInput } from '../DateInput';
 
 export interface DateRangePickerContextProps {
-  value: string[];
+  start: string | null;
+  end: string | null;
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
   autoFocus?: boolean;
   onValueChange?: (value: string[]) => void;
-  start: string;
-  end: string;
   hoveredDay: string | null;
   showCalendar: boolean;
   currentFocus: 'start' | 'end' | null;
