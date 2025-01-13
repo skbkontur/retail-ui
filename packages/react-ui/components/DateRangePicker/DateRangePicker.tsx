@@ -16,6 +16,9 @@ import { getRootNode } from '../../lib/rootNode';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { Button } from '../Button';
 import { useResponsiveLayout } from '../ResponsiveLayout';
+import { InternalDate } from '../../lib/date/InternalDate';
+import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
+import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 
 import { styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
@@ -30,6 +33,7 @@ export const DateRangePickerDataTids = {
   end: 'DateRangePicker__to',
   popup: 'DateRangePicker__popup',
   calendar: 'DateRangePicker__calendar',
+  pickerTodayWrapper: 'DateRangePicker__todayWrapper',
   optionalStartFieldButton: 'DateRangePicker__optionalStartFieldButton',
   optionalEndFieldButton: 'DateRangePicker__optionalEndFieldButton',
 } as const;
@@ -80,7 +84,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 } = (props) => {
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
-  
+
   const [start, setStart] = useState<string | null>(props.value[0]);
   const [end, setEnd] = useState<string | null>(props.value[1]);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
@@ -382,7 +386,27 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     />
   );
 
-  const renderButtons = () => (
+  const renderTodayLink = () => {
+    const today = new InternalDate(locale)
+      .setComponents(InternalDateGetter.getTodayComponents())
+      .toString({ withPad: true, withSeparator: true });
+
+    return (
+      props.enableTodayLink && <div style={{ margin: 8 }}>
+        <Button
+          aria-label={locale.todayAriaLabel}
+          data-tid={DateRangePickerDataTids.pickerTodayWrapper}
+          width="100%"
+          onClick={() => updatePeriod(today)}
+          icon={<ArrowAUpIcon16Light />}
+        >
+          {locale.today}
+        </Button>
+      </div>
+    );
+  }
+
+  const renderOptionalButtons = () => (
     <>
       {currentFocus === 'start' && props.optional?.[0] && (
         <div style={{ margin: 8 }}>
@@ -408,6 +432,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       )}
     </>
   );
+
+  const renderButtons = () => {
+    const hasOptionalButtons = props.optional?.find(Boolean)
+    return hasOptionalButtons
+      ? renderOptionalButtons()
+      : renderTodayLink();
+  }
 
   return (
     <ThemeContext.Consumer>
