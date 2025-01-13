@@ -109,7 +109,7 @@ export function composeThemeObject({
   variablesObj: ThemeIn;
   baseThemeObj?: Theme;
   themeMarkers?: Markers;
-}) {
+}): Theme {
   const themeObj = exposeGetters(variablesObj);
   if (baseThemeObj) {
     Object.setPrototypeOf(themeObj, baseThemeObj);

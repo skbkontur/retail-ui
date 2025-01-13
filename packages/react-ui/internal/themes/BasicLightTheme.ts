@@ -2487,4 +2487,4 @@ export class BasicLightThemeInternal {
 export const BasicLightTheme = composeThemeObject({
   variablesObj: BasicLightThemeInternal,
   themeMarkers: [markAsTheme2022],
-}) as typeof BasicLightThemeInternal;
+});

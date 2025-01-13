@@ -1,8 +1,8 @@
 import { composeThemeObject, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
-import { DarkTheme2022_0 } from './DarkTheme2022_0';
+import { DarkTheme2022_0, DarkThemeInternal2022_0 } from './DarkTheme2022_0';
 
-export class DarkThemeInternal2022_1 extends (class {} as typeof DarkTheme2022_0) {}
+export class DarkThemeInternal2022_1 extends DarkThemeInternal2022_0 {}
 
 export const DarkTheme2022_1 = composeThemeObject({
   variablesObj: DarkThemeInternal2022_1,

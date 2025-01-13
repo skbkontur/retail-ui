@@ -1,8 +1,8 @@
 import { composeThemeObject, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
-import { BasicLightTheme } from './BasicLightTheme';
+import { BasicLightTheme, BasicLightThemeInternal } from './BasicLightTheme';
 
-export class LightThemeInternal2022_0 extends (class {} as typeof BasicLightTheme) {}
+export class LightThemeInternal2022_0 extends BasicLightThemeInternal {}
 
 export const LightTheme2022_0 = composeThemeObject({
   variablesObj: LightThemeInternal2022_0,

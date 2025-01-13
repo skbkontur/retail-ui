@@ -1,8 +1,8 @@
 import { markAsDarkTheme, composeThemeObject } from '../../lib/theming/ThemeHelpers';
 
-import { BasicLightTheme } from './BasicLightTheme';
+import { BasicLightTheme, BasicLightThemeInternal } from './BasicLightTheme';
 
-export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme) {
+export class BasicDarkThemeInternal extends BasicLightThemeInternal {
   //#region Common variables
   public static grayXLight = '#313131';
   public static gray = 'rgba(255, 255, 255, 0.48)';
@@ -555,4 +555,4 @@ export const BasicDarkTheme = composeThemeObject({
   variablesObj: BasicDarkThemeInternal,
   baseThemeObj: BasicLightTheme,
   themeMarkers: [markAsDarkTheme],
-}) as typeof BasicDarkThemeInternal;
+});
