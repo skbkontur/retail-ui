@@ -221,13 +221,17 @@ export const ExampleDateFormat: Story = () => {
 ExampleDateFormat.storyName = 'Ручное форматирование даты';
 
 /**
- * Для полей достпен параметр `optional`, чтобы указывать поля открытыми.
+ * Для полей достпен параметр `optional`, чтобы указывать открытые диапазоны
  */
 export const ExampleCustomOptional: Story = () => {
   const [value, setValue] = React.useState(['', '']);
 
   return (
-    <DateRangePicker value={value} onValueChange={([start, end]) => setValue([start, end])}>
+    <DateRangePicker
+      value={value}
+      optional={[true, true]}
+      onValueChange={([start, end]) => setValue([start, end])}
+    >
       <DateRangePicker.Start />
       <DateRangePicker.Separator />
       <DateRangePicker.End />

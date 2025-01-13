@@ -8,7 +8,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { Calendar, CalendarDataTids, CalendarDay, CalendarDayProps } from '../Calendar';
 import { Popup } from '../../internal/Popup';
-import { DateInputProps } from '../DateInput';
+import { DateInput, DateInputProps } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
 import { DatePickerProps } from '../DatePicker';
 import { ZIndex } from '../../internal/ZIndex';
@@ -62,7 +62,7 @@ export interface DateRangePickerProps
   /** Даты начала и окончания `[ dd.mm.yyyy, dd.mm.yyyy ]` */
   value: string[];
   /** Открытые периоды начала и окончания */
-  valueOptional?: [boolean, boolean];
+  optional?: [boolean, boolean];
   /**
    * Элементы DateRangePicker:
    * `<DateRangePicker.Start />`
@@ -78,7 +78,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   End: React.FC<DateInputProps>;
   Separator: React.FC;
 } = (props) => {
-  const { minDate, maxDate, size, autoFocus } = props;
+  const {
+    minDate,
+    maxDate,
+    size,
+    autoFocus,
+    optional = [false, false]
+  } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
   const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.value?.[0]);
@@ -87,8 +93,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
 
-  const fromRef = useRef<any>(null);
-  const toRef = useRef<any>(null);
+  const startRef = useRef<DateInput>(null);
+  const endRef = useRef<DateInput>(null);
   const calendarRef = useRef<Calendar>(null);
   const popupContainerRef = useRef<HTMLDivElement>(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
@@ -102,14 +108,14 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       case 'start':
         // fix DateInput flushSync warning in React 18
         setTimeout(() => {
-          fromRef?.current?.focus();
+          startRef.current?.focus();
         });
         return;
 
       case 'end':
         // fix DateInput flushSync warning in React 18
         setTimeout(() => {
-          toRef?.current?.focus();
+          endRef?.current?.focus();
         });
         return;
 
@@ -233,7 +239,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       hasHoveredDay &&
       Boolean(
         (currentFocus === 'start' && periodEnd && isBetween(day, hoveredDay, periodEnd)) ||
-          (currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)),
+        (currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)),
       );
 
     let hasLeftRoundings;
@@ -287,7 +293,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
             border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
           `,
           (isDayFirst || isDayLast) &&
-            css`
+          css`
               position: relative;
 
               [data-tid=${CalendarDataTids.dayCell}] {
@@ -312,11 +318,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
               }
             `,
           isDayInHoveredPeriod &&
-            css`
+          css`
               background: ${t.calendarRangeCellBg};
             `,
           isDayInPeriod &&
-            css`
+          css`
               @media (hover: hover) {
                 &:hover [data-tid=${CalendarDataTids.dayCell}] {
                   background: ${t.calendarRangeCellHoverBg};
@@ -346,8 +352,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     setPeriodEnd,
     setShowCalendar,
     setCurrentFocus,
-    fromRef,
-    toRef,
+    startRef,
+    endRef,
     calendarRef,
   };
 
@@ -381,26 +387,30 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   );
 
   const renderButtons = () => (
-    <div style={{ margin: 8 }}>
-      {currentFocus === 'start' && fromRef?.current?.props?.optional && (
-        <Button
-          width="100%"
-          data-tid={DateRangePickerDataTids.optionalStartFieldButton}
-          onClick={() => setOptionalValue('start')}
-        >
-          {locale.withoutFirstDate}
-        </Button>
+    <>
+      {currentFocus === 'start' && optional?.[0] && (
+        <div style={{ margin: 8 }}>
+          <Button
+            width="100%"
+            data-tid={DateRangePickerDataTids.optionalStartFieldButton}
+            onClick={() => setOptionalValue('start')}
+          >
+            {locale.withoutFirstDate}
+          </Button>
+        </div>
       )}
-      {currentFocus === 'end' && toRef?.current?.props?.optional && (
-        <Button
-          width="100%"
-          data-tid={DateRangePickerDataTids.optionalEndFieldButton}
-          onClick={() => setOptionalValue('end')}
-        >
-          {locale.withoutSecondDate}
-        </Button>
+      {currentFocus === 'end' && optional?.[1] && (
+        <div style={{ margin: 8 }}>
+          <Button
+            width="100%"
+            data-tid={DateRangePickerDataTids.optionalEndFieldButton}
+            onClick={() => setOptionalValue('end')}
+          >
+            {locale.withoutSecondDate}
+          </Button>
+        </div >
       )}
-    </div>
+    </>
   );
 
   return (
