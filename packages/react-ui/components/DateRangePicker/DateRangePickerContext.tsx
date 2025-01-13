@@ -11,6 +11,8 @@ export interface DateRangePickerContextProps {
   maxDate?: string;
   size?: SizeProp;
   autoFocus?: boolean;
+  onBlur?: () => void;
+  onFocus?: () => void;
   onValueChange?: (value: string[]) => void;
   hoveredDay: string | null;
   showCalendar: boolean;
