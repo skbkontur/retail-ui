@@ -1,4 +1,4 @@
-import { applyMarkers, exposeGetters, markAsDarkTheme } from '../../lib/theming/ThemeHelpers';
+import { markAsDarkTheme, composeThemeObject } from '../../lib/theming/ThemeHelpers';
 
 import { BasicLightTheme } from './BasicLightTheme';
 
@@ -551,7 +551,8 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   //#endregion
 }
 
-export const BasicDarkTheme = applyMarkers(
-  Object.setPrototypeOf(exposeGetters(BasicDarkThemeInternal), BasicLightTheme),
-  [markAsDarkTheme],
-) as typeof BasicDarkThemeInternal;
+export const BasicDarkTheme = composeThemeObject({
+  variablesObj: BasicDarkThemeInternal,
+  baseThemeObj: BasicLightTheme,
+  themeMarkers: [markAsDarkTheme],
+}) as typeof BasicDarkThemeInternal;

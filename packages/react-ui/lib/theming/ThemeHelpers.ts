@@ -100,3 +100,20 @@ export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
     return marker(markedTheme);
   }, Object.create(theme)) as typeof theme;
 }
+
+export function composeThemeObject({
+  variablesObj,
+  baseThemeObj,
+  themeMarkers = [],
+}: {
+  variablesObj: ThemeIn;
+  baseThemeObj?: Theme;
+  themeMarkers?: Markers;
+}) {
+  const themeObj = exposeGetters(variablesObj);
+  if (baseThemeObj) {
+    Object.setPrototypeOf(themeObj, baseThemeObj);
+  }
+  //@ts-ignore
+  return applyMarkers(themeObj, themeMarkers);
+}
