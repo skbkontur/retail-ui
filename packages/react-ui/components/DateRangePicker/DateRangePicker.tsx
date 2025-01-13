@@ -79,6 +79,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   Separator: React.FC;
 } = (props) => {
   const {
+    value = ['', ''],
     minDate,
     maxDate,
     size,
@@ -87,8 +88,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   } = props;
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
-  const [periodStart, setPeriodStart] = useState<string | undefined | null>(props.value?.[0]);
-  const [periodEnd, setPeriodEnd] = useState<string | undefined | null>(props.value?.[1]);
+  const [start, setStart] = useState<string | null>(value[0]);
+  const [end, setEnd] = useState<string | null>(value[1]);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
@@ -100,8 +101,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    props.onValueChange([periodStart || '', periodEnd || '']);
-  }, [periodStart, periodEnd]);
+    props.onValueChange([start || '', end || '']);
+  }, [start, end]);
 
   useEffect(() => {
     switch (currentFocus) {
@@ -133,10 +134,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
   const setOptionalValue = (type: CurrentFocusType) => {
     if (type === 'start') {
-      setPeriodStart(null);
+      setStart(null);
       setCurrentFocus('end');
     } else if (type === 'end') {
-      setPeriodEnd(null);
+      setEnd(null);
       close();
     }
   };
@@ -148,75 +149,75 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
     const handleInitialPeriod = (value: string) => {
       if (currentFocus === 'start') {
-        setPeriodStart(value);
+        setStart(value);
         setCurrentFocus('end');
       } else {
-        setPeriodEnd(value);
+        setEnd(value);
         setCurrentFocus('start');
       }
     };
 
     const handlePartialPeriod = (value: string) => {
       if (currentFocus === 'start') {
-        if (periodStart) {
-          setPeriodStart(value);
+        if (start) {
+          setStart(value);
           setCurrentFocus('end');
           return;
         }
 
-        if (periodEnd && isGreater(value, periodEnd)) {
-          setPeriodStart(value);
-          setPeriodEnd(null);
+        if (end && isGreater(value, end)) {
+          setStart(value);
+          setEnd(null);
           setCurrentFocus('end');
           return;
         }
 
-        setPeriodStart(value);
+        setStart(value);
         close();
       } else if (currentFocus === 'end') {
-        if (periodEnd) {
-          setPeriodEnd(value);
+        if (end) {
+          setEnd(value);
           setCurrentFocus('start');
           return;
         }
 
-        if (periodStart && isLess(value, periodStart)) {
-          setPeriodStart(value);
-          setPeriodEnd(null);
+        if (start && isLess(value, start)) {
+          setStart(value);
+          setEnd(null);
           setCurrentFocus('end');
           return;
         }
 
-        setPeriodEnd(value);
+        setEnd(value);
         close();
       }
     };
 
     const handleFullPeriod = (value: string) => {
       if (currentFocus === 'start') {
-        if (periodEnd && isLessOrEqual(value, periodEnd)) {
-          setPeriodStart(value);
+        if (end && isLessOrEqual(value, end)) {
+          setStart(value);
           close();
         } else {
-          setPeriodStart(value);
-          setPeriodEnd(null);
+          setStart(value);
+          setEnd(null);
           setCurrentFocus('end');
         }
       } else if (currentFocus === 'end') {
-        if (periodStart && isGreaterOrEqual(value, periodStart)) {
-          setPeriodEnd(value);
+        if (start && isGreaterOrEqual(value, start)) {
+          setEnd(value);
           close();
         } else {
-          setPeriodStart(value);
-          setPeriodEnd(null);
+          setStart(value);
+          setEnd(null);
           setCurrentFocus('end');
         }
       }
     };
 
-    if (!periodStart && !periodEnd) {
+    if (!start && !end) {
       handleInitialPeriod(value);
-    } else if ((periodStart && !periodEnd) || (!periodStart && periodEnd)) {
+    } else if ((start && !end) || (!start && end)) {
       handlePartialPeriod(value);
     } else {
       handleFullPeriod(value);
@@ -230,31 +231,31 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   ) => {
     const day = props.date;
 
-    const isDayFirst = periodStart === day;
-    const isDayLast = periodEnd === day;
-    const isDayInPeriod = Boolean(periodStart && periodEnd && isBetween(day, periodStart, periodEnd));
+    const isDayFirst = start === day;
+    const isDayLast = end === day;
+    const isDayInPeriod = Boolean(start && end && isBetween(day, start, end));
 
     const hasHoveredDay = hoveredDay !== null;
     const isDayInHoveredPeriod =
       hasHoveredDay &&
       Boolean(
-        (currentFocus === 'start' && periodEnd && isBetween(day, hoveredDay, periodEnd)) ||
-        (currentFocus === 'end' && periodStart && isBetween(day, periodStart, hoveredDay)),
+        (currentFocus === 'start' && end && isBetween(day, hoveredDay, end)) ||
+        (currentFocus === 'end' && start && isBetween(day, start, hoveredDay)),
       );
 
     let hasLeftRoundings;
     let hasRightRoundings;
 
     if (hasHoveredDay) {
-      // TODO: check if periodStart / periodEnd not setted
-      const isDayBeforeFirstInPeriod = periodStart ? isLess(hoveredDay, periodStart) : periodEnd;
-      const isDayAfterLastInPeriod = periodEnd ? isGreater(hoveredDay, periodEnd) : periodStart;
+      // TODO: check if start / end not setted
+      const isDayBeforeFirstInPeriod = start ? isLess(hoveredDay, start) : end;
+      const isDayAfterLastInPeriod = end ? isGreater(hoveredDay, end) : start;
 
-      if (isDayFirst && (isGreaterOrEqual(hoveredDay, periodStart) || currentFocus === 'end')) {
+      if (isDayFirst && (isGreaterOrEqual(hoveredDay, start) || currentFocus === 'end')) {
         hasLeftRoundings = true;
       }
 
-      if (isDayLast && (isLessOrEqual(hoveredDay, periodEnd) || currentFocus === 'start')) {
+      if (isDayLast && (isLessOrEqual(hoveredDay, end) || currentFocus === 'start')) {
         hasRightRoundings = true;
       }
 
@@ -343,13 +344,13 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     size,
     autoFocus,
     onValueChange: props.onValueChange,
-    periodStart: periodStart || '',
-    periodEnd: periodEnd || '',
+    start: start || '',
+    end: end || '',
     hoveredDay,
     showCalendar,
     currentFocus,
-    setPeriodStart,
-    setPeriodEnd,
+    setStart,
+    setEnd,
     setShowCalendar,
     setCurrentFocus,
     startRef,
