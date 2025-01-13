@@ -80,7 +80,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   const commonProps: DateInputProps = {
     minDate,
     maxDate,
-    size: props.size || size,
+    size,
     withIcon: true,
     onFocus: handleFocus,
     onClick: handleFocus,
@@ -92,7 +92,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   switch (props.type) {
     case 'start':
       return <DateInput
-        value={start}
+        value={start || ''}
         autoFocus={autoFocus}
         ref={startRef}
         data-tid={DateRangePickerDataTids.start}
@@ -101,7 +101,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
 
     case 'end':
       return <DateInput
-        value={end}
+        value={end || ''}
         ref={endRef}
         data-tid={DateRangePickerDataTids.end}
         {...commonProps}
