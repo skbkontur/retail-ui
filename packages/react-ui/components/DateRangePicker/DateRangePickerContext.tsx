@@ -10,7 +10,11 @@ export interface DateRangePickerContextProps {
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
+  disabled?: boolean[];
   autoFocus?: boolean;
+  optional?: boolean[];
+  warning?: boolean[];
+  error?: boolean[];
   onBlur?: () => void;
   onFocus?: () => void;
   onValueChange?: (value: string[]) => void;
