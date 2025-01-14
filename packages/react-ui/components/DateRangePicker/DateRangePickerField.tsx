@@ -19,7 +19,6 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   const {
     start,
     end,
-    currentFocus,
     minDate,
     maxDate,
     size,
@@ -29,26 +28,14 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     error,
     startRef,
     endRef,
-    calendarRef,
     setEnd,
     setStart,
-    setCurrentFocus,
-    setShowCalendar,
+    open,
+    close,
     onFocus,
     onBlur,
   } = useContext(DateRangePickerContext);
-
   const { isMobile } = useResponsiveLayout();
-
-  const scrollToMonth = (type: DateRangePickerFieldProps['type']) => {
-    const date = type === 'start' ? start : end;
-    if (date) {
-      const [, month, year] = date.split('.').map(Number);
-      if (month) {
-        calendarRef.current?.scrollToMonth(month, year);
-      }
-    }
-  };
 
   const commonProps: DateInputProps = {
     minDate,
@@ -61,24 +48,18 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       if (isDisabled) {
         return;
       }
-      setCurrentFocus(props.type);
-      setShowCalendar(true);
-      scrollToMonth(props.type);
+      open(props.type);
     },
     onFocus: () => {
+      open(props.type);
       onFocus?.();
-      setCurrentFocus(props.type);
-      setShowCalendar(true);
-      scrollToMonth(props.type);
     },
     onBlur: () => {
-      if (isMobile) {
+      if (!isMobile) {
         return;
       }
+      close();
       onBlur?.();
-      if (!currentFocus) {
-        setCurrentFocus(null);
-      }
     },
   };
 
