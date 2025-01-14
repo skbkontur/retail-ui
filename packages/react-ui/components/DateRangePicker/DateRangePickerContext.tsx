@@ -23,6 +23,7 @@ export interface DateRangePickerContextProps {
   setEnd: (value: string) => void;
   open: (Props: DateRangeFieldType) => void;
   close: () => void;
+  dateRangePickerRef: React.RefObject<HTMLDivElement>;
   startRef: React.RefObject<DateInput>;
   endRef: React.RefObject<DateInput>;
 }
