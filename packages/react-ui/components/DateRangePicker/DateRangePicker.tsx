@@ -369,6 +369,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     setEnd,
     open,
     close,
+    dateRangePickerRef,
     startRef,
     endRef,
   };
