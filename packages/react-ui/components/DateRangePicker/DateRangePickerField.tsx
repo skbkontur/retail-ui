@@ -19,10 +19,10 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
   const {
     start,
     end,
+    currentFocus,
     minDate,
     maxDate,
     size,
-    currentFocus,
     disabled,
     autoFocus,
     warning,
@@ -57,6 +57,12 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     withIcon: true,
     ...props,
     onClick: () => {
+      const isDisabled = props.type === 'start' ? disabled?.[0] : disabled?.[1];
+      if (isDisabled) {
+        return;
+      }
+      setCurrentFocus(props.type);
+      setShowCalendar(true);
       scrollToMonth(props.type);
     },
     onFocus: () => {
@@ -66,11 +72,11 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       scrollToMonth(props.type);
     },
     onBlur: () => {
-      onBlur?.();
-      if (!currentFocus) {
+      if (isMobile) {
         return;
       }
-      if (!isMobile) {
+      onBlur?.();
+      if (!currentFocus) {
         setCurrentFocus(null);
       }
     },
