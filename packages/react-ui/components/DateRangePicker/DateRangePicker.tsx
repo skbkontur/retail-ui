@@ -302,7 +302,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           css`
             width: 100%;
             height: 100%;
-            background: ${isDayInPeriod && t.calendarRangeCellBg};
+            background: ${isDayInPeriod && t.rangeCalendarCellBg};
             border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
             border-bottom-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
             border-top-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
@@ -313,7 +313,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
               position: relative;
 
               [data-tid=${CalendarDataTids.dayCell}] {
-                color: ${t.calendarRangeCellEndColor};
+                color: ${t.rangeCalendarCellEndColor};
 
                 @media (hover: hover) {
                   &:hover {
@@ -329,19 +329,19 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: ${t.calendarRangeCellEndBg};
+                background: ${t.rangeCalendarCellEndBg};
                 border-radius: ${t.calendarCellBorderRadius};
               }
             `,
           isDayInHoveredPeriod &&
           css`
-              background: ${t.calendarRangeCellBg};
+              background: ${t.rangeCalendarCellBg};
             `,
           isDayInPeriod &&
           css`
               @media (hover: hover) {
                 &:hover [data-tid=${CalendarDataTids.dayCell}] {
-                  background: ${t.calendarRangeCellHoverBg};
+                  background: ${t.rangeCalendarCellHoverBg};
                 }
               }
             `,
