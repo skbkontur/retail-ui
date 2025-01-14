@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { DateInput, DateInputProps } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { CommonProps } from '../../internal/CommonWrapper';
+import { isGreater } from '../../lib/date/comparison';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
@@ -23,7 +24,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     maxDate,
     size,
     currentFocus,
+    disabled,
     autoFocus,
+    warning,
     error,
     startRef,
     endRef,
@@ -33,23 +36,15 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     setCurrentFocus,
     setShowCalendar,
     onFocus,
-    onBlur
+    onBlur,
   } = useContext(DateRangePickerContext);
 
   const isStart = props.type === 'start';
   const isEnd = props.type === 'end';
   const { isMobile } = useResponsiveLayout();
 
-  const swapStartAndEndIfNeeded = () => {
-    if (start && end && isGreater(start, end)) {
-      setEnd(start);
-      setStart(end);
-    }
-  };
-
   const handleBlur = () => {
     onBlur?.();
-    swapStartAndEndIfNeeded();
 
     if (!currentFocus) {
       return;
@@ -104,6 +99,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
         <DateInput
           value={start || ''}
           autoFocus={autoFocus}
+          disabled={disabled?.[0]}
+          error={error?.[0]}
+          warning={warning?.[0]}
           ref={startRef}
           data-tid={DateRangePickerDataTids.start}
           {...commonProps}
@@ -111,6 +109,16 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       );
 
     case 'end':
-      return <DateInput value={end || ''} ref={endRef} data-tid={DateRangePickerDataTids.end} {...commonProps} />;
+      return (
+        <DateInput
+          value={end || ''}
+          disabled={disabled?.[1]}
+          error={error?.[1]}
+          warning={warning?.[1]}
+          ref={endRef}
+          data-tid={DateRangePickerDataTids.end}
+          {...commonProps}
+        />
+      );
   }
 };
