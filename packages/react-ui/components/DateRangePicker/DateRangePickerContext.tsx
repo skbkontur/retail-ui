@@ -17,8 +17,8 @@ export interface DateRangePickerContextProps {
   hoveredDay: string | null;
   showCalendar: boolean;
   currentFocus: 'start' | 'end' | null;
-  setStart: (value: string | null) => void;
-  setEnd: (value: string | null) => void;
+  setStart: (value: string) => void;
+  setEnd: (value: string) => void;
   setShowCalendar: (value: boolean) => void;
   setCurrentFocus: (value: 'start' | 'end' | null) => void;
   startRef: React.RefObject<DateInput>;
