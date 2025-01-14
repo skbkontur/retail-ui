@@ -50,7 +50,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       return;
     }
 
-    if (setCurrentFocus && !isMobile) {
+    if (!isMobile) {
       setCurrentFocus(null);
     }
   };

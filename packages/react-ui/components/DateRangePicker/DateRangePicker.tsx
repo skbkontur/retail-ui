@@ -84,8 +84,6 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const { isMobile } = useResponsiveLayout();
   const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
 
-  const [start, setStart] = useState<string | null>(props.value[0]);
-  const [end, setEnd] = useState<string | null>(props.value[1]);
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentFocus, setCurrentFocus] = useState<CurrentFocusType>(null);
@@ -96,10 +94,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const popupContainerRef = useRef<HTMLDivElement>(null);
   const calendarContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    props.onValueChange([start || '', end || '']);
-  }, [start, end]);
-
+  const [start, end] = props.value;
+  const setValue = props.onValueChange;
+  const setStart = (value = '') => props.onValueChange([value, end]);
+  const setEnd = (value = '') => props.onValueChange([start, value]);
+  
   useEffect(() => {
     switch (currentFocus) {
       case 'start':
@@ -113,16 +112,16 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       case 'end':
         // fix DateInput flushSync warning in React 18
         setTimeout(() => {
-          endRef?.current?.focus();
+          endRef.current?.focus();
           props.onFocus?.();
         });
         return;
 
       case null:
       default:
-        setShowCalendar?.(false);
+        setShowCalendar(false);
     }
-  }, [currentFocus]);
+  }, [startRef, endRef, currentFocus]);
 
   const close = () => {
     setShowCalendar(false);
@@ -132,10 +131,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
 
   const setOptionalValue = (type: CurrentFocusType) => {
     if (type === 'start') {
-      setStart(null);
+      setStart('');
       setCurrentFocus('end');
     } else if (type === 'end') {
-      setEnd(null);
+      setEnd('');
       close();
     }
   };
@@ -164,8 +163,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         }
 
         if (end && isGreater(value, end)) {
-          setStart(value);
-          setEnd(null);
+          setValue([value, '']);
           setCurrentFocus('end');
           return;
         }
@@ -180,8 +178,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         }
 
         if (start && isLess(value, start)) {
-          setStart(value);
-          setEnd(null);
+          setValue([value, '']);
           setCurrentFocus('end');
           return;
         }
@@ -197,8 +194,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           setStart(value);
           close();
         } else {
-          setStart(value);
-          setEnd(null);
+          setValue([value, '']);
           setCurrentFocus('end');
         }
       } else if (currentFocus === 'end') {
@@ -206,8 +202,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
           setEnd(value);
           close();
         } else {
-          setStart(value);
-          setEnd(null);
+          setValue([value, '']);
           setCurrentFocus('end');
         }
       }
