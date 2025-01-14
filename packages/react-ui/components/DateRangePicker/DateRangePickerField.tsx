@@ -26,6 +26,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     autoFocus,
     warning,
     error,
+    dateRangePickerRef,
     startRef,
     endRef,
     setEnd,
@@ -54,11 +55,14 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       open(props.type);
       onFocus?.();
     },
-    onBlur: () => {
-      if (!isMobile) {
+    onBlur: (e) => {
+      if (isMobile) {
         return;
       }
-      close();
+      const nextFocusedElement = e.relatedTarget;
+      if (!dateRangePickerRef.current?.contains(nextFocusedElement)) {
+        close();
+      }
       onBlur?.();
     },
   };
