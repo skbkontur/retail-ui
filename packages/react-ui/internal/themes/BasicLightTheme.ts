@@ -1003,15 +1003,17 @@ export class BasicLightThemeInternal {
   //#endregion DatePicker
 
   //#region DateRangePicker
-  public static calendarRangeCellBg = '#f0f0f0';
-  public static calendarRangeCellHoverBg = 'rgba(0, 0, 0, 0.1)';
-  public static calendarRangeCellEndBg = '#1e1e1e';
-  public static calendarRangeCellEndColor = 'white';
-  public static calendarRangeWrapperHeight = '450px';
+  public static rangeCalendarCellBg = '#f0f0f0';
+  public static rangeCalendarCellEndBg = '#1e1e1e';
+  public static rangeCalendarCellEndColor = 'white';
+  public static rangeCalendarCellHoverBg = 'rgba(0, 0, 0, 0.1)';
+  public static rangeCalendarWrapperHeight = '450px';
 
-  public static mobileCalendarRangeWrapperHeight = '400px';
-  public static mobileCalendarRangeGridRowSpacing = '0px';
-  public static mobileCalendarRangeCellHeight = '48px';
+  public static mobileRangeCalendarCellBorderRadius = '20px';
+  public static mobileRangeCalendarCellHeight = '42px';
+  public static mobileRangeCalendarCellWidth = '42px';
+  public static mobileRangeCalendarGridRowSpacing = '0px';
+  public static mobileRangeCalendarWrapperHeight = '400px';
   //#endregion
 
   //#region DateSelect
