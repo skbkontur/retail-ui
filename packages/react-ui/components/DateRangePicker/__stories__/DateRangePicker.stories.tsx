@@ -223,4 +223,3 @@ export const Validations: Story = () => {
     </DateRangePicker>
   );
 };
-Validations.storyName = 'Validations';
