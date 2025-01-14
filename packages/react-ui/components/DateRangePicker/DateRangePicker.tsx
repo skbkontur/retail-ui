@@ -5,10 +5,10 @@ import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { css, cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Calendar, CalendarDataTids, CalendarDay, CalendarDayProps } from '../Calendar';
 import { Popup } from '../../internal/Popup';
-import { DateInput, DateInputProps } from '../DateInput';
+import { DateInput } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
 import { DatePickerProps } from '../DatePicker';
 import { ZIndex } from '../../internal/ZIndex';
@@ -24,7 +24,7 @@ import { NativeDateInput } from '../../internal/NativeDateInput';
 import { styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
-import { DateRangePickerField } from './DateRangePickerField';
+import { DateRangePickerField, DateRangePickerFieldWithTypeProps } from './DateRangePickerField';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DatePickerLocaleHelper } from './locale';
 import { dateRangePickerValidate } from './dateRangePickerValidate';
@@ -43,9 +43,10 @@ export const DateRangePickerDataTids = {
 export type CurrentFocusType = 'start' | 'end' | null;
 
 export interface DateRangePickerProps
-  extends Pick<
-    DatePickerProps,
-    | 'minDate'
+  extends CommonProps,
+    Pick<
+      DatePickerProps,
+      | 'minDate'
     | 'maxDate'
     | 'size'
     | 'renderDay'
@@ -76,8 +77,8 @@ export interface DateRangePickerProps
 }
 
 export const DateRangePicker: React.FC<DateRangePickerProps> & {
-  Start: React.FC<DateInputProps>;
-  End: React.FC<DateInputProps>;
+  Start: React.FC<DateRangePickerFieldWithTypeProps>;
+  End: React.FC<DateRangePickerFieldWithTypeProps>;
   Separator: React.FC;
   validate: typeof dateRangePickerValidate;
 } = (props) => {
@@ -445,7 +446,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         onValueChange={(value) => props.onValueChange([value, end || ''])}
         disabled={startRef.current?.props.disabled}
       />
-      <DateRangePickerSeparator />
+      <DateRangePicker.Separator />
       <NativeDateInput
         value={end}
         minDate={props.minDate}
@@ -491,9 +492,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                           opened
                           headerChildComponent={
                             <div className={styles.inputWrapper()} style={{ width: '100%' }}>
-                              <DateRangePickerStart width="auto" size="medium" />
-                              <DateRangePickerSeparator />
-                              <DateRangePickerEnd width="auto" size="medium" />
+                              <DateRangePicker.Start width="auto" size="medium" />
+                              <DateRangePicker.Separator />
+                              <DateRangePicker.End width="auto" size="medium"  />
                             </div>
                           }
                           onCloseRequest={close}
@@ -537,14 +538,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   );
 };
 
-export const DateRangePickerStart = (props: DateInputProps) => <DateRangePickerField {...props} type="start" />;
-
-export const DateRangePickerEnd = (props: DateInputProps) => <DateRangePickerField {...props} type="end" />;
-
 DateRangePicker.__KONTUR_REACT_UI__ = 'DateRangePicker';
 DateRangePicker.displayName = 'DateRangePicker';
 
-DateRangePicker.Start = DateRangePickerStart;
-DateRangePicker.End = DateRangePickerEnd;
+DateRangePicker.Start = (props: DateRangePickerFieldWithTypeProps) => <DateRangePickerField {...props} type="start" />;
+DateRangePicker.End = (props: DateRangePickerFieldWithTypeProps) => <DateRangePickerField {...props} type="end" />;
 DateRangePicker.Separator = DateRangePickerSeparator;
 DateRangePicker.validate = dateRangePickerValidate;
