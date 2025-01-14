@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { DateInput, DateInputProps } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { CommonProps } from '../../internal/CommonWrapper';
-import { isGreater } from '../../lib/date/comparison';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
