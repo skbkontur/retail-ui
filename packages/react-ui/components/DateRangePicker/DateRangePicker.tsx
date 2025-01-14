@@ -47,25 +47,28 @@ export interface DateRangePickerProps
     Pick<
       DatePickerProps,
       | 'minDate'
-    | 'maxDate'
-    | 'size'
-    | 'renderDay'
-    | 'menuPos'
-    | 'menuAlign'
-    | 'useMobileNativeDatePicker'
-    | 'autoFocus'
-    | 'enableTodayLink'
-    | 'onBlur'
-    | 'onFocus'
-    | 'onMouseEnter'
-    | 'onMouseLeave'
-    | 'onMouseOver'
-    | 'onMonthChange'
-  > {
+      | 'maxDate'
+      | 'size'
+      | 'renderDay'
+      | 'menuPos'
+      | 'menuAlign'
+      | 'useMobileNativeDatePicker'
+      | 'autoFocus'
+      | 'enableTodayLink'
+      | 'onBlur'
+      | 'onFocus'
+      | 'onMouseEnter'
+      | 'onMouseLeave'
+      | 'onMouseOver'
+      | 'onMonthChange'
+    > {
   /** Даты начала и окончания `[ dd.mm.yyyy, dd.mm.yyyy ]` */
   value: string[];
   /** Открытые периоды начала и окончания */
-  optional?: [boolean, boolean];
+  optional?: boolean[];
+  warning?: boolean[];
+  disabled?: boolean[];
+  error?: boolean[];
   /**
    * Элементы DateRangePicker:
    * `<DateRangePicker.Start />`
@@ -99,7 +102,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
   const setValue = props.onValueChange;
   const setStart = (value = '') => props.onValueChange([value, end]);
   const setEnd = (value = '') => props.onValueChange([start, value]);
-  
+
   useEffect(() => {
     switch (currentFocus) {
       case 'start':
@@ -234,7 +237,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
       hasHoveredDay &&
       Boolean(
         (currentFocus === 'start' && end && isBetween(day, hoveredDay, end)) ||
-        (currentFocus === 'end' && start && isBetween(day, start, hoveredDay)),
+          (currentFocus === 'end' && start && isBetween(day, start, hoveredDay)),
       );
 
     let hasLeftRoundings;
@@ -288,7 +291,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
             border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
           `,
           (isDayFirst || isDayLast) &&
-          css`
+            css`
               position: relative;
 
               [data-tid=${CalendarDataTids.dayCell}] {
@@ -313,11 +316,11 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
               }
             `,
           isDayInHoveredPeriod &&
-          css`
+            css`
               background: ${t.calendarRangeCellBg};
             `,
           isDayInPeriod &&
-          css`
+            css`
               @media (hover: hover) {
                 &:hover [data-tid=${CalendarDataTids.dayCell}] {
                   background: ${t.calendarRangeCellHoverBg};
@@ -337,7 +340,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
     minDate: props.minDate,
     maxDate: props.maxDate,
     size: props.size,
+    disabled: props.disabled,
     autoFocus: props.autoFocus,
+    warning: props.warning,
+    error: props.error,
     onValueChange: props.onValueChange,
     onFocus: props.onFocus,
     onBlur: props.onBlur,
@@ -444,7 +450,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         minDate={props.minDate}
         maxDate={props.maxDate}
         onValueChange={(value) => props.onValueChange([value, end || ''])}
-        disabled={startRef.current?.props.disabled}
+        disabled={props.disabled?.[0]}
       />
       <DateRangePicker.Separator />
       <NativeDateInput
@@ -452,7 +458,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
         minDate={props.minDate}
         maxDate={props.maxDate}
         onValueChange={(value) => props.onValueChange([start || '', value])}
-        disabled={endRef.current?.props.disabled}
+        disabled={props.disabled?.[1]}
       />
     </>
   );
@@ -486,49 +492,49 @@ export const DateRangePicker: React.FC<DateRangePickerProps> & {
                 {props.useMobileNativeDatePicker && isMobile
                   ? renderNativeDateInput()
                   : showCalendar && (
-                    <>
-                      {isMobile ? (
-                        <MobilePopup
-                          opened
-                          headerChildComponent={
-                            <div className={styles.inputWrapper()} style={{ width: '100%' }}>
-                              <DateRangePicker.Start width="auto" size="medium" />
-                              <DateRangePicker.Separator />
-                              <DateRangePicker.End width="auto" size="medium"  />
-                            </div>
-                          }
-                          onCloseRequest={close}
-                          footerChildComponent={renderButtons()}
-                        >
-                          <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
-                            {renderCalendar(theme, true)}
-                          </ThemeContext.Provider>
-                        </MobilePopup>
-                      ) : (
-                        <>
-                          <div data-tid={DateRangePickerDataTids.popup} />
-                          <Popup
+                      <>
+                        {isMobile ? (
+                          <MobilePopup
                             opened
-                            hasShadow
-                            priority={ZIndex.priorities.PopupMenu}
-                            positions={getMenuPositions(props.menuPos, props.menuAlign)}
-                            data-tid={DateRangePickerDataTids.root}
-                            anchorElement={getRootNode(popupContainerRef.current)}
-                            margin={parseInt(theme.datePickerMenuOffsetY)}
+                            headerChildComponent={
+                              <div className={styles.inputWrapper()} style={{ width: '100%' }}>
+                                <DateRangePicker.Start width="auto" size="medium" />
+                                <DateRangePicker.Separator />
+                                <DateRangePicker.End width="auto" size="medium" />
+                              </div>
+                            }
+                            onCloseRequest={close}
+                            footerChildComponent={renderButtons()}
                           >
-                            <div
-                              className={styles.calendarWrapper(theme)}
-                              onMouseDown={(e) => e.preventDefault()}
-                              ref={calendarContainerRef}
+                            <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
+                              {renderCalendar(theme, true)}
+                            </ThemeContext.Provider>
+                          </MobilePopup>
+                        ) : (
+                          <>
+                            <div data-tid={DateRangePickerDataTids.popup} />
+                            <Popup
+                              opened
+                              hasShadow
+                              priority={ZIndex.priorities.PopupMenu}
+                              positions={getMenuPositions(props.menuPos, props.menuAlign)}
+                              data-tid={DateRangePickerDataTids.root}
+                              anchorElement={getRootNode(popupContainerRef.current)}
+                              margin={parseInt(theme.datePickerMenuOffsetY)}
                             >
-                              {renderCalendar(theme)}
-                              {renderButtons()}
-                            </div>
-                          </Popup>
-                        </>
-                      )}
-                    </>
-                  )}
+                              <div
+                                className={styles.calendarWrapper(theme)}
+                                onMouseDown={(e) => e.preventDefault()}
+                                ref={calendarContainerRef}
+                              >
+                                {renderCalendar(theme)}
+                                {renderButtons()}
+                              </div>
+                            </Popup>
+                          </>
+                        )}
+                      </>
+                    )}
               </DateRangePickerContext.Provider>
             </div>
           </CommonWrapper>
