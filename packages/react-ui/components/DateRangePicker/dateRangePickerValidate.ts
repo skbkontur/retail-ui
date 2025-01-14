@@ -8,17 +8,14 @@ export function dateRangePickerValidate(value: string[], range: { minDate?: stri
   }
 
   const { minDate = MIN_FULLDATE, maxDate = MAX_FULLDATE } = range;
-  const { parseValue } = new InternalDate({
+  const internalDates = new InternalDate({
     order: InternalDateOrder.DMY,
     separator: InternalDateSeparator.Dot,
   })
     .setRangeStart(new InternalDate({ value: minDate }))
     .setRangeEnd(new InternalDate({ value: maxDate }));
 
-  const startInternalDate = parseValue(value[0]);
-  const endInternalDate = parseValue(value[1]);
-
-  return [checkDate(startInternalDate), checkDate(endInternalDate)];
+  return [checkDate(internalDates.parseValue(value[0])), checkDate(internalDates.parseValue(value[1]))];
 }
 
 function checkDate(internalDate: InternalDate) {

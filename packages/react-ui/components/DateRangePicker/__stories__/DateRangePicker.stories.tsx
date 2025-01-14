@@ -3,6 +3,7 @@ import { Story } from '@storybook/react';
 
 import { Meta } from '../../../typings/stories';
 import { DateRangePicker } from '../DateRangePicker';
+import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
@@ -168,3 +169,58 @@ export const Range: Story = () => {
   return <></>;
 };
 Range.parameters = {};
+
+export const Validations: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+  const [error, setError] = React.useState([false, false]);
+  const [startError, endError] = error;
+  const minDate = '10.10.2018';
+  const maxDate = '13.11.2024';
+
+  const validate = () => {
+    if (!value[0] || !value[1]) {
+      return;
+    }
+    const [start, end] = DateRangePicker.validate(value, { minDate, maxDate });
+    console.log([start, end]);
+    setError([!start, !end]);
+  };
+
+  const unvalidate = () => {
+    setError([false, false]);
+  };
+
+  const tooltipProps = {
+    render: () => (
+      <>
+        Укажите дату в промежутке
+        <br />
+        {minDate}—{maxDate}
+        <br />в формате ДД.ММ.ГГГГ
+      </>
+    ),
+    pos: 'right',
+    closeButton: false,
+  };
+
+  return (
+    <DateRangePicker
+      value={value}
+      minDate={minDate}
+      maxDate={maxDate}
+      error={error}
+      onValueChange={setValue}
+      onFocus={unvalidate}
+      onBlur={validate}
+    >
+      <Tooltip trigger={startError && !endError ? 'opened' : 'closed'} {...tooltipProps}>
+        <DateRangePicker.Start />
+      </Tooltip>
+      <DateRangePicker.Separator />
+      <Tooltip trigger={endError ? 'opened' : 'closed'} {...tooltipProps}>
+        <DateRangePicker.End />
+      </Tooltip>
+    </DateRangePicker>
+  );
+};
+Validations.storyName = 'Validations';
