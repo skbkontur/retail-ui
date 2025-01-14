@@ -1,25 +1,30 @@
 import React, { useContext } from 'react';
 
 import { DateInput, DateInputProps } from '../DateInput';
-import { isGreater } from '../../lib/date/comparison';
 import { useResponsiveLayout } from '../ResponsiveLayout';
+import { CommonProps } from '../../internal/CommonWrapper';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
 
-export interface DateRangePickerFieldProps extends DateInputProps {
+export interface DateRangePickerFieldProps
+  extends CommonProps,
+    Pick<DateInputProps, 'id' | 'size' | 'style' | 'withIcon' | 'width'> {
   type: 'start' | 'end';
 }
+
+export type DateRangePickerFieldWithTypeProps = Omit<DateInputProps, 'type'>;
 
 export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props) => {
   const {
     start,
     end,
-    autoFocus,
     minDate,
     maxDate,
     size,
     currentFocus,
+    autoFocus,
+    error,
     startRef,
     endRef,
     calendarRef,
@@ -86,11 +91,11 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     maxDate,
     size,
     withIcon: true,
+    ...props,
     onFocus: handleFocus,
     onClick: handleFocus,
     onBlur: handleBlur,
     onValueChange: handleValueChange,
-    ...props,
   };
 
   switch (props.type) {
