@@ -2,7 +2,7 @@ import { markAsDarkTheme, composeThemeObject, markThemeVersion } from '../../lib
 
 import { BasicThemeClass, BasicThemeClassToExtend } from './BasicTheme';
 
-export const DarkTheme_0 = composeThemeObject(
+export const DarkTheme_5_0 = composeThemeObject(
   class extends BasicThemeClassToExtend {
     //#region Common variables
     public static grayXLight = '#313131';
@@ -553,6 +553,6 @@ export const DarkTheme_0 = composeThemeObject(
   },
   {
     prototypeTheme: BasicThemeClass,
-    themeMarkers: [markAsDarkTheme, markThemeVersion(0)],
+    themeMarkers: [markAsDarkTheme, markThemeVersion(5.0)],
   },
 );

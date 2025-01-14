@@ -3,10 +3,10 @@ import { Decorator } from '@storybook/react';
 
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
-import { LIGHT_THEME_0 } from '../../../lib/theming/themes/LightTheme_0';
-import { DARK_THEME_0 } from '../../../lib/theming/themes/DarkTheme_0';
-import { LIGHT_THEME_1 } from '../../../lib/theming/themes/LightTheme_1';
-import { DARK_THEME_1 } from '../../../lib/theming/themes/DarkTheme_1';
+import { LIGHT_THEME_0 } from '../../../lib/theming/themes/LightTheme_5_0';
+import { DARK_THEME_0 } from '../../../lib/theming/themes/DarkTheme_5_0';
+import { LIGHT_THEME_1 } from '../../../lib/theming/themes/LightTheme_5_1';
+import { DARK_THEME_1 } from '../../../lib/theming/themes/DarkTheme_5_1';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';

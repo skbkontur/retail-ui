@@ -2,11 +2,12 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { ThemeContext } from '../ThemeContext';
-import { applyMarkers, exposeGetters, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
+import { applyMarkers, composeThemeObject, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { AnyObject } from '../../utils';
+import { BasicThemeClass } from '../../../internal/themes/BasicTheme';
 
 const TEST_MARKERS = {
   test: {
@@ -34,7 +35,10 @@ const getConsumedTheme = () => {
 
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
-const TestTheme = Object.setPrototypeOf(exposeGetters({ bgDefault: 'default', bgSecondary: 'default' }), LIGHT_THEME);
+const TestTheme = composeThemeObject(
+  { bgDefault: 'default', bgSecondary: 'default' },
+  { prototypeTheme: BasicThemeClass },
+);
 
 // test marker
 const markAsTest: Marker = (theme) => {
