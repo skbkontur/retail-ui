@@ -1,21 +1,31 @@
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
+import { isGreater } from '../../lib/date/comparison';
 
-export function dateRangePickerValidate(value: string[], range: { minDate?: string; maxDate?: string } = {}) {
-  if (!value || !value[0] || !value[1]) {
+export function dateRangePickerValidate(
+  [start, end]: string[],
+  { startOptional = false, endOptional = false, minDate = MIN_FULLDATE, maxDate = MAX_FULLDATE },
+) {
+  if ((!startOptional && !start) || (!endOptional && !end)) {
     return [false, false];
   }
 
-  const { minDate = MIN_FULLDATE, maxDate = MAX_FULLDATE } = range;
-  const internalDates = new InternalDate({
+  if (isGreater(start, end)) {
+    return [false, false];
+  }
+
+  const internalDate = new InternalDate({
     order: InternalDateOrder.DMY,
     separator: InternalDateSeparator.Dot,
   })
     .setRangeStart(new InternalDate({ value: minDate }))
     .setRangeEnd(new InternalDate({ value: maxDate }));
 
-  return [checkDate(internalDates.parseValue(value[0])), checkDate(internalDates.parseValue(value[1]))];
+  const startValidation = checkDate(internalDate.parseValue(start));
+  const endValidation = checkDate(internalDate.parseValue(end));
+
+  return [startValidation, endValidation];
 }
 
 function checkDate(internalDate: InternalDate) {

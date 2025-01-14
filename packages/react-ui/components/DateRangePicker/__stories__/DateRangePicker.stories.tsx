@@ -173,16 +173,16 @@ Range.parameters = {};
 export const Validations: Story = () => {
   const [value, setValue] = React.useState(['', '']);
   const [error, setError] = React.useState([false, false]);
-  const [startError, endError] = error;
   const minDate = '10.10.2018';
   const maxDate = '13.11.2024';
+
+  const [startError, endError] = error;
 
   const validate = () => {
     if (!value[0] || !value[1]) {
       return;
     }
     const [start, end] = DateRangePicker.validate(value, { minDate, maxDate });
-    console.log([start, end]);
     setError([!start, !end]);
   };
 
