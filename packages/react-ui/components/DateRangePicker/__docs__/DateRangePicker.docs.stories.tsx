@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   CalendarDay,
   CalendarDayProps,
@@ -10,11 +10,11 @@ import {
   DateSeparator,
   LocaleContext,
   Select,
-  Tooltip,
 } from '@skbkontur/react-ui';
 import { ThemeIn } from 'react-ui/lib/theming/Theme';
 
 import { Meta, Story } from '../../../typings/stories';
+import { Validations as ValidationsStory } from '../__stories__/DateRangePicker.stories';
 
 export default {
   title: 'Date Components/DateRangePicker',
@@ -99,49 +99,8 @@ export const ExamplePrices: Story = () => {
 
 ExamplePrices.storyName = 'Выбор дат с ценами';
 
-
-export const Validations: Story = () => {
-  const [value, setValue] = React.useState(['', '']);
-  const [[startErrors, endErrors], setErrors] = React.useState([false, false]);
-  const minDate = '10.10.2018';
-  const maxDate = '13.11.2024';
-
-  const validate = () => {
-    const [startErrors, endErrors] = DateRangePicker.validate(value, { minDate, maxDate });
-    setErrors([!startErrors, !endErrors]);
-  };
-
-  const unvalidate = () => setErrors([false, false]);
-
-  return (
-    <DateRangePicker
-      value={value}
-      minDate={minDate}
-      maxDate={maxDate}
-      onValueChange={setValue}
-      onFocus={unvalidate}
-      onBlur={validate}
-    >
-      <Tooltip
-        trigger={startErrors ? "opened" : "closed"}
-        render={() => "Невалидная дата"}
-        onCloseClick={() => setErrors([false, endErrors])}
-      >
-        <DateRangePicker.Start error={startErrors} />
-      </Tooltip>
-      <DateRangePicker.Separator />
-      <Tooltip
-        render={() => "Невалидная дата"}
-        trigger={endErrors ? "opened" : "closed"}
-        onCloseClick={() => setErrors([startErrors, false])}
-      >
-        <DateRangePicker.End error={endErrors} />
-      </Tooltip>
-    </DateRangePicker>
-  );
-};
+export const Validations = ValidationsStory;
 Validations.storyName = 'Валидации';
-
 
 /**
  * Через параметр `size` доступны размеры `large`, `medium` и `small`. С помощью токенов `calendar*` можно управлять размерами календаря
