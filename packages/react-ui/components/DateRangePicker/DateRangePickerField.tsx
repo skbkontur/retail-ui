@@ -38,45 +38,15 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     onBlur,
   } = useContext(DateRangePickerContext);
 
-  const isStart = props.type === 'start';
-  const isEnd = props.type === 'end';
   const { isMobile } = useResponsiveLayout();
 
-  const handleBlur = () => {
-    onBlur?.();
-
-    if (!currentFocus) {
-      return;
-    }
-
-    if (!isMobile) {
-      setCurrentFocus(null);
-    }
-  };
-
-  const handleFocus = () => {
-    onFocus?.();
-    setCurrentFocus(props.type);
-    setShowCalendar(true);
-
-    const period = isStart ? start : end;
-
-    if (period) {
-      const [, month, year] = period.split('.').map(Number);
-
+  const scrollToMonth = (type: DateRangePickerFieldProps['type']) => {
+    const date = type === 'start' ? start : end;
+    if (date) {
+      const [, month, year] = date.split('.').map(Number);
       if (month) {
         calendarRef.current?.scrollToMonth(month, year);
       }
-    }
-  };
-
-  const handleValueChange = (value: string) => {
-    if (isStart) {
-      setStart(value);
-    }
-
-    if (isEnd) {
-      setEnd(value);
     }
   };
 
@@ -86,10 +56,24 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     size,
     withIcon: true,
     ...props,
-    onFocus: handleFocus,
-    onClick: handleFocus,
-    onBlur: handleBlur,
-    onValueChange: handleValueChange,
+    onClick: () => {
+      scrollToMonth(props.type);
+    },
+    onFocus: () => {
+      onFocus?.();
+      setCurrentFocus(props.type);
+      setShowCalendar(true);
+      scrollToMonth(props.type);
+    },
+    onBlur: () => {
+      onBlur?.();
+      if (!currentFocus) {
+        return;
+      }
+      if (!isMobile) {
+        setCurrentFocus(null);
+      }
+    },
   };
 
   switch (props.type) {
@@ -101,8 +85,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
           disabled={disabled?.[0]}
           error={error?.[0]}
           warning={warning?.[0]}
-          ref={startRef}
           data-tid={DateRangePickerDataTids.start}
+          onValueChange={setStart}
+          ref={startRef}
           {...commonProps}
         />
       );
@@ -114,8 +99,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
           disabled={disabled?.[1]}
           error={error?.[1]}
           warning={warning?.[1]}
-          ref={endRef}
           data-tid={DateRangePickerDataTids.end}
+          onValueChange={setEnd}
+          ref={endRef}
           {...commonProps}
         />
       );
