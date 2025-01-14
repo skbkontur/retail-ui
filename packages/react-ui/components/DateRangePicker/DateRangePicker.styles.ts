@@ -3,7 +3,9 @@ import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   root() {
-    return css``;
+    return css`
+      display: inline-block;
+    `;
   },
   inputWrapper() {
     return css`
