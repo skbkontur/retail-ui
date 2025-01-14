@@ -141,10 +141,10 @@ export const Disabled: Story = () => {
   const [value, setValue] = React.useState(['', '']);
 
   return (
-    <DateRangePicker value={value} onValueChange={setValue}>
-      <DateRangePicker.Start disabled />
+    <DateRangePicker value={value} onValueChange={setValue} disabled={[true, true]}>
+      <DateRangePicker.Start />
       <DateRangePicker.Separator />
-      <DateRangePicker.End disabled />
+      <DateRangePicker.End />
     </DateRangePicker>
   );
 };
