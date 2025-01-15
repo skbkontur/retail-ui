@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const getDateRangePickerTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(
     {
+      calendarBottomSeparatorBorder: 'none',
       calendarCellBg: 'transparent',
       calendarWrapperHeight: theme.rangeCalendarWrapperHeight,
     },

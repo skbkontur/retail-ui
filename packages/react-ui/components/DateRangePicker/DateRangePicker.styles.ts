@@ -19,8 +19,7 @@ export const styles = memoizeStyle({
   },
   inputVisuallyFocus(t: Theme) {
     return css`
-      box-shadow: none;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
+      box-shadow: ${t.inputFocusShadow};
     `;
   },
   inputWrapperWidth(t: Theme) {
