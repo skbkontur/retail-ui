@@ -40,8 +40,18 @@ export const Example1: Story = () => {
     </DateRangePicker>
   );
 };
-
 Example1.storyName = 'Выбор периода';
+
+/**
+ * Для валидаций используйте `DateRangePicker.validate(value, options)`, который принимает:
+ * - `value` — проверяемые значения `['dd.mm.yyyy', 'dd.mm.yyyy']`
+ * - `options` — объект с настройками `{ startOptional, endOptional, minDate, maxDate }`
+ * 
+ * Возвращается объект валидацией полей start и end в формате `[true, false]`
+ */
+export const Validations = ValidationsStory;
+Validations.storyName = 'Валидации';
+
 
 /**
  * Пример с кастомизацией темы и кастомным рендером дня
@@ -96,11 +106,24 @@ export const ExamplePrices: Story = () => {
     </ThemeContext.Provider>
   );
 };
-
 ExamplePrices.storyName = 'Выбор дат с ценами';
 
-export const Validations = ValidationsStory;
-Validations.storyName = 'Валидации';
+/**
+ * Для полей достпен параметр `optional`, чтобы указывать открытые диапазоны
+ */
+export const ExampleCustomOptional: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+
+  return (
+    <DateRangePicker value={value} optional={[true, true]} onValueChange={([start, end]) => setValue([start, end])}>
+      <DateRangePicker.Start />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End />
+    </DateRangePicker>
+  );
+};
+ExampleCustomOptional.storyName = 'Открытые даты начала или конца';
+
 
 /**
  * Через параметр `size` доступны размеры `large`, `medium` и `small`. С помощью токенов `calendar*` можно управлять размерами календаря
@@ -138,11 +161,10 @@ export const ExampleSizes: Story = () => {
     </Gapped>
   );
 };
-
 ExampleSizes.storyName = 'Размеры';
 
 /**
- * У дочерних элементов могут быть настроены `width`, `style`, `withIcon` и другие настройки `<DateInput>`
+ * У дочерних элементов могут быть настроены `width`, `className`, `style`, `withIcon` и другие настройки `<DateInput>`
  * - `<DateRangePicker.Start />`
  * - `<DateRangePicker.End />`
  * - `<DateRangePicker.Separator />`
@@ -156,7 +178,6 @@ export const ExampleCustomWithoutDash: Story = () => {
     </DateRangePicker>
   );
 };
-
 ExampleCustomWithoutDash.storyName = 'Поля без тире';
 
 export const ExampleCustomVertical: Story = () => {
@@ -171,7 +192,6 @@ export const ExampleCustomVertical: Story = () => {
     </DateRangePicker>
   );
 };
-
 ExampleCustomVertical.storyName = 'Вертикальное расположение';
 
 /**
@@ -221,22 +241,4 @@ export const ExampleDateFormat: Story = () => {
     </Gapped>
   );
 };
-
 ExampleDateFormat.storyName = 'Ручное форматирование даты';
-
-/**
- * Для полей достпен параметр `optional`, чтобы указывать открытые диапазоны
- */
-export const ExampleCustomOptional: Story = () => {
-  const [value, setValue] = React.useState(['', '']);
-
-  return (
-    <DateRangePicker value={value} optional={[true, true]} onValueChange={([start, end]) => setValue([start, end])}>
-      <DateRangePicker.Start />
-      <DateRangePicker.Separator />
-      <DateRangePicker.End />
-    </DateRangePicker>
-  );
-};
-
-ExampleCustomOptional.storyName = 'Открытые даты начала или конца';
