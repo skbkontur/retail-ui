@@ -190,7 +190,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
         case 'grayed':
           return styles.grayed(this.theme);
       }
-    }
+    };
     const getUseLineFocusStyles = () => {
       switch (use) {
         case 'default':
@@ -202,14 +202,15 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
         case 'grayed':
           return styles.lineFocusGrayed(this.theme);
       }
-    }
+    };
     const rootProps = {
       ...rest,
-      className: cx(styles.root(this.theme), {
+      className: cx({
+        [styles.root(this.theme)]: true,
         [resetButton()]: Root === 'button',
-        [getUseStyles()]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
+        [getUseStyles()]: true,
         [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
