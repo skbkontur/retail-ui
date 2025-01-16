@@ -179,11 +179,35 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       <LinkIcon hasBothIcons={!!icon && !!rightIcon} icon={rightIcon} loading={loading} position="right" />
     );
     const nonInteractive = disabled || loading;
-
+    const getUseStyles = () => {
+      switch (use) {
+        case 'default':
+          return styles.default(this.theme);
+        case 'danger':
+          return styles.danger(this.theme);
+        case 'success':
+          return styles.success(this.theme);
+        case 'grayed':
+          return styles.grayed(this.theme);
+      }
+    }
+    const getUseLineFocusStyles = () => {
+      switch (use) {
+        case 'default':
+          return styles.lineFocus(this.theme);
+        case 'danger':
+          return styles.lineFocusDanger(this.theme);
+        case 'success':
+          return styles.lineFocusSuccess(this.theme);
+        case 'grayed':
+          return styles.lineFocusGrayed(this.theme);
+      }
+    }
     const rootProps = {
       ...rest,
-      className: cx(styles.root(this.theme), styles[use](this.theme), {
+      className: cx(styles.root(this.theme), {
         [resetButton()]: Root === 'button',
+        [getUseStyles()]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
@@ -191,10 +215,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
         [styles.warning(this.theme)]: warning,
         [styles.error(this.theme)]: error,
-        [styles.lineFocus(this.theme)]: isFocused && use === 'default',
-        [styles.lineFocusSuccess(this.theme)]: isFocused && use === 'success',
-        [styles.lineFocusDanger(this.theme)]: isFocused && use === 'danger',
-        [styles.lineFocusGrayed(this.theme)]: isFocused && use === 'grayed',
+        [getUseLineFocusStyles()]: isFocused,
       }),
       onClick: this.handleClick,
       onFocus: this.handleFocus,
