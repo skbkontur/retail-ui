@@ -108,34 +108,24 @@ export const DateRangePicker = Object.assign(
     const setStart = (date = '') => props.onValueChange([date, end]);
     const setEnd = (date = '') => props.onValueChange([start, date]);
 
-    const scrollToMonth = (type: DateRangePickerFieldType) => {
-      const date = type === 'start' ? start : end;
-      if (date) {
-        const [, month, year] = date.split('.').map(Number);
-        if (month) {
-          calendarRef.current?.scrollToMonth(month, year);
-        }
-      }
-    };
-
-    const open = (type: DateRangePickerFieldType = 'start') => {
-      setFocusField(type);
+    const open = (fieldType: DateRangePickerFieldType = 'start') => {
+      setFocusField(fieldType);
       setShowCalendar(true);
-      scrollToMonth(type);
-    };
-
-    const focus = (type: DateRangePickerFieldType = 'start') => {
-      const fieldRef = type === 'start' ? startRef : endRef;
-
-      // fix DateInput flushSync warning in React 18
-      setTimeout(() => {
-        fieldRef.current?.focus();
-      });
+      scrollToMonth(fieldType);
     };
 
     const close = () => {
       setShowCalendar(false);
       setHoveredDay(null);
+    };
+
+    const focus = (fieldType: DateRangePickerFieldType = 'start') => {
+      const fieldRef = fieldType === 'start' ? startRef : endRef;
+
+      // fix DateInput flushSync warning in React 18
+      setTimeout(() => {
+        fieldRef.current?.focus();
+      });
     };
 
     const blur = () => {
@@ -145,17 +135,7 @@ export const DateRangePicker = Object.assign(
       setFocusField(null);
     };
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        focus,
-        blur,
-        getRootNode: () => dateRangePickerRef.current,
-      }),
-      [],
-    );
-
-    const setOptionalValue = (type: DateRangePickerFieldType) => {
+    const setEmpty = (type: DateRangePickerFieldType) => {
       switch (type) {
         case 'start':
           setStart('');
@@ -168,197 +148,16 @@ export const DateRangePicker = Object.assign(
           break;
       }
     };
-
-    const updateRange = (date: string) => {
-      if ((props.minDate && isLess(date, props.minDate)) || (props.maxDate && isGreater(date, props.maxDate))) {
-        return;
-      }
-
-      const handleInitialPeriod = (date: string) => {
-        if (focusField === 'start') {
-          setStart(date);
-          focus('end');
-        } else {
-          setEnd(date);
-          focus('start');
-        }
-      };
-
-      const handlePartialPeriod = (date: string) => {
-        if (focusField === 'start') {
-          if (start) {
-            setStart(date);
-            focus('end');
-            return;
-          }
-
-          if (end && isGreater(date, end)) {
-            setValue([date, '']);
-            focus('end');
-            return;
-          }
-
-          setStart(date);
-          close();
-        } else if (focusField === 'end') {
-          if (end) {
-            setEnd(date);
-            focus('start');
-            return;
-          }
-
-          if (start && isLess(date, start)) {
-            setValue([date, '']);
-            focus('end');
-            return;
-          }
-
-          setEnd(date);
-          close();
-        }
-      };
-
-      const handleFullPeriod = (date: string) => {
-        if (focusField === 'start') {
-          if (end && isLessOrEqual(date, end)) {
-            setStart(date);
-            close();
-          } else {
-            setValue([date, '']);
-            focus('end');
-          }
-        } else if (focusField === 'end') {
-          if (start && isGreaterOrEqual(date, start)) {
-            setEnd(date);
-            close();
-          } else {
-            setValue([date, '']);
-            focus('end');
-          }
-        }
-      };
-
-      if (!start && !end) {
-        handleInitialPeriod(date);
-      } else if ((start && !end) || (!start && end)) {
-        handlePartialPeriod(date);
-      } else {
-        handleFullPeriod(date);
-      }
-    };
-
-    const renderRange = (
-      props: CalendarDayProps,
-      t: Theme,
-      renderDayFn: ((props: CalendarDayProps) => React.ReactElement) | undefined,
-    ) => {
-      const day = props.date;
-
-      const isDayFirst = start === day;
-      const isDayLast = end === day;
-      const isDayInPeriod = Boolean(start && end && isBetween(day, start, end));
-
-      const hasHoveredDay = hoveredDay !== null;
-      const isDayInHoveredPeriod =
-        hasHoveredDay &&
-        Boolean(
-          (focusField === 'start' && end && isBetween(day, hoveredDay, end)) ||
-            (focusField === 'end' && start && isBetween(day, start, hoveredDay)),
-        );
-
-      let hasLeftRoundings;
-      let hasRightRoundings;
-
-      if (hasHoveredDay) {
-        // TODO: check if start / end not setted
-        const isDayBeforeFirstInPeriod = start ? isLess(hoveredDay, start) : end;
-        const isDayAfterLastInPeriod = end ? isGreater(hoveredDay, end) : start;
-
-        if (isDayFirst && (isGreaterOrEqual(hoveredDay, start) || focusField === 'end')) {
-          hasLeftRoundings = true;
-        }
-
-        if (isDayLast && (isLessOrEqual(hoveredDay, end) || focusField === 'start')) {
-          hasRightRoundings = true;
-        }
-
-        const isDayHovered = hoveredDay === day;
-        if (isDayHovered) {
-          if (isDayBeforeFirstInPeriod) {
-            hasLeftRoundings = true;
-          }
-
-          if (isDayAfterLastInPeriod) {
-            hasRightRoundings = true;
-          }
-        }
-      } else {
-        if (isDayFirst) {
-          hasLeftRoundings = true;
-        }
-
-        if (isDayLast) {
-          hasRightRoundings = true;
-        }
-      }
-
-      return (
-        <div
-          onMouseOver={() => setHoveredDay(day)}
-          onMouseOut={() => setHoveredDay(null)}
-          className={cx(
-            css`
-              width: 100%;
-              height: 100%;
-              background: ${isDayInPeriod && t.rangeCalendarCellBg};
-              border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
-              border-bottom-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
-              border-top-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
-              border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
-            `,
-            (isDayFirst || isDayLast) &&
-              css`
-                position: relative;
-
-                [data-tid=${CalendarDataTids.dayCell}] {
-                  color: ${t.rangeCalendarCellEndColor};
-
-                  @media (hover: hover) {
-                    &:hover {
-                      background: none;
-                    }
-                  }
-                }
-
-                &:before {
-                  content: '';
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  background: ${t.rangeCalendarCellEndBg};
-                  border-radius: ${t.calendarCellBorderRadius};
-                }
-              `,
-            isDayInHoveredPeriod &&
-              css`
-                background: ${t.rangeCalendarCellBg};
-              `,
-            isDayInPeriod &&
-              css`
-                @media (hover: hover) {
-                  &:hover [data-tid=${CalendarDataTids.dayCell}] {
-                    background: ${t.rangeCalendarCellHoverBg};
-                  }
-                }
-              `,
-          )}
-        >
-          {renderDayFn ? renderDayFn(props) : <CalendarDay {...props} />}
-        </div>
-      );
-    };
+    
+    useImperativeHandle(
+      ref,
+      () => ({
+        focus,
+        blur,
+        getRootNode: () => dateRangePickerRef.current,
+      }),
+      [],
+    );
 
     const dateRangePickerContextProps: DateRangePickerContextProps = {
       start,
@@ -401,7 +200,7 @@ export const DateRangePicker = Object.assign(
         minDate={props.minDate}
         maxDate={props.maxDate}
         renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
-        onValueChange={updateRange}
+        onValueChange={(value) => updateRange(value)}
         ref={calendarRef}
         data-tid={DateRangePickerDataTids.calendar}
         onMonthChange={props.onMonthChange}
@@ -443,7 +242,7 @@ export const DateRangePicker = Object.assign(
               <Button
                 width="100%"
                 data-tid={DateRangePickerDataTids.optionalStartFieldButton}
-                onClick={() => setOptionalValue('start')}
+                onClick={() => setEmpty('start')}
               >
                 {locale.withoutFirstDate}
               </Button>
@@ -454,7 +253,7 @@ export const DateRangePicker = Object.assign(
               <Button
                 width="100%"
                 data-tid={DateRangePickerDataTids.optionalEndFieldButton}
-                onClick={() => setOptionalValue('end')}
+                onClick={() => setEmpty('end')}
               >
                 {locale.withoutSecondDate}
               </Button>
@@ -577,5 +376,206 @@ export const DateRangePicker = Object.assign(
         )}
       </ThemeContext.Consumer>
     );
+
+    function updateRange(date: string) {
+      if ((props.minDate && isLess(date, props.minDate)) || (props.maxDate && isGreater(date, props.maxDate))) {
+        return;
+      }
+
+      const handleInitialPeriod = (date: string) => {
+        if (focusField === 'start') {
+          setStart(date);
+          focus('end');
+        } else {
+          setEnd(date);
+          focus('start');
+        }
+      };
+
+      const handlePartialPeriod = (date: string) => {
+        if (focusField === 'start') {
+          if (start) {
+            setStart(date);
+            focus('end');
+            return;
+          }
+
+          if (end && isGreater(date, end)) {
+            setValue([date, '']);
+            focus('end');
+            return;
+          }
+
+          setStart(date);
+          close();
+        } else if (focusField === 'end') {
+          if (end) {
+            setEnd(date);
+            focus('start');
+            return;
+          }
+
+          if (start && isLess(date, start)) {
+            setValue([date, '']);
+            focus('end');
+            return;
+          }
+
+          setEnd(date);
+          close();
+        }
+      };
+
+      const handleFullPeriod = (date: string) => {
+        if (focusField === 'start') {
+          if (end && isLessOrEqual(date, end)) {
+            setStart(date);
+            close();
+          } else {
+            setValue([date, '']);
+            focus('end');
+          }
+        } else if (focusField === 'end') {
+          if (start && isGreaterOrEqual(date, start)) {
+            setEnd(date);
+            close();
+          } else {
+            setValue([date, '']);
+            focus('end');
+          }
+        }
+      };
+
+      if (!start && !end) {
+        handleInitialPeriod(date);
+      } else if ((start && !end) || (!start && end)) {
+        handlePartialPeriod(date);
+      } else {
+        handleFullPeriod(date);
+      }
+    };
+
+    function renderRange(
+      props: CalendarDayProps,
+      t: Theme,
+      renderDayFn: ((props: CalendarDayProps) => React.ReactElement) | undefined,
+    ) {
+      const day = props.date;
+
+      const isDayFirst = start === day;
+      const isDayLast = end === day;
+      const isDayInPeriod = Boolean(start && end && isBetween(day, start, end));
+
+      const hasHoveredDay = hoveredDay !== null;
+      const isDayInHoveredPeriod =
+        hasHoveredDay &&
+        Boolean(
+          (focusField === 'start' && end && isBetween(day, hoveredDay, end)) ||
+            (focusField === 'end' && start && isBetween(day, start, hoveredDay)),
+        );
+
+      let hasLeftRoundings;
+      let hasRightRoundings;
+
+      if (hasHoveredDay) {
+        // TODO: check if start / end not setted
+        const isDayBeforeFirstInPeriod = start ? isLess(hoveredDay, start) : end;
+        const isDayAfterLastInPeriod = end ? isGreater(hoveredDay, end) : start;
+
+        if (isDayFirst && (isGreaterOrEqual(hoveredDay, start) || focusField === 'end')) {
+          hasLeftRoundings = true;
+        }
+
+        if (isDayLast && (isLessOrEqual(hoveredDay, end) || focusField === 'start')) {
+          hasRightRoundings = true;
+        }
+
+        const isDayHovered = hoveredDay === day;
+        if (isDayHovered) {
+          if (isDayBeforeFirstInPeriod) {
+            hasLeftRoundings = true;
+          }
+
+          if (isDayAfterLastInPeriod) {
+            hasRightRoundings = true;
+          }
+        }
+      } else {
+        if (isDayFirst) {
+          hasLeftRoundings = true;
+        }
+
+        if (isDayLast) {
+          hasRightRoundings = true;
+        }
+      }
+
+      return (
+        <div
+          onMouseOver={() => setHoveredDay(day)}
+          onMouseOut={() => setHoveredDay(null)}
+          className={cx(
+            css`
+              width: 100%;
+              height: 100%;
+              background: ${isDayInPeriod && t.rangeCalendarCellBg};
+              border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
+              border-bottom-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
+              border-top-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
+              border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
+            `,
+            (isDayFirst || isDayLast) &&
+              css`
+                position: relative;
+
+                [data-tid=${CalendarDataTids.dayCell}] {
+                  color: ${t.rangeCalendarCellEndColor};
+
+                  @media (hover: hover) {
+                    &:hover {
+                      background: none;
+                    }
+                  }
+                }
+
+                &:before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  background: ${t.rangeCalendarCellEndBg};
+                  border-radius: ${t.calendarCellBorderRadius};
+                }
+              `,
+            isDayInHoveredPeriod &&
+              css`
+                background: ${t.rangeCalendarCellBg};
+              `,
+            isDayInPeriod &&
+              css`
+                @media (hover: hover) {
+                  &:hover [data-tid=${CalendarDataTids.dayCell}] {
+                    background: ${t.rangeCalendarCellHoverBg};
+                  }
+                }
+              `,
+          )}
+        >
+          {renderDayFn ? renderDayFn(props) : <CalendarDay {...props} />}
+        </div>
+      );
+    };
+
+    function scrollToMonth(fieldType: DateRangePickerFieldType) {
+      const date = fieldType === 'start' ? start : end;
+      if (date) {
+        const [, month, year] = date.split('.').map(Number);
+        if (month) {
+          calendarRef.current?.scrollToMonth(month, year);
+        }
+      }
+    };
   }),
 );
