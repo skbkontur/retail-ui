@@ -6,7 +6,7 @@ import { css, cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { Calendar, CalendarDataTids, CalendarDay, CalendarDayProps } from '../Calendar';
+import { Calendar, CalendarDay, CalendarDayProps } from '../Calendar';
 import { Popup } from '../../internal/Popup';
 import { DateInput } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
@@ -22,7 +22,7 @@ import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/Arrow
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './DateRangePicker.styles';
+import { getFontSize, styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
 import {
@@ -148,7 +148,7 @@ export const DateRangePicker = Object.assign(
           break;
       }
     };
-    
+
     useImperativeHandle(
       ref,
       () => ({
@@ -182,18 +182,6 @@ export const DateRangePicker = Object.assign(
       endRef,
     };
 
-    const getSize = (t: Theme) => {
-      switch (props.size) {
-        case 'large':
-          return t.fontSizeLarge;
-        case 'medium':
-          return t.fontSizeMedium;
-        case 'small':
-        default:
-          return t.fontSizeSmall;
-      }
-    };
-
     const renderCalendar = (theme: Theme, widthAuto = false) => (
       <Calendar
         value={null}
@@ -204,11 +192,7 @@ export const DateRangePicker = Object.assign(
         ref={calendarRef}
         data-tid={DateRangePickerDataTids.calendar}
         onMonthChange={props.onMonthChange}
-        className={cx({
-          [css`
-            width: auto;
-          `]: widthAuto,
-        })}
+        className={cx({ [styles.calendarWidthAuto()]: widthAuto })}
       />
     );
 
@@ -305,7 +289,7 @@ export const DateRangePicker = Object.assign(
                       styles.inputWrapper(),
                       styles.inputWrapperWidth(theme),
                       css`
-                        font-size: ${getSize(theme)};
+                        font-size: ${getFontSize(theme, props.size)};
                       `,
                     )}
                   >
@@ -453,7 +437,7 @@ export const DateRangePicker = Object.assign(
       } else {
         handleFullPeriod(date);
       }
-    };
+    }
 
     function renderRange(
       props: CalendarDayProps,
@@ -515,58 +499,25 @@ export const DateRangePicker = Object.assign(
           onMouseOver={() => setHoveredDay(day)}
           onMouseOut={() => setHoveredDay(null)}
           className={cx(
+            styles.rangeCalendarDay(),
             css`
-              width: 100%;
-              height: 100%;
               background: ${isDayInPeriod && t.rangeCalendarCellBg};
               border-top-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
               border-bottom-left-radius: ${hasLeftRoundings && t.calendarCellBorderRadius};
               border-top-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
               border-bottom-right-radius: ${hasRightRoundings && t.calendarCellBorderRadius};
             `,
-            (isDayFirst || isDayLast) &&
-              css`
-                position: relative;
-
-                [data-tid=${CalendarDataTids.dayCell}] {
-                  color: ${t.rangeCalendarCellEndColor};
-
-                  @media (hover: hover) {
-                    &:hover {
-                      background: none;
-                    }
-                  }
-                }
-
-                &:before {
-                  content: '';
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  background: ${t.rangeCalendarCellEndBg};
-                  border-radius: ${t.calendarCellBorderRadius};
-                }
-              `,
-            isDayInHoveredPeriod &&
-              css`
-                background: ${t.rangeCalendarCellBg};
-              `,
-            isDayInPeriod &&
-              css`
-                @media (hover: hover) {
-                  &:hover [data-tid=${CalendarDataTids.dayCell}] {
-                    background: ${t.rangeCalendarCellHoverBg};
-                  }
-                }
-              `,
+            {
+              [styles.rangeCalendarDayEnd(t)]: isDayFirst || isDayLast,
+              [styles.rangeCalendarDayHoverInPeriod(t)]: isDayInPeriod,
+              [styles.rangeCalendarDayInHoveredPeriod(t)]: isDayInHoveredPeriod,
+            },
           )}
         >
           {renderDayFn ? renderDayFn(props) : <CalendarDay {...props} />}
         </div>
       );
-    };
+    }
 
     function scrollToMonth(fieldType: DateRangePickerFieldType) {
       const date = fieldType === 'start' ? start : end;
@@ -576,6 +527,6 @@ export const DateRangePicker = Object.assign(
           calendarRef.current?.scrollToMonth(month, year);
         }
       }
-    };
+    }
   }),
 );
