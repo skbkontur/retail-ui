@@ -102,25 +102,25 @@ export const styles = memoizeStyle({
     `;
   },
 
-  useDefault(t: Theme) {
+  default(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
     `;
   },
 
-  useSuccess(t: Theme) {
+  success(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
     `;
   },
 
-  useDanger(t: Theme) {
+  danger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
     `;
   },
 
-  useGrayed(t: Theme) {
+  grayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
     `;

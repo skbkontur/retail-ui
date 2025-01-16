@@ -169,15 +169,10 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
     const rootProps = {
       ...rest,
-      className: cx({
-        [styles.root(this.theme)]: true,
+      className: cx(styles.root(this.theme), styles[use](this.theme), {
         [resetButton()]: Root === 'button',
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
         [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
