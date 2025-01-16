@@ -3,7 +3,7 @@ import React from 'react';
 import type { SizeProp } from '../../lib/types/props';
 import type { DateInput } from '../DateInput';
 
-import type { DateRangeFieldType } from './DateRangePicker';
+import { DateRangePickerFieldType } from './DateRangePickerField';
 
 export interface DateRangePickerContextProps {
   start: string | null;
@@ -16,12 +16,13 @@ export interface DateRangePickerContextProps {
   autoFocus?: boolean;
   warning?: boolean[];
   error?: boolean[];
-  onBlur?: () => void;
-  onFocus?: () => void;
+  onBlur?: (e: React.FocusEvent<HTMLElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLElement>) => void;
   onValueChange?: (value: string[]) => void;
   setStart: (value: string) => void;
   setEnd: (value: string) => void;
-  open: (Props: DateRangeFieldType) => void;
+  setFocusField: (value: DateRangePickerFieldType | null) => void;
+  open: (type: DateRangePickerFieldType) => void;
   close: () => void;
   dateRangePickerRef: React.RefObject<HTMLDivElement>;
   startRef: React.RefObject<DateInput>;
