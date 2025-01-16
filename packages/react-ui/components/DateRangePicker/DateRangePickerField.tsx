@@ -7,15 +7,17 @@ import { CommonProps } from '../../internal/CommonWrapper';
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
 
+export type DateRangePickerFieldType = 'start' | 'end';
+
 export interface DateRangePickerFieldProps
   extends CommonProps,
     Pick<DateInputProps, 'id' | 'size' | 'style' | 'withIcon' | 'width'> {
-  type: 'start' | 'end';
+  type: DateRangePickerFieldType;
 }
 
-export type DateRangePickerFieldWithTypeProps = Omit<DateInputProps, 'type'>;
+export type DateRangePickerFieldWithTypeProps = Omit<DateRangePickerFieldProps, 'type'>;
 
-export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props) => {
+export function DateRangePickerField(props: DateRangePickerFieldProps) {
   const {
     start,
     end,
@@ -31,6 +33,7 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
     endRef,
     setEnd,
     setStart,
+    setFocusField,
     open,
     close,
     onFocus,
@@ -51,9 +54,9 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       }
       open(props.type);
     },
-    onFocus: () => {
+    onFocus: (e) => {
       open(props.type);
-      onFocus?.();
+      onFocus?.(e);
     },
     onBlur: (e) => {
       if (isMobile) {
@@ -63,7 +66,8 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
       if (!dateRangePickerRef.current?.contains(nextFocusedElement)) {
         close();
       }
-      onBlur?.();
+      setFocusField(null);
+      onBlur?.(e);
     },
   };
 
@@ -97,4 +101,4 @@ export const DateRangePickerField: React.FC<DateRangePickerFieldProps> = (props)
         />
       );
   }
-};
+}
