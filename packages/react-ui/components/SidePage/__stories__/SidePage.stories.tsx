@@ -796,3 +796,134 @@ export const SidePageChangeBlockBgAndIgnoreBgClick: Story = () => {
 };
 SidePageChangeBlockBgAndIgnoreBgClick.storyName =
   'SidePage with dynamic change blockBackground and ignoreBackgroundClick';
+
+export const NestedSidePagesWithChangingVeil: Story = () => {
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
+  const [edit1, setEdit1] = React.useState(false);
+  const [edit2, setEdit2] = React.useState(false);
+  const [edit3, setEdit3] = React.useState(false);
+
+  return (
+    <div>
+      {open1 && (
+        <SidePage
+          width={800}
+          onClose={() => {
+            setOpen1(false);
+          }}
+          ignoreBackgroundClick={edit1}
+          blockBackground={edit1}
+        >
+          <SidePage.Header>Title 1</SidePage.Header>
+          <SidePage.Body>
+            <Button
+              onClick={() => {
+                setOpen2(true);
+              }}
+              data-tid="open-second-side-page"
+            >
+              Open SidePage 2
+            </Button>
+            <Button onClick={() => setEdit1((prev) => !prev)} data-tid="veil-first-from-first-side-page">
+              Редактировать
+            </Button>
+            {open2 && (
+              <SidePage
+                width={800}
+                onClose={() => {
+                  setOpen2(false);
+                }}
+                ignoreBackgroundClick={edit2}
+                blockBackground={edit2}
+              >
+                <SidePage.Header>Title 2</SidePage.Header>
+                <SidePage.Body>
+                  <Button
+                    onClick={() => {
+                      setOpen3(true);
+                    }}
+                    data-tid="open-third-side-page"
+                  >
+                    Open SidePage 3
+                  </Button>
+                  <Button onClick={() => setEdit1((prev) => !prev)} data-tid="veil-first-from-second-side-page">
+                    Редактировать1
+                  </Button>
+                  <Button onClick={() => setEdit2((prev) => !prev)} data-tid="veil-second-from-second-side-page">
+                    Редактировать2
+                  </Button>
+                  {open3 && (
+                    <SidePage
+                      width={800}
+                      onClose={() => {
+                        setOpen3(false);
+                      }}
+                      ignoreBackgroundClick={edit3}
+                      blockBackground={edit3}
+                    >
+                      <SidePage.Header>Title 3</SidePage.Header>
+                      <SidePage.Body>
+                        <Button onClick={() => setEdit1((prev) => !prev)} data-tid="veil-first-from-third-side-page">
+                          Редактировать1
+                        </Button>
+                        <Button onClick={() => setEdit2((prev) => !prev)} data-tid="veil-second-from-third-side-page">
+                          Редактировать2
+                        </Button>
+                        <Button onClick={() => setEdit3((prev) => !prev)} data-tid="veil-third-from-third-side-page">
+                          Редактировать3
+                        </Button>
+                      </SidePage.Body>
+                      <SidePage.Footer>
+                        <Button
+                          onClick={() => {
+                            setOpen3(false);
+                          }}
+                          data-tid="close-third-side-page"
+                        >
+                          Close
+                        </Button>
+                      </SidePage.Footer>
+                    </SidePage>
+                  )}
+                </SidePage.Body>
+                <SidePage.Footer>
+                  <Button
+                    onClick={() => {
+                      setOpen2(false);
+                    }}
+                    data-tid="close-second-side-page"
+                  >
+                    Close
+                  </Button>
+                </SidePage.Footer>
+              </SidePage>
+            )}
+          </SidePage.Body>
+
+          <SidePage.Footer>
+            <Button
+              onClick={() => {
+                setOpen1(false);
+              }}
+              data-tid="close-first-side-page"
+            >
+              Close
+            </Button>
+          </SidePage.Footer>
+        </SidePage>
+      )}
+
+      <Button
+        onClick={() => {
+          setOpen1(true);
+        }}
+        data-tid="open-first-side-page"
+      >
+        Open SidePage
+      </Button>
+    </div>
+  );
+};
+NestedSidePagesWithChangingVeil.storyName = 'Nested SidePages with changing veil';

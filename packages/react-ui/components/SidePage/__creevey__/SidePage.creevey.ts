@@ -131,7 +131,7 @@ kind('SidePage', () => {
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
-      await delay(1000);
+      await delay(3000);
       await pressTab();
       const firstTimeTabPress = await this.browser.takeScreenshot();
       await pressTab();
@@ -342,6 +342,72 @@ kind('SidePage', () => {
 
       await delay(100);
       await this.expect({ viewModeSidePage, editModeSidePage, againViewModeSidePage }).to.matchImages();
+    });
+  });
+
+  story('NestedSidePagesWithChangingVeil', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: 'body',
+    });
+
+    test('idle', async function () {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-tid~="open-first-side-page"]' }))
+        .perform();
+      await delay(200);
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-tid~="open-second-side-page"]' }))
+        .perform();
+      await delay(200);
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: '[data-tid~="open-third-side-page"]' }))
+        .perform();
+      await delay(200);
+      const thirdOpenedNoVeils = await this.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: `[data-tid~="veil-first-from-third-side-page"]` }))
+        .perform();
+      await delay(200);
+      const thirdOpenedWithFirstVeil = await this.browser.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
+        .perform();
+      await delay(200);
+      const thirdOpenedWithFirstAndSecondVeils = await this.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
+        .perform();
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: `[data-tid~="veil-third-from-third-side-page"] button` }))
+        .perform();
+      await delay(200);
+      const thirdOpenedWithFirstAndThirdVeils = await this.takeScreenshot();
+
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: `[data-tid~="close-third-side-page"] button` }))
+        .perform();
+      await delay(200);
+      const secondOpenedWithFirstVeilAndNoSecondVeil = await this.takeScreenshot();
+
+      await this.expect({
+        thirdOpenedNoVeils,
+        thirdOpenedWithFirstVeil,
+        thirdOpenedWithFirstAndSecondVeils,
+        thirdOpenedWithFirstAndThirdVeils,
+        secondOpenedWithFirstVeilAndNoSecondVeil,
+      }).to.matchImages();
     });
   });
 });
