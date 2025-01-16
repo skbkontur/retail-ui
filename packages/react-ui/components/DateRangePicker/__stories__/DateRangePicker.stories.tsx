@@ -6,6 +6,9 @@ import { DateRangePicker } from '../DateRangePicker';
 import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeIn } from '../../../lib/theming/Theme';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'DateRangePicker',
@@ -13,9 +16,16 @@ export default {
 
 export const Component = () => {
   const [value, setValue] = React.useState(['', '']);
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
 
   return (
-    <DateRangePicker value={value} onValueChange={setValue}>
+    <DateRangePicker
+      value={value}
+      minDate={minDate}
+      maxDate={maxDate}
+      onValueChange={([start, end]) => setValue([start, end])}
+    >
       <DateRangePicker.Start />
       <DateRangePicker.Separator />
       <DateRangePicker.End />
@@ -42,28 +52,33 @@ export const Sizes: Story = () => {
   const [valueS, setValueS] = React.useState(['', '']);
   const [valueM, setValueM] = React.useState(['', '']);
   const [valueL, setValueL] = React.useState(['', '']);
+
+  const theme = React.useContext(ThemeContext);
+  const createTheme = (tokens: ThemeIn) => ThemeFactory.create(tokens, theme);
+
   return (
-    <>
-      <Gapped vertical>
+    <Gapped vertical gap={16}>
+      <ThemeContext.Provider value={createTheme({ calendarCellWidth: '44px', calendarCellHeight: '44px' })}>
         <DateRangePicker size="large" value={valueL} onValueChange={setValueL}>
           <DateRangePicker.Start />
           <DateRangePicker.Separator />
           <DateRangePicker.End />
         </DateRangePicker>
+      </ThemeContext.Provider>
 
+      <ThemeContext.Provider value={createTheme({ calendarCellWidth: '36px', calendarCellHeight: '36px' })}>
         <DateRangePicker size="medium" value={valueM} onValueChange={setValueM}>
           <DateRangePicker.Start />
           <DateRangePicker.Separator />
           <DateRangePicker.End />
         </DateRangePicker>
-
-        <DateRangePicker size="small" value={valueS} onValueChange={setValueS}>
-          <DateRangePicker.Start />
-          <DateRangePicker.Separator />
-          <DateRangePicker.End />
-        </DateRangePicker>
-      </Gapped>
-    </>
+      </ThemeContext.Provider>
+      <DateRangePicker size="small" value={valueS} onValueChange={setValueS}>
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
+    </Gapped>
   );
 };
 Sizes.parameters = {};
@@ -93,11 +108,6 @@ export const Autofocus: Story = () => {
   );
 };
 Autofocus.parameters = {};
-
-export const MenuAlign: Story = () => {
-  return <></>;
-};
-MenuAlign.parameters = {};
 
 export const MenuPos: Story = () => {
   const [valueTop, setValueTop] = React.useState(['', '']);
@@ -134,7 +144,6 @@ export const DateRangePickerLocaleProvider = () => {
     </div>
   );
 };
-DateRangePickerLocaleProvider.storyName = 'LocaleProvider';
 DateRangePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
 export const Disabled: Story = () => {
@@ -150,25 +159,59 @@ export const Disabled: Story = () => {
 };
 Disabled.parameters = {};
 
-export const CustomChildren: Story = () => {
+export const OptionalRange: Story = () => {
+  const [value1, setValue1] = React.useState(['', '']);
+  const [value2, setValue2] = React.useState(['', '']);
+  const [value3, setValue3] = React.useState(['', '']);
+
+  return (
+    <Gapped vertical gap={16}>
+      <DateRangePicker optional={[false, false]} value={value1} onValueChange={setValue1}>
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
+
+      <DateRangePicker optional={[true, true]} value={value2} onValueChange={setValue2}>
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
+
+      <DateRangePicker optional={[true, true]} value={value3} onValueChange={setValue3}>
+        <DateRangePicker.Start />
+        <DateRangePicker.Separator />
+        <DateRangePicker.End />
+      </DateRangePicker>
+    </Gapped>
+  );
+};
+OptionalRange.parameters = {};
+
+export const CustomChildrenWithoutDash: Story = () => {
+  const [value, setValue] = React.useState(['', '']);
+  return (
+    <DateRangePicker value={value} onValueChange={setValue}>
+      <DateRangePicker.Start style={{ borderRadius: 0 }} />
+      <DateRangePicker.End style={{ marginLeft: -1, borderRadius: 0 }} />
+    </DateRangePicker>
+  );
+};
+CustomChildrenWithoutDash.parameters = {};
+
+export const CustomChildrenVertical: Story = () => {
   const [value, setValue] = React.useState(['', '']);
 
   return (
-    <DateRangePicker value={value} onValueChange={setValue}>
-      <Gapped vertical gap={4}>
+    <DateRangePicker value={value} onValueChange={([start, end]) => setValue([start, end])}>
+      <Gapped gap={4} vertical>
         <DateRangePicker.Start />
         <DateRangePicker.End />
       </Gapped>
     </DateRangePicker>
   );
 };
-CustomChildren.storyName = 'CustomChildren';
-CustomChildren.parameters = {};
-
-export const Range: Story = () => {
-  return <></>;
-};
-Range.parameters = {};
+CustomChildrenVertical.parameters = {};
 
 export const Validations: Story = () => {
   const [value, setValue] = React.useState(['', '']);
@@ -223,3 +266,4 @@ export const Validations: Story = () => {
     </DateRangePicker>
   );
 };
+Validations.parameters = {};
