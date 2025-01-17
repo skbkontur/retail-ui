@@ -186,10 +186,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         requestClose: this.requestClose,
       };
     }
-    if (!hasFooter) {
-      modalContextProps.additionalPadding = true;
-    }
-    if (hasFooter && hasPanel) {
+    if (!hasFooter || hasPanel) {
       modalContextProps.additionalPadding = true;
     }
 
