@@ -255,4 +255,27 @@ kind('Modal', () => {
       await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
     });
   });
+
+  story('ChangeAllModalContent', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+    });
+    test('idle', async function () {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: '[data-tid~="open-first-modal"]' }))
+        .perform();
+      await delay(500);
+      const firstModal = await this.browser.takeScreenshot();
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement({ css: `[data-tid~="open-second-modal"] button` }))
+        .perform();
+      await delay(500);
+      const secondModal = await this.browser.takeScreenshot();
+      await this.expect({firstModal, secondModal}).to.matchImages();
+    });
+  });
 });

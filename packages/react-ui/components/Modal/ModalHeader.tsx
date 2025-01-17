@@ -36,9 +36,13 @@ function ModalHeader(props: ModalHeaderProps) {
   const { sticky = !layout.isMobile, children } = props;
 
   useLayoutEffect(() => {
+    console.log("вызывается при mountHeader");
     modal.setHasHeader?.();
 
-    return () => modal.setHasHeader?.(false);
+    return () => {
+      console.log("вызывается при unmountHeader. По факту в setHasHeader мы заходим, но как видно из log, сам его внутренний setState не вызывается");
+      modal.setHasHeader?.(false);
+    }
   }, []);
 
   const renderContent = (fixed = false) => {
