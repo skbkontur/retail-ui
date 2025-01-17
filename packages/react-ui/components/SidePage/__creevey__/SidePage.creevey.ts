@@ -131,7 +131,7 @@ kind('SidePage', () => {
         })
         .click(this.browser.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
-      await delay(3000);
+      await delay(5000);
       await pressTab();
       const firstTimeTabPress = await this.browser.takeScreenshot();
       await pressTab();
