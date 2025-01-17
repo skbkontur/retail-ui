@@ -341,27 +341,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private setHasHeader = (hasHeader = true) => {
-    console.log('зашли в setHasHeader');
-    console.log(
-      'условие при котором выполнится setState: \nthis.state.hasHeader равное ' +
-        this.state.hasHeader +
-        '  !==   hasHeader равное ' +
-        hasHeader +
-        ', \nусловие ' +
-        (this.state.hasHeader !== hasHeader ? '' : 'НЕ ') +
-        'выполняется',
-    );
-    this.state.hasHeader !== hasHeader &&
-      this.setState({ hasHeader }, () => {
-        console.log('выполнили setState со значением hasHeader=' + hasHeader);
-      });
+    this.setState({ hasHeader });
   };
 
   private setHasFooter = (hasFooter = true) => {
-    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+    this.setState({ hasFooter });
   };
 
   private setHasPanel = (hasPanel = false) => {
-    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
+    this.setState({ hasPanel });
   };
 }
