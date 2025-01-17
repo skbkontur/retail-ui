@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.7...@skbkontur/react-ui@5.0.8) (2025-01-17)
+
+
+### Bug Fixes
+
+* show mobile view on all mobile devices ([#3583](https://github.com/skbkontur/retail-ui/issues/3583)) ([9e64e9e](https://github.com/skbkontur/retail-ui/commit/9e64e9ef1e2ef122f123520703a3935841ea70ec))
+
+
+
+
+
+## [5.0.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.6...@skbkontur/react-ui@5.0.7) (2025-01-16)
+
+
+### Bug Fixes
+
+* **Input:** crash on focus after page translation ([#3572](https://github.com/skbkontur/retail-ui/issues/3572)) ([0093e57](https://github.com/skbkontur/retail-ui/commit/0093e57a0c0ad63d385068d418801fc7a4e18007))
+* **Link:** issue with same colors for different uses ([#3585](https://github.com/skbkontur/retail-ui/issues/3585)) ([2413253](https://github.com/skbkontur/retail-ui/commit/2413253fdf4ae21985f341c8bad5069741ea3e11))
+
+
+
+
+
 ## [5.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.5...@skbkontur/react-ui@5.0.6) (2024-12-23)
 
 
