@@ -1,11 +1,11 @@
-import path from 'path';
+import path from 'path'
 import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
 import { SeleniumWebdriver } from 'creevey/selenium';
 import { storybookUrl, resolveStorybookUrl } from './storybook-url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 dotenv({ path: '../../.env' });
 
@@ -32,7 +32,7 @@ const config: CreeveyConfig = {
   testsDir: path.join(__dirname, '../'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: process.env.GRID_URL,
+  gridUrl: process.env.GRID_4_URL,
   maxRetries: process.env.TEAMCITY_VERSION ? 5 : 0,
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
