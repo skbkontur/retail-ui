@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const NotificationContainer = styled.div`
   position: sticky;
-  z-index: 2;
+  z-index: 10;
   top: 0;
   left: 0;
   display: flex;
