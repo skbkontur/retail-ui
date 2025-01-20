@@ -156,3 +156,34 @@ export const MultilineLink: Story = () => {
     </div>
   );
 };
+
+export const SameColorsInDifferentUse: Story = () => {
+  const differentColorStyles = {
+    linkColor: 'blue',
+    linkHoverColor: 'red',
+    linkActiveColor: 'yellow',
+
+    linkGrayedColor: 'blue',
+    linkGrayedHoverColor: 'red',
+    linkGrayedActiveColor: 'yellow',
+  };
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <Gapped vertical>
+            <ThemeContext.Provider value={ThemeFactory.create(differentColorStyles, theme)}>
+              <Gapped vertical>
+                <Link use="default">Я дефолтная ссылка, закастомленная под серую</Link>
+                <Link use="grayed">Я серая ссылка</Link>
+                <span>Они должны быть одинаковых цветов</span>
+              </Gapped>
+            </ThemeContext.Provider>
+          </Gapped>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+SameColorsInDifferentUse.parameters = { creevey: { skip: true } };
