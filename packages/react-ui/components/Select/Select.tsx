@@ -43,6 +43,9 @@ import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
+import { SelectDataTids } from './tids';
+
+export * from './tids';
 
 export interface ButtonParams
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'> {
@@ -67,12 +70,6 @@ const PASS_BUTTON_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
 };
-
-export const SelectDataTids = {
-  root: 'Select__root',
-  menu: 'Select__menu',
-  label: 'Select__label',
-} as const;
 
 export const SelectIds = {
   menu: SelectDataTids.menu,

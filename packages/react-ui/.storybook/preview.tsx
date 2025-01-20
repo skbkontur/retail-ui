@@ -133,5 +133,5 @@ export const globalTypes = {
 };
 
 if (isTestEnv) {
-  import('../lib/styles/HoldSelectionColor');
+  import('./styles/forScreenshotTests');
 }
