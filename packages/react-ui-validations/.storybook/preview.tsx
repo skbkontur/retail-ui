@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
+import { FixedSizeList as List } from 'react-window';
 
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
@@ -100,6 +101,7 @@ addons.setConfig({
       HandThumbUpIcon,
       ThumbUpIcon,
       SpaceFiller,
+      List,
     },
     decorators: [ThemeDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
