@@ -407,13 +407,15 @@ kind('SidePage', () => {
       await delay(200);
       const secondOpenedWithFirstVeilAndNoSecondVeil = await context.takeScreenshot();
 
-      await context.expect({
-        thirdOpenedNoVeils,
-        thirdOpenedWithFirstVeil,
-        thirdOpenedWithFirstAndSecondVeils,
-        thirdOpenedWithFirstAndThirdVeils,
-        secondOpenedWithFirstVeilAndNoSecondVeil,
-      }).to.matchImages();
+      await context
+        .expect({
+          thirdOpenedNoVeils,
+          thirdOpenedWithFirstVeil,
+          thirdOpenedWithFirstAndSecondVeils,
+          thirdOpenedWithFirstAndThirdVeils,
+          secondOpenedWithFirstVeilAndNoSecondVeil,
+        })
+        .to.matchImages();
     });
   });
 });
