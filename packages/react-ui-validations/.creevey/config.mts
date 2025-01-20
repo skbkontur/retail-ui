@@ -1,11 +1,11 @@
-import path from 'path'
+import path from 'path';
 import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
 import { SeleniumWebdriver } from 'creevey/selenium';
 import { storybookUrl, resolveStorybookUrl } from './storybook-url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv({ path: '../../.env' });
 
