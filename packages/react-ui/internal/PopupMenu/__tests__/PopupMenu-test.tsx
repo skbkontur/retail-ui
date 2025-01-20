@@ -109,7 +109,7 @@ describe('PopupMenu', () => {
     const outsideButton = screen.getByRole('button', { name: outsideButtonContent });
     await userEvent.click(outsideButton);
     // After we close menu the `onCloseCallback` should be called once
-    expect(onCloseCallback).toHaveBeenCalledTimes(2); // actually 1, but in jest it 2
+    expect(onCloseCallback).toHaveBeenCalledTimes(1);
   });
 
   it('prop `popupMenuId` sets an `id` for root of the popup', async () => {
