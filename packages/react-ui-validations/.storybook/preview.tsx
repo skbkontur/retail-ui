@@ -1,6 +1,5 @@
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
-import { withCreevey } from 'creevey/addon';
 import React from 'react';
 
 setFilter((fiber) => {
@@ -22,7 +21,6 @@ export const decorators = [
       <Story />
     </div>
   ),
-  withCreevey(),
 ];
 
 export const parameters = {
