@@ -275,7 +275,7 @@ kind('Modal', () => {
         .perform();
       await delay(500);
       const secondModal = await this.browser.takeScreenshot();
-      await this.expect({firstModal, secondModal}).to.matchImages();
+      await this.expect({ firstModal, secondModal }).to.matchImages();
     });
   });
 });

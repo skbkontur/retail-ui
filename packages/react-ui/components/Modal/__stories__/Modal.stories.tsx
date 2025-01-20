@@ -673,7 +673,9 @@ export const ChangeAllModalContent: Story = () => {
       <Modal.Body>Первый контент</Modal.Body>
       <Modal.Footer>
         <Button onClick={onClose}>Понятно</Button>
-        <Button onClick={onClick} data-tid="open-second-modal">Поменять контент</Button>
+        <Button onClick={onClick} data-tid="open-second-modal">
+          Поменять контент
+        </Button>
       </Modal.Footer>
     </>
   );
