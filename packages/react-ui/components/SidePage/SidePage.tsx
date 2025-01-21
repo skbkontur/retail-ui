@@ -83,11 +83,6 @@ type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'offset' 
 
 const TRANSITION_TIMEOUT = 200;
 
-const SidePageZIndexPriority = {
-  Container: 2,
-  Veil: 1,
-} as const;
-
 /**
  * `SidePage` — это модальное окно, которое открывается поверх основной страницы и занимает всю высоту окна браузера.
  *
@@ -171,35 +166,38 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
     return (
-      <RenderContainer>
-        <CommonWrapper {...this.props}>
-          <ZIndex priority={'Sidepage'}>
-            <ResponsiveLayout>
-              {({ isMobile }) => (
-                <>
-                  {blockBackground && this.renderShadow(isMobile)}
-                  <CSSTransition
-                    in
-                    classNames={this.getTransitionNames()}
-                    appear={!disableAnimations}
-                    enter={!disableAnimations}
-                    exit={false}
-                    timeout={{
-                      enter: TRANSITION_TIMEOUT,
-                      exit: TRANSITION_TIMEOUT,
-                    }}
-                    nodeRef={this.rootRef}
-                    onEntered={onOpened}
-                  >
-                    {this.renderContainer(isMobile)}
-                  </CSSTransition>
-                  {isMobile && <HideBodyVerticalScroll />}
-                </>
-              )}
-            </ResponsiveLayout>
-          </ZIndex>
-        </CommonWrapper>
-      </RenderContainer>
+      <ResponsiveLayout>
+        {({ isMobile }) => (
+          <RenderContainer>
+            <CommonWrapper {...this.props}>
+              <ZIndex
+                priority={'Sidepage'}
+                onScroll={LayoutEvents.emit}
+                createStackingContext
+                wrapperRef={this.rootRef}
+              >
+                {blockBackground && this.renderShadow(isMobile)}
+                <CSSTransition
+                  in
+                  classNames={this.getTransitionNames()}
+                  appear={!disableAnimations}
+                  enter={!disableAnimations}
+                  exit={false}
+                  timeout={{
+                    enter: TRANSITION_TIMEOUT,
+                    exit: TRANSITION_TIMEOUT,
+                  }}
+                  nodeRef={this.rootRef}
+                  onEntered={onOpened}
+                >
+                  {this.renderContainer(isMobile)}
+                </CSSTransition>
+                {isMobile && <HideBodyVerticalScroll />}
+              </ZIndex>
+            </CommonWrapper>
+          </RenderContainer>
+        )}
+      </ResponsiveLayout>
     );
   }
 
@@ -220,18 +218,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { offset, role } = this.getProps();
 
     return (
-      <ZIndex
+      <div
         aria-modal
         role={role}
         aria-label={ariaLabel}
-        priority={SidePageZIndexPriority.Container}
         data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
         })}
         onScroll={LayoutEvents.emit}
-        createStackingContext
         style={
           isMobile
             ? undefined
@@ -241,7 +237,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 left: fromLeft ? offset : 'auto',
               }
         }
-        wrapperRef={this.rootRef}
       >
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
@@ -261,7 +256,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             </div>
           </RenderLayer>
         </FocusLock>
-      </ZIndex>
+      </div>
     );
   }
 
@@ -290,7 +285,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderShadow(isMobile: boolean): JSX.Element {
     return (
-      <ZIndex priority={SidePageZIndexPriority.Veil} className={styles.overlay()} onScroll={LayoutEvents.emit}>
+      <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
         {!isMobile && (
           <>
             <HideBodyVerticalScroll key="hbvs" />
@@ -303,7 +298,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             />
           </>
         )}
-      </ZIndex>
+      </div>
     );
   }
 

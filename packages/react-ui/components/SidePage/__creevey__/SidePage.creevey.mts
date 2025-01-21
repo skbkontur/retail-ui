@@ -137,7 +137,7 @@ kind('SidePage', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
-      await delay(5000);
+      await delay(7000);
       await pressTab();
       const firstTimeTabPress = await context.webdriver.takeScreenshot();
       await pressTab();
@@ -362,31 +362,31 @@ kind('SidePage', () => {
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: '[data-tid~="open-first-side-page"]' }))
         .perform();
-      await delay(200);
+      await delay(500);
       await context.webdriver
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: '[data-tid~="open-second-side-page"]' }))
         .perform();
-      await delay(200);
+      await delay(500);
       await context.webdriver
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: '[data-tid~="open-third-side-page"]' }))
         .perform();
-      await delay(200);
+      await delay(500);
       const thirdOpenedNoVeils = await context.takeScreenshot();
 
       await context.webdriver
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: `[data-tid~="veil-first-from-third-side-page"]` }))
         .perform();
-      await delay(200);
+      await delay(500);
       const thirdOpenedWithFirstVeil = await context.webdriver.takeScreenshot();
 
       await context.webdriver
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
         .perform();
-      await delay(200);
+      await delay(500);
       const thirdOpenedWithFirstAndSecondVeils = await context.takeScreenshot();
 
       await context.webdriver
@@ -397,14 +397,14 @@ kind('SidePage', () => {
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: `[data-tid~="veil-third-from-third-side-page"] button` }))
         .perform();
-      await delay(200);
+      await delay(500);
       const thirdOpenedWithFirstAndThirdVeils = await context.takeScreenshot();
 
       await context.webdriver
         .actions({ bridge: true })
         .click(context.webdriver.findElement({ css: `[data-tid~="close-third-side-page"] button` }))
         .perform();
-      await delay(200);
+      await delay(500);
       const secondOpenedWithFirstVeilAndNoSecondVeil = await context.takeScreenshot();
 
       await context
