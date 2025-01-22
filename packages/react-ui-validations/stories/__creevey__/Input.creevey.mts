@@ -12,7 +12,6 @@ kind('Input', () => {
         .click(input)
         .sendKeys('test')
         .click(context.webdriver.findElement({ css: 'body' }))
-        .pause(500)
         .perform();
       await context.matchImage(await context.takeScreenshot());
     });
@@ -28,7 +27,6 @@ kind('Input', () => {
         .click(input)
         .sendKeys('test')
         .click(context.webdriver.findElement({ css: 'body' }))
-        .pause(500)
         .perform();
       await context.matchImage(await context.takeScreenshot());
     });
@@ -45,17 +43,20 @@ kind('Input', () => {
           bridge: true,
         })
         .click(submitTop)
-        .pause(500)
         .perform();
+      await delay(500);
       const autoscrollAfterTopSubmit = await context.webdriver.takeScreenshot();
 
+      await context.webdriver.executeScript(function () {
+        window.scrollBy(0, -100);
+      });
       await context.webdriver
         .actions({
           bridge: true,
         })
         .click(submitCenter)
-        .pause(500)
         .perform();
+      await delay(500);
       const noScrollAfterCenterSubmit = await context.webdriver.takeScreenshot();
 
       await context.webdriver.executeScript(function () {
@@ -66,8 +67,8 @@ kind('Input', () => {
           bridge: true,
         })
         .click(submitBottom)
-        .pause(500)
         .perform();
+      await delay(1000);
       const autoscrollAfterBottomSubmit = await context.webdriver.takeScreenshot();
 
       await context.matchImages({
@@ -89,19 +90,15 @@ kind('Input', () => {
         })
         .click(select)
         .perform();
-      await delay(1000);
       await context.webdriver
         .actions({
           bridge: true,
         })
         .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
-        .pause(500)
         .click(input)
         .sendKeys('m')
-        .pause(500)
         .click(submit)
         .perform();
-      await delay(1000);
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -115,7 +112,7 @@ kind('Input', () => {
         })
         .click(submit)
         .perform();
-      await delay(2000);
+      await delay(1500);
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -153,7 +150,7 @@ kind('Input', () => {
         })
         .click(submit)
         .perform();
-      await delay(2000);
+      await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
@@ -168,7 +165,6 @@ kind('Input', () => {
           bridge: true,
         })
         .click(immediateValidationInput)
-        .pause(200)
         .sendKeys('test')
         .perform();
       await context.matchImage(await context.takeScreenshot());
@@ -190,7 +186,6 @@ kind('Input', () => {
           bridge: true,
         })
         .click(context.webdriver.findElement({ css: 'body' }))
-        .pause(200)
         .move({
           origin: lostfocusValidationInput,
         })
@@ -211,7 +206,6 @@ kind('Input', () => {
         .click(submitValidationInput)
         .sendKeys('test')
         .click(context.webdriver.findElement({ css: 'body' }))
-        .pause(200)
         .move({
           origin: submitValidationInput,
         })
@@ -222,7 +216,6 @@ kind('Input', () => {
           bridge: true,
         })
         .click(submit)
-        .pause(200)
         .move({
           origin: submitValidationInput,
         })
@@ -243,7 +236,6 @@ kind('Input', () => {
         .sendKeys('test')
         .click(context.webdriver.findElement({ css: 'body' }))
         .click(input)
-        .pause(500)
         .perform();
       await context.matchImage(await context.takeScreenshot());
     });
