@@ -211,6 +211,7 @@ kind('Input', () => {
         })
         .perform();
       const noTooltipOnBlur = await context.takeScreenshot();
+
       await context.webdriver
         .actions({
           bridge: true,
@@ -220,7 +221,9 @@ kind('Input', () => {
           origin: submitValidationInput,
         })
         .perform();
+      await delay(500);
       const tooltipOnSubmitAndHover = await context.takeScreenshot();
+
       await context.matchImages({ noTooltipOnBlur, tooltipOnSubmitAndHover });
     });
   });
