@@ -340,15 +340,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     LayoutEvents.emit();
   };
 
-  private setHasHeader = (hasHeader = true) => {
+  private setHasHeader = (hasHeader: boolean) => {
     this.setState({ hasHeader });
   };
 
-  private setHasFooter = (hasFooter = true) => {
+  private setHasFooter = (hasFooter: boolean) => {
     this.setState({ hasFooter });
   };
 
-  private setHasPanel = (hasPanel = false) => {
+  private setHasPanel = (hasPanel: boolean) => {
     this.setState({ hasPanel });
   };
 }

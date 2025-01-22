@@ -45,8 +45,8 @@ function ModalFooter(props: ModalFooterProps) {
   const { sticky = !layout.isMobile, gap, panel, children } = props;
 
   useLayoutEffect(() => {
-    modal.setHasFooter?.();
-    modal.setHasPanel?.(panel);
+    modal.setHasFooter?.(true);
+    modal.setHasPanel?.(panel || false);
 
     return () => {
       modal.setHasFooter?.(false);
