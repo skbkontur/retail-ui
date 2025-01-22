@@ -22,15 +22,17 @@ export const Required = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, width: 250, height: 80 }}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validateSex()}>
-          <Checkbox checked={checked ? checked : false} onValueChange={setChecked}>
+          <Checkbox data-tid="checkbox" checked={checked ? checked : false} onValueChange={setChecked}>
             Checkbox
           </Checkbox>
         </ValidationWrapper>
         <div style={{ padding: '20px 0' }}>
-          <Button onClick={() => refContainer.current?.validate()}>Check</Button>
+          <Button data-tid="button" onClick={() => refContainer.current?.validate()}>
+            Check
+          </Button>
         </div>
       </ValidationContainer>
     </div>
