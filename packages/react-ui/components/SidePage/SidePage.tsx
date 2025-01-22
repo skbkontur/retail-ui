@@ -175,6 +175,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 onScroll={LayoutEvents.emit}
                 createStackingContext
                 wrapperRef={this.rootRef}
+                style={{ position: 'absolute' }}
               >
                 {blockBackground && this.renderShadow(isMobile)}
                 <CSSTransition
