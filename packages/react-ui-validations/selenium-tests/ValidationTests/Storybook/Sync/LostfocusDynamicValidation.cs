@@ -18,11 +18,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.InputBValidation.WaitPresent();
             page.InputA.SetValue("bad");
             page.InputA.WaitError();
-            var text = page.InputAValidation.Label.Text.Wait().That(Does.StartWith("incorrect times:"));
+            var text = page.InputAValidation.Text.Wait().That(Does.StartWith("incorrect times:"));
 
             page.InputB.InputValue("xxx");
             page.InputA.WaitError();
-            page.InputAValidation.Label.Text.Wait().That(Does.StartWith("incorrect times:").And.Not.EqualTo(text));
+            page.InputAValidation.Text.Wait().That(Does.StartWith("incorrect times:").And.Not.EqualTo(text));
         }
 
         private class Page : PageBase

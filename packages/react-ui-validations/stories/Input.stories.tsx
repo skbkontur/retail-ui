@@ -352,7 +352,7 @@ export const ValidationWithLevelWarning = () => {
   return (
     <div style={{ padding: 5, width: 350, height: 200 }}>
       <ValidationContainer ref={refContainer}>
-        <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
+        <ValidationWrapper validationInfo={validate(immediate, 'immediate')} data-strange="brrr">
           <Input
             data-tid="immediate-validation-input"
             placeholder={'Только цифры'}
@@ -362,7 +362,7 @@ export const ValidationWithLevelWarning = () => {
         </ValidationWrapper>
         <br />
         <br />
-        <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
+        <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')} data-strange="brrr">
           <Input
             data-tid="lostfocus-validation-input"
             placeholder={'Только цифры'}
@@ -372,7 +372,7 @@ export const ValidationWithLevelWarning = () => {
         </ValidationWrapper>
         <br />
         <br />
-        <ValidationWrapper validationInfo={validate(submit, 'submit')}>
+        <ValidationWrapper validationInfo={validate(submit, 'submit')} data-strange="brrr">
           <Input
             data-tid="submit-validation-input"
             placeholder={'Только цифры'}
@@ -565,6 +565,7 @@ export const DataTidOnValidation: Story = () => {
     <ValidationContainer>
       <div style={{ paddingTop: 60 }}>
         <ValidationWrapper
+          width="100px"
           data-tid="STRANGE WRAPPER"
           validationInfo={validateValue()}
           renderMessage={tooltip('top left')}
