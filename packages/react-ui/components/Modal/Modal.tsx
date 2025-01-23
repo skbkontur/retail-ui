@@ -206,10 +206,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         requestClose: this.requestClose,
       };
     }
-    if (!hasFooter) {
-      modalContextProps.additionalPadding = true;
-    }
-    if (hasFooter && hasPanel) {
+    if (!hasFooter || hasPanel) {
       modalContextProps.additionalPadding = true;
     }
 
@@ -363,15 +360,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     LayoutEvents.emit();
   };
 
-  private setHasHeader = (hasHeader = true) => {
-    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  private setHasHeader = (hasHeader: boolean) => {
+    this.setState({ hasHeader });
   };
 
-  private setHasFooter = (hasFooter = true) => {
-    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  private setHasFooter = (hasFooter: boolean) => {
+    this.setState({ hasFooter });
   };
 
-  private setHasPanel = (hasPanel = false) => {
-    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
+  private setHasPanel = (hasPanel: boolean) => {
+    this.setState({ hasPanel });
   };
 }

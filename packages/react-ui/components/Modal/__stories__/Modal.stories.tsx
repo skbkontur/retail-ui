@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, ReactNode } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -657,3 +657,61 @@ MobileModal.parameters = {
     defaultViewport: 'iphonePlus',
   },
 };
+
+export const ChangeAllModalContent: Story = () => {
+  interface FirstContentProps {
+    onClick: () => void;
+    onClose: () => void;
+  }
+
+  const FirstContent: React.FC<FirstContentProps> = ({ onClick, onClose }) => (
+    <>
+      <Modal.Header>1</Modal.Header>
+      <Modal.Body>Первый контент</Modal.Body>
+      <Modal.Footer>
+        <Button onClick={onClose}>Понятно</Button>
+        <Button onClick={onClick} data-tid="open-second-modal">
+          Поменять контент
+        </Button>
+      </Modal.Footer>
+    </>
+  );
+
+  const SecondContent: React.FC<FirstContentProps> = ({ onClick, onClose }) => (
+    <>
+      <Modal.Header>2</Modal.Header>
+      <Modal.Body>Второй контент</Modal.Body>
+      <Modal.Footer>
+        <Button onClick={onClose}>Понятно</Button>
+        <Button onClick={onClick}>Поменять контент</Button>
+      </Modal.Footer>
+    </>
+  );
+
+  const PayNotifice = () => {
+    const [content, setContent] = React.useState('first');
+    const [isOpened, setIsOpened] = React.useState(false);
+    const changeContent = () => setContent((prev) => (prev === 'first' ? 'second' : 'first'));
+
+    let modalContent: ReactNode;
+    switch (content) {
+      case 'first':
+        modalContent = <FirstContent onClick={changeContent} onClose={() => setIsOpened(false)} />;
+        break;
+      case 'second':
+        modalContent = <SecondContent onClick={changeContent} onClose={() => setIsOpened(false)} />;
+        break;
+    }
+
+    return (
+      <>
+        {isOpened && <Modal>{modalContent}</Modal>}
+        <Button use="pay" onClick={() => setIsOpened(true)} data-tid="open-first-modal">
+          Оплата
+        </Button>
+      </>
+    );
+  };
+  return <PayNotifice />;
+};
+ChangeAllModalContent.storyName = 'Change all modal content';
