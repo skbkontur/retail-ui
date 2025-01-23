@@ -350,7 +350,7 @@ export const ValidationWithLevelWarning = () => {
   };
 
   return (
-    <div style={{ width: 350, height: 150 }}>
+    <div style={{ padding: 5, width: 350, height: 200 }}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
           <Input
@@ -360,7 +360,8 @@ export const ValidationWithLevelWarning = () => {
             onValueChange={(value) => handleChange(() => setImmediate(value))}
           />
         </ValidationWrapper>
-
+        <br />
+        <br />
         <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
           <Input
             data-tid="lostfocus-validation-input"
@@ -369,7 +370,8 @@ export const ValidationWithLevelWarning = () => {
             onValueChange={(value) => handleChange(() => setLostfocus(value))}
           />
         </ValidationWrapper>
-
+        <br />
+        <br />
         <ValidationWrapper validationInfo={validate(submit, 'submit')}>
           <Input
             data-tid="submit-validation-input"
@@ -378,7 +380,8 @@ export const ValidationWithLevelWarning = () => {
             onValueChange={(value) => handleChange(() => setSubmit(value))}
           />
         </ValidationWrapper>
-
+        <br />
+        <br />
         <Gapped wrap verticalAlign="middle">
           <Button data-tid="submit" use={'primary'} onClick={handleSubmit}>
             Submit

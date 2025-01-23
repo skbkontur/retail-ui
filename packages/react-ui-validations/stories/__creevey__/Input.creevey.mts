@@ -217,9 +217,11 @@ kind('Input', () => {
           bridge: true,
         })
         .click(submit)
+        .pause(500)
         .move({
           origin: submitValidationInput,
         })
+        .pause(500)
         .perform();
       await delay(1000);
       const tooltipOnSubmitAndHover = await context.takeScreenshot();
