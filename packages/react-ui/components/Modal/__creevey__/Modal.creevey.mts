@@ -255,4 +255,27 @@ kind('Modal', () => {
       await context.matchImage(await context.webdriver.takeScreenshot(), 'bottom');
     });
   });
+
+  story('ChangeAllModalContent', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+    });
+    test('idle', async (context) => {
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(context.webdriver.findElement({ css: '[data-tid~="open-first-modal"]' }))
+        .perform();
+      await delay(500);
+      const firstModal = await context.webdriver.takeScreenshot();
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="open-second-modal"] button` }))
+        .perform();
+      await delay(500);
+      const secondModal = await context.webdriver.takeScreenshot();
+      await context.expect({ firstModal, secondModal }).to.matchImages();
+    });
+  });
 });
