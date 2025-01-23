@@ -36,7 +36,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const { sticky = !layout.isMobile, children } = props;
 
   useLayoutEffect(() => {
-    modal.setHasHeader?.();
+    modal.setHasHeader?.(true);
 
     return () => modal.setHasHeader?.(false);
   }, []);
