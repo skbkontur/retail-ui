@@ -12,9 +12,16 @@ export interface ValidationTextProps {
   children: React.ReactNode;
   validation: Nullable<Validation>;
   'data-tid'?: string;
+  childrenWidth?: string;
 }
 
-export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
+export const ValidationText = ({
+  pos,
+  children,
+  validation,
+  'data-tid': dataTid,
+  childrenWidth,
+}: ValidationTextProps) => {
   const theme = useContext<ThemeValidations>(ThemeContext);
   const color = getValidationTextColor(theme, validation?.level);
 
@@ -27,7 +34,11 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
         </span>
       </>
     );
-    return <div style={{ display: 'inline-block' }}>{childrenAndValidationText}</div>;
+    return (
+      <div style={{ position: 'relative', display: 'inline-block', width: childrenWidth }}>
+        {childrenAndValidationText}
+      </div>
+    );
   }
 
   const validationText = (
@@ -54,7 +65,11 @@ export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid 
     </>
   );
 
-  return <div style={{ position: 'relative', display: 'inline-block' }}>{childrenAndValidationText}</div>;
+  return (
+    <div style={{ position: 'relative', display: 'inline-block', width: childrenWidth }}>
+      {childrenAndValidationText}
+    </div>
+  );
 };
 
 ValidationText.__KONTUR_REACT_UI__ = 'ValidationText';

@@ -350,9 +350,9 @@ export const ValidationWithLevelWarning = () => {
   };
 
   return (
-    <div style={{ width: 350, height: 150 }}>
+    <div style={{ padding: 5, width: 350, height: 200 }}>
       <ValidationContainer ref={refContainer}>
-        <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
+        <ValidationWrapper validationInfo={validate(immediate, 'immediate')} data-strange="brrr">
           <Input
             data-tid="immediate-validation-input"
             placeholder={'Только цифры'}
@@ -360,8 +360,9 @@ export const ValidationWithLevelWarning = () => {
             onValueChange={(value) => handleChange(() => setImmediate(value))}
           />
         </ValidationWrapper>
-
-        <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
+        <br />
+        <br />
+        <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')} data-strange="brrr">
           <Input
             data-tid="lostfocus-validation-input"
             placeholder={'Только цифры'}
@@ -369,8 +370,9 @@ export const ValidationWithLevelWarning = () => {
             onValueChange={(value) => handleChange(() => setLostfocus(value))}
           />
         </ValidationWrapper>
-
-        <ValidationWrapper validationInfo={validate(submit, 'submit')}>
+        <br />
+        <br />
+        <ValidationWrapper validationInfo={validate(submit, 'submit')} data-strange="brrr">
           <Input
             data-tid="submit-validation-input"
             placeholder={'Только цифры'}
@@ -378,7 +380,8 @@ export const ValidationWithLevelWarning = () => {
             onValueChange={(value) => handleChange(() => setSubmit(value))}
           />
         </ValidationWrapper>
-
+        <br />
+        <br />
         <Gapped wrap verticalAlign="middle">
           <Button data-tid="submit" use={'primary'} onClick={handleSubmit}>
             Submit
@@ -441,3 +444,138 @@ export const TooltipTopLeft: Story = () => {
     </ValidationContainer>
   );
 };
+
+// #13 Все возможные положения Tooltip'а
+export const AllPossibleValidationTooltipPositions: Story = () => {
+  const value = 'test';
+  const validateValue = (): Nullable<ValidationInfo> =>
+    !/^\d{10}$|^\d{12}$/.test(value) ? { message: 'Неверный ИНН', type: 'immediate' } : null;
+
+  const commonDivStyles: React.CSSProperties = {
+    position: 'absolute',
+    display: 'flex',
+  };
+
+  const commonRowStyles: React.CSSProperties = {
+    left: '50px',
+    right: '50px',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  };
+
+  const commonColumnStyles: React.CSSProperties = {
+    top: '50px',
+    bottom: '50px',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  };
+
+  return (
+    <ValidationContainer>
+      <div style={{ ...commonDivStyles, ...commonRowStyles, bottom: '0px' }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top left')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top center')}>
+          <Input value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('top right')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+      </div>
+
+      <div style={{ ...commonDivStyles, ...commonRowStyles, top: '0px' }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('bottom left')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('bottom center')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('bottom right')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+      </div>
+
+      <div style={{ ...commonDivStyles, ...commonColumnStyles, left: '0px' }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('right top')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('right middle')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('right bottom')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+      </div>
+
+      <div style={{ ...commonDivStyles, ...commonColumnStyles, right: '0px' }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('left top')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('left middle')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={tooltip('left bottom')}>
+          <Input data-tid="test-input" value={value} />
+        </ValidationWrapper>
+      </div>
+    </ValidationContainer>
+  );
+};
+// Не скриншотится, так как это можно проверить только минимум 6-ю скриншотами (на один Input кликнуть и навестись на другой).
+// В принципе, при ошибках в позиционировании Tooltip'а должны упасть другие скриншоты
+AllPossibleValidationTooltipPositions.parameters = { creevey: { skip: true } };
+
+// #14 Все возможные положения текстовой валидации
+export const AllPossibleValidationTextPositions: Story = () => {
+  const value = 'test';
+  const validateValue = (): Nullable<ValidationInfo> =>
+    !/^\d{10}$|^\d{12}$/.test(value) ? { message: 'Неверный ИНН', type: 'immediate' } : null;
+
+  return (
+    <ValidationContainer>
+      <div style={{ marginTop: '10px' }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+          <Input value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('right')}>
+          <Input value={value} />
+        </ValidationWrapper>
+      </div>
+
+      <div style={{ marginTop: '50px' }}>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('right')}>
+          <Input value={value} />
+        </ValidationWrapper>
+        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+          <Input value={value} />
+        </ValidationWrapper>
+      </div>
+    </ValidationContainer>
+  );
+};
+
+// #15 Прокидывание data-tid'а на сообщение валидации
+export const DataTidOnValidation: Story = () => {
+  const [value, setValue] = useState<string>('');
+  const validateValue = (): Nullable<ValidationInfo> =>
+    !/^\d{10}$|^\d{12}$/.test(value) ? { message: 'Неверный ИНН', type: 'lostfocus' } : null;
+
+  return (
+    <ValidationContainer>
+      <div style={{ paddingTop: 60 }}>
+        <ValidationWrapper
+          data-tid="STRANGE WRAPPER"
+          validationInfo={validateValue()}
+          renderMessage={tooltip('top left')}
+        >
+          <Input data-tid="test-input" value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
+        </ValidationWrapper>
+        <ValidationWrapper data-tid="STRANGE WRAPPER" validationInfo={validateValue()} renderMessage={text('right')}>
+          <Input data-tid="test-input" value={value} onValueChange={setValue} placeholder={'Введите ИНН'} />
+        </ValidationWrapper>
+      </div>
+    </ValidationContainer>
+  );
+};
+DataTidOnValidation.parameters = { creevey: { skip: true } };
