@@ -32,6 +32,7 @@ export type RenderErrorMessage = (
   control: React.ReactElement<any>,
   hasError: boolean,
   validation: Nullable<Validation>,
+  width?: string,
 ) => React.ReactElement<any>;
 
 export interface ValidationWrapperInternalProps {
@@ -39,6 +40,7 @@ export interface ValidationWrapperInternalProps {
   validation: Nullable<Validation>;
   errorMessage: RenderErrorMessage;
   'data-tid'?: string;
+  width?: string;
 }
 
 interface ValidationWrapperInternalState {
@@ -141,9 +143,18 @@ export class ValidationWrapperInternal extends React.Component<
         },
       });
     }
-    return React.cloneElement(this.props.errorMessage(clonedChild, !!validation, validation), {
-      'data-tid': dataTid,
-    });
+
+    return React.cloneElement(
+      this.props.errorMessage(
+        <div style={{ display: 'inline-block', width: this.props.width }}>{clonedChild}</div>,
+        !!validation,
+        validation,
+        this.props.width,
+      ),
+      {
+        'data-tid': dataTid,
+      },
+    );
   }
 
   private customRef = (instance: Nullable<ReactInstance>) => {

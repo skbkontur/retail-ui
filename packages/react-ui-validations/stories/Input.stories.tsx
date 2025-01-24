@@ -565,7 +565,6 @@ export const DataTidOnValidation: Story = () => {
     <ValidationContainer>
       <div style={{ paddingTop: 60 }}>
         <ValidationWrapper
-          width="100px"
           data-tid="STRANGE WRAPPER"
           validationInfo={validateValue()}
           renderMessage={tooltip('top left')}

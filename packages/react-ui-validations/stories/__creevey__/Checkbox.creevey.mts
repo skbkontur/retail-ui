@@ -1,4 +1,5 @@
 import { story, kind, test } from 'creevey';
+import { delay } from '@skbkontur/react-ui/lib/delay';
 
 kind('Checkbox', () => {
   story('Required', () => {
@@ -15,6 +16,7 @@ kind('Checkbox', () => {
           origin: checkbox,
         })
         .perform();
+      await delay(200);
       await context.matchImage(await context.takeScreenshot());
     });
   });
