@@ -1,8 +1,8 @@
 import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { FixedSizeList as List } from 'react-window';
-import { Token } from '@skbkontur/react-ui';
+import { Checkbox, Gapped, Input, Token } from '@skbkontur/react-ui';
 
 import { createValidator, ValidationContainer, ValidationListWrapper, ValidationWrapper } from '../../../../src';
 
@@ -45,13 +45,13 @@ export const VirtualizedListExample: Story = () => {
                 b.prop(
                   (x) => x.subtitle,
                   (b) => {
-                    b.invalid(() => true, 'invlid sub');
+                    b.invalid(() => true, 'invalid sub');
                   },
                 );
                 b.prop(
                   (x) => x.value,
                   (b) => {
-                    b.invalid((x) => x > 40, 'invalid', 'immediate');
+                    b.invalid((x) => x > 40, 'invalid', 'submit');
                   },
                 );
               },
@@ -85,16 +85,16 @@ export const VirtualizedListExample: Story = () => {
             <List
               height={400}
               itemCount={data.length}
-              itemSize={30}
+              itemSize={42}
               width={400}
               ref={listRef}
               itemData={data}
               children={({ index, style, data }) => {
                 return (
                   <div style={{ ...style, display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <div>строка {data[index].value.value}</div>
-                    <div>
-                      {data[index].title}
+                    {/* <div>Cтрока {data[index].value.value}</div> */}
+                    <div style={{ padding: 6 }}>
+                      {/* {data[index].title} */}
                       <ValidationWrapper
                         validationInfo={validationRules
                           .getNode((x) => x.array)
@@ -102,7 +102,7 @@ export const VirtualizedListExample: Story = () => {
                           .getNode((x) => x.value.value)
                           .get()}
                       >
-                        <Token>{data[index].value.subtitle}</Token>
+                        <Input value={data[index].value.value} />
                       </ValidationWrapper>
                     </div>
                   </div>
@@ -111,9 +111,50 @@ export const VirtualizedListExample: Story = () => {
             />
           </ValidationListWrapper>
         </div>
-        <Button onClick={handleValidate}>validate</Button>
+        <br />
+        <Button onClick={handleValidate}>submit</Button>
         <span>isValid {isValid.toString()}</span>
       </div>
+    </ValidationContainer>
+  );
+};
+
+export const VirtualizedListExample2: Story = () => {
+  const containerRef = React.useRef<ValidationContainer>(null);
+  const [inn, setInn] = React.useState('');
+  const [kpp, setKpp] = React.useState('');
+  const [showKpp, setShowKpp] = React.useState(false);
+  const [isValid, setIsValid] = React.useState(true);
+  const handleValidate = async () => {
+    const result = await containerRef.current?.validate();
+    setIsValid(!!result);
+    console.log(result);
+  };
+
+  return (
+    <ValidationContainer ref={containerRef}>
+      <Gapped vertical>
+        <Gapped>
+          <span>INN</span>
+          <ValidationWrapper validationInfo={!inn ? { message: 'required', type: 'submit' } : null}>
+            <Input value={inn} onValueChange={setInn} />
+          </ValidationWrapper>
+          <Checkbox checked={showKpp} onValueChange={setShowKpp}>
+            Show KPP
+          </Checkbox>
+        </Gapped>
+
+        {showKpp && (
+          <Gapped>
+            <span>KPP</span>
+            <ValidationWrapper validationInfo={!kpp ? { message: 'required', type: 'submit' } : null}>
+              <Input value={kpp} onValueChange={setKpp} />
+            </ValidationWrapper>
+          </Gapped>
+        )}
+        <Button onClick={handleValidate}>submit</Button>
+        <span>isValid {isValid.toString()}</span>
+      </Gapped>
     </ValidationContainer>
   );
 };
