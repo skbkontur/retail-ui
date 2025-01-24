@@ -73,8 +73,6 @@ export interface FileUploaderRef extends InstanceWithRootNode {
   blur: () => void;
   /** Сбрасывает выбранные файлы */
   reset: () => void;
-  removeFile: (fileId: string) => void;
-  handleRemoveFile: (fileId: string) => void;
 }
 
 export const FileUploaderDataTids = {
@@ -109,7 +107,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, /*handleRemoveFile,*/ reset, setFileValidationResult, isMinLengthReached } =
+  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } =
     useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
@@ -125,7 +123,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
 
   const tryValidateAndUpload = useCallback(
     (files: FileUploaderAttachedFile[]) => {
-      console.log("tryValidateAndUpload");
       files.forEach(async (file) => {
         const validationMessage = validateBeforeUpload && (await validateBeforeUpload(file));
 
@@ -160,7 +157,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   /** common part **/
   const handleChange = useCallback(
     (newFiles: FileList | null) => {
-      console.log("handleChange");
       if (!newFiles || !newFiles.length) {
         return;
       }
@@ -187,7 +183,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
 
   const handleDrop = useCallback(
     (event: DragEvent) => {
-      console.log("handleDrop");
       if (disabled) {
         return;
       }
@@ -219,18 +214,15 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset, removeFile, handleRemoveFile, getRootNode: () => rootNodeRef.current }), [
+  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [
     ref,
     blur,
     focus,
     reset,
-    removeFile,
-    // handleRemoveFile,
   ]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleInputChange");
     onChange?.(event);
     handleChange(event.target.files);
   };
@@ -256,8 +248,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   };
 
   const handleRemoveFile = useCallback((fileId: string) => {
-    // console.log("handle remove "+fileId);
-    console.log("handleRemoveFile");
     const dataTransfer = new DataTransfer();
     files
       .filter((f) => f.id !== fileId)

@@ -66,7 +66,6 @@ export const FileUploaderControlProvider = (
 
   const setFileStatus = useCallback(
     (fileId: string, status: FileUploaderFileStatus) => {
-      console.log("setFileStatusProvider");
       setFiles((files) =>
         updateFile(files, fileId, (file) => ({
           status,
@@ -81,26 +80,15 @@ export const FileUploaderControlProvider = (
   );
 
   const handleExternalSetFiles = useCallback(
-    (_files: FileUploaderAttachedFile[]) => {
-      for (let i=0; i<_files.length; i++ ) {
-        console.log("provider add "+_files[i].id);
-      }
-      console.log("стало: ");
-      console.log({f: [...files, ..._files]})
-      console.log();
-      console.log("handleExternalSetFilesProvider");
-      onAttach?.(_files);
-      setFiles((state) => [...state, ..._files]);
+    (files: FileUploaderAttachedFile[]) => {
+      onAttach?.(files);
+      setFiles((state) => [...state, ...files]);
     },
     [onAttach],
   );
 
   const removeFile = useCallback(
     (fileId: string) => {
-      console.log({f: files})
-      console.log("provider remove "+fileId+", осталось: ");
-      console.log({f: files.filter((file) => file.id !== fileId)});
-      console.log();
       onRemove?.(fileId);
       setFiles((state) => state.filter((file) => file.id !== fileId));
     },
