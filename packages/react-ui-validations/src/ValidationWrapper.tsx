@@ -39,13 +39,11 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
           independent: validationInfo.independent || false,
         }
       : null;
-    const childrenWidth = children?.props.width || null;
     return (
       <ValidationWrapperInternal
         data-tid={datTid}
         errorMessage={renderMessage || tooltip('right top')}
         validation={validation}
-        width={childrenWidth}
       >
         {children}
       </ValidationWrapperInternal>

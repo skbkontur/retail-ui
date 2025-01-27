@@ -24,9 +24,9 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
 }
 
 export function text(pos: TextPosition = 'right'): RenderErrorMessage {
-  return (control, _hasError, validation) => {
+  return (control, _hasError, validation, width?) => {
     return (
-      <ValidationText pos={pos} validation={validation}>
+      <ValidationText pos={pos} validation={validation} childrenWidth={width}>
         {control}
       </ValidationText>
     );

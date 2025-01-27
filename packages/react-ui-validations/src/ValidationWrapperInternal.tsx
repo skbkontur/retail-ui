@@ -40,7 +40,6 @@ export interface ValidationWrapperInternalProps {
   validation: Nullable<Validation>;
   errorMessage: RenderErrorMessage;
   'data-tid'?: string;
-  width?: string;
 }
 
 interface ValidationWrapperInternalState {
@@ -144,12 +143,14 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
+    const childrenWidth = children?.props.width || null;
+
     return React.cloneElement(
       this.props.errorMessage(
-        <div style={{ display: 'inline-block', width: this.props.width }}>{clonedChild}</div>,
+        <div style={{ display: 'inline-block', width: childrenWidth }}>{clonedChild}</div>,
         !!validation,
         validation,
-        this.props.width,
+        childrenWidth,
       ),
       {
         'data-tid': dataTid,

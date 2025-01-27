@@ -534,23 +534,25 @@ export const AllPossibleValidationTextPositions: Story = () => {
 
   return (
     <ValidationContainer>
-      <div style={{ marginTop: '10px' }}>
-        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
-          <Input value={value} />
-        </ValidationWrapper>
-        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('right')}>
-          <Input value={value} />
-        </ValidationWrapper>
-      </div>
+      <Gapped gap={50} vertical style={{ marginTop: '10px', marginBottom: '20px' }}>
+        <Gapped>
+          <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+            <Input value={value} />
+          </ValidationWrapper>
+          <ValidationWrapper validationInfo={validateValue()} renderMessage={text('right')}>
+            <Input value={value} />
+          </ValidationWrapper>
+        </Gapped>
 
-      <div style={{ marginTop: '50px' }}>
-        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('right')}>
-          <Input value={value} />
-        </ValidationWrapper>
-        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
-          <Input value={value} />
-        </ValidationWrapper>
-      </div>
+        <Gapped>
+          <ValidationWrapper validationInfo={validateValue()} renderMessage={text('right')}>
+            <Input value={value} />
+          </ValidationWrapper>
+          <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+            <Input value={value} />
+          </ValidationWrapper>
+        </Gapped>
+      </Gapped>
     </ValidationContainer>
   );
 };
