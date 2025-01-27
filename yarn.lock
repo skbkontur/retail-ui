@@ -5145,10 +5145,10 @@
   dependencies:
     semver "7.3.5"
 
-"@skbkontur/storybook-addon-live-examples@0.0.11":
-  version "0.0.11"
-  resolved "https://registry.npmjs.org/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.11.tgz#9aef2fe82274ead36710cbe058a8637da6f56dac"
-  integrity sha512-h0W35sI8NmC9+T99ikZPS9xISWs1yY9aYK+l+094ZDzPOF2nO532u1rdyHDzJkntu3nwtRl1Q6BPw8DyTuvqLQ==
+"@skbkontur/storybook-addon-live-examples@0.0.14":
+  version "0.0.14"
+  resolved "https://registry.npmjs.org/@skbkontur/storybook-addon-live-examples/-/storybook-addon-live-examples-0.0.14.tgz#38d5d196a543a42d13bb8c5a776cf100ec67e043"
+  integrity sha512-KoH9L4kWK35Ox139xrpdMPQNJ5QKGTEXfAHOmA4l0AJ+KcaYijWw26Po1LvUJaN8LiQyYd4Omeuh/hPTQtaMJQ==
   dependencies:
     "@storybook/icons" "^1.2.12"
     prettier "^3.2.5"
