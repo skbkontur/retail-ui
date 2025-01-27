@@ -83,7 +83,7 @@
     "@skbkontur/react-icons": "5.2.9",
     "@skbkontur/react-props2attrs": "0.1.3",
     "@skbkontur/react-sorge": "0.2.1",
-    "@skbkontur/storybook-addon-live-examples": "0.0.14",
+    "@skbkontur/storybook-addon-live-examples": "0.0.15",
     "@storybook/addon-a11y": "7.6.18",
     "@storybook/addon-controls": "7.6.18",
     "@storybook/addon-docs": "7.6.18",
