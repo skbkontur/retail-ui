@@ -34,7 +34,7 @@ export const ValidationText = ({
         </span>
       </>
     );
-    return <div style={{ width: childrenWidth }}>{childrenAndValidationText}</div>;
+    return <div style={{ display: 'inline-block', width: childrenWidth }}>{childrenAndValidationText}</div>;
   }
 
   const validationText = (
