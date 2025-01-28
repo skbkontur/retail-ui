@@ -1,4 +1,13 @@
-import React, { CSSProperties, FC, FormEvent, PropsWithChildren, useCallback, useState } from 'react';
+import React, {
+  CSSProperties,
+  FC,
+  FormEvent,
+  PropsWithChildren,
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
 import { globalObject } from '@skbkontur/global-object';
 import type { Meta } from '@storybook/react';
 
@@ -14,6 +23,19 @@ const Wrapper: FC<PropsWithChildren<any>> = ({ children }) => (
 );
 
 const useFormHandlers = () => {
+  const _timeOutID2: any = useRef(null);
+  const _timeOutID: any = useRef(null);
+  let _controller: any = new AbortController();
+
+  useEffect(() => {
+    return () => {
+      _controller?.abort();
+      _controller = null;
+      clearTimeout(_timeOutID.current);
+      clearTimeout(_timeOutID2.current);
+    };
+  }, []);
+
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handleSubmit = useCallback((e: FormEvent) => {
@@ -21,7 +43,7 @@ const useFormHandlers = () => {
     e.stopPropagation();
     new Promise((resolve) => {
       setIsDisabled(true);
-      setTimeout(resolve, 100);
+      _timeOutID.current = setTimeout(resolve, 100);
     }).then(() => setIsDisabled(false));
   }, []);
 
@@ -29,12 +51,14 @@ const useFormHandlers = () => {
     if (e.key === 'Enter') {
       new Promise((resolve) => {
         setIsDisabled(true);
-        setTimeout(resolve, 100);
+        _timeOutID2.current = setTimeout(resolve, 100);
       }).then(() => setIsDisabled(false));
     }
   }, []);
 
-  globalObject.document?.addEventListener('keydown', handleKeyDown);
+  globalObject.document?.addEventListener('keydown', handleKeyDown, {
+    signal: _controller?.signal
+  } as AddEventListenerOptions);
 
   return {
     isDisabled,

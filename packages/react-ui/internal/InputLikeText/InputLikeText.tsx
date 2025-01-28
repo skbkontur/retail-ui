@@ -47,6 +47,8 @@ type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
 
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
+  private _timeOutID2: any;
+  private _timeOutID: any;
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
   public static displayName = 'InputLikeText';
 
@@ -139,6 +141,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     MouseDrag.stop(this.node);
     globalObject.document?.removeEventListener('mousedown', this.handleDocumentMouseDown);
     globalObject.document?.removeEventListener('keydown', this.handleDocumentKeyDown);
+    clearTimeout(this.blinkTimeout);
+    clearTimeout(this.focusTimeout);
+    clearTimeout(this._timeOutID);
+    clearTimeout(this._timeOutID2);
   }
 
   public render() {
@@ -294,7 +300,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (isIE11 && isShortcutPaste(e) && this.hiddenInput) {
       this.frozen = true;
-      globalObject.setTimeout(() => {
+      this._timeOutID = globalObject.setTimeout(() => {
         if (this.lastSelectedInnerNode) {
           this.selectInnerNode(...this.lastSelectedInnerNode);
         }
@@ -321,8 +327,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleMouseDragEnd: MouseDragEventHandler = (e) => {
-    // Дожидаемся onMouseUp
-    globalObject.setTimeout(() => {
+    this._timeOutID2 = globalObject.setTimeout(() => {
       this.dragging = false;
 
       if (this.props.onMouseDragEnd) {

@@ -43,4 +43,8 @@ export class ResizeDetector extends React.Component<React.PropsWithChildren<Resi
       this.iframeWindow = iframe.contentWindow;
     }
   };
+
+  componentWillUnmount() {
+    this.iframeWindow?.removeEventListener('resize', this.handleResize);
+  }
 }
