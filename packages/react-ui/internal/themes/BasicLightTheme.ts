@@ -2435,6 +2435,38 @@ export class BasicLightThemeInternal {
     '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   //#endregion FileUploader
 
+  //#region CleanCrossIcon
+  public static get cleanCrossIconWidthSmall() {
+    return this.inputHeightSmall;
+  }
+  public static get cleanCrossIconWidthMedium() {
+    return this.inputHeightMedium;
+  }
+  public static get cleanCrossIconWidthLarge() {
+    return this.inputHeightLarge;
+  }
+  public static get cleanCrossIconHeightSmall() {
+    return this.inputHeightSmall;
+  }
+  public static get cleanCrossIconHeightMedium() {
+    return this.inputHeightMedium;
+  }
+  public static get cleanCrossIconHeightLarge() {
+    return this.inputHeightLarge;
+  }
+
+  public static get cleanCrossIconRightMarginSmall() {
+    return -parseInt(this.inputPaddingXSmall) + 'px';
+  }
+  public static get cleanCrossIconRightMarginMedium() {
+    return -parseInt(this.inputPaddingXMedium) + 'px';
+  }
+  public static get cleanCrossIconRightMarginLarge() {
+    return -parseInt(this.inputPaddingXLarge) + 'px';
+  }
+
+  //#endregion CleanCrossIcon
+
   //#region CloseIcon
   public static closeBtnIconColor = 'rgba(0, 0, 0, 0.32)';
   public static closeBtnIconDisabledColor = '#8b8b8b';
