@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.9...@skbkontur/react-ui@5.0.10) (2025-01-30)
+
+
+### Bug Fixes
+
+* **GlobalLoader:** render in StrictMode ([#3582](https://github.com/skbkontur/retail-ui/issues/3582)) ([0d83d91](https://github.com/skbkontur/retail-ui/commit/0d83d91b6dbc02f37a89fcc6ef1fb5a970f179aa))
+
+
+
+
+
 ## [5.0.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.8...@skbkontur/react-ui@5.0.9) (2025-01-24)
 
 **Note:** Version bump only for package @skbkontur/react-ui
