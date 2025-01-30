@@ -101,7 +101,7 @@ export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
   }, Object.create(theme)) as typeof theme;
 }
 
-export function composeThemeObject(
+export function createTheme(
   themeObject: ThemeIn,
   options?: {
     prototypeTheme?: Theme;

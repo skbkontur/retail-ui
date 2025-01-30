@@ -1,9 +1,7 @@
-import { composeThemeObject } from '../../lib/theming/ThemeHelpers';
+import { createTheme } from '../../lib/theming/ThemeHelpers';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-export const BasicThemeClassToExtend = class {} as typeof BasicThemeClass;
-
-class BasicThemeClass {
+export class BasicThemeClass {
   //#region Common variables
   public static labGrotesqueBaselineCompensation = '1';
   public static brand = '#2291ff';
@@ -2486,4 +2484,4 @@ class BasicThemeClass {
   //#endregion
 }
 
-export const BasicTheme = composeThemeObject(BasicThemeClass);
+export const BasicTheme = createTheme(BasicThemeClass);

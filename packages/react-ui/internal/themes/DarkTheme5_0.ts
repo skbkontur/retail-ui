@@ -1,9 +1,9 @@
-import { markAsDarkTheme, composeThemeObject, markThemeVersion } from '../../lib/theming/ThemeHelpers';
+import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
-import { BasicTheme, BasicThemeClassToExtend } from './BasicTheme';
+import { BasicTheme, BasicThemeClass } from './BasicTheme';
 
-export const DarkTheme_5_0 = composeThemeObject(
-  class extends BasicThemeClassToExtend {
+export const DarkTheme5_0 = createTheme(
+  class extends BasicThemeClass {
     //#region Common variables
     public static grayXLight = '#313131';
     public static gray = 'rgba(255, 255, 255, 0.48)';
