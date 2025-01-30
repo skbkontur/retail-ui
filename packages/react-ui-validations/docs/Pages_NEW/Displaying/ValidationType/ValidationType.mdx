@@ -1,6 +1,8 @@
 import { Story } from '@storybook/blocks';
 import * as DocsStories from './ValidationType.docs.stories.tsx';
 import { Meta } from '../../../../.storybook/Meta';
+import { Link } from '@skbkontur/react-ui';
+import { linkTo } from '@storybook/addon-links';
 
 <Meta of={DocsStories} />
 
@@ -32,7 +34,7 @@ import { Meta } from '../../../../.storybook/Meta';
 
 Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
 
-Такую валидацию можно сделать независимой.
+Такую валидацию можно сделать <Link onClick={linkTo('Validator/Independent')}>независимой</Link>.
 
 ```jsx static
 <ValidationWrapper validationInfo={{ type: 'lostfocus', message: '...' }}>//...</ValidationWrapper>
