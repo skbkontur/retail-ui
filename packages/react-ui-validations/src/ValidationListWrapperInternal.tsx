@@ -9,7 +9,7 @@ import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getLevel, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ValidationContext, ValidationContextType } from './ValidationContextWrapper';
 import { Validation } from './ValidationWrapperInternal';
-import { ValidationReader } from './Validations';
+import { ValidationInfo } from './ValidationWrapper';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -22,12 +22,9 @@ export type ValidationLevel = 'error' | 'warning';
 
 export interface ValidationListInternalProps {
   children?: React.ReactElement<any>;
-  onValidation?: (index: number | null, validation: Nullable<Validation>) => void;
-  validationInfos: ValidationReader<any[]>;
+  onValidation?: (index: number | null, validation: Nullable<ValidationInfo>) => void;
+  validationInfos: Array<Nullable<ValidationInfo>>;
   scrollToElement?: (index: number) => void;
-  level?: ValidationLevel;
-  behaviour?: ValidationBehaviour;
-  independent?: boolean;
   'data-tid'?: string;
 }
 
@@ -54,25 +51,18 @@ export class ValidationListWrapperInternal extends React.Component<
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
   public validationIndex: number | null = null;
-  private validationInfoTemplate: Validation = {
-    independent: this.props.independent || false,
-    message: '',
-    behaviour: this.props.behaviour || 'submit',
-    level: this.props.level || 'error',
-  };
 
   public componentDidMount() {
     warning(
       this.context,
       'ValidationListWrapper should appears as child of ValidationContainer.\n' +
-        'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
+      'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
     if (this.context) {
       this.context.registerVirtual(this);
     }
-
-    this.validationIndex = this.props.validationInfos.getFirstNodeWithValidation();
-    this.applyValidation(this.validationIndex ? this.validationInfoTemplate : null);
+    this.validationIndex = this.props.validationInfos.findIndex(x => !!x);
+    this.applyValidation(this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null);
   }
 
   public componentWillUnmount() {
@@ -80,8 +70,8 @@ export class ValidationListWrapperInternal extends React.Component<
   }
 
   public componentDidUpdate() {
-    this.validationIndex = this.props.validationInfos.getFirstNodeWithValidation();
-    this.applyValidation(this.validationIndex ? this.validationInfoTemplate : null);
+    this.validationIndex = this.props.validationInfos.findIndex(x => !!x);
+    this.applyValidation(this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null);
   }
 
   public async focus(): Promise<void> {
@@ -137,6 +127,18 @@ export class ValidationListWrapperInternal extends React.Component<
     return this.rootNode;
   };
 
+  private toValidation(info: Nullable<ValidationInfo>): Nullable<Validation> {
+    if (!info) {
+      return null;
+    }
+    return {
+      level: info.level || 'error',
+      independent: info.independent || false,
+      message: info.message || '',
+      behaviour: info.type || 'submit',
+    };
+  }
+
   public getControlPosition(): Nullable<Point> {
     const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
@@ -147,7 +149,7 @@ export class ValidationListWrapperInternal extends React.Component<
   }
 
   public async processSubmit(): Promise<void> {
-    return this.setValidation(this.validationIndex ? this.validationInfoTemplate : null);
+    return this.setValidation(this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null);
   }
 
   public hasError(): boolean {

@@ -28,6 +28,7 @@ export interface ValidationContextType {
   onValidationUpdated: (wrapper: ValidationWrapperInternal | ValidationListWrapperInternal, isValid: boolean) => void;
   getSettings: () => ValidationContextSettings;
   isAnyWrapperInChangingMode: () => boolean;
+  submitted: boolean;
 }
 
 export const ValidationContext = React.createContext<ValidationContextType>({
@@ -42,6 +43,7 @@ export const ValidationContext = React.createContext<ValidationContextType>({
     disableSmoothScroll: false,
   }),
   isAnyWrapperInChangingMode: () => false,
+  submitted: false,
 });
 
 ValidationContext.displayName = 'ValidationContext';
@@ -49,6 +51,8 @@ ValidationContext.displayName = 'ValidationContext';
 export class ValidationContextWrapper extends React.Component<ValidationContextWrapperProps> {
   public childWrappers: ValidationWrapperInternal[] = [];
   public virtualWrappers: ValidationListWrapperInternal[] = [];
+
+  public submitted = false;
 
   public getSettings(): ValidationContextSettings {
     let scrollOffset: ScrollOffset = {};
@@ -161,7 +165,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   public async validate(withoutFocusOrValidationSettings: ValidateArgumentType): Promise<boolean> {
     const focusMode = ValidationContextWrapper.getFocusMode(withoutFocusOrValidationSettings);
-
+    this.submitted = true;
     await Promise.all([
       ...this.childWrappers.map((x) => x.processSubmit()),
       ...this.virtualWrappers.map((x) => x.processSubmit()),

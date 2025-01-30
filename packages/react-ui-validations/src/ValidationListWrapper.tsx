@@ -2,22 +2,13 @@ import React from 'react';
 
 import { Nullable } from '../typings/Types';
 
-import { Validation } from './ValidationWrapperInternal';
-import {
-  ValidationBehaviour,
-  ValidationLevel,
-  ValidationListWrapperInternal,
-  ValidationListInternalProps,
-} from './ValidationListWrapperInternal';
-import { ValidationReader } from './Validations';
+import { ValidationListInternalProps, ValidationListWrapperInternal } from './ValidationListWrapperInternal';
+import { ValidationInfo } from './ValidationWrapper';
 
 export interface ValidationListProps extends Pick<ValidationListInternalProps, 'data-tid'> {
   children?: React.ReactElement<any>;
-  validationInfos: ValidationReader<any[]>;
-  onValidation?: (index: number | null, validation: Nullable<Validation>) => void;
-  level?: ValidationLevel;
-  behaviour?: ValidationBehaviour;
-  independent?: boolean;
+  validationInfos: Array<Nullable<ValidationInfo>>;
+  onValidation?: (index: number | null, validation: Nullable<ValidationInfo>) => void;
   scrollToElement?: (index: number) => void;
 }
 
@@ -29,9 +20,6 @@ export class ValidationListWrapper extends React.Component<ValidationListProps> 
     const {
       children,
       onValidation,
-      behaviour,
-      level,
-      independent,
       scrollToElement,
       validationInfos,
       'data-tid': datTid,
@@ -43,9 +31,6 @@ export class ValidationListWrapper extends React.Component<ValidationListProps> 
         onValidation={onValidation}
         validationInfos={validationInfos}
         scrollToElement={scrollToElement}
-        behaviour={behaviour}
-        independent={independent}
-        level={level}
       >
         {children}
       </ValidationListWrapperInternal>

@@ -131,12 +131,11 @@ export const VirtualizedListExample: Story = () => {
           <ValidationContainer ref={containerVirtualRef}>
             <div style={{ display: 'flex', width: '400px', flexDirection: 'column', gap: 16 }}>
               <ValidationListWrapper
-                validationInfos={validationRules.getNode((x) => x.array)}
+                validationInfos={validationRules.getNode((x) => x.array).getFirstNodeWithValidation()}
                 onValidation={(index) => setFirstInvalidRow(index)}
                 scrollToElement={(index) => {
                   listRef.current?.scrollToItem(index, 'center');
                 }}
-                behaviour="submit"
               >
                 <List
                   height={400}

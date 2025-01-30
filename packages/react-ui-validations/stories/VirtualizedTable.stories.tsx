@@ -47,12 +47,11 @@ const Window: React.FC<WindowProps> = ({ rowHeight, data, validationInfos }) => 
     <div style={{ display: 'flex', width: '400px', flexDirection: 'column' }}>
       {firstInvalidRow ? `first invalid row is ${firstInvalidRow}` : null}
       <ValidationListWrapper
-        validationInfos={validationInfos}
+        validationInfos={validationInfos.getFirstNodeWithValidation()}
         onValidation={(index) => setFirstInvalidRow(index)}
         scrollToElement={(index) => {
           containerRef.current?.scrollToItem(index, 'center');
         }}
-        behaviour="submit"
       >
         <List
           height={400}

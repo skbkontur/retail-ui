@@ -55,15 +55,22 @@ export class ValidationReader<T> {
     return null;
   }
 
-  public getFirstNodeWithValidation(level: 'all' | 'error' | 'warning' = 'all'): number | null {
+  public getFirstNodeWithValidation(level: 'all' | 'error' | 'warning' = 'all'): Array<Nullable<ValidationInfo>> {
     const values = level === 'all' ? ['invalid', 'warning'] : [level];
     if (!this.node) {
-      return null;
+      return [];
     }
     if (this.node.validation) {
-      return 0;
+      return [this.node.validation];
     }
-    return Number(this.findValueInNestedObject(this.node.children, values));
+    const key = this.findValueInNestedObject(this.node.children, values);
+    if (key) {
+      const index = Number(key);
+      const template: Array<Nullable<ValidationInfo>> =  Array.from({ length: index });
+      template[index] = {level: "error", message: "index"};
+      return template;
+    }
+    return [];
   }
 
   private getReaderInternal<TChild>(path: string[]): ValidationReader<TChild> {
