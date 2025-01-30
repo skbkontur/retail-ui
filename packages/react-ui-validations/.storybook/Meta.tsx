@@ -137,8 +137,8 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuItem style={{ cursor: 'pointer' }}>
-            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
+          <MenuItem>
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах в React-UI → Information → Theme
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu

@@ -149,7 +149,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
 
           <MenuSeparator />
           <MenuItem onClick={linkTo('Information/Theme/ThemeContext')} style={{ cursor: 'pointer' }}>
-            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах в React-UI → Information → Theme
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu
