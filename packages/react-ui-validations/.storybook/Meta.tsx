@@ -11,12 +11,11 @@ import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { linkTo } from '@storybook/addon-links';
 
 import { validationsFeatureFlagsDefault } from '../src';
 
 import { getCurrentVersion, VersionsLibrary } from './VersionsDropdown/Versions';
-
-const urlPath = window.location.origin + window.location.pathname.replace('/iframe.html', '');
 
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
@@ -138,10 +137,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuItem
-            href={`https://ui.gitlab-pages.kontur.host/storybook-documentation/?path=/docs/react_ui_information-theme--docs`}
-            style={{ cursor: 'pointer' }}
-          >
+          <MenuItem style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
           </MenuItem>
         </DropdownMenu>
@@ -178,10 +174,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </MenuItem>
           ))}
           {allFeatureFlags.length !== 0 && <MenuSeparator />}
-          <MenuItem
-            href={`${urlPath}/?path=/docs/react_ui_validations_displaying-feature-flags--docs`}
-            style={{ cursor: 'pointer' }}
-          >
+          <MenuItem onClick={linkTo('Displaying/Feature flags')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
           </MenuItem>
         </DropdownMenu>

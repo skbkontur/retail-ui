@@ -7,6 +7,7 @@ import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/W
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
 import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light';
+import { linkTo } from '@storybook/addon-links';
 
 import { DropdownMenu } from '../components/DropdownMenu';
 import { MenuItem } from '../components/MenuItem';
@@ -16,8 +17,6 @@ import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import { MenuSeparator } from '../components/MenuSeparator';
 
 import { getCurrentVersion, VersionsLibrary } from './VersionsDropdown/Versions';
-
-const urlPath = window.location.origin + window.location.pathname.replace('/iframe.html', '');
 
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
@@ -149,8 +148,8 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           ))}
 
           <MenuSeparator />
-          <MenuItem href={`${urlPath}/?path=/docs/react_ui_information-theme--docs`} style={{ cursor: 'pointer' }}>
-            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
+          <MenuItem onClick={linkTo('Information/Theme/ThemeContext')} style={{ cursor: 'pointer' }}>
+            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах в React-UI → Information → Theme
           </MenuItem>
         </DropdownMenu>
         <DropdownMenu
@@ -172,7 +171,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuItem href={`${urlPath}/?path=/docs/react_ui_information-locale--docs`} style={{ cursor: 'pointer' }}>
+          <MenuItem onClick={linkTo('Information/Locale')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о локализации
           </MenuItem>
         </DropdownMenu>
@@ -209,10 +208,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </MenuItem>
           ))}
           {allFeatureFlags.length !== 0 && <MenuSeparator />}
-          <MenuItem
-            href={`${urlPath}/?path=/docs/react_ui_information-feature-flags--docs`}
-            style={{ cursor: 'pointer' }}
-          >
+          <MenuItem onClick={linkTo('Information/Feature flags')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
           </MenuItem>
         </DropdownMenu>
