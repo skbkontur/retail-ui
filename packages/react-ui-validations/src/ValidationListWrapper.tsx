@@ -17,13 +17,7 @@ export class ValidationListWrapper extends React.Component<ValidationListProps> 
   public static displayName = 'ValidationListWrapper';
 
   public render() {
-    const {
-      children,
-      onValidation,
-      scrollToElement,
-      validationInfos,
-      'data-tid': datTid,
-    } = this.props;
+    const { children, onValidation, scrollToElement, validationInfos, 'data-tid': datTid } = this.props;
 
     return (
       <ValidationListWrapperInternal

@@ -66,8 +66,8 @@ export class ValidationReader<T> {
     const key = this.findValueInNestedObject(this.node.children, values);
     if (key) {
       const index = Number(key);
-      const template: Array<Nullable<ValidationInfo>> =  Array.from({ length: index });
-      template[index] = {level: "error", message: "index"};
+      const template: Array<Nullable<ValidationInfo>> = Array.from({ length: index });
+      template[index] = { level: 'error', message: 'index' };
       return template;
     }
     return [];

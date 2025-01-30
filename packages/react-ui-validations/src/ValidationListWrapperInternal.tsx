@@ -56,13 +56,15 @@ export class ValidationListWrapperInternal extends React.Component<
     warning(
       this.context,
       'ValidationListWrapper should appears as child of ValidationContainer.\n' +
-      'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
+        'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
     if (this.context) {
       this.context.registerVirtual(this);
     }
-    this.validationIndex = this.props.validationInfos.findIndex(x => !!x);
-    this.applyValidation(this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null);
+    this.validationIndex = this.props.validationInfos.findIndex((x) => !!x);
+    this.applyValidation(
+      this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+    );
   }
 
   public componentWillUnmount() {
@@ -70,8 +72,10 @@ export class ValidationListWrapperInternal extends React.Component<
   }
 
   public componentDidUpdate() {
-    this.validationIndex = this.props.validationInfos.findIndex(x => !!x);
-    this.applyValidation(this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null);
+    this.validationIndex = this.props.validationInfos.findIndex((x) => !!x);
+    this.applyValidation(
+      this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+    );
   }
 
   public async focus(): Promise<void> {
@@ -149,7 +153,9 @@ export class ValidationListWrapperInternal extends React.Component<
   }
 
   public async processSubmit(): Promise<void> {
-    return this.setValidation(this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null);
+    return this.setValidation(
+      this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+    );
   }
 
   public hasError(): boolean {
