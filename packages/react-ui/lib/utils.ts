@@ -1,12 +1,15 @@
-import React from 'react';
+import type React from 'react';
+import { isValidElement } from 'react';
 import { isForwardRef } from 'react-is';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { CurrencyInputProps } from '../components/CurrencyInput';
-import { PasswordInputProps } from '../components/PasswordInput';
-import { InputProps } from '../components/Input';
-import { AutocompleteProps } from '../components/Autocomplete';
-import { FxInputProps } from '../components/FxInput';
+import type { CurrencyInputProps } from '../components/CurrencyInput';
+import type { PasswordInputProps } from '../components/PasswordInput';
+import type { InputProps } from '../components/Input';
+import type { AutocompleteProps } from '../components/Autocomplete';
+import type { FxInputProps } from '../components/FxInput';
+
+export { delay } from './delay';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -22,8 +25,6 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 export type AnyObject = Record<string, unknown>;
 
 export type NoInfer<T> = T extends infer U ? U : never;
-
-export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout(resolve, ms));
 
 export const emptyHandler = () => {
   /* noop */
@@ -81,7 +82,7 @@ export const isExternalLink = (link: string): boolean => {
  * Check if the given ReactNode is an element of the specified ReactUI component
  */
 export const isReactUINode = (componentName: string, node: React.ReactNode): boolean => {
-  if (React.isValidElement(node)) {
+  if (isValidElement(node)) {
     return (
       Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
       // @ts-expect-error: React doesn't know about existence of __KONTUR_REACT_UI__.
