@@ -27,7 +27,7 @@ export const REACT_UI_THEME_MARKERS = {
     value: true,
   },
   themeVersion: {
-    key: '__REACT_UI_THEME_2022_VERSION__',
+    key: '__REACT_UI_THEME_VERSION__',
     value: 0,
   },
 };
@@ -80,7 +80,7 @@ export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
 
 export const isThemeVersionGreaterOrEqual = (theme: Theme | ThemeIn, version: number): boolean => {
   // @ts-expect-error: internal value.
-  return theme[REACT_UI_THEME_MARKERS.themeVersion.value] >= version;
+  return theme[REACT_UI_THEME_MARKERS.themeVersion.key] >= version;
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {

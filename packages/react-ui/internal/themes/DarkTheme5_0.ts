@@ -3,7 +3,7 @@ import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/themin
 import { BasicTheme, BasicThemeClass } from './BasicTheme';
 
 export const DarkTheme5_0 = createTheme(
-  class extends BasicThemeClass {
+  class extends (class {} as typeof BasicThemeClass) {
     //#region Common variables
     public static grayXLight = '#313131';
     public static gray = 'rgba(255, 255, 255, 0.48)';
