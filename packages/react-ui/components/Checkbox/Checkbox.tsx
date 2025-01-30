@@ -1,21 +1,22 @@
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isEdge, isIE11 } from '../../lib/client';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles, globalClasses } from './Checkbox.styles';
+import { getStyles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
 
@@ -91,6 +92,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   private getProps = createPropsGetter(Checkbox.defaultProps);
 
   private getRootSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.rootLarge(this.theme);
@@ -103,6 +105,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   }
 
   private getBoxWrapperSizeClassName() {
+    const styles = this.styles;
     switch (this.getProps().size) {
       case 'large':
         return styles.boxWrapperLarge(this.theme);
@@ -145,6 +148,8 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private input = React.createRef<HTMLInputElement>();
 
   private handleShiftPress = (e: KeyboardEvent) => {
@@ -187,16 +192,24 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -259,8 +272,8 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       ...rest
     } = props;
     const isIndeterminate = this.state.indeterminate;
-
-    const iconClass = cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
+    const styles = this.styles;
+    const iconClass = this.emotion.cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
 
     const iconSize = parseInt(this.getCheckboxBoxSize());
     const IconCheck = (
@@ -274,7 +287,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       </span>
     );
 
-    const rootClass = cx(this.getRootSizeClassName(), {
+    const rootClass = this.emotion.cx(this.getRootSizeClassName(), {
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
@@ -295,7 +308,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     let caption = null;
     if (this.props.children) {
-      const captionClass = cx({
+      const captionClass = this.emotion.cx({
         [styles.caption(this.theme)]: true,
         [styles.captionIE11()]: isIE11 || isEdge,
         [styles.disabled(this.theme)]: Boolean(props.disabled),
@@ -305,12 +318,12 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     const box = (
       <div
-        className={cx(this.getBoxWrapperSizeClassName(), {
+        className={this.emotion.cx(this.getBoxWrapperSizeClassName(), {
           [styles.boxWrapper(this.theme)]: true,
         })}
       >
         <div
-          className={cx(styles.box(this.theme), globalClasses.box, {
+          className={this.emotion.cx(styles.box(this.theme), globalClasses.box, {
             [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
             [styles.boxFocus(this.theme)]: this.state.focusedByTab,
             [styles.boxError(this.theme)]: props.error,

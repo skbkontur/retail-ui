@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
 import { Modal, ModalProps } from '../Modal';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { getMiniModalTheme } from './getMiniModalTheme';
 import { MiniModalFooter } from './MiniModalFooter';

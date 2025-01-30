@@ -1,17 +1,18 @@
 import React from 'react';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Indicator.styles';
+import { getStyles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
 import { TabsDataTids } from './Tabs';
@@ -38,6 +39,8 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   private eventListener: Nullable<{
     remove: () => void;
@@ -69,12 +72,20 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -88,10 +99,11 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
       primary: false,
       disabled: false,
     };
+    const styles = this.styles;
     return (
       <div
         data-tid={TabsDataTids.indicatorRoot}
-        className={cx(
+        className={this.emotion.cx(
           styles.root(this.theme),
           indicators.primary && styles.primary(this.theme),
           indicators.success && styles.success(this.theme),

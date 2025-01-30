@@ -1,14 +1,14 @@
-import React, { AriaAttributes, CSSProperties } from 'react';
+import React, { AriaAttributes, CSSProperties, useContext } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { CommonWrapper, CommonProps } from '../CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './CloseButtonIcon.styles';
+import { getStyles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
 export interface CloseButtonIconProps
@@ -56,7 +56,8 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   style,
   ...rest
 }) => {
-  const _theme = React.useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const _theme = useContext(ThemeContext);
   const theme = ThemeFactory.create(
     {
       closeBtnIconColor: color ?? _theme.closeBtnIconColor,
@@ -78,12 +79,13 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   const handleBlur = () => setFocusedByTab(false);
 
   const tabIndex = !tabbable || rest.disabled ? -1 : 0;
+  const styles = getStyles(emotion);
 
   return (
     <CommonWrapper {...rest}>
       <button
         tabIndex={tabIndex}
-        className={cx(
+        className={emotion.cx(
           styles.root(theme),
           !rest.disabled && focusedByTab && styles.focus(theme),
           rest.disabled && styles.rootDisabled(theme),

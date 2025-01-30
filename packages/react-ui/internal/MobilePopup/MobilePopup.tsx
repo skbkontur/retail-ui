@@ -1,17 +1,19 @@
 import React, { HTMLAttributes } from 'react';
 import { Transition } from 'react-transition-group';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ZIndex } from '../ZIndex';
 import { RenderLayer } from '../RenderLayer';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
 import { MobilePopupFooter } from './MobilePopupFooter';
+import { getStyles } from './MobilePopup.styles';
 
 interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
@@ -59,39 +61,50 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   public static readonly defaultRootNode = null;
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   public renderMain() {
+    const styles = this.styles;
     const content = (
-      <ZIndex id={this.props.id} className={jsStyles.zIndex()} priority={'MobilePopup'}>
+      <ZIndex id={this.props.id} className={styles.zIndex()} priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
-          <div className={jsStyles.wrapper()}>
+          <div className={styles.wrapper()}>
             <RenderLayer onClickOutside={this.close}>
               <div
                 ref={this.setRootNode}
                 data-tid={MobilePopupDataTids.container}
-                className={jsStyles.container(this.theme)}
+                className={styles.container(this.theme)}
               >
-                <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
+                <div data-tid={MobilePopupDataTids.root} className={styles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
-                  <div className={jsStyles.content(this.theme)}>{this.props.children}</div>
+                  <div className={styles.content(this.theme)}>{this.props.children}</div>
                   <MobilePopupFooter>{this.props.footerChildComponent}</MobilePopupFooter>
                 </div>
-                <div onClick={this.close} className={jsStyles.bottomIndent()} />
+                <div onClick={this.close} className={styles.bottomIndent()} />
               </div>
             </RenderLayer>
-            <div className={jsStyles.bg()} />
+            <div className={styles.bg()} />
             <HideBodyVerticalScroll />
           </div>
         </Transition>
