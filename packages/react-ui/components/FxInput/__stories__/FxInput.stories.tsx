@@ -8,6 +8,7 @@ import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
 import { SizeProp } from '../../../lib/types/props';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 export default {
   title: 'FxInput',
@@ -117,7 +118,7 @@ class TestWrapper extends React.Component<React.PropsWithChildren<TestWrapperPro
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <div style={theme.prototype.constructor.name.includes('Dark') ? darkStyle : style}>
+            <div style={isDarkTheme(theme) ? darkStyle : style}>
               {ruler && <BGRuler color="#888" left={10} right={9} />}
               {children}
             </div>

@@ -25,6 +25,7 @@ import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { SingleToast } from '../../../components/SingleToast';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 const linearLightGradient = `repeating-linear-gradient(
                                 60deg,
@@ -439,9 +440,7 @@ class LoaderInSidePage extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background: theme.prototype.constructor.name.includes('Dark')
-                      ? '' + linearDarkGradient + ''
-                      : '' + linearLightGradient + '',
+                    background: isDarkTheme(theme) ? '' + linearDarkGradient + '' : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -476,9 +475,7 @@ class SidePageAndSelect extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background: theme.prototype.constructor.name.includes('Dark')
-                      ? '' + linearDarkGradient + ''
-                      : '' + linearLightGradient + '',
+                    background: isDarkTheme(theme) ? '' + linearDarkGradient + '' : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}

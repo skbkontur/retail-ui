@@ -7,6 +7,7 @@ import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Toggle } from '../../Toggle';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
@@ -37,7 +38,7 @@ class ContentComponent extends React.Component<React.PropsWithChildren<ContentCo
           return (
             <div
               style={
-                theme.prototype.constructor.name.includes('Dark')
+                isDarkTheme(theme)
                   ? { ...darkWrapperStyle, ...additionalStyle }
                   : { ...wrapperStyle, ...additionalStyle }
               }
@@ -235,7 +236,7 @@ export const WrapperWithCustomHeightAndInactiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: isDarkTheme(theme) ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />
@@ -255,7 +256,7 @@ export const WrapperWithCustomHeightAndActiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: isDarkTheme(theme) ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />

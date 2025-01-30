@@ -11,6 +11,7 @@ import {
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 function getItems(count: number) {
   const items = [];
@@ -151,9 +152,7 @@ export const WithScrollState = () => {
                     ))}
                   </ScrollContainer>
                 </div>
-                <div style={theme.prototype.constructor.name.includes('Dark') ? footerDarkStyles : footerStyles}>
-                  footer
-                </div>
+                <div style={isDarkTheme(theme) ? footerDarkStyles : footerStyles}>footer</div>
               </div>
             );
           }}

@@ -10,6 +10,7 @@ import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 export default {
   title: 'Group',
@@ -75,7 +76,7 @@ export const WithWidth = () => (
       return (
         <div
           style={{
-            background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#eee',
+            background: isDarkTheme(theme) ? '1f1f1f' : '#eee',
             padding: '30px 10px 10px',
             position: 'relative',
           }}

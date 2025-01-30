@@ -185,6 +185,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
             <ThemeContext.Consumer>
               {(theme) => {
                 this.theme = theme;
+                console.log(theme);
+
                 return (
                   <ThemeContext.Provider
                     value={ThemeFactory.create(
