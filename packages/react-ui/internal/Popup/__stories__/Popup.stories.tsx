@@ -1,5 +1,4 @@
 import React from 'react';
-import { DropdownProps } from 'react-ui';
 
 import { Popup, PopupPositionsType, PopupProps } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
@@ -10,6 +9,8 @@ import { Select } from '../../../components/Select';
 import { RenderLayer } from '../../RenderLayer';
 import { isTestEnv } from '../../../lib/currentEnvironment';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
+import { DropdownProps } from '../../../components/Dropdown';
 
 export default { title: 'Popup' };
 
@@ -253,7 +254,7 @@ class AlwaysOpened extends React.Component<AlwaysOpenedProps> {
                   hasShadow
                   anchorElement={this.state.anchor}
                   positions={this.props.positions}
-                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333333' : '#fff'}
+                  backgroundColor={isDarkTheme(theme) ? '#333333' : '#fff'}
                   pinSize={10}
                   pinOffset={7}
                   disableAnimations={isTestEnv}
@@ -333,7 +334,7 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps> {
                     opened={this.state.opened}
                     margin={13}
                     positions={['bottom left', 'bottom right', 'top left', 'top right']}
-                    backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : '#fff'}
+                    backgroundColor={isDarkTheme(theme) ? '#333' : '#fff'}
                     pinSize={10}
                     pinOffset={7}
                     disableAnimations={this.props.disableAnimations}
@@ -404,7 +405,7 @@ class FakeHint extends React.Component<FakeHintProps> {
                   anchorElement={this.state.anchor}
                   positions={this.props.positions}
                   margin={this.props.margin}
-                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : 'rgba(0, 0, 0, 0.65)'}
+                  backgroundColor={isDarkTheme(theme) ? '#333' : 'rgba(0, 0, 0, 0.65)'}
                   pinSize={10}
                   pinOffset={7}
                 >

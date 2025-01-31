@@ -10,6 +10,7 @@ import { Modal } from '../../Modal';
 import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 const textSample = (
   <p>
@@ -106,7 +107,7 @@ class Sample extends React.Component<SampleProps> {
                     style={
                       this.props.withLongBody
                         ? {
-                            background: theme.prototype.constructor.name.includes('Dark')
+                            background: isDarkTheme(theme)
                               ? '' + linearDarkGradient + ''
                               : '' + linearLightGradient + '',
                             height: 2000,
@@ -422,9 +423,7 @@ class WithVariableContent extends React.Component {
             <SidePage.Body>
               <div
                 style={{
-                  background: theme.prototype.constructor.name.includes('Dark')
-                    ? '' + linearDarkGradient + ''
-                    : '' + linearLightGradient + '',
+                  background: isDarkTheme(theme) ? '' + linearDarkGradient + '' : '' + linearLightGradient + '',
                   height: 600,
                   padding: '20px 0',
                 }}
@@ -487,9 +486,7 @@ class TestUpdateLayoutMethod extends React.Component {
         return (
           <div
             style={{
-              background: theme.prototype.constructor.name.includes('Dark')
-                ? '' + linearDarkGradient + ''
-                : '' + linearLightGradient + '',
+              background: isDarkTheme(theme) ? '' + linearDarkGradient + '' : '' + linearLightGradient + '',
               height: 2000,
             }}
           />
@@ -572,9 +569,7 @@ class WithLongTitle extends React.Component {
                   id="scrollable-content"
                   style={{
                     height: 1500,
-                    background: theme.prototype.constructor.name.includes('Dark')
-                      ? '' + linearDarkGradient + ''
-                      : '' + linearLightGradient + '',
+                    background: isDarkTheme(theme) ? '' + linearDarkGradient + '' : '' + linearLightGradient + '',
                   }}
                 />
               </SidePage.Body>

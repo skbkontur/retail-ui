@@ -11,6 +11,7 @@ import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ResponsiveLayout } from '../../ResponsiveLayout';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -542,7 +543,7 @@ export const ModalBodyWithoutPadding = () => (
       return (
         <Modal width={250}>
           <Modal.Body noPadding>
-            <div style={{ background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : 'white' }}>
+            <div style={{ background: isDarkTheme(theme) ? '1f1f1f' : 'white' }}>
               <p>Loooooooong content content content</p>
               <p>Loooooooong content content content</p>
               <p>Loooooooong content content content</p>
