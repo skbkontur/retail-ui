@@ -6,9 +6,10 @@ import { Nullable } from '../typings/Types';
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
-import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
-import { ReactUiDetection } from './ReactUiDetection';
+import { getLevel, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ValidationContext, ValidationContextType } from './ValidationContextWrapper';
+import { Validation } from './ValidationWrapperInternal';
+import { ValidationInfo } from './ValidationWrapper';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -19,29 +20,15 @@ export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 
 export type ValidationLevel = 'error' | 'warning';
 
-export type TextPosition = 'bottom' | 'right';
-
-export interface Validation {
-  level: ValidationLevel;
-  behaviour: ValidationBehaviour;
-  message: React.ReactNode;
-  independent: boolean;
-}
-
-export type RenderErrorMessage = (
-  control: React.ReactElement<any>,
-  hasError: boolean,
-  validation: Nullable<Validation>,
-) => React.ReactElement<any>;
-
-export interface ValidationWrapperInternalProps {
+export interface ValidationListInternalProps {
   children?: React.ReactElement<any>;
-  validation: Nullable<Validation>;
-  errorMessage: RenderErrorMessage;
+  onValidation?: (index: number | null, validation: Nullable<ValidationInfo>) => void;
+  validationInfos: Array<Nullable<ValidationInfo>>;
+  scrollToElement?: (index: number) => void;
   'data-tid'?: string;
 }
 
-interface ValidationWrapperInternalState {
+interface ValidationListInternalState {
   validation: Nullable<Validation>;
 }
 
@@ -50,49 +37,54 @@ interface Point {
   y: number;
 }
 
-export class ValidationWrapperInternal extends React.Component<
-  ValidationWrapperInternalProps,
-  ValidationWrapperInternalState
+export class ValidationListWrapperInternal extends React.Component<
+  ValidationListInternalProps,
+  ValidationListInternalState
 > {
-  public state: ValidationWrapperInternalState = {
+  public state: ValidationListInternalState = {
     validation: null,
   };
 
-  public isChanging = false;
   private child: any; // todo type
   private rootNode: Nullable<Element>;
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
+  public validationIndex: number | null = null;
 
   public componentDidMount() {
     warning(
       this.context,
-      'ValidationWrapper should appears as child of ValidationContainer.\n' +
+      'ValidationListWrapper should appears as child of ValidationContainer.\n' +
         'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
     if (this.context) {
-      this.context.register(this);
+      this.context.registerVirtual(this);
     }
-    if (this.context.submitted) {
-      this.processSubmit();
-    } else {
-      this.applyValidation(this.props.validation);
-    }
+    this.validationIndex = this.props.validationInfos.findIndex((x) => !!x);
+    this.applyValidation(
+      this.validationIndex !== null ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+    );
   }
 
   public componentWillUnmount() {
-    this.context.unregister(this);
+    this.context.unregisterVirtual(this);
   }
 
   public componentDidUpdate() {
-    this.applyValidation(this.props.validation);
+    this.validationIndex = this.props.validationInfos.findIndex((x) => !!x);
+    this.applyValidation(
+      this.validationIndex !== null ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+    );
   }
 
   public async focus(): Promise<void> {
     const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
       const { disableSmoothScroll, scrollOffset } = this.context.getSettings();
+      if (this.props.scrollToElement && this.validationIndex !== null) {
+        this.props.scrollToElement(this.validationIndex);
+      }
       if (!disableSmoothScroll) {
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
@@ -100,57 +92,18 @@ export class ValidationWrapperInternal extends React.Component<
         this.child.focus();
       }
     }
-    this.isChanging = false;
   }
 
   public render() {
     const { children, 'data-tid': dataTid } = this.props;
-    const { validation } = this.state;
 
-    let clonedChild: React.ReactElement<any> = children ? (
+    return children ? (
       React.cloneElement(children, {
         ref: this.customRef,
-        error: !this.isChanging && getLevel(validation) === 'error',
-        warning: !this.isChanging && getLevel(validation) === 'warning',
-        onBlur: (...args: any[]) => {
-          this.handleBlur();
-          if (children.props && children.props.onBlur) {
-            children.props.onBlur(...args);
-          }
-        },
-        onChange: (...args: any[]) => {
-          this.isChanging = true;
-          if (children.props && children.props.onChange) {
-            children.props.onChange(...args);
-          }
-        },
-        onValueChange: (...args: any[]) => {
-          this.isChanging = true;
-          if (children.props && children.props.onValueChange) {
-            children.props.onValueChange(...args);
-          }
-        },
+        'data-tid': dataTid,
       })
     ) : (
       <span ref={this.setRootNode} />
-    );
-    if (ReactUiDetection.isComboBox(clonedChild)) {
-      clonedChild = React.cloneElement(clonedChild, {
-        onInputValueChange: (...args: any[]) => {
-          this.isChanging = true;
-          this.forceUpdate();
-          if (children && children.props && children.props.onInputValueChange) {
-            return children.props.onInputValueChange(...args);
-          }
-        },
-      });
-    }
-
-    return React.cloneElement(
-      this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
-      {
-        'data-tid': dataTid,
-      },
     );
   }
 
@@ -178,6 +131,18 @@ export class ValidationWrapperInternal extends React.Component<
     return this.rootNode;
   };
 
+  private toValidation(info: Nullable<ValidationInfo>): Nullable<Validation> {
+    if (!info) {
+      return null;
+    }
+    return {
+      level: info.level || 'error',
+      independent: info.independent || false,
+      message: info.message || '',
+      behaviour: info.type || 'submit',
+    };
+  }
+
   public getControlPosition(): Nullable<Point> {
     const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
@@ -187,16 +152,10 @@ export class ValidationWrapperInternal extends React.Component<
     return null;
   }
 
-  public processBlur() {
-    const touched = this.isChanging;
-    this.isChanging = false;
-    const validation = this.getOnBlurValidation(touched);
-    return this.setValidation(validation);
-  }
-
   public async processSubmit(): Promise<void> {
-    this.isChanging = false;
-    return this.setValidation(this.props.validation);
+    return this.setValidation(
+      this.validationIndex !== null ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+    );
   }
 
   public hasError(): boolean {
@@ -205,20 +164,6 @@ export class ValidationWrapperInternal extends React.Component<
 
   public hasWarning(): boolean {
     return getLevel(this.state.validation) === 'warning';
-  }
-
-  public isIndependent(): boolean {
-    return getIndependent(this.state.validation || this.props.validation) === true;
-  }
-
-  private handleBlur() {
-    setTimeout(() => {
-      this.processBlur();
-      if (!this.isIndependent()) {
-        this.context.instanceProcessBlur(this);
-      }
-      this.setState({});
-    });
   }
 
   private applyValidation(actual: Nullable<Validation>) {
@@ -236,20 +181,14 @@ export class ValidationWrapperInternal extends React.Component<
     return new Promise((resolve) => {
       this.setState({ validation }, () => {
         if (Boolean(current) !== Boolean(validation)) {
+          if (this.props.onValidation) {
+            this.props.onValidation(this.validationIndex, validation);
+          }
           this.context.onValidationUpdated(this, !validation);
         }
         resolve();
       });
     });
-  }
-
-  private getOnBlurValidation(touched: boolean): Nullable<Validation> {
-    const actual = this.props.validation;
-    if (getType(actual) === 'submit') {
-      const visible = this.state.validation;
-      return !touched && getType(visible) === 'submit' ? visible : null;
-    }
-    return actual;
   }
 
   private getVisibleValidation(actual: Nullable<Validation>): Nullable<Validation> {
