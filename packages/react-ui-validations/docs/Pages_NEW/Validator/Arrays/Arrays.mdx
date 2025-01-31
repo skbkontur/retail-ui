@@ -1,12 +1,14 @@
 import { Story } from '@storybook/blocks';
 import * as DocsStories from './Arrays.docs.stories.tsx';
 import { Meta } from '../../../../.storybook/Meta';
+import { Link } from '@skbkontur/react-ui';
+import { linkTo } from '@storybook/addon-links';
 
 <Meta of={DocsStories} />
 
 # Валидация массивов
 
-Описание валидаций элементов массива реализовано аналогично описанию [валидаций полей объекта](/#/object-validation).
+Описание валидаций элементов массива реализовано аналогично описанию <Link onClick={linkTo('Validator/Objects')}>валидаций полей объекта</Link>.
 
 ## Массив примитивных типов
 
