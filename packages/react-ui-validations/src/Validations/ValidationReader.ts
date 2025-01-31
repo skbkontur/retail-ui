@@ -63,7 +63,6 @@ export class ValidationReader<T> {
       return [this.node.validation];
     }
     const [key, value] = this.findValueInNestedObject(this.node.children);
-    console.log(key, value);
     if (key) {
       const index = Number(key);
       const template: Array<Nullable<ValidationInfo>> = Array.from({ length: index });
