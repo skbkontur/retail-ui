@@ -28,46 +28,46 @@ export class ValidationReader<T> {
     return this.node ? this.node.validation : null;
   }
 
-  private findValueInNestedObject(obj: Nullable<Record<string, any>>, valuesToFind: string[]) {
+  private findValueInNestedObject(obj: Nullable<Record<string, any>>): [string | null, Nullable<ValidationInfo>] {
     let foundKey = null;
+    let value = null;
     if (!obj) {
-      return null;
+      return [null, null];
     }
 
     for (const key in obj) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         const currentValue = obj[key];
-
-        if (valuesToFind.includes(currentValue)) {
-          return key;
+        if (currentValue === 'invalid' || currentValue === 'warning') {
+          return [key, obj as ValidationInfo];
         }
 
         if (typeof currentValue === 'object') {
-          foundKey = this.findValueInNestedObject(currentValue, valuesToFind);
+          [foundKey, value] = this.findValueInNestedObject(currentValue);
 
           if (foundKey !== null) {
-            return key;
+            return [key, value];
           }
         }
       }
     }
 
-    return null;
+    return [null, null];
   }
 
-  public getFirstNodeWithValidation(level: 'all' | 'error' | 'warning' = 'all'): Array<Nullable<ValidationInfo>> {
-    const values = level === 'all' ? ['invalid', 'warning'] : [level];
+  public getFirstNodeWithValidation(): Array<Nullable<ValidationInfo>> {
     if (!this.node) {
       return [];
     }
     if (this.node.validation) {
       return [this.node.validation];
     }
-    const key = this.findValueInNestedObject(this.node.children, values);
+    const [key, value] = this.findValueInNestedObject(this.node.children);
+    console.log(key, value);
     if (key) {
       const index = Number(key);
       const template: Array<Nullable<ValidationInfo>> = Array.from({ length: index });
-      template[index] = { level: 'error', message: 'index' };
+      template[index] = value;
       return template;
     }
     return [];

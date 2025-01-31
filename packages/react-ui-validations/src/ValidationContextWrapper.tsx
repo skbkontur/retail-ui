@@ -165,7 +165,9 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   public async validate(withoutFocusOrValidationSettings: ValidateArgumentType): Promise<boolean> {
     const focusMode = ValidationContextWrapper.getFocusMode(withoutFocusOrValidationSettings);
-    this.submitted = true;
+    if (this.virtualWrappers.length > 0) {
+      this.submitted = true;
+    }
     await Promise.all([
       ...this.childWrappers.map((x) => x.processSubmit()),
       ...this.virtualWrappers.map((x) => x.processSubmit()),

@@ -63,7 +63,7 @@ export class ValidationListWrapperInternal extends React.Component<
     }
     this.validationIndex = this.props.validationInfos.findIndex((x) => !!x);
     this.applyValidation(
-      this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+      this.validationIndex !== null ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
     );
   }
 
@@ -74,7 +74,7 @@ export class ValidationListWrapperInternal extends React.Component<
   public componentDidUpdate() {
     this.validationIndex = this.props.validationInfos.findIndex((x) => !!x);
     this.applyValidation(
-      this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+      this.validationIndex !== null ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
     );
   }
 
@@ -82,7 +82,7 @@ export class ValidationListWrapperInternal extends React.Component<
     const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
       const { disableSmoothScroll, scrollOffset } = this.context.getSettings();
-      if (this.props.scrollToElement && this.validationIndex) {
+      if (this.props.scrollToElement && this.validationIndex !== null) {
         this.props.scrollToElement(this.validationIndex);
       }
       if (!disableSmoothScroll) {
@@ -154,7 +154,7 @@ export class ValidationListWrapperInternal extends React.Component<
 
   public async processSubmit(): Promise<void> {
     return this.setValidation(
-      this.validationIndex ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
+      this.validationIndex !== null ? this.toValidation(this.props.validationInfos[this.validationIndex]) : null,
     );
   }
 
