@@ -29,7 +29,7 @@
     "storybook:build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true storybook build -o .storybook/build --quiet\"",
     "storybook:docs-build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_DOCS=true storybook build --docs -o .storybook/build --quiet\"",
     "storybook:test": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true storybook dev --ci -p 6060\"",
-    "storybook:docs": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_DOCS=true storybook dev --docs -p 6061\"",
+    "storybook:docs": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_DOCS=true storybook dev --docs -p 6061 --debug-webpack\"",
     "storybook:serve": "serve -l 6060 .storybook/build",
     "styleguide": "node ../../scripts/patch-node-options.js \"styleguidist server --config .styleguide/config/dev.config.js\"",
     "styleguide:build": "node ../../scripts/patch-node-options.js \"node .styleguide/build\"",
@@ -45,7 +45,8 @@
     "creevey": "node ../../scripts/creevey-prepare.js .creevey/config.mts && cross-env BABEL_ENV=cjs creevey -c .creevey/config.mts",
     "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.mts --update",
     "creevey:ui": "yarn creevey --ui",
-    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
+    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html",
+    "sb-docs": "sb-docs"
   },
   "license": "MIT",
   "dependencies": {

@@ -1,0 +1,27 @@
+{
+  "name": "@skbkontur/sb-docs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": "bin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "storybook dev --docs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@skbkontur/storybook-addon-live-examples": "0.0.11",
+    "@storybook/addon-a11y": "7.6.18",
+    "@storybook/addon-controls": "7.6.18",
+    "@storybook/addon-docs": "7.6.18",
+    "@storybook/addon-essentials": "7.6.18",
+    "@storybook/addon-ie11": "0.0.6",
+    "@storybook/addon-interactions": "7.6.18",
+    "@storybook/addon-links": "7.6.18",
+    "@storybook/blocks": "7.6.18",
+    "@storybook/react": "7.6.18",
+    "@storybook/react-webpack5": "7.6.18",
+    "@skbkontur/react-ui": ">=5 <6",
+    "@skbkontur/icons": "1.10.0"
+  }
+}
