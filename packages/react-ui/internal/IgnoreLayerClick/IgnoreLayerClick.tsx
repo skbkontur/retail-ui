@@ -24,6 +24,7 @@ interface WrapperProps {
 // NOTE Используется только в команде Контур.Бухгалтерия
 @rootNode
 class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
+  _controller: any = new AbortController();
   public static __KONTUR_REACT_UI__ = 'IgnoreLayerClick';
   public static displayName = 'IgnoreLayerClick';
 
@@ -33,7 +34,9 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   public componentDidMount() {
     const element = getRootNode(this);
     if (isInstanceOf(element, globalObject.Element)) {
-      element.addEventListener('mousedown', this.handleMouseDown);
+      element.addEventListener('mousedown', this.handleMouseDown, {
+        signal: this._controller?.signal
+      } as AddEventListenerOptions);
       this.element = element;
     }
   }
@@ -43,6 +46,8 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
       this.element.removeEventListener('mousedown', this.handleMouseDown);
       this.element = null;
     }
+    this._controller?.abort();
+    this._controller = null;
   }
 
   public render() {
