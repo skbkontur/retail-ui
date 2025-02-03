@@ -3,7 +3,7 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
+import { text, ValidationContainer, ValidationInfo, ValidationListWrapper, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 export const LostfocusDependentValidation = () => {
@@ -59,30 +59,34 @@ export const LostfocusDependentValidation = () => {
     });
   };
 
+  const validationInfos = [validateA(), validateB()];
+
   return (
     <ValidationContainer ref={refContainer}>
-      <div style={{ padding: 30 }}>
-        <Gapped vertical>
-          <Gapped wrap verticalAlign="middle">
-            <b>A</b>
-            <ValidationWrapper data-tid="InputAValidation" validationInfo={validateA()} renderMessage={text()}>
-              <Input data-tid={'InputA'} value={valueA} onValueChange={setValueA} />
-            </ValidationWrapper>
+      <ValidationListWrapper validationInfos={validationInfos}>
+        <div style={{ padding: 30 }}>
+          <Gapped vertical>
+            <Gapped wrap verticalAlign="middle">
+              <b>A</b>
+              <ValidationWrapper data-tid="InputAValidation" validationInfo={validationInfos[0]} renderMessage={text()}>
+                <Input data-tid={'InputA'} value={valueA} onValueChange={setValueA} />
+              </ValidationWrapper>
+            </Gapped>
+            <Gapped wrap verticalAlign="middle">
+              <b>B</b>
+              <ValidationWrapper data-tid="InputBValidation" validationInfo={validationInfos[1]} renderMessage={text()}>
+                <Input data-tid={'InputB'} value={valueB} onValueChange={setValueB} />
+              </ValidationWrapper>
+            </Gapped>
+            <Gapped wrap verticalAlign="middle">
+              <Button data-tid={'SubmitButton'} loading={sending} onClick={handleSubmit}>
+                Submit
+              </Button>
+              <span data-tid={'ValidationState'}>{validation}</span>
+            </Gapped>
           </Gapped>
-          <Gapped wrap verticalAlign="middle">
-            <b>B</b>
-            <ValidationWrapper data-tid="InputBValidation" validationInfo={validateB()} renderMessage={text()}>
-              <Input data-tid={'InputB'} value={valueB} onValueChange={setValueB} />
-            </ValidationWrapper>
-          </Gapped>
-          <Gapped wrap verticalAlign="middle">
-            <Button data-tid={'SubmitButton'} loading={sending} onClick={handleSubmit}>
-              Submit
-            </Button>
-            <span data-tid={'ValidationState'}>{validation}</span>
-          </Gapped>
-        </Gapped>
-      </div>
+        </div>
+      </ValidationListWrapper>
     </ValidationContainer>
   );
 };

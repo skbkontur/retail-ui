@@ -3,7 +3,13 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { createValidator, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
+import {
+  createValidator,
+  ValidationContainer,
+  ValidationInfo,
+  ValidationListWrapper,
+  ValidationWrapper,
+} from '../../src';
 import { Nullable } from '../../typings/Types';
 
 import { ValidationState } from './ValidationHelper';
@@ -67,20 +73,25 @@ export const LostfocusIndependentValidation = () => {
         <ValidationWrapper validationInfo={validate(value2)}>
           <Input placeholder="Только цифры" value={value2} onValueChange={setValue2} />
         </ValidationWrapper>
-        <ValidationWrapper validationInfo={validationData.getNode((x) => x.value3).get()}>
-          <Input
-            placeholder="Только цифры"
-            value={object.value3}
-            onValueChange={(value3) => setObject((prev) => ({ ...prev, value3 }))}
-          />
-        </ValidationWrapper>
-        <ValidationWrapper validationInfo={validationData.getNode((x) => x.value4).get()}>
-          <Input
-            placeholder="Только цифры"
-            value={object.value4}
-            onValueChange={(value4) => setObject((prev) => ({ ...prev, value4 }))}
-          />
-        </ValidationWrapper>
+        <ValidationListWrapper validationInfos={validationData.getFirstNodeWithValidation()}>
+          <div>
+            <ValidationWrapper validationInfo={validationData.getNode((x) => x.value3).get()}>
+              <Input
+                placeholder="Только цифры"
+                value={object.value3}
+                onValueChange={(value3) => setObject((prev) => ({ ...prev, value3 }))}
+              />
+            </ValidationWrapper>
+            <ValidationWrapper validationInfo={validationData.getNode((x) => x.value4).get()}>
+              <Input
+                placeholder="Только цифры"
+                value={object.value4}
+                onValueChange={(value4) => setObject((prev) => ({ ...prev, value4 }))}
+              />
+            </ValidationWrapper>
+          </div>
+        </ValidationListWrapper>
+
         <Gapped wrap verticalAlign="middle">
           <Button use="primary" onClick={handleSubmit}>
             Submit

@@ -1,7 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
 import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
+import { text, ValidationContainer, ValidationInfo, ValidationListWrapper, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 interface SingleInputPageProps {
@@ -47,34 +47,38 @@ export const SingleInputPage: FC<SingleInputPageProps> = ({
     });
   };
 
+  const validationInfos = [validate()];
+
   return (
     <ValidationContainer ref={refContainer}>
-      <div style={{ padding: 30 }}>
-        <Gapped vertical>
-          <ValidationWrapper data-tid="InputValidation" validationInfo={validate()} renderMessage={text()}>
-            <Input
-              data-prop-focused={String(focused)}
-              data-tid={'Input'}
-              value={value}
-              onValueChange={setValue}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
+      <ValidationListWrapper validationInfos={validationInfos}>
+        <div style={{ padding: 30 }}>
+          <Gapped vertical>
+            <ValidationWrapper data-tid="InputValidation" validationInfo={validationInfos[0]} renderMessage={text()}>
+              <Input
+                data-prop-focused={String(focused)}
+                data-tid={'Input'}
+                value={value}
+                onValueChange={setValue}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+              />
+            </ValidationWrapper>
+            <Select<ValidationInfo['level']>
+              value={level}
+              data-tid={'ValidationLevel'}
+              items={['error', 'warning']}
+              onValueChange={setLevel}
             />
-          </ValidationWrapper>
-          <Select<ValidationInfo['level']>
-            value={level}
-            data-tid={'ValidationLevel'}
-            items={['error', 'warning']}
-            onValueChange={setLevel}
-          />
-          <Gapped wrap verticalAlign="middle">
-            <Button data-tid={'SubmitButton'} loading={sending} onClick={handleSubmit}>
-              Submit
-            </Button>
-            <span data-tid={'ValidationState'}>{validation}</span>
+            <Gapped wrap verticalAlign="middle">
+              <Button data-tid={'SubmitButton'} loading={sending} onClick={handleSubmit}>
+                Submit
+              </Button>
+              <span data-tid={'ValidationState'}>{validation}</span>
+            </Gapped>
           </Gapped>
-        </Gapped>
-      </div>
+        </div>
+      </ValidationListWrapper>
     </ValidationContainer>
   );
 };

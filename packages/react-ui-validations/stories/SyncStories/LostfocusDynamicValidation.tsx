@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
+import { text, ValidationContainer, ValidationInfo, ValidationListWrapper, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 export const LostfocusDynamicValidation = () => {
@@ -21,27 +21,31 @@ export const LostfocusDynamicValidation = () => {
     return null;
   };
 
+  const validationInfos = [validateA()];
+
   return (
     <ValidationContainer>
-      <div style={{ padding: 30 }}>
-        <Gapped vertical>
-          <Gapped wrap verticalAlign="middle">
-            <b>A</b>
-            <ValidationWrapper data-tid="InputAValidation" validationInfo={validateA()} renderMessage={text()}>
-              <Input data-tid={'InputA'} value={valueA} onValueChange={setValueA} />
-            </ValidationWrapper>
+      <ValidationListWrapper validationInfos={validationInfos}>
+        <div style={{ padding: 30 }}>
+          <Gapped vertical>
+            <Gapped wrap verticalAlign="middle">
+              <b>A</b>
+              <ValidationWrapper data-tid="InputAValidation" validationInfo={validationInfos[0]} renderMessage={text()}>
+                <Input data-tid={'InputA'} value={valueA} onValueChange={setValueA} />
+              </ValidationWrapper>
+            </Gapped>
+            <Gapped wrap verticalAlign="middle">
+              <b>B</b>
+              <ValidationWrapper
+                data-tid="InputBValidation"
+                validationInfo={null /*it is important to wrap input with ValidationWrapper*/}
+              >
+                <Input data-tid={'InputB'} value={valueB} onValueChange={setValueB} />
+              </ValidationWrapper>
+            </Gapped>
           </Gapped>
-          <Gapped wrap verticalAlign="middle">
-            <b>B</b>
-            <ValidationWrapper
-              data-tid="InputBValidation"
-              validationInfo={null /*it is important to wrap input with ValidationWrapper*/}
-            >
-              <Input data-tid={'InputB'} value={valueB} onValueChange={setValueB} />
-            </ValidationWrapper>
-          </Gapped>
-        </Gapped>
-      </div>
+        </div>
+      </ValidationListWrapper>
     </ValidationContainer>
   );
 };
