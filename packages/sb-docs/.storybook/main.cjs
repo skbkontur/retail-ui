@@ -1,8 +1,6 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
-
 console.log('main', process.cwd());
 
-const config: StorybookConfig = {
+const config = {
   stories: [
     {
       directory: process.cwd(),
@@ -38,4 +36,5 @@ const config: StorybookConfig = {
     disableTelemetry: true,
   },
 };
-export default config;
+
+exports.default = config;
