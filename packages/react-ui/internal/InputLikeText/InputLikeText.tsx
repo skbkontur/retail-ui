@@ -54,7 +54,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
-  public state = { blinking: false, focused: false };
+  public state = { blinking: false, focused: false, valueFromState: this.props.value };
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
@@ -173,7 +173,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       suffix,
       leftIcon,
       rightIcon,
-      value,
       onMouseDragStart,
       onMouseDragEnd,
       takeContentWidth,
@@ -181,7 +180,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       ...rest
     } = props;
 
-    const { focused, blinking } = this.state;
+    const { focused, blinking, valueFromState } = this.state;
 
     const leftSide = <InputLayoutAside icon={leftIcon} text={prefix} side="left" />;
     const rightSide = <InputLayoutAside icon={rightIcon} text={suffix} side="right" />;
@@ -225,7 +224,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
             <input
               data-tid={InputLikeTextDataTids.nativeInput}
               type="hidden"
-              value={value}
+              value={valueFromState}
               disabled={disabled}
               aria-describedby={ariaDescribedby}
             />
