@@ -118,14 +118,42 @@ describe('Theming', () => {
         return 'red';
       }
     };
-    const themeWithExposedGetters = exposeGetters(theme);
 
     test('getter is not enumerable by default in JS', () => {
       expect(ThemeFactory.getKeys(theme).indexOf('errorText')).toBe(-1);
     });
 
     test('exposed getter should be enumerable', () => {
-      expect(ThemeFactory.getKeys(themeWithExposedGetters).indexOf('errorText')).toBeGreaterThan(-1);
+      exposeGetters(theme);
+      expect(ThemeFactory.getKeys(theme).indexOf('errorText')).toBeGreaterThan(-1);
+    });
+  });
+
+  describe('createThemeFromClass', () => {
+    const theme = createThemeFromClass(
+      class extends (class {} as typeof BasicThemeClass) {
+        public static get errorText() {
+          return this.black + this.blue;
+        }
+      },
+      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion(1.0)] },
+    );
+
+    test('should inherit prototype theme', () => {
+      expect(theme.errorText).toBe(BasicTheme.black + BasicTheme.blue);
+    });
+
+    test('should expose getters', () => {
+      expect(ThemeFactory.getKeys(theme).indexOf('errorText')).toBeGreaterThan(-1);
+    });
+
+    describe('should apply markers', () => {
+      test('dark theme', () => {
+        expect(isDarkTheme(theme)).toBe(true);
+      });
+      test('theme version', () => {
+        expect(isThemeVersionGreaterOrEqual(theme, 1.0)).toBe(true);
+      });
     });
   });
 
