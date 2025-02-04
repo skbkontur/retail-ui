@@ -2,7 +2,17 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { applyMarkers, createThemeFromClass, Marker, REACT_UI_THEME_MARKERS } from '../../../lib/theming/ThemeHelpers';
+import {
+  applyMarkers,
+  createThemeFromClass,
+  exposeGetters,
+  isDarkTheme,
+  isThemeVersionGreaterOrEqual,
+  markAsDarkTheme,
+  Marker,
+  markThemeVersion,
+  REACT_UI_THEME_MARKERS,
+} from '../../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Theme } from '../../../lib/theming/Theme';
 import { AnyObject } from '../../../lib/utils';
@@ -101,11 +111,57 @@ describe('Theming', () => {
       expect(keys_1).toEqual(keys_2);
     });
   });
-  describe('applyMarkers() should mark theme', () => {
-    test('should mark custom theme', () => {
-      const theme = applyMarkers(ThemeFactory.create(myTheme), [markAsTest]);
 
+  describe('exposeGetters', () => {
+    const theme = class extends (class {} as typeof BasicThemeClass) {
+      public static get errorText() {
+        return 'red';
+      }
+    };
+    const themeWithExposedGetters = exposeGetters(theme);
+
+    test('getter is not enumerable by default in JS', () => {
+      expect(ThemeFactory.getKeys(theme).indexOf('errorText')).toBe(-1);
+    });
+
+    test('exposed getter should be enumerable', () => {
+      expect(ThemeFactory.getKeys(themeWithExposedGetters).indexOf('errorText')).toBeGreaterThan(-1);
+    });
+  });
+
+  describe('applyMarker', () => {
+    test('test marker should mark custom theme', () => {
+      const theme = applyMarkers(ThemeFactory.create(myTheme), [markAsTest]);
       expect(isTestTheme(theme)).toBeTruthy();
+    });
+
+    describe('isThemeVersionGreaterOrEqual', () => {
+      const theme5_1 = applyMarkers(ThemeFactory.create(myTheme), [markThemeVersion(5.1)]);
+
+      test('5.1 should BE greater or equal that 5.0', () => {
+        expect(isThemeVersionGreaterOrEqual(theme5_1, 5.0)).toBe(true);
+      });
+
+      test('5.1 should BE greater or equal that 5.1', () => {
+        expect(isThemeVersionGreaterOrEqual(theme5_1, 5.1)).toBe(true);
+      });
+
+      test('5.1 should NOT BE greater or equal that 5.2', () => {
+        expect(isThemeVersionGreaterOrEqual(theme5_1, 5.2)).toBe(false);
+      });
+    });
+
+    describe('isDarkTheme', () => {
+      const lightTheme = applyMarkers(ThemeFactory.create(myTheme), []);
+      const darkTheme = applyMarkers(ThemeFactory.create(myTheme), [markAsDarkTheme]);
+
+      test('light theme should NOT BE dark', () => {
+        expect(isDarkTheme(lightTheme)).toBe(false);
+      });
+
+      test('dark theme should BE dark', () => {
+        expect(isDarkTheme(darkTheme)).toBe(true);
+      });
     });
   });
 });
