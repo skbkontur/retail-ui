@@ -7,13 +7,6 @@ import { ComponentTable } from '../../../internal/ComponentTable';
 import { Meta, Story } from '../../../typings/stories';
 import { Input, InputProps } from '../Input';
 import { Gapped } from '../../Gapped';
-import { CurrencyInput } from '../../CurrencyInput';
-import { Nullable } from '../../../typings/utility-types';
-import { Autocomplete } from '../../Autocomplete';
-import { PasswordInput } from '../../PasswordInput';
-import { DateInput } from '../../DateInput';
-import { FxInput } from '../../FxInput';
-import { MaskedInput } from '../../MaskedInput';
 
 export default {
   title: 'Input',
@@ -465,57 +458,3 @@ export const WithMaskAndSelectAllProp: Story = () => {
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
 
 export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
-
-export const AAAAAAAAAAAA: Story = () => {
-  const [value, setValue] = React.useState('Через value, управляемый контрол');
-  const [currencyValue, setCurrencyValue] = React.useState<Nullable<number>>(1234);
-  const [autocompleteValue, setAutocompleteValue] = React.useState('Управляемый autocomplete');
-  const [passwordValue, setPasswordValue] = React.useState('Управляемый password');
-  const [maskedValue, setMaskedValue] = React.useState('11');
-  const items = ['Управляемый autocomplete', 'Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
-  return (
-    <>
-      <Gapped vertical gap={5}>
-        <span>Должны быть с крестиком</span>
-        <Input showCleanCross value={value} onValueChange={setValue} />
-        <Input showCleanCross placeholder={'Неуправляемый контрол'} />
-        <Autocomplete showCleanCross source={items} value={autocompleteValue} onValueChange={setAutocompleteValue} />
-        <MaskedInput showCleanCross mask={'+7 (999) 999-99-99'} value={maskedValue} onValueChange={setMaskedValue} />
-        <MaskedInput showCleanCross mask={'+7 (999) 999-99-99'} />
-      </Gapped>
-      <br />
-      <br />
-      <Gapped vertical gap={5}>
-        <span>Не должно быть крестика, но должны правильно работать</span>
-        <CurrencyInput
-          // showCleanCross
-          value={currencyValue}
-          onValueChange={(n) => {
-            setCurrencyValue(n);
-          }}
-        />
-        <CurrencyInput
-          // showCleanCross
-          onValueChange={(value) => {}}
-        />
-        <PasswordInput
-          // showCleanCross
-          value={passwordValue}
-          onValueChange={(n) => {
-            setPasswordValue(n);
-          }}
-        />
-        <PasswordInput
-        // showCleanCross
-        />
-        <DateInput
-        // showCleanCross
-        />
-        <FxInput
-          // showCleanCross
-          onValueChange={() => {}}
-        />
-      </Gapped>
-    </>
-  );
-};
