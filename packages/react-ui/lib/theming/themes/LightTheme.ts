@@ -1,5 +1,1 @@
-import { ThemeFactory } from '../ThemeFactory';
-import { BasicLightTheme } from '../../../internal/themes/BasicLightTheme';
-import { applyMarkers, markAsTheme2022 } from '../ThemeHelpers';
-
-export const LIGHT_THEME = applyMarkers(ThemeFactory.create({}, BasicLightTheme), [markAsTheme2022]);
+export { LightTheme5_0 as LIGHT_THEME } from '../../../internal/themes/LightTheme5_0';
