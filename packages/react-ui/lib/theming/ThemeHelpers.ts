@@ -52,17 +52,6 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
-export const markAsTheme2022: Marker = (theme) => {
-  return Object.create(theme, {
-    [REACT_UI_THEME_MARKERS.theme2022.key]: {
-      value: REACT_UI_THEME_MARKERS.theme2022.value,
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    },
-  });
-};
-
 export const markThemeVersion: (version: number) => Marker = (version) => (theme) => {
   return Object.create(theme, {
     [REACT_UI_THEME_MARKERS.themeVersion.key]: {
@@ -72,11 +61,6 @@ export const markThemeVersion: (version: number) => Marker = (version) => (theme
       configurable: false,
     },
   });
-};
-
-export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
-  // @ts-expect-error: internal value.
-  return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
 };
 
 export const isThemeVersionGreaterOrEqual = (theme: Theme | ThemeIn, version: number): boolean => {
