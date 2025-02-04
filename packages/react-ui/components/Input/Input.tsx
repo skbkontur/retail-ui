@@ -13,7 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
@@ -53,9 +53,6 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Устанавливает иконку крестика, при нажатии на который инпут очищается. */
-        showCleanCross?: boolean;
-
         /** Задает иконку слева.
          * При использовании `ReactNode` применяются дефолтные стили для иконки.
          * При использовании `() => ReactNode` применяются только стили для позиционирования. */
@@ -152,12 +149,10 @@ export interface InputState {
   blinking: boolean;
   focused: boolean;
   needsPolyfillPlaceholder: boolean;
-  valueFromState: string | undefined;
 }
 
 export const InputDataTids = {
   root: 'Input__root',
-  close: 'InputLayout__close',
 } as const;
 
 type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
@@ -191,7 +186,6 @@ export class Input extends React.Component<InputProps, InputState> {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
-    valueFromState: this.props.value,
   };
 
   private selectAllId: number | null = null;
@@ -208,21 +202,9 @@ export class Input extends React.Component<InputProps, InputState> {
     this.outputMaskError();
   }
 
-  public componentDidUpdate(prevProps: Readonly<InputProps>, prevState: Readonly<InputState>) {
+  public componentDidUpdate(prevProps: Readonly<InputProps>) {
     if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
       this.outputMaskError();
-    }
-
-    if (this.props.value !== prevProps.value) { // сюда заходим, если значение прокинуто через проп
-      this.setState({ valueFromState: this.props.value }); // актуализируем стейт
-      if (this.input) {
-        this.input.value = this.props.value ?? ''; // актуализируем значение в инпуте
-      }
-    }
-    if (this.state.valueFromState !== prevState.valueFromState) { // сюда заходим когда прокинули значение через стейт -- например при очистке
-      if (this.input) {
-        this.input.value = this.state.valueFromState ?? ''; // актуализируем значение в инпуте
-      }
     }
   }
 
@@ -393,7 +375,6 @@ export class Input extends React.Component<InputProps, InputState> {
       rightIcon,
       borderless,
       value,
-      showCleanCross,
       align,
       type,
       mask,
@@ -415,7 +396,7 @@ export class Input extends React.Component<InputProps, InputState> {
       ...rest
     } = props;
 
-    const { blinking, focused, valueFromState } = this.state;
+    const { blinking, focused } = this.state;
 
     const labelProps = {
       className: cx(styles.root(this.theme), this.getSizeClassName(), {
@@ -443,14 +424,9 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.inputFocus(this.theme)]: focused,
         [styles.inputDisabled(this.theme)]: disabled,
       }),
-      value: valueFromState,
+      value,
       role,
-      onChange: (e) => {
-        if (!onValueChange && !value) {
-          this.setState({ valueFromState: e.target.value }); // таким образом прокидываем на неконтролируемый инпут
-        }
-        this.handleChange(e);
-      },
+      onChange: this.handleChange,
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
       onKeyPress: this.handleKeyPress,
@@ -470,13 +446,6 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <InputLayout
-        clearInput={() => {
-          this.setState({ valueFromState: undefined });
-          this.input?.focus();
-        }}
-        showCleanCross={
-          showCleanCross && this.state.focused && ((!!this.input && !!this.input.value) || !!this.state.valueFromState)
-        }
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         prefix={prefix}
@@ -488,7 +457,7 @@ export class Input extends React.Component<InputProps, InputState> {
         {this.state.needsPolyfillPlaceholder && (
           <PolyfillPlaceholder
             isMaskVisible={this.isMaskVisible}
-            value={this.state.valueFromState}
+            value={value}
             defaultValue={this.props.defaultValue}
             align={align}
           >
@@ -556,7 +525,6 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     if (this.props.onChange) {
-      this.setState({ valueFromState: event.target.value });
       this.props.onChange(event);
     }
   };
@@ -603,7 +571,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private handleUnexpectedInput = (value: string = this.state.valueFromState || '') => {
+  private handleUnexpectedInput = (value: string = this.props.value || '') => {
     if (this.props.onUnexpectedInput) {
       this.props.onUnexpectedInput(value);
     } else {
@@ -614,22 +582,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private resetFocus = () => this.setState({ focused: false });
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const isBlurToCleanCrossIcon = this.isBlurToCleanCrossIcon(event);
-    if (this.props.showCleanCross && isBlurToCleanCrossIcon) {
-      event.preventDefault();
-      this.input?.focus();
-      this.setState({ focused: true, valueFromState: undefined });
-    } else {
-      this.resetFocus();
-      this.props.onBlur?.(event);
-    }
-  };
-
-  private isBlurToCleanCrossIcon = (event: React.FocusEvent<HTMLInputElement>) => {
-    const ourInput = getRootNode(this);
-    if (ourInput && ourInput.contains(event.relatedTarget)) {
-      return true;
-    }
-    return false;
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 }
