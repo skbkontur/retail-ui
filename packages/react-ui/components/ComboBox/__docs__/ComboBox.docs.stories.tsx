@@ -537,3 +537,27 @@ export const Example9: Story = () => {
   );
 };
 Example9.storyName = 'Размер';
+
+/** Крестик отображается только при фокусировке на поле, в котором что-либо введено */
+export const Example10: Story = () => {
+  const [value, setValue] = React.useState({
+    value: 2,
+    label: 'Second',
+  });
+  const getItems = (q: string) => {
+    return Promise.resolve(
+      [
+        {
+          value: 1,
+          label: 'First',
+        },
+        {
+          value: 2,
+          label: 'Second',
+        },
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
+  };
+  return <ComboBox showCleanCross getItems={getItems} value={value} onValueChange={setValue} />;
+};
+Example10.storyName = 'Крестик для очистки';

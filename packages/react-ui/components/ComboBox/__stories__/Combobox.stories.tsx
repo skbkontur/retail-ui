@@ -954,3 +954,42 @@ export const WithMenuAlignAndMenuPos: Story = () => {
 WithMenuAlignAndMenuPos.parameters = {
   creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
 };
+
+export const ComboboxWithCleanCross: Story = () => {
+  const [value, setValue] = React.useState({
+    value: 2,
+    label: 'Second',
+  });
+  const getItems = (q: string) => {
+    return Promise.resolve(
+      [
+        {
+          value: 1,
+          label: 'First',
+        },
+        {
+          value: 2,
+          label: 'Second',
+        },
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
+  };
+  return (
+    <Gapped>
+      <ComboBox
+        showCleanCross
+        getItems={getItems}
+        size="small"
+        onValueChange={(value) => console.log('получено: ' + value + '.')}
+      />
+      <ComboBox
+        showCleanCross
+        getItems={getItems}
+        size="large"
+        value={value}
+        onValueChange={setValue}
+        placeholder="Управляемый"
+      />
+    </Gapped>
+  );
+};

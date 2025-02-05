@@ -84,3 +84,10 @@ export const Example5: Story = () => {
   );
 };
 Example5.storyName = 'type';
+
+/** Крестик отображается только при фокусировке на поле, в котором что-либо введено */
+export const Example6: Story = () => {
+  const [value, setValue] = React.useState('Управляемый контрол');
+  return <Input showCleanCross value={value} onValueChange={setValue} data-tid="controlled-input" />;
+};
+Example6.storyName = 'Крестик для очистки';

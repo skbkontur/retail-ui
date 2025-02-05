@@ -1,4 +1,5 @@
 import { story, kind, test } from 'creevey';
+import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay';
 
@@ -234,6 +235,85 @@ kind('Input', () => {
   story('TypeApi', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
+    });
+  });
+
+  story('CleanCrossSizes', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
+
+    test('idle', async (context) => {
+      const small = await context.webdriver.findElement({ css: '[data-tid="small"]' });
+      const medium = await context.webdriver.findElement({ css: '[data-tid="medium"]' });
+      const large = await context.webdriver.findElement({ css: '[data-tid="large"]' });
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(small)
+        .perform();
+      const smallCrossAppeared = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(medium)
+        .perform();
+      const mediumCrossAppeared = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(large)
+        .perform();
+      const largeCrossAppeared = await context.takeScreenshot();
+
+      await context.matchImages({ smallCrossAppeared, mediumCrossAppeared, largeCrossAppeared });
+    });
+  });
+
+  story('InputWithCleanCross', () => {
+    test('idle', async (context) => {
+      const controlled = await context.webdriver.findElement({ css: '[data-tid="controlled-input"]' });
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(controlled)
+        .perform();
+      await delay(200);
+      const crossAppeared = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(context.webdriver.findElement({ css: '[data-tid="InputLayout__cross"]' }))
+        .perform();
+      await delay(500);
+      const inputCleaned = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.TAB)
+        .pause(1000)
+        .sendKeys('a')
+        .perform();
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.TAB)
+        .perform();
+      await delay(1000);
+      const tabFocused = await context.takeScreenshot();
+
+      await context.matchImages({ crossAppeared, inputCleaned, tabFocused });
     });
   });
 });

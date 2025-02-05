@@ -13,7 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
@@ -53,6 +53,9 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
+        /** Устанавливает иконку крестика, при нажатии на который инпут очищается. */
+        showCleanCross?: boolean;
+
         /** Задает иконку слева.
          * При использовании `ReactNode` применяются дефолтные стили для иконки.
          * При использовании `() => ReactNode` применяются только стили для позиционирования. */
@@ -149,10 +152,12 @@ export interface InputState {
   blinking: boolean;
   focused: boolean;
   needsPolyfillPlaceholder: boolean;
+  needsShowCleanCross: boolean;
 }
 
 export const InputDataTids = {
   root: 'Input__root',
+  cross: 'InputLayout__cross',
 } as const;
 
 type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
@@ -186,6 +191,7 @@ export class Input extends React.Component<InputProps, InputState> {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
+    needsShowCleanCross: false,
   };
 
   private selectAllId: number | null = null;
@@ -375,6 +381,7 @@ export class Input extends React.Component<InputProps, InputState> {
       rightIcon,
       borderless,
       value,
+      showCleanCross,
       align,
       type,
       mask,
@@ -446,6 +453,20 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <InputLayout
+        clearInput={() => {
+          if (this.props.onValueChange) {
+            this.props.onValueChange('');
+          }
+          if (this.input) {
+            this.input.value = '';
+            this.input.focus();
+          }
+          this.setState({ needsShowCleanCross: false, focused: true });
+        }}
+        showCleanCross={showCleanCross && this.state.needsShowCleanCross}
+        onCrossBlur={() => {
+          this.setState({ needsShowCleanCross: false });
+        }}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
         prefix={prefix}
@@ -513,6 +534,10 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      needsShowCleanCross: this.state.focused && !!this.input?.value,
+    });
+
     if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
@@ -532,6 +557,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
+      needsShowCleanCross: !!this.input?.value,
     });
 
     if (this.props.selectAllOnFocus) {
@@ -582,7 +608,20 @@ export class Input extends React.Component<InputProps, InputState> {
   private resetFocus = () => this.setState({ focused: false });
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    this.resetFocus();
-    this.props.onBlur?.(event);
+    if (this.props.showCleanCross && this.isBlurToCleanCrossIcon(event)) {
+      event.preventDefault();
+      this.setState({ focused: false });
+    } else {
+      this.setState({ needsShowCleanCross: false, focused: false });
+      this.props.onBlur?.(event);
+    }
+  };
+
+  private isBlurToCleanCrossIcon = (event: React.FocusEvent<HTMLInputElement>) => {
+    const ourInput = getRootNode(this);
+    if (ourInput && ourInput.contains(event.relatedTarget)) {
+      return true;
+    }
+    return false;
   };
 }

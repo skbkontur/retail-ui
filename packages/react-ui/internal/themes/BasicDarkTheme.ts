@@ -43,6 +43,14 @@ export class BasicDarkThemeInternal extends (class {} as typeof BasicLightTheme)
   //#region CloseIcon, CloseButtonIcon
   public static closeBtnIconColor = 'rgba(255, 255, 255, 0.32)';
   //#endregion CloseIcon, CloseButtonIcon
+
+  //#region CleanCrossIcon
+  public static cleanCrossIconColor = 'rgba(255, 255, 255, 0.32)';
+  public static get cleanCrossIconHoverColor() {
+    return this.inputBorderColorFocus;
+  }
+  //#endregion CleanCrossIcon
+
   //#region Link
   public static linkColor = 'rgba(255, 255, 255, 0.87)';
   public static linkHoverColor = '#ffffff';

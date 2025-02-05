@@ -13,6 +13,9 @@ export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
+  /** Устанавливает иконку крестика, при нажатии на который комбобокс очищается. */
+  showCleanCross?: boolean;
+
   /** Задает выравнивание контента. */
   align?: 'left' | 'center' | 'right';
 

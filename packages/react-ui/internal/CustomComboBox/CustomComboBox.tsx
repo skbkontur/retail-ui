@@ -62,6 +62,7 @@ export interface CustomComboBoxProps<T>
   size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
+  showCleanCross?: boolean;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -271,6 +272,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       textValue: this.state.textValue,
       totalCount: this.props.totalCount,
       value: this.props.value,
+      showCleanCross: this.props.showCleanCross,
       warning: this.props.warning,
       'aria-describedby': this.props['aria-describedby'],
       'aria-label': this.props['aria-label'],

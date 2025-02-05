@@ -25,7 +25,7 @@ import { FocusControlWrapper } from '../FocusControlWrapper';
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
 
-export interface InputLikeTextProps extends CommonProps, InputProps {
+export interface InputLikeTextProps extends CommonProps, Omit<InputProps, 'showCleanCross'> {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onFocus?: React.FocusEventHandler<HTMLElement>;
@@ -35,7 +35,7 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   takeContentWidth?: boolean;
 }
 
-export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
+export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder' | 'needsShowCleanCross'>;
 
 export const InputLikeTextDataTids = {
   root: 'InputLikeText__root',
