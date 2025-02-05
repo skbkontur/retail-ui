@@ -1,10 +1,6 @@
 import { isDarkTheme, isThemeVersionGTE } from '../../ThemeHelpers';
-import { DARK_THEME } from '../DarkTheme';
-import { DARK_THEME_5_0 } from '../DarkTheme5_0';
-import { DARK_THEME_5_1 } from '../DarkTheme5_1';
-import { LIGHT_THEME } from '../LightTheme';
-import { LIGHT_THEME_5_0 } from '../LightTheme5_0';
-import { LIGHT_THEME_5_1 } from '../LightTheme5_1';
+import { DARK_THEME, DARK_THEME_5_0, DARK_THEME_5_1 } from '../DarkTheme';
+import { LIGHT_THEME, LIGHT_THEME_5_0, LIGHT_THEME_5_1 } from '../LightTheme';
 
 describe('Themes', () => {
   describe('LIGHT_THEME', () => {

@@ -85,24 +85,20 @@ export function applyMarkers<T extends object>(theme: T, markers: Markers): T {
   }, Object.create(theme));
 }
 
-export function extendObject<B extends object, P extends object>(baseTheme: B, prototypeTheme: P): void {
-  Object.setPrototypeOf(baseTheme, prototypeTheme);
-}
-
 export function createThemeFromClass<T extends object, P extends object>(
   themeObject: T,
   options?: {
     prototypeTheme?: P;
     themeMarkers?: Markers;
   },
-): Readonly<T> {
+): T {
   const { prototypeTheme, themeMarkers = [] } = options || {};
 
   if (prototypeTheme) {
-    extendObject(themeObject, prototypeTheme);
+    Object.setPrototypeOf(themeObject, prototypeTheme);
   }
 
   const theme = applyMarkers(exposeGetters(themeObject), themeMarkers);
 
-  return Object.freeze(theme);
+  return theme;
 }

@@ -5,6 +5,13 @@ import { createThemeFromClass, isThemeVersionGTE, markThemeVersion } from '../..
 
 export default {
   title: 'ThemeVersions/Test',
+  parameters: {
+    creevey: {
+      skip: {
+        'no themes': { in: /^(?!\bchrome2022\b)/ },
+      },
+    },
+  },
 } as Meta;
 
 class TestThemeClass {
@@ -48,12 +55,15 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     .map(([version]) => version);
 
   return (
-    <div style={styles}>
-      Test Component.&nbsp;
-      {themeVersions.length
-        ? 'Detected theme versions: ' + themeVersions.join(', ') + '.'
-        : 'No theme versions detected.'}
-    </div>
+    <>
+      <div style={styles}>
+        Test Component.&nbsp;
+        {themeVersions.length
+          ? 'Detected theme versions: ' + themeVersions.join(', ') + '.'
+          : 'No theme versions detected.'}
+      </div>
+      <pre>{JSON.stringify(styles, null, 2)}</pre>
+    </>
   );
 };
 
