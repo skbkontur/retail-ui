@@ -1,4 +1,3 @@
-import { BasicThemeClass } from '../../internal/themes/BasicTheme';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
@@ -63,7 +62,7 @@ export const markThemeVersion: (version: number) => Marker = (version) => (theme
   });
 };
 
-export const isThemeVersionGreaterOrEqual = (theme: Theme | ThemeIn, version: number): boolean => {
+export const isThemeVersionGTE = (theme: Theme | ThemeIn, version: number): boolean => {
   // @ts-expect-error: internal value.
   return theme[REACT_UI_THEME_MARKERS.themeVersion.key] >= version;
 };
@@ -80,25 +79,30 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
   return {};
 }
 
-export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
+export function applyMarkers<T extends object>(theme: T, markers: Markers): T {
   return markers.reduce((markedTheme, marker) => {
     return marker(markedTheme);
-  }, Object.create(theme)) as typeof theme;
+  }, Object.create(theme));
 }
 
-export function createThemeFromClass(
-  themeObject: typeof BasicThemeClass,
+export function extendObject<B extends object, P extends object>(baseTheme: B, prototypeTheme: P): void {
+  Object.setPrototypeOf(baseTheme, prototypeTheme);
+}
+
+export function createThemeFromClass<T extends object, P extends object>(
+  themeObject: T,
   options?: {
-    prototypeTheme?: Theme;
+    prototypeTheme?: P;
     themeMarkers?: Markers;
   },
-): Theme {
-  const theme = exposeGetters(themeObject);
+): Readonly<T> {
   const { prototypeTheme, themeMarkers = [] } = options || {};
 
   if (prototypeTheme) {
-    Object.setPrototypeOf(theme, prototypeTheme);
+    extendObject(themeObject, prototypeTheme);
   }
 
-  return applyMarkers(theme as Theme, themeMarkers);
+  const theme = applyMarkers(exposeGetters(themeObject), themeMarkers);
+
+  return Object.freeze(theme);
 }

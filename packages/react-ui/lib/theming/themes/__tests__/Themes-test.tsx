@@ -1,4 +1,4 @@
-import { isDarkTheme, isThemeVersionGreaterOrEqual } from '../../ThemeHelpers';
+import { isDarkTheme, isThemeVersionGTE } from '../../ThemeHelpers';
 import { DARK_THEME } from '../DarkTheme';
 import { DARK_THEME_5_0 } from '../DarkTheme5_0';
 import { DARK_THEME_5_1 } from '../DarkTheme5_1';
@@ -15,8 +15,8 @@ describe('Themes', () => {
 
   describe('LIGHT_THEME_5_0', () => {
     test('should be 5.0 version', () => {
-      expect(isThemeVersionGreaterOrEqual(LIGHT_THEME_5_0, 5.0)).toBe(true);
-      expect(isThemeVersionGreaterOrEqual(LIGHT_THEME_5_0, 5.1)).toBe(false);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_0, 5.0)).toBe(true);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_0, 5.1)).toBe(false);
     });
     test('should not be dark', () => {
       expect(isDarkTheme(LIGHT_THEME_5_0)).toBe(false);
@@ -25,8 +25,8 @@ describe('Themes', () => {
 
   describe('LIGHT_THEME_5_1', () => {
     test('should be 5.1 version', () => {
-      expect(isThemeVersionGreaterOrEqual(LIGHT_THEME_5_1, 5.0)).toBe(true);
-      expect(isThemeVersionGreaterOrEqual(LIGHT_THEME_5_1, 5.1)).toBe(true);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_1, 5.0)).toBe(true);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_1, 5.1)).toBe(true);
     });
     test('should not be dark', () => {
       expect(isDarkTheme(LIGHT_THEME_5_1)).toBe(false);
@@ -41,8 +41,8 @@ describe('Themes', () => {
 
   describe('DARK_THEME_5_0', () => {
     test('should be 5.0 version', () => {
-      expect(isThemeVersionGreaterOrEqual(DARK_THEME_5_0, 5.0)).toBe(true);
-      expect(isThemeVersionGreaterOrEqual(DARK_THEME_5_0, 5.1)).toBe(false);
+      expect(isThemeVersionGTE(DARK_THEME_5_0, 5.0)).toBe(true);
+      expect(isThemeVersionGTE(DARK_THEME_5_0, 5.1)).toBe(false);
     });
     test('should be dark', () => {
       expect(isDarkTheme(DARK_THEME_5_0)).toBe(true);
@@ -51,8 +51,8 @@ describe('Themes', () => {
 
   describe('DARK_THEME_5_1', () => {
     test('should be 5.1 version', () => {
-      expect(isThemeVersionGreaterOrEqual(DARK_THEME_5_1, 5.0)).toBe(true);
-      expect(isThemeVersionGreaterOrEqual(DARK_THEME_5_1, 5.1)).toBe(true);
+      expect(isThemeVersionGTE(DARK_THEME_5_1, 5.0)).toBe(true);
+      expect(isThemeVersionGTE(DARK_THEME_5_1, 5.1)).toBe(true);
     });
     test('should be dark', () => {
       expect(isDarkTheme(DARK_THEME_5_1)).toBe(true);

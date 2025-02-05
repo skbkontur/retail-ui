@@ -7,7 +7,7 @@ import {
   createThemeFromClass,
   exposeGetters,
   isDarkTheme,
-  isThemeVersionGreaterOrEqual,
+  isThemeVersionGTE,
   markAsDarkTheme,
   Marker,
   markThemeVersion,
@@ -152,7 +152,7 @@ describe('Theming', () => {
         expect(isDarkTheme(theme)).toBe(true);
       });
       test('theme version', () => {
-        expect(isThemeVersionGreaterOrEqual(theme, 1.0)).toBe(true);
+        expect(isThemeVersionGTE(theme, 1.0)).toBe(true);
       });
     });
   });
@@ -163,19 +163,19 @@ describe('Theming', () => {
       expect(isTestTheme(theme)).toBeTruthy();
     });
 
-    describe('isThemeVersionGreaterOrEqual', () => {
+    describe('isThemeVersionGTE', () => {
       const theme5_1 = applyMarkers(ThemeFactory.create(myTheme), [markThemeVersion(5.1)]);
 
       test('5.1 should BE greater or equal that 5.0', () => {
-        expect(isThemeVersionGreaterOrEqual(theme5_1, 5.0)).toBe(true);
+        expect(isThemeVersionGTE(theme5_1, 5.0)).toBe(true);
       });
 
       test('5.1 should BE greater or equal that 5.1', () => {
-        expect(isThemeVersionGreaterOrEqual(theme5_1, 5.1)).toBe(true);
+        expect(isThemeVersionGTE(theme5_1, 5.1)).toBe(true);
       });
 
       test('5.1 should NOT BE greater or equal that 5.2', () => {
-        expect(isThemeVersionGreaterOrEqual(theme5_1, 5.2)).toBe(false);
+        expect(isThemeVersionGTE(theme5_1, 5.2)).toBe(false);
       });
     });
 
