@@ -293,7 +293,6 @@ kind('Input', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid="InputLayout__cross"]' }))
         .perform();
-      await delay(500);
       const inputCleaned = await context.takeScreenshot();
 
       await context.webdriver
@@ -301,7 +300,7 @@ kind('Input', () => {
           bridge: true,
         })
         .sendKeys(Key.TAB)
-        .pause(1000)
+        .pause(500)
         .sendKeys('a')
         .perform();
       await context.webdriver
@@ -310,10 +309,19 @@ kind('Input', () => {
         })
         .sendKeys(Key.TAB)
         .perform();
-      await delay(1000);
+      await delay(500);
       const tabFocused = await context.takeScreenshot();
 
-      await context.matchImages({ crossAppeared, inputCleaned, tabFocused });
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.ENTER)
+        .perform();
+      await delay(500);
+      const clearedByTab = await context.takeScreenshot();
+
+      await context.matchImages({ crossAppeared, inputCleaned, tabFocused, clearedByTab });
     });
   });
 });
