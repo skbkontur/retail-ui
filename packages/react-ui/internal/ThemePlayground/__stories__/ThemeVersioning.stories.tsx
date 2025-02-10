@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { CSSProperties } from 'react';
 
 import { Story, Meta } from '../../../typings/stories';
@@ -24,20 +25,20 @@ type TestThemeIn = Partial<typeof TestThemeClass>;
 
 const TEST_THEME_BASE = createThemeFromClass(TestThemeClass);
 
-const TEST_THEME_V_1_0 = createThemeFromClass(
+const TEST_THEME_1_0 = createThemeFromClass(
   class extends (class {} as typeof TestThemeClass) {
     public static color = 'red';
     public static textTransform = 'lowercase';
   },
-  { themeMarkers: [markThemeVersion(1.0)], prototypeTheme: TEST_THEME_BASE },
+  { themeMarkers: [markThemeVersion('1_0')], prototypeTheme: TEST_THEME_BASE },
 );
 
-const TEST_THEME_V_1_1 = createThemeFromClass(
+const TEST_THEME_1_1 = createThemeFromClass(
   class extends (class {} as typeof TestThemeClass) {
     public static color = 'green';
     public static fontStyle = 'italic';
   },
-  { themeMarkers: [markThemeVersion(1.1)], prototypeTheme: TEST_THEME_V_1_0 },
+  { themeMarkers: [markThemeVersion('1_1')], prototypeTheme: TEST_THEME_1_0 },
 );
 
 const Component = ({ theme }: { theme: TestThemeIn }) => {
@@ -47,30 +48,34 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     textTransform: theme.textTransform as CSSProperties['textTransform'],
   };
 
-  const themeVersions = Object.entries({
-    '1.0': isThemeVersionGTE(theme, 1.0),
-    '1.1': isThemeVersionGTE(theme, 1.1),
+  const themeVersionList = Object.entries({
+    '1_0': isThemeVersionGTE(theme, '1_0'),
+    '1_1': isThemeVersionGTE(theme, '1_1'),
   })
     .filter(([_, isDetected]) => isDetected === true)
-    .map(([version]) => version);
+    .map(([version]) => <li>{version}</li>);
 
   return (
-    <>
-      <div style={styles}>
-        Test Component.&nbsp;
-        {themeVersions.length
-          ? 'Detected theme versions: ' + themeVersions.join(', ') + '.'
-          : 'No theme versions detected.'}
-      </div>
+    <div>
+      <span style={styles}>Test Component.</span>
       <pre>{JSON.stringify(styles, null, 2)}</pre>
-    </>
+      <div>
+        <span>Detected theme versions:&nbsp;{themeVersionList.length === 0 && 'none'}</span>
+
+        {isThemeVersionGTE(theme, '1_1') ? (
+          <ul>{themeVersionList}</ul>
+        ) : isThemeVersionGTE(theme, '1_0') ? (
+          <ol>{themeVersionList}</ol>
+        ) : null}
+      </div>
+    </div>
   );
 };
 
 export const BaseTheme: Story = () => <Component theme={TEST_THEME_BASE} />;
 
-export const Theme1_0: Story = () => <Component theme={TEST_THEME_V_1_0} />;
-Theme1_0.storyName = 'Theme 1.0';
+export const Theme1_0: Story = () => <Component theme={TEST_THEME_1_0} />;
+Theme1_0.storyName = 'Theme 1_0';
 
-export const Theme1_1: Story = () => <Component theme={TEST_THEME_V_1_1} />;
-Theme1_1.storyName = 'Theme 1.1';
+export const Theme1_1: Story = () => <Component theme={TEST_THEME_1_1} />;
+Theme1_1.storyName = 'Theme 1_1';

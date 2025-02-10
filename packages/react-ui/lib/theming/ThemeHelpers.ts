@@ -1,6 +1,7 @@
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
+import { isVersionGTE } from './ThemeVersionsComparator';
 
 export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
 export type Markers = Marker[];
@@ -51,7 +52,7 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
-export const markThemeVersion: (version: number) => Marker = (version) => (theme) => {
+export const markThemeVersion: (version: string) => Marker = (version) => (theme) => {
   return Object.create(theme, {
     [REACT_UI_THEME_MARKERS.themeVersion.key]: {
       value: version,
@@ -62,9 +63,10 @@ export const markThemeVersion: (version: number) => Marker = (version) => (theme
   });
 };
 
-export const isThemeVersionGTE = (theme: Theme | ThemeIn, version: number): boolean => {
+export const isThemeVersionGTE = (theme: Theme | ThemeIn, version: string): boolean => {
   // @ts-expect-error: internal value.
-  return theme[REACT_UI_THEME_MARKERS.themeVersion.key] >= version;
+  const themeVersion = theme[REACT_UI_THEME_MARKERS.themeVersion.key] || '';
+  return isVersionGTE(themeVersion, version);
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {

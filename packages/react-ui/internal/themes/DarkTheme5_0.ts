@@ -553,6 +553,6 @@ export const DarkTheme5_0 = createThemeFromClass(
   },
   {
     prototypeTheme: BasicTheme,
-    themeMarkers: [markAsDarkTheme, markThemeVersion(5.0)],
+    themeMarkers: [markAsDarkTheme, markThemeVersion('5_0')],
   },
 );

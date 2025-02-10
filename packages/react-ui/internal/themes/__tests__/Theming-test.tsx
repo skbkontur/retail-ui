@@ -136,7 +136,7 @@ describe('Theming', () => {
           return this.black + this.blue;
         }
       },
-      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion(1.0)] },
+      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion('1_0')] },
     );
 
     test('should inherit prototype theme', () => {
@@ -152,7 +152,7 @@ describe('Theming', () => {
         expect(isDarkTheme(theme)).toBe(true);
       });
       test('theme version', () => {
-        expect(isThemeVersionGTE(theme, 1.0)).toBe(true);
+        expect(isThemeVersionGTE(theme, '1_0')).toBe(true);
       });
     });
   });
@@ -164,18 +164,18 @@ describe('Theming', () => {
     });
 
     describe('isThemeVersionGTE', () => {
-      const theme5_1 = applyMarkers(ThemeFactory.create(myTheme), [markThemeVersion(5.1)]);
+      const theme5_1 = applyMarkers(ThemeFactory.create(myTheme), [markThemeVersion('5_1')]);
 
-      test('5.1 should BE greater or equal that 5.0', () => {
-        expect(isThemeVersionGTE(theme5_1, 5.0)).toBe(true);
+      test('5_1 should BE greater or equal that 5_0', () => {
+        expect(isThemeVersionGTE(theme5_1, '5_0')).toBe(true);
       });
 
-      test('5.1 should BE greater or equal that 5.1', () => {
-        expect(isThemeVersionGTE(theme5_1, 5.1)).toBe(true);
+      test('5_1 should BE greater or equal that 5_1', () => {
+        expect(isThemeVersionGTE(theme5_1, '5_1')).toBe(true);
       });
 
-      test('5.1 should NOT BE greater or equal that 5.2', () => {
-        expect(isThemeVersionGTE(theme5_1, 5.2)).toBe(false);
+      test('5_1 should NOT BE greater or equal that 5_2', () => {
+        expect(isThemeVersionGTE(theme5_1, '5_2')).toBe(false);
       });
     });
 
