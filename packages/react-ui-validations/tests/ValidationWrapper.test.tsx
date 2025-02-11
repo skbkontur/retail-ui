@@ -240,7 +240,7 @@ describe('ValidationWrapper', () => {
         </ValidationInfoUpdater>,
       );
 
-      screen.getAllByRole('textbox').at(0)?.focus();
+      screen.getAllByRole('textbox')[0]?.focus();
       await user.click(document.body);
 
       expect(screen.queryByText('message 1')).toBeInTheDocument();
