@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast, Button } from '@skbkontur/react-ui';
+import { Toast, Button, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -69,3 +69,33 @@ export const Example4: Story = () => {
   return <Toaster />;
 };
 Example4.storyName = 'Использование `ref`';
+
+export const ToastWithCross = () => {
+  function showComplexNotification() {
+    Toast.push('Toast throw static method', null, 10000, true);
+  }
+
+  const toastRef = React.useRef<Toast>(null);
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      toast.push('Toast throw instance method', null, 10000, true);
+    }
+  };
+
+  return (
+    <Gapped>
+      <Button data-tid="show-static-toast" onClick={showComplexNotification}>
+        Show Toast throw static push
+      </Button>
+
+      <div>
+        <Toast ref={toastRef} />
+        <Button data-tid="show-instance-toast" onClick={showNotification}>
+          Show Toast
+        </Button>
+      </div>
+    </Gapped>
+  );
+};
+ToastWithCross.storyName = 'Крестик без кнопки действия';

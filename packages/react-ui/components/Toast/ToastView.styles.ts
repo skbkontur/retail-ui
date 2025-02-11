@@ -42,7 +42,7 @@ export const styles = memoizeStyle({
     const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
       display: flex;
-      margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} -${t.toastClosePadding};
+      margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} 0;
     `;
   },
 
@@ -59,7 +59,7 @@ export const styles = memoizeStyle({
       font-weight: 600;
       background-color: transparent;
 
-      margin: -${paddingTop} ${t.toastPaddingX} -${paddingBottom} ${t.toastPaddingX};
+      margin: -${paddingTop} 0 -${paddingBottom} ${t.toastPaddingX};
 
       padding: ${padding};
       transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
