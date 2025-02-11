@@ -54,7 +54,6 @@ export const styles = memoizeStyle({
         border-color: ${t.textareaBorderColorFocus};
         box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorFocus};
         position: relative;
-        z-index: 2;
 
         &::placeholder {
           color: ${t.textareaPlaceholderColorLight};
@@ -156,7 +155,6 @@ export const styles = memoizeStyle({
       right: 12px;
       top: 9px;
       user-select: none;
-      z-index: 3;
     `;
   },
 
@@ -172,7 +170,6 @@ export const styles = memoizeStyle({
   counter(t: Theme) {
     return css`
       position: absolute;
-      z-index: 3;
       text-align: right;
       background: ${t.textareaCounterBg};
       color: ${t.textareaCounterColor};
