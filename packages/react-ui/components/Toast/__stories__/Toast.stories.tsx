@@ -93,7 +93,7 @@ export const ToastWithCross = () => {
       </button>
 
       <div>
-        <Toast ref={toastRef} onClose={action('close')} onPush={action('push')} />
+        <Toast ref={toastRef} />
         <button data-tid="show-instance-toast" onClick={showNotification}>
           Show Toast
         </button>
