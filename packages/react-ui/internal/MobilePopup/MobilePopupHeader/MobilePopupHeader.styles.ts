@@ -1,41 +1,42 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 
-const styles = {
-  root(t: Theme) {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
       position: relative;
       padding: ${t.mobilePopupHeaderPadding};
     `;
-  },
+    },
 
-  rootWithoutContent() {
-    return css`
+    rootWithoutContent() {
+      return emotion.css`
       padding: 8px 0 0 0;
     `;
-  },
+    },
 
-  container() {
-    return css`
+    container() {
+      return emotion.css`
       display: flex;
       flex-direction: column;
     `;
-  },
+    },
 
-  caption(t: Theme) {
-    return css`
+    caption(t: Theme) {
+      return emotion.css`
       font-size: ${t.mobilePopupHeaderFontSize};
       line-height: ${t.mobilePopupHeaderLineHeight};
       font-weight: ${t.mobilePopupHeaderFontWeight};
       color: ${t.textColorDefault};
     `;
-  },
+    },
 
-  captionWithChildren() {
-    return css`
+    captionWithChildren() {
+      return emotion.css`
       padding-bottom: 8px;
     `;
-  },
-};
-
-export const jsStyles = memoizeStyle(styles);
+    },
+  });

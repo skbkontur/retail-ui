@@ -3,16 +3,12 @@ import React, { useState } from 'react';
 import { AnyObject } from '../../../lib/utils';
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
-import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Toggle } from '../../Toggle';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { EmotionConsumer } from '../../../lib/theming/Emotion';
 
 import { LoaderAndButton } from './LoaderAndButton';
-
-const loaderClass = css`
-  height: 100%;
-`;
 
 const wrapperStyle = {
   width: '800px',
@@ -227,43 +223,65 @@ ActiveLoader.storyName = 'Active loader';
 export const InactiveLoader: Story = () => <LoaderAndButton active={false} />;
 InactiveLoader.storyName = 'Inactive loader';
 
-export const WrapperWithCustomHeightAndInactiveLoader = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
-          <div
-            style={{
-              height: '100%',
-              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
-            }}
-          >
-            <NumberList itemsCount={10} />
-          </div>
-        </ContentComponent>
-      );
-    }}
-  </ThemeContext.Consumer>
-);
+export const WrapperWithCustomHeightAndInactiveLoader = () => {
+  return (
+    <EmotionConsumer>
+      {(emotion) => (
+        <ThemeContext.Consumer>
+          {(theme) => {
+            const loaderClass = emotion.css`
+              height: 100%;
+            `;
+            return (
+              <ContentComponent
+                additionalStyle={{ height: '600px' }}
+                loaderProps={{ className: loaderClass, active: false }}
+              >
+                <div
+                  style={{
+                    height: '100%',
+                    backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
+                  }}
+                >
+                  <NumberList itemsCount={10} />
+                </div>
+              </ContentComponent>
+            );
+          }}
+        </ThemeContext.Consumer>
+      )}
+    </EmotionConsumer>
+  );
+};
 WrapperWithCustomHeightAndInactiveLoader.storyName = 'Wrapper with custom height and inactive loader';
 
 export const WrapperWithCustomHeightAndActiveLoader = () => (
-  <ThemeContext.Consumer>
-    {(theme) => {
-      return (
-        <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
-          <div
-            style={{
-              height: '100%',
-              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
-            }}
-          >
-            <NumberList itemsCount={10} />
-          </div>
-        </ContentComponent>
-      );
-    }}
-  </ThemeContext.Consumer>
+  <EmotionConsumer>
+    {(emotion) => (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          const loaderClass = emotion.css`
+              height: 100%;
+            `;
+          return (
+            <ContentComponent
+              additionalStyle={{ height: '600px' }}
+              loaderProps={{ className: loaderClass, active: true }}
+            >
+              <div
+                style={{
+                  height: '100%',
+                  backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
+                }}
+              >
+                <NumberList itemsCount={10} />
+              </div>
+            </ContentComponent>
+          );
+        }}
+      </ThemeContext.Consumer>
+    )}
+  </EmotionConsumer>
 );
 WrapperWithCustomHeightAndActiveLoader.storyName = 'Wrapper with custom height and active loader';
 
