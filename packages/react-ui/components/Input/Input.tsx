@@ -451,18 +451,20 @@ export class Input extends React.Component<InputProps, InputState> {
       <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>{this.getInput(inputProps)}</FocusControlWrapper>
     );
 
+    const clearInputAndFocusInput = () => {
+      if (this.props.onValueChange) {
+        this.props.onValueChange('');
+      }
+      if (this.input) {
+        this.input.value = '';
+        this.input.focus();
+      }
+      this.setState({ needsShowCleanCross: false });
+    };
+
     return (
       <InputLayout
-        clearInput={() => {
-          if (this.props.onValueChange) {
-            this.props.onValueChange('');
-          }
-          if (this.input) {
-            this.input.value = '';
-            this.input.focus();
-          }
-          this.setState({ needsShowCleanCross: false, focused: true });
-        }}
+        clearInput={clearInputAndFocusInput}
         showCleanCross={showCleanCross && this.state.needsShowCleanCross}
         onCrossBlur={() => {
           this.setState({ needsShowCleanCross: false });
@@ -609,7 +611,6 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (this.props.showCleanCross && this.isBlurToCleanCrossIcon(event)) {
-      event.preventDefault();
       this.setState({ focused: false });
     } else {
       this.setState({ needsShowCleanCross: false, focused: false });

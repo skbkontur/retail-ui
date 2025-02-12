@@ -2456,13 +2456,19 @@ export class BasicLightThemeInternal {
   }
 
   public static get cleanCrossIconRightMarginSmall() {
-    return -parseInt(this.inputPaddingXSmall) + 'px';
+    const inputPaddingXSmall = parseInt(this.inputPaddingXSmall);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXSmall + inputBorderWidth}px`;
   }
   public static get cleanCrossIconRightMarginMedium() {
-    return -parseInt(this.inputPaddingXMedium) + 'px';
+    const inputPaddingXMedium = parseInt(this.inputPaddingXMedium);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXMedium + inputBorderWidth}px`;
   }
   public static get cleanCrossIconRightMarginLarge() {
-    return -parseInt(this.inputPaddingXLarge) + 'px';
+    const inputPaddingXLarge = parseInt(this.inputPaddingXLarge);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXLarge + inputBorderWidth}px`;
   }
 
   public static get cleanCrossIconBorderRadiusSmall() {

@@ -238,13 +238,13 @@ kind('Input', () => {
     });
   });
 
-  story('CleanCrossSizes', ({ setStoryParameters }) => {
+  story('CleanCross', ({ setStoryParameters }) => {
     setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
 
     test('idle', async (context) => {
-      const small = await context.webdriver.findElement({ css: '[data-tid="small"]' });
-      const medium = await context.webdriver.findElement({ css: '[data-tid="medium"]' });
-      const large = await context.webdriver.findElement({ css: '[data-tid="large"]' });
+      const small = await context.webdriver.findElement({ css: '[data-tid="small-controlled"]' });
+      // const medium = await context.webdriver.findElement({ css: '[data-tid="medium"]' });
+      const large = await context.webdriver.findElement({ css: '[data-tid="large-controlled"]' });
 
       await context.webdriver
         .actions({
@@ -258,42 +258,9 @@ kind('Input', () => {
         .actions({
           bridge: true,
         })
-        .click(medium)
-        .perform();
-      const mediumCrossAppeared = await context.takeScreenshot();
-
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(large)
-        .perform();
-      const largeCrossAppeared = await context.takeScreenshot();
-
-      await context.matchImages({ smallCrossAppeared, mediumCrossAppeared, largeCrossAppeared });
-    });
-  });
-
-  story('InputWithCleanCross', () => {
-    test('idle', async (context) => {
-      const controlled = await context.webdriver.findElement({ css: '[data-tid="controlled-input"]' });
-
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(controlled)
-        .perform();
-      await delay(200);
-      const crossAppeared = await context.takeScreenshot();
-
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
         .click(context.webdriver.findElement({ css: '[data-tid="InputLayout__cross"]' }))
         .perform();
-      const inputCleaned = await context.takeScreenshot();
+      const smallControlledCleaned = await context.takeScreenshot();
 
       await context.webdriver
         .actions({
@@ -303,6 +270,7 @@ kind('Input', () => {
         .pause(500)
         .sendKeys('a')
         .perform();
+
       await context.webdriver
         .actions({
           bridge: true,
@@ -310,7 +278,7 @@ kind('Input', () => {
         .sendKeys(Key.TAB)
         .perform();
       await delay(500);
-      const tabFocused = await context.takeScreenshot();
+      const mediumUncontrolledTabFocused = await context.takeScreenshot();
 
       await context.webdriver
         .actions({
@@ -319,9 +287,23 @@ kind('Input', () => {
         .sendKeys(Key.ENTER)
         .perform();
       await delay(500);
-      const clearedByTab = await context.takeScreenshot();
+      const mediumUncontrolledClearedByEnter = await context.takeScreenshot();
 
-      await context.matchImages({ crossAppeared, inputCleaned, tabFocused, clearedByTab });
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(large)
+        .perform();
+      const largeCrossAppeared = await context.takeScreenshot();
+
+      await context.matchImages({
+        smallCrossAppeared,
+        smallControlledCleaned,
+        mediumUncontrolledTabFocused,
+        mediumUncontrolledClearedByEnter,
+        largeCrossAppeared,
+      });
     });
   });
 });
