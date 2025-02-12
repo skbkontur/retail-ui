@@ -5,22 +5,28 @@ import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 import { LIGHT_THEME } from './themes/LightTheme';
 
 export class ThemeFactory {
+  public static defaultTheme: Theme = Object.create(LIGHT_THEME);
+
+  public static getDefaultTheme() {
+    return this.defaultTheme;
+  }
+
   public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
-    const base = baseTheme || LIGHT_THEME;
+    const base = baseTheme || this.defaultTheme;
     return this.constructTheme(base, theme);
   }
 
   public static overrideBaseTheme(theme: Theme) {
     // copying theme variables
-    ThemeFactory.getKeys(LIGHT_THEME).forEach((variableName) => {
+    ThemeFactory.getKeys(this.defaultTheme).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
-      Object.defineProperty(LIGHT_THEME, variableName, descriptor);
+      Object.defineProperty(this.defaultTheme, variableName, descriptor);
     });
 
     // copying theme markers
     Object.values(REACT_UI_THEME_MARKERS).forEach((marker) => {
       const descriptor = findPropertyDescriptor(theme, marker.key);
-      Object.defineProperty(LIGHT_THEME, marker.key, descriptor);
+      Object.defineProperty(this.defaultTheme, marker.key, descriptor);
     });
   }
 

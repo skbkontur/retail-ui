@@ -103,7 +103,7 @@ export function createThemeFromClass<T extends object, P extends object>(
     prototypeTheme?: P;
     themeMarkers?: Markers;
   },
-): T {
+) {
   const { prototypeTheme, themeMarkers = [] } = options || {};
 
   if (prototypeTheme) {
@@ -112,5 +112,5 @@ export function createThemeFromClass<T extends object, P extends object>(
 
   const theme = applyMarkers(exposeGetters(themeObject), themeMarkers);
 
-  return theme;
+  return Object.freeze(theme);
 }

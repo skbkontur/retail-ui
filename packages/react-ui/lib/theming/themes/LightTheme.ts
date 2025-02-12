@@ -1,4 +1,3 @@
-import { ThemeFactory } from '../ThemeFactory';
 import { LightTheme5_0 } from '../../../internal/themes/LightTheme5_0';
 import { LightTheme5_1 } from '../../../internal/themes/LightTheme5_1';
 

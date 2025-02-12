@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { LIGHT_THEME } from './themes/LightTheme';
+import { ThemeFactory } from './ThemeFactory';
 
-export const ThemeContext = React.createContext(LIGHT_THEME);
+export const ThemeContext = React.createContext(ThemeFactory.getDefaultTheme());
 
 ThemeContext.displayName = 'ThemeContext';
 ThemeContext.__KONTUR_REACT_UI__ = 'ThemeContext';
