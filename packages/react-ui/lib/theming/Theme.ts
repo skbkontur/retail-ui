@@ -1,4 +1,4 @@
-import { BasicThemeClass } from '../../internal/themes/BasicTheme';
+import { AbstractThemeClass } from '../../internal/themes/AbstractTheme';
 
-export type Theme = Readonly<typeof BasicThemeClass>;
-export type ThemeIn = Partial<typeof BasicThemeClass>;
+export type Theme = Readonly<typeof AbstractThemeClass>;
+export type ThemeIn = Partial<typeof AbstractThemeClass>;

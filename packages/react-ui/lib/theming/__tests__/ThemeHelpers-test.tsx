@@ -11,19 +11,19 @@ import {
 } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { AnyObject } from '../../utils';
-import { BasicTheme, BasicThemeClass } from '../../../internal/themes/BasicTheme';
+import { AbstractTheme, AbstractThemeClass } from '../../../internal/themes/AbstractTheme';
 
 const TestTheme = createThemeFromClass(
-  class extends (class {} as typeof BasicThemeClass) {
+  class extends (class {} as typeof AbstractThemeClass) {
     public static bgDefault = 'default';
     public static bgSecondary = 'default';
   },
-  { prototypeTheme: BasicTheme },
+  { prototypeTheme: AbstractTheme },
 );
 
 describe('ThemeHelpers', () => {
   describe('exposeGetters', () => {
-    const theme = class extends (class {} as typeof BasicThemeClass) {
+    const theme = class extends (class {} as typeof AbstractThemeClass) {
       public static get errorText() {
         return 'red';
       }
@@ -41,16 +41,16 @@ describe('ThemeHelpers', () => {
 
   describe('createThemeFromClass', () => {
     const theme = createThemeFromClass(
-      class extends (class {} as typeof BasicThemeClass) {
+      class extends (class {} as typeof AbstractThemeClass) {
         public static get errorText() {
           return this.black + this.blue;
         }
       },
-      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion(1, 0)] },
+      { prototypeTheme: AbstractTheme, themeMarkers: [markAsDarkTheme, markThemeVersion(1, 0)] },
     );
 
     test('should inherit prototype theme', () => {
-      expect(theme.errorText).toBe(BasicTheme.black + BasicTheme.blue);
+      expect(theme.errorText).toBe(AbstractTheme.black + AbstractTheme.blue);
     });
 
     test('should expose getters', () => {
@@ -121,8 +121,8 @@ describe('ThemeHelpers', () => {
   });
 
   describe('isThemeVersionGTE', () => {
-    const themeWithoutVersion = ThemeFactory.create(TestTheme);
-    const theme5_5 = applyMarkers(ThemeFactory.create(TestTheme), [markThemeVersion(5, 5)]);
+    const themeWithoutVersion = TestTheme;
+    const theme5_5 = applyMarkers(ThemeFactory.create({}, TestTheme), [markThemeVersion(5, 5)]);
 
     test('no version should always return false', () => {
       expect(isThemeVersionGTE(themeWithoutVersion, 5, 0)).toBe(false);
