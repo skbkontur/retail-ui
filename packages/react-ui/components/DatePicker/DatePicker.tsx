@@ -269,13 +269,22 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   /**
    * @public
    */
-  public focus() {
+  public focus(opts?: { withoutOpenDropdown?: boolean }) {
     if (this.props.disabled) {
       return;
     }
+
+    if (opts?.withoutOpenDropdown) {
+      this.focused = true;
+      if (this.props.onFocus) {
+        this.props.onFocus();
+      }
+    }
+
     if (this.input) {
       this.input.focus();
     }
+
     this.handleFocus();
   }
 

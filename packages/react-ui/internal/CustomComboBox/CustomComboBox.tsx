@@ -131,9 +131,14 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   /**
    * @public
    */
-  public focus = () => {
+  public focus = (opts?: { withoutOpenDropdown?: boolean }) => {
     if (this.props.disabled) {
       return;
+    }
+
+    if (opts?.withoutOpenDropdown) {
+      this.focused = true;
+      this.dispatch({ type: 'Focus', searchOnFocus: !opts?.withoutOpenDropdown });
     }
 
     if (this.input) {
@@ -408,7 +413,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
     this.focused = true;
-    this.dispatch({ type: 'Focus' });
+    this.dispatch({ type: 'Focus', searchOnFocus: this.props.searchOnFocus });
   };
 
   private handleMobileClose = () => {
