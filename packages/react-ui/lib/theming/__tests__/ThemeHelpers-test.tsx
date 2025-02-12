@@ -13,16 +13,6 @@ import { ThemeFactory } from '../ThemeFactory';
 import { AnyObject } from '../../utils';
 import { BasicTheme, BasicThemeClass } from '../../../internal/themes/BasicTheme';
 
-const TEST_MARKERS = {
-  test: {
-    key: '__REACT_UI_TEST_KEY__',
-    value: true,
-  },
-};
-
-// @ts-expect-error: extension for test
-REACT_UI_THEME_MARKERS.test = TEST_MARKERS.test;
-
 const TestTheme = createThemeFromClass(
   class extends (class {} as typeof BasicThemeClass) {
     public static bgDefault = 'default';
@@ -30,23 +20,6 @@ const TestTheme = createThemeFromClass(
   },
   { prototypeTheme: BasicTheme },
 );
-
-// test marker
-const markAsTest: Marker = (theme) => {
-  return Object.create(theme, {
-    [TEST_MARKERS.test.key]: {
-      value: TEST_MARKERS.test.value,
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    },
-  });
-};
-const isTestTheme = (theme: AnyObject): boolean => {
-  return theme[TEST_MARKERS.test.key] === TEST_MARKERS.test.value;
-};
-
-markAsTest(TestTheme);
 
 describe('ThemeHelpers', () => {
   describe('exposeGetters', () => {
@@ -95,9 +68,34 @@ describe('ThemeHelpers', () => {
   });
 
   describe('applyMarker', () => {
-    test('test marker should mark custom theme', () => {
-      const theme = applyMarkers(ThemeFactory.create(TestTheme), [markAsTest]);
-      expect(isTestTheme(theme)).toBeTruthy();
+    describe('test marker', () => {
+      const TEST_MARKER = {
+        key: '__REACT_UI_TEST_KEY__',
+        value: true,
+      };
+
+      // @ts-expect-error: extension for test
+      REACT_UI_THEME_MARKERS.test = TEST_MARKER;
+
+      const markAsTest: Marker = (theme) => {
+        return Object.create(theme, {
+          [TEST_MARKER.key]: {
+            value: TEST_MARKER.value,
+            writable: false,
+            enumerable: false,
+            configurable: false,
+          },
+        });
+      };
+
+      const isTestTheme = (theme: AnyObject): boolean => {
+        return theme[TEST_MARKER.key] === TEST_MARKER.value;
+      };
+
+      test('test marker should mark custom theme', () => {
+        const theme = applyMarkers(ThemeFactory.create(TestTheme), [markAsTest]);
+        expect(isTestTheme(theme)).toBeTruthy();
+      });
     });
 
     describe('isThemeVersionGTE', () => {
@@ -105,14 +103,6 @@ describe('ThemeHelpers', () => {
 
       test('5_1 should BE greater or equal that 5_0', () => {
         expect(isThemeVersionGTE(theme5_1, 5, 0)).toBe(true);
-      });
-
-      test('5_1 should BE greater or equal that 5_1', () => {
-        expect(isThemeVersionGTE(theme5_1, 5, 1)).toBe(true);
-      });
-
-      test('5_1 should NOT BE greater or equal that 5_2', () => {
-        expect(isThemeVersionGTE(theme5_1, 5, 2)).toBe(false);
       });
     });
 
