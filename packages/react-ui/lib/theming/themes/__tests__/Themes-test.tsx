@@ -11,8 +11,8 @@ describe('Themes', () => {
 
   describe('LIGHT_THEME_5_0', () => {
     test('should be 5_0 version', () => {
-      expect(isThemeVersionGTE(LIGHT_THEME_5_0, '5_0')).toBe(true);
-      expect(isThemeVersionGTE(LIGHT_THEME_5_0, '5_1')).toBe(false);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_0, 5, 0)).toBe(true);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_0, 5, 1)).toBe(false);
     });
     test('should not be dark', () => {
       expect(isDarkTheme(LIGHT_THEME_5_0)).toBe(false);
@@ -21,8 +21,8 @@ describe('Themes', () => {
 
   describe('LIGHT_THEME_5_1', () => {
     test('should be 5_1 version', () => {
-      expect(isThemeVersionGTE(LIGHT_THEME_5_1, '5_0')).toBe(true);
-      expect(isThemeVersionGTE(LIGHT_THEME_5_1, '5_1')).toBe(true);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_1, 5, 0)).toBe(true);
+      expect(isThemeVersionGTE(LIGHT_THEME_5_1, 5, 1)).toBe(true);
     });
     test('should not be dark', () => {
       expect(isDarkTheme(LIGHT_THEME_5_1)).toBe(false);
@@ -37,8 +37,8 @@ describe('Themes', () => {
 
   describe('DARK_THEME_5_0', () => {
     test('should be 5_0 version', () => {
-      expect(isThemeVersionGTE(DARK_THEME_5_0, '5_0')).toBe(true);
-      expect(isThemeVersionGTE(DARK_THEME_5_0, '5_1')).toBe(false);
+      expect(isThemeVersionGTE(DARK_THEME_5_0, 5, 0)).toBe(true);
+      expect(isThemeVersionGTE(DARK_THEME_5_0, 5, 1)).toBe(false);
     });
     test('should be dark', () => {
       expect(isDarkTheme(DARK_THEME_5_0)).toBe(true);
@@ -47,8 +47,8 @@ describe('Themes', () => {
 
   describe('DARK_THEME_5_1', () => {
     test('should be 5_1 version', () => {
-      expect(isThemeVersionGTE(DARK_THEME_5_1, '5_0')).toBe(true);
-      expect(isThemeVersionGTE(DARK_THEME_5_1, '5_1')).toBe(true);
+      expect(isThemeVersionGTE(DARK_THEME_5_1, 5, 0)).toBe(true);
+      expect(isThemeVersionGTE(DARK_THEME_5_1, 5, 1)).toBe(true);
     });
     test('should be dark', () => {
       expect(isDarkTheme(DARK_THEME_5_1)).toBe(true);

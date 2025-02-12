@@ -1,7 +1,3 @@
-import { render } from '@testing-library/react';
-import React from 'react';
-
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import {
   applyMarkers,
   createThemeFromClass,
@@ -12,11 +8,10 @@ import {
   Marker,
   markThemeVersion,
   REACT_UI_THEME_MARKERS,
-} from '../../../lib/theming/ThemeHelpers';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Theme } from '../../../lib/theming/Theme';
-import { AnyObject } from '../../../lib/utils';
-import { BasicTheme, BasicThemeClass } from '../BasicTheme';
+} from '../ThemeHelpers';
+import { ThemeFactory } from '../ThemeFactory';
+import { AnyObject } from '../../utils';
+import { BasicTheme, BasicThemeClass } from '../../../internal/themes/BasicTheme';
 
 const TEST_MARKERS = {
   test: {
@@ -28,22 +23,6 @@ const TEST_MARKERS = {
 // @ts-expect-error: extension for test
 REACT_UI_THEME_MARKERS.test = TEST_MARKERS.test;
 
-const getConsumedTheme = () => {
-  let _theme: Theme;
-  render(
-    <ThemeContext.Consumer>
-      {(theme) => {
-        _theme = theme;
-        return null;
-      }}
-    </ThemeContext.Consumer>,
-  );
-  // @ts-expect-error: render is sync
-  return _theme;
-};
-
-// test theme
-const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
 const TestTheme = createThemeFromClass(
   class extends (class {} as typeof BasicThemeClass) {
     public static bgDefault = 'default';
@@ -69,49 +48,7 @@ const isTestTheme = (theme: AnyObject): boolean => {
 
 markAsTest(TestTheme);
 
-describe('Theming', () => {
-  describe('ThemeFactory', () => {
-    describe('create() should return inherited theme', () => {
-      test('with args [theme]', () => {
-        const theme = ThemeFactory.create(myTheme);
-
-        expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.black).toEqual(BasicTheme.black);
-      });
-      test('with args [theme, baseTheme]', () => {
-        const theme = ThemeFactory.create(myTheme, TestTheme);
-
-        expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.bgSecondary).toEqual(TestTheme.bgSecondary);
-      });
-    });
-    describe('overrideDefaultTheme()', () => {
-      test('markers should be overridden', () => {
-        const theme = applyMarkers(ThemeFactory.create(myTheme, TestTheme), [markAsTest]);
-
-        ThemeFactory.overrideBaseTheme(theme);
-
-        const consumedTheme = getConsumedTheme();
-
-        expect(isTestTheme(consumedTheme)).toBeTruthy();
-      });
-      test('variables should be overridden', () => {
-        ThemeFactory.overrideBaseTheme(ThemeFactory.create(myTheme));
-
-        const consumedTheme = getConsumedTheme();
-
-        expect(consumedTheme.brand).toEqual(myTheme.brand);
-        expect(consumedTheme.bgDefault).toEqual(myTheme.bgDefault);
-      });
-    });
-    test('getKeys()', () => {
-      const keys_1 = ThemeFactory.getKeys(TestTheme);
-      const keys_2 = ThemeFactory.getKeys(BasicTheme);
-
-      expect(keys_1).toEqual(keys_2);
-    });
-  });
-
+describe('ThemeHelpers', () => {
   describe('exposeGetters', () => {
     const theme = class extends (class {} as typeof BasicThemeClass) {
       public static get errorText() {
@@ -136,7 +73,7 @@ describe('Theming', () => {
           return this.black + this.blue;
         }
       },
-      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion('1_0')] },
+      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion(1, 0)] },
     );
 
     test('should inherit prototype theme', () => {
@@ -152,36 +89,36 @@ describe('Theming', () => {
         expect(isDarkTheme(theme)).toBe(true);
       });
       test('theme version', () => {
-        expect(isThemeVersionGTE(theme, '1_0')).toBe(true);
+        expect(isThemeVersionGTE(theme, 1, 0)).toBe(true);
       });
     });
   });
 
   describe('applyMarker', () => {
     test('test marker should mark custom theme', () => {
-      const theme = applyMarkers(ThemeFactory.create(myTheme), [markAsTest]);
+      const theme = applyMarkers(ThemeFactory.create(TestTheme), [markAsTest]);
       expect(isTestTheme(theme)).toBeTruthy();
     });
 
     describe('isThemeVersionGTE', () => {
-      const theme5_1 = applyMarkers(ThemeFactory.create(myTheme), [markThemeVersion('5_1')]);
+      const theme5_1 = applyMarkers(ThemeFactory.create(TestTheme), [markThemeVersion(5, 1)]);
 
       test('5_1 should BE greater or equal that 5_0', () => {
-        expect(isThemeVersionGTE(theme5_1, '5_0')).toBe(true);
+        expect(isThemeVersionGTE(theme5_1, 5, 0)).toBe(true);
       });
 
       test('5_1 should BE greater or equal that 5_1', () => {
-        expect(isThemeVersionGTE(theme5_1, '5_1')).toBe(true);
+        expect(isThemeVersionGTE(theme5_1, 5, 1)).toBe(true);
       });
 
       test('5_1 should NOT BE greater or equal that 5_2', () => {
-        expect(isThemeVersionGTE(theme5_1, '5_2')).toBe(false);
+        expect(isThemeVersionGTE(theme5_1, 5, 2)).toBe(false);
       });
     });
 
     describe('isDarkTheme', () => {
-      const lightTheme = applyMarkers(ThemeFactory.create(myTheme), []);
-      const darkTheme = applyMarkers(ThemeFactory.create(myTheme), [markAsDarkTheme]);
+      const lightTheme = applyMarkers(ThemeFactory.create(TestTheme), []);
+      const darkTheme = applyMarkers(ThemeFactory.create(TestTheme), [markAsDarkTheme]);
 
       test('light theme should NOT BE dark', () => {
         expect(isDarkTheme(lightTheme)).toBe(false);
@@ -190,6 +127,41 @@ describe('Theming', () => {
       test('dark theme should BE dark', () => {
         expect(isDarkTheme(darkTheme)).toBe(true);
       });
+    });
+  });
+
+  describe('isThemeVersionGTE', () => {
+    const themeWithoutVersion = ThemeFactory.create(TestTheme);
+    const theme5_5 = applyMarkers(ThemeFactory.create(TestTheme), [markThemeVersion(5, 5)]);
+
+    test('no version should always return false', () => {
+      expect(isThemeVersionGTE(themeWithoutVersion, 5, 0)).toBe(false);
+      expect(isThemeVersionGTE(themeWithoutVersion, 0, 0)).toBe(false);
+      expect(isThemeVersionGTE(themeWithoutVersion, 6, 0)).toBe(false);
+    });
+
+    test('5_5 should BE greater or equal that 5_0', () => {
+      expect(isThemeVersionGTE(theme5_5, 5, 0)).toBe(true);
+    });
+
+    test('5_5 should BE greater or equal that 5_5', () => {
+      expect(isThemeVersionGTE(theme5_5, 5, 5)).toBe(true);
+    });
+
+    test('5_5 should BE greater or equal that 4_0', () => {
+      expect(isThemeVersionGTE(theme5_5, 4, 0)).toBe(true);
+    });
+
+    test('5_5 should NOT BE greater or equal that 5_6', () => {
+      expect(isThemeVersionGTE(theme5_5, 5, 6)).toBe(false);
+    });
+
+    test('5_5 should NOT BE greater or equal that 5_10', () => {
+      expect(isThemeVersionGTE(theme5_5, 5, 10)).toBe(false);
+    });
+
+    test('5_5 should NOT BE greater or equal that 6_0', () => {
+      expect(isThemeVersionGTE(theme5_5, 6, 0)).toBe(false);
     });
   });
 });

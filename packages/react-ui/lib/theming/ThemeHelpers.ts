@@ -1,7 +1,6 @@
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
-import { isVersionGTE } from './ThemeVersionsComparator';
 
 export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
 export type Markers = Marker[];
@@ -52,10 +51,10 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
-export const markThemeVersion: (version: string) => Marker = (version) => (theme) => {
+export const markThemeVersion: (major: number, minor: number) => Marker = (major: number, minor: number) => (theme) => {
   return Object.create(theme, {
     [REACT_UI_THEME_MARKERS.themeVersion.key]: {
-      value: version,
+      value: { major, minor },
       writable: false,
       enumerable: false,
       configurable: false,
@@ -63,10 +62,21 @@ export const markThemeVersion: (version: string) => Marker = (version) => (theme
   });
 };
 
-export const isThemeVersionGTE = (theme: Theme | ThemeIn, version: string): boolean => {
+export const isThemeVersionGTE = (theme: Theme | ThemeIn, major: number, minor: number): boolean => {
   // @ts-expect-error: internal value.
-  const themeVersion = theme[REACT_UI_THEME_MARKERS.themeVersion.key] || '';
-  return isVersionGTE(themeVersion, version);
+  const themeVersion: { major: number; minor: number } | undefined = theme[REACT_UI_THEME_MARKERS.themeVersion.key];
+
+  if (!themeVersion) {
+    return false;
+  }
+
+  if (themeVersion.major > major) {
+    return true;
+  } else if (themeVersion.major === major) {
+    return themeVersion.minor >= minor;
+  }
+
+  return false;
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {

@@ -30,7 +30,7 @@ const TEST_THEME_1_0 = createThemeFromClass(
     public static color = 'red';
     public static textTransform = 'lowercase';
   },
-  { themeMarkers: [markThemeVersion('1_0')], prototypeTheme: TEST_THEME_BASE },
+  { themeMarkers: [markThemeVersion(1, 0)], prototypeTheme: TEST_THEME_BASE },
 );
 
 const TEST_THEME_1_1 = createThemeFromClass(
@@ -38,7 +38,7 @@ const TEST_THEME_1_1 = createThemeFromClass(
     public static color = 'green';
     public static fontStyle = 'italic';
   },
-  { themeMarkers: [markThemeVersion('1_1')], prototypeTheme: TEST_THEME_1_0 },
+  { themeMarkers: [markThemeVersion(1, 1)], prototypeTheme: TEST_THEME_1_0 },
 );
 
 const Component = ({ theme }: { theme: TestThemeIn }) => {
@@ -49,8 +49,8 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
   };
 
   const themeVersionList = Object.entries({
-    '1_0': isThemeVersionGTE(theme, '1_0'),
-    '1_1': isThemeVersionGTE(theme, '1_1'),
+    '1_0': isThemeVersionGTE(theme, 1, 0),
+    '1_1': isThemeVersionGTE(theme, 1, 1),
   })
     .filter(([_, isDetected]) => isDetected === true)
     .map(([version]) => <li>{version}</li>);
@@ -62,9 +62,9 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
       <div>
         <span>Detected theme versions:&nbsp;{themeVersionList.length === 0 && 'none'}</span>
 
-        {isThemeVersionGTE(theme, '1_1') ? (
+        {isThemeVersionGTE(theme, 1, 1) ? (
           <ul>{themeVersionList}</ul>
-        ) : isThemeVersionGTE(theme, '1_0') ? (
+        ) : isThemeVersionGTE(theme, 1, 0) ? (
           <ol>{themeVersionList}</ol>
         ) : null}
       </div>
