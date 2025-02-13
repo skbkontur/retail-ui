@@ -457,7 +457,6 @@ export class Input extends React.Component<InputProps, InputState> {
       }
       if (this.input) {
         this.input.value = '';
-        this.input.focus();
       }
       this.setState({ needsShowCleanCross: false });
     };

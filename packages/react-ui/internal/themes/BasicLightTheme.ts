@@ -2481,9 +2481,9 @@ export class BasicLightThemeInternal {
     return this.inputBorderRadiusLarge;
   }
 
-  public static cleanCrossIconColor = 'rgba(0, 0, 0, 0.32)';
+  public static cleanCrossIconColor = '#757575';
   public static cleanCrossIconDisabledColor = '#8b8b8b';
-  public static cleanCrossIconHoverColor = 'rgba(0, 0, 0, 0.865)';
+  public static cleanCrossIconHoverColor = '#222222';
   public static get cleanCrossIconFocusShadow() {
     return `inset 0 0 0 2px ${this.borderColorFocus}`;
   }

@@ -1,13 +1,13 @@
 import React from 'react';
-import { XCircleIcon16Light, XCircleIcon20Light, XCircleIcon24Regular } from '@skbkontur/icons/icons/XCircleIcon';
+import { XIcon16Light, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
 
 import { iconSizer } from '../icons2022/iconSizer';
 
 export const CrossIcon = iconSizer(
   {
-    small: () => <XCircleIcon16Light align="none" />,
-    medium: () => <XCircleIcon20Light align="none" />,
-    large: () => <XCircleIcon24Regular align="none" />,
+    small: () => <XIcon16Light align="none" />,
+    medium: () => <XIcon20Light align="none" />,
+    large: () => <XIcon24Regular align="none" />,
   },
   'CrossIcon',
 );
