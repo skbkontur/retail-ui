@@ -57,6 +57,7 @@ interface ComboBoxViewProps<T>
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
+  showCleanCross?: boolean;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -340,6 +341,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       size,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
+      showCleanCross,
     } = this.props;
 
     const { renderValue } = this.getProps();
@@ -373,6 +375,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
           aria-label={ariaLabel}
+          showCleanCross={showCleanCross}
         />
       );
     }

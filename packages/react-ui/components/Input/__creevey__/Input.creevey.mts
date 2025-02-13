@@ -1,4 +1,5 @@
 import { story, kind, test } from 'creevey';
+import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay';
 
@@ -234,6 +235,75 @@ kind('Input', () => {
   story('TypeApi', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
+    });
+  });
+
+  story('CleanCross', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
+
+    test('idle', async (context) => {
+      const small = await context.webdriver.findElement({ css: '[data-tid="small-controlled"]' });
+      // const medium = await context.webdriver.findElement({ css: '[data-tid="medium"]' });
+      const large = await context.webdriver.findElement({ css: '[data-tid="large-controlled"]' });
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(small)
+        .perform();
+      const smallCrossAppeared = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(context.webdriver.findElement({ css: '[data-tid="InputLayout__cross"]' }))
+        .perform();
+      const smallControlledCleaned = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.TAB)
+        .pause(500)
+        .sendKeys('a')
+        .perform();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.TAB)
+        .perform();
+      await delay(500);
+      const mediumUncontrolledTabFocused = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.ENTER)
+        .perform();
+      await delay(500);
+      const mediumUncontrolledClearedByEnter = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(large)
+        .perform();
+      const largeCrossAppeared = await context.takeScreenshot();
+
+      await context.matchImages({
+        smallCrossAppeared,
+        smallControlledCleaned,
+        mediumUncontrolledTabFocused,
+        mediumUncontrolledClearedByEnter,
+        largeCrossAppeared,
+      });
     });
   });
 });

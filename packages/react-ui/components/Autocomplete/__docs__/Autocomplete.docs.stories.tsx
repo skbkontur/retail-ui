@@ -110,3 +110,12 @@ export const Example9: Story = () => {
   return <Autocomplete source={items} value={value} onValueChange={setValue} borderless />;
 };
 Example9.storyName = 'Режима прозрачной рамки';
+
+/** Крестик отображается только при фокусировке на поле, в котором что-либо введено */
+export const Example10: Story = () => {
+  const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
+  const [value, setValue] = React.useState('');
+
+  return <Autocomplete showCleanCross source={items} value={value} onValueChange={setValue} />;
+};
+Example10.storyName = 'Крестик для очистки';

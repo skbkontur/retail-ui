@@ -24,7 +24,7 @@ export interface CurrencyInputProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Override<
-      InputProps,
+      Omit<InputProps, 'showCleanCross'>,
       {
         /** Задает значение инпута. */
         value?: Nullable<number>;

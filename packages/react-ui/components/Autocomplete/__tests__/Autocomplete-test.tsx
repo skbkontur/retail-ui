@@ -164,6 +164,12 @@ describe('<Autocomplete />', () => {
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
+  it('passes showCleanCross prop to input', async () => {
+    render(<Autocomplete showCleanCross value="hello" onValueChange={jest.fn()} source={[]} />);
+    await userEvent.click(screen.getByRole('textbox'));
+    expect(screen.queryByTestId(InputDataTids.cross)).toBeInTheDocument();
+  });
+
   it('passes id prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
