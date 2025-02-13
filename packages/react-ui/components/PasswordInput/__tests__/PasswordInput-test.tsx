@@ -201,4 +201,12 @@ describe('PasswordInput', () => {
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
     });
   });
+
+  it('RenderLayer not listen blur in default view', async () => {
+    const addEventListenerSpy = jest.spyOn(global, 'addEventListener');
+
+    render(<PasswordInput />);
+
+    expect(addEventListenerSpy).not.toHaveBeenCalledWith('blur', expect.any(Function));
+  });
 });
