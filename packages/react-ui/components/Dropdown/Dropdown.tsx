@@ -8,7 +8,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonUse } from '../Button';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -36,6 +36,7 @@ const PASS_PROPS = {
   menuPos: true,
   id: true,
   'aria-describedby': true,
+  'aria-label': true,
 };
 
 export interface DropdownProps
@@ -198,27 +199,26 @@ export class Dropdown extends React.Component<DropdownProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = getDropdownTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain(this.props)}</ThemeContext.Provider>;
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {
+  public renderMain = () => {
+    const { caption, icon, ...rest } = this.props;
     const items = React.Children.map(this.props.children, (item) => item) || [];
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...rest}>
         <Select<React.ReactNode, React.ReactNode>
           data-tid={DropdownDataTids.root}
           ref={this._refSelect}
-          {...filterProps(props, PASS_PROPS)}
+          {...filterProps(rest, PASS_PROPS)}
           value={caption}
           items={items}
           _icon={icon}
           renderValue={renderValue}
-          size={this.props.size}
-          aria-label={this.props['aria-label']}
         />
       </CommonWrapper>
     );
