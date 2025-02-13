@@ -1,4 +1,5 @@
 import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ComboBox, DatePicker, DatePickerDataTids, TooltipDataTids } from '@skbkontur/react-ui';
 import React from 'react';
 import { MenuDataTids } from '@skbkontur/react-ui/internal/Menu';
@@ -61,5 +62,16 @@ describe('DatePickerDropdownBehaviorOnValidationSubmit', () => {
     expect(screen.queryByTestId(DatePickerDataTids.root)).not.toBeInTheDocument();
     expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
     expect(screen.getByTestId(DatePickerDataTids.input)).toHaveFocus();
+  });
+
+  it('should open picker popup on click after submit with flag ignoreOpenDropdownOnSubmitValidation', async () => {
+    const containerRef = renderValidationContainer(datePicker, true);
+    await act(() => containerRef.current?.submit());
+    expect(screen.queryByTestId(DatePickerDataTids.root)).not.toBeInTheDocument();
+    expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+    expect(screen.getByTestId(DatePickerDataTids.input)).toHaveFocus();
+
+    await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+    expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
   });
 });
