@@ -180,7 +180,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 wrapperRef={this.rootRef}
                 style={{ position: 'absolute' }}
               >
-                {blockBackground && this.renderShadow(isMobile)}
+                {blockBackground && this.renderShadow()}
                 <CSSTransition
                   in
                   classNames={this.getTransitionNames()}
@@ -285,21 +285,18 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return this.layout.clientWidth;
   };
 
-  private renderShadow(isMobile: boolean): JSX.Element {
+  private renderShadow(): JSX.Element {
     return (
       <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
-        {!isMobile && (
-          <>
-            <HideBodyVerticalScroll key="hbvs" />
-            <div
-              key="overlay"
-              className={cx({
-                [styles.background()]: true,
-                [styles.backgroundGray(this.theme)]: this.state.hasBackground,
-              })}
-            />
-          </>
-        )}
+        {/*Вуалька должна быть не только на десктопе, но и на мобилках*/}
+        <HideBodyVerticalScroll key="hbvs" />
+        <div
+          key="overlay"
+          className={cx({
+            [styles.background()]: true,
+            [styles.backgroundGray(this.theme)]: this.state.hasBackground,
+          })}
+        />
       </div>
     );
   }
