@@ -6,7 +6,7 @@ import { applyMarkers, createThemeFromClass, Marker, REACT_UI_THEME_MARKERS } fr
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
 import { AnyObject } from '../../utils';
-import { AbstractTheme, AbstractThemeClass } from '../../../internal/themes/AbstractTheme';
+import { AbstractTheme, BasicThemeToExtend } from '../../../internal/themes/AbstractTheme';
 
 const TEST_MARKERS = {
   test: {
@@ -35,7 +35,7 @@ const getConsumedTheme = () => {
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
 const TestTheme = createThemeFromClass(
-  class extends (class {} as typeof AbstractThemeClass) {
+  class extends BasicThemeToExtend {
     public static bgDefault = 'default';
     public static bgSecondary = 'default';
   },

@@ -11,10 +11,10 @@ import {
 } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { AnyObject } from '../../utils';
-import { AbstractTheme, AbstractThemeClass } from '../../../internal/themes/AbstractTheme';
+import { AbstractTheme, BasicThemeToExtend } from '../../../internal/themes/AbstractTheme';
 
 const TestTheme = createThemeFromClass(
-  class extends (class {} as typeof AbstractThemeClass) {
+  class extends BasicThemeToExtend {
     public static bgDefault = 'default';
     public static bgSecondary = 'default';
   },
@@ -23,7 +23,7 @@ const TestTheme = createThemeFromClass(
 
 describe('ThemeHelpers', () => {
   describe('exposeGetters', () => {
-    const theme = class extends (class {} as typeof AbstractThemeClass) {
+    const theme = class extends BasicThemeToExtend {
       public static get errorText() {
         return 'red';
       }
@@ -41,7 +41,7 @@ describe('ThemeHelpers', () => {
 
   describe('createThemeFromClass', () => {
     const theme = createThemeFromClass(
-      class extends (class {} as typeof AbstractThemeClass) {
+      class extends BasicThemeToExtend {
         public static get errorText() {
           return this.black + this.blue;
         }

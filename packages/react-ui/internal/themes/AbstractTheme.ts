@@ -2485,3 +2485,5 @@ export class AbstractThemeClass {
 }
 
 export const AbstractTheme = createThemeFromClass(AbstractThemeClass);
+
+export const BasicThemeToExtend = class {} as typeof AbstractThemeClass;
