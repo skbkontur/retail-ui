@@ -156,6 +156,44 @@ export const isReactUIComponent = <P = any>(name: string) => {
 };
 
 /**
+ * Merges two or more refs into one with cached refs
+ *
+ * @returns function that passed refs: (...refs) =>
+ *
+ * @example
+ * const SomeComponent = forwardRef((props, ref) => {
+ *  const localRef = useRef();
+ *  const mergeRefs = useRef(mergeRefsMemo());
+ *
+ *  return <div ref={mergeRefs.current(localRef, ref)} />;
+ * });
+ */
+export function mergeRefsMemo<T>() {
+  type refVariants = React.RefObject<T> | React.RefCallback<T>;
+  let cacheRefs: refVariants[] = [];
+  let cachedApplyRef = applyRef;
+  function applyRef(this: { refs: refVariants[] }, value: T) {
+    this.refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        return ref(value);
+      } else if (isNonNullable(ref)) {
+        return ((ref as React.MutableRefObject<T>).current = value);
+      }
+    });
+  }
+
+  return (...refs: refVariants[]) => {
+    const isNewRefs = refs.some((newRef, index) => newRef !== cacheRefs[index]);
+    if (isNewRefs) {
+      cachedApplyRef = applyRef.bind({ refs });
+      cacheRefs = refs;
+      return cachedApplyRef;
+    }
+    return cachedApplyRef;
+  };
+}
+
+/**
  * Merges two or more refs into one.
  *
  * @param refs Array of refs.
