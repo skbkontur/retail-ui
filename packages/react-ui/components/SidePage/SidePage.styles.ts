@@ -11,11 +11,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileRoot() {
-    return css`
-      width: 100%;
-    `;
-  },
 
   overlay() {
     return css`

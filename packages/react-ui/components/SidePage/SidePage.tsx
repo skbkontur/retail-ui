@@ -44,6 +44,9 @@ export interface SidePageProps
   /** Задает ширину сайдпейджа. */
   width?: number | string;
 
+  /** Задает ширину сайдпейджаю на мобилке. По умолчанию ширина во весь экран. */
+  mobileWidth?: number | string;
+
   /** Задает функцию, которая вызывается при запросе закрытия сайдпейджа пользователем (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
 
@@ -215,8 +218,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
+    const { width, mobileWidth, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { offset, role } = this.getProps();
+
+    // на мобилке -- ширина как передана или 100% (вынесла из стилей, чтобы логика выбора ширины была в одном месте)
+    const getWidth = isMobile ? mobileWidth || '100%' : width || (blockBackground ? 800 : 500);
 
     return (
       <div
@@ -226,18 +232,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
-          [styles.mobileRoot()]: isMobile,
         })}
         onScroll={LayoutEvents.emit}
-        style={
-          isMobile
-            ? undefined
-            : {
-                width: width || (blockBackground ? 800 : 500),
-                right: fromLeft ? 'auto' : offset,
-                left: fromLeft ? offset : 'auto',
-              }
-        }
+        style={{
+          width: getWidth,
+          right: fromLeft ? 'auto' : offset,
+          left: fromLeft ? offset : 'auto',
+        }}
       >
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
