@@ -99,7 +99,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     };
 
     return (
-      <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
+      <span key={index} data-fragment="" aria-hidden onMouseUp={handleMouseUp}>
         {valueMask}
         <span data-tid="DateFragmentsView__placeholder" className={styles.mask(this.theme)}>
           {Array(lengthMask)
