@@ -220,6 +220,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           ref={this.innerRef}
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleMouseDown}
+          role="textbox"
+          aria-disabled={disabled}
+          aria-describedby={ariaDescribedby}
         >
           <InputLayoutContext.Provider value={context}>
             <input
@@ -227,7 +230,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
               type="hidden"
               value={value}
               disabled={disabled}
-              aria-describedby={ariaDescribedby}
             />
             {leftSide}
             <span className={wrapperClass}>
