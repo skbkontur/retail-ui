@@ -49,4 +49,15 @@ describe('Menu', () => {
 
     expect(onClick).toHaveBeenCalledTimes(0);
   });
+
+  it('should set correct data-tid', () => {
+    const customDataTid = 'custom-data-tid';
+    render(
+      <Menu data-tid={customDataTid}>
+        <MenuItem>MenuItem</MenuItem>
+      </Menu>,
+    );
+
+    expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+  });
 });
