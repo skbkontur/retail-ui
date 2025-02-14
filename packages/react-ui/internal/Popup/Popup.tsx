@@ -10,7 +10,15 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Priority, ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
+import {
+  getRandomID,
+  isFunction,
+  isNonNullable,
+  isNullable,
+  isRefableElement,
+  mergeRefs,
+  mergeRefsMemo,
+} from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -21,7 +29,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -272,6 +279,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private refForTransition = React.createRef<HTMLDivElement>();
   private hasAnchorElementListeners = false;
   private rootId = PopupIds.root + getRandomID();
+  private useMemoRefs = mergeRefsMemo();
 
   public anchorElement: Nullable<Element> = null;
   private absoluteParent: Nullable<HTMLDivElement> = null;
@@ -380,14 +388,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: (instance: Nullable<React.ReactInstance>) => {
-              this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref as React.RefCallback<any>;
-              originalRef && callChildRef(originalRef, instance);
-            },
+            ref: this.useMemoRefs(
+              (anchor as React.RefAttributes<this>)?.ref as React.RefCallback<this>,
+              this.updateAnchorElement,
+            ),
           } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
-
     // we need to get anchor's DOM node
     // so we either set our own ref on it via cloning
     // or relay on findDOMNode (inside getRootNode)
