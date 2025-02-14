@@ -1,9 +1,9 @@
 import { markAsDarkTheme, createThemeFromClass, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
-import { AbstractTheme, BasicThemeToExtend } from './AbstractTheme';
+import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme';
 
 export const DarkTheme5_0 = createThemeFromClass(
-  class DarkTheme5_0 extends BasicThemeToExtend {
+  class DarkTheme5_0 extends BasicThemeClassForExtension {
     //#region Common variables
     public static grayXLight = '#313131';
     public static gray = 'rgba(255, 255, 255, 0.48)';
@@ -552,7 +552,7 @@ export const DarkTheme5_0 = createThemeFromClass(
     //#endregion
   },
   {
-    prototypeTheme: AbstractTheme,
+    prototypeTheme: BasicTheme,
     themeMarkers: [markAsDarkTheme, markThemeVersion(5, 0)],
   },
 );

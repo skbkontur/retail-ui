@@ -6,7 +6,7 @@ import { applyMarkers, createThemeFromClass, Marker, REACT_UI_THEME_MARKERS } fr
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
 import { AnyObject } from '../../utils';
-import { AbstractTheme, BasicThemeToExtend } from '../../../internal/themes/AbstractTheme';
+import { BasicTheme, BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
 
 const TEST_MARKERS = {
   test: {
@@ -35,11 +35,11 @@ const getConsumedTheme = () => {
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
 const TestTheme = createThemeFromClass(
-  class extends BasicThemeToExtend {
+  class extends BasicThemeClassForExtension {
     public static bgDefault = 'default';
     public static bgSecondary = 'default';
   },
-  { prototypeTheme: AbstractTheme },
+  { prototypeTheme: BasicTheme },
 );
 
 // test marker
@@ -66,7 +66,7 @@ describe('Theming', () => {
         const theme = ThemeFactory.create(myTheme);
 
         expect(theme.brand).toEqual(myTheme.brand);
-        expect(theme.black).toEqual(AbstractTheme.black);
+        expect(theme.black).toEqual(BasicTheme.black);
       });
       test('with args [theme, baseTheme]', () => {
         const theme = ThemeFactory.create(myTheme, TestTheme);
@@ -96,7 +96,7 @@ describe('Theming', () => {
     });
     test('getKeys()', () => {
       const keys_1 = ThemeFactory.getKeys(TestTheme);
-      const keys_2 = ThemeFactory.getKeys(AbstractTheme);
+      const keys_2 = ThemeFactory.getKeys(BasicTheme);
 
       expect(keys_1).toEqual(keys_2);
     });

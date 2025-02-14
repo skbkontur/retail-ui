@@ -1,5 +1,6 @@
 /**
- * @deprecated use AbstractThemeClass or BasicThemeToExtend
+ * This file is for backward compatibility only. Remove in 6.0.0.
+ * @deprecated use BasicThemeClass or BasicThemeClassForExtension
  */
 
-export { AbstractThemeClass as BasicLightThemeInternal } from './AbstractTheme';
+export { BasicThemeClass as BasicLightThemeInternal } from './BasicTheme';
