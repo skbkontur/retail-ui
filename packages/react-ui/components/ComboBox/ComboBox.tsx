@@ -207,9 +207,9 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   /**
    * @public
    */
-  public focus() {
+  public focus(opts?: { withoutOpenDropdown?: boolean }) {
     if (this.comboboxElement) {
-      this.comboboxElement.focus();
+      this.comboboxElement.focus(opts);
     }
   }
 

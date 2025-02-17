@@ -1,10 +1,12 @@
 import React from 'react';
 
-export type FeatureFlags = '';
+export interface ValidationsFeatureFlags {
+  ignoreOpenDropdownOnSubmitValidation?: boolean;
+}
 
-export type ValidationsFeatureFlags = Partial<Record<FeatureFlags, boolean>>;
-
-export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {};
+export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
+  ignoreOpenDropdownOnSubmitValidation: false,
+};
 
 export const ValidationsFeatureFlagsContext =
   React.createContext<ValidationsFeatureFlags>(validationsFeatureFlagsDefault);
