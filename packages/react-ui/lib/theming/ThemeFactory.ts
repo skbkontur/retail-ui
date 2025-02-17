@@ -5,6 +5,13 @@ import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
 import { LIGHT_THEME } from './themes/LightTheme';
 
 export class ThemeFactory {
+  /**
+   * "defaultTheme" created with Object.create() is needed for the "overrideBaseTheme" to work.
+   *
+   * Themes should be frozen objects. But it is not possible to define properties on frozen objects.
+   * So, an object created by Object.create({ *frozen_object* }) acts as frozen too,
+   * but allows to apply Object.defineProperty to his own properties.
+   */
   public static defaultTheme: Theme = Object.create(LIGHT_THEME);
 
   public static getDefaultTheme() {

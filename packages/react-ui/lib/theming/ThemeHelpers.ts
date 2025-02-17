@@ -22,13 +22,9 @@ export const REACT_UI_THEME_MARKERS = {
     key: '__IS_REACT_UI_DARK_THEME__',
     value: true,
   },
-  theme2022: {
-    key: '__IS_REACT_UI_THEME_2022__',
-    value: true,
-  },
   themeVersion: {
     key: '__REACT_UI_THEME_VERSION__',
-    value: 0,
+    value: { major: 0, minor: 0 },
   },
 };
 
