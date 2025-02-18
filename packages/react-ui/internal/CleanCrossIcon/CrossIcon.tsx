@@ -1,7 +1,9 @@
 import React from 'react';
-import { XIcon16Light, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
 
 import { iconSizer } from '../icons2022/iconSizer';
+import { XIcon16Light } from '../icons2022/XIcon/XIcon16Light';
+import { XIcon20Light } from '../icons2022/XIcon/XIcon20Light';
+import { XIcon24Regular } from '../icons2022/XIcon/XIcon24Regular';
 
 export const CrossIcon = iconSizer(
   {

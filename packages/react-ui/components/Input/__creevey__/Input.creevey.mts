@@ -2,6 +2,7 @@ import { story, kind, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay';
+import {InputDataTids} from "../Input";
 
 const differentStatesTest = () => {
   test('Plain', async (context) => {
@@ -243,7 +244,6 @@ kind('Input', () => {
 
     test('idle', async (context) => {
       const small = await context.webdriver.findElement({ css: '[data-tid="small-controlled"]' });
-      // const medium = await context.webdriver.findElement({ css: '[data-tid="medium"]' });
       const large = await context.webdriver.findElement({ css: '[data-tid="large-controlled"]' });
 
       await context.webdriver
@@ -258,7 +258,7 @@ kind('Input', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-tid="InputLayout__cross"]' }))
+        .click(context.webdriver.findElement({ css: `[data-tid=${InputDataTids.cleanCross}]` }))
         .perform();
       const smallControlledCleaned = await context.takeScreenshot();
 
@@ -287,7 +287,7 @@ kind('Input', () => {
         .sendKeys(Key.ENTER)
         .perform();
       await delay(500);
-      const mediumUncontrolledClearedByEnter = await context.takeScreenshot();
+      const mediumUncontrolledCleanedByEnter = await context.takeScreenshot();
 
       await context.webdriver
         .actions({
@@ -301,7 +301,7 @@ kind('Input', () => {
         smallCrossAppeared,
         smallControlledCleaned,
         mediumUncontrolledTabFocused,
-        mediumUncontrolledClearedByEnter,
+        mediumUncontrolledCleanedByEnter,
         largeCrossAppeared,
       });
     });

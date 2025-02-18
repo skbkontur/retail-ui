@@ -167,7 +167,7 @@ describe('<Autocomplete />', () => {
   it('passes showCleanCross prop to input', async () => {
     render(<Autocomplete showCleanCross value="hello" onValueChange={jest.fn()} source={[]} />);
     await userEvent.click(screen.getByRole('textbox'));
-    expect(screen.queryByTestId(InputDataTids.cross)).toBeInTheDocument();
+    expect(screen.queryByTestId(InputDataTids.cleanCross)).toBeInTheDocument();
   });
 
   it('passes id prop to input', () => {

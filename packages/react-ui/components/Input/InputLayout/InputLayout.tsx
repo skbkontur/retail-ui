@@ -17,15 +17,15 @@ type InputLayoutRootFromInputProps = Pick<
 export interface InputLayoutRootProps extends InputLayoutRootFromInputProps, CommonProps {
   labelProps: React.LabelHTMLAttributes<HTMLLabelElement>;
   context: Partial<InputLayoutContextProps>;
-  clearInput: () => void;
-  onCrossBlur: () => void;
+  onСleanInput: () => void;
+  onCleanCrossBlur: () => void;
 }
 
 export const InputLayout = forwardRefAndName<HTMLLabelElement, InputLayoutRootProps>('InputLayout', (props, ref) => {
   const {
     showCleanCross,
-    clearInput,
-    onCrossBlur,
+    onСleanInput,
+    onCleanCrossBlur,
     leftIcon,
     rightIcon,
     prefix,
@@ -36,28 +36,26 @@ export const InputLayout = forwardRefAndName<HTMLLabelElement, InputLayoutRootPr
   } = props;
   const _context: InputLayoutContextProps = { ...InputLayoutContextDefault, ...context };
 
+  function getIcon() {
+    return showCleanCross ? (
+      <CleanCrossIcon
+        data-tid={InputDataTids.cleanCross}
+        size={_context.size}
+        onClick={onСleanInput}
+        onBlur={onCleanCrossBlur}
+      />
+    ) : (
+      rightIcon
+    );
+  }
+
   return (
     <InputLayoutContext.Provider value={_context}>
       <CommonWrapper {...props}>
         <label ref={ref} data-tid={InputDataTids.root} {...labelProps}>
           <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
           <span className={stylesLayout.input()}>{children}</span>
-          {showCleanCross ? (
-            <InputLayoutAside
-              icon={
-                <CleanCrossIcon
-                  data-tid={InputDataTids.cross}
-                  size={_context.size}
-                  onClick={clearInput}
-                  onBlur={onCrossBlur}
-                />
-              }
-              text={suffix}
-              side="right"
-            />
-          ) : (
-            <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
-          )}
+          <InputLayoutAside icon={getIcon()} text={suffix} side="right" />
         </label>
       </CommonWrapper>
     </InputLayoutContext.Provider>

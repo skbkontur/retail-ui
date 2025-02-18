@@ -157,7 +157,7 @@ export interface InputState {
 
 export const InputDataTids = {
   root: 'Input__root',
-  cross: 'InputLayout__cross',
+  cleanCross: 'Input__cleanCross',
 } as const;
 
 type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
@@ -451,21 +451,11 @@ export class Input extends React.Component<InputProps, InputState> {
       <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>{this.getInput(inputProps)}</FocusControlWrapper>
     );
 
-    const clearInputAndFocusInput = () => {
-      if (this.props.onValueChange) {
-        this.props.onValueChange('');
-      }
-      if (this.input) {
-        this.input.value = '';
-      }
-      this.setState({ needsShowCleanCross: false });
-    };
-
     return (
       <InputLayout
-        clearInput={clearInputAndFocusInput}
+        onСleanInput={this.handleCleanInput}
         showCleanCross={showCleanCross && this.state.needsShowCleanCross}
-        onCrossBlur={() => {
+        onCleanCrossBlur={() => {
           this.setState({ needsShowCleanCross: false });
         }}
         leftIcon={leftIcon}
@@ -534,9 +524,19 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
+  private handleCleanInput = () => {
+    if (this.props.onValueChange) {
+      this.props.onValueChange('');
+    }
+    if (this.input) {
+      this.input.value = '';
+    }
+    this.setState({ needsShowCleanCross: false });
+  };
+
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      needsShowCleanCross: this.state.focused && !!this.input?.value,
+      needsShowCleanCross: this.state.focused && !!this.input && (!!this.input.value || this.input.value === '0'),
     });
 
     if (needsPolyfillPlaceholder) {
@@ -558,7 +558,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
-      needsShowCleanCross: !!this.input?.value,
+      needsShowCleanCross: !!this.input?.value.toString(),
     });
 
     if (this.props.selectAllOnFocus) {
@@ -609,19 +609,11 @@ export class Input extends React.Component<InputProps, InputState> {
   private resetFocus = () => this.setState({ focused: false });
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this.props.showCleanCross && this.isBlurToCleanCrossIcon(event)) {
+    if (this.props.showCleanCross && getRootNode(this)?.contains(event.relatedTarget)) {
       this.setState({ focused: false });
     } else {
       this.setState({ needsShowCleanCross: false, focused: false });
       this.props.onBlur?.(event);
     }
-  };
-
-  private isBlurToCleanCrossIcon = (event: React.FocusEvent<HTMLInputElement>) => {
-    const ourInput = getRootNode(this);
-    if (ourInput && ourInput.contains(event.relatedTarget)) {
-      return true;
-    }
-    return false;
   };
 }

@@ -42,10 +42,9 @@ export const CleanCrossIcon: React.FunctionComponent<CleanCrossIconProps> = ({ s
     }
   };
 
-  const [focusedByTab, setFocusedByTab] = React.useState(false);
+  const [focusedByTab, setFocusedByTab] = React.useState<boolean>(false);
 
   const handleFocus = () => {
-    setFocusedByTab(true);
     // focus event fires before keyDown eventlistener so we should check tabPressed in async way
     globalObject.requestAnimationFrame?.(() => {
       if (keyListener.isTabPressed) {
@@ -55,19 +54,18 @@ export const CleanCrossIcon: React.FunctionComponent<CleanCrossIconProps> = ({ s
   };
   const handleBlur = () => setFocusedByTab(false);
 
-  const tabIndex = rest.disabled ? -1 : 0;
-
   return (
     <CommonWrapper {...rest}>
       <button
-        tabIndex={tabIndex}
+        tabIndex={-1}
         className={cx(
           styles.root(theme),
+          // Todo: use &:focus-visible on root instead styles.focus. It supported on Chrome >= 86, Firefox >= 4, Safari >= 15.4
           focusedByTab && styles.focus(theme),
           rest.disabled && styles.rootDisabled(theme),
           getSizeClassName(size),
         )}
-        style={{ ...style }}
+        style={style}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...rest}
