@@ -214,18 +214,27 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           {...rest}
           className={className}
           style={{ width, textAlign: align }}
-          tabIndex={disabled ? -1 : 0}
+          // "Custom Focusable Container" is focused when clicking on children elements.
+          // For example, clickable spans `__.__.____` within the `<DateInput>` component.
+          tabIndex={-1}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           ref={this.innerRef}
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleMouseDown}
-          role="textbox"
-          aria-disabled={disabled}
-          aria-describedby={ariaDescribedby}
         >
           <InputLayoutContext.Provider value={context}>
-            <input type="hidden" data-tid={InputLikeTextDataTids.nativeInput} value={value} disabled={disabled} />
+            <input
+              type="text"
+              value={value}
+              disabled={disabled}
+              aria-describedby={ariaDescribedby}
+              className={styles.visuallyHidden()}
+              // "Focusable Input" is focused via keyboard for better screen reader support.
+              // `tabindex="-1"` prevents focus on input if the "Custom Focusable Container" is already focused.
+              tabIndex={this.state.focused ? -1 : undefined}
+              data-tid={InputLikeTextDataTids.nativeInput}
+            />
             {leftSide}
             <span className={wrapperClass}>
               <span
@@ -235,6 +244,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
                   [jsInputStyles.inputFocus(this.theme)]: focused,
                   [jsInputStyles.inputDisabled(this.theme)]: disabled,
                 })}
+                aria-hidden
               >
                 {this.props.children}
               </span>

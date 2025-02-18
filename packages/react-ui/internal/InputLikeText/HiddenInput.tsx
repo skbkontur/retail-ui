@@ -1,24 +1,12 @@
 import React from 'react';
 
-import { css } from '../../lib/theming/Emotion';
+import { styles } from './InputLikeText.styles';
 
 interface Props extends React.HTMLAttributes<HTMLInputElement> {
   nodeRef: (ref: HTMLInputElement | null) => void;
 }
 
 const cap: React.ReactEventHandler = (e) => e.stopPropagation();
-
-const className = css`
-  position: absolute;
-  width: 1px;
-  height: 0;
-  border: 0;
-  outline: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  opacity: 0;
-`;
 
 /**
  * В **IE11** событие `onPaste` вызывается только у редактируемых элементов: `input`, `textarea`, `[contenteditable]`.
@@ -37,7 +25,7 @@ export class HiddenInput extends React.Component<Props> {
         onBlur={cap}
         onFocus={cap}
         onChange={cap}
-        className={className}
+        className={styles.visuallyHidden()}
       />
     );
   }
