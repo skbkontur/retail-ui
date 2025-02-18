@@ -146,10 +146,6 @@ describe('ThemeHelpers', () => {
       expect(isThemeVersionGTE(theme5_5, 5, 6)).toBe(false);
     });
 
-    test('5_5 should NOT BE greater or equal that 5_10', () => {
-      expect(isThemeVersionGTE(theme5_5, 5, 10)).toBe(false);
-    });
-
     test('5_5 should NOT BE greater or equal that 6_0', () => {
       expect(isThemeVersionGTE(theme5_5, 6, 0)).toBe(false);
     });

@@ -23,14 +23,14 @@ class TestThemeClass {
 
 type TestThemeIn = Partial<typeof TestThemeClass>;
 
-const TEST_THEME_BASE = createThemeFromClass(TestThemeClass);
+const TEST_THEME_BASIC = createThemeFromClass(TestThemeClass);
 
 const TEST_THEME_1_0 = createThemeFromClass(
   class extends (class {} as typeof TestThemeClass) {
     public static color = 'red';
     public static textTransform = 'lowercase';
   },
-  { themeMarkers: [markThemeVersion(1, 0)], prototypeTheme: TEST_THEME_BASE },
+  { themeMarkers: [markThemeVersion(1, 0)], prototypeTheme: TEST_THEME_BASIC },
 );
 
 const TEST_THEME_1_1 = createThemeFromClass(
@@ -52,7 +52,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     '1_0': isThemeVersionGTE(theme, 1, 0),
     '1_1': isThemeVersionGTE(theme, 1, 1),
   })
-    .filter(([_, isDetected]) => isDetected === true)
+    .filter(([_, isDetected]) => isDetected)
     .map(([version]) => <li>{version}</li>);
 
   return (
@@ -72,7 +72,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
   );
 };
 
-export const BaseTheme: Story = () => <Component theme={TEST_THEME_BASE} />;
+export const BasicTheme: Story = () => <Component theme={TEST_THEME_BASIC} />;
 
 export const Theme1_0: Story = () => <Component theme={TEST_THEME_1_0} />;
 Theme1_0.storyName = 'Theme 1_0';

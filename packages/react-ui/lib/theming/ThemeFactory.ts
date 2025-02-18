@@ -12,10 +12,8 @@ export class ThemeFactory {
    * So, an object created by Object.create({ *frozen_object* }) acts as frozen too,
    * but allows to apply Object.defineProperty to his own properties.
    */
-  public static defaultTheme: Theme = Object.create(LIGHT_THEME);
-
-  public static getDefaultTheme() {
-    return this.defaultTheme;
+  public static get defaultTheme(): Theme {
+    return Object.create(LIGHT_THEME);
   }
 
   public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
