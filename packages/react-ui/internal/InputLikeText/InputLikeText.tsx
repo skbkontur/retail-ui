@@ -214,21 +214,18 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           {...rest}
           className={className}
           style={{ width, textAlign: align }}
-          tabIndex={disabled ? undefined : 0}
+          tabIndex={disabled ? -1 : 0}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           ref={this.innerRef}
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleMouseDown}
+          role="textbox"
+          aria-disabled={disabled}
+          aria-describedby={ariaDescribedby}
         >
           <InputLayoutContext.Provider value={context}>
-            <input
-              data-tid={InputLikeTextDataTids.nativeInput}
-              type="hidden"
-              value={value}
-              disabled={disabled}
-              aria-describedby={ariaDescribedby}
-            />
+            <input type="hidden" data-tid={InputLikeTextDataTids.nativeInput} value={value} disabled={disabled} />
             {leftSide}
             <span className={wrapperClass}>
               <span
