@@ -95,7 +95,7 @@ export class ValidationWrapperInternal extends React.Component<
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
       if (this.child && typeof this.child.focus === 'function') {
-        this.child.focus({ withoutOpenDropdown: this.featureFlags.ignoreOpenDropdownOnSubmitValidation });
+        this.child.focus({ withoutOpenDropdown: this.featureFlags.dropdownsDoNotOpenOnFocusByValidation });
       }
     }
     this.isChanging = false;

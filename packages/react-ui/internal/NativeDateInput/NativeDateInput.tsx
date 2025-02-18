@@ -7,7 +7,6 @@ import { jsStyles } from './NativeDateInput.styles';
 
 export interface NativeDateInputProps {
   onValueChange?: (value: string) => void;
-  onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   value: Nullable<string>;
   minDate?: Nullable<string>;
   maxDate?: Nullable<string>;
@@ -35,7 +34,6 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
             this.props.onValueChange(getDateForComponent(e.target.value));
           }
         }}
-        onClick={this.props.onClick}
         className={jsStyles.inputTypeDate()}
         ref={this.refInput}
         disabled={this.props.disabled}

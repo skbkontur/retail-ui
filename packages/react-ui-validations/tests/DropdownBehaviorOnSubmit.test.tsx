@@ -17,7 +17,7 @@ const renderValidationContainer = (
 ): React.RefObject<ValidationContainer> => {
   const containerRef = React.createRef<ValidationContainer>();
   render(
-    <ValidationsFeatureFlagsContext.Provider value={{ ignoreOpenDropdownOnSubmitValidation: ignoreOpenDropdownFlag }}>
+    <ValidationsFeatureFlagsContext.Provider value={{ dropdownsDoNotOpenOnFocusByValidation: ignoreOpenDropdownFlag }}>
       <ValidationContainer ref={containerRef}>
         <ValidationWrapper validationInfo={validate()}>{input}</ValidationWrapper>
       </ValidationContainer>
@@ -38,7 +38,7 @@ describe('ComboboxDropdownBehaviorOnValidationSubmit', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
-  it('should not open with flag ignoreOpenDropdownOnSubmitValidation', async () => {
+  it('should not open with flag dropdownsDoNotOpenOnFocusByValidation', async () => {
     const containerRef = renderValidationContainer(combobox, true);
     await act(() => containerRef.current?.submit());
     expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('DatePickerDropdownBehaviorOnValidationSubmit', () => {
     expect(screen.getByTestId(DatePickerDataTids.input)).toHaveFocus();
   });
 
-  it('should not open with flag ignoreOpenDropdownOnSubmitValidation', async () => {
+  it('should not open with flag dropdownsDoNotOpenOnFocusByValidation', async () => {
     const containerRef = renderValidationContainer(datePicker, true);
     await act(() => containerRef.current?.submit());
     expect(screen.queryByTestId(DatePickerDataTids.root)).not.toBeInTheDocument();

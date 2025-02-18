@@ -1,13 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
-import { Button, Toggle } from '@skbkontur/react-ui';
-import { DatePicker as BaseDatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import React from 'react';
+import { Button, ComboBox, DatePicker, Toggle } from '@skbkontur/react-ui';
+import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 
-import { ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import { ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../../../../src';
 
 export default {
-  title: 'DropdownOnSubmit',
+  title: 'Information/Feature flags',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
@@ -16,10 +14,10 @@ interface ComboBoxStoryState {
   label: string;
 }
 
-export const Combobox = () => {
-  const [selected, setSelected] = useState<ComboBoxStoryState>({ value: 'one', label: 'one' });
-  const container = useRef<ValidationContainer>(null);
-  const [useFlag, setUseFlag] = useState<boolean>(false);
+export const ExampleCombobox: Story = () => {
+  const [selected, setSelected] = React.useState<ComboBoxStoryState>({ value: 'one', label: 'one' });
+  const container = React.useRef<ValidationContainer>(null);
+  const [useFlag, setUseFlag] = React.useState<boolean>(false);
 
   async function handleSubmit() {
     await container.current?.validate();
@@ -54,10 +52,10 @@ export const Combobox = () => {
   );
 };
 
-export const DatePicker = () => {
-  const container = useRef<ValidationContainer>(null);
-  const [value, setValue] = useState<Date | string | null>(null);
-  const [useFlag, setUseFlag] = useState<boolean>(false);
+export const ExampleDatePicker: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+  const [value, setValue] = React.useState<Date | string | null>(null);
+  const [useFlag, setUseFlag] = React.useState<boolean>(false);
 
   async function handleSubmit() {
     await container.current?.validate();
@@ -77,7 +75,7 @@ export const DatePicker = () => {
               type: 'immediate',
             }}
           >
-            <BaseDatePicker value={value as any} onValueChange={setValue} />
+            <DatePicker value={value as any} onValueChange={setValue} />
           </ValidationWrapper>
         </ValidationContainer>
       </ValidationsFeatureFlagsContext.Provider>

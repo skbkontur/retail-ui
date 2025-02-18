@@ -1,11 +1,11 @@
 import React from 'react';
 
 export interface ValidationsFeatureFlags {
-  ignoreOpenDropdownOnSubmitValidation?: boolean;
+  dropdownsDoNotOpenOnFocusByValidation?: boolean;
 }
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
-  ignoreOpenDropdownOnSubmitValidation: false,
+  dropdownsDoNotOpenOnFocusByValidation: false,
 };
 
 export const ValidationsFeatureFlagsContext =

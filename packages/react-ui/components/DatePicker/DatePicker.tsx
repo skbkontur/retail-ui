@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { HTMLAttributes } from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
 import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
@@ -201,7 +200,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
   private readonly locale!: DatePickerLocale;
-  private canOpenPicker = true;
+  private canOpenPopup = true;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -277,23 +276,12 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
 
     if (opts?.withoutOpenDropdown) {
-      this.canOpenPicker = false;
-
-      /** wait all bubble handleFocus events */
-      globalObject.setTimeout(
-        (setCallback) => {
-          setCallback();
-        },
-        0,
-        this.setCanOpenPickerToTrue.bind(this),
-      );
+      this.canOpenPopup = false;
     }
 
     if (this.input) {
       this.input.focus();
     }
-
-    this.handleFocus();
   }
 
   /**
@@ -407,10 +395,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           withIcon
           minDate={minDate}
           maxDate={maxDate}
-          onBlur={isMobile ? undefined : this.handleBlur.bind(this)}
+          onBlur={isMobile ? undefined : this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
-          onClick={() => this.openPickerPopup()}
+          onClick={this.openPickerPopup}
           onKeyDown={this.handleKeyDown}
           data-tid={DatePickerDataTids.input}
         />
@@ -421,7 +409,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             minDate={minDate}
             maxDate={maxDate}
             disabled={this.props.disabled}
-            onClick={this.openPickerPopup}
           />
         ) : (
           picker
@@ -479,29 +466,29 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     this.input = ref;
   };
 
-  private setCanOpenPickerToTrue() {
-    this.canOpenPicker = true;
-  }
-
-  private openPickerPopup() {
-    this.setState({ opened: this.canOpenPicker });
-  }
+  private openPickerPopup = () => {
+    this.setState({ opened: true });
+  };
 
   private handleFocus = () => {
     if (this.focused) {
       return;
     }
 
-    this.focused = true;
+    if (!this.canOpenPopup) {
+      this.canOpenPopup = true;
+    } else {
+      this.openPickerPopup();
+    }
 
-    this.openPickerPopup();
+    this.focused = true;
 
     if (this.props.onFocus) {
       this.props.onFocus();
     }
   };
 
-  private handleKeyDown = (e: React.KeyboardEvent<any>) => {
+  private handleKeyDown = (e: React.KeyboardEvent) => {
     if (!this.state.opened) {
       this.openPickerPopup();
     }
