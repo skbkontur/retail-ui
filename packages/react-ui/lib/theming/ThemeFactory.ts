@@ -6,14 +6,16 @@ import { LIGHT_THEME } from './themes/LightTheme';
 
 export class ThemeFactory {
   /**
-   * "defaultTheme" created with Object.create() is needed for the "overrideBaseTheme" to work.
+   * The default theme created with Object.create() is needed for the "overrideBaseTheme" to work.
    *
    * Themes should be frozen objects. But it is not possible to define properties on frozen objects.
    * So, an object created by Object.create({ *frozen_object* }) acts as frozen too,
    * but allows to apply Object.defineProperty to his own properties.
    */
+  private static readonly overridableDefaultTheme: Theme = Object.create(LIGHT_THEME);
+
   public static get defaultTheme(): Theme {
-    return Object.create(LIGHT_THEME);
+    return this.overridableDefaultTheme;
   }
 
   public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
