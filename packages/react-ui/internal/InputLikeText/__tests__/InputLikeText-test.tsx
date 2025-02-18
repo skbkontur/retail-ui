@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
-import { InputLikeText, InputLikeTextDataTids } from '../InputLikeText';
+import { InputLikeText } from '../InputLikeText';
 
 describe('InputLikeText', () => {
   describe('placeholder', () => {
@@ -21,7 +21,6 @@ describe('InputLikeText', () => {
   it('should pass disabled to native input', () => {
     render(<InputLikeText disabled />);
 
-    expect(screen.getByRole('textbox')).toHaveAttribute('aria-disabled', 'true');
-    expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+    expect(screen.getByRole('textbox')).toBeDisabled();
   });
 });

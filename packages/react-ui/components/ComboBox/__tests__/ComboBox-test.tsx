@@ -291,6 +291,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
 
+      expect(screen.queryByTestId(InputLikeTextDataTids.root)).toBeInTheDocument();
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
 
@@ -1298,7 +1299,7 @@ describe('ComboBox', () => {
           <p id="elementId">Description</p>
         </div>,
       );
-      const comboBox = screen.getByRole('textbox');
+      const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
       expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
       expect(comboBox).toHaveAccessibleDescription('Description');
     });
@@ -1350,7 +1351,8 @@ describe('ComboBox', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
     comboboxRef.current?.blur();
     await delay(0);
-    expect(screen.getByRole('textbox')).not.toHaveFocus();
+    expect(screen.getByTestId(InputLikeTextDataTids.root)).toBeInTheDocument();
+    expect(screen.queryByRole('textbox')).not.toHaveFocus();
   });
 
   describe('with comboBoxAllowValueChangeInEditingState flag', () => {

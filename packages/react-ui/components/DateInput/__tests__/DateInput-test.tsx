@@ -270,9 +270,9 @@ describe('DateInput as InputlikeText', () => {
     const onBlur = jest.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
     await userEvent.tab();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(screen.getByRole('textbox')).toHaveFocus();
     await userEvent.tab();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+    expect(screen.getByRole('textbox')).not.toHaveFocus();
     expect(onBlur).toHaveBeenCalled();
   });
 
