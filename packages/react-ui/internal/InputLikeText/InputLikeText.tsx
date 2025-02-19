@@ -178,6 +178,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragEnd,
       takeContentWidth,
       'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledby,
       ...rest
     } = props;
 
@@ -223,6 +225,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           role="textbox"
           aria-disabled={disabled}
           aria-describedby={ariaDescribedby}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
         >
           <InputLayoutContext.Provider value={context}>
             <input type="hidden" data-tid={InputLikeTextDataTids.nativeInput} value={value} disabled={disabled} />
