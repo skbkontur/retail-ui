@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -35,7 +35,10 @@ export const DateInputDataTids = {
   icon: 'DateInput__icon',
 } as const;
 
-export interface DateInputProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
+export interface DateInputProps
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
 
@@ -235,6 +238,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             value={this.iDateMediator.getInternalString()}
             inputMode={'numeric'}
             takeContentWidth
+            aria-describedby={this.props['aria-describedby']}
+            aria-label={this.props['aria-label']}
+            aria-labelledby={this.props['aria-labelledby']}
           >
             <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
               <DateFragmentsView

@@ -372,3 +372,36 @@ describe('DateInput as InputlikeText', () => {
     expect(getSelection()?.toString()).toBe('');
   });
 });
+
+describe('a11y', () => {
+  it('passes correct value to `aria-describedby` attribute', () => {
+    const id = 'elementId';
+    const description = 'The caption that describes DateInput';
+    renderRTL(
+      <>
+        <DateInput aria-describedby={id} />
+        <p id={id}>{description}</p>
+      </>,
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-describedby', id);
+    expect(input).toHaveAccessibleDescription(description);
+  });
+
+  it('passes correct value to `aria-label` attribute', async () => {
+    const label = 'Label for DateInput';
+    renderRTL(<DateInput aria-label={label} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-label', label);
+  });
+
+  it('passes correct value to `aria-labelledby` attribute', async () => {
+    const id = 'elementId';
+    renderRTL(<DateInput aria-labelledby={id} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-labelledby', id);
+  });
+});
