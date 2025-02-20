@@ -124,6 +124,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
   private isMobileLayout!: boolean;
   private featureFlags!: ReactUIFeatureFlags;
+  private canOpenPopup = true;
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
@@ -131,9 +132,13 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   /**
    * @public
    */
-  public focus = () => {
+  public focus = (opts?: { withoutOpenDropdown?: boolean }) => {
     if (this.props.disabled) {
       return;
+    }
+
+    if (opts?.withoutOpenDropdown) {
+      this.canOpenPopup = false;
     }
 
     if (this.input) {
@@ -407,8 +412,13 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (this.focused) {
       return;
     }
+
     this.focused = true;
-    this.dispatch({ type: 'Focus' });
+    this.dispatch({ type: 'Focus', searchOnFocus: this.canOpenPopup && this.props.searchOnFocus });
+
+    if (!this.canOpenPopup) {
+      this.canOpenPopup = true;
+    }
   };
 
   private handleMobileClose = () => {
