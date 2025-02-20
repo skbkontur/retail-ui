@@ -7,6 +7,7 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 import { componentsLocales as PasswordInputLocaleEn } from '../locale/locales/en';
 import { componentsLocales as PasswordInputLocaleRu } from '../locale/locales/ru';
+import * as listenFocusOutside from '../../../lib/listenFocusOutside';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', async () => {
@@ -203,10 +204,10 @@ describe('PasswordInput', () => {
   });
 
   it('RenderLayer not listen blur in default view', async () => {
-    const addEventListenerSpy = jest.spyOn(global, 'addEventListener');
+    const focusOutsideListener = jest.spyOn(listenFocusOutside, 'listen');
 
     render(<PasswordInput />);
 
-    expect(addEventListenerSpy).not.toHaveBeenCalledWith('blur', expect.any(Function));
+    expect(focusOutsideListener).not.toHaveBeenCalled();
   });
 });
