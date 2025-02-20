@@ -458,3 +458,21 @@ export const WithMaskAndSelectAllProp: Story = () => {
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
 
 export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+
+export const CleanCross: Story = () => {
+  const [valueSmall, setValueSmall] = React.useState('Меленький, управляемый');
+  const [valueLarge, setValueLarge] = React.useState('Большой, управляемый');
+  return (
+    <Gapped vertical gap={5}>
+      <Input showCleanCross size="small" value={valueSmall} onValueChange={setValueSmall} data-tid="small-controlled" />
+      <Input
+        showCleanCross
+        size="medium"
+        onValueChange={(value) => console.log('получено: ' + value + '.')}
+        data-tid="medium-uncontrolled"
+        placeholder={'Средний, неуправляемый'}
+      />
+      <Input showCleanCross size="large" value={valueLarge} onValueChange={setValueLarge} data-tid="large-controlled" />
+    </Gapped>
+  );
+};

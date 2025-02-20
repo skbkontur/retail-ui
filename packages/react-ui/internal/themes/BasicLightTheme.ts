@@ -2435,6 +2435,61 @@ export class BasicLightThemeInternal {
     '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   //#endregion FileUploader
 
+  //#region CleanCrossIcon
+  public static get cleanCrossIconWidthSmall() {
+    return this.inputHeightSmall;
+  }
+  public static get cleanCrossIconWidthMedium() {
+    return this.inputHeightMedium;
+  }
+  public static get cleanCrossIconWidthLarge() {
+    return this.inputHeightLarge;
+  }
+  public static get cleanCrossIconHeightSmall() {
+    return this.inputHeightSmall;
+  }
+  public static get cleanCrossIconHeightMedium() {
+    return this.inputHeightMedium;
+  }
+  public static get cleanCrossIconHeightLarge() {
+    return this.inputHeightLarge;
+  }
+
+  public static get cleanCrossIconRightMarginSmall() {
+    const inputPaddingXSmall = parseInt(this.inputPaddingXSmall);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXSmall + inputBorderWidth}px`;
+  }
+  public static get cleanCrossIconRightMarginMedium() {
+    const inputPaddingXMedium = parseInt(this.inputPaddingXMedium);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXMedium + inputBorderWidth}px`;
+  }
+  public static get cleanCrossIconRightMarginLarge() {
+    const inputPaddingXLarge = parseInt(this.inputPaddingXLarge);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXLarge + inputBorderWidth}px`;
+  }
+
+  public static get cleanCrossIconBorderRadiusSmall() {
+    return this.inputBorderRadiusSmall;
+  }
+  public static get cleanCrossIconBorderRadiusMedium() {
+    return this.inputBorderRadiusMedium;
+  }
+  public static get cleanCrossIconBorderRadiusLarge() {
+    return this.inputBorderRadiusLarge;
+  }
+
+  public static cleanCrossIconColor = '#757575';
+  public static cleanCrossIconDisabledColor = '#8b8b8b';
+  public static cleanCrossIconHoverColor = '#222222';
+  public static get cleanCrossIconFocusShadow() {
+    return `inset 0 0 0 2px ${this.borderColorFocus}`;
+  }
+
+  //#endregion CleanCrossIcon
+
   //#region CloseIcon
   public static closeBtnIconColor = 'rgba(0, 0, 0, 0.32)';
   public static closeBtnIconDisabledColor = '#8b8b8b';
