@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { RenderLayer } from '../RenderLayer';
@@ -13,7 +13,7 @@ describe('<RenderLayer />', () => {
     jest.clearAllMocks();
   });
 
-  it('active enabled by default', () => {
+  it('active enabled by default, not breaking render without props', () => {
     const { container } = render(
       <RenderLayer>
         <div>Тестовый контент</div>
@@ -37,21 +37,20 @@ describe('<RenderLayer />', () => {
     expect(mockOnClickOutside).toHaveBeenCalled();
   });
 
-  it.skip('call onFocusOutside on lost focus', async () => {
+  it('call onFocusOutside on lost focus', async () => {
     render(
-      <RenderLayer onFocusOutside={mockOnFocusOutside}>
-        <input type="text" />
-      </RenderLayer>,
+      <div>
+        <input data-tid="outer-input" type="text" />
+        <RenderLayer onFocusOutside={mockOnFocusOutside}>
+          <input data-tid="inner-input" type="text" />
+        </RenderLayer>
+      </div>,
     );
 
-    const input = screen.getByRole('textbox');
-    fireEvent.focus(input);
-    fireEvent.click(document.body);
+    await userEvent.click(screen.getByTestId('inner-input'));
+    await userEvent.click(screen.getByTestId('outer-input'));
 
-    await waitFor(() => {
-      // mockOnFocusOutside никогда не вызывается, надо поразбираться
-      expect(mockOnFocusOutside).toHaveBeenCalled();
-    });
+    expect(mockOnFocusOutside).toHaveBeenCalled();
   });
 
   it('add event listeners on mount', () => {
