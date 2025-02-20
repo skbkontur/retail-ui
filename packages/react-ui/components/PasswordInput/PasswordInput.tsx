@@ -125,7 +125,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
    * @public
    */
   public blur = () => {
-    this.handleBlur();
+    if (this.input) {
+      this.input.blur();
+    }
   };
 
   private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -164,10 +166,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleToggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocusOnInput);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.focusOnInput);
   };
 
-  private handleFocusOnInput = () => {
+  private focusOnInput = () => {
     if (this.input) {
       this.input.focus();
     }
@@ -185,9 +187,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  private handleBlur = () => {
-    if (this.input) {
-      this.input.blur();
+  private handleFocusOutside = () => {
+    this.hideSymbols();
+
+    if (this.state.focused) {
+      this.setState({ focused: false });
     }
   };
 
@@ -234,10 +238,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private hideSymbols = () => {
     this.setState({ visible: false });
-
-    if (this.state.focused) {
-      this.setState({ focused: false });
-    }
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
@@ -251,7 +251,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     };
 
     return (
-      <RenderLayer active={this.state.focused} onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
+      <RenderLayer
+        active={this.state.focused}
+        onFocusOutside={this.handleFocusOutside}
+        onClickOutside={this.handleFocusOutside}
+      >
         <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>
