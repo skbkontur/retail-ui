@@ -43,14 +43,17 @@ export const InputLikeTextDataTids = {
   nativeInput: 'InputLikeText__nativeInput',
 } as const;
 
-type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
+type DefaultProps = Required<Pick<InputLikeTextProps, 'size' | 'role'>>;
 
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
   public static displayName = 'InputLikeText';
 
-  public static defaultProps: DefaultProps = { size: 'small' };
+  public static defaultProps: DefaultProps = {
+    size: 'small',
+    role: 'textbox'
+  };
 
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
@@ -177,6 +180,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragStart,
       onMouseDragEnd,
       takeContentWidth,
+      role,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
@@ -222,7 +226,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           ref={this.innerRef}
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleMouseDown}
-          role="textbox"
+          role={role}
           aria-disabled={disabled}
           aria-describedby={ariaDescribedby}
           aria-label={ariaLabel}

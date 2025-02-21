@@ -370,6 +370,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           warning={warning}
           inputMode={inputMode}
           autoComplete="off"
+          role="combobox"
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
           aria-label={ariaLabel}
@@ -392,8 +393,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         size={size}
         width="100%"
         ref={refInputLikeText}
+        role="combobox"
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
+        aria-label={ariaLabel}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
