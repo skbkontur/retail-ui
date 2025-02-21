@@ -50,6 +50,7 @@ const styles = {
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 6px;
+    font-size: 16px;
 
     &:hover {
       background: rgba(0, 0, 0, 0.06);

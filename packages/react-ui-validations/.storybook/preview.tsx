@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
+import { DocsContainer } from '@storybook/blocks';
 
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
@@ -45,6 +46,15 @@ const preview: Preview = {
   ],
 
   parameters: {
+    docs: {
+      container: ({ children, context }) => (
+        // prevent sb default font-family and other styles
+        // see https://github.com/storybookjs/storybook/blob/c6b8ca7faec9d6b73f71c112100506ef41dde619/code/lib/blocks/src/components/DocsPage.tsx#L19
+        <div className="sb-unstyled">
+          <DocsContainer context={context}>{children}</DocsContainer>
+        </div>
+      ),
+    },
     creevey: {
       captureElement: '#test-element',
     },

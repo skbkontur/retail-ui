@@ -9,6 +9,7 @@ import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
 import { ValidationContext, ValidationContextType } from './ValidationContextWrapper';
+import { ValidationsFeatureFlags, ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -64,6 +65,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
+  private featureFlags!: ValidationsFeatureFlags;
 
   public componentDidMount() {
     warning(
@@ -93,7 +95,7 @@ export class ValidationWrapperInternal extends React.Component<
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
       if (this.child && typeof this.child.focus === 'function') {
-        this.child.focus();
+        this.child.focus({ withoutOpenDropdown: this.featureFlags.dropdownsDoNotOpenOnFocusByValidation });
       }
     }
     this.isChanging = false;
@@ -142,11 +144,18 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    return React.cloneElement(
-      this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
-      {
-        'data-tid': dataTid,
-      },
+    return (
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = flags;
+          return React.cloneElement(
+            this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
+            {
+              'data-tid': dataTid,
+            },
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 
