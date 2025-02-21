@@ -12,8 +12,8 @@ export type ReactMaskOpts = FactoryOpts & { unmask?: 'typed' | boolean };
 export type UnmaskValue<Opts extends ReactMaskOpts> = Opts['unmask'] extends 'typed'
   ? InputMask<Opts>['typedValue']
   : Opts['unmask'] extends Falsy
-  ? InputMask<Opts>['value']
-  : InputMask<Opts>['unmaskedValue'];
+    ? InputMask<Opts>['value']
+    : InputMask<Opts>['unmaskedValue'];
 
 export type ExtractReactMaskOpts<
   MaskElement extends InputMaskElement,
