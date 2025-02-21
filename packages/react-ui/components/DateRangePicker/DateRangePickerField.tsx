@@ -1,64 +1,97 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { DateInput, DateInputProps } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
-import { CommonProps } from '../../internal/CommonWrapper';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
 
 export type DateRangePickerFieldType = 'start' | 'end';
 
-export interface DateRangePickerFieldProps
-  extends CommonProps,
-    Pick<DateInputProps, 'id' | 'size' | 'style' | 'withIcon' | 'width'> {
+export interface DateRangePickerFieldProps extends DateInputProps {
   type: DateRangePickerFieldType;
+  value: string;
+  optional?: boolean;
+  onValueChange: (value: string) => void;
 }
-
 export type DateRangePickerFieldWithTypeProps = Omit<DateRangePickerFieldProps, 'type'>;
 
 export function DateRangePickerField(props: DateRangePickerFieldProps) {
   const {
-    start,
-    end,
-    minDate,
-    maxDate,
+    startValue,
+    endValue,
     size,
-    disabled,
-    autoFocus,
-    warning,
-    error,
-    dateRangePickerRef,
-    startRef,
-    endRef,
-    setEnd,
-    setStart,
+    setStartValue,
+    setStartOptional,
+    setStartDisabled,
+    setEndValue,
+    setEndOptional,
+    setEndDisabled,
+    setMinDate,
+    setMaxDate,
     setFocusField,
     open,
     close,
-    onFocus,
-    onBlur,
+    dateRangePickerRef,
+    startRef,
+    endRef,
   } = useContext(DateRangePickerContext);
+
+  const isStart = props.type === 'start';
+  const isEnd = props.type === 'end';
   const { isMobile } = useResponsiveLayout();
 
-  const commonProps: DateInputProps = {
-    minDate,
-    maxDate,
-    size,
+  useEffect(() => {
+    if (isStart) {
+      setStartValue(props.value || '');
+      setStartOptional(props.optional || false);
+      setStartDisabled(props.disabled || false);
+      setMinDate(props.minDate || '');
+    } else if (isEnd) {
+      setEndValue(props.value || '');
+      setEndOptional(props.optional || false);
+      setEndDisabled(props.disabled || false);
+      setMaxDate(props.maxDate || '');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isStart && startValue) {
+      props.onValueChange(startValue);
+    }
+  }, [startValue]);
+
+  useEffect(() => {
+    if (isEnd && endValue) {
+      props.onValueChange(endValue);
+    }
+  }, [endValue]);
+
+  const commonProps: DateRangePickerFieldProps = {
     withIcon: true,
+    size,
     ...props,
+    onValueChange: (value) => {
+      if (isStart) {
+        setStartValue(value || '');
+      } else if (isEnd) {
+        setEndValue(value || '');
+      }
+      props.onValueChange(value);
+    },
     onClick: () => {
-      const isDisabled = props.type === 'start' ? disabled?.[0] : disabled?.[1];
-      if (isDisabled) {
+      if (props.disabled) {
         return;
       }
       open(props.type);
     },
     onFocus: (e) => {
       open(props.type);
-      onFocus?.(e);
+      props.onFocus?.(e);
     },
     onBlur: (e) => {
+      props.onBlur?.(e);
+
       if (isMobile) {
         return;
       }
@@ -67,38 +100,14 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
         close();
       }
       setFocusField(null);
-      onBlur?.(e);
     },
   };
 
   switch (props.type) {
     case 'start':
-      return (
-        <DateInput
-          value={start || ''}
-          autoFocus={autoFocus}
-          disabled={disabled?.[0]}
-          error={error?.[0]}
-          warning={warning?.[0]}
-          data-tid={DateRangePickerDataTids.start}
-          onValueChange={setStart}
-          ref={startRef}
-          {...commonProps}
-        />
-      );
+      return <DateInput {...commonProps} data-tid={DateRangePickerDataTids.start} ref={startRef} />;
 
     case 'end':
-      return (
-        <DateInput
-          value={end || ''}
-          disabled={disabled?.[1]}
-          error={error?.[1]}
-          warning={warning?.[1]}
-          data-tid={DateRangePickerDataTids.end}
-          onValueChange={setEnd}
-          ref={endRef}
-          {...commonProps}
-        />
-      );
+      return <DateInput {...commonProps} data-tid={DateRangePickerDataTids.end} ref={endRef} />;
   }
 }
