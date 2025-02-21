@@ -63,7 +63,7 @@ describe('SingleToast', () => {
     });
   });
 
-  it('change showCloseCross in SingleInput', async () => {
+  it('change showCloseButton in SingleInput', async () => {
     render(
       <>
         <SingleToast />
