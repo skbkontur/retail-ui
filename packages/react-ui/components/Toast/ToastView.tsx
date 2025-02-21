@@ -19,7 +19,7 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   children?: string;
   /** Добавляет возможность действия и кнопку закрытия у тоста. */
   action?: Nullable<Action>;
-  showCloseCross?: boolean;
+  showCloseButton?: boolean;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -59,7 +59,7 @@ export class ToastView extends React.Component<ToastViewProps> {
   }
 
   private renderMain = () => {
-    const { action, showCloseCross, onClose, onMouseEnter, onMouseLeave } = this.props;
+    const { action, showCloseButton, onClose, onMouseEnter, onMouseLeave } = this.props;
 
     const link = action ? (
       <button
@@ -73,7 +73,7 @@ export class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     const close =
-      action || showCloseCross ? (
+      action || showCloseButton ? (
         <span className={styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
             aria-label={this.locale.closeButtonAriaLabel}
