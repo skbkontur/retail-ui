@@ -31,11 +31,11 @@ export const Example1 = Component;
 Example1.storyName = 'Выбор периода';
 
 /**
- * Для валидаций используйте `DateRangePicker.validate(value, options)`, который принимает:
- * - `value` — проверяемые значения `['dd.mm.yyyy', 'dd.mm.yyyy']`
+ * Для валидаций используйте `DateRangePicker.validate(startValue, endValue, options)`, который принимает:
+ * - `startValue` и `endValue` — проверяемые значения `'dd.mm.yyyy'`
  * - `options` — объект с настройками `{ startOptional, endOptional, minDate, maxDate }`
  *
- * Возвращается валидация полей start и end в формате `[true, false]`
+ * Возвращается валидация полей `Start` и `End` в формате `[true, false]`
  */
 export const Validations = ValidationsStory;
 Validations.storyName = 'Валидации';
@@ -61,7 +61,8 @@ export const ExamplePrices: Story = () => {
     );
   }
 
-  const [value, setValue] = React.useState(['', '']);
+  const [valueStart, setValueStart] = React.useState('');
+  const [valueEnd, setValueEnd] = React.useState('');
   const minDate = '08.07.2024';
   const maxDate = '18.08.2024';
 
@@ -78,17 +79,10 @@ export const ExamplePrices: Story = () => {
         theme,
       )}
     >
-      <DateRangePicker
-        value={value}
-        minDate={minDate}
-        maxDate={maxDate}
-        size="medium"
-        renderDay={renderDay}
-        onValueChange={([start, end]) => setValue([start, end])}
-      >
-        <DateRangePicker.Start />
+      <DateRangePicker size="medium" renderDay={renderDay}>
+        <DateRangePicker.Start value={valueStart} minDate={minDate} onValueChange={setValueStart} />
         <DateRangePicker.Separator />
-        <DateRangePicker.End />
+        <DateRangePicker.End value={valueEnd} maxDate={maxDate} onValueChange={setValueEnd} />
       </DateRangePicker>
     </ThemeContext.Provider>
   );
@@ -99,13 +93,14 @@ ExamplePrices.storyName = 'Выбор дат с ценами';
  * Для полей достпен параметр `optional`, чтобы указывать открытые диапазоны
  */
 export const ExampleCustomOptional: Story = () => {
-  const [value, setValue] = React.useState(['', '']);
+  const [valueStart, setValueStart] = React.useState('');
+  const [valueEnd, setValueEnd] = React.useState('');
 
   return (
-    <DateRangePicker value={value} optional={[true, true]} onValueChange={([start, end]) => setValue([start, end])}>
-      <DateRangePicker.Start />
+    <DateRangePicker>
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} optional />
       <DateRangePicker.Separator />
-      <DateRangePicker.End />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} optional />
     </DateRangePicker>
   );
 };
@@ -119,9 +114,6 @@ ExampleSizes.storyName = 'Размеры';
 
 /**
  * У дочерних элементов могут быть настроены `width`, `className`, `style`, `withIcon` и другие настройки `<DateInput>`
- * - `<DateRangePicker.Start />`
- * - `<DateRangePicker.End />`
- * - `<DateRangePicker.Separator />`
  */
 export const ExampleCustomWithoutDash = CustomChildrenWithoutDash;
 ExampleCustomWithoutDash.storyName = 'Поля без тире';
@@ -130,7 +122,8 @@ export const ExampleCustomVertical = CustomChildrenVertical;
 ExampleCustomVertical.storyName = 'Вертикальное расположение';
 
 export const ExampleDateFormat: Story = () => {
-  const [value, setValue] = React.useState(['', '']);
+  const [valueStart, setValueStart] = React.useState('');
+  const [valueEnd, setValueEnd] = React.useState('');
   const [order, setOrder] = React.useState(DateOrder.YMD);
   const [separator, setSeparator] = React.useState(Object.keys(DateSeparator)[0]);
 
@@ -163,10 +156,10 @@ export const ExampleDateFormat: Story = () => {
           },
         }}
       >
-        <DateRangePicker value={value} onValueChange={([start, end]) => setValue([start, end])}>
-          <DateRangePicker.Start />
+        <DateRangePicker>
+          <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
           <DateRangePicker.Separator />
-          <DateRangePicker.End />
+          <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
         </DateRangePicker>
       </LocaleContext.Provider>
     </Gapped>
