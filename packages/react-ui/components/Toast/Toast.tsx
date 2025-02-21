@@ -26,7 +26,7 @@ export interface ToastState {
   action: Nullable<Action>;
   id: number;
   showTime: Nullable<number>;
-  showCloseCross: boolean | undefined;
+  showCloseCross?: boolean;
 }
 
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {

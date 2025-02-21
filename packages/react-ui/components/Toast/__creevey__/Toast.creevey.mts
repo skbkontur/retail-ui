@@ -54,14 +54,14 @@ kind('Toast', () => {
 
   story('ToastWithCross', () => {
     test('idle', async (context) => {
-      const showStaticToastButton = context.webdriver.findElement({ css: '[data-tid~="show-static-toast"]' });
-      const showInstanceToastButton = context.webdriver.findElement({ css: '[data-tid~="show-instance-toast"]' });
+      const showStaticToastButton = context.webdriver.findElement({ css: '[data-tid="show-static-toast"]' });
+      const showInstanceToastButton = context.webdriver.findElement({ css: '[data-tid="show-instance-toast"]' });
 
       await context.webdriver.actions({ bridge: true }).click(showStaticToastButton).perform();
       await delay(1000);
       const staticToast = await context.takeScreenshot();
 
-      const closeFirstToast = context.webdriver.findElement({ css: '[data-tid~="ToastView__close"]' });
+      const closeFirstToast = context.webdriver.findElement({ css: '[data-tid="ToastView__close"]' });
       await context.webdriver
         .actions({ bridge: true })
         .click(closeFirstToast)

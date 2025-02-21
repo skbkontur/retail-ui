@@ -67,10 +67,10 @@ describe('SingleToast', () => {
     render(
       <>
         <SingleToast />
-        <Button data-tid="with-cross" onClick={() => SingleToast.push('Static SingleToast', null, 5000, true)}>
+        <Button onClick={() => SingleToast.push('Static SingleToast', null, 5000, true)}>
           Показать статический тост c крестиком
         </Button>
-        <Button data-tid="without-cross" onClick={() => SingleToast.push('Static SingleToast', null, 5000, false)}>
+        <Button onClick={() => SingleToast.push('Static SingleToast', null, 5000, false)}>
           Показать статический тост без крестика
         </Button>
       </>,
