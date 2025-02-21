@@ -283,6 +283,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
       rel = href && isExternalLink(href) ? 'noopener noreferrer' : this.props.rel,
       isNotSelectable,
       children,
+      className: unusedClasses,
+      style,
+      'data-tid': dataTid,
       ...rest
     } = this.props;
 
@@ -327,7 +330,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
           hover: this.isHover,
           selected: this.isSelected,
         })}
-        {...rest}
+        {...this.props}
       >
         <Component
           ref={this.setRootRef}
