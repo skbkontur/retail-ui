@@ -84,6 +84,13 @@ describe('MenuItem', () => {
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
+  it('has correct data-tid', () => {
+    const customDataTid = 'custom-data-tid';
+    render(<MenuItem data-tid={customDataTid} />);
+
+    expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+  });
+
   describe('a11y', () => {
     it('props aria-describedby applied correctly', () => {
       render(
