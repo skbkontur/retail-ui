@@ -274,6 +274,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
+  public _anchorForAttachRef: Nullable<React.ReactElement<any, string | React.JSXElementConstructor<any>>>;
   private absoluteParent: Nullable<HTMLDivElement> = null;
 
   public componentDidMount() {
@@ -377,14 +378,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       anchor = <span>{anchorElement}</span>;
     }
 
+    this._anchorForAttachRef = anchor;
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: (instance: Nullable<React.ReactInstance>) => {
-              this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref as React.RefCallback<any>;
-              originalRef && callChildRef(originalRef, instance);
-            },
+            ref: this.attachRefCallback,
           } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
 
@@ -402,6 +400,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       ? this.renderWithoutPortal(renderAnchor, renderRef)
       : this.renderInPortal(renderAnchor, renderRef);
   }
+
+  private attachRefCallback = (instance: Nullable<React.ReactInstance>) => {
+    this.updateAnchorElement(instance);
+    const originalRef = (this._anchorForAttachRef as React.RefAttributes<any>)?.ref as React.RefCallback<any>;
+    originalRef && callChildRef(originalRef, instance);
+  };
 
   private renderInPortal = (anchor: React.ReactNode, ref: null | LegacyRef<RenderContainer>) => {
     const { location } = this.state;
