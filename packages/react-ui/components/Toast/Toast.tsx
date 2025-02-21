@@ -26,6 +26,7 @@ export interface ToastState {
   action: Nullable<Action>;
   id: number;
   showTime: Nullable<number>;
+  showCloseButton?: boolean;
 }
 
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
@@ -63,8 +64,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 
-  public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
-    ToastStatic.push(notification, action, showTime);
+  public static push(notification: string, action?: Nullable<Action>, showTime?: number, showCloseButton?: boolean) {
+    ToastStatic.push(notification, action, showTime, showCloseButton);
   }
 
   public static close() {
@@ -82,6 +83,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       action: null,
       id: 0,
       showTime: null,
+      showCloseButton: false,
     };
   }
 
@@ -117,15 +119,16 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
    * @param {number} showTime Время существования Toast в миллисекундах
+   * @param {boolean} showCloseButton Добавляет крестик для закрытия тоста. При указывании action в onPush крестик отображается всегда.
    */
-  public push(notification: string, action?: Nullable<Action>, showTime?: number) {
+  public push(notification: string, action?: Nullable<Action>, showTime?: number, showCloseButton?: boolean) {
     if (this.state.notification) {
       this.close();
     }
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(({ id }) => ({ notification, action, id: id + 1, showTime }), this._setTimer);
+    this.setState(({ id }) => ({ notification, action, id: id + 1, showTime, showCloseButton }), this._setTimer);
   }
 
   /**
@@ -137,7 +140,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   };
 
   private _renderToast() {
-    const { notification, action, id } = this.state;
+    const { notification, action, id, showCloseButton } = this.state;
 
     if (!notification) {
       return null;
@@ -150,6 +153,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       children: notification,
       'aria-label': this.props['aria-label'],
       action,
+      showCloseButton,
     };
 
     return (
