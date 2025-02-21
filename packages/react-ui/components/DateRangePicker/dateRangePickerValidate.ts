@@ -4,14 +4,15 @@ import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { isGreater } from '../../lib/date/comparison';
 
 export function dateRangePickerValidate(
-  [start, end]: string[],
+  startValue = '',
+  endValue = '',
   { startOptional = false, endOptional = false, minDate = MIN_FULLDATE, maxDate = MAX_FULLDATE },
 ) {
-  if ((!startOptional && !start) || (!endOptional && !end)) {
+  if ((!startOptional && !startValue) || (!endOptional && !endValue)) {
     return [false, false];
   }
 
-  if (isGreater(start, end)) {
+  if (isGreater(startValue, endValue)) {
     return [false, false];
   }
 
@@ -22,8 +23,8 @@ export function dateRangePickerValidate(
     .setRangeStart(new InternalDate({ value: minDate }))
     .setRangeEnd(new InternalDate({ value: maxDate }));
 
-  const startValidation = checkDate(internalDate.parseValue(start));
-  const endValidation = checkDate(internalDate.parseValue(end));
+  const startValidation = checkDate(internalDate.parseValue(startValue));
+  const endValidation = checkDate(internalDate.parseValue(endValue));
 
   return [startValidation, endValidation];
 }

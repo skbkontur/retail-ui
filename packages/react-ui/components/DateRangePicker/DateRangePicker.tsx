@@ -36,42 +36,21 @@ import { dateRangePickerValidate } from './dateRangePickerValidate';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
-  start: 'DateRangePicker__from',
-  end: 'DateRangePicker__to',
+  start: 'DateRangePicker__start',
+  end: 'DateRangePicker__end',
   popup: 'DateRangePicker__popup',
   calendar: 'DateRangePicker__calendar',
-  pickerTodayWrapper: 'DateRangePicker__todayWrapper',
-  optionalStartFieldButton: 'DateRangePicker__optionalStartFieldButton',
-  optionalEndFieldButton: 'DateRangePicker__optionalEndFieldButton',
+  todayButton: 'DateRangePicker__todayButton',
+  startOptionalButton: 'DateRangePicker__startOptionalButton',
+  endOptionalButton: 'DateRangePicker__endOptionalButton',
 } as const;
 
 export interface DateRangePickerProps
   extends CommonProps,
     Pick<
       DatePickerProps,
-      | 'minDate'
-      | 'maxDate'
-      | 'size'
-      | 'renderDay'
-      | 'menuPos'
-      | 'menuAlign'
-      | 'useMobileNativeDatePicker'
-      | 'autoFocus'
-      | 'enableTodayLink'
-      | 'onBlur'
-      | 'onFocus'
-      | 'onMouseEnter'
-      | 'onMouseLeave'
-      | 'onMouseOver'
-      | 'onMonthChange'
+      'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
     > {
-  /** Даты начала и окончания `[ dd.mm.yyyy, dd.mm.yyyy ]` */
-  value: string[];
-  /** Открытые периоды начала и окончания */
-  optional?: boolean[];
-  warning?: boolean[];
-  disabled?: boolean[];
-  error?: boolean[];
   /**
    * Элементы DateRangePicker:
    * `<DateRangePicker.Start />`
@@ -79,7 +58,6 @@ export interface DateRangePickerProps
    * `<DateRangePicker.End />`
    */
   children: React.ReactNode;
-  onValueChange: (value: string[]) => void;
 }
 
 export const DateRangePicker = Object.assign(
@@ -93,20 +71,25 @@ export const DateRangePicker = Object.assign(
     const { isMobile } = useResponsiveLayout();
     const locale = useLocaleForControl('DateRangePicker', DatePickerLocaleHelper);
 
+    const [startValue, setStartValue] = useState('');
+    const [startOptional, setStartOptional] = useState(false);
+    const [startDisabled, setStartDisabled] = useState(false);
+
+    const [endValue, setEndValue] = useState('');
+    const [endOptional, setEndOptional] = useState(false);
+    const [endDisabled, setEndDisabled] = useState(false);
+
+    const [minDate, setMinDate] = useState('');
+    const [maxDate, setMaxDate] = useState('');
+
     const [hoveredDay, setHoveredDay] = useState<string | null>(null);
     const [showCalendar, setShowCalendar] = useState<boolean>(false);
     const [focusField, setFocusField] = useState<DateRangePickerFieldType | null>(null);
 
-    const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const startRef = useRef<DateInput>(null);
     const endRef = useRef<DateInput>(null);
+    const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const calendarRef = useRef<Calendar>(null);
-    const calendarContainerRef = useRef<HTMLDivElement>(null);
-
-    const [start, end] = props.value;
-    const setValue = props.onValueChange;
-    const setStart = (date = '') => props.onValueChange([date, end]);
-    const setEnd = (date = '') => props.onValueChange([start, date]);
 
     const open = (fieldType: DateRangePickerFieldType = 'start') => {
       setFocusField(fieldType);
@@ -138,12 +121,12 @@ export const DateRangePicker = Object.assign(
     const setEmpty = (type: DateRangePickerFieldType) => {
       switch (type) {
         case 'start':
-          setStart('');
+          setStartValue('');
           focus('end');
           break;
 
         case 'end':
-          setEnd('');
+          setEndValue('');
           close();
           break;
       }
@@ -160,20 +143,23 @@ export const DateRangePicker = Object.assign(
     );
 
     const dateRangePickerContextProps: DateRangePickerContextProps = {
-      start,
-      end,
-      minDate: props.minDate,
-      maxDate: props.maxDate,
+      startValue,
+      startOptional,
+      startDisabled,
+      endValue,
+      endOptional,
+      endDisabled,
+      minDate,
+      maxDate,
       size: props.size,
-      disabled: props.disabled,
-      autoFocus: props.autoFocus,
-      warning: props.warning,
-      error: props.error,
-      onValueChange: props.onValueChange,
-      onFocus: props.onFocus,
-      onBlur: props.onBlur,
-      setStart,
-      setEnd,
+      setStartValue,
+      setStartOptional,
+      setStartDisabled,
+      setEndValue,
+      setEndOptional,
+      setEndDisabled,
+      setMinDate,
+      setMaxDate,
       setFocusField,
       open,
       close,
@@ -185,8 +171,8 @@ export const DateRangePicker = Object.assign(
     const renderCalendar = (theme: Theme, widthAuto = false) => (
       <Calendar
         value={null}
-        minDate={props.minDate}
-        maxDate={props.maxDate}
+        minDate={minDate}
+        maxDate={maxDate}
         renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
         onValueChange={(value) => updateRange(value)}
         ref={calendarRef}
@@ -206,11 +192,11 @@ export const DateRangePicker = Object.assign(
           props.enableTodayLink && (
             <div style={{ margin: 8 }}>
               <Button
-                aria-label={locale.todayAriaLabel}
-                data-tid={DateRangePickerDataTids.pickerTodayWrapper}
                 width="100%"
-                onClick={() => updateRange(today)}
                 icon={<ArrowAUpIcon16Light />}
+                aria-label={locale.todayAriaLabel}
+                data-tid={DateRangePickerDataTids.todayButton}
+                onClick={() => updateRange(today)}
               >
                 {locale.today}
               </Button>
@@ -221,24 +207,20 @@ export const DateRangePicker = Object.assign(
 
       const renderOptionalButtons = () => (
         <>
-          {focusField === 'start' && props.optional?.[0] && (
+          {focusField === 'start' && startOptional && (
             <div style={{ margin: 8 }}>
               <Button
                 width="100%"
-                data-tid={DateRangePickerDataTids.optionalStartFieldButton}
+                data-tid={DateRangePickerDataTids.startOptionalButton}
                 onClick={() => setEmpty('start')}
               >
                 {locale.withoutFirstDate}
               </Button>
             </div>
           )}
-          {focusField === 'end' && props.optional?.[1] && (
+          {focusField === 'end' && endOptional && (
             <div style={{ margin: 8 }}>
-              <Button
-                width="100%"
-                data-tid={DateRangePickerDataTids.optionalEndFieldButton}
-                onClick={() => setEmpty('end')}
-              >
+              <Button width="100%" data-tid={DateRangePickerDataTids.endOptionalButton} onClick={() => setEmpty('end')}>
                 {locale.withoutSecondDate}
               </Button>
             </div>
@@ -246,26 +228,26 @@ export const DateRangePicker = Object.assign(
         </>
       );
 
-      const hasOptionalButtons = props.optional?.find(Boolean);
+      const hasOptionalButtons = startOptional || endOptional;
       return hasOptionalButtons ? renderOptionalButtons() : renderTodayLink();
     };
 
     const renderNativeDateInput = () => (
       <>
         <NativeDateInput
-          value={start}
-          minDate={props.minDate}
-          maxDate={props.maxDate}
-          onValueChange={(date) => props.onValueChange([date, end || ''])}
-          disabled={props.disabled?.[0]}
+          value={startValue}
+          minDate={minDate}
+          maxDate={maxDate}
+          onValueChange={setStartValue}
+          disabled={startDisabled}
         />
         <DateRangePicker.Separator />
         <NativeDateInput
-          value={end}
-          minDate={props.minDate}
-          maxDate={props.maxDate}
-          onValueChange={(date) => props.onValueChange([start || '', date])}
-          disabled={props.disabled?.[1]}
+          value={endValue}
+          minDate={minDate}
+          maxDate={maxDate}
+          onValueChange={setEndValue}
+          disabled={endDisabled}
         />
       </>
     );
@@ -275,14 +257,7 @@ export const DateRangePicker = Object.assign(
         {(theme) => (
           <ThemeContext.Provider value={getDateRangePickerTheme(theme)}>
             <CommonWrapper {...props}>
-              <div
-                className={styles.root()}
-                data-tid={DateRangePickerDataTids.root}
-                onMouseEnter={props.onMouseEnter}
-                onMouseLeave={props.onMouseLeave}
-                onMouseOver={props.onMouseOver}
-                ref={dateRangePickerRef}
-              >
+              <div className={styles.root()} data-tid={DateRangePickerDataTids.root} ref={dateRangePickerRef}>
                 <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
                   <div
                     className={cx(
@@ -305,23 +280,28 @@ export const DateRangePicker = Object.assign(
                               opened
                               headerChildComponent={
                                 <div className={styles.inputWrapper()} style={{ width: '100%' }}>
-                                  <DateRangePicker.Start
+                                  <DateInput
+                                    withIcon
+                                    value={startValue}
                                     width="auto"
                                     size="medium"
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusField === 'start' })}
+                                    disabled={startDisabled}
+                                    onValueChange={setStartValue}
                                   />
                                   <DateRangePicker.Separator />
-                                  <DateRangePicker.End
+                                  <DateInput
+                                    withIcon
+                                    value={endValue}
                                     width="auto"
                                     size="medium"
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusField === 'end' })}
+                                    disabled={endDisabled}
+                                    onValueChange={setEndValue}
                                   />
                                 </div>
                               }
-                              onCloseRequest={() => {
-                                close();
-                                props.onBlur?.();
-                              }}
+                              onCloseRequest={() => close()}
                               footerChildComponent={renderButtons()}
                             >
                               <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
@@ -340,11 +320,7 @@ export const DateRangePicker = Object.assign(
                                 anchorElement={getRootNode(dateRangePickerRef.current)}
                                 margin={parseInt(theme.datePickerMenuOffsetY)}
                               >
-                                <div
-                                  className={styles.calendarWrapper(theme)}
-                                  onMouseDown={(e) => e.preventDefault()}
-                                  ref={calendarContainerRef}
-                                >
+                                <div className={styles.calendarWrapper(theme)} onMouseDown={(e) => e.preventDefault()}>
                                   {renderCalendar(theme)}
                                   {renderButtons()}
                                 </div>
@@ -362,77 +338,81 @@ export const DateRangePicker = Object.assign(
     );
 
     function updateRange(date: string) {
-      if ((props.minDate && isLess(date, props.minDate)) || (props.maxDate && isGreater(date, props.maxDate))) {
+      if ((minDate && isLess(date, minDate)) || (maxDate && isGreater(date, maxDate))) {
         return;
       }
 
       const handleInitialPeriod = (date: string) => {
         if (focusField === 'start') {
-          setStart(date);
+          setStartValue(date);
           focus('end');
         } else {
-          setEnd(date);
+          setEndValue(date);
           focus('start');
         }
       };
 
       const handlePartialPeriod = (date: string) => {
         if (focusField === 'start') {
-          if (start) {
-            setStart(date);
+          if (startValue) {
+            setStartValue(date);
             focus('end');
             return;
           }
 
-          if (end && isGreater(date, end)) {
-            setValue([date, '']);
+          if (endValue && isGreater(date, endValue)) {
+            setStartValue(date);
+            setEndValue('');
             focus('end');
             return;
           }
 
-          setStart(date);
+          setStartValue(date);
           close();
         } else if (focusField === 'end') {
-          if (end) {
-            setEnd(date);
+          if (endValue) {
+            setEndValue(date);
             focus('start');
             return;
           }
 
-          if (start && isLess(date, start)) {
-            setValue([date, '']);
+          if (startValue && isLess(date, startValue)) {
+            setStartValue(date);
+            setEndValue('');
             focus('end');
             return;
           }
 
-          setEnd(date);
+          setEndValue(date);
           close();
         }
       };
 
       const handleFullPeriod = (date: string) => {
         if (focusField === 'start') {
-          if (end && isLessOrEqual(date, end)) {
-            setStart(date);
+          if (endValue && isLessOrEqual(date, endValue)) {
+            setStartValue(date);
             close();
           } else {
-            setValue([date, '']);
+            setStartValue(date);
+            setEndValue('');
             focus('end');
           }
         } else if (focusField === 'end') {
-          if (start && isGreaterOrEqual(date, start)) {
-            setEnd(date);
+          if (startValue && isGreaterOrEqual(date, startValue)) {
+            setEndValue(date);
             close();
           } else {
-            setValue([date, '']);
+            setStartValue(date);
+            setEndValue('');
             focus('end');
           }
         }
       };
 
-      if (!start && !end) {
+      if (!startValue && !endValue) {
         handleInitialPeriod(date);
-      } else if ((start && !end) || (!start && end)) {
+      } else if ((startValue && !endValue) || (!startValue && endValue)) {
         handlePartialPeriod(date);
       } else {
         handleFullPeriod(date);
@@ -446,16 +426,16 @@ export const DateRangePicker = Object.assign(
     ) {
       const day = props.date;
 
-      const isDayFirst = start === day;
-      const isDayLast = end === day;
-      const isDayInPeriod = Boolean(start && end && isBetween(day, start, end));
+      const isDayFirst = startValue === day;
+      const isDayLast = endValue === day;
+      const isDayInPeriod = Boolean(startValue && endValue && isBetween(day, startValue, endValue));
 
       const hasHoveredDay = hoveredDay !== null;
       const isDayInHoveredPeriod =
         hasHoveredDay &&
         Boolean(
-          (focusField === 'start' && end && isBetween(day, hoveredDay, end)) ||
-            (focusField === 'end' && start && isBetween(day, start, hoveredDay)),
+          (focusField === 'start' && endValue && isBetween(day, hoveredDay, endValue)) ||
+            (focusField === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
         );
 
       let hasLeftRoundings;
@@ -463,14 +443,14 @@ export const DateRangePicker = Object.assign(
 
       if (hasHoveredDay) {
         // TODO: check if start / end not setted
-        const isDayBeforeFirstInPeriod = start ? isLess(hoveredDay, start) : end;
-        const isDayAfterLastInPeriod = end ? isGreater(hoveredDay, end) : start;
+        const isDayBeforeFirstInPeriod = startValue ? isLess(hoveredDay, startValue) : endValue;
+        const isDayAfterLastInPeriod = endValue ? isGreater(hoveredDay, endValue) : startValue;
 
-        if (isDayFirst && (isGreaterOrEqual(hoveredDay, start) || focusField === 'end')) {
+        if (isDayFirst && (isGreaterOrEqual(hoveredDay, startValue) || focusField === 'end')) {
           hasLeftRoundings = true;
         }
 
-        if (isDayLast && (isLessOrEqual(hoveredDay, end) || focusField === 'start')) {
+        if (isDayLast && (isLessOrEqual(hoveredDay, endValue) || focusField === 'start')) {
           hasRightRoundings = true;
         }
 
@@ -520,7 +500,7 @@ export const DateRangePicker = Object.assign(
     }
 
     function scrollToMonth(fieldType: DateRangePickerFieldType) {
-      const date = fieldType === 'start' ? start : end;
+      const date = fieldType === 'start' ? startValue : endValue;
       if (date) {
         const [, month, year] = date.split('.').map(Number);
         if (month) {
