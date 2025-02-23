@@ -36,7 +36,6 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
     startRef,
     endRef,
   } = useContext(DateRangePickerContext);
-
   const isStart = props.type === 'start';
   const isEnd = props.type === 'end';
   const { isMobile } = useResponsiveLayout();
@@ -56,13 +55,13 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
   }, []);
 
   useEffect(() => {
-    if (isStart && startValue) {
+    if (isStart && startValue !== null) {
       props.onValueChange(startValue);
     }
   }, [startValue]);
 
   useEffect(() => {
-    if (isEnd && endValue) {
+    if (isEnd && endValue !== null) {
       props.onValueChange(endValue);
     }
   }, [endValue]);
@@ -71,6 +70,7 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
     withIcon: true,
     size,
     ...props,
+    value: props.value,
     onValueChange: (value) => {
       if (isStart) {
         setStartValue(value || '');
