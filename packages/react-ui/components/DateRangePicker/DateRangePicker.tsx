@@ -108,7 +108,7 @@ export const DateRangePicker = Object.assign(
       // fix DateInput flushSync warning in React 18
       setTimeout(() => {
         fieldRef.current?.focus();
-      });
+      }, 1);
     };
 
     const blur = () => {
