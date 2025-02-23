@@ -111,13 +111,6 @@ export const DateRangePicker = Object.assign(
       }, 1);
     };
 
-    const blur = () => {
-      close();
-      startRef.current?.blur();
-      endRef.current?.blur();
-      setFocusField(null);
-    };
-
     const setEmpty = (type: DateRangePickerFieldType) => {
       switch (type) {
         case 'start':
@@ -135,8 +128,8 @@ export const DateRangePicker = Object.assign(
     useImperativeHandle(
       ref,
       () => ({
-        focus,
-        blur,
+        open,
+        close,
         getRootNode: () => dateRangePickerRef.current,
       }),
       [],
