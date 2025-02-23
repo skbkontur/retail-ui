@@ -251,7 +251,7 @@ export const Validations: Story = () => {
   const tooltipProps = {
     render: () => (
       <>
-        Укажите дату в промежутке
+        Укажите даты в промежутке
         <br />
         {minDate}—{maxDate}
         <br />в формате ДД.ММ.ГГГГ
