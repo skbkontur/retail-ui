@@ -78,6 +78,7 @@ const PASS_BUTTON_PROPS = {
   use: true,
   size: true,
   warning: true,
+  corners: true,
 
   onMouseEnter: true,
   onMouseLeave: true,
@@ -104,6 +105,9 @@ export interface SelectProps<TValue, TItem>
 
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
+
+  /** @ignore */
+  corners?: React.CSSProperties;
 
   /** Задает значение по умолчанию. */
   defaultValue?: TValue;
