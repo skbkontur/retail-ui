@@ -300,7 +300,7 @@ describe('ComboBox', () => {
       act(() => {
         fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape', code: 'Escape' });
       });
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
       fireEvent.blur(screen.getByRole('textbox'));
       await delay(0);
@@ -409,12 +409,12 @@ describe('ComboBox', () => {
     await delay(0);
 
     expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
     await delay(1000);
 
     expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
   });
 
   it('does not highlight menu item on focus with empty input', async () => {
@@ -566,13 +566,13 @@ describe('ComboBox', () => {
     it('closes', () => {
       comboboxRef?.current?.open();
       comboboxRef?.current?.close();
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
     });
 
     it('closes on clickOutside', () => {
       comboboxRef?.current?.open();
       clickOutside();
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
     });
   });
 
@@ -674,7 +674,7 @@ describe('ComboBox', () => {
       it('opens menu if it is closed', async () => {
         comboboxRef.current?.close();
 
-        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
         await userEvent.click(screen.getByRole('textbox'));
         await delay(0);
@@ -686,7 +686,7 @@ describe('ComboBox', () => {
       it('runs empty search if menu is closed', async () => {
         comboboxRef.current?.close();
         delay(0);
-        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
         await userEvent.click(screen.getByRole('textbox'));
         expect(getItems).toHaveBeenCalledWith('');
@@ -709,7 +709,7 @@ describe('ComboBox', () => {
         comboboxRef.current?.close();
         await userEvent.click(screen.getByRole('textbox'));
 
-        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
       });
 
       it("doesn't run search if menu is closed", async () => {
