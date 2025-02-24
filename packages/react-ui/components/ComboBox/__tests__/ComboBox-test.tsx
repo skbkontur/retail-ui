@@ -276,11 +276,11 @@ describe('ComboBox', () => {
   it('navigation from Tab open dropdown', async () => {
     render(
       <>
-        <Input />
+        <Input data-tid="test-input" />
         <ComboBox getItems={() => Promise.resolve([])} />
       </>,
     );
-    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByTestId('test-input'));
     await userEvent.keyboard('{tab}');
     expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
   });
