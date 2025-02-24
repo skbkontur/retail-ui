@@ -63,10 +63,12 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 
+  /** @deprecated use non-static method of Toast or static method of SingleToast */
   public static push(notification: string, action?: Nullable<Action>, showTime?: number) {
     ToastStatic.push(notification, action, showTime);
   }
 
+  /** @deprecated use non-static method of Toast or static method of SingleToast */
   public static close() {
     ToastStatic.close();
   }
