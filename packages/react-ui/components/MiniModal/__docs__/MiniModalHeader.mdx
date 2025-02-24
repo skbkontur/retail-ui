@@ -1,5 +1,8 @@
 import { ArgTypes } from '@storybook/blocks';
 
+import { linkTo } from '@storybook/addon-links';
+import { Link } from '../../Link';
+
 import * as MiniModalHeaderStories from '../__docs__/MiniModalHeader.docs.stories.tsx';
 
 import { Meta } from '../../../.storybook/Meta';
@@ -8,7 +11,7 @@ import { Meta } from '../../../.storybook/Meta';
 
 # MiniModalHeader
 
-Обёртка над Modal.Header
+Обёртка над <Link onClick={linkTo('Overlay/Modal/ModalHeader')}>Modal.Header</Link>
 
 ## Пропы
 

@@ -7,6 +7,7 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 import { componentsLocales as PasswordInputLocaleEn } from '../locale/locales/en';
 import { componentsLocales as PasswordInputLocaleRu } from '../locale/locales/ru';
+import * as listenFocusOutside from '../../../lib/listenFocusOutside';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', async () => {
@@ -200,5 +201,13 @@ describe('PasswordInput', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
     });
+  });
+
+  it('RenderLayer not listen blur in default view', async () => {
+    const focusOutsideListener = jest.spyOn(listenFocusOutside, 'listen');
+
+    render(<PasswordInput />);
+
+    expect(focusOutsideListener).not.toHaveBeenCalled();
   });
 });

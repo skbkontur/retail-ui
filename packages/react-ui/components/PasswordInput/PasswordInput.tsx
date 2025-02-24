@@ -28,6 +28,7 @@ export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, 
 
 export interface PasswordInputState {
   visible: boolean;
+  focused: boolean;
   capsLockEnabled?: boolean | null;
 }
 
@@ -65,6 +66,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   public state: PasswordInputState = {
     visible: false,
+    focused: false,
     capsLockEnabled: false,
   };
 
@@ -123,7 +125,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
    * @public
    */
   public blur = () => {
-    this.handleBlur();
+    if (this.input) {
+      this.input.blur();
+    }
   };
 
   private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -162,18 +166,32 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleToggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocus);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.focusOnInput);
   };
 
-  private handleFocus = () => {
+  private focusOnInput = () => {
     if (this.input) {
       this.input.focus();
     }
   };
 
-  private handleBlur = () => {
-    if (this.input) {
-      this.input.blur();
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.state.focused) {
+      return;
+    }
+
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  };
+
+  private handleFocusOutside = () => {
+    this.hideSymbols();
+
+    if (this.state.focused) {
+      this.setState({ focused: false });
     }
   };
 
@@ -229,10 +247,15 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
+      onFocus: this.handleFocus,
     };
 
     return (
-      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
+      <RenderLayer
+        active={this.state.focused}
+        onFocusOutside={this.handleFocusOutside}
+        onClickOutside={this.handleFocusOutside}
+      >
         <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>

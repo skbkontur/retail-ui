@@ -1,4 +1,8 @@
 import { Meta } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link';
+import { linkTo } from '@storybook/addon-links';
+import { Story } from '@storybook/blocks';
+import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 
 <Meta title="Displaying/Feature flags" />
 
@@ -26,7 +30,17 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
 ## Использование
 
-### Нет доступных фиче-флагов
+### dropdownsDoNotOpenOnFocusByValidation
+
+В случае получения фокуса из валидации формы, на контролах <Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link>, <Link onClick={linkTo('Input data/DatePicker')}>DatePicker</Link> автоматически не откроется popup.
+
+#### Combobox
+
+<Story of={FeatureFlagsStories.ExampleCombobox} />
+
+#### DatePicker
+
+<Story of={FeatureFlagsStories.ExampleDatePicker} />
 
 ## Объект со всеми флагами
 

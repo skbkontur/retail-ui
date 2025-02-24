@@ -18,7 +18,7 @@ interface RadioGroupStoryState {
   sex: Nullable<Sex>;
 }
 
-export const Example1 = () => {
+export const RadioGroupWithItemsProp = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [sex, setSex] = useState<Nullable<Sex>>(null);
 
@@ -30,7 +30,7 @@ export const Example1 = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, width: 300, height: 250 }}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validateSex()}>
           <RadioGroup<RadioGroupStoryState['sex']>
@@ -41,14 +41,16 @@ export const Example1 = () => {
           />
         </ValidationWrapper>
         <div style={{ padding: '100px 0' }}>
-          <Button onClick={() => refContainer.current?.validate()}>Check</Button>
+          <Button data-tid="button" onClick={() => refContainer.current?.validate()}>
+            Check
+          </Button>
         </div>
       </ValidationContainer>
     </div>
   );
 };
 
-export const RadioGroupWithChildren = () => {
+export const RadioGroupWithChildrenRadio = () => {
   const refContainer = useRef<ValidationContainer>(null);
   const [sex, setSex] = useState<Nullable<Sex>>(null);
 
@@ -60,7 +62,7 @@ export const RadioGroupWithChildren = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, width: 300, height: 250 }}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validateSex()}>
           <RadioGroup<RadioGroupStoryState['sex']> value={sex} onValueChange={setSex}>
@@ -71,7 +73,9 @@ export const RadioGroupWithChildren = () => {
           </RadioGroup>
         </ValidationWrapper>
         <div style={{ padding: '100px 0' }}>
-          <Button onClick={() => refContainer.current?.validate()}>Check</Button>
+          <Button data-tid="button" onClick={() => refContainer.current?.validate()}>
+            Check
+          </Button>
         </div>
       </ValidationContainer>
     </div>

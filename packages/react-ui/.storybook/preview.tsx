@@ -2,6 +2,7 @@ import React from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
+import { DocsContainer } from '@storybook/blocks';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
@@ -36,6 +37,7 @@ import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
 import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
 import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
+import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -83,6 +85,13 @@ const preview: Preview = {
       controls: {
         sort: 'alpha',
       },
+      container: ({ children, context }) => (
+        // prevent sb default font-family and other styles
+        // see https://github.com/storybookjs/storybook/blob/c6b8ca7faec9d6b73f71c112100506ef41dde619/code/lib/blocks/src/components/DocsPage.tsx#L19
+        <div className="sb-unstyled">
+          <DocsContainer context={context}>{children}</DocsContainer>
+        </div>
+      ),
     },
     creevey: {
       captureElement: '#test-element',
@@ -206,6 +215,7 @@ addons.setConfig({
       UiMenuBars3HIcon,
       QuestionCircleIcon,
       LightbulbIcon32Regular,
+      NotificationBellAlarmIcon64Regular,
       ShowcaseGroup,
       ThemeContext,
       ThemeFactory,

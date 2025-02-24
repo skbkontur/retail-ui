@@ -1,12 +1,23 @@
 import { Meta } from '../Meta';
+import { linkTo } from '@storybook/addon-links';
+import { Link } from '../../components/Link';
 
 <Meta title="Information/Mobiles" />
 
 # Адаптивность компонентов
 
-Начиная с версии 4.0 многие компоненты, такие как `Modal`, `SidePage`, `ComboBox`, `Autocomplete`, `Select`, `Hint`, `Tooltip`, `Kebab`, `Dropdown` и `DropdownMenu`, стали адаптивными, получив новую верстку, которая активируются на мобильных устройствах.
+Начиная с версии 4.0 многие компоненты, такие как
 
-Механизм адаптивности основан на [медиазапросах](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries) и управляется переменной темы `mobileMediaQuery`. В зависимости от того, удовлетворяет текущее устройство медиазапросу из переменной или нет, компоненты переходят в мобильный режим и обратно. По умолчанию, значение переменной равно `(max-width: 576px) and (hover: none) and (pointer: coarse)`, т.е. опирается на ширину вьюпорта и наличие сенсорного экрана.
+<Link onClick={linkTo('Overlay/Modal/Modal')}>Modal</Link>,
+<Link onClick={linkTo('Overlay/SidePage/SidePage')}>SidePage</Link>,
+<Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link>,
+<Link onClick={linkTo('Input data/Autocomplete')}>SidePage</Link>,
+<Link onClick={linkTo('Input data/Select')}>SidePage</Link>,<Link onClick={linkTo('Overlay/Hint')}>SidePage</Link>,
+<Link onClick={linkTo('Overlay/Tooltip')}>SidePage</Link>,<Link onClick={linkTo('Menu/Kebab')}>SidePage</Link>,
+<Link onClick={linkTo('Menu/Dropdown')}>Dropdown</Link> и<Link onClick={linkTo('Menu/DropdownMenu')}>DropdownMenu</Link>
+стали адаптивными, получив новую верстку, которая активируются на мобильных устройствах.
+
+Механизм адаптивности основан на [медиазапросах](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries) и управляется переменной темы `mobileMediaQuery`. В зависимости от того, удовлетворяет текущее устройство медиазапросу из переменной или нет, компоненты переходят в мобильный режим и обратно. По умолчанию, значение переменной равно `(max-width: 576px) and (pointer: coarse)`, т.е. опирается на ширину вьюпорта и наличие сенсорного экрана.
 Так же можно передавать свои медиазапросы в хук `useResponsiveLayout` или через проп `options` в ResponsiveLayout.
 
 ## Настройка адаптивности

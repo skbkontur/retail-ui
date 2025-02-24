@@ -1,5 +1,7 @@
 import { Story } from '@storybook/blocks';
 
+import { linkTo } from '@storybook/addon-links';
+import { Link } from '../../../components/Link';
 import { Meta } from '../../Meta';
 
 import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
@@ -32,7 +34,7 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 ### comboBoxAllowValueChangeInEditingState
 
-Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, Combobox примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
+Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, <Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link> примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
 
 В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
 

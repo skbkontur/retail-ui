@@ -39,13 +39,15 @@ export const TwoWordsRequired = () => {
   };
 
   return (
-    <ValidationContainer>
-      <div style={{ padding: 10 }}>
-        <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-      </div>
-    </ValidationContainer>
+    <div style={{ width: 300, height: 80 }}>
+      <ValidationContainer>
+        <div style={{ padding: 10 }}>
+          <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+            <Input data-tid="test-input" value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -54,13 +56,15 @@ export const ReactElementInMessage = () => {
   const [value, setValue] = useState<string>('');
 
   return (
-    <ValidationContainer>
-      <div style={{ padding: 10 }}>
-        <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-      </div>
-    </ValidationContainer>
+    <div style={{ width: 300, height: 80 }}>
+      <ValidationContainer>
+        <div style={{ padding: 10 }}>
+          <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+            <Input data-tid="test-input" value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -72,18 +76,26 @@ export const ScrollMessage = () => {
   const submit = () => refContainer.current?.submit();
 
   return (
-    <ValidationContainer ref={refContainer}>
-      <div style={{ padding: 10 }}>
-        <Button onClick={() => submit()}>Отправить</Button>
-        <div style={{ height: 1000, backgroundColor: '#eee' }} />
-        <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-        <Button onClick={() => submit()}>Отправить</Button>
-        <div style={{ height: 1000, backgroundColor: '#eee' }} />
-        <Button onClick={() => submit()}>Отправить</Button>
-      </div>
-    </ValidationContainer>
+    <div>
+      <ValidationContainer ref={refContainer}>
+        <div data-tid="wrapper-to-scroll" style={{ padding: 10 }}>
+          <Button data-tid="top-submit" onClick={() => submit()}>
+            Отправить
+          </Button>
+          <div style={{ height: 1000, backgroundColor: '#eee' }} />
+          <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+            <Input value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+          <Button data-tid="center-submit" onClick={() => submit()}>
+            Отправить
+          </Button>
+          <div style={{ height: 1000, backgroundColor: '#eee' }} />
+          <Button data-tid="bottom-submit" onClick={() => submit()}>
+            Отправить
+          </Button>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -104,16 +116,20 @@ export const DependentFields = () => {
   };
 
   return (
-    <ValidationContainer ref={refContainer}>
-      <div style={{ padding: 10 }}>
-        <Select<Nullable<Sex>> items={['male', 'female']} value={sex} onValueChange={setSex} />
-        <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
-          <Input value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-        <div style={{ height: 1000, backgroundColor: '#eee' }} />
-        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
-      </div>
-    </ValidationContainer>
+    <div style={{ width: 800, height: 80 }}>
+      <ValidationContainer ref={refContainer}>
+        <div style={{ padding: 10 }}>
+          <Select<Nullable<Sex>> data-tid="select" items={['male', 'female']} value={sex} onValueChange={setSex} />
+          <ValidationWrapper validationInfo={validateValue()} renderMessage={text('bottom')}>
+            <Input data-tid="test-input" value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+          <div style={{ height: 100, backgroundColor: '#eee' }} />
+          <Button data-tid="submit" onClick={() => refContainer.current?.submit()}>
+            Отправить
+          </Button>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -123,24 +139,28 @@ export const ScrollInsideTheContainer = () => {
   const [value, setValue] = useState<string>('');
 
   return (
-    <ValidationContainer ref={refContainer}>
-      <div style={{ padding: 50 }}>
-        <br />
-        <br />
-        <br />
-        <br />
-        <div style={{ height: 300, width: 300, overflow: 'scroll' }}>
-          <div style={{ height: 1000, width: 1000, position: 'relative' }}>
-            <div style={{ position: 'absolute', top: 500, left: 500 }}>
-              <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
-                <Input value={value} onValueChange={setValue} />
-              </ValidationWrapper>
+    <div style={{ width: 250, height: 500 }}>
+      <ValidationContainer ref={refContainer}>
+        <div style={{ padding: 50 }}>
+          <br />
+          <br />
+          <br />
+          <br />
+          <div style={{ height: 300, width: 300, overflow: 'scroll' }}>
+            <div style={{ height: 1000, width: 1000, position: 'relative' }}>
+              <div style={{ position: 'absolute', top: 500, left: 500 }}>
+                <ValidationWrapper validationInfo={validateValue(value)} renderMessage={text('bottom')}>
+                  <Input value={value} onValueChange={setValue} />
+                </ValidationWrapper>
+              </div>
             </div>
           </div>
+          <Button data-tid="submit" onClick={() => refContainer.current?.submit()}>
+            Отправить
+          </Button>
         </div>
-        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
-      </div>
-    </ValidationContainer>
+      </ValidationContainer>
+    </div>
   );
 };
 
@@ -171,7 +191,7 @@ export const SelectFirstControlForValidation = () => {
   };
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
+    <div style={{ height: '300', width: '300' }}>
       <ValidationContainer ref={refContainer}>
         <div style={{ padding: 50, height: 200, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 100 }}>
@@ -185,7 +205,9 @@ export const SelectFirstControlForValidation = () => {
             </ValidationWrapper>
           </div>
         </div>
-        <Button onClick={() => refContainer.current?.submit()}>Отправить</Button>
+        <Button data-tid="submit" onClick={() => refContainer.current?.submit()}>
+          Отправить
+        </Button>
       </ValidationContainer>
     </div>
   );
@@ -266,14 +288,16 @@ export const ScrollWithFixedPlaceBottom = () => {
             height: 80,
           }}
         >
-          <Button onClick={() => submit()}>Отправить снизу</Button>
+          <Button data-tid="submit" onClick={() => submit()}>
+            Отправить снизу
+          </Button>
         </div>
       </ValidationContainer>
     </div>
   );
 };
 
-// #9 lostfocus не срабатывает после первого рендера
+// #9 lostfocus не срабатывает после первого рендера  И так тестится
 export const LostfocusNotWorkAfterFirstRender = () => {
   const [value, setValue] = useState<string>('');
 
@@ -326,38 +350,43 @@ export const ValidationWithLevelWarning = () => {
   };
 
   return (
-    <ValidationContainer ref={refContainer}>
-      <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
-        <Input
-          placeholder={'Только цифры'}
-          value={immediate}
-          onValueChange={(value) => handleChange(() => setImmediate(value))}
-        />
-      </ValidationWrapper>
+    <div style={{ width: 350, height: 150 }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validate(immediate, 'immediate')}>
+          <Input
+            data-tid="immediate-validation-input"
+            placeholder={'Только цифры'}
+            value={immediate}
+            onValueChange={(value) => handleChange(() => setImmediate(value))}
+          />
+        </ValidationWrapper>
 
-      <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
-        <Input
-          placeholder={'Только цифры'}
-          value={lostfocus}
-          onValueChange={(value) => handleChange(() => setLostfocus(value))}
-        />
-      </ValidationWrapper>
+        <ValidationWrapper validationInfo={validate(lostfocus, 'lostfocus')}>
+          <Input
+            data-tid="lostfocus-validation-input"
+            placeholder={'Только цифры'}
+            value={lostfocus}
+            onValueChange={(value) => handleChange(() => setLostfocus(value))}
+          />
+        </ValidationWrapper>
 
-      <ValidationWrapper validationInfo={validate(submit, 'submit')}>
-        <Input
-          placeholder={'Только цифры'}
-          value={submit}
-          onValueChange={(value) => handleChange(() => setSubmit(value))}
-        />
-      </ValidationWrapper>
+        <ValidationWrapper validationInfo={validate(submit, 'submit')}>
+          <Input
+            data-tid="submit-validation-input"
+            placeholder={'Только цифры'}
+            value={submit}
+            onValueChange={(value) => handleChange(() => setSubmit(value))}
+          />
+        </ValidationWrapper>
 
-      <Gapped wrap verticalAlign="middle">
-        <Button use={'primary'} onClick={handleSubmit}>
-          Submit
-        </Button>
-        {renderFormState()}
-      </Gapped>
-    </ValidationContainer>
+        <Gapped wrap verticalAlign="middle">
+          <Button data-tid="submit" use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+          {renderFormState()}
+        </Gapped>
+      </ValidationContainer>
+    </div>
   );
 };
 

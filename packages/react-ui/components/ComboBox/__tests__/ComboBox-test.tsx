@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { HTMLProps } from '../../../typings/html';
-import { InputDataTids } from '../../Input';
+import { Input, InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -273,6 +273,56 @@ describe('ComboBox', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
+  it('navigation from Tab open dropdown', async () => {
+    render(
+      <>
+        <Input />
+        <ComboBox getItems={() => Promise.resolve([])} />
+      </>,
+    );
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.keyboard('{tab}');
+    expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+  });
+
+  describe('call focus with param withoutOpenDropdown=true', () => {
+    beforeEach(async () => {
+      render(
+        <ComboBox
+          ref={comboboxRef}
+          getItems={() => Promise.resolve([{ value: 'one', label: 'one' }])}
+          key="ComboBox"
+        />,
+      );
+      comboboxRef.current?.focus({ withoutOpenDropdown: true });
+    });
+
+    it('do not open dropdown', async () => {
+      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('click on input should open dropdown', async () => {
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
+
+    it('arrow down should open dropdown', async () => {
+      await userEvent.keyboard('{arrowdown}');
+      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
+
+    it('arrow up should open dropdown', async () => {
+      await userEvent.keyboard('{arrowup}');
+      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
+
+    it('edit value should open dropdown', async () => {
+      await userEvent.keyboard('1');
+      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+    });
+  });
+
   describe('onBlur callback', () => {
     const onBlur = jest.fn();
     const [search, promise] = searchFactory(Promise.resolve(['item']));
@@ -291,7 +341,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
 
-      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      expect(screen.queryByTestId(InputDataTids.root)).not.toBeInTheDocument();
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
 
@@ -1299,7 +1349,7 @@ describe('ComboBox', () => {
           <p id="elementId">Description</p>
         </div>,
       );
-      const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
+      const comboBox = screen.getByRole('textbox');
       expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
       expect(comboBox).toHaveAccessibleDescription('Description');
     });
@@ -1351,7 +1401,7 @@ describe('ComboBox', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
     comboboxRef.current?.blur();
     await delay(0);
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    expect(screen.queryByTestId(InputDataTids.root)).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 

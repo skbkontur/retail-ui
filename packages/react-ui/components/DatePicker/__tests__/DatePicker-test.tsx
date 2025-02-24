@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { act, render, screen, waitFor, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Input } from '../../Input';
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
 import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
@@ -101,6 +102,54 @@ describe('DatePicker', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('navigation from Tab open calendar', async () => {
+    render(
+      <>
+        <Input />
+        <DatePicker value="02.07.2017" onValueChange={jest.fn()} />
+      </>,
+    );
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.keyboard('{tab}');
+    expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+  });
+
+  describe('call focus with param withoutOpenDropdown=true', () => {
+    beforeEach(() => {
+      const datePickerRef = React.createRef<DatePicker>();
+      render(
+        <>
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />
+        </>,
+      );
+      datePickerRef.current?.focus({ withoutOpenDropdown: true });
+    });
+
+    it('do not open Calendar', async () => {
+      expect(screen.queryByTestId(DatePickerDataTids.root)).not.toBeInTheDocument();
+    });
+
+    it('click on input should open Calendar', async () => {
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
+
+    it('arrow down should open Calendar', async () => {
+      await userEvent.keyboard('{arrowdown}');
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
+
+    it('arrow up should open Calendar', async () => {
+      await userEvent.keyboard('{arrowup}');
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
+
+    it('edit value should open Calendar', async () => {
+      await userEvent.keyboard('01');
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
   });
 
   it('renders day cells with renderDay prop', async () => {
