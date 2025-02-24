@@ -22,9 +22,9 @@ export const REACT_UI_THEME_MARKERS = {
     key: '__IS_REACT_UI_DARK_THEME__',
     value: true,
   },
-  theme2022: {
-    key: '__IS_REACT_UI_THEME_2022__',
-    value: true,
+  themeVersion: {
+    key: '__REACT_UI_THEME_VERSION__',
+    value: { major: 0, minor: 0 },
   },
 };
 
@@ -47,10 +47,10 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
-export const markAsTheme2022: Marker = (theme) => {
+export const markThemeVersion: (major: number, minor: number) => Marker = (major: number, minor: number) => (theme) => {
   return Object.create(theme, {
-    [REACT_UI_THEME_MARKERS.theme2022.key]: {
-      value: REACT_UI_THEME_MARKERS.theme2022.value,
+    [REACT_UI_THEME_MARKERS.themeVersion.key]: {
+      value: { major, minor },
       writable: false,
       enumerable: false,
       configurable: false,
@@ -58,9 +58,21 @@ export const markAsTheme2022: Marker = (theme) => {
   });
 };
 
-export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
+export const isThemeVersionGTE = (theme: Theme | ThemeIn, major: number, minor: number): boolean => {
   // @ts-expect-error: internal value.
-  return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
+  const themeVersion: { major: number; minor: number } | undefined = theme[REACT_UI_THEME_MARKERS.themeVersion.key];
+
+  if (!themeVersion) {
+    return false;
+  }
+
+  if (themeVersion.major > major) {
+    return true;
+  } else if (themeVersion.major === major) {
+    return themeVersion.minor >= minor;
+  }
+
+  return false;
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {
@@ -75,10 +87,26 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
   return {};
 }
 
-export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
-  let markedTheme: Readonly<Theme> = theme;
-  markers.forEach((marker) => {
-    markedTheme = marker(theme);
-  });
-  return markedTheme;
+export function applyMarkers<T extends object>(theme: T, markers: Markers): T {
+  return markers.reduce((markedTheme, marker) => {
+    return marker(markedTheme);
+  }, Object.create(theme));
+}
+
+export function createThemeFromClass<T extends object, P extends object>(
+  themeObject: T,
+  options?: {
+    prototypeTheme?: P;
+    themeMarkers?: Markers;
+  },
+) {
+  const { prototypeTheme, themeMarkers = [] } = options || {};
+
+  if (prototypeTheme) {
+    Object.setPrototypeOf(themeObject, prototypeTheme);
+  }
+
+  const theme = applyMarkers(exposeGetters(themeObject), themeMarkers);
+
+  return Object.freeze(theme);
 }
