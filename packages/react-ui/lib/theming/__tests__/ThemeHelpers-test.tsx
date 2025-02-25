@@ -1,6 +1,6 @@
 import {
   applyMarkers,
-  createThemeFromClass,
+  createTheme,
   exposeGetters,
   isDarkTheme,
   isThemeVersionGTE,
@@ -13,13 +13,13 @@ import { ThemeFactory } from '../ThemeFactory';
 import { AnyObject } from '../../utils';
 import { BasicTheme, BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
 
-const TestTheme = createThemeFromClass(
-  class extends BasicThemeClassForExtension {
+const TestTheme = createTheme({
+  themeClass: class extends BasicThemeClassForExtension {
     public static bgDefault = 'default';
     public static bgSecondary = 'default';
   },
-  { prototypeTheme: BasicTheme },
-);
+  prototypeTheme: BasicTheme,
+});
 
 describe('ThemeHelpers', () => {
   describe('exposeGetters', () => {
@@ -39,15 +39,16 @@ describe('ThemeHelpers', () => {
     });
   });
 
-  describe('createThemeFromClass', () => {
-    const theme = createThemeFromClass(
-      class extends BasicThemeClassForExtension {
+  describe('createTheme', () => {
+    const theme = createTheme({
+      themeClass: class extends BasicThemeClassForExtension {
         public static get errorText() {
           return this.black + this.blue;
         }
       },
-      { prototypeTheme: BasicTheme, themeMarkers: [markAsDarkTheme, markThemeVersion(1, 0)] },
-    );
+      prototypeTheme: BasicTheme,
+      themeMarkers: [markAsDarkTheme, markThemeVersion(5, 0)],
+    });
 
     test('should inherit prototype theme', () => {
       expect(theme.errorText).toBe(BasicTheme.black + BasicTheme.blue);

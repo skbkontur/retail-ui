@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 
 import { ThemeContext } from '../ThemeContext';
-import { applyMarkers, createThemeFromClass, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
+import { applyMarkers, createTheme, Marker, REACT_UI_THEME_MARKERS } from '../ThemeHelpers';
 import { ThemeFactory } from '../ThemeFactory';
 import { Theme } from '../Theme';
 import { AnyObject } from '../../utils';
@@ -34,13 +34,13 @@ const getConsumedTheme = () => {
 
 // test theme
 const myTheme = { brand: 'custom', bgDefault: 'custom' } as const;
-const TestTheme = createThemeFromClass(
-  class extends BasicThemeClassForExtension {
+const TestTheme = createTheme({
+  themeClass: class extends BasicThemeClassForExtension {
     public static bgDefault = 'default';
     public static bgSecondary = 'default';
   },
-  { prototypeTheme: BasicTheme },
-);
+  prototypeTheme: BasicTheme,
+});
 
 // test marker
 const markAsTest: Marker = (theme) => {

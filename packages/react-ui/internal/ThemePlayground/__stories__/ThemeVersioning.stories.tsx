@@ -2,7 +2,8 @@
 import React, { CSSProperties } from 'react';
 
 import { Story, Meta } from '../../../typings/stories';
-import { createThemeFromClass, isThemeVersionGTE, markThemeVersion } from '../../../lib/theming/ThemeHelpers';
+import { createTheme, isThemeVersionGTE, markThemeVersion } from '../../../lib/theming/ThemeHelpers';
+import { BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
 
 export default {
   title: 'ThemeVersions/Test',
@@ -15,7 +16,7 @@ export default {
   },
 } as Meta;
 
-class TestThemeClass {
+class TestThemeClass extends BasicThemeClassForExtension {
   public static color = 'initial';
   public static textTransform = 'none';
   public static fontStyle = 'normal';
@@ -23,23 +24,25 @@ class TestThemeClass {
 
 type TestThemeIn = Partial<typeof TestThemeClass>;
 
-const TEST_THEME_BASIC = createThemeFromClass(TestThemeClass);
+const TEST_THEME_BASIC = createTheme({ themeClass: TestThemeClass });
 
-const TEST_THEME_1_0 = createThemeFromClass(
-  class extends (class {} as typeof TestThemeClass) {
+const TEST_THEME_1_0 = createTheme({
+  themeClass: class extends (class {} as typeof TestThemeClass) {
     public static color = 'red';
     public static textTransform = 'lowercase';
   },
-  { themeMarkers: [markThemeVersion(1, 0)], prototypeTheme: TEST_THEME_BASIC },
-);
+  themeMarkers: [markThemeVersion(1, 0)],
+  prototypeTheme: TEST_THEME_BASIC,
+});
 
-const TEST_THEME_1_1 = createThemeFromClass(
-  class extends (class {} as typeof TestThemeClass) {
+const TEST_THEME_1_1 = createTheme({
+  themeClass: class extends (class {} as typeof TestThemeClass) {
     public static color = 'green';
     public static fontStyle = 'italic';
   },
-  { themeMarkers: [markThemeVersion(1, 1)], prototypeTheme: TEST_THEME_1_0 },
-);
+  themeMarkers: [markThemeVersion(1, 1)],
+  prototypeTheme: TEST_THEME_1_0,
+});
 
 const Component = ({ theme }: { theme: TestThemeIn }) => {
   const styles = {

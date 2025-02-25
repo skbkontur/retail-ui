@@ -1,9 +1,9 @@
-import { markAsDarkTheme, createThemeFromClass, markThemeVersion } from '../../lib/theming/ThemeHelpers';
+import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
 import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme';
 
-export const DarkTheme5_0 = createThemeFromClass(
-  class DarkTheme5_0 extends BasicThemeClassForExtension {
+export const DarkTheme5_0 = createTheme({
+  themeClass: class DarkTheme5_0 extends BasicThemeClassForExtension {
     //#region Common variables
     public static grayXLight = '#313131';
     public static gray = 'rgba(255, 255, 255, 0.48)';
@@ -551,8 +551,6 @@ export const DarkTheme5_0 = createThemeFromClass(
     public static validationsTextColorWarning = '#fdd481';
     //#endregion
   },
-  {
-    prototypeTheme: BasicTheme,
-    themeMarkers: [markAsDarkTheme, markThemeVersion(5, 0)],
-  },
-);
+  prototypeTheme: BasicTheme,
+  themeMarkers: [markAsDarkTheme, markThemeVersion(5, 0)],
+});
