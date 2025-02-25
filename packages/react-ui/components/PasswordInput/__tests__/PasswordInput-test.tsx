@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
+import { InputDataTids } from '../../Input';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 import { componentsLocales as PasswordInputLocaleEn } from '../locale/locales/en';
@@ -141,6 +142,14 @@ describe('PasswordInput', () => {
     render(<PasswordInput value={'input'} />);
 
     expect(screen.getByTestId(PasswordInputDataTids.eyeIcon)).toHaveAttribute('type', 'button');
+  });
+
+  it('has correct data-tids', () => {
+    const customDataTid = 'custom-data-tid';
+    render(<PasswordInput data-tid={customDataTid} />);
+
+    expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+    expect(screen.getByTestId(InputDataTids.root)).toBeInTheDocument();
   });
 
   describe('a11y', () => {
