@@ -2,17 +2,34 @@ import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } f
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { isGreater } from '../../lib/date/comparison';
+import { Nullable } from '../../typings/utility-types';
+
+interface ValidationOptions {
+  startOptional?: boolean,
+  endOptional?: boolean,
+  minDate?: string,
+  maxDate?: string
+};
+
+const defaultOptions: ValidationOptions = {
+  startOptional: false,
+  endOptional: false,
+  minDate: MIN_FULLDATE,
+  maxDate: MAX_FULLDATE,
+};
 
 export function dateRangePickerValidate(
-  startValue = '',
-  endValue = '',
-  { startOptional = false, endOptional = false, minDate = MIN_FULLDATE, maxDate = MAX_FULLDATE },
+  startValue: Nullable<string>,
+  endValue: Nullable<string>,
+  options: ValidationOptions = defaultOptions,
 ) {
+  const { startOptional, endOptional, minDate, maxDate } = { ...defaultOptions, ...options };
+
   if ((!startOptional && !startValue) || (!endOptional && !endValue)) {
     return [false, false];
   }
 
-  if (isGreater(startValue, endValue)) {
+  if (isGreater(startValue || '', endValue || '')) {
     return [false, false];
   }
 
