@@ -11,6 +11,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
+import { isThemeVersionGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -155,6 +156,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
           {this.renderClose(fixed)}
           <div
             className={cx(styles.title(this.theme), {
+              [styles.title5_1(this.theme)]: isThemeVersionGTE(this.theme, 5, 1),
               [styles.mobileTitle(this.theme)]: this.isMobileLayout,
               [styles.titleFixed()]: fixed,
             })}
@@ -172,8 +174,11 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     return (
       <div
         className={cx(styles.wrapperClose(this.theme), {
+          [styles.wrapperClose5_1(this.theme)]: isThemeVersionGTE(this.theme, 5, 1),
           [styles.wrapperCloseFixed(this.theme)]: fixed,
+          [styles.wrapperCloseFixed5_1(this.theme)]: fixed && isThemeVersionGTE(this.theme, 5, 1),
           [styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
+          [styles.mobileWrapperClose5_1(this.theme)]: this.isMobileLayout && isThemeVersionGTE(this.theme, 5, 1),
         })}
       >
         {this.isMobileLayout ? (
