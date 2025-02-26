@@ -10,15 +10,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Priority, ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import {
-  getRandomID,
-  isFunction,
-  isNonNullable,
-  isNullable,
-  isRefableElement,
-  mergeRefs,
-  mergeRefsMemo,
-} from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -37,6 +29,7 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { mergeRefs } from '../../lib/mergeRefs';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -279,7 +272,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private refForTransition = React.createRef<HTMLDivElement>();
   private hasAnchorElementListeners = false;
   private rootId = PopupIds.root + getRandomID();
-  private useMemoRefs = mergeRefsMemo();
 
   public anchorElement: Nullable<Element> = null;
   private absoluteParent: Nullable<HTMLDivElement> = null;
@@ -388,7 +380,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: this.useMemoRefs(
+            ref: mergeRefs(
               (anchor as React.RefAttributes<this>)?.ref as React.RefCallback<this>,
               this.updateAnchorElement,
             ),
@@ -528,7 +520,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <div
         className={styles.content(this.theme)}
         data-tid={PopupDataTids.content}
-        ref={mergeRefs([this.refForTransition, this.refPopupContentElement])}
+        ref={mergeRefs(this.refForTransition, this.refPopupContentElement)}
       >
         <div
           className={styles.contentInner(this.theme)}
