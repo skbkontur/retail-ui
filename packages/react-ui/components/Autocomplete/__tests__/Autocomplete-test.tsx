@@ -4,7 +4,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
-import { InputDataTids } from '../../../components/Input';
+import { Input, InputDataTids } from '../../../components/Input';
 import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay, clickOutside } from '../../../lib/utils';
 
@@ -165,9 +165,18 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes showCleanCross prop to input', async () => {
-    render(<Autocomplete showCleanCross value="hello" onValueChange={jest.fn()} source={[]} />);
-    await userEvent.click(screen.getByRole('textbox'));
-    expect(screen.queryByTestId(InputDataTids.cleanCross)).toBeInTheDocument();
+    const ControlledAutocomplete = () => {
+      const [value, setValue] = useState<string>('hello');
+      return <Input showCleanCross="always" value={value} onValueChange={setValue} />;
+    };
+    render(<ControlledAutocomplete />);
+
+    const cleanCross = screen.getByTestId(InputDataTids.cleanCross);
+    expect(cleanCross).toBeInTheDocument();
+    await userEvent.click(cleanCross);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+    expect(cleanCross).not.toBeInTheDocument();
   });
 
   it('passes id prop to input', () => {

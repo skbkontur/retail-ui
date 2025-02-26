@@ -976,20 +976,7 @@ export const ComboboxWithCleanCross: Story = () => {
   };
   return (
     <Gapped>
-      <ComboBox
-        showCleanCross
-        getItems={getItems}
-        size="small"
-        onValueChange={(value) => console.log('получено: ' + value + '.')}
-      />
-      <ComboBox
-        showCleanCross
-        getItems={getItems}
-        size="large"
-        value={value}
-        onValueChange={setValue}
-        placeholder="Управляемый"
-      />
+      <ComboBox showCleanCross="always" getItems={getItems} value={value} onValueChange={setValue} />
     </Gapped>
   );
 };

@@ -538,47 +538,4 @@ kind('ComboBox', () => {
       await context.matchImage(await context.takeScreenshot(), 'ClickedAll');
     });
   });
-
-  story('ComboboxWithCleanCross', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
-    test('idle', async (context) => {
-      const comboboxes = await context.webdriver.findElements({ css: '[data-tid="InputLikeText__root"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(comboboxes[0])
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('f')
-        .perform();
-      await delay(500);
-      const crossAppeared = await context.takeScreenshot();
-
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="InputLayout__cross"]' }))
-        .perform();
-      await delay(500);
-      const inputCleaned = await context.takeScreenshot();
-
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.TAB)
-        .pause(200)
-        .sendKeys(Key.TAB)
-        .perform();
-      await delay(500);
-      const tabFocused = await context.takeScreenshot();
-
-      await context.matchImages({ crossAppeared, inputCleaned, tabFocused });
-    });
-  });
 });

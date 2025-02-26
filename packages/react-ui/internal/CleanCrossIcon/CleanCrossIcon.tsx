@@ -57,6 +57,7 @@ export const CleanCrossIcon: React.FunctionComponent<CleanCrossIconProps> = ({ s
   return (
     <CommonWrapper {...rest}>
       <button
+        type="button"
         tabIndex={-1}
         className={cx(
           styles.root(theme),
@@ -70,9 +71,7 @@ export const CleanCrossIcon: React.FunctionComponent<CleanCrossIconProps> = ({ s
         onBlur={handleBlur}
         {...rest}
       >
-        <span className={styles.wrapper()}>
-          <CrossIcon size={size} focusable />
-        </span>
+        <CrossIcon size={size} focusable />
       </button>
     </CommonWrapper>
   );

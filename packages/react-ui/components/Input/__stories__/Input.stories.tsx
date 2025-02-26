@@ -459,20 +459,15 @@ export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type=
 
 export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
 
-export const CleanCross: Story = () => {
-  const [valueSmall, setValueSmall] = React.useState('Меленький, управляемый');
-  const [valueLarge, setValueLarge] = React.useState('Большой, управляемый');
+export const CleanCrossSizes: Story = () => {
+  const [valueSmall, setValueSmall] = React.useState('Small');
+  const [valueMedium, setValueMedium] = React.useState('Medium');
+  const [valueLarge, setValueLarge] = React.useState('Large');
   return (
     <Gapped vertical gap={5}>
-      <Input showCleanCross size="small" value={valueSmall} onValueChange={setValueSmall} data-tid="small-controlled" />
-      <Input
-        showCleanCross
-        size="medium"
-        onValueChange={(value) => console.log('получено: ' + value + '.')}
-        data-tid="medium-uncontrolled"
-        placeholder={'Средний, неуправляемый'}
-      />
-      <Input showCleanCross size="large" value={valueLarge} onValueChange={setValueLarge} data-tid="large-controlled" />
+      <Input showCleanCross="always" size="small" value={valueSmall} onValueChange={setValueSmall} />
+      <Input showCleanCross="always" size="medium" value={valueMedium} onValueChange={setValueMedium} />
+      <Input showCleanCross="always" size="large" value={valueLarge} onValueChange={setValueLarge} />
     </Gapped>
   );
 };

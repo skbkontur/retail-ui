@@ -35,7 +35,7 @@ export interface InputLikeTextProps extends CommonProps, Omit<InputProps, 'showC
   takeContentWidth?: boolean;
 }
 
-export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder' | 'needsShowCleanCross'>;
+export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder' | 'cleanCrossShowed'>;
 
 export const InputLikeTextDataTids = {
   root: 'InputLikeText__root',

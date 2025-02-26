@@ -1404,6 +1404,61 @@ describe('ComboBox', () => {
       expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
     });
   });
+
+  describe('with clean cross', () => {
+    it('cleans controlled combobox', async () => {
+      const ControlledCombobox = () => {
+        const [value, setValue] = React.useState({
+          value: 2,
+          label: 'Second',
+        });
+        const getItems = (q: string) => {
+          return Promise.resolve(
+            [
+              {
+                value: 1,
+                label: 'First',
+              },
+              {
+                value: 2,
+                label: 'Second',
+              },
+            ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+          );
+        };
+        return <ComboBox getItems={getItems} showCleanCross="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledCombobox />);
+
+      expect(screen.getByText('Second')).toBeInTheDocument();
+      const cross = screen.getByTestId(InputDataTids.cleanCross);
+      await userEvent.click(cross);
+      expect(screen.queryByText('Second')).not.toBeInTheDocument();
+    });
+
+    it('cleans uncontrolled combobox', async () => {
+      const testValues = [
+        { value: '1', label: 'One' },
+        { value: '2', label: 'Two' },
+        { value: '3', label: 'Three' },
+        { value: '4', label: 'Four' },
+      ];
+      const getItems = jest.fn((searchQuery) =>
+        Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+      );
+      render(<ComboBox showCleanCross="always" getItems={getItems} ref={comboboxRef} />);
+
+      comboboxRef.current?.focus();
+      await userEvent.type(screen.getByRole('textbox'), 'z');
+      expect(screen.getByRole('textbox')).toHaveValue('z');
+      const cross = screen.getByTestId(InputDataTids.cleanCross);
+      expect(cross).toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(cross).not.toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveValue('');
+    });
+  });
 });
 
 describe('mobile comboBox', () => {

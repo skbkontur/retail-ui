@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input, InputIconType } from '../../components/Input';
+import { Input, InputIconType, ShowCleanCross } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
@@ -62,7 +62,7 @@ export interface CustomComboBoxProps<T>
   size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
-  showCleanCross?: boolean;
+  showCleanCross?: ShowCleanCross;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -293,6 +293,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
+      onCleanCrossClick: () => this.dispatch({ type: 'CleanCrossClick' }),
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });

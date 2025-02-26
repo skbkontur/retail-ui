@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { CleanCrossIcon } from '../CleanCrossIcon';
-import userEvent from '@testing-library/user-event';
 
 describe('CleanCrossIcon', () => {
   it('focuses on click', async () => {

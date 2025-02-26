@@ -3,7 +3,7 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
-import { InputIconType } from '../Input';
+import { InputIconType, ShowCleanCross } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -14,7 +14,7 @@ export interface ComboBoxProps<T>
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
   /** Устанавливает иконку крестика, при нажатии на который комбобокс очищается. */
-  showCleanCross?: boolean;
+  showCleanCross?: ShowCleanCross;
 
   /** Задает выравнивание контента. */
   align?: 'left' | 'center' | 'right';
@@ -173,7 +173,14 @@ export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxProps<T>,
-    'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'menuAlign' | 'searchOnFocus' | 'drawArrow'
+    | 'itemToValue'
+    | 'valueToString'
+    | 'renderValue'
+    | 'renderItem'
+    | 'menuAlign'
+    | 'searchOnFocus'
+    | 'drawArrow'
+    | 'showCleanCross'
   >
 >;
 
@@ -200,6 +207,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
+    showCleanCross: 'never',
   };
 
   private getProps = createPropsGetter(ComboBox.defaultProps);

@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
-import { Input, InputIconType, InputProps } from '../../components/Input';
+import { Input, InputDataTids, InputIconType, InputProps, ShowCleanCross } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -21,6 +21,7 @@ import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../ZIndex';
+import { CleanCrossIcon } from '../CleanCrossIcon/CleanCrossIcon';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -57,7 +58,7 @@ interface ComboBoxViewProps<T>
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
-  showCleanCross?: boolean;
+  showCleanCross?: ShowCleanCross;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -78,6 +79,7 @@ interface ComboBoxViewProps<T>
   onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
+  onCleanCrossClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
@@ -107,6 +109,7 @@ type DefaultProps<T> = Required<
     | 'onFocusOutside'
     | 'size'
     | 'width'
+    | 'showCleanCross'
   >
 >;
 
@@ -116,6 +119,7 @@ export const ComboBoxViewIds = {
 
 interface ComboBoxViewState {
   anchorElement: Nullable<Element>;
+  cleanCrossShowed: boolean;
 }
 
 @responsiveLayout
@@ -138,6 +142,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     },
     size: 'small',
     width: 250,
+    showCleanCross: 'never',
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
@@ -152,6 +157,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   public state = {
     anchorElement: null,
+    cleanCrossShowed: this.props.showCleanCross === 'always' && !!this.props.value?.toString(),
   };
 
   public componentDidMount() {
@@ -437,6 +443,17 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     if (loading && items && !!items.length) {
       return <LoadingIcon size={size} />;
+    }
+
+    if (this.getProps().showCleanCross !== 'never' && this.state.cleanCrossShowed) {
+      return (
+        <CleanCrossIcon
+          data-tid={InputDataTids.cleanCross}
+          size={size}
+          onFocus={(event) => event.stopPropagation()}
+          onClick={this.props.onCleanCrossClick}
+        />
+      );
     }
 
     if (rightIcon || drawArrow) {

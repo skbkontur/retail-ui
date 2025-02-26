@@ -12,6 +12,9 @@ export const styles = memoizeStyle({
       &:hover {
         color: ${t.cleanCrossIconHoverColor};
       }
+      display: flex;
+      justify-content: center;
+      align-items: center;
     `;
   },
 
@@ -25,14 +28,6 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.cleanCrossIconHoverColor};
       box-shadow: ${t.cleanCrossIconFocusShadow};
-    `;
-  },
-
-  wrapper() {
-    return css`
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
     `;
   },
 
