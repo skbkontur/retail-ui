@@ -5,11 +5,11 @@ import { isGreater } from '../../lib/date/comparison';
 import { Nullable } from '../../typings/utility-types';
 
 interface ValidationOptions {
-  startOptional?: boolean,
-  endOptional?: boolean,
-  minDate?: string,
-  maxDate?: string
-};
+  startOptional?: boolean;
+  endOptional?: boolean;
+  minDate?: string;
+  maxDate?: string;
+}
 
 const defaultOptions: ValidationOptions = {
   startOptional: false,
@@ -25,11 +25,19 @@ export function dateRangePickerValidate(
 ) {
   const { startOptional, endOptional, minDate, maxDate } = { ...defaultOptions, ...options };
 
-  if ((!startOptional && !startValue) || (!endOptional && !endValue)) {
-    return [false, false];
+  if (startOptional && !startValue && endOptional && !endValue) {
+    return [true, true];
   }
 
-  if (isGreater(startValue || '', endValue || '')) {
+  const isStartRequiredAndEmpty = !startOptional && !startValue;
+  const isEndRequiredAndEmpty = !endOptional && !endValue;
+
+  if (isStartRequiredAndEmpty || isEndRequiredAndEmpty) {
+    return [!isStartRequiredAndEmpty, !isEndRequiredAndEmpty];
+  }
+
+  const isValuesRequired = !startOptional && !endOptional;
+  if (isValuesRequired && isGreater(startValue || '', endValue || '')) {
     return [false, false];
   }
 
@@ -40,10 +48,10 @@ export function dateRangePickerValidate(
     .setRangeStart(new InternalDate({ value: minDate }))
     .setRangeEnd(new InternalDate({ value: maxDate }));
 
-  const startValidation = checkDate(internalDate.parseValue(startValue));
-  const endValidation = checkDate(internalDate.parseValue(endValue));
+  const isStartValid = startValue ? checkDate(internalDate.parseValue(startValue)) : true;
+  const isEndValid = endValue ? checkDate(internalDate.parseValue(endValue)) : true;
 
-  return [startValidation, endValidation];
+  return [isStartValid, isEndValid];
 }
 
 function checkDate(internalDate: InternalDate) {
