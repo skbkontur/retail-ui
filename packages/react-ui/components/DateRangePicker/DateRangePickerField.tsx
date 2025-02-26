@@ -8,9 +8,9 @@ import { DateRangePickerDataTids } from './DateRangePicker';
 
 export type DateRangePickerFieldType = 'start' | 'end';
 
-export interface DateRangePickerFieldProps extends DateInputProps {
+export interface DateRangePickerFieldProps extends Omit<DateInputProps, 'value'> {
   type: DateRangePickerFieldType;
-  value: string;
+  value?: string | null;
   optional?: boolean;
   onValueChange: (value: string) => void;
 }
@@ -105,9 +105,13 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
 
   switch (props.type) {
     case 'start':
-      return <DateInput {...commonProps} data-tid={DateRangePickerDataTids.start} ref={startRef} />;
+      return (
+        <DateInput {...commonProps} value={props.value || ''} data-tid={DateRangePickerDataTids.start} ref={startRef} />
+      );
 
     case 'end':
-      return <DateInput {...commonProps} data-tid={DateRangePickerDataTids.end} ref={endRef} />;
+      return (
+        <DateInput {...commonProps} value={props.value || ''} data-tid={DateRangePickerDataTids.end} ref={endRef} />
+      );
   }
 }
