@@ -1,6 +1,5 @@
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
-import { InputMask, MaskedPatternOptions } from 'imask';
-import { IMaskInput, IMaskInputProps } from 'react-imask';
+import type { InputMask, MaskedPatternOptions } from '@lossir/imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import {
@@ -16,6 +15,8 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag } from '../../lib/events/MouseDrag';
+
+import { IMaskInput, type IMaskInputProps } from './IMaskInput';
 
 export type FixedIMaskInputProps = IMaskInputProps<HTMLInputElement>;
 
