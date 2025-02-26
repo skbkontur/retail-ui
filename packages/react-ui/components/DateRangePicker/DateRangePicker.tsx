@@ -43,6 +43,8 @@ export const DateRangePickerDataTids = {
   todayButton: 'DateRangePicker__todayButton',
   startOptionalButton: 'DateRangePicker__startOptionalButton',
   endOptionalButton: 'DateRangePicker__endOptionalButton',
+  mobileStart: 'DateRangePicker__mobileStart',
+  mobileEnd: 'DateRangePicker__mobileEnd',
 } as const;
 
 export interface DateRangePickerProps
@@ -281,6 +283,7 @@ export const DateRangePicker = Object.assign(
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusField === 'start' })}
                                     disabled={startDisabled}
                                     onValueChange={setStartValue}
+                                    data-tid={DateRangePickerDataTids.mobileStart}
                                   />
                                   <DateRangePicker.Separator />
                                   <DateInput
@@ -291,6 +294,7 @@ export const DateRangePicker = Object.assign(
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusField === 'end' })}
                                     disabled={endDisabled}
                                     onValueChange={setEndValue}
+                                    data-tid={DateRangePickerDataTids.mobileEnd}
                                   />
                                 </div>
                               }
