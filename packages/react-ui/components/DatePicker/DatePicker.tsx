@@ -200,6 +200,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
   private readonly locale!: DatePickerLocale;
+  private canOpenPopup = true;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -269,14 +270,18 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   /**
    * @public
    */
-  public focus() {
+  public focus(opts?: { withoutOpenDropdown?: boolean }) {
     if (this.props.disabled) {
       return;
     }
+
+    if (opts?.withoutOpenDropdown) {
+      this.canOpenPopup = false;
+    }
+
     if (this.input) {
       this.input.focus();
     }
-    this.handleFocus();
   }
 
   /**
@@ -393,6 +398,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           onBlur={isMobile ? undefined : this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
+          onClick={this.openPickerPopup}
+          onKeyDown={this.handleKeyDown}
           data-tid={DatePickerDataTids.input}
         />
         {this.state.canUseMobileNativeDatePicker ? (
@@ -409,6 +416,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       </label>
     );
   };
+
   private parseValueToDate(value?: Nullable<string>): string | undefined {
     if (value === undefined || value === null) {
       return undefined;
@@ -458,17 +466,35 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     this.input = ref;
   };
 
+  private openPickerPopup = () => {
+    this.setState({ opened: true });
+  };
+
   private handleFocus = () => {
     if (this.focused) {
       return;
     }
 
-    this.focused = true;
+    if (!this.canOpenPopup) {
+      this.canOpenPopup = true;
+    } else {
+      this.openPickerPopup();
+    }
 
-    this.setState({ opened: true });
+    this.focused = true;
 
     if (this.props.onFocus) {
       this.props.onFocus();
+    }
+  };
+
+  private handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!this.state.opened) {
+      this.openPickerPopup();
+    }
+
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
     }
   };
 

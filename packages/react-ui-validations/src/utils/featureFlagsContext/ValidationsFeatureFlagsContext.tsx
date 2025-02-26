@@ -1,10 +1,12 @@
 import React from 'react';
 
-export type FeatureFlags = '';
+export interface ValidationsFeatureFlags {
+  dropdownsDoNotOpenOnFocusByValidation?: boolean;
+}
 
-export type ValidationsFeatureFlags = Partial<Record<FeatureFlags, boolean>>;
-
-export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {};
+export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
+  dropdownsDoNotOpenOnFocusByValidation: false,
+};
 
 export const ValidationsFeatureFlagsContext =
   React.createContext<ValidationsFeatureFlags>(validationsFeatureFlagsDefault);
