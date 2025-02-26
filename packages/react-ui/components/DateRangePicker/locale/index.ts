@@ -6,7 +6,7 @@ import { DateRangePickerLocale } from './types';
 
 export * from './types';
 
-export const DatePickerLocaleHelper = new LocaleHelper<DateRangePickerLocale>({
+export const DateRangePickerLocaleHelper = new LocaleHelper<DateRangePickerLocale>({
   ru_RU,
   en_GB,
 });
