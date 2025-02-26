@@ -21,6 +21,7 @@ import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { LocaleContext } from '../../lib/locale';
 
 import { getFontSize, styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
@@ -164,17 +165,30 @@ export const DateRangePicker = Object.assign(
     };
 
     const renderCalendar = (theme: Theme, widthAuto = false) => (
-      <Calendar
-        value={null}
-        minDate={minDate}
-        maxDate={maxDate}
-        renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
-        onValueChange={(value) => updateRange(value)}
-        ref={calendarRef}
-        data-tid={DateRangePickerDataTids.calendar}
-        onMonthChange={props.onMonthChange}
-        className={cx({ [styles.calendarWidthAuto()]: widthAuto })}
-      />
+      <LocaleContext.Provider
+        value={{
+          locale: {
+            Calendar: {
+              months: locale.months,
+              dayCellChooseDateAriaLabel: locale.dayCellChooseDateAriaLabel,
+              selectMonthAriaLabel: locale.selectMonthAriaLabel,
+              selectYearAriaLabel: locale.selectYearAriaLabel,
+              selectChosenAriaLabel: locale.selectChosenAriaLabel,
+            },
+          },
+        }}
+      >
+        <Calendar
+          value={focusField === 'start' ? startValue : endValue}
+          minDate={minDate}
+          maxDate={maxDate}
+          renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
+          onValueChange={(value) => updateRange(value)}
+          ref={calendarRef}
+          onMonthChange={props.onMonthChange}
+          className={cx({ [styles.calendarWidthAuto()]: widthAuto })}
+        />
+      </LocaleContext.Provider>
     );
 
     const renderButtons = () => {
