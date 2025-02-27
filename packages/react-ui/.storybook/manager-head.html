@@ -29,4 +29,14 @@
   #storybook-explorer-searchfield {
     border-radius: 2px;
   }
+
+  /* Disable Storybook's sidebar hotkey '1' that conflicts with DateInput typing */
+  /* TODO: remove hack after fix <DateInput> onKeyDown behaviour in IF-2158 */
+  #storybook-explorer-menu {
+    visibility: hidden !important;
+  }
+
+  #storybook-explorer-menu > * {
+    visibility: visible !important;
+  }
 </style>
