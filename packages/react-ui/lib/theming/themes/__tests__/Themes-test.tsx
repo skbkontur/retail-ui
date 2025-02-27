@@ -1,4 +1,4 @@
-import { isDarkTheme, isThemeVersionGTE } from '../../ThemeHelpers';
+import { isDarkTheme, isThemeVersion } from '../../ThemeHelpers';
 import { DARK_THEME } from '../DarkTheme';
 import { LIGHT_THEME } from '../LightTheme';
 import * as DarkThemeImports from '../DarkTheme';
@@ -26,7 +26,7 @@ describe('themes', () => {
 
   describe('versions', () => {
     test.each(ALL_THEMES)('$name has a version', ({ theme }) => {
-      expect(isThemeVersionGTE(theme, 0, 0)).toBe(true);
+      expect(isThemeVersion(theme, '0.0')).toBe(true);
     });
 
     test.each(THEMES_WITH_VERSIONS_IN_NAMES)('name of $name matches its version: $version', ({ theme, version }) => {
@@ -35,8 +35,8 @@ describe('themes', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { major, minor } = version!;
 
-      expect(isThemeVersionGTE(theme, major, minor)).toBe(true);
-      expect(isThemeVersionGTE(theme, major, minor + 1)).toBe(false);
+      expect(isThemeVersion(theme, `${BigInt(major)}.${BigInt(minor)}`)).toBe(true);
+      expect(isThemeVersion(theme, `${BigInt(major)}.${BigInt(minor + 1)}`)).toBe(false);
     });
 
     describe('latests', () => {
@@ -74,6 +74,7 @@ describe('themes', () => {
         name                   | version
         ${'LIGHT_THEME'}       | ${null}
         ${'LIGHT_THEME_1'}     | ${null}
+        ${'LIGHT_THEME_1_X'}   | ${null}
         ${'LIGHT_THEME_1_0'}   | ${{ major: 1, minor: 0 }}
         ${'LIGHT_THEME_1_0_0'} | ${{ major: 0, minor: 0 }}
         ${'LIGHT_THEME_10_10'} | ${{ major: 10, minor: 10 }}

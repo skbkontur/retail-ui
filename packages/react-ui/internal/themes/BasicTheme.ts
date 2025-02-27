@@ -1,4 +1,4 @@
-import { createThemeFromClass } from '../../lib/theming/ThemeHelpers';
+import { createTheme } from '../../lib/theming/ThemeHelpers';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 export class BasicThemeClass {
@@ -2501,6 +2501,6 @@ export class BasicThemeClass {
   //#endregion
 }
 
-export const BasicTheme = createThemeFromClass(BasicThemeClass);
+export const BasicTheme = createTheme({ themeClass: BasicThemeClass });
 
 export const BasicThemeClassForExtension = class {} as typeof BasicThemeClass;

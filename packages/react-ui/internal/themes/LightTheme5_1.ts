@@ -1,10 +1,10 @@
-import { createThemeFromClass, markThemeVersion } from '../../lib/theming/ThemeHelpers';
+import { createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
 import { BasicThemeClassForExtension } from './BasicTheme';
 import { LightTheme5_0 } from './LightTheme5_0';
 
-export const LightTheme5_1 = createThemeFromClass(
-  class LightTheme5_1 extends BasicThemeClassForExtension {
+export const LightTheme5_1 = createTheme({
+  themeClass: class LightTheme5_1 extends BasicThemeClassForExtension {
     public static modalCloseButtonClickAreaTop = '30px';
     public static modalCloseButtonClickAreaBottom = '22px';
     public static modalCloseButtonClickAreaLeft = '24px';
@@ -36,8 +36,6 @@ export const LightTheme5_1 = createThemeFromClass(
     public static sidePageCloseButtonWrapperFixedOffsetTop = '4px';
     public static sidePageCloseButtonWrapperOffsetTop = '2px';
   },
-  {
-    prototypeTheme: LightTheme5_0,
-    themeMarkers: [markThemeVersion(5, 1)],
-  },
-);
+  prototypeTheme: LightTheme5_0,
+  themeMarkers: [markThemeVersion('5.1')],
+});
