@@ -32,10 +32,6 @@ export const DarkTheme5_1 = createThemeFromClass(
     public static get sidePageCloseButtonClickAreaRight() {
       return this.modalCloseButtonClickAreaRight;
     }
-    public static get sidePageCloseButtonFixedClickAreaTop() {
-      return this.sidePageCloseButtonFixedClickAreaBottom;
-    }
-    public static sidePageCloseButtonFixedClickAreaBottom = '14px';
     public static mobileSidePageCloseButtonClickArea = '22px';
     public static sidePageCloseButtonWrapperFixedOffsetTop = '4px';
     public static sidePageCloseButtonWrapperOffsetTop = '2px';
