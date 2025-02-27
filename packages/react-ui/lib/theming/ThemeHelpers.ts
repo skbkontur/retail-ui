@@ -1,9 +1,13 @@
+import { Nullable } from '../../typings/utility-types';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 
 export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
 export type Markers = Marker[];
+export const ThemeVersionSeparator = '.' as const;
+export type ThemeVersions = '5.0' | '5.1';
+export type ThemeVersionType = `${bigint}${typeof ThemeVersionSeparator}${bigint}`;
 
 export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
@@ -17,14 +21,23 @@ export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
   return theme;
 };
 
-export const REACT_UI_THEME_MARKERS = {
+export const REACT_UI_THEME_MARKERS: {
+  darkTheme: {
+    key: string;
+    value: true;
+  };
+  themeVersion: {
+    key: string;
+    value: ThemeVersionType;
+  };
+} = {
   darkTheme: {
     key: '__IS_REACT_UI_DARK_THEME__',
     value: true,
   },
   themeVersion: {
     key: '__REACT_UI_THEME_VERSION__',
-    value: { major: 0, minor: 0 },
+    value: '0.0',
   },
 };
 
@@ -47,32 +60,27 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
-export const markThemeVersion: (major: number, minor: number) => Marker = (major: number, minor: number) => (theme) => {
-  return Object.create(theme, {
-    [REACT_UI_THEME_MARKERS.themeVersion.key]: {
-      value: { major, minor },
-      writable: false,
-      enumerable: false,
-      configurable: false,
-    },
-  });
-};
+export const markThemeVersion: <T extends ThemeVersionType = ThemeVersions>(version: T) => Marker =
+  (version) => (theme) => {
+    return Object.create(theme, {
+      [REACT_UI_THEME_MARKERS.themeVersion.key]: {
+        value: version || REACT_UI_THEME_MARKERS.themeVersion.value,
+        writable: false,
+        enumerable: false,
+        configurable: false,
+      },
+    });
+  };
 
-export const isThemeVersionGTE = (theme: Theme | ThemeIn, major: number, minor: number): boolean => {
-  // @ts-expect-error: internal value.
-  const themeVersion: { major: number; minor: number } | undefined = theme[REACT_UI_THEME_MARKERS.themeVersion.key];
+export const isThemeVersion = <T extends ThemeVersionType = ThemeVersions>(
+  theme: Theme | ThemeIn,
+  version: T,
+): boolean => {
+  const themeVersion: T | undefined =
+    // @ts-expect-error: internal value.
+    theme[REACT_UI_THEME_MARKERS.themeVersion.key];
 
-  if (!themeVersion) {
-    return false;
-  }
-
-  if (themeVersion.major > major) {
-    return true;
-  } else if (themeVersion.major === major) {
-    return themeVersion.minor >= minor;
-  }
-
-  return false;
+  return isVersionGTE(themeVersion, version);
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {
@@ -108,3 +116,20 @@ export function createTheme(options: {
 
   return Object.freeze(theme);
 }
+
+export const isVersionGTE = (v1: Nullable<ThemeVersionType>, v2: Nullable<ThemeVersionType>): boolean => {
+  if (!v1 || !v2) {
+    return false;
+  }
+
+  const [majorV1, minorV1] = v1.split(ThemeVersionSeparator).map(Number);
+  const [majorV2, minorV2] = v2.split(ThemeVersionSeparator).map(Number);
+
+  if (majorV1 > majorV2) {
+    return true;
+  } else if (majorV1 === majorV2) {
+    return minorV1 >= minorV2;
+  }
+
+  return false;
+};

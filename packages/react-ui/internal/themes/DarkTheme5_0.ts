@@ -552,5 +552,5 @@ export const DarkTheme5_0 = createTheme({
     //#endregion
   },
   prototypeTheme: BasicTheme,
-  themeMarkers: [markAsDarkTheme, markThemeVersion(5, 0)],
+  themeMarkers: [markAsDarkTheme, markThemeVersion('5.0')],
 });
