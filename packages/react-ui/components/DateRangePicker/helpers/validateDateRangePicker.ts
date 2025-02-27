@@ -1,8 +1,8 @@
-import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
-import { InternalDate } from '../../lib/date/InternalDate';
-import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
-import { isGreater } from '../../lib/date/comparison';
-import { Nullable } from '../../typings/utility-types';
+import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../../lib/date/types';
+import { InternalDate } from '../../../lib/date/InternalDate';
+import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants';
+import { isGreater } from '../../../lib/date/comparison';
+import { Nullable } from '../../../typings/utility-types';
 
 interface ValidationOptions {
   startOptional?: boolean;
@@ -18,7 +18,7 @@ const defaultOptions: ValidationOptions = {
   maxDate: MAX_FULLDATE,
 };
 
-export function dateRangePickerValidate(
+export function validateDateRangePicker(
   startValue: Nullable<string>,
   endValue: Nullable<string>,
   options: ValidationOptions = defaultOptions,
