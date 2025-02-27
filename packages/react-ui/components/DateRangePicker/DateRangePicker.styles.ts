@@ -24,6 +24,11 @@ export const styles = memoizeStyle({
       min-width: ${parseInt(t.calendarCellWidth) * 7 + parseInt(t.calendarPaddingX) * 2}px;
     `;
   },
+  inputWrapperWidthFull() {
+    return css`
+      width: 100%;
+    `;
+  },
   inputVisuallyFocus(t: Theme) {
     return css`
       box-shadow: ${t.inputFocusShadow};
@@ -87,6 +92,11 @@ export const styles = memoizeStyle({
           background: ${t.rangeCalendarCellHoverBg};
         }
       }
+    `;
+  },
+  buttonWrap() {
+    return css`
+      margin: 8px;
     `;
   },
 });

@@ -202,7 +202,7 @@ export const DateRangePicker = Object.assign(
 
         return (
           props.enableTodayLink && (
-            <div style={{ margin: 8 }}>
+            <div className={cx(styles.buttonWrap())}>
               <Button
                 width="100%"
                 icon={<ArrowAUpIcon16Light />}
@@ -220,7 +220,7 @@ export const DateRangePicker = Object.assign(
       const renderOptionalButtons = () => (
         <>
           {focusField === 'start' && startOptional && (
-            <div style={{ margin: 8 }}>
+            <div className={cx(styles.buttonWrap())}>
               <Button
                 width="100%"
                 data-tid={DateRangePickerDataTids.startOptionalButton}
@@ -231,7 +231,7 @@ export const DateRangePicker = Object.assign(
             </div>
           )}
           {focusField === 'end' && endOptional && (
-            <div style={{ margin: 8 }}>
+            <div className={cx(styles.buttonWrap())}>
               <Button width="100%" data-tid={DateRangePickerDataTids.endOptionalButton} onClick={() => setEmpty('end')}>
                 {locale.withoutSecondDate}
               </Button>
@@ -292,7 +292,7 @@ export const DateRangePicker = Object.assign(
                             <MobilePopup
                               opened
                               headerChildComponent={
-                                <div className={styles.inputWrapper()} style={{ width: '100%' }}>
+                                <div className={cx(styles.inputWrapper(), styles.inputWrapperWidthFull())}>
                                   <DateInput
                                     withIcon
                                     value={startValue}
