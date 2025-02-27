@@ -33,7 +33,7 @@ import {
 } from './DateRangePickerField';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DateRangePickerLocaleHelper } from './locale';
-import { dateRangePickerValidate } from './dateRangePickerValidate';
+import { validateDateRangePicker } from './helpers/validateDateRangePicker';
 import { getDateRangeState } from './helpers/getDateRangeState';
 
 export const DateRangePickerDataTids = {
@@ -69,7 +69,7 @@ export const DateRangePicker = Object.assign(
     Start: (props: DateRangePickerFieldWithTypeProps) => <DateRangePickerField {...props} type="start" />,
     End: (props: DateRangePickerFieldWithTypeProps) => <DateRangePickerField {...props} type="end" />,
     Separator: DateRangePickerSeparator,
-    validate: dateRangePickerValidate,
+    validate: validateDateRangePicker,
   },
   forwardRefAndName('DateRangePicker', (props: DateRangePickerProps, ref) => {
     const { isMobile } = useResponsiveLayout();
