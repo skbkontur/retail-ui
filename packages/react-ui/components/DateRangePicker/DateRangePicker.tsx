@@ -34,7 +34,7 @@ import {
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DateRangePickerLocaleHelper } from './locale';
 import { validateDateRangePicker } from './helpers/validateDateRangePicker';
-import { getDateRangeState } from './helpers/getDateRangeState';
+import { getStateForValue } from './helpers/getStateForValue';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -99,13 +99,13 @@ export const DateRangePicker = Object.assign(
       (focusField === 'start' && startDisabled) || (focusField === 'end' && endDisabled);
 
     const updateDateRangeValues = (value = '') => {
-      const updatedState = getDateRangeState(value, {
+      const currentValues = {
         currentStart: startValue,
         currentEnd: endValue,
-        currentFocus: focusField,
         minDate,
         maxDate,
-      });
+      };
+      const updatedState = getStateForValue(focusField, value, currentValues);
 
       setStartValue(updatedState.start);
       setEndValue(updatedState.end);

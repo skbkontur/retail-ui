@@ -1,17 +1,28 @@
-import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants';
-import { isLess, isGreater, isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { DateRangePickerFieldType } from '../DateRangePickerField';
+import { isLess, isGreater, isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
+import { MIN_FULLDATE, MAX_FULLDATE } from '../../../lib/date/constants';
 
-export function getDateRangeState(
+interface DateRangeState {
+  start: string;
+  end: string;
+  focus: DateRangePickerFieldType | null;
+  isOpen: true;
+}
+
+const defaultContextOptions = {
+  currentStart: '',
+  currentEnd: '',
+  minDate: MIN_FULLDATE,
+  maxDate: MAX_FULLDATE,
+};
+
+export function getStateForValue(
+  currentFocus: DateRangePickerFieldType | null,
   value = '',
-  {
-    currentStart = '',
-    currentEnd = '',
-    currentFocus = '' as DateRangePickerFieldType | null,
-    minDate = MIN_FULLDATE,
-    maxDate = MAX_FULLDATE,
-  },
-) {
+  contextOptions = {},
+): DateRangeState {
+  const { currentStart, currentEnd, minDate, maxDate } = { ...defaultContextOptions, ...contextOptions };
+
   let start = currentStart;
   let end = currentEnd;
   let focus = currentFocus;
@@ -22,6 +33,7 @@ export function getDateRangeState(
       start,
       end,
       focus,
+      isOpen,
     };
   }
 
