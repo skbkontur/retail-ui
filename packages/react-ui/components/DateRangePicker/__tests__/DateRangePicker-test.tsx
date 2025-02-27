@@ -134,45 +134,45 @@ describe('DateRangePicker', () => {
     expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
   });
 
-  // it('closes when start-input become disabled', async () => {
-  //   const { rerender } = render(
-  //     <DateRangePicker>
-  //       <DateRangePicker.Start onValueChange={jest.fn()} />
-  //       <DateRangePicker.End onValueChange={jest.fn()} />
-  //     </DateRangePicker>
-  //   );
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
-  //   expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+  it('closes when start-input become disabled', async () => {
+    const { rerender } = render(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={jest.fn()} />
+        <DateRangePicker.End onValueChange={jest.fn()} />
+      </DateRangePicker>,
+    );
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
-  //   rerender(
-  //     <DateRangePicker>
-  //       <DateRangePicker.Start onValueChange={jest.fn()} disabled />
-  //       <DateRangePicker.End onValueChange={jest.fn()}  />
-  //     </DateRangePicker>
-  //   );
-  //   expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
-  // });
+    rerender(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={jest.fn()} disabled />
+        <DateRangePicker.End onValueChange={jest.fn()} />
+      </DateRangePicker>,
+    );
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
+  });
 
-  // it('closes when end-input become disabled', async () => {
-  //   const { rerender } = render(
-  //     <DateRangePicker>
-  //       <DateRangePicker.Start onValueChange={jest.fn()} />
-  //       <DateRangePicker.End onValueChange={jest.fn()} />
-  //     </DateRangePicker>
-  //   );
+  it('closes when end-input become disabled', async () => {
+    const { rerender } = render(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={jest.fn()} />
+        <DateRangePicker.End onValueChange={jest.fn()} />
+      </DateRangePicker>,
+    );
 
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.end));
-  //   expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.end));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
-  //   rerender(
-  //     <DateRangePicker>
-  //       <DateRangePicker.Start onValueChange={jest.fn()} />
-  //       <DateRangePicker.End onValueChange={jest.fn()} disabled />
-  //     </DateRangePicker>
-  //   );
+    rerender(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={jest.fn()} />
+        <DateRangePicker.End onValueChange={jest.fn()} disabled />
+      </DateRangePicker>,
+    );
 
-  //   expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
-  // });
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
+  });
 
   it('open when autoFocus enabled', () => {
     render(

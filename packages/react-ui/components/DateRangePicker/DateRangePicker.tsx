@@ -94,6 +94,9 @@ export const DateRangePicker = Object.assign(
     const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const calendarRef = useRef<Calendar>(null);
 
+    const isCurrentFocusFieldDisabled =
+      (focusField === 'start' && startDisabled) || (focusField === 'end' && endDisabled);
+
     const open = (fieldType: DateRangePickerFieldType = 'start') => {
       setFocusField(fieldType);
       setShowCalendar(true);
@@ -282,7 +285,8 @@ export const DateRangePicker = Object.assign(
 
                   {props.useMobileNativeDatePicker && isMobile
                     ? renderNativeDateInput()
-                    : showCalendar && (
+                    : !isCurrentFocusFieldDisabled &&
+                      showCalendar && (
                         <>
                           {isMobile ? (
                             <MobilePopup
