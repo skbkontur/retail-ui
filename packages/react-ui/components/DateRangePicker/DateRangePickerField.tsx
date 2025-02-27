@@ -43,16 +43,22 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
   useEffect(() => {
     if (isStart) {
       setStartValue(props.value || '');
+    } else if (isEnd) {
+      setEndValue(props.value || '');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isStart) {
       setStartOptional(props.optional || false);
       setStartDisabled(props.disabled || false);
       setMinDate(props.minDate || '');
     } else if (isEnd) {
-      setEndValue(props.value || '');
       setEndOptional(props.optional || false);
       setEndDisabled(props.disabled || false);
       setMaxDate(props.maxDate || '');
     }
-  }, []);
+  }, [props.optional, props.disabled, props.minDate, props.maxDate]);
 
   useEffect(() => {
     if (isStart && startValue !== null) {
