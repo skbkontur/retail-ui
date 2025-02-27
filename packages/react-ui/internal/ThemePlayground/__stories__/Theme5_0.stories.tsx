@@ -35,7 +35,7 @@ export const Modal5_0: Story = () => {
       </Modal.Body>
     </Modal>
   );
-}; //табнуться
+};
 
 export const ModalMobile5_0: Story = () => {
   const theme = useContext(ThemeContext);
@@ -71,7 +71,7 @@ export const SidePage5_0: Story = () => {
       </SidePage.Body>
     </SidePage>
   );
-}; //табнуться
+};
 
 export const SidePageMobile5_0: Story = () => {
   const theme = useContext(ThemeContext);

@@ -904,7 +904,7 @@ export class BasicThemeClass {
   public static sidePageHeaderFixedLineHeight = '28px';
   public static sidePageHeaderFixedPaddingY = '10px';
   public static sidePageHeaderStickyOffset = '9px';
-  /** @deprecated */
+  /** @deprecated use sidePageCloseButtonClickAreaLeft and sidePageCloseButtonClickAreaRight instead */
   public static sidePageCloseButtonPadding = '32px';
   public static mobileSidePageCloseButtonPadding = '16px';
   public static get sidePageFooterPanelPaddingTop() {
