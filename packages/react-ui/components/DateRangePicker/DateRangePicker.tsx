@@ -34,6 +34,7 @@ import {
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DateRangePickerLocaleHelper } from './locale';
 import { dateRangePickerValidate } from './dateRangePickerValidate';
+import { getDateRangeState } from './helpers/getDateRangeState';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',
@@ -97,6 +98,27 @@ export const DateRangePicker = Object.assign(
     const isCurrentFocusFieldDisabled =
       (focusField === 'start' && startDisabled) || (focusField === 'end' && endDisabled);
 
+    const updateDateRangeValues = (value = '') => {
+      const updatedState = getDateRangeState(value, {
+        currentStart: startValue,
+        currentEnd: endValue,
+        currentFocus: focusField,
+        minDate,
+        maxDate,
+      });
+
+      setStartValue(updatedState.start);
+      setEndValue(updatedState.end);
+
+      if (updatedState.isOpen && updatedState.focus) {
+        focus(updatedState.focus);
+      }
+
+      if (!updatedState.isOpen) {
+        close();
+      }
+    };
+
     const open = (fieldType: DateRangePickerFieldType = 'start') => {
       setFocusField(fieldType);
       setShowCalendar(true);
@@ -109,6 +131,7 @@ export const DateRangePicker = Object.assign(
     };
 
     const focus = (fieldType: DateRangePickerFieldType = 'start') => {
+      setFocusField(fieldType);
       const fieldRef = fieldType === 'start' ? startRef : endRef;
 
       // fix DateInput flushSync warning in React 18
@@ -185,8 +208,8 @@ export const DateRangePicker = Object.assign(
           value={focusField === 'start' ? startValue : endValue}
           minDate={minDate}
           maxDate={maxDate}
-          renderDay={(dayProps) => renderRange(dayProps, theme, props.renderDay)}
-          onValueChange={(value) => updateRange(value)}
+          renderDay={(dayProps) => renderCalendarRange(dayProps, theme, props.renderDay)}
+          onValueChange={(value) => updateDateRangeValues(value)}
           ref={calendarRef}
           onMonthChange={props.onMonthChange}
           className={cx({ [styles.calendarWidthAuto()]: widthAuto })}
@@ -208,7 +231,7 @@ export const DateRangePicker = Object.assign(
                 icon={<ArrowAUpIcon16Light />}
                 aria-label={locale.todayAriaLabel}
                 data-tid={DateRangePickerDataTids.todayButton}
-                onClick={() => updateRange(today)}
+                onClick={() => updateDateRangeValues(today)}
               >
                 {locale.today}
               </Button>
@@ -352,89 +375,7 @@ export const DateRangePicker = Object.assign(
       </ThemeContext.Consumer>
     );
 
-    function updateRange(date: string) {
-      if ((minDate && isLess(date, minDate)) || (maxDate && isGreater(date, maxDate))) {
-        return;
-      }
-
-      const handleInitialPeriod = (date: string) => {
-        if (focusField === 'start') {
-          setStartValue(date);
-          focus('end');
-        } else {
-          setEndValue(date);
-          focus('start');
-        }
-      };
-
-      const handlePartialPeriod = (date: string) => {
-        if (focusField === 'start') {
-          if (startValue) {
-            setStartValue(date);
-            focus('end');
-            return;
-          }
-
-          if (endValue && isGreater(date, endValue)) {
-            setStartValue(date);
-            setEndValue('');
-            focus('end');
-            return;
-          }
-
-          setStartValue(date);
-          close();
-        } else if (focusField === 'end') {
-          if (endValue) {
-            setEndValue(date);
-            focus('start');
-            return;
-          }
-
-          if (startValue && isLess(date, startValue)) {
-            setStartValue(date);
-            setEndValue('');
-            focus('end');
-            return;
-          }
-
-          setEndValue(date);
-          close();
-        }
-      };
-
-      const handleFullPeriod = (date: string) => {
-        if (focusField === 'start') {
-          if (endValue && isLessOrEqual(date, endValue)) {
-            setStartValue(date);
-            close();
-          } else {
-            setStartValue(date);
-            setEndValue('');
-            focus('end');
-          }
-        } else if (focusField === 'end') {
-          if (startValue && isGreaterOrEqual(date, startValue)) {
-            setEndValue(date);
-            close();
-          } else {
-            setStartValue(date);
-            setEndValue('');
-            focus('end');
-          }
-        }
-      };
-
-      if (!startValue && !endValue) {
-        handleInitialPeriod(date);
-      } else if ((startValue && !endValue) || (!startValue && endValue)) {
-        handlePartialPeriod(date);
-      } else {
-        handleFullPeriod(date);
-      }
-    }
-
-    function renderRange(
+    function renderCalendarRange(
       props: CalendarDayProps,
       t: Theme,
       renderDayFn: ((props: CalendarDayProps) => React.ReactElement) | undefined,
@@ -457,7 +398,6 @@ export const DateRangePicker = Object.assign(
       let hasRightRoundings;
 
       if (hasHoveredDay) {
-        // TODO: check if start / end not setted
         const isDayBeforeFirstInPeriod = startValue ? isLess(hoveredDay, startValue) : endValue;
         const isDayAfterLastInPeriod = endValue ? isGreater(hoveredDay, endValue) : startValue;
 
