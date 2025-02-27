@@ -13,7 +13,7 @@ import { DateRangePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
-// import { MenuDataTids } from '../../../internal/Menu';
+import { MenuDataTids } from '../../../internal/Menu';
 // import { componentsLocales as DayCellViewLocalesRu } from '../../Calendar/locale/locales/ru';
 // import { DateRangePickerFieldProps } from '../DateRangePickerField';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
@@ -695,22 +695,22 @@ describe('mobile', () => {
     );
   };
 
-  // it('should scroll on month select', async () => {
-  //   const month = 11;
-  //   const year = 2011;
-  //   render(<MobilePicker initialDate={`01.01.${year}`} />);
+  it('should scroll on month select', async () => {
+    const month = 11;
+    const year = 2011;
+    render(<MobilePicker initialDate={`01.01.${year}`} />);
 
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
-  //   await act(async () => {
-  //     await userEvent.click(screen.getByTestId(CalendarDataTids.headerMonth).getElementsByTagName('button')[0]);
-  //   });
-  //   await act(async () => {
-  //     await userEvent.click(screen.getByTestId(MenuDataTids.root).getElementsByTagName('button')[month]);
-  //   });
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    await act(async () => {
+      await userEvent.click(screen.getAllByTestId(CalendarDataTids.headerMonth)[0].getElementsByTagName('button')[0]);
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByTestId(MenuDataTids.root).getElementsByTagName('button')[month]);
+    });
 
-  //   const currentMonth = await waitForMonth(month, year);
-  //   expect(currentMonth).toBeDefined();
-  // });
+    const currentMonth = await waitForMonth(month, year);
+    expect(currentMonth).toBeDefined();
+  });
 
   it('should scroll on year select', async () => {
     const month = 10;
