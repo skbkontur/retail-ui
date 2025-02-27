@@ -6,6 +6,7 @@ export const getDateRangePickerTheme = (theme: Theme): Theme => {
     {
       calendarBottomSeparatorBorder: 'none',
       calendarCellBg: 'transparent',
+      calendarCellSelectedBgColor: 'transparent',
       calendarWrapperHeight: theme.rangeCalendarWrapperHeight,
     },
     theme,
@@ -16,6 +17,7 @@ export const getMobileDateRangePickerTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(
     {
       calendarCellBg: 'transparent',
+      calendarCellSelectedBgColor: 'transparent',
       calendarCellBorderRadius: theme.mobileCalendarCellBorderRadius,
       calendarCellFontSize: theme.mobileCalendarCellFontSize,
       calendarGridRowSpacing: theme.mobileRangeCalendarGridRowSpacing,
