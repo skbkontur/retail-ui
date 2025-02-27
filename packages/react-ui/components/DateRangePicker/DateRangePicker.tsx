@@ -154,6 +154,16 @@ export const DateRangePicker = Object.assign(
       }
     };
 
+    const scrollToMonth = (fieldType: DateRangePickerFieldType) => {
+      const date = fieldType === 'start' ? startValue : endValue;
+      if (date) {
+        const [, month, year] = date.split('.').map(Number);
+        if (month) {
+          calendarRef.current?.scrollToMonth(month, year);
+        }
+      }
+    };
+
     useImperativeHandle(
       ref,
       () => ({
@@ -452,16 +462,6 @@ export const DateRangePicker = Object.assign(
           {renderDayFn ? renderDayFn(props) : <CalendarDay {...props} />}
         </div>
       );
-    }
-
-    function scrollToMonth(fieldType: DateRangePickerFieldType) {
-      const date = fieldType === 'start' ? startValue : endValue;
-      if (date) {
-        const [, month, year] = date.split('.').map(Number);
-        if (month) {
-          calendarRef.current?.scrollToMonth(month, year);
-        }
-      }
     }
   }),
 );
