@@ -27,7 +27,7 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
 export type InputAlign = 'left' | 'center' | 'right';
-export type ShowCleanCross = 'always' | 'onFocus' | 'never';
+export type ShowClearIcon = 'always' | 'onFocus' | 'never';
 export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
@@ -59,7 +59,7 @@ export interface InputProps
          * При значении "always" крестик отображается всегда, если поле непустое.
          * При значении "onFocus" крестик отображается при фокусировке на непустом поле.
          * @default never */
-        showCleanCross?: ShowCleanCross;
+        showClearIcon?: ShowClearIcon;
 
         /** Задает иконку слева.
          * При использовании `ReactNode` применяются дефолтные стили для иконки.
@@ -165,7 +165,7 @@ export const InputDataTids = {
   cleanCross: 'Input__cleanCross',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showCleanCross'>>;
+type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>>;
 
 /**
  * Поле ввода `Input` дает возможность указать значение с помощью клавиатуры.
@@ -188,7 +188,7 @@ export class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: DefaultProps = {
     size: 'small',
     type: 'text',
-    showCleanCross: 'never',
+    showClearIcon: 'never',
   };
 
   private getProps = createPropsGetter(Input.defaultProps);
@@ -204,7 +204,7 @@ export class Input extends React.Component<InputProps, InputState> {
     blinking: false,
     focused: false,
     cleanCrossShowed:
-      this.props.showCleanCross === 'always' &&
+      this.props.showClearIcon === 'always' &&
       (!!this.input?.value.toString() || !!this.props.value || !!this.props.defaultValue),
   };
 
@@ -410,7 +410,7 @@ export class Input extends React.Component<InputProps, InputState> {
       ...rest
     } = props;
 
-    const { showCleanCross } = this.getProps();
+    const { showClearIcon } = this.getProps();
 
     const { blinking, focused } = this.state;
 
@@ -461,14 +461,14 @@ export class Input extends React.Component<InputProps, InputState> {
     );
 
     const getRightIcon = () => {
-      return showCleanCross !== 'never' && this.state.cleanCrossShowed ? (
+      return showClearIcon !== 'never' && this.state.cleanCrossShowed ? (
         <CleanCrossIcon
           data-tid={InputDataTids.cleanCross}
           size={size}
           onClick={this.handleCleanInput}
           onBlur={() => {
             this.setState({
-              cleanCrossShowed: showCleanCross === 'always' && !!this.input?.value.toString(),
+              cleanCrossShowed: showClearIcon === 'always' && !!this.input?.value.toString(),
             });
           }}
         />
@@ -557,8 +557,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      cleanCrossShowed:
-        !!this.input?.value.toString() && (this.props.showCleanCross === 'always' || this.state.focused),
+      cleanCrossShowed: !!this.input?.value.toString() && (this.props.showClearIcon === 'always' || this.state.focused),
     });
 
     if (needsPolyfillPlaceholder) {
@@ -631,13 +630,13 @@ export class Input extends React.Component<InputProps, InputState> {
   private resetFocus = () => this.setState({ focused: false });
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const showCleanCross = this.props.showCleanCross;
-    if (showCleanCross && getRootNode(this)?.contains(event.relatedTarget)) {
+    const showClearIcon = this.props.showClearIcon;
+    if (showClearIcon && getRootNode(this)?.contains(event.relatedTarget)) {
       this.setState({ focused: false });
     } else {
       this.setState({
         focused: false,
-        cleanCrossShowed: showCleanCross === 'always' && !!this.input?.value.toString(),
+        cleanCrossShowed: showClearIcon === 'always' && !!this.input?.value.toString(),
       });
       this.props.onBlur?.(event);
     }

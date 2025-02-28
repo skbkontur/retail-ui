@@ -164,10 +164,10 @@ describe('<Autocomplete />', () => {
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
-  it('passes showCleanCross prop to input', async () => {
+  it('passes showClearIcon prop to input', async () => {
     const ControlledAutocomplete = () => {
       const [value, setValue] = useState<string>('hello');
-      return <Input showCleanCross="always" value={value} onValueChange={setValue} />;
+      return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
     };
     render(<ControlledAutocomplete />);
 

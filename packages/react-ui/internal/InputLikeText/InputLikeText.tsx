@@ -25,7 +25,7 @@ import { FocusControlWrapper } from '../FocusControlWrapper';
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
 
-export interface InputLikeTextProps extends CommonProps, Omit<InputProps, 'showCleanCross'> {
+export interface InputLikeTextProps extends CommonProps, Omit<InputProps, 'showClearIcon'> {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onFocus?: React.FocusEventHandler<HTMLElement>;

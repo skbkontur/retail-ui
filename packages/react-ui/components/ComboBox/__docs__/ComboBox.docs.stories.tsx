@@ -538,9 +538,9 @@ export const Example9: Story = () => {
 };
 Example9.storyName = 'Размер';
 
-/** При showCleanCross="always" крестик отображается всегда, если в комбобокс что-либо введено.
+/** При showClearIcon="always" крестик отображается всегда, если в комбобокс что-либо введено.
  *
- * При showCleanCross="onFocus" крестик отображается при фокусировке на комбобоксе, в который что-либо введено. */
+ * При showClearIcon="onFocus" крестик отображается при фокусировке на комбобоксе, в который что-либо введено. */
 export const Example10: Story = () => {
   const [valueAlways, setValueAlways] = React.useState({
     value: 1,
@@ -571,14 +571,14 @@ export const Example10: Story = () => {
   return (
     <Gapped gap={10}>
       <ComboBox
-        showCleanCross="always"
+        showClearIcon="always"
         getItems={getItems}
         value={valueAlways}
         onValueChange={setValueAlways}
         width="250px"
       />
       <ComboBox
-        showCleanCross="onFocus"
+        showClearIcon="onFocus"
         getItems={getItems}
         value={valueOnFocus}
         onValueChange={setValueOnFocus}

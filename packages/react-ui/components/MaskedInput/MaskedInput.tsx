@@ -57,7 +57,7 @@ export interface MaskedInputProps
   extends MaskedProps,
     Omit<
       InputProps,
-      'showCleanCross' | 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'
+      'showClearIcon' | 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'
     > {
   type?: MaskInputType;
 }

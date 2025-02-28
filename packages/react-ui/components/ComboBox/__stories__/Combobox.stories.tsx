@@ -976,7 +976,7 @@ export const ComboboxWithCleanCross: Story = () => {
   };
   return (
     <Gapped>
-      <ComboBox showCleanCross="always" getItems={getItems} value={value} onValueChange={setValue} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} />
     </Gapped>
   );
 };

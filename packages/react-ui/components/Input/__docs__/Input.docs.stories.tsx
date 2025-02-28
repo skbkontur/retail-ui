@@ -85,16 +85,16 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'type';
 
-/** При showCleanCross="always" крестик отображается всегда, если в инпут что-либо введено.
+/** При showClearIcon="always" крестик отображается всегда, если в инпут что-либо введено.
  *
- * При showCleanCross="onFocus" крестик отображается при фокусировке на инпуте, в который что-либо введено. */
+ * При showClearIcon="onFocus" крестик отображается при фокусировке на инпуте, в который что-либо введено. */
 export const Example6: Story = () => {
   const [valueAlways, setValueAlways] = React.useState('Отображаю крестик всегда');
   const [valueOnFocus, setValueOnFocus] = React.useState('Отображаю крестик по фокусу');
   return (
     <Gapped gap={10}>
-      <Input showCleanCross="always" value={valueAlways} onValueChange={setValueAlways} width="250px" />
-      <Input showCleanCross="onFocus" value={valueOnFocus} onValueChange={setValueOnFocus} width="250px" />
+      <Input showClearIcon="always" value={valueAlways} onValueChange={setValueAlways} width="250px" />
+      <Input showClearIcon="onFocus" value={valueOnFocus} onValueChange={setValueOnFocus} width="250px" />
     </Gapped>
   );
 };

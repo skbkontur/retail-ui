@@ -465,9 +465,9 @@ export const CleanCrossSizes: Story = () => {
   const [valueLarge, setValueLarge] = React.useState('Large');
   return (
     <Gapped vertical gap={5}>
-      <Input showCleanCross="always" size="small" value={valueSmall} onValueChange={setValueSmall} />
-      <Input showCleanCross="always" size="medium" value={valueMedium} onValueChange={setValueMedium} />
-      <Input showCleanCross="always" size="large" value={valueLarge} onValueChange={setValueLarge} />
+      <Input showClearIcon="always" size="small" value={valueSmall} onValueChange={setValueSmall} />
+      <Input showClearIcon="always" size="medium" value={valueMedium} onValueChange={setValueMedium} />
+      <Input showClearIcon="always" size="large" value={valueLarge} onValueChange={setValueLarge} />
     </Gapped>
   );
 };

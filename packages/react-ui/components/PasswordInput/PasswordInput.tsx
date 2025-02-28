@@ -24,7 +24,7 @@ import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
 export interface PasswordInputProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
-    Omit<InputProps, 'showCleanCross'> {
+    Omit<InputProps, 'showClearIcon'> {
   /** Включает CapsLock детектор. */
   detectCapsLock?: boolean;
 }

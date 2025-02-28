@@ -111,9 +111,9 @@ export const Example9: Story = () => {
 };
 Example9.storyName = 'Режима прозрачной рамки';
 
-/** При showCleanCross="always" крестик отображается всегда, если в автокомплит что-либо введено.
+/** При showClearIcon="always" крестик отображается всегда, если в автокомплит что-либо введено.
  *
- * При showCleanCross="onFocus" крестик отображается при фокусировке на автокомплите, в который что-либо введено. */
+ * При showClearIcon="onFocus" крестик отображается при фокусировке на автокомплите, в который что-либо введено. */
 export const Example10: Story = () => {
   const items = ['Отображаю крестик всегда', 'Отображаю крестик по фокусу', 'Никогда не отображаю крестик'];
   const [valueAlways, setValueAlways] = React.useState(items[0]);
@@ -122,14 +122,14 @@ export const Example10: Story = () => {
   return (
     <Gapped gap={10}>
       <Autocomplete
-        showCleanCross="always"
+        showClearIcon="always"
         source={items}
         value={valueAlways}
         onValueChange={setValueAlways}
         width="250px"
       />
       <Autocomplete
-        showCleanCross="onFocus"
+        showClearIcon="onFocus"
         source={items}
         value={valueOnFocus}
         onValueChange={setValueOnFocus}

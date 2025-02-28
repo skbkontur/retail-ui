@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
-import { Input, InputDataTids, InputIconType, InputProps, ShowCleanCross } from '../../components/Input';
+import { Input, InputDataTids, InputIconType, InputProps, ShowClearIcon } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -58,7 +58,7 @@ interface ComboBoxViewProps<T>
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
-  showCleanCross?: ShowCleanCross;
+  showClearIcon?: ShowClearIcon;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -109,7 +109,7 @@ type DefaultProps<T> = Required<
     | 'onFocusOutside'
     | 'size'
     | 'width'
-    | 'showCleanCross'
+    | 'showClearIcon'
   >
 >;
 
@@ -142,7 +142,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     },
     size: 'small',
     width: 250,
-    showCleanCross: 'never',
+    showClearIcon: 'never',
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
@@ -157,7 +157,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   public state = {
     anchorElement: null,
-    cleanCrossShowed: this.props.showCleanCross === 'always' && !!this.props.value?.toString(),
+    cleanCrossShowed: this.props.showClearIcon === 'always' && !!this.props.value?.toString(),
   };
 
   public componentDidMount() {
@@ -347,7 +347,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       size,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
-      showCleanCross,
+      showClearIcon,
     } = this.props;
 
     const { renderValue } = this.getProps();
@@ -381,7 +381,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
           aria-label={ariaLabel}
-          showCleanCross={showCleanCross}
+          showClearIcon={showClearIcon}
         />
       );
     }
@@ -445,7 +445,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       return <LoadingIcon size={size} />;
     }
 
-    if (this.getProps().showCleanCross !== 'never' && this.state.cleanCrossShowed) {
+    if (this.getProps().showClearIcon !== 'never' && this.state.cleanCrossShowed) {
       return (
         <CleanCrossIcon
           data-tid={InputDataTids.cleanCross}

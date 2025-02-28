@@ -1426,7 +1426,7 @@ describe('ComboBox', () => {
             ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
           );
         };
-        return <ComboBox getItems={getItems} showCleanCross="always" value={value} onValueChange={setValue} />;
+        return <ComboBox getItems={getItems} showClearIcon="always" value={value} onValueChange={setValue} />;
       };
       render(<ControlledCombobox />);
 
@@ -1446,7 +1446,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn((searchQuery) =>
         Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
       );
-      render(<ComboBox showCleanCross="always" getItems={getItems} ref={comboboxRef} />);
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
 
       comboboxRef.current?.focus();
       await userEvent.type(screen.getByRole('textbox'), 'z');

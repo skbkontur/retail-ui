@@ -529,7 +529,7 @@ describe('<Input />', () => {
 
   describe('clean cross', () => {
     it('cleans uncontrolled input', async () => {
-      render(<Input showCleanCross="always" />);
+      render(<Input showClearIcon="always" />);
 
       await userEvent.type(screen.getByRole('textbox'), 'z');
       expect(screen.getByRole('textbox')).toHaveValue('z');
@@ -541,7 +541,7 @@ describe('<Input />', () => {
     });
 
     it('cleans uncontrolled input with default value', async () => {
-      render(<Input showCleanCross="always" defaultValue="z" />);
+      render(<Input showClearIcon="always" defaultValue="z" />);
 
       expect(screen.getByRole('textbox')).toHaveValue('z');
 
@@ -554,7 +554,7 @@ describe('<Input />', () => {
     it('cleans controlled input', async () => {
       const ControlledInput = () => {
         const [value, setValue] = useState<string>('z');
-        return <Input showCleanCross="always" value={value} onValueChange={setValue} />;
+        return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
       };
       render(<ControlledInput />);
 
@@ -567,7 +567,7 @@ describe('<Input />', () => {
     it('tests always clean cross', () => {
       const ControlledInput = () => {
         const [value, setValue] = useState<string>('z');
-        return <Input showCleanCross="always" value={value} onValueChange={setValue} />;
+        return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
       };
       render(<ControlledInput />);
 
@@ -577,7 +577,7 @@ describe('<Input />', () => {
     it('tests onFocus clean cross', async () => {
       const ControlledInput = () => {
         const [value, setValue] = useState<string>('z');
-        return <Input showCleanCross="onFocus" value={value} onValueChange={setValue} />;
+        return <Input showClearIcon="onFocus" value={value} onValueChange={setValue} />;
       };
       render(<ControlledInput />);
 
@@ -590,7 +590,7 @@ describe('<Input />', () => {
     it('tests never clean cross', async () => {
       const ControlledInput = () => {
         const [value, setValue] = useState<string>('z');
-        return <Input showCleanCross="never" value={value} onValueChange={setValue} />;
+        return <Input showClearIcon="never" value={value} onValueChange={setValue} />;
       };
       render(<ControlledInput />);
 
@@ -604,7 +604,7 @@ describe('<Input />', () => {
       const rightIcon = <i data-tid="my-testy-icon" />;
       const ControlledInput = () => {
         const [value, setValue] = useState<string>('z');
-        return <Input rightIcon={rightIcon} showCleanCross="always" value={value} onValueChange={setValue} />;
+        return <Input rightIcon={rightIcon} showClearIcon="always" value={value} onValueChange={setValue} />;
       };
       render(<ControlledInput />);
 
