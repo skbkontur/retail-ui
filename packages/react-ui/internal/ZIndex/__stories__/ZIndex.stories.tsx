@@ -1033,40 +1033,44 @@ function Upper({ withRoot = false }) {
   );
 }
 
-export const SeveralRoots = () => {
+const SeveralRoots = (props: { title: string; goldenSample: React.ReactNode; withRoot: React.ReactNode }) => {
   return (
     <div style={{ padding: 50, display: 'flex', flexDirection: 'column', rowGap: 20, width: 600 }}>
+      <h3 style={{ textAlign: 'center' }}>{props.title}</h3>
       <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
         <h3>Эталон</h3>
         <h3>Root</h3>
       </div>
-      <h3 style={{ textAlign: 'center' }}>Встроиться</h3>
       <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <Classic />
-        <Classic withRoot />
-      </div>
-      <h3 style={{ textAlign: 'center' }}>Активный Лоадер</h3>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <ActiveLoader />
-        <ActiveLoader withRoot />
-      </div>
-      <h3 style={{ textAlign: 'center' }}>Неактивный Лоадер в Портале</h3>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <DisabledLoaderInPortal />
-        <DisabledLoaderInPortal withRoot />
-      </div>
-      <h3 style={{ textAlign: 'center' }}>Выше всех</h3>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <Upper />
-        <Upper withRoot />
+        {props.goldenSample}
+        {props.withRoot}
       </div>
     </div>
   );
 };
-SeveralRoots.parameters = {
-  creevey: {
-    skip: {
-      "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
-    },
-  },
+
+export const SeveralRootsSimple = () => {
+  return <SeveralRoots title="Простой пример" goldenSample={<Classic />} withRoot={<Classic withRoot />} />;
 };
+SeveralRootsSimple.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+
+export const SeveralRootsActiveLoader = () => {
+  return <SeveralRoots title="Активный Лоадер" goldenSample={<ActiveLoader />} withRoot={<ActiveLoader withRoot />} />;
+};
+SeveralRootsActiveLoader.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+
+export const SeveralRootsDisabledLoaderInPortal = () => {
+  return (
+    <SeveralRoots
+      title="Неактивный Лоадер в Портале"
+      goldenSample={<DisabledLoaderInPortal />}
+      withRoot={<DisabledLoaderInPortal withRoot />}
+    />
+  );
+};
+SeveralRootsDisabledLoaderInPortal.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+
+export const SeveralRootsUpper = () => {
+  return <SeveralRoots title="Выше всех" goldenSample={<Upper />} withRoot={<Upper withRoot />} />;
+};
+SeveralRootsUpper.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
