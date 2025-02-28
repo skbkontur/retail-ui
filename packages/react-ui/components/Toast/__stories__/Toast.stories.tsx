@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { SingleToast } from '../../SingleToast';
 import { Meta } from '../../../typings/stories';
 import { Toast } from '../Toast';
+import { Gapped } from '../../Gapped';
 
 const TestNotifier = ({ complex }: { complex?: boolean }) => {
   const toastRef = React.useRef<Toast>(null);
@@ -71,3 +72,32 @@ export const StaticMethod = () => (
   </>
 );
 StaticMethod.storyName = 'static method';
+
+export const ToastWithCross = () => {
+  function showComplexNotification() {
+    Toast.push('Toast throw static method', null, 10000, true);
+  }
+
+  const toastRef = React.useRef<Toast>(null);
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      toast.push('Toast throw instance method', null, 10000, true);
+    }
+  };
+
+  return (
+    <Gapped>
+      <button data-tid="show-static-toast" onClick={showComplexNotification}>
+        Show Toast throw static push
+      </button>
+
+      <div>
+        <Toast ref={toastRef} />
+        <button data-tid="show-instance-toast" onClick={showNotification}>
+          Show Toast
+        </button>
+      </div>
+    </Gapped>
+  );
+};
