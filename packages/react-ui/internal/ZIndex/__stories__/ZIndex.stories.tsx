@@ -947,12 +947,43 @@ function ActiveLoader({ withRoot = false }) {
           padding: 10,
         }}
       >
-        <Loader active caption={null}>
+        <MayBeRoot>
+          <Loader active caption={null}>
+            <div style={{ minWidth: 200 }}>
+              {title}
+              <Classic />
+            </div>
+          </Loader>
+        </MayBeRoot>
+      </div>
+    </div>
+  );
+}
+
+function DisabledLoaderInPortal({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+      <div
+        style={{
+          width: 200,
+          height: 140,
+          background: '#eee',
+          padding: 10,
+        }}
+      >
+        <Popup opened anchorElement={<div />} pos="bottom left" priority="Modal">
           <MayBeRoot>
-            {title}
-            <Classic />
+            <Loader caption={null}>
+              <div style={{ minWidth: 200 }}>
+                {title}
+                <Classic />
+              </div>
+            </Loader>
           </MayBeRoot>
-        </Loader>
+        </Popup>
       </div>
     </div>
   );
@@ -1019,6 +1050,11 @@ export const SeveralRoots = () => {
         <ActiveLoader />
         <ActiveLoader withRoot />
       </div>
+      <h3 style={{ textAlign: 'center' }}>Неактивный Лоадер в Портале</h3>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        <DisabledLoaderInPortal />
+        <DisabledLoaderInPortal withRoot />
+      </div>
       <h3 style={{ textAlign: 'center' }}>Выше всех</h3>
       <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
         <Upper />
@@ -1030,7 +1066,6 @@ export const SeveralRoots = () => {
 SeveralRoots.parameters = {
   creevey: {
     skip: {
-      'flacky, temporary skip everywhere': true,
       "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
     },
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import isEqual from 'lodash.isequal';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -123,7 +124,10 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
       <ZIndexContext.Consumer>
         {(context) => {
           this.zIndexContext = context;
-          const { parentLayerZIndex, maxZIndex } = this.state.savedZIndexContext || context;
+          const { parentLayerZIndex, maxZIndex } =
+            isEqual(context, DEFAULT_ZINDEX_CONTEXT) && this.state.savedZIndexContext !== null
+              ? this.state.savedZIndexContext
+              : context;
           let zIndexContextValue = { parentLayerZIndex, maxZIndex };
           let newZIndex = 0;
           if (applyZIndex) {
@@ -183,7 +187,11 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   };
 
   private tryGetContextByDOM = (element: HTMLDivElement) => {
-    if (DEFAULT_ZINDEX_CONTEXT === this.zIndexContext && this.state.savedZIndexContext === null) {
+    if (
+      this.props.applyZIndex &&
+      isEqual(DEFAULT_ZINDEX_CONTEXT, this.zIndexContext) &&
+      this.state.savedZIndexContext === null
+    ) {
       let savedZIndexContext = DEFAULT_ZINDEX_CONTEXT;
       const portal = element.parentElement?.closest(`[${PORTAL_OUTLET_ATTR}]`);
 
