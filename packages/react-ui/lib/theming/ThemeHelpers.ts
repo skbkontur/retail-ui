@@ -1,11 +1,15 @@
+import warning from 'warning';
+
+import { Nullable } from '../../typings/utility-types';
 import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
+import { isThemeVersionGTE, ThemeVersions } from './ThemeVersions';
 
-export type Marker = (theme: Readonly<Theme>) => Readonly<Theme>;
+export type Marker = (theme: Theme) => Theme;
 export type Markers = Marker[];
 
-export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
+export const exposeGetters = (theme: Theme): Theme => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
   Object.keys(descriptors).forEach((key) => {
     const descriptor = descriptors[key];
@@ -17,14 +21,23 @@ export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
   return theme;
 };
 
-export const REACT_UI_THEME_MARKERS = {
+export const REACT_UI_THEME_MARKERS: {
+  darkTheme: {
+    key: string;
+    value: true;
+  };
+  themeVersion: {
+    key: string;
+    value: ThemeVersions | null;
+  };
+} = {
   darkTheme: {
     key: '__IS_REACT_UI_DARK_THEME__',
     value: true,
   },
-  theme2022: {
-    key: '__IS_REACT_UI_THEME_2022__',
-    value: true,
+  themeVersion: {
+    key: '__REACT_UI_THEME_VERSION__',
+    value: null,
   },
 };
 
@@ -47,10 +60,10 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
-export const markAsTheme2022: Marker = (theme) => {
+export const markThemeVersion: (version: ThemeVersions) => Marker = (version) => (theme) => {
   return Object.create(theme, {
-    [REACT_UI_THEME_MARKERS.theme2022.key]: {
-      value: REACT_UI_THEME_MARKERS.theme2022.value,
+    [REACT_UI_THEME_MARKERS.themeVersion.key]: {
+      value: version || REACT_UI_THEME_MARKERS.themeVersion.value,
       writable: false,
       enumerable: false,
       configurable: false,
@@ -58,9 +71,17 @@ export const markAsTheme2022: Marker = (theme) => {
   });
 };
 
-export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
-  // @ts-expect-error: internal value.
-  return theme[REACT_UI_THEME_MARKERS.theme2022.key] === REACT_UI_THEME_MARKERS.theme2022.value;
+export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): boolean => {
+  const themeVersion: Nullable<ThemeVersions> =
+    // @ts-expect-error: internal value.
+    theme[REACT_UI_THEME_MARKERS.themeVersion.key];
+
+  if (!themeVersion) {
+    warning(true, `[ThemeHelpers]: The theme doesn't have a version. Checking for ${version}.`);
+    return false;
+  }
+
+  return isThemeVersionGTE(themeVersion, version);
 };
 
 export function findPropertyDescriptor(theme: Theme, propName: string) {
@@ -75,10 +96,20 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
   return {};
 }
 
-export function applyMarkers(theme: Readonly<Theme>, markers: Markers) {
-  let markedTheme: Readonly<Theme> = theme;
-  markers.forEach((marker) => {
-    markedTheme = marker(theme);
-  });
-  return markedTheme;
+export function applyMarkers(theme: Theme, markers: Markers): Theme {
+  return markers.reduce((markedTheme, marker) => {
+    return marker(markedTheme);
+  }, Object.create(theme));
+}
+
+export function createTheme(options: { themeClass: Theme; prototypeTheme?: Theme; themeMarkers?: Markers }): Theme {
+  const { themeClass, prototypeTheme, themeMarkers = [] } = options;
+
+  if (prototypeTheme) {
+    Object.setPrototypeOf(themeClass, prototypeTheme);
+  }
+
+  const theme = applyMarkers(exposeGetters(themeClass), themeMarkers);
+
+  return Object.freeze(theme);
 }
