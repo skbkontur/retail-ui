@@ -11,7 +11,7 @@ export class ToastStatic {
     notification: string,
     action?: Nullable<Action>,
     showTime?: number,
-    showCloseButton?: boolean,
+    showCloseIcon?: boolean,
   ) => {
     if (!ToastStatic.node && globalObject.document) {
       ToastStatic.node = globalObject.document.createElement('div');
@@ -24,10 +24,10 @@ export class ToastStatic {
       ReactDOM.render(
         <Toast data-tid={ToastDataTids.toastStatic} ref={(el) => (ToastStatic.instance = el)} />,
         ToastStatic.node,
-        () => ToastStatic._push(notification, action, showTime, showCloseButton),
+        () => ToastStatic._push(notification, action, showTime, showCloseIcon),
       );
     } else {
-      ToastStatic._push(notification, action, showTime, showCloseButton);
+      ToastStatic._push(notification, action, showTime, showCloseIcon);
     }
   };
 
@@ -35,10 +35,10 @@ export class ToastStatic {
     notification: string,
     action?: Nullable<Action>,
     showTime?: number,
-    showCloseButton?: boolean,
+    showCloseIcon?: boolean,
   ) => {
     if (ToastStatic.instance) {
-      ToastStatic.instance.push(notification, action, showTime, showCloseButton);
+      ToastStatic.instance.push(notification, action, showTime, showCloseIcon);
     }
   };
 
