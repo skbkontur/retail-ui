@@ -19,6 +19,10 @@ export const parseThemeVersion = (str: string, separator: string = '\\.'): Theme
   };
 };
 
+export const parseVersionFromThemeName = (name: string): ThemeVersionParsed | null => {
+  return parseThemeVersion(name, '_');
+};
+
 export const isThemeVersionGTE = (v1: ThemeVersions, v2: ThemeVersions): boolean => {
   const parsedV1 = parseThemeVersion(v1);
   const parsedV2 = parseThemeVersion(v2);

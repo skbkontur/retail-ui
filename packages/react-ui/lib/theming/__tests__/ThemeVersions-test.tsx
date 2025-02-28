@@ -1,4 +1,4 @@
-import { parseThemeVersion, isThemeVersionGTE } from '../ThemeVersions';
+import { parseThemeVersion, isThemeVersionGTE, parseVersionFromThemeName } from '../ThemeVersions';
 
 describe('ThemeVersions', () => {
   describe('parseThemeVersion', () => {
@@ -30,6 +30,21 @@ describe('ThemeVersions', () => {
       ${'2_1'} | ${'_'}    | ${{ major: 2, minor: 1 }}
     `('parseThemeVersion($v, $separator) returns $result', ({ v, separator, result }) => {
       expect(parseThemeVersion(v, separator)).toStrictEqual(result);
+    });
+  });
+
+  describe('parseVersionFromThemeName', () => {
+    test.each`
+      name                   | version
+      ${'LIGHT_THEME'}       | ${null}
+      ${'LIGHT_THEME_1'}     | ${null}
+      ${'LIGHT_THEME_1_X'}   | ${null}
+      ${'LIGHT_THEME_1_0'}   | ${{ major: 1, minor: 0 }}
+      ${'LIGHT_THEME_1_0_0'} | ${{ major: 1, minor: 0 }}
+      ${'LIGHT_THEME_10_10'} | ${{ major: 10, minor: 10 }}
+      ${'LIGHT_THEME_00_00'} | ${{ major: 0, minor: 0 }}
+    `('$name should result to $version', ({ name, version }) => {
+      expect(parseVersionFromThemeName(name)).toStrictEqual(version);
     });
   });
 
