@@ -4,7 +4,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
-import { InputDataTids } from '../../../components/Input';
+import { Input, InputDataTids } from '../../../components/Input';
 import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay, clickOutside } from '../../../lib/utils';
 
@@ -162,6 +162,21 @@ describe('<Autocomplete />', () => {
     const props = { value: 'hello', onValueChange, source, rightIcon };
     render(<Autocomplete {...props} />);
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
+  });
+
+  it('passes showClearIcon prop to input', async () => {
+    const ControlledAutocomplete = () => {
+      const [value, setValue] = useState<string>('hello');
+      return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
+    };
+    render(<ControlledAutocomplete />);
+
+    const cleanCross = screen.getByTestId(InputDataTids.cleanCross);
+    expect(cleanCross).toBeInTheDocument();
+    await userEvent.click(cleanCross);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+    expect(cleanCross).not.toBeInTheDocument();
   });
 
   it('passes id prop to input', () => {
