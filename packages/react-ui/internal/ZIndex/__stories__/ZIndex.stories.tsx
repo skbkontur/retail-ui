@@ -1052,12 +1052,12 @@ const SeveralRoots = (props: { title: string; goldenSample: React.ReactNode; wit
 export const SeveralRootsSimple = () => {
   return <SeveralRoots title="Простой пример" goldenSample={<Classic />} withRoot={<Classic withRoot />} />;
 };
-SeveralRootsSimple.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+SeveralRootsSimple.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
 
 export const SeveralRootsActiveLoader = () => {
   return <SeveralRoots title="Активный Лоадер" goldenSample={<ActiveLoader />} withRoot={<ActiveLoader withRoot />} />;
 };
-SeveralRootsActiveLoader.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+SeveralRootsActiveLoader.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
 
 export const SeveralRootsDisabledLoaderInPortal = () => {
   return (
@@ -1068,9 +1068,11 @@ export const SeveralRootsDisabledLoaderInPortal = () => {
     />
   );
 };
-SeveralRootsDisabledLoaderInPortal.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+SeveralRootsDisabledLoaderInPortal.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};
 
 export const SeveralRootsUpper = () => {
   return <SeveralRoots title="Выше всех" goldenSample={<Upper />} withRoot={<Upper withRoot />} />;
 };
-SeveralRootsUpper.parameters = { creevey: { skip: { in: /^(?!\bchrome2022\b)/ } } };
+SeveralRootsUpper.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
