@@ -1,19 +1,15 @@
-import { isDarkTheme, isThemeVersion } from '../../ThemeHelpers';
+import { isDarkTheme, isThemeGTE } from '../../ThemeHelpers';
+import { ThemeVersions, ThemeVersionParsed, parseVersionFromThemeName } from '../../ThemeVersions';
 import { DARK_THEME } from '../DarkTheme';
 import { LIGHT_THEME } from '../LightTheme';
 import * as DarkThemeImports from '../DarkTheme';
 import * as LightThemeImports from '../LightTheme';
 import { Theme } from '../../Theme';
 
-interface ThemeVersion {
-  major: number;
-  minor: number;
-}
-
 interface ThemeWithNameAndVersion {
   theme: Theme;
   name: string;
-  version: ThemeVersion | null;
+  version: ThemeVersionParsed | null;
 }
 
 describe('themes', () => {
@@ -26,7 +22,8 @@ describe('themes', () => {
 
   describe('versions', () => {
     test.each(ALL_THEMES)('$name has a version', ({ theme }) => {
-      expect(isThemeVersion(theme, '0.0')).toBe(true);
+      // comparing with '0.0' ensures that the theme has a valid version
+      expect(isThemeGTE(theme, '0.0' as ThemeVersions)).toBe(true);
     });
 
     test.each(THEMES_WITH_VERSIONS_IN_NAMES)('name of $name matches its version: $version', ({ theme, version }) => {
@@ -35,8 +32,8 @@ describe('themes', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const { major, minor } = version!;
 
-      expect(isThemeVersion(theme, `${BigInt(major)}.${BigInt(minor)}`)).toBe(true);
-      expect(isThemeVersion(theme, `${BigInt(major)}.${BigInt(minor + 1)}`)).toBe(false);
+      expect(isThemeGTE(theme, `${major}.${minor}` as ThemeVersions)).toBe(true);
+      expect(isThemeGTE(theme, `${major}.${minor + 1}` as ThemeVersions)).toBe(false);
     });
 
     describe('latests', () => {
@@ -69,21 +66,6 @@ describe('themes', () => {
   });
 
   describe('test utils', () => {
-    describe('getVersionFromThemeName', () => {
-      test.each`
-        name                   | version
-        ${'LIGHT_THEME'}       | ${null}
-        ${'LIGHT_THEME_1'}     | ${null}
-        ${'LIGHT_THEME_1_X'}   | ${null}
-        ${'LIGHT_THEME_1_0'}   | ${{ major: 1, minor: 0 }}
-        ${'LIGHT_THEME_1_0_0'} | ${{ major: 0, minor: 0 }}
-        ${'LIGHT_THEME_10_10'} | ${{ major: 10, minor: 10 }}
-        ${'LIGHT_THEME_00_00'} | ${{ major: 0, minor: 0 }}
-      `('$name should result to $version', ({ name, version }) => {
-        expect(getVersionFromThemeName(name)).toStrictEqual(version);
-      });
-    });
-
     describe('getThemesFromImports', () => {
       const mockTheme = {} as Theme;
       const mockThemesImports = {
@@ -113,7 +95,7 @@ describe('themes', () => {
       });
 
       test.each(getThemesFromImports(mockThemesImports))('$name version should be $version', ({ name, version }) => {
-        expect(version).toStrictEqual(getVersionFromThemeName(name));
+        expect(version).toStrictEqual(parseVersionFromThemeName(name));
       });
     });
 
@@ -151,22 +133,10 @@ describe('themes', () => {
   });
 });
 
-function getVersionFromThemeName(name: string): ThemeVersion | null {
-  const versionString = name.match(/\d+_\d+$/g);
-
-  if (!versionString) {
-    return null;
-  }
-
-  const [major, minor] = versionString[0].split('_').map(Number);
-
-  return { major, minor };
-}
-
 function getThemesFromImports(themes: Record<string, Theme>): ThemeWithNameAndVersion[] {
   return Object.entries(themes)
     .filter(([key]) => key !== '__esModule')
-    .map(([name, theme]) => ({ theme, name, version: getVersionFromThemeName(name) }));
+    .map(([name, theme]) => ({ theme, name, version: parseVersionFromThemeName(name) }));
 }
 
 function getLatestTheme(themes: ThemeWithNameAndVersion[]): ThemeWithNameAndVersion {

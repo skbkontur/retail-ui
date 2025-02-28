@@ -2,8 +2,9 @@
 import React, { CSSProperties } from 'react';
 
 import { Story, Meta } from '../../../typings/stories';
-import { createTheme, isThemeVersion, markThemeVersion } from '../../../lib/theming/ThemeHelpers';
+import { createTheme, isThemeGTE, markThemeVersion } from '../../../lib/theming/ThemeHelpers';
 import { BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
+import { ThemeVersions } from '../../../lib/theming/ThemeVersions';
 
 export default {
   title: 'ThemeVersions/Test',
@@ -23,7 +24,6 @@ class TestThemeClass extends BasicThemeClassForExtension {
 }
 
 type TestThemeIn = Partial<typeof TestThemeClass>;
-type TestVersions = '1.0' | '1.1';
 
 const TEST_THEME_BASIC = createTheme({ themeClass: TestThemeClass });
 
@@ -32,7 +32,7 @@ const TEST_THEME_1_0 = createTheme({
     public static color = 'red';
     public static textTransform = 'lowercase';
   },
-  themeMarkers: [markThemeVersion<TestVersions>('1.0')],
+  themeMarkers: [markThemeVersion('1.0' as ThemeVersions)],
   prototypeTheme: TEST_THEME_BASIC,
 });
 
@@ -41,7 +41,7 @@ const TEST_THEME_1_1 = createTheme({
     public static color = 'green';
     public static fontStyle = 'italic';
   },
-  themeMarkers: [markThemeVersion<TestVersions>('1.1')],
+  themeMarkers: [markThemeVersion('1.1' as ThemeVersions)],
   prototypeTheme: TEST_THEME_1_0,
 });
 
@@ -53,8 +53,8 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
   };
 
   const themeVersionList = Object.entries({
-    '1_0': isThemeVersion<TestVersions>(theme, '1.0'),
-    '1_1': isThemeVersion<TestVersions>(theme, '1.1'),
+    '1_0': isThemeGTE(theme, '1.0' as ThemeVersions),
+    '1_1': isThemeGTE(theme, '1.1' as ThemeVersions),
   })
     .filter(([_, isDetected]) => isDetected)
     .map(([version]) => <li>{version}</li>);
@@ -66,9 +66,9 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
       <div>
         <span>Detected theme versions:&nbsp;{themeVersionList.length === 0 && 'none'}</span>
 
-        {isThemeVersion<TestVersions>(theme, '1.1') ? (
+        {isThemeGTE(theme, '1.1' as ThemeVersions) ? (
           <ul>{themeVersionList}</ul>
-        ) : isThemeVersion<TestVersions>(theme, '1.0') ? (
+        ) : isThemeGTE(theme, '1.0' as ThemeVersions) ? (
           <ol>{themeVersionList}</ol>
         ) : null}
       </div>
