@@ -8,9 +8,6 @@ import { isThemeVersionGTE, ThemeVersions } from './ThemeVersions';
 
 export type Marker = (theme: Theme) => Theme;
 export type Markers = Marker[];
-export const ThemeVersionSeparator = '.' as const;
-export type ThemeVersions = '5.0' | '5.1';
-export type ThemeVersionType = `${bigint}${typeof ThemeVersionSeparator}${bigint}`;
 
 export const exposeGetters = (theme: Theme): Theme => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
@@ -116,20 +113,3 @@ export function createTheme(options: { themeClass: Theme; prototypeTheme?: Theme
 
   return Object.freeze(theme);
 }
-
-export const isVersionGTE = (v1: Nullable<ThemeVersionType>, v2: Nullable<ThemeVersionType>): boolean => {
-  if (!v1 || !v2) {
-    return false;
-  }
-
-  const [majorV1, minorV1] = v1.split(ThemeVersionSeparator).map(Number);
-  const [majorV2, minorV2] = v2.split(ThemeVersionSeparator).map(Number);
-
-  if (majorV1 > majorV2) {
-    return true;
-  } else if (majorV1 === majorV2) {
-    return minorV1 >= minorV2;
-  }
-
-  return false;
-};

@@ -24,7 +24,6 @@ class TestThemeClass extends BasicThemeClassForExtension {
 }
 
 type TestThemeIn = Partial<typeof TestThemeClass>;
-type TestVersions = '1.0' | '1.1';
 
 const TEST_THEME_BASIC = createTheme({ themeClass: TestThemeClass });
 
