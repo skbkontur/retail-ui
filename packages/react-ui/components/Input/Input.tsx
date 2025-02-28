@@ -56,7 +56,9 @@ export interface InputProps
       React.InputHTMLAttributes<HTMLInputElement>,
       {
         /** Устанавливает иконку крестика, при нажатии на который инпут очищается.
-         * @default never. */
+         * При значении "always" крестик отображается всегда, если поле непустое.
+         * При значении "onFocus" крестик отображается при фокусировке на непустом поле.
+         * @default never */
         showCleanCross?: ShowCleanCross;
 
         /** Задает иконку слева.

@@ -34,7 +34,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Очистка значения';
 
 export const Example4: Story = () => {
-  return <Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />;
+  return <Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<SearchLoupeIcon />} />;
 };
 Example4.storyName = 'Префикс';
 
@@ -85,9 +85,17 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'type';
 
-/** Крестик отображается только при фокусировке на поле, в котором что-либо введено */
+/** При showCleanCross="always" крестик отображается всегда, если в инпут что-либо введено.
+ *
+ * При showCleanCross="onFocus" крестик отображается при фокусировке на инпуте, в который что-либо введено. */
 export const Example6: Story = () => {
-  const [value, setValue] = React.useState('Управляемый контрол');
-  return <Input showCleanCross value={value} onValueChange={setValue} data-tid="controlled-input" />;
+  const [valueAlways, setValueAlways] = React.useState('Отображаю крестик всегда');
+  const [valueOnFocus, setValueOnFocus] = React.useState('Отображаю крестик по фокусу');
+  return (
+    <Gapped gap={10}>
+      <Input showCleanCross="always" value={valueAlways} onValueChange={setValueAlways} width="250px" />
+      <Input showCleanCross="onFocus" value={valueOnFocus} onValueChange={setValueOnFocus} width="250px" />
+    </Gapped>
+  );
 };
 Example6.storyName = 'Крестик для очистки';

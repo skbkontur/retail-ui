@@ -13,7 +13,10 @@ export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
-  /** Устанавливает иконку крестика, при нажатии на который комбобокс очищается. */
+  /** Устанавливает иконку крестика, при нажатии на который комбобокс очищается.
+   * При значении "always" крестик отображается всегда, если поле непустое.
+   * При значении "onFocus" крестик отображается при фокусировке на непустом поле.
+   * @default never */
   showCleanCross?: ShowCleanCross;
 
   /** Задает выравнивание контента. */

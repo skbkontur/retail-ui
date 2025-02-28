@@ -538,26 +538,53 @@ export const Example9: Story = () => {
 };
 Example9.storyName = 'Размер';
 
-/** Крестик отображается только при фокусировке на поле, в котором что-либо введено */
+/** При showCleanCross="always" крестик отображается всегда, если в комбобокс что-либо введено.
+ *
+ * При showCleanCross="onFocus" крестик отображается при фокусировке на комбобоксе, в который что-либо введено. */
 export const Example10: Story = () => {
-  const [value, setValue] = React.useState({
+  const [valueAlways, setValueAlways] = React.useState({
+    value: 1,
+    label: 'Отображаю крестик всегда',
+  });
+  const [valueOnFocus, setValueOnFocus] = React.useState({
     value: 2,
-    label: 'Second',
+    label: 'Отображаю крестик по фокусу',
   });
   const getItems = (q: string) => {
     return Promise.resolve(
       [
         {
           value: 1,
-          label: 'First',
+          label: 'Отображаю крестик всегда',
         },
         {
           value: 2,
-          label: 'Second',
+          label: 'Отображаю крестик по фокусу',
+        },
+        {
+          value: 3,
+          label: 'Никогда не отображаю крестик',
         },
       ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
     );
   };
-  return <ComboBox showCleanCross getItems={getItems} value={value} onValueChange={setValue} />;
+  return (
+    <Gapped gap={10}>
+      <ComboBox
+        showCleanCross="always"
+        getItems={getItems}
+        value={valueAlways}
+        onValueChange={setValueAlways}
+        width="250px"
+      />
+      <ComboBox
+        showCleanCross="onFocus"
+        getItems={getItems}
+        value={valueOnFocus}
+        onValueChange={setValueOnFocus}
+        width="250px"
+      />
+    </Gapped>
+  );
 };
 Example10.storyName = 'Крестик для очистки';
