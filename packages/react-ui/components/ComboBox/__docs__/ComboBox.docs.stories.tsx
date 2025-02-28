@@ -4,7 +4,7 @@ import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/ComboBox',

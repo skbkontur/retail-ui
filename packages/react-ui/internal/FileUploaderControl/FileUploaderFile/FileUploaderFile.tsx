@@ -1,8 +1,9 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { FileUploaderAttachedFile } from '../fileUtils';
+import type { FileUploaderAttachedFile } from '../fileUtils';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
@@ -11,12 +12,12 @@ import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import { SizeProp } from '../../../lib/types/props';
+import type { SizeProp } from '../../../lib/types/props';
 
 import { jsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';

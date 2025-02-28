@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
@@ -23,6 +23,40 @@ describe('Global Loader', () => {
     expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
     expect(refGlobalLoader.current?.state.dead).toBe(true);
     expect(refGlobalLoader2.current?.state.dead).toBe(false);
+  });
+
+  describe('in StrictMode', () => {
+    it('should render', async () => {
+      render(
+        <StrictMode>
+          <GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />
+        </StrictMode>,
+      );
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.dead).toBe(false);
+    });
+
+    it('should only render one instance', async () => {
+      render(
+        <StrictMode>
+          <GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />
+        </StrictMode>,
+      );
+      render(
+        <StrictMode>
+          <GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader2} />
+        </StrictMode>,
+      );
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.dead).toBe(true);
+      expect(refGlobalLoader2.current?.state.dead).toBe(false);
+    });
   });
 
   describe('with props', () => {

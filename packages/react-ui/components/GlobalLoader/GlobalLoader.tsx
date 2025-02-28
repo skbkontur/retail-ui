@@ -3,10 +3,12 @@ import debounce from 'lodash.debounce';
 
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
+import type { GlobalLoaderViewProps } from './GlobalLoaderView';
+import { GlobalLoaderView } from './GlobalLoaderView';
 
 export interface GlobalLoaderProps {
   /** Устанавливает задержку в миллисекундах до появления лоадера. */
@@ -61,7 +63,7 @@ type DefaultProps = Required<
   >
 >;
 
-let currentGlobalLoader: GlobalLoader;
+let currentGlobalLoader: GlobalLoader | null;
 
 /**
  * Глобальный лоадер `GlobalLoader` — это универсальный индикатор обмена данными с сервером.
@@ -132,6 +134,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
   }
 
+  componentWillUnmount(): void {
+    currentGlobalLoader = null;
+  }
+
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
     const { expectedResponseTime, rejected, active } = this.getProps();
     if (expectedResponseTime !== prevProps.expectedResponseTime) {
@@ -183,9 +189,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static start = (expectedResponseTime?: number) => {
-    currentGlobalLoader.setActive();
+    currentGlobalLoader?.setActive();
     if (typeof expectedResponseTime === 'number') {
-      currentGlobalLoader.updateExpectedResponseTime(expectedResponseTime);
+      currentGlobalLoader?.updateExpectedResponseTime(expectedResponseTime);
     }
   };
 
@@ -196,7 +202,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static done = () => {
-    currentGlobalLoader.setDone();
+    currentGlobalLoader?.setDone();
   };
 
   /**
@@ -206,7 +212,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static reject = () => {
-    currentGlobalLoader.setReject(true);
+    currentGlobalLoader?.setReject(true);
   };
 
   /**
@@ -216,7 +222,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static accept = () => {
-    currentGlobalLoader.setReject(false);
+    currentGlobalLoader?.setReject(false);
   };
 
   public setActive = () => {

@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { DatePickerLocaleHelper } from '../../../components/DatePicker/locale';
-import { DateSelect, DateSelectProps } from '../DateSelect';
+import type { DateSelectProps } from '../DateSelect';
+import { DateSelect } from '../DateSelect';
 
 const renderSelect = (props: DateSelectProps) => render(<DateSelect {...props} />);
 

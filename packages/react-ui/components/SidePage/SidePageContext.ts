@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { SidePageFooter } from './SidePageFooter';
-import { SidePageHeader } from './SidePageHeader';
+import type { SidePageFooter } from './SidePageFooter';
+import type { SidePageHeader } from './SidePageHeader';
 
 export interface SidePageContextType {
   requestClose: () => void;

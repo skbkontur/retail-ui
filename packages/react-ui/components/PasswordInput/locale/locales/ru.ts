@@ -1,4 +1,4 @@
-import { PasswordInputLocale } from '../types';
+import type { PasswordInputLocale } from '../types';
 
 export const componentsLocales: PasswordInputLocale = {
   eyeOpenedAriaLabel: 'Скрыть символы пароля',

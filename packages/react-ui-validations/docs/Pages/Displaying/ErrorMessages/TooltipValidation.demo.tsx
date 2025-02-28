@@ -1,13 +1,9 @@
 import React from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  ValidationInfo,
-  tooltip,
-} from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper, tooltip } from '../../../../src';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 interface TooltipValidationDemoState {

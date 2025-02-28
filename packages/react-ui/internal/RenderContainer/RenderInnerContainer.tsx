@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 
-import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
+import type { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 import { PORTAL_INLET_ATTR } from './RenderContainer';
 
 interface RenderInnerContainerProps extends RenderContainerProps {

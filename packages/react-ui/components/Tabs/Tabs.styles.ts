@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
-import { SizeProp } from '../../lib/types/props';
+import type { Theme } from '../../lib/theming/Theme';
+import type { SizeProp } from '../../lib/types/props';
 
 import { paddingX } from './helpers';
 

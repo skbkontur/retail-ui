@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types';
 
 import { createPropsGetter } from './utils/createPropsGetter';
 import { isTestEnv } from './utils/utils';

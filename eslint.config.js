@@ -100,6 +100,7 @@ module.exports = [
       '@typescript-eslint/ban-types': 2,
       '@typescript-eslint/camelcase': 0,
       '@typescript-eslint/array-type': [1, { default: 'array-simple' }],
+      '@typescript-eslint/consistent-type-imports': 'error',
       'jsx-a11y/click-events-have-key-events': 0,
       'jsx-a11y/no-static-element-interactions': 0,
       'jsx-a11y/no-noninteractive-tabindex': 0,

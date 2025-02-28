@@ -1,5 +1,5 @@
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 export const getComboBoxTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(

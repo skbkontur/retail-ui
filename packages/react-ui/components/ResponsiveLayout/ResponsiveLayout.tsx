@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { isFunction } from '../../lib/utils';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 
-import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types';
+import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
 interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {

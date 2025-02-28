@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { PointerEventsCheckLevel, userEvent } from '@testing-library/user-event';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { Calendar, CalendarProps, CalendarDataTids } from '../Calendar';
+import type { CalendarProps } from '../Calendar';
+import { Calendar, CalendarDataTids } from '../Calendar';
 import { CalendarDay } from '../CalendarDay';
 import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru';
 import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en';

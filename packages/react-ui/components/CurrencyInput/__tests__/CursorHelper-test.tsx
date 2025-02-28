@@ -1,5 +1,5 @@
 import { CursorHelper } from '../CursorHelper';
-import { Selection } from '../SelectionHelper';
+import type { Selection } from '../SelectionHelper';
 
 describe('CursorHelper', () => {
   describe('toRawPosition', () => {

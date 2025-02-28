@@ -2,9 +2,10 @@ import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { Link, LinkProps } from '../Link';
+import type { LinkProps } from '../Link';
+import { Link } from '../Link';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';

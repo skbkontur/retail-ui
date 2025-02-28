@@ -4,7 +4,7 @@ import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { TooltipMenu, Button, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/TooltipMenu',

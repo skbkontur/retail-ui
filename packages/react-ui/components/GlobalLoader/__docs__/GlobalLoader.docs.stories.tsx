@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalLoader, Button, Gapped, Toggle, ThemeContext, ThemeFactory, Modal } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/GlobalLoader',

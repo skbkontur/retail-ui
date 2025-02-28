@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 
-import { PopupHelper, PositionObject, Rect } from './PopupHelper';
+import type { PositionObject, Rect } from './PopupHelper';
+import { PopupHelper } from './PopupHelper';
 import { styles } from './PopupPin.styles';
 import { PopupDataTids } from './Popup';
 

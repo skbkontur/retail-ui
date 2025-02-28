@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Toast, ToastProps } from '../Toast/Toast';
+import type { ToastProps } from '../Toast/Toast';
+import { Toast } from '../Toast/Toast';
 
 /**
  * `SingleToast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.

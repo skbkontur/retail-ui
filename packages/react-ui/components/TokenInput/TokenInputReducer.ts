@@ -1,4 +1,5 @@
-import { TokenInputState, DefaultState } from './TokenInput';
+import type { TokenInputState } from './TokenInput';
+import { DefaultState } from './TokenInput';
 
 export interface TokenInputAction {
   type: TokenInputActionType;

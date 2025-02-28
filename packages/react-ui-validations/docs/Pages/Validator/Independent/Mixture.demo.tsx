@@ -1,14 +1,9 @@
 import React from 'react';
 import { Button, Gapped, Input } from '@skbkontur/react-ui';
 
-import { Nullable } from '../../../../typings/Types';
-import {
-  text,
-  ValidationBehaviour,
-  ValidationContainer,
-  ValidationInfo,
-  ValidationWrapper,
-} from '../../../../src';
+import type { Nullable } from '../../../../typings/Types';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
+import { text, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
 interface IndependentCompareState {

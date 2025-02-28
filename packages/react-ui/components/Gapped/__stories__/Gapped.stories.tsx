@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Meta } from '../../../typings/stories';
-import { Gapped, GappedProps } from '../Gapped';
+import type { Meta } from '../../../typings/stories';
+import type { GappedProps } from '../Gapped';
+import { Gapped } from '../Gapped';
 import { Button } from '../../Button';
 
 export default {

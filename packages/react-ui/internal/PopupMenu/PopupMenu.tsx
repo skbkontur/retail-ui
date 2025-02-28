@@ -1,8 +1,9 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { getRandomID } from '../../lib/utils';
-import { HTMLProps } from '../../typings/html';
+import type { HTMLProps } from '../../typings/html';
 import {
   isKeyArrowVertical,
   isKeyEnter,
@@ -12,14 +13,18 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupIds, PopupPositionsType } from '../Popup';
+import type { PopupPositionsType } from '../Popup';
+import { Popup, PopupIds } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
-import { Nullable } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import type { Nullable } from '../../typings/utility-types';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Menu, MenuProps } from '../Menu';
+import type { MenuProps } from '../Menu';
+import { Menu } from '../Menu';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';

@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Gapped } from '@skbkontur/react-ui';
-import { Story } from '@skbkontur/react-ui/typings/stories';
+import type { Story } from '@skbkontur/react-ui/typings/stories';
 
-import { text, tooltip, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
-import { Nullable } from '../typings/Types';
+import type { ValidationBehaviour, ValidationInfo } from '../src';
+import { text, tooltip, ValidationContainer, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types';
 
 export default {
   title: 'Input',

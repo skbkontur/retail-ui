@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Center } from '../Center';
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 
 export default {
   title: 'Center',

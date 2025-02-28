@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Checkbox, CheckboxProps } from '../../components/Checkbox';
+import type { CheckboxProps } from '../../components/Checkbox';
+import { Checkbox } from '../../components/Checkbox';
 import { Radio } from '../../components/Radio';
 import { FileUploader } from '../../components/FileUploader';
 import { Paging } from '../../components/Paging';

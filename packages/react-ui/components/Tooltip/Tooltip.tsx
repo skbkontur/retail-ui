@@ -1,28 +1,30 @@
 import React from 'react';
 import warning from 'warning';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { SafeTimer } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
-import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
-import { Nullable } from '../../typings/utility-types';
-import { MouseEventType } from '../../typings/event-types';
+import type { PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
+import { Popup } from '../../internal/Popup';
+import type { RenderLayerProps } from '../../internal/RenderLayer';
+import { RenderLayer } from '../../internal/RenderLayer';
+import type { Nullable } from '../../typings/utility-types';
+import type { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Tooltip.styles';
 

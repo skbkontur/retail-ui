@@ -1,4 +1,4 @@
-import React, {
+import type {
   AriaAttributes,
   ChangeEvent,
   FocusEvent,
@@ -8,6 +8,7 @@ import React, {
   MouseEventHandler,
   ReactNode,
 } from 'react';
+import React from 'react';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -26,23 +27,30 @@ import {
   isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Menu } from '../../internal/Menu';
-import { Token, TokenProps, TokenSize } from '../Token';
-import { MenuItemState, MenuItem } from '../MenuItem';
-import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
+import type { Menu } from '../../internal/Menu';
+import type { TokenProps, TokenSize } from '../Token';
+import { Token } from '../Token';
+import type { MenuItemState } from '../MenuItem';
+import { MenuItem } from '../MenuItem';
+import type { AnyObject } from '../../lib/utils';
+import { emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
 
-import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
+import type { TokenInputLocale } from './locale';
+import { TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
-import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
+import type { TokenInputAction } from './TokenInputReducer';
+import { tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
 

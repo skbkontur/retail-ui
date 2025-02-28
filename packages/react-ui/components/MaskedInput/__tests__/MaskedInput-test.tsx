@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { MaskedInput, MaskedInputProps } from '../MaskedInput';
-import { Input, InputProps } from '../../Input';
+import type { MaskedInputProps } from '../MaskedInput';
+import { MaskedInput } from '../MaskedInput';
+import type { InputProps } from '../../Input';
+import { Input } from '../../Input';
 
 describe('MaskedInput', () => {
   it('renders without crash', () => {

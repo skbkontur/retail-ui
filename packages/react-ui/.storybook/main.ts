@@ -8,4 +8,5 @@ function getConfig(): StorybookConfig {
 }
 
 const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
+
 export default config;

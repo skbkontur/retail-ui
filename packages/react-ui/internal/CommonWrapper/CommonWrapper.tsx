@@ -2,8 +2,9 @@ import React from 'react';
 
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { Nullable } from '../../typings/utility-types';
-import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
+import type { Nullable } from '../../typings/utility-types';
+import type { TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';

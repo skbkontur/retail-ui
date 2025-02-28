@@ -1,7 +1,7 @@
 import React from 'react';
 import { MenuHeader, Button, MenuItem, DropdownMenu, Gapped } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/MenuHeader',

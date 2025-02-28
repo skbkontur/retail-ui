@@ -1,4 +1,5 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
@@ -6,16 +7,20 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
-import { Input, InputProps } from '../Input';
-import { Nullable, Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { InputProps } from '../Input';
+import { Input } from '../Input';
+import type { Nullable, Override } from '../../typings/utility-types';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
-import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
+import type { Selection, SelectionDirection } from './SelectionHelper';
+import { SelectionHelper } from './SelectionHelper';
 import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';

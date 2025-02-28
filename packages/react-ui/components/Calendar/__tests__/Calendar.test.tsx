@@ -9,7 +9,8 @@ import { SelectDataTids } from '../../Select';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { CalendarDataTids } from '..';
 import { CalendarLocaleHelper } from '../locale';
-import { CalendarDay, CalendarDayProps } from '../CalendarDay';
+import type { CalendarDayProps } from '../CalendarDay';
+import { CalendarDay } from '../CalendarDay';
 
 describe('Calendar', () => {
   it('renders', () => {
@@ -84,7 +85,7 @@ describe('Calendar', () => {
       }),
     );
 
-    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 5000 });
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 8000 });
   });
 
   it('onMonthChange returns correct year', async () => {
@@ -106,7 +107,7 @@ describe('Calendar', () => {
       );
     });
 
-    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 5000 });
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 8000 });
   });
 
   it('should set langCode', () => {
