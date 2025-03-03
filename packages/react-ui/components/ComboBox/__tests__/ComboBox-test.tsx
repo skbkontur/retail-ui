@@ -298,28 +298,28 @@ describe('ComboBox', () => {
     });
 
     it('do not open dropdown', async () => {
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
       expect(screen.getByRole('textbox')).toHaveFocus();
     });
 
     it('click on input should open dropdown', async () => {
       await userEvent.click(screen.getByRole('textbox'));
-      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
     });
 
     it('arrow down should open dropdown', async () => {
       await userEvent.keyboard('{arrowdown}');
-      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
     });
 
     it('arrow up should open dropdown', async () => {
       await userEvent.keyboard('{arrowup}');
-      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
     });
 
     it('edit value should open dropdown', async () => {
       await userEvent.keyboard('1');
-      expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
     });
   });
 
