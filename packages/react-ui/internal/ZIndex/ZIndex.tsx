@@ -124,17 +124,21 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
       <ZIndexContext.Consumer>
         {(context) => {
           this.zIndexContext = context;
-          const { parentLayerZIndex, maxZIndex } =
-            isEqual(context, DEFAULT_ZINDEX_CONTEXT) && this.state.savedZIndexContext !== null
+
+          const actualZIndexContext =
+            this.state.savedZIndexContext && isEqual(context, DEFAULT_ZINDEX_CONTEXT)
               ? this.state.savedZIndexContext
               : context;
-          let zIndexContextValue = { parentLayerZIndex, maxZIndex };
+          const { parentLayerZIndex, maxZIndex } = actualZIndexContext;
+
+          let newZIndexContext = actualZIndexContext;
           let newZIndex = 0;
+
           if (applyZIndex) {
             newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
             wrapperStyle.zIndex = newZIndex;
 
-            zIndexContextValue = coverChildren
+            newZIndexContext = coverChildren
               ? { parentLayerZIndex, maxZIndex: newZIndex }
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
@@ -153,7 +157,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
             </div>
           );
 
-          return <ZIndexContext.Provider value={zIndexContextValue}>{child}</ZIndexContext.Provider>;
+          return <ZIndexContext.Provider value={newZIndexContext}>{child}</ZIndexContext.Provider>;
         }}
       </ZIndexContext.Consumer>
     );
