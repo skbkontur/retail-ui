@@ -17,12 +17,13 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 
 import { styles } from './Menu.styles';
 import { MenuNavigation } from './MenuNavigation';
 import { MenuContext } from './MenuContext';
 
-export interface MenuProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
+export interface MenuProps extends CommonProps, Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;
   hasMargin?: boolean;
   /**
@@ -212,50 +213,51 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
     const isMobile = this.isMobileLayout;
     return (
-      <div
-        data-tid={MenuDataTids.root}
-        className={cx(getAlignRightClass(this.props), {
-          [styles.root(this.theme)]: true,
-          [styles.hasMargin(this.theme)]: hasMargin,
-          [styles.mobileRoot(this.theme)]: isMobile,
-          [styles.shadow(this.theme)]: !isMobile,
-        })}
-        style={this.getStyle(this.props)}
-        id={this.props.id}
-        onKeyDown={this.handleKeyDown}
-        ref={this.setRootNode}
-        tabIndex={0}
-      >
-        {this.props.header && this.renderHeader()}
-        <ScrollContainer
-          ref={this.refScrollContainer}
-          maxHeight={maxHeight}
-          preventWindowScroll={preventWindowScroll}
-          onScrollStateChange={this.handleScrollStateChange}
-          disabled={this.props.disableScrollContainer}
-          offsetY={offsetY}
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div
+          data-tid={MenuDataTids.root}
+          className={cx(getAlignRightClass(this.props), {
+            [styles.root(this.theme)]: true,
+            [styles.hasMargin(this.theme)]: hasMargin,
+            [styles.mobileRoot(this.theme)]: isMobile,
+            [styles.shadow(this.theme)]: !isMobile,
+          })}
+          style={this.getStyle(this.props)}
+          id={this.props.id}
+          onKeyDown={this.handleKeyDown}
+          tabIndex={0}
         >
-          <div
-            className={cx({
-              [styles.scrollContainer(this.theme)]: true,
-              [styles.scrollContainerMobile(this.theme)]: isMobile,
-            })}
-            ref={this.contentRef}
+          {this.props.header && this.renderHeader()}
+          <ScrollContainer
+            ref={this.refScrollContainer}
+            maxHeight={maxHeight}
+            preventWindowScroll={preventWindowScroll}
+            onScrollStateChange={this.handleScrollStateChange}
+            disabled={this.props.disableScrollContainer}
+            offsetY={offsetY}
           >
-            <MenuContext.Provider
-              value={{
-                navigation: this.menuNavigation,
-                onItemClick: this.props.onItemClick,
-                enableIconPadding: this.state.enableIconPadding,
-                setEnableIconPadding: this.setEnableIconPadding,
-              }}
+            <div
+              className={cx({
+                [styles.scrollContainer(this.theme)]: true,
+                [styles.scrollContainerMobile(this.theme)]: isMobile,
+              })}
+              ref={this.contentRef}
             >
-              {this.props.children}
-            </MenuContext.Provider>
-          </div>
-        </ScrollContainer>
-        {this.props.footer && this.renderFooter()}
-      </div>
+              <MenuContext.Provider
+                value={{
+                  navigation: this.menuNavigation,
+                  onItemClick: this.props.onItemClick,
+                  enableIconPadding: this.state.enableIconPadding,
+                  setEnableIconPadding: this.setEnableIconPadding,
+                }}
+              >
+                {this.props.children}
+              </MenuContext.Provider>
+            </div>
+          </ScrollContainer>
+          {this.props.footer && this.renderFooter()}
+        </div>
+      </CommonWrapper>
     );
   }
 
