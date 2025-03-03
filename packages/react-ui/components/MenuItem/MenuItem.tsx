@@ -7,7 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
@@ -159,18 +159,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              {...getVisualStateDataAttributes({
-                hover: this.isHover,
-                selected: this.isSelected,
-              })}
-              {...this.props}
-            >
-              {this.renderMain(this.props)}
-            </CommonWrapper>
-          );
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
@@ -275,7 +264,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
+  private renderMain = () => {
     const {
       link,
       comment,
@@ -291,10 +280,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
       href,
       disabled,
       scrollIntoView,
-      rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
+      rel = href && isExternalLink(href) ? 'noopener noreferrer' : this.props.rel,
       isNotSelectable,
+      children,
+      className: unusedClasses,
+      style,
+      'data-tid': dataTid,
       ...rest
-    } = props;
+    } = this.props;
 
     let iconElement = null;
     if (icon) {
@@ -320,55 +313,62 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.selected(this.theme)]: this.isSelected,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
-      [styles.disabled(this.theme)]: !!this.props.disabled,
+      [styles.disabled(this.theme)]: !!disabled,
     });
-
-    const { children } = this.props;
 
     let content = children;
     if (isFunction(children)) {
-      content = children(this.props.state);
+      content = children(state);
     }
 
     const Component = this.getComponent();
 
     return (
-      <Component
-        ref={this.setRootRef}
-        data-tid={MenuItemDataTids.root}
-        {...rest}
-        disabled={disabled}
-        state={this.activeState}
-        onMouseOver={this.handleMouseEnterFix}
-        onMouseLeave={this.handleMouseLeave}
-        onClick={this.handleClick}
-        className={className}
-        href={href}
-        rel={href ? rel : undefined}
-        tabIndex={-1}
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...getVisualStateDataAttributes({
+          hover: this.isHover,
+          selected: this.isSelected,
+        })}
+        {...this.props}
       >
-        {iconElement}
-        <span
-          className={cx({
-            [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
-          })}
-          ref={this.contentRef}
-          data-tid={MenuItemDataTids.content}
+        <Component
+          ref={this.setRootRef}
+          data-tid={MenuItemDataTids.root}
+          {...rest}
+          disabled={disabled}
+          state={this.activeState}
+          onMouseOver={this.handleMouseEnterFix}
+          onMouseLeave={this.handleMouseLeave}
+          onClick={this.handleClick}
+          className={className}
+          href={href}
+          rel={href ? rel : undefined}
+          tabIndex={-1}
         >
-          {typeof content === 'function' ? content() : content}
-        </span>
-        {this.props.comment && (
-          <div
-            data-tid={MenuItemDataTids.comment}
+          {iconElement}
+          <span
             className={cx({
-              [styles.comment(this.theme)]: true,
-              [styles.commentHover(this.theme)]: this.isHover,
+              [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
             })}
+            ref={this.contentRef}
+            data-tid={MenuItemDataTids.content}
           >
-            {comment}
-          </div>
-        )}
-      </Component>
+            {typeof content === 'function' ? content() : content}
+          </span>
+          {comment && (
+            <div
+              data-tid={MenuItemDataTids.comment}
+              className={cx({
+                [styles.comment(this.theme)]: true,
+                [styles.commentHover(this.theme)]: this.isHover,
+              })}
+            >
+              {comment}
+            </div>
+          )}
+        </Component>
+      </CommonWrapper>
     );
   };
 
