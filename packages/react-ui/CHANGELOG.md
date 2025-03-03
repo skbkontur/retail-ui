@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.10...@skbkontur/react-ui@5.0.11) (2025-03-03)
+
+
+### Bug Fixes
+
+* **Combobox:** use ComboBoxMenuDataTids in Menu ([#3601](https://github.com/skbkontur/retail-ui/issues/3601)) ([ae8afea](https://github.com/skbkontur/retail-ui/commit/ae8afea4684cfbfa7d03c0abe273a0f062943524))
+* **PasswordInput:**  prevent Input root data-tid override ([#3598](https://github.com/skbkontur/retail-ui/issues/3598)) ([61b2e83](https://github.com/skbkontur/retail-ui/commit/61b2e8303acc4446872e73f7a87f177b55a0fc37))
+
+
+
+
+
 ## [5.0.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.9...@skbkontur/react-ui@5.0.10) (2025-01-30)
 
 
