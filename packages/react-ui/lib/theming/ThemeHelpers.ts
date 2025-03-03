@@ -9,6 +9,11 @@ import { isThemeVersionGTE, ThemeVersions } from './ThemeVersions';
 export type Marker = (theme: Theme) => Theme;
 export type Markers = Marker[];
 
+/**
+ * Делает все вычисляемые переменные в теме (геттеры) видимыми для Object.keys(theme)
+ * @param theme Объект темы
+ * @returns Исходный объект темы с enumerable геттерами
+ */
 export const exposeGetters = (theme: Theme): Theme => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
   Object.keys(descriptors).forEach((key) => {
@@ -49,6 +54,11 @@ export const isDarkTheme = (theme: Theme | ThemeIn): boolean => {
   return theme[REACT_UI_THEME_MARKERS.darkTheme.key] === REACT_UI_THEME_MARKERS.darkTheme.value;
 };
 
+/**
+ * Помечает тему как "темную"
+ * @param theme Объект темы
+ * @returns Объект темы с меткой темной темы
+ */
 export const markAsDarkTheme: Marker = (theme) => {
   return Object.create(theme, {
     [REACT_UI_THEME_MARKERS.darkTheme.key]: {
@@ -60,6 +70,11 @@ export const markAsDarkTheme: Marker = (theme) => {
   });
 };
 
+/**
+ * Создает функцию, которая проставляет версию темы
+ * @param version Версия темы
+ * @returns Функция, принимающая тему, которой будет проставлена переданная версия
+ */
 export const markThemeVersion: (version: ThemeVersions) => Marker = (version) => (theme) => {
   return Object.create(theme, {
     [REACT_UI_THEME_MARKERS.themeVersion.key]: {
@@ -71,6 +86,12 @@ export const markThemeVersion: (version: ThemeVersions) => Marker = (version) =>
   });
 };
 
+/**
+ * Сравнивает версию темы с переданной версией на "больше или равно"
+ * @param theme Объект темы, версию которой нужно сравнить
+ * @param version Строка версии, с которой нужно провести сравнение
+ * @returns boolean-результат сравнения
+ */
 export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): boolean => {
   const themeVersion: Nullable<ThemeVersions> =
     // @ts-expect-error: internal value.
@@ -84,6 +105,12 @@ export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): bool
   return isThemeVersionGTE(themeVersion, version);
 };
 
+/**
+ * Находит дескриптор свойства в объекте темы по имени
+ * @param theme Объект темы
+ * @param propName Имя свойства
+ * @returns Найденный дескриптор или пустой объект
+ */
 export function findPropertyDescriptor(theme: Theme, propName: string) {
   // TODO: Rewrite for loop.
   // TODO: Enable `no-param-reassign` rule.
@@ -96,12 +123,26 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
   return {};
 }
 
+/**
+ * Помечает тему переданными маркерами
+ * @param theme Объект темы
+ * @param markers Массив маркеров
+ * @returns Исходная тема, помеченная маркерами
+ */
 export function applyMarkers(theme: Theme, markers: Markers): Theme {
   return markers.reduce((markedTheme, marker) => {
     return marker(markedTheme);
   }, Object.create(theme));
 }
 
+/**
+ * Создает объект темы из класса с переменными
+ * @param options Объект с опциями
+ * @param options.themeClass Класс с переменными
+ * @param [options.prototypeTheme] Прототип темы, на основе которого будет создана новая тема
+ * @param [options.themeMarkers] Объект маркеров, которыми будет помечена новая тема
+ * @returns Объект созданной темы
+ */
 export function createTheme(options: { themeClass: Theme; prototypeTheme?: Theme; themeMarkers?: Markers }): Theme {
   const { themeClass, prototypeTheme, themeMarkers = [] } = options;
 
