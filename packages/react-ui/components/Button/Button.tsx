@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
-import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
+import { isKonturIcon } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -476,5 +476,3 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     this.node = node;
   };
 }
-
-export const isButton = isReactUIComponent<ButtonProps>('Button');

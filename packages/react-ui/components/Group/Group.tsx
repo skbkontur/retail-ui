@@ -2,11 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
-import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isInputLike } from '../../lib/utils';
+import {
+  isButton,
+  isAutocomplete,
+  isCurrencyInput,
+  isDropdown,
+  isDropdownMenu,
+  isFxInput,
+  isInput,
+  isPasswordInput,
+  isSelect,
+} from '../../lib/utils';
 
 import { styles } from './Group.styles';
 
@@ -62,13 +71,21 @@ export const getButtonCorners = (isFirstChild: boolean, isLastChild: boolean): R
   };
 };
 
-const passCornersIfButton = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
+const tryPassCorners = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
   const corners = getButtonCorners(child === firstChild, child === lastChild);
-  if (isButton(child)) {
-    return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
-  }
-  if (isInputLike(child)) {
-    return React.cloneElement(child, { corners: { ...corners, ...child.props.corners } });
+
+  if (
+    isButton(child) ||
+    isInput(child) ||
+    isFxInput(child) ||
+    isAutocomplete(child) ||
+    isPasswordInput(child) ||
+    isCurrencyInput(child) ||
+    isSelect(child) ||
+    isDropdown(child) ||
+    isDropdownMenu(child)
+  ) {
+    return React.cloneElement<(typeof child)['props']>(child, { corners: { ...corners, ...child.props.corners } });
   }
 
   return child;
@@ -113,7 +130,7 @@ export class Group extends React.Component<GroupProps> {
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
 
-            const modifiedChild = passCornersIfButton(child, firstChild, lastChild);
+            const modifiedChild = tryPassCorners(child, firstChild, lastChild);
 
             const isFirstChild = child === firstChild;
 
