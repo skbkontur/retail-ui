@@ -49,5 +49,12 @@ export function isEqual(a: Nullable<Validation>, b: Nullable<Validation>): boole
   if (a === b) {
     return true;
   }
-  return !!a && !!b && a.behaviour === b.behaviour && a.message === b.message && a.independent === b.independent;
+  return (
+    !!a &&
+    !!b &&
+    a.behaviour === b.behaviour &&
+    a.message === b.message &&
+    a.independent === b.independent &&
+    a.level === b.level
+  );
 }
