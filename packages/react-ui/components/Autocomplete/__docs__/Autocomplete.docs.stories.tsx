@@ -110,3 +110,32 @@ export const Example9: Story = () => {
   return <Autocomplete source={items} value={value} onValueChange={setValue} borderless />;
 };
 Example9.storyName = 'Режима прозрачной рамки';
+
+/** При showClearIcon="always" крестик отображается всегда, если в автокомплит что-либо введено.
+ *
+ * При showClearIcon="onFocus" крестик отображается при фокусировке на автокомплите, в который что-либо введено. */
+export const Example10: Story = () => {
+  const items = ['Отображаю крестик всегда', 'Отображаю крестик по фокусу', 'Никогда не отображаю крестик'];
+  const [valueAlways, setValueAlways] = React.useState(items[0]);
+  const [valueOnFocus, setValueOnFocus] = React.useState(items[1]);
+
+  return (
+    <Gapped gap={10}>
+      <Autocomplete
+        showClearIcon="always"
+        source={items}
+        value={valueAlways}
+        onValueChange={setValueAlways}
+        width="250px"
+      />
+      <Autocomplete
+        showClearIcon="onFocus"
+        source={items}
+        value={valueOnFocus}
+        onValueChange={setValueOnFocus}
+        width="250px"
+      />
+    </Gapped>
+  );
+};
+Example10.storyName = 'Крестик для очистки';

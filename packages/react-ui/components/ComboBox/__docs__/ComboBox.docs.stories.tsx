@@ -537,3 +537,54 @@ export const Example9: Story = () => {
   );
 };
 Example9.storyName = 'Размер';
+
+/** При showClearIcon="always" крестик отображается всегда, если в комбобокс что-либо введено.
+ *
+ * При showClearIcon="onFocus" крестик отображается при фокусировке на комбобоксе, в который что-либо введено. */
+export const Example10: Story = () => {
+  const [valueAlways, setValueAlways] = React.useState({
+    value: 1,
+    label: 'Отображаю крестик всегда',
+  });
+  const [valueOnFocus, setValueOnFocus] = React.useState({
+    value: 2,
+    label: 'Отображаю крестик по фокусу',
+  });
+  const getItems = (q: string) => {
+    return Promise.resolve(
+      [
+        {
+          value: 1,
+          label: 'Отображаю крестик всегда',
+        },
+        {
+          value: 2,
+          label: 'Отображаю крестик по фокусу',
+        },
+        {
+          value: 3,
+          label: 'Никогда не отображаю крестик',
+        },
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
+  };
+  return (
+    <Gapped gap={10}>
+      <ComboBox
+        showClearIcon="always"
+        getItems={getItems}
+        value={valueAlways}
+        onValueChange={setValueAlways}
+        width="250px"
+      />
+      <ComboBox
+        showClearIcon="onFocus"
+        getItems={getItems}
+        value={valueOnFocus}
+        onValueChange={setValueOnFocus}
+        width="250px"
+      />
+    </Gapped>
+  );
+};
+Example10.storyName = 'Крестик для очистки';
