@@ -48,7 +48,7 @@ type DefaultProps = Required<
 
 interface ZIndexState {
   zIndex: number;
-  savedZIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null;
+  DOMZIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null;
 }
 
 @rootNode
@@ -69,7 +69,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
 
   public state: ZIndexState = {
     zIndex: 0,
-    savedZIndexContext: null,
+    DOMZIndexContext: null,
   };
 
   private getProps = createPropsGetter(ZIndex.defaultProps);
@@ -125,13 +125,13 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
         {(context) => {
           this.zIndexContext = context;
 
-          const actualZIndexContext =
-            this.state.savedZIndexContext && isEqual(context, DEFAULT_ZINDEX_CONTEXT)
-              ? this.state.savedZIndexContext
+          const currentZIndexContext =
+            this.state.DOMZIndexContext && isEqual(context, DEFAULT_ZINDEX_CONTEXT)
+              ? this.state.DOMZIndexContext
               : context;
-          const { parentLayerZIndex, maxZIndex } = actualZIndexContext;
+          const { parentLayerZIndex, maxZIndex } = currentZIndexContext;
 
-          let newZIndexContext = actualZIndexContext;
+          let newZIndexContext = currentZIndexContext;
           let newZIndex = 0;
 
           if (applyZIndex) {
@@ -194,9 +194,9 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     if (
       this.props.applyZIndex &&
       isEqual(DEFAULT_ZINDEX_CONTEXT, this.zIndexContext) &&
-      this.state.savedZIndexContext === null
+      this.state.DOMZIndexContext === null
     ) {
-      let savedZIndexContext = DEFAULT_ZINDEX_CONTEXT;
+      let DOMZIndexContext = DEFAULT_ZINDEX_CONTEXT;
       const portal = element.parentElement?.closest(`[${PORTAL_OUTLET_ATTR}]`);
 
       if (isInstanceOf(portal, globalObject.HTMLElement)) {
@@ -213,11 +213,11 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
             maxZIndex = this.calcZIndex(newZIndex, maxZIndex);
           }
 
-          savedZIndexContext = { maxZIndex, parentLayerZIndex: newZIndex };
+          DOMZIndexContext = { maxZIndex, parentLayerZIndex: newZIndex };
         }
       }
 
-      this.setState({ savedZIndexContext });
+      this.setState({ DOMZIndexContext });
     }
   };
 }
