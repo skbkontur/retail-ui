@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, ThemeContext, ThemeFactory, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
+import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme';
+import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme';
+import { parseVersionFromThemeName } from '../../../lib/theming/ThemeVersions';
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
@@ -39,7 +42,7 @@ export const Example2: Story = () => {
 Example2.storyName = 'Использование темы в своих компонентах';
 
 export const Example3: Story = () => {
-  const MyThemeContext = React.createContext(ThemeFactory.create({ myTextColor: 'orange' }));
+  const MyThemeContext = React.createContext(ThemeFactory.create<{ myTextColor: string }>({ myTextColor: 'orange' }));
 
   MyThemeContext.displayName = 'MyThemeContext';
 
@@ -103,3 +106,66 @@ export const Example5: Story = () => {
   return <NestedThemes />;
 };
 Example5.storyName = 'Вложенные темы';
+
+export const ThemesList: Story = () => {
+  const { LIGHT_THEME, ...REST_LIGHT_THEMES } = ALL_LIGHT_THEMES;
+  const { DARK_THEME, ...REST_DARK_THEMES } = ALL_DARK_THEMES;
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Имя</th>
+          <th>Описание</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>LIGHT_THEME</code>
+          </td>
+          <td>Текущая светлая тема. Содержит все актуальные визуальные изменения. Включена по умолчанию.</td>
+        </tr>
+        {Object.keys(REST_LIGHT_THEMES).map((name) => {
+          const version = parseVersionFromThemeName(name);
+          return (
+            <tr>
+              <td>
+                <code>{name}</code>
+              </td>
+              <td>
+                Светлая тема на момент версии библиотеки{' '}
+                <code>
+                  {version?.major}.{version?.minor}
+                </code>
+              </td>
+            </tr>
+          );
+        })}
+        <tr>
+          <td>
+            <code>DARK_THEME</code>
+          </td>
+          <td>Текущая темная тема. Содержит все актуальные визуальные изменения.</td>
+        </tr>
+        {Object.keys(REST_DARK_THEMES).map((name) => {
+          const version = parseVersionFromThemeName(name);
+          return (
+            <tr>
+              <td>
+                <code>{name}</code>
+              </td>
+              <td>
+                Темная тема на момент версии библиотеки{' '}
+                <code>
+                  {version?.major}.{version?.minor}
+                </code>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+Example5.storyName = 'Список тем';
