@@ -233,3 +233,9 @@ export function clickOutside() {
 
   document.body.dispatchEvent(event);
 }
+
+export class UnreachableError extends Error {
+  public constructor(guard: never) {
+    super(`Unsupported kind: ${JSON.stringify(guard)}`);
+  }
+}

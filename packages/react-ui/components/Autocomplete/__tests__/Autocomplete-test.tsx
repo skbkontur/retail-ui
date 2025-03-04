@@ -4,7 +4,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
-import { InputDataTids } from '../../../components/Input';
+import { InputDataTids, ShowClearIcon } from '../../../components/Input';
 import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay, clickOutside } from '../../../lib/utils';
 
@@ -162,6 +162,45 @@ describe('<Autocomplete />', () => {
     const props = { value: 'hello', onValueChange, source, rightIcon };
     render(<Autocomplete {...props} />);
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
+  });
+
+  it('passes showClearIcon prop to input', async () => {
+    const ControlledAutocomplete = ({ clear }: { clear?: ShowClearIcon }) => {
+      const [value, setValue] = useState<string>('');
+      return <Autocomplete showClearIcon={clear} value={value} onValueChange={setValue} />;
+    };
+    const { rerender } = render(<ControlledAutocomplete />);
+    const autocomplete = screen.getByRole('textbox');
+
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    await userEvent.type(autocomplete, 'hello');
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+
+    rerender(<ControlledAutocomplete clear="never" />);
+    await userEvent.clear(autocomplete);
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    await userEvent.type(autocomplete, 'hello');
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+
+    rerender(<ControlledAutocomplete clear="onFocus" />);
+    await userEvent.clear(autocomplete);
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    await userEvent.type(autocomplete, 'hello');
+    await userEvent.tab();
+    expect(autocomplete).not.toHaveFocus();
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    await userEvent.click(autocomplete);
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+
+    rerender(<ControlledAutocomplete clear="always" />);
+    await userEvent.clear(autocomplete);
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    await userEvent.type(autocomplete, 'hello');
+    await userEvent.tab();
+    expect(autocomplete).not.toHaveFocus();
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+    await userEvent.click(autocomplete);
+    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
   });
 
   it('passes id prop to input', () => {
