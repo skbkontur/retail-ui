@@ -237,6 +237,48 @@
     line-height: 24px;
   }
 
+  /* Simplify external storybooks with only 1 story */
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div[data-selected='true']:only-child) {
+    position: relative;
+    z-index: 1;
+    color: white;
+    pointer-events: none;
+  }
+
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child),
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child) + div > div {
+    padding: 0;
+    border: 0;
+    margin: 8px 0;
+  }
+
+  #storybook-explorer-tree [aria-expanded] + div > div > div:only-child {
+    margin-top: -32px;
+    font-size: 0;
+  }
+
+  #storybook-explorer-tree [aria-expanded] + div > div > div:not([data-selected='true']):only-child:hover {
+    background: #029cfd;
+    opacity: 0.1;
+  }
+
+  #storybook-explorer-tree [aria-expanded] + div > div > div:only-child * {
+    width: 0;
+    opacity: 0;
+  }
+
+  #storybook-explorer-tree
+    [aria-expanded]:has(+ div > div > div:only-child)
+    [data-action='collapse-ref']
+    span:first-child {
+    opacity: 0;
+  }
+
+  /* Hide external storybook link icon */
+  #storybook-explorer-tree [aria-expanded] [aria-label='toggle indicator'] {
+    display: none;
+  }
+
   @media screen and (max-width: 1100px) {
     div:has(> div > div.toc-wrapper) {
       display: none;
