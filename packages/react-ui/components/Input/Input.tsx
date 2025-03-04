@@ -18,7 +18,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
-import { unreachableError } from '../../lib/utils';
+import { UnreachableError } from '../../lib/utils';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -158,7 +158,7 @@ export interface InputState {
   blinking: boolean;
   focused: boolean;
   needsPolyfillPlaceholder: boolean;
-  clearCrossShowed: boolean;
+  clearCrossShowed?: boolean;
 }
 
 export const InputDataTids = {
@@ -200,18 +200,24 @@ export class Input extends React.Component<InputProps, InputState> {
   public input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
-  private getClearCrossShowed = ({ focused, defaultValue }: { focused?: boolean; defaultValue?: boolean }) => {
-    const value = this.getProps().showClearIcon;
-    const notEmptyValue = !!this.input?.value.toString() || !!defaultValue;
-    switch (value) {
+  private getClearCrossShowed = ({
+    focused,
+    hasInitialValue,
+  }: {
+    focused?: boolean;
+    hasInitialValue?: boolean;
+  }): boolean => {
+    const showClearIcon = this.getProps().showClearIcon;
+    const notEmptyValue = Boolean(this.input?.value || hasInitialValue);
+    switch (showClearIcon) {
       case 'always':
         return notEmptyValue;
       case 'onFocus':
-        return focused && notEmptyValue;
+        return Boolean(focused && notEmptyValue);
       case 'never':
         return false;
       default:
-        unreachableError(value);
+        throw new UnreachableError(showClearIcon);
     }
   };
 
@@ -219,9 +225,9 @@ export class Input extends React.Component<InputProps, InputState> {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
-    clearCrossShowed: !!this.getClearCrossShowed({
+    clearCrossShowed: this.getClearCrossShowed({
       focused: false,
-      defaultValue: !!this.props.value || !!this.props.defaultValue,
+      hasInitialValue: Boolean(this.props.value || this.props.defaultValue),
     }),
   };
 
@@ -575,7 +581,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      clearCrossShowed: !!this.getClearCrossShowed({ focused: this.state.focused }),
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused }),
     });
 
     if (needsPolyfillPlaceholder) {
@@ -597,7 +603,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
-      clearCrossShowed: !!this.getClearCrossShowed({ focused: true }),
+      clearCrossShowed: this.getClearCrossShowed({ focused: true }),
     });
 
     if (this.props.selectAllOnFocus) {
@@ -654,7 +660,7 @@ export class Input extends React.Component<InputProps, InputState> {
     } else {
       this.setState({
         focused: false,
-        clearCrossShowed: !!this.getClearCrossShowed({ focused: false }),
+        clearCrossShowed: this.getClearCrossShowed({ focused: false }),
       });
       this.props.onBlur?.(event);
     }
