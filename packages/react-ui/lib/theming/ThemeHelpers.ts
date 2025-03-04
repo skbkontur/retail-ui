@@ -10,9 +10,9 @@ export type Marker = (theme: Theme) => Theme;
 export type Markers = Marker[];
 
 /**
- * Делает все вычисляемые переменные в теме (геттеры) видимыми для Object.keys(theme)
- * @param theme Объект темы
- * @returns Исходный объект темы с enumerable геттерами
+ * Makes all computable theme variables (getters) visible to the Object.keys(theme)
+ * @param theme Theme object
+ * @returns The given theme object with all getters made enumerable
  */
 export const exposeGetters = (theme: Theme): Theme => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
@@ -55,9 +55,9 @@ export const isDarkTheme = (theme: Theme | ThemeIn): boolean => {
 };
 
 /**
- * Помечает тему как "темную"
- * @param theme Объект темы
- * @returns Объект темы с меткой темной темы
+ * Marks the given theme as "dark"
+ * @param theme Theme object
+ * @returns The given theme object with a "dark theme" mark
  */
 export const markAsDarkTheme: Marker = (theme) => {
   return Object.create(theme, {
@@ -71,9 +71,9 @@ export const markAsDarkTheme: Marker = (theme) => {
 };
 
 /**
- * Создает функцию, которая проставляет версию темы
- * @param version Версия темы
- * @returns Функция, принимающая тему, которой будет проставлена переданная версия
+ * Creates a marker for the theme, that will mark it with a version
+ * @param version Theme version
+ * @returns A marker that marks the given theme with the given version once applied
  */
 export const markThemeVersion: (version: ThemeVersions) => Marker = (version) => (theme) => {
   return Object.create(theme, {
@@ -87,10 +87,10 @@ export const markThemeVersion: (version: ThemeVersions) => Marker = (version) =>
 };
 
 /**
- * Сравнивает версию темы с переданной версией на "больше или равно"
- * @param theme Объект темы, версию которой нужно сравнить
- * @param version Строка версии, с которой нужно провести сравнение
- * @returns boolean-результат сравнения
+ * Checks if the given theme's version is "greater or equal" then the given version
+ * @param theme Theme object
+ * @param version A string version
+ * @returns Boolean result
  */
 export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): boolean => {
   const themeVersion: Nullable<ThemeVersions> =
@@ -106,10 +106,10 @@ export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): bool
 };
 
 /**
- * Находит дескриптор свойства в объекте темы по имени
- * @param theme Объект темы
- * @param propName Имя свойства
- * @returns Найденный дескриптор или пустой объект
+ * Finds the given theme's object property descriptor by its name
+ * @param theme Theme object
+ * @param propName The property name
+ * @returns The found descriptor or an empty object
  */
 export function findPropertyDescriptor(theme: Theme, propName: string) {
   // TODO: Rewrite for loop.
@@ -124,10 +124,10 @@ export function findPropertyDescriptor(theme: Theme, propName: string) {
 }
 
 /**
- * Помечает тему переданными маркерами
- * @param theme Объект темы
- * @param markers Массив маркеров
- * @returns Исходная тема, помеченная маркерами
+ * Marks the given theme with the given markers
+ * @param theme Theme object
+ * @param markers Markers array
+ * @returns The given theme marked with the given marks
  */
 export function applyMarkers(theme: Theme, markers: Markers): Theme {
   return markers.reduce((markedTheme, marker) => {
@@ -136,12 +136,12 @@ export function applyMarkers(theme: Theme, markers: Markers): Theme {
 }
 
 /**
- * Создает объект темы из класса с переменными
- * @param options Объект с опциями
- * @param options.themeClass Класс с переменными
- * @param [options.prototypeTheme] Прототип темы, на основе которого будет создана новая тема
- * @param [options.themeMarkers] Объект маркеров, которыми будет помечена новая тема
- * @returns Объект созданной темы
+ * Creates a theme object out of the given class with variables
+ * @param options Options object
+ * @param options.themeClass A class with variables
+ * @param [options.prototypeTheme] An optional prototype theme, that will be the base for the new theme
+ * @param [options.themeMarkers] An optional array of markers, that new them will be marked of
+ * @returns The new theme object
  */
 export function createTheme(options: { themeClass: Theme; prototypeTheme?: Theme; themeMarkers?: Markers }): Theme {
   const { themeClass, prototypeTheme, themeMarkers = [] } = options;
