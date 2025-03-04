@@ -1,5 +1,5 @@
 import React from 'react';
-import { SingleToast, Button } from '@skbkontur/react-ui';
+import { SingleToast, Button, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -38,3 +38,18 @@ export const Example2: Story = () => {
   );
 };
 Example2.storyName = 'Кастомизация';
+
+export const SingleToastWithCross = () => {
+  return (
+    <Gapped>
+      <SingleToast />
+      <Button data-tid="with-cross" onClick={() => SingleToast.push('Static SingleToast', null, 5000, true)}>
+        Показать статический тост c крестиком
+      </Button>
+      <Button data-tid="without-cross" onClick={() => SingleToast.push('Static SingleToast', null, 5000, false)}>
+        Показать статический тост без крестика
+      </Button>
+    </Gapped>
+  );
+};
+SingleToastWithCross.storyName = 'Переключение наличия крестика без кнопки действия';
