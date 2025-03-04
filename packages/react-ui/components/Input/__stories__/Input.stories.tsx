@@ -459,7 +459,7 @@ export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type=
 
 export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
 
-export const CleanCrossSizes: Story = () => {
+export const ClearCrossSizes: Story = () => {
   const [valueSmall, setValueSmall] = React.useState('Small');
   const [valueMedium, setValueMedium] = React.useState('Medium');
   const [valueLarge, setValueLarge] = React.useState('Large');

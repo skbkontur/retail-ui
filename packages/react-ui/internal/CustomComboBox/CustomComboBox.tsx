@@ -293,7 +293,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
-      onCleanCrossClick: () => this.dispatch({ type: 'CleanCrossClick' }),
+      onClearCrossClick: () => this.dispatch({ type: 'ClearCrossClick' }),
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });

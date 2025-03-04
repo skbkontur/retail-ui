@@ -25,7 +25,7 @@ export type CustomComboBoxAction<T> =
   | { type: 'Mount' }
   | { type: 'Focus' }
   | { type: 'InputClick' }
-  | { type: 'CleanCrossClick' }
+  | { type: 'ClearCrossClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
   | { type: 'Open' }
@@ -56,7 +56,7 @@ interface EffectFactory {
   focus: Effect;
 
   valueChange: (value: any) => Effect;
-  valueClean: Effect;
+  valueClear: Effect;
   unexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
   inputChange: Effect;
   inputFocus: Effect;
@@ -105,7 +105,7 @@ export const Effect: EffectFactory = {
       onValueChange(value);
     }
   },
-  valueClean: (dispatch) => {
+  valueClear: (dispatch) => {
     dispatch({ type: 'TextChange', value: '' });
   },
   unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
@@ -354,12 +354,12 @@ export function reducer<T>(
       }
       return state;
     }
-    case 'CleanCrossClick': {
+    case 'ClearCrossClick': {
       const newState = {
         editing: true,
         loading: true,
       };
-      return [newState, [Effect.focus, Effect.search(''), Effect.valueClean]];
+      return [newState, [Effect.focus, Effect.search(''), Effect.valueClear]];
     }
     case 'Blur': {
       const { inputChanged, items } = state;

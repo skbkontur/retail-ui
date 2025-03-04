@@ -233,3 +233,7 @@ export function clickOutside() {
 
   document.body.dispatchEvent(event);
 }
+
+export function unreachableError(value: never) {
+  throw Error('unreachableError, need set argument: ' + value);
+}

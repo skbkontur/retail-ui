@@ -9,10 +9,10 @@ import { SizeProp } from '../../lib/types/props';
 import { TokenSize } from '../../components/Token';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
-import { styles } from './CleanCrossIcon.styles';
+import { styles } from './ClearCrossIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
-export interface CleanCrossIconProps
+export interface ClearCrossIconProps
   extends Pick<AriaAttributes, 'aria-label'>,
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     CommonProps {
@@ -21,28 +21,28 @@ export interface CleanCrossIconProps
   size?: SizeProp;
 }
 
-export const CleanCrossIcon: React.FunctionComponent<CleanCrossIconProps> = ({ size = 'small', style, ...rest }) => {
+export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({ size = 'small', style, ...rest }) => {
   const _theme = React.useContext(ThemeContext);
   const theme = ThemeFactory.create(
     {
-      cleanCrossIconColor: _theme.cleanCrossIconColor,
-      cleanCrossIconHoverColor: _theme.cleanCrossIconHoverColor,
+      clearCrossIconColor: _theme.clearCrossIconColor,
+      clearCrossIconHoverColor: _theme.clearCrossIconHoverColor,
     },
     _theme,
   );
   const getSizeClassName = (size: TokenSize) => {
     switch (size) {
       case 'large':
-        return styles.cleanCrossLarge(theme);
+        return styles.clearCrossLarge(theme);
       case 'medium':
-        return styles.cleanCrossMedium(theme);
+        return styles.clearCrossMedium(theme);
       case 'small':
       default:
-        return styles.cleanCrossSmall(theme);
+        return styles.clearCrossSmall(theme);
     }
   };
 
-  const [focusedByTab, setFocusedByTab] = React.useState<boolean>(false);
+  const [focusedByTab, setFocusedByTab] = React.useState<boolear>(false);
 
   const handleFocus = () => {
     // focus event fires before keyDown eventlistener so we should check tabPressed in async way
@@ -77,5 +77,5 @@ export const CleanCrossIcon: React.FunctionComponent<CleanCrossIconProps> = ({ s
   );
 };
 
-CleanCrossIcon.__KONTUR_REACT_UI__ = 'CleanCrossIcon';
-CleanCrossIcon.displayName = 'CleanCrossIcon';
+ClearCrossIcon.__KONTUR_REACT_UI__ = 'ClearCrossIcon';
+ClearCrossIcon.displayName = 'ClearCrossIcon';

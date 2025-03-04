@@ -1405,8 +1405,8 @@ describe('ComboBox', () => {
     });
   });
 
-  describe('with clean cross', () => {
-    it('cleans controlled combobox', async () => {
+  describe('with clear cross', () => {
+    it('clears controlled combobox', async () => {
       const ControlledCombobox = () => {
         const [value, setValue] = React.useState({
           value: 2,
@@ -1431,12 +1431,12 @@ describe('ComboBox', () => {
       render(<ControlledCombobox />);
 
       expect(screen.getByText('Second')).toBeInTheDocument();
-      const cross = screen.getByTestId(InputDataTids.cleanCross);
+      const cross = screen.getByTestId(InputDataTids.clearCross);
       await userEvent.click(cross);
       expect(screen.queryByText('Second')).not.toBeInTheDocument();
     });
 
-    it('cleans uncontrolled combobox', async () => {
+    it('clears uncontrolled combobox', async () => {
       const testValues = [
         { value: '1', label: 'One' },
         { value: '2', label: 'Two' },
@@ -1451,7 +1451,7 @@ describe('ComboBox', () => {
       comboboxRef.current?.focus();
       await userEvent.type(screen.getByRole('textbox'), 'z');
       expect(screen.getByRole('textbox')).toHaveValue('z');
-      const cross = screen.getByTestId(InputDataTids.cleanCross);
+      const cross = screen.getByTestId(InputDataTids.clearCross);
       expect(cross).toBeInTheDocument();
 
       await userEvent.click(cross);

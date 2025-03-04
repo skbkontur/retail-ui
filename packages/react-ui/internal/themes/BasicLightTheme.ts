@@ -2435,60 +2435,60 @@ export class BasicLightThemeInternal {
     '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   //#endregion FileUploader
 
-  //#region CleanCrossIcon
-  public static get cleanCrossIconWidthSmall() {
+  //#region ClearCrossIcon
+  public static get clearCrossIconWidthSmall() {
     return this.inputHeightSmall;
   }
-  public static get cleanCrossIconWidthMedium() {
+  public static get clearCrossIconWidthMedium() {
     return this.inputHeightMedium;
   }
-  public static get cleanCrossIconWidthLarge() {
+  public static get clearCrossIconWidthLarge() {
     return this.inputHeightLarge;
   }
-  public static get cleanCrossIconHeightSmall() {
+  public static get clearCrossIconHeightSmall() {
     return this.inputHeightSmall;
   }
-  public static get cleanCrossIconHeightMedium() {
+  public static get clearCrossIconHeightMedium() {
     return this.inputHeightMedium;
   }
-  public static get cleanCrossIconHeightLarge() {
+  public static get clearCrossIconHeightLarge() {
     return this.inputHeightLarge;
   }
 
-  public static get cleanCrossIconRightMarginSmall() {
+  public static get clearCrossIconRightMarginSmall() {
     const inputPaddingXSmall = parseInt(this.inputPaddingXSmall);
     const inputBorderWidth = parseInt(this.inputBorderWidth);
     return `-${inputPaddingXSmall + inputBorderWidth}px`;
   }
-  public static get cleanCrossIconRightMarginMedium() {
+  public static get clearCrossIconRightMarginMedium() {
     const inputPaddingXMedium = parseInt(this.inputPaddingXMedium);
     const inputBorderWidth = parseInt(this.inputBorderWidth);
     return `-${inputPaddingXMedium + inputBorderWidth}px`;
   }
-  public static get cleanCrossIconRightMarginLarge() {
+  public static get clearCrossIconRightMarginLarge() {
     const inputPaddingXLarge = parseInt(this.inputPaddingXLarge);
     const inputBorderWidth = parseInt(this.inputBorderWidth);
     return `-${inputPaddingXLarge + inputBorderWidth}px`;
   }
 
-  public static get cleanCrossIconBorderRadiusSmall() {
+  public static get clearCrossIconBorderRadiusSmall() {
     return this.inputBorderRadiusSmall;
   }
-  public static get cleanCrossIconBorderRadiusMedium() {
+  public static get clearCrossIconBorderRadiusMedium() {
     return this.inputBorderRadiusMedium;
   }
-  public static get cleanCrossIconBorderRadiusLarge() {
+  public static get clearCrossIconBorderRadiusLarge() {
     return this.inputBorderRadiusLarge;
   }
 
-  public static cleanCrossIconColor = '#757575';
-  public static cleanCrossIconDisabledColor = '#8b8b8b';
-  public static cleanCrossIconHoverColor = '#222222';
-  public static get cleanCrossIconFocusShadow() {
+  public static clearCrossIconColor = '#757575';
+  public static clearCrossIconDisabledColor = '#8b8b8b';
+  public static clearCrossIconHoverColor = '#222222';
+  public static get clearCrossIconFocusShadow() {
     return `inset 0 0 0 2px ${this.borderColorFocus}`;
   }
 
-  //#endregion CleanCrossIcon
+  //#endregion ClearCrossIcon
 
   //#region CloseIcon
   public static closeBtnIconColor = 'rgba(0, 0, 0, 0.32)';

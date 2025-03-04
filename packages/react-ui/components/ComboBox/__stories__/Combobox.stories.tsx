@@ -955,7 +955,7 @@ WithMenuAlignAndMenuPos.parameters = {
   creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
 };
 
-export const ComboboxWithCleanCross: Story = () => {
+export const ComboboxWithClearCross: Story = () => {
   const [value, setValue] = React.useState({
     value: 2,
     label: 'Second',

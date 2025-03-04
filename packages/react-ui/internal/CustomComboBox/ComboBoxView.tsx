@@ -21,7 +21,7 @@ import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../ZIndex';
-import { CleanCrossIcon } from '../CleanCrossIcon/CleanCrossIcon';
+import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -79,7 +79,7 @@ interface ComboBoxViewProps<T>
   onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
-  onCleanCrossClick?: () => void;
+  onClearCrossClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
@@ -119,7 +119,7 @@ export const ComboBoxViewIds = {
 
 interface ComboBoxViewState {
   anchorElement: Nullable<Element>;
-  cleanCrossShowed: boolean;
+  clearCrossShowed: boolean;
 }
 
 @responsiveLayout
@@ -157,7 +157,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   public state = {
     anchorElement: null,
-    cleanCrossShowed: this.props.showClearIcon === 'always' && !!this.props.value?.toString(),
+    clearCrossShowed: this.props.showClearIcon === 'always' && !!this.props.value?.toString(),
   };
 
   public componentDidMount() {
@@ -445,13 +445,13 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       return <LoadingIcon size={size} />;
     }
 
-    if (this.getProps().showClearIcon !== 'never' && this.state.cleanCrossShowed) {
+    if (this.getProps().showClearIcon !== 'never' && this.state.clearCrossShowed) {
       return (
-        <CleanCrossIcon
-          data-tid={InputDataTids.cleanCross}
+        <ClearCrossIcon
+          data-tid={InputDataTids.clearCross}
           size={size}
           onFocus={(event) => event.stopPropagation()}
-          onClick={this.props.onCleanCrossClick}
+          onClick={this.props.onClearCrossClick}
         />
       );
     }

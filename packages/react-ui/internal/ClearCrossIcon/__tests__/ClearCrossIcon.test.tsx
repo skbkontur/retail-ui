@@ -2,11 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { CleanCrossIcon } from '../CleanCrossIcon';
+import { ClearCrossIcon } from '../ClearCrossIcon';
 
-describe('CleanCrossIcon', () => {
+describe('ClearCrossIcon', () => {
   it('focuses on click', async () => {
-    render(<CleanCrossIcon />);
+    render(<ClearCrossIcon />);
 
     await userEvent.click(screen.getByRole('button'));
     expect(screen.getByRole('button')).toHaveFocus();
@@ -15,7 +15,7 @@ describe('CleanCrossIcon', () => {
   it('blurs on click', async () => {
     render(
       <>
-        <CleanCrossIcon />
+        <ClearCrossIcon />
         <div data-tid={'next-focus'} />
       </>,
     );
@@ -27,15 +27,15 @@ describe('CleanCrossIcon', () => {
     expect(button).not.toHaveFocus();
   });
 
-  it('disabled clean cross dont get focus', async () => {
-    render(<CleanCrossIcon disabled />);
+  it('disabled clear cross dont get focus', async () => {
+    render(<ClearCrossIcon disabled />);
 
     await userEvent.tab();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
 
   it('gets data-tid', async () => {
-    render(<CleanCrossIcon data-tid={'tid'} />);
+    render(<ClearCrossIcon data-tid={'tid'} />);
 
     expect(screen.getByRole('button')).toHaveAttribute('data-tid', 'tid');
   });

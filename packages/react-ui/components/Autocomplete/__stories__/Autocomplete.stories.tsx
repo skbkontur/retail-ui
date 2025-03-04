@@ -262,6 +262,6 @@ export const MenuPos = () => {
 };
 MenuPos.storyName = 'menuPos';
 
-export const CleanCross = () => {
+export const ClearCross = () => {
   return <Autocomplete showClearIcon="always" value="hello" onValueChange={() => {}} />;
 };

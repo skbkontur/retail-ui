@@ -17,7 +17,8 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
-import { CleanCrossIcon } from '../../internal/CleanCrossIcon/CleanCrossIcon';
+import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
+import { unreachableError } from '../../lib/utils';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -157,12 +158,12 @@ export interface InputState {
   blinking: boolean;
   focused: boolean;
   needsPolyfillPlaceholder: boolean;
-  cleanCrossShowed: boolean;
+  clearCrossShowed: boolean;
 }
 
 export const InputDataTids = {
   root: 'Input__root',
-  cleanCross: 'Input__cleanCross',
+  clearCross: 'Input__clearCross',
 } as const;
 
 type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>>;
@@ -199,13 +200,29 @@ export class Input extends React.Component<InputProps, InputState> {
   public input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
+  private getClearCrossShowed = ({ focused, defaultValue }: { focused?: boolean; defaultValue?: boolean }) => {
+    const value = this.getProps().showClearIcon;
+    const notEmptyValue = !!this.input?.value.toString() || !!defaultValue;
+    switch (value) {
+      case 'always':
+        return notEmptyValue;
+      case 'onFocus':
+        return focused && notEmptyValue;
+      case 'never':
+        return false;
+      default:
+        unreachableError(value);
+    }
+  };
+
   public state: InputState = {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
-    cleanCrossShowed:
-      this.props.showClearIcon === 'always' &&
-      (!!this.input?.value.toString() || !!this.props.value || !!this.props.defaultValue),
+    clearCrossShowed: !!this.getClearCrossShowed({
+      focused: false,
+      defaultValue: !!this.props.value || !!this.props.defaultValue,
+    }),
   };
 
   private outputMaskError() {
@@ -407,6 +424,7 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
       element,
+      showClearIcon: initialShowClearIcon,
       ...rest
     } = props;
 
@@ -461,14 +479,14 @@ export class Input extends React.Component<InputProps, InputState> {
     );
 
     const getRightIcon = () => {
-      return showClearIcon !== 'never' && this.state.cleanCrossShowed ? (
-        <CleanCrossIcon
-          data-tid={InputDataTids.cleanCross}
+      return this.state.clearCrossShowed ? (
+        <ClearCrossIcon
+          data-tid={InputDataTids.clearCross}
           size={size}
-          onClick={this.handleCleanInput}
+          onClick={this.handleClearInput}
           onBlur={() => {
             this.setState({
-              cleanCrossShowed: showClearIcon === 'always' && !!this.input?.value.toString(),
+              clearCrossShowed: showClearIcon === 'always' && !!this.input?.value.toString(),
             });
           }}
         />
@@ -545,19 +563,19 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private handleCleanInput = () => {
+  private handleClearInput = () => {
     if (this.props.onValueChange) {
       this.props.onValueChange('');
     }
     if (this.input) {
       this.input.value = '';
     }
-    this.setState({ cleanCrossShowed: false });
+    this.setState({ clearCrossShowed: false });
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      cleanCrossShowed: !!this.input?.value.toString() && (this.props.showClearIcon === 'always' || this.state.focused),
+      clearCrossShowed: !!this.getClearCrossShowed({ focused: this.state.focused }),
     });
 
     if (needsPolyfillPlaceholder) {
@@ -579,7 +597,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
-      cleanCrossShowed: !!this.input?.value.toString(),
+      clearCrossShowed: !!this.getClearCrossShowed({ focused: true }),
     });
 
     if (this.props.selectAllOnFocus) {
@@ -636,7 +654,7 @@ export class Input extends React.Component<InputProps, InputState> {
     } else {
       this.setState({
         focused: false,
-        cleanCrossShowed: showClearIcon === 'always' && !!this.input?.value.toString(),
+        clearCrossShowed: !!this.getClearCrossShowed({ focused: false }),
       });
       this.props.onBlur?.(event);
     }
