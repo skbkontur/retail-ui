@@ -158,7 +158,7 @@ export interface InputState {
   blinking: boolean;
   focused: boolean;
   needsPolyfillPlaceholder: boolean;
-  clearCrossShowed?: boolean;
+  clearCrossShowed: boolean;
 }
 
 export const InputDataTids = {
