@@ -27,7 +27,6 @@ export const ColorableInputElement = forwardRefAndName(
     const focused = useRef(false);
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
-    const debouncedPaintText = useCallback(debounce(paintText), []);
     const [active, setActive] = useState(true);
 
     const { children, onInput, onFocus, onBlur, showOnFocus, ...inputProps } = props;
@@ -44,9 +43,17 @@ export const ColorableInputElement = forwardRefAndName(
     useEffect(updateActive, []);
 
     useEffect(() => {
-      activation(props);
+      activation();
       updateActive();
-    }, [active, showOnFocus, props.value, props.defaultValue, props.disabled, focused.current]);
+    }, [active, showOnFocus, props.value, props.defaultValue, props.disabled, focused.current, theme]);
+
+    const debouncedPaintText = useCallback(debounce(paintText), [
+      showOnFocus,
+      props.disabled,
+      theme.inputTextColor,
+      theme.inputPlaceholderColor,
+      theme.inputTextColorDisabled,
+    ]);
 
     useEffect(() => {
       if (inputRef.current) {
@@ -72,7 +79,7 @@ export const ColorableInputElement = forwardRefAndName(
       const isActive = !inputRef.current?.parentElement?.querySelector(':placeholder-shown');
       setActive(isActive);
 
-      activation(props);
+      activation();
 
       onInput?.(e);
     }
@@ -99,9 +106,9 @@ export const ColorableInputElement = forwardRefAndName(
       });
     }
 
-    function activation(props: ColorableInputElementProps) {
+    function activation() {
       if (active) {
-        debouncedPaintText(props);
+        debouncedPaintText();
       } else {
         debouncedPaintText.cancel();
         inputRef.current && (inputRef.current.style.backgroundImage = '');
@@ -109,7 +116,7 @@ export const ColorableInputElement = forwardRefAndName(
       }
     }
 
-    function paintText(_props: Partial<ColorableInputElementProps> = props) {
+    function paintText() {
       if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
@@ -143,11 +150,11 @@ export const ColorableInputElement = forwardRefAndName(
 
       let typedValueColor = theme.inputTextColor;
       let maskColor = theme.inputPlaceholderColor;
-      if (_props.disabled) {
+      if (props.disabled) {
         typedValueColor = theme.inputTextColorDisabled;
         maskColor = theme.inputTextColorDisabled;
       }
-      if (_props.showOnFocus) {
+      if (props.showOnFocus) {
         maskColor = focused.current ? maskColor : 'transparent';
       }
 
