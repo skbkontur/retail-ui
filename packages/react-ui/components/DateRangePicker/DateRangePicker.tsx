@@ -122,7 +122,6 @@ export const DateRangePicker = Object.assign(
     const open = (fieldType: DateRangePickerFieldType = 'start') => {
       setFocusField(fieldType);
       setShowCalendar(true);
-      scrollToMonth(fieldType);
     };
 
     const close = () => {
@@ -151,16 +150,6 @@ export const DateRangePicker = Object.assign(
           setEndValue('');
           close();
           break;
-      }
-    };
-
-    const scrollToMonth = (fieldType: DateRangePickerFieldType) => {
-      const date = fieldType === 'start' ? startValue : endValue;
-      if (date) {
-        const [, month, year] = date.split('.').map(Number);
-        if (month) {
-          calendarRef.current?.scrollToMonth(month, year);
-        }
       }
     };
 
