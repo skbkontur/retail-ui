@@ -76,7 +76,6 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
     withIcon: true,
     size,
     ...props,
-    value: props.value,
     onValueChange: (value) => {
       if (isStart) {
         setStartValue(value || '');
