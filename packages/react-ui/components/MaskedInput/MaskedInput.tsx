@@ -1,5 +1,4 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { IMaskInputProps } from 'react-imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
@@ -11,6 +10,7 @@ import { globalClasses } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
 import { ColorableInputElement } from './ColorableInputElement';
 import { FixedIMaskInput } from './FixedIMaskInput';
+import { IMaskInputProps } from './IMaskInput';
 
 export interface MaskedProps {
   /** Паттерн маски */
