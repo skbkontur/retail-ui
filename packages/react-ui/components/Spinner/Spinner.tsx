@@ -16,30 +16,25 @@ const types = ['big', 'mini', 'normal'] as const;
 export type SpinnerType = (typeof types)[number];
 
 export interface SpinnerProps extends CommonProps {
-  /**
-   * Подпись под спиннером
-   */
+  /** Задает подпись под спиннером.
+   * @default "Загрузка" */
   caption?: React.ReactNode;
-  /**
-   * Переводит спиннер в "затемнённый режим"
-   *
-   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`
-   */
+
+  /** Переводит спиннер в "затемнённый режим".
+   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`. */
   dimmed?: boolean;
-  /**
-   * Размер спиннера и текста
-   *
-   * @default normal
-   */
+
+  /** Задает размер спиннера и текста.
+   * @default normal. */
   type?: SpinnerType;
+
+  /** Уменьшает спиннер для вставки в инлайн элемент. При type = "big"|"normal" размер спиннера уменьшается. */
   inline?: boolean;
-  /**
-   * Толщина спиннера
-   */
+
+  /** Задает толщину спиннера. */
   width?: number;
-  /**
-   * Цвет спиннера
-   */
+
+  /** Задает цвет спиннера. Не работает с пропом dimmed. */
   color?: React.CSSProperties['color'];
 }
 
@@ -50,9 +45,13 @@ export const SpinnerDataTids = {
 type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
- * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](https://tech.skbkontur.ru/react-ui/#/Components/Loader)
+ * `Spinner` — это зацикленный индикатор, не отображающий прогресс выполнения задачи.
+ *
+ * Используйте `Spinner`, чтобы показать, что система выполняет команду, которую дал пользователь.
+ * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен GlobalLoader.
+ *
+ * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент Loader.
  */
-
 @rootNode
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';

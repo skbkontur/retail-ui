@@ -7,7 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
@@ -22,81 +22,65 @@ export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Omit<CommonProps, 'children'> {
-  /**
-   * @ignore
-   */
+  /** Добавляет отступ иконке.
+   * @ignore */
   _enableIconPadding?: boolean;
-  /**
-   * Добавляет описание для элемента меню.
-   */
+
+  /** Добавляет описание для элемента меню. */
   comment?: React.ReactNode;
-  /**
-   * Отключенное состояние.
-   */
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Добавляет элементу меню иконку.
-   */
+
+  /** Добавляет иконку элементу меню. */
   icon?: React.ReactElement<any>;
   /**
    * Меняет цвет текста на синий.
+   * @deprecated
    */
   link?: boolean;
-  /**
-   * Размер
-   */
+
+  /** Задает размер контрола. */
   size?: SizeProp;
-  /**
-   * @ignore
-   */
+
+  /** @ignore */
   loose?: boolean;
-  /**
-   * @ignore
-   */
+
+  /** @ignore */
   state?: MenuItemState;
-  /**
-   * HTML-событие `onclick`.
-   */
+
+  /** Задает функцию, которая вызывается при клике. */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  /**
-   * HTML-событие `mouseenter`.
-   */
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
   onMouseEnter?: React.MouseEventHandler;
-  /**
-   * HTML-событие `mouseleave`.
-   */
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: React.MouseEventHandler;
+
+  /** @ignore */
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
-  /**
-   * HTML-атрибут `target`.
-   */
+
+  /** Задает HTML-атрибут `target`. */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-  /**
-   * HTML-атрибут `title`.
-   */
+
+  /** Задает HTML-атрибут `title`. */
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
-  /**
-   * HTML-атрибут `href`.
-   */
+
+  /** Задает HTML-атрибут `href` - адрес, на который следует перейти. */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
-  /**
-   * HTML-атрибут `rel`.
-   *
-   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
-   */
+
+  /** Задает HTML-атрибут `rel`. Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer". */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
-  /**
-   * Заменяет корневой элемент, на компонент переданный в проп.
-   *
-   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
-   */
+
+  /** Заменяет корневой элемент, на компонент переданный в проп.
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`. */
   component?: React.ComponentType<any>;
-  /**
-   * Запрещает выделение и выбор данного пункта меню
-   *
-   */
+
+  /** Запрещает выделение и выбор данного пункта меню. */
   isNotSelectable?: boolean;
 
+  /** Устанавливает стиль для отображения в мобильной версии. */
   isMobile?: boolean;
   /** @ignore */
   scrollIntoView?: boolean;
@@ -109,10 +93,9 @@ export const MenuItemDataTids = {
 } as const;
 
 /**
- *
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
  *
- * Сущности в которых может быть использован `MenuItem`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
+ * Сущности в которых может быть использован `MenuItem`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {
@@ -159,18 +142,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              {...getVisualStateDataAttributes({
-                hover: this.isHover,
-                selected: this.isSelected,
-              })}
-              {...this.props}
-            >
-              {this.renderMain(this.props)}
-            </CommonWrapper>
-          );
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
@@ -275,7 +247,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
+  private renderMain = () => {
     const {
       link,
       comment,
@@ -291,10 +263,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
       href,
       disabled,
       scrollIntoView,
-      rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
+      rel = href && isExternalLink(href) ? 'noopener noreferrer' : this.props.rel,
       isNotSelectable,
+      children,
+      className: unusedClasses,
+      style,
+      'data-tid': dataTid,
       ...rest
-    } = props;
+    } = this.props;
 
     let iconElement = null;
     if (icon) {
@@ -320,55 +296,62 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.selected(this.theme)]: this.isSelected,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
-      [styles.disabled(this.theme)]: !!this.props.disabled,
+      [styles.disabled(this.theme)]: !!disabled,
     });
-
-    const { children } = this.props;
 
     let content = children;
     if (isFunction(children)) {
-      content = children(this.props.state);
+      content = children(state);
     }
 
     const Component = this.getComponent();
 
     return (
-      <Component
-        ref={this.setRootRef}
-        data-tid={MenuItemDataTids.root}
-        {...rest}
-        disabled={disabled}
-        state={this.activeState}
-        onMouseOver={this.handleMouseEnterFix}
-        onMouseLeave={this.handleMouseLeave}
-        onClick={this.handleClick}
-        className={className}
-        href={href}
-        rel={href ? rel : undefined}
-        tabIndex={-1}
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...getVisualStateDataAttributes({
+          hover: this.isHover,
+          selected: this.isSelected,
+        })}
+        {...this.props}
       >
-        {iconElement}
-        <span
-          className={cx({
-            [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
-          })}
-          ref={this.contentRef}
-          data-tid={MenuItemDataTids.content}
+        <Component
+          ref={this.setRootRef}
+          data-tid={MenuItemDataTids.root}
+          {...rest}
+          disabled={disabled}
+          state={this.activeState}
+          onMouseOver={this.handleMouseEnterFix}
+          onMouseLeave={this.handleMouseLeave}
+          onClick={this.handleClick}
+          className={className}
+          href={href}
+          rel={href ? rel : undefined}
+          tabIndex={-1}
         >
-          {typeof content === 'function' ? content() : content}
-        </span>
-        {this.props.comment && (
-          <div
-            data-tid={MenuItemDataTids.comment}
+          {iconElement}
+          <span
             className={cx({
-              [styles.comment(this.theme)]: true,
-              [styles.commentHover(this.theme)]: this.isHover,
+              [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
             })}
+            ref={this.contentRef}
+            data-tid={MenuItemDataTids.content}
           >
-            {comment}
-          </div>
-        )}
-      </Component>
+            {typeof content === 'function' ? content() : content}
+          </span>
+          {comment && (
+            <div
+              data-tid={MenuItemDataTids.comment}
+              className={cx({
+                [styles.comment(this.theme)]: true,
+                [styles.commentHover(this.theme)]: this.isHover,
+              })}
+            >
+              {comment}
+            </div>
+          )}
+        </Component>
+      </CommonWrapper>
     );
   };
 

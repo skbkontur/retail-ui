@@ -35,7 +35,10 @@ class Component extends React.Component<SwitcherProps, ComponentState> {
   };
 }
 
-export default { title: 'Switcher' };
+export default {
+  title: 'Switcher',
+  component: Switcher,
+};
 
 export const Horizontal: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;

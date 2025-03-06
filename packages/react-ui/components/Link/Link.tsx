@@ -19,54 +19,41 @@ import { styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
 export interface LinkInnerProps extends CommonProps {
-  /**
-   * Отключенное состояние.
-   */
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Добавляет ссылке иконку слева.
-   */
+
+  /** Добавляет иконку слева. */
   icon?: React.ReactElement;
-  /**
-   * Добавляет ссылке иконку справа.
-   */
+
+  /** Добавляет иконку справа. */
   rightIcon?: React.ReactElement;
-  /**
-   * Тема ссылки.
-   */
+
+  /** Задает тему ссылки. */
   use?: 'default' | 'success' | 'danger' | 'grayed';
-  /**
-   * @ignore
-   */
+
+  /** @ignore */
   _button?: boolean;
-  /**
-   * @ignore
-   */
+
+  /** @ignore */
   _buttonOpened?: boolean;
-  /**
-   * HTML-атрибут `tabindex`.
-   */
+
+  /** Задает HTML-атрибут `tabindex`. */
   tabIndex?: number;
-  /**
-   * Переводит ссылку в состояние загрузки.
-   */
+
+  /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+
+  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
-  /**
-   * @ignore
-   */
+
+  /** Задает состояние фокуса.
+   * @ignore */
   focused?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
 }
 
@@ -179,7 +166,30 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       <LinkIcon hasBothIcons={!!icon && !!rightIcon} icon={rightIcon} loading={loading} position="right" />
     );
     const nonInteractive = disabled || loading;
-
+    const getUseStyles = () => {
+      switch (use) {
+        case 'default':
+          return styles.default(this.theme);
+        case 'danger':
+          return styles.danger(this.theme);
+        case 'success':
+          return styles.success(this.theme);
+        case 'grayed':
+          return styles.grayed(this.theme);
+      }
+    };
+    const getUseLineFocusStyles = () => {
+      switch (use) {
+        case 'default':
+          return styles.lineFocus(this.theme);
+        case 'danger':
+          return styles.lineFocusDanger(this.theme);
+        case 'success':
+          return styles.lineFocusSuccess(this.theme);
+        case 'grayed':
+          return styles.lineFocusGrayed(this.theme);
+      }
+    };
     const rootProps = {
       ...rest,
       className: cx({
@@ -187,19 +197,13 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
         [resetButton()]: Root === 'button',
         [styles.focus(this.theme)]: isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
+        [getUseStyles()]: true,
         [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
         [styles.warning(this.theme)]: warning,
         [styles.error(this.theme)]: error,
-        [styles.lineFocus(this.theme)]: isFocused && use === 'default',
-        [styles.lineFocusSuccess(this.theme)]: isFocused && use === 'success',
-        [styles.lineFocusDanger(this.theme)]: isFocused && use === 'danger',
-        [styles.lineFocusGrayed(this.theme)]: isFocused && use === 'grayed',
+        [getUseLineFocusStyles()]: isFocused,
       }),
       onClick: this.handleClick,
       onFocus: this.handleFocus,

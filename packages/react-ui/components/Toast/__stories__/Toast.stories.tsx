@@ -35,6 +35,7 @@ const TestNotifier = ({ complex }: { complex?: boolean }) => {
 
 export default {
   title: 'Toast',
+  component: Toast,
   decorators: [
     (Story: () => JSX.Element) => (
       <div

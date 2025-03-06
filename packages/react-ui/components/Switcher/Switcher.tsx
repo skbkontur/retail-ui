@@ -23,27 +23,33 @@ export const SwitcherDataTids = {
 } as const;
 
 export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, CommonProps {
-  /**
-   * Список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }`
-   */
+  /** Задает список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }`. */
   items: SwitcherItems[];
 
+  /** Устанавливает значение свитчера. */
   value?: string;
 
+  /** Задает функцию, которая вызывается при изменении значения свитчера (value). */
   onValueChange?: (value: string) => void;
 
+  /** Задает подпись около свитчера. */
   caption?: string;
 
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
 
-  /** Размер */
+  /** Задает размер контрола. */
   size?: SizeProp;
 
+  /** Делает компонент недоступным. */
   disabled?: boolean;
 
-  /**
-   * Функция для отрисовки элемента. Аргументы — `label`,
-   * `value`, `buttonProps`, `renderDefault`, `ariaLabel`
+  /** Задает функцию отрисовки элемента.
+   * @param `label` -
+   * @param `value` -
+   * @param `buttonProps` -
+   * @param `renderDefault` -
+   * @param `ariaLabel` -
    */
   renderItem?: (
     label: string,
@@ -67,6 +73,11 @@ interface SwitcherItem {
   buttonProps?: Partial<ButtonProps>;
 }
 
+/**
+ * Переключатель `Switcher` — это замена RadioGroup.
+ *
+ * Не используйте переключатель в качестве навигации, для этого лучше подходят Tabs.
+ */
 @rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';

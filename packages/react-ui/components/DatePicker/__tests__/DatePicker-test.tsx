@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { act, render, screen, waitFor, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Input } from '../../Input';
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
 import { CalendarDataTids, CalendarDay, CalendarDayProps } from '../../Calendar';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
@@ -15,6 +16,7 @@ import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { MobilePickerDataTids } from '../MobilePicker';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { MenuDataTids } from '../../../internal/Menu';
+import { componentsLocales as DayCellViewLocalesRu } from '../../Calendar/locale/locales/ru';
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -100,6 +102,54 @@ describe('DatePicker', () => {
     render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(onFocus).toHaveBeenCalled();
+  });
+
+  it('navigation from Tab open calendar', async () => {
+    render(
+      <>
+        <Input data-tid="test-input" />
+        <DatePicker value="02.07.2017" onValueChange={jest.fn()} />
+      </>,
+    );
+    await userEvent.click(screen.getByTestId('test-input'));
+    await userEvent.keyboard('{tab}');
+    expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+  });
+
+  describe('call focus with param withoutOpenDropdown=true', () => {
+    beforeEach(() => {
+      const datePickerRef = React.createRef<DatePicker>();
+      render(
+        <>
+          <DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />
+        </>,
+      );
+      datePickerRef.current?.focus({ withoutOpenDropdown: true });
+    });
+
+    it('do not open Calendar', async () => {
+      expect(screen.queryByTestId(DatePickerDataTids.root)).not.toBeInTheDocument();
+    });
+
+    it('click on input should open Calendar', async () => {
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
+
+    it('arrow down should open Calendar', async () => {
+      await userEvent.keyboard('{arrowdown}');
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
+
+    it('arrow up should open Calendar', async () => {
+      await userEvent.keyboard('{arrowup}');
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
+
+    it('edit value should open Calendar', async () => {
+      await userEvent.keyboard('01');
+      expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
+    });
   });
 
   it('renders day cells with renderDay prop', async () => {
@@ -552,6 +602,32 @@ describe('DatePicker', () => {
 
       const input = within(screen.getByTestId(DatePickerDataTids.input)).getByTestId(InputLikeTextDataTids.input);
       expect(input).toHaveTextContent(expectedDate);
+    });
+
+    it('should call onBlur after value was changed when date picked on click', async () => {
+      const initialDate = '10.10.2010';
+      const expectedDate = '20.10.2010';
+      let blurredDate = '';
+      const MobilePickerWithOnBlur = () => {
+        const [date, setDate] = useState(initialDate);
+        const handleBlur = () => {
+          blurredDate = date;
+        };
+        return (
+          <DatePicker enableTodayLink width="auto" value={date || null} onValueChange={setDate} onBlur={handleBlur} />
+        );
+      };
+      render(<MobilePickerWithOnBlur />);
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      const ariaLabel = `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel}: ${new InternalDate({
+        value: expectedDate,
+      }).toA11YFormat()}`;
+
+      const expectedDateButton = screen.getByLabelText(ariaLabel);
+      await userEvent.click(expectedDateButton);
+
+      expect(blurredDate).toBe(expectedDate);
     });
   });
 });

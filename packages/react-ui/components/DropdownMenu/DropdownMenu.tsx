@@ -62,7 +62,7 @@ export interface DropdownMenuProps
 type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
 
 /**
- * Меню, раскрывающееся по клику на переданный в `caption` элемент
+ * Выпадающее меню `DropdownMenu` раскрывается по клику на переданный в `caption` элемент.
  */
 @rootNode
 export class DropdownMenu extends React.Component<DropdownMenuProps> {

@@ -439,6 +439,7 @@ WithMenuAlignAndVariousWidth.parameters = {
 
 export default {
   title: 'Select',
+  component: Select,
   decorators: [
     (Story: () => JSX.Element, context) => {
       if (

@@ -9,9 +9,13 @@ import { MenuContext } from '../../internal/Menu/MenuContext';
 import { styles } from './MenuHeader.styles';
 
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
+  /** Добавляет отступ иконке. */
   _enableIconPadding?: boolean;
+
+  /** @ignore */
   children: ReactNode;
-  /** Размер */
+
+  /** Задает размер. */
   size?: SizeProp;
 }
 
@@ -20,11 +24,11 @@ export const MenuHeaderDataTids = {
 } as const;
 
 /**
- * `Заголовок меню` используется для того, чтобы разделить `элементы меню` на категории в рамках одного меню.
+ * Заголовок меню `MenuHeader` используется для того, чтобы разделить элементы меню на категории в рамках одного меню.
  *
- * _Примечание_: `заголовок меню`, в отличие от `элемента меню` нельзя затаргетить с клавиатуры.
+ * `MenuHeader`, в отличие от `MenuItem` нельзя затаргетить с клавиатуры.
  *
- * Сущности в которых может быть использован `MenuHeader`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
+ * Сущности в которых может быть использован `MenuHeader`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
 function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);

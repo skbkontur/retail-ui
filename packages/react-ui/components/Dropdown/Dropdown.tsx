@@ -8,7 +8,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonUse } from '../Button';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -36,67 +36,69 @@ const PASS_PROPS = {
   menuPos: true,
   id: true,
   'aria-describedby': true,
+  'aria-label': true,
 };
 
 export interface DropdownProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
-  /**
-   * Подпись на кнопке.
-   */
+  /** Задает подпись на кнопке. */
   caption: React.ReactNode;
-  /**
-   * Иконка слева от текста кнопки
-   */
+
+  /** Добавляет иконку слева от текста кнопки. */
   icon?: React.ReactElement<any>;
+
+  /** Задает ширину выпадающего меню. */
   width?: React.CSSProperties['width'];
 
   /** @ignore */
   _renderButton?: (params: any) => JSX.Element;
 
-  /**
-   * Отключает использование портала
-   */
+  /** Отключает использование портала. */
   disablePortal?: boolean;
 
-  /**
-   * Визуально отключает Dropdown
-   */
+  /** Делает компонент недоступным.*/
   disabled?: boolean;
 
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задает максимальную высоту меню. */
   maxMenuHeight?: number;
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
+
+  /** Задает текущую позицию выпадающего окна вручную.
    */
   menuPos?: 'top' | 'bottom';
+
+  /** Задает выравнивание выпадающего меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает длину меню. */
   menuWidth?: number | string;
+
+  /** Задает размер контрола. */
   size?: SizeProp;
 
-  /**
-   * Смотри Button.
-   */
+  /** Задаёт стиль кнопки. */
   use?: ButtonUse;
 
-  /**
-   * Вызывается при закрытии меню.
-   */
+  /** Задает функцию, которая вызывается при закрытии меню. */
   onClose?: () => void;
-  /**
-   * Вызывается при открытии меню.
-   */
+
+  /** Задает функцию, которая вызывается при открытии меню. */
   onOpen?: () => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
@@ -107,8 +109,14 @@ export const DropdownDataTids = {
 } as const;
 
 /**
- * Выпадающее меню.
+ * Выпадающее меню `Dropdown`. Содержит несколько команд, объединенных по смыслу.
  *
+ * Используйте кнопку-меню:
+ * * когда не хватает места для нескольких кнопок.
+ * * когда названия действий очень длинные.
+ * * когда действия редко используются или объединены по смыслу.
+ *
+ * Не используйте `Dropdown` для выбора значения из набора вариантов. В таком случае воспользуйтесь компонентом Select.
  */
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {
@@ -191,27 +199,26 @@ export class Dropdown extends React.Component<DropdownProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = getDropdownTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain(this.props)}</ThemeContext.Provider>;
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {
+  public renderMain = () => {
+    const { caption, icon, ...rest } = this.props;
     const items = React.Children.map(this.props.children, (item) => item) || [];
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...rest}>
         <Select<React.ReactNode, React.ReactNode>
           data-tid={DropdownDataTids.root}
           ref={this._refSelect}
-          {...filterProps(props, PASS_PROPS)}
+          {...filterProps(rest, PASS_PROPS)}
           value={caption}
           items={items}
           _icon={icon}
           renderValue={renderValue}
-          size={this.props.size}
-          aria-label={this.props['aria-label']}
         />
       </CommonWrapper>
     );

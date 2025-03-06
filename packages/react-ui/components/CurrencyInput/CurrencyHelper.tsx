@@ -7,9 +7,16 @@ import { CursorMap } from './CursorHelper';
 import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS, MINUS_SIGN, SPACE, THIN_SPACE } from './constants';
 
 export interface DecimalFormattingOptions {
+  /** Устанавливает минимальное количество отображаемых знаков после запятой. */
   fractionDigits?: Nullable<number>;
+
+  /** Убирает лишние нули после запятой. */
   hideTrailingZeros?: boolean;
+
+  /** Устанавливает разделители для тысячных разрядов. */
   thousandsDelimiter?: string;
+
+  /** Устанавливает знак минуса. */
   minusSign?: string;
 }
 

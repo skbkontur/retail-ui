@@ -362,4 +362,46 @@ describe('DateInput as InputlikeText', () => {
 
     expect(screen.getByTestId(DateInputDataTids.icon)).toBeInTheDocument();
   });
+
+  it('should not select date fragments in disabled state', async () => {
+    const value = '24.08.2022';
+    const dateFragment = value.slice(0, 2);
+    renderRTL(<DateInput value={value} disabled />);
+    await userEvent.click(screen.getByText(dateFragment));
+    await delay(0);
+    expect(getSelection()?.toString()).toBe('');
+  });
+});
+
+describe('a11y', () => {
+  it('passes correct value to `aria-describedby` attribute', () => {
+    const id = 'elementId';
+    const description = 'The caption that describes DateInput';
+    renderRTL(
+      <>
+        <DateInput aria-describedby={id} />
+        <p id={id}>{description}</p>
+      </>,
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-describedby', id);
+    expect(input).toHaveAccessibleDescription(description);
+  });
+
+  it('passes correct value to `aria-label` attribute', async () => {
+    const label = 'Label for DateInput';
+    renderRTL(<DateInput aria-label={label} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-label', label);
+  });
+
+  it('passes correct value to `aria-labelledby` attribute', async () => {
+    const id = 'elementId';
+    renderRTL(<DateInput aria-labelledby={id} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-labelledby', id);
+  });
 });

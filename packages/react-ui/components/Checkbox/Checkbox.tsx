@@ -25,43 +25,38 @@ export interface CheckboxProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Контент `label`
-         */
+        /** @ignore */
         children?: React.ReactNode;
-        /**
-         * Состояние валидации при ошибке.
-         */
+
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /** Размер */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /**
-         * HTML-событие `mouseenter`.
-         */
+
+        /** Задает HTML-событие `onmouseenter`.
+         * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`.
-         */
+
+        /** Задает HTML-событие `onmouseleave`.
+         * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseover`.
-         */
+
+        /** Задает HTML-событие `onmouseover`.
+         * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+
+        /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange?: (value: boolean) => void;
-        /**
-         * HTML-событие `onblur`.
-         */
+
+        /** Задает HTML-событие `onblur`.
+         * @ignore */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
-         */
+
+        /** Устанавливает начальное [неопределенное состояние чекбокса](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate). */
         initialIndeterminate?: boolean;
       }
     > {}
@@ -78,6 +73,12 @@ export const CheckboxDataTids = {
 
 type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
 
+/**
+ * `Checkbox` используется для управления параметром с двумя состояниями.
+ *
+ * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
+ * Для немедленного включения какого-то режима в интерфейсе лучше подходит Toggle.
+ */
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';

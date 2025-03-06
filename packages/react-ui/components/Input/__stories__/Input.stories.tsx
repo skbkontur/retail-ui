@@ -10,6 +10,7 @@ import { Gapped } from '../../Gapped';
 
 export default {
   title: 'Input',
+  component: Input,
 } as Meta;
 
 type InputState = Partial<InputProps>;
