@@ -15,6 +15,7 @@ import { SizeProp } from '../../lib/types/props';
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 import { mod } from './helpers';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 export type SwitcherItems = string | SwitcherItem;
 
@@ -133,16 +134,24 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     };
 
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
-    const wrapClassName = cx(styles.wrap(), this.props.error && styles.error(this.theme));
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SwitcherDataTids.root} className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
-          <div className={wrapClassName}>
-            <input {...inputProps} />
-            <Group>{this._renderItems()}</Group>
-          </div>
+          {isThemeGTE(this.theme, '5.1') ? (
+            <div className={cx(styles.wrap(), this.props.error && styles.error5_1(this.theme))}>
+              <input {...inputProps} />
+              <Group>{this._renderItems()}</Group>
+            </div>
+          ) : (
+            <div className={styles.wrap()}>
+              <input {...inputProps} />
+              <div className={cx(this.props.error && styles.error(this.theme))}>
+                <Group>{this._renderItems()}</Group>
+              </div>
+            </div>
+          )}
         </div>
       </CommonWrapper>
     );

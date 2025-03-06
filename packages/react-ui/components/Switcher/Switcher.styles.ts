@@ -57,6 +57,17 @@ export const styles = memoizeStyle({
   },
 
   error(t: Theme) {
+    const insideWidth = parseInt(t.btnBorderWidth);
+    const outsideWidth = `${parseInt(t.switcherOutlineWidth) - insideWidth}px`;
+    return css`
+      border-radius: ${t.switcherBorderRadius};
+      box-shadow:
+        inset 0 0 0 ${insideWidth}px ${t.borderColorError},
+        0 0 0 ${outsideWidth} ${t.borderColorError};
+    `;
+  },
+
+  error5_1(t: Theme) {
     return css`
       position: relative;
 
