@@ -9,7 +9,6 @@ import { isThemeVersionGTE, ThemeVersions } from './ThemeVersions';
 export type Marker = (theme: Theme) => Theme;
 export type Markers = Marker[];
 
-export const exposeGetters = (theme: Theme): Theme => {
 /**
  * Makes all computable theme variables (getters) visible to the Object.keys(theme)
  * @param theme Theme object
