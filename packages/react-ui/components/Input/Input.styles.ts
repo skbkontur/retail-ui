@@ -71,7 +71,6 @@ export const styles = memoizeStyle({
       border-color: ${t.inputBorderColorFocus};
       box-shadow: ${t.inputFocusShadow};
       outline: none;
-      z-index: 2;
     `;
   },
 
@@ -185,7 +184,6 @@ export const styles = memoizeStyle({
     return css`
       border-color: ${t.inputBorderColorWarning};
       box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning};
-      z-index: 2;
     `;
   },
 
@@ -200,7 +198,6 @@ export const styles = memoizeStyle({
     return css`
       border-color: ${t.inputBorderColorError};
       box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError};
-      z-index: 2;
     `;
   },
 

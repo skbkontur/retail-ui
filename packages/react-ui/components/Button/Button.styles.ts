@@ -309,7 +309,6 @@ export const styles = memoizeStyle({
   focus(t: Theme) {
     return css`
       position: relative;
-      z-index: 2;
 
       &,
       &:hover:enabled,
@@ -739,7 +738,6 @@ export const styles = memoizeStyle({
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 10;
     `;
   },
 
