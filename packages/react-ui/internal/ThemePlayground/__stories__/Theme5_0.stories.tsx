@@ -28,7 +28,7 @@ export default {
 
 export const Modal5_0: Story = () => {
   return (
-    <Modal>
+    <Modal disableFocusLock>
       <Modal.Header>Крестик в модалке</Modal.Header>
       <Modal.Body>
         <span>Тестируем в 5.0</span>
