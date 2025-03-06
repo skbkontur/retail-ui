@@ -137,7 +137,7 @@ kind('SidePage', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
-      await delay(7000);
+      await delay(1000);
       await pressTab();
       const firstTimeTabPress = await context.webdriver.takeScreenshot();
       await pressTab();
