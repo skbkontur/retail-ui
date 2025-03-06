@@ -2,6 +2,7 @@ import React, { AriaAttributes, ReactElement, HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { isElement } from 'react-is';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -10,18 +11,18 @@ import { keyListener } from '../../lib/events/keyListener';
 import { PopupMenu, PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPositionsType } from '../../internal/Popup';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './Kebab.styles';
+import { getStyles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
@@ -91,6 +92,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
 
   private listener: {
@@ -110,23 +113,31 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupMargin: theme.kebabMargin,
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <ThemeContext.Provider
+                    value={ThemeFactory.create(
+                      {
+                        popupMargin: theme.kebabMargin,
+                      },
+                      theme,
+                    )}
+                  >
+                    {this.renderMain()}
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -168,6 +179,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         captionProps.toggleMenu();
       }
     };
+    const styles = this.styles;
 
     return (
       <span
@@ -178,7 +190,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cx(
+        className={this.emotion.cx(
           styles.kebab(this.theme),
           size === 'small' && styles.kebabSmall(this.theme),
           size === 'medium' && styles.kebabMedium(this.theme),
