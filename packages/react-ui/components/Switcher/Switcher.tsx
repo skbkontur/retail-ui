@@ -11,11 +11,11 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 import { mod } from './helpers';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 export type SwitcherItems = string | SwitcherItem;
 
