@@ -552,7 +552,7 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: { DateRangePicker: { selectMonthAriaLabel: customAriaLabel } } }}>
           <DateRangePicker>
-            <DateRangePicker.Start onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="01.02.2025" onValueChange={jest.fn()} />
             <DateRangePicker.End onValueChange={jest.fn()} />
           </DateRangePicker>
         </LocaleContext.Provider>,
