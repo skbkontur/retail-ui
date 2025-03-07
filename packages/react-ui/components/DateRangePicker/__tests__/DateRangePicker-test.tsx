@@ -274,7 +274,7 @@ describe('DateRangePicker', () => {
     };
 
     render(
-      <DateRangePicker renderDay={(props) => <CustomDayItem {...props} />}>
+      <DateRangePicker renderDay={(props: CalendarDayProps) => <CustomDayItem {...props} />}>
         <DateRangePicker.Start onValueChange={jest.fn()} />
         <DateRangePicker.End onValueChange={jest.fn()} />
       </DateRangePicker>,
