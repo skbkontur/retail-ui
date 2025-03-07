@@ -1,4 +1,5 @@
 import { story, kind, test } from 'creevey';
+import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay';
 
@@ -275,7 +276,20 @@ kind('Modal', () => {
         .perform();
       await delay(500);
       const secondModal = await context.webdriver.takeScreenshot();
-      await context.expect({ firstModal, secondModal }).to.matchImages();
+      await context.matchImages({ firstModal, secondModal });
+    });
+  });
+
+  story('CrossFocusedByTab', () => {
+    test('idle', async (context) => {
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.TAB)
+        .perform();
+      await delay(200);
+      await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
 });

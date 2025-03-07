@@ -347,7 +347,7 @@ kind('SidePage', () => {
       const againViewModeSidePage = await context.takeScreenshot();
 
       await delay(100);
-      await context.expect({ viewModeSidePage, editModeSidePage, againViewModeSidePage }).to.matchImages();
+      await context.matchImages({ viewModeSidePage, editModeSidePage, againViewModeSidePage });
     });
   });
 
