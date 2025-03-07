@@ -114,7 +114,7 @@ export const ColorableInputElement = forwardRefAndName(
     useEffect(() => {
       activation();
       updateActive();
-    }, [active, props.showOnFocus, props.value, props.defaultValue, props.disabled, theme, activation]);
+    }, [props.value, props.defaultValue, theme, activation]);
 
     useEffect(() => {
       if (inputRef.current) {
