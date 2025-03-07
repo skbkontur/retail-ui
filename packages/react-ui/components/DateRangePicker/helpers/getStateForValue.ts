@@ -1,11 +1,11 @@
-import { DateRangePickerFieldType } from '../DateRangePickerField';
+import { DateRangePickerInputType } from '../DateRangePickerInput';
 import { isLess, isGreater, isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { MIN_FULLDATE, MAX_FULLDATE } from '../../../lib/date/constants';
 
 interface DateRangeState {
   start: string;
   end: string;
-  focus: DateRangePickerFieldType | null;
+  focus: DateRangePickerInputType | null;
   isOpen: true;
 }
 
@@ -17,7 +17,7 @@ const defaultContextOptions = {
 };
 
 export function getStateForValue(
-  currentFocus: DateRangePickerFieldType | null,
+  currentFocus: DateRangePickerInputType | null,
   value = '',
   contextOptions = {},
 ): DateRangeState {
