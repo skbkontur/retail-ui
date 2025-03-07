@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -26,11 +26,7 @@ import { LocaleContext } from '../../lib/locale';
 import { getFontSize, styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
-import {
-  DateRangePickerInput,
-  DateRangePickerInputType,
-  DateRangePickerInputWithTypeProps,
-} from './DateRangePickerInput';
+import { DateRangePickerInput, DateRangePickerInputProps, DateRangePickerInputType } from './DateRangePickerInput';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DateRangePickerLocaleHelper } from './locale';
 import { validateDateRangePicker } from './helpers/validateDateRangePicker';
@@ -66,8 +62,8 @@ export interface DateRangePickerProps
 
 export const DateRangePicker = Object.assign(
   {
-    Start: (props: DateRangePickerInputWithTypeProps) => <DateRangePickerInput {...props} type="start" />,
-    End: (props: DateRangePickerInputWithTypeProps) => <DateRangePickerInput {...props} type="end" />,
+    Start: forwardRef((props: DateRangePickerInputProps) => <DateRangePickerInput {...props} type="start" />),
+    End: forwardRef((props: DateRangePickerInputProps) => <DateRangePickerInput {...props} type="end" />),
     Separator: DateRangePickerSeparator,
     validate: validateDateRangePicker,
   },
