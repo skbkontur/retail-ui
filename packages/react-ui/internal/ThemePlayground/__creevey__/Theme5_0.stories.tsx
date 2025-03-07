@@ -28,3 +28,8 @@ export const Switcher5_0: Story = () => {
   return <Switcher error items={['One', 'Two', 'Three']} caption={'Label for Switcher'} />;
 };
 Switcher5_0.storyName = 'Switcher 5.0';
+Switcher5_0.parameters = {
+  creevey: {
+    captureElement: '#test-element',
+  },
+};

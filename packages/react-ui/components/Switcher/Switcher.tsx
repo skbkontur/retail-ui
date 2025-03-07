@@ -132,26 +132,22 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onBlur: this._handleBlur,
       className: styles.input(),
     };
+    const isThemeGTE_5_1 = isThemeGTE(this.theme, '5.1');
+    const isTheme_5_0 = !isThemeGTE_5_1;
+    const items = <Group>{this._renderItems()}</Group>;
 
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
+    const wrapperClassName = cx(styles.wrap(), isThemeGTE_5_1 && this.props.error && styles.error5_1(this.theme));
+    const errorClassName = cx(isTheme_5_0 && this.props.error && styles.error(this.theme));
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SwitcherDataTids.root} className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
-          {isThemeGTE(this.theme, '5.1') ? (
-            <div className={cx(styles.wrap(), this.props.error && styles.error5_1(this.theme))}>
-              <input {...inputProps} />
-              <Group>{this._renderItems()}</Group>
-            </div>
-          ) : (
-            <div className={styles.wrap()}>
-              <input {...inputProps} />
-              <div className={cx(this.props.error && styles.error(this.theme))}>
-                <Group>{this._renderItems()}</Group>
-              </div>
-            </div>
-          )}
+          <div className={wrapperClassName}>
+            <input {...inputProps} />
+            {isThemeGTE_5_1 ? items : <div className={errorClassName}>{items}</div>}
+          </div>
         </div>
       </CommonWrapper>
     );
