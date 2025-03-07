@@ -15,7 +15,7 @@ import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { DateSelectDataTids } from '../../../internal/DateSelect';
 import { MenuDataTids } from '../../../internal/Menu';
 // import { componentsLocales as DayCellViewLocalesRu } from '../../Calendar/locale/locales/ru';
-// import { DateRangePickerFieldProps } from '../DateRangePickerField';
+// import { DateRangePickerInputProps } from '../DateRangePickerInput';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 
 describe('DateRangePicker', () => {
@@ -165,7 +165,7 @@ describe('DateRangePicker', () => {
   // });
 
   // it('handle onBlur event', async () => {
-  //   const DateRangePickerRef = useRef<DateRangePickerFieldProps>(null);
+  //   const DateRangePickerRef = useRef<DateRangePickerInputProps>(null);
   //   const onBlur = jest.fn();
 
   //   render(

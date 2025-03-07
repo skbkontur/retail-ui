@@ -3,7 +3,7 @@ import React from 'react';
 import type { SizeProp } from '../../lib/types/props';
 import type { DateInput } from '../DateInput';
 
-import { DateRangePickerFieldType } from './DateRangePickerField';
+import { DateRangePickerInputType } from './DateRangePickerInput';
 
 export interface DateRangePickerContextProps {
   startValue: string | null;
@@ -23,8 +23,8 @@ export interface DateRangePickerContextProps {
   setEndDisabled: (value: boolean) => void;
   setMinDate: (value: string) => void;
   setMaxDate: (value: string) => void;
-  setFocusField: (value: DateRangePickerFieldType | null) => void;
-  open: (type: DateRangePickerFieldType) => void;
+  setFocusField: (value: DateRangePickerInputType | null) => void;
+  open: (type: DateRangePickerInputType) => void;
   close: () => void;
   onFocus?: (e: React.FocusEvent<HTMLElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLElement>) => void;
