@@ -6,17 +6,17 @@ import { useResponsiveLayout } from '../ResponsiveLayout';
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
 
-export type DateRangePickerFieldType = 'start' | 'end';
+export type DateRangePickerInputType = 'start' | 'end';
 
-export interface DateRangePickerFieldProps extends Omit<DateInputProps, 'value'> {
-  type: DateRangePickerFieldType;
+export interface DateRangePickerInputProps extends Omit<DateInputProps, 'value'> {
+  type: DateRangePickerInputType;
   value?: string | null;
   optional?: boolean;
   onValueChange: (value: string) => void;
 }
-export type DateRangePickerFieldWithTypeProps = Omit<DateRangePickerFieldProps, 'type'>;
+export type DateRangePickerInputWithTypeProps = Omit<DateRangePickerInputProps, 'type'>;
 
-export function DateRangePickerField(props: DateRangePickerFieldProps) {
+export function DateRangePickerInput(props: DateRangePickerInputProps) {
   const {
     startValue,
     endValue,
@@ -72,7 +72,7 @@ export function DateRangePickerField(props: DateRangePickerFieldProps) {
     }
   }, [endValue]);
 
-  const commonProps: DateRangePickerFieldProps = {
+  const commonProps: DateRangePickerInputProps = {
     withIcon: true,
     size,
     ...props,

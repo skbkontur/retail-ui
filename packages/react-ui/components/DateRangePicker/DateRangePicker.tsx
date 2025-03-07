@@ -27,10 +27,10 @@ import { getFontSize, styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
 import {
-  DateRangePickerField,
-  DateRangePickerFieldType,
-  DateRangePickerFieldWithTypeProps,
-} from './DateRangePickerField';
+  DateRangePickerInput,
+  DateRangePickerInputType,
+  DateRangePickerInputWithTypeProps,
+} from './DateRangePickerInput';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DateRangePickerLocaleHelper } from './locale';
 import { validateDateRangePicker } from './helpers/validateDateRangePicker';
@@ -66,8 +66,8 @@ export interface DateRangePickerProps
 
 export const DateRangePicker = Object.assign(
   {
-    Start: (props: DateRangePickerFieldWithTypeProps) => <DateRangePickerField {...props} type="start" />,
-    End: (props: DateRangePickerFieldWithTypeProps) => <DateRangePickerField {...props} type="end" />,
+    Start: (props: DateRangePickerInputWithTypeProps) => <DateRangePickerInput {...props} type="start" />,
+    End: (props: DateRangePickerInputWithTypeProps) => <DateRangePickerInput {...props} type="end" />,
     Separator: DateRangePickerSeparator,
     validate: validateDateRangePicker,
   },
@@ -88,7 +88,7 @@ export const DateRangePicker = Object.assign(
 
     const [hoveredDay, setHoveredDay] = useState<string | null>(null);
     const [showCalendar, setShowCalendar] = useState<boolean>(false);
-    const [focusField, setFocusField] = useState<DateRangePickerFieldType | null>(null);
+    const [focusField, setFocusField] = useState<DateRangePickerInputType | null>(null);
 
     const startRef = useRef<DateInput>(null);
     const endRef = useRef<DateInput>(null);
@@ -119,7 +119,7 @@ export const DateRangePicker = Object.assign(
       }
     };
 
-    const open = (fieldType: DateRangePickerFieldType = 'start') => {
+    const open = (fieldType: DateRangePickerInputType = 'start') => {
       setFocusField(fieldType);
       setShowCalendar(true);
     };
@@ -129,7 +129,7 @@ export const DateRangePicker = Object.assign(
       setHoveredDay(null);
     };
 
-    const focus = (fieldType: DateRangePickerFieldType = 'start') => {
+    const focus = (fieldType: DateRangePickerInputType = 'start') => {
       setFocusField(fieldType);
       const fieldRef = fieldType === 'start' ? startRef : endRef;
 
@@ -139,7 +139,7 @@ export const DateRangePicker = Object.assign(
       }, 1);
     };
 
-    const setEmpty = (type: DateRangePickerFieldType) => {
+    const setEmpty = (type: DateRangePickerInputType) => {
       switch (type) {
         case 'start':
           setStartValue('');
