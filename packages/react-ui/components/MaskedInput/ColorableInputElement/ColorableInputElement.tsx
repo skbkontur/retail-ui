@@ -1,3 +1,4 @@
+/* eslint react-hooks/exhaustive-deps: 2 */
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
@@ -42,20 +43,78 @@ export const ColorableInputElement = forwardRefAndName(
 
     useEffect(updateActive, []);
 
-    useEffect(() => {
-      activation();
-      updateActive();
-    }, [active, showOnFocus, props.value, props.defaultValue, props.disabled, focused.current, theme]);
+    const paintText = useCallback(() => {
+      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
+        return;
+      }
 
-    const paintTextCallback = useCallback(paintText, [
-      showOnFocus,
+      inputRef.current?.classList.add(globalClasses.input);
+
+      let shadow = spanRef.current.shadowRoot;
+      let typedValueElement = shadow?.getElementById('span');
+
+      if (!typedValueElement) {
+        shadow = spanRef.current.attachShadow({ mode: 'open' });
+
+        typedValueElement = globalObject.document.createElement('span');
+        typedValueElement.setAttribute('id', 'span');
+
+        shadow.appendChild(typedValueElement);
+      }
+
+      const style = inputStyle.current;
+
+      typedValueElement.textContent =
+        ((inputRef.current.getAttribute('data-unmasked-value') || focused.current) &&
+          inputRef.current.getAttribute('data-typed-value')) ||
+        '';
+
+      const inputRect = inputRef.current.getBoundingClientRect();
+      const filledRect = spanRef.current.getBoundingClientRect();
+
+      const threshold = filledRect.width / (inputRect.width / 100);
+      const degree = style.fontStyle === 'italic' ? 100 : 90;
+
+      let typedValueColor = theme.inputTextColor;
+      let maskColor = theme.inputPlaceholderColor;
+      if (props.disabled) {
+        typedValueColor = theme.inputTextColorDisabled;
+        maskColor = theme.inputTextColorDisabled;
+      }
+      if (props.showOnFocus) {
+        maskColor = focused.current ? maskColor : 'transparent';
+      }
+
+      inputRef.current.style.backgroundImage = `
+      linear-gradient(
+          ${degree}deg,
+          ${typedValueColor} ${threshold}%,
+          ${maskColor} ${threshold}%
+      )`;
+    }, [
+      props.showOnFocus,
       props.disabled,
       theme.inputTextColor,
       theme.inputPlaceholderColor,
       theme.inputTextColorDisabled,
     ]);
 
-    const debouncedPaintText = useCallback(debounce(paintTextCallback), [paintTextCallback]);
+    const debouncedPaintText = useCallback(() => debounce(paintText), [paintText])();
+
+    const activation = useCallback(() => {
+      if (active) {
+        debouncedPaintText();
+      } else {
+        debouncedPaintText.cancel();
+        inputRef.current && (inputRef.current.style.backgroundImage = '');
+        inputRef.current?.classList.remove(globalClasses.input);
+      }
+    }, [debouncedPaintText, active]);
+
+    useEffect(() => {
+      activation();
+      updateActive();
+    }, [active, props.showOnFocus, props.value, props.defaultValue, props.disabled, theme, activation]);
 
     useEffect(() => {
       if (inputRef.current) {
@@ -106,66 +165,6 @@ export const ColorableInputElement = forwardRefAndName(
       setTimeout(() => {
         setActive(!inputRef.current?.parentElement?.querySelector(':placeholder-shown'));
       });
-    }
-
-    function activation() {
-      if (active) {
-        debouncedPaintText();
-      } else {
-        debouncedPaintText.cancel();
-        inputRef.current && (inputRef.current.style.backgroundImage = '');
-        inputRef.current?.classList.remove(globalClasses.input);
-      }
-    }
-
-    function paintText() {
-      if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
-        return;
-      }
-
-      inputRef.current?.classList.add(globalClasses.input);
-
-      let shadow = spanRef.current.shadowRoot;
-      let typedValueElement = shadow?.getElementById('span');
-
-      if (!typedValueElement) {
-        shadow = spanRef.current.attachShadow({ mode: 'open' });
-
-        typedValueElement = globalObject.document.createElement('span');
-        typedValueElement.setAttribute('id', 'span');
-
-        shadow.appendChild(typedValueElement);
-      }
-
-      const style = inputStyle.current;
-
-      typedValueElement.textContent =
-        ((inputRef.current.getAttribute('data-unmasked-value') || focused.current) &&
-          inputRef.current.getAttribute('data-typed-value')) ||
-        '';
-
-      const inputRect = inputRef.current.getBoundingClientRect();
-      const filledRect = spanRef.current.getBoundingClientRect();
-
-      const threshold = filledRect.width / (inputRect.width / 100);
-      const degree = style.fontStyle === 'italic' ? 100 : 90;
-
-      let typedValueColor = theme.inputTextColor;
-      let maskColor = theme.inputPlaceholderColor;
-      if (props.disabled) {
-        typedValueColor = theme.inputTextColorDisabled;
-        maskColor = theme.inputTextColorDisabled;
-      }
-      if (props.showOnFocus) {
-        maskColor = focused.current ? maskColor : 'transparent';
-      }
-
-      inputRef.current.style.backgroundImage = `
-      linear-gradient(
-          ${degree}deg,
-          ${typedValueColor} ${threshold}%,
-          ${maskColor} ${threshold}%
-      )`;
     }
   },
 );
