@@ -47,13 +47,15 @@ export const ColorableInputElement = forwardRefAndName(
       updateActive();
     }, [active, showOnFocus, props.value, props.defaultValue, props.disabled, focused.current, theme]);
 
-    const debouncedPaintText = useCallback(debounce(paintText), [
+    const paintTextCallback = useCallback(paintText, [
       showOnFocus,
       props.disabled,
       theme.inputTextColor,
       theme.inputPlaceholderColor,
       theme.inputTextColorDisabled,
     ]);
+
+    const debouncedPaintText = useCallback(debounce(paintTextCallback), [paintTextCallback]);
 
     useEffect(() => {
       if (inputRef.current) {
