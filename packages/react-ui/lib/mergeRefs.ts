@@ -1,16 +1,11 @@
 import type React from 'react';
 
-import { Nullable } from '../typings/utility-types';
-
 import { isNonNullable } from './utils';
 
 type refVariants<T> = React.RefObject<T> | React.RefCallback<T> | React.LegacyRef<T>;
 type refCallback<T> = (this: { refs: Array<refVariants<T>> }, value: T | React.LegacyRef<Element>) => void;
 
-interface IRefCallbackCache<T> {
-  refs: Array<refVariants<T>>;
-  callback: refCallback<T>;
-}
+const CALLBACK_AS_KEY = 'callbackAsKey';
 
 function applyRef<T>(this: { refs: Array<refVariants<T>> }, value: T) {
   this.refs.forEach((ref) => {
@@ -22,7 +17,7 @@ function applyRef<T>(this: { refs: Array<refVariants<T>> }, value: T) {
   });
 }
 
-const cache: Array<IRefCallbackCache<any>> = [];
+const cache = new Map();
 
 /**
  * Merges two or more refs into one with cached refs
@@ -38,25 +33,30 @@ const cache: Array<IRefCallbackCache<any>> = [];
  * });
  */
 export function mergeRefs<T>(...refs: Array<refVariants<T>>) {
-  const callback = getCallbackInCache(...refs);
+  const cacheLevel = getLeafRefInCache(...refs);
 
+  const callback = cacheLevel.get(CALLBACK_AS_KEY);
   if (callback) {
-    return callback;
+    return callback as unknown as refCallback<T>;
   }
 
   const cachedApplyRef = applyRef.bind({ refs });
-  cache.push({ refs, callback: cachedApplyRef });
+  cacheLevel.set(CALLBACK_AS_KEY, cachedApplyRef);
+
   return cachedApplyRef;
 }
 
-function getCallbackInCache<T>(...refs: Array<refVariants<T>>): Nullable<refCallback<T>> {
-  for (const { refs: cachedRefs, callback } of cache) {
-    const isCachedRefs = refs.every((newRef) => cachedRefs.includes(newRef));
+function getLeafRefInCache<T>(...refs: Array<refVariants<T>>) {
+  let cacheLevel = cache;
+  for (const ref of refs) {
+    const child = cacheLevel.get(ref);
 
-    if (isCachedRefs) {
-      return callback;
+    if (child) {
+      cacheLevel = child;
+    } else {
+      cacheLevel.set(ref, new Map());
+      cacheLevel = cacheLevel.get(ref);
     }
   }
-
-  return undefined;
+  return cacheLevel;
 }
