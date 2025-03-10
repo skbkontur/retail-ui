@@ -41,8 +41,7 @@ describe('mergeRefs', () => {
     }
     const funcRef = jest.fn();
     const Comp = ({ refFn, triggerRerender }: CompProps) => {
-      console.log(triggerRerender);
-      return <div ref={mergeRefs(refFn)} />;
+      return <div ref={mergeRefs(refFn)} style={{width: +triggerRerender }} />;
     };
 
     const { rerender } = render(<Comp refFn={funcRef} triggerRerender />);
@@ -50,5 +49,27 @@ describe('mergeRefs', () => {
 
     rerender(<Comp refFn={funcRef} triggerRerender={false} />);
     expect(funcRef).toHaveBeenCalledTimes(1);
+  });
+
+  it('change ref and call new', () => {
+    interface CompProps {
+      refFn: (element: HTMLDivElement) => void;
+    }
+    const funcRef1 = jest.fn();
+    const funcRef2 = jest.fn();
+    const Comp = ({ refFn }: CompProps) => {
+      return <div ref={mergeRefs(refFn)} />;
+    };
+
+    const { rerender } = render(<Comp refFn={funcRef1} />);
+
+    rerender(<Comp refFn={funcRef2} />);
+
+    expect(funcRef1.mock.calls).toHaveLength(2);
+    expect(funcRef1.mock.calls[0][0]).toBeTruthy(); //attach
+    expect(funcRef1.mock.calls[1][0]).toBeNull(); //detach
+
+    expect(funcRef2.mock.calls).toHaveLength(1); //attach new
+    expect(funcRef2.mock.calls[0][0]).toBeTruthy();
   });
 });
