@@ -14,7 +14,7 @@ import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
-import { mergeRefs } from '../../../lib/utils';
+import { mergeRefs } from '../../../lib/mergeRefs';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
@@ -405,7 +405,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     return (
       <ComboBox
         {...this.props}
-        ref={mergeRefs([this.setRootNode, this.comboBoxRef])}
+        ref={mergeRefs(this.setRootNode, this.comboBoxRef)}
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
