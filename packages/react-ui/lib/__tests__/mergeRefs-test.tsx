@@ -41,7 +41,7 @@ describe('mergeRefs', () => {
     }
     const funcRef = jest.fn();
     const Comp = ({ refFn, triggerRerender }: CompProps) => {
-      return <div ref={mergeRefs(refFn)} style={{width: +triggerRerender }} />;
+      return <div ref={mergeRefs(refFn)} style={{ width: +triggerRerender }} />;
     };
 
     const { rerender } = render(<Comp refFn={funcRef} triggerRerender />);
@@ -71,5 +71,58 @@ describe('mergeRefs', () => {
 
     expect(funcRef2.mock.calls).toHaveLength(1); //attach new
     expect(funcRef2.mock.calls[0][0]).toBeTruthy();
+  });
+
+  describe('return callbacks comparation', () => {
+    const funcRef1 = jest.fn();
+    const funcRef2 = jest.fn();
+    const funcRef3 = jest.fn();
+    it('set same refs return same callbacks', () => {
+      const firstCall = mergeRefs(funcRef1, funcRef2, funcRef3);
+      const secondCall = mergeRefs(funcRef1, funcRef2, funcRef3);
+      expect(firstCall === secondCall).toBeTruthy();
+
+      const thirdCall = mergeRefs(funcRef1, funcRef2, funcRef3);
+      expect(secondCall === thirdCall).toBeTruthy();
+      expect(firstCall === thirdCall).toBeTruthy();
+    });
+
+    it('change order return different callbacks', () => {
+      const firstCall = mergeRefs(funcRef1, funcRef2, funcRef3);
+      const secondCall = mergeRefs(funcRef2, funcRef3, funcRef2);
+      expect(firstCall !== secondCall).toBeTruthy();
+
+      const thirdCall = mergeRefs(funcRef1, funcRef2, funcRef3);
+      expect(secondCall !== thirdCall).toBeTruthy();
+      expect(firstCall === thirdCall).toBeTruthy();
+    });
+
+    it('change params count return different callbacks', () => {
+      const firstCall = mergeRefs(funcRef1, funcRef2, funcRef3);
+      const secondCall = mergeRefs(funcRef2, funcRef3);
+      expect(firstCall !== secondCall).toBeTruthy();
+
+      const thirdCall = mergeRefs(funcRef1);
+      expect(secondCall !== thirdCall).toBeTruthy();
+      expect(firstCall !== thirdCall).toBeTruthy();
+    });
+
+    it('change params return different callbacks', () => {
+      const firstCall = mergeRefs(funcRef1, funcRef2);
+      const secondCall = mergeRefs(funcRef1, funcRef3);
+      expect(firstCall !== secondCall).toBeTruthy();
+
+      const thirdCall = mergeRefs(funcRef1, funcRef3);
+      expect(secondCall === thirdCall).toBeTruthy();
+    });
+
+    it('params can be null', () => {
+      const firstCall = mergeRefs(funcRef1, null, funcRef2);
+      const secondCall = mergeRefs(funcRef1, null, funcRef2);
+      expect(firstCall === secondCall).toBeTruthy();
+
+      const thirdCall = mergeRefs(funcRef1, funcRef2);
+      expect(secondCall !== thirdCall).toBeTruthy();
+    });
   });
 });
