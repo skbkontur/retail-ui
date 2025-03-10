@@ -1,7 +1,7 @@
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { render } from '@testing-library/react';
 
-import { mergeRefs } from '../utils';
+import { mergeRefs } from '../mergeRefs';
 
 describe('mergeRefs', () => {
   it('correctly merges refs', () => {
@@ -15,7 +15,7 @@ describe('mergeRefs', () => {
     const objRef = createRef();
     const Example = ({ visible }: { visible: boolean }) => {
       if (visible) {
-        return <ComponentWithImperativeMethods ref={mergeRefs([funcRef, objRef])} />;
+        return <ComponentWithImperativeMethods ref={mergeRefs(funcRef, objRef)} />;
       }
 
       return null;
@@ -32,5 +32,23 @@ describe('mergeRefs', () => {
     expect(funcRef).toHaveBeenCalledTimes(2);
     expect(funcRef).toHaveBeenCalledWith(null);
     expect(objRef.current).toBeNull();
+  });
+
+  it('save old refs to cache', () => {
+    interface CompProps {
+      refFn: (element: HTMLDivElement) => void;
+      triggerRerender: boolean;
+    }
+    const funcRef = jest.fn();
+    const Comp = ({ refFn, triggerRerender }: CompProps) => {
+      console.log(triggerRerender);
+      return <div ref={mergeRefs(refFn)} />;
+    };
+
+    const { rerender } = render(<Comp refFn={funcRef} triggerRerender />);
+    expect(funcRef).toHaveBeenCalledTimes(1);
+
+    rerender(<Comp refFn={funcRef} triggerRerender={false} />);
+    expect(funcRef).toHaveBeenCalledTimes(1);
   });
 });
