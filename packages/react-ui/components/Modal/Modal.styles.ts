@@ -134,6 +134,8 @@ export const styles = memoizeStyle({
 
   close5_1(t: Theme) {
     return css`
+      justify-content: center;
+      align-items: center;
       right: ${t.modalCloseButtonClickAreaRight};
       top: ${t.modalCloseButtonClickAreaTop};
 
@@ -224,8 +226,16 @@ export const styles = memoizeStyle({
 
   focus5_1(t: Theme) {
     return css`
-      box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
-      border-radius: 4px;
+      &:before {
+        content: '';
+        position: absolute;
+        width: calc(${t.modalCloseIconSize} * 2);
+        height: calc(${t.modalCloseIconSize} * 2);
+        box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+        border-radius: 4px;
+        margin: 0;
+        padding: 0;
+      }
     `;
   },
 
