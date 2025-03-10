@@ -233,8 +233,6 @@ export const styles = memoizeStyle({
         height: calc(${t.modalCloseIconSize} * 2);
         box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
         border-radius: 4px;
-        margin: 0;
-        padding: 0;
       }
     `;
   },
