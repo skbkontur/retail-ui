@@ -248,14 +248,7 @@
     line-height: 24px;
   }
 
-  /* Simplify external storybooks with only 1 story */
-  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div[data-selected='true']:only-child) {
-    position: relative;
-    z-index: 1;
-    color: white;
-    pointer-events: none;
-  }
-
+  /* Exteral storybooks with 1 story. Move 1st link to title */
   #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child),
   #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child) + div > div {
     padding: 0;
@@ -278,6 +271,13 @@
     opacity: 0;
   }
 
+  /* Exteral storybooks with 1 story. Disable collapse button */
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child) {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+
   #storybook-explorer-tree
     [aria-expanded]:has(+ div > div > div:only-child)
     [data-action='collapse-ref']
@@ -285,9 +285,22 @@
     opacity: 0;
   }
 
-  /* Hide external storybook link icon */
-  #storybook-explorer-tree [aria-expanded] [aria-label='toggle indicator'] {
-    display: none;
+  /* Exteral storybooks with 1 story. Disable tab keys for collapse button */
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child) [data-action='collapse-ref'] {
+    visibility: hidden;
+  }
+
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child) [data-action='collapse-ref'] {
+    visibility: visible;
+  }
+
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div:only-child) aside {
+    pointer-events: all;
+  }
+
+  /* Exteral storybooks with 1 story. Invert text */
+  #storybook-explorer-tree [aria-expanded]:has(+ div > div > div[data-selected='true']:only-child) * {
+    color: white;
   }
 
   @media screen and (max-width: 1100px) {
