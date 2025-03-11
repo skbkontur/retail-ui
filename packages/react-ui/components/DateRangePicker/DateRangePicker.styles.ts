@@ -96,7 +96,16 @@ export const styles = memoizeStyle({
   },
   buttonWrap() {
     return css`
+      display: flex;
       margin: 8px;
+
+      > * {
+        flex-grow: 1;
+      }
+
+      > *:not(:first-child) {
+        margin-left: 8px;
+      }
     `;
   },
 });
