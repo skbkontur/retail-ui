@@ -37,17 +37,16 @@ describe('mergeRefs', () => {
   it('save old refs to cache', () => {
     interface CompProps {
       refFn: (element: HTMLDivElement) => void;
-      triggerRerender: boolean;
     }
     const funcRef = jest.fn();
-    const Comp = ({ refFn, triggerRerender }: CompProps) => {
-      return <div ref={mergeRefs(refFn)} style={{ width: +triggerRerender }} />;
+    const Comp = ({ refFn }: CompProps) => {
+      return <div ref={mergeRefs(refFn)} />;
     };
 
-    const { rerender } = render(<Comp refFn={funcRef} triggerRerender />);
+    const { rerender } = render(<Comp refFn={funcRef} />);
     expect(funcRef).toHaveBeenCalledTimes(1);
 
-    rerender(<Comp refFn={funcRef} triggerRerender={false} />);
+    rerender(<Comp refFn={funcRef} />);
     expect(funcRef).toHaveBeenCalledTimes(1);
   });
 
@@ -116,13 +115,13 @@ describe('mergeRefs', () => {
       expect(secondCall === thirdCall).toBeTruthy();
     });
 
-    it('params can be null', () => {
+    it('params can be null/undefined and will be ignored', () => {
       const firstCall = mergeRefs(funcRef1, null, funcRef2);
-      const secondCall = mergeRefs(funcRef1, null, funcRef2);
+      const secondCall = mergeRefs(funcRef1, funcRef2, undefined);
       expect(firstCall === secondCall).toBeTruthy();
 
       const thirdCall = mergeRefs(funcRef1, funcRef2);
-      expect(secondCall !== thirdCall).toBeTruthy();
+      expect(secondCall === thirdCall).toBeTruthy();
     });
   });
 });
