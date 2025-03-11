@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.11...@skbkontur/react-ui@5.0.12) (2025-03-11)
+
+
+### Bug Fixes
+
+* **Loader,ZIndex:** fix overlap of dropdowns in widgets ([#3612](https://github.com/skbkontur/retail-ui/issues/3612)) ([7990c6d](https://github.com/skbkontur/retail-ui/commit/7990c6d4b661e49e5fec8707f4f06a9655bce25e))
+* **MaskedInput:** rerender after theme change ([#3614](https://github.com/skbkontur/retail-ui/issues/3614)) ([840443f](https://github.com/skbkontur/retail-ui/commit/840443fff46bc6037b92e3da6151312075c25fc7))
+
+
+
+
+
 ## [5.0.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.10...@skbkontur/react-ui@5.0.11) (2025-03-03)
 
 
