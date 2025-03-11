@@ -91,9 +91,6 @@ export const DateRangePicker = Object.assign(
     const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const calendarRef = useRef<Calendar>(null);
 
-    const isCurrentFocusFieldDisabled =
-      (focusField === 'start' && startDisabled) || (focusField === 'end' && endDisabled);
-
     const updateDateRangeValues = (value = '') => {
       const currentValues = {
         currentStart: startValue,
@@ -154,6 +151,7 @@ export const DateRangePicker = Object.assign(
       () => ({
         open,
         close,
+        focus,
         getRootNode: () => dateRangePickerRef.current,
       }),
       [],
@@ -213,53 +211,48 @@ export const DateRangePicker = Object.assign(
     );
 
     const renderButtons = () => {
-      const renderTodayLink = () => {
-        const today = new InternalDate(locale)
-          .setComponents(InternalDateGetter.getTodayComponents())
-          .toString({ withPad: true, withSeparator: true });
-
-        return (
-          props.enableTodayLink && (
-            <div className={cx(styles.buttonWrap())}>
-              <Button
-                width="100%"
-                icon={<ArrowAUpIcon16Light />}
-                aria-label={locale.todayAriaLabel}
-                data-tid={DateRangePickerDataTids.todayButton}
-                onClick={() => updateDateRangeValues(today)}
-              >
-                {locale.today}
-              </Button>
-            </div>
-          )
-        );
-      };
-
-      const renderOptionalButtons = () => (
-        <>
-          {focusField === 'start' && startOptional && (
-            <div className={cx(styles.buttonWrap())}>
-              <Button
-                width="100%"
-                data-tid={DateRangePickerDataTids.startOptionalButton}
-                onClick={() => setEmpty('start')}
-              >
-                {locale.withoutFirstDate}
-              </Button>
-            </div>
-          )}
-          {focusField === 'end' && endOptional && (
-            <div className={cx(styles.buttonWrap())}>
-              <Button width="100%" data-tid={DateRangePickerDataTids.endOptionalButton} onClick={() => setEmpty('end')}>
-                {locale.withoutSecondDate}
-              </Button>
-            </div>
-          )}
-        </>
-      );
+      const today = new InternalDate(locale)
+        .setComponents(InternalDateGetter.getTodayComponents())
+        .toString({ withPad: true, withSeparator: true });
 
       const hasOptionalButtons = startOptional || endOptional;
-      return hasOptionalButtons ? renderOptionalButtons() : renderTodayLink();
+      return (
+        <div className={cx(styles.buttonWrap())}>
+          {hasOptionalButtons && (
+            <>
+              {focusField === 'start' && startOptional && (
+                <Button
+                  width="100%"
+                  data-tid={DateRangePickerDataTids.startOptionalButton}
+                  onClick={() => setEmpty('start')}
+                >
+                  {locale.withoutFirstDate}
+                </Button>
+              )}
+              {focusField === 'end' && endOptional && (
+                <Button
+                  width="100%"
+                  data-tid={DateRangePickerDataTids.endOptionalButton}
+                  onClick={() => setEmpty('end')}
+                >
+                  {locale.withoutSecondDate}
+                </Button>
+              )}
+            </>
+          )}
+
+          {props.enableTodayLink && (
+            <Button
+              icon={<ArrowAUpIcon16Light />}
+              aria-label={locale.todayAriaLabel}
+              data-tid={DateRangePickerDataTids.todayButton}
+              onClick={() => updateDateRangeValues(today)}
+            >
+              {!hasOptionalButtons && locale.today}
+            </Button>
+          )}
+        </div>
+      );
     };
 
     const renderNativeDateInput = () => (
@@ -303,7 +296,8 @@ export const DateRangePicker = Object.assign(
 
                   {props.useMobileNativeDatePicker && isMobile
                     ? renderNativeDateInput()
-                    : !isCurrentFocusFieldDisabled &&
+                    : !startDisabled &&
+                      !endDisabled &&
                       showCalendar && (
                         <>
                           {isMobile ? (
