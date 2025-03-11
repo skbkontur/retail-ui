@@ -14,7 +14,6 @@ export interface DateRangePickerInputProps extends Omit<DateInputProps, 'value'>
   optional?: boolean;
   onValueChange: (value: string) => void;
 }
-export type DateRangePickerInputWithTypeProps = Omit<DateRangePickerInputProps, 'type'>;
 
 export function DateRangePickerInput(props: DateRangePickerInputProps) {
   const {
