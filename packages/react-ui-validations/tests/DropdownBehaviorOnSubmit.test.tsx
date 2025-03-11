@@ -1,8 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { ComboBox, DatePicker, DatePickerDataTids, TooltipDataTids } from '@skbkontur/react-ui';
 import React from 'react';
-import { MenuDataTids } from '@skbkontur/react-ui/internal/Menu';
+import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
 
 import { Nullable } from '../typings/Types';
 import { ValidationContainer, ValidationInfo, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
@@ -33,7 +32,7 @@ describe('ComboboxDropdownBehaviorOnValidationSubmit', () => {
   it('should open', async () => {
     const containerRef = renderValidationContainer(combobox, false);
     await act(() => containerRef.current?.submit());
-    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
     expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
@@ -41,7 +40,7 @@ describe('ComboboxDropdownBehaviorOnValidationSubmit', () => {
   it('should not open with flag dropdownsDoNotOpenOnFocusByValidation', async () => {
     const containerRef = renderValidationContainer(combobox, true);
     await act(() => containerRef.current?.submit());
-    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
     expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toHaveFocus();
   });

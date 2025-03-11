@@ -107,11 +107,11 @@ describe('DatePicker', () => {
   it('navigation from Tab open calendar', async () => {
     render(
       <>
-        <Input />
+        <Input data-tid="test-input" />
         <DatePicker value="02.07.2017" onValueChange={jest.fn()} />
       </>,
     );
-    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByTestId('test-input'));
     await userEvent.keyboard('{tab}');
     expect(screen.queryByTestId(DatePickerDataTids.root)).toBeInTheDocument();
   });
