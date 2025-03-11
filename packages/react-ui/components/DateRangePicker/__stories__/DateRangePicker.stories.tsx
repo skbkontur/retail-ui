@@ -172,6 +172,20 @@ export const Disabled: Story = () => {
 };
 Disabled.parameters = {};
 
+export const TodayButton: Story = () => {
+  const [valueStart, setValueStart] = React.useState('');
+  const [valueEnd, setValueEnd] = React.useState('');
+
+  return (
+    <DateRangePicker enableTodayLink>
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+    </DateRangePicker>
+  );
+};
+TodayButton.parameters = {};
+
 export const OptionalRange: Story = () => {
   const [valueStartOptionalHalf, setValueStartOptionalHalf] = React.useState('');
   const [valueEndOptionalHalf, setValueEndOptionalHalf] = React.useState('');
@@ -196,6 +210,20 @@ export const OptionalRange: Story = () => {
   );
 };
 OptionalRange.parameters = {};
+
+export const OptionalRangeWithTodayButton: Story = () => {
+  const [valueStart, setValueStart] = React.useState('');
+  const [valueEnd, setValueEnd] = React.useState('');
+
+  return (
+    <DateRangePicker enableTodayLink>
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} optional />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} optional />
+    </DateRangePicker>
+  );
+};
+OptionalRangeWithTodayButton.parameters = {};
 
 export const CustomChildrenWithoutDash: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
