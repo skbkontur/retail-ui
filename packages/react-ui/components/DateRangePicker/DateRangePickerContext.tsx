@@ -26,8 +26,6 @@ export interface DateRangePickerContextProps {
   setFocusField: (value: DateRangePickerInputType | null) => void;
   open: (type: DateRangePickerInputType) => void;
   close: () => void;
-  onFocus?: (e: React.FocusEvent<HTMLElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLElement>) => void;
   dateRangePickerRef: React.RefObject<HTMLDivElement>;
   startRef: React.RefObject<DateInput>;
   endRef: React.RefObject<DateInput>;
