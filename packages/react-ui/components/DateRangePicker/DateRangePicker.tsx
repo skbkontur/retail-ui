@@ -71,11 +71,11 @@ export const DateRangePicker = Object.assign(
     const { isMobile } = useResponsiveLayout();
     const locale = useLocaleForControl('DateRangePicker', DateRangePickerLocaleHelper);
 
-    const [startValue, setStartValue] = useState('');
+    const [startValue, setStartValue] = useState<string>();
     const [startOptional, setStartOptional] = useState(false);
     const [startDisabled, setStartDisabled] = useState(false);
 
-    const [endValue, setEndValue] = useState('');
+    const [endValue, setEndValue] = useState<string>();
     const [endOptional, setEndOptional] = useState(false);
     const [endDisabled, setEndDisabled] = useState(false);
 
