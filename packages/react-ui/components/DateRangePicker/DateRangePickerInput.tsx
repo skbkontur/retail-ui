@@ -1,5 +1,6 @@
 import React, { forwardRef, Ref, useContext, useEffect, useImperativeHandle, useRef } from 'react';
 
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { DateInput, DateInputProps } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
@@ -7,6 +8,7 @@ import { isNonNullable, isNullable } from '../../lib/utils';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
+import { DateRangePickerLocaleHelper } from './locale';
 
 export type DateRangePickerInputType = 'start' | 'end';
 
@@ -39,6 +41,7 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
   } = useContext(DateRangePickerContext);
   const isStart = props.type === 'start';
   const isEnd = props.type === 'end';
+  const locale = useLocaleForControl('DateRangePicker', DateRangePickerLocaleHelper);
 
   const startRef = useRef<DateInput>(null);
   const endRef = useRef<DateInput>(null);
@@ -136,11 +139,23 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
   switch (props.type) {
     case 'start':
       return (
-        <DateInput {...commonProps} value={props.value || ''} data-tid={DateRangePickerDataTids.start} ref={startRef} />
+        <DateInput
+          {...commonProps}
+          value={props.value || ''}
+          data-tid={DateRangePickerDataTids.start}
+          aria-label={props['aria-label'] || locale.startDateLabel}
+          ref={startRef}
+        />
       );
     case 'end':
       return (
-        <DateInput {...commonProps} value={props.value || ''} data-tid={DateRangePickerDataTids.end} ref={endRef} />
+        <DateInput
+          {...commonProps}
+          value={props.value || ''}
+          data-tid={DateRangePickerDataTids.end}
+          aria-label={props['aria-label'] || locale.endDateLabel}
+          ref={endRef}
+        />
       );
   }
 });
