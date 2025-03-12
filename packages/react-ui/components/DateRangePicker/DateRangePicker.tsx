@@ -1,4 +1,5 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
+import type { AriaAttributes } from 'react';
 
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -47,6 +48,7 @@ export const DateRangePickerDataTids = {
 
 export interface DateRangePickerProps
   extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
     Pick<
       DatePickerProps,
       'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
@@ -217,7 +219,7 @@ export const DateRangePicker = Object.assign(
                   data-tid={DateRangePickerDataTids.startOptionalButton}
                   onClick={() => setEmpty('start')}
                 >
-                  {locale.withoutFirstDate}
+                  {locale.startDateEmpty}
                 </Button>
               )}
               {focusInput === 'end' && endOptional && (
@@ -226,7 +228,7 @@ export const DateRangePicker = Object.assign(
                   data-tid={DateRangePickerDataTids.endOptionalButton}
                   onClick={() => setEmpty('end')}
                 >
-                  {locale.withoutSecondDate}
+                  {locale.endDateEmpty}
                 </Button>
               )}
             </>
@@ -271,7 +273,15 @@ export const DateRangePicker = Object.assign(
         {(theme) => (
           <ThemeContext.Provider value={getDateRangePickerTheme(theme)}>
             <CommonWrapper {...props}>
-              <div className={styles.root()} data-tid={DateRangePickerDataTids.root} ref={dateRangePickerRef}>
+              <div
+                className={styles.root()}
+                role="group"
+                aria-describedby={props['aria-describedby']}
+                aria-label={props['aria-label']}
+                aria-labelledby={props['aria-labelledby']}
+                data-tid={DateRangePickerDataTids.root}
+                ref={dateRangePickerRef}
+              >
                 <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
                   <div
                     className={cx(
@@ -304,7 +314,7 @@ export const DateRangePicker = Object.assign(
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
                                     disabled={startDisabled}
                                     onValueChange={setStartValue}
-                                  onFocus={() => setFocusInput('start')}
+                                    onFocus={() => setFocusInput('start')}
                                     data-tid={DateRangePickerDataTids.mobileStart}
                                   />
                                   <DateRangePicker.Separator />
@@ -316,7 +326,7 @@ export const DateRangePicker = Object.assign(
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
                                     disabled={endDisabled}
                                     onValueChange={setEndValue}
-                                  onFocus={() => setFocusInput('end')}
+                                    onFocus={() => setFocusInput('end')}
                                     data-tid={DateRangePickerDataTids.mobileEnd}
                                   />
                                 </div>
