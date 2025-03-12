@@ -25,7 +25,7 @@ const DateRangePickerInput = forwardRef(
       startValue,
       endValue,
       size,
-      focusField,
+      focusInput,
       setStartValue,
       setStartOptional,
       setStartDisabled,
@@ -34,7 +34,7 @@ const DateRangePickerInput = forwardRef(
       setEndDisabled,
       setMinDate,
       setMaxDate,
-      setFocusField,
+      setFocusInput,
       open,
       close,
       dateRangePickerRef,
@@ -49,19 +49,19 @@ const DateRangePickerInput = forwardRef(
     useImperativeHandle(ref, () => innerRef.current, []);
 
     useEffect(() => {
-      if (!focusField) {
+      if (!focusInput) {
         return;
       }
 
       // fix DateInput flushSync warning in React 18
       setTimeout(() => {
-        if (focusField === 'start') {
+        if (focusInput === 'start') {
           startRef.current?.focus();
-        } else if (focusField === 'end') {
+        } else if (focusInput === 'end') {
           endRef.current?.focus();
         }
       });
-    }, [focusField]);
+    }, [focusInput]);
 
     useEffect(() => {
       if (isStart) {
@@ -127,7 +127,7 @@ const DateRangePickerInput = forwardRef(
         if (!dateRangePickerRef.current?.contains(nextFocusedElement)) {
           close();
         }
-        setFocusField(null);
+        setFocusInput(null);
       },
     };
 

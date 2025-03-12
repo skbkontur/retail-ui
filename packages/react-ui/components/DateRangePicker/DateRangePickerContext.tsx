@@ -14,7 +14,7 @@ export interface DateRangePickerContextProps {
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
-  focusField?: DateRangePickerInputType | null;
+  focusInput?: DateRangePickerInputType | null;
   setStartValue: (value: string) => void;
   setStartOptional: (value: boolean) => void;
   setStartDisabled: (value: boolean) => void;
@@ -23,7 +23,7 @@ export interface DateRangePickerContextProps {
   setEndDisabled: (value: boolean) => void;
   setMinDate: (value: string) => void;
   setMaxDate: (value: string) => void;
-  setFocusField: (value: DateRangePickerInputType | null) => void;
+  setFocusInput: (value: DateRangePickerInputType | null) => void;
   open: (type: DateRangePickerInputType) => void;
   close: () => void;
   dateRangePickerRef: React.RefObject<HTMLDivElement>;

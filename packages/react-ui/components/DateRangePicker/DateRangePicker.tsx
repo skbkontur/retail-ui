@@ -84,7 +84,7 @@ export const DateRangePicker = Object.assign(
 
     const [hoveredDay, setHoveredDay] = useState<string | null>(null);
     const [showCalendar, setShowCalendar] = useState<boolean>(false);
-    const [focusField, setFocusField] = useState<DateRangePickerInputType | null>(null);
+    const [focusInput, setFocusInput] = useState<DateRangePickerInputType | null>(null);
 
     const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const calendarRef = useRef<Calendar>(null);
@@ -96,7 +96,7 @@ export const DateRangePicker = Object.assign(
         minDate,
         maxDate,
       };
-      const updatedState = getStateForValue(focusField, value, currentValues);
+      const updatedState = getStateForValue(focusInput, value, currentValues);
 
       setStartValue(updatedState.start);
       setEndValue(updatedState.end);
@@ -110,8 +110,8 @@ export const DateRangePicker = Object.assign(
       }
     };
 
-    const open = (fieldType: DateRangePickerInputType = 'start') => {
-      setFocusField(fieldType);
+    const open = (inputType: DateRangePickerInputType = 'start') => {
+      setFocusInput(inputType);
       setShowCalendar(true);
     };
 
@@ -120,8 +120,8 @@ export const DateRangePicker = Object.assign(
       setHoveredDay(null);
     };
 
-    const focus = (fieldType: DateRangePickerInputType = 'start') => {
-      setFocusField(fieldType);
+    const focus = (inputType: DateRangePickerInputType = 'start') => {
+      setFocusInput(inputType);
     };
 
     const setEmpty = (type: DateRangePickerInputType) => {
@@ -159,7 +159,7 @@ export const DateRangePicker = Object.assign(
       minDate,
       maxDate,
       size: props.size,
-      focusField,
+      focusInput,
       setStartValue,
       setStartOptional,
       setStartDisabled,
@@ -168,7 +168,7 @@ export const DateRangePicker = Object.assign(
       setEndDisabled,
       setMinDate,
       setMaxDate,
-      setFocusField,
+      setFocusInput,
       open,
       close,
       dateRangePickerRef,
@@ -189,7 +189,7 @@ export const DateRangePicker = Object.assign(
         }}
       >
         <Calendar
-          value={focusField === 'start' ? startValue : endValue}
+          value={focusInput === 'start' ? startValue : endValue}
           minDate={minDate}
           maxDate={maxDate}
           renderDay={(dayProps) => renderCalendarRange(dayProps, theme, props.renderDay)}
@@ -211,7 +211,7 @@ export const DateRangePicker = Object.assign(
         <div className={cx(styles.buttonWrap())}>
           {hasOptionalButtons && (
             <>
-              {focusField === 'start' && startOptional && (
+              {focusInput === 'start' && startOptional && (
                 <Button
                   width="100%"
                   data-tid={DateRangePickerDataTids.startOptionalButton}
@@ -220,7 +220,7 @@ export const DateRangePicker = Object.assign(
                   {locale.withoutFirstDate}
                 </Button>
               )}
-              {focusField === 'end' && endOptional && (
+              {focusInput === 'end' && endOptional && (
                 <Button
                   width="100%"
                   data-tid={DateRangePickerDataTids.endOptionalButton}
@@ -301,7 +301,7 @@ export const DateRangePicker = Object.assign(
                                     value={startValue}
                                     width="auto"
                                     size="medium"
-                                    className={cx({ [styles.inputVisuallyFocus(theme)]: focusField === 'start' })}
+                                    className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
                                     disabled={startDisabled}
                                     onValueChange={setStartValue}
                                     data-tid={DateRangePickerDataTids.mobileStart}
@@ -312,7 +312,7 @@ export const DateRangePicker = Object.assign(
                                     value={endValue}
                                     width="auto"
                                     size="medium"
-                                    className={cx({ [styles.inputVisuallyFocus(theme)]: focusField === 'end' })}
+                                    className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
                                     disabled={endDisabled}
                                     onValueChange={setEndValue}
                                     data-tid={DateRangePickerDataTids.mobileEnd}
@@ -370,8 +370,8 @@ export const DateRangePicker = Object.assign(
       const isDayInHoveredPeriod =
         hasHoveredDay &&
         Boolean(
-          (focusField === 'start' && endValue && isBetween(day, hoveredDay, endValue)) ||
-            (focusField === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
+          (focusInput === 'start' && endValue && isBetween(day, hoveredDay, endValue)) ||
+            (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
         );
 
       let hasLeftRoundings;
@@ -381,11 +381,11 @@ export const DateRangePicker = Object.assign(
         const isDayBeforeFirstInPeriod = startValue ? isLess(hoveredDay, startValue) : endValue;
         const isDayAfterLastInPeriod = endValue ? isGreater(hoveredDay, endValue) : startValue;
 
-        if (isDayFirst && (isGreaterOrEqual(hoveredDay, startValue) || focusField === 'end')) {
+        if (isDayFirst && (isGreaterOrEqual(hoveredDay, startValue) || focusInput === 'end')) {
           hasLeftRoundings = true;
         }
 
-        if (isDayLast && (isLessOrEqual(hoveredDay, endValue) || focusField === 'start')) {
+        if (isDayLast && (isLessOrEqual(hoveredDay, endValue) || focusInput === 'start')) {
           hasRightRoundings = true;
         }
 
