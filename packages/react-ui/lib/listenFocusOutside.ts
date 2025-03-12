@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../internal/RenderContainer';
 
@@ -87,7 +88,8 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     const nextNode = globalObject.document?.querySelector(`[${PORTAL_INLET_ATTR}~="${newContainerId}"]`);
 
     if (!nextNode) {
-      throw Error(`Origin node for render container was not found`);
+      warning(true, `Origin node for render container was not found`);
+      return null;
     }
 
     return findRenderContainer(nextNode, rootNode, nextNode);
