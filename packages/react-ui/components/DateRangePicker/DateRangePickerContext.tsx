@@ -5,10 +5,10 @@ import type { SizeProp } from '../../lib/types/props';
 import { DateRangePickerInputType } from './DateRangePickerInput';
 
 export interface DateRangePickerContextProps {
-  startValue: string | null;
+  startValue?: string;
   startOptional?: boolean;
   startDisabled?: boolean;
-  endValue: string | null;
+  endValue?: string;
   endOptional?: boolean;
   endDisabled?: boolean;
   minDate?: string;

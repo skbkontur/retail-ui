@@ -23,9 +23,9 @@ describe('DateRangePicker', () => {
   it('renders', () => {
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
+        <DateRangePicker.Start />
         <DateRangePicker.Separator />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -38,21 +38,56 @@ describe('DateRangePicker', () => {
     const dateInputEndId = 'dateInputEndId';
     const result = render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} id={dateInputStartId} />
+        <DateRangePicker.Start id={dateInputStartId} />
         <DateRangePicker.Separator />
-        <DateRangePicker.End onValueChange={jest.fn()} id={dateInputEndId} />
+        <DateRangePicker.End id={dateInputEndId} />
       </DateRangePicker>,
     );
     expect(result.container.querySelector(`#${dateInputStartId}`)).not.toBeNull();
     expect(result.container.querySelector(`#${dateInputEndId}`)).not.toBeNull();
   });
 
+  it('should handle onValueChange event when typing', async () => {
+    const onStartValueChange = jest.fn();
+    const onEndValueChange = jest.fn();
+
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={onStartValueChange} />
+        <DateRangePicker.End onValueChange={onEndValueChange} />
+      </DateRangePicker>,
+    );
+
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    await userEvent.keyboard('1');
+    expect(onStartValueChange).toHaveBeenCalledTimes(1);
+
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.end));
+    await userEvent.keyboard('1');
+    expect(onEndValueChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not handle onValueChange event on render', async () => {
+    const onStartValueChange = jest.fn();
+    const onEndValueChange = jest.fn();
+
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start value="10.12.2025" onValueChange={onStartValueChange} />
+        <DateRangePicker.End value="20.12.2025" onValueChange={onEndValueChange} />
+      </DateRangePicker>,
+    );
+
+    expect(onStartValueChange).not.toHaveBeenCalled();
+    expect(onEndValueChange).not.toHaveBeenCalled();
+  });
+
   it('renders calendar when start-input open', async () => {
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
+        <DateRangePicker.Start />
         <DateRangePicker.Separator />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -63,9 +98,9 @@ describe('DateRangePicker', () => {
   it('renders calendar when end-input open', async () => {
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
+        <DateRangePicker.Start />
         <DateRangePicker.Separator />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -76,9 +111,9 @@ describe('DateRangePicker', () => {
   it("doesn't open on focus if start-input disabled", async () => {
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} disabled />
+        <DateRangePicker.Start disabled />
         <DateRangePicker.Separator />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -89,8 +124,8 @@ describe('DateRangePicker', () => {
   it("doesn't open on focus if end-input disabled", async () => {
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} disabled />
+        <DateRangePicker.Start />
+        <DateRangePicker.End disabled />
       </DateRangePicker>,
     );
 
@@ -101,8 +136,8 @@ describe('DateRangePicker', () => {
   it('closes when start-input become disabled', async () => {
     const { rerender } = render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
     await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
@@ -110,8 +145,8 @@ describe('DateRangePicker', () => {
 
     rerender(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} disabled />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start disabled />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
     expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
@@ -120,8 +155,8 @@ describe('DateRangePicker', () => {
   it('closes when end-input become disabled', async () => {
     const { rerender } = render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -130,8 +165,8 @@ describe('DateRangePicker', () => {
 
     rerender(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} disabled />
+        <DateRangePicker.Start />
+        <DateRangePicker.End disabled />
       </DateRangePicker>,
     );
 
@@ -141,8 +176,8 @@ describe('DateRangePicker', () => {
   it('open when autoFocus enabled', () => {
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} autoFocus />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start autoFocus />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
@@ -152,8 +187,8 @@ describe('DateRangePicker', () => {
     const DateRangePickerStartRef = React.createRef<DateInput>();
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} ref={DateRangePickerStartRef} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start ref={DateRangePickerStartRef} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -171,8 +206,8 @@ describe('DateRangePicker', () => {
 
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} onBlur={onBlur} ref={DateRangePickerRef} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start onBlur={onBlur} ref={DateRangePickerRef} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -187,8 +222,8 @@ describe('DateRangePicker', () => {
     const onFocus = jest.fn();
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} onFocus={onFocus} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start onFocus={onFocus} />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
     await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
@@ -199,8 +234,8 @@ describe('DateRangePicker', () => {
     const onFocus = jest.fn();
     render(
       <DateRangePicker>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} onFocus={onFocus} />
+        <DateRangePicker.Start />
+        <DateRangePicker.End onFocus={onFocus} />
       </DateRangePicker>,
     );
     await userEvent.click(screen.getByTestId(DateRangePickerDataTids.end));
@@ -214,8 +249,8 @@ describe('DateRangePicker', () => {
       <>
         <Input data-tid="test-input" />
         <DateRangePicker>
-          <DateRangePicker.Start onValueChange={jest.fn()} onFocus={onFocusStart} />
-          <DateRangePicker.End onValueChange={jest.fn()} onFocus={onFocusEnd} />
+          <DateRangePicker.Start onFocus={onFocusStart} />
+          <DateRangePicker.End onFocus={onFocusEnd} />
         </DateRangePicker>
       </>,
     );
@@ -232,7 +267,7 @@ describe('DateRangePicker', () => {
   //     const DateRangePickerRef = React.createRef<DateRangePicker>();
   //     render(
   //       <>
-  //         <DateRangePicker value="02.07.2017" onValueChange={jest.fn()} ref={DateRangePickerRef} />
+  //         <DateRangePicker value="02.07.2017" ref={DateRangePickerRef} />
   //       </>,
   //     );
   //     DateRangePickerRef.current?.focus({ withoutOpenDropdown: true });
@@ -276,8 +311,8 @@ describe('DateRangePicker', () => {
 
     render(
       <DateRangePicker renderDay={(props: CalendarDayProps) => <CustomDayItem {...props} />}>
-        <DateRangePicker.Start onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -290,8 +325,8 @@ describe('DateRangePicker', () => {
 
     render(
       <DateRangePicker onMonthChange={onMonthChange}>
-        <DateRangePicker.Start value="02.06.2017" onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start value="02.06.2017" />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -319,8 +354,8 @@ describe('DateRangePicker', () => {
 
     render(
       <DateRangePicker onMonthChange={onMonthChange}>
-        <DateRangePicker.Start value="02.06.2017" onValueChange={jest.fn()} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.Start value="02.06.2017" />
+        <DateRangePicker.End />
       </DateRangePicker>,
     );
 
@@ -340,9 +375,9 @@ describe('DateRangePicker', () => {
     it('render without LocaleProvider', async () => {
       render(
         <DateRangePicker enableTodayLink>
-          <DateRangePicker.Start value="02.07.2017" onValueChange={jest.fn()} />
+          <DateRangePicker.Start value="02.07.2017" />
           <DateRangePicker.Separator />
-          <DateRangePicker.End onValueChange={jest.fn()} />
+          <DateRangePicker.End />
         </DateRangePicker>,
       );
       const expectedText = DateRangePickerLocaleHelper.get(defaultLangCode).today;
@@ -357,9 +392,9 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
           <DateRangePicker enableTodayLink>
-            <DateRangePicker.Start value="02.07.2017" onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="02.07.2017" />
             <DateRangePicker.Separator />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -376,9 +411,9 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: {}, langCode: LangCodes.en_GB }}>
           <DateRangePicker enableTodayLink>
-            <DateRangePicker.Start value="02.07.2017" onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="02.07.2017" />
             <DateRangePicker.Separator />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -396,9 +431,9 @@ describe('DateRangePicker', () => {
     it('updates when langCode changes', async () => {
       const picker = (
         <DateRangePicker enableTodayLink>
-          <DateRangePicker.Start value="02.07.2017" onValueChange={jest.fn()} />
+          <DateRangePicker.Start value="02.07.2017" />
           <DateRangePicker.Separator />
-          <DateRangePicker.End onValueChange={jest.fn()} />
+          <DateRangePicker.End />
         </DateRangePicker>
       );
       const { rerender } = render(
@@ -435,9 +470,9 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: { DateRangePicker: { months: renamedMonths } } }}>
           <DateRangePicker>
-            <DateRangePicker.Start value="12.06.2022" onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="12.06.2022" />
             <DateRangePicker.Separator />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -456,7 +491,7 @@ describe('DateRangePicker', () => {
             <DateRangePicker>
               <DateRangePicker.Start value={value} onValueChange={setValue} />
               <DateRangePicker.Separator />
-              <DateRangePicker.End onValueChange={jest.fn()} />
+              <DateRangePicker.End />
             </DateRangePicker>
             <button onClick={() => setValue(testValue)}>Clear</button>
           </>
@@ -480,9 +515,9 @@ describe('DateRangePicker', () => {
     it('should have disabled input', () => {
       render(
         <DateRangePicker>
-          <DateRangePicker.Start onValueChange={jest.fn()} disabled />
+          <DateRangePicker.Start disabled />
           <DateRangePicker.Separator />
-          <DateRangePicker.End onValueChange={jest.fn()} disabled />
+          <DateRangePicker.End disabled />
         </DateRangePicker>,
       );
 
@@ -495,8 +530,8 @@ describe('DateRangePicker', () => {
     it('sets value for aria-label attribute (ru)', async () => {
       render(
         <DateRangePicker enableTodayLink>
-          <DateRangePicker.Start value="02.06.2017" onValueChange={jest.fn()} />
-          <DateRangePicker.End onValueChange={jest.fn()} />
+          <DateRangePicker.Start value="02.06.2017" />
+          <DateRangePicker.End />
         </DateRangePicker>,
       );
 
@@ -512,8 +547,8 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <DateRangePicker enableTodayLink>
-            <DateRangePicker.Start value="02.06.2017" onValueChange={jest.fn()} />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="02.06.2017" />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -534,8 +569,8 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: { DateRangePicker: { todayAriaLabel: customAriaLabel } } }}>
           <DateRangePicker enableTodayLink>
-            <DateRangePicker.Start value="02.06.2017" onValueChange={jest.fn()} />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="02.06.2017" />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -553,8 +588,8 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: { DateRangePicker: { selectMonthAriaLabel: customAriaLabel } } }}>
           <DateRangePicker>
-            <DateRangePicker.Start value="01.02.2025" onValueChange={jest.fn()} />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="01.02.2025" />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -573,8 +608,8 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: { DateRangePicker: { selectYearAriaLabel: customAriaLabel } } }}>
           <DateRangePicker>
-            <DateRangePicker.Start value="1.2.2021" onValueChange={jest.fn()} />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="1.2.2021" />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -593,8 +628,8 @@ describe('DateRangePicker', () => {
       render(
         <LocaleContext.Provider value={{ locale: { DateRangePicker: { selectChosenAriaLabel: customAriaLabel } } }}>
           <DateRangePicker>
-            <DateRangePicker.Start value="1.2.2021" onValueChange={jest.fn()} />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.Start value="1.2.2021" />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -616,8 +651,8 @@ describe('DateRangePicker', () => {
           value={{ locale: { DateRangePicker: { dayCellChooseDateAriaLabel: customAriaLabel } } }}
         >
           <DateRangePicker>
-            <DateRangePicker.Start value={date} onValueChange={jest.fn()} />
-            <DateRangePicker.End onValueChange={jest.fn()} />
+            <DateRangePicker.Start value={date} />
+            <DateRangePicker.End />
           </DateRangePicker>
         </LocaleContext.Provider>,
       );
@@ -659,7 +694,7 @@ describe('mobile', () => {
     return (
       <DateRangePicker>
         <DateRangePicker.Start value={date} onValueChange={setDate} />
-        <DateRangePicker.End onValueChange={jest.fn()} />
+        <DateRangePicker.End />
       </DateRangePicker>
     );
   };
@@ -794,7 +829,7 @@ describe('mobile', () => {
   //     return (
   //       <DateRangePicker enableTodayLink >
   //         <DateRangePicker.Start value={date || null} onValueChange={setDate} onBlur={handleBlur} />
-  //         <DateRangePicker.End onValueChange={jest.fn()} />
+  //         <DateRangePicker.End />
   //       </DateRangePicker>
   //     );
   //   };
