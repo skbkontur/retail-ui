@@ -304,6 +304,7 @@ export const DateRangePicker = Object.assign(
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
                                     disabled={startDisabled}
                                     onValueChange={setStartValue}
+                                  onFocus={() => setFocusInput('start')}
                                     data-tid={DateRangePickerDataTids.mobileStart}
                                   />
                                   <DateRangePicker.Separator />
@@ -315,6 +316,7 @@ export const DateRangePicker = Object.assign(
                                     className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
                                     disabled={endDisabled}
                                     onValueChange={setEndValue}
+                                  onFocus={() => setFocusInput('end')}
                                     data-tid={DateRangePickerDataTids.mobileEnd}
                                   />
                                 </div>
