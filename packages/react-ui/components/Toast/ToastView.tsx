@@ -19,6 +19,7 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   children?: string;
   /** Добавляет возможность действия и кнопку закрытия у тоста. */
   action?: Nullable<Action>;
+  showCloseIcon?: boolean;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -58,7 +59,7 @@ export class ToastView extends React.Component<ToastViewProps> {
   }
 
   private renderMain = () => {
-    const { action, onClose, onMouseEnter, onMouseLeave } = this.props;
+    const { action, showCloseIcon, onClose, onMouseEnter, onMouseLeave } = this.props;
 
     const link = action ? (
       <button
@@ -71,20 +72,21 @@ export class ToastView extends React.Component<ToastViewProps> {
       </button>
     ) : null;
 
-    const close = action ? (
-      <span className={styles.closeWrapper(this.theme)}>
-        <CloseButtonIcon
-          aria-label={this.locale.closeButtonAriaLabel}
-          data-tid={ToastDataTids.close}
-          onClick={onClose}
-          size={parseInt(this.theme.toastCloseSize)}
-          side={40}
-          color={this.theme.toastCloseColor}
-          colorHover={this.theme.toastCloseHoverColor}
-          tabbable={false}
-        />
-      </span>
-    ) : null;
+    const close =
+      action || showCloseIcon ? (
+        <span className={styles.closeWrapper(this.theme)}>
+          <CloseButtonIcon
+            aria-label={this.locale.closeButtonAriaLabel}
+            data-tid={ToastDataTids.close}
+            onClick={onClose}
+            size={parseInt(this.theme.toastCloseSize)}
+            side={40}
+            color={this.theme.toastCloseColor}
+            colorHover={this.theme.toastCloseHoverColor}
+            tabbable={false}
+          />
+        </span>
+      ) : null;
 
     return (
       <CommonWrapper {...this.props}>
