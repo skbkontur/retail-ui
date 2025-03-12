@@ -1,5 +1,4 @@
 import React, { forwardRef, Ref, useContext, useEffect, useImperativeHandle, useRef } from 'react';
-import type { PropsWithoutRef } from 'react';
 
 import { DateInput, DateInputProps } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
@@ -20,7 +19,7 @@ export interface DateRangePickerInputProps extends Omit<DateInputProps, 'value'>
 type DateRangePickerInputWithoutType = Omit<DateRangePickerInputProps, 'type'>;
 
 const DateRangePickerInput = forwardRef(
-  (props: PropsWithoutRef<DateRangePickerInputProps>, ref: Ref<DateInput | null>) => {
+  (props: DateRangePickerInputProps, ref: Ref<DateInput | null>) => {
     const {
       startValue,
       endValue,
@@ -152,14 +151,14 @@ const DateRangePickerInput = forwardRef(
 
 export const DateRangePickerStart = forwardRefAndName(
   'DateRangePickerStart',
-  (props: PropsWithoutRef<DateRangePickerInputWithoutType>, ref: Ref<DateInput>) => (
+  (props: DateRangePickerInputWithoutType, ref: Ref<DateInput>) => (
     <DateRangePickerInput type="start" {...props} ref={ref} />
   ),
 );
 
 export const DateRangePickerEnd = forwardRefAndName(
   'DateRangePickerEnd',
-  (props: PropsWithoutRef<DateRangePickerInputWithoutType>, ref: Ref<DateInput>) => (
+  (props: DateRangePickerInputWithoutType, ref: Ref<DateInput>) => (
     <DateRangePickerInput type="end" {...props} ref={ref} />
   ),
 );
