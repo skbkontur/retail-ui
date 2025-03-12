@@ -82,6 +82,22 @@ describe('DateRangePicker', () => {
     expect(onEndValueChange).not.toHaveBeenCalled();
   });
 
+  it('should handle onValueChange when clear value', async () => {
+    const onStartValueChange = jest.fn();
+
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start value="22" onValueChange={onStartValueChange} />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    await userEvent.keyboard('{backspace}');
+    await userEvent.keyboard('{backspace}');
+    expect(onStartValueChange).toHaveBeenCalledTimes(2);
+  });
+
   it('renders calendar when start-input open', async () => {
     render(
       <DateRangePicker>
