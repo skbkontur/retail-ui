@@ -17,6 +17,7 @@ import { MenuDataTids } from '../../../internal/Menu';
 // import { componentsLocales as DayCellViewLocalesRu } from '../../Calendar/locale/locales/ru';
 // import { DateRangePickerInputProps } from '../DateRangePickerInput';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
+import type { DateInput } from '../../../components/DateInput';
 
 describe('DateRangePicker', () => {
   it('renders', () => {
@@ -147,40 +148,40 @@ describe('DateRangePicker', () => {
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
-  // it('close on blur() method', async () => {
-  //   const DateRangePickerStartRef = React.useRef(null);
-  //   render(
-  //     <DateRangePicker>
-  //       <DateRangePicker.Start onValueChange={jest.fn()} ref={DateRangePickerStartRef} />
-  //       <DateRangePicker.End onValueChange={jest.fn()} />
-  //     </DateRangePicker>
-  //   );
+  it('close on blur() method', async () => {
+    const DateRangePickerStartRef = React.createRef<DateInput>();
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={jest.fn()} ref={DateRangePickerStartRef} />
+        <DateRangePicker.End onValueChange={jest.fn()} />
+      </DateRangePicker>,
+    );
 
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
-  //   expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
-  //   act(() => {
-  //     DateRangePickerStartRef.current?.blur();
-  //   });
-  //   expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
-  // });
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+    await act(() => {
+      DateRangePickerStartRef.current?.blur();
+    });
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
+  });
 
-  // it('handle onBlur event', async () => {
-  //   const DateRangePickerRef = useRef<DateRangePickerInputProps>(null);
-  //   const onBlur = jest.fn();
+  it('handle onBlur event', async () => {
+    const DateRangePickerRef = React.createRef<DateInput>();
+    const onBlur = jest.fn();
 
-  //   render(
-  //     <DateRangePicker>
-  //       <DateRangePicker.Start onValueChange={jest.fn()} onBlur={onBlur} ref={DateRangePickerRef} />
-  //       <DateRangePicker.End onValueChange={jest.fn()} />
-  //     </DateRangePicker>
-  //   );
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start onValueChange={jest.fn()} onBlur={onBlur} ref={DateRangePickerRef} />
+        <DateRangePicker.End onValueChange={jest.fn()} />
+      </DateRangePicker>,
+    );
 
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
-  //   expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
-  //   DateRangePickerRef.current?.blur();
-  //   expect(onBlur).toHaveBeenCalled();
-  // });
+    DateRangePickerRef.current?.blur();
+    expect(onBlur).toHaveBeenCalled();
+  });
 
   it('handle onFocus event by input-start click', async () => {
     const onFocus = jest.fn();

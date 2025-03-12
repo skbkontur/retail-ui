@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import React, { useImperativeHandle, useRef, useState } from 'react';
 
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -26,7 +26,7 @@ import { LocaleContext } from '../../lib/locale';
 import { getFontSize, styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import { DateRangePickerContext, DateRangePickerContextProps } from './DateRangePickerContext';
-import { DateRangePickerInput, DateRangePickerInputProps, DateRangePickerInputType } from './DateRangePickerInput';
+import { DateRangePickerEnd, DateRangePickerInputType, DateRangePickerStart } from './DateRangePickerInput';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme';
 import { DateRangePickerLocaleHelper } from './locale';
 import { validateDateRangePicker } from './helpers/validateDateRangePicker';
@@ -62,8 +62,8 @@ export interface DateRangePickerProps
 
 export const DateRangePicker = Object.assign(
   {
-    Start: forwardRef((props: DateRangePickerInputProps) => <DateRangePickerInput {...props} type="start" />),
-    End: forwardRef((props: DateRangePickerInputProps) => <DateRangePickerInput {...props} type="end" />),
+    Start: DateRangePickerStart,
+    End: DateRangePickerEnd,
     Separator: DateRangePickerSeparator,
     validate: validateDateRangePicker,
   },
@@ -86,8 +86,6 @@ export const DateRangePicker = Object.assign(
     const [showCalendar, setShowCalendar] = useState<boolean>(false);
     const [focusField, setFocusField] = useState<DateRangePickerInputType | null>(null);
 
-    const startRef = useRef<DateInput>(null);
-    const endRef = useRef<DateInput>(null);
     const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const calendarRef = useRef<Calendar>(null);
 
@@ -124,12 +122,6 @@ export const DateRangePicker = Object.assign(
 
     const focus = (fieldType: DateRangePickerInputType = 'start') => {
       setFocusField(fieldType);
-      const fieldRef = fieldType === 'start' ? startRef : endRef;
-
-      // fix DateInput flushSync warning in React 18
-      setTimeout(() => {
-        fieldRef.current?.focus();
-      }, 1);
     };
 
     const setEmpty = (type: DateRangePickerInputType) => {
@@ -151,7 +143,7 @@ export const DateRangePicker = Object.assign(
       () => ({
         open,
         close,
-        focus,
+        scrollToMonth: calendarRef.current?.scrollToMonth,
         getRootNode: () => dateRangePickerRef.current,
       }),
       [],
@@ -167,6 +159,7 @@ export const DateRangePicker = Object.assign(
       minDate,
       maxDate,
       size: props.size,
+      focusField,
       setStartValue,
       setStartOptional,
       setStartDisabled,
@@ -179,8 +172,6 @@ export const DateRangePicker = Object.assign(
       open,
       close,
       dateRangePickerRef,
-      startRef,
-      endRef,
     };
 
     const renderCalendar = (theme: Theme, widthAuto = false) => (
