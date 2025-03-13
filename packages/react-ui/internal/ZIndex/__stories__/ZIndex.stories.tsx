@@ -947,12 +947,43 @@ function ActiveLoader({ withRoot = false }) {
           padding: 10,
         }}
       >
-        <Loader active caption={null}>
+        <MayBeRoot>
+          <Loader active caption={null}>
+            <div style={{ minWidth: 200 }}>
+              {title}
+              <Classic />
+            </div>
+          </Loader>
+        </MayBeRoot>
+      </div>
+    </div>
+  );
+}
+
+function DisabledLoaderInPortal({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+      <div
+        style={{
+          width: 200,
+          height: 140,
+          background: '#eee',
+          padding: 10,
+        }}
+      >
+        <Popup opened anchorElement={<div />} pos="bottom left" priority="Modal">
           <MayBeRoot>
-            {title}
-            <Classic />
+            <Loader caption={null}>
+              <div style={{ minWidth: 200 }}>
+                {title}
+                <Classic />
+              </div>
+            </Loader>
           </MayBeRoot>
-        </Loader>
+        </Popup>
       </div>
     </div>
   );
@@ -1002,36 +1033,46 @@ function Upper({ withRoot = false }) {
   );
 }
 
-export const SeveralRoots = () => {
+const SeveralRoots = (props: { title: string; goldenSample: React.ReactNode; withRoot: React.ReactNode }) => {
   return (
     <div style={{ padding: 50, display: 'flex', flexDirection: 'column', rowGap: 20, width: 600 }}>
+      <h3 style={{ textAlign: 'center' }}>{props.title}</h3>
       <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
         <h3>Эталон</h3>
         <h3>Root</h3>
       </div>
-      <h3 style={{ textAlign: 'center' }}>Встроиться</h3>
       <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <Classic />
-        <Classic withRoot />
-      </div>
-      <h3 style={{ textAlign: 'center' }}>Активный Лоадер</h3>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <ActiveLoader />
-        <ActiveLoader withRoot />
-      </div>
-      <h3 style={{ textAlign: 'center' }}>Выше всех</h3>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
-        <Upper />
-        <Upper withRoot />
+        {props.goldenSample}
+        {props.withRoot}
       </div>
     </div>
   );
 };
-SeveralRoots.parameters = {
-  creevey: {
-    skip: {
-      'flacky, temporary skip everywhere': true,
-      "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
-    },
-  },
+
+export const SeveralRootsSimple = () => {
+  return <SeveralRoots title="Простой пример" goldenSample={<Classic />} withRoot={<Classic withRoot />} />;
 };
+SeveralRootsSimple.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+
+export const SeveralRootsActiveLoader = () => {
+  return <SeveralRoots title="Активный Лоадер" goldenSample={<ActiveLoader />} withRoot={<ActiveLoader withRoot />} />;
+};
+SeveralRootsActiveLoader.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+
+export const SeveralRootsDisabledLoaderInPortal = () => {
+  return (
+    <SeveralRoots
+      title="Неактивный Лоадер в Портале"
+      goldenSample={<DisabledLoaderInPortal />}
+      withRoot={<DisabledLoaderInPortal withRoot />}
+    />
+  );
+};
+SeveralRootsDisabledLoaderInPortal.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};
+
+export const SeveralRootsUpper = () => {
+  return <SeveralRoots title="Выше всех" goldenSample={<Upper />} withRoot={<Upper withRoot />} />;
+};
+SeveralRootsUpper.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
