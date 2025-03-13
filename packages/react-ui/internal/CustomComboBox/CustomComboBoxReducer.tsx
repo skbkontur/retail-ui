@@ -23,7 +23,7 @@ export type CustomComboBoxAction<T> =
       fixValueChange: boolean | undefined;
     }
   | { type: 'Mount' }
-  | { type: 'Focus' }
+  | { type: 'Focus'; searchOnFocus?: boolean }
   | { type: 'InputClick' }
   | { type: 'ClearCrossClick' }
   | { type: 'Blur' }
@@ -337,7 +337,7 @@ export function reducer<T>(
         focused: true,
         editing: true,
       };
-      if (!props.searchOnFocus) {
+      if (!action.searchOnFocus) {
         return [newState, [Effect.focus]];
       }
       if (state.editing) {

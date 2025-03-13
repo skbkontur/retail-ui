@@ -132,7 +132,25 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileClose(t: Theme) {
+  close5_1(t: Theme) {
+    return css`
+      justify-content: center;
+      align-items: center;
+      right: ${t.modalCloseButtonClickAreaRight};
+      top: ${t.modalCloseButtonClickAreaTop};
+
+      padding-top: ${t.modalCloseButtonClickAreaTop};
+      margin-top: -${t.modalCloseButtonClickAreaTop};
+      padding-right: ${t.modalCloseButtonClickAreaRight};
+      margin-right: -${t.modalCloseButtonClickAreaRight};
+      padding-bottom: ${t.modalCloseButtonClickAreaBottom};
+      margin-bottom: -${t.modalCloseButtonClickAreaBottom};
+      padding-left: ${t.modalCloseButtonClickAreaLeft};
+      margin-left: -${t.modalCloseButtonClickAreaLeft};
+    `;
+  },
+
+  closeMobile(t: Theme) {
     return css`
       right: ${t.mobileModalCloseButtonRightPadding};
       top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
@@ -143,6 +161,12 @@ export const styles = memoizeStyle({
         width: ${t.mobileModalCloseIconSize};
         height: ${t.mobileModalCloseIconSize};
       }
+    `;
+  },
+
+  closeMobile5_1(t: Theme) {
+    return css`
+      top: ${t.mobileModalCloseButtonTopPadding};
     `;
   },
 
@@ -197,6 +221,19 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.modalCloseButtonHoverColor};
       outline: 2px solid ${t.borderColorFocus};
+    `;
+  },
+
+  focus5_1(t: Theme) {
+    return css`
+      &:before {
+        content: '';
+        position: absolute;
+        width: calc(${t.modalCloseIconSize} * 2);
+        height: calc(${t.modalCloseIconSize} * 2);
+        box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+        border-radius: 4px;
+      }
     `;
   },
 

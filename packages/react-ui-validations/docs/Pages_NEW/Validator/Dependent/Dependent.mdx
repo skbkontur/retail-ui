@@ -1,6 +1,8 @@
 import { Story } from '@storybook/blocks';
 import * as DocsStories from './Dependent.docs.stories.tsx';
 import { Meta } from '../../../../.storybook/Meta';
+import { Link } from '@skbkontur/react-ui';
+import { linkTo } from '@storybook/addon-links';
 
 <Meta of={DocsStories} />
 
@@ -8,7 +10,7 @@ import { Meta } from '../../../../.storybook/Meta';
 
 По-умолчанию все валидации зависимые, согласно [Гайду](https://guides.kontur.ru/principles/validation/#33).
 Это обеспечивается не только предоставлением доступа к модели `root` (см. ниже).
-Также, потеря фокуса у любого поля вызывает валидации у полей с типом `lostfocus` (см. [независимые валидации](#/independent-validation)).
+Также, потеря фокуса у любого поля вызывает валидации у полей с типом `lostfocus` (см. <Link onClick={linkTo('Validator/Independent')}>независимые валидации</Link>).
 
 Валидация поля может зависить от значений других полей модели.
 Например, значение `value` должно состоять только из цифр, если флаг `onlyDigits` установлен в значение `true`.
