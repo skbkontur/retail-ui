@@ -538,51 +538,50 @@ export const Example9: Story = () => {
 };
 Example9.storyName = 'Размер';
 
-/** При showClearIcon="always" крестик отображается всегда, если в комбобокс что-либо введено.
- *
- * При showClearIcon="onFocus" крестик отображается при фокусировке на комбобоксе, в который что-либо введено. */
+/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
+ * При значении "always" крестик отображается всегда, если поле непустое.<br/>
+ * При значении "never" крестик никогда не отображается.<br/>
+ * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет.
+ * */
 export const Example10: Story = () => {
-  const [valueAlways, setValueAlways] = React.useState({
-    value: 1,
-    label: 'Отображаю крестик всегда',
-  });
-  const [valueOnFocus, setValueOnFocus] = React.useState({
-    value: 2,
-    label: 'Отображаю крестик по фокусу',
-  });
+  const items = [
+    {
+      value: 1,
+      label: 'Отображаю крестик всегда',
+    },
+    {
+      value: 2,
+      label: 'Отображаю крестик по фокусу',
+    },
+    {
+      value: 3,
+      label: 'Никогда не отображаю крестик',
+    },
+  ];
+  const [valueAlways, setValueAlways] = React.useState(items[0]);
+  const [valueAuto, setValueAuto] = React.useState(items[1]);
+  const [valueNever, setValueNever] = React.useState(items[2]);
   const getItems = (q: string) => {
     return Promise.resolve(
-      [
-        {
-          value: 1,
-          label: 'Отображаю крестик всегда',
-        },
-        {
-          value: 2,
-          label: 'Отображаю крестик по фокусу',
-        },
-        {
-          value: 3,
-          label: 'Никогда не отображаю крестик',
-        },
-      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+      items.filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
     );
   };
   return (
-    <Gapped gap={10}>
+    <Gapped gap={10} vertical>
       <ComboBox
         showClearIcon="always"
         getItems={getItems}
         value={valueAlways}
         onValueChange={setValueAlways}
-        width="250px"
+        width="350px"
       />
+      <ComboBox showClearIcon="auto" getItems={getItems} value={valueAuto} onValueChange={setValueAuto} width="350px" />
       <ComboBox
-        showClearIcon="onFocus"
+        showClearIcon="never"
         getItems={getItems}
-        value={valueOnFocus}
-        onValueChange={setValueOnFocus}
-        width="250px"
+        value={valueNever}
+        onValueChange={setValueNever}
+        width="350px"
       />
     </Gapped>
   );

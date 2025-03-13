@@ -111,9 +111,10 @@ export const Example9: Story = () => {
 };
 Example9.storyName = 'Режима прозрачной рамки';
 
-/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.
- * При значении "always" крестик отображается всегда, если поле непустое.
- * При значении "never" крестик никогда не отображается. */
+/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле. <br/>
+ * При значении "always" крестик отображается всегда, если поле непустое. <br/>
+ * При значении "never" крестик никогда не отображается.<br/>
+ * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет. */
 export const Example10: Story = () => {
   const items = [
     'Отображаю крестик всегда',
@@ -121,24 +122,24 @@ export const Example10: Story = () => {
     'Никогда не отображаю крестик',
   ];
   const [valueAlways, setValueAlways] = React.useState(items[0]);
-  const [valueAuto, setValueAuto] = React.useState(''); //items[1]);
+  const [valueAuto, setValueAuto] = React.useState(items[1]);
   const [valueNever, setValueNever] = React.useState(items[2]);
   return (
-    <Gapped gap={10}>
+    <Gapped gap={10} vertical>
       <Autocomplete
         showClearIcon="always"
         source={items}
         value={valueAlways}
         onValueChange={setValueAlways}
-        width="250px"
+        width="350px"
       />
-      <Autocomplete showClearIcon="auto" source={items} value={valueAuto} onValueChange={setValueAuto} width="250px" />
+      <Autocomplete showClearIcon="auto" source={items} value={valueAuto} onValueChange={setValueAuto} width="350px" />
       <Autocomplete
         showClearIcon="never"
         source={items}
         value={valueNever}
         onValueChange={setValueNever}
-        width="250px"
+        width="350px"
       />
     </Gapped>
   );
