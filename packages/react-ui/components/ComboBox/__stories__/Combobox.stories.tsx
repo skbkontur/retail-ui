@@ -975,8 +975,10 @@ export const ComboboxWithClearCross: Story = () => {
     );
   };
   return (
-    <Gapped>
+    <Gapped gap={10}>
       <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} size={'medium'} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} size={'large'} />
     </Gapped>
   );
 };

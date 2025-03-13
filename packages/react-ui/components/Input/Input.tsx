@@ -28,7 +28,7 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
 export type InputAlign = 'left' | 'center' | 'right';
-export type ShowClearIcon = 'always' | 'onFocus' | 'never';
+export type ShowClearIcon = 'always' | 'auto' | 'never';
 export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
@@ -57,8 +57,9 @@ export interface InputProps
       React.InputHTMLAttributes<HTMLInputElement>,
       {
         /** Устанавливает иконку крестика, при нажатии на который инпут очищается.
+         * При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.
          * При значении "always" крестик отображается всегда, если поле непустое.
-         * При значении "onFocus" крестик отображается при фокусировке на непустом поле.
+         * При значении "never" крестик никогда не отображается.
          * @default never */
         showClearIcon?: ShowClearIcon;
 
@@ -157,6 +158,7 @@ export interface InputProps
 export interface InputState {
   blinking: boolean;
   focused: boolean;
+  hovered: boolean;
   needsPolyfillPlaceholder: boolean;
   clearCrossShowed: boolean;
 }
@@ -202,9 +204,11 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private getClearCrossShowed = ({
     focused,
+    hovered,
     hasInitialValue,
   }: {
     focused?: boolean;
+    hovered?: boolean;
     hasInitialValue?: boolean;
   }): boolean => {
     const showClearIcon = this.getProps().showClearIcon;
@@ -212,8 +216,8 @@ export class Input extends React.Component<InputProps, InputState> {
     switch (showClearIcon) {
       case 'always':
         return notEmptyValue;
-      case 'onFocus':
-        return Boolean(focused && notEmptyValue);
+      case 'auto':
+        return Boolean((focused || hovered) && notEmptyValue);
       case 'never':
         return false;
       default:
@@ -225,6 +229,7 @@ export class Input extends React.Component<InputProps, InputState> {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
+    hovered: false,
     clearCrossShowed: this.getClearCrossShowed({
       focused: false,
       hasInitialValue: Boolean(this.props.value || this.props.defaultValue),
@@ -430,11 +435,9 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
       element,
-      showClearIcon: initialShowClearIcon,
+      showClearIcon,
       ...rest
     } = props;
-
-    const { showClearIcon } = this.getProps();
 
     const { blinking, focused } = this.state;
 
@@ -453,8 +456,8 @@ export class Input extends React.Component<InputProps, InputState> {
       }),
       'aria-controls': ariaControls,
       style: { width, ...corners },
-      onMouseEnter,
-      onMouseLeave,
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
       onMouseOver,
     };
 
@@ -486,16 +489,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const getRightIcon = () => {
       return this.state.clearCrossShowed ? (
-        <ClearCrossIcon
-          data-tid={InputDataTids.clearCross}
-          size={size}
-          onClick={this.handleClearInput}
-          onBlur={() => {
-            this.setState({
-              clearCrossShowed: showClearIcon === 'always' && !!this.input?.value.toString(),
-            });
-          }}
-        />
+        <ClearCrossIcon data-tid={InputDataTids.clearCross} size={size} onClick={this.handleClearInput} />
       ) : (
         rightIcon
       );
@@ -570,20 +564,18 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleClearInput = () => {
-    if (this.props.onValueChange) {
-      this.props.onValueChange('');
-    }
     if (this.input) {
       this.input.value = '';
     }
+
     this.setState({ clearCrossShowed: false });
+
+    if (this.props.onValueChange) {
+      this.props.onValueChange('');
+    }
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused }),
-    });
-
     if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
@@ -598,12 +590,35 @@ export class Input extends React.Component<InputProps, InputState> {
     if (this.props.onChange) {
       this.props.onChange(event);
     }
+
+    this.setState({
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: this.state.hovered }),
+    });
+  };
+
+  private handleMouseEnter = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+    this.setState({
+      hovered: true,
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: true }),
+    });
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(e);
+    }
+  };
+  private handleMouseLeave = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+    this.setState({
+      hovered: false,
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: false }),
+    });
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(e);
+    }
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
-      clearCrossShowed: this.getClearCrossShowed({ focused: true }),
+      clearCrossShowed: this.getClearCrossShowed({ focused: true, hovered: this.state.hovered }),
     });
 
     if (this.props.selectAllOnFocus) {
@@ -658,9 +673,10 @@ export class Input extends React.Component<InputProps, InputState> {
     if (showClearIcon && getRootNode(this)?.contains(event.relatedTarget)) {
       this.setState({ focused: false });
     } else {
+      const clearCrossShowed = this.getClearCrossShowed({ focused: false, hovered: this.state.hovered });
       this.setState({
         focused: false,
-        clearCrossShowed: this.getClearCrossShowed({ focused: false }),
+        clearCrossShowed,
       });
       this.props.onBlur?.(event);
     }

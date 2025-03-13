@@ -85,16 +85,18 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'type';
 
-/** При showClearIcon="always" крестик отображается всегда, если в инпут что-либо введено.
- *
- * При showClearIcon="onFocus" крестик отображается при фокусировке на инпуте, в который что-либо введено. */
+/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.
+ * При значении "always" крестик отображается всегда, если поле непустое.
+ * При значении "never" крестик никогда не отображается. */
 export const Example6: Story = () => {
   const [valueAlways, setValueAlways] = React.useState('Отображаю крестик всегда');
-  const [valueOnFocus, setValueOnFocus] = React.useState('Отображаю крестик по фокусу');
+  const [valueAuto, setValueAuto] = React.useState('Отображаю крестик по ховеру или фокусу');
+  const [valueNever, setValueNever] = React.useState('Никогда не отображаю крестик');
   return (
     <Gapped gap={10}>
       <Input showClearIcon="always" value={valueAlways} onValueChange={setValueAlways} width="250px" />
-      <Input showClearIcon="onFocus" value={valueOnFocus} onValueChange={setValueOnFocus} width="250px" />
+      <Input showClearIcon="auto" value={valueAuto} onValueChange={setValueAuto} width="250px" />
+      <Input showClearIcon="never" value={valueNever} onValueChange={setValueNever} width="250px" />
     </Gapped>
   );
 };

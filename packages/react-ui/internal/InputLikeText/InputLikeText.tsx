@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
-import { isNonNullable } from '../../lib/utils';
+import { isNonNullable, UnreachableError } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
-import { InputProps, InputState } from '../../components/Input';
+import { InputDataTids, InputProps, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -21,11 +21,12 @@ import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayout
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { FocusControlWrapper } from '../FocusControlWrapper';
+import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
 
-export interface InputLikeTextProps extends CommonProps, Omit<InputProps, 'showClearIcon'> {
+export interface InputLikeTextProps extends CommonProps, InputProps {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onFocus?: React.FocusEventHandler<HTMLElement>;
@@ -33,9 +34,10 @@ export interface InputLikeTextProps extends CommonProps, Omit<InputProps, 'showC
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
   takeContentWidth?: boolean;
+  onClearCrossClick?: () => void;
 }
 
-export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder' | 'clearCrossShowed'>;
+export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder' | 'hovered'>;
 
 export const InputLikeTextDataTids = {
   root: 'InputLikeText__root',
@@ -43,18 +45,42 @@ export const InputLikeTextDataTids = {
   nativeInput: 'InputLikeText__nativeInput',
 } as const;
 
-type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
+type DefaultProps = Required<Pick<InputLikeTextProps, 'size' | 'showClearIcon'>>;
 
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
   public static displayName = 'InputLikeText';
 
-  public static defaultProps: DefaultProps = { size: 'small' };
+  public static defaultProps: DefaultProps = {
+    size: 'small',
+    showClearIcon: 'never',
+  };
 
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
-  public state = { blinking: false, focused: false };
+  private getClearCrossShowed = ({ focused, hovered }: { focused?: boolean; hovered?: boolean }): boolean => {
+    const showClearIcon = this.getProps().showClearIcon;
+    const notEmptyValue = Boolean(this.props.children);
+    switch (showClearIcon) {
+      case 'always':
+        return notEmptyValue;
+      case 'auto':
+        return Boolean((focused || hovered) && notEmptyValue);
+      case 'never':
+        return false;
+      default:
+        throw new UnreachableError(showClearIcon);
+    }
+  };
+
+  public state = {
+    blinking: false,
+    focused: false,
+    clearCrossShowed: this.getClearCrossShowed({
+      focused: false,
+    }),
+  };
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
@@ -178,13 +204,25 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragEnd,
       takeContentWidth,
       'aria-describedby': ariaDescribedby,
+      showClearIcon,
       ...rest
     } = props;
 
     const { focused, blinking } = this.state;
-
+    const getRightIcon = () => {
+      return this.state.clearCrossShowed ? (
+        <ClearCrossIcon
+          data-tid={InputDataTids.clearCross}
+          size={size}
+          onFocus={(event) => event.stopPropagation()}
+          onClick={this.props.onClearCrossClick}
+        />
+      ) : (
+        rightIcon
+      );
+    };
     const leftSide = <InputLayoutAside icon={leftIcon} text={prefix} side="left" />;
-    const rightSide = <InputLayoutAside icon={rightIcon} text={suffix} side="right" />;
+    const rightSide = <InputLayoutAside icon={getRightIcon()} text={suffix} side="right" />;
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.disabled(this.theme)]: !!disabled,
@@ -216,6 +254,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           style={{ width, textAlign: align }}
           tabIndex={disabled ? undefined : 0}
           onFocus={this.handleFocus}
+          onMouseEnter={this.handleHover}
+          onMouseLeave={this.handleUnhover}
           onBlur={this.handleBlur}
           ref={this.innerRef}
           onKeyDown={this.handleKeyDown}
@@ -400,6 +440,14 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.setState({ focused: false });
 
     this.props.onBlur?.(e);
+  };
+
+  private handleHover = () => {
+    this.setState({ clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: true }) });
+  };
+
+  private handleUnhover = () => {
+    this.setState({ clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: false }) });
   };
 
   private hiddenInputRef = (el: HTMLInputElement | null) => {

@@ -4,7 +4,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
-import { InputDataTids, ShowClearIcon } from '../../../components/Input';
+import { InputDataTids } from '../../Input';
 import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay, clickOutside } from '../../../lib/utils';
 
@@ -164,43 +164,77 @@ describe('<Autocomplete />', () => {
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
-  it('passes showClearIcon prop to input', async () => {
-    const ControlledAutocomplete = ({ clear }: { clear?: ShowClearIcon }) => {
-      const [value, setValue] = useState<string>('');
-      return <Autocomplete showClearIcon={clear} value={value} onValueChange={setValue} />;
-    };
-    const { rerender } = render(<ControlledAutocomplete />);
-    const autocomplete = screen.getByRole('textbox');
+  describe('clear cross', () => {
+    it('default showClearIcon prop', async () => {
+      const ControlledAutocomplete = () => {
+        const [value, setValue] = useState<string>('');
+        return <Autocomplete value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledAutocomplete />);
+      const autocomplete = screen.getByRole('textbox');
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      await userEvent.type(autocomplete, 'hello');
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    });
 
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
-    await userEvent.type(autocomplete, 'hello');
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    it('passes showClearIcon=never prop to input', async () => {
+      const ControlledAutocomplete = () => {
+        const [value, setValue] = useState<string>('');
+        return <Autocomplete showClearIcon="never" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledAutocomplete />);
+      const autocomplete = screen.getByRole('textbox');
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      await userEvent.type(autocomplete, 'hello');
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    });
 
-    rerender(<ControlledAutocomplete clear="never" />);
-    await userEvent.clear(autocomplete);
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
-    await userEvent.type(autocomplete, 'hello');
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    it('passes showClearIcon=auto prop to input', async () => {
+      const ControlledAutocomplete = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Autocomplete showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledAutocomplete />);
+      const autocomplete = screen.getByRole('textbox');
 
-    rerender(<ControlledAutocomplete clear="onFocus" />);
-    await userEvent.clear(autocomplete);
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
-    await userEvent.type(autocomplete, 'hello');
-    await userEvent.tab();
-    expect(autocomplete).not.toHaveFocus();
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
-    await userEvent.click(autocomplete);
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
 
-    rerender(<ControlledAutocomplete clear="always" />);
-    await userEvent.clear(autocomplete);
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
-    await userEvent.type(autocomplete, 'hello');
-    await userEvent.tab();
-    expect(autocomplete).not.toHaveFocus();
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
-    await userEvent.click(autocomplete);
-    expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+      await userEvent.hover(autocomplete);
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+
+      await userEvent.unhover(autocomplete);
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+
+      await userEvent.click(autocomplete);
+      await userEvent.unhover(autocomplete);
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputDataTids.clearCross));
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    });
+
+    it('passes showClearIcon=always prop to input', async () => {
+      const ControlledAutocomplete = () => {
+        const [value, setValue] = useState<string>('');
+        return <Autocomplete showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledAutocomplete />);
+      const autocomplete = screen.getByRole('textbox');
+
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      await userEvent.type(autocomplete, 'hello');
+      await userEvent.click(document.body);
+      await userEvent.unhover(autocomplete);
+      expect(autocomplete).not.toHaveFocus();
+      const cross = screen.getByTestId(InputDataTids.clearCross);
+      expect(cross).toBeInTheDocument();
+
+      await userEvent.click(autocomplete);
+      expect(cross).toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+    });
   });
 
   it('passes id prop to input', () => {

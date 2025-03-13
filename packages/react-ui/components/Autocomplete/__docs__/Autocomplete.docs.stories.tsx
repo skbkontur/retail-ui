@@ -111,14 +111,18 @@ export const Example9: Story = () => {
 };
 Example9.storyName = 'Режима прозрачной рамки';
 
-/** При showClearIcon="always" крестик отображается всегда, если в автокомплит что-либо введено.
- *
- * При showClearIcon="onFocus" крестик отображается при фокусировке на автокомплите, в который что-либо введено. */
+/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.
+ * При значении "always" крестик отображается всегда, если поле непустое.
+ * При значении "never" крестик никогда не отображается. */
 export const Example10: Story = () => {
-  const items = ['Отображаю крестик всегда', 'Отображаю крестик по фокусу', 'Никогда не отображаю крестик'];
+  const items = [
+    'Отображаю крестик всегда',
+    'Отображаю крестик по фокусу или наведению',
+    'Никогда не отображаю крестик',
+  ];
   const [valueAlways, setValueAlways] = React.useState(items[0]);
-  const [valueOnFocus, setValueOnFocus] = React.useState(items[1]);
-
+  const [valueAuto, setValueAuto] = React.useState(''); //items[1]);
+  const [valueNever, setValueNever] = React.useState(items[2]);
   return (
     <Gapped gap={10}>
       <Autocomplete
@@ -128,11 +132,12 @@ export const Example10: Story = () => {
         onValueChange={setValueAlways}
         width="250px"
       />
+      <Autocomplete showClearIcon="auto" source={items} value={valueAuto} onValueChange={setValueAuto} width="250px" />
       <Autocomplete
-        showClearIcon="onFocus"
+        showClearIcon="never"
         source={items}
-        value={valueOnFocus}
-        onValueChange={setValueOnFocus}
+        value={valueNever}
+        onValueChange={setValueNever}
         width="250px"
       />
     </Gapped>

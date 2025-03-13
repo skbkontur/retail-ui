@@ -6,11 +6,11 @@ export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       ${resetButton()}
-      color: ${t.cleanCrossIconColor};
+      color: ${t.clearCrossIconColor};
       cursor: pointer;
       transition: color ${t.transitionDuration} ${t.transitionTimingFunction};
       &:hover {
-        color: ${t.cleanCrossIconHoverColor};
+        color: ${t.clearCrossIconHoverColor};
       }
       display: flex;
       justify-content: center;

@@ -42,7 +42,7 @@ export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({ s
     }
   };
 
-  const [focusedByTab, setFocusedByTab] = React.useState<boolear>(false);
+  const [focusedByTab, setFocusedByTab] = React.useState<boolean>(false);
 
   const handleFocus = () => {
     // focus event fires before keyDown eventlistener so we should check tabPressed in async way

@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
-import { Input, InputDataTids, InputIconType, InputProps, ShowClearIcon } from '../../components/Input';
+import { Input, InputIconType, InputProps, ShowClearIcon } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -21,7 +21,6 @@ import { SizeProp } from '../../lib/types/props';
 import { Popup } from '../Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../ZIndex';
-import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -403,6 +402,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
+        showClearIcon={showClearIcon}
+        onClearCrossClick={this.props.onClearCrossClick}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
@@ -443,17 +444,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     if (loading && items && !!items.length) {
       return <LoadingIcon size={size} />;
-    }
-
-    if (this.getProps().showClearIcon !== 'never' && this.state.clearCrossShowed) {
-      return (
-        <ClearCrossIcon
-          data-tid={InputDataTids.clearCross}
-          size={size}
-          onFocus={(event) => event.stopPropagation()}
-          onClick={this.props.onClearCrossClick}
-        />
-      );
     }
 
     if (rightIcon || drawArrow) {
