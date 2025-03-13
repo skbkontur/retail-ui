@@ -155,6 +155,19 @@ export const isReactUIComponent = <P = any>(name: string) => {
   };
 };
 
+/** @deprecated Переехал в `lib/mergeRefs.ts`. Со следующей мажорной версии от сюда будет удален*/
+export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        return ref(value);
+      } else if (isNonNullable(ref)) {
+        return ((ref as React.MutableRefObject<T | null>).current = value);
+      }
+    });
+  };
+}
+
 /**
  * Extracts all data attributes from props and returns them as well as props.
  *
