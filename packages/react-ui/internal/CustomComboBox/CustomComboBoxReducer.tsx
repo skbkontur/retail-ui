@@ -359,7 +359,7 @@ export function reducer<T>(
         editing: true,
         loading: true,
       };
-      return [newState, [Effect.focus, Effect.search(''), Effect.valueClear]];
+      return [newState, [Effect.valueClear, Effect.focus, Effect.search('')]];
     }
     case 'Blur': {
       const { inputChanged, items } = state;

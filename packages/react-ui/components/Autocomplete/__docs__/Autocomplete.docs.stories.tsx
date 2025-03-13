@@ -1,6 +1,7 @@
 import React from 'react';
 import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon';
 import { Autocomplete, Button, Group, Gapped } from '@skbkontur/react-ui';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -113,17 +114,19 @@ Example9.storyName = 'Режима прозрачной рамки';
 
 /** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле. <br/>
  * При значении "always" крестик отображается всегда, если поле непустое. <br/>
- * При значении "never" крестик никогда не отображается.<br/>
+ * При значении "never" крестик никогда не отображается.<br/><br/>
  * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет. */
 export const Example10: Story = () => {
   const items = [
     'Отображаю крестик всегда',
     'Отображаю крестик по фокусу или наведению',
     'Никогда не отображаю крестик',
+    'showClearIcon=auto одновременно с rightIcon',
   ];
   const [valueAlways, setValueAlways] = React.useState(items[0]);
   const [valueAuto, setValueAuto] = React.useState(items[1]);
   const [valueNever, setValueNever] = React.useState(items[2]);
+  const [valueWithIcon, setValueWithIcon] = React.useState(items[3]);
   return (
     <Gapped gap={10} vertical>
       <Autocomplete
@@ -140,6 +143,15 @@ export const Example10: Story = () => {
         value={valueNever}
         onValueChange={setValueNever}
         width="350px"
+      />
+      <br />
+      <Autocomplete
+        showClearIcon="auto"
+        source={items}
+        value={valueWithIcon}
+        onValueChange={setValueWithIcon}
+        width="350px"
+        rightIcon={<UiFilterFunnelIcon16Regular />}
       />
     </Gapped>
   );

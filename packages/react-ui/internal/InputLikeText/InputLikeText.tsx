@@ -207,6 +207,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
       showClearIcon,
+      onClearCrossClick,
       ...rest
     } = props;
 
@@ -217,7 +218,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           data-tid={InputDataTids.clearCross}
           size={size}
           onFocus={(event) => event.stopPropagation()}
-          onClick={this.props.onClearCrossClick}
+          onClick={onClearCrossClick}
         />
       ) : (
         rightIcon

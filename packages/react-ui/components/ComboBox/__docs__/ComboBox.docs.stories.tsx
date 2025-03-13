@@ -3,6 +3,7 @@ import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/get
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -540,7 +541,7 @@ Example9.storyName = 'Размер';
 
 /** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
  * При значении "always" крестик отображается всегда, если поле непустое.<br/>
- * При значении "never" крестик никогда не отображается.<br/>
+ * При значении "never" крестик никогда не отображается.<br/><br/>
  * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет.
  * */
 export const Example10: Story = () => {
@@ -557,10 +558,15 @@ export const Example10: Story = () => {
       value: 3,
       label: 'Никогда не отображаю крестик',
     },
+    {
+      value: 4,
+      label: 'showClearIcon=auto одновременно с rightIcon',
+    },
   ];
   const [valueAlways, setValueAlways] = React.useState(items[0]);
   const [valueAuto, setValueAuto] = React.useState(items[1]);
   const [valueNever, setValueNever] = React.useState(items[2]);
+  const [valueWithIcon, setValueWithIcon] = React.useState(items[3]);
   const getItems = (q: string) => {
     return Promise.resolve(
       items.filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
@@ -582,6 +588,15 @@ export const Example10: Story = () => {
         value={valueNever}
         onValueChange={setValueNever}
         width="350px"
+      />
+      <br />
+      <ComboBox
+        showClearIcon="auto"
+        getItems={getItems}
+        value={valueWithIcon}
+        onValueChange={setValueWithIcon}
+        width="350px"
+        rightIcon={<UiFilterFunnelIcon16Regular />}
       />
     </Gapped>
   );
