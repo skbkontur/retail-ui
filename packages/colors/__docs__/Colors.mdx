@@ -1,0 +1,77 @@
+import * as ColorsStories from './Colors.docs.stories';
+import { Stories } from '@storybook/blocks';
+import { Meta } from '../../../.storybook/Meta';
+
+<Meta of={ColorsStories} />
+
+# Библиотека цветов
+
+NPM-пакет для доступа к цветам из общей Figma-библиотеки [Kontur.Colors](https://www.figma.com/file/XuiIin3JAOEcHHPihtthOJ/%E2%9A%A1%EF%B8%8F-Kontur-Colors?node-id=0%3A1&t=pL38Ju5ZOo3VC6vt-0)
+
+## Установка
+
+```bash
+npm i @skbkontur/colors
+```
+
+<Stories title="" includePrimary={true} />
+
+## Использование
+
+- JS/TS токены содержатся в объекте `KonturColors.colorName`
+- В CSS в виде глобальных переменных`--kontur-color-name` в `:root { ... }`
+- В препроцессорах Less `@color-name` и SCSS `$color-name`
+
+#### JS/TS
+
+```js static
+import { KonturColors } from '@skbkontur/colors';
+
+const text = `<div style="color: ${KonturColors.blueDark90}">Цвет blueDark90</div>`;
+```
+
+#### React
+
+```jsx static
+import { KonturColors } from '@skbkontur/colors';
+
+const Component = () => {
+  return <div style={{ color: KonturColors.blueDark90 }}>Цвет blueDark90</div>;
+};
+```
+
+#### CSS
+
+```css
+@import '@skbkontur/colors/colors.css';
+
+.class {
+  color: var(--blue-dark-90);
+}
+```
+
+#### SCSS
+
+```css
+@import '@skbkontur/colors/colors.scss';
+
+.class {
+  color: $blue-dark-90;
+}
+```
+
+#### Less
+
+```css
+@import '@skbkontur/colors/colors.less';
+
+.class {
+  color: @blue-dark-90;
+}
+```
+
+## Разработка
+
+- Токены выгружаются в формате `camelCase`
+- `src/colors.ts` — файл с токенами
+- `npm run build` — сборка пакета в `/dist`

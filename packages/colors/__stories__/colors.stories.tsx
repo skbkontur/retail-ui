@@ -34,6 +34,7 @@ const styles: { [key in stylesKeys]: Partial<CSSProperties> } = {
   [stylesKeys.wordBreak]: {
     wordBreak: 'break-word',
   },
+  [stylesKeys.title]: {},
 };
 
 export const ColorsStory = () => {
