@@ -4,14 +4,14 @@ import { Nullable } from '../typings/utility-types';
 
 import { isNonNullable, isNullable } from './utils';
 
-type refVariants<T> = Nullable<React.RefObject<T> | React.RefCallback<T>>;
-type refCallback = ReturnType<typeof createRefCallback<unknown>>;
+type RefVariants<T> = Nullable<React.RefObject<T> | React.RefCallback<T>>;
+type RefCallback<T> = ReturnType<typeof createRefCallback<T>>;
 const CALLBACK_AS_KEY = { callbackAsKey: true };
 
-type cacheKey<T> = NonNullable<refVariants<T> | typeof CALLBACK_AS_KEY>;
-type cacheValue<T> = refCallback | WeakMap<cacheKey<T>, cacheValue<T>>;
+type CacheKey<T> = NonNullable<RefVariants<T> | typeof CALLBACK_AS_KEY>;
+type CacheValue<T> = RefCallback<T> | WeakMap<CacheKey<T>, CacheValue<T>>;
 
-const cache = new WeakMap<cacheKey<unknown>, cacheValue<unknown>>();
+const cache = new WeakMap<CacheKey<any>, CacheValue<any>>();
 
 /**
  * Merges two or more refs into one with cached ref
@@ -23,10 +23,10 @@ const cache = new WeakMap<cacheKey<unknown>, cacheValue<unknown>>();
  *  const localRef = useRef();
  *  const mergeRefs = useRef(mergeRefsMemo());
  *
- *  return <div ref={mergeRefs.current(localRef, ref)} />;
+ *  return <div ref={mergeRefs(localRef, ref)} />;
  * });
  */
-export function mergeRefs<T>(...refs: Array<refVariants<T>>): refCallback {
+export function mergeRefs<T>(...refs: Array<RefVariants<T>>): RefCallback<T> {
   const cacheLevel = getLeafRefInCache(...refs);
 
   const cachedCallback = cacheLevel.get(CALLBACK_AS_KEY);
@@ -34,13 +34,13 @@ export function mergeRefs<T>(...refs: Array<refVariants<T>>): refCallback {
     return cachedCallback;
   }
 
-  const newRefCallback = createRefCallback<unknown>(refs);
+  const newRefCallback = createRefCallback<T>(refs);
   cacheLevel.set(CALLBACK_AS_KEY, newRefCallback);
 
   return newRefCallback;
 }
 
-function createRefCallback<T>(refs: Array<refVariants<T>>) {
+function createRefCallback<T>(refs: Array<RefVariants<T>>) {
   function applyRef(value: T) {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
@@ -53,7 +53,7 @@ function createRefCallback<T>(refs: Array<refVariants<T>>) {
   return applyRef;
 }
 
-function getLeafRefInCache<T>(...refs: Array<refVariants<T>>) {
+function getLeafRefInCache<T>(...refs: Array<RefVariants<T>>) {
   let cacheLevel = cache;
   for (const ref of refs) {
     if (isNullable(ref)) {
