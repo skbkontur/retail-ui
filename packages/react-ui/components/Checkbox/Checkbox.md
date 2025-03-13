@@ -91,7 +91,7 @@ let checkboxInstance = React.useRef(null);
 ```
 
 ### Неопределенное состояние
-Чекбокс может находится в неопределённом состоянии. Чекбокс может находится в неопределённом состоянии. Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
+Чекбокс может находится в неопределённом состоянии. <br/> Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
 
 Это состояние влияет только на внешний вид и не влияет на состояние `checked`.
 
