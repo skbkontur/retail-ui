@@ -38,6 +38,7 @@ import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
 import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
 import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -219,6 +220,7 @@ addons.setConfig({
       QuestionCircleIcon,
       LightbulbIcon32Regular,
       NotificationBellAlarmIcon64Regular,
+      UiFilterFunnelIcon16Regular,
       ShowcaseGroup,
       ThemeContext,
       ThemeFactory,

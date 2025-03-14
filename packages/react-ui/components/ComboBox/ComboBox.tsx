@@ -3,7 +3,7 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
-import { InputIconType } from '../Input';
+import { InputIconType, ShowClearIcon } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -13,6 +13,14 @@ export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
+  /** Устанавливает иконку крестика, при нажатии на который комбобокс очищается.<br/>
+   * При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
+   * При значении "always" крестик отображается всегда, если поле непустое.<br/>
+   * При значении "never" крестик никогда не отображается.<br/>
+   * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет.
+   * @default never */
+  showClearIcon?: ShowClearIcon;
+
   /** Задает выравнивание контента. */
   align?: 'left' | 'center' | 'right';
 
@@ -170,7 +178,14 @@ export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxProps<T>,
-    'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'menuAlign' | 'searchOnFocus' | 'drawArrow'
+    | 'itemToValue'
+    | 'valueToString'
+    | 'renderValue'
+    | 'renderItem'
+    | 'menuAlign'
+    | 'searchOnFocus'
+    | 'drawArrow'
+    | 'showClearIcon'
   >
 >;
 
@@ -197,6 +212,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
+    showClearIcon: 'never',
   };
 
   private getProps = createPropsGetter(ComboBox.defaultProps);

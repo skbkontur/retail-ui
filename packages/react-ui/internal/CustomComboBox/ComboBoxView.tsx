@@ -1,7 +1,7 @@
 import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
-import { Input, InputIconType, InputProps } from '../../components/Input';
+import { Input, InputIconType, InputProps, ShowClearIcon } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -57,6 +57,7 @@ interface ComboBoxViewProps<T>
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
+  showClearIcon?: ShowClearIcon;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -77,6 +78,7 @@ interface ComboBoxViewProps<T>
   onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
+  onClearCrossClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
@@ -106,6 +108,7 @@ type DefaultProps<T> = Required<
     | 'onFocusOutside'
     | 'size'
     | 'width'
+    | 'showClearIcon'
   >
 >;
 
@@ -115,6 +118,7 @@ export const ComboBoxViewIds = {
 
 interface ComboBoxViewState {
   anchorElement: Nullable<Element>;
+  clearCrossShowed: boolean;
 }
 
 @responsiveLayout
@@ -137,6 +141,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     },
     size: 'small',
     width: 250,
+    showClearIcon: 'never',
   };
 
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
@@ -151,6 +156,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   public state = {
     anchorElement: null,
+    clearCrossShowed: this.props.showClearIcon === 'always' && !!this.props.value?.toString(),
   };
 
   public componentDidMount() {
@@ -340,6 +346,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       size,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
+      showClearIcon,
     } = this.props;
 
     const { renderValue } = this.getProps();
@@ -373,6 +380,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           aria-describedby={ariaDescribedby}
           aria-controls={this.menuId}
           aria-label={ariaLabel}
+          showClearIcon={showClearIcon}
         />
       );
     }
@@ -394,6 +402,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
+        showClearIcon={showClearIcon}
+        onClearCrossClick={this.props.onClearCrossClick}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
