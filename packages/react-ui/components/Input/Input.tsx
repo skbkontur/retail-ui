@@ -234,6 +234,9 @@ export class Input extends React.Component<InputProps, InputState> {
     hovered?: boolean;
     hasInitialValue?: boolean;
   }): boolean => {
+    if (this.props.disabled) {
+      return false;
+    }
     return calculateClearCrossShowedState({
       showClearIcon: this.getProps().showClearIcon,
       notEmptyValue: Boolean(this.input?.value || hasInitialValue),

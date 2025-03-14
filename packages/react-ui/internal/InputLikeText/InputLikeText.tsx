@@ -60,6 +60,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
   private getClearCrossShowed = ({ focused, hovered }: { focused?: boolean; hovered?: boolean }): boolean => {
+    if (this.props.disabled) {
+      return false;
+    }
     return calculateClearCrossShowedState({
       showClearIcon: this.getProps().showClearIcon,
       notEmptyValue: Boolean(this.props.children),

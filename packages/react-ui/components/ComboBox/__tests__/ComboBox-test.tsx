@@ -1464,6 +1464,10 @@ describe('ComboBox', () => {
     ];
     const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
 
+    const getTextbox = () => screen.getByRole('textbox');
+    const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
+    const queryClearCross = () => screen.queryByTestId(InputDataTids.clearCross);
+
     it('clears controlled combobox', async () => {
       const ControlledCombobox = () => {
         const [value, setValue] = React.useState({ value: '2', label: 'Two' });
@@ -1472,69 +1476,81 @@ describe('ComboBox', () => {
       render(<ControlledCombobox />);
 
       expect(screen.getByText('Two')).toBeInTheDocument();
-      await userEvent.click(screen.getByTestId(InputDataTids.clearCross));
+      await userEvent.click(getClearCross());
       expect(screen.queryByText('Two')).not.toBeInTheDocument();
     });
 
     it('clears uncontrolled combobox', async () => {
       render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+      const textbox = getTextbox();
 
       comboboxRef.current?.focus();
-      await userEvent.type(screen.getByRole('textbox'), 'z');
-      expect(screen.getByRole('textbox')).toHaveValue('z');
-      const cross = screen.getByTestId(InputDataTids.clearCross);
+      await userEvent.type(textbox, 'z');
+      expect(textbox).toHaveValue('z');
+      const cross = getClearCross();
       expect(cross).toBeInTheDocument();
 
       await userEvent.click(cross);
       expect(cross).not.toBeInTheDocument();
-      expect(screen.getByRole('textbox')).toHaveValue('');
+      expect(textbox).toHaveValue('');
     });
 
     it('tests showClearIcon=always clear cross', async () => {
       render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
-      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      expect(queryClearCross()).toBeNull();
 
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      expect(queryClearCross()).toBeNull();
 
-      await userEvent.type(screen.getByRole('textbox'), 'z');
-      expect(screen.getByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(getClearCross()).toBeInTheDocument();
 
       await userEvent.click(document.body);
       // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
-      await userEvent.unhover(screen.getByRole('textbox'));
-      expect(screen.getByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+      await userEvent.unhover(texbox);
+      expect(getClearCross()).toBeInTheDocument();
 
-      await userEvent.clear(screen.getByRole('textbox'));
-      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      await userEvent.clear(texbox);
+      expect(queryClearCross()).toBeNull();
     });
 
     it('tests showClearIcon=auto clear cross', async () => {
       render(<ComboBox showClearIcon="auto" getItems={getItems} ref={comboboxRef} />);
-      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      expect(queryClearCross()).toBeNull();
 
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      await userEvent.type(screen.getByRole('textbox'), 'z');
-      expect(screen.getByRole('textbox')).toHaveValue('z');
-      expect(screen.getByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(texbox).toHaveValue('z');
+      expect(getClearCross()).toBeInTheDocument();
 
       await userEvent.click(document.body);
       // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
-      await userEvent.unhover(screen.getByRole('textbox'));
+      await userEvent.unhover(texbox);
       expect(screen.queryByRole('textbox')).not.toHaveFocus();
-      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeNull();
+      expect(queryClearCross()).toBeNull();
 
-      await userEvent.hover(screen.getByRole('textbox'));
-      expect(screen.queryByTestId(InputDataTids.clearCross)).toBeInTheDocument();
+      await userEvent.hover(texbox);
+      expect(queryClearCross()).toBeInTheDocument();
     });
 
     it('tests showClearIcon=never clear cross', async () => {
-      render(<ComboBox showClearIcon="never" getItems={getItems} ref={comboboxRef} />);
+      render(<ComboBox showClearIcon="never" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
 
-      expect(screen.queryByTestId(InputDataTids.clearCross)).not.toBeInTheDocument();
+      expect(queryClearCross()).not.toBeInTheDocument();
 
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      expect(screen.queryByTestId(InputDataTids.clearCross)).not.toBeInTheDocument();
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('tests showClearIcon when disabled', async () => {
+      render(<ComboBox disabled showClearIcon="always" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
     });
   });
 });

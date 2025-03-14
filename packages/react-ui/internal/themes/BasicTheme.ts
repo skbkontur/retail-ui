@@ -2498,12 +2498,8 @@ export class BasicThemeClass {
     return this.inputBorderRadiusLarge;
   }
 
-  public static clearCrossIconColor = '#757575';
-  public static clearCrossIconDisabledColor = '#8b8b8b';
-  public static clearCrossIconHoverColor = '#222222';
-  public static get clearCrossIconFocusShadow() {
-    return `inset 0 0 0 2px ${this.borderColorFocus}`;
-  }
+  public static clearCrossIconColor = 'rgba(0, 0, 0, 0.54)';
+  public static clearCrossIconHoverColor = 'rgba(0, 0, 0, 0.87)';
 
   //#endregion ClearCrossIcon
 

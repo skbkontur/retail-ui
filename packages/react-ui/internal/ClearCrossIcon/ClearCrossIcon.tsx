@@ -7,7 +7,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper, CommonProps } from '../CommonWrapper';
 import { SizeProp } from '../../lib/types/props';
 import { TokenSize } from '../../components/Token';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { styles } from './ClearCrossIcon.styles';
 import { CrossIcon } from './CrossIcon';
@@ -22,14 +21,7 @@ export interface ClearCrossIconProps
 }
 
 export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({ size = 'small', style, ...rest }) => {
-  const _theme = React.useContext(ThemeContext);
-  const theme = ThemeFactory.create(
-    {
-      clearCrossIconColor: _theme.clearCrossIconColor,
-      clearCrossIconHoverColor: _theme.clearCrossIconHoverColor,
-    },
-    _theme,
-  );
+  const theme = React.useContext(ThemeContext);
   const getSizeClassName = (size: TokenSize) => {
     switch (size) {
       case 'large':
@@ -63,7 +55,6 @@ export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({ s
           styles.root(theme),
           // Todo: use &:focus-visible on root instead styles.focus. It supported on Chrome >= 86, Firefox >= 4, Safari >= 15.4
           focusedByTab && styles.focus(theme),
-          rest.disabled && styles.rootDisabled(theme),
           getSizeClassName(size),
         )}
         style={style}

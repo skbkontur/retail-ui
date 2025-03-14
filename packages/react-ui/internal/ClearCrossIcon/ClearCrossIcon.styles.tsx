@@ -18,16 +18,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  rootDisabled(t: Theme) {
-    return css`
-      color: ${t.clearCrossIconDisabledColor};
-    `;
-  },
-
   focus(t: Theme) {
     return css`
       color: ${t.clearCrossIconHoverColor};
-      box-shadow: ${t.clearCrossIconFocusShadow};
     `;
   },
 
