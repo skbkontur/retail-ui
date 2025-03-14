@@ -1,5 +1,5 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
-import type { AriaAttributes } from 'react';
+import React, { useImperativeHandle, useRef, useState, useLayoutEffect } from 'react';
+import type { AriaAttributes, RefObject } from 'react';
 
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -90,6 +90,12 @@ export const DateRangePicker = Object.assign(
 
     const dateRangePickerRef = useRef<HTMLDivElement>(null);
     const calendarRef = useRef<Calendar>(null);
+    const startRef = useRef<DateInput>(null);
+    const endRef = useRef<DateInput>(null);
+    const mobileStartRef = useRef<DateInput>(null);
+    const mobileEndRef = useRef<DateInput>(null);
+    const mobileNativeStartRef = useRef<NativeDateInput>(null);
+    const mobileNativeEndRef = useRef<NativeDateInput>(null);
 
     const updateDateRangeValues = (value = '') => {
       const currentValues = {
@@ -151,6 +157,32 @@ export const DateRangePicker = Object.assign(
       [],
     );
 
+    useLayoutEffect(() => {
+      if (!focusInput) {
+        return;
+      }
+
+      let startInputRef: RefObject<NativeDateInput | DateInput>;
+      let endInputRef: RefObject<NativeDateInput | DateInput>;
+
+      if (isMobile) {
+        startInputRef = props.useMobileNativeDatePicker ? mobileNativeStartRef : mobileStartRef;
+        endInputRef = props.useMobileNativeDatePicker ? mobileNativeEndRef : mobileEndRef;
+      } else {
+        startInputRef = startRef;
+        endInputRef = endRef;
+      }
+
+      // fix DateInput flushSync warning in React 18
+      setTimeout(() => {
+        if (focusInput === 'start') {
+          startInputRef.current?.focus();
+        } else if (focusInput === 'end') {
+          endInputRef.current?.focus();
+        }
+      });
+    }, [focusInput]);
+
     const dateRangePickerContextProps: DateRangePickerContextProps = {
       startValue,
       startOptional,
@@ -161,7 +193,6 @@ export const DateRangePicker = Object.assign(
       minDate,
       maxDate,
       size: props.size,
-      focusInput,
       setStartValue,
       setStartOptional,
       setStartDisabled,
@@ -174,6 +205,8 @@ export const DateRangePicker = Object.assign(
       open,
       close,
       dateRangePickerRef,
+      startRef,
+      endRef,
     };
 
     const renderCalendar = (theme: Theme, widthAuto = false) => (
@@ -256,14 +289,15 @@ export const DateRangePicker = Object.assign(
           maxDate={maxDate}
           onValueChange={setStartValue}
           disabled={startDisabled}
+          ref={mobileNativeStartRef}
         />
-        <DateRangePicker.Separator />
         <NativeDateInput
           value={endValue}
           minDate={minDate}
           maxDate={maxDate}
           onValueChange={setEndValue}
           disabled={endDisabled}
+          ref={mobileNativeEndRef}
         />
       </>
     );
@@ -315,6 +349,7 @@ export const DateRangePicker = Object.assign(
                                     disabled={startDisabled}
                                     onValueChange={setStartValue}
                                     onFocus={() => setFocusInput('start')}
+                                    ref={mobileStartRef}
                                     data-tid={DateRangePickerDataTids.mobileStart}
                                   />
                                   <DateRangePicker.Separator />
@@ -327,6 +362,7 @@ export const DateRangePicker = Object.assign(
                                     disabled={endDisabled}
                                     onValueChange={setEndValue}
                                     onFocus={() => setFocusInput('end')}
+                                    ref={mobileEndRef}
                                     data-tid={DateRangePickerDataTids.mobileEnd}
                                   />
                                 </div>
