@@ -38,7 +38,7 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'];
+export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'] as const;
 
 export const PopupPinnablePositions = [
   'top center',
@@ -53,7 +53,7 @@ export const PopupPinnablePositions = [
   'right middle',
   'right top',
   'right bottom',
-];
+] as const;
 
 export const PopupPositions = [...PopupPinnablePositions, ...PopupNonPinnablePositions] as const;
 
