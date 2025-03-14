@@ -25,6 +25,7 @@
     "postrelease": "yarn deploy",
     "predeploy": "rimraf .styleguide/deploy && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/deploy -r git@github.com:skbkontur/react-ui.git",
+    "storybook:fix:font": "node scripts/replaceStringInFile.js",
     "storybook": "node ../../scripts/patch-node-options.js \"storybook dev -p 6060\"",
     "storybook:build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_TEST=true storybook build -o .storybook/build --quiet\"",
     "storybook:docs-build": "node ../../scripts/patch-node-options.js \"cross-env STORYBOOK_REACT_UI_DOCS=true storybook build --docs -o .storybook/build --quiet\"",
