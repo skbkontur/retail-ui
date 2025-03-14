@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref, useContext, useEffect, useImperativeHandle, useRef } from 'react';
+import React, { forwardRef, Ref, useContext, useEffect, useImperativeHandle } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { DateInput, DateInputProps } from '../DateInput';
@@ -25,7 +25,6 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
     startValue,
     endValue,
     size,
-    focusInput,
     setStartValue,
     setStartOptional,
     setStartDisabled,
@@ -38,13 +37,12 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
     open,
     close,
     dateRangePickerRef,
+    startRef,
+    endRef,
   } = useContext(DateRangePickerContext);
   const isStart = props.type === 'start';
   const isEnd = props.type === 'end';
   const locale = useLocaleForControl('DateRangePicker', DateRangePickerLocaleHelper);
-
-  const startRef = useRef<DateInput>(null);
-  const endRef = useRef<DateInput>(null);
 
   const { isMobile } = useResponsiveLayout();
 
@@ -85,21 +83,6 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
       props.onValueChange?.(endValue);
     }
   }, [endValue]);
-
-  useEffect(() => {
-    if (!focusInput) {
-      return;
-    }
-
-    // fix DateInput flushSync warning in React 18
-    setTimeout(() => {
-      if (focusInput === 'start') {
-        startRef.current?.focus();
-      } else if (focusInput === 'end') {
-        endRef.current?.focus();
-      }
-    });
-  }, [focusInput]);
 
   const commonProps: DateRangePickerInputProps = {
     withIcon: true,
