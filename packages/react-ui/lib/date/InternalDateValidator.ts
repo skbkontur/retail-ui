@@ -123,7 +123,7 @@ export class InternalDateValidator {
     return true;
   }
 
-  public static testParseToNumber(value: InternalDateComponentRaw): value is NonNullable<typeof value> {
+  public static testParseToNumber(value: InternalDateComponentRaw): value is number {
     if (value !== null) {
       return typeof value === 'number' || !Number.isNaN(parseInt(value, 10));
     }
