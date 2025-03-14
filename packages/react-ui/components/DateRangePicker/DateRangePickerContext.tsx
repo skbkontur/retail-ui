@@ -1,8 +1,10 @@
 import React from 'react';
+import type { RefObject } from 'react';
 
+import type { DateInput } from '../DateInput';
 import type { SizeProp } from '../../lib/types/props';
 
-import { DateRangePickerInputType } from './DateRangePickerInput';
+import type { DateRangePickerInputType } from './DateRangePickerInput';
 
 export interface DateRangePickerContextProps {
   startValue?: string;
@@ -14,7 +16,6 @@ export interface DateRangePickerContextProps {
   minDate?: string;
   maxDate?: string;
   size?: SizeProp;
-  focusInput?: DateRangePickerInputType | null;
   setStartValue: (value: string) => void;
   setStartOptional: (value: boolean) => void;
   setStartDisabled: (value: boolean) => void;
@@ -26,7 +27,9 @@ export interface DateRangePickerContextProps {
   setFocusInput: (value: DateRangePickerInputType | null) => void;
   open: (type: DateRangePickerInputType) => void;
   close: () => void;
-  dateRangePickerRef: React.RefObject<HTMLDivElement>;
+  dateRangePickerRef: RefObject<HTMLDivElement>;
+  startRef: RefObject<DateInput>;
+  endRef: RefObject<DateInput>;
 }
 
 export const DateRangePickerContext = React.createContext({} as DateRangePickerContextProps);
