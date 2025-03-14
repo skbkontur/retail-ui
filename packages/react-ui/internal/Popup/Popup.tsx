@@ -599,7 +599,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupContentElement = (element: Nullable<Element>) => {
+  private refPopupContentElement = (element: HTMLDivElement) => {
     this.lastPopupContentElement = element;
   };
 
