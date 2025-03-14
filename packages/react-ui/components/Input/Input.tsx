@@ -18,7 +18,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
-import { UnreachableError } from '../../lib/utils';
+import { catchUnreachableWarning } from '../../lib/typeGuards';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -47,6 +47,28 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
   return `<Input />. Prop "mask" does not support type "${type}". Supported types: ${allowedTypes
     .map((i) => `"${i}"`)
     .join(', ')}.`;
+};
+export const calculateClearCrossShowedState = ({
+  showClearIcon,
+  notEmptyValue,
+  focused,
+  hovered,
+}: {
+  showClearIcon: ShowClearIcon;
+  notEmptyValue: boolean;
+  focused?: boolean;
+  hovered?: boolean;
+}): boolean => {
+  switch (showClearIcon) {
+    case 'always':
+      return notEmptyValue;
+    case 'auto':
+      return Boolean((focused || hovered) && notEmptyValue);
+    case 'never':
+      return false;
+    default:
+      return catchUnreachableWarning(showClearIcon, false);
+  }
 };
 
 export interface InputProps
@@ -212,18 +234,12 @@ export class Input extends React.Component<InputProps, InputState> {
     hovered?: boolean;
     hasInitialValue?: boolean;
   }): boolean => {
-    const showClearIcon = this.getProps().showClearIcon;
-    const notEmptyValue = Boolean(this.input?.value || hasInitialValue);
-    switch (showClearIcon) {
-      case 'always':
-        return notEmptyValue;
-      case 'auto':
-        return Boolean((focused || hovered) && notEmptyValue);
-      case 'never':
-        return false;
-      default:
-        throw new UnreachableError(showClearIcon);
-    }
+    return calculateClearCrossShowedState({
+      showClearIcon: this.getProps().showClearIcon,
+      notEmptyValue: Boolean(this.input?.value || hasInitialValue),
+      focused,
+      hovered,
+    });
   };
 
   public state: InputState = {

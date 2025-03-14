@@ -48,6 +48,7 @@ export function taskWithDelay(task: () => void, ms: number) {
 }
 
 export type FunctionWithParams<R = any> = (...args: any[]) => R;
+
 export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParams {
   return typeof x === 'function';
 }
@@ -232,10 +233,4 @@ export function clickOutside() {
   event.initEvent('mousedown', true, true);
 
   document.body.dispatchEvent(event);
-}
-
-export class UnreachableError extends Error {
-  public constructor(guard: never) {
-    super(`Unsupported kind: ${JSON.stringify(guard)}`);
-  }
 }

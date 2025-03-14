@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
-import { isNonNullable, UnreachableError } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
-import { InputDataTids, InputProps, InputState } from '../../components/Input';
+import { calculateClearCrossShowedState, InputDataTids, InputProps, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -60,18 +60,12 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
   private getClearCrossShowed = ({ focused, hovered }: { focused?: boolean; hovered?: boolean }): boolean => {
-    const showClearIcon = this.getProps().showClearIcon;
-    const notEmptyValue = Boolean(this.props.children);
-    switch (showClearIcon) {
-      case 'always':
-        return notEmptyValue;
-      case 'auto':
-        return Boolean((focused || hovered) && notEmptyValue);
-      case 'never':
-        return false;
-      default:
-        throw new UnreachableError(showClearIcon);
-    }
+    return calculateClearCrossShowedState({
+      showClearIcon: this.getProps().showClearIcon,
+      notEmptyValue: Boolean(this.props.children),
+      focused,
+      hovered,
+    });
   };
 
   public state = {
