@@ -16,7 +16,7 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { mergeRefs } from '../../../lib/mergeRefs';
 import { Tooltip } from '../../Tooltip';
-import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { rootNode } from '../../../lib/rootNode';
 
 const { getCities } = require('../__mocks__/getCities.ts');
 
@@ -398,7 +398,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   public state = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
-  private setRootNode!: TSetRootNode;
+  private setRootNode!: (instance: ComboBox) => void;
   private comboBoxRef: React.RefObject<ComboBox> = React.createRef<ComboBox>();
 
   public render() {
