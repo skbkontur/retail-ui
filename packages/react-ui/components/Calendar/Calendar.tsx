@@ -179,11 +179,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (onMonthChange) {
       const visibleMonthsModels = this.getVisibleMonths(this.state).map(this.getViewModel);
       const prevFirstVisibleMonthModels = this.getVisibleMonths(prevState).map(this.getViewModel);
-      const currentMonth = visibleMonthsModels[0].month;
-      const prevCurrentMonth = prevFirstVisibleMonthModels[0].month;
 
-      if (currentMonth !== prevCurrentMonth) {
-        this.handleMonthChange(visibleMonthsModels);
+      if (visibleMonthsModels.length > 0 && prevFirstVisibleMonthModels.length > 0) {
+        const currentMonth = visibleMonthsModels[0].month;
+        const prevCurrentMonth = prevFirstVisibleMonthModels[0].month;
+
+        if (currentMonth !== prevCurrentMonth) {
+          this.handleMonthChange(visibleMonthsModels);
+        }
       }
     }
   }
