@@ -28,7 +28,7 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
 export type InputAlign = 'left' | 'center' | 'right';
-export type ShowClearIcon = 'always' | 'auto' | 'never';
+export type ShowClearIcon = 'auto' | 'always' | 'never';
 export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
@@ -78,11 +78,11 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Устанавливает иконку крестика, при нажатии на который инпут очищается.<br/>
-         * При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
-         * При значении "always" крестик отображается всегда, если поле непустое.<br/>
-         * При значении "never" крестик никогда не отображается.<br/>
-         * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет.
+        /** Показывать иконку очистки значения в непустом поле:
+         * - `always` — всегда показывать иконку
+         * - `auto` — показывать иконку при hover/focus
+         * - `never` — не показывать иконку
+         * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
          * @default never */
         showClearIcon?: ShowClearIcon;
 

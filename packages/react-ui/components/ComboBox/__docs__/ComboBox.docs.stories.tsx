@@ -2,8 +2,7 @@ import React from 'react';
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
+import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem, ShowClearIcon } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -494,7 +493,58 @@ export const Example7: Story = () => {
     </div>
   );
 };
-Example7.storyName = 'Сброс контрола';
+Example7.storyName = 'Сброс значения';
+
+/**
+ * - `always` — всегда показывать иконку очистки значения в заполненном поле
+ * - `auto` — показывать иконку в заполненном поле при hover/focus
+ * - `never` — не показывать (по умолчанию)
+ *
+ * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
+ */
+export const Example8: Story = () => {
+  const items = [
+    { value: 'always', label: 'showClearIcon="always"' },
+    { value: 'auto', label: 'showClearIcon="auto"' },
+    { value: 'never', label: 'showClearIcon="never"' },
+    { value: 'icon', label: 'showClearIcon="auto" + rightIcon' },
+  ];
+  const [valueAlways, setValueAlways] = React.useState(items[0]);
+  const [valueAuto, setValueAuto] = React.useState(items[1]);
+  const [valueNever, setValueNever] = React.useState(items[2]);
+  const [valueWithIcon, setValueWithIcon] = React.useState(items[3]);
+
+  const getItems = (q: string) => Promise.resolve(items.filter((x) => x.label.toLowerCase().includes(q.toLowerCase())));
+
+  return (
+    <Gapped vertical>
+      <ComboBox
+        showClearIcon="always"
+        value={valueAlways}
+        onValueChange={setValueAlways}
+        getItems={getItems}
+        width="375px"
+      />
+      <ComboBox showClearIcon="auto" getItems={getItems} value={valueAuto} onValueChange={setValueAuto} width="375px" />
+      <ComboBox
+        showClearIcon="never"
+        value={valueNever}
+        onValueChange={setValueNever}
+        getItems={getItems}
+        width="375px"
+      />
+      <ComboBox
+        showClearIcon="auto"
+        rightIcon
+        value={valueWithIcon}
+        onValueChange={setValueWithIcon}
+        getItems={getItems}
+        width="375px"
+      />
+    </Gapped>
+  );
+};
+Example8.storyName = 'Иконка очистки поля';
 
 export const Example9: Story = () => {
   const getItems = (q) => {
@@ -538,67 +588,3 @@ export const Example9: Story = () => {
   );
 };
 Example9.storyName = 'Размер';
-
-/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
- * При значении "always" крестик отображается всегда, если поле непустое.<br/>
- * При значении "never" крестик никогда не отображается.<br/><br/>
- * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет.
- * */
-export const Example10: Story = () => {
-  const items = [
-    {
-      value: 1,
-      label: 'Отображаю крестик всегда',
-    },
-    {
-      value: 2,
-      label: 'Отображаю крестик по фокусу',
-    },
-    {
-      value: 3,
-      label: 'Никогда не отображаю крестик',
-    },
-    {
-      value: 4,
-      label: 'showClearIcon=auto одновременно с rightIcon',
-    },
-  ];
-  const [valueAlways, setValueAlways] = React.useState(items[0]);
-  const [valueAuto, setValueAuto] = React.useState(items[1]);
-  const [valueNever, setValueNever] = React.useState(items[2]);
-  const [valueWithIcon, setValueWithIcon] = React.useState(items[3]);
-  const getItems = (q: string) => {
-    return Promise.resolve(
-      items.filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
-    );
-  };
-  return (
-    <Gapped gap={10} vertical>
-      <ComboBox
-        showClearIcon="always"
-        getItems={getItems}
-        value={valueAlways}
-        onValueChange={setValueAlways}
-        width="350px"
-      />
-      <ComboBox showClearIcon="auto" getItems={getItems} value={valueAuto} onValueChange={setValueAuto} width="350px" />
-      <ComboBox
-        showClearIcon="never"
-        getItems={getItems}
-        value={valueNever}
-        onValueChange={setValueNever}
-        width="350px"
-      />
-      <br />
-      <ComboBox
-        showClearIcon="auto"
-        getItems={getItems}
-        value={valueWithIcon}
-        onValueChange={setValueWithIcon}
-        width="350px"
-        rightIcon={<UiFilterFunnelIcon16Regular />}
-      />
-    </Gapped>
-  );
-};
-Example10.storyName = 'Крестик для очистки';

@@ -13,11 +13,11 @@ export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
-  /** Устанавливает иконку крестика, при нажатии на который комбобокс очищается.<br/>
-   * При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
-   * При значении "always" крестик отображается всегда, если поле непустое.<br/>
-   * При значении "never" крестик никогда не отображается.<br/>
-   * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет.
+  /** Показывать иконку очистки значения в непустом поле:
+   * - `always` — всегда показывать иконку
+   * - `auto` — показывать иконку при hover/focus
+   * - `never` — не показывать иконку
+   * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
    * @default never */
   showClearIcon?: ShowClearIcon;
 
