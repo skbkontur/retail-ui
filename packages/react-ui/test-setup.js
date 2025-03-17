@@ -2,13 +2,10 @@ import 'core-js/stable';
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
 import React from 'react';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 configure({
   testIdAttribute: 'data-tid',
+  reactStrictMode: process?.env?.STRICT_MODE === 'true',
 });
 
 jest.mock('react-focus-lock', () => (props) => <div>{props.children}</div>);

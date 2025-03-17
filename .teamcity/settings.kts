@@ -95,6 +95,42 @@ project {
 }
 
 object DiffVersionBuild: Project({
+    name = "DiffVersion"
+
+    //triggers {
+    //  schedule {
+    //    schedulingPolicy = daily {
+    //        hour = 0
+    //    }
+    //    branchFilter = "+:<default>"
+    //    triggerBuild = always()
+    //    withPendingChangesOnly = false
+    //  }
+    //}
+
+    val reactVersions = listOf("16", "17", "18")
+    val typescriptVersions = listOf("4", "5")
+    val strictModeVariants = listOf("true", "false")
+
+    for (strictMode in strictModeVariants) {
+      for (tsV in typescriptVersions) {
+        for (reactV in reactVersions) {
+          buildType({
+              name = "Run All|React=$reactV|TS=$tsV|strictMode=$strictMode"
+              id("React=$reactV|TS=$tsV|strictMode=$strictMode")
+              params {
+                  param("env.REACT_VERSION", reactV)
+                  param("env.TYPESCRIPT_VERSION", tsV)
+                  param("env.STRICT_MODE", strictMode)
+              }
+              dependencies {
+                snapshot(RunAll) {
+                }
+              }
+            })
+          }
+       }
+    }
     name = "Diff version test"
 
     val reactVersions = listOf("16", "17", "18")
@@ -319,18 +355,21 @@ object ReactUI_LintTest : BuildType({
             name = "Lint"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             param("yarn_commands", "workspace @skbkontur/react-ui lint")
         }
         step {
             name = "Test"
             id = "RUNNER_3"
             type = "jonnyzzz.yarn"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             param("yarn_commands", "workspace @skbkontur/react-ui test")
         }
         step {
             name = "Smoke test"
             id = "RUNNER_4"
             type = "jonnyzzz.yarn"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             param("yarn_commands", "workspace react-ui-smoke-test test")
         }
     }
