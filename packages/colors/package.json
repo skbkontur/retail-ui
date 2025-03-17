@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/colors",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

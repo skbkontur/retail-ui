@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.0.0...@skbkontur/colors@1.1.0) (2025-03-17)
+
+
+### Features
+
+* add new storybook documentation ([c267b12](https://git.skbkontur.ru/ui/ui-parking-2/commits/c267b12a86e845a219b173a4e69be6a04b972df8))
+
+
+
+
+
 # [1.0.0](https://git.skbkontur.ru/ui/ui-parking/compare/@skbkontur/colors@0.5.1...@skbkontur/colors@1.0.0) (2024-08-08)
 
 
