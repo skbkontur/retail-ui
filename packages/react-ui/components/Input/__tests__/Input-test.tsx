@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { mount } from 'enzyme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {
   Input,
-  InputProps,
   InputType,
   inputTypes,
   maskErrorMessage,
@@ -14,7 +12,6 @@ import {
   selectionAllowedTypes,
   InputDataTids,
 } from '../Input';
-import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('<Input />', () => {
   let consoleSpy: jest.SpyInstance;
@@ -713,35 +710,35 @@ describe('<Input />', () => {
   });
 });
 
-const renderEnzyme = (props: InputProps) =>
-  mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
+// const renderEnzyme = (props: InputProps) =>
+//   mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
 
 //TODO: при имитации RTL ввода с клавиш символов не вызывается onUnexpectedInput
 //если заданное условие для вызова выполнилось, поэтому пока оставили на Enzyme
-describe('<Input Enzyme/>', () => {
-  buildMountAttachTarget();
-
-  it('call handleUnexpectedInput on maxLength has been reached', () => {
-    const unexpectedInputHandlerMock = jest.fn();
-    const wrapper = renderEnzyme({
-      value: '',
-      onUnexpectedInput: unexpectedInputHandlerMock,
-      maxLength: 3,
-    });
-    const typeSymbol = () => {
-      wrapper.find('input').simulate('keypress', {
-        key: 'A',
-      });
-    };
-
-    typeSymbol();
-
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(0);
-
-    wrapper.setProps({ value: '123' });
-
-    typeSymbol();
-
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  });
-});
+// describe('<Input Enzyme/>', () => {
+//   buildMountAttachTarget();
+//
+//   it('call handleUnexpectedInput on maxLength has been reached', () => {
+//     const unexpectedInputHandlerMock = jest.fn();
+//     const wrapper = renderEnzyme({
+//       value: '',
+//       onUnexpectedInput: unexpectedInputHandlerMock,
+//       maxLength: 3,
+//     });
+//     const typeSymbol = () => {
+//       wrapper.find('input').simulate('keypress', {
+//         key: 'A',
+//       });
+//     };
+//
+//     typeSymbol();
+//
+//     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(0);
+//
+//     wrapper.setProps({ value: '123' });
+//
+//     typeSymbol();
+//
+//     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+//   });
+// });

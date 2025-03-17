@@ -2,7 +2,7 @@ import React from 'react';
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem, ShowClearIcon } from '@skbkontur/react-ui';
+import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
 

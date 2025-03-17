@@ -1,5 +1,5 @@
-import React, { useRef, useState, act } from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import React, { useRef, useState } from 'react';
+import { fireEvent, render, screen, within, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultLangCode } from '../../../lib/locale/constants';

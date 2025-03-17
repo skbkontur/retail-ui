@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
@@ -120,6 +120,14 @@ const preview: Preview = {
   },
   decorators: [
     ThemeDecorator,
+    (Story) =>
+      process?.env?.STRICT_MODE === 'true' ? (
+        <StrictMode>
+          <Story />
+        </StrictMode>
+      ) : (
+        <Story />
+      ),
     (Story) => (
       <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
         <Story />

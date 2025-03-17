@@ -1,6 +1,6 @@
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { Preview } from '@storybook/react';
 import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 import { addons } from '@storybook/manager-api';
@@ -36,6 +36,14 @@ const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
 const preview: Preview = {
   decorators: [
+    (Story) =>
+      process?.env?.STRICT_MODE === 'true' ? (
+        <StrictMode>
+          <Story />
+        </StrictMode>
+      ) : (
+        <Story />
+      ),
     (Story: any) => (
       <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
         <Story />
