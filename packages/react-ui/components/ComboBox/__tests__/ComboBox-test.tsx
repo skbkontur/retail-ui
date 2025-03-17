@@ -1482,17 +1482,16 @@ describe('ComboBox', () => {
 
     it('clears uncontrolled combobox', async () => {
       render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
-      const textbox = getTextbox();
 
       comboboxRef.current?.focus();
-      await userEvent.type(textbox, 'z');
-      expect(textbox).toHaveValue('z');
+      await userEvent.type(getTextbox(), 'z');
+      expect(getTextbox()).toHaveValue('z');
       const cross = getClearCross();
       expect(cross).toBeInTheDocument();
 
       await userEvent.click(cross);
       expect(cross).not.toBeInTheDocument();
-      expect(textbox).toHaveValue('');
+      expect(getTextbox()).toHaveValue('');
     });
 
     it('tests showClearIcon=always clear cross', async () => {
