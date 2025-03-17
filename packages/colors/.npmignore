@@ -4,4 +4,5 @@ yarn.lock
 tsconfig.json
 **/*.tsx
 **/*.ts
+**/*.mdx
 !**/*.d.ts
