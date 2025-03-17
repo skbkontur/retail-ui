@@ -1,6 +1,5 @@
 import React from 'react';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 import { Input, Button, Group, Gapped } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -86,15 +85,18 @@ export const Example5: Story = () => {
 };
 Example5.storyName = 'type';
 
-/** При значении "auto" крестик отображается при наведении или при фокусировке на непустом поле.<br/>
- * При значении "always" крестик отображается всегда, если поле непустое.<br/>
- * При значении "never" крестик никогда не отображается.<br/><br/>
- * При одновременной передаче showClearIcon и rightIcon, крестик имеет больший приоритет. */
+/**
+ * - `always` — всегда показывать иконку очистки значения в заполненном поле
+ * - `auto` — показывать иконку в заполненном поле при hover/focus
+ * - `never` — не показывать (по умолчанию)
+ *
+ * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
+ */
 export const Example6: Story = () => {
-  const [valueAlways, setValueAlways] = React.useState('Отображаю крестик всегда');
-  const [valueAuto, setValueAuto] = React.useState('Отображаю крестик по ховеру или фокусу');
-  const [valueNever, setValueNever] = React.useState('Никогда не отображаю крестик');
-  const [valueWithIcon, setValueWithIcon] = React.useState('showClearIcon=auto одновременно с rightIcon');
+  const [valueAlways, setValueAlways] = React.useState('showClearIcon="always"');
+  const [valueAuto, setValueAuto] = React.useState('showClearIcon="auto"');
+  const [valueNever, setValueNever] = React.useState('showClearIcon="never"');
+  const [valueWithIcon, setValueWithIcon] = React.useState('showClearIcon="auto" + rightIcon');
   return (
     <Gapped gap={10} vertical>
       <Input showClearIcon="always" value={valueAlways} onValueChange={setValueAlways} width="350px" />
@@ -106,9 +108,9 @@ export const Example6: Story = () => {
         value={valueWithIcon}
         onValueChange={setValueWithIcon}
         width="350px"
-        rightIcon={<UiFilterFunnelIcon16Regular />}
+        rightIcon={<SearchLoupeIcon />}
       />
     </Gapped>
   );
 };
-Example6.storyName = 'Крестик для очистки';
+Example6.storyName = 'Иконка очистки поля';
