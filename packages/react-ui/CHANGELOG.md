@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.13](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.12...@skbkontur/react-ui@5.0.13) (2025-03-17)
+
+
+### Bug Fixes
+
+* **DatePicker:** remove unnecessary hook usage ([#3619](https://github.com/skbkontur/retail-ui/issues/3619)) ([35572c8](https://github.com/skbkontur/retail-ui/commit/35572c8b13a8866c4670b19fd7948a22683d7753))
+
+
+
+
+
 ## [5.0.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.11...@skbkontur/react-ui@5.0.12) (2025-03-11)
 
 
