@@ -6,18 +6,20 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ClearCrossIcon } from '../ClearCrossIcon';
 
 export default {
-  title: 'CloseButtonIcon',
+  title: 'ClearCrossIcon',
 };
 
-export const ClearCrossIconDefaultColors: Story = () => <ClearCrossIcon />;
+export const ClearCrossIconDefaultColors: Story = () => <ClearCrossIcon data-tid={'clear-cross-icon'} />;
 
-export const ClearCrossIconWithCustomColor: Story = () => {
+export const ClearCrossIconWithCustomColors: Story = () => {
   return (
     <ThemeContext.Consumer>
       {(theme) => {
         return (
-          <ThemeContext.Provider value={ThemeFactory.create({ clearCrossIconColor: 'red' }, theme)}>
-            <ClearCrossIcon />
+          <ThemeContext.Provider
+            value={ThemeFactory.create({ clearCrossIconColor: 'red', clearCrossIconHoverColor: 'yellow' }, theme)}
+          >
+            <ClearCrossIcon data-tid={'clear-cross-icon'} />
           </ThemeContext.Provider>
         );
       }}
