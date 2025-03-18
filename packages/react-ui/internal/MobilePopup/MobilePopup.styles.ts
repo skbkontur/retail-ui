@@ -39,7 +39,6 @@ const styles = {
       top: ${t.mobilePopupTopPadding};
       left: ${t.mobilePopupOuterIndentY};
       right: ${t.mobilePopupOuterIndentY};
-      z-index: 100000;
     `;
   },
 
@@ -50,7 +49,6 @@ const styles = {
       bottom: 0;
       right: 0;
       left: 0;
-      z-index: 9999;
       background: #333333;
       pointer-events: none;
       opacity: 50%;
