@@ -14,15 +14,18 @@ type CacheValue<T> = RefCallback<T> | WeakMap<CacheKey<T>, CacheValue<T>>;
 const cache = new WeakMap<CacheKey<any>, CacheValue<any>>();
 
 /**
- * Merges two or more refs into one with cached ref
+ * Позволяет объединить несколько параметров ref в один вызов, в котором во все переданные параметры просетится ref.
+ *
+ * Кеширует результат возвращаемой функции, так что при одинаковых входных параметрах React-у будет возвращена одинаковая функция.
+ * Это позволит не вызывать лишние commitAttachRef и commitDetachRef и не ловить сайдэффекты связанные со значением ref в моменте
+ *
+ * Не прокидывай в параметрах стрелочные функции, так результат не будет закеширован.
  *
  * @returns function that passed refs: (...refs) =>
  *
  * @example
  * const SomeComponent = forwardRef((props, ref) => {
  *  const localRef = useRef();
- *  const mergeRefs = useRef(mergeRefsMemo());
- *
  *  return <div ref={mergeRefs(localRef, ref)} />;
  * });
  */
