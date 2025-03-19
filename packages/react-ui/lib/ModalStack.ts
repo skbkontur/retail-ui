@@ -50,10 +50,6 @@ export class ModalStack {
     }
     emitter.emit('change');
   }
-  public static rerender() {
-    const { emitter } = ModalStack.getStackInfo();
-    emitter.emit('change');
-  }
 
   /**
    * Determines if stack component is allowed to block background
@@ -87,7 +83,9 @@ export class ModalStack {
     }
 
     if (isSidePage(component)) {
-      return !!component.props.blockBackground;
+      const { mounted } = ModalStack.getStackInfo();
+      const deepestSidePages = mounted.filter((i) => isSidePage(i)).pop();
+      return !!component.props.blockBackground && component === deepestSidePages;
     }
 
     return false;
