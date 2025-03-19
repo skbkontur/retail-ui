@@ -19,7 +19,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
   public static __KONTUR_REACT_UI__ = 'CommonWrapper';
   public static displayName = 'CommonWrapper';
 
-  private child: any;
+  private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
