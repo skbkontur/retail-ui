@@ -11,6 +11,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { SizeProp } from '../../lib/types/props';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -124,10 +125,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain() {
-    const listClassName = cx({
-      [styles.error(this.theme)]: !!this.props.error,
-    });
-
     const inputProps = {
       type: 'checkbox',
       onKeyDown: this.handleKey,
@@ -135,18 +132,21 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onBlur: this._handleBlur,
       className: styles.input(),
     };
+    const isThemeGTE_5_1 = isThemeGTE(this.theme, '5.1');
+    const isTheme_5_0 = !isThemeGTE_5_1;
+    const items = <Group>{this._renderItems()}</Group>;
 
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
+    const wrapperClassName = cx(styles.wrap(), isThemeGTE_5_1 && this.props.error && styles.error5_1(this.theme));
+    const errorClassName = cx(isTheme_5_0 && this.props.error && styles.error(this.theme));
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SwitcherDataTids.root} className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
-          <div className={styles.wrap()}>
+          <div className={wrapperClassName}>
             <input {...inputProps} />
-            <div className={listClassName}>
-              <Group>{this._renderItems()}</Group>
-            </div>
+            {isThemeGTE_5_1 ? items : <div className={errorClassName}>{items}</div>}
           </div>
         </div>
       </CommonWrapper>

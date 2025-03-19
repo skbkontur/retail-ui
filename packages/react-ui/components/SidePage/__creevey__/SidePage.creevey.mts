@@ -137,7 +137,7 @@ kind('SidePage', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
         .perform();
-      await delay(7000);
+      await delay(1000);
       await pressTab();
       const firstTimeTabPress = await context.webdriver.takeScreenshot();
       await pressTab();
@@ -347,7 +347,7 @@ kind('SidePage', () => {
       const againViewModeSidePage = await context.takeScreenshot();
 
       await delay(100);
-      await context.expect({ viewModeSidePage, editModeSidePage, againViewModeSidePage }).to.matchImages();
+      await context.matchImages({ viewModeSidePage, editModeSidePage, againViewModeSidePage });
     });
   });
 

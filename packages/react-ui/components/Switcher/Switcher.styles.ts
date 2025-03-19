@@ -66,4 +66,23 @@ export const styles = memoizeStyle({
         0 0 0 ${outsideWidth} ${t.borderColorError};
     `;
   },
+
+  error5_1(t: Theme) {
+    return css`
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
+        left: 1px;
+        z-index: 1;
+        border-radius: ${t.switcherBorderRadius};
+        box-shadow: 0 0 0 ${t.switcherOutlineWidth} ${t.borderColorError};
+      }
+    `;
+  },
 });

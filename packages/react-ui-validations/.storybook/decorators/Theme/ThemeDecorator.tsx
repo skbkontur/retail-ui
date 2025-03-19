@@ -2,9 +2,11 @@ import React from 'react';
 import { Decorator } from '@storybook/react';
 import {
   DARK_THEME,
-  DARK_THEME_2022_0,
+  DARK_THEME_5_0,
+  DARK_THEME_5_1,
   LIGHT_THEME,
-  LIGHT_THEME_2022_0,
+  LIGHT_THEME_5_0,
+  LIGHT_THEME_5_1,
   ThemeContext,
   ThemeFactory,
 } from '@skbkontur/react-ui';
@@ -12,9 +14,11 @@ import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
 export const themes = {
   LIGHT_THEME,
+  LIGHT_THEME_5_0,
+  LIGHT_THEME_5_1,
   DARK_THEME,
-  LIGHT_THEME_2022_0,
-  DARK_THEME_2022_0,
+  DARK_THEME_5_0,
+  DARK_THEME_5_1,
 };
 
 export const ThemeDecorator: Decorator = (Story, context) => {
