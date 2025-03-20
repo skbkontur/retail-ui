@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
-import { InputMask, MaskedPatternOptions } from 'imask';
-import { IMaskInput, IMaskInputProps } from 'react-imask';
+import { type InputMask, type MaskedPatternOptions } from '@lossir/imask';
+import { IMaskInput, type IMaskInputProps } from '@lossir/react-imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import {
