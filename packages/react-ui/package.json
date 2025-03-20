@@ -129,6 +129,7 @@
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "fs-extra": "^11.2.0",
+    "@types/fs-extra": "^11.0.4",
     "fs-readdir-recursive": "^1.1.0",
     "gh-pages": "^6.1.1",
     "identity-obj-proxy": "^3.0.0",
