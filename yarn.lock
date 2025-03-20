@@ -2569,18 +2569,6 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-react@^7.16.5", "@babel/preset-react@^7.24.6":
-  version "7.26.3"
-  resolved "https://registry.npmjs.org/@babel/preset-react/-/preset-react-7.26.3.tgz#7c5e028d623b4683c1f83a0bd4713b9100560caa"
-  integrity sha512-Nl03d6T9ky516DGK2YMxrTqvnpUW63TnJMOMonj+Zae0JiPC5BC9xPMSL6L8fiSpA5vP88qfygavVQvnLp+6Cw==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.25.9"
-    "@babel/helper-validator-option" "^7.25.9"
-    "@babel/plugin-transform-react-display-name" "^7.25.9"
-    "@babel/plugin-transform-react-jsx" "^7.25.9"
-    "@babel/plugin-transform-react-jsx-development" "^7.25.9"
-    "@babel/plugin-transform-react-pure-annotations" "^7.25.9"
-
 "@babel/preset-react@^7.22.15":
   version "7.24.1"
   resolved "https://registry.npmjs.org/@babel/preset-react/-/preset-react-7.24.1.tgz#2450c2ac5cc498ef6101a6ca5474de251e33aa95"
@@ -2592,6 +2580,18 @@
     "@babel/plugin-transform-react-jsx" "^7.23.4"
     "@babel/plugin-transform-react-jsx-development" "^7.22.5"
     "@babel/plugin-transform-react-pure-annotations" "^7.24.1"
+
+"@babel/preset-react@^7.24.6":
+  version "7.26.3"
+  resolved "https://registry.npmjs.org/@babel/preset-react/-/preset-react-7.26.3.tgz#7c5e028d623b4683c1f83a0bd4713b9100560caa"
+  integrity sha512-Nl03d6T9ky516DGK2YMxrTqvnpUW63TnJMOMonj+Zae0JiPC5BC9xPMSL6L8fiSpA5vP88qfygavVQvnLp+6Cw==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.25.9"
+    "@babel/helper-validator-option" "^7.25.9"
+    "@babel/plugin-transform-react-display-name" "^7.25.9"
+    "@babel/plugin-transform-react-jsx" "^7.25.9"
+    "@babel/plugin-transform-react-jsx-development" "^7.25.9"
+    "@babel/plugin-transform-react-pure-annotations" "^7.25.9"
 
 "@babel/preset-typescript@^7.23.0":
   version "7.24.1"
@@ -6945,7 +6945,14 @@
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
 
-"@types/react-dom@<18.0.0", "@types/react-dom@^17.0.0":
+"@types/react-dom@18.3.0":
+  version "18.3.0"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.3.0.tgz#0cbc818755d87066ab6ca74fbedb2547d74a82b0"
+  integrity sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@<18.0.0":
   version "17.0.26"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.26.tgz#fa7891ba70fd39ddbaa7e85b6ff9175bb546bc1b"
   integrity sha512-Z+2VcYXJwOqQ79HreLU/1fyQ88eXSSFh6I3JdrEHQIfYSI0kCQpTGvOrbE6jFGGYXKsHuwY9tBa/w5Uo6KzrEg==
@@ -7000,6 +7007,14 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/react@18.3.3":
+  version "18.3.3"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.3.3.tgz#9679020895318b0915d7a3ab004d92d33375c45f"
+  integrity sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
 "@types/react@>=16":
   version "18.3.1"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.3.1.tgz#fed43985caa834a2084d002e4771e15dfcbdbe8e"
@@ -7012,15 +7027,6 @@
   version "16.14.60"
   resolved "https://registry.npmjs.org/@types/react/-/react-16.14.60.tgz#f7ab62a329b82826f12d02bc8031d4ef4b5e0d81"
   integrity sha512-wIFmnczGsTcgwCBeIYOuy2mdXEiKZ5znU/jNOnMZPQyCcIxauMGWlX0TNG4lZ7NxRKj7YUIZRneJQSSdB2jKgg==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "^0.16"
-    csstype "^3.0.2"
-
-"@types/react@^17.0.0":
-  version "17.0.83"
-  resolved "https://registry.npmjs.org/@types/react/-/react-17.0.83.tgz#b477c56387b74279281149dcf5ba2a1e2216d131"
-  integrity sha512-l0m4ArKJvmFtR4e8UmKrj1pB4tUgOhJITf+mADyF/p69Ts1YAR/E+G9XEM0mHXKVRa1dQNHseyyDNzeuAXfXQw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "^0.16"
