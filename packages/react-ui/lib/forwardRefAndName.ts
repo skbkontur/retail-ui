@@ -21,7 +21,6 @@ export function forwardRefAndName<ElementType, Props, Extra extends Record<strin
 ): ReactUIComponentWithRef<ElementType, Props> & Extra {
   return forwardName<ElementType, Props>(
     name,
-    // @ts-ignore -- ломается типизация forwardRef между react v17 и v18
     forwardRef(render) as ReactUIComponentWithRef<ElementType, Props> & Extra,
   ) as ReactUIComponentWithRef<ElementType, Props> & Extra;
 }
@@ -44,6 +43,5 @@ export function forwardRefAndIconName<ElementType, Props>(
   name: string,
   render: React.ForwardRefRenderFunction<ElementType, Props>,
 ): ReactUIIconWithRef<ElementType, Props> {
-  // @ts-ignore -- ломается типизация forwardRef между react v17 и v18
   return forwardIconName<ElementType, Props>(name, forwardRef(render) as ReactUIIconWithRef<ElementType, Props>);
 }

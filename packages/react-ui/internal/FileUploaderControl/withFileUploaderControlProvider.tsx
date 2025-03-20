@@ -9,7 +9,6 @@ export const withFileUploaderControlProvider = <TProps extends Record<string, an
 ) => {
   return React.memo(
     React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>(
-      // @ts-ignore -- ломается типизация forwardRef между react v17 и v18
       (props: TProps & FileUploaderControlProviderProps, ref) => {
         const { onRemove, onValueChange, onAttach, ...rest } = props;
         return (
