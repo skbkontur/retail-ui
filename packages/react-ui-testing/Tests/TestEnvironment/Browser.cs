@@ -71,7 +71,6 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 Env.Load(fullPath);
 
                 var wdHub = Env.GetString("GRID_URL");
-                Console.WriteLine($"Current Working Directory: {wdHub}");
                 ChromeOptions options = new ChromeOptions();
 
                 options.AddAdditionalOption(CapabilityType.Platform, "windows");
