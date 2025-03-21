@@ -35,4 +35,12 @@ kind('PasswordInput', () => {
       await context.matchImage(await context.takeScreenshot(), 'With visible password');
     });
   });
+
+  story('Width', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'no themes': { in: /^(?!\b(chrome2022)\b)/ },
+      },
+    });
+  });
 });

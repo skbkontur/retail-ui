@@ -7,6 +7,7 @@ export const styles = memoizeStyle({
       position: relative;
       display: inline-block;
       line-height: normal;
+      width: 100%;
 
       input::-ms-clear,
       input::-ms-reveal {
