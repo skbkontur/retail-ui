@@ -2573,10 +2573,10 @@
   resolved "https://registry.npmjs.org/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime-corejs3@^7.24.4":
-  version "7.25.6"
-  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.25.6.tgz#5e3facf42775cc95bcde95746e940061931286e4"
-  integrity sha512-Gz0Nrobx8szge6kQQ5Z5MX9L3ObqNwCQY1PSwSNzreFL7aHGxv8Fp2j3ETV6/wWdbiV+mW6OSm8oQhg3Tcsniw==
+"@babel/runtime-corejs3@^7.24.5":
+  version "7.26.10"
+  resolved "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.26.10.tgz#5a3185ca2813f8de8ae68622572086edf5cf51f2"
+  integrity sha512-uITFQYO68pMEYR46AHgQoyBg7KPPJDAbGn4jUTIRgCFJIp88MIBUianVOplhZDEec07bp9zIyr4Kp0FCyQzmWg==
   dependencies:
     core-js-pure "^3.30.2"
     regenerator-runtime "^0.14.0"
@@ -4341,6 +4341,21 @@
   dependencies:
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
+
+"@lossir/imask@^7.6.3":
+  version "7.6.3"
+  resolved "https://registry.npmjs.org/@lossir/imask/-/imask-7.6.3.tgz#4a57d275efead5ebf23374d15caf16f8f03ece45"
+  integrity sha512-pUAquPxbKZ8OjrLJAkeSq3IzpbebMd9Xf9WEtF0TLiPnnaNApalA5BbVXbuMSxiVaGakG9TtlQl4hgQ8cIMcxw==
+  dependencies:
+    "@babel/runtime-corejs3" "^7.24.5"
+
+"@lossir/react-imask@^7.6.3":
+  version "7.6.3"
+  resolved "https://registry.npmjs.org/@lossir/react-imask/-/react-imask-7.6.3.tgz#2ffa65ae0f97b424ae66a80ce040d251f533aaa9"
+  integrity sha512-Ibq1x2JQ2k6adX0bzGTUbiJ+29MkFn5jlkeCmaNcaZBxpm+TkRmXRA2vwlH5yvMHZ4CHbNkJ9h1n0HARK9LyrA==
+  dependencies:
+    "@lossir/imask" "^7.6.3"
+    prop-types "^15.8.1"
 
 "@mdx-js/react@^2.1.5":
   version "2.3.0"
@@ -13265,13 +13280,6 @@ image-size@~0.5.0:
   resolved "https://registry.npmjs.org/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
 
-imask@^7.6.1:
-  version "7.6.1"
-  resolved "https://registry.npmjs.org/imask/-/imask-7.6.1.tgz#04fa4693bf47a4a71bbf7325408e0d058a74dcad"
-  integrity sha512-sJlIFM7eathUEMChTh9Mrfw/IgiWgJqBKq2VNbyXvBZ7ev/IlO6/KQTKlV/Fm+viQMLrFLG/zCuudrLIwgK2dg==
-  dependencies:
-    "@babel/runtime-corejs3" "^7.24.4"
-
 immediate@~3.0.5:
   version "3.0.6"
   resolved "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
@@ -18109,14 +18117,6 @@ react-icons@^3.8.0:
   integrity sha512-JRgiI/vdF6uyBgyZhVyYJUZAop95Sy4XDe/jmT3R/bKliFWpO/uZBwvSjWEdxwzec7SYbEPNPck0Kff2tUGM2Q==
   dependencies:
     camelcase "^5.0.0"
-
-react-imask@7.6.1:
-  version "7.6.1"
-  resolved "https://registry.npmjs.org/react-imask/-/react-imask-7.6.1.tgz#40dbb03f0c9b2652a16450ff29a53581b5ae773d"
-  integrity sha512-vLNfzcCz62Yzx/GRGh5tiCph9Gbh2cZu+Tz8OiO5it2eNuuhpA0DWhhSlOtVtSJ80+Bx+vFK5De8eQ9AmbkXzA==
-  dependencies:
-    imask "^7.6.1"
-    prop-types "^15.8.1"
 
 react-input-mask@2.0.4:
   version "2.0.4"
