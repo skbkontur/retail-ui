@@ -16,7 +16,7 @@ import { Meta, Story } from '../../../typings/stories';
 import * as DatePickerHelpers from '../DatePickerHelpers';
 
 export default {
-  title: 'Input data/DatePicker',
+  title: 'Date Components/DatePicker',
   component: DatePicker,
   parameters: { creevey: { skip: true } },
 } as Meta;
