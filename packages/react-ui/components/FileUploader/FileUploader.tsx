@@ -73,6 +73,7 @@ export interface FileUploaderRef extends InstanceWithRootNode {
   blur: () => void;
   /** Сбрасывает выбранные файлы */
   reset: () => void;
+  removeFile: (fileId: string) => void;
 }
 
 export const FileUploaderDataTids = {
@@ -214,11 +215,12 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [
+  useImperativeHandle(ref, () => ({ focus, blur, reset, removeFile, getRootNode: () => rootNodeRef.current }), [
     ref,
     blur,
     focus,
     reset,
+    removeFile,
   ]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
