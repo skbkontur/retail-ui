@@ -8,6 +8,10 @@ import type { PasswordInputProps } from '../components/PasswordInput';
 import type { InputProps } from '../components/Input';
 import type { AutocompleteProps } from '../components/Autocomplete';
 import type { FxInputProps } from '../components/FxInput';
+import type { SelectProps } from '../components/Select';
+import type { DropdownProps } from '../components/Dropdown';
+import type { DropdownMenuProps } from '../components/DropdownMenu';
+import type { ButtonProps } from '../components/Button';
 
 export { delay } from './delay';
 
@@ -48,6 +52,7 @@ export function taskWithDelay(task: () => void, ms: number) {
 }
 
 export type FunctionWithParams<R = any> = (...args: any[]) => R;
+
 export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParams {
   return typeof x === 'function';
 }
@@ -204,12 +209,15 @@ export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
   return keyIndex >= 0;
 };
 
-export const isInputLike =
-  isReactUIComponent<InputProps>('Input') ||
-  isReactUIComponent<FxInputProps>('FxInput') ||
-  isReactUIComponent<AutocompleteProps>('Autocomplete') ||
-  isReactUIComponent<PasswordInputProps>('PasswordInput') ||
-  isReactUIComponent<CurrencyInputProps>('CurrencyInput');
+export const isButton = isReactUIComponent<ButtonProps>('Button');
+export const isInput = isReactUIComponent<InputProps>('Input');
+export const isFxInput = isReactUIComponent<FxInputProps>('FxInput');
+export const isAutocomplete = isReactUIComponent<AutocompleteProps>('Autocomplete');
+export const isPasswordInput = isReactUIComponent<PasswordInputProps>('PasswordInput');
+export const isCurrencyInput = isReactUIComponent<CurrencyInputProps>('CurrencyInput');
+export const isSelect = isReactUIComponent<SelectProps<unknown, unknown>>('Select');
+export const isDropdown = isReactUIComponent<DropdownProps>('Dropdown');
+export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMenu');
 
 export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
