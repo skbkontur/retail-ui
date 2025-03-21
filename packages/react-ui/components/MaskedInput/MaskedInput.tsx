@@ -55,7 +55,10 @@ export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'pas
 
 export interface MaskedInputProps
   extends MaskedProps,
-    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'> {
+    Omit<
+      InputProps,
+      'showClearIcon' | 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'
+    > {
   type?: MaskInputType;
 }
 

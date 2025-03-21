@@ -1,6 +1,7 @@
 import React from 'react';
 import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon';
 import { Autocomplete, Button, Group, Gapped } from '@skbkontur/react-ui';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
 import { Meta, Story } from '../../../typings/stories';
 
@@ -110,3 +111,53 @@ export const Example9: Story = () => {
   return <Autocomplete source={items} value={value} onValueChange={setValue} borderless />;
 };
 Example9.storyName = 'Режима прозрачной рамки';
+
+/**
+ * - `always` — всегда показывать иконку очистки значения в заполненном поле
+ * - `auto` — показывать иконку в заполненном поле при hover/focus
+ * - `never` — не показывать (по умолчанию)
+ *
+ * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
+ */
+export const Example10: Story = () => {
+  const items = [
+    'showClearIcon="auto"',
+    'showClearIcon="always"',
+    'showClearIcon="never"',
+    'showClearIcon="auto" + rightIcon',
+  ];
+
+  const [valueAlways, setValueAlways] = React.useState(items[0]);
+  const [valueAuto, setValueAuto] = React.useState(items[1]);
+  const [valueNever, setValueNever] = React.useState(items[2]);
+  const [valueWithIcon, setValueWithIcon] = React.useState(items[3]);
+  return (
+    <Gapped vertical>
+      <Autocomplete
+        showClearIcon="always"
+        source={items}
+        value={valueAlways}
+        onValueChange={setValueAlways}
+        width="350px"
+      />
+      <Autocomplete showClearIcon="auto" source={items} value={valueAuto} onValueChange={setValueAuto} width="350px" />
+      <Autocomplete
+        showClearIcon="never"
+        source={items}
+        value={valueNever}
+        onValueChange={setValueNever}
+        width="350px"
+      />
+      <br />
+      <Autocomplete
+        showClearIcon="auto"
+        source={items}
+        value={valueWithIcon}
+        onValueChange={setValueWithIcon}
+        width="350px"
+        rightIcon={<UiFilterFunnelIcon16Regular />}
+      />
+    </Gapped>
+  );
+};
+Example10.storyName = 'Иконка очистки поля';
