@@ -73,7 +73,7 @@ export interface FileUploaderRef extends InstanceWithRootNode {
   blur: () => void;
   /** Сбрасывает выбранные файлы */
   reset: () => void;
-  removeFile: (fileid: string) => void;
+  removeFile: (fileId: string) => void;
 }
 
 export const FileUploaderDataTids = {
