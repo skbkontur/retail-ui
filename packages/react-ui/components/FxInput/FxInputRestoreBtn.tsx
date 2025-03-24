@@ -10,7 +10,10 @@ import { FxInputProps } from './FxInput';
 
 interface FxInputRestoreBtnProps
   extends Pick<AriaAttributes, 'aria-label'>,
-    Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {}
+    Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {
+  /** @ignore */
+  corners?: React.CSSProperties;
+}
 
 export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> = (props) => {
   const theme = useContext(ThemeContext);
@@ -49,6 +52,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
         ...buttonCorners,
+        ...props.corners,
       }}
       icon={iconUndo}
       aria-label={props['aria-label']}
