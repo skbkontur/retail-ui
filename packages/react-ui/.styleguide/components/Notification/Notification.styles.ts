@@ -9,7 +9,7 @@ export const styles = memoizeStyle({
       left: 0;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 8px 20px;
       align-items: flex-start;
       box-sizing: border-box;
       width: 100%;
@@ -34,11 +34,13 @@ export const styles = memoizeStyle({
 
       b {
         font-weight: 500;
+        white-space: nowrap;
       }
 
       a {
         color: white;
         text-underline-offset: 1.5px;
+        white-space: nowrap;
       }
     `;
   },

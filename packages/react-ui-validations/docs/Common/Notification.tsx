@@ -8,7 +8,7 @@ export const NotificationContainer = styled.div`
   left: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px 20px;
   align-items: flex-start;
   box-sizing: border-box;
   width: 100%;
@@ -32,11 +32,14 @@ export const NotificationContent = styled.div`
 
   b {
     font-weight: 500;
+    white-space: nowrap;
   }
 
   a {
     color: white;
+    text-decoration: underline;
     text-underline-offset: 1.5px;
+    white-space: nowrap;
   }
 `;
 

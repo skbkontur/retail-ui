@@ -13,11 +13,7 @@ export function Notification() {
           tech.skbkontur.ru/kontur-ui
         </a>
       </div>
-      <a
-        href="https://tech.skbkontur.ru/kontur-ui/"
-        className={cx(styles.notificationButton())}
-        target="_blank"
-      >
+      <a href="https://tech.skbkontur.ru/kontur-ui/" className={cx(styles.notificationButton())} target="_blank">
         Поехали
       </a>
     </div>
