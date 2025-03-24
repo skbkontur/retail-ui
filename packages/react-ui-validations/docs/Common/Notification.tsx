@@ -8,15 +8,16 @@ export const NotificationContainer = styled.div`
   left: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   align-items: flex-start;
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
-  padding: 16px 24px;
-  background: #ff4785;
+  padding: 12px 24px;
+  background: #fe4c4c;
   color: white;
   font-size: 16px;
+  font-weight: 300;
   line-height: 1.375;
 
   @media screen and (min-width: 768px) {
@@ -29,8 +30,13 @@ export const NotificationContainer = styled.div`
 export const NotificationContent = styled.div`
   max-width: 1080px;
 
+  b {
+    font-weight: 500;
+  }
+
   a {
     color: white;
+    text-underline-offset: 1.5px;
   }
 `;
 
@@ -38,18 +44,20 @@ export const NotificationButton = styled.a`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 6px;
   background: #fff;
   opacity: 0.955;
   color: #222222;
-  font-size: 16px;
+  font-size: 14px;
   font-family: inherit;
   text-decoration: none;
   transition: 0.15s ease;
 
-  &:hover {
-    opacity: 1;
+  @media (hover) {
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &:active {
@@ -61,16 +69,13 @@ export function Notification() {
   return (
     <NotificationContainer>
       <NotificationContent>
-        <b>Делаем новую доку.</b> Собираем в ней все наши пакеты, уже сделали навигацию по&nbsp;разделам, управление
-        фича-флагами и&nbsp;добавили песочницу для&nbsp;валидаций. Тестируем и&nbsp;собираем обратную связь
-        до&nbsp;конца года. Используйте новую доку и рассказывайте нам в&nbsp;
-        <a href="https://chat.skbkontur.ru/kontur/channels/new-documentation-react-ui" target="_blank">
-          Маттермосте
-        </a>{' '}
-        как она вам.
+        <b>Документация больше не обновляется.</b> Новая документация на{' '}
+        <a href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
+          tech.skbkontur.ru/kontur-ui
+        </a>
       </NotificationContent>
-      <NotificationButton href="https://ui.gitlab-pages.kontur.host/storybook-documentation/" target="_blank">
-        Попробовать
+      <NotificationButton href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
+        Поехали
       </NotificationButton>
     </NotificationContainer>
   );
