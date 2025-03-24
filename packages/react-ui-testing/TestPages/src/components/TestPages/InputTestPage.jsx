@@ -42,7 +42,7 @@ export default class InputTextPage extends React.Component {
               data-tid="ShowInputAppearsAfterTimeout"
               onClick={() =>
                 !this.state.showInput
-                  ? setTimeout(() => this.setState({ showInput: true }), 2000)
+                  ? setTimeout(() => this.setState({ showInput: true }), 1500)
                   : this.setState({ showInput: false })
               }
             >
