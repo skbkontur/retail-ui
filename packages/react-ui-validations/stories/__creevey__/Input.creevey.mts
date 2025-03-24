@@ -239,6 +239,7 @@ kind('Input', () => {
         .sendKeys('test')
         .click(context.webdriver.findElement({ css: 'body' }))
         .click(input)
+        .pause(500)
         .perform();
       await context.matchImage(await context.takeScreenshot());
     });

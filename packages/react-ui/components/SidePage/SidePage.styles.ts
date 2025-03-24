@@ -169,6 +169,16 @@ export const styles = memoizeStyle({
     `;
   },
 
+  title5_1(t: Theme) {
+    const paddingRight =
+      parseInt(t.sidePageCloseButtonClickAreaLeft) +
+      parseInt(t.sidePageCloseIconSize) +
+      parseInt(t.sidePageCloseButtonClickAreaRight);
+    return css`
+      padding-right: ${paddingRight}px;
+    `;
+  },
+
   mobileTitle(t: Theme) {
     const paddingRight = parseInt(t.mobileSidePageCloseButtonPadding) * 2 + parseInt(t.sidePageCloseIconSize);
     return css`
@@ -228,7 +238,29 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileClose(t: Theme) {
+  close5_1(t: Theme) {
+    return css`
+      padding-top: ${t.sidePageCloseButtonClickAreaTop};
+      margin-top: -${t.sidePageCloseButtonClickAreaTop};
+      padding-right: ${t.sidePageCloseButtonClickAreaRight};
+      margin-right: -${t.sidePageCloseButtonClickAreaRight};
+      padding-bottom: ${t.sidePageCloseButtonClickAreaBottom};
+      margin-bottom: -${t.sidePageCloseButtonClickAreaBottom};
+      padding-left: ${t.sidePageCloseButtonClickAreaLeft};
+      margin-left: -${t.sidePageCloseButtonClickAreaLeft};
+    `;
+  },
+
+  closeSticky(t: Theme) {
+    return css`
+      padding-top: ${t.sidePageCloseButtonFixedClickAreaTop};
+      margin-top: -${t.sidePageCloseButtonFixedClickAreaTop};
+      padding-bottom: ${t.sidePageCloseButtonFixedClickAreaBottom};
+      margin-bottom: -${t.sidePageCloseButtonFixedClickAreaBottom};
+    `;
+  },
+
+  closeMobile(t: Theme) {
     return css`
       padding: ${t.mobileSidePageCloseButtonClickArea};
       margin: -${t.mobileSidePageCloseButtonClickArea};
@@ -239,6 +271,13 @@ export const styles = memoizeStyle({
   closeFocus(t: Theme) {
     return css`
       outline: 2px solid ${t.borderColorFocus};
+    `;
+  },
+
+  closeFocus5_1(t: Theme) {
+    return css`
+      box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+      border-radius: 4px;
     `;
   },
 
@@ -254,11 +293,23 @@ export const styles = memoizeStyle({
     `;
   },
 
+  wrapperClose5_1(t: Theme) {
+    return css`
+      right: ${t.sidePageCloseButtonClickAreaRight};
+    `;
+  },
+
   mobileWrapperClose(t: Theme) {
     return css`
       line-height: ${t.mobileSidePageHeaderLineHeight};
       padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
       right: ${t.mobileSidePageCloseButtonRightPadding};
+    `;
+  },
+
+  mobileWrapperClose5_1(t: Theme) {
+    return css`
+      right: ${t.mobileSidePageCloseButtonPadding};
     `;
   },
 
@@ -274,6 +325,12 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  wrapperCloseFixed5_1(t: Theme) {
+    return css`
+      top: ${t.sidePageCloseButtonWrapperFixedOffsetTop};
     `;
   },
 
