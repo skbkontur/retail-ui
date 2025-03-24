@@ -793,7 +793,12 @@ export class BasicThemeClass {
   public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static modalCloseButtonPadding = '32px';
   public static modalCloseButtonBottomPadding = '20px';
+  /** @deprecated use modalCloseButtonClickArea[Top/Bottom/Left/Right] instead */
   public static modalCloseButtonClickArea = '6px';
+  public static modalCloseButtonClickAreaTop = '6px';
+  public static modalCloseButtonClickAreaBottom = '6px';
+  public static modalCloseButtonClickAreaLeft = '6px';
+  public static modalCloseButtonClickAreaRight = '6px';
   public static modalCloseIconSize = '20px';
   public static modalBorderRadius = '16px';
   public static get modalFixedHeaderBg() {
@@ -899,6 +904,7 @@ export class BasicThemeClass {
   public static sidePageHeaderFixedLineHeight = '28px';
   public static sidePageHeaderFixedPaddingY = '10px';
   public static sidePageHeaderStickyOffset = '9px';
+  /** @deprecated use sidePageCloseButtonClickAreaLeft and sidePageCloseButtonClickAreaRight instead */
   public static sidePageCloseButtonPadding = '32px';
   public static mobileSidePageCloseButtonPadding = '16px';
   public static get sidePageFooterPanelPaddingTop() {
@@ -908,7 +914,16 @@ export class BasicThemeClass {
     return this.sidePageFooterPanelPaddingTop;
   }
   public static sidePageCloseIconSize = '20px';
+  /** @deprecated use sidePageCloseButtonClickArea[Top/Bottom/Left/Right] instead */
   public static sidePageCloseButtonClickArea = '6px';
+  public static sidePageCloseButtonClickAreaTop = '6px';
+  public static sidePageCloseButtonClickAreaBottom = '6px';
+  public static sidePageCloseButtonClickAreaLeft = '6px';
+  public static sidePageCloseButtonClickAreaRight = '6px';
+  public static get sidePageCloseButtonFixedClickAreaTop() {
+    return this.sidePageCloseButtonFixedClickAreaBottom;
+  }
+  public static sidePageCloseButtonFixedClickAreaBottom = '14px';
   public static mobileSidePageCloseButtonClickArea = '16px';
   public static get sidePageFixedHeaderShadow() {
     return this.fixedPanelShadow;
@@ -921,9 +936,11 @@ export class BasicThemeClass {
   public static mobileSidePageHeaderLineHeight = '32px';
   public static mobileSidePageHeaderPaddingBottom = '16px';
   public static mobileSidePageHeaderPaddingTop = '16px';
+  /** @deprecated use mobileSidePageCloseButtonPadding instead */
   public static mobileSidePageCloseButtonRightPadding = '12px';
   public static sidePageHeaderFontWeight = 'bold';
   public static sidePageCloseButtonWrapperOffsetTop = '4px';
+  public static sidePageCloseButtonWrapperFixedOffsetTop = '4px';
   //#endregion SidePage
   //#region DateInput
   public static get dateInputIconColor() {
@@ -2434,6 +2451,57 @@ export class BasicThemeClass {
   public static fileUploaderDragOverShadow =
     '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
   //#endregion FileUploader
+
+  //#region ClearCrossIcon
+  public static get clearCrossIconWidthSmall() {
+    return this.inputHeightSmall;
+  }
+  public static get clearCrossIconWidthMedium() {
+    return this.inputHeightMedium;
+  }
+  public static get clearCrossIconWidthLarge() {
+    return this.inputHeightLarge;
+  }
+  public static get clearCrossIconHeightSmall() {
+    return this.inputHeightSmall;
+  }
+  public static get clearCrossIconHeightMedium() {
+    return this.inputHeightMedium;
+  }
+  public static get clearCrossIconHeightLarge() {
+    return this.inputHeightLarge;
+  }
+
+  public static get clearCrossIconRightMarginSmall() {
+    const inputPaddingXSmall = parseInt(this.inputPaddingXSmall);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXSmall + inputBorderWidth}px`;
+  }
+  public static get clearCrossIconRightMarginMedium() {
+    const inputPaddingXMedium = parseInt(this.inputPaddingXMedium);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXMedium + inputBorderWidth}px`;
+  }
+  public static get clearCrossIconRightMarginLarge() {
+    const inputPaddingXLarge = parseInt(this.inputPaddingXLarge);
+    const inputBorderWidth = parseInt(this.inputBorderWidth);
+    return `-${inputPaddingXLarge + inputBorderWidth}px`;
+  }
+
+  public static get clearCrossIconBorderRadiusSmall() {
+    return this.inputBorderRadiusSmall;
+  }
+  public static get clearCrossIconBorderRadiusMedium() {
+    return this.inputBorderRadiusMedium;
+  }
+  public static get clearCrossIconBorderRadiusLarge() {
+    return this.inputBorderRadiusLarge;
+  }
+
+  public static clearCrossIconColor = 'rgba(0, 0, 0, 0.54)';
+  public static clearCrossIconHoverColor = 'rgba(0, 0, 0, 0.87)';
+
+  //#endregion ClearCrossIcon
 
   //#region CloseIcon
   public static closeBtnIconColor = 'rgba(0, 0, 0, 0.32)';

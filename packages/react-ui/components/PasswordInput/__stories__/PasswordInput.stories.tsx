@@ -3,6 +3,7 @@ import React from 'react';
 import { Story } from '../../../typings/stories';
 import { PasswordInput } from '../PasswordInput';
 import { Nullable } from '../../../typings/utility-types';
+import { Gapped } from '../../Gapped';
 
 interface ComponentProps {
   capsLockEnabled?: boolean;
@@ -54,3 +55,14 @@ export default {
 export const Plain: Story = () => <Component />;
 export const CapsLockLabel = () => <Component capsLockEnabled />;
 CapsLockLabel.storyName = 'CapsLock label';
+
+export const Width = () => {
+  return (
+    <div style={{ width: '505px' }}>
+      <Gapped vertical gap={5} style={{ width: '250px' }}>
+        <PasswordInput width={'100%'} onValueChange={() => {}} />
+        <PasswordInput width={'200%'} onValueChange={() => {}} />
+      </Gapped>
+    </div>
+  );
+};

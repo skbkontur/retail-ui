@@ -160,19 +160,7 @@ export const isReactUIComponent = <P = any>(name: string) => {
   };
 };
 
-/**
- * Merges two or more refs into one.
- *
- * @param refs Array of refs.
- * @returns A single ref composing all the refs passed.
- *
- * @example
- * const SomeComponent = forwardRef((props, ref) => {
- *  const localRef = useRef();
- *
- *  return <div ref={mergeRefs([localRef, ref])} />;
- * });
- */
+/** @deprecated Переехал в `lib/mergeRefs.ts`. Со следующей мажорной версии от сюда будет удален*/
 export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
