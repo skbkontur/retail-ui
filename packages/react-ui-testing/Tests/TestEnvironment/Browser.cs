@@ -1,10 +1,12 @@
 using System;
+using System.IO;
 using System.Drawing;
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
+using DotNetEnv;
 
 namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
@@ -65,7 +67,10 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             {
                 if (webDriver != null) return webDriver;
 
-                var wdHub = "https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub";
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../.env");
+                Env.Load(fullPath);
+
+                var wdHub = Env.GetString("GRID_URL");
                 ChromeOptions options = new ChromeOptions();
 
                 options.AddAdditionalOption(CapabilityType.Platform, "windows");
