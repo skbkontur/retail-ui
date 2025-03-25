@@ -38,6 +38,18 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
+/**
+```js
+import { 
+  isBetween, 
+  isEqual, 
+  isGreater, 
+  isGreaterOrEqual, 
+  isLess, 
+  isLessOrEqual 
+} from '@skbkontur/react-ui/lib/date/comparison';
+```
+*/
 export const Example2: Story = () => {
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
@@ -66,17 +78,14 @@ export const Example2: Story = () => {
   );
 
   return (
-    <>
-      <code>{`import { isBetween, ... } from '@skbkontur/react-ui/lib/date/comparison';`}</code>
-      <Table>
-        <Row code={`isEqual("${date_a}", "${date_a}")`} />
-        <Row code={`isLess("${date_a}", "${date_b}")`} />
-        <Row code={`isLessOrEqual("${date_a}", "${date_b}")`} />
-        <Row code={`isGreater("${date_b}", "${date_a}")`} />
-        <Row code={`isGreaterOrEqual("${date_b}", "${date_a}")`} />
-        <Row code={`isBetween("${date_b}", "${date_a}", "${date_b}")`} />
-      </Table>
-    </>
+    <Table>
+      <Row code={`isEqual("${date_a}", "${date_a}")`} />
+      <Row code={`isLess("${date_a}", "${date_b}")`} />
+      <Row code={`isLessOrEqual("${date_a}", "${date_b}")`} />
+      <Row code={`isGreater("${date_b}", "${date_a}")`} />
+      <Row code={`isGreaterOrEqual("${date_b}", "${date_a}")`} />
+      <Row code={`isBetween("${date_b}", "${date_a}", "${date_b}")`} />
+    </Table>
   );
 };
 Example2.storyName = 'Функции для сравнения строковых дат';

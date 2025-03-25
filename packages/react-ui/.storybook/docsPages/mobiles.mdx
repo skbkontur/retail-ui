@@ -8,17 +8,27 @@ import { Link } from '../../components/Link';
 
 Начиная с версии 4.0 многие компоненты, такие как
 
+{/* prettier-ignore-start */}
+
 <Link onClick={linkTo('Overlay/Modal/Modal')}>Modal</Link>,
 <Link onClick={linkTo('Overlay/SidePage/SidePage')}>SidePage</Link>,
 <Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link>,
-<Link onClick={linkTo('Input data/Autocomplete')}>SidePage</Link>,
-<Link onClick={linkTo('Input data/Select')}>SidePage</Link>,<Link onClick={linkTo('Overlay/Hint')}>SidePage</Link>,
-<Link onClick={linkTo('Overlay/Tooltip')}>SidePage</Link>,<Link onClick={linkTo('Menu/Kebab')}>SidePage</Link>,
-<Link onClick={linkTo('Menu/Dropdown')}>Dropdown</Link> и<Link onClick={linkTo('Menu/DropdownMenu')}>DropdownMenu</Link>
+<Link onClick={linkTo('Input data/Autocomplete')}>Autocomplete</Link>,
+<Link onClick={linkTo('Input data/Select')}>Select</Link>,
+<Link onClick={linkTo('Overlay/Hint')}>Hint</Link>, 
+<Link onClick={linkTo('Overlay/Tooltip')}>Tooltip</Link>, 
+<Link onClick={linkTo('Menu/Kebab')}>Kebab</Link>, 
+<Link onClick={linkTo('Menu/Dropdown')}>Dropdown</Link> и
+<Link onClick={linkTo('Menu/DropdownMenu')}>DropdownMenu</Link>
 стали адаптивными, получив новую верстку, которая активируются на мобильных устройствах.
 
-Механизм адаптивности основан на [медиазапросах](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries) и управляется переменной темы `mobileMediaQuery`. В зависимости от того, удовлетворяет текущее устройство медиазапросу из переменной или нет, компоненты переходят в мобильный режим и обратно. По умолчанию, значение переменной равно `(max-width: 576px) and (pointer: coarse)`, т.е. опирается на ширину вьюпорта и наличие сенсорного экрана.
-Так же можно передавать свои медиазапросы в хук `useResponsiveLayout` или через проп `options` в ResponsiveLayout.
+{/* prettier-ignore-end */}
+
+Механизм адаптивности основан на [медиазапросах](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries) и управляется
+переменной темы `mobileMediaQuery`. В зависимости от того, удовлетворяет текущее устройство медиазапросу из переменной
+или нет, компоненты переходят в мобильный режим и обратно. По умолчанию, значение переменной равно `(max-width: 576px)
+and (pointer: coarse)`, т.е. опирается на ширину вьюпорта и наличие сенсорного экрана. Так же можно передавать свои
+медиазапросы в хук `useResponsiveLayout` или через проп `options` в ResponsiveLayout.
 
 ## Настройка адаптивности
 
