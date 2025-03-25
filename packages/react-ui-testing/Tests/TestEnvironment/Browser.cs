@@ -77,6 +77,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 options.AddAdditionalOption("name", TestContext.CurrentContext.Test.Name);
                 options.AddAdditionalOption("tunnel-identifier", this.tunnelIdentifier);
                 options.AddAdditionalOption("maxDuration", 10800);
+                options.AddAdditionalOption("se:teamname", "front_infra");
 
                 webDriver = new RemoteWebDriver(new Uri(wdHub),
                     options.ToCapabilities(),

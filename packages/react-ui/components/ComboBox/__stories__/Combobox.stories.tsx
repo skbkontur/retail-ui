@@ -954,3 +954,31 @@ export const WithMenuAlignAndMenuPos: Story = () => {
 WithMenuAlignAndMenuPos.parameters = {
   creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
 };
+
+export const ComboboxWithClearCross: Story = () => {
+  const [value, setValue] = React.useState({
+    value: 2,
+    label: 'Second',
+  });
+  const getItems = (q: string) => {
+    return Promise.resolve(
+      [
+        {
+          value: 1,
+          label: 'First',
+        },
+        {
+          value: 2,
+          label: 'Second',
+        },
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
+  };
+  return (
+    <Gapped gap={10}>
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} size={'medium'} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} size={'large'} />
+    </Gapped>
+  );
+};

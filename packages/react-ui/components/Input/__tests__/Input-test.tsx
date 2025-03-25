@@ -526,6 +526,191 @@ describe('<Input />', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
+
+  describe('clear cross', () => {
+    const getTextbox = () => screen.getByRole('textbox');
+    const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
+    const queryClearCross = () => screen.queryByTestId(InputDataTids.clearCross);
+    const queryRightIcon = () => screen.queryByTestId('my-testy-icon');
+
+    it('clears uncontrolled input', async () => {
+      render(<Input showClearIcon="always" />);
+      const input = getTextbox();
+
+      await userEvent.type(input, 'z');
+      expect(input).toHaveValue('z');
+
+      await userEvent.click(getClearCross());
+
+      expect(input).toHaveValue('');
+    });
+
+    it('clears uncontrolled input with default value', async () => {
+      render(<Input showClearIcon="always" defaultValue="z" />);
+      const input = getTextbox();
+      expect(input).toHaveValue('z');
+
+      await userEvent.click(getClearCross());
+      expect(input).toHaveValue('');
+    });
+
+    it('clears controlled input', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      await userEvent.click(getClearCross());
+      expect(getTextbox()).toHaveValue('');
+    });
+
+    it('tests showClearIcon=always clear cross', () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=auto prop to input', async () => {
+      const onBlur = jest.fn();
+      const onMouseEnter = jest.fn();
+      const onMouseLeave = jest.fn();
+      const onClick = jest.fn();
+      const ControlledInput = () => {
+        const [value, setValue] = React.useState<string>('');
+        return (
+          <Input
+            onBlur={onBlur}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            showClearIcon="auto"
+            value={value}
+            onValueChange={setValue}
+          />
+        );
+      };
+      render(<ControlledInput />);
+      const input = getTextbox();
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.type(input, 'hello');
+      expect(onMouseEnter).toHaveBeenCalledTimes(1);
+      expect(onClick).toHaveBeenCalledTimes(1);
+      expect(input).toHaveValue('hello');
+      expect(queryClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      expect(onBlur).toHaveBeenCalledTimes(1);
+      expect(input).not.toHaveFocus();
+
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(input);
+      expect(onMouseLeave).toHaveBeenCalledTimes(1);
+      expect(queryClearCross()).toBeNull();
+    });
+
+    it('tests showClearIcon=auto hover clear cross', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.hover(getTextbox());
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=auto focus clear cross', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(getTextbox());
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=never clear cross', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="never" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(getTextbox());
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=always when rightIcon', async () => {
+      const rightIcon = <i data-tid="my-testy-icon" />;
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input rightIcon={rightIcon} showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      const cross = getClearCross();
+      expect(cross).toBeInTheDocument();
+      expect(queryRightIcon()).not.toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(cross).not.toBeInTheDocument();
+      expect(queryRightIcon()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=auto when rightIcon', async () => {
+      const rightIcon = <i data-tid="my-testy-icon" />;
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input rightIcon={rightIcon} showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+      const input = getTextbox();
+
+      expect(queryClearCross()).toBeNull();
+      expect(queryRightIcon()).toBeInTheDocument();
+
+      await userEvent.hover(input);
+      expect(queryClearCross()).toBeInTheDocument();
+      expect(queryRightIcon()).toBeNull();
+
+      await userEvent.unhover(input);
+      expect(queryClearCross()).toBeNull();
+      expect(queryRightIcon()).toBeInTheDocument();
+
+      await userEvent.click(input);
+      expect(queryClearCross()).toBeInTheDocument();
+      expect(queryRightIcon()).toBeNull();
+
+      await userEvent.click(getClearCross());
+      expect(queryClearCross()).toBeNull();
+      expect(queryRightIcon()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon when disabled', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input disabled showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(getTextbox());
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+  });
 });
 
 const renderEnzyme = (props: InputProps) =>
