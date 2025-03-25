@@ -1,7 +1,8 @@
 import React from 'react';
-import { FileUploader } from '@skbkontur/react-ui';
+import { FileUploader, FileUploaderRef, Button } from '@skbkontur/react-ui';
 
 import { Meta, Story } from '../../../typings/stories';
+import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 
 export default {
   title: 'Input data/FileUploader',
@@ -29,7 +30,7 @@ export const Example3: Story = () => {
 Example3.storyName = 'Multiple контрол';
 
 export const Example4: Story = () => {
-  function createFile(filename) {
+  function createFile(filename: string) {
     return new File(['content'], filename, { type: 'text/plain' });
   }
 
@@ -39,7 +40,7 @@ export const Example4: Story = () => {
 Example4.storyName = 'Файлы по умолчанию';
 
 export const Example5: Story = () => {
-  function createFile(filename) {
+  function createFile(filename: string) {
     return new File(['content'], filename, { type: 'text/plain' });
   }
 
@@ -75,3 +76,26 @@ export const Example8: Story = () => {
   return <FileUploader multiple error />;
 };
 Example8.storyName = 'Валидация контрола';
+
+/**
+ * В критичных случаях, если нужно удалить файлы можно удалить вручную, используя метод removeFile из ref.
+ * Обратите внимание, что при вызове removeFile вызываются коллбэки onRemove и onValueChange.
+ */
+export const Example9: Story = () => {
+  const fileUploaderRef = React.useRef<FileUploaderRef>(null);
+  const [fileList, setFileList] = React.useState<FileUploaderAttachedFile[]>([]);
+  return (
+    <div style={{ display: 'inline-grid', gap: '10px' }}>
+      <FileUploader ref={fileUploaderRef} multiple onValueChange={(files) => setFileList(files)} />
+      {fileList.map((file) => {
+        return (
+          <Button key={file.id} onClick={() => fileUploaderRef.current?.removeFile(file.id)}>
+            Delete file {file.originalFile.name}
+          </Button>
+        );
+      })}
+    </div>
+  );
+};
+
+Example9.storyName = 'Ручное удаление файлов';
