@@ -54,6 +54,7 @@ project {
 
     buildType(RunAll)
 
+
     template(ReactUI_GitHubFeatures)
 
     params {
@@ -92,7 +93,24 @@ project {
     subProject(ReactUI)
     subProject(Validations)
     subProject(SeleniumTesting)
+    subProject(MatrixVersionBuild)
 }
+
+object DiffVersionBuild : Project({
+    name = "DiffVersion"
+    val reactVersions = listOf(16, 17, 18)
+    val typescriptVersions = listOf(4, 5)
+
+    for (tsV in typescriptVersions) {
+      for (reactV in reactVersions) {
+         //write  BuildType here
+         println("curr ver ts = $tsV react = $reactV")
+         //subProject(ReactUI)
+             //subProject(Validations)
+             //subProject(SeleniumTesting)
+       }
+    }
+})
 
 object RunAll : BuildType({
     name = "Run All"
