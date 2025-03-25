@@ -93,7 +93,7 @@ project {
     subProject(ReactUI)
     subProject(Validations)
     subProject(SeleniumTesting)
-    subProject(MatrixVersionBuild)
+    //subProject(MatrixVersionBuild)
 }
 
 object DiffVersionBuild : Project({
