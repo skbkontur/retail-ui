@@ -592,7 +592,7 @@ describe('FileUploader', () => {
         </>
       );
     };
-    it('should delete files', async () => {
+    it('should delete right files', async () => {
       render(<TestComponent />);
       await addFiles([createFile('foo'), createFile('bar')]);
 
@@ -602,6 +602,7 @@ describe('FileUploader', () => {
       });
 
       expect(screen.getAllByTestId(`${FileUploaderFileDataTids.file}`)).toHaveLength(1);
+      expect(screen.queryByText('foo')).not.toBeInTheDocument();
     });
   });
 });
