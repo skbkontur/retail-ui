@@ -4,10 +4,10 @@ const reactUiLocalVersionStub = '9.9.9';
 
 const versionsInfo = [
   {
-    react: '17.0.2',
+    react: `^${process?.env?.REACT_VERSION ?? "17"}.0.0`,
     '@skbkontur/react-ui': [reactUiLocalVersionStub],
     dependencies: {
-      'react-dom': '17.0.2',
+      'react-dom': `^${process?.env?.REACT_VERSION ?? "17"}.0.0`,
     },
   },
 ];
