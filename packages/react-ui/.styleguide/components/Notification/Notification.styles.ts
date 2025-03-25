@@ -9,15 +9,16 @@ export const styles = memoizeStyle({
       left: 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 8px 20px;
       align-items: flex-start;
       box-sizing: border-box;
       width: 100%;
       margin: 0 auto;
-      padding: 16px 24px;
-      background: #ff4785;
+      padding: 12px 24px;
+      background: #fe4c4c;
       color: white;
       font-size: 16px;
+      font-weight: 300;
       line-height: 1.375;
 
       @media screen and (min-width: 768px) {
@@ -31,8 +32,15 @@ export const styles = memoizeStyle({
     return css`
       max-width: 1080px;
 
+      b {
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
       a {
         color: white;
+        text-underline-offset: 1.5px;
+        white-space: nowrap;
       }
     `;
   },
@@ -41,12 +49,12 @@ export const styles = memoizeStyle({
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      padding: 8px 16px;
+      padding: 6px 12px;
       border-radius: 6px;
       background: #fff;
       opacity: 0.955;
       color: #222222;
-      font-size: 16px;
+      font-size: 14px;
       font-family: inherit;
       text-decoration: none;
       transition: 0.15s ease;

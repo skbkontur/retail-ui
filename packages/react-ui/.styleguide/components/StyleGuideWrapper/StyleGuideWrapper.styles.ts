@@ -157,12 +157,8 @@ export const styles = memoizeStyle({
     return css`
       padding-top: 72px;
 
-      @media (max-width: 1080px) {
-        padding-top: 110px;
-      }
-
       @media (max-width: 768px) {
-        padding-top: 160px;
+        padding-top: 110px;
       }
     `;
   },

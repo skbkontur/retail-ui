@@ -10,6 +10,13 @@ import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { Dropdown } from '../../Dropdown';
+import { DropdownMenu } from '../../DropdownMenu';
+import { Select } from '../../Select';
+import { Autocomplete } from '../../Autocomplete';
+import { PasswordInput } from '../../PasswordInput';
+import { CurrencyInput } from '../../CurrencyInput';
+import { FxInput } from '../../FxInput';
 
 export default {
   title: 'Group',
@@ -23,6 +30,22 @@ export const SimpleGroupWithInputAndButton: Story = () => (
   </Group>
 );
 SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
+
+export const GroupWithAllSupportedComponents: Story = () => (
+  <Group>
+    <Button icon={<UserIcon />} />
+    <Input value="" placeholder="Input" />
+    <FxInput value="" placeholder="FxInput" onValueChange={console.log} />
+    <Autocomplete value="" placeholder="Autocomplete" onValueChange={console.log} />
+    <PasswordInput value="" placeholder="PasswordInput" onValueChange={console.log} />
+    <CurrencyInput value={1} placeholder="CurrencyInput" onValueChange={console.log} />
+    <Select value="" placeholder="Select value" onValueChange={console.log} />
+    <Dropdown caption="Dropdown" />
+    <DropdownMenu caption={(props) => <Button corners={props.corners}>DropdownMenu</Button>} />
+    <Button icon={<DeleteIcon />} />
+  </Group>
+);
+GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components';
 
 export const SimpleGroupWithCustomInputsWidth = () => (
   <Group>
