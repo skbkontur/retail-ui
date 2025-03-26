@@ -302,7 +302,7 @@ object ReactUI_LintTest : BuildType({
             name = "Install"
             id = "RUNNER_1"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "install", "&", "set-testing-package-versions")
+            param("yarn_commands", "install")
         }
         step {
             name = "Lint"
