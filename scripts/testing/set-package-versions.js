@@ -3,8 +3,15 @@ const path = require('path');
 
 const fs = require('fs-extra');
 
-const reactVersion = process.env.REACT_VERSION;
-const tsVersion = process.env.TYPESCRIPT_VERSION;
+const reactVersion = process?.env?.REACT_VERSION;
+const tsVersion = process?.env?.TYPESCRIPT_VERSION;
+
+if (!(reactVersion && tsVersion)) {
+  console.log("Selected REACT_VERSION or TYPESCRIPT_VERSION for testing not found");
+  console.log("Run on base package.json");
+  return;
+}
+
 const registry = process.env.PACKAGE_REGISTRY ?? "https://nexus.kontur.host/repository/kontur-npm-group";
 const packagesPath = path.resolve(__dirname, "..", "..", "packages");
 const {react, typescript} = fs.readJsonSync(path.resolve(__dirname, "package-versions.json"));

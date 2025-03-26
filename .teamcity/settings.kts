@@ -118,6 +118,11 @@ object RunAll : BuildType({
     allowExternalStatus = true
     type = BuildTypeSettings.Type.COMPOSITE
 
+    params {
+       param("env.REACT_VERSION", "17")
+       param("env.TYPESCRIPT_VERSION", "4")
+    }
+
     vcs {
         root(DslContext.settingsRoot)
 
@@ -297,7 +302,7 @@ object ReactUI_LintTest : BuildType({
             name = "Install"
             id = "RUNNER_1"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "install")
+            param("yarn_commands", "install", "&", "set-testing-package-versions")
         }
         step {
             name = "Lint"
