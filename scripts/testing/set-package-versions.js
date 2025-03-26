@@ -12,7 +12,7 @@ if (!(reactVersion && tsVersion)) {
   return;
 }
 
-const registry = process.env.PACKAGE_REGISTRY ?? "https://nexus.kontur.host/repository/kontur-npm-group";
+const registry = process.env.PACKAGE_REGISTRY;
 const packagesPath = path.resolve(__dirname, "..", "..", "packages");
 const {react, typescript} = fs.readJsonSync(path.resolve(__dirname, "package-versions.json"));
 

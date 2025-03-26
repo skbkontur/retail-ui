@@ -56,6 +56,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     '1_0': isThemeGTE(theme, '1.0' as ThemeVersions),
     '1_1': isThemeGTE(theme, '1.1' as ThemeVersions),
   })
+    // eslint-disable-next-line
     .filter(([_, isDetected]) => isDetected)
     .map(([version]) => <li>{version}</li>);
 
