@@ -7,6 +7,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { DateInput } from '../DateInput';
 import { Button } from '../Button';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
+import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 
 import { DatePickerProps } from './DatePicker';
 import { DatePickerLocaleHelper } from './locale';
@@ -62,6 +63,14 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
       calendarRef.current.scrollToMonth(month, year);
     }
   };
+
+  useEffectWithoutInitCall(() => {
+    if (props.value && calendarRef.current) {
+      const month = getMonthInHumanFormat(+props.value.substring(3, 5));
+      const year = +props.value.substring(6);
+      calendarRef.current.scrollToMonth(month, year);
+    }
+  }, [props.value]);
 
   return (
     <ThemeContext.Provider value={theme}>
