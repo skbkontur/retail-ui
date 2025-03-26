@@ -1,13 +1,14 @@
 const shell = require('shelljs');
 const semver = require('semver');
 const reactUiLocalVersionStub = '9.9.9';
+const reactVersion = process?.env?.REACT_VERSION === "18" ? "18.3.1" : "17.0.2"; //пока так. позже доделаю
 
 const versionsInfo = [
   {
-    react: `^${process?.env?.REACT_VERSION ?? "17"}.0.0`,
+    react: reactVersion,
     '@skbkontur/react-ui': [reactUiLocalVersionStub],
     dependencies: {
-      'react-dom': `^${process?.env?.REACT_VERSION ?? "17"}.0.0`,
+      'react-dom': reactVersion,
     },
   },
 ];
