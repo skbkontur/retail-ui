@@ -44,6 +44,12 @@ export const DarkTheme5_0 = createTheme({
     //#region CloseIcon, CloseButtonIcon
     public static closeBtnIconColor = 'rgba(255, 255, 255, 0.32)';
     //#endregion CloseIcon, CloseButtonIcon
+
+    //#region ClearCrossIcon
+    public static clearCrossIconColor = 'rgba(255, 255, 255, 0.54)';
+    public static clearCrossIconHoverColor = 'rgba(255, 255, 255, 0.865)';
+    //#endregion ClearCrossIcon
+
     //#region Link
     public static linkColor = 'rgba(255, 255, 255, 0.87)';
     public static linkHoverColor = '#ffffff';

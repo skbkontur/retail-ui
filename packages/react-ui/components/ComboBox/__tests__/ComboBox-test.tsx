@@ -1454,6 +1454,104 @@ describe('ComboBox', () => {
       expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
     });
   });
+
+  describe('with clear cross', () => {
+    const testValues = [
+      { value: '1', label: 'One' },
+      { value: '2', label: 'Two' },
+      { value: '3', label: 'Three' },
+      { value: '4', label: 'Four' },
+    ];
+    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+
+    const getTextbox = () => screen.getByRole('textbox');
+    const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
+    const queryClearCross = () => screen.queryByTestId(InputDataTids.clearCross);
+
+    it('clears controlled combobox', async () => {
+      const ControlledCombobox = () => {
+        const [value, setValue] = React.useState({ value: '2', label: 'Two' });
+        return <ComboBox getItems={getItems} showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledCombobox />);
+
+      expect(screen.getByText('Two')).toBeInTheDocument();
+      await userEvent.click(getClearCross());
+      expect(screen.queryByText('Two')).not.toBeInTheDocument();
+    });
+
+    it('clears uncontrolled combobox', async () => {
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+
+      comboboxRef.current?.focus();
+      await userEvent.type(getTextbox(), 'z');
+      expect(getTextbox()).toHaveValue('z');
+      const cross = getClearCross();
+      expect(cross).toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(cross).not.toBeInTheDocument();
+      expect(getTextbox()).toHaveValue('');
+    });
+
+    it('tests showClearIcon=always clear cross', async () => {
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).toBeNull();
+
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(texbox);
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.clear(texbox);
+      expect(queryClearCross()).toBeNull();
+    });
+
+    it('tests showClearIcon=auto clear cross', async () => {
+      render(<ComboBox showClearIcon="auto" getItems={getItems} ref={comboboxRef} />);
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(texbox).toHaveValue('z');
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(texbox);
+      expect(screen.queryByRole('textbox')).not.toHaveFocus();
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.hover(texbox);
+      expect(queryClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=never clear cross', async () => {
+      render(<ComboBox showClearIcon="never" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('tests showClearIcon when disabled', async () => {
+      render(<ComboBox disabled showClearIcon="always" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+  });
 });
 
 describe('mobile comboBox', () => {

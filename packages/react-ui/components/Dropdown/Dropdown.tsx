@@ -34,6 +34,7 @@ const PASS_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
   menuPos: true,
+  corners: true,
   id: true,
   'aria-describedby': true,
   'aria-label': true,
@@ -85,6 +86,9 @@ export interface DropdownProps
 
   /** Задаёт стиль кнопки. */
   use?: ButtonUse;
+
+  /** @ignore */
+  corners?: React.CSSProperties;
 
   /** Задает функцию, которая вызывается при закрытии меню. */
   onClose?: () => void;
