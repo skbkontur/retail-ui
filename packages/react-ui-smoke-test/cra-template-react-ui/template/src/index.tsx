@@ -1,13 +1,17 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+// import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 
 import { App } from './App';
 import * as serviceWorker from './serviceWorker';
 
+// import { render } from 'react-dom';
+
 const container = document.getElementById('root');
+
+
 if (container) {
-  const root = createRoot(container);
-  root.render(<App />);
+  render(<App />, container);
 }
 
 // If you want your app to work offline and load faster, you can change

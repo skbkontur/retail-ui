@@ -27,8 +27,6 @@ try {
   //log
 }
 
-
-
 function convertPackagesToString(packages) {
   return Object.entries(packages).reduce((acc, [name, version]) => acc.concat(`${name}@${version} `), "");
 }
