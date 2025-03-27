@@ -1,20 +1,17 @@
 const { execSync } = require('child_process');
 const path = require('path');
-
-const fs = require('fs-extra');
+const fs = require('fs');
 
 const reactVersion = process?.env?.REACT_VERSION;
 const tsVersion = process?.env?.TYPESCRIPT_VERSION;
 
 if (!(reactVersion && tsVersion)) {
-  console.log("Selected REACT_VERSION or TYPESCRIPT_VERSION for testing not found");
-  console.log("Run on base package.json");
   return;
 }
 
-const registry = process.env.PACKAGE_REGISTRY;
+const registry = process.env.PACKAGE_REGISTRY ?? "https://nexus.kontur.host/repository/kontur-npm-group";
 const packagesPath = path.resolve(__dirname, "..", "..", "packages");
-const {react, typescript} = fs.readJsonSync(path.resolve(__dirname, "package-versions.json"));
+const {react, typescript} = JSON.parse(fs.readFileSync(path.resolve(__dirname, "package-versions.json"), 'utf8'));
 
 const packagesForReact = react[reactVersion];
 const packagesForTypescript = typescript[tsVersion];
@@ -46,8 +43,8 @@ function patchSeleniumTestsPackage() {
 
 function patchSmokeTestPackage() {
   const pathToConfig = path.resolve(packagesPath, "react-ui-smoke-test", "cra-template-react-ui", "template.json");
-  const package = fs.readJsonSync(pathToConfig);
+  const package = JSON.parse(fs.readFileSync(pathToConfig, 'utf8'));
   package.package.dependencies = {...package.package.dependencies, ...packagesForReact};
-  fs.writeJSONSync(pathToConfig, package);
+  fs.writeFileSync(pathToConfig, JSON.stringify(package));
   console.log(pathToConfig, "has been patched");
 }
