@@ -305,18 +305,21 @@ object ReactUI_LintTest : BuildType({
             name = "Lint"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             param("yarn_commands", "workspace @skbkontur/react-ui lint")
         }
         step {
             name = "Test"
             id = "RUNNER_3"
             type = "jonnyzzz.yarn"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             param("yarn_commands", "workspace @skbkontur/react-ui test")
         }
         step {
             name = "Smoke test"
             id = "RUNNER_4"
             type = "jonnyzzz.yarn"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
             param("yarn_commands", "workspace react-ui-smoke-test test")
         }
     }

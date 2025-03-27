@@ -18,7 +18,8 @@
     "19": {
       "react": "^19.0.0",
       "react-dom": "^19.0.0",
-      "@testing-library/react": "16.2.0"
+      "@testing-library/react": "16.2.0",
+      "@testing-library/dom": "^10.4.0"
     }
   },
   "typescript": {
