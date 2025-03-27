@@ -168,13 +168,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return (
       <RenderContainer>
         <CommonWrapper {...this.props}>
-          <ZIndex
-            priority={'Sidepage'}
-            onScroll={LayoutEvents.emit}
-            createStackingContext
-            wrapperRef={this.rootRef}
-            style={{ position: 'absolute' }}
-          >
+          <ZIndex priority={'Sidepage'} onScroll={LayoutEvents.emit} wrapperRef={this.rootRef}>
             <ResponsiveLayout>
               {({ isMobile }) => (
                 <>
