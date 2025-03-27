@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.14](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.13...@skbkontur/react-ui@5.0.14) (2025-03-27)
+
+
+### Bug Fixes
+
+* **FileUploader:** add ability to remove hidden files ([#3625](https://github.com/skbkontur/retail-ui/issues/3625)) ([ffa404e](https://github.com/skbkontur/retail-ui/commit/ffa404e155d84db74291ffe5174d1ee2fba0abab))
+
+
+
+
+
 ## [5.0.13](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.12...@skbkontur/react-ui@5.0.13) (2025-03-17)
 
 
