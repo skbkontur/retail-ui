@@ -118,12 +118,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   public componentDidUpdate(prevProps: SidePageProps) {
-    // if (prevProps.blockBackground !== this.props.blockBackground) {
-    //   ModalStack.rerender();
-    //   this.setState({
-    //     hasBackground: ModalStack.isBlocking(this),
-    //   });
-    // }
+    if (prevProps.blockBackground !== this.props.blockBackground) {
+      ModalStack.rerender();
+      this.setState({
+        hasBackground: ModalStack.isBlocking(this),
+      });
+    }
   }
 
   public componentWillUnmount() {
@@ -170,13 +170,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         {({ isMobile }) => (
           <RenderContainer>
             <CommonWrapper {...this.props}>
-              <ZIndex
-                priority={'Sidepage'}
-                onScroll={LayoutEvents.emit}
-                createStackingContext
-                wrapperRef={this.rootRef}
-                style={{ position: 'absolute' }}
-              >
+              <ZIndex priority={'Sidepage'} onScroll={LayoutEvents.emit} wrapperRef={this.rootRef}>
                 {blockBackground && this.renderShadow(isMobile)}
                 <CSSTransition
                   in
