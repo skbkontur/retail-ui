@@ -62,7 +62,7 @@ project {
         text("teamcity.runner.commandline.stdstreams.encoding", "UTF8", display = ParameterDisplay.HIDDEN, allowEmpty = true)
         param("env.REACT_VERSION", "18")
         param("env.TYPESCRIPT_VERSION", "4")
-        param("env.STRICT_MODE", false)
+        param("env.STRICT_MODE", "false")
     }
 
     features {
