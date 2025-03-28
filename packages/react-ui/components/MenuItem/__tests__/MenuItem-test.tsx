@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
-import { MenuItem, MenuItemDataTids } from '../MenuItem';
+import { Menu } from '../../../internal/Menu';
+import { MenuItem, MenuItemDataTids, MenuItemState } from '../MenuItem';
 
 describe('MenuItem', () => {
   it('renders multiple children', () => {
@@ -89,6 +90,17 @@ describe('MenuItem', () => {
     render(<MenuItem data-tid={customDataTid} />);
 
     expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+  });
+
+  it('should pass state to functional children when highlighted by Menu', () => {
+    const renderChild = jest.fn((state: MenuItemState) => <div>{`${state}`}</div>);
+    render(
+      <Menu initialSelectedItemIndex={0}>
+        <MenuItem>{renderChild}</MenuItem>
+      </Menu>,
+    );
+
+    expect(renderChild).toHaveBeenCalledWith('hover');
   });
 
   describe('a11y', () => {
