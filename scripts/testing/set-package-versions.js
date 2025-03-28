@@ -53,5 +53,5 @@ function getJsonFile(path) {
 }
 
 function writeJsonFile(path, content) {
-  fs.writeFileSync(path, JSON.stringify(content));
+  fs.writeFileSync(path, JSON.stringify(content, null, 2) + "\n");
 }
