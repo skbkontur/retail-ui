@@ -16,7 +16,7 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      legacyRootApi: true,
+      legacyRootApi: false,
       fastRefresh: true,
       strictMode: true,
     },
