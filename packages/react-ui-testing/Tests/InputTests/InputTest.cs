@@ -69,6 +69,19 @@ namespace SKBKontur.SeleniumTesting.Tests.InputTests
         }
 
         [Test]
+        public void TestClearAndInputTextWithDelays()
+        {
+            page.SimpleInput.ClearAndInputTextWithDelays("hello");
+            page.SimpleInput.Value.Wait().EqualTo("hello");
+        }
+
+        [Test]
+        public void TestClearAndEnsureInputText()
+        {
+            page.SimpleInput.ClearAndEnsureInputText("hello");
+        }
+
+        [Test]
         public void TestClearInput()
         {
             page.SimpleInput.ClearAndInputText("hello");
