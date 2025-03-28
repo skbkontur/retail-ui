@@ -17,13 +17,17 @@ describe('ZIndex', () => {
         return <div />;
       }
     }
-    const {rerender} = render(
+    const { rerender } = render(
       <ZIndex>
         <Content />
       </ZIndex>,
     );
 
-    rerender(<ZIndex applyZIndex={false}><Content /></ZIndex>)
+    rerender(
+      <ZIndex applyZIndex={false}>
+        <Content />
+      </ZIndex>,
+    );
 
     expect(unmountFn).not.toHaveBeenCalled();
   });

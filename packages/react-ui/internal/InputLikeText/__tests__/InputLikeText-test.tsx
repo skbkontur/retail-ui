@@ -7,12 +7,12 @@ describe('InputLikeText', () => {
   describe('placeholder', () => {
     it.each([[null], [undefined], ['']])('renders placeholder if value equals "%s"', (value) => {
       const placeholder = 'placeholder';
-      const {baseElement} = render(<InputLikeText placeholder={placeholder}>{value}</InputLikeText>);
+      const { baseElement } = render(<InputLikeText placeholder={placeholder}>{value}</InputLikeText>);
       expect(baseElement.textContent).toBe(placeholder);
     });
 
     it.each([[0], ['value']])('renders value if value equals "%s"', (value) => {
-      const {baseElement} = render(<InputLikeText placeholder="placeholder">{value}</InputLikeText>);
+      const { baseElement } = render(<InputLikeText placeholder="placeholder">{value}</InputLikeText>);
       expect(baseElement.textContent).toBe(value.toString());
     });
   });
