@@ -1,9 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { getDisplayName } from '../getDisplayName';
 
-const renderFC = () => mount(<div />) as any;
+const renderFC = () => render(<div />) as any;
 class ClassComponent extends React.Component {
   public static displayName = 'CC';
 
