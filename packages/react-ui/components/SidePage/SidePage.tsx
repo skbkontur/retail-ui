@@ -16,7 +16,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { isTestEnv } from '../../lib/currentEnvironment';
+// import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -144,7 +144,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   public static defaultProps: DefaultProps = {
-    disableAnimations: isTestEnv,
+    disableAnimations: true,
     offset: 0,
     role: 'dialog',
   };
