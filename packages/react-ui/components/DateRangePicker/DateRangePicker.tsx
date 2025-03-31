@@ -96,6 +96,7 @@ export const DateRangePicker = Object.assign(
     const mobileEndRef = useRef<DateInput>(null);
     const mobileNativeStartRef = useRef<NativeDateInput>(null);
     const mobileNativeEndRef = useRef<NativeDateInput>(null);
+    const isCalendarOpen = !startDisabled && !endDisabled && showCalendar;
 
     const updateDateRangeValues = (value = '') => {
       const currentValues = {
@@ -236,6 +237,64 @@ export const DateRangePicker = Object.assign(
       </LocaleContext.Provider>
     );
 
+    const renderMobileCalendar = (theme: Theme) => (
+      <MobilePopup
+        opened
+        headerChildComponent={
+          <div className={cx(styles.inputWrapper(), styles.inputWrapperWidthFull())}>
+            <DateInput
+              withIcon
+              value={startValue}
+              width="auto"
+              size="medium"
+              className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
+              disabled={startDisabled}
+              onValueChange={setStartValue}
+              onFocus={() => setFocusInput('start')}
+              ref={mobileStartRef}
+              data-tid={DateRangePickerDataTids.mobileStart}
+            />
+            <DateRangePicker.Separator />
+            <DateInput
+              withIcon
+              value={endValue}
+              width="auto"
+              size="medium"
+              className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
+              disabled={endDisabled}
+              onValueChange={setEndValue}
+              onFocus={() => setFocusInput('end')}
+              ref={mobileEndRef}
+              data-tid={DateRangePickerDataTids.mobileEnd}
+            />
+          </div>
+        }
+        onCloseRequest={() => close()}
+        footerChildComponent={renderButtons()}
+      >
+        <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
+          {renderCalendar(theme, true)}
+        </ThemeContext.Provider>
+      </MobilePopup>
+    );
+
+    const renderDesktopCalendar = (theme: Theme) => (
+      <Popup
+        opened
+        hasShadow
+        priority={ZIndex.priorities.PopupMenu}
+        positions={getMenuPositions(props.menuPos, props.menuAlign)}
+        data-tid={DateRangePickerDataTids.root}
+        anchorElement={getRootNode(dateRangePickerRef.current)}
+        margin={parseInt(theme.datePickerMenuOffsetY)}
+      >
+        <div className={styles.calendarWrapper(theme)} onMouseDown={(e) => e.preventDefault()}>
+          {renderCalendar(theme)}
+          {renderButtons()}
+        </div>
+      </Popup>
+    );
+
     const renderButtons = () => {
       const today = new InternalDate(locale)
         .setComponents(InternalDateGetter.getTodayComponents())
@@ -281,7 +340,7 @@ export const DateRangePicker = Object.assign(
       );
     };
 
-    const renderNativeDateInput = () => (
+    const renderMobileNativeDateInput = () => (
       <>
         <NativeDateInput
           value={startValue}
@@ -330,67 +389,11 @@ export const DateRangePicker = Object.assign(
                   </div>
 
                   {props.useMobileNativeDatePicker && isMobile
-                    ? renderNativeDateInput()
-                    : !startDisabled &&
-                    !endDisabled &&
-                    showCalendar && (
-                      <>
-                        {isMobile ? (
-                          <MobilePopup
-                            opened
-                            headerChildComponent={
-                              <div className={cx(styles.inputWrapper(), styles.inputWrapperWidthFull())}>
-                                <DateInput
-                                  withIcon
-                                  value={startValue}
-                                  width="auto"
-                                  size="medium"
-                                  className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
-                                  disabled={startDisabled}
-                                  onValueChange={setStartValue}
-                                  onFocus={() => setFocusInput('start')}
-                                  ref={mobileStartRef}
-                                  data-tid={DateRangePickerDataTids.mobileStart}
-                                />
-                                <DateRangePicker.Separator />
-                                <DateInput
-                                  withIcon
-                                  value={endValue}
-                                  width="auto"
-                                  size="medium"
-                                  className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
-                                  disabled={endDisabled}
-                                  onValueChange={setEndValue}
-                                  onFocus={() => setFocusInput('end')}
-                                  ref={mobileEndRef}
-                                  data-tid={DateRangePickerDataTids.mobileEnd}
-                                />
-                              </div>
-                            }
-                            onCloseRequest={() => close()}
-                            footerChildComponent={renderButtons()}
-                          >
-                            <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
-                              {renderCalendar(theme, true)}
-                            </ThemeContext.Provider>
-                          </MobilePopup>
-                        ) : (
-                          <Popup
-                            opened
-                            hasShadow
-                            priority={ZIndex.priorities.PopupMenu}
-                            positions={getMenuPositions(props.menuPos, props.menuAlign)}
-                            data-tid={DateRangePickerDataTids.root}
-                            anchorElement={getRootNode(dateRangePickerRef.current)}
-                            margin={parseInt(theme.datePickerMenuOffsetY)}
-                          >
-                            <div className={styles.calendarWrapper(theme)} onMouseDown={(e) => e.preventDefault()}>
-                              {renderCalendar(theme)}
-                              {renderButtons()}
-                            </div>
-                          </Popup>
-                        )}
-                      </>
+                    ? renderMobileNativeDateInput()
+                    : isCalendarOpen && (
+                      isMobile
+                        ? renderMobileCalendar(theme)
+                        : renderDesktopCalendar(theme)
                     )}
                 </DateRangePickerContext.Provider>
               </div>
