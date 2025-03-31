@@ -809,56 +809,56 @@ describe('mobile', () => {
     expect(input).toHaveValue(`01.${month}.${year}`);
   });
 
-  // it('should change value from day select', async () => {
-  //   const initialDate = '10.10.2010';
-  //   const expectedDate = '20.10.2010';
-  //   render(<MobilePicker initialDate={initialDate} />);
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+  it('should change value from day select', async () => {
+    const initialDate = '10.10.2010';
+    const expectedDate = '20.10.2010';
+    render(<MobilePicker initialDate={initialDate} />);
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
 
-  //   const months = screen.getAllByTestId(CalendarDataTids.month);
-  //   const currentMonth = months.find((month) => {
-  //     const monthRoot = within(month);
-  //     return (
-  //       monthRoot.queryByTestId(CalendarDataTids.headerMonth) && monthRoot.queryByTestId(CalendarDataTids.headerYear)
-  //     );
-  //   });
-  //   expect(currentMonth).toBeDefined();
-  //   const monthRoot = within(currentMonth as HTMLElement);
-  //   const ariaLabel = `${DateRangePickerLocaleHelper.get().dayCellChooseDateAriaLabel}: ${new InternalDate({
-  //     value: expectedDate,
-  //   }).toA11YFormat()}`;
-  //   await userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
+    const months = screen.getAllByTestId(CalendarDataTids.month);
+    const currentMonth = months.find((month) => {
+      const monthRoot = within(month);
+      return (
+        monthRoot.queryByTestId(CalendarDataTids.headerMonth) && monthRoot.queryByTestId(CalendarDataTids.headerYear)
+      );
+    });
+    expect(currentMonth).toBeDefined();
+    const monthRoot = within(currentMonth as HTMLElement);
+    const ariaLabel = `${DateRangePickerLocaleHelper.get().dayCellChooseDateAriaLabel}: ${new InternalDate({
+      value: expectedDate,
+    }).toA11YFormat()}`;
+    await userEvent.click(monthRoot.getByRole('button', { name: ariaLabel }));
 
-  //   const input = within(screen.getByTestId(DateRangePickerDataTids.start));
-  //   expect(input).toHaveTextContent(expectedDate);
-  // });
+    const input = within(screen.getByTestId(DateRangePickerDataTids.start));
+    expect(input).toHaveTextContent(expectedDate);
+  });
 
-  // it('should call onBlur after value was changed when date picked on click', async () => {
-  //   const initialDate = '10.10.2010';
-  //   const expectedDate = '20.10.2010';
-  //   let blurredDate = '';
-  //   const MobilePickerWithOnBlur = () => {
-  //     const [date, setDate] = useState(initialDate);
-  //     const handleBlur = () => {
-  //       blurredDate = date;
-  //     };
-  //     return (
-  //       <DateRangePicker enableTodayLink >
-  //         <DateRangePicker.Start value={date || null} onValueChange={setDate} onBlur={handleBlur} />
-  //         <DateRangePicker.End />
-  //       </DateRangePicker>
-  //     );
-  //   };
-  //   render(<MobilePickerWithOnBlur />);
-  //   await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+  it('should call onBlur after value was changed when date picked on click', async () => {
+    const initialDate = '10.10.2010';
+    const expectedDate = '20.10.2010';
+    let blurredDate = '';
+    const MobilePickerWithOnBlur = () => {
+      const [date, setDate] = useState(initialDate);
+      const handleBlur = () => {
+        blurredDate = date;
+      };
+      return (
+        <DateRangePicker enableTodayLink >
+          <DateRangePicker.Start value={date || null} onValueChange={setDate} onBlur={handleBlur} />
+          <DateRangePicker.End />
+        </DateRangePicker>
+      );
+    };
+    render(<MobilePickerWithOnBlur />);
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
 
-  //   const ariaLabel = `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel}: ${new InternalDate({
-  //     value: expectedDate,
-  //   }).toA11YFormat()}`;
+    const ariaLabel = `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel}: ${new InternalDate({
+      value: expectedDate,
+    }).toA11YFormat()}`;
 
-  //   const expectedDateButton = screen.getByLabelText(ariaLabel);
-  //   await userEvent.click(expectedDateButton);
+    const expectedDateButton = screen.getByLabelText(ariaLabel);
+    await userEvent.click(expectedDateButton);
 
-  //   expect(blurredDate).toBe(expectedDate);
-  // });
+    expect(blurredDate).toBe(expectedDate);
+  });
 });
