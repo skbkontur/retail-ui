@@ -2,7 +2,6 @@ import React from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
-import { DocsContainer } from '@storybook/blocks';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
@@ -89,13 +88,6 @@ const preview: Preview = {
       controls: {
         sort: 'alpha',
       },
-      container: ({ children, context }) => (
-        // prevent sb default font-family and other styles
-        // see https://github.com/storybookjs/storybook/blob/c6b8ca7faec9d6b73f71c112100506ef41dde619/code/lib/blocks/src/components/DocsPage.tsx#L19
-        <div className="sb-unstyled">
-          <DocsContainer context={context}>{children}</DocsContainer>
-        </div>
-      ),
     },
     creevey: {
       captureElement: '#test-element',

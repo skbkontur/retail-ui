@@ -1,5 +1,4 @@
-import React from 'react';
-import { act } from 'react-dom/test-utils';
+import React, { useRef, useState, act } from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -573,6 +572,37 @@ describe('FileUploader', () => {
         await removeFile('test2.txt');
         expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe('with exposed removeFiles', () => {
+    const TestComponent = () => {
+      const fileUploaderRef = useRef<FileUploaderRef>(null);
+      const [fileList, setFileList] = useState<FileUploaderAttachedFile[]>([]);
+      return (
+        <>
+          <FileUploader ref={fileUploaderRef} multiple onValueChange={(files) => setFileList(files)} />
+          {fileList.map((file) => {
+            return (
+              <button key={file.id} onClick={() => fileUploaderRef.current?.removeFile(file.id)}>
+                Delete file
+              </button>
+            );
+          })}
+        </>
+      );
+    };
+    it('should delete right files', async () => {
+      render(<TestComponent />);
+      await addFiles([createFile('foo'), createFile('bar')]);
+
+      userEvent.click(screen.getAllByRole('button')[0]);
+      await act(async () => {
+        await delay(100);
+      });
+
+      expect(screen.getAllByTestId(`${FileUploaderFileDataTids.file}`)).toHaveLength(1);
+      expect(screen.queryByText('foo')).not.toBeInTheDocument();
     });
   });
 });
