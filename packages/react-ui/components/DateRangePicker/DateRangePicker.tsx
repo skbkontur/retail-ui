@@ -48,11 +48,11 @@ export const DateRangePickerDataTids = {
 
 export interface DateRangePickerProps
   extends CommonProps,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
-    Pick<
-      DatePickerProps,
-      'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
-    > {
+  Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
+  Pick<
+    DatePickerProps,
+    'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
+  > {
   /**
    * Элементы DateRangePicker:
    * `<DateRangePicker.Start />`
@@ -332,69 +332,66 @@ export const DateRangePicker = Object.assign(
                   {props.useMobileNativeDatePicker && isMobile
                     ? renderNativeDateInput()
                     : !startDisabled &&
-                      !endDisabled &&
-                      showCalendar && (
-                        <>
-                          {isMobile ? (
-                            <MobilePopup
-                              opened
-                              headerChildComponent={
-                                <div className={cx(styles.inputWrapper(), styles.inputWrapperWidthFull())}>
-                                  <DateInput
-                                    withIcon
-                                    value={startValue}
-                                    width="auto"
-                                    size="medium"
-                                    className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
-                                    disabled={startDisabled}
-                                    onValueChange={setStartValue}
-                                    onFocus={() => setFocusInput('start')}
-                                    ref={mobileStartRef}
-                                    data-tid={DateRangePickerDataTids.mobileStart}
-                                  />
-                                  <DateRangePicker.Separator />
-                                  <DateInput
-                                    withIcon
-                                    value={endValue}
-                                    width="auto"
-                                    size="medium"
-                                    className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
-                                    disabled={endDisabled}
-                                    onValueChange={setEndValue}
-                                    onFocus={() => setFocusInput('end')}
-                                    ref={mobileEndRef}
-                                    data-tid={DateRangePickerDataTids.mobileEnd}
-                                  />
-                                </div>
-                              }
-                              onCloseRequest={() => close()}
-                              footerChildComponent={renderButtons()}
-                            >
-                              <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
-                                {renderCalendar(theme, true)}
-                              </ThemeContext.Provider>
-                            </MobilePopup>
-                          ) : (
-                            <>
-                              <div data-tid={DateRangePickerDataTids.popup} />
-                              <Popup
-                                opened
-                                hasShadow
-                                priority={ZIndex.priorities.PopupMenu}
-                                positions={getMenuPositions(props.menuPos, props.menuAlign)}
-                                data-tid={DateRangePickerDataTids.root}
-                                anchorElement={getRootNode(dateRangePickerRef.current)}
-                                margin={parseInt(theme.datePickerMenuOffsetY)}
-                              >
-                                <div className={styles.calendarWrapper(theme)} onMouseDown={(e) => e.preventDefault()}>
-                                  {renderCalendar(theme)}
-                                  {renderButtons()}
-                                </div>
-                              </Popup>
-                            </>
-                          )}
-                        </>
-                      )}
+                    !endDisabled &&
+                    showCalendar && (
+                      <>
+                        {isMobile ? (
+                          <MobilePopup
+                            opened
+                            headerChildComponent={
+                              <div className={cx(styles.inputWrapper(), styles.inputWrapperWidthFull())}>
+                                <DateInput
+                                  withIcon
+                                  value={startValue}
+                                  width="auto"
+                                  size="medium"
+                                  className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'start' })}
+                                  disabled={startDisabled}
+                                  onValueChange={setStartValue}
+                                  onFocus={() => setFocusInput('start')}
+                                  ref={mobileStartRef}
+                                  data-tid={DateRangePickerDataTids.mobileStart}
+                                />
+                                <DateRangePicker.Separator />
+                                <DateInput
+                                  withIcon
+                                  value={endValue}
+                                  width="auto"
+                                  size="medium"
+                                  className={cx({ [styles.inputVisuallyFocus(theme)]: focusInput === 'end' })}
+                                  disabled={endDisabled}
+                                  onValueChange={setEndValue}
+                                  onFocus={() => setFocusInput('end')}
+                                  ref={mobileEndRef}
+                                  data-tid={DateRangePickerDataTids.mobileEnd}
+                                />
+                              </div>
+                            }
+                            onCloseRequest={() => close()}
+                            footerChildComponent={renderButtons()}
+                          >
+                            <ThemeContext.Provider value={getMobileDateRangePickerTheme(theme)}>
+                              {renderCalendar(theme, true)}
+                            </ThemeContext.Provider>
+                          </MobilePopup>
+                        ) : (
+                          <Popup
+                            opened
+                            hasShadow
+                            priority={ZIndex.priorities.PopupMenu}
+                            positions={getMenuPositions(props.menuPos, props.menuAlign)}
+                            data-tid={DateRangePickerDataTids.root}
+                            anchorElement={getRootNode(dateRangePickerRef.current)}
+                            margin={parseInt(theme.datePickerMenuOffsetY)}
+                          >
+                            <div className={styles.calendarWrapper(theme)} onMouseDown={(e) => e.preventDefault()}>
+                              {renderCalendar(theme)}
+                              {renderButtons()}
+                            </div>
+                          </Popup>
+                        )}
+                      </>
+                    )}
                 </DateRangePickerContext.Provider>
               </div>
             </CommonWrapper>
@@ -419,7 +416,7 @@ export const DateRangePicker = Object.assign(
         hasHoveredDay &&
         Boolean(
           (focusInput === 'start' && endValue && isBetween(day, hoveredDay, endValue)) ||
-            (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
+          (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
         );
 
       let hasLeftRoundings;
