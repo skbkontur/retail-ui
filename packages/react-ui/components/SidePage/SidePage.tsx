@@ -20,6 +20,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -168,6 +169,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private renderMain() {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
+    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
     return (
       <ResponsiveLayout>
         {({ isMobile }) => (
@@ -180,7 +182,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 wrapperRef={this.rootRef}
                 style={{ position: 'absolute' }}
               >
-                {blockBackground && this.renderShadow()}
+                {blockBackground && (versionGTE5_2 || !isMobile) && this.renderShadow()}
                 <CSSTransition
                   in
                   classNames={this.getTransitionNames()}
@@ -221,7 +223,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { width, mobileWidth, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { offset, role } = this.getProps();
 
-    // на мобилке -- ширина как передана или 100% (вынесла из стилей, чтобы логика выбора ширины была в одном месте)
     const getWidth = isMobile ? mobileWidth || '100%' : width || (blockBackground ? 800 : 500);
 
     return (
@@ -234,11 +235,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           [styles.root()]: true,
         })}
         onScroll={LayoutEvents.emit}
-        style={{
-          width: getWidth,
-          right: fromLeft ? 'auto' : offset,
-          left: fromLeft ? offset : 'auto',
-        }}
+        style={
+          isMobile && !isThemeGTE(this.theme, '5.2')
+            ? undefined
+            : {
+                width: getWidth,
+                right: fromLeft ? 'auto' : offset,
+                left: fromLeft ? offset : 'auto',
+              }
+        }
       >
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
@@ -288,7 +293,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private renderShadow(): JSX.Element {
     return (
       <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
-        {/*Вуалька должна быть не только на десктопе, но и на мобилках*/}
         <HideBodyVerticalScroll key="hbvs" />
         <div
           key="overlay"

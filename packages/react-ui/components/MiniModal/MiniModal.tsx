@@ -38,7 +38,7 @@ export const MiniModal = forwardRefAndName<
 
   return (
     <ThemeContext.Provider value={getMiniModalTheme(contextTheme, propsTheme)}>
-      <Modal width={400} mobileAppearance={mobileAppearance ? mobileAppearance : 'center'} noClose ref={ref} {...rest}>
+      <Modal width={400} mobileAppearance={mobileAppearance ?? 'center'} noClose ref={ref} {...rest}>
         {children}
       </Modal>
     </ThemeContext.Provider>

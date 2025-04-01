@@ -20,6 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
+import { catchUnreachableWarning } from '../../lib/typeGuards';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -61,12 +62,12 @@ export interface ModalProps
   /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 
-  /** Задает внешний вид модалки. Работает с версией темы >= 5_2
+  /** Задает внешний вид модалки. Работает с версией темы >= 5_2.
    *  - `auto` — всегда показывать иконку очистки значения в заполненном поле
    *  - `top` — модалка располагается сверху независимо от наличия футера
    *  - `center` — модалка располагается в центре независимо от наличия футера
    *  - `bottom` — модалка располагается снизу независимо от наличия футера
-   *  - `fullscreen-spacing` — модалка растягивается на весь экран с оступами и закругленными краями
+   *  - `fullscreen-spacing` — модалка растягивается на весь экран с отступами и закругленными краями
    *  - `fullscreen` — модалка растягивается на весь экран
    *  @default auto
    */
@@ -177,25 +178,25 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private getMobileContainerClassName = () => {
     const mobileAppearance = this.getProps().mobileAppearance;
-    if (mobileAppearance === 'fullscreen-spacing') {
-      return;
-    }
-    if (mobileAppearance === 'auto') {
-      if (this.state.hasFooter) {
+    switch (mobileAppearance) {
+      case 'fullscreen-spacing':
         return;
-      }
-      return [styles.mobileContainerSmall5_2()];
-    } else if (mobileAppearance === 'fullscreen') {
-      return [styles.mobileContainerFullscreen5_2()];
-    } else if (mobileAppearance === 'center') {
-      return [styles.mobileContainerSmall5_2()];
-    } else if (mobileAppearance === 'bottom') {
-      return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallBottom5_2()];
-    } else if (mobileAppearance === 'top') {
-      return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallTop5_2()];
+      case 'auto':
+        if (this.state.hasFooter) {
+          return;
+        }
+        return [styles.mobileContainerSmall5_2()];
+      case 'fullscreen':
+        return [styles.mobileContainerFullscreen5_2()];
+      case 'center':
+        return [styles.mobileContainerSmall5_2()];
+      case 'bottom':
+        return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallBottom5_2()];
+      case 'top':
+        return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallTop5_2()];
+      default:
+        return catchUnreachableWarning(mobileAppearance, false);
     }
-
-    return;
   };
 
   private renderMain() {
@@ -307,7 +308,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         >
                           {!hasHeader && !noClose && (
                             <ZIndex
-                              priority={1}
                               className={cx({
                                 [styles.closeWrapper(this.theme)]: true,
                                 [styles.mobileCloseWrapper(this.theme)]: isMobile,

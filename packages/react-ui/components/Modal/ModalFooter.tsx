@@ -86,13 +86,14 @@ function ModalFooter(props: ModalFooterProps) {
   };
 
   const getStickyOffset = () => {
+    let offset = 0;
     if (modal.horizontalScroll) {
-      return getScrollWidth();
-    } else if (layout.isMobile && versionGTE5_2 && !modal.mobileOnFullScreen) {
-      console.log('');
-      return parseInt(theme.mobileModalContainerMarginBottom);
+      offset += getScrollWidth();
     }
-    return 0;
+    if (layout.isMobile && versionGTE5_2 && !modal.mobileOnFullScreen) {
+      offset += parseInt(theme.mobileModalContainerMarginBottom);
+    }
+    return offset;
   };
 
   return (
