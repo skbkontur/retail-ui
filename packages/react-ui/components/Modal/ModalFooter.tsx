@@ -43,7 +43,7 @@ function ModalFooter(props: ModalFooterProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, gap, panel, children, style, ...rest } = props;
+  const { sticky = !layout.isMobile, gap, panel, children, style } = props;
 
   useLayoutEffect(() => {
     modal.setHasFooter?.(true);
@@ -97,7 +97,7 @@ function ModalFooter(props: ModalFooterProps) {
   };
 
   return (
-    <CommonWrapper sticky gap panel style={versionGTE5_2 ? undefined : style} {...rest}>
+    <CommonWrapper {...props}>
       {sticky ? (
         <Sticky side="bottom" offset={getStickyOffset()}>
           {renderContent}

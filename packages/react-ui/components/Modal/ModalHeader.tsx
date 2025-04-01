@@ -34,7 +34,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, children, style, ...rest } = props;
+  const { sticky = !layout.isMobile, children, style } = props;
 
   useLayoutEffect(() => {
     modal.setHasHeader?.(true);
@@ -80,7 +80,7 @@ function ModalHeader(props: ModalHeaderProps) {
   };
 
   return (
-    <CommonWrapper sticky style={versionGTE5_2 ? undefined : style} {...rest}>
+    <CommonWrapper {...props}>
       {sticky ? (
         <Sticky offset={getStickyOffset()} side="top">
           {renderContent}
