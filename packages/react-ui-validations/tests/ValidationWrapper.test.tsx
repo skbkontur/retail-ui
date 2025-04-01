@@ -3,7 +3,8 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeFactory } from '@skbkontur/react-ui';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper, text } from '../src';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper, text } from '../src';
 import { ThemeContext } from '../src/ReactUiDetection';
 
 function setup(jsx: any) {

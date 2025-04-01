@@ -1,8 +1,9 @@
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import React from 'react';
-import { Preview } from '@storybook/react';
-import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
+import type { Preview } from '@storybook/react';
+import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
+import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import { addons } from '@storybook/manager-api';
 import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import styled from 'styled-components';

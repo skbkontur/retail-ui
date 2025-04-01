@@ -4,8 +4,9 @@ import { render, screen } from '@testing-library/react';
 import { Input } from '@skbkontur/react-ui';
 
 import { tooltip, text } from '../src/ErrorRenderer';
-import { ValidationInfo, ValidationWrapper } from '../src/ValidationWrapper';
-import { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src/ValidationWrapper';
+import { ValidationWrapper } from '../src/ValidationWrapper';
+import type { Nullable } from '../typings/Types';
 
 const validate = (): Nullable<ValidationInfo> => {
   return { message: 'Только цифры', type: 'immediate' };

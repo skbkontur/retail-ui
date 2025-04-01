@@ -1,13 +1,13 @@
-import React from 'react';
+import type React from 'react';
 
-import { Nullable } from '../../typings/Types';
-import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
-import { ValidationInfo } from '../ValidationWrapper';
+import type { Nullable } from '../../typings/Types';
+import type { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
+import type { ValidationInfo } from '../ValidationWrapper';
 import { isNullable } from '../utils/isNullable';
 
-import { LambdaPath, PathTokensCache } from './PathHelper';
-import { ValidationWriter } from './ValidationWriter';
-import { ItemValidationRule, ValidationRule } from './Types';
+import type { LambdaPath, PathTokensCache } from './PathHelper';
+import type { ValidationWriter } from './ValidationWriter';
+import type { ItemValidationRule, ValidationRule } from './Types';
 
 interface PathInfo<T> {
   data: T;
