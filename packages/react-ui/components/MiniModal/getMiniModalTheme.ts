@@ -14,7 +14,6 @@ export const getMiniModalTheme = (contextTheme: Theme, propsTheme: ThemeIn = {})
       mobileModalFooterPadding: theme.miniModalFooterPaddingMobile,
       mobileModalHeaderPadding: theme.miniModalHeaderPaddingMobile,
       mobileModalBodyPadding: theme.miniModalBodyPaddingMobile,
-      mobileModalContainerHeight: theme.miniModalHeightMobile,
       mobileModalContainerMarginTop: theme.miniModalMarginTopMobile,
       mobileModalContainerMarginRight: theme.miniModalMarginRightMobile,
       mobileModalContainerMarginLeft: theme.miniModalMarginLeftMobile,

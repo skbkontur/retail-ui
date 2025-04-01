@@ -38,13 +38,23 @@ export const styles = memoizeStyle({
       height: 100%;
       overflow-y: auto;
       outline: none;
+    `;
+  },
 
+  containerDesktop() {
+    return css`
       &::before {
         content: '';
         display: inline-block;
         vertical-align: middle;
         height: 80%; /* to vertical align modal 40%/60% of screen height */
       }
+    `;
+  },
+
+  container5_2() {
+    return css`
+      min-height: 64px;
     `;
   },
 
@@ -55,6 +65,31 @@ export const styles = memoizeStyle({
       margin-right: ${t.mobileModalContainerMarginRight};
       margin-bottom: ${t.mobileModalContainerMarginBottom};
       margin-left: ${t.mobileModalContainerMarginLeft};
+    `;
+  },
+
+  mobileContainerFullscreen5_2() {
+    return css`
+      margin: 0;
+    `;
+  },
+
+  mobileContainerSmall5_2() {
+    return css`
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+    `;
+  },
+  mobileContainerSmallTop5_2() {
+    return css`
+      align-content: start;
+    `;
+  },
+  mobileContainerSmallBottom5_2() {
+    return css`
+      align-content: end;
     `;
   },
 
@@ -74,6 +109,12 @@ export const styles = memoizeStyle({
       width: 100%;
       height: 100%;
       overflow: auto;
+    `;
+  },
+
+  mobileWindowFullscreen5_2() {
+    return css`
+      border-radius: 0;
     `;
   },
 
@@ -97,6 +138,32 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileCenterContainer5_2(t: Theme) {
+    return css`
+      padding: 0;
+      width: calc(100% - ${t.mobileModalContainerMarginLeft} - ${t.mobileModalContainerMarginRight});
+      display: inline-flex;
+      margin: ${t.mobileModalContainerMarginTop} ${t.mobileModalContainerMarginRight}
+        ${t.mobileModalContainerMarginBottom} ${t.mobileModalContainerMarginLeft};
+      max-height: calc(100% - ${t.mobileModalContainerMarginTop} - ${t.mobileModalContainerMarginBottom});
+    `;
+  },
+
+  mobileCenterContainerBig5_2(t: Theme) {
+    return css`
+      height: calc(100% - ${t.mobileModalContainerMarginTop} - ${t.mobileModalContainerMarginBottom});
+    `;
+  },
+
+  mobileCenterContainerFullscreen5_2() {
+    return css`
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+    `;
+  },
+
   alignTop() {
     return css`
       vertical-align: top;
@@ -111,7 +178,6 @@ export const styles = memoizeStyle({
       display: flex;
       right: ${padding}px;
       top: ${padding}px;
-      background: none;
       background: transparent;
       cursor: pointer;
       color: ${t.modalCloseButtonColor};
@@ -176,6 +242,17 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileCloseWithoutHeader5_2(t: Theme) {
+    return css`
+      position: absolute;
+      padding: ${t.mobileModalWithoutHeaderCloseButtonPadding};
+      margin: -${t.mobileModalWithoutHeaderCloseButtonPadding};
+      vertical-align: top;
+      top: ${t.mobileModalWithoutHeaderCloseButtonPadding};
+      right: ${t.mobileModalWithoutHeaderCloseButtonPadding};
+    `;
+  },
+
   closeWrapper(t: Theme) {
     const padding = parseInt(t.modalCloseButtonPadding);
     const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
@@ -197,8 +274,8 @@ export const styles = memoizeStyle({
       position: absolute;
       right: ${t.mobileModalCloseButtonRightPadding};
       top: ${t.mobileModalCloseButtonTopPadding};
-      padding: 0px;
-      margin: 0px;
+      padding: 0;
+      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -206,6 +283,17 @@ export const styles = memoizeStyle({
       height: ${size}px;
       background: radial-gradient(50% 50% at 50% 50%, ${t.bgDefault} 60%, rgba(255, 255, 255, 0) 100%);
       border-radius: ${size}px;
+    `;
+  },
+
+  mobileCloseWrapper5_2(t: Theme) {
+    return css`
+      position: relative;
+      right: 0;
+      top: 0;
+      margin-left: auto;
+      width: ${t.mobileModalWithoutHeaderCloseButtonWidth};
+      height: 0;
     `;
   },
 
@@ -246,6 +334,12 @@ export const styles = memoizeStyle({
       word-wrap: break-word;
       color: ${t.modalHeaderTextColor};
       font-weight: ${t.modalHeaderFontWeight};
+    `;
+  },
+
+  header5_2(t: Theme) {
+    return css`
+      border-radius: ${t.modalBorderRadius} ${t.modalBorderRadius} 0 0;
     `;
   },
 
@@ -335,9 +429,21 @@ export const styles = memoizeStyle({
     `;
   },
 
+  fixedHeader5_2() {
+    return css`
+      border-radius: 0;
+    `;
+  },
+
   mobileFixedHeader(t: Theme) {
     return css`
       padding-bottom: ${t.mobileModalHeaderPadding};
+    `;
+  },
+
+  mobileFixedHeader5_2(t: Theme) {
+    return css`
+      border-radius: ${t.modalBorderRadius} ${t.modalBorderRadius} 0 0;
     `;
   },
 
@@ -358,6 +464,18 @@ export const styles = memoizeStyle({
         z-index: -1;
         box-shadow: ${t.modalFixedFooterShadow};
       }
+    `;
+  },
+
+  fixedFooter5_2() {
+    return css`
+      border-radius: 0;
+    `;
+  },
+
+  mobileFixedFooter5_2(t: Theme) {
+    return css`
+      border-radius: 0 0 ${t.modalBorderRadius} ${t.modalBorderRadius};
     `;
   },
 
@@ -383,7 +501,14 @@ export const styles = memoizeStyle({
 
   mobileBodyWithoutHeader() {
     return css`
-      padding-top: 0px;
+      padding-top: 0;
+    `;
+  },
+
+  mobileBodyWithoutHeader5_2(t: Theme) {
+    return css`
+      padding-top: ${t.mobileModalBodyPaddingTop};
+      padding-right: ${t.mobileModalWithoutHeaderCloseButtonWidth};
     `;
   },
 
@@ -402,6 +527,12 @@ export const styles = memoizeStyle({
   mobileBodyAddPaddingForPanel(t: Theme) {
     return css`
       padding: ${t.mobileModalBodyPadding};
+    `;
+  },
+
+  mobileBodyAddPaddingForPanel5_2(t: Theme) {
+    return css`
+      padding-bottom: ${t.mobileModalBodyPaddingBottom};
     `;
   },
 

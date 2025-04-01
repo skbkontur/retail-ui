@@ -657,8 +657,6 @@ LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: nul
 
 export const Simple: Story = () => <SimpleSidePage />;
 
-export const MobileSimple: Story = () => <SimpleSidePage />;
-
 export const BodyWithoutFooter: Story = () => <Sample withoutFooter withContent withLongBody />;
 BodyWithoutFooter.storyName = 'Body without Footer';
 
@@ -927,3 +925,50 @@ export const NestedSidePagesWithChangingVeil: Story = () => {
   );
 };
 NestedSidePagesWithChangingVeil.storyName = 'Nested SidePages with changing veil';
+
+export const MobileSimple: Story = () => <SimpleSidePage />;
+MobileSimple.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};
+
+export const MobileSidepageWithMobileWidth: Story = () => {
+  const [open, setOpen] = React.useState(true);
+  const [edit, setEdit] = React.useState(false);
+
+  return (
+    <div>
+      {open && (
+        <SidePage
+          width={800}
+          mobileWidth={200}
+          onClose={() => setOpen(false)}
+          ignoreBackgroundClick={edit}
+          blockBackground={edit}
+        >
+          <SidePage.Body>
+            <div style={{ padding: '0 35px 35px 35px' }}>
+              <Button onClick={() => setEdit((prev) => !prev)} data-tid="veil-side-page">
+                Редактировать
+              </Button>
+            </div>
+          </SidePage.Body>
+
+          <SidePage.Footer>
+            <Button onClick={() => setOpen(false)} data-tid="close-side-page">
+              Close
+            </Button>
+          </SidePage.Footer>
+        </SidePage>
+      )}
+
+      <Button onClick={() => setOpen(true)} data-tid="open-side-page">
+        Open SidePage
+      </Button>
+    </div>
+  );
+};
+MobileSidepageWithMobileWidth.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};

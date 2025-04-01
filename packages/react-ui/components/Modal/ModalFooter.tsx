@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -42,7 +43,7 @@ function ModalFooter(props: ModalFooterProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, gap, panel, children } = props;
+  const { sticky = !layout.isMobile, gap, panel, children, style, ...rest } = props;
 
   useLayoutEffect(() => {
     modal.setHasFooter?.(true);
@@ -54,6 +55,7 @@ function ModalFooter(props: ModalFooterProps) {
     };
   }, [panel]);
 
+  const versionGTE5_2 = isThemeGTE(theme, '5.2');
   const renderContent = (fixed = false) => {
     return (
       <div>
@@ -63,10 +65,13 @@ function ModalFooter(props: ModalFooterProps) {
           className={cx(
             styles.footer(theme),
             fixed && styles.fixedFooter(theme),
+            fixed && versionGTE5_2 && styles.fixedFooter5_2(),
             Boolean(panel) && styles.panel(theme),
             fixed && Boolean(panel) && styles.fixedPanel(theme),
             layout.isMobile && styles.mobileFooter(theme),
+            layout.isMobile && fixed && versionGTE5_2 && styles.mobileFixedFooter5_2(theme),
           )}
+          style={versionGTE5_2 ? style : undefined}
         >
           {isNonNullable(gap) ? (
             <Gapped vertical={layout.isMobile} gap={gap}>
@@ -80,10 +85,20 @@ function ModalFooter(props: ModalFooterProps) {
     );
   };
 
+  const getStickyOffset = () => {
+    if (modal.horizontalScroll) {
+      return getScrollWidth();
+    } else if (layout.isMobile && versionGTE5_2 && !modal.mobileOnFullScreen) {
+      console.log('');
+      return parseInt(theme.mobileModalContainerMarginBottom);
+    }
+    return 0;
+  };
+
   return (
-    <CommonWrapper {...props}>
+    <CommonWrapper sticky gap panel style={versionGTE5_2 ? undefined : style} {...rest}>
       {sticky ? (
-        <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
+        <Sticky side="bottom" offset={getStickyOffset()}>
           {renderContent}
         </Sticky>
       ) : (

@@ -18,6 +18,7 @@ export interface ModalContextProps {
   setHasHeader?: (value: boolean) => void;
   setHasFooter?: (value: boolean) => void;
   setHasPanel?: (value: boolean) => void;
+  mobileOnFullScreen?: boolean;
 }
 
 export const ModalContext = React.createContext<ModalContextProps>({});

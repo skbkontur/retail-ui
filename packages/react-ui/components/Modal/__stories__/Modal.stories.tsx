@@ -1,16 +1,14 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState, useContext, ReactNode } from 'react';
+import React, { useState, ReactNode } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ResponsiveLayout } from '../../ResponsiveLayout';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -453,36 +451,6 @@ export const ModalWithoutHeader = () => (
 ModalWithoutHeader.storyName = 'Modal without header';
 ModalWithoutHeader.parameters = { creevey: { captureElement: null } };
 
-export const ModalMobileView: Story = () => {
-  const theme = useContext(ThemeContext);
-
-  return (
-    <ThemeContext.Provider
-      value={ThemeFactory.create(
-        {
-          mobileMediaQuery: '(max-width: 576px)',
-        },
-        theme,
-      )}
-    >
-      <Modal>
-        <Modal.Header>Воспользуйтесь другим браузером</Modal.Header>
-        <Modal.Body>
-          Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
-          Firefox, Opera, Chrome.
-        </Modal.Body>
-        <Modal.Footer panel>
-          <Button>Ок</Button>
-        </Modal.Footer>
-      </Modal>
-    </ThemeContext.Provider>
-  );
-};
-ModalMobileView.storyName = 'Modal mobile view';
-ModalMobileView.parameters = {
-  viewport: { defaultViewport: 'iphone' },
-};
-
 export const ModalWithVariableHeightOfContent: Story = () => (
   <ModalWithVariableHeight>
     <ModalInner />
@@ -592,74 +560,6 @@ export const ModalWithChildrenFromOtherComponent = () => (
     <Footer />
   </Modal>
 );
-
-export const MobileModal: Story = () => {
-  const [isOpen, setOpen] = useState(false);
-  const [showThirdButton, setShowThird] = useState(false);
-
-  const modal = (
-    <ResponsiveLayout>
-      {({ isMobile }) => {
-        return (
-          <Modal onClose={() => setOpen(false)}>
-            <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
-            <Modal.Body>
-              <p style={{ margin: 0 }}>
-                {new Array(80).fill(
-                  'ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст',
-                  0,
-                  80,
-                )}
-              </p>
-            </Modal.Body>
-            <Modal.Footer gap={isMobile ? 8 : 25} panel>
-              <Button
-                use={'primary'}
-                onClick={() => {
-                  setShowThird(true);
-                }}
-                style={isMobile ? { width: '100%' } : undefined}
-              >
-                Ок
-              </Button>
-              <Button
-                use={'danger'}
-                onClick={() => {
-                  setShowThird(false);
-                }}
-                style={isMobile ? { width: '100%' } : undefined}
-              >
-                Удалить
-              </Button>
-              {showThirdButton && (
-                <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
-                  Изменить
-                </Button>
-              )}
-            </Modal.Footer>
-          </Modal>
-        );
-      }}
-    </ResponsiveLayout>
-  );
-
-  const render = (
-    <div>
-      <Button onClick={() => setOpen(true)} data-tid="open-modal">
-        Open modal
-      </Button>
-      {isOpen && modal}
-    </div>
-  );
-
-  return render;
-};
-MobileModal.storyName = 'Mobile modal';
-MobileModal.parameters = {
-  viewport: {
-    defaultViewport: 'iphonePlus',
-  },
-};
 
 export const ChangeAllModalContent: Story = () => {
   interface FirstContentProps {

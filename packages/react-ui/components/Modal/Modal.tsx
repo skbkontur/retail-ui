@@ -19,6 +19,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -29,6 +30,8 @@ import { styles } from './Modal.styles';
 import { getModalTheme } from './getModalTheme';
 
 let mountedModalsCount = 0;
+
+export type MobileModalAppearance = 'auto' | 'top' | 'center' | 'bottom' | 'fullscreen-spacing' | 'fullscreen';
 
 export interface ModalProps
   extends CommonProps,
@@ -57,6 +60,17 @@ export interface ModalProps
 
   /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
+
+  /** Задает внешний вид модалки. Работает с версией темы >= 5_2
+   *  - `auto` — всегда показывать иконку очистки значения в заполненном поле
+   *  - `top` — модалка располагается сверху независимо от наличия футера
+   *  - `center` — модалка располагается в центре независимо от наличия футера
+   *  - `bottom` — модалка располагается снизу независимо от наличия футера
+   *  - `fullscreen-spacing` — модалка растягивается на весь экран с оступами и закругленными краями
+   *  - `fullscreen` — модалка растягивается на весь экран
+   *  @default auto
+   */
+  mobileAppearance?: MobileModalAppearance;
 }
 
 export interface ModalState {
@@ -74,7 +88,7 @@ export const ModalDataTids = {
   close: 'modal-close',
 } as const;
 
-type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role'>>;
+type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role' | 'mobileAppearance'>>;
 
 /**
  * Модальное окно `Modal` — это эмуляция диалогового окна браузера, появляющегося поверх страницы в ответ на действия пользователя и блокирующего доступ к основному содержимому страницы.
@@ -97,6 +111,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
     role: 'dialog',
+    mobileAppearance: 'auto',
   };
 
   private getProps = createPropsGetter(Modal.defaultProps);
@@ -160,11 +175,35 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     );
   }
 
+  private getMobileContainerClassName = () => {
+    const mobileAppearance = this.getProps().mobileAppearance;
+    if (mobileAppearance === 'fullscreen-spacing') {
+      return;
+    }
+    if (mobileAppearance === 'auto') {
+      if (this.state.hasFooter) {
+        return;
+      }
+      return [styles.mobileContainerSmall5_2()];
+    } else if (mobileAppearance === 'fullscreen') {
+      return [styles.mobileContainerFullscreen5_2()];
+    } else if (mobileAppearance === 'center') {
+      return [styles.mobileContainerSmall5_2()];
+    } else if (mobileAppearance === 'bottom') {
+      return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallBottom5_2()];
+    } else if (mobileAppearance === 'top') {
+      return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallTop5_2()];
+    }
+
+    return;
+  };
+
   private renderMain() {
     const {
       noClose,
       disableClose,
       width,
+      mobileAppearance,
       alignTop,
       children,
       'aria-label': ariaLabel,
@@ -179,6 +218,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
+      mobileOnFullScreen: this.props.mobileAppearance === 'fullscreen',
     };
     if (!noClose) {
       modalContextProps.close = {
@@ -189,6 +229,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     if (!hasFooter || hasPanel) {
       modalContextProps.additionalPadding = true;
     }
+
+    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
@@ -217,7 +259,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 <div
                   aria-labelledby={ariaLabelledby}
                   ref={this.refContainer}
-                  className={cx(styles.container(), isMobile && styles.containerMobile(this.theme))}
+                  className={cx(
+                    styles.container(),
+                    versionGTE5_2 && styles.container5_2(),
+                    (!versionGTE5_2 || !isMobile) && styles.containerDesktop(),
+                    !versionGTE5_2 && isMobile && styles.containerMobile(this.theme),
+                    versionGTE5_2 && isMobile && this.getMobileContainerClassName(),
+                  )}
                   onMouseDown={this.handleContainerMouseDown}
                   onMouseUp={this.handleContainerMouseUp}
                   onClick={this.handleContainerClick}
@@ -229,14 +277,26 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     role={role}
                     className={cx({
                       [styles.centerContainer()]: true,
-                      [styles.mobileCenterContainer()]: isMobile,
+                      [styles.mobileCenterContainer()]: !versionGTE5_2 && isMobile,
+                      [styles.mobileCenterContainer5_2(this.theme)]: versionGTE5_2 && isMobile,
+                      [styles.mobileCenterContainerBig5_2(this.theme)]:
+                        isMobile &&
+                        versionGTE5_2 &&
+                        (mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter)),
+                      [styles.mobileCenterContainerFullscreen5_2()]:
+                        isMobile && versionGTE5_2 && mobileAppearance === 'fullscreen',
                       [styles.alignTop()]: Boolean(alignTop),
                     })}
                     style={isMobile ? undefined : containerStyle}
                     data-tid={ModalDataTids.content}
                   >
                     <div
-                      className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}
+                      className={cx({
+                        [styles.window(this.theme)]: true,
+                        [styles.mobileWindow()]: isMobile,
+                        [styles.mobileWindowFullscreen5_2()]:
+                          isMobile && versionGTE5_2 && mobileAppearance === 'fullscreen',
+                      })}
                       style={isMobile ? undefined : style}
                     >
                       <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
@@ -247,14 +307,18 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         >
                           {!hasHeader && !noClose && (
                             <ZIndex
+                              priority={1}
                               className={cx({
                                 [styles.closeWrapper(this.theme)]: true,
                                 [styles.mobileCloseWrapper(this.theme)]: isMobile,
+                                [styles.mobileCloseWrapper5_2(this.theme)]: isMobile && versionGTE5_2,
                               })}
                             >
                               <ModalClose
                                 className={cx({
                                   [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
+                                  [styles.mobileCloseWithoutHeader5_2(this.theme)]:
+                                    isMobile && versionGTE5_2 && !this.state.hasHeader,
                                 })}
                                 requestClose={this.requestClose}
                                 disableClose={disableClose}

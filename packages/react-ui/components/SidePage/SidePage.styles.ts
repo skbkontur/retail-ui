@@ -11,7 +11,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-
   overlay() {
     return css`
       position: fixed;
