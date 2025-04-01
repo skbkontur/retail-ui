@@ -39,8 +39,16 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 /**
-`import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual }
- from '@skbkontur/react-ui/lib/date/comparison';`
+```js
+import { 
+  isBetween, 
+  isEqual, 
+  isGreater, 
+  isGreaterOrEqual, 
+  isLess, 
+  isLessOrEqual 
+} from '@skbkontur/react-ui/lib/date/comparison';
+```
 */
 export const Example2: Story = () => {
   const date_a = '10.03.2017';
