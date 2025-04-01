@@ -1,9 +1,11 @@
-import React, { HTMLAttributes, ReactNode, useContext } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
+import React, { useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
 import { styles } from './MenuFooter.styles';
 

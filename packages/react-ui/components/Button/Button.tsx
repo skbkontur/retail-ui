@@ -1,23 +1,27 @@
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
+import type { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { isKonturIcon } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Link } from '../Link';
-import { SizeProp } from '../../lib/types/props';
-import { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
+import type { SizeProp } from '../../lib/types/props';
+import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { ButtonIcon, ButtonIconProps, getButtonIconSizes } from './ButtonIcon';
+import type { ButtonIconProps } from './ButtonIcon';
+import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
 import { getInnerLinkTheme } from './getInnerLinkTheme';
 import { LoadingButtonIcon } from './LoadingButtonIcon';

@@ -1,13 +1,15 @@
-import React, { ReactElement, useCallback, useContext } from 'react';
+import type { ReactElement } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 
 import { styles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
-import { DayCellViewModel } from './DayCellViewModel';
+import type { DayCellViewModel } from './DayCellViewModel';
 import * as CDS from './CalendarDateShape';
-import { CalendarDay, CalendarDayProps } from './CalendarDay';
+import type { CalendarDayProps } from './CalendarDay';
+import { CalendarDay } from './CalendarDay';
 
 export interface DayCellViewProps {
   date: DayCellViewModel;

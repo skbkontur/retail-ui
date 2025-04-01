@@ -1,12 +1,7 @@
 import { LangCodes } from '../locale';
 
-import {
-  InternalDateDayWeek,
-  InternalDateFirstDayWeek,
-  InternalDateLocaleSet,
-  InternalDateOrder,
-  InternalDateSeparator,
-} from './types';
+import type { InternalDateLocaleSet } from './types';
+import { InternalDateDayWeek, InternalDateFirstDayWeek, InternalDateOrder, InternalDateSeparator } from './types';
 
 const DateCustomSet_DMY_Dot_Monday_6_7: InternalDateLocaleSet = {
   order: InternalDateOrder.DMY,

@@ -1,38 +1,40 @@
-import React, { HTMLAttributes, LegacyRef } from 'react';
+import type { HTMLAttributes, LegacyRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Priority, ZIndex } from '../ZIndex';
+import type { Priority } from '../ZIndex';
+import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
-import { FocusEventType, MouseEventType } from '../../typings/event-types';
+import type { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { mergeRefs } from '../../lib/mergeRefs';
 
 import { PopupPin } from './PopupPin';
-import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
+import type { Offset, PositionObject, Rect } from './PopupHelper';
+import { PopupHelper } from './PopupHelper';
 import { styles } from './Popup.styles';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';

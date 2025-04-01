@@ -1,6 +1,7 @@
 import { globalObject } from '@skbkontur/global-object';
 
-import { GlobalWithRetailUiZIndexes, incrementZIndex, removeZIndex } from '../ZIndexStorage';
+import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
+import { incrementZIndex, removeZIndex } from '../ZIndexStorage';
 
 const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
-import { RenderContainerProps } from './RenderContainerTypes';
+import type { RenderContainerProps } from './RenderContainerTypes';
 
 interface GlobalWithReactTesting {
   ReactTesting?: any;

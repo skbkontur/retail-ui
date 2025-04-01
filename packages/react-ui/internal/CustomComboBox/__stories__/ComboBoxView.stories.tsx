@@ -1,7 +1,7 @@
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
-import { Theme } from '../../lib/theming/Theme';
+import type { Nullable } from '../../typings/utility-types';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -10,7 +10,7 @@ import { isInstanceOf } from '../../lib/isInstanceOf';
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
-import { ScrollContainerProps } from './ScrollContainer';
+import type { ScrollContainerProps } from './ScrollContainer';
 
 export type ScrollAxis = 'x' | 'y';
 export type ScrollBarScrollState = 'begin' | 'middle' | 'end';

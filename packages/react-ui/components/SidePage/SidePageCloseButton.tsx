@@ -6,7 +6,7 @@ import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
-import { CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';

@@ -2,9 +2,11 @@ import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import { CommonProps, CommonWrapper } from '../CommonWrapper';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { Nullable } from '../../typings/utility-types';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
+import type { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 

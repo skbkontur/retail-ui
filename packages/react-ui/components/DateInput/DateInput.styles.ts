@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 export const styles = {
   icon(t: Theme) {

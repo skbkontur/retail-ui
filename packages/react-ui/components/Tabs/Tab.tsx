@@ -1,21 +1,25 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { keyListener } from '../../lib/events/keyListener';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
-import { TabsContext, TabsContextDefaultValue, TabsContextType } from './TabsContext';
+import type { TabsContextType } from './TabsContext';
+import { TabsContext, TabsContextDefaultValue } from './TabsContext';
 import { globalClasses, horizontalStyles, styles, verticalStyles } from './Tab.styles';
 
 export interface TabIndicators {

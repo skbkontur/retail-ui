@@ -1,13 +1,15 @@
-import React, { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 
 import { CustomComboBox } from '../../internal/CustomComboBox';
-import { Nullable } from '../../typings/utility-types';
-import { MenuItemState } from '../MenuItem';
-import { InputIconType, ShowClearIcon } from '../Input';
-import { CommonProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { Nullable } from '../../typings/utility-types';
+import type { MenuItemState } from '../MenuItem';
+import type { ShowClearIcon, InputIconType } from '../Input';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
 export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,

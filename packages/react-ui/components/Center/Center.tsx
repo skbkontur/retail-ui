@@ -1,10 +1,13 @@
 import React from 'react';
 
-import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { Override } from '../../typings/utility-types';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
+import type { DefaultizedProps } from '../../lib/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Center.styles';
 

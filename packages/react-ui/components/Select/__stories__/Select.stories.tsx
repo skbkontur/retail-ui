@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
-import { CSFStory } from 'creevey';
+import type { CSFStory } from 'creevey';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
-import { Select, SelectProps } from '../Select';
+import type { SelectProps } from '../Select';
+import { Select } from '../Select';
 import { Gapped } from '../../Gapped';
 import { ResponsiveLayout } from '../../ResponsiveLayout';
 import { MenuItem } from '../../MenuItem';

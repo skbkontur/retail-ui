@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 
-import { Toast, Action, ToastDataTids } from './Toast';
+import type { Action } from './Toast';
+import { Toast, ToastDataTids } from './Toast';
 
 export class ToastStatic {
   public static push = (

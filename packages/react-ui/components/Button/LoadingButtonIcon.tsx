@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconSizeAliases } from '../../internal/icons2022/iconConstants';
+import type { IconSizeAliases } from '../../internal/icons2022/iconConstants';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
 
 import { ButtonDataTids } from './Button';

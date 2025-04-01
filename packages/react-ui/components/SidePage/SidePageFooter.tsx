@@ -2,18 +2,22 @@ import React from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { Gapped, GappedProps } from '../Gapped';
+import type { GappedProps } from '../Gapped';
+import { Gapped } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 
 import { styles } from './SidePage.styles';
-import { SidePageContext, SidePageContextType } from './SidePageContext';
+import type { SidePageContextType } from './SidePageContext';
+import { SidePageContext } from './SidePageContext';
 
 export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
   /** @ignore */

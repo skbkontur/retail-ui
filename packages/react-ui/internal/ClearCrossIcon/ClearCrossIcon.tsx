@@ -1,12 +1,14 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../CommonWrapper';
-import { SizeProp } from '../../lib/types/props';
-import { TokenSize } from '../../components/Token';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
+import type { SizeProp } from '../../lib/types/props';
+import type { TokenSize } from '../../components/Token';
 
 import { styles } from './ClearCrossIcon.styles';
 import { CrossIcon } from './CrossIcon';

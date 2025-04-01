@@ -1,8 +1,9 @@
 import React from 'react';
-import { FileUploader, FileUploaderRef, Button } from '@skbkontur/react-ui';
+import type { FileUploaderRef } from '@skbkontur/react-ui';
+import { FileUploader, Button } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
-import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
+import type { Meta, Story } from '../../../typings/stories';
+import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 
 export default {
   title: 'Input data/FileUploader',

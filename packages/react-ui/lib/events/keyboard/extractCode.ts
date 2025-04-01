@@ -1,7 +1,8 @@
-import { Entries } from '../../../typings/utility-types';
+import type { Entries } from '../../../typings/utility-types';
 
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
-import { KeyboardKey, KeyboardMapKeys } from './KeyboardMapKeys';
+import type { KeyboardKey } from './KeyboardMapKeys';
+import { KeyboardMapKeys } from './KeyboardMapKeys';
 
 export function extractCode(e: React.KeyboardEvent<HTMLElement> | KeyboardEvent): Codes {
   const event = (e as React.KeyboardEvent<HTMLElement>).nativeEvent || e;

@@ -4,16 +4,18 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Indicator.styles';
-import { TabsContext, TabsContextType } from './TabsContext';
-import { TabIndicators } from './Tab';
+import type { TabsContextType } from './TabsContext';
+import { TabsContext } from './TabsContext';
+import type { TabIndicators } from './Tab';
 import { TabsDataTids } from './Tabs';
 
 export interface IndicatorProps {

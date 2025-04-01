@@ -1,20 +1,22 @@
 import React from 'react';
-import { ComponentClass, mount, ReactWrapper } from 'enzyme';
+import type { ComponentClass, ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import { Transition } from 'react-transition-group';
-import { ReactComponentLike } from 'prop-types';
+import type { ReactComponentLike } from 'prop-types';
 import { render, screen } from '@testing-library/react';
 
 import { PopupDataTids } from '..';
 import { MobilePopupDataTids } from '../../MobilePopup';
-import { InstanceWithRootNode } from '../../../lib/rootNode';
-import { Popup, PopupProps, PopupState } from '../Popup';
+import type { InstanceWithRootNode } from '../../../lib/rootNode';
+import type { PopupProps, PopupState } from '../Popup';
+import { Popup } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { CommonWrapper } from '../../CommonWrapper';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>

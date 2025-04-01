@@ -1,14 +1,15 @@
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
 import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { Writeable } from '../../typings/utility-types';
+import type { Writeable } from '../../typings/utility-types';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
 import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';

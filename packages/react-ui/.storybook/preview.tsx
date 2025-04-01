@@ -1,6 +1,6 @@
 import React from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
-import { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
 import SearchIcon from '@skbkontur/react-icons/Search';
@@ -23,7 +23,8 @@ import {
 } from '@skbkontur/react-ui/lib/date/comparison';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import PeopleIcon from '@skbkontur/react-icons/People';
-import { LIVE_EXAMPLES_ADDON_ID, Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
+import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
+import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { UiMenuBars3HIcon, UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';

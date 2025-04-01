@@ -1,4 +1,5 @@
-import React, { PropsWithChildren, useContext, memo } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { useContext, memo } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

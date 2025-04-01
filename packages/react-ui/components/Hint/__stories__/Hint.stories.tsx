@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { PopupPinnablePositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
-import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import type { TSetRootNode } from '../../../lib/rootNode';
+import { rootNode } from '../../../lib/rootNode';
 import { Button } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 

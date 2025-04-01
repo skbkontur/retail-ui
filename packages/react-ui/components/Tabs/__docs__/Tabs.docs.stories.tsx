@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Tabs/Tabs',

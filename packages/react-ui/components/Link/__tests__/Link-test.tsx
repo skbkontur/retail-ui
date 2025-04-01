@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { LinkProps } from '..';
+import type { LinkProps } from '..';
 import { Link, LinkDataTids } from '../Link';
 
 const renderRTL = (props?: LinkProps) => render(<Link {...props} />);

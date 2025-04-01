@@ -1,10 +1,11 @@
 /* eslint react-hooks/exhaustive-deps: 2 */
-import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
+import type { ForwardedRef } from 'react';
+import React, { useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { InputElement, InputElementProps } from '../../Input';
+import type { InputElement, InputElementProps } from '../../Input';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import { cx } from '../../../lib/theming/Emotion';
 

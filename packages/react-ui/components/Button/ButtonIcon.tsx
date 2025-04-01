@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { isKonturIcon } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
-import { ButtonInnerProps } from './Button';
+import type { ButtonInnerProps } from './Button';
 import { styles } from './ButtonIcon.styles';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 

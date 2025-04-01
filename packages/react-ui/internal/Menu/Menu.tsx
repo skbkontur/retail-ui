@@ -1,4 +1,5 @@
-import React, { CSSProperties, HTMLAttributes } from 'react';
+import type { CSSProperties, HTMLAttributes } from 'react';
+import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -7,17 +8,21 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
-import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
-import { MenuItem, MenuItemDataTids } from '../../components/MenuItem';
-import { Nullable } from '../../typings/utility-types';
+import type { ScrollContainerScrollState } from '../../components/ScrollContainer';
+import { ScrollContainer } from '../../components/ScrollContainer';
+import type { MenuItem } from '../../components/MenuItem';
+import { MenuItemDataTids } from '../../components/MenuItem';
+import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import type { CommonProps } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper';
 
 import { styles } from './Menu.styles';
 import { MenuNavigation } from './MenuNavigation';

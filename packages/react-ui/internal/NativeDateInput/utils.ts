@@ -1,6 +1,6 @@
 import { getMonthInHumanFormat } from '../../components/Calendar/CalendarUtils';
-import { Nullable } from '../../typings/utility-types';
-import { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
+import type { Nullable } from '../../typings/utility-types';
+import type { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
 
 export const getDateForNative = (componentDate: Nullable<string>) => {
   if (!componentDate) {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactUIComponentWithRef } from './forwardRefAndName';
+import type { ReactUIComponentWithRef } from './forwardRefAndName';
 import { getDisplayName } from './getDisplayName';
 
 const removePostfix = (word: string, postfixRegex: RegExp) => {

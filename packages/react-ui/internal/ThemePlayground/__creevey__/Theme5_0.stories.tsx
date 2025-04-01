@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Story, Meta } from '../../../typings/stories';
+import type { Story, Meta } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME_5_0 } from '../../../lib/theming/themes/LightTheme';
 import { Switcher } from '../../../components/Switcher';

@@ -1,8 +1,10 @@
-import { mount, ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import { clickOutside } from '../../../lib/utils';
-import { FocusTrap, FocusTrapProps } from '../FocusTrap';
+import type { FocusTrapProps } from '../FocusTrap';
+import { FocusTrap } from '../FocusTrap';
 
 describe('<FocusTrap>', () => {
   let onBlur: jest.Mock<Promise<string[]>>;

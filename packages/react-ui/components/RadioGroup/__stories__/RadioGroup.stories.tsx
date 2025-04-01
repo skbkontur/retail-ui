@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { RadioGroup } from '../RadioGroup';
 import { Radio } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
-import { Nullable } from '../../../typings/utility-types';
-import { RadioGroupProps } from '..';
+import type { Nullable } from '../../../typings/utility-types';
+import type { RadioGroupProps } from '..';
 
 interface ComponentState {
   value: string;

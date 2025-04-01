@@ -1,10 +1,12 @@
-import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { IMaskInputProps } from 'react-imask';
+import type { Ref } from 'react';
+import React, { useImperativeHandle, useRef, useState, useEffect } from 'react';
+import type { IMaskInputProps } from 'react-imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
 import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
-import { Input, InputProps, InputType } from '../Input';
+import type { InputProps, InputType } from '../Input';
+import { Input } from '../Input';
 import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers';
 
 import { globalClasses } from './MaskedInput.styles';

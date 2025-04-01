@@ -1,11 +1,7 @@
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from './constants';
-import { InternalDate } from './InternalDate';
-import {
-  InternalDateComponentType,
-  InternalDateComponentsRaw,
-  InternalDateComponentRaw,
-  InternalDateComponents,
-} from './types';
+import type { InternalDate } from './InternalDate';
+import type { InternalDateComponentsRaw, InternalDateComponentRaw, InternalDateComponents } from './types';
+import { InternalDateComponentType } from './types';
 
 const calculateMonth = (month: number) => {
   if (month <= 7) {
