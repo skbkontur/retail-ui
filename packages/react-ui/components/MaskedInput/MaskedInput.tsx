@@ -1,5 +1,5 @@
 import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
-import { type IMaskInputProps } from '@lossir/react-imask';
+import { type IMaskInputProps } from '@skbkontur/react-imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
