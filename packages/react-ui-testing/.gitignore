@@ -24,3 +24,4 @@ packages
 
 .env
 *.sln.DotSettings.user
+Output
