@@ -3,10 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
+import { InputDataTids } from '../../Input';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PasswordInput, PasswordInputDataTids } from '../PasswordInput';
 import { componentsLocales as PasswordInputLocaleEn } from '../locale/locales/en';
 import { componentsLocales as PasswordInputLocaleRu } from '../locale/locales/ru';
+import * as listenFocusOutside from '../../../lib/listenFocusOutside';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', async () => {
@@ -142,6 +144,14 @@ describe('PasswordInput', () => {
     expect(screen.getByTestId(PasswordInputDataTids.eyeIcon)).toHaveAttribute('type', 'button');
   });
 
+  it('has correct data-tids', () => {
+    const customDataTid = 'custom-data-tid';
+    render(<PasswordInput data-tid={customDataTid} />);
+
+    expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+    expect(screen.getByTestId(InputDataTids.root)).toBeInTheDocument();
+  });
+
   describe('a11y', () => {
     it('sets value for aria-label attribute', async () => {
       const ariaLabel = 'aria-label';
@@ -200,5 +210,13 @@ describe('PasswordInput', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', customAriaLabel);
     });
+  });
+
+  it('RenderLayer not listen blur in default view', async () => {
+    const focusOutsideListener = jest.spyOn(listenFocusOutside, 'listen');
+
+    render(<PasswordInput />);
+
+    expect(focusOutsideListener).not.toHaveBeenCalled();
   });
 });

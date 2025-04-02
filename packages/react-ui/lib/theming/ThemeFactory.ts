@@ -1,26 +1,39 @@
-import { BasicLightTheme } from '../../internal/themes/BasicLightTheme';
 import { isNonNullable, NoInfer } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
+import { LIGHT_THEME } from './themes/LightTheme';
 
 export class ThemeFactory {
+  /**
+   * The default theme created with Object.create() is needed for the "overrideBaseTheme" to work.
+   *
+   * Themes should be frozen objects. But it is not possible to define properties on frozen objects.
+   * So, an object created by Object.create({ *frozen_object* }) acts as frozen too,
+   * but allows to apply Object.defineProperty to his own properties.
+   */
+  private static readonly overridableDefaultTheme: Theme = Object.create(LIGHT_THEME);
+
+  public static get defaultTheme(): Theme {
+    return this.overridableDefaultTheme;
+  }
+
   public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
-    const base = baseTheme || BasicLightTheme;
+    const base = baseTheme || this.defaultTheme;
     return this.constructTheme(base, theme);
   }
 
   public static overrideBaseTheme(theme: Theme) {
     // copying theme variables
-    ThemeFactory.getKeys(BasicLightTheme).forEach((variableName) => {
+    ThemeFactory.getKeys(this.defaultTheme).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
-      Object.defineProperty(BasicLightTheme, variableName, descriptor);
+      Object.defineProperty(this.defaultTheme, variableName, descriptor);
     });
 
     // copying theme markers
     Object.values(REACT_UI_THEME_MARKERS).forEach((marker) => {
       const descriptor = findPropertyDescriptor(theme, marker.key);
-      Object.defineProperty(BasicLightTheme, marker.key, descriptor);
+      Object.defineProperty(this.defaultTheme, marker.key, descriptor);
     });
   }
 

@@ -1,3 +1,4 @@
+/* eslint react-hooks/exhaustive-deps: 2 */
 import React, { ForwardedRef, useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
@@ -27,7 +28,6 @@ export const ColorableInputElement = forwardRefAndName(
     const focused = useRef(false);
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
-    const debouncedPaintText = useCallback(debounce(paintText), []);
     const [active, setActive] = useState(true);
 
     const { children, onInput, onFocus, onBlur, showOnFocus, ...inputProps } = props;
@@ -43,73 +43,7 @@ export const ColorableInputElement = forwardRefAndName(
 
     useEffect(updateActive, []);
 
-    useEffect(() => {
-      activation(props);
-      updateActive();
-    }, [active, showOnFocus, props.value, props.defaultValue, props.disabled, focused.current]);
-
-    useEffect(() => {
-      if (inputRef.current) {
-        inputStyle.current = getComputedStyle(inputRef.current);
-      }
-    });
-
-    return (
-      <>
-        {React.cloneElement(children, {
-          ...inputProps,
-          onInput: handleInput,
-          onFocus: handleFocus,
-          onBlur: handleBlur,
-          inputRef,
-          className: cx(props.className, active && globalClasses.input),
-        })}
-        {active && <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />}
-      </>
-    );
-
-    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
-      const isActive = !inputRef.current?.parentElement?.querySelector(':placeholder-shown');
-      setActive(isActive);
-
-      activation(props);
-
-      onInput?.(e);
-    }
-
-    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
-      setTimeout(updateActive);
-
-      focused.current = true;
-
-      onFocus?.(e);
-    }
-
-    function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-      updateActive();
-
-      focused.current = false;
-
-      onBlur?.(e);
-    }
-
-    function updateActive() {
-      setTimeout(() => {
-        setActive(!inputRef.current?.parentElement?.querySelector(':placeholder-shown'));
-      });
-    }
-
-    function activation(props: ColorableInputElementProps) {
-      if (active) {
-        debouncedPaintText(props);
-      } else {
-        debouncedPaintText.cancel();
-        inputRef.current && (inputRef.current.style.backgroundImage = '');
-        inputRef.current?.classList.remove(globalClasses.input);
-      }
-    }
-
-    function paintText(_props: Partial<ColorableInputElementProps> = props) {
+    const paintText = useCallback(() => {
       if (!spanRef.current || !inputRef.current || !inputStyle.current || !isBrowser(globalObject)) {
         return;
       }
@@ -143,11 +77,11 @@ export const ColorableInputElement = forwardRefAndName(
 
       let typedValueColor = theme.inputTextColor;
       let maskColor = theme.inputPlaceholderColor;
-      if (_props.disabled) {
+      if (props.disabled) {
         typedValueColor = theme.inputTextColorDisabled;
         maskColor = theme.inputTextColorDisabled;
       }
-      if (_props.showOnFocus) {
+      if (props.showOnFocus) {
         maskColor = focused.current ? maskColor : 'transparent';
       }
 
@@ -157,6 +91,80 @@ export const ColorableInputElement = forwardRefAndName(
           ${typedValueColor} ${threshold}%,
           ${maskColor} ${threshold}%
       )`;
+    }, [
+      props.showOnFocus,
+      props.disabled,
+      theme.inputTextColor,
+      theme.inputPlaceholderColor,
+      theme.inputTextColorDisabled,
+    ]);
+
+    const debouncedPaintText = useCallback(() => debounce(paintText), [paintText])();
+
+    const activation = useCallback(() => {
+      if (active) {
+        debouncedPaintText();
+      } else {
+        debouncedPaintText.cancel();
+        inputRef.current && (inputRef.current.style.backgroundImage = '');
+        inputRef.current?.classList.remove(globalClasses.input);
+      }
+    }, [debouncedPaintText, active]);
+
+    useEffect(() => {
+      activation();
+      updateActive();
+    }, [props.value, props.defaultValue, theme, activation]);
+
+    useEffect(() => {
+      if (inputRef.current) {
+        inputStyle.current = getComputedStyle(inputRef.current);
+      }
+    });
+
+    return (
+      <>
+        {React.cloneElement(children, {
+          ...inputProps,
+          onInput: handleInput,
+          onFocus: handleFocus,
+          onBlur: handleBlur,
+          inputRef,
+          className: cx(props.className, active && globalClasses.input),
+        })}
+        {active && <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />}
+      </>
+    );
+
+    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+      const isActive = !inputRef.current?.parentElement?.querySelector(':placeholder-shown');
+      setActive(isActive);
+
+      activation();
+
+      onInput?.(e);
+    }
+
+    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+      setTimeout(updateActive);
+
+      focused.current = true;
+
+      onFocus?.(e);
+    }
+
+    function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+      updateActive();
+
+      focused.current = false;
+
+      onBlur?.(e);
+    }
+
+    function updateActive() {
+      setTimeout(() => {
+        setActive(!inputRef.current?.parentElement?.querySelector(':placeholder-shown'));
+      });
     }
   },
 );

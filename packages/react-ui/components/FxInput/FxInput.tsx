@@ -44,6 +44,9 @@ export interface FxInputProps
 
         /** Задает атрибут aria-label кнопке восстановления (restore button). */
         buttonAriaLabel?: AriaAttributes['aria-label'];
+
+        /** @ignore */
+        corners?: React.CSSProperties;
       }
     > {}
 
@@ -105,7 +108,9 @@ export class FxInput extends React.Component<FxInputProps> {
     };
 
     let button = null;
-    const inputCorners: InputProps['corners'] = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
+    const inputCorners: InputProps['corners'] = auto
+      ? { ...rest.corners }
+      : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0, ...rest.corners };
     const iconSizes: Record<SizeProp, number> = {
       small: parseInt(this.theme.inputIconSizeSmall),
       medium: parseInt(this.theme.inputIconSizeMedium),
@@ -121,6 +126,7 @@ export class FxInput extends React.Component<FxInputProps> {
         <FxInputRestoreBtn
           size={rest.size}
           onRestore={onRestore}
+          corners={rest.corners}
           disabled={rest.disabled}
           borderless={rest.borderless}
           aria-label={props.buttonAriaLabel}

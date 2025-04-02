@@ -21,6 +21,7 @@ describe('InputLikeText', () => {
   it('should pass disabled to native input', () => {
     render(<InputLikeText disabled />);
 
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-disabled', 'true');
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
 });

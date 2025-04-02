@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.11...@skbkontur/react-ui@5.0.12) (2025-03-11)
+
+
+### Bug Fixes
+
+* **Loader,ZIndex:** fix overlap of dropdowns in widgets ([#3612](https://github.com/skbkontur/retail-ui/issues/3612)) ([7990c6d](https://github.com/skbkontur/retail-ui/commit/7990c6d4b661e49e5fec8707f4f06a9655bce25e))
+* **MaskedInput:** rerender after theme change ([#3614](https://github.com/skbkontur/retail-ui/issues/3614)) ([840443f](https://github.com/skbkontur/retail-ui/commit/840443fff46bc6037b92e3da6151312075c25fc7))
+
+
+
+
+
+## [5.0.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.10...@skbkontur/react-ui@5.0.11) (2025-03-03)
+
+
+### Bug Fixes
+
+* **Combobox:** use ComboBoxMenuDataTids in Menu ([#3601](https://github.com/skbkontur/retail-ui/issues/3601)) ([ae8afea](https://github.com/skbkontur/retail-ui/commit/ae8afea4684cfbfa7d03c0abe273a0f062943524))
+* **PasswordInput:**  prevent Input root data-tid override ([#3598](https://github.com/skbkontur/retail-ui/issues/3598)) ([61b2e83](https://github.com/skbkontur/retail-ui/commit/61b2e8303acc4446872e73f7a87f177b55a0fc37))
+
+
+
+
+
+## [5.0.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.9...@skbkontur/react-ui@5.0.10) (2025-01-30)
+
+
+### Bug Fixes
+
+* **GlobalLoader:** render in StrictMode ([#3582](https://github.com/skbkontur/retail-ui/issues/3582)) ([0d83d91](https://github.com/skbkontur/retail-ui/commit/0d83d91b6dbc02f37a89fcc6ef1fb5a970f179aa))
+
+
+
+
+
+## [5.0.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.8...@skbkontur/react-ui@5.0.9) (2025-01-24)
+
+**Note:** Version bump only for package @skbkontur/react-ui
+
+
+
+
+
 ## [5.0.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.7...@skbkontur/react-ui@5.0.8) (2025-01-17)
 
 

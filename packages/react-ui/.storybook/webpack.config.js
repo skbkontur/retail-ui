@@ -65,6 +65,18 @@ module.exports = async ({ config }) => {
         replace: 'tagID=globalThis.encodeURIComponent(children.toLowerCase())',
       },
     },
+    {
+      // fixes storybooks default font that doesn't get changed by the theme for some reason
+      // turns this: https://github.com/storybookjs/storybook/blob/v7.6.18/code/lib/theming/src/base.ts#L64
+      // into: "Lab Grotesque", ...
+      test: /@storybook(\/|\\)theming(\/|\\)/,
+      loader: 'string-replace-loader',
+      options: {
+        // prettier-ignore
+        search: '"Nunito Sans"',
+        replace: '"Lab Grotesque"',
+      },
+    },
   ];
 
   config.plugins.push(

@@ -8,7 +8,7 @@ import { SingleToast } from '../SingleToast';
 import { ToastDataTids } from '../../Toast';
 import { ToastLocaleHelper } from '../../Toast/locale';
 
-describe('ToastView', () => {
+describe('SingleToast', () => {
   describe('a11y', () => {
     it('has correct aria-label on close button', async () => {
       function showComplexNotification() {
@@ -61,5 +61,27 @@ describe('ToastView', () => {
 
       expect(screen.getByTestId(ToastDataTids.action)).toHaveAttribute('aria-label', ariaLabel);
     });
+  });
+
+  it('change showCloseIcon in SingleInput', async () => {
+    render(
+      <>
+        <SingleToast />
+        <Button onClick={() => SingleToast.push('Static SingleToast', null, 5000, true)}>
+          Показать статический тост c крестиком
+        </Button>
+        <Button onClick={() => SingleToast.push('Static SingleToast', null, 5000, false)}>
+          Показать статический тост без крестика
+        </Button>
+      </>,
+    );
+
+    const buttons = screen.getAllByRole('button');
+
+    await userEvent.click(buttons[0]);
+    expect(screen.queryByTestId(ToastDataTids.close)).toBeInTheDocument();
+
+    await userEvent.click(buttons[1]);
+    expect(screen.queryByTestId(ToastDataTids.close)).not.toBeInTheDocument();
   });
 });

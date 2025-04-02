@@ -1,12 +1,15 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { SearchLoupeIcon16Regular } from '../../../internal/icons2022/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import { Meta, Story } from '../../../typings/stories';
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 import { Input, InputProps } from '../../Input';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 
 export default {
   title: 'MaskedInput',
@@ -443,4 +446,23 @@ export const RewriteInMiddle: Story = () => {
   const [value, setValue] = React.useState('12');
 
   return <MaskedInput {...DEFAULT_PROPS} mask="9999" alwaysShowMask value={value} onValueChange={setValue} />;
+};
+
+export const ChangeTheme: Story = () => {
+  const [theme, setTheme] = React.useState(DARK_THEME);
+
+  useEffect(() => {
+    setTheme(LIGHT_THEME);
+  }, []);
+
+  return (
+    <ThemeContext.Provider value={theme}>
+      <MaskedInput {...DEFAULT_PROPS} alwaysShowMask value="123" />
+    </ThemeContext.Provider>
+  );
+};
+ChangeTheme.parameters = {
+  creevey: {
+    skip: { 'enough basic theme': { in: /^(?!\b(chrome2022)\b)/ } },
+  },
 };

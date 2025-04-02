@@ -2,7 +2,6 @@ import React from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
-import { DocsContainer } from '@storybook/blocks';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
@@ -38,6 +37,7 @@ import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
 import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
 import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -46,6 +46,9 @@ import * as ReactUi from '../index';
 import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular';
 import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light';
 import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup';
+import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme';
+import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
+import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -85,13 +88,6 @@ const preview: Preview = {
       controls: {
         sort: 'alpha',
       },
-      container: ({ children, context }) => (
-        // prevent sb default font-family and other styles
-        // see https://github.com/storybookjs/storybook/blob/c6b8ca7faec9d6b73f71c112100506ef41dde619/code/lib/blocks/src/components/DocsPage.tsx#L19
-        <div className="sb-unstyled">
-          <DocsContainer context={context}>{children}</DocsContainer>
-        </div>
-      ),
     },
     creevey: {
       captureElement: '#test-element',
@@ -216,9 +212,13 @@ addons.setConfig({
       QuestionCircleIcon,
       LightbulbIcon32Regular,
       NotificationBellAlarmIcon64Regular,
+      UiFilterFunnelIcon16Regular,
       ShowcaseGroup,
       ThemeContext,
       ThemeFactory,
+      ALL_LIGHT_THEMES,
+      ALL_DARK_THEMES,
+      parseVersionFromThemeName,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,
