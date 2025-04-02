@@ -1,0 +1,132 @@
+@typography: {
+  @12: {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    margin: 8px 0;
+  };
+  @12Wide: {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    margin: 10px 0;
+  };
+  @14: {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 10px 0;
+  };
+  @14Wide: {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 12px 0;
+  };
+  @16: {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 12px 0;
+  };
+  @16Wide: {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0;
+  };
+  @18: {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 12px 0;
+  };
+  @18Wide: {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 14px 0;
+  };
+  @20: {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 14px 0;
+  };
+  @20Wide: {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 32px;
+    margin: 16px 0;
+  };
+  @22: {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 30px;
+    margin: 14px 0;
+  };
+  @22Wide: {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 34px;
+    margin: 16px 0;
+  };
+  @24: {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32px;
+    margin: 16px 0;
+  };
+  @24Wide: {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
+    margin: 18px 0;
+  };
+  @28: {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 36px;
+    margin: 18px 0;
+  };
+  @32: {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+    margin: 20px 0;
+  };
+  @36: {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    margin: 22px 0;
+  };
+  @40: {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 48px;
+    margin: 24px 0;
+  };
+  @48: {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 56px;
+    margin: 28px 0;
+  };
+  @56: {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 64px;
+    margin: 32px 0;
+  };
+};
+
+.t(@size, @spacing: true, @wideColumn: false) {
+  @size-key: if(@wideColumn, %(e('%aWide'), @size), @size);
+  @size-props: @typography[ @@size-key];
+
+  font-size: @size-props[font-size];
+  font-weight: @size-props[font-weight];
+  line-height: @size-props[line-height];
+  margin: if(@spacing, @size-props[margin], 0);
+}

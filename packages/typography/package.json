@@ -1,0 +1,33 @@
+{
+  "name": "@skbkontur/typography",
+  "description": "Kontur UI Typography",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./index.js",
+    "./Text.css": "./Text.css",
+    "./Text.module.css": "./Text.module.css",
+    "./text.less": "./text.less",
+    "./text.scss": "./text.scss"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "prebuild": "node --require ./scripts/babel-register -- scripts/generate.ts && yarn build:prettier",
+    "clean": "git clean -fdxqe node_modules",
+    "build": "yarn build:esm",
+    "build:esm": "yarn tsc --module es6",
+    "build:prettier": "prettier --write ."
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "7.22.5",
+    "@babel/register": "7.22.5"
+  },
+  "peerDependencies": {
+    "react": ">=16.14",
+    "react-dom": ">=16.14"
+  },
+  "author": "Kontur"
+}

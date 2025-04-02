@@ -1,0 +1,143 @@
+@use "sass:map";
+@use "sass:string";
+
+$typography: (
+  '12': (
+    font-size: 12px,
+    line-height: 16px,
+    margin: 8px 0,
+    font-weight: 400,
+  ),
+  '12Wide': (
+    font-size: 12px,
+    line-height: 18px,
+    margin: 10px 0,
+    font-weight: 400,
+  ),
+  '14': (
+    font-size: 14px,
+    line-height: 20px,
+    margin: 10px 0,
+    font-weight: 400,
+  ),
+  '14Wide': (
+    font-size: 14px,
+    line-height: 22px,
+    margin: 12px 0,
+    font-weight: 400,
+  ),
+  '16': (
+    font-size: 16px,
+    line-height: 22px,
+    margin: 12px 0,
+    font-weight: 400,
+  ),
+  '16Wide': (
+    font-size: 16px,
+    line-height: 24px,
+    margin: 12px 0,
+    font-weight: 400,
+  ),
+  '18': (
+    font-size: 18px,
+    line-height: 24px,
+    margin: 12px 0,
+    font-weight: 400,
+  ),
+  '18Wide': (
+    font-size: 18px,
+    line-height: 28px,
+    margin: 14px 0,
+    font-weight: 400,
+  ),
+  '20': (
+    font-size: 20px,
+    line-height: 28px,
+    margin: 14px 0,
+    font-weight: 400,
+  ),
+  '20Wide': (
+    font-size: 20px,
+    line-height: 32px,
+    margin: 16px 0,
+    font-weight: 400,
+  ),
+  '22': (
+    font-size: 22px,
+    line-height: 30px,
+    margin: 14px 0,
+    font-weight: 400,
+  ),
+  '22Wide': (
+    font-size: 22px,
+    line-height: 34px,
+    margin: 16px 0,
+    font-weight: 400,
+  ),
+  '24': (
+    font-size: 24px,
+    line-height: 32px,
+    margin: 16px 0,
+    font-weight: 400,
+  ),
+  '24Wide': (
+    font-size: 24px,
+    line-height: 36px,
+    margin: 18px 0,
+    font-weight: 400,
+  ),
+  '28': (
+    font-size: 28px,
+    line-height: 36px,
+    margin: 18px 0,
+    font-weight: 700,
+  ),
+  '32': (
+    font-size: 32px,
+    line-height: 40px,
+    margin: 20px 0,
+    font-weight: 700,
+  ),
+  '36': (
+    font-size: 36px,
+    line-height: 44px,
+    margin: 22px 0,
+    font-weight: 700,
+  ),
+  '40': (
+    font-size: 40px,
+    line-height: 48px,
+    margin: 24px 0,
+    font-weight: 700,
+  ),
+  '48': (
+    font-size: 48px,
+    line-height: 56px,
+    margin: 28px 0,
+    font-weight: 700,
+  ),
+  '56': (
+    font-size: 56px,
+    line-height: 64px,
+    margin: 32px 0,
+    font-weight: 700,
+  ),
+) !default;
+
+/// @param {number} $size - Размер
+/// @param {boolean} $spacing [true] - Отступы
+/// @param {boolean} $wideColumn [false] - Широкая колонка
+@mixin t($size, $spacing: true, $wideColumn: false) {
+  $size-key: if($wideColumn, '#{$size}Wide', '#{$size}');
+  $style: map.get($typography, $size-key);
+
+  font-size: map.get($style, font-size);
+  font-weight: map.get($style, font-weight);
+  line-height: map.get($style, line-height);
+
+  @if $spacing {
+    margin: map.get($style, margin);
+  } @else {
+    margin: 0;
+  }
+}
