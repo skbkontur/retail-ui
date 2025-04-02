@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.9.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.8.1...react-ui-testing@3.9.0) (2025-04-02)
+
+
+### Features
+
+* **react-ui-testing:** add methods for text input ([#3630](https://github.com/skbkontur/retail-ui/issues/3630)) ([26898f1](https://github.com/skbkontur/retail-ui/commit/26898f17e5160256a3b12199b331aad166beb2c8))
+
+
+
+
+
 ## [3.8.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.8.0...react-ui-testing@3.8.1) (2025-03-27)
 
 **Note:** Version bump only for package react-ui-testing
