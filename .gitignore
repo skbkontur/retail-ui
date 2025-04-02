@@ -3,7 +3,7 @@
 .vscode
 .DS_Store
 *.code-workspace
-.orig
+*.orig
 
 node_modules
 yarn-debug.log
