@@ -82,6 +82,29 @@ import { FileUploader } from '@skbkontur/react-ui';
 <FileUploader multiple error />
 ```
 
+Ручное удаление файлов
+
+В критичных случаях, если нужно удалить файлы из контрола вручную, то это можно сделать, используя метод `removeFile` из `ref`.
+Обратите внимание, что при вызове `removeFile` вызываются коллбэки `onRemove` и `onValueChange`.
+
+```jsx harmony
+import { FileUploader, Button } from '@skbkontur/react-ui';
+
+const fileUploaderRef = React.useRef(null);
+const [fileList, setFileList] = React.useState([]);
+
+<div style={{ display: 'inline-grid', gap: '10px' }}>
+  <FileUploader ref={fileUploaderRef} multiple onValueChange={(files) => setFileList(files)} />
+    {fileList.map((file) => {
+    return (
+      <Button key={file.id} onClick={() => fileUploaderRef.current.removeFile(file.id)}>
+        Delete file {file.originalFile.name}
+      </Button>
+    );
+  })}
+</div>
+```
+
 ### Локали по умолчанию
 
 ```typescript static

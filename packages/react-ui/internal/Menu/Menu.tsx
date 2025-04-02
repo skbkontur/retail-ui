@@ -57,7 +57,7 @@ export interface MenuProps extends CommonProps, Pick<HTMLAttributes<HTMLDivEleme
 }
 
 export interface MenuState {
-  highlightedIndex: number;
+  highlightedIndex: number; // TODO unused variable, remove in next major release
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
   enableIconPadding: boolean;

@@ -92,6 +92,7 @@ project {
     subProject(ReactUI)
     subProject(Validations)
     subProject(SeleniumTesting)
+    subProject(DiffVersionBuild)
 }
 
 object RunAll : BuildType({
@@ -144,6 +145,10 @@ object RunAll : BuildType({
         snapshot(Validations_ScreenshotTests) {
         }
     }
+})
+
+object DiffVersionBuild: Project({
+    name = "DiffVersion"
 })
 
 object ReactUI_GitHubFeatures : Template({
