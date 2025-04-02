@@ -1,5 +1,5 @@
 import React from 'react';
-import { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react';
 import {
   DARK_THEME,
   DARK_THEME_5_0,
