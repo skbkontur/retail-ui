@@ -13,10 +13,10 @@ interface GlobalWithRetailUIVerticalScrollCounter {
 
 export const HideBodyVerticalScroll = () => {
   const emotion = useContext(EmotionContext);
-  return <HideBodyVerticalScrollELement emotion={emotion} />;
+  return <HideBodyVerticalScrollElement emotion={emotion} />;
 };
 
-class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }> {
+class HideBodyVerticalScrollElement extends React.Component<{ emotion: Emotion }> {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
   public static displayName = 'HideBodyVerticalScroll';
 
@@ -28,14 +28,14 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
     if (counter === 1) {
       this.master = true;
       this.initialScroll = globalObject.document?.documentElement ? globalObject.document.documentElement.scrollTop : 0;
-      HideBodyVerticalScroll.updateScrollVisibility();
-      globalObject.addEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
+      HideBodyVerticalScrollElement.updateScrollVisibility();
+      globalObject.addEventListener?.('resize', HideBodyVerticalScrollElement.updateScrollVisibility);
     }
   }
 
   public componentDidUpdate() {
     if (this.master) {
-      HideBodyVerticalScroll.updateScrollVisibility();
+      HideBodyVerticalScrollElement.updateScrollVisibility();
     }
   }
 
@@ -43,7 +43,7 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this.restoreStyles();
-      globalObject.removeEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
+      globalObject.removeEventListener?.('resize', HideBodyVerticalScrollElement.updateScrollVisibility);
     }
   }
 
@@ -54,7 +54,7 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
   public static updateScrollVisibility = () => {
     const shouldHide = !disposeDocumentStyle;
     if (shouldHide) {
-      HideBodyVerticalScroll.hideScroll();
+      HideBodyVerticalScrollElement.hideScroll();
     }
   };
 
@@ -70,7 +70,7 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
     const className = this.generateDocumentStyle(documentMargin + scrollWidth);
 
-    disposeDocumentStyle = HideBodyVerticalScroll.attachStyle(documentElement, className);
+    disposeDocumentStyle = HideBodyVerticalScrollElement.attachStyle(documentElement, className);
   };
 
   private static generateDocumentStyle = (documentMargin: number) => {
@@ -90,6 +90,7 @@ class HideBodyVerticalScrollELement extends React.Component<{ emotion: Emotion }
     return className;
   };
 
+  public static attachStyle = (element: HTMLElement, className: string) => {
     if (!globalObject.document?.querySelector(`.${className}`)) {
       element.classList.add(className);
     }

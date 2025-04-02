@@ -277,9 +277,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         onFocusOutside={this.handleFocusOutside}
         onClickOutside={this.handleFocusOutside}
       >
-         <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
-           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
-         </div>
+        <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
+          <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+        </div>
       </RenderLayer>
     );
   };

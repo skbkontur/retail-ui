@@ -1,11 +1,14 @@
+import type { Emotion } from '@emotion/css/create-instance';
+
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
-      ${resetButton()}
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
+      ${resetButton(emotion)}
       color: ${t.clearCrossIconColor};
       cursor: pointer;
       transition: color ${t.transitionDuration} ${t.transitionTimingFunction};
@@ -16,36 +19,36 @@ export const styles = memoizeStyle({
       justify-content: center;
       align-items: center;
     `;
-  },
+    },
 
-  focus(t: Theme) {
-    return css`
-      color: ${t.clearCrossIconHoverColor};
-    `;
-  },
+    focus(t: Theme) {
+      return css`
+        color: ${t.clearCrossIconHoverColor};
+      `;
+    },
 
-  clearCrossSmall(t: Theme) {
-    return css`
-      width: ${t.clearCrossIconWidthSmall};
-      height: ${t.clearCrossIconHeightSmall};
-      margin-right: ${t.clearCrossIconRightMarginSmall};
-      border-radius: ${t.clearCrossIconBorderRadiusSmall};
-    `;
-  },
-  clearCrossMedium(t: Theme) {
-    return css`
-      width: ${t.clearCrossIconWidthMedium};
-      height: ${t.clearCrossIconHeightMedium};
-      margin-right: ${t.clearCrossIconRightMarginMedium};
-      border-radius: ${t.clearCrossIconBorderRadiusMedium};
-    `;
-  },
-  clearCrossLarge(t: Theme) {
-    return css`
-      width: ${t.clearCrossIconWidthLarge};
-      height: ${t.clearCrossIconHeightLarge};
-      margin-right: ${t.clearCrossIconRightMarginLarge};
-      border-radius: ${t.clearCrossIconBorderRadiusLarge};
-    `;
-  },
-});
+    clearCrossSmall(t: Theme) {
+      return css`
+        width: ${t.clearCrossIconWidthSmall};
+        height: ${t.clearCrossIconHeightSmall};
+        margin-right: ${t.clearCrossIconRightMarginSmall};
+        border-radius: ${t.clearCrossIconBorderRadiusSmall};
+      `;
+    },
+    clearCrossMedium(t: Theme) {
+      return css`
+        width: ${t.clearCrossIconWidthMedium};
+        height: ${t.clearCrossIconHeightMedium};
+        margin-right: ${t.clearCrossIconRightMarginMedium};
+        border-radius: ${t.clearCrossIconBorderRadiusMedium};
+      `;
+    },
+    clearCrossLarge(t: Theme) {
+      return css`
+        width: ${t.clearCrossIconWidthLarge};
+        height: ${t.clearCrossIconHeightLarge};
+        margin-right: ${t.clearCrossIconRightMarginLarge};
+        border-radius: ${t.clearCrossIconBorderRadiusLarge};
+      `;
+    },
+  });

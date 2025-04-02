@@ -24,6 +24,7 @@ export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseBu
 
   const locale = useLocaleForControl('SidePage', SidePageLocaleHelper);
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {

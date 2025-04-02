@@ -136,7 +136,7 @@ export const getStyles = (emotion: Emotion) =>
     },
 
     close5_1(t: Theme) {
-      return css`
+      return emotion.css`
         justify-content: center;
         align-items: center;
         right: ${t.modalCloseButtonClickAreaRight};
@@ -151,10 +151,10 @@ export const getStyles = (emotion: Emotion) =>
         padding-left: ${t.modalCloseButtonClickAreaLeft};
         margin-left: -${t.modalCloseButtonClickAreaLeft};
     `;
-  },
+    },
 
     closeMobile(t: Theme) {
-      return css`
+      return emotion.css`
         right: ${t.mobileModalCloseButtonRightPadding};
         top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
         padding: ${t.mobileModalCloseButtonClickArea};
@@ -168,7 +168,7 @@ export const getStyles = (emotion: Emotion) =>
     },
 
     closeMobile5_1(t: Theme) {
-      return css`
+      return emotion.css`
         top: ${t.mobileModalCloseButtonTopPadding};
       `;
     },
@@ -225,10 +225,10 @@ export const getStyles = (emotion: Emotion) =>
       color: ${t.modalCloseButtonHoverColor};
       outline: 2px solid ${t.borderColorFocus};
     `;
-  },
+    },
 
-  focus5_1(t: Theme) {
-    return css`
+    focus5_1(t: Theme) {
+      return emotion.css`
       &:before {
         content: '';
         position: absolute;
