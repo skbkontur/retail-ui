@@ -48,7 +48,7 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  actionsRow(t: Theme) {
+    actionsRow(t: Theme) {
       return emotion.css`
         flex-direction: row;
         > *:nth-of-type(1) {
@@ -60,9 +60,9 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  actionsColumn(t: Theme) {
+    actionsColumn(t: Theme) {
       return emotion.css`
-      flex-direction: column;
+        flex-direction: column;
         > *:nth-of-type(2) {
           margin-top: ${t.miniModalActionGap};
         }

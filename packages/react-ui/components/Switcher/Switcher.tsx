@@ -137,7 +137,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   private renderMain() {
     const styles = this.styles;
-    const listClassName = this.emotion.cx({
     const inputProps = {
       type: 'checkbox',
       onKeyDown: this.handleKey,
@@ -150,8 +149,11 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const items = <Group>{this._renderItems()}</Group>;
 
     const captionClassName = this.emotion.cx(styles.caption(this.theme), this.getLabelSizeClassName());
-    const wrapperClassName = cx(styles.wrap(), isThemeGTE_5_1 && this.props.error && styles.error5_1(this.theme));
-    const errorClassName = cx(isTheme_5_0 && this.props.error && styles.error(this.theme));
+    const wrapperClassName = this.emotion.cx(
+      styles.wrap(),
+      isThemeGTE_5_1 && this.props.error && styles.error5_1(this.theme),
+    );
+    const errorClassName = this.emotion.cx(isTheme_5_0 && this.props.error && styles.error(this.theme));
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

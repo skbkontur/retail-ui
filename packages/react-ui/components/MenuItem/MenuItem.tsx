@@ -150,18 +150,17 @@ export class MenuItem extends React.Component<MenuItemProps> {
             <ThemeContext.Consumer>
               {(theme) => {
                 this.theme = theme;
-                return this.renderMain();
-                  return (
-                    <CommonWrapper
-                      rootNodeRef={this.setRootNode}
-                      {...getVisualStateDataAttributes({
-                        hover: this.isHover,
-                        selected: this.isSelected,
-                      })}
-                      {...this.props}
-                    >
-                      {this.renderMain(this.props)}
-                    </CommonWrapper>
+                return (
+                  <CommonWrapper
+                    rootNodeRef={this.setRootNode}
+                    {...getVisualStateDataAttributes({
+                      hover: this.isHover,
+                      selected: this.isSelected,
+                    })}
+                    {...this.props}
+                  >
+                    {this.renderMain()}
+                  </CommonWrapper>
                 );
               }}
             </ThemeContext.Consumer>

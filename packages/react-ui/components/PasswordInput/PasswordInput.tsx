@@ -180,10 +180,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleToggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocusOnInput);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.focusOnInput);
   };
 
-  private handleFocusOnInput = () => {
+  private focusOnInput = () => {
     if (this.input) {
       this.input.focus();
     }
@@ -253,12 +253,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   private hideSymbols = () => {
     this.setState({ visible: false });
-
-    if (!this.state.focused) {
-      return;
-    }
-
-    this.setState({ focused: false });
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
@@ -277,9 +271,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         onFocusOutside={this.handleFocusOutside}
         onClickOutside={this.handleFocusOutside}
       >
-         <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
-           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
-         </div>
+        <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
+          <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+        </div>
       </RenderLayer>
     );
   };

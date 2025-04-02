@@ -177,15 +177,15 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  title5_1(t: Theme) {
-    const paddingRight =
-      parseInt(t.sidePageCloseButtonClickAreaLeft) +
-      parseInt(t.sidePageCloseIconSize) +
-      parseInt(t.sidePageCloseButtonClickAreaRight);
-    return css`
-      padding-right: ${paddingRight}px;
-    `;
-  },
+    title5_1(t: Theme) {
+      const paddingRight =
+        parseInt(t.sidePageCloseButtonClickAreaLeft) +
+        parseInt(t.sidePageCloseIconSize) +
+        parseInt(t.sidePageCloseButtonClickAreaRight);
+      return emotion.css`
+        padding-right: ${paddingRight}px;
+      `;
+    },
 
     mobileTitle(t: Theme) {
       const paddingRight = parseInt(t.mobileSidePageCloseButtonPadding) * 2 + parseInt(t.sidePageCloseIconSize);
@@ -247,7 +247,7 @@ export const getStyles = (emotion: Emotion) =>
     },
 
     close5_1(t: Theme) {
-      return css`
+      return emotion.css`
         padding-top: ${t.sidePageCloseButtonClickAreaTop};
         margin-top: -${t.sidePageCloseButtonClickAreaTop};
         padding-right: ${t.sidePageCloseButtonClickAreaRight};
@@ -257,10 +257,10 @@ export const getStyles = (emotion: Emotion) =>
         padding-left: ${t.sidePageCloseButtonClickAreaLeft};
         margin-left: -${t.sidePageCloseButtonClickAreaLeft};
       `;
-   },
+    },
 
     closeSticky(t: Theme) {
-      return css`
+      return emotion.css`
         padding-top: ${t.sidePageCloseButtonFixedClickAreaTop};
         margin-top: -${t.sidePageCloseButtonFixedClickAreaTop};
         padding-bottom: ${t.sidePageCloseButtonFixedClickAreaBottom};
@@ -269,6 +269,7 @@ export const getStyles = (emotion: Emotion) =>
     },
 
     closeMobile(t: Theme) {
+      return emotion.css`
         padding: ${t.mobileSidePageCloseButtonClickArea};
         margin: -${t.mobileSidePageCloseButtonClickArea};
         font-size: 0;
@@ -281,12 +282,12 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  closeFocus5_1(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
-      border-radius: 4px;
-    `;
-  },
+    closeFocus5_1(t: Theme) {
+      return emotion.css`
+        box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+        border-radius: 4px;
+      `;
+    },
 
     wrapperClose(t: Theme) {
       return emotion.css`
@@ -300,11 +301,11 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  wrapperClose5_1(t: Theme) {
-    return css`
-      right: ${t.sidePageCloseButtonClickAreaRight};
-    `;
-  },
+    wrapperClose5_1(t: Theme) {
+      return emotion.css`
+        right: ${t.sidePageCloseButtonClickAreaRight};
+      `;
+    },
 
     mobileWrapperClose(t: Theme) {
       return emotion.css`
@@ -314,11 +315,11 @@ export const getStyles = (emotion: Emotion) =>
       `;
     },
 
-  mobileWrapperClose5_1(t: Theme) {
-    return css`
-      right: ${t.mobileSidePageCloseButtonPadding};
-    `;
-  },
+    mobileWrapperClose5_1(t: Theme) {
+      return emotion.css`
+        right: ${t.mobileSidePageCloseButtonPadding};
+      `;
+    },
 
     panel(t: Theme) {
       return emotion.css`
@@ -333,11 +334,11 @@ export const getStyles = (emotion: Emotion) =>
         line-height: ${t.sidePageHeaderFixedLineHeight};
         padding: ${t.sidePageHeaderFixedPaddingY} 0;
     `;
-  },
+    },
 
-  wrapperCloseFixed5_1(t: Theme) {
-    return css`
-      top: ${t.sidePageCloseButtonWrapperFixedOffsetTop};
+    wrapperCloseFixed5_1(t: Theme) {
+      return emotion.css`
+        top: ${t.sidePageCloseButtonWrapperFixedOffsetTop};
       `;
     },
 

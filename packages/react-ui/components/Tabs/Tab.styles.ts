@@ -15,64 +15,64 @@ export const globalClasses = prefix('tab')({
 export const getStyles = (emotion: Emotion) => {
   function tabRoot(t: Theme, size: SizeProp) {
     return emotion.css`
-    border-bottom: ${t.tabBorderWidth} solid transparent;
-    box-sizing: border-box;
-    color: ${t.tabTextColorDefault};
-    cursor: pointer;
-    display: inline-block;
-    font-size: ${fontSize(t, size)};
-    line-height: ${lineHeight(t, size)};
-    margin-left: ${paddingX(t, size)};
-    margin-right: ${paddingX(t, size)};
-    padding-bottom: calc(${paddingY(t, size)} - ${t.tabBorderWidth});
-    padding-top: ${paddingY(t, size)};
-    position: relative;
-    text-decoration: inherit;
-    transition: border-bottom ${t.transitionDuration} ${t.transitionTimingFunction};
+      border-bottom: ${t.tabBorderWidth} solid transparent;
+      box-sizing: border-box;
+      color: ${t.tabTextColorDefault};
+      cursor: pointer;
+      display: inline-block;
+      font-size: ${fontSize(t, size)};
+      line-height: ${lineHeight(t, size)};
+      margin-left: ${paddingX(t, size)};
+      margin-right: ${paddingX(t, size)};
+      padding-bottom: calc(${paddingY(t, size)} - ${t.tabBorderWidth});
+      padding-top: ${paddingY(t, size)};
+      position: relative;
+      text-decoration: inherit;
+      transition: border-bottom ${t.transitionDuration} ${t.transitionTimingFunction};
 
-    &:hover {
-      outline: inherit;
-      border-bottom: ${t.tabBorderWidth} solid ${t.tabColorHover};
-    }
+      &:hover {
+        outline: inherit;
+        border-bottom: ${t.tabBorderWidth} solid ${t.tabColorHover};
+      }
 
-    &:focus {
-      outline: inherit;
-    }
-  `;
+      &:focus {
+        outline: inherit;
+      }
+    `;
   }
 
   function tabVertical(t: Theme, size: SizeProp) {
     return emotion.css`
-    border-bottom: none;
-    border-left: ${t.tabBorderWidth} solid transparent;
-    display: block;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: ${shift(paddingX(t, size), `-${t.tabBorderWidth}`)};
-    padding-right: ${paddingX(t, size)};
-
-    &:hover {
       border-bottom: none;
-      border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
-    }
+      border-left: ${t.tabBorderWidth} solid transparent;
+      display: block;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: ${shift(paddingX(t, size), `-${t.tabBorderWidth}`)};
+      padding-right: ${paddingX(t, size)};
 
-    .${globalClasses.focus} {
-      bottom: 0;
-      left: -${t.tabBorderWidth};
-      right: 0;
-    }
-  `;
+      &:hover {
+        border-bottom: none;
+        border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
+      }
+
+      .${globalClasses.focus} {
+        bottom: 0;
+        left: -${t.tabBorderWidth};
+        right: 0;
+      }
+    `;
   }
 
   function tabFocus(t: Theme, size: SizeProp) {
     return emotion.css`
-    border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
-    bottom: -${t.tabBorderWidth};
-    left: -${paddingX(t, size)};
-    position: absolute;
-    right: -${paddingX(t, size)};
-    top: 0;
-  `;
+      border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
+      bottom: -${t.tabBorderWidth};
+      left: -${paddingX(t, size)};
+      position: absolute;
+      right: -${paddingX(t, size)};
+      top: 0;
+    `;
   }
 
   return memoizeStyle({
@@ -136,50 +136,50 @@ export const getHorizontalStyles = (emotion: Emotion) =>
   memoizeStyle({
     active(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-bottom: ${t.tabBorderWidth} solid transparent;
-      }
-    `;
+        &:hover {
+          border-bottom: ${t.tabBorderWidth} solid transparent;
+        }
+      `;
     },
 
     disabled() {
       return emotion.css`
-      &:hover {
-        border-bottom-color: transparent;
-      }
-    `;
+        &:hover {
+          border-bottom-color: transparent;
+        }
+      `;
     },
 
     primary(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverPrimary};
-      }
-    `;
+        &:hover {
+          border-bottom-color: ${t.tabColorHoverPrimary};
+        }
+      `;
     },
 
     success(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverSuccess};
-      }
-    `;
+        &:hover {
+          border-bottom-color: ${t.tabColorHoverSuccess};
+        }
+      `;
     },
 
     warning(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverWarning};
-      }
-    `;
+        &:hover {
+          border-bottom-color: ${t.tabColorHoverWarning};
+        }
+      `;
     },
 
     error(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-bottom-color: ${t.tabColorHoverError};
-      }
-    `;
+        &:hover {
+          border-bottom-color: ${t.tabColorHoverError};
+        }
+      `;
     },
   });
 
@@ -187,49 +187,49 @@ export const getVerticalStyles = (emotion: Emotion) =>
   memoizeStyle({
     active(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-left: ${t.tabBorderWidth} solid transparent;
-      }
-    `;
+        &:hover {
+          border-left: ${t.tabBorderWidth} solid transparent;
+        }
+      `;
     },
 
     disabled() {
       return emotion.css`
-      &:hover {
-        border-left-color: transparent;
-      }
-    `;
+        &:hover {
+          border-left-color: transparent;
+        }
+      `;
     },
 
     primary(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverPrimary};
-      }
-    `;
+        &:hover {
+          border-left-color: ${t.tabColorHoverPrimary};
+        }
+      `;
     },
 
     success(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverSuccess};
-      }
-    `;
+        &:hover {
+          border-left-color: ${t.tabColorHoverSuccess};
+        }
+      `;
     },
 
     warning(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverWarning};
-      }
-    `;
+        &:hover {
+          border-left-color: ${t.tabColorHoverWarning};
+        }
+      `;
     },
 
     error(t: Theme) {
       return emotion.css`
-      &:hover {
-        border-left-color: ${t.tabColorHoverError};
-      }
-    `;
+        &:hover {
+          border-left-color: ${t.tabColorHoverError};
+        }
+      `;
     },
   });

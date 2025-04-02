@@ -78,7 +78,7 @@ const Components: React.JSX.Element[] = [
   <GlobalLoader />,
   <Group>
     <Button>button</Button>
-    <Input onValueChange={console.log} />
+    <Input onValueChange={console.log} showClearIcon="auto" />
   </Group>,
   <Hint text={'hint'}>hint</Hint>,
   <Input onValueChange={console.log} />,
