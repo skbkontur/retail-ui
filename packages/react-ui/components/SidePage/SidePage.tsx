@@ -237,7 +237,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         onScroll={LayoutEvents.emit}
         style={
           isMobile && !isThemeGTE(this.theme, '5.2')
-            ? undefined
+            ? {
+                width: mobileWidth || '100%',
+              }
             : {
                 width: getWidth,
                 right: fromLeft ? 'auto' : offset,
