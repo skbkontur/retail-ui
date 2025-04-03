@@ -84,7 +84,6 @@ export const styles = memoizeStyle({
       text-align: left;
       vertical-align: middle;
       box-sizing: border-box;
-      z-index: 10;
       margin: 40px 20px;
     `;
   },
