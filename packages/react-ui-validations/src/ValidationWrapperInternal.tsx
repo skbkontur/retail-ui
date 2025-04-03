@@ -76,7 +76,11 @@ export class ValidationWrapperInternal extends React.Component<
     if (this.context) {
       this.context.register(this);
     }
-    this.applyValidation(this.props.validation);
+    if (this.context.submitted) {
+      this.processSubmit();
+    } else {
+      this.applyValidation(this.props.validation);
+    }
   }
 
   public componentWillUnmount() {
