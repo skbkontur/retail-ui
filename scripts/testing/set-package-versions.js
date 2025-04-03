@@ -4,6 +4,16 @@ const fs = require('fs');
 const reactVersion = process?.env?.REACT_VERSION;
 const tsVersion = process?.env?.TYPESCRIPT_VERSION;
 
+const jsonStringify = JSON.stringify(process?.env)
+const [ts, r] = [process?.env?.TYPESCRIPT_VERSION, process?.env?.REACT_VERSION]
+
+if (process?.env?.REACT_VERSION == 18) {
+  console.log("Доступ в If имеется");
+}
+
+console.log("jsonStringify", jsonStringify);
+console.log("ts", ts);
+console.log("react", r);
 if (!(reactVersion && tsVersion)) {
   return;
 }
