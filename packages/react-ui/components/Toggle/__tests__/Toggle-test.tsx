@@ -57,6 +57,16 @@ describe('Toggle', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
+  it('sets values for id,name attributes', () => {
+    const id = 'flagId';
+    const name = 'flagName';
+    render(<Toggle id={id} name={name} />);
+
+    const input = screen.getByRole('switch');
+    expect(input).toHaveAttribute('id', id);
+    expect(input).toHaveAttribute('name', name);
+  });
+
   describe('a11y', () => {
     it('should have correct role', () => {
       render(<Toggle>Toggle</Toggle>);
