@@ -102,8 +102,8 @@ object DiffVersionBuild: Project({
     val strictMode = "false"
 
     buildType({
-      name = "Run All|React=$reactV|TS=$tsV|strictMode=$strictMode"
-      id("React=$reactV|TS=$tsV|strictMode=$strictMode")
+      name = "Run All React$reactV TS$tsV strictMode$strictMode"
+      id("react$reactV-TS$tsV-strictMode$strictMode")
       params {
           param("env.REACT_VERSION", reactV)
           param("env.TYPESCRIPT_VERSION", tsV)
