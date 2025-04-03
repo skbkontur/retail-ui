@@ -41,12 +41,6 @@ export const styles = memoizeStyle({
 
   actionsIndent(t: Theme) {
     return css`
-      height: ${t.miniModalCancelIndent};
-    `;
-  },
-
-  actionsIndentIE11Fallback(t: Theme) {
-    return css`
       padding: ${t.miniModalCancelIndent} 0;
     `;
   },
