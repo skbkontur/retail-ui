@@ -97,23 +97,29 @@ project {
 object DiffVersionBuild: Project({
     name = "Diff version test"
 
-    val reactV = "18"
-    val tsV = "4"
-    val strictMode = "false"
+    val reactVersions = listOf("16", "17", "18")
+    val typescriptVersions = listOf("4")
+    val strictModeVariants = listOf("true")
 
-    buildType({
-      name = "Run All React$reactV TS$tsV strictMode$strictMode"
-      id("react$reactV" + "TS$tsV" + "strictMode$strictMode")
-      params {
-          param("env.REACT_VERSION", reactV)
-          param("env.TYPESCRIPT_VERSION", tsV)
-          param("env.STRICT_MODE", strictMode)
-      }
-      dependencies {
-          snapshot(RunAll) {
-          }
-      }
-    })
+    for (strictMode in strictModeVariants) {
+      for (tsV in typescriptVersions) {
+        for (reactV in reactVersions) {
+          buildType({
+            name = "Run All React$reactV TS$tsV strictMode$strictMode"
+            id("react$reactV" + "TS$tsV" + "strictMode$strictMode")
+            params {
+              param("env.REACT_VERSION", reactV)
+              param("env.TYPESCRIPT_VERSION", tsV)
+              param("env.STRICT_MODE", strictMode)
+            }
+            dependencies {
+              snapshot(RunAll) {
+              }
+            }
+          })
+        }
+     }
+  }
 })
 
 object RunAll : BuildType({
