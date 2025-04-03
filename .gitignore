@@ -17,3 +17,5 @@ browsers/
 .scannerwork
 /packages/react-ui-validations/.creevey/report
 /packages/react-ui-validations/.storybook/build/
+
+.cspellcache
