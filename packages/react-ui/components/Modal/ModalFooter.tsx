@@ -65,11 +65,11 @@ function ModalFooter(props: ModalFooterProps) {
           className={cx(
             styles.footer(theme),
             fixed && styles.fixedFooter(theme),
-            fixed && versionGTE5_2 && styles.fixedFooter5_2(),
+            versionGTE5_2 && fixed && styles.fixedFooter5_2(),
             Boolean(panel) && styles.panel(theme),
             fixed && Boolean(panel) && styles.fixedPanel(theme),
             layout.isMobile && styles.mobileFooter(theme),
-            layout.isMobile && fixed && versionGTE5_2 && styles.mobileFixedFooter5_2(theme),
+            versionGTE5_2 && layout.isMobile && fixed && styles.mobileFixedFooter5_2(theme),
           )}
           style={versionGTE5_2 ? style : undefined}
         >
@@ -90,7 +90,7 @@ function ModalFooter(props: ModalFooterProps) {
     if (modal.horizontalScroll) {
       offset += getScrollWidth();
     }
-    if (layout.isMobile && versionGTE5_2 && !modal.mobileOnFullScreen) {
+    if (versionGTE5_2 && layout.isMobile && !modal.mobileOnFullScreen) {
       offset += parseInt(theme.mobileModalContainerMarginBottom);
     }
     return offset;

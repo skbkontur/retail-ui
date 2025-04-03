@@ -54,9 +54,9 @@ function ModalHeader(props: ModalHeaderProps) {
             layout.isMobile && styles.mobileHeader(theme),
             Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),
             fixed && styles.fixedHeader(theme),
-            fixed && versionGTE5_2 && styles.fixedHeader5_2(),
+            versionGTE5_2 && fixed && styles.fixedHeader5_2(),
             fixed && layout.isMobile && styles.mobileFixedHeader(theme),
-            fixed && layout.isMobile && versionGTE5_2 && styles.mobileFixedHeader5_2(theme),
+            versionGTE5_2 && fixed && layout.isMobile && styles.mobileFixedHeader5_2(theme),
             Boolean(modal.close) && styles.headerWithClose(theme),
             Boolean(modal.close) && layout.isMobile && styles.mobileHeaderWithClose(theme),
           )}
@@ -73,7 +73,7 @@ function ModalHeader(props: ModalHeaderProps) {
   };
 
   const getStickyOffset = () => {
-    if (layout.isMobile && versionGTE5_2 && !modal.mobileOnFullScreen) {
+    if (versionGTE5_2 && layout.isMobile && !modal.mobileOnFullScreen) {
       return parseInt(theme.mobileModalContainerMarginTop);
     }
     return 0;

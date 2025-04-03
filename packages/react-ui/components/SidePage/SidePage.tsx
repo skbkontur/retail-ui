@@ -182,7 +182,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 wrapperRef={this.rootRef}
                 style={{ position: 'absolute' }}
               >
-                {blockBackground && (versionGTE5_2 || !isMobile) && this.renderShadow()}
+                {(versionGTE5_2 || !isMobile) && blockBackground && this.renderShadow()}
                 <CSSTransition
                   in
                   classNames={this.getTransitionNames()}
@@ -220,10 +220,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, mobileWidth, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
+    const { mobileWidth, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { offset, role } = this.getProps();
 
-    const getWidth = isMobile ? mobileWidth || '100%' : width || (blockBackground ? 800 : 500);
+    const widthDesktop = this.props.width || (blockBackground ? 800 : 500);
+    const widthMobile = this.props.mobileWidth || '100%';
+    const width = isMobile ? widthMobile : widthDesktop;
 
     return (
       <div
@@ -241,7 +243,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 width: mobileWidth || '100%',
               }
             : {
-                width: getWidth,
+                width,
                 right: fromLeft ? 'auto' : offset,
                 left: fromLeft ? offset : 'auto',
               }

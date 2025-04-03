@@ -106,9 +106,8 @@ export default {
 };
 
 export const MobileModalPlayground: Story = () => {
-  const [isMini, setIsMini] = React.useState(false);
-
-  const [appearance, setAppearance] = useState<MobileModalAppearance | undefined>(undefined);
+  const [opened, setOpened] = React.useState(false);
+  const [position, setPosition] = useState<MobileModalAppearance | undefined>(undefined);
 
   const [hasHeader, setHasHeader] = React.useState(false);
   const [stickyHeader, setStickyHeader] = React.useState(false);
@@ -119,60 +118,44 @@ export const MobileModalPlayground: Story = () => {
   const [isLongContent, setIsLongContent] = React.useState(false);
 
   return (
-    <>
-      <MobileModalWithSettings
-        appearance={appearance}
-        hasHeader={hasHeader}
-        stickyHeader={stickyHeader}
-        hasFooter={hasFooter}
-        stickyFooter={stickyFooter}
-        isLongContent={isLongContent}
-        isMini={isMini}
-      />
-      <br />
-      <br />
-      <Gapped>
-        <Checkbox data-tid="header" checked={hasHeader} onValueChange={setHasHeader} children={'хеддер'} />
-        <Checkbox
-          data-tid="sticky-header"
-          checked={stickyHeader}
-          onValueChange={setStickyHeader}
-          children={'залипающий'}
+    <Gapped gap={16} vertical>
+      {opened && (
+        <MobileModalWithSettings
+          appearance={position}
+          hasHeader={hasHeader}
+          stickyHeader={stickyHeader}
+          hasFooter={hasFooter}
+          stickyFooter={stickyFooter}
+          isLongContent={isLongContent}
         />
-      </Gapped>
-      <Gapped>
-        <Checkbox data-tid="footer" checked={hasFooter} onValueChange={setHasFooter} children={'футер'} />
-        <Checkbox
-          data-tid="sticky-footer"
-          checked={stickyFooter}
-          onValueChange={setStickyFooter}
-          children={'залипающий'}
+      )}
+      <div>
+        <b>Отображение mobileAppearance</b>
+        <br />
+        <br />
+        <RadioGroup
+          items={['auto', 'top', 'center', 'bottom', 'fullscreen-spacing', 'fullscreen']}
+          onValueChange={setPosition}
         />
-      </Gapped>
-      <Checkbox data-tid="mini-modal" checked={isMini} onValueChange={setIsMini} children={'mini-modal'} />
-      <Checkbox
-        data-tid="long-text"
-        checked={isLongContent}
-        onValueChange={setIsLongContent}
-        children={'длинный текст для появления скролла'}
-      />
-      <br />
-      <RadioGroup<MobileModalAppearance>
-        data-tid="appearance"
-        items={
-          [
-            [undefined, 'undefined'],
-            'auto',
-            'top',
-            'center',
-            'bottom',
-            'fullscreen-spacing',
-            'fullscreen',
-          ] as MobileModalAppearance[]
-        }
-        onValueChange={setAppearance}
-      />
-    </>
+      </div>
+      <div>
+        <b>Настройки</b>
+        <br />
+        <br />
+        <Gapped vertical gap={0}>
+          <Checkbox checked={hasHeader} onValueChange={setHasHeader} children={'Шапка'} />
+          <Checkbox checked={hasFooter} onValueChange={setHasFooter} children={'Повал'} />
+          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader} children={'Залипаюшая шапка'} />
+          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter} children={'Залипающий подвал'} />
+          <Checkbox
+            checked={isLongContent}
+            onValueChange={setIsLongContent}
+            children={'Длинный текст для появления скролла'}
+          />
+        </Gapped>
+      </div>
+      <Button onClick={() => setOpened(true)}>Открыть</Button>
+    </Gapped>
   );
 };
 MobileModalPlayground.parameters = { creevey: { skip: true } };

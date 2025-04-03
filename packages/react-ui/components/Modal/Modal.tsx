@@ -281,11 +281,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       [styles.mobileCenterContainer()]: !versionGTE5_2 && isMobile,
                       [styles.mobileCenterContainer5_2(this.theme)]: versionGTE5_2 && isMobile,
                       [styles.mobileCenterContainerBig5_2(this.theme)]:
-                        isMobile &&
                         versionGTE5_2 &&
+                        isMobile &&
                         (mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter)),
                       [styles.mobileCenterContainerFullscreen5_2()]:
-                        isMobile && versionGTE5_2 && mobileAppearance === 'fullscreen',
+                        versionGTE5_2 && isMobile && mobileAppearance === 'fullscreen',
                       [styles.alignTop()]: Boolean(alignTop),
                     })}
                     style={isMobile ? undefined : containerStyle}
@@ -296,7 +296,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         [styles.window(this.theme)]: true,
                         [styles.mobileWindow()]: isMobile,
                         [styles.mobileWindowFullscreen5_2()]:
-                          isMobile && versionGTE5_2 && mobileAppearance === 'fullscreen',
+                          versionGTE5_2 && isMobile && mobileAppearance === 'fullscreen',
                       })}
                       style={isMobile ? undefined : style}
                     >
@@ -312,14 +312,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                               className={cx({
                                 [styles.closeWrapper(this.theme)]: true,
                                 [styles.mobileCloseWrapper(this.theme)]: isMobile,
-                                [styles.mobileCloseWrapper5_2(this.theme)]: isMobile && versionGTE5_2,
+                                [styles.mobileCloseWrapper5_2(this.theme)]: versionGTE5_2 && isMobile,
                               })}
                             >
                               <ModalClose
                                 className={cx({
                                   [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
                                   [styles.mobileCloseWithoutHeader5_2(this.theme)]:
-                                    isMobile && versionGTE5_2 && !this.state.hasHeader,
+                                    versionGTE5_2 && isMobile && !this.state.hasHeader,
                                 })}
                                 requestClose={this.requestClose}
                                 disableClose={disableClose}

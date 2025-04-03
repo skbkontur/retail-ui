@@ -66,9 +66,9 @@ export class ModalBody extends React.Component<ModalBodyProps> {
                 [styles.mobileBodyWithoutHeader()]: !hasHeader && this.isMobileLayout,
                 [styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
                 [styles.mobileBodyAddPaddingForPanel(this.theme)]: additionalPadding && this.isMobileLayout,
-                [styles.mobileBodyWithoutHeader5_2(this.theme)]: !hasHeader && versionGTE5_2 && this.isMobileLayout,
+                [styles.mobileBodyWithoutHeader5_2(this.theme)]: versionGTE5_2 && !hasHeader && this.isMobileLayout,
                 [styles.mobileBodyAddPaddingForPanel5_2(this.theme)]:
-                  additionalPadding && versionGTE5_2 && this.isMobileLayout,
+                  versionGTE5_2 && additionalPadding && this.isMobileLayout,
                 [styles.bodyWithoutPadding()]: noPadding,
               })}
             >

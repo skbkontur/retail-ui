@@ -247,7 +247,6 @@ export const styles = memoizeStyle({
       position: absolute;
       padding: ${t.mobileModalWithoutHeaderCloseButtonPadding};
       margin: -${t.mobileModalWithoutHeaderCloseButtonPadding};
-      vertical-align: top;
       top: ${t.mobileModalWithoutHeaderCloseButtonPadding};
       right: ${t.mobileModalWithoutHeaderCloseButtonPadding};
     `;

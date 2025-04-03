@@ -59,18 +59,13 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/*
-Чтобы увидеть отображение мобильной версии модалки, сузьте окно браузера до 576 пикселей.
- */
+/** Чтобы увидеть отображение мобильной версии модалки, сузьте окно браузера до 576 пикселей. */
 export const Example2: Story = () => {
   const [opened, setOpened] = React.useState(false);
-
   const [position, setPosition] = React.useState<MobileModalAppearance | undefined>('auto');
-
   const [hasHeader, setHasHeader] = React.useState(false);
   const [stickyHeader, setStickyHeader] = React.useState(false);
   const header = <Modal.Header sticky={stickyHeader}>Title</Modal.Header>;
-
   const [hasFooter, setHasFooter] = React.useState(false);
   const [stickyFooter, setStickyFooter] = React.useState(false);
   const [showSecondButton, setShowSecondButton] = React.useState(false);
@@ -108,28 +103,7 @@ export const Example2: Story = () => {
         * Ознакомиться с подробной документацией (доступна в разделе «Помощь»). <br />
         * Обратиться в техническую поддержку через чат или по email. <br />* Посетить форум сообщества, где пользователи
         делятся советами и решениями. Спасибо, что пользуетесь нашим сервисом! 🚀
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />А
+        <div style={{ height: '700px', backgroundColor: 'aquamarine' }}></div>
       </div>
     </Modal.Body>
   ) : (
@@ -141,7 +115,11 @@ export const Example2: Story = () => {
 
   function renderModal() {
     return (
-      <ThemeContext.Provider value={ThemeFactory.create({ mobileMediaQuery: '(max-width: 576px)' })}>
+      <ThemeContext.Provider
+        value={ThemeFactory.create({
+          mobileMediaQuery: '(max-width: 576px)',
+        })}
+      >
         <Modal mobileAppearance={position} onClose={() => setOpened(false)}>
           {hasHeader && header}
           {body}
@@ -150,40 +128,36 @@ export const Example2: Story = () => {
       </ThemeContext.Provider>
     );
   }
-
   return (
-    <div>
+    <Gapped gap={16} vertical>
       {opened && renderModal()}
-      Отображение мобильный модалки:
-      <RadioGroup<MobileModalAppearance>
-        items={
-          [
-            [undefined, 'undefined'],
-            'auto',
-            'top',
-            'center',
-            'bottom',
-            'fullscreen-spacing',
-            'fullscreen',
-          ] as MobileModalAppearance[]
-        }
-        onValueChange={setPosition}
-      />
-      <Gapped>
-        <Checkbox checked={hasHeader} onValueChange={setHasHeader} children={'хеддер'} />
-        <Checkbox checked={stickyHeader} onValueChange={setStickyHeader} children={'залипающий'} />
-      </Gapped>
-      <Gapped>
-        <Checkbox checked={hasFooter} onValueChange={setHasFooter} children={'футер'} />
-        <Checkbox checked={stickyFooter} onValueChange={setStickyFooter} children={'залипающий'} />
-      </Gapped>
-      <Checkbox
-        checked={isLongContent}
-        onValueChange={setIsLongContent}
-        children={'длинный текст для появления скролла'}
-      />
-      <Button onClick={() => setOpened(true)}>Open</Button>
-    </div>
+      <div>
+        <b>Отображение mobileAppearance</b>
+        <br />
+        <br />
+        <RadioGroup
+          items={['auto', 'top', 'center', 'bottom', 'fullscreen-spacing', 'fullscreen']}
+          onValueChange={setPosition}
+        />
+      </div>
+      <div>
+        <b>Настройки</b>
+        <br />
+        <br />
+        <Gapped vertical gap={0}>
+          <Checkbox checked={hasHeader} onValueChange={setHasHeader} children={'Шапка'} />
+          <Checkbox checked={hasFooter} onValueChange={setHasFooter} children={'Повал'} />
+          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader} children={'Залипаюшая шапка'} />
+          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter} children={'Залипающий подвал'} />
+          <Checkbox
+            checked={isLongContent}
+            onValueChange={setIsLongContent}
+            children={'Длинный текст для появления скролла'}
+          />
+        </Gapped>
+      </div>
+      <Button onClick={() => setOpened(true)}>Открыть</Button>
+    </Gapped>
   );
 };
 Example2.storyName = 'Мобильная версия модалки';
