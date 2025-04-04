@@ -106,13 +106,16 @@ object DiffVersionBuild: Project({
           subProject({
             name = "Run All React$reactV TS$tsV strictMode$strictMode"
             id("react$reactV" + "TS$tsV" + "strictMode$strictMode")
-
-            outputParams {
-               param("env.REACT_VERSION", reactV)
-               param("env.TYPESCRIPT_VERSION", tsV)
-               param("env.STRICT_MODE", strictMode)
-             }
-             buildType(RunAll)
+            DslContext.setParameter("env.REACT_VERSION", reactV)
+            DslContext.setParameter("REACT_VERSION", reactV)
+            DslContext.setParameter("TYPESCRIPT_VERSION", tsV)
+            DslContext.setParameter("STRICT_MODE", strictMode)
+            //params {
+            //   param("env.REACT_VERSION", reactV)
+            //   param("env.TYPESCRIPT_VERSION", tsV)
+            //   param("env.STRICT_MODE", strictMode)
+            // }
+            buildType(RunAll)
           })
         }
      }
@@ -257,7 +260,11 @@ object ReactUI : Project({
 
 object ReactUI_BuildRetailUi : BuildType({
     name = "Build"
-
+    params {
+      param("env.REACT_VERSION", DslContext.getParameter("REACT_VERSION")
+      param("env.TYPESCRIPT_VERSION", DslContext.getParameter("TYPESCRIPT_VERSION")
+      param("env.STRICT_MODE", DslContext.getParameter("STRICT_MODE")
+    }
     artifactRules = """
         packages\react-ui\.storybook\build\default => storybook-default-%build.number%.zip
         packages\react-ui\skbkontur-react-ui-%build.number%.tgz
