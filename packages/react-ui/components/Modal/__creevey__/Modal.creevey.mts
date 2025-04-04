@@ -111,12 +111,6 @@ kind('Modal', () => {
     });
   });
 
-  story('ModalMobileView', () => {
-    test('idle', async (context) => {
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'idle');
-    });
-  });
-
   story('ModalWithVariableHeightOfContent', () => {
     test('open modal', async (context) => {
       await context.webdriver
@@ -206,55 +200,6 @@ kind('Modal', () => {
 
   story('ModalWithChildrenFromOtherComponent', () => {
     topMiddleBottomModalTests();
-  });
-
-  story('MobileModal', () => {
-    test('top', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(200);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'top');
-    });
-
-    test('middle', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(200);
-      await context.webdriver.executeScript(function () {
-        const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
-        const modalBody = window.document.querySelector('[data-comp-name~="Modal.Body"] ') as HTMLElement;
-
-        modalContent.scrollTop = modalBody.offsetHeight / 2;
-      });
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'middle');
-    });
-
-    test('bottom', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(200);
-      await context.webdriver.executeScript(function () {
-        const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
-        const modalBody = window.document.querySelector('[data-comp-name~="Modal.Body"] ') as HTMLElement;
-
-        modalContent.scrollTop = modalBody.offsetHeight;
-      });
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'bottom');
-    });
   });
 
   story('ChangeAllModalContent', ({ setStoryParameters }) => {

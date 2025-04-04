@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
@@ -33,7 +34,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, children } = props;
+  const { sticky = !layout.isMobile, children, style } = props;
 
   useLayoutEffect(() => {
     modal.setHasHeader?.(true);
@@ -41,6 +42,7 @@ function ModalHeader(props: ModalHeaderProps) {
     return () => modal.setHasHeader?.(false);
   }, []);
 
+  const versionGTE5_2 = isThemeGTE(theme, '5.2');
   const renderContent = (fixed = false) => {
     return (
       <div>
@@ -48,13 +50,17 @@ function ModalHeader(props: ModalHeaderProps) {
           data-tid={ModalHeaderDataTids.root}
           className={cx(
             styles.header(theme),
+            versionGTE5_2 && styles.header5_2(theme),
             layout.isMobile && styles.mobileHeader(theme),
             Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),
             fixed && styles.fixedHeader(theme),
+            versionGTE5_2 && fixed && styles.fixedHeader5_2(),
             fixed && layout.isMobile && styles.mobileFixedHeader(theme),
+            versionGTE5_2 && fixed && layout.isMobile && styles.mobileFixedHeader5_2(theme),
             Boolean(modal.close) && styles.headerWithClose(theme),
             Boolean(modal.close) && layout.isMobile && styles.mobileHeaderWithClose(theme),
           )}
+          style={versionGTE5_2 ? style : undefined}
         >
           {modal.close && (
             <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />
@@ -66,8 +72,23 @@ function ModalHeader(props: ModalHeaderProps) {
     );
   };
 
+  const getStickyOffset = () => {
+    if (versionGTE5_2 && layout.isMobile && !modal.mobileOnFullScreen) {
+      return parseInt(theme.mobileModalContainerMarginTop);
+    }
+    return 0;
+  };
+
   return (
-    <CommonWrapper {...props}>{sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}</CommonWrapper>
+    <CommonWrapper {...props}>
+      {sticky ? (
+        <Sticky offset={getStickyOffset()} side="top">
+          {renderContent}
+        </Sticky>
+      ) : (
+        renderContent()
+      )}
+    </CommonWrapper>
   );
 }
 
