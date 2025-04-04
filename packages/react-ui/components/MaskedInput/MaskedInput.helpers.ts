@@ -1,4 +1,4 @@
-import { Definitions } from 'imask';
+import { type Definitions } from '@skbkontur/imask';
 
 import { isNonNullable } from '../../lib/utils';
 
