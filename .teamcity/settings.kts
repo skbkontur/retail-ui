@@ -112,30 +112,27 @@ object DiffVersionBuild: Project({
                param("env.TYPESCRIPT_VERSION", tsV)
                param("env.STRICT_MODE", strictMode)
              }
-             parentId("react$reactV" + "TS$tsV" + "strictMode$strictMode")
-             buildType(RunAll)
-
-             //{
-             //                name = "Run All"
-             //                id("runall_react$reactV" + "TS$tsV" + "strictMode$strictMode")
-             //                type = BuildTypeSettings.Type.COMPOSITE
-             //                dependencies {
-             //                  snapshot(ReactUI_BuildRetailUi) {
-              //                 }
-             //                  snapshot(ReactUI_LintTest) {
-             //                  }
-              //                 snapshot(ReactUI_ScreenshotTests) {
-             //                  }
-             //                  snapshot(SeleniumTesting_Test) {
-              //                 }
-              //                 snapshot(Validations_Build) {
-              //                 }
-             //                  snapshot(Validations_LintTest) {
-              //                 }
-              //                 snapshot(Validations_ScreenshotTests) {
-             //                  }
-              //               }
-             //              }
+             buildType({
+               name = "Run All"
+               id("runall_react$reactV" + "TS$tsV" + "strictMode$strictMode")
+               type = BuildTypeSettings.Type.COMPOSITE
+               dependencies {
+                 snapshot(ReactUI_BuildRetailUi) {
+                 }
+                 snapshot(ReactUI_LintTest) {
+                 }
+                 snapshot(ReactUI_ScreenshotTests) {
+                 }
+                 snapshot(SeleniumTesting_Test) {
+                 }
+                 snapshot(Validations_Build) {
+                 }
+                 snapshot(Validations_LintTest) {
+                 }
+                 snapshot(Validations_ScreenshotTests) {
+               }
+              }
+            })
           })
         }
      }
