@@ -2,14 +2,222 @@
 <style>
   html,
   body {
-    min-height: 100%;
+    height: 100%;
   }
 
   body {
-    font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
     font-size: 14px;
     margin: 0;
     background: white;
     color: rgba(0, 0, 0, 0.87);
+    padding: 0 !important;
+  }
+
+  body,
+  .sb-wrapper {
+    font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
+  }
+
+  #storybook-docs .sbdocs-wrapper p,
+  #storybook-docs .sbdocs-wrapper li {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  #storybook-docs .sbdocs-wrapper code {
+    font-family: monospace;
+    font-size: 14px;
+  }
+
+  html.relative {
+    position: relative;
+    height: auto;
+  }
+
+  #root {
+    min-height: 100%;
+  }
+
+  .dark:not(:has(.sbdocs-wrapper)) {
+    background: #1f1f1f;
+    color: rgba(255, 255, 255, 0.865);
+  }
+
+  .dark [data-role='code-wrapper'] {
+    color: rgba(255, 255, 255, 0.865);
+  }
+
+  .dark [data-role='code-wrapper'] button.active {
+    color: #fff;
+  }
+
+  .dark [data-role='preview-wrapper'] > div,
+  .dark [data-role='preview-wrapper'] + div {
+    background: rgb(40, 42, 54);
+  }
+
+  * {
+    /* disable scrollbars for firefox 100 */
+    /* see ID-10438 */
+    scrollbar-width: none;
+  }
+
+  /*Кастомные стили*/
+  :root {
+    --sidebar-width: 13rem;
+    --sidebar-left-padding: 0.5rem;
+    --sidebar-inner-width: calc(var(--sidebar-width) - var(--sidebar-left-padding));
+
+    --content-width: calc(100% - var(--sidebar-width));
+  }
+
+  .sbdocs-wrapper {
+    gap: 2rem;
+    padding-left: 38px !important;
+  }
+
+  .docs-story div[scale='1'] {
+    transform: none;
+  }
+
+  .sbdocs-content {
+    width: var(--content-width) !important;
+  }
+
+  div:has(> div > div.toc-wrapper) {
+    order: -1;
+    width: var(--sidebar-width) !important;
+    padding-left: var(--sidebar-left-padding);
+    flex-shrink: 0;
+    background: white;
+  }
+
+  div:has(> div > div.toc-wrapper) {
+    padding-left: 0;
+  }
+
+  div:has(> div > div.toc-wrapper) > * {
+    width: var(--sidebar-inner-width) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .toc-wrapper {
+    margin-top: 24px;
+  }
+
+  .toc-wrapper > .toc-list .toc-list,
+  div:has(> div > div.toc-wrapper) .toc-wrapper > .toc-list {
+    border: 0 !important;
+    margin: 0 !important;
+  }
+
+  div:has(> div > div.toc-wrapper) div:has(.toc-wrapper .toc-list) > div > p:first-child {
+    display: none;
+  }
+
+  div:has(> div > div.toc-wrapper) .toc-list-item {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  div:has(> div > div.toc-wrapper) .toc-list-item::before {
+    content: none;
+  }
+
+  .toc-list-item.is-active-li:before {
+    content: none !important;
+  }
+
+  .toc-list-item > a {
+    color: #3c3c3c !important;
+
+    &:hover {
+      color: #222 !important;
+    }
+  }
+
+  div:has(> .toc-wrapper) > p,
+  .sbdocs-content a:not(.sb-unstyled a) {
+    color: #3c3c3c !important;
+  }
+
+  .sbdocs-content a:not(.sb-unstyled a) {
+    text-decoration: underline;
+    text-decoration-color: #adadad;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+
+  .sbdocs-content a:not(.sb-unstyled a):hover {
+    color: #222 !important;
+    text-decoration-color: #222 !important;
+    transition: text-decoration-color 100ms cubic-bezier(0.5, 1, 0.89, 1);
+  }
+
+  .sb-unstyled table {
+    margin: 16px 0;
+    line-height: 24px;
+    padding: 0;
+    border-collapse: collapse;
+  }
+
+  .sb-unstyled table tr {
+    border-top: 1px solid hsla(203, 50%, 30%, 0.15);
+    margin: 0;
+  }
+
+  .sb-unstyled table tr th {
+    font-weight: bold;
+  }
+
+  .sb-unstyled table tr th,
+  .sb-unstyled table tr td {
+    color: #2e3438;
+    border: 1px solid hsla(203, 50%, 30%, 0.15);
+    margin: 0;
+    padding: 6px 13px;
+  }
+
+  .sbdocs ul {
+    margin: 16px 0;
+    padding-left: 30px;
+    list-style: disc;
+  }
+
+  .sbdocs ul ul:first-of-type {
+    margin-top: 0;
+  }
+
+  .sbdocs ul ul:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .sbdocs ul li + li {
+    margin-top: 0.25em;
+  }
+
+  .sbdocs ul p {
+    margin: 0;
+    line-height: 24px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    div:has(> div > div.toc-wrapper) {
+      display: none;
+    }
+
+    .sbdocs-content {
+      width: 100% !important;
+    }
   }
 </style>
+
+<script>
+  window.addEventListener('error', function (e) {
+    // prevent React's listener from firing
+    e.stopImmediatePropagation();
+    // prevent the browser's console error message
+    e.preventDefault();
+  });
+</script>
