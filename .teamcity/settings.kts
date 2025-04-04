@@ -47,7 +47,6 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2022.10"
 
 project {
-
     vcsRoot(RetailUiTags)
     vcsRoot(ReactUiTestingTags)
     vcsRoot(ReactUiValidationsTags)
@@ -92,7 +91,36 @@ project {
     subProject(ReactUI)
     subProject(Validations)
     subProject(SeleniumTesting)
+    subProject(DiffVersionBuild)
 }
+
+object DiffVersionBuild: Project({
+    name = "Diff version test"
+
+    val reactVersions = listOf("16", "17", "18")
+    val typescriptVersions = listOf("4")
+    val strictModeVariants = listOf("true")
+
+    for (strictMode in strictModeVariants) {
+      for (tsV in typescriptVersions) {
+        for (reactV in reactVersions) {
+          buildType({
+            name = "Run All React$reactV TS$tsV strictMode$strictMode"
+            id("react$reactV" + "TS$tsV" + "strictMode$strictMode")
+            params {
+              param("env.REACT_VERSION", reactV)
+              param("env.TYPESCRIPT_VERSION", tsV)
+              param("env.STRICT_MODE", strictMode)
+            }
+            dependencies {
+              snapshot(RunAll) {
+              }
+            }
+          })
+        }
+     }
+  }
+})
 
 object RunAll : BuildType({
     name = "Run All"

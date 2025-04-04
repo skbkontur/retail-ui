@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.15](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.14...@skbkontur/react-ui@5.0.15) (2025-03-28)
+
+
+### Bug Fixes
+
+* **MenuItem:** correctly pass state to functional children ([#3631](https://github.com/skbkontur/retail-ui/issues/3631)) ([f15beb7](https://github.com/skbkontur/retail-ui/commit/f15beb73b5998939b28c6218fb7db5100ee3d513))
+
+
+
+
+
+## [5.0.14](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.13...@skbkontur/react-ui@5.0.14) (2025-03-27)
+
+
+### Bug Fixes
+
+* **FileUploader:** add ability to remove hidden files ([#3625](https://github.com/skbkontur/retail-ui/issues/3625)) ([ffa404e](https://github.com/skbkontur/retail-ui/commit/ffa404e155d84db74291ffe5174d1ee2fba0abab))
+
+
+
+
+
+## [5.0.13](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.12...@skbkontur/react-ui@5.0.13) (2025-03-17)
+
+
+### Bug Fixes
+
+* **DatePicker:** remove unnecessary hook usage ([#3619](https://github.com/skbkontur/retail-ui/issues/3619)) ([35572c8](https://github.com/skbkontur/retail-ui/commit/35572c8b13a8866c4670b19fd7948a22683d7753))
+
+
+
+
+
 ## [5.0.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.11...@skbkontur/react-ui@5.0.12) (2025-03-11)
 
 

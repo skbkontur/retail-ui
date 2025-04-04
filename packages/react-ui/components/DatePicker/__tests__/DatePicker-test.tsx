@@ -10,7 +10,7 @@ import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { DatePicker, DatePickerDataTids } from '../DatePicker';
+import { DatePicker, DatePickerDataTids, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
@@ -469,9 +469,12 @@ describe('DatePicker', () => {
       window.matchMedia = oldMatchMedia;
     });
 
-    const MobilePicker = ({ initialDate = '02.07.2017' }) => {
+    const MobilePicker = ({
+      initialDate = '02.07.2017',
+      ...props
+    }: Partial<DatePickerProps> & { initialDate?: string }) => {
       const [date, setDate] = useState(initialDate);
-      return <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />;
+      return <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} {...props} />;
     };
 
     const waitForMonth = (theMonth: number, theYear: number) => {
@@ -565,6 +568,35 @@ describe('DatePicker', () => {
 
       const currentMonth = await waitForMonth(month, year);
       expect(currentMonth).toBeDefined();
+    });
+
+    it.each([
+      ['01.01.2011', '11'],
+      ['01.01.2011', '02'],
+    ])('should not call onMonthChange when only the date changes', async (from, to) => {
+      const onMonthChange = jest.fn();
+      render(<MobilePicker initialDate={from} onMonthChange={onMonthChange} />);
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
+      await userEvent.keyboard(to.replace(/\./g, ''));
+
+      expect(onMonthChange).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      ['01.01.2011', '01.02.2011'],
+      ['01.01.2011', '01.01.2012'],
+      ['01.01.2011', '01.02.2012'],
+    ])('should call onMonthChange when the value changes from "%s" to "%s"', async (from, to) => {
+      const onMonthChange = jest.fn();
+      render(<MobilePicker initialDate={from} onMonthChange={onMonthChange} />);
+      await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
+
+      fireEvent.focus(screen.getByTestId(MobilePickerDataTids.input));
+      await userEvent.keyboard(to.replace(/\./g, ''));
+
+      expect(onMonthChange).toHaveBeenCalled();
     });
 
     it('should change value from inner input', async () => {

@@ -305,7 +305,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     let content = children;
     if (isFunction(children)) {
-      content = children(state);
+      content = children(this.activeState);
     }
 
     const Component = this.getComponent();
