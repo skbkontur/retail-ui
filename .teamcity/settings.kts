@@ -112,6 +112,7 @@ object DiffVersionBuild: Project({
               param("env.STRICT_MODE", strictMode)
             }
             buildType(ReactUI_BuildRetailUi)
+            buildType(ReactUI_ScreenshotTests)
           })
         }
      }
