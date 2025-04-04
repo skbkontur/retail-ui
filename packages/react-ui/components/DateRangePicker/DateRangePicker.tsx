@@ -48,11 +48,11 @@ export const DateRangePickerDataTids = {
 
 export interface DateRangePickerProps
   extends CommonProps,
-  Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
-  Pick<
-    DatePickerProps,
-    'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
-  > {
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
+    Pick<
+      DatePickerProps,
+      'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
+    > {
   /**
    * Элементы DateRangePicker:
    * `<DateRangePicker.Start />`
@@ -390,11 +390,7 @@ export const DateRangePicker = Object.assign(
 
                   {props.useMobileNativeDatePicker && isMobile
                     ? renderMobileNativeDateInput()
-                    : isCalendarOpen && (
-                      isMobile
-                        ? renderMobileCalendar(theme)
-                        : renderDesktopCalendar(theme)
-                    )}
+                    : isCalendarOpen && (isMobile ? renderMobileCalendar(theme) : renderDesktopCalendar(theme))}
                 </DateRangePickerContext.Provider>
               </div>
             </CommonWrapper>
@@ -419,7 +415,7 @@ export const DateRangePicker = Object.assign(
         hasHoveredDay &&
         Boolean(
           (focusInput === 'start' && endValue && isBetween(day, hoveredDay, endValue)) ||
-          (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
+            (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
         );
 
       let hasLeftRoundings;
