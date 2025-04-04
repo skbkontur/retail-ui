@@ -106,10 +106,10 @@ object DiffVersionBuild: Project({
           subProject({
             name = "Run All React$reactV TS$tsV strictMode$strictMode"
             id("react$reactV" + "TS$tsV" + "strictMode$strictMode")
-            DslContext.setParameter("env.REACT_VERSION", reactV)
-            DslContext.setParameter("REACT_VERSION", reactV)
-            DslContext.setParameter("TYPESCRIPT_VERSION", tsV)
-            DslContext.setParameter("STRICT_MODE", strictMode)
+            DslContext.addParameters("env.REACT_VERSION", reactV)
+            DslContext.addParameters("REACT_VERSION", reactV)
+            DslContext.addParameters("TYPESCRIPT_VERSION", tsV)
+            DslContext.addParameters("STRICT_MODE", strictMode)
             //params {
             //   param("env.REACT_VERSION", reactV)
             //   param("env.TYPESCRIPT_VERSION", tsV)
@@ -261,9 +261,9 @@ object ReactUI : Project({
 object ReactUI_BuildRetailUi : BuildType({
     name = "Build"
     params {
-      param("env.REACT_VERSION", DslContext.getParameter("REACT_VERSION")
-      param("env.TYPESCRIPT_VERSION", DslContext.getParameter("TYPESCRIPT_VERSION")
-      param("env.STRICT_MODE", DslContext.getParameter("STRICT_MODE")
+      param("env.REACT_VERSION", DslContext.getParameter("REACT_VERSION"))
+      param("env.TYPESCRIPT_VERSION", DslContext.getParameter("TYPESCRIPT_VERSION"))
+      param("env.STRICT_MODE", DslContext.getParameter("STRICT_MODE"))
     }
     artifactRules = """
         packages\react-ui\.storybook\build\default => storybook-default-%build.number%.zip
