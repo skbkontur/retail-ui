@@ -1,0 +1,17 @@
+import { Story } from '@storybook/blocks';
+import * as DocsStories from './ArrayExample.docs.stories.tsx';
+import { Meta } from '../../../../.storybook/Meta';
+
+<Meta of={DocsStories} />
+
+# Валидация массива
+
+В примере на каждый элемент массива задано три валидации
+
+1. Проверка заполненности на submit
+2. Проверка формата на lostfocus
+3. Проверка дублей среди других элементов на lostfocus
+
+### Пример
+
+<Story of={DocsStories.ArrayExample} />
