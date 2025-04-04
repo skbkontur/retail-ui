@@ -114,14 +114,7 @@ object DiffVersionBuild: Project({
                param("env.STRICT_MODE", strictMode)
              }
 
-             buildType({
-               name = "Run All"
-               id("runall" + "_react$reactV" + "_TS$tsV" + "_strictMode$strictMode")
-               dependencies {
-                 snapshot(RunAll) {
-                 }
-               }
-             })
+             buildType(RunAll)
           })
         }
      }
