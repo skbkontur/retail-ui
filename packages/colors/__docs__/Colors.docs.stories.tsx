@@ -5,7 +5,7 @@ import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { DropdownMenu, MenuHeader, MenuItem, Toast } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Docs',
+  title: 'Colors',
   parameters: {
     creevey: {
       skip: true,
