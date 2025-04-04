@@ -113,7 +113,7 @@ object DiffVersionBuild: Project({
                param("env.TYPESCRIPT_VERSION", tsV)
                param("env.STRICT_MODE", strictMode)
              }
-             val specificRunAll = RunAll.clone()
+             val specificRunAll = RunAll.copy()
              specificRunAll.id("runall_react$reactV" + "TS$tsV" + "strictMode$strictMode")
              buildType(specificRunAll)
           })
