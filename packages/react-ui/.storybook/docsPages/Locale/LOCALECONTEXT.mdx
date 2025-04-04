@@ -1,0 +1,68 @@
+import { Story } from '@storybook/blocks';
+
+import { Meta } from '../../Meta';
+
+import * as LocaleStories from './Locale.docs.stories';
+
+<Meta of={LocaleStories} />
+
+# Локализации компонентов через контекст `React.Context<LocaleContextProps>`
+
+```typescript static
+interface LocaleContextProps {
+  locale?: LocaleControls;
+  langCode?: LangCodes;
+}
+```
+
+## Доступные языки
+
+```typescript static
+enum LangCodes {
+  ru_RU = 'ru_RU',
+  en_GB = 'en_GB',
+}
+```
+
+## LocaleControls
+
+```typescript static
+interface LocaleControls {
+  Autocomplete?: AutocompleteLocale;
+  Spinner?: SpinnerLocale;
+  TokenInput?: TokenInputLocale;
+  ComboBox?: ComboBoxLocale;
+  Select?: SelectLocale;
+  Paging?: PagingLocale;
+  DatePicker?: DatePickerLocale;
+}
+```
+
+## Использование
+
+Дефолтная локализация `<TokenInput />`
+
+<Story of={LocaleStories.Example1} />
+
+Кастомная локализация `<TokenInput />`
+
+<Story of={LocaleStories.Example2} />
+
+Некоторые контролы используют компоненты других контролов.
+
+Для инкапсуляции локализации можно использовать несколько контекстов.
+
+<Story of={LocaleStories.Example3} />
+
+Локализация функционального компонента через useContext.
+
+<Story of={LocaleStories.Example4} />
+
+## Обзор всех доступных контролов
+
+<Story of={LocaleStories.Example5} />
+
+## Локализация @skbkontur/react-ui-addons
+
+Компоненты `@skbkontur/react-ui-addons` так же поддерживают локализацию через `LocaleContext` из `@skbkontur/react-ui`.
+См. пример с кастомной локализацией. Дефолтные локали описаны для каждого компонента в [докумендации аддонов](https://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).

@@ -33,4 +33,10 @@ module.exports = [
       'import/no-default-export': 0,
     },
   },
+  {
+    files: ['**/*.docs.stories.tsx'],
+    rules: {
+      'react/no-unstable-nested-components': 0,
+    },
+  },
 ];
