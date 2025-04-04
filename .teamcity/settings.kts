@@ -112,6 +112,7 @@ object DiffVersionBuild: Project({
                param("env.TYPESCRIPT_VERSION", tsV)
                param("env.STRICT_MODE", strictMode)
              }
+             parentId("react$reactV" + "TS$tsV" + "strictMode$strictMode")
              buildType(RunAll)
 
              //{
@@ -143,11 +144,6 @@ object DiffVersionBuild: Project({
 
 object RunAll : BuildType({
     name = "Run All"
-    println("parentId.toString()" + this.parentId.toString())
-    println("absoluteId" + this.parentId.absoluteId)
-    println("id" + this.parentId.id)
-    println("value", this.parentId.value)
-    id("run_all_" + this.parentId.toString())
     allowExternalStatus = true
     type = BuildTypeSettings.Type.COMPOSITE
 
