@@ -6,5 +6,6 @@ addons.setConfig({
   theme,
   sidebar: {
     showRoots: false,
+    collapsedRoots: ['Displaying', 'Validator', 'Examples', 'Concepts'],
   },
 });

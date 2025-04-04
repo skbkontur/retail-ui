@@ -1,11 +1,19 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
+const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
-import docsConfig from './config-docs';
-import storiesConfig from './config-stories';
-
-function getConfig(): StorybookConfig {
-  return process.env.STORYBOOK_REACT_UI_VALIDATIONS_DOCS ? docsConfig : storiesConfig;
-}
-
-const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
+const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.tsx'],
+  addons: ['creevey'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: !isTestEnv,
+      strictMode: true,
+    },
+  },
+  core: {
+    disableWhatsNewNotifications: true,
+    disableTelemetry: true,
+  },
+};
 export default config;
