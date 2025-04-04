@@ -143,11 +143,11 @@ object DiffVersionBuild: Project({
 
 object RunAll : BuildType({
     name = "Run All"
-    println("parentId.toString()" + parentId.toString())
-    println("absoluteId" + parentId.absoluteId)
-    println("id" + parentId.id)
-    println("value", parentId.value)
-    id("run_all_" + parentId.toString())
+    println("parentId.toString()" + this.parentId.toString())
+    println("absoluteId" + this.parentId.absoluteId)
+    println("id" + this.parentId.id)
+    println("value", this.parentId.value)
+    id("run_all_" + this.parentId.toString())
     allowExternalStatus = true
     type = BuildTypeSettings.Type.COMPOSITE
 
