@@ -1,11 +1,12 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isNonNullable } from '../../../lib/utils';
 import { Theme } from '../../../lib/theming/Theme';
-import { cx } from '../../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
-import { jsStyles } from './MobilePopupHeader.styles';
+import { getStyles } from './MobilePopupHeader.styles';
 
 interface MobilePopupHeaderProps {
   /**
@@ -19,34 +20,45 @@ export class MobilePopupHeader extends React.Component<React.PropsWithChildren<M
   public static displayName = 'MobileMenuHeader';
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain() {
     const { caption, children } = this.props;
+    const styles = this.styles;
 
     return (
       <div
-        className={cx({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.rootWithoutContent()]: !caption && !children,
+        className={this.emotion.cx({
+          [styles.root(this.theme)]: true,
+          [styles.rootWithoutContent()]: !caption && !children,
         })}
       >
-        <div className={jsStyles.container()}>
+        <div className={styles.container()}>
           {caption && (
             <div
-              className={cx({
-                [jsStyles.caption(this.theme)]: true,
-                [jsStyles.captionWithChildren()]: isNonNullable(children),
+              className={this.emotion.cx({
+                [styles.caption(this.theme)]: true,
+                [styles.captionWithChildren()]: isNonNullable(children),
               })}
             >
               {caption}

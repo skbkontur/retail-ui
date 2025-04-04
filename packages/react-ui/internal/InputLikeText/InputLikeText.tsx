@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
@@ -9,11 +10,10 @@ import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
 import { calculateClearCrossShowedState, InputDataTids, InputProps, InputState } from '../../components/Input';
-import { styles as jsInputStyles } from '../../components/Input/Input.styles';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { getStyles as getJsInputStyles } from '../../components/Input/Input.styles';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -22,9 +22,10 @@ import { InputLayoutContext, InputLayoutContextDefault } from '../../components/
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { FocusControlWrapper } from '../FocusControlWrapper';
 import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { HiddenInput } from './HiddenInput';
-import { styles } from './InputLikeText.styles';
+import { getStyles } from './InputLikeText.styles';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {
   children?: React.ReactNode;
@@ -80,6 +81,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private node: HTMLElement | null = null;
   private hiddenInput: HTMLInputElement | null = null;
   private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
@@ -166,16 +169,24 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-              {this.renderMain}
-            </CommonWrapper>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -224,7 +235,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const leftSide = <InputLayoutAside icon={leftIcon} text={prefix} side="left" />;
     const rightSide = <InputLayoutAside icon={getRightIcon()} text={suffix} side="right" />;
 
-    const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+    const jsInputStyles = getJsInputStyles(this.emotion);
+    const styles = this.styles;
+    const className = this.emotion.cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.disabled(this.theme)]: !!disabled,
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
@@ -238,7 +251,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.hideBlinkingCursor()]: isMobile,
     });
 
-    const wrapperClass = cx(jsInputStyles.wrapper(), {
+    const wrapperClass = this.emotion.cx(jsInputStyles.wrapper(), {
       [styles.userSelectContain()]: focused,
     });
 
@@ -246,7 +259,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
+      <FocusControlWrapper rootNodeRef={this.setRootNode} disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
         <span
           data-tid={InputLikeTextDataTids.root}
           {...rest}
@@ -272,7 +285,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
             <span className={wrapperClass}>
               <span
                 data-tid={InputLikeTextDataTids.input}
-                className={cx(jsInputStyles.input(this.theme), {
+                className={this.emotion.cx(jsInputStyles.input(this.theme), {
                   [styles.absolute()]: !takeContentWidth,
                   [jsInputStyles.inputFocus(this.theme)]: focused,
                   [jsInputStyles.inputDisabled(this.theme)]: disabled,
@@ -296,9 +309,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const hasValue = isNonNullable(children) && children !== '';
 
     if (!hasValue && placeholder) {
+      const jsInputStyles = getJsInputStyles(this.emotion);
       return (
         <span
-          className={cx(jsInputStyles.placeholder(this.theme), {
+          className={this.emotion.cx(jsInputStyles.placeholder(this.theme), {
             [jsInputStyles.placeholderDisabled(this.theme)]: disabled,
             [jsInputStyles.placeholderFocus(this.theme)]: focused,
           })}
@@ -352,7 +366,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragStart: MouseDragEventHandler = (e) => {
     this.dragging = true;
-    globalObject.document?.documentElement.classList.add(styles.userSelectNone());
+    globalObject.document?.documentElement.classList.add(this.styles.userSelectNone());
 
     if (this.props.onMouseDragStart) {
       this.props.onMouseDragStart(e);
@@ -368,8 +382,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         this.props.onMouseDragEnd(e);
       }
     }, 0);
-
-    globalObject.document?.documentElement.classList.remove(styles.userSelectNone());
+    globalObject.document?.documentElement.classList.remove(this.styles.userSelectNone());
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
@@ -466,20 +479,21 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getSizeClassName = () => {
+    const jsInputStyles = getJsInputStyles(this.emotion);
     switch (this.getProps().size) {
       case 'large':
-        return cx({
+        return this.emotion.cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,
           [jsInputStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'medium':
-        return cx({
+        return this.emotion.cx({
           [jsInputStyles.sizeMedium(this.theme)]: true,
           [jsInputStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'small':
       default:
-        return cx({
+        return this.emotion.cx({
           [jsInputStyles.sizeSmall(this.theme)]: true,
           [jsInputStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
         });

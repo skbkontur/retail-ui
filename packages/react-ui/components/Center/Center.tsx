@@ -1,12 +1,13 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 
-import { styles } from './Center.styles';
+import { getStyles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -42,23 +43,33 @@ export class Center extends React.Component<CenterProps> {
   };
   private getProps = createPropsGetter(Center.defaultProps);
 
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-        {this.renderMain}
-      </CommonWrapper>
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
   private renderMain = (props: CommonWrapperRestProps<DefaultizedCenterProps>) => {
     const { align, ...rest } = props;
-
+    const styles = this.styles;
     return (
       <div
         data-tid={CenterDataTids.root}
         {...rest}
-        className={cx({
+        className={this.emotion.cx({
           [styles.root()]: true,
           [styles.rootAlignLeft()]: align === 'left',
           [styles.rootAlignRight()]: align === 'right',

@@ -6,9 +6,9 @@ import debounce from 'lodash.debounce';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { InputElement, InputElementProps } from '../../Input';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { cx } from '../../../lib/theming/Emotion';
+import { EmotionContext } from '../../../lib/theming/Emotion';
 
-import { globalClasses } from './ColorableInputElement.styles';
+import { getStyles, globalClasses } from './ColorableInputElement.styles';
 
 export type ColorableInputElementProps = InputElementProps & {
   showOnFocus?: boolean;
@@ -28,6 +28,8 @@ export const ColorableInputElement = forwardRefAndName(
     const focused = useRef(false);
     const inputStyle = React.useRef<CSSStyleDeclaration>();
     const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
+    const styles = getStyles(emotion);
     const [active, setActive] = useState(true);
 
     const { children, onInput, onFocus, onBlur, showOnFocus, ...inputProps } = props;
@@ -130,7 +132,12 @@ export const ColorableInputElement = forwardRefAndName(
           onFocus: handleFocus,
           onBlur: handleBlur,
           inputRef,
-          className: cx(props.className, active && globalClasses.input),
+          className: emotion.cx(props.className, active && styles.input()),
+          style: {
+            ...inputProps.style,
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+          },
         })}
         {active && <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />}
       </>
