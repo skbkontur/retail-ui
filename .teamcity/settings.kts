@@ -116,6 +116,15 @@ object DiffVersionBuild: Project({
                name = "Run All"
                id("runall_react$reactV" + "TS$tsV" + "strictMode$strictMode")
                type = BuildTypeSettings.Type.COMPOSITE
+               vcs {
+                   root(DslContext.settingsRoot)
+                   showDependenciesChanges = true
+               }
+               params {
+                param("env.REACT_VERSION", reactV)
+                param("env.TYPESCRIPT_VERSION", tsV)
+                param("env.STRICT_MODE", strictMode)
+              }
                dependencies {
                  snapshot(ReactUI_BuildRetailUi) {
                  }
