@@ -1,0 +1,42 @@
+<link href="https://s.kontur.ru/common-v2/fonts/labgrotesque/labgrotesque.css" rel="stylesheet" />
+
+<style>
+  .sidebar-item svg {
+    color: #222 !important;
+  }
+
+  .sidebar-item [data-selected='true'] {
+    background: rgba(0, 0, 0, 0.32);
+  }
+
+  button.sidebar-item,
+  .sidebar-item a {
+    font-size: 15px !important;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .sidebar-item[data-selected='true'],
+  .sidebar-item[data-selected='true']:hover,
+  .sidebar-item[data-selected='true']:focus {
+    background: #1f87ef;
+  }
+
+  .sidebar-item[data-selected='true'] svg {
+    color: white !important;
+  }
+
+  #storybook-explorer-searchfield {
+    border-radius: 2px;
+  }
+
+  /* Disable Storybook's sidebar hotkey '1' that conflicts with DateInput typing */
+  /* TODO: remove hack after fix <DateInput> onKeyDown behaviour in IF-2158 */
+  #storybook-explorer-menu {
+    visibility: hidden !important;
+  }
+
+  #storybook-explorer-menu > * {
+    visibility: visible !important;
+  }
+</style>
