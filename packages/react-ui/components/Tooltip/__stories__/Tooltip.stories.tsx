@@ -1,13 +1,16 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
+import React from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
-import { Nullable } from '../../../typings/utility-types';
-import { Story } from '../../../typings/stories';
-import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
+import type { Nullable } from '../../../typings/utility-types';
+import type { Story } from '../../../typings/stories';
+import type { TooltipProps, TooltipTrigger } from '../Tooltip';
+import { Tooltip } from '../Tooltip';
 import { Button } from '../../Button';
-import { PopupPositionsType, PopupPinnablePositions } from '../../../internal/Popup';
+import type { PopupPositionsType } from '../../../internal/Popup';
+import { PopupPinnablePositions } from '../../../internal/Popup';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { Textarea } from '../../Textarea';
 import { Checkbox } from '../../Checkbox';

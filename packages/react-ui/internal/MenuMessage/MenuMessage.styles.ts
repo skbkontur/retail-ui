@@ -1,4 +1,4 @@
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { getMenuItemPaddings } from '../../components/MenuItem/MenuItem.styles';
 

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndIconName } from '../../../lib/forwardRefAndName';
-import { BaseIcon, IconProps } from '../BaseIcon';
+import type { IconProps } from '../BaseIcon';
+import { BaseIcon } from '../BaseIcon';
 
 export const InfoCircleIcon64Regular = forwardRefAndIconName<SVGSVGElement, IconProps>(
   'InfoCircleIcon64Regular',

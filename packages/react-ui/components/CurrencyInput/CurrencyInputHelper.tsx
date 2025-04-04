@@ -1,6 +1,6 @@
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 
-import { Selection } from './SelectionHelper';
+import type { Selection } from './SelectionHelper';
 import { CurrencyHelper } from './CurrencyHelper';
 import { CursorHelper } from './CursorHelper';
 

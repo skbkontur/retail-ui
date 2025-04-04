@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { Gapped } from '../../components/Gapped';
-import { Radio, RadioProps } from '../../components/Radio';
+import type { RadioProps } from '../../components/Radio';
+import { Radio } from '../../components/Radio';
 
 import { getComponentsFromPropsList } from './helpers';
 

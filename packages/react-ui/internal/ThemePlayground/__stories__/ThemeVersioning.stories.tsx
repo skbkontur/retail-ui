@@ -1,10 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import React, { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
+import React from 'react';
 
-import { Story, Meta } from '../../../typings/stories';
+import type { Story, Meta } from '../../../typings/stories';
 import { createTheme, isThemeGTE, markThemeVersion } from '../../../lib/theming/ThemeHelpers';
 import { BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
-import { ThemeVersions } from '../../../lib/theming/ThemeVersions';
+import type { ThemeVersions } from '../../../lib/theming/ThemeVersions';
 
 export default {
   title: 'ThemeVersions/Test',
@@ -56,7 +57,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     '1_0': isThemeGTE(theme, '1.0' as ThemeVersions),
     '1_1': isThemeGTE(theme, '1.1' as ThemeVersions),
   })
-    .filter(([_, isDetected]) => isDetected)
+    .filter(([, isDetected]) => isDetected)
     .map(([version]) => <li>{version}</li>);
 
   return (

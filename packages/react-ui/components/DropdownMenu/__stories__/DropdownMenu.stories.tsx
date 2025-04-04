@@ -5,11 +5,12 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
-import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
+import type { DropdownMenuProps } from '../DropdownMenu';
+import { DropdownMenu } from '../DropdownMenu';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Input } from '../../Input';

@@ -1,7 +1,7 @@
-import { Nullable } from '../../typings/Types';
-import { ValidationInfo } from '../ValidationWrapper';
+import type { Nullable } from '../../typings/Types';
+import type { ValidationInfo } from '../ValidationWrapper';
 
-import { ValidationBuilder } from './ValidationBuilder';
+import type { ValidationBuilder } from './ValidationBuilder';
 
 export interface ValidationNode<T> {
   validation: Nullable<ValidationInfo>;

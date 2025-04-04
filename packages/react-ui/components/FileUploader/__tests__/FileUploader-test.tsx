@@ -5,9 +5,10 @@ import userEvent from '@testing-library/user-event';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
-import { FileUploader, FileUploaderDataTids, FileUploaderProps, FileUploaderRef } from '../FileUploader';
+import type { FileUploaderProps, FileUploaderRef } from '../FileUploader';
+import { FileUploader, FileUploaderDataTids } from '../FileUploader';
 import { delay } from '../../../lib/utils';
-import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
+import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 

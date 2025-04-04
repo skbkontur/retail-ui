@@ -2,15 +2,10 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { Nullable } from '../../../../typings/Types';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-  ValidationBuilder,
-  ValidationRule,
-} from '../../../../src';
+import type { ValidationBuilder, ValidationRule } from '../../../../src';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 
 interface ReusableDemoState {
   email: string;

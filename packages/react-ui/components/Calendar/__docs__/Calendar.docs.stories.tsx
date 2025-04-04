@@ -4,7 +4,7 @@ import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Display data/Calendar',

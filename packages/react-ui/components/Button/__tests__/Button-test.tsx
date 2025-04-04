@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import { Button, ButtonDataTids, ButtonType } from '../Button';
+import type { ButtonType } from '../Button';
+import { Button, ButtonDataTids } from '../Button';
 
 describe('Button', () => {
   it('has id attribute', () => {

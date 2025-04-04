@@ -3,10 +3,11 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { createValidator, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
-import { Nullable } from '../../typings/Types';
+import type { ValidationInfo } from '../../src';
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../src';
+import type { Nullable } from '../../typings/Types';
 
-import { ValidationState } from './ValidationHelper';
+import type { ValidationState } from './ValidationHelper';
 
 interface ObjectType {
   value3: string;

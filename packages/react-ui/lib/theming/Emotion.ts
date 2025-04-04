@@ -3,9 +3,9 @@ import extraScopePlugin from 'stylis-plugin-extra-scope';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Upgrade } from '../Upgrades';
-import { AnyObject, FunctionWithParams } from '../utils';
+import type { AnyObject, FunctionWithParams } from '../utils';
 
-import { Theme } from './Theme';
+import type { Theme } from './Theme';
 
 const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 

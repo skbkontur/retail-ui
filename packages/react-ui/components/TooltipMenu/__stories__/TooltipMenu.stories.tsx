@@ -2,7 +2,7 @@ import React from 'react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';

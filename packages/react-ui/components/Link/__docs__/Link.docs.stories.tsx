@@ -3,7 +3,7 @@ import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
 import { Link, Gapped, Button, Toast } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Button/Link',

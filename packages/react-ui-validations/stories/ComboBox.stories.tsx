@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
-import { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types';
 
 export default {
   title: 'ComboBox',

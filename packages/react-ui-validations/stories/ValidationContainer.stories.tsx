@@ -1,8 +1,9 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Button, Gapped, Input } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import type { ValidationInfo } from '../src';
+import { text, ValidationContainer, ValidationWrapper } from '../src';
 
 export default {
   title: 'ValidationContainer',

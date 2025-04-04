@@ -3,7 +3,7 @@ import UserIcon from '@skbkontur/react-icons/User';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { Group } from '../Group';
 import { Input } from '../../Input';

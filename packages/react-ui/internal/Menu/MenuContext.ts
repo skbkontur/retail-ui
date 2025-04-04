@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MenuItem } from '../../components/MenuItem';
+import type { MenuItem } from '../../components/MenuItem';
 
-import { MenuNavigation } from './MenuNavigation';
+import type { MenuNavigation } from './MenuNavigation';
 
 export interface MenuContextType {
   navigation: MenuNavigation<MenuItem> | null;

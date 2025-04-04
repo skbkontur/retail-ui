@@ -1,5 +1,5 @@
 import React from 'react';
-import { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react';
 
 import { LIGHT_THEME, LIGHT_THEME_5_0, LIGHT_THEME_5_1 } from '../../../lib/theming/themes/LightTheme';
 import { DARK_THEME, DARK_THEME_5_0, DARK_THEME_5_1 } from '../../../lib/theming/themes/DarkTheme';

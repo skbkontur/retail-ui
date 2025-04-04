@@ -1,11 +1,12 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { Toggle } from '../Toggle';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
-import { Checkbox, CheckboxProps } from '../../Checkbox';
+import type { CheckboxProps } from '../../Checkbox';
+import { Checkbox } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
 
 interface PlaygroundState {

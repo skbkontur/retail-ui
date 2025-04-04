@@ -1,6 +1,6 @@
-import { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types';
 
-import { Validation, ValidationBehaviour, ValidationLevel } from './ValidationWrapperInternal';
+import type { Validation, ValidationBehaviour, ValidationLevel } from './ValidationWrapperInternal';
 
 export function getVisibleValidation(
   visible: Nullable<Validation>,

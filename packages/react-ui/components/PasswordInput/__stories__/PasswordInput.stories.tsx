@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { PasswordInput } from '../PasswordInput';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 import { Gapped } from '../../Gapped';
 
 interface ComponentProps {

@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Center } from '@skbkontur/react-ui/components/Center';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Modal } from '@skbkontur/react-ui/components/Modal';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
-import { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src';
+import { text, ValidationContainer, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types';
 
 export default {
   title: 'ModalWithSingleInput',
