@@ -50,7 +50,6 @@ project {
     vcsRoot(RetailUiTags)
     vcsRoot(ReactUiTestingTags)
     vcsRoot(ReactUiValidationsTags)
-    parentId("Root")
     buildType(RunAll)
 
     template(ReactUI_GitHubFeatures)
@@ -113,7 +112,6 @@ object DiffVersionBuild: Project({
                param("env.TYPESCRIPT_VERSION", tsV)
                param("env.STRICT_MODE", strictMode)
              }
-             parentId("react$reactV" + "TS$tsV" + "strictMode$strictMode")
              buildType(RunAll)
 
              //{
@@ -145,7 +143,11 @@ object DiffVersionBuild: Project({
 
 object RunAll : BuildType({
     name = "Run All"
-    id("run_all_" + parentId)
+    println("parentId.toString()" + parentId.toString())
+    println("absoluteId" + parentId.absoluteId)
+    println("id" + parentId.id)
+    println("value", parentId.value)
+    id("run_all_" + parentId.toString())
     allowExternalStatus = true
     type = BuildTypeSettings.Type.COMPOSITE
 
