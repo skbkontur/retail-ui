@@ -113,7 +113,7 @@ object DiffVersionBuild: Project({
                param("env.TYPESCRIPT_VERSION", tsV)
                param("env.STRICT_MODE", strictMode)
              }
-
+             RunAll.id("runall_react$reactV" + "TS$tsV" + "strictMode$strictMode")
              buildType(RunAll)
           })
         }
