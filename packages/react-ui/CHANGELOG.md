@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.16](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.15...@skbkontur/react-ui@5.0.16) (2025-04-04)
+
+
+### Bug Fixes
+
+* **MiniModal:** prop 'gap' works in old browsers ([#3637](https://github.com/skbkontur/retail-ui/issues/3637)) ([c48feac](https://github.com/skbkontur/retail-ui/commit/c48feac17c8053afb1a106b04a8532fe7886525d))
+* **Toggle:** pass name attribute ([#3636](https://github.com/skbkontur/retail-ui/issues/3636)) ([4dd924d](https://github.com/skbkontur/retail-ui/commit/4dd924d19f3b3438d25a7172fb73f3884fe5ece9))
+
+
+
+
+
 ## [5.0.15](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.14...@skbkontur/react-ui@5.0.15) (2025-03-28)
 
 

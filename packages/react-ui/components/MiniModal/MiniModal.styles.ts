@@ -27,12 +27,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  actions(t: Theme) {
+  actions() {
     return css`
       display: flex;
       justify-content: stretch;
       text-align: center;
-      gap: ${t.miniModalActionGap};
 
       .${buttonGlobalClasses.root} {
         width: 100%;
@@ -42,30 +41,13 @@ export const styles = memoizeStyle({
 
   actionsIndent(t: Theme) {
     return css`
-      height: ${t.miniModalCancelIndent};
-    `;
-  },
-
-  actionsIndentIE11Fallback(t: Theme) {
-    return css`
       padding: ${t.miniModalCancelIndent} 0;
     `;
   },
 
-  actionsRow() {
+  actionsRow(t: Theme) {
     return css`
       flex-direction: row;
-    `;
-  },
-
-  actionsColumn() {
-    return css`
-      flex-direction: column;
-    `;
-  },
-
-  actionsRowIE11Fallback(t: Theme) {
-    return css`
       > *:nth-of-type(1) {
         margin-right: calc(${t.miniModalActionGap} / 2);
       }
@@ -75,8 +57,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  actionsColumnIE11Fallback(t: Theme) {
+  actionsColumn(t: Theme) {
     return css`
+      flex-direction: column;
       > *:nth-of-type(2) {
         margin-top: ${t.miniModalActionGap};
       }
