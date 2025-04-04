@@ -63,7 +63,7 @@ export interface ModalProps
   theme?: ThemeIn;
 
   /** Задает внешний вид модалки. Работает с версией темы >= 5_2.
-   *  - `auto` — всегда показывать иконку очистки значения в заполненном поле
+   *  - `auto` — если футера нет, модалка распологается в центре экрана, если футер есть -- модалка растягивается на весь экран с отступами и закругленными краями
    *  - `top` — модалка располагается сверху независимо от наличия футера
    *  - `center` — модалка располагается в центре независимо от наличия футера
    *  - `bottom` — модалка располагается снизу независимо от наличия футера
@@ -242,6 +242,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       containerStyle.width = 'auto';
     }
 
+    const getMobileCenterContainerClassNames = () => {
+      if (versionGTE5_2) {
+        return cx(styles.mobileCenterContainer5_2(this.theme), {
+          [styles.mobileCenterContainerBig5_2(this.theme)]:
+            mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter),
+          [styles.mobileCenterContainerFullscreen5_2()]: mobileAppearance === 'fullscreen',
+        });
+      }
+      return cx(styles.mobileCenterContainer());
+    };
+
     return (
       <RenderContainer>
         <CommonWrapper {...this.props}>
@@ -278,14 +289,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     role={role}
                     className={cx({
                       [styles.centerContainer()]: true,
-                      [styles.mobileCenterContainer()]: !versionGTE5_2 && isMobile,
-                      [styles.mobileCenterContainer5_2(this.theme)]: versionGTE5_2 && isMobile,
-                      [styles.mobileCenterContainerBig5_2(this.theme)]:
-                        versionGTE5_2 &&
-                        isMobile &&
-                        (mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter)),
-                      [styles.mobileCenterContainerFullscreen5_2()]:
-                        versionGTE5_2 && isMobile && mobileAppearance === 'fullscreen',
+                      [getMobileCenterContainerClassNames()]: isMobile,
                       [styles.alignTop()]: Boolean(alignTop),
                     })}
                     style={isMobile ? undefined : containerStyle}
