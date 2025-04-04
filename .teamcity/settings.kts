@@ -104,18 +104,24 @@ object DiffVersionBuild: Project({
     for (strictMode in strictModeVariants) {
       for (tsV in typescriptVersions) {
         for (reactV in reactVersions) {
-          buildType({
+          subProject({
             name = "Run All React$reactV TS$tsV strictMode$strictMode"
             id("react$reactV" + "TS$tsV" + "strictMode$strictMode")
+
             params {
-              param("env.REACT_VERSION", reactV)
-              param("env.TYPESCRIPT_VERSION", tsV)
-              param("env.STRICT_MODE", strictMode)
-            }
-            dependencies {
-              snapshot(RunAll) {
-              }
-            }
+               param("env.REACT_VERSION", reactV)
+               param("env.TYPESCRIPT_VERSION", tsV)
+               param("env.STRICT_MODE", strictMode)
+             }
+
+             buildType({
+               name = "Run All"
+               id("runall" + "_react$reactV" + "_TS$tsV" + "_strictMode$strictMode")
+               dependencies {
+                 snapshot(RunAll) {
+                 }
+               }
+             })
           })
         }
      }
