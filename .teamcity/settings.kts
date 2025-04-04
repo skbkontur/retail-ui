@@ -144,7 +144,7 @@ object DiffVersionBuild: Project({
 
 object RunAll : BuildType({
     name = "Run All"
-    id(AbsoluteId.absoluteId)
+    id(AbsoluteId.value)
     allowExternalStatus = true
     type = BuildTypeSettings.Type.COMPOSITE
 
