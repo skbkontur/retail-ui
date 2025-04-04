@@ -470,7 +470,7 @@ object ReactUI_Storybook : BuildType({
             name = "Build Storybook"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace @skbkontur/react-ui storybook:build")
+            param("yarn_commands", "workspace @skbkontur/react-ui storybook:docs-build")
         }
         script {
             name = "Git clone"
@@ -488,10 +488,10 @@ object ReactUI_Storybook : BuildType({
 
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
 
-                    ${'$'}src_path = "./packages/react-ui/.storybook/build"
+                    ${'$'}src_path = "./packages/react-ui/.storybook/build/*"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui/${'$'}storybook_version"
-                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
-                    mkdir ${'$'}src_path
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
+                    mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
                 """.trimIndent()
             }
