@@ -840,7 +840,7 @@ object Validations_Storybook : BuildType({
             name = "Build Storybook"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-validations storybook:build")
+            param("yarn_commands", "workspace react-ui-validations storybook:docs-build")
         }
         script {
             name = "Git clone"
@@ -857,10 +857,11 @@ object Validations_Storybook : BuildType({
                     ${'$'}storybook_version = If (${'$'}version_from_env) {${'$'}version_from_env} Else {${'$'}version_from_git}
 
                     Write-Host "##teamcity[setParameter name='env.STORYBOOK_VERSION' value='${'$'}storybook_version']"
-
-                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build"
+                    
+                    ${'$'}src_path = "./packages/react-ui-validations/.storybook/build/*"
                     ${'$'}dest_path = "./docs-repo/docs/storybook/react-ui-validations/${'$'}storybook_version"
-                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -force -recurse }
+                    if (Test-Path ${'$'}dest_path) { rm ${'$'}dest_path -Recurse -Force }
+                    mkdir ${'$'}dest_path
                     cp -r ${'$'}src_path ${'$'}dest_path
                 """.trimIndent()
             }
