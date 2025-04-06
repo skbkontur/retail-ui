@@ -15,8 +15,6 @@ import { linkTo } from '@storybook/addon-links';
 
 import { validationsFeatureFlagsDefault } from '../src';
 
-import { getCurrentVersion, VersionsLibrary } from './VersionsDropdown/Versions';
-
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
@@ -179,15 +177,6 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           <MenuItem onClick={linkTo('Displaying/Feature flags')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
           </MenuItem>
-        </DropdownMenu>
-        <DropdownMenu
-          style={{ marginLeft: 'auto', marginRight: '16px' }}
-          caption={<div className={styles.menuSelect}>v {getCurrentVersion()}</div>}
-          menuMaxHeight="315px"
-          menuWidth="150px"
-          positions={['bottom right']}
-        >
-          <VersionsLibrary />
         </DropdownMenu>
       </div>
     </div>
