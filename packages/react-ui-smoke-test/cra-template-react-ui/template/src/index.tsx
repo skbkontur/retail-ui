@@ -1,13 +1,30 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import React, {StrictMode} from 'react';
+import { render } from 'react-dom';
 
 import { App } from './App';
 import * as serviceWorker from './serviceWorker';
 
 const container = document.getElementById('root');
+
+let strictMode = false;
+if (process.env.STRICT_MODE === "true") {
+  strictMode = true;
+}
+
+function StrictModeWrapper(props: {children: React.ReactElement}) {
+  return strictMode
+    ? <StrictMode>
+      {props.children}
+    </StrictMode>
+    : props.children
+}
+
 if (container) {
-  const root = createRoot(container);
-  root.render(<App />);
+  render(
+    <StrictModeWrapper>
+      <App />
+    </StrictModeWrapper>,
+    container);
 }
 
 // If you want your app to work offline and load faster, you can change

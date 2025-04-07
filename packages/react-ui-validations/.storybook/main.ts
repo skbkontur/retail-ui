@@ -8,7 +8,7 @@ const config: StorybookConfig = {
     name: '@storybook/react-webpack5',
     options: {
       fastRefresh: !isTestEnv,
-      strictMode: true,
+      strictMode: process?.env?.STRICT_MODE === 'true',
     },
   },
   core: {

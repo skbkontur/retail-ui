@@ -5,6 +5,7 @@ import React from 'react';
 
 configure({
   testIdAttribute: 'data-tid',
+  reactStrictMode: process?.env?.STRICT_MODE === 'true',
 });
 
 jest.mock('react-focus-lock', () => (props) => <div>{props.children}</div>);

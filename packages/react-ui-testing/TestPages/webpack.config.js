@@ -83,6 +83,7 @@ function createConfig(reactVersion, reactUIVersion) {
         'process.env.newCombobox': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.7.0')),
         'process.env.reactUIVersion': JSON.stringify(reactUIVersion),
         'process.env.baseUrl': JSON.stringify(`/${reactVersion}/${reactUIVersion}`),
+        'process.env.strictMode': process.env.STRICT_MODE,
       }),
       new HtmlWebpackPlugin({
         filename: `${reactVersion}/${reactUIVersion}/index.html`,
