@@ -111,8 +111,6 @@ object DiffVersionBuild: Project({
               param("env.TYPESCRIPT_VERSION", tsV)
               param("env.STRICT_MODE", strictMode)
             }
-            buildType(ReactUI_BuildRetailUi)
-            buildType(ReactUI_ScreenshotTests)
           })
         }
      }
