@@ -16,8 +16,6 @@ import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import { MenuSeparator } from '../components/MenuSeparator';
 
-import { getCurrentVersion, VersionsLibrary } from './VersionsDropdown/Versions';
-
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
   { icon: '🇬🇧', caption: 'English', value: 'en' },
@@ -212,16 +210,6 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           <MenuItem onClick={linkTo('Information/Feature flags')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
           </MenuItem>
-        </DropdownMenu>
-
-        <DropdownMenu
-          style={{ marginLeft: 'auto', marginRight: '16px' }}
-          caption={<div className={styles.menuSelect}>v {getCurrentVersion()}</div>}
-          menuMaxHeight="315px"
-          menuWidth="150px"
-          positions={['bottom right']}
-        >
-          <VersionsLibrary />
         </DropdownMenu>
       </div>
     </div>

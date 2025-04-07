@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, InputHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyListener } from '../../lib/events/keyListener';
@@ -14,7 +14,10 @@ import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
-export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
+export interface ToggleProps
+  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+    Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'name'>,
+    CommonProps {
   /** @ignore */
   children?: React.ReactNode;
 
@@ -61,9 +64,6 @@ export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-d
 
   /** Задает функцию, которая вызывается, когда `тогл` теряет фокус. */
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
-
-  /** HTML-атрибут `id` для передачи во внутренний `<input />`. */
-  id?: string;
 
   /** Отключает анимацию. */
   disableAnimations?: boolean;
@@ -227,7 +227,15 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, warning, error, id, 'aria-describedby': ariaDescribedby, 'aria-label': ariaLabel } = this.props;
+    const {
+      children,
+      warning,
+      error,
+      id,
+      name,
+      'aria-describedby': ariaDescribedby,
+      'aria-label': ariaLabel,
+    } = this.props;
     const { loading, captionPosition, disableAnimations } = this.getProps();
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
@@ -281,6 +289,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 ref={this.inputRef}
                 disabled={disabled}
                 id={id}
+                name={name}
                 role="switch"
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
