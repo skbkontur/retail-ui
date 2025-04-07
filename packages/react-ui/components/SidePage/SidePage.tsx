@@ -144,7 +144,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   public static defaultProps: DefaultProps = {
-    disableAnimations: isTestEnv,
+    disableAnimations: true,
     offset: 0,
     role: 'dialog',
   };
