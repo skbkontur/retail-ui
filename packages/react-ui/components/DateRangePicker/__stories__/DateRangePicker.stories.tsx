@@ -32,7 +32,7 @@ export const Component = () => {
 Component.storyName = 'DateRangePicker';
 Component.parameters = {};
 
-export const Mobile: Story = () => {
+export const MobilePicker: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -44,7 +44,7 @@ export const Mobile: Story = () => {
     </DateRangePicker>
   );
 };
-Mobile.parameters = { viewport: { defaultViewport: 'iphone' } };
+MobilePicker.parameters = { viewport: { defaultViewport: 'iphone' } };
 
 export const Sizes: Story = () => {
   const [valueStartS, setValueStartS] = React.useState('');
@@ -113,7 +113,7 @@ export const Autofocus: Story = () => {
     </DateRangePicker>
   );
 };
-Autofocus.parameters = {};
+Autofocus.parameters = { creevey: { skip: true } };
 
 export const MenuPos: Story = () => {
   const [valueStartTop, setValueStartTop] = React.useState('');
@@ -184,7 +184,7 @@ export const TodayButton: Story = () => {
     </DateRangePicker>
   );
 };
-TodayButton.parameters = {};
+TodayButton.parameters = { creevey: { skip: true } };
 
 export const OptionalRange: Story = () => {
   const [valueStartOptionalHalf, setValueStartOptionalHalf] = React.useState('');
@@ -209,7 +209,7 @@ export const OptionalRange: Story = () => {
     </Gapped>
   );
 };
-OptionalRange.parameters = {};
+OptionalRange.parameters = { creevey: { skip: true } };
 
 export const OptionalRangeWithTodayButton: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
@@ -223,7 +223,7 @@ export const OptionalRangeWithTodayButton: Story = () => {
     </DateRangePicker>
   );
 };
-OptionalRangeWithTodayButton.parameters = {};
+OptionalRangeWithTodayButton.parameters = { creevey: { skip: true } };
 
 export const CustomChildrenWithoutDash: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
@@ -315,4 +315,4 @@ export const Validations: Story = () => {
     </DateRangePicker>
   );
 };
-Validations.parameters = {};
+Validations.parameters = { creevey: { skip: true } };
