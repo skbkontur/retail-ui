@@ -84,9 +84,13 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
     }
   }, [endValue]);
 
+  const value = isStart ? startValue : endValue;
+  const dateLabel = isStart ? locale.startDateLabel : locale.endDateLabel;
+
   const commonProps: DateRangePickerInputProps = {
     withIcon: true,
     size,
+    "aria-label": value ? `${dateLabel}: ${value}` : dateLabel,
     ...props,
     onValueChange: (value) => {
       if (isStart) {
@@ -126,7 +130,6 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
           {...commonProps}
           value={props.value || ''}
           data-tid={DateRangePickerDataTids.start}
-          aria-label={props['aria-label'] || locale.startDateLabel}
           ref={startRef}
         />
       );
@@ -136,7 +139,6 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
           {...commonProps}
           value={props.value || ''}
           data-tid={DateRangePickerDataTids.end}
-          aria-label={props['aria-label'] || locale.endDateLabel}
           ref={endRef}
         />
       );
