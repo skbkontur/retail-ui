@@ -51,14 +51,14 @@ describe('React-ui smoke test', () => {
       serveProcess = serveApplication(appDirectory);
       await openPageOnBrowser(screenshotPath);
 
-      expect(console.error).not.toBeCalled();
+      expect(console.error).not.toHaveBeenCalled();
     },
     TIMEOUT,
   );
 
   it('Render all controls and validations on server side (SSR)', async () => {
     execSync(`yarn install && yarn server`, { stdio: 'inherit', cwd: path.join(__dirname, 'react-ui-ssr') });
-    expect(console.error).not.toBeCalled();
+    expect(console.error).not.toHaveBeenCalled();
   });
 });
 
