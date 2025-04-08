@@ -4,7 +4,7 @@ const fs = require('fs');
 const reactVersion = process?.env?.REACT_VERSION;
 const tsVersion = process?.env?.TYPESCRIPT_VERSION;
 
-// эти 2 команды в самом конце закинуть в next, чтобы весь механизм завелся
+// эти 2 команды в самом конце закинуть в package.json, чтобы весь механизм завелся
 //"preinstall": "node scripts/testing/set-package-versions.js", -- для ci
 //"set-testing-package-versions-local": "cross-env REACT_VERSION=17 TYPESCRIPT_VERSION=4 node scripts/testing/set-package-versions.js" -- для Local
 
@@ -40,8 +40,10 @@ function patchPackageJsons() {
 
 function patchSeleniumTestsPackage() {
   const pathToConfig = path.resolve(packagesPath, "react-ui-testing", "TestPages", "versions.js");
-  console.log(pathToConfig, "has been patched");
-  //noop
+  const config = fs.readFileSync(pathToConfig, 'utf8');
+  const patchedConfig = config.replace("let reactVersion;", `let reactVersion = ${packagesForReact?.react.replaceAll('^', '')};`)
+  fs.writeFileSync(pathToConfig, patchedConfig);
+  console.log(pathToConfig, "patched");
 }
 
 function patchSmokeTestPackage() {
@@ -49,7 +51,7 @@ function patchSmokeTestPackage() {
   const package = getJsonFile(pathToConfig);
   package.package.dependencies = {...package.package.dependencies, ...packagesForReact};
   writeJsonFile(pathToConfig, package);
-  console.log(pathToConfig, "has been patched");
+  console.log(pathToConfig, "patched");
 }
 
 function getJsonFile(path) {
