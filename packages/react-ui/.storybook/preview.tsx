@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
