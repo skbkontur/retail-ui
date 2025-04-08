@@ -207,6 +207,7 @@ const tableStyle = {
 const tableCellStyle = {
   border: '1px solid #ccc',
   padding: 10,
+  overflow: 'hidden',
 } as React.CSSProperties;
 
 const styleBodyWrapper = {
@@ -272,7 +273,7 @@ export const SimpleComponents = () => (
     <tbody>
       {Components.map((component, i) => (
         <tr key={i}>
-          <td style={{ ...tableCellStyle, overflow: 'hidden' }}>
+          <td style={tableCellStyle}>
             <shadowRoot.div>{component}</shadowRoot.div>
           </td>
           <td style={tableCellStyle}>{component}</td>

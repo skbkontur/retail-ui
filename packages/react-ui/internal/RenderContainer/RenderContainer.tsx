@@ -69,7 +69,12 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       const root = this.emotion.sheet.container.getRootNode() as ShadowRoot | Document;
       if (isShadowRoot(root)) {
-        domContainer.setAttribute('style', `position: relative; top: -${root.host.getBoundingClientRect().height}px`);
+        // возможно тут нужно давать опциональный выбор в продукте, relative vs absolute
+        // domContainer.setAttribute('style', `position: relative; top: -${root.host.getBoundingClientRect().height}px`);
+        domContainer.setAttribute(
+          'style',
+          `position: absolute; margin-top: -${root.host.getBoundingClientRect().height}px;`,
+        );
       }
       domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
       this.domContainer = domContainer;
