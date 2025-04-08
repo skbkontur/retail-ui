@@ -83,7 +83,7 @@ Example5.storyName = 'Иконки в элементах';
 export const Example6: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с ссылками</Button>}>
-      <MenuItem href="http://tech.skbkontur.ru/react-ui/" target="_blank" rel="noopener noreferrer">
+      <MenuItem href="http://tech.skbkontur.ru/kontur-ui/" target="_blank" rel="noopener noreferrer">
         Начало документации
       </MenuItem>
       <MenuItem
