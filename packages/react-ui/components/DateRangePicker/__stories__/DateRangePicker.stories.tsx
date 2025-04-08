@@ -231,8 +231,10 @@ export const CustomChildrenWithoutDash: Story = () => {
 
   return (
     <DateRangePicker>
-      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} style={{ borderRadius: 0 }} />
-      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} style={{ marginLeft: -1, borderRadius: 0 }} />
+      <Group>
+        <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
+        <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+      </Group>
     </DateRangePicker>
   );
 };
