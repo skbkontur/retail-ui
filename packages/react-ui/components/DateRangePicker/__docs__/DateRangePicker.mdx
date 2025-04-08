@@ -51,7 +51,7 @@ import { Meta } from '../../../.storybook/Meta';
 ## Локали по умолчанию
 
 ```typescript static
-interface DatePickerLocale {
+interface DateRangePickerLocale {
   today?: string;
   months?: string[];
   order?: DateOrder;
@@ -61,6 +61,10 @@ interface DatePickerLocale {
   selectYearAriaLabel?: string;
   selectChosenAriaLabel?: string;
   dayCellChooseDateAriaLabel?: string;
+  startDateLabel?: string;
+  endDateLabel?: string;
+  startDateEmpty?: string;
+  endDateEmpty?: string;
 }
 
 const ru_RU = {
@@ -86,6 +90,10 @@ const ru_RU = {
   selectYearAriaLabel: 'год',
   selectChosenAriaLabel: 'Выбранный',
   dayCellChooseDateAriaLabel: 'Выбрать дату',
+  startDateLabel: 'Дата начала',
+  endDateLabel: 'Дата окончания',
+  startDateEmpty: 'Без первой даты',
+  endDateEmpty: 'Без второй даты',
 };
 
 const en_GB = {
@@ -111,5 +119,9 @@ const en_GB = {
   selectYearAriaLabel: 'year',
   selectChosenAriaLabel: 'Chosen',
   dayCellChooseDateAriaLabel: 'Choose date',
+  startDateLabel: 'Start date',
+  endDateLabel: 'End date',
+  startDateEmpty: 'No start date',
+  endDateEmpty: 'No end date',
 };
 ```
