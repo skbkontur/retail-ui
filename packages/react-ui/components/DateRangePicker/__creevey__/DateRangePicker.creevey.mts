@@ -3,7 +3,7 @@ import { story, kind, test } from 'creevey';
 import { delay } from '../../../lib/delay';
 
 kind('DateRangePicker', () => {
-  story('DateRangePicker', ({ setStoryParameters }) => {
+  story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
         flaky: {
@@ -30,7 +30,7 @@ kind('DateRangePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
         .perform();
       await delay(1000);
       await context.webdriver
@@ -51,7 +51,7 @@ kind('DateRangePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
         .perform();
       await delay(1000);
       await context.webdriver
@@ -106,7 +106,7 @@ kind('DateRangePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
         .pause(1000)
         .perform();
       await context.webdriver
@@ -124,10 +124,11 @@ kind('DateRangePicker', () => {
     });
   });
 
-  story('WithManualPosition', ({ setStoryParameters }) => {
+  story('TodayButton', ({ setStoryParameters }) => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
-    test('opened top without relative position', async (context) => {
+    test('opened', async (context) => {
+      await delay(1000);
       await context.webdriver
         .actions({
           bridge: true,
@@ -135,48 +136,69 @@ kind('DateRangePicker', () => {
         .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
         .perform();
       await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), 'opened top without relative position');
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
+
+  story('OptionalRange', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
+
+    test('opened', async (context) => {
+      await delay(1000);
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
+        .perform();
+      await delay(1000);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
+
+  story('OptionalRangeWithTodayButton', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
+
+    test('opened', async (context) => {
+      await delay(1000);
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
+        .perform();
+      await delay(1000);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
+
+  story('MenuPos', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
+
+    test('opened position top', async (context) => {
+      await delay(1000);
+      await context.webdriver
+        .actions({
+          bridge: true,
+        })
+        .click(context.webdriver.findElement({ css: '[data-tid="position-top"] [data-tid="DateRangePicker__start"]' }))
+        .perform();
+      await delay(1000);
+      await context.matchImage(await context.takeScreenshot(), 'opened position top');
     });
 
-    test('opened bottom without relative position', async (context) => {
+    test('opened position bottom', async (context) => {
+      await delay(1000);
       await context.webdriver
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
+        .click(
+          context.webdriver.findElement({ css: '[data-tid="position-bottom"] [data-tid="DateRangePicker__start"]' }),
+        )
         .perform();
       await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), 'opened bottom without relative position');
-    });
-
-    test('opened top with relative position', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="relative"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), 'opened top with relative position');
-    });
-
-    test('opened bottom with relative position', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid~="relative"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.takeScreenshot(), 'opened bottom');
+      await context.matchImage(await context.takeScreenshot(), 'opened position bottom');
     });
   });
 

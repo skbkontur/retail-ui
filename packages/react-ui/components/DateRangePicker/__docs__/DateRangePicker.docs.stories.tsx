@@ -14,11 +14,12 @@ import {
 
 import { Meta, Story } from '../../../typings/stories';
 import {
-  Component,
+  Default,
   CustomChildrenVertical,
   CustomChildrenWithoutDash,
   Sizes,
   Validations as ValidationsStory,
+  TodayButton,
 } from '../__stories__/DateRangePicker.stories';
 
 export default {
@@ -27,7 +28,7 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1 = Component;
+export const Example1 = Default;
 Example1.storyName = 'Выбор периода';
 
 /**
@@ -120,6 +121,12 @@ ExampleCustomWithoutDash.storyName = 'Поля без тире';
 
 export const ExampleCustomVertical = CustomChildrenVertical;
 ExampleCustomVertical.storyName = 'Вертикальное расположение';
+
+/**
+ * Добавить кнопку для выбора сегодяшней даты `enableTodayLink`
+ */
+export const ExampleTodayButton = TodayButton;
+TodayButton.storyName = 'Кнопка «Сегодня»';
 
 export const ExampleDateFormat: Story = () => {
   const [valueStart, setValueStart] = React.useState('');

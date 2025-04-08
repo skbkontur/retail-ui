@@ -5,6 +5,7 @@ import { Meta } from '../../../typings/stories';
 import { DateRangePicker } from '../DateRangePicker';
 import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
+import { Group } from '../../Group';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeIn } from '../../../lib/theming/Theme';
@@ -12,9 +13,37 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'DateRangePicker',
+  decorators: [
+    (Story, { parameters }) => {
+      switch (parameters.customSpacing) {
+        case 'top':
+          return (
+            <div style={{ paddingTop: 500 }}>
+              <Story />
+            </div>
+          );
+
+        case 'bottom':
+          return (
+            <div style={{ paddingBottom: 500 }}>
+              <Story />
+            </div>
+          );
+
+        case 'all':
+          return (
+            <div style={{ padding: 500 }}>
+              <Story />
+            </div>
+          );
+        default:
+          return <Story />;
+      }
+    },
+  ],
 } as Meta;
 
-export const Component = () => {
+export const Default = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -29,8 +58,8 @@ export const Component = () => {
     </DateRangePicker>
   );
 };
-Component.storyName = 'DateRangePicker';
-Component.parameters = {};
+Default.storyName = 'DateRangePicker';
+Default.parameters = { customSpacing: 'bottom' };
 
 export const MobilePicker: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
@@ -99,7 +128,7 @@ export const MinMax: Story = () => {
     </DateRangePicker>
   );
 };
-MinMax.parameters = {};
+MinMax.parameters = { customSpacing: 'bottom' };
 
 export const Autofocus: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
@@ -124,21 +153,25 @@ export const MenuPos: Story = () => {
 
   return (
     <Gapped vertical gap={16} style={{ margin: 120 }}>
-      <DateRangePicker menuPos="top">
-        <DateRangePicker.Start value={valueStartTop} onValueChange={setValueStartTop} />
-        <DateRangePicker.Separator />
-        <DateRangePicker.End value={valueEndTop} onValueChange={setValueEndTop} />
-      </DateRangePicker>
+      <div data-tid="position-top">
+        <DateRangePicker menuPos="top">
+          <DateRangePicker.Start value={valueStartTop} onValueChange={setValueStartTop} />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End value={valueEndTop} onValueChange={setValueEndTop} />
+        </DateRangePicker>
+      </div>
 
-      <DateRangePicker menuPos="bottom">
-        <DateRangePicker.Start value={valueStartBottom} onValueChange={setValueStartBottom} />
-        <DateRangePicker.Separator />
-        <DateRangePicker.End value={valueEndBottom} onValueChange={setValueEndBottom} />
-      </DateRangePicker>
+      <div data-tid="position-bottom">
+        <DateRangePicker menuPos="bottom">
+          <DateRangePicker.Start value={valueStartBottom} onValueChange={setValueStartBottom} />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End value={valueEndBottom} onValueChange={setValueEndBottom} />
+        </DateRangePicker>
+      </div>
     </Gapped>
   );
 };
-MenuPos.parameters = {};
+MenuPos.parameters = { customSpacing: 'all' };
 
 export const DateRangePickerLocaleProvider = () => {
   const [valueStart, setValueStart] = React.useState('');
@@ -184,7 +217,7 @@ export const TodayButton: Story = () => {
     </DateRangePicker>
   );
 };
-TodayButton.parameters = { creevey: { skip: true } };
+TodayButton.parameters = { creevey: { skip: true }, customSpacing: 'bottom' };
 
 export const OptionalRange: Story = () => {
   const [valueStartOptionalHalf, setValueStartOptionalHalf] = React.useState('');
@@ -209,7 +242,7 @@ export const OptionalRange: Story = () => {
     </Gapped>
   );
 };
-OptionalRange.parameters = { creevey: { skip: true } };
+OptionalRange.parameters = { customSpacing: 'bottom' };
 
 export const OptionalRangeWithTodayButton: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
@@ -223,7 +256,7 @@ export const OptionalRangeWithTodayButton: Story = () => {
     </DateRangePicker>
   );
 };
-OptionalRangeWithTodayButton.parameters = { creevey: { skip: true } };
+OptionalRangeWithTodayButton.parameters = { customSpacing: 'bottom' };
 
 export const CustomChildrenWithoutDash: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
