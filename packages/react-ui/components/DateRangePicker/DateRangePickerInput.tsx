@@ -22,6 +22,8 @@ type DateRangePickerInputWithoutType = Omit<DateRangePickerInputProps, 'type'>;
 
 const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: Ref<DateInput | null>) => {
   const {
+    minDate,
+    maxDate,
     startValue,
     endValue,
     size,
@@ -87,6 +89,8 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
   const commonProps: DateRangePickerInputProps = {
     withIcon: true,
     size,
+    minDate,
+    maxDate,
     ...props,
     onValueChange: (value) => {
       if (isStart) {
