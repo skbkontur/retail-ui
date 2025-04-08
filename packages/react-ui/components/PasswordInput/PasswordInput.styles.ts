@@ -38,7 +38,6 @@ export const styles = memoizeStyle({
       background: #999;
       padding: 2px 5px;
       border-radius: 3px;
-      z-index: 9;
       box-sizing: border-box;
       line-height: normal;
 
