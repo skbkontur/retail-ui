@@ -144,7 +144,7 @@ describe('ComboBox', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('not selects item on enter when search is empty', async () => {
+  it('not auto selecting an item on entry when the search is empty', async () => {
     const items = ['Item 1', 'Item 2', 'Item 3'];
     const onValueChange = jest.fn();
     render(
@@ -165,7 +165,7 @@ describe('ComboBox', () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  it('selects first item on enter when search find multiple items', async () => {
+  it('selects the first item when search found multiple items', async () => {
     const items = ['Item 1', 'Item 2', 'Item 3'];
     const onValueChange = jest.fn();
     render(
