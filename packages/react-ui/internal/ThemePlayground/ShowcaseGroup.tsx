@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Checkbox } from '../../components/Checkbox';
 import { Gapped } from '../../components/Gapped';
@@ -12,7 +12,7 @@ interface ShowcaseGroupProps {
   title?: string;
 }
 export const ShowcaseGroup = (props: ShowcaseGroupProps) => {
-  const theme = React.useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
 
   return (
     <div>

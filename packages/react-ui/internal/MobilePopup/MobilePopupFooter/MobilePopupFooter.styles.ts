@@ -1,15 +1,16 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 
-const styles = {
-  root(t: Theme) {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
       position: relative;
       display: flex;
       flex-direction: column;
       padding: ${t.mobilePopupHeaderPadding};
     `;
-  },
-};
-
-export const jsStyles = memoizeStyle(styles);
+    },
+  });

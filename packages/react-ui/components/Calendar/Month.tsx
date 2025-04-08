@@ -1,16 +1,18 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../../internal/DateSelect';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { MonthViewModel } from './MonthViewModel';
 import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
-import { styles } from './MonthView.styles';
-import { styles as cellStyles } from './DayCellView.styles';
+import { getStyles } from './MonthView.styles';
+import { getStyles as getCellStyles } from './DayCellView.styles';
 
 interface MonthProps {
   top: number;
@@ -20,7 +22,6 @@ interface MonthProps {
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
-
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
 
@@ -107,6 +108,8 @@ interface MonthDayGridProps {
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     return this.props.days !== nextProps.days;
@@ -114,16 +117,25 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   public renderMain() {
+    const cellStyles = getCellStyles(this.emotion);
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
       <div key={`leading_${i}`} className={cellStyles.cell(this.theme)} />
     ));
@@ -136,9 +148,9 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
     });
     const weeks = divideToWeeks(leadingDays.concat(days, trailingDays));
     return (
-      <div className={styles.monthDayGrid(this.theme)}>
+      <div className={this.styles.monthDayGrid(this.theme)}>
         {weeks.map((week, i) => (
-          <div className={styles.monthDayRow(this.theme)} key={`week_${i}`}>
+          <div className={this.styles.monthDayRow(this.theme)} key={`week_${i}`}>
             {week}
           </div>
         ))}

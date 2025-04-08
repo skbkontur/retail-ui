@@ -1,9 +1,10 @@
 import React, { ReactElement, useCallback, useContext } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './DayCellView.styles';
+import { getStyles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
 import { DayCellViewModel } from './DayCellViewModel';
 import * as CDS from './CalendarDateShape';
@@ -16,11 +17,13 @@ export interface DayCellViewProps {
 export const DayCellView = (props: DayCellViewProps) => {
   const { date } = props;
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
+  const emotion = useContext(EmotionContext);
   const theme = useContext(ThemeContext);
 
   const isDisabled = !CDS.isBetween(date, minDate, maxDate);
 
   const humanDateString = InternalDateTransformer.dateToHumanString(date);
+  const styles = getStyles(emotion);
 
   const dayProps: CalendarDayProps = {
     isToday: Boolean(today && CDS.isEqual(date, today)),

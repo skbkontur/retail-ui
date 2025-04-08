@@ -1,12 +1,14 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import { Emotion } from '@emotion/css/types/create-instance';
 
-import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { clickOutsideContent, listen as listenFocusOutside } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOf } from '../../lib/isInstanceOf';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -22,6 +24,7 @@ type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
   public static displayName = 'RenderLayer';
+  private emotion!: Emotion;
 
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
@@ -69,9 +72,16 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {React.Children.only(this.props.children)}
-      </CommonWrapper>
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {React.Children.only(this.props.children)}
+            </CommonWrapper>
+          );
+        }}
+      </EmotionConsumer>
     );
   }
 
@@ -118,14 +128,10 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   };
 
   private handleNativeDocClick = (event: Event) => {
-    const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
-
-    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
-      return;
-    }
-
-    if (this.props.onClickOutside) {
+    const isShadowRootElement = isShadowRoot(this.emotion.sheet.container.getRootNode());
+    const clickOutsideOfContent = clickOutsideContent(event, node, isShadowRootElement);
+    if (clickOutsideOfContent && this.props.onClickOutside) {
       this.props.onClickOutside(event);
     }
   };

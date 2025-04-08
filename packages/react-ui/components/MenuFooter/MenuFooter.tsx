@@ -1,11 +1,11 @@
 import React, { HTMLAttributes, ReactNode, useContext } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { SizeProp } from '../../lib/types/props';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './MenuFooter.styles';
+import { getStyles } from './MenuFooter.styles';
 
 export interface MenuFooterProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Добавляет отступ иконке. */
@@ -31,6 +31,8 @@ export const MenuFooterDataTids = {
  */
 function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
   const theme = useContext(ThemeContext);
+  const emotion = useContext(EmotionContext);
+  const styles = getStyles(emotion);
 
   function getRootSizeClassName() {
     switch (size) {
@@ -60,7 +62,7 @@ function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', 
       <div
         id={id}
         data-tid={MenuFooterDataTids.root}
-        className={cx(getRootSizeClassName(), {
+        className={emotion.cx(getRootSizeClassName(), {
           [styles.root(theme)]: true,
           [getWithLeftPaddingSizeClassName()]: _enableIconPadding,
         })}

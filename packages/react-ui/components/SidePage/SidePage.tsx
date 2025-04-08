@@ -2,6 +2,7 @@ import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -12,21 +13,21 @@ import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 
 export interface SidePageProps
   extends CommonProps,
@@ -106,6 +107,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasPanel: false,
   };
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private stackSubscription: ModalStackSubscription | null = null;
   private layout: HTMLElement | null = null;
   private header: SidePageHeader | null = null;
@@ -115,6 +118,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentDidMount() {
     globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
+
+    if (this.layout) {
+      this.layout.addEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   public componentDidUpdate(prevProps: SidePageProps) {
@@ -132,6 +139,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
+
+    if (this.layout) {
+      this.layout.removeEventListener('scroll', LayoutEvents.emit);
+    }
   }
 
   /**
@@ -153,12 +164,20 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
@@ -217,6 +236,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { offset, role } = this.getProps();
+    const styles = this.styles;
 
     return (
       <div
@@ -224,7 +244,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         role={role}
         aria-label={ariaLabel}
         data-tid={SidePageDataTids.root}
-        className={cx({
+        className={this.emotion.cx({
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
         })}
@@ -243,7 +263,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}
-              className={cx(styles.wrapper(this.theme), {
+              className={this.emotion.cx(styles.wrapper(this.theme), {
                 [styles.wrapperLeft()]: fromLeft,
                 [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,
                 [styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
@@ -285,6 +305,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private renderShadow(isMobile: boolean): JSX.Element {
+    const styles = this.styles;
+
     return (
       <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
         {!isMobile && (
@@ -292,7 +314,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             <HideBodyVerticalScroll key="hbvs" />
             <div
               key="overlay"
-              className={cx({
+              className={this.emotion.cx({
                 [styles.background()]: true,
                 [styles.backgroundGray(this.theme)]: this.state.hasBackground,
               })}
@@ -304,6 +326,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getTransitionNames(): Record<string, string> {
+    const styles = this.styles;
     const transition = this.props.fromLeft ? styles.transitionRight : styles.transitionLeft;
 
     return {

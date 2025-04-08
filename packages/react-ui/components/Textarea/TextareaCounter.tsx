@@ -1,18 +1,18 @@
-import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useContext, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
-import { cx } from '../../lib/theming/Emotion';
+import { EmotionContext } from '../../lib/theming/Emotion';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
 import { SizeProp } from '../../lib/types/props';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { TextareaDataTids, TextareaProps } from './Textarea';
-import { styles } from './Textarea.styles';
+import { getStyles } from './Textarea.styles';
 
 export interface TextareaCounterProps {
   value: TextareaProps['value'];
@@ -33,6 +33,8 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
   'TextareaCounter',
   ({ length, value, help, onCloseHelp, textarea, size }, ref) => {
     const theme = useContext(ThemeContext);
+    const emotion = useContext(EmotionContext);
+
     const [width, setWidth] = useState(textarea.clientWidth);
     const [height, setHeight] = useState(textarea.clientHeight);
     const reflow = useCallback(() => {
@@ -63,7 +65,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
         {helpIcon}
       </Tooltip>
     );
-
+    const styles = getStyles(emotion);
     const getCounterSizeClassName = () => {
       switch (size) {
         case 'large':
@@ -77,9 +79,13 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     };
 
     return (
-      <div data-tid={TextareaDataTids.counter} className={cx(styles.counterContainer(theme))} style={{ width, height }}>
+      <div
+        data-tid={TextareaDataTids.counter}
+        className={emotion.cx(styles.counterContainer(theme))}
+        style={{ width, height }}
+      >
         <span
-          className={cx(getCounterSizeClassName(), styles.counter(theme), {
+          className={emotion.cx(getCounterSizeClassName(), styles.counter(theme), {
             [styles.counterError(theme)]: counterValue < 0,
           })}
         >

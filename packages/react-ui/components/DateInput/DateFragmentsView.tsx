@@ -1,14 +1,15 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
+import { EmotionConsumer } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './DateFragmentsView.styles';
+import { getStyles } from './DateFragmentsView.styles';
 
 interface DateFragmentViewProps {
   selected: InternalDateComponentType | null;
@@ -19,6 +20,8 @@ interface DateFragmentViewProps {
 
 export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   private theme!: Theme;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private rootNode: HTMLSpanElement | null = null;
 
   public isFragment = (el: HTMLElement | EventTarget): boolean => {
@@ -34,20 +37,29 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <EmotionConsumer>
+        {(emotion) => {
+          this.emotion = emotion;
+          this.styles = getStyles(this.emotion);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </EmotionConsumer>
     );
   }
 
   private renderMain() {
+    const styles = this.styles;
     return (
       <span
         ref={this.rootRef}
-        className={cx({
+        className={this.emotion.cx({
           [styles.root()]: true,
           [styles.selected(this.theme)]: true,
         })}
@@ -62,7 +74,8 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   }
 
   private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
-    const separatorClassName = cx({
+    const styles = this.styles;
+    const separatorClassName = this.emotion.cx({
       [styles.mask(this.theme)]: true,
       [styles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
     });
@@ -101,7 +114,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     return (
       <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
         {valueMask}
-        <span data-tid="DateFragmentsView__placeholder" className={styles.mask(this.theme)}>
+        <span data-tid="DateFragmentsView__placeholder" className={this.styles.mask(this.theme)}>
           {Array(lengthMask)
             .fill('')
             .map((_, i) => (

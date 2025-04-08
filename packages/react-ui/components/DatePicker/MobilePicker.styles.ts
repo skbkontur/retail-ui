@@ -1,9 +1,12 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
-  calendarRoot() {
-    return css`
+import { memoizeStyle } from '../../lib/theming/Emotion';
+
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    calendarRoot() {
+      return emotion.css`
       width: auto;
     `;
-  },
-});
+    },
+  });
