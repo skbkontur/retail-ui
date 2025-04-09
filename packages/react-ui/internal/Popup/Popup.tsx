@@ -17,7 +17,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
-import { EmotionConsumer } from '../../lib/theming/Emotion';
+import { EmotionConsumer, PopupConsumer } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -32,6 +32,7 @@ import {
 } from '../../lib/featureFlagsContext';
 import { mergeRefs } from '../../lib/mergeRefs';
 import { isShadowRoot } from '../../lib/shadowDom/isShadowRoot';
+import { GetOffsetParent } from '../../lib/styles/StylesContainer';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -266,6 +267,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
   private emotion!: Emotion;
+  private getOffsetParent: GetOffsetParent | undefined;
   private styles!: ReturnType<typeof getStyles>;
   public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
@@ -343,20 +345,25 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(flags) => {
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <EmotionConsumer>
-              {(emotion) => {
-                this.emotion = emotion;
-                this.styles = getStyles(this.emotion);
-                return (
-                  <ThemeContext.Consumer>
-                    {(theme) => {
-                      this.theme = theme;
-                      return this.renderMain();
-                    }}
-                  </ThemeContext.Consumer>
-                );
-              }}
-            </EmotionConsumer>
+            <PopupConsumer>
+              {({ getOffsetParent }) => (
+                <EmotionConsumer>
+                  {(emotion) => {
+                    this.getOffsetParent = getOffsetParent;
+                    this.emotion = emotion;
+                    this.styles = getStyles(this.emotion);
+                    return (
+                      <ThemeContext.Consumer>
+                        {(theme) => {
+                          this.theme = theme;
+                          return this.renderMain();
+                        }}
+                      </ThemeContext.Consumer>
+                    );
+                  }}
+                </EmotionConsumer>
+              )}
+            </PopupConsumer>
           );
         }}
       </ReactUIFeatureFlagsContext.Consumer>
@@ -718,7 +725,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
 
-  private getRelativePos(root: unknown): { top: number; left: number } {
+  private getRelativePos(root: unknown, offsetParent?: HTMLElement | null): { top: number; left: number } {
     const relativePos: { top: number; left: number } = {
       top: 0,
       left: 0,
@@ -727,6 +734,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       const childPos = PopupHelper.convertRectToAbsolute(root.host.getBoundingClientRect());
       relativePos.top = childPos.top;
       relativePos.left = childPos.left;
+
+      if (offsetParent?.scrollTop) {
+        relativePos.top += offsetParent.scrollTop;
+      }
+
+      if (offsetParent?.scrollLeft) {
+        relativePos.left += offsetParent.scrollLeft;
+      }
     }
     return relativePos;
   }
@@ -746,7 +761,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return location;
     }
 
-    const deltaParentPosition = this.getRelativePos(this.emotion.sheet.container.getRootNode());
+    const deltaParentPosition = this.getRelativePos(
+      this.emotion.sheet.container.getRootNode(),
+      this.getOffsetParent?.(this.emotion.sheet.container.getRootNode()),
+    );
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement, deltaParentPosition);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement, deltaParentPosition);
 
@@ -811,7 +829,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const rect = PopupHelper.getElementAbsoluteRect(absoluteParent);
-    const deltaParentPosition = this.getRelativePos(this.emotion.sheet.container.getRootNode());
+    const deltaParentPosition = this.getRelativePos(
+      this.emotion.sheet.container.getRootNode(),
+      this.getOffsetParent?.(this.emotion.sheet.container.getRootNode()),
+    );
 
     return {
       top: -(rect.top - deltaParentPosition.top),

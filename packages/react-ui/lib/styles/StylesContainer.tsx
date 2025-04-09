@@ -1,14 +1,24 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { EmotionProvider, getEmotion } from '../theming/Emotion';
+import { EmotionProvider, getEmotion, PopupProvider } from '../theming/Emotion';
 
+export type GetOffsetParent = (element?: Node) => HTMLElement | null;
+
+export type PopupStrategy = 'auto' | 'relative' | 'absolute' | 'fixed';
 interface Props {
   emotionKey?: string;
   children: ReactNode;
+  getOffsetParent?: GetOffsetParent;
+  popupStrategy?: PopupStrategy;
 }
 
-export const StylesContainer = ({ emotionKey = `react-ui-styles-container`, children }: Props) => {
+export const StylesContainer = ({
+  emotionKey = `react-ui-styles-container`,
+  getOffsetParent,
+  popupStrategy,
+  children,
+}: Props) => {
   const [styles, setStyles] = useState<Emotion>();
 
   function setRef(container: HTMLDivElement) {
@@ -17,10 +27,15 @@ export const StylesContainer = ({ emotionKey = `react-ui-styles-container`, chil
     }
   }
 
+  const popupContext = useMemo(() => ({ getOffsetParent, popupStrategy }), [getOffsetParent]);
   return (
     <>
       <div ref={setRef} />
-      {styles && <EmotionProvider value={styles}>{children}</EmotionProvider>}
+      {styles && (
+        <PopupProvider value={popupContext}>
+          <EmotionProvider value={styles}>{children}</EmotionProvider>
+        </PopupProvider>
+      )}
     </>
   );
 };

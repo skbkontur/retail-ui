@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { StylesContainer } from '../../lib/styles/StylesContainer';
 import shadowRoot from '../../lib/shadowDom/reactShadow';
@@ -50,6 +50,46 @@ import { SidePage } from '../SidePage';
 import { MiniModal } from '../MiniModal';
 
 export default { title: 'ShadowDom' };
+
+const ModalCase = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  return (
+    <>
+      <Button onClick={() => setShowModal(true)}>Open Modal</Button>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <Modal.Header>Header</Modal.Header>
+          <Modal.Body>
+            <table style={tableStyle}>
+              <thead>
+                <tr>
+                  <th>in shadow root</th>
+                  <th>without shadow root</th>
+                  <th>with context in shadow root</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Components.map((component, i) => (
+                  <tr key={i}>
+                    <td style={tableCellStyle}>
+                      <shadowRoot.div>{component}</shadowRoot.div>
+                    </td>
+                    <td style={tableCellStyle}>{component}</td>
+                    <td style={tableCellStyle}>
+                      <shadowRoot.div>
+                        <StylesContainer>{component}</StylesContainer>
+                      </shadowRoot.div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Modal.Body>
+        </Modal>
+      )}
+    </>
+  );
+};
 
 const Components: React.JSX.Element[] = [
   <Autocomplete value={'x'} onValueChange={console.log} />,
@@ -196,6 +236,7 @@ const Components: React.JSX.Element[] = [
   </TooltipMenu>,
   <MaskedInput mask={'fack'} onValueChange={console.log} />,
   <ResponsiveLayout children={(currentLayout) => <div>{currentLayout.isMobile ? 'isMobile' : 'isDesktop'}</div>} />,
+  <ModalCase />,
 ];
 
 const tableStyle = {
@@ -205,9 +246,9 @@ const tableStyle = {
 } as React.CSSProperties;
 
 const tableCellStyle = {
+  transform: 'rotate(0deg)',
   border: '1px solid #ccc',
   padding: 10,
-  overflow: 'hidden',
 } as React.CSSProperties;
 
 const styleBodyWrapper = {
@@ -261,32 +302,39 @@ const Menus = (
   </Gapped>
 );
 
-export const SimpleComponents = () => (
-  <table style={tableStyle}>
-    <thead>
-      <tr>
-        <th>in shadow root</th>
-        <th>without shadow root</th>
-        <th>with context in shadow root</th>
-      </tr>
-    </thead>
-    <tbody>
-      {Components.map((component, i) => (
-        <tr key={i}>
-          <td style={tableCellStyle}>
-            <shadowRoot.div>{component}</shadowRoot.div>
-          </td>
-          <td style={tableCellStyle}>{component}</td>
-          <td style={tableCellStyle}>
-            <shadowRoot.div>
-              <StylesContainer>{component}</StylesContainer>
-            </shadowRoot.div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+export const SimpleComponents = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  return (
+    <div ref={ref} style={{ maxHeight: 500, overflow: 'auto' }}>
+      <table style={tableStyle}>
+        <thead>
+          <tr>
+            <th>in shadow root</th>
+            <th>without shadow root</th>
+            <th>with context in shadow root</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Components.map((component, i) => (
+            <tr key={i}>
+              <td style={tableCellStyle}>
+                <shadowRoot.div>{component}</shadowRoot.div>
+              </td>
+              <td style={tableCellStyle}>{component}</td>
+              <td style={tableCellStyle}>
+                <shadowRoot.div>
+                  <StylesContainer popupStrategy="fixed" getOffsetParent={() => ref.current}>
+                    {component}
+                  </StylesContainer>
+                </shadowRoot.div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export const ModalScenarios = () => {
   const [shadowDom, setShadowDom] = useState<boolean>(false);

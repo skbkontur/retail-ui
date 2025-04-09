@@ -5,6 +5,7 @@ import { createContext } from 'react';
 
 import { Upgrade } from '../Upgrades';
 import { AnyObject, FunctionWithParams } from '../utils';
+import type { GetOffsetParent, PopupStrategy } from '../styles/StylesContainer';
 
 import { Theme } from './Theme';
 
@@ -83,6 +84,15 @@ export const prefix =
 export const EmotionContext = createContext<Emotion>(getEmotion({}));
 export const EmotionConsumer = EmotionContext.Consumer;
 export const EmotionProvider = EmotionContext.Provider;
+
+export const PopupContext = createContext<{
+  getOffsetParent?: GetOffsetParent;
+  popupStrategy?: PopupStrategy;
+}>({
+  getOffsetParent: () => null,
+});
+export const PopupConsumer = PopupContext.Consumer;
+export const PopupProvider = PopupContext.Provider;
 
 EmotionContext.displayName = 'EmotionContext';
 EmotionContext.__KONTUR_REACT_UI__ = 'EmotionContext';
