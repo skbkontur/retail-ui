@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const NotificationContainer = styled.div`
+export const NotificationContainer = styled.a`
   position: sticky;
   z-index: 10;
   top: 0;
@@ -14,11 +14,17 @@ export const NotificationContainer = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 12px 24px;
-  background: #fe4c4c;
+  background: #3d3d3d;
   color: white;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.375;
+  text-decoration: none;
+  transition: 0.15s ease;
+
+  &:hover {
+    background: #292929;
+  }
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -27,59 +33,35 @@ export const NotificationContainer = styled.div`
   }
 `;
 
-export const NotificationContent = styled.div`
+export const NotificationContent = styled.span`
   max-width: 1080px;
 
   b {
-    font-weight: 500;
-    white-space: nowrap;
-  }
-
-  a {
-    color: white;
-    text-decoration: underline;
-    text-underline-offset: 1.5px;
+    font-weight: 400;
     white-space: nowrap;
   }
 `;
 
-export const NotificationButton = styled.a`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6px 12px;
-  border-radius: 6px;
-  background: #fff;
-  opacity: 0.955;
-  color: #222222;
-  font-size: 14px;
-  font-family: inherit;
-  text-decoration: none;
+export const NotificationLink = styled.span`
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 1.5px;
+  white-space: nowrap;
+  text-decoration-color: #e6e6e6;
   transition: 0.15s ease;
 
-  @media (hover) {
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &:active {
-    opacity: 0.92;
+  &:hover {
+    text-decoration-color: white;
   }
 `;
 
 export function Notification() {
   return (
-    <NotificationContainer>
+    <NotificationContainer href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
       <NotificationContent>
         <b>Документация больше не обновляется.</b> Новая документация на{' '}
-        <a href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
-          tech.skbkontur.ru/kontur-ui
-        </a>
+        <NotificationLink>tech.skbkontur.ru/kontur-ui</NotificationLink>
       </NotificationContent>
-      <NotificationButton href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
-        Поехали
-      </NotificationButton>
     </NotificationContainer>
   );
 }
