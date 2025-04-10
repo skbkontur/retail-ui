@@ -6,16 +6,11 @@ import { styles } from './Notification.styles';
 
 export function Notification() {
   return (
-    <div className={cx(styles.notification())}>
-      <div className={cx(styles.notificationContent())}>
+    <a className={cx(styles.notification())} href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
+      <span className={cx(styles.notificationContent())}>
         <b>Документация больше не обновляется.</b> Новая документация на{' '}
-        <a href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
-          tech.skbkontur.ru/kontur-ui
-        </a>
-      </div>
-      <a href="https://tech.skbkontur.ru/kontur-ui/" className={cx(styles.notificationButton())} target="_blank">
-        Поехали
-      </a>
-    </div>
+        <span className={cx(styles.notificationLink())}>tech.skbkontur.ru/kontur-ui</span>
+      </span>
+    </a>
   );
 }

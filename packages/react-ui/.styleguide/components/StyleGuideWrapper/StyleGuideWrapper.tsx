@@ -9,7 +9,6 @@ import { DEFAULT_THEME_WRAPPER } from '../ThemeSwitcher/constants';
 
 import { styles } from './StyleGuideWrapper.styles';
 import { Notification } from '../Notification/Notification';
-import { checkNewDocsAccess } from '../Notification/checkNewDocsAccess';
 
 interface StyleGuideRendererProps {
   children: React.ReactNode;
@@ -37,23 +36,15 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
     }
   }
 
-  const [hasNewDocsAccess, setHasNewDocsAccess] = useState(false);
-
-  useEffect(() => {
-    checkNewDocsAccess().then((status) => {
-      setHasNewDocsAccess(status);
-    });
-  }, []);
-
   return (
     <Context.Provider value={{ theme, setTheme, codeRevision, config, slots, displayMode, cssRevision }}>
-      {hasNewDocsAccess && <Notification />}
+      <Notification />
       <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: isThemeDark })}>
         <main className={styles.wrapper()}>
           <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME)]: isThemeDark })}>{children}</div>
         </main>
         {hasSidebar && (
-          <div data-testid="sidebar" className={cx(styles.sidebar(), { [styles.sidebarNotice()]: hasNewDocsAccess })}>
+          <div data-testid="sidebar" className={cx(styles.sidebar(), styles.sidebarNotice())}>
             <header className={styles.header()}>
               <div className={styles.heading()}>
                 <h1>{title}</h1>
