@@ -1,0 +1,127 @@
+import * as DateRangePickerStories from './DateRangePicker.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import { Meta } from '../../../.storybook/Meta';
+
+<Meta of={DateRangePickerStories} />
+
+# DateRangePicker
+
+[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/input-fields/calendar/)
+
+[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=281%3A18389)
+
+<Description />
+
+<br />
+<br />
+
+## Базовый пример
+
+Компонент выбора периода состоит из 3-х дочерних компонентов:
+
+- `<DateRangePicker.Start>` — начало периода с настройками как у `DateInput`
+- `<DateRangePicker.End>` — окончание периода с настройками как у `DateInput`
+- `<DateRangePicker.Separator>` — разделитель между полями
+
+Значения задается через пропы у компонентов `Start` и `End`:
+
+- 2 значения указываются в пропах `value={'dd.mm.yyyy'}` (формат настраивается)
+- Пустыми значениями считаются `""`, `null` и `undefined`
+- Минимальная дата задаётся в `Start` через `minDate`, максимальная — в `End` через `maxDate`
+
+<Primary />
+
+## Пропы
+
+<details>
+  <summary>Открыть таблицу с пропами</summary>
+  <ArgTypes />
+</details>
+
+<Stories title="" includePrimary={false} />
+
+## Адаптивность
+
+На мобильных устройствах доступны 2 варианта отображения:
+
+- Адаптивная версия в попапе (по умолчанию)
+
+- 2 нативных календаря через `useMobileNativeDatePicker`. <br /> Ограничение: [календарь в iOS не поддерживает параметры min и max](https://bugs.webkit.org/show_bug.cgi?id=225639)
+
+## Локали по умолчанию
+
+```typescript static
+interface DateRangePickerLocale {
+  today?: string;
+  months?: string[];
+  order?: DateOrder;
+  separator?: DateSeparator;
+  todayAriaLabel?: string;
+  selectMonthAriaLabel?: string;
+  selectYearAriaLabel?: string;
+  selectChosenAriaLabel?: string;
+  dayCellChooseDateAriaLabel?: string;
+  startDateLabel?: string;
+  endDateLabel?: string;
+  startDateEmpty?: string;
+  endDateEmpty?: string;
+}
+
+const ru_RU = {
+  today: 'Сегодня',
+  months: [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+  ],
+  order: DateOrder.DMY,
+  separator: DateSeparator.Dot,
+  todayAriaLabel: 'Перейти к сегодняшней дате',
+  selectMonthAriaLabel: 'месяц',
+  selectYearAriaLabel: 'год',
+  selectChosenAriaLabel: 'Выбранный',
+  dayCellChooseDateAriaLabel: 'Выбрать дату',
+  startDateLabel: 'Дата начала',
+  endDateLabel: 'Дата окончания',
+  startDateEmpty: 'Без первой даты',
+  endDateEmpty: 'Без второй даты',
+};
+
+const en_GB = {
+  today: 'Endday',
+  months: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
+  order: DateOrder.MDY,
+  separator: DateSeparator.Slash,
+  todayAriaLabel: "Go end today's date",
+  selectMonthAriaLabel: 'month',
+  selectYearAriaLabel: 'year',
+  selectChosenAriaLabel: 'Chosen',
+  dayCellChooseDateAriaLabel: 'Choose date',
+  startDateLabel: 'Start date',
+  endDateLabel: 'End date',
+  startDateEmpty: 'No start date',
+  endDateEmpty: 'No end date',
+};
+```
