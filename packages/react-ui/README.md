@@ -21,11 +21,6 @@ const MyApp = () => (
 );
 ```
 
-### Хотим другой цвет кнопки!
-
-Нужно использовать [ThemeContext](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext). Список переменных
-можно глянуть в [ThemeShowcase](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeShowcase)
-
 ### StrictMode
 
 Начиная с версий `@skbkontur/react-ui@3.10.0` и `@skbkontur/react-ui-validations@1.7.0`, библиотека поддерживает работу

@@ -71,7 +71,7 @@ export class ValidationWrapperInternal extends React.Component<
     warning(
       this.context,
       'ValidationWrapper should appears as child of ValidationContainer.\n' +
-        'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
+        'https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs',
     );
     if (this.context) {
       this.context.register(this);

@@ -5,7 +5,7 @@
   "main": "cjs/index.js",
   "module": "index.js",
   "sideEffects": false,
-  "homepage": "https://tech.skbkontur.ru/react-ui",
+  "homepage": "https://tech.skbkontur.ru/kontur-ui",
   "repository": {
     "type": "git",
     "url": "git@github.com:skbkontur/retail-ui.git"

@@ -6,7 +6,7 @@
 
 ## Документация
 
-- [Docs & Demos](https://tech.skbkontur.ru/react-ui-validations/)
+- [Docs & Demos](https://tech.skbkontur.ru/kontur-ui/)
 - [Validation guides](https://guides.kontur.ru/principles/validation/)
 
 ## Использование
