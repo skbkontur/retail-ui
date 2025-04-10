@@ -1,5 +1,4 @@
-import React, { useImperativeHandle, useRef, useState, useLayoutEffect } from 'react';
-import type { AriaAttributes, RefObject } from 'react';
+import React, { useImperativeHandle, useRef, useState, useLayoutEffect, type AriaAttributes } from 'react';
 
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -23,6 +22,7 @@ import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/Arrow
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { LocaleContext } from '../../lib/locale';
+import { isIOS } from '../../lib/client';
 
 import { getFontSize, styles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
@@ -163,24 +163,33 @@ export const DateRangePicker = Object.assign(
         return;
       }
 
-      let startInputRef: RefObject<NativeDateInput | DateInput>;
-      let endInputRef: RefObject<NativeDateInput | DateInput>;
-
-      if (isMobile) {
-        startInputRef = props.useMobileNativeDatePicker ? mobileNativeStartRef : mobileStartRef;
-        endInputRef = props.useMobileNativeDatePicker ? mobileNativeEndRef : mobileEndRef;
-      } else {
-        startInputRef = startRef;
-        endInputRef = endRef;
-      }
-
       // fix DateInput flushSync warning in React 18
       setTimeout(() => {
-        if (focusInput === 'start') {
-          startInputRef.current?.focus();
-        } else if (focusInput === 'end') {
-          endInputRef.current?.focus();
+        const isStart = focusInput === 'start';
+        let currentFieldRef;
+
+        // Mobile Native Picker
+        if (isMobile && props.useMobileNativeDatePicker) {
+          currentFieldRef = isStart ? mobileNativeStartRef : mobileNativeEndRef;
+          if (isIOS) {
+            currentFieldRef.current?.focus();
+          } else {
+            // Android open native datepicker only via click
+            currentFieldRef.current?.click();
+          }
+          return;
         }
+
+        // Mobile
+        if (isMobile) {
+          currentFieldRef = isStart ? mobileStartRef : mobileEndRef;
+          currentFieldRef.current?.focus();
+          return;
+        }
+
+        // Desktop
+        currentFieldRef = isStart ? startRef : endRef;
+        currentFieldRef.current?.focus();
       });
     }, [focusInput]);
 
