@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const NotificationContainer = styled.div`
+export const NotificationContainer = styled.a`
   position: sticky;
   z-index: 10;
   top: 0;
@@ -13,11 +13,17 @@ export const NotificationContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
-  padding: 16px 24px;
-  background: #ff4785;
+  padding: 12px 24px;
+  background: #3d3d3d;
   color: white;
   font-size: 16px;
   line-height: 1.375;
+  text-decoration: none;
+  transition: 0.15s ease;
+
+  &:hover {
+    background: #292929;
+  }
 
   @media screen and (min-width: 768px) {
     flex-direction: row;
@@ -26,52 +32,35 @@ export const NotificationContainer = styled.div`
   }
 `;
 
-export const NotificationContent = styled.div`
+export const NotificationContent = styled.span`
   max-width: 1080px;
 
-  a {
-    color: white;
+  b {
+    font-weight: 400;
+    white-space: nowrap;
   }
 `;
 
-export const NotificationButton = styled.a`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: 6px;
-  background: #fff;
-  opacity: 0.955;
-  color: #222222;
-  font-size: 16px;
-  font-family: inherit;
-  text-decoration: none;
+export const NotificationLink = styled.span`
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 1.5px;
+  white-space: nowrap;
+  text-decoration-color: #e6e6e6;
   transition: 0.15s ease;
 
   &:hover {
-    opacity: 1;
-  }
-
-  &:active {
-    opacity: 0.92;
+    text-decoration-color: white;
   }
 `;
 
 export function Notification() {
   return (
-    <NotificationContainer>
+    <NotificationContainer href="https://tech.skbkontur.ru/kontur-ui/" target="_blank">
       <NotificationContent>
-        <b>Делаем новую доку.</b> Собираем в ней все наши пакеты, уже сделали навигацию по&nbsp;разделам, управление
-        фича-флагами и&nbsp;добавили песочницу для&nbsp;валидаций. Тестируем и&nbsp;собираем обратную связь
-        до&nbsp;конца года. Используйте новую доку и рассказывайте нам в&nbsp;
-        <a href="https://chat.skbkontur.ru/kontur/channels/new-documentation-react-ui" target="_blank">
-          Маттермосте
-        </a>{' '}
-        как она вам.
+        <b>Документация больше не обновляется.</b> Новая документация на{' '}
+        <NotificationLink>tech.skbkontur.ru/kontur-ui</NotificationLink>
       </NotificationContent>
-      <NotificationButton href="https://ui.gitlab-pages.kontur.host/storybook-documentation/" target="_blank">
-        Попробовать
-      </NotificationButton>
     </NotificationContainer>
   );
 }

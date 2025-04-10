@@ -14,11 +14,17 @@ export const styles = memoizeStyle({
       box-sizing: border-box;
       width: 100%;
       margin: 0 auto;
-      padding: 16px 24px;
-      background: #ff4785;
+      padding: 12px 24px;
+      background: #3d3d3d;
       color: white;
       font-size: 16px;
       line-height: 1.375;
+      text-decoration: none;
+      transition: 0.15s ease;
+
+      &:hover {
+        background: #292929;
+      }
 
       @media screen and (min-width: 768px) {
         flex-direction: row;
@@ -31,34 +37,24 @@ export const styles = memoizeStyle({
     return css`
       max-width: 1080px;
 
-      a {
-        color: white;
+      b {
+        font-weight: 400;
+        white-space: nowrap;
       }
     `;
   },
-  notificationButton() {
+  notificationLink() {
     return css`
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 8px 16px;
-      border-radius: 6px;
-      background: #fff;
-      opacity: 0.955;
-      color: #222222;
-      font-size: 16px;
-      font-family: inherit;
-      text-decoration: none;
+      color: white;
+      text-decoration: underline;
+      text-underline-offset: 1.5px;
+      white-space: nowrap;
+      text-decoration-color: #e6e6e6;
       transition: 0.15s ease;
+      cursor: pointer;
 
-      @media (hover) {
-        &:hover {
-          opacity: 1;
-        }
-      }
-
-      &:active {
-        opacity: 0.92;
+      &:hover {
+        text-decoration-color: white;
       }
     `;
   },
