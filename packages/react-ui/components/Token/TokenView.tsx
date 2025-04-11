@@ -8,8 +8,11 @@ import { TokenSize } from './Token';
 import { globalClasses, styles } from './Token.styles';
 
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Задает размер контрола. */
   size?: TokenSize;
+  /** Задает компонент крестика для удаления токена. */
   closeButton?: ReactNode;
+  /** Определяет, скрывать ли крестик для удаления токена. */
   hideCloseButton?: boolean;
 }
 

@@ -10,7 +10,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Priority, ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -21,7 +21,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -30,6 +29,7 @@ import {
   ReactUIFeatureFlags,
   ReactUIFeatureFlagsContext,
 } from '../../lib/featureFlagsContext';
+import { mergeRefs } from '../../lib/mergeRefs';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -380,14 +380,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: (instance: Nullable<React.ReactInstance>) => {
-              this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref as React.RefCallback<any>;
-              originalRef && callChildRef(originalRef, instance);
-            },
+            ref: mergeRefs(
+              (anchor as React.RefAttributes<typeof anchor>)?.ref as React.RefCallback<any>,
+              this.updateAnchorElement,
+            ),
           } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
-
     // we need to get anchor's DOM node
     // so we either set our own ref on it via cloning
     // or relay on findDOMNode (inside getRootNode)
@@ -522,7 +520,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <div
         className={styles.content(this.theme)}
         data-tid={PopupDataTids.content}
-        ref={mergeRefs([this.refForTransition, this.refPopupContentElement])}
+        ref={mergeRefs(this.refForTransition, this.refPopupContentElement)}
       >
         <div
           className={styles.contentInner(this.theme)}
@@ -601,7 +599,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupContentElement = (element: Nullable<Element>) => {
+  private refPopupContentElement = (element: HTMLDivElement) => {
     this.lastPopupContentElement = element;
   };
 

@@ -47,7 +47,10 @@ class TestTooltip extends React.Component<React.PropsWithChildren<TestTooltipPro
   }
 }
 
-export default { title: 'Tooltip' };
+export default {
+  title: 'Tooltip',
+  component: Tooltip,
+};
 
 export const SimpleTooltip = () => (
   <TestTooltip>

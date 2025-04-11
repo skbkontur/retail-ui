@@ -22,81 +22,65 @@ export interface MenuItemProps
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Omit<CommonProps, 'children'> {
-  /**
-   * @ignore
-   */
+  /** Добавляет отступ иконке.
+   * @ignore */
   _enableIconPadding?: boolean;
-  /**
-   * Добавляет описание для элемента меню.
-   */
+
+  /** Добавляет описание для элемента меню. */
   comment?: React.ReactNode;
-  /**
-   * Отключенное состояние.
-   */
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Добавляет элементу меню иконку.
-   */
+
+  /** Добавляет иконку элементу меню. */
   icon?: React.ReactElement<any>;
   /**
    * Меняет цвет текста на синий.
+   * @deprecated
    */
   link?: boolean;
-  /**
-   * Размер
-   */
+
+  /** Задает размер контрола. */
   size?: SizeProp;
-  /**
-   * @ignore
-   */
+
+  /** @ignore */
   loose?: boolean;
-  /**
-   * @ignore
-   */
+
+  /** @ignore */
   state?: MenuItemState;
-  /**
-   * HTML-событие `onclick`.
-   */
+
+  /** Задает функцию, которая вызывается при клике. */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  /**
-   * HTML-событие `mouseenter`.
-   */
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
   onMouseEnter?: React.MouseEventHandler;
-  /**
-   * HTML-событие `mouseleave`.
-   */
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: React.MouseEventHandler;
+
+  /** @ignore */
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
-  /**
-   * HTML-атрибут `target`.
-   */
+
+  /** Задает HTML-атрибут `target`. */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-  /**
-   * HTML-атрибут `title`.
-   */
+
+  /** Задает HTML-атрибут `title`. */
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
-  /**
-   * HTML-атрибут `href`.
-   */
+
+  /** Задает HTML-атрибут `href` - адрес, на который следует перейти. */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
-  /**
-   * HTML-атрибут `rel`.
-   *
-   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
-   */
+
+  /** Задает HTML-атрибут `rel`. Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer". */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
-  /**
-   * Заменяет корневой элемент, на компонент переданный в проп.
-   *
-   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
-   */
+
+  /** Заменяет корневой элемент, на компонент переданный в проп.
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`. */
   component?: React.ComponentType<any>;
-  /**
-   * Запрещает выделение и выбор данного пункта меню
-   *
-   */
+
+  /** Запрещает выделение и выбор данного пункта меню. */
   isNotSelectable?: boolean;
 
+  /** Устанавливает стиль для отображения в мобильной версии. */
   isMobile?: boolean;
   /** @ignore */
   scrollIntoView?: boolean;
@@ -109,10 +93,9 @@ export const MenuItemDataTids = {
 } as const;
 
 /**
- *
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
  *
- * Сущности в которых может быть использован `MenuItem`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
+ * Сущности в которых может быть использован `MenuItem`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {

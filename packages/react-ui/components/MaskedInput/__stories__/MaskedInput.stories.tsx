@@ -13,6 +13,7 @@ import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 
 export default {
   title: 'MaskedInput',
+  component: MaskedInput,
   parameters: {
     creevey: {
       skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },

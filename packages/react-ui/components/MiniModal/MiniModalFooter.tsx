@@ -9,13 +9,8 @@ import { styles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalFooterProps extends ModalFooterProps {
-  /**
-   * Направление позиционирования кнопок.
-   * `row` работает только для 2 элементов,
-   * в других случаях автоматически включиться `column`.
-   *
-   * @default row
-   */
+  /** Задает направление позиционирования кнопок. `row` работает только для 2 элементов, в других случаях автоматически включиться `column`.
+   * @default row */
   direction?: 'row' | 'column';
 }
 

@@ -66,6 +66,7 @@ const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }}
 
 export default {
   title: 'TokenInput',
+  component: TokenInput,
   decorators: [
     (Story: () => JSX.Element) => (
       <div className="tokens-test-container" style={{ margin: 40, height: 200, width: 400, padding: 4 }}>

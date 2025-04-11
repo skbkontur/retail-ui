@@ -19,26 +19,29 @@ import { TokenView } from './TokenView';
 export type TokenSize = SizeProp;
 
 export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, CommonProps {
+  /** Устанавливает, является ли токен активным. */
   isActive?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Переводит контрол в состояние валидации "ошибка" */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Размер
-   */
+  /** Задает размер контрола. */
   size?: TokenSize;
+  /** Задает функцию, которая вызывается, когда на токен кликнули. */
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  /** Задает функцию, которая вызывается, когда на токен кликнули дважды. */
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
+  /** Задает функцию, которая вызывается, когда токен удаляется. */
   onRemove?: React.MouseEventHandler<HTMLElement>;
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  /** Задает функцию, которая вызывается, когда токен получает фокус. */
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
+  /** Задает функцию, которая вызывается, когда токен теряет фокус. */
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
@@ -47,6 +50,11 @@ export const TokenDataTids = {
   removeIcon: 'Token__removeIcon',
 } as const;
 
+/**
+ * Однородный элемент — `Token`.
+ *
+ * Используется в компоненте поле с токенами TokenInput.
+ */
 @rootNode
 @locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {

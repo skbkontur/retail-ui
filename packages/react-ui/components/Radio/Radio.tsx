@@ -23,41 +23,34 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         *  Состояние валидации при ошибке.
-         */
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /**
-         * Размер
-         */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /**
-         * Состояние фокуса.
-         */
+
+        /** Задает состояние фокуса. */
         focused?: boolean;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+
+        /** Задает функцию, которая вызывается при изменении value. */
         onValueChange?: (value: T) => void;
-        /**
-         * HTML-событие `onmouseenter`
-         */
+
+        /** Задает HTML-событие `onmouseenter`.
+         * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`
-         */
+
+        /** Задает HTML-событие `onmouseleave`.
+         * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `onmouseover`
-         */
+
+        /** Задает HTML-событие `onmouseover`.
+         * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-атрибут `value`.
-         */
+
+        /** Устанавливает значение. */
         value: T;
       }
     > {}
@@ -73,7 +66,7 @@ export const RadioDataTids = {
 type DefaultProps = Required<Pick<RadioProps<any>, 'focused' | 'size'>>;
 
 /**
- * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
+ * Радио-кнопки `Radio` используются, когда может быть выбран только один вариант из нескольких.
  */
 @rootNode
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {

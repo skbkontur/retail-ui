@@ -10,6 +10,7 @@ import { Gapped } from '../../Gapped';
 
 export default {
   title: 'Input',
+  component: Input,
 } as Meta;
 
 type InputState = Partial<InputProps>;
@@ -457,3 +458,16 @@ export const WithMaskAndSelectAllProp: Story = () => {
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
 
 export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+
+export const ClearCrossSizes: Story = () => {
+  const [valueSmall, setValueSmall] = React.useState('Small');
+  const [valueMedium, setValueMedium] = React.useState('Medium');
+  const [valueLarge, setValueLarge] = React.useState('Large');
+  return (
+    <Gapped vertical gap={5}>
+      <Input showClearIcon="always" size="small" value={valueSmall} onValueChange={setValueSmall} />
+      <Input showClearIcon="always" size="medium" value={valueMedium} onValueChange={setValueMedium} />
+      <Input showClearIcon="always" size="large" value={valueLarge} onValueChange={setValueLarge} />
+    </Gapped>
+  );
+};

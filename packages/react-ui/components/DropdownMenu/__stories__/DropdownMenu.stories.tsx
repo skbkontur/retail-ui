@@ -18,6 +18,7 @@ import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/Chec
 
 export default {
   title: 'DropdownMenu',
+  component: DropdownMenu,
   decorators: [
     (Story: () => JSX.Element) => (
       <div

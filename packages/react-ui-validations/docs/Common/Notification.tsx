@@ -8,7 +8,7 @@ export const NotificationContainer = styled.a`
   left: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px 20px;
   align-items: flex-start;
   box-sizing: border-box;
   width: 100%;
@@ -17,6 +17,7 @@ export const NotificationContainer = styled.a`
   background: #3d3d3d;
   color: white;
   font-size: 16px;
+  font-weight: 300;
   line-height: 1.375;
   text-decoration: none;
   transition: 0.15s ease;

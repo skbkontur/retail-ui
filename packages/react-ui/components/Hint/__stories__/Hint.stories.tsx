@@ -12,6 +12,7 @@ import { Tooltip } from '../../Tooltip';
 
 export default {
   title: 'Hint',
+  component: Hint,
   decorators: [
     (Story: () => JSX.Element) => (
       <div style={{ padding: '100px 300px' }}>

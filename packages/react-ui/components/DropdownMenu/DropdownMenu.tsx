@@ -57,12 +57,15 @@ export interface DropdownMenuProps
    * Не показывать анимацию
    */
   disableAnimations?: boolean;
+
+  /** @ignore */
+  corners?: React.CSSProperties;
 }
 
 type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
 
 /**
- * Меню, раскрывающееся по клику на переданный в `caption` элемент
+ * Выпадающее меню `DropdownMenu` раскрывается по клику на переданный в `caption` элемент.
  */
 @rootNode
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
@@ -118,6 +121,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}
+          corners={this.props.corners}
           onClose={this.props.onClose}
           onOpen={this.props.onOpen}
           popupMenuId={this.props.popupMenuId}

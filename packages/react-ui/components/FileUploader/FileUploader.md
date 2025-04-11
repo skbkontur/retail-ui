@@ -2,14 +2,14 @@
 Можно использовать для синхронной отправки данных, например, в форме.
 Или же можно использовать в асинхронном режиме.
 
-Синхронный контрол
+### Синхронный контрол
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
 <FileUploader  />
 ```
 
-Асинхронный контрол
+### Асинхронный контрол
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
@@ -18,7 +18,7 @@ const request = () => Promise.resolve();
 <FileUploader request={request} />
 ```
 
-Multiple контрол
+### Multiple контрол
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
@@ -27,7 +27,7 @@ const request = () => Promise.reject();
 <FileUploader request={request} multiple />
 ```
 
-Файлы по умолчанию
+### Файлы по умолчанию
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
@@ -39,7 +39,7 @@ const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
 <FileUploader multiple initialFiles={initialFiles} />
 ```
 
-Файлы по умолчанию с кастомизацией рендеринга
+### Файлы по умолчанию с кастомизацией рендеринга
 ```jsx harmony
 import { cloneElement } from 'react';
 import { FileUploader } from '@skbkontur/react-ui';
@@ -56,14 +56,14 @@ const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
 />
 ```
 
-Использование `accept`
+### Использование `accept`
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
 <FileUploader multiple accept="image/*" />
 ```
 
-Валидация файла в списке
+### Валидация файла в списке
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
@@ -75,7 +75,7 @@ import { FileUploader } from '@skbkontur/react-ui';
 />;
 ```
 
-Валидация контрола
+### Валидация контрола
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
@@ -105,7 +105,7 @@ const [fileList, setFileList] = React.useState([]);
 </div>
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface FileUploaderLocale {

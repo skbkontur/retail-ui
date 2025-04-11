@@ -14,13 +14,16 @@ import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
-import { mergeRefs } from '../../../lib/utils';
+import { mergeRefs } from '../../../lib/mergeRefs';
 import { Tooltip } from '../../Tooltip';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
-const { getCities } = require('../__mocks__/getCities.js');
+const { getCities } = require('../__mocks__/getCities.ts');
 
-export default { title: 'ComboBox' } as Meta;
+export default {
+  title: 'ComboBox',
+  component: ComboBox,
+} as Meta;
 
 export const SimpleComboboxStory: Story = () => (
   <div style={{ paddingBottom: 230, paddingRight: 40 }}>
@@ -396,13 +399,13 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
   private setRootNode!: TSetRootNode;
-  private comboBoxRef: React.RefObject<ComboBox> = React.createRef<ComboBox>();
+  private comboBoxRef: React.RefObject<ComboBox | null> = React.createRef<ComboBox>();
 
   public render() {
     return (
       <ComboBox
         {...this.props}
-        ref={mergeRefs([this.setRootNode, this.comboBoxRef])}
+        ref={mergeRefs(this.setRootNode, this.comboBoxRef)}
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
@@ -950,4 +953,32 @@ export const WithMenuAlignAndMenuPos: Story = () => {
 };
 WithMenuAlignAndMenuPos.parameters = {
   creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
+};
+
+export const ComboboxWithClearCross: Story = () => {
+  const [value, setValue] = React.useState({
+    value: 2,
+    label: 'Second',
+  });
+  const getItems = (q: string) => {
+    return Promise.resolve(
+      [
+        {
+          value: 1,
+          label: 'First',
+        },
+        {
+          value: 2,
+          label: 'Second',
+        },
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    );
+  };
+  return (
+    <Gapped gap={10}>
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} size={'medium'} />
+      <ComboBox showClearIcon="always" getItems={getItems} value={value} onValueChange={setValue} size={'large'} />
+    </Gapped>
+  );
 };

@@ -1,0 +1,51 @@
+import { Story } from '@storybook/blocks';
+import * as DocsStories from './ValidationLevel.docs.stories.tsx';
+import { Meta } from '../../../../.storybook-docs/Meta';
+
+<Meta of={DocsStories} />
+
+# Уровни валидаций
+
+Уровень валидации задаётся с помощью свойства `level` в объекте `validationInfo`
+
+```jsx static
+<ValidationWrapper validationInfo={{ level: '...', message: '...' }}>//...</ValidationWrapper>
+```
+
+Допустимые значения: `"error" | "warning"`.
+
+Значение по умолчанию: `"error"`.
+
+## Ошибка
+
+```jsx static
+<ValidationWrapper
+  validationInfo={{
+    message: 'Ошибка',
+    level: 'error',
+  }}
+>
+  //...
+</ValidationWrapper>
+```
+
+### Пример
+
+<Story of={DocsStories.ValidationError} />
+
+## Предупреждение
+
+```jsx static
+<ValidationWrapper
+  validationInfo={{
+    message: 'Предупреждение',
+    level: 'warning',
+  }}
+>
+  //...
+</ValidationWrapper>
+```
+
+### Пример
+
+<Story of={DocsStories.ValidationWarning} />

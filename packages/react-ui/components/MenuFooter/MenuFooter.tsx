@@ -8,9 +8,13 @@ import { SizeProp } from '../../lib/types/props';
 import { styles } from './MenuFooter.styles';
 
 export interface MenuFooterProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
+  /** Добавляет отступ иконке. */
   _enableIconPadding?: boolean;
+
+  /** @ignore */
   children: ReactNode;
-  /** Размер */
+
+  /** Задает размер. */
   size?: SizeProp;
 }
 
@@ -19,11 +23,11 @@ export const MenuFooterDataTids = {
 } as const;
 
 /**
- * Футер меню.
+ * Футер меню `MenuFooter`.
  *
- * _Примечание_: `футер меню`, в отличие от `элемента меню` нельзя затаргетить с клавиатуры.
+ * `MenuFooter`, в отличие от `MenuItem` нельзя затаргетить с клавиатуры.
  *
- * Сущности в которых может быть использован `MenuFooter`: [DropdownMenu](#/Components/DropdownMenu), [Kebab](#/Components/Kebab), [TooltipMenu](#/Components/TooltipMenu) и [Select](#/Components/Select).
+ * Сущности, в которых может быть использован `MenuFooter`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
 function MenuFooter({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuFooterProps) {
   const theme = useContext(ThemeContext);

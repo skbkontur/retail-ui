@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import { Autocomplete } from '@skbkontur/react-ui';
 
@@ -8,6 +9,7 @@ const [value, setValue] = React.useState('Kappa');
 <Autocomplete source={items} value={value} onValueChange={setValue} />;
 ```
 
+### Очистка Autocomplete
 Очистить значение в `Autocomplete` можно только с помощью пустой строки.
 ```jsx harmony
 import { Autocomplete, Button, Group } from '@skbkontur/react-ui';
@@ -22,7 +24,7 @@ const [value, setValue] = React.useState('Kappa');
 </Group>
 ```
 
-У Autocomplete есть 3 стандартных размера.
+### Размер
 ```jsx harmony
 import { Autocomplete, Gapped } from '@skbkontur/react-ui';
 
@@ -39,7 +41,7 @@ const [valueLarge, setValueLarge] = React.useState('Большой');
 </Gapped>
 ```
 
-Можно выделять введеное значение при фокусе.
+### Выделение введеного значения при фокусе
 ```jsx harmony
 import { Autocomplete } from '@skbkontur/react-ui';
 
@@ -50,7 +52,7 @@ const [value, setValue] = React.useState('');
 <Autocomplete source={items} value={value} onValueChange={setValue} selectAllOnFocus />
 ```
 
-Расположение иконки слева и справа.
+### Иконка
 ```jsx harmony
 import { Autocomplete, Gapped } from '@skbkontur/react-ui';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/SearchLoupeIcon16Regular';
@@ -66,7 +68,7 @@ const [valueRight, setValueRight] = React.useState('');
 </Gapped>
 ```
 
-Изменение ширины меню.
+### Ширина меню
 ```jsx harmony
 import { Autocomplete } from '@skbkontur/react-ui';
 
@@ -77,7 +79,7 @@ const [value, setValue] = React.useState('');
 <Autocomplete source={items} value={value} onValueChange={setValue} menuWidth={'80%'} />
 ```
 
-Расположение выпадающего окна Autocomplete.
+### Расположение выпадающего окна Autocomplete
 ```jsx harmony
 import { Autocomplete } from '@skbkontur/react-ui';
 
@@ -88,7 +90,7 @@ const [value, setValue] = React.useState('');
 <Autocomplete source={items} value={value} onValueChange={setValue} menuPos={'top'} />
 ```
 
-Отрисовка тени у выпадающего меню.
+### Тень у выпадающего меню
 ```jsx harmony
 import { Autocomplete } from '@skbkontur/react-ui';
 
@@ -99,7 +101,7 @@ const [value, setValue] = React.useState('');
 <Autocomplete source={items} value={value} onValueChange={setValue} hasShadow />
 ```
 
-Использование режима прозрачной рамки.
+### Режима прозрачной рамки
 ```jsx harmony
 import { Autocomplete } from '@skbkontur/react-ui';
 

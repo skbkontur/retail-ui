@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { HTMLProps } from '../../../typings/html';
-import { InputDataTids } from '../../Input';
+import { Input, InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -273,6 +273,56 @@ describe('ComboBox', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
+  it('navigation from Tab open dropdown', async () => {
+    render(
+      <>
+        <Input data-tid="test-input" />
+        <ComboBox getItems={() => Promise.resolve([])} />
+      </>,
+    );
+    await userEvent.click(screen.getByTestId('test-input'));
+    await userEvent.keyboard('{tab}');
+    expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+  });
+
+  describe('call focus with param withoutOpenDropdown=true', () => {
+    beforeEach(async () => {
+      render(
+        <ComboBox
+          ref={comboboxRef}
+          getItems={() => Promise.resolve([{ value: 'one', label: 'one' }])}
+          key="ComboBox"
+        />,
+      );
+      comboboxRef.current?.focus({ withoutOpenDropdown: true });
+    });
+
+    it('do not open dropdown', async () => {
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('click on input should open dropdown', async () => {
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+
+    it('arrow down should open dropdown', async () => {
+      await userEvent.keyboard('{arrowdown}');
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+
+    it('arrow up should open dropdown', async () => {
+      await userEvent.keyboard('{arrowup}');
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+
+    it('edit value should open dropdown', async () => {
+      await userEvent.keyboard('1');
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+  });
+
   describe('onBlur callback', () => {
     const onBlur = jest.fn();
     const [search, promise] = searchFactory(Promise.resolve(['item']));
@@ -291,7 +341,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
 
-      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      expect(screen.queryByTestId(InputDataTids.root)).not.toBeInTheDocument();
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
 
@@ -1299,7 +1349,7 @@ describe('ComboBox', () => {
           <p id="elementId">Description</p>
         </div>,
       );
-      const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
+      const comboBox = screen.getByRole('textbox');
       expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
       expect(comboBox).toHaveAccessibleDescription('Description');
     });
@@ -1351,7 +1401,7 @@ describe('ComboBox', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
     comboboxRef.current?.blur();
     await delay(0);
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    expect(screen.queryByTestId(InputDataTids.root)).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
@@ -1402,6 +1452,104 @@ describe('ComboBox', () => {
 
       expect(await screen.findByRole('textbox')).toHaveValue(testValues[1].label);
       expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
+    });
+  });
+
+  describe('with clear cross', () => {
+    const testValues = [
+      { value: '1', label: 'One' },
+      { value: '2', label: 'Two' },
+      { value: '3', label: 'Three' },
+      { value: '4', label: 'Four' },
+    ];
+    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+
+    const getTextbox = () => screen.getByRole('textbox');
+    const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
+    const queryClearCross = () => screen.queryByTestId(InputDataTids.clearCross);
+
+    it('clears controlled combobox', async () => {
+      const ControlledCombobox = () => {
+        const [value, setValue] = React.useState({ value: '2', label: 'Two' });
+        return <ComboBox getItems={getItems} showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledCombobox />);
+
+      expect(screen.getByText('Two')).toBeInTheDocument();
+      await userEvent.click(getClearCross());
+      expect(screen.queryByText('Two')).not.toBeInTheDocument();
+    });
+
+    it('clears uncontrolled combobox', async () => {
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+
+      comboboxRef.current?.focus();
+      await userEvent.type(getTextbox(), 'z');
+      expect(getTextbox()).toHaveValue('z');
+      const cross = getClearCross();
+      expect(cross).toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(cross).not.toBeInTheDocument();
+      expect(getTextbox()).toHaveValue('');
+    });
+
+    it('tests showClearIcon=always clear cross', async () => {
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).toBeNull();
+
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(texbox);
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.clear(texbox);
+      expect(queryClearCross()).toBeNull();
+    });
+
+    it('tests showClearIcon=auto clear cross', async () => {
+      render(<ComboBox showClearIcon="auto" getItems={getItems} ref={comboboxRef} />);
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(texbox).toHaveValue('z');
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(texbox);
+      expect(screen.queryByRole('textbox')).not.toHaveFocus();
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.hover(texbox);
+      expect(queryClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=never clear cross', async () => {
+      render(<ComboBox showClearIcon="never" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('tests showClearIcon when disabled', async () => {
+      render(<ComboBox disabled showClearIcon="always" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
     });
   });
 });

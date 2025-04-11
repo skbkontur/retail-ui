@@ -411,7 +411,10 @@ class SmallModalOnTop extends React.Component {
   };
 }
 
-export default { title: 'Modal' };
+export default {
+  title: 'Modal',
+  component: Modal,
+};
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
@@ -715,3 +718,14 @@ export const ChangeAllModalContent: Story = () => {
   return <PayNotifice />;
 };
 ChangeAllModalContent.storyName = 'Change all modal content';
+
+export const CrossFocusedByTab: Story = () => {
+  return (
+    <Modal disableFocusLock>
+      <Modal.Header>Крестик в модалке</Modal.Header>
+      <Modal.Body>
+        <span>Тело модалки</span>
+      </Modal.Body>
+    </Modal>
+  );
+};

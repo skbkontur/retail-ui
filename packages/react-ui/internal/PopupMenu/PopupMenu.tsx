@@ -32,6 +32,8 @@ export interface PopupMenuCaptionProps {
   openMenu: (firstItemShouldBeSelected?: boolean) => void;
   closeMenu: (restoreFocus?: boolean) => void;
   toggleMenu: () => void;
+  /** @ignore */
+  corners?: React.CSSProperties;
 }
 
 export interface PopupMenuProps
@@ -78,6 +80,9 @@ export interface PopupMenuProps
    * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
    */
   popupMenuId?: HTMLProps['id'];
+
+  /** @ignore */
+  corners?: React.CSSProperties;
 }
 
 interface PopupMenuState {
@@ -236,6 +241,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         openMenu: this.showMenu,
         closeMenu: this.hideMenu,
         toggleMenu: this.toggleMenu,
+        corners: this.props.corners,
       });
 
       return (

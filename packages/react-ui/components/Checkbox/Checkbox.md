@@ -1,4 +1,4 @@
-Базовый пример чекбокса.
+### Базовый пример чекбокса
 
 ```jsx harmony
 const [checked, setChecked] = React.useState(false);
@@ -8,7 +8,7 @@ const [checked, setChecked] = React.useState(false);
 </Checkbox>;
 ```
 
-У чекбокса есть несколько состояний.
+### Cостояния
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -36,7 +36,7 @@ const CheckboxWithState = ({children, ...props}) => {
 </Gapped>
 ```
 
-У чекбокса есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -54,7 +54,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Пример использования методов чекбокса `focus()` и `blur()`.
+### focus и blur
 
 ```jsx harmony
 import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
@@ -90,6 +90,7 @@ let checkboxInstance = React.useRef(null);
 </Gapped>
 ```
 
+### Неопределенное состояние
 Чекбокс может находится в неопределённом состоянии. <br/> Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
 
 Это состояние влияет только на внешний вид и не влияет на состояние `checked`.
@@ -121,7 +122,7 @@ let checkboxInstance = React.useRef(null);
 </Gapped>
 ```
 
-Пример использования неопределённого состояния чекбокса
+### Пример использования неопределённого состояния чекбокса
 
 ```jsx harmony
 const [checkedSiblings, setCheckedSiblings] = React.useState([]);

@@ -26,35 +26,29 @@ const types = ['mini', 'normal', 'big'] as const;
 export type LoaderType = (typeof types)[number];
 
 export interface LoaderProps extends CommonProps {
+  /** @ignore */
   children?: React.ReactNode;
-  /**
-   * Флаг переключения состояния лоадера
-   * @default false
-   */
+
+  /** Задает состояние лоадера.
+   * @default false */
   active?: boolean;
-  /**
-   * Подпись под спиннером
-   */
+
+  /** Задает подпись под спиннером. */
   caption?: SpinnerProps['caption'];
-  /**
-   * Компонент заменяющий спиннер.
-   */
+
+  /** Задает компонент, заменяющий спиннер. */
   component?: React.ReactNode;
-  /**
-   * Размер спиннера и текста
-   *
-   * @default normal
-   */
+
+  /** Задает размер спиннера и текста.
+   * @default normal. */
   type?: LoaderType;
-  /**
-   * Время в миллисекундах для показа вуали без спиннера.
-   * @default 300
-   */
+
+  /** Устанавливает время в миллисекундах для показа вуали без спиннера.
+   * @default 30.0 */
   delayBeforeSpinnerShow?: number;
-  /**
-   * Минимальное время в миллисекундах для показа спиннера
-   * @default 1000
-   */
+
+  /** Устанавливает минимальное время в миллисекундах для показа спиннера.
+   * @default 1000. */
   minimalDelayBeforeSpinnerHide?: number;
 }
 
@@ -75,9 +69,9 @@ type DefaultProps = Required<
 >;
 
 /**
- * Компонент `Loader` принимает внутрь себя контент, поверх которого в активном состоянии `Loader`'а будет отрисован спиннер
+ * Компонент `Loader` принимает внутрь себя контент, поверх которого в активном состоянии `Loader`'а будет отрисован спиннер.
  *
- * Если вам нужен только сам спиннер без дополнительнго функционала - используйте компонент [Spinner](https://tech.skbkontur.ru/react-ui/#/Components/Spinner)
+ * Если вам нужен только сам спиннер без дополнительного функционала - используйте компонент Spinner.
  */
 @rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {

@@ -2,7 +2,10 @@ import React from 'react';
 
 import { CurrencyLabel } from '../CurrencyLabel';
 
-export default { title: 'CurrencyLabel' };
+export default {
+  title: 'CurrencyLabel',
+  component: CurrencyLabel,
+};
 
 export const Simple = () => <CurrencyLabel value={12356.1} />;
 Simple.storyName = 'simple';

@@ -2,6 +2,7 @@ import { story, kind, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay';
+import { SidePageFooterDataTids } from '../SidePageFooter';
 
 const simpleTests = () => {
   test('open side-page', async (context) => {
@@ -128,7 +129,7 @@ kind('SidePage', () => {
           })
           .sendKeys(Key.TAB)
           .perform();
-        await delay(5000);
+        await delay(4000);
       };
       await context.webdriver
         .actions({
@@ -314,6 +315,107 @@ kind('SidePage', () => {
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot());
+    });
+  });
+
+  story('SidePageChangeBlockBgAndIgnoreBgClick', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: 'body',
+    });
+
+    test('change sidepage mode to view to edit to view', async (context) => {
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
+        .perform();
+      await delay(100);
+      const viewModeSidePage = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="${SidePageFooterDataTids.root}"] button` }))
+        .perform();
+      await delay(100);
+      const editModeSidePage = await context.webdriver.takeScreenshot();
+
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="${SidePageFooterDataTids.root}"] button` }))
+        .perform();
+      await delay(100);
+      const againViewModeSidePage = await context.takeScreenshot();
+
+      await delay(100);
+      await context.matchImages({ viewModeSidePage, editModeSidePage, againViewModeSidePage });
+    });
+  });
+
+  story('NestedSidePagesWithChangingVeil', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: 'body',
+    });
+
+    test('idle', async (context) => {
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: '[data-tid~="open-first-side-page"]' }))
+        .perform();
+      await delay(500);
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: '[data-tid~="open-second-side-page"]' }))
+        .perform();
+      await delay(500);
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: '[data-tid~="open-third-side-page"]' }))
+        .perform();
+      await delay(500);
+      const thirdOpenedNoVeils = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="veil-first-from-third-side-page"]` }))
+        .perform();
+      await delay(500);
+      const thirdOpenedWithFirstVeil = await context.webdriver.takeScreenshot();
+
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
+        .perform();
+      await delay(500);
+      const thirdOpenedWithFirstAndSecondVeils = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
+        .perform();
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="veil-third-from-third-side-page"] button` }))
+        .perform();
+      await delay(500);
+      const thirdOpenedWithFirstAndThirdVeils = await context.takeScreenshot();
+
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(context.webdriver.findElement({ css: `[data-tid~="close-third-side-page"] button` }))
+        .perform();
+      await delay(500);
+      const secondOpenedWithFirstVeilAndNoSecondVeil = await context.takeScreenshot();
+
+      await context
+        .expect({
+          thirdOpenedNoVeils,
+          thirdOpenedWithFirstVeil,
+          thirdOpenedWithFirstAndSecondVeils,
+          thirdOpenedWithFirstAndThirdVeils,
+          secondOpenedWithFirstVeilAndNoSecondVeil,
+        })
+        .to.matchImages();
     });
   });
 });

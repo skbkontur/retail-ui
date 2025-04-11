@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { ButtonLinkAllowedValues } from '../../lib/types/button-link';
-import { isKonturIcon, isReactUIComponent } from '../../lib/utils';
+import { isKonturIcon } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -32,96 +32,61 @@ export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   _noRightPadding?: boolean;
 
-  /**
-   * Применяет к кнопке стили псевдокласса `:active`.
-   */
+  /** Применяет к кнопке стили псевдокласса `:active`. */
   active?: boolean;
 
-  /**
-   * CSS-свойство `text-align`.
-   */
+  /** Задаёт выравнивание тексту в кнопке. */
   align?: React.CSSProperties['textAlign'];
 
-  /**
-   * Превращает обычную кнопку в кнопку со стрелкой.
-   */
+  /** Превращает обычную кнопку в кнопку со стрелкой. */
   arrow?: boolean | 'left';
 
-  /**
-   * Даёт кнопке фокус после окончания загрузки страницы.
-   */
+  /** Устанавливает фокус на контроле после окончания загрузки страницы.*/
   autoFocus?: boolean;
 
-  /**
-   * Убирает обводку у кнопки.
-   */
+  /** Убирает обводку у кнопки. */
   borderless?: boolean;
 
-  /**
-   * @ignore
-   */
+  /** @ignore */
   checked?: boolean;
 
+  /** @ignore */
   children?: React.ReactNode;
 
   /** @ignore */
   corners?: React.CSSProperties;
 
-  /**
-   * Отключенное состояние кнопки.
-   */
+  /** Делает компонент недоступным. */
   disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
 
-  /**
-   * Состояние валидации при ошибке.
-   */
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
 
-  /**
-   * Иконка слева от текста кнопки.
-   */
+  /** Добавляет иконку слева от текста кнопки. */
   icon?: React.ReactElement;
 
-  /**
-   * Иконка справа от текста кнопки.
-   */
+  /** Добавляет иконку справа от текста кнопки. */
   rightIcon?: React.ReactElement;
 
-  /**
-   * Переводит кнопку в состояние загрузки.
-   */
+  /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
 
-  /**
-   * Сужает кнопку.
-   */
+  /** Сужает кнопку. */
   narrow?: boolean;
 
-  /**
-   * Задаёт размер кнопки.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+  /** Задаёт размер кнопки. */
   size?: SizeProp;
 
-  /**
-   * HTML-атрибут `type`.
-   */
+  /** Задаёт HTML-атрибут `type`. */
   type?: ButtonType;
 
-  /**
-   * HTML-атрибут `title`.
-   */
+  /** Задаёт HTML-атрибут `title`. */
   title?: string;
 
-  /**
-   * Стиль кнопки.
-   *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
-   *
+  /** Задаёт стиль кнопки.
    * **Вариант `link` устарел.**
    * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
    */
@@ -130,20 +95,13 @@ export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   visuallyFocused?: boolean;
 
-  /**
-   * Состояние валидации при предупреждении.
-   */
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
 
-  /**
-   * CSS-свойство `width`.
-   */
+  /** Задаёт ширину кнопки. */
   width?: number | string;
 
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
 
@@ -518,5 +476,3 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     this.node = node;
   };
 }
-
-export const isButton = isReactUIComponent<ButtonProps>('Button');

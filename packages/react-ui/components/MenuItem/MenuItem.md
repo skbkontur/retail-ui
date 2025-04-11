@@ -1,4 +1,4 @@
-Меню с базовыми элементами меню.
+### Меню с базовыми элементами меню
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -12,7 +12,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с заблокированными и базовыми элементами меню.
+### Disabled
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -28,6 +28,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
+### Запрет выделения
 В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
 
 ```jsx harmony
@@ -44,7 +45,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с элементами меню содержащими описание.
+### Описание элементов
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -60,7 +61,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 </DropdownMenu>
 ```
 
-Меню с элементами меню содержащими иконки.
+### Иконки в элементах
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
@@ -88,41 +89,44 @@ import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 </DropdownMenu>
 ```
 
-Меню с элементами меню обёрнутыми в контрол ссылки.
+### Проп href
+
+В элементы меню можно передавать проп `href`, чтобы превратить их в ссылку. Лучше выделять такие элементы иконками.
 
 ```jsx harmony
-import { Button, MenuItem, DropdownMenu, Link } from '@skbkontur/react-ui';
-
-const LinkMenuItem = ({link, title}) => {
-  return <MenuItem
-    href={link}
-    component={({ href, ...rest }) => {
-      return <Link target="_blank" rel="noopener noreferrer" href={href} {...rest} />
-    }}
-    >
-    {title}
-  </MenuItem>
-}
+import { Button, MenuItem, DropdownMenu, MenuSeparator } from '@skbkontur/react-ui';
+import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon';
 
 <DropdownMenu
   caption={<Button use="primary">Открыть меню с ссылками</Button>}
   >
-  <LinkMenuItem
-    link="http://tech.skbkontur.ru/react-ui/"
-    title="Начало документации"
-    />
-  <LinkMenuItem
-    link="https://guides.kontur.ru/"
-    title="Контур Гайды"
-    />
-  <LinkMenuItem
-    link="https://github.com/skbkontur/retail-ui/graphs/contributors"
-    title="Список прекрасных людей"
-    />
+  <MenuItem
+    href="http://tech.skbkontur.ru/react-ui/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Начало документации
+  </MenuItem>
+  <MenuItem
+    href="https://github.com/skbkontur/retail-ui/graphs/contributors"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Список прекрасных людей
+  </MenuItem>
+  <MenuSeparator />
+  <MenuItem
+    icon={< ArrowUiCornerOutUpRightIcon />}
+    href="https://guides.kontur.ru/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Подробнее в Контур Гайдах
+  </MenuItem>
 </DropdownMenu>
 ```
 
-У MenuItem есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';

@@ -9,6 +9,7 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {
   title: 'Autocomplete',
+  component: Autocomplete,
   decorators: [
     (Story) => (
       <div
@@ -260,3 +261,7 @@ export const MenuPos = () => {
   );
 };
 MenuPos.storyName = 'menuPos';
+
+export const ClearCross = () => {
+  return <Autocomplete showClearIcon="always" value="hello" onValueChange={() => {}} />;
+};

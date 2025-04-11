@@ -1,0 +1,60 @@
+import { Story } from '@storybook/blocks';
+import * as DocsStories from './MissingNodes.docs.stories.tsx';
+import { Meta } from '../../../../.storybook-docs/Meta';
+
+<Meta of={DocsStories} />
+
+# Отсутствующие узлы
+
+## Узел отсутствует в модели
+
+Валидируемый объект может содержать вложенные объекты.
+Если в узле лежит `null` вместо объекта, то значения его детей неопределены.
+В таком случае правило конфигурирования детей не будет к ним применено.
+Писать дополнительных проверок не требуется.
+Добавить правила валидации на узел, в котором лежит `null` - можно.
+
+```jsx static
+interface ContactInfo {
+  name: string;
+}
+
+interface Data {
+  contact: ContactInfo | null;
+}
+
+const validate = createValidator<Data>(b => {
+  b.prop(x => x.contact, b => {
+    b.prop(x => x.name, b => {
+      //...
+    });
+  });
+});
+
+const data: Data = {contact: null};
+const validation = validate(data);
+const validationInfo = validation.getNode(x => x.contact.name).get();
+// -> null
+```
+
+В данном примере узел `contact` имеет значение `null`, то есть он не является объектом.
+Значит поля описанные в типе `ContactInfo` не определены.
+Поэтому функция конфигурирования узла `name` не выполнится.
+
+### Пример
+
+<Story of={DocsStories.MissingObjectNode} />
+
+## Узел не отображается на UI
+
+Валидация формы методом `ValidationContainer.validate()` происходит только по отрисованным компонентам `ValidationWrapper`.
+
+Если где-то определен объект `validationInfo`, но он не передан ни в один из отрисованных компонентов `ValidationWrapper`, то он никак не влияет на результат валидации формы с помощью метода `ValidationContainer.validate()`.
+
+Это означает, что в правилах валидации можно не дублировать условия, при которых поле отображается в интерфейсе, и всегда валидировать его узел в модели.
+
+В примере ниже валидация на поля _Имя_ и _E-mail_ вычисляется всегда, но когда поля отсутствуют, форма будет валидной.
+
+### Пример
+
+<Story of={DocsStories.MissingUiNode} />
