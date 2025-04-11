@@ -1,3 +1,5 @@
+import type { Nullable } from '../../typings/Types';
+
 const env: NodeJS.ProcessEnv = (typeof process === 'object' && process && process.env) || {};
 const { enableReactTesting, NODE_ENV, REACT_UI_TEST, REACT_APP_REACT_UI_TEST, STORYBOOK_REACT_UI_TEST } = env;
 
@@ -13,18 +15,19 @@ export const isBrowser = typeof window !== 'undefined';
 
 export const canUseDOM = isBrowser && window.document && window.document.createElement;
 
-export function isElement(el: unknown): el is Element {
-  if (isBrowser) {
-    return el instanceof Element;
+export function isHTMLElement(element: Nullable<Element>): element is HTMLElement {
+  if (!isBrowser) {
+    return false;
   }
 
-  return false;
+  const activeWindow = !!element && element.ownerDocument?.defaultView;
+  return !!activeWindow && element instanceof activeWindow.HTMLElement;
 }
 
-export function isNode(node: unknown): node is Node {
-  if (isBrowser) {
-    return node instanceof Node;
+export function isElement(el: unknown): el is Element {
+  if (!isBrowser) {
+    return false;
   }
 
-  return false;
+  return !!el && typeof el === 'object' && 'nodeType' in el && el.nodeType === Node.ELEMENT_NODE;
 }

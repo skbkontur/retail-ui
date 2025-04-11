@@ -1,7 +1,7 @@
 import { Nullable, Omit } from '../typings/Types';
 
 import { ScrollOffset } from './ValidationContainer';
-import { isBrowser } from './utils/utils';
+import { isBrowser, isHTMLElement } from './utils/utils';
 import { isNullable } from './utils/isNullable';
 
 export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
@@ -147,7 +147,7 @@ function findScrollableParent(el: HTMLElement): HTMLElement {
   let hasVisibleOverflow: Nullable<boolean>;
   let currentElement: HTMLElement = el;
   do {
-    if (isNullable(currentElement.parentElement) || !(currentElement.parentElement instanceof HTMLElement)) {
+    if (isNullable(currentElement.parentElement) || !isHTMLElement(currentElement.parentElement)) {
       return getDocumentBodyStrict();
     }
     currentElement = currentElement.parentElement;

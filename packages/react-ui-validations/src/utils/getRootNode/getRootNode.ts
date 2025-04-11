@@ -2,8 +2,8 @@ import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
 
-import { Nullable } from '../../../typings/Types';
-import { isElement, isNode, canUseDOM } from '../utils';
+import type { Nullable } from '../../../typings/Types';
+import { isElement, canUseDOM } from '../utils';
 
 interface InstanceWithRootNode {
   getRootNode: () => Nullable<HTMLElement>;
@@ -45,9 +45,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     // the "getRootNode" method, but we can ignore it here
     // because we'd already checked the instance on being an Element
     // which is a subclass of Node, so, just fixing types here
-    if (!isNode(instance)) {
-      rootNode = instance.getRootNode();
-    }
+    rootNode = instance.getRootNode();
   }
 
   if (rootNode !== undefined) {
