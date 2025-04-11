@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.6...react-ui-validations@2.1.0) (2025-04-11)
+
+
+### Bug Fixes
+
+* **DatePicker:** don't call extra onFocus in public focus() method ([d44b0cf](https://github.com/skbkontur/retail-ui/commit/d44b0cf7daf9b960758032804d05342d1c6fdced))
+* docs webpack.config ([c01b15b](https://github.com/skbkontur/retail-ui/commit/c01b15b13e9a72b68dd5da0fa05fbf7edb4dca21))
+* **Modal,SidePage:** update cross clickarea and focus outline ([063d3a5](https://github.com/skbkontur/retail-ui/commit/063d3a52424057244d129eec0e18fb4436e05dd5))
+
+
+### Features
+
+* add new DateRangePicker component ([cb49382](https://github.com/skbkontur/retail-ui/commit/cb49382162aa008288ecdcf1c016253fa88f93b7))
+* **Validation:** add flag to not open dropdown via submit ([74b38ba](https://github.com/skbkontur/retail-ui/commit/74b38ba420d8ac062d4978d4d7523a49bd3cba18))
+
+
+
+
+
 ## [2.0.6](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.5...react-ui-validations@2.0.6) (2025-03-03)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "5.0.16",
+  "version": "5.1.0",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -150,8 +150,8 @@
     "selenium-webdriver": "^4.27.0",
     "semver": "^7.6.2",
     "serve": "^13.0.2",
-    "string-replace-loader": "3.1.0",
     "storybook": "7.6.18",
+    "string-replace-loader": "3.1.0",
     "style-loader": "^4.0.0",
     "stylelint": "^16.6.0",
     "stylelint-config-standard": "^36.0.0",
