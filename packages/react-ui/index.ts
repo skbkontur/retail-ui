@@ -8,6 +8,7 @@ export * from './components/CurrencyInput';
 export * from './components/CurrencyLabel';
 export * from './components/DateInput';
 export * from './components/DatePicker';
+export * from './components/DateRangePicker';
 export * from './components/Dropdown';
 export * from './components/DropdownMenu';
 export * from './components/FileUploader';
