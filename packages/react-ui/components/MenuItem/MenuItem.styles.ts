@@ -94,6 +94,11 @@ export const styles = memoizeStyle({
       cursor: default;
     `;
   },
+  nonSelectable() {
+    return css`
+      cursor: default;
+    `;
+  },
   link(t: Theme) {
     return css`
       color: ${t.menuItemLinkColor};

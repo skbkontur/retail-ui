@@ -296,6 +296,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.selected(this.theme)]: this.isSelected,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
+      [styles.nonSelectable()]: !!isNotSelectable,
       [styles.disabled(this.theme)]: !!disabled,
     });
 
