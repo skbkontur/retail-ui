@@ -14,7 +14,7 @@ export const Example1 = () => {
   const [valueStart, setValueStart] = useState('');
   const [valueEnd, setValueEnd] = useState('');
   const minDate = '11.01.2025';
-  const maxDate = '23.05.2025';
+  const maxDate = '23.01.2025';
 
   const validate = () => {
     const message = (
@@ -55,11 +55,21 @@ export const Example1 = () => {
       <ValidationContainer ref={refContainer}>
         <DateRangePicker>
           <ValidationWrapper validationInfo={validate().start}>
-            <DateRangePicker.Start value={valueStart} minDate={minDate} onValueChange={setValueStart} />
+            <DateRangePicker.Start
+              value={valueStart}
+              minDate="01.01.2025"
+              maxDate="31.01.2025"
+              onValueChange={setValueStart}
+            />
           </ValidationWrapper>
           <DateRangePicker.Separator />
           <ValidationWrapper validationInfo={validate().end}>
-            <DateRangePicker.End value={valueEnd} maxDate={maxDate} onValueChange={setValueEnd} />
+            <DateRangePicker.End
+              value={valueEnd}
+              minDate="01.01.2025"
+              maxDate="31.01.2025"
+              onValueChange={setValueEnd}
+            />
           </ValidationWrapper>
         </DateRangePicker>
       </ValidationContainer>
