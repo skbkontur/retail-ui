@@ -210,9 +210,9 @@ export const TodayButton: Story = () => {
 
   return (
     <DateRangePicker enableTodayLink>
-      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
       <DateRangePicker.Separator />
-      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
     </DateRangePicker>
   );
 };
