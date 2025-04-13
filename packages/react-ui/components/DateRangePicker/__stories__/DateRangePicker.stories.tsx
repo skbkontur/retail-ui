@@ -43,9 +43,6 @@ export default {
   ],
 } as Meta;
 
-const minDate = '08.07.2024';
-const maxDate = '18.08.2024';
-
 export const Default = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
@@ -63,6 +60,9 @@ Default.parameters = { creevey: { skip: true }, customSpacing: 'bottom' };
 export const MobilePicker: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
+
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
 
   return (
     <DateRangePicker>
@@ -119,6 +119,9 @@ export const MinMax: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
+
   return (
     <DateRangePicker>
       <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
@@ -150,6 +153,9 @@ export const MenuPos: Story = () => {
   const [valueStartBottom, setValueStartBottom] = React.useState('');
   const [valueEndBottom, setValueEndBottom] = React.useState('');
 
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
+
   return (
     <Gapped vertical gap={16} style={{ margin: 120 }}>
       <div data-tid="position-top">
@@ -175,6 +181,9 @@ MenuPos.parameters = { customSpacing: 'all' };
 export const DateRangePickerLocaleProvider = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
+
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
 
   return (
     <div style={{ paddingTop: 200 }}>
@@ -208,6 +217,9 @@ export const TodayButton: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
+
   return (
     <DateRangePicker enableTodayLink>
       <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
@@ -224,6 +236,9 @@ export const OptionalRange: Story = () => {
 
   const [valueStartOptional, setValueStartOptional] = React.useState('');
   const [valueEndOptional, setValueEndOptional] = React.useState('');
+
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
 
   return (
     <Gapped vertical gap={16}>
@@ -261,6 +276,9 @@ OptionalRange.parameters = { customSpacing: 'bottom' };
 export const OptionalRangeWithTodayButton: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
+
+  const minDate = '08.07.2024';
+  const maxDate = '18.08.2024';
 
   return (
     <DateRangePicker enableTodayLink>
