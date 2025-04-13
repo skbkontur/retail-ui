@@ -14,7 +14,7 @@ import {
 import { Meta, Story } from '../../../typings/stories';
 
 export default {
-  title: 'Date Components/CalendarDay',
+  title: 'Display data/CalendarDay',
   component: CalendarDay,
   parameters: { creevey: { skip: true } },
 } as Meta;
