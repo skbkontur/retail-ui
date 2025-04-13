@@ -3,15 +3,7 @@ import { story, kind, test } from 'creevey';
 import { delay } from '../../../lib/delay';
 
 kind('DateRangePicker', () => {
-  story('Default', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        flaky: {
-          in: ['chrome2022Dark'],
-          tests: ['DateSelect year'],
-        },
-      },
-    });
+  story('MinMax', () => {
     test('opened', async (context) => {
       await delay(1000);
       await context.webdriver
@@ -40,6 +32,7 @@ kind('DateRangePicker', () => {
             css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
           }),
         )
+        .move({ origin: context.webdriver.findElement({ css: 'body' }) })
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'DateSelect month');
@@ -61,66 +54,10 @@ kind('DateRangePicker', () => {
             css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           }),
         )
+        .move({ origin: context.webdriver.findElement({ css: 'body' }) })
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'DateSelect year');
-    });
-  });
-
-  story('MinMax', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        flaky: {
-          in: /^(?!\b(chrome|ie11)\b)/,
-          tests: ['DateSelect months', 'DateSelect years'],
-        },
-      },
-    });
-
-    test('DateSelect months', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .pause(1000)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-          }),
-        )
-        .pause(1000)
-        .perform();
-      await context.matchImage(await context.takeScreenshot(), 'DateSelect months');
-    });
-
-    test('DateSelect years', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .pause(1000)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(
-          context.webdriver.findElement({
-            css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-          }),
-        )
-        .pause(1000)
-        .perform();
-      await context.matchImage(await context.takeScreenshot(), 'DateSelect years');
     });
   });
 

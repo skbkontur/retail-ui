@@ -43,25 +43,10 @@ export default {
   ],
 } as Meta;
 
+const minDate = '08.07.2024';
+const maxDate = '18.08.2024';
+
 export const Default = () => {
-  const [valueStart, setValueStart] = React.useState('');
-  const [valueEnd, setValueEnd] = React.useState('');
-
-  const minDate = '08.07.2024';
-  const maxDate = '18.08.2024';
-
-  return (
-    <DateRangePicker>
-      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
-      <DateRangePicker.Separator />
-      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} />
-    </DateRangePicker>
-  );
-};
-Default.storyName = 'DateRangePicker';
-Default.parameters = { customSpacing: 'bottom' };
-
-export const MobilePicker: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -70,6 +55,20 @@ export const MobilePicker: Story = () => {
       <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
       <DateRangePicker.Separator />
       <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+    </DateRangePicker>
+  );
+};
+Default.parameters = { creevey: { skip: true }, customSpacing: 'bottom' };
+
+export const MobilePicker: Story = () => {
+  const [valueStart, setValueStart] = React.useState('');
+  const [valueEnd, setValueEnd] = React.useState('');
+
+  return (
+    <DateRangePicker>
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
+      <DateRangePicker.Separator />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} />
     </DateRangePicker>
   );
 };
@@ -122,9 +121,9 @@ export const MinMax: Story = () => {
 
   return (
     <DateRangePicker>
-      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate="05.07.2024" />
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
       <DateRangePicker.Separator />
-      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate="15.08.2024" />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} />
     </DateRangePicker>
   );
 };
@@ -155,17 +154,17 @@ export const MenuPos: Story = () => {
     <Gapped vertical gap={16} style={{ margin: 120 }}>
       <div data-tid="position-top">
         <DateRangePicker menuPos="top">
-          <DateRangePicker.Start value={valueStartTop} onValueChange={setValueStartTop} />
+          <DateRangePicker.Start value={valueStartTop} onValueChange={setValueStartTop} minDate={minDate} />
           <DateRangePicker.Separator />
-          <DateRangePicker.End value={valueEndTop} onValueChange={setValueEndTop} />
+          <DateRangePicker.End value={valueEndTop} onValueChange={setValueEndTop} maxDate={maxDate} />
         </DateRangePicker>
       </div>
 
       <div data-tid="position-bottom">
         <DateRangePicker menuPos="bottom">
-          <DateRangePicker.Start value={valueStartBottom} onValueChange={setValueStartBottom} />
+          <DateRangePicker.Start value={valueStartBottom} onValueChange={setValueStartBottom} minDate={minDate} />
           <DateRangePicker.Separator />
-          <DateRangePicker.End value={valueEndBottom} onValueChange={setValueEndBottom} />
+          <DateRangePicker.End value={valueEndBottom} onValueChange={setValueEndBottom} maxDate={maxDate} />
         </DateRangePicker>
       </div>
     </Gapped>
@@ -181,9 +180,9 @@ export const DateRangePickerLocaleProvider = () => {
     <div style={{ paddingTop: 200 }}>
       <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
         <DateRangePicker>
-          <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
+          <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
           <DateRangePicker.Separator />
-          <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+          <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} />
         </DateRangePicker>
       </LocaleContext.Provider>
     </div>
@@ -211,9 +210,9 @@ export const TodayButton: Story = () => {
 
   return (
     <DateRangePicker enableTodayLink>
-      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} />
       <DateRangePicker.Separator />
-      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} />
     </DateRangePicker>
   );
 };
@@ -229,15 +228,30 @@ export const OptionalRange: Story = () => {
   return (
     <Gapped vertical gap={16}>
       <DateRangePicker>
-        <DateRangePicker.Start value={valueStartOptionalHalf} onValueChange={setValueStartOptionalHalf} optional />
+        <DateRangePicker.Start
+          value={valueStartOptionalHalf}
+          onValueChange={setValueStartOptionalHalf}
+          minDate={minDate}
+          optional
+        />
         <DateRangePicker.Separator />
-        <DateRangePicker.End value={valueEndOptionalHalf} onValueChange={setValueEndOptionalHalf} optional />
+        <DateRangePicker.End
+          value={valueEndOptionalHalf}
+          onValueChange={setValueEndOptionalHalf}
+          maxDate={maxDate}
+          optional
+        />
       </DateRangePicker>
 
       <DateRangePicker>
-        <DateRangePicker.Start value={valueStartOptional} onValueChange={setValueStartOptional} optional />
+        <DateRangePicker.Start
+          value={valueStartOptional}
+          onValueChange={setValueStartOptional}
+          minDate={minDate}
+          optional
+        />
         <DateRangePicker.Separator />
-        <DateRangePicker.End value={valueEndOptional} onValueChange={setValueEndOptional} optional />
+        <DateRangePicker.End value={valueEndOptional} onValueChange={setValueEndOptional} maxDate={maxDate} optional />
       </DateRangePicker>
     </Gapped>
   );
@@ -250,9 +264,9 @@ export const OptionalRangeWithTodayButton: Story = () => {
 
   return (
     <DateRangePicker enableTodayLink>
-      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} optional />
+      <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} minDate={minDate} optional />
       <DateRangePicker.Separator />
-      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} optional />
+      <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate={maxDate} optional />
     </DateRangePicker>
   );
 };
