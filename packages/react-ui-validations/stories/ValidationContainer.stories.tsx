@@ -4,6 +4,9 @@ import { Button, Gapped, Input } from '@skbkontur/react-ui';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 
+import { ScrollMessage } from './Input.stories';
+import { IframeRenderer } from './StoryHelpers';
+
 export default {
   title: 'ValidationContainer',
 } as Meta;
@@ -69,3 +72,13 @@ export const WithWrapperError = () => (
     </ValidationContainer>
   </>
 );
+
+export const InIframe = () => {
+  return (
+    <IframeRenderer height="2200px" width="100%">
+      <ScrollMessage />
+    </IframeRenderer>
+  );
+};
+
+InIframe.parameters = { creevey: { skip: true } };

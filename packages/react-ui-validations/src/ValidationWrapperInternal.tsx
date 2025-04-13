@@ -4,7 +4,7 @@ import warning from 'warning';
 import { Nullable } from '../typings/Types';
 
 import { getRootNode } from './utils/getRootNode';
-import { isBrowser } from './utils/utils';
+import { isBrowser, isHTMLElement } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
@@ -89,7 +89,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public async focus(): Promise<void> {
     const htmlElement = this.getRootNode();
-    if (htmlElement instanceof HTMLElement) {
+    if (isHTMLElement(htmlElement)) {
       const { disableSmoothScroll, scrollOffset } = this.context.getSettings();
       if (!disableSmoothScroll) {
         await smoothScrollIntoView(htmlElement, scrollOffset);
@@ -185,7 +185,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public getControlPosition(): Nullable<Point> {
     const htmlElement = this.getRootNode();
-    if (htmlElement instanceof HTMLElement) {
+    if (isHTMLElement(htmlElement)) {
       const rect = htmlElement.getBoundingClientRect();
       return { x: rect.top, y: rect.left };
     }
