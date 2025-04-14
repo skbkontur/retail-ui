@@ -144,6 +144,48 @@ describe('ComboBox', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
+  it('not auto selecting an item on entry when the search is empty', async () => {
+    const items = ['Item 1', 'Item 2', 'Item 3'];
+    const onValueChange = jest.fn();
+    render(
+      <ComboBox
+        getItems={async (q: string) => items.filter((x) => x.toLowerCase().includes(q.toLowerCase()))}
+        onValueChange={onValueChange}
+      />,
+    );
+    const root = screen.getByTestId(InputLikeTextDataTids.root);
+
+    await userEvent.click(root);
+    await userEvent.type(root, 'Item ');
+
+    await delay(0);
+
+    await userEvent.type(root, 'Item 4');
+    await userEvent.keyboard('{enter}');
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it('selects the first item when search found multiple items', async () => {
+    const items = ['Item 1', 'Item 2', 'Item 3'];
+    const onValueChange = jest.fn();
+    render(
+      <ComboBox
+        getItems={async (q: string) => items.filter((x) => x.toLowerCase().includes(q.toLowerCase()))}
+        onValueChange={onValueChange}
+      />,
+    );
+
+    const root = screen.getByTestId(InputLikeTextDataTids.root);
+
+    await userEvent.click(root);
+    await userEvent.type(root, 'Item ');
+
+    await delay(0);
+
+    await userEvent.keyboard('{enter}');
+    expect(onValueChange).toHaveBeenCalledWith('Item 1');
+  });
+
   it('opens menu on arrow down', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
