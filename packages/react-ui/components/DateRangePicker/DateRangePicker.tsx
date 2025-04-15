@@ -376,7 +376,7 @@ export const DateRangePicker = Object.assign(
           <ThemeContext.Provider value={getDateRangePickerTheme(theme)}>
             <CommonWrapper {...props}>
               <div
-                className={styles.root()}
+                className={styles.root(theme)}
                 role="group"
                 aria-describedby={props['aria-describedby']}
                 aria-label={props['aria-label']}

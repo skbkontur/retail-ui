@@ -269,6 +269,14 @@ export const DarkTheme5_0 = createTheme({
     public static calendarCellHoverColor = 'rgba(255, 255, 255, 0.87)';
     public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
     //#endregion Calendar
+
+    //#region DateRangePicker
+    public static rangeCalendarCellBg = 'rgba(255, 255, 255, 0.06)';
+    public static rangeCalendarCellHoverBg = 'rgba(255, 255, 255, 0.1)';
+    public static rangeCalendarCellEndBg = '#EBEBEB';
+    public static rangeCalendarCellEndColor = '#222222';
+    //#endregion
+
     //#region Paging
     public static pagingPageLinkColor = 'rgba(255, 255, 255, 0.87)';
     public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
