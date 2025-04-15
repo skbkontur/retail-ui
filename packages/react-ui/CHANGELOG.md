@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.0...@skbkontur/react-ui@5.1.1) (2025-04-15)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** set dark theme color tokens ([ccad0c8](https://github.com/skbkontur/retail-ui/commit/ccad0c8b232e969ea9bde2832b17e98013f4276b))
+
+
+
+
+
 # [5.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.0.16...@skbkontur/react-ui@5.1.0) (2025-04-11)
 
 
