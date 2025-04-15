@@ -4,9 +4,10 @@ import { Theme } from '../../lib/theming/Theme';
 import { CalendarDataTids } from '../Calendar';
 
 export const styles = memoizeStyle({
-  root() {
+  root(t: Theme) {
     return css`
       display: inline-block;
+      color: ${t.textColorDefault};
     `;
   },
   inputWrapper() {
@@ -74,6 +75,7 @@ export const styles = memoizeStyle({
 
         @media (hover: hover) {
           &:hover {
+            color: ${t.rangeCalendarCellEndColor};
             background: none;
           }
         }
