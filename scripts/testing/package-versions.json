@@ -1,0 +1,33 @@
+{
+  "react": {
+    "16": {
+      "react": "^16.0.0",
+      "react-dom": "^16.0.0",
+      "@testing-library/react": "^12.1.5"
+    },
+    "17": {
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "@testing-library/react": "12.1.5"
+    },
+    "18": {
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1",
+      "@testing-library/react": "15.0.7"
+    },
+    "19": {
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0",
+      "@testing-library/react": "16.2.0",
+      "@testing-library/dom": "^10.4.0"
+    }
+  },
+  "typescript": {
+    "4": {
+      "typescript": "^4.9.4"
+    },
+    "5": {
+      "typescript": "^5.8.2"
+    }
+  }
+}
