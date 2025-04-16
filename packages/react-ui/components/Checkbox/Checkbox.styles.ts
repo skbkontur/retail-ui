@@ -175,7 +175,6 @@ export const styles = memoizeStyle({
       opacity: 0;
       position: absolute;
       width: 0;
-      z-index: -1;
     `;
   },
 
