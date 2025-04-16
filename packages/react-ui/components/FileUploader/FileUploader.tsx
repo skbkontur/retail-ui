@@ -193,7 +193,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
         if (dataTransfer.files?.length > 0) {
           handleChange(dataTransfer.files);
         }
-        dataTransfer.clearData();
       }
     },
     [handleChange, disabled],
