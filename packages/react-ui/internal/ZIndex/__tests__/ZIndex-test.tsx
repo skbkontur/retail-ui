@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { mount } from 'enzyme';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { globalObject } from '@skbkontur/global-object';
@@ -18,13 +17,17 @@ describe('ZIndex', () => {
         return <div />;
       }
     }
-    const wrapper = mount(
+    const { rerender } = render(
       <ZIndex>
         <Content />
       </ZIndex>,
     );
 
-    wrapper.setProps({ applyZIndex: false });
+    rerender(
+      <ZIndex applyZIndex={false}>
+        <Content />
+      </ZIndex>,
+    );
 
     expect(unmountFn).not.toHaveBeenCalled();
   });
