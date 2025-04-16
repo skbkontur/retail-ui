@@ -1,0 +1,14 @@
+{
+  "version": "0.2",
+  "language": "en,ru",
+  "dictionaryDefinitions": [
+    {
+      "name": "cspell-custom-words",
+      "path": "./cspell_custom_words.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["cspell-custom-words", "typescript", "html"],
+  "import": ["@cspell/dict-ru_ru/cspell-ext.json"],
+  "ignorePaths": ["node_modules", "build", "dist", "selenium-tests", "storybook-static", ".creevey", "scripts"]
+}
