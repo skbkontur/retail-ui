@@ -9,6 +9,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -51,6 +52,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
   };
 
   public renderMain(): JSX.Element {
+    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
     const { noPadding } = this.props;
     return (
       <ModalContext.Consumer>
@@ -64,6 +66,9 @@ export class ModalBody extends React.Component<ModalBodyProps> {
                 [styles.mobileBodyWithoutHeader()]: !hasHeader && this.isMobileLayout,
                 [styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
                 [styles.mobileBodyAddPaddingForPanel(this.theme)]: additionalPadding && this.isMobileLayout,
+                [styles.mobileBodyWithoutHeader5_2(this.theme)]: versionGTE5_2 && !hasHeader && this.isMobileLayout,
+                [styles.mobileBodyAddPaddingForPanel5_2(this.theme)]:
+                  versionGTE5_2 && additionalPadding && this.isMobileLayout,
                 [styles.bodyWithoutPadding()]: noPadding,
               })}
             >
