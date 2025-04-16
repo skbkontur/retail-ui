@@ -161,19 +161,23 @@ export const Effect: EffectFactory = {
     }
 
     let index = -1;
-    if (items && items.length && isNonNullable(value)) {
+    if (items?.length && isNonNullable(value)) {
       index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
+      menu.highlightItem(index);
+    } else {
+      menu.reset();
     }
-    menu.highlightItem(index);
 
     if (index >= 0) {
       // @ts-expect-error: Use of private property.
-      globalObject.requestAnimationFrame?.(() => menu && menu.scrollToSelected());
+      globalObject.requestAnimationFrame?.(() => menu?.scrollToSelected());
       return;
     }
 
-    if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      globalObject.requestAnimationFrame?.(() => menu && menu.down());
+    const queryTextDifferenceOfSavedValue = textValue !== valueString;
+    const needFocusToRefreshButton = requestStatus === ComboBoxRequestStatus.Failed;
+    if (queryTextDifferenceOfSavedValue || needFocusToRefreshButton) {
+      globalObject.requestAnimationFrame?.(() => menu?.highlightItem(0));
     }
   },
   selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
