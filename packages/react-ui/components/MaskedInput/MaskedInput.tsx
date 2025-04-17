@@ -1,13 +1,13 @@
-import React, { Ref, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import React, { Ref, useImperativeHandle, useRef, useState, useEffect, useContext } from 'react';
 import { type IMaskInputProps } from '@skbkontur/react-imask';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
-import { uiFontGlobalClasses } from '../../lib/styles/UiFont';
 import { Input, InputProps, InputType } from '../Input';
 import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { globalClasses } from './MaskedInput.styles';
+import { globalClasses, styles } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
 import { ColorableInputElement } from './ColorableInputElement';
 import { FixedIMaskInput } from './FixedIMaskInput';
@@ -84,6 +84,7 @@ export const MaskedInput = forwardRefAndName(
       className,
       ...inputProps
     } = props;
+    const theme = useContext(ThemeContext);
 
     const inputRef = useRef<Input>(null);
 
@@ -116,6 +117,10 @@ export const MaskedInput = forwardRefAndName(
 
     const imaskProps = getCompatibleIMaskProps();
 
+    // TODO: Удалить в следующем мажоре
+    // Селекторы могут ожидать определённый порядок классов
+    const uiFontGlobalClassesRoot = 'react-ui-ui-font-root';
+
     return (
       <Input
         ref={inputRef}
@@ -124,7 +129,7 @@ export const MaskedInput = forwardRefAndName(
         onBlur={handleBlur}
         onInput={handleInput}
         onKeyDown={handleKeyDown}
-        className={cx(globalClasses.root, uiFontGlobalClasses.root, className)}
+        className={cx(globalClasses.root, uiFontGlobalClassesRoot, className, styles.root(theme))}
         element={
           colored ? (
             <ColorableInputElement showOnFocus={false}>
