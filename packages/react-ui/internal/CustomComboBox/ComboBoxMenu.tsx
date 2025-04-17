@@ -2,7 +2,7 @@ import React from 'react';
 
 import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
-import { Menu } from '../Menu';
+import { Menu, MenuDataTids } from '../Menu';
 import { isMenuItem, MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
@@ -112,7 +112,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
-          data-tid={ComboBoxMenuDataTids.loading}
+          data-tid={`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`}
         >
           <MenuMessage size={this.props.size} as="div">
             <Spinner type="mini" dimmed />
@@ -129,7 +129,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
-          data-tid={ComboBoxMenuDataTids.failed}
+          data-tid={`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`}
         >
           <MenuMessage size={this.props.size} key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
@@ -193,7 +193,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
     return (
       <Menu
         id={this.props.menuId}
-        data-tid={ComboBoxMenuDataTids.items}
+        data-tid={`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`}
         ref={refMenu}
         maxHeight={maxHeight}
         hasMargin={this.props.hasMargin}

@@ -2,6 +2,7 @@ import { act, render, screen } from '@testing-library/react';
 import { ComboBox, DatePicker, DatePickerDataTids, TooltipDataTids } from '@skbkontur/react-ui';
 import React from 'react';
 import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
+import { MenuDataTids } from '@skbkontur/react-ui/internal/Menu';
 
 import { Nullable } from '../typings/Types';
 import { ValidationContainer, ValidationInfo, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
@@ -32,7 +33,7 @@ describe('ComboboxDropdownBehaviorOnValidationSubmit', () => {
   it('should open', async () => {
     const containerRef = renderValidationContainer(combobox, false);
     await act(() => containerRef.current?.submit());
-    expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
     expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toHaveFocus();
   });

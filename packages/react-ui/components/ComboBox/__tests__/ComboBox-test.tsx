@@ -298,28 +298,28 @@ describe('ComboBox', () => {
     });
 
     it('do not open dropdown', async () => {
-      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).not.toBeInTheDocument();
       expect(screen.getByRole('textbox')).toHaveFocus();
     });
 
     it('click on input should open dropdown', async () => {
       await userEvent.click(screen.getByRole('textbox'));
-      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.queryByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
     });
 
     it('arrow down should open dropdown', async () => {
       await userEvent.keyboard('{arrowdown}');
-      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.queryByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
     });
 
     it('arrow up should open dropdown', async () => {
       await userEvent.keyboard('{arrowup}');
-      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.queryByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
     });
 
     it('edit value should open dropdown', async () => {
       await userEvent.keyboard('1');
-      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.queryByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
     });
   });
 
@@ -368,8 +368,8 @@ describe('ComboBox', () => {
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
-    expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
-    expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toHaveTextContent(content);
+    expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toHaveTextContent(content);
   });
 
   it('calls default onClick on custom element select', async () => {
@@ -453,7 +453,7 @@ describe('ComboBox', () => {
     await delay(300);
 
     expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-    expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+    expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
 
     clickOutside();
     await delay(0);
@@ -729,7 +729,7 @@ describe('ComboBox', () => {
         await userEvent.click(screen.getByRole('textbox'));
         await delay(0);
 
-        expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+        expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
         expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
       });
 
@@ -789,7 +789,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(query);
     });
 
@@ -810,7 +810,7 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(query);
     });
 
@@ -830,14 +830,14 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME);
       await delay(0);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(query);
     });
 
@@ -853,7 +853,7 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.failed)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
     });
 
@@ -874,7 +874,7 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.failed)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
     });
 
@@ -895,14 +895,14 @@ describe('ComboBox', () => {
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.failed)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.failed} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
     });
 
@@ -922,7 +922,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -946,7 +946,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -967,7 +967,7 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER - 100);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -976,7 +976,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -998,7 +998,7 @@ describe('ComboBox', () => {
       await delay(300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -1007,7 +1007,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -1030,13 +1030,13 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(200);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME - 200);
@@ -1045,7 +1045,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+      expect(screen.getByTestId(`${ComboBoxMenuDataTids.items} ${MenuDataTids.root}`)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
