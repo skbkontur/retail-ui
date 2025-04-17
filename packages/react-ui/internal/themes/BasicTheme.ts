@@ -3,6 +3,7 @@ import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 export class BasicThemeClass {
   //#region Common variables
+  public static baseFontFamily = '"Lab Grotesque", "Lab Grotesque K", Arial, sans-serif';
   public static labGrotesqueBaselineCompensation = '1';
   public static brand = '#2291ff';
   public static white = '#fff';

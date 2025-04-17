@@ -56,7 +56,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     '1_0': isThemeGTE(theme, '1.0' as ThemeVersions),
     '1_1': isThemeGTE(theme, '1.1' as ThemeVersions),
   })
-    .filter(([_, isDetected]) => isDetected)
+    .filter(([, isDetected]) => isDetected)
     .map(([version]) => <li>{version}</li>);
 
   return (
