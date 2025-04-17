@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.1...@skbkontur/react-ui@5.1.2) (2025-04-17)
+
+
+### Bug Fixes
+
+* **Combobox:** highlightMenuItem works correctly ([7724a8d](https://github.com/skbkontur/retail-ui/commit/7724a8dd19565737edf1aab348173349ccbe6686))
+* **ComboBox:** restore root data-tid in ComboBoxMenu ([85f99c5](https://github.com/skbkontur/retail-ui/commit/85f99c52aab4d9bf8e11a13bc0538181f6e7894e))
+* **MaskedInput:** use `@skbkontur/react-imask` ([37311af](https://github.com/skbkontur/retail-ui/commit/37311af2874c62abdfff535f49a5a6159ee812e8))
+* **MaskedInput:** use ThemeContext to apply ui-font ([8b1e574](https://github.com/skbkontur/retail-ui/commit/8b1e574bc943c047e28e10a5649af28b946d1c5a))
+
+
+
+
+
 ## [5.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.0...@skbkontur/react-ui@5.1.1) (2025-04-15)
 
 

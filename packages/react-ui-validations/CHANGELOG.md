@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.1.1...react-ui-validations@2.1.2) (2025-04-17)
+
+
+### Bug Fixes
+
+* **ComboBox:** restore root data-tid in ComboBoxMenu ([85f99c5](https://github.com/skbkontur/retail-ui/commit/85f99c52aab4d9bf8e11a13bc0538181f6e7894e))
+
+
+
+
+
 ## [2.1.1](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.1.0...react-ui-validations@2.1.1) (2025-04-15)
 
 **Note:** Version bump only for package react-ui-validations
