@@ -2,10 +2,12 @@ import React from 'react';
 
 export interface ValidationsFeatureFlags {
   dropdownsDoNotOpenOnFocusByValidation?: boolean;
+  hideTooltipOnSelectionControls?: boolean;
 }
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
   dropdownsDoNotOpenOnFocusByValidation: false,
+  hideTooltipOnSelectionControls: false,
 };
 
 export const ValidationsFeatureFlagsContext =

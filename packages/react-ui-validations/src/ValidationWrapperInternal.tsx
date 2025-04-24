@@ -124,6 +124,11 @@ export class ValidationWrapperInternal extends React.Component<
         },
         onValueChange: (...args: any[]) => {
           this.isChanging = true;
+
+          if (this.featureFlags.hideTooltipOnSelectionControls && ReactUiDetection.isSelectionControl(children)) {
+            this.setValidation(null);
+          }
+
           if (children.props && children.props.onValueChange) {
             children.props.onValueChange(...args);
           }

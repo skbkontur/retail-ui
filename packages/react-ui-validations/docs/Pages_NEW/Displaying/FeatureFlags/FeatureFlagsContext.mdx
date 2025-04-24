@@ -12,7 +12,8 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 
 ```jsx static
 export interface ValidationsFeatureFlags {
-  flagName?: boolean;
+  dropdownsDoNotOpenOnFocusByValidation?: boolean;
+  hideTooltipOnSelectionControls?: boolean;
 }
 ```
 
@@ -29,6 +30,14 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 ```
 
 ## Использование
+
+### hideTooltipOnSelectionControlsFlag
+
+В контролах c выбором значений (RadioGroup, Radio, CheckBox, Toggle, Switcher, Select, ComboBox) после выбора значения будет скрываться сообщение с валидацией
+
+#### Selection Controls
+
+<Story of={FeatureFlagsStories.ExampleSelection} />
 
 ### dropdownsDoNotOpenOnFocusByValidation
 
