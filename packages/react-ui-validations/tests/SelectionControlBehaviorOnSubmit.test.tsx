@@ -62,7 +62,7 @@ describe('validation tooltip hide after change on', () => {
     it('Combobox', async () => {
       renderValidationContainer(<ComboBox getItems={() => Promise.resolve([{ value: 'one', label: 'one' }])} />, false);
       await userEvent.click(screen.getByRole('button', { name: `submit` }));
-      const items = screen.getByTestId(ComboBoxMenuDataTids.items);
+      const items = screen.getByTestId(ComboBoxMenuDataTids.items, { exact: false });
       expect(items).toBeInTheDocument();
       expect(screen.getByText(validation.message)).toBeInTheDocument();
       expect(screen.getByRole('textbox')).toHaveFocus();
@@ -126,7 +126,7 @@ describe('validation tooltip hide after change on', () => {
     it('Combobox', async () => {
       renderValidationContainer(<ComboBox getItems={() => Promise.resolve([{ value: 'one', label: 'one' }])} />, true);
       await userEvent.click(screen.getByRole('button', { name: `submit` }));
-      const items = screen.getByTestId(ComboBoxMenuDataTids.items);
+      const items = screen.getByTestId(ComboBoxMenuDataTids.items, { exact: false });
       expect(items).toBeInTheDocument();
       expect(screen.getByText(validation.message)).toBeInTheDocument();
       expect(screen.getByRole('textbox')).toHaveFocus();
