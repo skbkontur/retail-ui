@@ -1,15 +1,18 @@
-import React, { ReactInstance } from 'react';
+import type { ReactInstance } from 'react';
+import React from 'react';
 import warning from 'warning';
 
-import { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types';
 
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
-import { ValidationContext, ValidationContextType } from './ValidationContextWrapper';
-import { ValidationsFeatureFlags, ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
+import type { ValidationContextType } from './ValidationContextWrapper';
+import type { ValidationsFeatureFlags } from './utils/featureFlagsContext';
+import { ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
+import { ValidationContext } from './ValidationContextWrapper';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;

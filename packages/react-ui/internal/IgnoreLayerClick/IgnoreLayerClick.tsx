@@ -1,7 +1,8 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { CommonWrapper } from '../CommonWrapper';
 

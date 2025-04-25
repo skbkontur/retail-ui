@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { Story } from '../../../typings/stories';
-import { Switcher, SwitcherProps } from '../Switcher';
+import type { Story } from '../../../typings/stories';
+import type { SwitcherProps } from '../Switcher';
+import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 import { Hint } from '../../Hint';
 import { Tooltip } from '../../Tooltip';
-import { Button, ButtonProps } from '../../Button';
+import type { ButtonProps } from '../../Button';
+import { Button } from '../../Button';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Select } from '../../Select';
-import { SizeProp } from '../../../lib/types/props';
+import type { SizeProp } from '../../../lib/types/props';
 
 interface ComponentState {
   value: string;

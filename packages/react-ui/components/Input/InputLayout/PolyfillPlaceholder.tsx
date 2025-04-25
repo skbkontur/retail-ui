@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { InputProps } from '../Input';
+import type { InputProps } from '../Input';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { styles } from '../Input.styles';

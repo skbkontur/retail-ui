@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { getRandomID, isNonNullable } from '../../lib/utils';
-import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
+import type { DatePickerLocale } from '../../components/DatePicker/locale';
+import { DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { ButtonParams, Select } from '../../components/Select';
+import type { ButtonParams } from '../../components/Select';
+import { Select } from '../../components/Select';
 import { MenuItem } from '../../components/MenuItem';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 

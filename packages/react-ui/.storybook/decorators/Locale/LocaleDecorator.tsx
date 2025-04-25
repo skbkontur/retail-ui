@@ -1,5 +1,5 @@
 import React from 'react';
-import { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';

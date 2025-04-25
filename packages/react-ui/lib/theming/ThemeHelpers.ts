@@ -1,10 +1,11 @@
 import warning from 'warning';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { isNonNullable } from '../utils';
 
-import { Theme, ThemeIn } from './Theme';
-import { isThemeVersionGTE, ThemeVersions } from './ThemeVersions';
+import type { Theme, ThemeIn } from './Theme';
+import type { ThemeVersions } from './ThemeVersions';
+import { isThemeVersionGTE } from './ThemeVersions';
 
 export type Marker = (theme: Theme) => Theme;
 export type Markers = Marker[];

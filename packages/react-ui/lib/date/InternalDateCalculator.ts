@@ -1,10 +1,6 @@
 import { InternalDateGetter } from './InternalDateGetter';
-import {
-  InternalDateComponent,
-  InternalDateComponentRaw,
-  InternalDateComponents,
-  InternalDateComponentType,
-} from './types';
+import type { InternalDateComponent, InternalDateComponentRaw, InternalDateComponents } from './types';
+import { InternalDateComponentType } from './types';
 
 export class InternalDateCalculator {
   public static calcRangeStartDateComponent(

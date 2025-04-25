@@ -1,4 +1,5 @@
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { SafeTimer } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 export interface TaskWithDelayAndMinimalDurationProps {
   delayBeforeTaskStart: number;

@@ -1,13 +1,9 @@
 import React from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  ValidationInfo,
-  text,
-} from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper, text } from '../../../../src';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default class TextValidationDemo extends React.Component {

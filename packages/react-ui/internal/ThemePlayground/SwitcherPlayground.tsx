@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Switcher, SwitcherProps } from '../../components/Switcher';
+import type { SwitcherProps } from '../../components/Switcher';
+import { Switcher } from '../../components/Switcher';
 
 const defaultItems = ['Default', 'Error'];
 

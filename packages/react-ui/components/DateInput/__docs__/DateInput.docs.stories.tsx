@@ -1,7 +1,7 @@
 import React from 'react';
 import { DateInput, Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Date Components/DateInput',

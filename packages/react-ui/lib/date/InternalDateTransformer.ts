@@ -12,17 +12,15 @@ import {
   RE_ORDER_YMD,
 } from './constants';
 import { InternalDateValidator } from './InternalDateValidator';
-import {
+import type {
   InternalDateComponentRaw,
   InternalDateComponents,
   InternalDateComponentsNumber,
   InternalDateComponentsRaw,
-  InternalDateComponentType,
   InternalDateFragment,
-  InternalDateOrder,
-  InternalDateSeparator,
   InternalDateToFragmentsSettings,
 } from './types';
+import { InternalDateComponentType, InternalDateOrder, InternalDateSeparator } from './types';
 
 export class InternalDateTransformer {
   public static padStart = (value: InternalDateComponentRaw, length: number, pad: string = CHAR_PAD): string =>

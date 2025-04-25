@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
-import { TabProps } from '../Tab';
+import type { TabProps } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
-import { TabsProps } from '..';
-import { SizeProp } from '../../../lib/types/props';
+import type { TabsProps } from '..';
+import type { SizeProp } from '../../../lib/types/props';
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (

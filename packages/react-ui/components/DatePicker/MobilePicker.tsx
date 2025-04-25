@@ -8,7 +8,7 @@ import { DateInput } from '../DateInput';
 import { Button } from '../Button';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 
-import { DatePickerProps } from './DatePicker';
+import type { DatePickerProps } from './DatePicker';
 import { DatePickerLocaleHelper } from './locale';
 import { styles } from './MobilePicker.styles';
 import { getMobilePickerTheme } from './getMobilePickerTheme';

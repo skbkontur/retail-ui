@@ -1,9 +1,9 @@
 /* eslint-disable no-useless-constructor */
-import { ValidationInfo } from '../ValidationWrapper';
-import { ExtractItem, Nullable } from '../../typings/Types';
+import type { ValidationInfo } from '../ValidationWrapper';
+import type { ExtractItem, Nullable } from '../../typings/Types';
 
-import { ValidationNode } from './Types';
-import { LambdaPath, PathTokensCache } from './PathHelper';
+import type { ValidationNode } from './Types';
+import type { LambdaPath, PathTokensCache } from './PathHelper';
 
 export class ValidationReader<T> {
   constructor(

@@ -1,9 +1,9 @@
 import { isNonNullable, isNullable } from '../../lib/utils';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { isSafari } from '../../lib/client';
 
-import { DecimalOptions } from './CurrencyInputHelper';
-import { CursorMap } from './CursorHelper';
+import type { DecimalOptions } from './CurrencyInputHelper';
+import type { CursorMap } from './CursorHelper';
 import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS, MINUS_SIGN, SPACE, THIN_SPACE } from './constants';
 
 export interface DecimalFormattingOptions {

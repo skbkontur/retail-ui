@@ -3,13 +3,15 @@ import { globalObject, isBrowser } from '@skbkontur/global-object';
 import isEqual from 'lodash.isequal';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { LoaderDataTids } from '../../components/Loader';
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer';
 
-import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName, componentPriorities } from './ZIndexStorage';
+import type { LayerComponentName } from './ZIndexStorage';
+import { incrementZIndex, removeZIndex, upperBorder, componentPriorities } from './ZIndexStorage';
 
 const DEFAULT_ZINDEX_CONTEXT = { parentLayerZIndex: 0, maxZIndex: Infinity };
 

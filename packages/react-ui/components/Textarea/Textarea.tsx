@@ -1,4 +1,5 @@
-import React, { AriaAttributes, ReactNode } from 'react';
+import type { AriaAttributes, ReactNode } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
@@ -6,22 +7,25 @@ import { globalObject } from '@skbkontur/global-object';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Nullable, Override } from '../../typings/utility-types';
+import type { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isIE11, isSafariWithTextareaBug } from '../../lib/client';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
-import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
+import type { TextareaCounterRef } from './TextareaCounter';
+import { TextareaCounter } from './TextareaCounter';
 import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
 
 const DEFAULT_WIDTH = 250;

@@ -1,6 +1,6 @@
 import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
   icon() {

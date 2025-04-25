@@ -3,7 +3,8 @@ import React, { useContext, useRef } from 'react';
 import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 
 import { animations, styles } from './GlobalLoaderView.styles';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';

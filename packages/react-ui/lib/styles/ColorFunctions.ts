@@ -1,6 +1,6 @@
 import { clamp, floatFromPercent } from './ColorHelpers';
 import { ColorFactory } from './ColorFactory';
-import { ColorObject } from './ColorObject';
+import type { ColorObject } from './ColorObject';
 
 type SignType = '+' | '-';
 type MethodType = 'absolute' | 'relative';

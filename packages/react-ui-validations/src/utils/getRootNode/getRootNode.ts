@@ -1,8 +1,8 @@
 import { findDOMNode } from 'react-dom';
-import React from 'react';
+import type React from 'react';
 import warning from 'warning';
 
-import { Nullable } from '../../../typings/Types';
+import type { Nullable } from '../../../typings/Types';
 import { isElement, isNode, canUseDOM } from '../utils';
 
 interface InstanceWithRootNode {

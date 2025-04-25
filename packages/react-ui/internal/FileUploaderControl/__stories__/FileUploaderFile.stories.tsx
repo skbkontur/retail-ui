@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileStatus } from '../fileUtils';
 

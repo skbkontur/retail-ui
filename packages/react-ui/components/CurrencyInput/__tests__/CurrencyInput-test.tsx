@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { CurrencyInput } from '../CurrencyInput';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 
 const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
   const handleValueChange = jest.fn();

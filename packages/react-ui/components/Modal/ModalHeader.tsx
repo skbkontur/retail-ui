@@ -1,8 +1,10 @@
-import React, { ReactNode, useContext, useLayoutEffect } from 'react';
+import type { ReactNode } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 

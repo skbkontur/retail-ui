@@ -5,7 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
 import { InputDataTids } from '../../Input';
-import { Autocomplete, AutocompleteProps, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
+import type { AutocompleteProps } from '../Autocomplete';
+import { Autocomplete, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay, clickOutside } from '../../../lib/utils';
 
 describe('<Autocomplete />', () => {

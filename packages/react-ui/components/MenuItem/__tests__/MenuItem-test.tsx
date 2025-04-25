@@ -3,7 +3,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import { Menu } from '../../../internal/Menu';
-import { MenuItem, MenuItemDataTids, MenuItemState } from '../MenuItem';
+import type { MenuItemState } from '../MenuItem';
+import { MenuItem, MenuItemDataTids } from '../MenuItem';
 
 describe('MenuItem', () => {
   it('renders multiple children', () => {
