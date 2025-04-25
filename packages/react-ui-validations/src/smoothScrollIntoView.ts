@@ -1,6 +1,6 @@
-import { Nullable, Omit } from '../typings/Types';
+import type { Nullable, Omit } from '../typings/Types';
 
-import { ScrollOffset } from './ValidationContainer';
+import type { ScrollOffset } from './ValidationContainer';
 import { isBrowser } from './utils/utils';
 import { isNullable } from './utils/isNullable';
 

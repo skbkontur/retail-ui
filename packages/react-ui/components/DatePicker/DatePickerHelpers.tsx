@@ -1,4 +1,4 @@
-import { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
+import type { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
 import { getMonthInHumanFormat } from '../Calendar/CalendarUtils';
 
 export function formatDate({ date, month, year }: CalendarDateShape): string {

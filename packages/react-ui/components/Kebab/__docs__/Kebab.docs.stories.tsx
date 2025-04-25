@@ -4,7 +4,7 @@ import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icon
 import { TrashCanIcon, TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
 import { Kebab, Gapped, MenuItem, Toast, MenuHeader } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Menu/Kebab',

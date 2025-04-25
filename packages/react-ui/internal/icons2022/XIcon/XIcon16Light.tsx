@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { BaseIcon, IconProps } from '../BaseIcon';
+import type { IconProps } from '../BaseIcon';
+import { BaseIcon } from '../BaseIcon';
 
 export const XIcon16Light = forwardRefAndName<SVGSVGElement, IconProps>('XIcon16Light', (props, ref) => {
   return (

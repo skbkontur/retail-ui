@@ -2,7 +2,7 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
-import { PopupPositionsType } from './Popup';
+import type { PopupPositionsType } from './Popup';
 
 export interface Rect {
   top: number;

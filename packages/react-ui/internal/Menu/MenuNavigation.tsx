@@ -1,4 +1,5 @@
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
+import type React from 'react';
 
 interface Highlightable {
   highlight(): void;

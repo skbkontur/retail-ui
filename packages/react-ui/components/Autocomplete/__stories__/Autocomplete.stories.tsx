@@ -3,8 +3,8 @@ import { flatten } from 'lodash';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
-import { Meta, Story } from '../../../typings/stories';
-import { AutocompleteProps } from '..';
+import type { Meta, Story } from '../../../typings/stories';
+import type { AutocompleteProps } from '..';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
 export default {

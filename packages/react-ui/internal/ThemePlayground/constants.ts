@@ -1,4 +1,4 @@
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 export enum ThemeType {
   LightTheme = 'lightTheme',

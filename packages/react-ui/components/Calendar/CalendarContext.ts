@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
-import { CalendarDateShape } from './CalendarDateShape';
-import { CalendarProps } from './Calendar';
+import type { CalendarDateShape } from './CalendarDateShape';
+import type { CalendarProps } from './Calendar';
 
 export interface CalendarContextProps {
   renderDay?: CalendarProps['renderDay'];

@@ -1,3 +1,4 @@
+import type { Marker } from '../ThemeHelpers';
 import {
   applyMarkers,
   createTheme,
@@ -5,13 +6,12 @@ import {
   isDarkTheme,
   isThemeGTE,
   markAsDarkTheme,
-  Marker,
   markThemeVersion,
   REACT_UI_THEME_MARKERS,
 } from '../ThemeHelpers';
-import { ThemeVersions } from '../ThemeVersions';
+import type { ThemeVersions } from '../ThemeVersions';
 import { ThemeFactory } from '../ThemeFactory';
-import { AnyObject } from '../../utils';
+import type { AnyObject } from '../../utils';
 import { BasicTheme, BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
 
 const TestTheme = createTheme({

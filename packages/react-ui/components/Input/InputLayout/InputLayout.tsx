@@ -1,11 +1,14 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { InputDataTids, InputProps } from '../Input';
-import { CommonProps, CommonWrapper } from '../../../internal/CommonWrapper';
+import type { InputProps } from '../Input';
+import { InputDataTids } from '../Input';
+import type { CommonProps } from '../../../internal/CommonWrapper';
+import { CommonWrapper } from '../../../internal/CommonWrapper';
 
 import { InputLayoutAside } from './InputLayoutAside';
-import { InputLayoutContext, InputLayoutContextDefault, InputLayoutContextProps } from './InputLayoutContext';
+import type { InputLayoutContextProps } from './InputLayoutContext';
+import { InputLayoutContext, InputLayoutContextDefault } from './InputLayoutContext';
 import { stylesLayout } from './InputLayout.styles';
 
 type InputLayoutRootFromInputProps = Pick<InputProps, 'leftIcon' | 'rightIcon' | 'prefix' | 'suffix'>;

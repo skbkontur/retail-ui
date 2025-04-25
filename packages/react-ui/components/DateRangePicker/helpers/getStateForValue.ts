@@ -1,4 +1,4 @@
-import { DateRangePickerInputType } from '../DateRangePickerInput';
+import type { DateRangePickerInputType } from '../DateRangePickerInput';
 import { isLess, isGreater, isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
 import { MIN_FULLDATE, MAX_FULLDATE } from '../../../lib/date/constants';
 

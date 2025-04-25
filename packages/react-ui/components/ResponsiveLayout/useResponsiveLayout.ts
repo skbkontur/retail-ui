@@ -1,8 +1,9 @@
-import React, { createRef, useCallback, useContext, useEffect, useState } from 'react';
+import type React from 'react';
+import { createRef, useCallback, useContext, useEffect, useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
+import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
 export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({

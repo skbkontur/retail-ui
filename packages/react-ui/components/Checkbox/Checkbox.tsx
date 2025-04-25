@@ -1,18 +1,21 @@
-import React, { AriaAttributes } from 'react';
+import type { AriaAttributes } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
-import { Override } from '../../typings/utility-types';
+import type { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isEdge, isIE11 } from '../../lib/client';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Checkbox.styles';

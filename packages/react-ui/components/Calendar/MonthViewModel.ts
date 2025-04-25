@@ -1,5 +1,5 @@
 import { memo } from '../../lib/memo';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 import { getMonthInHumanFormat } from './CalendarUtils';
 import { themeConfig } from './config';

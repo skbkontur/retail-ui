@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { SearchLoupeIcon16Regular } from '../../../internal/icons2022/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import { Meta, Story } from '../../../typings/stories';
-import { MaskedInput, MaskedInputProps } from '../MaskedInput';
-import { Input, InputProps } from '../../Input';
+import type { Meta, Story } from '../../../typings/stories';
+import type { MaskedInputProps } from '../MaskedInput';
+import { MaskedInput } from '../MaskedInput';
+import type { InputProps } from '../../Input';
+import { Input } from '../../Input';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';

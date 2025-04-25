@@ -1,7 +1,7 @@
 import React from 'react';
 import { SidePage, Button } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/SidePage/SidePage',

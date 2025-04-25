@@ -1,4 +1,5 @@
-import { addResponsiveLayoutListener, eventListenersMap, listenerToken } from '../ResponsiveLayoutEvents';
+import type { listenerToken } from '../ResponsiveLayoutEvents';
+import { addResponsiveLayoutListener, eventListenersMap } from '../ResponsiveLayoutEvents';
 
 describe('ResponsiveLayoutListeners', () => {
   it('test func', () => {

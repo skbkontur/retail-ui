@@ -1,15 +1,18 @@
 import React from 'react';
 
-import { HTMLProps } from '../../typings/html';
+import type { HTMLProps } from '../../typings/html';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupProps } from '../../internal/Popup';
-import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
-import { Menu } from '../../internal/Menu';
-import { Theme } from '../../lib/theming/Theme';
+import type { PopupProps } from '../../internal/Popup';
+import { Popup } from '../../internal/Popup';
+import type { ComboBoxMenuProps } from '../../internal/CustomComboBox';
+import { ComboBoxMenu } from '../../internal/CustomComboBox';
+import type { Menu } from '../../internal/Menu';
+import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { TokenSize } from '../Token';
+import type { TokenSize } from '../Token';
 
-import { TokenInputDataTids, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
+import type { TokenInputMenuAlign, TokenInputProps } from './TokenInput';
+import { TokenInputDataTids } from './TokenInput';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: PopupProps['anchorElement'];

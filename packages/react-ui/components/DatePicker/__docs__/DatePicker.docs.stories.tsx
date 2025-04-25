@@ -12,7 +12,7 @@ import {
   CalendarDay,
 } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import * as DatePickerHelpers from '../DatePickerHelpers';
 
 export default {

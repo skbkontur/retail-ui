@@ -1,11 +1,12 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { ComponentStory } from '@storybook/react';
+import type { ComponentStory } from '@storybook/react';
 
-import { Meta, Story } from '../../../typings/stories';
-import { ItemComponentProps, Paging } from '../Paging';
+import type { Meta, Story } from '../../../typings/stories';
+import type { ItemComponentProps } from '../Paging';
+import { Paging } from '../Paging';
 import { emptyHandler } from '../../../lib/utils';
-import { PagingProps } from '..';
+import type { PagingProps } from '..';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
 dignissimos labore expedita. Sapiente beatae eveniet sit, similique,

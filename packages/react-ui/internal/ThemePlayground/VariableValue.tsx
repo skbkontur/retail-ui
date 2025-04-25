@@ -6,7 +6,7 @@ import EventEmitter from 'eventemitter3';
 import { isColor } from '../../lib/styles/ColorHelpers';
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';

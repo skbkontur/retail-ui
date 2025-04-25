@@ -1,8 +1,8 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { Theme } from '../../lib/theming/Theme';
-import { SizeProp } from '../../lib/types/props';
+import type { Theme } from '../../lib/theming/Theme';
+import type { SizeProp } from '../../lib/types/props';
 
 import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
 

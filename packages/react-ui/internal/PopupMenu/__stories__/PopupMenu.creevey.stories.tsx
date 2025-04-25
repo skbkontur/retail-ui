@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 import { PopupMenu } from '../PopupMenu';
 import { MenuItem } from '../../../components/MenuItem';

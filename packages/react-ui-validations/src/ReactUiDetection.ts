@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import React from 'react';
 
 import { isNonNullable } from '../src/utils/isNonNullable';
@@ -15,22 +16,55 @@ const ThemeContext = importContext(require('__REACT_UI_PACKAGE__/lib/theming/The
 export { Tooltip, ThemeContext };
 
 export class ReactUiDetection {
-  public static isDatePicker(childrenArray: any): boolean {
-    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'DatePicker';
+  public static checkType(element: any, type: string) {
+    return isNonNullable(element) && element.type?.__KONTUR_REACT_UI__ === type;
   }
 
-  public static isRadioGroup(childrenArray: any): boolean {
-    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'RadioGroup';
+  public static isDatePicker(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'DatePicker');
   }
 
-  public static isTokenInput(childrenArray: any): boolean {
-    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'TokenInput';
+  public static isRadioGroup(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'RadioGroup');
   }
 
-  public static isSwitcher(childrenArray: any): boolean {
-    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'Switcher';
+  public static isTokenInput(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'TokenInput');
   }
-  public static isComboBox(childrenArray: any): boolean {
-    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'ComboBox';
+
+  public static isSwitcher(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'Switcher');
+  }
+
+  public static isComboBox(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'ComboBox');
+  }
+
+  public static isRadio(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'Radio');
+  }
+
+  public static isCheckBox(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'Checkbox');
+  }
+
+  public static isToggle(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'Toggle');
+  }
+
+  public static isSelect(element: any): boolean {
+    return ReactUiDetection.checkType(element, 'Select');
+  }
+
+  public static isSelectionControl(element: ReactElement): boolean {
+    return (
+      ReactUiDetection.isRadioGroup(element) ||
+      ReactUiDetection.isRadio(element) ||
+      ReactUiDetection.isCheckBox(element) ||
+      ReactUiDetection.isToggle(element) ||
+      ReactUiDetection.isSwitcher(element) ||
+      ReactUiDetection.isSelect(element) ||
+      ReactUiDetection.isComboBox(element)
+    );
   }
 }

@@ -1,5 +1,5 @@
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 
 export const getModalTheme = (contextTheme: Theme, propsTheme: ThemeIn = {}): Theme => {
   const theme = ThemeFactory.create(propsTheme, contextTheme);

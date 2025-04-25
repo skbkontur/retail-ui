@@ -4,8 +4,9 @@ import React from 'react';
 import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
 import { MenuDataTids } from '@skbkontur/react-ui/internal/Menu';
 
-import { Nullable } from '../typings/Types';
-import { ValidationContainer, ValidationInfo, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
 
 const validate = (): Nullable<ValidationInfo> => {
   return { message: 'Всегда невалидно', type: 'immediate' };

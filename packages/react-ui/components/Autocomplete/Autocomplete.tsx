@@ -1,32 +1,37 @@
-import React, { AriaAttributes, KeyboardEvent } from 'react';
+import type { AriaAttributes, KeyboardEvent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import { Input, InputProps } from '../Input';
+import type { InputProps } from '../Input';
+import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Nullable, Override } from '../../typings/utility-types';
+import type { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './Autocomplete.styles';
-import { AutocompleteLocale, AutocompleteLocaleHelper } from './locale';
+import type { AutocompleteLocale } from './locale';
+import { AutocompleteLocaleHelper } from './locale';
 import { getAutocompleteTheme } from './getAutocompleteTheme';
 
 function match(pattern: string, items: string[]) {

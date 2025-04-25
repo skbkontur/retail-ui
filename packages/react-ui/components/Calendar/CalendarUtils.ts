@@ -1,10 +1,11 @@
-import { Nullable } from '../../typings/utility-types';
-import { Theme } from '../../lib/theming/Theme';
+import type { Nullable } from '../../typings/utility-types';
+import type { Theme } from '../../lib/theming/Theme';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
-import { CalendarState } from './Calendar';
-import { CalendarDateShape, isGreater, isLess } from './CalendarDateShape';
+import type { CalendarState } from './Calendar';
+import type { CalendarDateShape } from './CalendarDateShape';
+import { isGreater, isLess } from './CalendarDateShape';
 
 export const calculateScrollPosition = (
   months: MonthViewModel[],

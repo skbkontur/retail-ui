@@ -1,9 +1,11 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 
 export interface FocusTrapProps extends CommonProps {

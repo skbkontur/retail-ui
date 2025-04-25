@@ -3,7 +3,7 @@ import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon';
 import { Autocomplete, Button, Group, Gapped } from '@skbkontur/react-ui';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Input data/Autocomplete',

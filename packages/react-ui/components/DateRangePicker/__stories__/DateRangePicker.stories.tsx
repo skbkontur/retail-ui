@@ -1,14 +1,14 @@
 import React from 'react';
-import { Story } from '@storybook/react';
+import type { Story } from '@storybook/react';
 
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 import { DateRangePicker } from '../DateRangePicker';
 import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
 import { Group } from '../../Group';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeIn } from '../../../lib/theming/Theme';
+import type { ThemeIn } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
