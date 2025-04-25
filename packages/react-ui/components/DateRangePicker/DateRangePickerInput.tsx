@@ -1,7 +1,9 @@
-import React, { forwardRef, Ref, useContext, useEffect, useImperativeHandle } from 'react';
+import type { Ref } from 'react';
+import React, { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { DateInput, DateInputProps } from '../DateInput';
+import type { DateInputProps } from '../DateInput';
+import { DateInput } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { isNonNullable, isNullable } from '../../lib/utils';

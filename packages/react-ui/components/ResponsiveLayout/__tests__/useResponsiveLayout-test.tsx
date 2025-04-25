@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 
 import { eventListenersMap } from '../ResponsiveLayoutEvents';
 import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsiveLayout';
-import { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
+import type { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 
 function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: ResponsiveLayoutOptions<T>) {

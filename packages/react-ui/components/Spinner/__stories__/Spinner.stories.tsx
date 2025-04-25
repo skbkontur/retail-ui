@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 import { Spinner } from '../Spinner';
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 

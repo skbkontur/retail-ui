@@ -10,7 +10,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
-import { CloseProps } from './ModalContext';
+import type { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 import { ModalDataTids } from './Modal';
 import { ModalLocaleHelper } from './locale';

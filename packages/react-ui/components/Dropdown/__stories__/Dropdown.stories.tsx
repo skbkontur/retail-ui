@@ -5,7 +5,7 @@ import BabyIcon from '@skbkontur/react-icons/Baby';
 import { Button } from '../../Button';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
 import { Gapped } from '../../Gapped';

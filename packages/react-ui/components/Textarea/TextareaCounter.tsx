@@ -1,4 +1,5 @@
-import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
+import type { SyntheticEvent } from 'react';
+import React, { useContext, useCallback, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -9,9 +10,10 @@ import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 
-import { TextareaDataTids, TextareaProps } from './Textarea';
+import type { TextareaProps } from './Textarea';
+import { TextareaDataTids } from './Textarea';
 import { styles } from './Textarea.styles';
 
 export interface TextareaCounterProps {

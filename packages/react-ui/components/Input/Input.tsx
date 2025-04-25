@@ -1,26 +1,30 @@
 // TODO: Enable this rule in functional components.
 import invariant from 'invariant';
-import React, { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
+import type { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
+import React from 'react';
 import warning from 'warning';
-import { globalObject, SafeTimer } from '@skbkontur/global-object';
+import type { SafeTimer } from '@skbkontur/global-object';
+import { globalObject } from '@skbkontur/global-object';
 
 import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
-import { Nullable, Override } from '../../typings/utility-types';
+import type { Nullable, Override } from '../../typings/utility-types';
 import { InternalMaskedInput } from '../../internal/InternalMaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
 
-import { InputElement, InputElementProps } from './Input.typings';
+import type { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';

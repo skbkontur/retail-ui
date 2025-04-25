@@ -1,5 +1,5 @@
 import { createValidator } from '../src/Validations';
-import { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types';
 
 describe('Validator', () => {
   it('root invalid', () => {

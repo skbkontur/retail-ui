@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ClearCrossIcon } from '../ClearCrossIcon';

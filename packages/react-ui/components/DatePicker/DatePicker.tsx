@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
@@ -10,27 +11,31 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 import { DateInput } from '../DateInput';
 import { filterProps } from '../../lib/filterProps';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Calendar, CalendarDateShape, CalendarProps } from '../Calendar';
+import type { CalendarDateShape, CalendarProps } from '../Calendar';
+import { Calendar } from '../Calendar';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './DatePicker.styles';
-import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import type { DatePickerLocale } from './locale';
+import { DatePickerLocaleHelper } from './locale';
 import { MobilePicker } from './MobilePicker';
 
 const INPUT_PASS_PROPS = {

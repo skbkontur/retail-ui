@@ -4,7 +4,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 
-import { LinkProps } from './Link';
+import type { LinkProps } from './Link';
 import { styles } from './Link.styles';
 
 export interface LinkIconProps extends Pick<LinkProps, 'icon' | 'loading'> {

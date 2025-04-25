@@ -11,7 +11,7 @@ import {
   isLessOrEqual,
 } from '@skbkontur/react-ui/lib/date/comparison';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 
 export default {
   title: 'Date Components/CalendarDay',

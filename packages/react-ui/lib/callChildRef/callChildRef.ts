@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 
-import { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types';
 
 export const callChildRef = (
   componentRef: React.RefCallback<any> | React.RefObject<any>,

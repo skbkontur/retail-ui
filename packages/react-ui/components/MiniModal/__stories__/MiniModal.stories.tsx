@@ -5,7 +5,7 @@ import { TechPhoneSmartIcon64Regular } from '@skbkontur/icons/TechPhoneSmartIcon
 import { MiniModal } from '../MiniModal';
 import { Button } from '../../Button';
 import { Modal } from '../../Modal';
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';

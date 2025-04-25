@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { DateRangePicker } from '@skbkontur/react-ui/components/DateRangePicker';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper } from '../src';
 
 export default {
   title: 'DateRangePicker',

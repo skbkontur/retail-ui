@@ -1,7 +1,7 @@
 import React from 'react';
+import type { CalendarDayProps } from '@skbkontur/react-ui';
 import {
   CalendarDay,
-  CalendarDayProps,
   DateRangePicker,
   Gapped,
   ThemeContext,
@@ -12,7 +12,7 @@ import {
   Select,
 } from '@skbkontur/react-ui';
 
-import { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories';
 import {
   Default,
   CustomChildrenVertical,

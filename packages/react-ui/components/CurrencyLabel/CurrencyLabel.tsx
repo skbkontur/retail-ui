@@ -1,8 +1,10 @@
-import React, { HTMLAttributes } from 'react';
+import type { HTMLAttributes } from 'react';
+import React from 'react';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 
 export interface CurrencyLabelProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Устанавливает минимальное количество отображаемых знаков после запятой.

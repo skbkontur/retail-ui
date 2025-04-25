@@ -2,7 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { SingleToast } from '../../SingleToast';
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 import { Toast } from '../Toast';
 import { Gapped } from '../../Gapped';
 

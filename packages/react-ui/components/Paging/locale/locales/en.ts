@@ -1,4 +1,4 @@
-import { PagingLocale } from '../types';
+import type { PagingLocale } from '../types';
 
 export const componentsLocales: PagingLocale = {
   forward: 'Forward',

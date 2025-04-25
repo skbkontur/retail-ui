@@ -2,7 +2,7 @@ import { LocaleHelper } from '../../../lib/locale/LocaleHelper';
 
 import { componentsLocales as en_GB } from './locales/en';
 import { componentsLocales as ru_RU } from './locales/ru';
-import { TokenLocale } from './types';
+import type { TokenLocale } from './types';
 
 export * from './types';
 

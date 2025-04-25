@@ -3,7 +3,8 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from '../../components/Spinner/Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
-import { SpinnerIcon, SpinnerIconProps } from '../SpinnerIcon/SpinnerIcon';
+import type { SpinnerIconProps } from '../SpinnerIcon/SpinnerIcon';
+import { SpinnerIcon } from '../SpinnerIcon/SpinnerIcon';
 
 import { iconSizer } from './iconSizer';
 

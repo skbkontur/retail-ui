@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isNonNullable } from '../../lib/utils';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface GappedProps extends CommonProps {

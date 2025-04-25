@@ -1,4 +1,5 @@
-import { getVisualStateDataAttributes, VisualStateDataAttributesResultType } from './getVisualStateDataAttributes';
+import type { VisualStateDataAttributesResultType } from './getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from './getVisualStateDataAttributes';
 import { tryGetBoolean } from './tryGetBoolean';
 
 export function getCommonVisualStateDataAttributes(

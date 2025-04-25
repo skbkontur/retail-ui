@@ -1,14 +1,10 @@
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import {
-  InputKeyResult,
-  InternalDateComponentType,
-  InternalDateTypesOrder,
-  InternalDateValidateCheck,
-} from '../../../lib/date/types';
-import { DatePickerLocale } from '../../DatePicker/locale';
-import { DateInputProps } from '../DateInput';
+import type { InputKeyResult, InternalDateTypesOrder } from '../../../lib/date/types';
+import { InternalDateComponentType, InternalDateValidateCheck } from '../../../lib/date/types';
+import type { DatePickerLocale } from '../../DatePicker/locale';
+import type { DateInputProps } from '../DateInput';
 
 import { inputNumber } from './inputNumber';
 

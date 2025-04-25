@@ -1,6 +1,6 @@
-import { SizeProp } from '../../lib/types/props';
+import type { SizeProp } from '../../lib/types/props';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 import { CalendarDataTids } from '../Calendar';
 
 export const styles = memoizeStyle({

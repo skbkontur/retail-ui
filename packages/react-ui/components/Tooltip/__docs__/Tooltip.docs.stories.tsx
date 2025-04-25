@@ -2,9 +2,10 @@ import React from 'react';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { UiMenuBars3HIcon } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
-import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center, SizeProp } from '@skbkontur/react-ui';
+import type { SizeProp } from '@skbkontur/react-ui';
+import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
 
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 
 export default {
   title: 'Overlay/Tooltip',

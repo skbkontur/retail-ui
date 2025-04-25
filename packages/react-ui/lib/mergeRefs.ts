@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import { Nullable } from '../typings/utility-types';
+import type { Nullable } from '../typings/utility-types';
 
 import { isNonNullable, isNullable } from './utils';
 

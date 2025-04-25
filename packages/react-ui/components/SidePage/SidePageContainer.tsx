@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { Theme } from '../../lib/theming/Theme';
+import type { CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import type { TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';

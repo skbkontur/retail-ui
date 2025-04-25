@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { CloseButtonIcon, CloseButtonIconProps } from '../CloseButtonIcon';
+import type { CloseButtonIconProps } from '../CloseButtonIcon';
+import { CloseButtonIcon } from '../CloseButtonIcon';
 import { ComponentTable } from '../../ComponentTable';
 import { Gapped } from '../../../components/Gapped';
-import { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories';
 import { Input } from '../../../components/Input';
 
 export default {

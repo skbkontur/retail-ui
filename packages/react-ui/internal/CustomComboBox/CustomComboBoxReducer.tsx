@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
@@ -6,10 +6,11 @@ import { globalObject } from '@skbkontur/global-object';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Nullable } from '../../typings/utility-types';
-import { ComboBoxExtendedItem } from '../../components/ComboBox';
+import type { Nullable } from '../../typings/utility-types';
+import type { ComboBoxExtendedItem } from '../../components/ComboBox';
 
-import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
+import type { CustomComboBox, CustomComboBoxProps, CustomComboBoxState } from './CustomComboBox';
+import { DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
 export type CustomComboBoxAction<T> =

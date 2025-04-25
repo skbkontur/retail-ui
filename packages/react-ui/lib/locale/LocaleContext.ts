@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LangCodes, LocaleControls } from './types';
+import type { LangCodes, LocaleControls } from './types';
 import { defaultLangCode } from './constants';
 
 export interface LocaleContextProps {

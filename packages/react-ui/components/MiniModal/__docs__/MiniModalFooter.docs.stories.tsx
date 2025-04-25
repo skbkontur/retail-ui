@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Meta } from '../../../typings/stories';
+import type { Meta } from '../../../typings/stories';
 import { MiniModalFooter } from '../MiniModalFooter';
 
 export default {

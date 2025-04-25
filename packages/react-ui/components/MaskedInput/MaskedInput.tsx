@@ -1,9 +1,11 @@
-import React, { Ref, useImperativeHandle, useRef, useState, useEffect, useContext } from 'react';
-import { type IMaskInputProps } from '@skbkontur/react-imask';
+import React, { useImperativeHandle, useRef, useState, useEffect, useContext } from 'react';
+import type { IMaskInputProps } from '@skbkontur/react-imask';
+import type { Ref } from 'react';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { cx } from '../../lib/theming/Emotion';
-import { Input, InputProps, InputType } from '../Input';
+import type { InputProps, InputType } from '../Input';
+import { Input } from '../Input';
 import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 

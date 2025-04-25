@@ -2,7 +2,7 @@ import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } f
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants';
 import { isGreater } from '../../../lib/date/comparison';
-import { Nullable } from '../../../typings/utility-types';
+import type { Nullable } from '../../../typings/utility-types';
 
 interface ValidationOptions {
   startOptional?: boolean;

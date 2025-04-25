@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme';
 
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
-import { Button, ButtonInnerProps } from './Button';
+import type { ButtonInnerProps } from './Button';
+import { Button } from './Button';
 import { globalClasses, styles } from './Button.styles';
 
 type ButtonArrowProps = Pick<

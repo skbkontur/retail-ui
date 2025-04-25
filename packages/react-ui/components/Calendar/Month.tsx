@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { DateSelect } from '../../internal/DateSelect';
+import type { Theme } from '../../lib/theming/Theme';
+import type { DateSelect } from '../../internal/DateSelect';
 
-import { MonthViewModel } from './MonthViewModel';
-import { DayCellViewModel } from './DayCellViewModel';
+import type { MonthViewModel } from './MonthViewModel';
+import type { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
