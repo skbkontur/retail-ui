@@ -59,6 +59,59 @@ function createFile(filename: string, content = 'content'): File {
   return new File([content], filename, { type: 'text/plain' });
 }
 
+const fastItemValueLookup = Symbol('item-value');
+
+class DataTransferItemList extends Array {
+  /**
+   * https://html.spec.whatwg.org/multipage/dnd.html#dom-datatransferitemlist-add
+   */
+  add(stringValueOrFile: File | string, stringMimeType: string): DataTransferItem | null {
+    if (stringValueOrFile instanceof File) {
+      const item = {
+        kind: 'file',
+        type: stringValueOrFile.type,
+        getAsFile: () => stringValueOrFile,
+        getAsString() {},
+        webkitGetAsEntry() {
+          throw new Error('webkitGetAsEntry() not implemented');
+        },
+        [fastItemValueLookup]: stringValueOrFile,
+      };
+      this.push(item);
+      return item;
+    }
+    if (typeof stringValueOrFile === 'string') {
+      const type = stringMimeType.toLocaleLowerCase();
+      const exists = this.some((item) => item.kind === 'string' && item.type === type);
+      if (exists) {
+        throw new DOMException('NotSupportedError');
+      }
+
+      const item = {
+        kind: 'string',
+        type,
+        getAsFile: () => null,
+        getAsString: (callback: (arg0: string) => void) => setTimeout(() => callback(stringValueOrFile)),
+        webkitGetAsEntry() {
+          throw new Error('webkitGetAsEntry() not implemented');
+        },
+        [fastItemValueLookup]: stringValueOrFile,
+      };
+      this.push(item);
+      return item;
+    }
+    throw new Error('Unexpected arguments. Expected: .add(file: File) or .add(data: string, type: string)');
+  }
+
+  remove(index: number): void {
+    this.splice(index, 1);
+  }
+
+  clear(): void {
+    this.length = 0;
+  }
+}
+
 describe('FileUploader', () => {
   const originalDT = global.DataTransfer;
   const originalFiles = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files');
@@ -68,7 +121,7 @@ describe('FileUploader', () => {
     global.DataTransfer = class DataTransfer {
       constructor() {
         //@ts-ignore
-        this.items = new Set();
+        this.items = new DataTransferItemList();
         //@ts-ignore
         this.files = this.items;
       }
@@ -595,13 +648,15 @@ describe('FileUploader', () => {
     };
     it('should delete right files', async () => {
       render(<TestComponent />);
-      await addFiles([createFile('foo'), createFile('bar')]);
+      const input = screen.getByTestId(`${FileUploaderDataTids.input}`) as HTMLInputElement;
+      const files = [createFile('foo'), createFile('bar')];
+      await addFiles(files);
 
-      userEvent.click(screen.getAllByRole('button')[0]);
-      await act(async () => {
-        await delay(100);
-      });
+      expect(input.files?.length).toBe(files.length);
 
+      await userEvent.click(screen.getAllByRole('button')[0]);
+
+      expect(input.files?.length).toBe(1);
       expect(screen.getAllByTestId(`${FileUploaderFileDataTids.file}`)).toHaveLength(1);
       expect(screen.queryByText('foo')).not.toBeInTheDocument();
     });
