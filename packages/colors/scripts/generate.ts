@@ -1,5 +1,7 @@
 import * as fs from 'fs';
-import { KonturColors as inputColors, TKonturColor } from './../src/colors';
+
+import type { TKonturColor } from './../src/colors';
+import { KonturColors as inputColors } from './../src/colors';
 
 const camelCaseToDashed = (input: string) =>
   input
@@ -9,7 +11,7 @@ const camelCaseToDashed = (input: string) =>
 
 const generateLess = (inputColors: { [key in TKonturColor]: string }) => {
   const res: string[] = [];
-  Object.keys(inputColors).map((colorName) => {
+  Object.keys(inputColors).forEach((colorName) => {
     const colorValue = inputColors[colorName as TKonturColor];
     res.push(`@${camelCaseToDashed(colorName)}: ${colorValue};`);
   });
@@ -19,7 +21,7 @@ const generateLess = (inputColors: { [key in TKonturColor]: string }) => {
 
 const generateCssVar = (inputColors: { [key in TKonturColor]: string }) => {
   const res: string[] = [];
-  Object.keys(inputColors).map((colorName) => {
+  Object.keys(inputColors).forEach((colorName) => {
     const colorValue = inputColors[colorName as TKonturColor];
     res.push(`--kontur-${camelCaseToDashed(colorName)}: ${colorValue};`);
   });
@@ -29,7 +31,7 @@ const generateCssVar = (inputColors: { [key in TKonturColor]: string }) => {
 
 const generateScss = (inputColors: { [key in TKonturColor]: string }) => {
   const res: string[] = [];
-  Object.keys(inputColors).map((colorName) => {
+  Object.keys(inputColors).forEach((colorName) => {
     const colorValue = inputColors[colorName as TKonturColor];
     res.push(`$${camelCaseToDashed(colorName)}: ${colorValue};`);
   });
