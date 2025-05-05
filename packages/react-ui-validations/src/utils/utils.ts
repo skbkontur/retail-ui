@@ -11,20 +11,9 @@ export const isTestEnv = NODE_ENV === 'test' || isReactUITestEnv;
 
 export const isBrowser = typeof window !== 'undefined';
 
-export const canUseDOM = isBrowser && window.document && window.document.createElement;
-
 export function isElement(el: unknown): el is Element {
-  if (isBrowser) {
-    return el instanceof Element;
-  }
-
-  return false;
+  return !!el && typeof el === 'object' && 'nodeType' in el && el.nodeType === Node.ELEMENT_NODE;
 }
 
-export function isNode(node: unknown): node is Node {
-  if (isBrowser) {
-    return node instanceof Node;
-  }
-
-  return false;
-}
+export const getDoc = (node: Node): Document => node.ownerDocument ?? (node as Document);
+export const getWin = (node: Node): (WindowProxy & typeof globalThis) | null => getDoc(node).defaultView;

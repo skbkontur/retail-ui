@@ -221,7 +221,7 @@ kind('Input', () => {
           origin: submitValidationInput,
         })
         .perform();
-      await delay(500);
+      await delay(1000);
       const tooltipOnSubmitAndHover = await context.takeScreenshot();
 
       await context.matchImages({ noTooltipOnBlur, tooltipOnSubmitAndHover });

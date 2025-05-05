@@ -5,7 +5,7 @@ import warning from 'warning';
 import type { Nullable } from '../typings/Types';
 
 import { getRootNode } from './utils/getRootNode';
-import { isBrowser } from './utils/utils';
+import { isElement } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
@@ -13,11 +13,6 @@ import type { ValidationContextType } from './ValidationContextWrapper';
 import type { ValidationsFeatureFlags } from './utils/featureFlagsContext';
 import { ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 import { ValidationContext } from './ValidationContextWrapper';
-
-if (isBrowser && typeof HTMLElement === 'undefined') {
-  const w = window as any;
-  w.HTMLElement = w.Element;
-}
 
 export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 
@@ -92,7 +87,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public async focus(): Promise<void> {
     const htmlElement = this.getRootNode();
-    if (htmlElement instanceof HTMLElement) {
+    if (isElement(htmlElement)) {
       const { disableSmoothScroll, scrollOffset } = this.context.getSettings();
       if (!disableSmoothScroll) {
         await smoothScrollIntoView(htmlElement, scrollOffset);
@@ -193,7 +188,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public getControlPosition(): Nullable<Point> {
     const htmlElement = this.getRootNode();
-    if (htmlElement instanceof HTMLElement) {
+    if (isElement(htmlElement)) {
       const rect = htmlElement.getBoundingClientRect();
       return { x: rect.top, y: rect.left };
     }

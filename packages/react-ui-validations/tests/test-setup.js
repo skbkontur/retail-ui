@@ -11,6 +11,14 @@ jest.mock('../src/smoothScrollIntoView', () => {
   };
 });
 
+jest.mock('react-dom', () => {
+  const originalModule = jest.requireActual('react-dom');
+  return {
+    ...originalModule,
+    findDOMNode: jest.fn(originalModule.findDOMNode),
+  };
+});
+
 window.matchMedia = jest.fn().mockImplementation((query) => {
   return {
     matches: false,
