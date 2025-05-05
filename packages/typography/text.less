@@ -123,7 +123,7 @@
 
 .t(@size, @spacing: true, @wideColumn: false) {
   @size-key: if(@wideColumn, %(e('%aWide'), @size), @size);
-  @size-props: @typography[ @@size-key];
+  @size-props: @typography[@@size-key];
 
   font-size: @size-props[font-size];
   font-weight: @size-props[font-weight];

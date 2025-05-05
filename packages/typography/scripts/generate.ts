@@ -1,11 +1,13 @@
 import * as fs from 'fs';
-import { TextTokens, TTextTokens } from '../src/TextTokens';
+
+import type { TTextTokens } from '../src/TextTokens';
+import { TextTokens } from '../src/TextTokens';
 
 function createFile(fileName: string, content: string) {
   fs.writeFile(fileName, content, () => {});
 }
 
-const generateCss = (inputTokens: { [key in TTextTokens]: {} }) => {
+const generateCss = (inputTokens: { [key in TTextTokens]: Record<string, any> }) => {
   const tokens = Object.keys(inputTokens)
     .sort()
     .map((token) => {
@@ -18,7 +20,7 @@ const generateCss = (inputTokens: { [key in TTextTokens]: {} }) => {
         }`;
     });
   const res = `${tokens.join('\n\n')}
-  
+
     .noSpacing {
       margin: 0;
     }
@@ -27,7 +29,7 @@ const generateCss = (inputTokens: { [key in TTextTokens]: {} }) => {
   createFile('./Text.module.css', res);
 };
 
-const generateScss = (inputTokens: { [key in TTextTokens]: {} }) => {
+const generateScss = (inputTokens: { [key in TTextTokens]: Record<string, any> }) => {
   const tokens = Object.keys(inputTokens)
     .sort()
     .map((token) => {
@@ -57,7 +59,7 @@ const generateScss = (inputTokens: { [key in TTextTokens]: {} }) => {
     font-size: map.get($style, font-size);
     font-weight: map.get($style, font-weight);
     line-height: map.get($style, line-height);
-    
+
     @if $spacing {
       margin: map.get($style, margin);
     } @else {
@@ -68,7 +70,7 @@ const generateScss = (inputTokens: { [key in TTextTokens]: {} }) => {
   createFile('./text.scss', res);
 };
 
-const generateLess = (inputTokens: { [key in TTextTokens]: {} }) => {
+const generateLess = (inputTokens: { [key in TTextTokens]: Record<string, any> }) => {
   const tokens = Object.keys(inputTokens)
     .sort()
     .map((token) => {
@@ -85,7 +87,7 @@ const generateLess = (inputTokens: { [key in TTextTokens]: {} }) => {
     @typography: {
       ${tokens.join('\n')}
     }
-        
+
     .t(@size, @spacing: true, @wideColumn: false) {
       @size-key: if(@wideColumn, %(e("%aWide"), @size), @size);
       @size-props: @typography[@@size-key];

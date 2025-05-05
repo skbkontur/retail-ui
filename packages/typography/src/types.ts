@@ -1,4 +1,4 @@
-import type { AriaAttributes, AriaRole, CSSProperties, HTMLAttributes } from 'react';
+import type { AriaAttributes, CSSProperties, HTMLAttributes } from 'react';
 
 export type TTextTags = 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 export type TTextSizes = 12 | 14 | 16 | 18 | 20 | 22 | 24 | 28 | 32 | 36 | 40 | 48 | 56;
