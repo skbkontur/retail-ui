@@ -1,10 +1,12 @@
 import type { Nullable, Omit } from '../typings/Types';
 
 import type { ScrollOffset } from './ValidationContainer';
-import { isBrowser } from './utils/utils';
+import { getDoc, getWin, isBrowser, isElement } from './utils/utils';
 import { isNullable } from './utils/isNullable';
 
-export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
+export async function smoothScrollIntoView(element: Element, scrollOffset: ScrollOffset): Promise<void> {
+  const activeDocument = getDoc(element);
+  const activeWindow = getWin(element);
   const scrollableParent = findScrollableParent(element);
   const parentRects = scrollableParent.getBoundingClientRect();
   const clientRects = element.getBoundingClientRect();
@@ -12,10 +14,10 @@ export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: S
   const topOffset = scrollOffset.top || 0;
   const bottomOffset = scrollOffset.bottom || 0;
 
-  if (scrollableParent === document.body) {
-    const html = document.documentElement || { clientHeight: 0, clientWidth: 0 };
-    const viewportHeight = window.innerHeight || html.clientHeight;
-    const viewportWidth = window.innerWidth || html.clientWidth;
+  if (scrollableParent === activeDocument.body) {
+    const html = activeDocument.documentElement || { clientHeight: 0, clientWidth: 0 };
+    const viewportHeight = activeWindow?.innerHeight || html.clientHeight;
+    const viewportWidth = activeWindow?.innerWidth || html.clientWidth;
 
     const isElementInViewport =
       clientRects.top >= topOffset &&
@@ -28,6 +30,7 @@ export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: S
     }
 
     await scrollBy({
+      element,
       left: clientRects.left,
       top: clientRects.top - topOffset,
     });
@@ -42,41 +45,47 @@ export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: S
       scrollableParent.scrollTop + clientRects.top - parentRects.top - topOffset,
     );
     await scrollBy({
+      element,
       left: parentRects.left,
       top: parentRects.top,
     });
   }
 }
 
-function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void> {
+function smoothScroll(element: Element, x: number, y: number): Promise<void> {
+  const activeDocument = getDoc(element);
+  const activeWindow = getWin(element);
   let context: Omit<StepContent, 'resolve'>;
-  if (element === getDocumentBodyStrict()) {
-    context = {
-      scrollable: window as any as HTMLElement,
-      startX: window.scrollX || window.pageXOffset,
-      startY: window.scrollY || window.pageYOffset,
-      method: scrollWindow,
-      startTime: now(),
-      x,
-      y,
-    };
-  } else {
-    context = {
-      scrollable: element,
-      startX: element.scrollLeft,
-      startY: element.scrollTop,
-      method: scrollElement,
-      startTime: now(),
-      x,
-      y,
-    };
+
+  if (activeWindow) {
+    if (element === getDocumentBodyStrict(activeDocument)) {
+      context = {
+        scrollable: element,
+        startX: activeWindow.scrollX || activeWindow.pageXOffset,
+        startY: activeWindow.scrollY || activeWindow.pageYOffset,
+        method: getScrollWindow(element),
+        startTime: getNow(element)(),
+        x,
+        y,
+      };
+    } else {
+      context = {
+        scrollable: element,
+        startX: element.scrollLeft,
+        startY: element.scrollTop,
+        method: scrollElement,
+        startTime: getNow(element)(),
+        x,
+        y,
+      };
+    }
   }
 
   return new Promise((resolve) => step({ ...context, resolve }));
 }
 
 interface StepContent {
-  scrollable: HTMLElement;
+  scrollable: Element;
   startTime: number;
   startX: number;
   startY: number;
@@ -86,43 +95,44 @@ interface StepContent {
   resolve: () => void;
 }
 
-function step(context: StepContent) {
-  const time = now();
-  const elapsed = Math.min(1, (time - context.startTime) / ScrollTime);
+function step({ scrollable, startX, startY, x, y, method, resolve, startTime }: StepContent) {
+  const time = getNow(scrollable)();
+  const scrollTime = 468;
+  const elapsed = Math.min(1, (time - startTime) / scrollTime);
   const value = ease(elapsed);
+  const activeWindow = getWin(scrollable);
 
-  const currentX = context.startX + (context.x - context.startX) * value;
-  const currentY = context.startY + (context.y - context.startY) * value;
+  const currentX = startX + (x - startX) * value;
+  const currentY = startY + (y - startY) * value;
 
-  context.method(context.scrollable, currentX, currentY);
+  method(scrollable, currentX, currentY);
 
-  if (currentX !== context.x || currentY !== context.y) {
-    window.requestAnimationFrame(() => step(context));
+  if (currentX !== x || currentY !== y) {
+    !!activeWindow &&
+      activeWindow.requestAnimationFrame(() => step({ scrollable, startX, startY, x, y, method, resolve, startTime }));
   } else {
-    context.resolve();
+    resolve();
   }
 }
 
-const ScrollTime = 468;
+const getScrollWindow = (el: Element) => {
+  const activeWindow = getWin(el);
 
-const getScrollWindow = (isBrowser: boolean) => {
   if (isBrowser) {
-    if (typeof window.scroll === 'function') {
-      return (_: any, x: any, y: any) => window.scroll(x, y);
+    if (typeof activeWindow?.scroll === 'function') {
+      return (_: any, x: any, y: any) => activeWindow?.scroll(x, y);
     }
-
-    return (_: any, x: any, y: any) => window.scrollTo(x, y);
   }
 
   return () => undefined;
 };
 
-const scrollWindow = getScrollWindow(isBrowser);
-
-const now =
-  isBrowser && window.performance && window.performance.now
-    ? window.performance.now.bind(window.performance)
+const getNow = (el: Element) => {
+  const activeWindow = getWin(el);
+  return isBrowser && activeWindow?.performance && activeWindow?.performance.now
+    ? activeWindow?.performance.now.bind(activeWindow?.performance)
     : Date.now;
+};
 
 function scrollElement(element: Element, x: number, y: number) {
   element.scrollLeft = x;
@@ -133,29 +143,29 @@ function ease(time: number): number {
   return 0.5 * (1 - Math.cos(Math.PI * time));
 }
 
-function getDocumentBodyStrict(): HTMLElement {
-  if (isNullable(document.body)) {
+function getDocumentBodyStrict(activeDocument: Document): Element {
+  if (isNullable(activeDocument.body)) {
     throw new Error('Scrolling can be used only in browser');
   }
 
-  return document.body;
+  return activeDocument.body;
 }
 
-function findScrollableParent(el: HTMLElement): HTMLElement {
+function findScrollableParent(el: Element): Element {
   let isBody: Nullable<boolean>;
   let hasScrollableSpace: Nullable<boolean>;
   let hasVisibleOverflow: Nullable<boolean>;
-  let currentElement: HTMLElement = el;
+  let currentElement: Element = el;
   do {
-    if (isNullable(currentElement.parentElement) || !(currentElement.parentElement instanceof HTMLElement)) {
-      return getDocumentBodyStrict();
+    if (isNullable(currentElement.parentElement) || !isElement(currentElement.parentElement)) {
+      return getDocumentBodyStrict(getDoc(currentElement));
     }
     currentElement = currentElement.parentElement;
-    isBody = currentElement === document.body;
+    isBody = currentElement === getDoc(currentElement).body;
     hasScrollableSpace =
       currentElement.clientHeight < currentElement.scrollHeight ||
       currentElement.clientWidth < currentElement.scrollWidth;
-    hasVisibleOverflow = window.getComputedStyle(currentElement, null).overflow === 'visible';
+    hasVisibleOverflow = getWin(currentElement)?.getComputedStyle(currentElement, null).overflow === 'visible';
   } while (!isBody && !(hasScrollableSpace && !hasVisibleOverflow));
 
   isBody = null;
@@ -165,10 +175,16 @@ function findScrollableParent(el: HTMLElement): HTMLElement {
   return currentElement;
 }
 
-function scrollBy({ left, top }: { left: number; top: number }): Promise<void> {
-  return smoothScroll(
-    getDocumentBodyStrict(),
-    Math.floor(left) + (window.scrollX || window.pageXOffset),
-    Math.floor(top) + (window.scrollY || window.pageYOffset),
-  );
+function scrollBy({ element, left, top }: { element: Element; left: number; top: number }): Promise<void> {
+  const activeWindow = getWin(element);
+  const activeDocument = getDoc(element);
+
+  if (!activeWindow) {
+    return new Promise((resolve) => resolve());
+  }
+
+  const x = Math.floor(left) + (activeWindow?.scrollX || activeWindow?.pageXOffset);
+  const y = Math.floor(top) + (activeWindow?.scrollY || activeWindow?.pageYOffset);
+
+  return smoothScroll(getDocumentBodyStrict(activeDocument), x, y);
 }

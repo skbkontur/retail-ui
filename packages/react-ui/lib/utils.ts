@@ -229,3 +229,7 @@ export function clickOutside() {
 
   document.body.dispatchEvent(event);
 }
+
+export function isElement(el: unknown): el is Element {
+  return !!el && typeof el === 'object' && 'nodeType' in el && el.nodeType === Node.ELEMENT_NODE;
+}

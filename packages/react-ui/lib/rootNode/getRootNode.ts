@@ -1,10 +1,9 @@
 import { findDOMNode } from 'react-dom';
 import type React from 'react';
 import warning from 'warning';
-import { globalObject } from '@skbkontur/global-object';
 
-import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { Nullable } from '../../typings/utility-types';
+import { isElement } from '../utils';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
 
@@ -27,13 +26,13 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
    *  4. literally anything, returned from useImperativeHandle
    */
 
-  if (!globalObject.document || !instance) {
+  if (!instance) {
     // instance can be `null` if component was unmounted
     // also checking undefined for convenient usage
     return null;
   }
 
-  if (isInstanceOf(instance, globalObject.Element)) {
+  if (isElement(instance)) {
     // instance can be an Element already if its coming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
@@ -42,13 +41,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
   let rootNode;
 
   if (isInstanceWithRootNode(instance)) {
-    // it happened to be that native Node interface also has
-    // the "getRootNode" method, but we can ignore it here
-    // because we'd already checked the instance on being an Element
-    // which is a subclass of Node, so, just fixing types here
-    if (!isInstanceOf(instance, globalObject.Node)) {
-      rootNode = instance.getRootNode();
-    }
+    rootNode = instance.getRootNode();
   }
 
   if (rootNode !== undefined) {
@@ -79,5 +72,5 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
   }
 
   // the findDOMNode can also return Text, but we are only interested in Elements, so just filter it
-  return isInstanceOf(rootNode, globalObject.Element) ? rootNode : null;
+  return isElement(rootNode) ? rootNode : null;
 };
