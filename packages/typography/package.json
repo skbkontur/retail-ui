@@ -1,7 +1,7 @@
 {
   "name": "@skbkontur/typography",
   "description": "Kontur UI Typography",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "exports": {
     ".": "./index.js",
     "./Text.css": "./Text.css",

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/typography@0.1.0...@skbkontur/typography@0.1.1) (2025-05-06)
+
+**Note:** Version bump only for package @skbkontur/typography
+
+
+
+
+
 # 0.1.0 (2025-04-02)
 
 
