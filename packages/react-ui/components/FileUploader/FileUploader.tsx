@@ -195,7 +195,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
         if (dataTransfer.files?.length > 0) {
           handleChange(dataTransfer.files);
         }
-        dataTransfer.clearData();
       }
     },
     [handleChange, disabled],
@@ -217,13 +216,32 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset, removeFile, getRootNode: () => rootNodeRef.current }), [
+  const handleRemoveFile = useCallback(
+    (fileId: string) => {
+      const dataTransfer = new DataTransfer();
+      files
+        .filter((f) => f.id !== fileId)
+        .forEach((file) => {
+          dataTransfer.items.add(file.originalFile);
+        });
+      inputRef.current && (inputRef.current.files = dataTransfer.files);
+    },
+    [files],
+  );
+
+  const handleExternalFileDeletion = useCallback(
+    (fileId: string) => {
+      removeFile(fileId);
+      handleRemoveFile(fileId);
+    },
+    [handleRemoveFile, removeFile],
+  );
+
+  useImperativeHandle(
     ref,
-    blur,
-    focus,
-    reset,
-    removeFile,
-  ]);
+    () => ({ focus, blur, reset, removeFile: handleExternalFileDeletion, getRootNode: () => rootNodeRef.current }),
+    [ref, blur, focus, reset, handleExternalFileDeletion],
+  );
 
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -250,16 +268,6 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
       onBlur?.(e);
     }
   };
-
-  const handleRemoveFile = useCallback((fileId: string) => {
-    const dataTransfer = new DataTransfer();
-    files
-      .filter((f) => f.id !== fileId)
-      .forEach((file) => {
-        dataTransfer.items.add(file.originalFile);
-      });
-    inputRef.current && (inputRef.current.files = dataTransfer.files);
-  }, []);
 
   const [hovered, setHovered] = useState(false);
 
