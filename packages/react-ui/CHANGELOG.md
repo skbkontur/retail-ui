@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.2...@skbkontur/react-ui@5.1.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* **FileUploader:** make removeFile delete files correctly ([20e67c3](https://github.com/skbkontur/retail-ui/commit/20e67c35f057fa7f25e5dbd2fa66bc7182da2d92))
+* **FileUploader:** remove console error in firefox ([4a7394f](https://github.com/skbkontur/retail-ui/commit/4a7394f23bab2433058fa7f7dd081d7c9b91a17e))
+
+
+
+
+
 ## [5.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.1...@skbkontur/react-ui@5.1.2) (2025-04-17)
 
 
