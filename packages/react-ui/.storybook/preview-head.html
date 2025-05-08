@@ -118,13 +118,16 @@
     margin: 0 !important;
   }
 
-  div:has(> div > div.toc-wrapper) div:has(.toc-wrapper .toc-list) > div > p:first-child {
+  div:has(> div > div.toc-wrapper) p {
     display: none;
   }
 
   div:has(> div > div.toc-wrapper) .toc-list-item {
+    padding-top: 6px;
     padding-left: 0 !important;
+    padding-bottom: 6px;
     margin-left: 0 !important;
+    text-wrap: balance;
     font-size: 14px !important;
   }
 
