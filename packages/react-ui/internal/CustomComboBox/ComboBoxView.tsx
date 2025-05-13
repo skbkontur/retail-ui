@@ -287,7 +287,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private renderMobileMenu = () => {
     let rightIcon = null;
 
-    const { loading, items, opened, onFocus, onInputValueChange, placeholder, textValue } = this.props;
+    const { loading, items, opened, onFocus, onInputValueChange, onInputKeyDown, placeholder, textValue } = this.props;
     if (loading && items && !!items.length) {
       rightIcon = this.renderSpinner();
     }
@@ -298,6 +298,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       width: '100%',
       onFocus,
       onValueChange: onInputValueChange,
+      onKeyDown: onInputKeyDown,
       value: textValue,
       placeholder,
       rightIcon,
