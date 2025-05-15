@@ -1,7 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import { ChildProcess, spawn, spawnSync, execSync } from 'child_process';
+import type { ChildProcess} from 'child_process';
+import { spawn, spawnSync, execSync } from 'child_process';
 
 import puppeteer from 'puppeteer';
 import waitOn from 'wait-on';

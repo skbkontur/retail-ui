@@ -9,6 +9,8 @@ const config: StorybookConfig = {
     options: {
       fastRefresh: !isTestEnv,
       strictMode: process?.env?.STRICT_MODE === 'true',
+      //Для версионного прогона убран, чтобы 18 реакт гонялся по честному
+      legacyRootApi: !(process?.env?.REACT_VERSION && process?.env?.TYPESCRIPT_VERSION),
     },
   },
   core: {

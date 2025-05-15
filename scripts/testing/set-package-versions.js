@@ -22,10 +22,9 @@ const allPackages = {...packagesForReact, ...packagesForTypescript};
 
 try {
   patchSmokeTestPackage();
-  patchSeleniumTestsPackage();
   patchPackageJsons();
 } catch (e) {
-  //log
+  console.log(e);
 }
 
 function patchPackageJsons() {
@@ -38,20 +37,22 @@ function patchPackageJsons() {
   })
 }
 
-function patchSeleniumTestsPackage() {
-  const pathToConfig = path.resolve(packagesPath, "react-ui-testing", "TestPages", "versions.js");
-  const config = fs.readFileSync(pathToConfig, 'utf8');
-  const patchedConfig = config.replace("let reactVersion;", `let reactVersion = ${packagesForReact?.react.replaceAll('^', '')};`)
-  fs.writeFileSync(pathToConfig, patchedConfig);
-  console.log(pathToConfig, "patched");
-}
-
 function patchSmokeTestPackage() {
   const pathToConfig = path.resolve(packagesPath, "react-ui-smoke-test", "cra-template-react-ui", "template.json");
   const package = getJsonFile(pathToConfig);
   package.package.dependencies = {...package.package.dependencies, ...packagesForReact};
   writeJsonFile(pathToConfig, package);
   console.log(pathToConfig, "patched");
+
+  //patch createRoot render api 18+ react
+  if (+reactVersion > 17) {
+    const pathToRootApp = path.resolve(packagesPath,"react-ui-smoke-test", "cra-template-react-ui", "template", "src", "index.tsx");
+    const file = fs.readFileSync(pathToRootApp, 'utf8');
+    const patchedImport = file.replace("import { render } from 'react-dom'", `import { createRoot } from 'react-dom/client'`)
+    const patchedRenderMethod = patchedImport.replace("render(Content, container)", `const root = createRoot(container);\nroot.render(Content)`)
+    fs.writeFileSync(pathToRootApp, patchedRenderMethod);
+    console.log(pathToRootApp, "patched");
+  }
 }
 
 function getJsonFile(path) {

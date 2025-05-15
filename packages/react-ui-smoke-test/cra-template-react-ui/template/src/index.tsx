@@ -19,12 +19,12 @@ function StrictModeWrapper(props: {children: React.ReactElement}) {
     : props.children
 }
 
+const Content = (<StrictModeWrapper>
+  <App />
+</StrictModeWrapper>)
+
 if (container) {
-  render(
-    <StrictModeWrapper>
-      <App />
-    </StrictModeWrapper>,
-    container);
+  render(Content, container);
 }
 
 // If you want your app to work offline and load faster, you can change
