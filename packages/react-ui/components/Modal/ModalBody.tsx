@@ -11,10 +11,12 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import type { TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
 import { getModalBodyTheme } from './getModalBodyTheme';
+import { ModalZIndexPriority } from './Modal';
 
 export interface ModalBodyProps extends CommonProps {
   /** Убирает отступы. */
@@ -53,12 +55,14 @@ export class ModalBody extends React.Component<ModalBodyProps> {
   };
 
   public renderMain(): JSX.Element {
+    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
     const { noPadding } = this.props;
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
           <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
+              priority={ModalZIndexPriority.Content}
               className={cx({
                 [styles.body(this.theme)]: true,
                 [styles.mobileBody(this.theme)]: this.isMobileLayout,
@@ -66,6 +70,9 @@ export class ModalBody extends React.Component<ModalBodyProps> {
                 [styles.mobileBodyWithoutHeader()]: !hasHeader && this.isMobileLayout,
                 [styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
                 [styles.mobileBodyAddPaddingForPanel(this.theme)]: additionalPadding && this.isMobileLayout,
+                [styles.mobileBodyWithoutHeader5_2(this.theme)]: versionGTE5_2 && !hasHeader && this.isMobileLayout,
+                [styles.mobileBodyAddPaddingForPanel5_2(this.theme)]:
+                  versionGTE5_2 && additionalPadding && this.isMobileLayout,
                 [styles.bodyWithoutPadding()]: noPadding,
               })}
             >

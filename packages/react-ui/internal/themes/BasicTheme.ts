@@ -857,11 +857,17 @@ export class BasicThemeClass {
   public static mobileModalCloseButtonRightPadding = '16px';
   public static mobileModalCloseButtonTopPadding = '8px';
   public static mobileModalCloseButtonClickArea = '16px';
+  public static mobileModalWithoutHeaderCloseButtonPadding = '10px';
+  public static get mobileModalWithoutHeaderCloseButtonWidth() {
+    return `${parseInt(this.modalCloseIconSize) + 2 * parseInt(this.mobileModalWithoutHeaderCloseButtonPadding)}px`;
+  }
   public static mobileModalCloseIconSize = '20px';
   public static mobileModalHeaderFontSize = '24px';
   public static mobileModalHeaderLineHeight = '32px';
   public static mobileModalHeaderPadding = '16px';
   public static mobileModalBodyPadding = '0 16px 16px 16px';
+  public static mobileModalBodyPaddingTop = '16px';
+  public static mobileModalBodyPaddingBottom = '16px';
   public static mobileModalBodyFontSize = '16px';
   public static mobileModalFooterPadding = '16px';
   public static mobileModalPaddingBottom = '16px';
