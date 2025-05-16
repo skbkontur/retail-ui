@@ -1,0 +1,4 @@
+include:
+  - project: 'UI/React-UI'
+    file: '.gitlab-ci/.gitlab-ci.yml'
+    ref: $CI_COMMIT_BRANCH
