@@ -3,9 +3,10 @@ import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
 import { SeleniumWebdriver } from 'creevey/selenium';
-import { storybookUrl, resolveStorybookUrl } from './storybook-url';
+import { storybookUrl } from './storybook-url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const reportFilePath = path.resolve(__dirname, "..", 'reports');
 
 dotenv({ path: '../../.env' });
 
@@ -25,15 +26,18 @@ const capabilities = debug
 
 const config: CreeveyConfig = {
   storybookUrl,
-  resolveStorybookUrl,
   webdriver: SeleniumWebdriver,
   storiesProvider: hybridStoriesProvider,
   testsRegex: /.creevey.(m|c)?(t|j)s$/,
   testsDir: path.join(__dirname, '../'),
-  reportDir: path.join(__dirname, 'report'),
+  reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),
   gridUrl: process.env.GRID_URL,
-  maxRetries: process.env.TEAMCITY_VERSION ? 5 : 0,
+  maxRetries: process.env.GITLAB_CI || process.env.TEAMCITY_VERSION ? 5 : 0,
+  reporter: process.env.GITLAB_CI ? 'junit' : 'teamcity',
+  reporterOptions: {
+    outputFile: process.env.GITLAB_CI ? path.join(reportFilePath, 'junit.xml') : undefined,
+  },
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
     chromeDefault: {

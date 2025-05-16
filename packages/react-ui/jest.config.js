@@ -1,3 +1,9 @@
+const reporters = ['default'];
+
+if (process.env['GITLAB_CI'] !== undefined) {
+  reporters.push(['jest-junit', { outputDirectory: '<rootDir>/reports', outputName: 'report.xml' }]);
+}
+
 module.exports = {
   testResultsProcessor: 'jest-teamcity-reporter',
   moduleNameMapper: {
@@ -10,4 +16,5 @@ module.exports = {
   testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['<rootDir>/test-setup.js'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  reporters,
 };
