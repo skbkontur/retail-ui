@@ -7,6 +7,7 @@ import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
@@ -43,6 +44,7 @@ function ModalHeader(props: ModalHeaderProps) {
     return () => modal.setHasHeader?.(false);
   }, []);
 
+  const versionGTE5_2 = isThemeGTE(theme, '5.2');
   const renderContent = (fixed = false) => {
     return (
       <div>
@@ -50,10 +52,13 @@ function ModalHeader(props: ModalHeaderProps) {
           data-tid={ModalHeaderDataTids.root}
           className={cx(
             styles.header(theme),
+            versionGTE5_2 && styles.header5_2(theme),
             layout.isMobile && styles.mobileHeader(theme),
             Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),
             fixed && styles.fixedHeader(theme),
+            versionGTE5_2 && fixed && styles.fixedHeader5_2(),
             fixed && layout.isMobile && styles.mobileFixedHeader(theme),
+            versionGTE5_2 && fixed && layout.isMobile && styles.mobileFixedHeader5_2(theme),
             Boolean(modal.close) && styles.headerWithClose(theme),
             Boolean(modal.close) && layout.isMobile && styles.mobileHeaderWithClose(theme),
           )}
@@ -68,8 +73,23 @@ function ModalHeader(props: ModalHeaderProps) {
     );
   };
 
+  const getStickyOffset = () => {
+    if (versionGTE5_2 && layout.isMobile && !modal.mobileOnFullScreen) {
+      return parseInt(theme.mobileModalContainerMarginTop);
+    }
+    return 0;
+  };
+
   return (
-    <CommonWrapper {...props}>{sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}</CommonWrapper>
+    <CommonWrapper {...props}>
+      {sticky ? (
+        <Sticky offset={getStickyOffset()} side="top">
+          {renderContent}
+        </Sticky>
+      ) : (
+        renderContent()
+      )}
+    </CommonWrapper>
   );
 }
 

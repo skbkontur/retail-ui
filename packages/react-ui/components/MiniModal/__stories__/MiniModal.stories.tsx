@@ -5,10 +5,7 @@ import { TechPhoneSmartIcon64Regular } from '@skbkontur/icons/TechPhoneSmartIcon
 import { MiniModal } from '../MiniModal';
 import { Button } from '../../Button';
 import { Modal } from '../../Modal';
-import type { Meta, Story } from '../../../typings/stories';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import type { Meta } from '../../../typings/stories';
 
 export default {
   title: 'MiniModal',
@@ -26,31 +23,6 @@ export const Simple = () => (
     </MiniModal.Footer>
   </MiniModal>
 );
-
-export const MobileFullset: Story = () => (
-  <ThemeContext.Consumer>
-    {(theme) => (
-      <ThemeContext.Provider value={ThemeFactory.create(theme, LIGHT_THEME)}>
-        <MiniModal>
-          <MiniModal.Header icon={<TechPhoneSmartIcon64Regular />}>Title mobile</MiniModal.Header>
-          <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
-          <MiniModal.Footer>
-            <Button size="medium" use="primary">
-              Main
-            </Button>
-            <Button size="medium">Alt</Button>
-            <MiniModal.Indent />
-            <Button size="medium">Cancel</Button>
-          </MiniModal.Footer>
-        </MiniModal>
-      </ThemeContext.Provider>
-    )}
-  </ThemeContext.Consumer>
-);
-MobileFullset.parameters = {
-  viewport: { defaultViewport: 'iphone' },
-  creevey: { captureElement: null },
-};
 
 export const Description = () => (
   <MiniModal>
@@ -137,3 +109,96 @@ export const Custom = () => (
     </Modal.Footer>
   </MiniModal>
 );
+
+export const MobileMiniModalDefault = () => (
+  <MiniModal>
+    <MiniModal.Header icon={<TechPhoneSmartIcon64Regular />}>Title mobile</MiniModal.Header>
+    <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+    <MiniModal.Footer>
+      <Button size="medium" use="primary">
+        Main
+      </Button>
+      <Button size="medium">Alt</Button>
+      <MiniModal.Indent />
+      <Button size="medium">Cancel</Button>
+    </MiniModal.Footer>
+  </MiniModal>
+);
+MobileMiniModalDefault.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};
+
+export const MobileMiniModalTop = () => (
+  <MiniModal mobileAppearance={'top'}>
+    <MiniModal.Header>Title</MiniModal.Header>
+    <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+    <MiniModal.Footer>
+      <Button size="medium" use="primary">
+        Main
+      </Button>
+      <Button size="medium">Alt</Button>
+      <Button size="medium">Cancel</Button>
+    </MiniModal.Footer>
+  </MiniModal>
+);
+MobileMiniModalTop.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};
+
+export const MobileMiniModalCenter = () => (
+  <MiniModal mobileAppearance={'center'}>
+    <MiniModal.Header>Title</MiniModal.Header>
+    <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+    <MiniModal.Footer>
+      <Button size="medium" use="primary">
+        Main
+      </Button>
+      <Button size="medium">Alt</Button>
+      <Button size="medium">Cancel</Button>
+    </MiniModal.Footer>
+  </MiniModal>
+);
+MobileMiniModalCenter.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};
+
+export const MobileMiniModalBottom = () => (
+  <MiniModal mobileAppearance={'bottom'}>
+    <MiniModal.Header>Title</MiniModal.Header>
+    <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+    <MiniModal.Footer>
+      <Button size="medium" use="primary">
+        Main
+      </Button>
+      <Button size="medium">Alt</Button>
+      <Button size="medium">Cancel</Button>
+    </MiniModal.Footer>
+  </MiniModal>
+);
+MobileMiniModalBottom.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};
+
+export const MobileMiniModalFullscreen = () => (
+  <MiniModal mobileAppearance={'fullscreen'}>
+    <div style={{ margin: 'auto' }}>
+      <MiniModal.Header>Title</MiniModal.Header>
+      <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+    </div>
+    <MiniModal.Footer>
+      <Button size="medium" use="primary">
+        Main
+      </Button>
+      <Button size="medium">Alt</Button>
+      <Button size="medium">Cancel</Button>
+    </MiniModal.Footer>
+  </MiniModal>
+);
+MobileMiniModalFullscreen.parameters = {
+  viewport: { defaultViewport: 'iphone' },
+  creevey: { captureElement: null },
+};
