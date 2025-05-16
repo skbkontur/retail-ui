@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './MenuSeparator.styles';
 
@@ -19,26 +20,27 @@ export const MenuSeparatorDataTids = {
  *
  * Сущности в которых может быть использован `MenuSeparator`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
-function MenuSeparator(props: MenuSeparatorProps) {
-  const theme = useContext(ThemeContext);
+const MenuSeparator = forwardRefAndName(
+  'MenuSeparator',
+  function MenuSeparator(props: MenuSeparatorProps, ref: React.Ref<HTMLDivElement>) {
+    const theme = useContext(ThemeContext);
 
-  return (
-    <CommonWrapper {...props}>
-      <ResponsiveLayout>
-        {({ isMobile }) => {
-          return (
-            <div
-              data-tid={MenuSeparatorDataTids.root}
-              className={cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
-            />
-          );
-        }}
-      </ResponsiveLayout>
-    </CommonWrapper>
-  );
-}
-
-MenuSeparator.__KONTUR_REACT_UI__ = 'MenuSeparator';
-MenuSeparator.displayName = 'MenuSeparator';
+    return (
+      <CommonWrapper {...props}>
+        <ResponsiveLayout>
+          {({ isMobile }) => {
+            return (
+              <div
+                ref={ref}
+                data-tid={MenuSeparatorDataTids.root}
+                className={cx({ [styles.root(theme)]: true, [styles.rootMobile(theme)]: isMobile })}
+              />
+            );
+          }}
+        </ResponsiveLayout>
+      </CommonWrapper>
+    );
+  },
+);
 
 export { MenuSeparator };

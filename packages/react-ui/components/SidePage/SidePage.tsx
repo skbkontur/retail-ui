@@ -118,7 +118,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private layout: HTMLElement | null = null;
   private header: SidePageHeader | null = null;
   private footer: SidePageFooter | null = null;
-  private rootRef = React.createRef<HTMLDivElement>();
+  public rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     globalObject.addEventListener?.('keydown', this.handleKeyDown);

@@ -31,6 +31,7 @@ import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { mergeRefs } from '../../lib/mergeRefs';
+import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { PopupPin } from './PopupPin';
 import type { Offset, PositionObject, Rect } from './PopupHelper';
@@ -561,7 +562,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         nodeRef={this.refForTransition}
       >
         {(state: string) => (
-          <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
+          <CommonWrapper {...this.props} rootNodeRef={this.setRootNode} {...this.prepareDataVisualState()}>
             <ZIndex
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
@@ -591,6 +592,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       </Transition>
     );
   }
+
+  private prepareDataVisualState = () => {
+    const position = this.state.location?.position;
+    if (position) {
+      const attrName = `position-` + position.replace(' ', '-');
+      return getVisualStateDataAttributes({ [attrName]: true });
+    }
+    return {};
+  };
 
   private resetLocation = () => {
     this.cancelDelayedUpdateLocation();

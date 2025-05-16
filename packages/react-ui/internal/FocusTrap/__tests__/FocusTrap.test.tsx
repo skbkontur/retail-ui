@@ -1,20 +1,19 @@
-import type { ReactWrapper } from 'enzyme';
-import { mount } from 'enzyme';
 import React from 'react';
+import type { RenderResult } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { clickOutside } from '../../../lib/utils';
-import type { FocusTrapProps } from '../FocusTrap';
 import { FocusTrap } from '../FocusTrap';
 
 describe('<FocusTrap>', () => {
   let onBlur: jest.Mock<Promise<string[]>>;
   let onButtonBlur: jest.Mock<Promise<string[]>>;
-  let focusTrap: ReactWrapper<FocusTrapProps>;
+  let focusTrap: RenderResult;
 
   beforeEach(() => {
     onBlur = jest.fn();
     onButtonBlur = jest.fn();
-    focusTrap = mount<FocusTrap>(
+    focusTrap = render(
       <FocusTrap onBlur={onBlur}>
         <div>
           <button onBlur={onButtonBlur} />
@@ -25,28 +24,28 @@ describe('<FocusTrap>', () => {
   });
 
   it('Blur not be called', () => {
-    const firstButton = focusTrap.find('button').at(0);
-    const secondButton = focusTrap.find('button').at(1);
+    const firstButton = focusTrap.getAllByRole('button')[0];
+    const secondButton = focusTrap.getAllByRole('button')[1];
 
-    firstButton.simulate('focus');
-    firstButton.simulate('blur');
-    secondButton.simulate('blur');
+    firstButton.focus();
+    firstButton.blur();
+    secondButton.blur();
 
-    expect(onButtonBlur).toHaveBeenCalledTimes(2);
+    expect(onButtonBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).not.toHaveBeenCalled();
   });
 
   it('Blur called one time with clickOutside', () => {
-    const firstButton = focusTrap.find('button').at(0);
-    const secondButton = focusTrap.find('button').at(1);
+    const firstButton = focusTrap.getAllByRole('button')[0];
+    const secondButton = focusTrap.getAllByRole('button')[1];
 
-    firstButton.simulate('focus');
-    firstButton.simulate('blur');
-    secondButton.simulate('blur');
+    firstButton.focus();
+    firstButton.blur();
+    secondButton.blur();
 
     clickOutside();
 
-    expect(onButtonBlur).toHaveBeenCalledTimes(2);
+    expect(onButtonBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 });

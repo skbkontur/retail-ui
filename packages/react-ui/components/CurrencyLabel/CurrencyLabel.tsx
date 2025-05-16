@@ -5,6 +5,7 @@ import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 export interface CurrencyLabelProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Устанавливает минимальное количество отображаемых знаков после запятой.
@@ -30,29 +31,33 @@ export const CurrencyLabelDataTids = {
 /**
  * `CurrencyLabel` — подпись для денежных сумм (и других числовых значений).
  */
-export const CurrencyLabel = ({
-  id,
-  value,
-  fractionDigits = FRACTION_DIGITS_DEFAULT,
-  currencySymbol,
-  hideTrailingZeros = false,
-  ...rest
-}: CurrencyLabelProps): JSX.Element => {
-  return (
-    <CommonWrapper {...rest}>
-      <span id={id} data-tid={CurrencyLabelDataTids.root}>
-        {CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros })}
-        {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
-        {currencySymbol}
-      </span>
-    </CommonWrapper>
-  );
-};
-
-CurrencyLabel.__KONTUR_REACT_UI__ = 'CurrencyLabel';
-CurrencyLabel.displayName = 'CurrencyLabel';
+const CurrencyLabel = forwardRefAndName(
+  'CurrencyLabel',
+  function CurrencyLabel(
+    {
+      id,
+      value,
+      fractionDigits = FRACTION_DIGITS_DEFAULT,
+      currencySymbol,
+      hideTrailingZeros = false,
+      ...rest
+    }: CurrencyLabelProps,
+    ref: React.Ref<HTMLDivElement>,
+  ) {
+    return (
+      <CommonWrapper {...rest}>
+        <span id={id} data-tid={CurrencyLabelDataTids.root} ref={ref}>
+          {CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros })}
+          {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
+          {currencySymbol}
+        </span>
+      </CommonWrapper>
+    );
+  },
+);
 
 CurrencyLabel.propTypes = {
+  // @ts-ignore
   fractionDigits: ({ fractionDigits = FRACTION_DIGITS_DEFAULT, value }: CurrencyLabelProps) => {
     if (fractionDigits > MAX_SAFE_DIGITS) {
       return new Error(
@@ -74,7 +79,8 @@ CurrencyLabel.propTypes = {
         `[CurrencyLabel]: Prop 'fractionDigits' is not integer, fraction part of these property will not be used`,
       );
     }
-
     return null;
   },
 };
+
+export { CurrencyLabel };
