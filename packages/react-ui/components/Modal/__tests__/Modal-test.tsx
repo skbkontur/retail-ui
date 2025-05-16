@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { mount } from 'enzyme';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { StickyDataTids } from '../../../components/Sticky';
+import { StickyDataTids } from '../../Sticky';
 import { Modal, ModalDataTids } from '../Modal';
 import { componentsLocales as ModalLocalesRu } from '../locale/locales/ru';
 import { componentsLocales as ModalLocalesEn } from '../locale/locales/en';
+import { ModalStack } from '../../../lib/ModalStack';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -217,17 +217,25 @@ describe('Modal', () => {
   });
 
   it('correct position in stack', () => {
-    const wrapper1 = mount(<Modal />);
+    const modal1Ref = React.createRef<Modal>();
+    const modal2Ref = React.createRef<Modal>();
+    const add = jest.spyOn(ModalStack, 'add');
+    const { rerender } = render(<Modal ref={modal1Ref} />);
 
-    expect(wrapper1.state('stackPosition')).toBe(0);
+    expect(add).toHaveBeenCalledTimes(1);
 
-    const wrapper2 = mount(<Modal />);
+    rerender(
+      <Modal ref={modal1Ref}>
+        <Modal ref={modal2Ref} />
+      </Modal>,
+    );
 
-    expect(wrapper1.state('stackPosition')).toBe(1);
+    expect(add).toHaveBeenCalledTimes(2);
 
-    wrapper2.unmount();
+    const { mounted } = ModalStack.getStackInfo();
 
-    expect(wrapper1.state('stackPosition')).toBe(0);
+    expect(mounted[0]).toStrictEqual(modal2Ref.current);
+    expect(mounted[1]).toStrictEqual(modal1Ref.current);
   });
 
   describe('a11y', () => {
@@ -252,8 +260,7 @@ describe('Modal', () => {
     it('passes correct value to `aria-labelledby` attribute', () => {
       const labelId = 'labelId';
       render(<Modal aria-labelledby={labelId} />);
-
-      expect(screen.getAllByTestId(ModalDataTids.container)[1]).toHaveAttribute('aria-labelledby', labelId);
+      expect(screen.getByTestId(ModalDataTids.container)).toHaveAttribute('aria-labelledby', labelId);
     });
 
     it('has correct value on close button aria-label attribute (ru)', () => {
@@ -272,7 +279,7 @@ describe('Modal', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute(
+      expect(screen.getByTestId(ModalDataTids.close)).toHaveAttribute(
         'aria-label',
         ModalLocalesEn.closeButtonAriaLabel,
       );
@@ -286,7 +293,7 @@ describe('Modal', () => {
         </LocaleContext.Provider>,
       );
 
-      expect(screen.getAllByTestId(ModalDataTids.close)[1]).toHaveAttribute('aria-label', customAriaLabel);
+      expect(screen.getByTestId(ModalDataTids.close)).toHaveAttribute('aria-label', customAriaLabel);
     });
   });
 });

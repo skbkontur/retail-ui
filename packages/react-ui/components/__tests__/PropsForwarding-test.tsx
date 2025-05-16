@@ -1,15 +1,31 @@
 import React from 'react';
-import type { ReactWrapper } from 'enzyme';
-import { mount } from 'enzyme';
-import { act } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 
+import * as ReactUI from '../../index';
 import type { AnyObject } from '../../lib/utils';
 import { delay } from '../../lib/utils';
-import * as ReactUI from '../../index';
+import type { Toast } from '../../index';
+import { ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
+import { InputLikeTextDataTids } from '../../internal/InputLikeText';
+import { getRootNode } from '../../lib/rootNode';
+
+function isPublicComponent(component: any, name: string) {
+  //skip contexts
+  switch (name) {
+    case 'ResponsiveLayout':
+    case 'ReactUIFeatureFlagsContext':
+    case 'LocaleContext':
+    case 'ThemeContext':
+      return false;
+    default:
+      return Object.prototype.hasOwnProperty.call(component, '__KONTUR_REACT_UI__');
+  }
+}
 
 // all components that are available for import from the react-ui
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter((name) => {
-  return isPublicComponent((ReactUI as any)[name]);
+  return isPublicComponent((ReactUI as any)[name], name);
 });
 
 // some components have required props
@@ -29,7 +45,7 @@ const DEFAULT_PROPS = {
   DropdownMenu: { caption: <button>caption</button> },
   Gapped: { children: '' },
   MenuHeader: { children: '' },
-  Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 0 },
+  Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 3 },
   Sticky: { side: 'top' },
   Switcher: { items: [] },
   Tabs: { value: '' },
@@ -42,6 +58,8 @@ const DEFAULT_PROPS = {
   Toast: { children: <i /> },
   ResponsiveLayout: { children: <i /> },
   Tab: { id: 'tab' },
+  GlobalLoader: { active: true },
+  MaskedInput: { mask: '99:99' },
 };
 
 // allows rendering Tab not only inside Tabs
@@ -52,86 +70,86 @@ jest.mock('invariant', () => (...args: any[]) => {
   }
 });
 
-const createWrapper = <T extends React.Component>(compName: string, initProps: AnyObject = {}) => {
+const createWrapper = (compName: string, initProps: AnyObject = {}): RenderResult => {
   const component = (ReactUI as any)[compName];
   const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
-  return mount<T>(React.createElement(component, props));
+  return render(React.createElement(component, props));
 };
 
 describe('Props Forwarding', () => {
   // check that className, style and data-* are being forwarding
   // correctly into all public components
   describe('Common Props', () => {
-    const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
+    function getTestDOMNode<T>(compName: string, ref: React.RefObject<T>) {
       switch (compName) {
-        case 'Hint':
-        case 'Tooltip':
-          return wrapper.find('Portal').last().getDOMNode();
-        case 'Paging':
-          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Paging>).setProps({ pagesCount: 3 });
-          wrapper.update();
-          return wrapper.getDOMNode();
+        //root wrapper to far from styled container
         case 'Toast':
           act(() => {
-            (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Toast');
+            const strictRef = ref as React.RefObject<Toast>;
+            strictRef.current?.push('Toast');
           });
-          wrapper.update();
-          return wrapper.find('ToastView').getDOMNode();
+          return screen.getByTestId(props['data-tid']);
         case 'SingleToast':
           act(() => {
-            (wrapper.instance().constructor as typeof ReactUI.SingleToast).push('Toast');
+            SingleToast.push('SingleToast');
           });
-          wrapper.update();
-          return wrapper.find('ToastView').getDOMNode();
-        case 'GlobalLoader':
-          (wrapper as ReactWrapper<unknown, unknown, ReactUI.GlobalLoader>).setProps({ active: true });
-          wrapper.update();
-          return wrapper.getDOMNode();
+          return screen.getByTestId(props['data-tid']);
+        case 'MiniModalHeader':
+        case 'MiniModalBody':
+        case 'MiniModalFooter':
+        case 'ModalHeader':
+        case 'ModalFooter': {
+          return screen.getByTestId(props['data-tid']);
+        }
         default:
-          return wrapper.getDOMNode();
+          return getRootNode(ref?.current as React.ReactInstance);
       }
+    }
+    const props = {
+      'data-tid': 'my-data-tid',
+      'data-testid': 'my-data-testid',
+      className: 'my-classname',
+      style: {
+        width: '95.5%',
+        color: 'red',
+      },
     };
 
-    it.each<[string, ReactWrapper]>(PUBLIC_COMPONENTS.map((name) => [name, createWrapper(name)]))(
-      '%s',
-      async (compName, wrapper) => {
-        const props = {
-          'data-tid': 'my-data-tid',
-          'data-testid': 'my-data-testid',
-          className: 'my-classname',
-          style: {
-            width: '95.5%',
-            color: 'red',
-          },
-        };
-        wrapper.setProps(props);
-        await delay(0);
-        const wrapperNode = getTestDOMNode(compName, wrapper);
-
-        expect(wrapperNode).toHaveAttribute('data-tid', props['data-tid']);
-        expect(wrapperNode).toHaveAttribute('data-testid', props['data-testid']);
-        expect(wrapperNode).toHaveClass(props.className);
-        expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
-      },
-    );
+    it.each<[string]>(PUBLIC_COMPONENTS.map((name) => [name]))('%s', async (compName) => {
+      const ref = React.createRef();
+      createWrapper(compName, { ...props, ref });
+      await delay(0);
+      const wrapperNode = getTestDOMNode(compName, ref);
+      if (!wrapperNode) {
+        throw new Error(`Unable to find rootWrapper ${compName}`);
+      }
+      expect(wrapperNode).toHaveAttribute('data-tid', props['data-tid']);
+      expect(wrapperNode).toHaveAttribute('data-testid', props['data-testid']);
+      expect(wrapperNode).toHaveClass(props.className);
+      expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
+    });
   });
 
   // check that "inputMode" prop gets forwarded to all relevant input-like components
   describe('"inputMode" prop', () => {
-    const getTestWrapper = (compName: string, wrapper: ReactWrapper) => {
+    const getNumericWrapper = (compName: string, container: HTMLElement) => {
       switch (compName) {
-        case 'TokenInput':
-        case 'Textarea':
-          return wrapper.find('textarea');
-        case 'ComboBox':
-          wrapper.find('[tabIndex]').simulate('focus');
-          return wrapper.find('input');
+        case 'ComboBox': {
+          const inputLikeText = screen.getByTestId(InputLikeTextDataTids.root);
+          if (!inputLikeText) {
+            throw new Error(`Can not find inputLikeText in: ${compName}`);
+          }
+          fireEvent.focus(inputLikeText);
+          return screen.getByRole('textbox');
+        }
+        case 'PasswordInput':
+          return container.querySelector(`input[inputmode='numeric']`);
         default:
-          return wrapper.find('input');
+          return screen.getByRole('textbox');
       }
     };
 
-    it.each<keyof typeof ReactUI>([
+    it.each([
       'Input',
       'FxInput',
       'CurrencyInput',
@@ -144,25 +162,25 @@ describe('Props Forwarding', () => {
       const props = {
         inputMode: 'numeric',
       };
-      const wrapper = createWrapper(compName, props);
-      const testWrapper = getTestWrapper(compName, wrapper);
-
-      expect(testWrapper.props()).toMatchObject(props);
+      const { container } = createWrapper(compName, props);
+      const wrapper = getNumericWrapper(compName, container);
+      expect(wrapper).toHaveAttribute('inputmode', 'numeric');
     });
   });
 
   // check that the width prop still works
   describe('"width" Prop', () => {
-    const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
+    const width = '99px';
+    const getRootWrapper = (compName: string, ref: React.RefObject<React.ReactInstance>) => {
       switch (compName) {
         case 'Modal':
-          return wrapper.find('[data-tid~="modal-content"] > div').getDOMNode();
-        case 'SidePage':
-          return wrapper.find('div[data-tid~="SidePage__root"]').getDOMNode();
+          return screen.getByTestId(ModalDataTids.content).firstChild;
         case 'TokenInput':
-          return wrapper.find('label').getDOMNode();
+          return screen.getByTestId(TokenInputDataTids.label);
+        case 'SidePage':
+          return screen.getByTestId(SidePageDataTids.root);
         default:
-          return wrapper.getDOMNode();
+          return getRootNode(ref?.current);
       }
     };
 
@@ -183,19 +201,14 @@ describe('Props Forwarding', () => {
       'Tabs',
       'TokenInput',
     ])('%s', (compName) => {
-      const width = '99px';
-      const wrapper = createWrapper(compName, { width });
-      const testDOMNode = getTestDOMNode(compName, wrapper);
+      const ref = React.createRef<React.ReactInstance>();
+      createWrapper(compName, { width, ref });
+      const rootWrapper = getRootWrapper(compName, ref);
+      if (!rootWrapper) {
+        throw new Error(`Unable to find rootWrapper ${compName}`);
+      }
 
-      expect(getComputedStyle(testDOMNode).width).toBe(width);
+      expect(getComputedStyle(rootWrapper as Element).width).toBe(width);
     });
   });
 });
-
-function isPublicComponent(component: any) {
-  // it's either ClassComponent or FunctionalComponent with Kontur's mark
-  return (
-    typeof component === 'function' &&
-    (component.prototype.isReactComponent || Object.prototype.hasOwnProperty.call(component, '__KONTUR_REACT_UI__'))
-  );
-}

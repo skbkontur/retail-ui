@@ -7,6 +7,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import type { SizeProp } from '../../lib/types/props';
 import { MenuContext } from '../../internal/Menu/MenuContext';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './MenuHeader.styles';
 
@@ -32,51 +33,58 @@ export const MenuHeaderDataTids = {
  *
  * Сущности в которых может быть использован `MenuHeader`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
-function MenuHeader({ id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps) {
-  const theme = useContext(ThemeContext);
-  const menuContext = useContext(MenuContext);
 
-  function getRootSizeClassName() {
-    switch (size) {
-      case 'large':
-        return styles.rootLarge(theme);
-      case 'medium':
-        return styles.rootMedium(theme);
-      case 'small':
-      default:
-        return styles.rootSmall(theme);
+const MenuHeader = forwardRefAndName(
+  'MenuHeader',
+  function MenuHeader(
+    { id, _enableIconPadding = false, children, size = 'small', ...rest }: MenuHeaderProps,
+    ref: React.Ref<HTMLDivElement>,
+  ) {
+    const theme = useContext(ThemeContext);
+    const menuContext = useContext(MenuContext);
+
+    function getRootSizeClassName() {
+      switch (size) {
+        case 'large':
+          return styles.rootLarge(theme);
+        case 'medium':
+          return styles.rootMedium(theme);
+        case 'small':
+        default:
+          return styles.rootSmall(theme);
+      }
     }
-  }
-  function getWithLeftPaddingSizeClassName() {
-    switch (size) {
-      case 'large':
-        return styles.withLeftPaddingSmall(theme);
-      case 'medium':
-        return styles.withLeftPaddingMedium(theme);
-      case 'small':
-      default:
-        return styles.withLeftPaddingSmall(theme);
+    function getWithLeftPaddingSizeClassName() {
+      switch (size) {
+        case 'large':
+          return styles.withLeftPaddingSmall(theme);
+        case 'medium':
+          return styles.withLeftPaddingMedium(theme);
+        case 'small':
+        default:
+          return styles.withLeftPaddingSmall(theme);
+      }
     }
-  }
 
-  return (
-    <CommonWrapper {...rest}>
-      <div
-        id={id}
-        data-tid={MenuHeaderDataTids.root}
-        className={cx(getRootSizeClassName(), {
-          [styles.root(theme)]: true,
-          [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding || _enableIconPadding,
-        })}
-      >
-        {children}
-      </div>
-    </CommonWrapper>
-  );
-}
+    return (
+      <CommonWrapper {...rest}>
+        <div
+          ref={ref}
+          id={id}
+          data-tid={MenuHeaderDataTids.root}
+          className={cx(getRootSizeClassName(), {
+            [styles.root(theme)]: true,
+            [getWithLeftPaddingSizeClassName()]: menuContext.enableIconPadding || _enableIconPadding,
+          })}
+        >
+          {children}
+        </div>
+      </CommonWrapper>
+    );
+  },
+);
 
-MenuHeader.__KONTUR_REACT_UI__ = 'MenuHeader';
-MenuHeader.displayName = 'MenuHeader';
+//@ts-ignore
 MenuHeader.__MENU_HEADER__ = true;
 
 export { MenuHeader };

@@ -1,7 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { InputDataTids } from '../../Input';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -41,17 +40,18 @@ describe('PasswordInput', () => {
     expect(input).toHaveAttribute('type', 'text');
   });
 
-  //update test after upgrading RTL version
-  it('should at first render CapsLock label then hide it', () => {
-    const component = mount(<PasswordInput value="" detectCapsLock />);
+  it('should at first render CapsLock label then hide it', async () => {
+    render(<PasswordInput value="" detectCapsLock />);
+    await userEvent.click(screen.getByTestId(PasswordInputDataTids.eyeIcon));
+    act(() => {
+      fireEvent.keyPress(screen.getByRole('textbox'), { key: '1', code: 65, charCode: 65 });
+    });
 
-    component.find('input').simulate('keypress', { key: 'a', getModifierState: () => false });
-    component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => true });
-    expect(component.find(`[data-tid~="PasswordInputCapsLockDetector"]`)).toHaveLength(1);
+    await userEvent.keyboard('{capslock}');
+    expect(screen.queryByTestId(`PasswordInputCapsLockDetector`)).toBeInTheDocument();
 
-    component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => false });
-
-    expect(component.find(`[data-tid~="PasswordInputCapsLockDetector"]`)).toHaveLength(0);
+    await userEvent.keyboard('{capslock}');
+    expect(screen.queryByTestId(`PasswordInputCapsLockDetector`)).not.toBeInTheDocument();
   });
 
   it('should focus on the input after clicking on the toggle button', async () => {

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import userEvent from '@testing-library/user-event';
-import { mount } from 'enzyme';
 
 import { InputDataTids } from '../../Input';
 import type { AutocompleteProps } from '../Autocomplete';
 import { Autocomplete, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
 import { delay, clickOutside } from '../../../lib/utils';
+import * as listenFocusOutside from '../../../lib/listenFocusOutside';
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
@@ -440,6 +440,34 @@ describe('<Autocomplete />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('autocomplete', 'off');
   });
 
+  it('passes props to input', async () => {
+    const onKeyPress = jest.fn();
+    const Comp = () => {
+      const [value, setValue] = useState('hello');
+      return (
+        <>
+          <Autocomplete value={value} onValueChange={setValue} onKeyPress={onKeyPress} />
+        </>
+      );
+    };
+    render(<Comp />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('hello');
+    await userEvent.type(screen.getByRole('textbox'), ' world!');
+    expect(onKeyPress).toHaveBeenCalledTimes(7);
+    expect(screen.getByRole('textbox')).toHaveValue('hello world!');
+  });
+
+  it(`don't call listenFocusOutside method when where is no focus`, () => {
+    const focusOutsideListener = jest.spyOn(listenFocusOutside, 'listen');
+    const props = { value: '', source: [], onValueChange: () => '' };
+    render(<Autocomplete {...props} />);
+
+    clickOutside();
+
+    expect(focusOutsideListener).not.toHaveBeenCalled();
+  });
+
   describe('a11y', () => {
     it('should connect dropdown with input through aria-controls', async () => {
       const Comp = () => {
@@ -467,36 +495,6 @@ describe('<Autocomplete />', () => {
     render(<Autocomplete aria-label={ariaLabel} source={['one']} value={'one'} onValueChange={jest.fn()} />);
 
     expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
-  });
-});
-
-describe('<Autocomplete Enzyme/>', () => {
-  //TODO: при имитации RTL ввода с клавиш символов не вызывается onKeyPress
-  //если заданное условие для вызова выполнилось, поэтому пока оставили на Enzyme
-  it('passes props to input', () => {
-    const props = {
-      value: 'hello',
-      onKeyPress: () => undefined,
-    };
-
-    const wrapper = mount<Autocomplete>(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);
-    const inputProps = wrapper.find('Input').props();
-
-    expect(inputProps).toMatchObject(props);
-  });
-
-  //TODO: Придумать как перевести на RTL
-  it(`don't call handleBlur() method when where is no focus`, () => {
-    const handleBlur = jest.fn();
-    const props = { value: '', source: [], onValueChange: () => '' };
-    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
-
-    // @ts-expect-error: Use of private property.
-    wrapper.instance().handleBlur = handleBlur;
-
-    clickOutside();
-
-    expect(handleBlur).not.toHaveBeenCalled();
   });
 });
 

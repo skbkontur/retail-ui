@@ -70,7 +70,7 @@ export class ModalStack {
     return false;
   }
 
-  private static getStackInfo(): StackInfo {
+  public static getStackInfo(): StackInfo {
     const globalWithStack = globalObject as GlobalWithStackInfo;
     return (
       globalWithStack.__ReactUIStackInfo ||

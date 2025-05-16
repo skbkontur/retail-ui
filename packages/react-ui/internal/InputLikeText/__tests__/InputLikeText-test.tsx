@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { mount } from 'enzyme';
 
 import { InputLikeText, InputLikeTextDataTids } from '../InputLikeText';
 
@@ -8,13 +7,13 @@ describe('InputLikeText', () => {
   describe('placeholder', () => {
     it.each([[null], [undefined], ['']])('renders placeholder if value equals "%s"', (value) => {
       const placeholder = 'placeholder';
-      const wrapper = mount(<InputLikeText placeholder={placeholder}>{value}</InputLikeText>);
-      expect(wrapper.text()).toBe(placeholder);
+      const { baseElement } = render(<InputLikeText placeholder={placeholder}>{value}</InputLikeText>);
+      expect(baseElement.textContent).toBe(placeholder);
     });
 
     it.each([[0], ['value']])('renders value if value equals "%s"', (value) => {
-      const wrapper = mount(<InputLikeText placeholder="placeholder">{value}</InputLikeText>);
-      expect(wrapper.text()).toBe(value.toString());
+      const { baseElement } = render(<InputLikeText placeholder="placeholder">{value}</InputLikeText>);
+      expect(baseElement.textContent).toBe(value.toString());
     });
   });
 
