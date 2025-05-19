@@ -18,6 +18,27 @@
     font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
   }
 
+  #storybook-docs .sbdocs-content > h2 {
+    margin-top: 12px;
+    border-bottom: none !important;
+  }
+
+  #storybook-docs .sbdocs-content > h2:empty {
+    display: none;
+  }
+
+  #storybook-docs .sbdocs-content > div > h3 {
+    margin: 24px 0 12px;
+  }
+
+  #storybook-docs .sbdocs-content > div > p {
+    margin: 8px 0;
+  }
+
+  #storybook-docs .sbdocs-content > p + h2 {
+    margin-top: 32px;
+  }
+
   #storybook-docs .sbdocs-wrapper p,
   #storybook-docs .sbdocs-wrapper li {
     font-size: 16px;
@@ -139,8 +160,12 @@
     content: none !important;
   }
 
+  .toc-list-item.is-active-li > a {
+    font-weight: 700 !important;
+  }
+
   .toc-list-item > a {
-    color: #3c3c3c !important;
+    color: #222 !important;
 
     &:hover {
       color: #222 !important;
