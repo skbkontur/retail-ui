@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import type { ToastProps } from '../Toast/Toast';
+import type { ToastClose, ToastProps, ToastPush } from '../Toast/Toast';
 import { Toast } from '../Toast/Toast';
 
 /**
@@ -16,11 +16,11 @@ export class SingleToast extends React.Component<ToastProps> {
   public static displayName = 'SingleToast';
 
   public static ref = React.createRef<Toast>();
-  public static push: typeof Toast.push = (...args) => {
+  public static push: ToastPush = (...args) => {
     SingleToast.close();
     SingleToast.ref.current?.push(...args);
   };
-  public static close: typeof Toast.close = () => {
+  public static close: ToastClose = () => {
     if (React.version.search('18') === 0) {
       ReactDOM.flushSync(() => SingleToast.ref.current?.close());
     } else {
