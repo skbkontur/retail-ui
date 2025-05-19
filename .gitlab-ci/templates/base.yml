@@ -10,6 +10,8 @@
       - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
       - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
       - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
+  after_script:
+    - source .gitlab-ci/scripts/logging/print_versions.sh $WORKSPACE
 
 .install-browser-utilities:
   before_script:
@@ -21,6 +23,11 @@
       libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1
       libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release
       xdg-utils wget
+
+.install-ip-utilities:
+  before_script:
+    - apt-get update
+    - apt-get install -yq iproute2
 
 .react-ui-workspace:
   variables:

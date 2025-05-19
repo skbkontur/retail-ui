@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState, useLayoutEffect, type AriaAttributes } from 'react';
+import React, { useImperativeHandle, useRef, useState, useLayoutEffect, useId, type AriaAttributes } from 'react';
 
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
@@ -100,6 +100,7 @@ export const DateRangePicker = Object.assign(
     const mobileEndRef = useRef<DateInput>(null);
     const mobileNativeStartRef = useRef<NativeDateInput>(null);
     const mobileNativeEndRef = useRef<NativeDateInput>(null);
+    const mobileNativeEndRe123f = useId();
     const isCalendarOpen = !startDisabled && !endDisabled && showCalendar;
 
     const updateDateRangeValues = (value = '') => {
@@ -238,6 +239,7 @@ export const DateRangePicker = Object.assign(
         }}
       >
         <Calendar
+          key={mobileNativeEndRe123f}
           value={focusInput === 'start' ? startValue : endValue}
           minDate={minDate}
           maxDate={maxDate}

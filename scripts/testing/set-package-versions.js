@@ -12,6 +12,10 @@ if (!(reactVersion && tsVersion)) {
   return;
 }
 
+console.log("REACT_VERSION", process?.env?.REACT_VERSION);
+console.log("TYPESCRIPT_VERSION", process?.env?.TYPESCRIPT_VERSION);
+console.log("STRICT_MODE", process?.env?.STRICT_MODE);
+
 const packagesPath = path.resolve(__dirname, "..", "..", "packages");
 const {react, typescript} = getJsonFile(path.resolve(__dirname, "package-versions.json"));
 

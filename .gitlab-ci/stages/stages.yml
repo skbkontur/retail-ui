@@ -1,5 +1,5 @@
 stages:
+  - diff.versions.testing
   - .pre
   - test
   - publish
-  - night
