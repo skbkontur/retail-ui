@@ -45,6 +45,15 @@ export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonPr
   theme?: ThemeIn;
 }
 
+export type ToastPush = (
+  notification: string,
+  action?: Nullable<Action>,
+  showTime?: number,
+  showCloseIcon?: boolean,
+) => void;
+
+export type ToastClose = () => void;
+
 export const ToastDataTids = {
   toastStatic: 'StaticToast',
   toastView: 'ToastView__root',
@@ -70,14 +79,19 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private theme!: Theme;
 
   /** @deprecated use `push` method in ref or `SingleToast.push` */
-  public static push(notification: string, action?: Nullable<Action>, showTime?: number, showCloseIcon?: boolean) {
+  public static push: ToastPush = (
+    notification: string,
+    action?: Nullable<Action>,
+    showTime?: number,
+    showCloseIcon?: boolean,
+  ) => {
     ToastStatic.push(notification, action, showTime, showCloseIcon);
-  }
+  };
 
   /** @deprecated use `close` method in ref or `SingleToast.close` */
-  public static close() {
+  public static close: ToastClose = () => {
     ToastStatic.close();
-  }
+  };
 
   public _toast: Nullable<ToastView>;
   private _timeout: SafeTimer;
