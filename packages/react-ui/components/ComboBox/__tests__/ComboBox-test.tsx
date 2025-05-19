@@ -1660,4 +1660,12 @@ describe('mobile comboBox', () => {
     expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();
     expect(await screen.findAllByRole('button')).toHaveLength(menuItemsCount);
   });
+
+  it('should fire onKeyDown on input value', async () => {
+    const onInputKeyDown = jest.fn();
+    render(<ComboBox ref={comboBoxRef} getItems={getItems} onInputKeyDown={onInputKeyDown} />);
+
+    await userEvent.type(screen.getByTestId(InputLikeTextDataTids.root), 'ab');
+    expect(onInputKeyDown).toHaveBeenCalledTimes(2);
+  });
 });
