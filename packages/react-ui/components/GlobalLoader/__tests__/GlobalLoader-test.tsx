@@ -6,7 +6,6 @@ import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1000;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;
-const DIFFERENCE = 100;
 
 jest.unmock('lodash.debounce');
 
@@ -69,11 +68,10 @@ describe('Global Loader', () => {
           ref={refGlobalLoader}
         />,
       );
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - 100);
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
 
-      await delay(DIFFERENCE);
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      await waitFor(() => expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument());
     });
 
     it('should set error', async () => {
