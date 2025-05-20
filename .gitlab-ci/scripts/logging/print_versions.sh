@@ -10,7 +10,7 @@ CreeveyReport=$(cat <<-END
     {
         "external_link": {
             "label": "Creevey Report",
-            "url": "https://ui.gitlab-pages.kontur.host/-/$package_path/-/jobs/$CI_JOB_ID/artifacts/packages/react-ui/reports/index.html"
+            "url": "https://ui.gitlab-pages.kontur.host/-/${package_path#@skbkontur}/-/jobs/$CI_JOB_ID/artifacts/packages/react-ui/reports/index.html"
         }
     },
 END
