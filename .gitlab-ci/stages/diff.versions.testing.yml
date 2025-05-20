@@ -1,5 +1,6 @@
 matrix-tests:
   stage: diff.versions.testing
+  needs: []
   parallel:
     matrix:
       - REACT_VERSION: [ "17", "18" ]
