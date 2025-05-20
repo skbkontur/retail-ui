@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -100,12 +100,11 @@ describe('<Input />', () => {
   it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, async () => {
     const updatedType = 'number';
     const Component = () => {
-      const id = useId();
       const [type, setType] = useState<InputType>('text');
 
       return (
         <>
-          <Input type={type} mask="123" key={id} />
+          <Input type={type} mask="123" />
           <button onClick={() => setType(updatedType)}>change type to date</button>
         </>
       );
