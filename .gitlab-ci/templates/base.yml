@@ -1,15 +1,12 @@
 .test-base:
-  image: docker-proxy.kontur.host/node:18
-  tags:
-    - idevops-k8s
   artifacts:
     when: always
     reports:
       annotations: $CI_PROJECT_DIR/annotations.json
       junit:
-      - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
-      - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
-      - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
+        - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
+        - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
+        - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
   after_script:
     - source .gitlab-ci/scripts/logging/print_versions.sh $WORKSPACE
 
@@ -26,17 +23,16 @@
 
 .install-ip-utilities:
   before_script:
-    - apt-get update
-    - apt-get install -yq iproute2
+    - echo "hello"
 
 .react-ui-workspace:
   variables:
-    WORKSPACE: "@skbkontur/react-ui"
+    WORKSPACE: '@skbkontur/react-ui'
 
 .react-ui-smoke-test-workspace:
   variables:
-    WORKSPACE: "react-ui-smoke-test"
+    WORKSPACE: 'react-ui-smoke-test'
 
 .react-ui-validations-workspace:
   variables:
-    WORKSPACE: "react-ui-validations"
+    WORKSPACE: 'react-ui-validations'

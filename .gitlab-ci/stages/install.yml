@@ -16,7 +16,6 @@
     policy: pull
 
 yarn_install:
-  image: docker-proxy.kontur.host/node:18-alpine
   extends:
     - .cache_push
   stage: .pre
