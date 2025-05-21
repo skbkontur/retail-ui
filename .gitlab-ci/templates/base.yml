@@ -1,3 +1,5 @@
+include: '/.gitlab-ci/templates/cache.yml'
+
 .test-base:
   artifacts:
     when: always

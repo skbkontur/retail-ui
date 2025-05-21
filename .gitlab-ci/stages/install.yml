@@ -1,3 +1,6 @@
+include:
+  - '/.gitlab-ci/templates/base.yml'
+
 yarn_install:
   extends:
     - .cache_push
