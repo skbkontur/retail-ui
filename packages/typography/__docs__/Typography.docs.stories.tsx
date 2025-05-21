@@ -160,7 +160,8 @@ export const TypographyStory = () => {
             {size}
             {isWideColumn && 'Wide'}
           </b>
-          &nbsp; font-size {size} / line-height {lineHeight.replace('px', '')} / spacing {margin.replace('px 0', '')}
+          &nbsp; font-size {size} / line-height {lineHeight.replace('px', '')}{' '}
+          {isSpacing ? `/ spacing ${margin.replace('px 0', '')}` : ''}
         </div>
 
         <div className={styles.demoText}>
