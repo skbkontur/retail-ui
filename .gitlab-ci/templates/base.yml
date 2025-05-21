@@ -19,7 +19,8 @@
 
 .install-ip-utilities:
   before_script:
-    - echo "hello"
+    - apt-get update
+    - apt-get install -yq iproute2
 
 .react-ui-workspace:
   variables:

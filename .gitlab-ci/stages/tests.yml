@@ -31,8 +31,8 @@ React-UI · Smoke Tests:
         - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
 
 React-UI · Screenshot tests:
-  image: docker-proxy.kontur.host/node:18-alpine
   extends:
+    - .install-ip-utilities
     - .test-base
     - .react-ui-workspace
     - .use-install-cache
@@ -104,8 +104,8 @@ Selenium Testing:
     - echo "что-то с дотнетом, позже разберусь"
 
 Validations · Screenshot tests:
-  image: docker-proxy.kontur.host/node:18-alpine
   extends:
+    - .install-ip-utilities
     - .test-base
     - .react-ui-validations-workspace
     - .use-install-cache
