@@ -1,5 +1,0 @@
-stages:
-  - install
-  - test
-  - publish
-  - diff.versions.testing

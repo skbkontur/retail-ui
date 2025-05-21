@@ -1,5 +1,3 @@
-include: '/.gitlab-ci/templates/base.yml'
-
 React-UI · Lint/Tests:
   stage: test
   extends:

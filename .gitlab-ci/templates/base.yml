@@ -1,5 +1,16 @@
 include: '/.gitlab-ci/templates/cache.yml'
 
+default:
+  image: docker-proxy.kontur.host/node:18
+  tags:
+    - idevops-k8s
+
+stages:
+  - install
+  - test
+  - publish
+  - diff.versions.testing
+
 .test-base:
   artifacts:
     when: always
