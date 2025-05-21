@@ -1,23 +1,6 @@
-.cache_common: &cache_common
-  key:
-    files:
-      - yarn.lock
-  paths:
-    - '**/node_modules/'
-
-.cache_push:
-  cache:
-    <<: *cache_common
-    policy: push
-
-.use_install_cache:
-  cache:
-    <<: *cache_common
-    policy: pull
-
 yarn_install:
   extends:
     - .cache_push
-  stage: .pre
+  stage: install
   script:
     - source .gitlab-ci/scripts/install/install.sh

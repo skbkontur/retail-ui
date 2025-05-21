@@ -1,11 +1,18 @@
-default:
-  image: docker-proxy.kontur.host/node:18-alpine
-  tags:
-    - idevops-k8s
-
 include:
-  - '/.gitlab-ci/stages/stages.yml'
+  - '/.gitlab-ci/templates/base.yml'
+  - '/.gitlab-ci/templates/cache.yml'
   - '/.gitlab-ci/stages/install.yml'
   - '/.gitlab-ci/stages/tests.yml'
   - '/.gitlab-ci/stages/publish.yml'
   - '/.gitlab-ci/stages/diff.versions.testing.yml'
+
+default:
+  image: docker-proxy.kontur.host/node:18
+  tags:
+    - idevops-k8s
+
+stages:
+  - install
+  - test
+  - publish
+  - diff.versions.testing

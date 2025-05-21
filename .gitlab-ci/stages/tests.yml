@@ -1,13 +1,9 @@
-include:
-  - '/.gitlab-ci/templates/base.yml'
-  - '/.gitlab-ci/stages/install.yml'
-
 React-UI · Lint/Tests:
   stage: test
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use_install_cache
+    - .use-install-cache
   script:
     - source .gitlab-ci/scripts/tests/lint.sh $WORKSPACE
     - source .gitlab-ci/scripts/tests/unit.sh $WORKSPACE
@@ -25,11 +21,11 @@ React-UI · Smoke Tests:
     - source .gitlab-ci/scripts/tests/smoke.sh $WORKSPACE
 
 React-UI · Screenshot tests:
+  image: docker-proxy.kontur.host/node:18-alpine
   extends:
-    - .install-ip-utilities
     - .test-base
     - .react-ui-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: test
   artifacts:
     when: always
@@ -43,10 +39,10 @@ React-UI · Build:
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: test
   variables:
-    FILENAME: "skbkontur-react-ui.tgz"
+    FILENAME: 'skbkontur-react-ui.tgz'
   artifacts:
     paths:
       - $CI_PROJECT_DIR/packages/react-ui/$FILENAME
@@ -58,7 +54,7 @@ Validations · Lint/Tests:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: test
   script:
     - source .gitlab-ci/scripts/tests/lint.sh $WORKSPACE
@@ -68,10 +64,10 @@ Validations · Build:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: test
   variables:
-    FILENAME: "skbkontur-react-ui-validations.tgz"
+    FILENAME: 'skbkontur-react-ui-validations.tgz'
   artifacts:
     paths:
       - $CI_PROJECT_DIR/packages/react-ui-validations/build
@@ -90,11 +86,11 @@ Selenium Testing:
     - echo "что-то с дотнетом, позже разберусь"
 
 Validations · Screenshot tests:
+  image: docker-proxy.kontur.host/node:18-alpine
   extends:
-    - .install-ip-utilities
     - .test-base
     - .react-ui-validations-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: test
   artifacts:
     when: always

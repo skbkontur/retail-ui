@@ -1,10 +1,8 @@
-include: '/.gitlab-ci/templates/base.yml'
-
 React-UI · Publish:
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^@skbkontur\/react-ui\/.*$/
@@ -21,7 +19,7 @@ React-UI · Storybook Docs:
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use_install_cache
+    - .use-install-cache
   when: manual
   stage: publish
   script:
@@ -31,7 +29,7 @@ Validations · Publish:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use_install_cache
+    - .use-install-cache
   stage: publish
   rules:
     - if: $CI_COMMIT_TAG =~ /^@skbkontur\/react-ui-validations\/.*$/ # выяснить как стартует
@@ -49,7 +47,7 @@ Validations · Storybook Docs:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use_install_cache
+    - .use-install-cache
   when: manual
   stage: publish
   script:
