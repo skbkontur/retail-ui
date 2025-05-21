@@ -3,10 +3,6 @@
     when: always
     reports:
       annotations: $CI_PROJECT_DIR/annotations.json
-      junit:
-        - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
-        - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
-        - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
   after_script:
     - source .gitlab-ci/scripts/logging/print_versions.sh $WORKSPACE
 

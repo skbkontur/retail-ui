@@ -7,6 +7,11 @@ React-UI · Lint/Tests:
   script:
     - source .gitlab-ci/scripts/tests/lint.sh $WORKSPACE
     - source .gitlab-ci/scripts/tests/unit.sh $WORKSPACE
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
 
 React-UI · Smoke Tests:
   extends:
@@ -19,6 +24,11 @@ React-UI · Smoke Tests:
     # плюс для версионного тестирования нужно патчить файлы в этом проетке
     - source .gitlab-ci/scripts/install/install.sh
     - source .gitlab-ci/scripts/tests/smoke.sh $WORKSPACE
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
 
 React-UI · Screenshot tests:
   image: docker-proxy.kontur.host/node:18-alpine
@@ -31,6 +41,9 @@ React-UI · Screenshot tests:
     when: always
     paths:
       - $CI_PROJECT_DIR/packages/react-ui/reports/*
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
   script:
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
@@ -59,6 +72,11 @@ Validations · Lint/Tests:
   script:
     - source .gitlab-ci/scripts/tests/lint.sh $WORKSPACE
     - source .gitlab-ci/scripts/tests/unit.sh $WORKSPACE
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
 
 Validations · Build:
   extends:
@@ -96,6 +114,9 @@ Validations · Screenshot tests:
     when: always
     paths:
       - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
   script:
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui-validations"
