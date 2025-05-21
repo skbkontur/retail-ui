@@ -3,13 +3,8 @@ default:
   tags:
     - idevops-k8s
 
-stages:
-  - install
-  - test
-  - publish
-  - diff.versions.testing
-
 include:
+  - '/.gitlab-ci/stages/stages.yml'
   - '/.gitlab-ci/stages/install.yml'
   - '/.gitlab-ci/stages/tests.yml'
   - '/.gitlab-ci/stages/publish.yml'
