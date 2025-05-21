@@ -41,10 +41,12 @@ React-UI · Screenshot tests:
     when: always
     paths:
       - $CI_PROJECT_DIR/packages/react-ui/reports/*
+      - $CI_PROJECT_DIR/packages/react-ui/package.json
     reports:
       junit:
         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
   script:
+    - git status
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
 
