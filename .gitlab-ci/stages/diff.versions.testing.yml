@@ -3,9 +3,9 @@ matrix-tests:
   needs: []
   parallel:
     matrix:
-      - REACT_VERSION: [ "17", "18" ]
-        TYPESCRIPT_VERSION: [ "4", "5" ]
-        STRICT_MODE: [ "true", "false" ]
+      - REACT_VERSION: ['17', '18']
+        TYPESCRIPT_VERSION: ['4', '5']
+        STRICT_MODE: ['true', 'false']
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
@@ -13,4 +13,5 @@ matrix-tests:
   trigger:
     strategy: depend
     include:
+      - local: /.gitlab-ci/stages/install.yml
       - local: /.gitlab-ci/stages/tests.yml
