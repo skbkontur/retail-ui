@@ -150,7 +150,8 @@ export const TypographyStory = () => {
   };
 
   const TypographyTile = ({ size, opened, openMenu }) => {
-    const { lineHeight, margin } = TextTokens[size];
+    const sizeName = isWideColumn ? `${size}Wide` : size;
+    const { lineHeight, margin } = TextTokens[sizeName];
 
     return (
       <div className={cx(styles.demo, { [styles.demoActive]: opened })} tabIndex={0} onClick={() => openMenu()}>
