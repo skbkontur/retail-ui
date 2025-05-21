@@ -10,6 +10,10 @@ matrix-tests:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
     - when: manual
+  before_script:
+    - git status
+    - yarn install
+    - git status
   trigger:
     strategy: depend
     include:
