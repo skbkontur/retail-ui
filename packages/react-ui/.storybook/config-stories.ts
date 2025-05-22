@@ -4,7 +4,7 @@ const legacyRootApi = Number(process?.env?.REACT_VERSION || 17) < 18;
 console.log('!!DEBUG!!: ', process?.env?.REACT_VERSION, Number(process?.env?.REACT_VERSION || 17), legacyRootApi);
 
 const config: StorybookConfig = {
-  stories: ['../components/**/!(*.docs)*.stories.tsx', '../internal/**/*.stories.tsx'],
+  stories: ['../components/**/!(*.docs)*(Tooltip|ReactVersion).stories.tsx'],
   docs: {
     docsMode: false,
   },
