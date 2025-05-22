@@ -47,7 +47,7 @@ React-UI · Screenshot tests:
   extends:
     - .test-base
     - .react-ui-workspace
-    # - .use-install-cache
+    - .use-install-cache
   stage: test
   artifacts:
     when: always
