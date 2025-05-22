@@ -1,6 +1,5 @@
 React-UI · Publish:
   extends:
-    - .test-base
     - .react-ui-workspace
     - .use-install-cache
   stage: publish
@@ -17,7 +16,6 @@ React-UI · Publish:
 
 React-UI · Storybook Docs:
   extends:
-    - .test-base
     - .react-ui-workspace
     - .use-install-cache
   when: manual
@@ -27,7 +25,6 @@ React-UI · Storybook Docs:
 
 Validations · Publish:
   extends:
-    - .test-base
     - .react-ui-validations-workspace
     - .use-install-cache
   stage: publish
@@ -45,7 +42,6 @@ Validations · Publish:
 
 Validations · Storybook Docs:
   extends:
-    - .test-base
     - .react-ui-validations-workspace
     - .use-install-cache
   when: manual

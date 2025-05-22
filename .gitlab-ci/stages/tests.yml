@@ -1,3 +1,13 @@
+.test-base:
+  artifacts:
+    when: always
+    reports:
+      annotations: $CI_PROJECT_DIR/annotations.json
+  before_script:
+    - yarn set-testing-package-versions-local
+  after_script:
+    - source .gitlab-ci/scripts/logging/print_versions.sh $WORKSPACE
+
 React-UI · Lint/Tests:
   stage: test
   extends:

@@ -11,14 +11,6 @@ stages:
   - publish
   - diff.versions.testing
 
-.test-base:
-  artifacts:
-    when: always
-    reports:
-      annotations: $CI_PROJECT_DIR/annotations.json
-  after_script:
-    - source .gitlab-ci/scripts/logging/print_versions.sh $WORKSPACE
-
 .install-browser-utilities:
   before_script:
     - apt-get update
