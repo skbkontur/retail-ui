@@ -8,6 +8,10 @@
   after_script:
     - source .gitlab-ci/scripts/logging/print_versions.sh $WORKSPACE
 
+.install-ip-utilities: &install-ip-utilities
+  - apt-get update
+  - apt-get install -yq iproute2
+
 React-UI · Lint/Tests:
   stage: test
   extends:

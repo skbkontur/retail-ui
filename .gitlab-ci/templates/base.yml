@@ -22,10 +22,6 @@ stages:
       libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release
       xdg-utils wget
 
-.install-ip-utilities: &install-ip-utilities
-  - apt-get update
-  - apt-get install -yq iproute2
-
 .react-ui-workspace:
   variables:
     WORKSPACE: '@skbkontur/react-ui'
