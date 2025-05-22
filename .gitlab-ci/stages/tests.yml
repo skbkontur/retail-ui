@@ -59,7 +59,7 @@ React-UI · Screenshot tests:
       junit:
         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
   before_script:
-    <<: *install-ip-utilities
+    - *install-ip-utilities
   script:
     - git status
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
@@ -134,7 +134,7 @@ Validations · Screenshot tests:
       junit:
         - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
   before_script:
-    <<: *install-ip-utilities
+    - *install-ip-utilities
   script:
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui-validations"
