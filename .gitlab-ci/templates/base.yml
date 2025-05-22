@@ -22,10 +22,9 @@ stages:
       libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release
       xdg-utils wget
 
-.install-ip-utilities:
-  before_script:
-    - apt-get update
-    - apt-get install -yq iproute2
+.install-ip-utilities: &install-ip-utilities
+  - apt-get update
+  - apt-get install -yq iproute2
 
 .react-ui-workspace:
   variables:
