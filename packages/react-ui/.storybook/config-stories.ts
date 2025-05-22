@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
+const legacyRootApi = Number(process?.env?.REACT_VERSION || 17) < 18;
 
-console.log('!!DEBUG!!: ', process?.env?.REACT_VERSION, Number(process?.env?.REACT_VERSION || 17));
+console.log('!!DEBUG!!: ', process?.env?.REACT_VERSION, Number(process?.env?.REACT_VERSION || 17), legacyRootApi);
 
 const config: StorybookConfig = {
   stories: ['../components/**/!(*.docs)*.stories.tsx', '../internal/**/*.stories.tsx'],
@@ -24,7 +25,7 @@ const config: StorybookConfig = {
       // strictMode: process?.env?.STRICT_MODE === 'true',
       fastRefresh: true,
       //Для версионного прогона убран, чтобы 18 реакт гонялся по честному
-      // legacyRootApi: Number(process?.env?.REACT_VERSION || 17) < 18,
+      legacyRootApi,
     },
   },
   core: {
