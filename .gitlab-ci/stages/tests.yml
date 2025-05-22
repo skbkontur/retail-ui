@@ -58,7 +58,7 @@ React-UI · Screenshot tests:
       junit:
         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
   script:
-    - yarn install
+    # - yarn install
     - git status
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
