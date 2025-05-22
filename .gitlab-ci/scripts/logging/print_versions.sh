@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 source ./.gitlab-ci/scripts/logging/logging.sh
 
-REACT=${REACT_VERSION:-18}
+REACT=${REACT_VERSION:-17}
 TYPESCRIPT=${TYPESCRIPT_VERSION:-4}
 STRICT=${STRICT_MODE:-'false'}
 
-package_path=$1
+logVerbose "ENV PARAMS:"
+echo "REACT_VERSION: $REACT";
+echo "TYPESCRIPT_VERSION: $TYPESCRIPT";
+echo "STRICT_MODE: $STRICT";
+
+package_path=$1\
 CreeveyReport=$(cat <<-END
     {
         "external_link": {

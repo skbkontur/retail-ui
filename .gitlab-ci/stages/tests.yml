@@ -1,4 +1,6 @@
 .test-base:
+  extends:
+    - .use-install-cache
   artifacts:
     when: always
     reports:
@@ -46,7 +48,6 @@ React-UI · Screenshot tests:
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use-install-cache
   stage: test
   artifacts:
     when: always
@@ -57,11 +58,6 @@ React-UI · Screenshot tests:
       junit:
         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
   script:
-    # - yarn install
-    - ls packages/react-ui/node_modules/.cache/ || true
-    - rm -rf packages/react-ui/node_modules/.cache/ || true
-    - ls packages/react-ui/node_modules/.cache/ || true
-    - git status
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
 # React-UI · Build:
