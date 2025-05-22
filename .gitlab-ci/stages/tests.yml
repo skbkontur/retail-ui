@@ -59,9 +59,9 @@ React-UI · Screenshot tests:
         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
   script:
     # - yarn install
-    - ls packages/react-ui/node_modules/.cache/
-    - rm -rf packages/react-ui/node_modules/.cache/
-    - ls packages/react-ui/node_modules/.cache/
+    # - ls packages/react-ui/node_modules/.cache/
+    # - rm -rf packages/react-ui/node_modules/.cache/
+    # - ls packages/react-ui/node_modules/.cache/
     - git status
     - source .gitlab-ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab-ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
