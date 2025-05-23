@@ -1,13 +1,3 @@
-.install-browser-utilities: &install-browser-utilities
-  - apt-get update
-  - apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2
-    libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libgconf-2-4
-    libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0
-    libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1
-    libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1
-    libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release
-    xdg-utils wget
-
 .test-base:
   extends:
     - .use-install-cache
@@ -20,37 +10,37 @@
   after_script:
     - source .gitlab/ci/scripts/logging/print_versions.sh $WORKSPACE
 
-# React-UI · Lint/Tests:
-#   stage: test
-#   extends:
-#     - .test-base
-#     - .react-ui-workspace
-#     - .use-install-cache
-#   script:
-#     - source .gitlab/ci/scripts/tests/lint.sh $WORKSPACE
-#     - source .gitlab/ci/scripts/tests/unit.sh $WORKSPACE
-#   artifacts:
-#     when: always
-#     reports:
-#       junit:
-#         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
+React-UI · Lint/Tests:
+  stage: test
+  extends:
+    - .test-base
+    - .react-ui-workspace
+    - .use-install-cache
+  script:
+    - source .gitlab/ci/scripts/tests/lint.sh $WORKSPACE
+    - source .gitlab/ci/scripts/tests/unit.sh $WORKSPACE
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
 
-# React-UI · Smoke Tests:
-#   extends:
-#     - .test-base
-#     - .react-ui-smoke-test-workspace
-#   stage: test
-#   script:
-#     - *install-browser-utilities
-#     # доставить браузер в root https://forum.gitlab.com/t/artifacts-outside-the-project-directory/68214 поэтому тут отдельный свой install
-#     # плюс для версионного тестирования нужно патчить файлы в этом проетке
-#     - source .gitlab/ci/scripts/install/install.sh
-#     - source .gitlab/ci/scripts/tests/smoke.sh $WORKSPACE
-#   artifacts:
-#     when: always
-#     reports:
-#       junit:
-#         - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
+React-UI · Smoke Tests:
+  extends:
+    - .test-base
+    - .react-ui-smoke-test-workspace
+  stage: test
+  script:
+    - !reference [.install-browser-utilities, script]
+    # доставить браузер в root https://forum.gitlab.com/t/artifacts-outside-the-project-directory/68214 поэтому тут отдельный свой install
+    # плюс для версионного тестирования нужно патчить файлы в этом проетке
+    - source .gitlab/ci/scripts/install/install.sh
+    - source .gitlab/ci/scripts/tests/smoke.sh $WORKSPACE
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
 
 React-UI · Screenshot tests:
   image: docker-proxy.kontur.host/node:18-alpine # contains ip utility
@@ -69,83 +59,83 @@ React-UI · Screenshot tests:
   script:
     - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
     - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
-# React-UI · Build:
-#   extends:
-#     - .test-base
-#     - .react-ui-workspace
-#     - .use-install-cache
-#   stage: test
-#   variables:
-#     FILENAME: 'skbkontur-react-ui.tgz'
-#   artifacts:
-#     paths:
-#       - $CI_PROJECT_DIR/packages/react-ui/$FILENAME
-#   script:
-#     - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
-#     - source .gitlab/ci/scripts/build/pack.sh $WORKSPACE $FILENAME
+React-UI · Build:
+  extends:
+    - .test-base
+    - .react-ui-workspace
+    - .use-install-cache
+  stage: test
+  variables:
+    FILENAME: 'skbkontur-react-ui.tgz'
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui/$FILENAME
+  script:
+    - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
+    - source .gitlab/ci/scripts/build/pack.sh $WORKSPACE $FILENAME
 
-# Validations · Lint/Tests:
-#   extends:
-#     - .test-base
-#     - .react-ui-validations-workspace
-#     - .use-install-cache
-#   stage: test
-#   script:
-#     - source .gitlab/ci/scripts/tests/lint.sh $WORKSPACE
-#     - source .gitlab/ci/scripts/tests/unit.sh $WORKSPACE
-#   artifacts:
-#     when: always
-#     reports:
-#       junit:
-#         - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
+Validations · Lint/Tests:
+  extends:
+    - .test-base
+    - .react-ui-validations-workspace
+    - .use-install-cache
+  stage: test
+  script:
+    - source .gitlab/ci/scripts/tests/lint.sh $WORKSPACE
+    - source .gitlab/ci/scripts/tests/unit.sh $WORKSPACE
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
 
-# Validations · Build:
-#   extends:
-#     - .test-base
-#     - .react-ui-validations-workspace
-#     - .use-install-cache
-#   stage: test
-#   variables:
-#     FILENAME: 'skbkontur-react-ui-validations.tgz'
-#   artifacts:
-#     paths:
-#       - $CI_PROJECT_DIR/packages/react-ui-validations/build
-#   script:
-#     - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
-#     - source .gitlab/ci/scripts/publish/predeploy.sh $WORKSPACE
-#     - source .gitlab/ci/scripts/build/pack.sh $WORKSPACE $FILENAME
+Validations · Build:
+  extends:
+    - .test-base
+    - .react-ui-validations-workspace
+    - .use-install-cache
+  stage: test
+  variables:
+    FILENAME: 'skbkontur-react-ui-validations.tgz'
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui-validations/build
+  script:
+    - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
+    - source .gitlab/ci/scripts/publish/predeploy.sh $WORKSPACE
+    - source .gitlab/ci/scripts/build/pack.sh $WORKSPACE $FILENAME
 
-# Selenium Testing:
-#   extends:
-#     - .test-base
-#     - .react-ui-validations-workspace
-#   stage: test
-#   when: manual
-#   script:
-#     - echo "что-то с дотнетом, позже разберусь"
+Selenium Testing:
+  extends:
+    - .test-base
+    - .react-ui-validations-workspace
+  stage: test
+  when: manual
+  script:
+    - echo "что-то с дотнетом, позже разберусь"
 
-# Validations · Screenshot tests:
-#   extends:
-#     - .test-base
-#     - .react-ui-validations-workspace
-#     - .use-install-cache
-#   stage: test
-#   artifacts:
-#     when: always
-#     paths:
-#       - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*
-#     reports:
-#       junit:
-#         - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
-#   script:
-#     - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
-#     - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE "react-ui-validations"
+Validations · Screenshot tests:
+  extends:
+    - .test-base
+    - .react-ui-validations-workspace
+    - .use-install-cache
+  stage: test
+  artifacts:
+    when: always
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*
+    reports:
+      junit:
+        - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
+  script:
+    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
+    - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE "react-ui-validations"
 
-# Validations · NUnit:
-#   extends:
-#     - .test-base
-#     - .react-ui-validations-workspace
-#   stage: test
-#   when: manual
-#   script:
-#     - echo "что-то с дотнетом, позже разберусь"
+Validations · NUnit:
+  extends:
+    - .test-base
+    - .react-ui-validations-workspace
+  stage: test
+  when: manual
+  script:
+    - echo "что-то с дотнетом, позже разберусь"
