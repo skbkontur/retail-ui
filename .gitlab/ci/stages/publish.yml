@@ -9,10 +9,9 @@ React-UI · Publish:
     - when: manual
   script:
     - echo "добавить кукисы, дальше работать не будет"
-    - npm config set "//registry.npmjs.org/:_authToken" "$NPM_TOKEN"
+    - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
-    - npm config delete "//registry.npmjs.org/:_authToken"
 
 React-UI · Storybook Docs:
   extends:
@@ -22,17 +21,19 @@ React-UI · Storybook Docs:
   stage: publish
   script:
     - echo "добавить скрипты, дальше работать не будет"
-    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
-    - git clone https://oauth2:$GITLAB_COMMITER_TOKEN@git.skbkontur.ru/ui/docs.git ../docs
-    - mkdir -p ../docs/docs/storybook/$WORKSPACE/${TARGET_DIR:=$CI_COMMIT_REF_NAME} # use branch name if TARGET_DIR is empty in merge request pipeline
-    - cp -r ./packages/react-ui/.storybook/build/* ../docs/docs/storybook/$WORKSPACE/$TARGET_DIR
-    - cd ../docs
-    - git config user.email "ci-commiter@email.com"
-    - git config user.name "ci-commiter"
-    - git add .
-    - git commit -m "deploy docs from ci job $CI_JOB_ID"
-    - git pull --rebase
-    - git push origin master
+    - PACKAGE_VERSION=$(sed 's/^.*@\([0-9a-zA-Z.-]*\)$/\1/' <<< $CI_COMMIT_TAG); # filter the name part from tag, e.g. "@skbkontur/react-ui@"
+    - echo "$PACKAGE_VERSION"
+    # - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
+    # - git clone https://oauth2:$GITLAB_COMMITER_TOKEN@git.skbkontur.ru/ui/docs.git ../docs
+    # - mkdir -p ../docs/docs/storybook/react-ui/${TARGET_DIR:=$("$CI_COMMIT_REF_NAME" | sed 's/^.*@\([0-9a-zA-Z.-]*\)$/\1/')} # use branch name if TARGET_DIR is empty in merge request pipeline
+    # - cp -r ./packages/react-ui/.storybook/build/* ../docs/docs/storybook/react-ui/$TARGET_DIR
+    # - cd ../docs
+    # - git config user.email "ci-commiter@email.com"
+    # - git config user.name "ci-commiter"
+    # - git add .
+    # - git commit -m "deploy docs from ci job $CI_JOB_ID"
+    # - git pull --rebase
+    # - git push origin master
 
 Validations · Publish:
   extends:
