@@ -9,6 +9,8 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
 
+export type ComboBoxViewMode = 'singleLine' | 'multiline' | 'multilineEditing';
+
 export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
@@ -166,6 +168,7 @@ export interface ComboBoxProps<T>
 
   /** Задает типы вводимых данных. */
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  viewMode?: ComboBoxViewMode;
 }
 
 export interface ComboBoxItem {
@@ -185,7 +188,11 @@ type DefaultProps<T> = Required<
     | 'menuAlign'
     | 'searchOnFocus'
     | 'drawArrow'
+<<<<<<< HEAD
+    | 'viewMode'
+=======
     | 'showClearIcon'
+>>>>>>> origin/next
   >
 >;
 
@@ -212,6 +219,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
+    viewMode: 'singleLine',
     showClearIcon: 'never',
   };
 

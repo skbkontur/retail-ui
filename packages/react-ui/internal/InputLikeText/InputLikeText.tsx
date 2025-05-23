@@ -34,6 +34,7 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
   takeContentWidth?: boolean;
+  isMultiline?: boolean;
   onClearCrossClick?: () => void;
 }
 
@@ -201,6 +202,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragEnd,
       takeContentWidth,
       'aria-describedby': ariaDescribedby,
+      isMultiline,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
       showClearIcon,
@@ -225,6 +227,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const rightSide = <InputLayoutAside icon={getRightIcon()} text={suffix} side="right" />;
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+      [styles.rootMultiline()]: isMultiline,
       [jsInputStyles.disabled(this.theme)]: !!disabled,
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
@@ -240,6 +243,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     const wrapperClass = cx(jsInputStyles.wrapper(), {
       [styles.userSelectContain()]: focused,
+      [styles.wrapperMultiline()]: isMultiline,
     });
 
     const context = InputLayoutContextDefault;
@@ -273,7 +277,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
               <span
                 data-tid={InputLikeTextDataTids.input}
                 className={cx(jsInputStyles.input(this.theme), {
-                  [styles.absolute()]: !takeContentWidth,
+                  [styles.absolute()]: !takeContentWidth && !isMultiline,
+                  [styles.multiline()]: isMultiline,
                   [jsInputStyles.inputFocus(this.theme)]: focused,
                   [jsInputStyles.inputDisabled(this.theme)]: disabled,
                 })}
