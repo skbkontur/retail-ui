@@ -2,7 +2,8 @@
   key:
     files:
       - yarn.lock
-      - '**/package.json'
+      - packages/react-ui/package.json
+      - packages/react-ui-validations/package.json
   paths:
     - '**/node_modules/'
 
