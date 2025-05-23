@@ -34,43 +34,28 @@ export interface ModalProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<AriaAttributes, 'aria-label' | 'aria-labelledby'> {
-  /**
-   * Отключает событие onClose, также дизейблит кнопку закрытия модалки
-   */
+  /** Отключает событие `onClose` и дизейблит кнопку закрытия модалки. */
   disableClose?: boolean;
 
-  /**
-   * Выравнивание окна по верху страницы.
-   */
+  /** Выравнивает окно по верху страницы. */
   alignTop?: boolean;
 
-  /**
-   * Не закрывать окно при клике на фон.
-   */
+  /** Оставляет окно открытым при клике на фон. */
   ignoreBackgroundClick?: boolean;
 
-  /**
-   * Не показывать крестик для закрытия окна.
-   */
+  /** Убирает крестик для закрытия окна */
   noClose?: boolean;
+
+  /** Задает длину модалки. */
   width?: number | string;
 
-  /**
-   * Вызывается, когда пользователь запросил закрытие окна (нажал на фон, на
-   * Escape или на крестик).
-   */
+  /** Задает функцию, которая вызывается, когда пользователь запросил закрытие окна (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
 
-  /**
-   * Не использовать фокус-лок внутри модалки.
-   * По умолчанию true для IE11.
-   */
+  /** Отключает фокус-лок внутри модалки. По умолчанию true для IE11. */
   disableFocusLock?: boolean;
 
-  /**
-   * Обычный объект с переменными темы.
-   * Он будет объединён с темой из контекста.
-   */
+  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
   theme?: ThemeIn;
 }
 
@@ -92,21 +77,17 @@ export const ModalDataTids = {
 type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role'>>;
 
 /**
- * Модальное окно
+ * Модальное окно `Modal` — это эмуляция диалогового окна браузера, появляющегося поверх страницы в ответ на действия пользователя и блокирующего доступ к основному содержимому страницы.
  *
- * Содержит в себе три компоненты: **Modal.Header**,
- * **Modal.Body** и **Modal.Footer**
+ * Содержит в себе три компонента: `Modal.Header`, `Modal.Body` и `Modal.Footer`.
  *
- * Для отображения серой плашки в футере в компонент
- * **Footer** необходимо передать пропс **panel**
+ * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
  *
- * Для отключения прилипания шапки и футера
- * в соответствующий компонент нужно передать
- * проп **sticky** со значением **false**
- * (по-умолчанию прилипание включено)
+ * Для отключения прилипания шапки и футера в соответствующий компонент нужно передать проп `sticky` со значением `false` (по-умолчанию прилипание включено).
  */
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
+  public static displayName = 'Modal';
 
   public static Header = ModalHeader;
   public static Body = ModalBody;
@@ -205,10 +186,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         requestClose: this.requestClose,
       };
     }
-    if (!hasFooter) {
-      modalContextProps.additionalPadding = true;
-    }
-    if (hasFooter && hasPanel) {
+    if (!hasFooter || hasPanel) {
       modalContextProps.additionalPadding = true;
     }
 
@@ -362,15 +340,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     LayoutEvents.emit();
   };
 
-  private setHasHeader = (hasHeader = true) => {
-    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  private setHasHeader = (hasHeader: boolean) => {
+    this.setState({ hasHeader });
   };
 
-  private setHasFooter = (hasFooter = true) => {
-    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  private setHasFooter = (hasFooter: boolean) => {
+    this.setState({ hasFooter });
   };
 
-  private setHasPanel = (hasPanel = false) => {
-    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
+  private setHasPanel = (hasPanel: boolean) => {
+    this.setState({ hasPanel });
   };
 }

@@ -4,7 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { SelectProps } from './Select';
 
 export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Theme => {
-  return ThemeFactory.create(
+  const baseTheme = ThemeFactory.create(
     {
       btnDefaultBg: theme.selectDefaultBg,
 
@@ -43,4 +43,10 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
     },
     theme,
   );
+
+  if (props.theme) {
+    return ThemeFactory.create(props.theme, baseTheme);
+  }
+
+  return baseTheme;
 };

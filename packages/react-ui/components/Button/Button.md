@@ -1,12 +1,22 @@
-Базовый пример кнопки.
+### Базовый пример
+По умолчанию, кнопка принимает все пропы `HTMLButtonElement`.
 
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
-<Button>Создать отчёт</Button>;
+<Button onClick={alert} name="report">Создать отчёт</Button>;
 ```
 
-У кнопки есть различные стили.
+### Корневой компонент
+Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`. Кнопка принимает все пропы переданного в `component` компонента.
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button component='a' href='https://kontur.ru' target="_blank">Ссылка, но выглядит как кнопка</Button>
+```
+
+### Различные стили
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -43,6 +53,7 @@ const bgStyle = {
 </Gapped>
 ```
 
+### Иконка
 В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно.
 
 ```jsx harmony
@@ -56,27 +67,42 @@ import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 </Gapped>
 ```
 
-У кнопки есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 <div
-    style={{
-      display: "flex",
-      alignItems: "end",
-      gap: '10px',
-    }}
-  >
-    <Button size="small">Маленькая</Button>
-    <Button size="medium">Средняя</Button>
-    <Button size="large">Большая</Button>
+  style={{
+    display: "flex",
+    alignItems: "end",
+    gap: '10px',
+  }}
+>
+  <Button size="small">Маленькая</Button>
+  <Button size="medium">Средняя</Button>
+  <Button size="large">Большая</Button>
 </div>
 ```
 
-Кнопки могут принимать вид стрелок. В таком случае иконка привязывается к краю кнопки.
+### Ширина
+
+```jsx harmony
+<Button width={40}>Закрыть</Button>
+```
+
+### Состояние валидации
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
+<Gapped gap={5}>
+  <Button warning>Закрыть</Button>
+  <Button error>Закрыть</Button>
+</Gapped>
+```
 
+### Стрелка
+
+```jsx harmony
+import { Gapped, Button } from '@skbkontur/react-ui';
 
 <Gapped gap={5}>
   <Button arrow="left" size="medium">
@@ -88,12 +114,10 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Кнопка в состоянии загрузки.
+### Состояние загрузки
 
 **Поведение:**
-
 Кнопка на время нахождения в состоянии загрузки отключается.
-
 Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая.
 
 ```jsx harmony
@@ -133,7 +157,7 @@ const handleClick = () => {
 
 ```
 
-Пример кнопки с пропом `theme`
+### Проп темы
 
 ```jsx harmony
 import { Button, Gapped } from '@skbkontur/react-ui';
@@ -145,20 +169,18 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-
-Пример кастомизации кнопки-ссылки
+### Кастомизация кнопки-ссылки
 
 ```jsx harmony
 import { Toast } from "@skbkontur/react-ui";
 import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
-  btnLinkLineBorderBottomWidth: '0',
-  btnLinkHoverTextDecoration: 'underline'
+  btnLinkTextUnderlineOffset: '1px',
 }
 
 const underlineOnHoverStyles = {
-  btnLinkLineBorderBottomColor: 'transparent',
+  btnLinkTextDecorationColor: 'transparent',
 }
 
 const differentColorStyles = {
@@ -168,7 +190,7 @@ const differentColorStyles = {
 }
 
 const stringify = (styles) => {
-    return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
+  return `${Object.entries(styles).map(([key, value]) => `${key}: "${value}"`).join(", ")}`
 }
 
 const copyStyles = (styles) => {
@@ -186,19 +208,19 @@ const tdStyle = {
   padding: '8px',
 };
 
-const renderExampleRow = (title, styles, index) => {
-    return (
-        <tr>
-          <td style={tdStyle}>{title}</td>
-          <td style={tdStyle}><Button use={'link'} theme={styles}>Button-link</Button></td>
-          <td style={tdStyle}>
-            <div style={{display: 'flex'}}>
-              <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
-              <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
-            </div>
-          </td>
-        </tr>
-    )
+const renderExampleRow = (title, styles) => {
+  return (
+    <tr>
+      <td style={tdStyle}>{title}</td>
+      <td style={tdStyle}><Button use={'link'} theme={styles}>Button-link</Button></td>
+      <td style={tdStyle}>
+        <div style={{display: 'flex'}}>
+          <div style={{width: '80%', whiteSpace: 'pre-line'}}>{stringify(styles).replace(/, /g, '\n')}</div>
+          <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)}/>
+        </div>
+      </td>
+    </tr>
+  )
 }
 
 <table style={tableStyle}>
@@ -207,8 +229,33 @@ const renderExampleRow = (title, styles, index) => {
     <th style={tdStyle}>Пример</th>
     <th style={tdStyle}>Переменные темы</th>
   </tr>
-  {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+  {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
   {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
+```
+
+### Узкая Кнопка
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+
+<Button narrow>
+  Создать отчет
+</Button>
+```
+
+### Состояния валидации
+
+```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+<Gapped gap={5}>
+  <Button warning>
+    Warning
+  </Button>
+  <Button error>
+    Error
+  </Button>
+</Gapped>
 ```

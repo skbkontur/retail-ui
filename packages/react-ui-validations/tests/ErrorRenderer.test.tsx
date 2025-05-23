@@ -12,7 +12,7 @@ const validate = (): Nullable<ValidationInfo> => {
 };
 
 describe('ErrorRenderer', () => {
-  it('should pass custom data-tid to tooltip', () => {
+  it('should pass custom data-tid to tooltip', async () => {
     const dataTid = 'data-tid';
     render(
       <ValidationWrapper data-tid={dataTid} validationInfo={validate()} renderMessage={tooltip('left bottom')}>
@@ -20,7 +20,7 @@ describe('ErrorRenderer', () => {
       </ValidationWrapper>,
     );
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
 
     expect(screen.getByTestId(dataTid)).toBeInTheDocument();
   });

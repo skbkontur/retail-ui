@@ -1,13 +1,19 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
+import isEqual from 'lodash.isequal';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isInstanceOf } from '../../lib/isInstanceOf';
+import { LoaderDataTids } from '../../components/Loader';
+import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer';
 
-import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
+import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName, componentPriorities } from './ZIndexStorage';
 
-const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
+const DEFAULT_ZINDEX_CONTEXT = { parentLayerZIndex: 0, maxZIndex: Infinity };
+
+const ZIndexContext = React.createContext(DEFAULT_ZINDEX_CONTEXT);
 
 ZIndexContext.displayName = 'ZIndexContext';
 
@@ -42,11 +48,14 @@ type DefaultProps = Required<
 
 interface ZIndexState {
   zIndex: number;
+  DOMZIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null;
 }
 
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
+  public static priorities = componentPriorities;
   public static __KONTUR_REACT_UI__ = 'ZIndex';
+  public static displayName = 'ZIndex';
 
   public static defaultProps: DefaultProps = {
     delta: 10,
@@ -58,8 +67,9 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     useWrapper: true,
   };
 
-  public state = {
+  public state: ZIndexState = {
     zIndex: 0,
+    DOMZIndexContext: null,
   };
 
   private getProps = createPropsGetter(ZIndex.defaultProps);
@@ -76,6 +86,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   };
 
   private setRootNode!: TSetRootNode;
+  private zIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null = null;
 
   constructor(props: ZIndexProps) {
     super(props);
@@ -111,14 +122,23 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
 
     return (
       <ZIndexContext.Consumer>
-        {({ parentLayerZIndex, maxZIndex }) => {
-          let zIndexContextValue = { parentLayerZIndex, maxZIndex };
+        {(context) => {
+          this.zIndexContext = context;
+
+          const currentZIndexContext =
+            this.state.DOMZIndexContext && isEqual(context, DEFAULT_ZINDEX_CONTEXT)
+              ? this.state.DOMZIndexContext
+              : context;
+          const { parentLayerZIndex, maxZIndex } = currentZIndexContext;
+
+          let newZIndexContext = currentZIndexContext;
+          let newZIndex = 0;
 
           if (applyZIndex) {
-            const newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
+            newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
             wrapperStyle.zIndex = newZIndex;
 
-            zIndexContextValue = coverChildren
+            newZIndexContext = coverChildren
               ? { parentLayerZIndex, maxZIndex: newZIndex }
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
@@ -137,7 +157,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
             </div>
           );
 
-          return <ZIndexContext.Provider value={zIndexContextValue}>{child}</ZIndexContext.Provider>;
+          return <ZIndexContext.Provider value={newZIndexContext}>{child}</ZIndexContext.Provider>;
         }}
       </ZIndexContext.Consumer>
     );
@@ -147,6 +167,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     const { wrapperRef } = this.props;
     this.setRootNode(element);
     wrapperRef && callChildRef(wrapperRef, element);
+    element && this.tryGetContextByDOM(element);
   };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
@@ -167,5 +188,36 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     const { priority, delta } = this.getProps();
 
     return incrementZIndex(priority, delta);
+  };
+
+  private tryGetContextByDOM = (element: HTMLDivElement) => {
+    if (
+      this.props.applyZIndex &&
+      isEqual(DEFAULT_ZINDEX_CONTEXT, this.zIndexContext) &&
+      this.state.DOMZIndexContext === null
+    ) {
+      let DOMZIndexContext = DEFAULT_ZINDEX_CONTEXT;
+      const portal = element.parentElement?.closest(`[${PORTAL_OUTLET_ATTR}]`);
+
+      if (isInstanceOf(portal, globalObject.HTMLElement)) {
+        const portalID = portal.getAttribute(PORTAL_OUTLET_ATTR);
+        const noscript = globalObject.document?.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
+        const parent = noscript?.parentElement?.closest('[style*=z-index]');
+
+        if (isInstanceOf(parent, globalObject.HTMLElement)) {
+          const newZIndex = Number(parent.style.zIndex || 0);
+
+          let maxZIndex = Infinity;
+
+          if (parent.parentElement?.dataset.tid === LoaderDataTids.veil) {
+            maxZIndex = this.calcZIndex(newZIndex, maxZIndex);
+          }
+
+          DOMZIndexContext = { maxZIndex, parentLayerZIndex: newZIndex };
+        }
+      }
+
+      this.setState({ DOMZIndexContext });
+    }
   };
 }

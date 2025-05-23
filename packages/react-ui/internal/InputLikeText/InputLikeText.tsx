@@ -1,28 +1,27 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
-import { isFunction, isNonNullable } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
-import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
+import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
+import { calculateClearCrossShowedState, InputDataTids, InputProps, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
-import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { FocusControlWrapper } from '../FocusControlWrapper';
+import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -36,9 +35,10 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   onMouseDragEnd?: MouseDragEventHandler;
   takeContentWidth?: boolean;
   isMultiline?: boolean;
+  onClearCrossClick?: () => void;
 }
 
-export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
+export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder' | 'hovered'>;
 
 export const InputLikeTextDataTids = {
   root: 'InputLikeText__root',
@@ -46,17 +46,39 @@ export const InputLikeTextDataTids = {
   nativeInput: 'InputLikeText__nativeInput',
 } as const;
 
-type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
+type DefaultProps = Required<Pick<InputLikeTextProps, 'size' | 'showClearIcon'>>;
 
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
+  public static displayName = 'InputLikeText';
 
-  public static defaultProps: DefaultProps = { size: 'small' };
+  public static defaultProps: DefaultProps = {
+    size: 'small',
+    showClearIcon: 'never',
+  };
 
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
-  public state = { blinking: false, focused: false };
+  private getClearCrossShowed = ({ focused, hovered }: { focused?: boolean; hovered?: boolean }): boolean => {
+    if (this.props.disabled) {
+      return false;
+    }
+    return calculateClearCrossShowedState({
+      showClearIcon: this.getProps().showClearIcon,
+      notEmptyValue: Boolean(this.props.children),
+      focused,
+      hovered,
+    });
+  };
+
+  public state = {
+    blinking: false,
+    focused: false,
+    clearCrossShowed: this.getClearCrossShowed({
+      focused: false,
+    }),
+  };
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
@@ -149,7 +171,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -181,21 +203,28 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       takeContentWidth,
       'aria-describedby': ariaDescribedby,
       isMultiline,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledby,
+      showClearIcon,
+      onClearCrossClick,
       ...rest
     } = props;
 
     const { focused, blinking } = this.state;
-
-    const leftSide = isTheme2022(this.theme) ? (
-      <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
-    ) : (
-      this.renderLeftSide()
-    );
-    const rightSide = isTheme2022(this.theme) ? (
-      <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
-    ) : (
-      this.renderRightSide()
-    );
+    const getRightIcon = () => {
+      return this.state.clearCrossShowed ? (
+        <ClearCrossIcon
+          data-tid={InputDataTids.clearCross}
+          size={size}
+          onFocus={(event) => event.stopPropagation()}
+          onClick={onClearCrossClick}
+        />
+      ) : (
+        rightIcon
+      );
+    };
+    const leftSide = <InputLayoutAside icon={leftIcon} text={prefix} side="left" />;
+    const rightSide = <InputLayoutAside icon={getRightIcon()} text={suffix} side="right" />;
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [styles.rootMultiline()]: isMultiline,
@@ -221,144 +250,48 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     Object.assign(context, { disabled, focused, size });
 
     return (
-      <span
-        data-tid={InputLikeTextDataTids.root}
-        {...rest}
-        className={className}
-        style={{ width, textAlign: align }}
-        tabIndex={disabled ? undefined : 0}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        ref={this.innerRef}
-        onKeyDown={this.handleKeyDown}
-        onMouseDown={this.handleMouseDown}
-      >
-        <InputLayoutContext.Provider value={context}>
-          <input
-            data-tid={InputLikeTextDataTids.nativeInput}
-            type="hidden"
-            value={value}
-            disabled={disabled}
-            aria-describedby={ariaDescribedby}
-          />
-          {leftSide}
-          <span className={wrapperClass}>
-            <span
-              data-tid={InputLikeTextDataTids.input}
-              className={cx(jsInputStyles.input(this.theme), {
-                [styles.absolute()]: !takeContentWidth && !isMultiline,
-                [styles.multiline()]: isMultiline,
-                [jsInputStyles.inputFocus(this.theme)]: focused,
-                [jsInputStyles.inputDisabled(this.theme)]: disabled,
-              })}
-            >
-              {this.props.children}
+      <FocusControlWrapper disabled={disabled} onBlurWhenDisabled={this.resetFocus}>
+        <span
+          data-tid={InputLikeTextDataTids.root}
+          {...rest}
+          className={className}
+          style={{ width, textAlign: align }}
+          tabIndex={disabled ? -1 : 0}
+          onFocus={this.handleFocus}
+          onMouseEnter={this.handleHover}
+          onMouseLeave={this.handleUnhover}
+          onBlur={this.handleBlur}
+          ref={this.innerRef}
+          onKeyDown={this.handleKeyDown}
+          onMouseDown={this.handleMouseDown}
+          role="textbox"
+          aria-disabled={disabled}
+          aria-describedby={ariaDescribedby}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+        >
+          <InputLayoutContext.Provider value={context}>
+            <input type="hidden" data-tid={InputLikeTextDataTids.nativeInput} value={value} disabled={disabled} />
+            {leftSide}
+            <span className={wrapperClass}>
+              <span
+                data-tid={InputLikeTextDataTids.input}
+                className={cx(jsInputStyles.input(this.theme), {
+                  [styles.absolute()]: !takeContentWidth && !isMultiline,
+                  [styles.multiline()]: isMultiline,
+                  [jsInputStyles.inputFocus(this.theme)]: focused,
+                  [jsInputStyles.inputDisabled(this.theme)]: disabled,
+                })}
+              >
+                {this.props.children}
+              </span>
+              {this.renderPlaceholder()}
             </span>
-            {this.renderPlaceholder()}
-          </span>
-          {rightSide}
-          {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
-        </InputLayoutContext.Provider>
-      </span>
-    );
-  };
-
-  private getIconClassname(right = false) {
-    switch (this.getProps().size) {
-      case 'large':
-        return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
-      case 'medium':
-        return right ? jsInputStyles.rightIconMedium(this.theme) : jsInputStyles.leftIconMedium(this.theme);
-      case 'small':
-      default:
-        return right ? jsInputStyles.rightIconSmall(this.theme) : jsInputStyles.leftIconSmall(this.theme);
-    }
-  }
-
-  private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
-  };
-
-  private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
-  };
-
-  private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
-    if (!icon) {
-      return null;
-    }
-
-    const { disabled } = this.props;
-    const iconNode = isFunction(icon) ? icon() : icon;
-
-    return (
-      <span
-        className={cx(jsInputStyles.icon(), className, jsInputStyles.useDefaultColor(this.theme), {
-          [jsInputStyles.iconDisabled()]: disabled,
-        })}
-      >
-        {iconNode}
-      </span>
-    );
-  };
-
-  private renderPrefix = (): JSX.Element | null => {
-    const { prefix, disabled } = this.props;
-
-    if (!prefix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(jsInputStyles.prefix(this.theme), { [jsInputStyles.prefixDisabled(this.theme)]: disabled })}>
-        {prefix}
-      </span>
-    );
-  };
-
-  private renderSuffix = (): JSX.Element | null => {
-    const { suffix, disabled } = this.props;
-
-    if (!suffix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(jsInputStyles.suffix(this.theme), { [jsInputStyles.suffixDisabled(this.theme)]: disabled })}>
-        {suffix}
-      </span>
-    );
-  };
-
-  private renderLeftSide = (): JSX.Element | null => {
-    const leftIcon = this.renderLeftIcon();
-    const prefix = this.renderPrefix();
-
-    if (!leftIcon && !prefix) {
-      return null;
-    }
-
-    return (
-      <span className={jsInputStyles.sideContainer()}>
-        {leftIcon}
-        {prefix}
-      </span>
-    );
-  };
-
-  private renderRightSide = (): JSX.Element | null => {
-    const rightIcon = this.renderRightIcon();
-    const suffix = this.renderSuffix();
-
-    if (!rightIcon && !suffix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(jsInputStyles.sideContainer(), jsInputStyles.rightContainer())}>
-        {rightIcon}
-        {suffix}
-      </span>
+            {rightSide}
+            {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
+          </InputLayoutContext.Provider>
+        </span>
+      </FocusControlWrapper>
     );
   };
 
@@ -446,7 +379,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
     if (isMobile) {
-      e.target.setAttribute('contenteditable', 'true');
+      this.node?.setAttribute('contenteditable', 'true');
     }
 
     if (this.props.disabled) {
@@ -476,10 +409,22 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
+  private resetFocus = () => {
+    this.selectNodeContentsDebounced.cancel();
+    if (isMobile) {
+      this.node?.removeAttribute('contenteditable');
+    }
+    if ((isIE11 || isEdge) && this.frozenBlur) {
+      this.frozenBlur = false;
+    }
+    removeAllSelections();
+    this.setState({ focused: false });
+  };
+
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     this.selectNodeContentsDebounced.cancel();
     if (isMobile) {
-      e.target.removeAttribute('contenteditable');
+      this.node?.removeAttribute('contenteditable');
     }
 
     if (this.props.disabled) {
@@ -496,12 +441,17 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     removeAllSelections();
-
     this.setState({ focused: false });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    this.props.onBlur?.(e);
+  };
+
+  private handleHover = () => {
+    this.setState({ clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: true }) });
+  };
+
+  private handleUnhover = () => {
+    this.setState({ clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: false }) });
   };
 
   private hiddenInputRef = (el: HTMLInputElement | null) => {

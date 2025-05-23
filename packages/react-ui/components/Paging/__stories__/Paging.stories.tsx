@@ -4,7 +4,7 @@ import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { ItemComponentProps, Paging } from '../Paging';
-import { delay, emptyHandler } from '../../../lib/utils';
+import { emptyHandler } from '../../../lib/utils';
 import { PagingProps } from '..';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
@@ -32,7 +32,7 @@ class GoToAbsensePage extends React.Component {
   }
 
   private _getPagesCount = (activePage: number) => {
-    return activePage <= 4 ? 7 : 5;
+    return activePage <= 4 ? 7 : 8;
   };
 
   private _handlePageChange = (pageNumber: number) => {
@@ -134,8 +134,9 @@ class PagingWithCustomComponent extends React.Component<PagingWithCustomComponen
 
 export default {
   title: 'Paging',
+  component: Paging,
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div>
         <Story />
       </div>
@@ -145,95 +146,6 @@ export default {
 
 export const GoToAbsensePageStory: Story = () => <GoToAbsensePage />;
 GoToAbsensePageStory.storyName = 'GoToAbsensePage';
-
-GoToAbsensePageStory.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'Move to page by Ender'],
-      },
-      flaky: {
-        in: ['firefox2022', 'firefox2022Dark'],
-        tests: ['Move focus right', 'Move to page by Ender'],
-      },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async hover() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-      },
-      async 'change page by number'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
-      },
-      async 'change page by forwardLink'() {
-        // NOTE Firefox bug if click send right after click from previous test it results as double click
-        await delay(500);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
-      },
-      async focused() {
-        // NOTE Firefox bug if click send right after click from previous test it results as double click
-        await delay(500);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('focused');
-      },
-      async 'Move focus right'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-          .pause(100)
-          .sendKeys(this.keys.ARROW_RIGHT)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
-      },
-      async 'Move to page by Ender'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-          .pause(100)
-          .sendKeys(this.keys.ARROW_RIGHT)
-          .pause(100)
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Move to page by Ender');
-      },
-    },
-  },
-};
 
 export const SimpleSamples = () => (
   <>
@@ -269,7 +181,7 @@ export const DisabledPaging = () => {
 };
 DisabledPaging.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|chromeDark|chrome2022|chrome2022Dark)\b)/ },
+    skip: { in: /^(?!\b(chrome2022|chrome2022Dark)\b)/ },
   },
 };
 
@@ -278,7 +190,7 @@ export const PagingDisabledForwardLink = () => {
 };
 PagingDisabledForwardLink.parameters = {
   creevey: {
-    skip: { in: /^(?!\b(chrome|chromeDark|chrome2022|chrome2022Dark)\b)/ },
+    skip: { in: /^(?!\b(chrome2022|chrome2022Dark)\b)/ },
   },
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -10,15 +10,14 @@ import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
-import { CalendarIcon as CalendarIcon2022 } from './CalendarIcon';
+import { CalendarIcon } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
@@ -36,57 +35,67 @@ export const DateInputDataTids = {
   icon: 'DateInput__icon',
 } as const;
 
-export interface DateInputProps extends CommonProps {
+export interface DateInputProps
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
+
+  /** Устанавливает значение датаинпута. */
   value?: string;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Минимальная дата.
-   * @default '01.01.1900'
-   */
+
+  /** Задает минимальную возможную дату в формате `dd.mm.yyyy`. */
   minDate?: string;
-  /**
-   * Максимальная дата
-   * @default '31.12.2099'
-   */
+
+  /** Задает максимальную возможную дату в формате `dd.mm.yyyy` */
   maxDate?: string;
-  /**
-   * Ширина поля
-   * @default 125
-   */
+
+  /** Задает ширину поля. */
   width?: string | number;
+
+  /** Добавляет иконку календаря. */
   withIcon?: boolean;
-  /**
-   * Размер поля
-   * @default 'small'
-   */
+
+  /** Задает размер поля. */
   size?: SizeProp;
+
+  /** Задает функцию, которая вызывается при потере датаинпутом фокуса. */
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при клике на датаинпут. */
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при получении датаинпутом фокуса. */
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+
+  /** Задает функцию, которая вызывается при изменении value.
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange?: (value: string) => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
 
+/**
+ * Компонент поля `DateInput` из DatePicker'а помогает выбирать дату с клавиатуры.
+ */
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
+  public static displayName = 'DateInput';
 
   public static defaultProps: DefaultProps = {
     value: '',
@@ -145,7 +154,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     ) {
       this.updateFromProps(false);
     }
-    this.selectNode();
+    !this.props.disabled && this.selectNode();
   }
 
   public selectNode = () => {
@@ -207,37 +216,43 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <InputLikeText
-          width={width}
-          ref={this.inputLikeTextRef}
-          size={size}
-          disabled={this.props.disabled}
-          error={this.props.error}
-          warning={this.props.warning}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onClick={this.props.onClick}
-          onKeyDown={this.handleKeyDown}
-          onMouseDownCapture={this.handleMouseDownCapture}
-          onPaste={this.handlePaste}
-          rightIcon={this.renderIcon()}
-          onDoubleClickCapture={this.handleDoubleClick}
-          onMouseDragStart={this.handleMouseDragStart}
-          onMouseDragEnd={this.handleMouseDragEnd}
-          value={this.iDateMediator.getInternalString()}
-          inputMode={'numeric'}
-          takeContentWidth
-        >
-          <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
-            <DateFragmentsView
-              ref={this.dateFragmentsViewRef}
-              fragments={this.iDateMediator.getFragments()}
-              onSelectDateComponent={this.handleSelectDateComponent}
-              selected={selected}
-              inputMode={inputMode}
-            />
-          </span>
-        </InputLikeText>
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <InputLikeText
+            id={this.props.id}
+            width={width}
+            ref={this.inputLikeTextRef}
+            size={size}
+            disabled={this.props.disabled}
+            error={this.props.error}
+            warning={this.props.warning}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            onClick={this.props.onClick}
+            onKeyDown={this.handleKeyDown}
+            onMouseDownCapture={this.handleMouseDownCapture}
+            onPaste={this.handlePaste}
+            rightIcon={this.renderIcon()}
+            onDoubleClickCapture={this.handleDoubleClick}
+            onMouseDragStart={this.handleMouseDragStart}
+            onMouseDragEnd={this.handleMouseDragEnd}
+            value={this.iDateMediator.getInternalString()}
+            inputMode={'numeric'}
+            takeContentWidth
+            aria-describedby={this.props['aria-describedby']}
+            aria-label={this.props['aria-label']}
+            aria-labelledby={this.props['aria-labelledby']}
+          >
+            <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+              <DateFragmentsView
+                ref={this.dateFragmentsViewRef}
+                fragments={this.iDateMediator.getFragments()}
+                onSelectDateComponent={this.handleSelectDateComponent}
+                selected={selected}
+                inputMode={inputMode}
+              />
+            </span>
+          </InputLikeText>
+        </FocusControlWrapper>
       </CommonWrapper>
     );
   }
@@ -248,7 +263,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
-      const icon = isTheme2022(theme) ? <CalendarIcon2022 size={size} /> : <CalendarIcon />;
+      const icon = <CalendarIcon size={size} />;
       const iconStyles = cx({
         [styles.icon(theme)]: true,
         [styles.iconSmall(theme)]: size === 'small',
@@ -276,11 +291,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
+  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    const restored = this.iDateMediator.restore();
-    this.updateValue({ focused: false, selected: null, inputMode: false });
+    this.resetFocus();
 
     if (this.props.onBlur) {
+      const restored = this.iDateMediator.restore();
       if (restored) {
         e.persist();
         this.blurEvent = e;

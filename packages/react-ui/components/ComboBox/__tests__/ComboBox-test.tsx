@@ -1,14 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable react/display-name */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { HTMLProps } from '../../../typings/html';
-import { InputDataTids } from '../../../components/Input';
+import { Input, InputDataTids } from '../../Input';
 import { MenuMessageDataTids } from '../../../internal/MenuMessage';
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -17,12 +16,12 @@ import { ComboBox } from '../ComboBox';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { delay, clickOutside } from '../../../lib/utils';
+import { clickOutside, delay } from '../../../lib/utils';
 import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { ComboBoxItem } from '..';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {
   let searchCalled: () => Promise<void>;
@@ -38,6 +37,10 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
     searchCalled();
 
     return promise;
+  });
+
+  promise.catch((error) => {
+    console.error(error);
   });
 
   return [search, searchPromise];
@@ -56,24 +59,30 @@ describe('ComboBox', () => {
     expect(() => render(<ComboBox getItems={() => Promise.resolve([])} />)).not.toThrow();
   });
 
-  it('focuses on click to input', () => {
+  it('has id attribute', () => {
+    const comboboxId = 'comboboxId';
+    const result = render(<ComboBox id={comboboxId} getItems={() => Promise.resolve([])} />);
+    expect(result.container.querySelector(`#${comboboxId}`)).not.toBeNull();
+  });
+
+  it('focuses on click to input', async () => {
     render(<ComboBox getItems={() => Promise.resolve([])} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
-  it('fetches item when focused', () => {
+  it('fetches item when focused', async () => {
     const search = jest.fn(() => Promise.resolve([]));
     render(<ComboBox getItems={search} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     expect(search).toHaveBeenCalledWith('');
   });
 
-  it('fetches items on input', () => {
+  it('fetches items on input', async () => {
     const search = jest.fn(() => Promise.resolve([]));
     render(<ComboBox getItems={search} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'world' } });
 
     expect(search).toHaveBeenCalledTimes(2);
@@ -84,7 +93,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(testValues));
     render(<ComboBox getItems={search} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
@@ -95,7 +104,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} renderItem={(x) => x} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
     await promise;
     expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
@@ -110,7 +119,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onValueChange = jest.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     const clickedItemIndex = 0;
@@ -126,10 +135,10 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const onValueChange = jest.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} value={'one'} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onValueChange).toHaveBeenCalledWith('one');
     expect(onValueChange).toHaveBeenCalledTimes(1);
@@ -139,9 +148,9 @@ describe('ComboBox', () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} renderItem={(x) => x} value={'one'} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    userEvent.keyboard('{enter}');
-    userEvent.keyboard('{arrowdown}');
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.keyboard('{enter}');
+    await userEvent.keyboard('{arrowdown}');
     await promise;
 
     expect(screen.queryAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(items.length);
@@ -149,13 +158,13 @@ describe('ComboBox', () => {
 
   it('retries request on Enter if rejected', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    render(<ComboBox getItems={search} renderItem={(x) => x} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    render(<ComboBox getItems={search} renderItem={(x) => x.label} />);
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     await delay(100);
 
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     await delay(0);
 
@@ -188,13 +197,13 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    render(<ComboBox getItems={search} renderItem={(x) => x} />);
+    render(<ComboBox getItems={search} renderItem={(x) => x.label} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-    userEvent.click(screen.getByTestId(MenuItemDataTids.root));
+    await userEvent.click(screen.getByTestId(MenuItemDataTids.root));
     await delay(0);
 
     expect(search).toHaveBeenCalledTimes(2);
@@ -206,10 +215,10 @@ describe('ComboBox', () => {
     const onUnexpectedInput = jest.fn();
     render(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
-    userEvent.type(screen.getByRole('textbox'), 'one');
+    await userEvent.type(screen.getByRole('textbox'), 'one');
 
     await promise;
 
@@ -229,25 +238,25 @@ describe('ComboBox', () => {
       .mockImplementationOnce(() => undefined as unknown as string);
 
     render(<ComboBox onValueChange={onValueChange} onUnexpectedInput={mockFn} getItems={() => Promise.resolve([])} />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(0);
-    userEvent.type(screen.getByRole('textbox'), 'one');
+    await userEvent.type(screen.getByRole('textbox'), 'one');
     clickOutside();
     await delay(0);
     expect(mockFn).toHaveBeenCalledWith('one');
     expect(mockFn).toHaveReturnedWith(null);
     expect(onValueChange).toHaveBeenCalledWith(null);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    userEvent.type(screen.getByRole('textbox'), 'one');
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.type(screen.getByRole('textbox'), 'one');
     await delay(0);
     clickOutside();
     await delay(0);
     expect(mockFn).toHaveReturnedWith('one');
     expect(onValueChange).toHaveBeenCalledWith('one');
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-    userEvent.type(screen.getByRole('textbox'), 'one');
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.type(screen.getByRole('textbox'), 'one');
     await delay(0);
     clickOutside();
     await delay(0);
@@ -256,12 +265,62 @@ describe('ComboBox', () => {
     expect(onValueChange).not.toHaveBeenCalledWith(undefined);
   });
 
-  it('calls onFocus on focus', () => {
+  it('calls onFocus on focus', async () => {
     const onFocus = jest.fn();
     render(<ComboBox onFocus={onFocus} getItems={() => Promise.resolve([])} />);
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  it('navigation from Tab open dropdown', async () => {
+    render(
+      <>
+        <Input data-tid="test-input" />
+        <ComboBox getItems={() => Promise.resolve([])} />
+      </>,
+    );
+    await userEvent.click(screen.getByTestId('test-input'));
+    await userEvent.keyboard('{tab}');
+    expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
+  });
+
+  describe('call focus with param withoutOpenDropdown=true', () => {
+    beforeEach(async () => {
+      render(
+        <ComboBox
+          ref={comboboxRef}
+          getItems={() => Promise.resolve([{ value: 'one', label: 'one' }])}
+          key="ComboBox"
+        />,
+      );
+      comboboxRef.current?.focus({ withoutOpenDropdown: true });
+    });
+
+    it('do not open dropdown', async () => {
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('click on input should open dropdown', async () => {
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+
+    it('arrow down should open dropdown', async () => {
+      await userEvent.keyboard('{arrowdown}');
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+
+    it('arrow up should open dropdown', async () => {
+      await userEvent.keyboard('{arrowup}');
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
+
+    it('edit value should open dropdown', async () => {
+      await userEvent.keyboard('1');
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    });
   });
 
   describe('onBlur callback', () => {
@@ -275,22 +334,23 @@ describe('ComboBox', () => {
     });
 
     it('calls onBlur on click outside when menu is open', async () => {
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await promise;
 
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toBeInTheDocument();
       clickOutside();
       await delay(0);
 
-      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      expect(screen.queryByTestId(InputDataTids.root)).not.toBeInTheDocument();
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
 
     it('calls onBlur on input blur when menu is closed', async () => {
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      userEvent.type(screen.getByRole('textbox'), '{esc}');
-
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      act(() => {
+        fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape', code: 'Escape' });
+      });
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
       fireEvent.blur(screen.getByRole('textbox'));
       await delay(0);
@@ -305,11 +365,11 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
-    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
-    expect(screen.getByTestId(MenuDataTids.root)).toHaveTextContent(content);
+    expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
+    expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toHaveTextContent(content);
   });
 
   it('calls default onClick on custom element select', async () => {
@@ -322,10 +382,10 @@ describe('ComboBox', () => {
     const onValueChange = jest.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
-    userEvent.click(screen.getByText('Hello, world'));
+    await userEvent.click(screen.getByText('Hello, world'));
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(onValueChange).toHaveBeenCalledWith({
       id: 'hello',
@@ -345,10 +405,10 @@ describe('ComboBox', () => {
 
     render(<ComboBox getItems={search} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
-    userEvent.click(screen.getByText('Hello, world'));
+    await userEvent.click(screen.getByText('Hello, world'));
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });
@@ -357,7 +417,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve([]));
     render(<ComboBox getItems={search} maxLength={2} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     const input = screen.getByRole('textbox');
@@ -375,12 +435,12 @@ describe('ComboBox', () => {
   it('clear input value if onUnexpectedInput return null', async () => {
     render(<ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foo' } });
-
-    clickOutside();
-    await delay(0);
+    act(() => {
+      clickOutside();
+    });
 
     expect(screen.getByRole('textbox')).toHaveTextContent('');
   });
@@ -389,22 +449,22 @@ describe('ComboBox', () => {
     const [search] = searchFactory(delay(500).then(() => []));
     render(<ComboBox getItems={search} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(300);
 
     expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-    expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+    expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
 
     clickOutside();
     await delay(0);
 
     expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
     await delay(1000);
 
     expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-    expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
   });
 
   it('does not highlight menu item on focus with empty input', async () => {
@@ -412,11 +472,11 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} renderItem={(x) => x} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
+    expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toBeFalsy();
   });
 
   it('highlights menu item on focus with non-empty input', async () => {
@@ -424,11 +484,13 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     render(<ComboBox getItems={search} renderItem={(x) => x} value={'one'} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
 
     const menuItems = screen.getAllByTestId(ComboBoxMenuDataTids.item);
-    expect(menuItems.find((element) => element.hasAttribute('state'))).toHaveAttribute('state', 'hover');
+    expect(menuItems.find((element) => element.hasAttribute('data-visual-state-hover'))).toHaveAttribute(
+      'data-visual-state-hover',
+    );
   });
 
   describe('update input text when value changes if there was no editing', () => {
@@ -459,26 +521,26 @@ describe('ComboBox', () => {
     });
   });
 
-  //TODO: Remove this test in 5.0, while removing comboBoxAllowValueChangeInEditingState feature flag, because it tests old behavior
+  //TODO: Remove this test when/if behaviour under comboBoxAllowValueChangeInEditingState feature flag is fixed
   describe('keep edited input text when value changes', () => {
     const value = { value: 1, label: 'one' };
 
-    it('in default mode', () => {
+    it('in default mode', async () => {
       const { rerender } = render(<ComboBox value={value} getItems={() => Promise.resolve([value])} />);
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
       clickOutside();
 
       rerender(<ComboBox value={null} getItems={() => Promise.resolve([value])} />);
-      userEvent.click(screen.getByRole('textbox'));
+      await userEvent.click(screen.getByRole('textbox'));
       expect(screen.getByRole('textbox')).toHaveValue('two');
     });
 
-    it('in autocomplete mode', () => {
+    it('in autocomplete mode', async () => {
       const { rerender } = render(
         <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
       );
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
       clickOutside();
 
@@ -486,7 +548,7 @@ describe('ComboBox', () => {
         <ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
       );
 
-      userEvent.click(screen.getByRole('textbox'));
+      await userEvent.click(screen.getByRole('textbox'));
       expect(screen.getByRole('textbox')).toHaveValue('two');
     });
   });
@@ -496,17 +558,17 @@ describe('ComboBox', () => {
     const getItems = jest.fn();
     render(<ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(0);
 
     expect(getItems).toHaveBeenCalledTimes(0);
     expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
   });
 
-  it('reset', () => {
+  it('reset', async () => {
     render(<ComboBox getItems={() => Promise.resolve([])} ref={comboboxRef} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'foo' } });
 
     expect(screen.getByRole('textbox')).toHaveValue('foo');
@@ -529,7 +591,7 @@ describe('ComboBox', () => {
     const changeHandler = jest.fn();
     render(<ComboBox onValueChange={changeHandler} getItems={getItems} />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
     fireEvent.change(screen.getByRole('textbox'), { target: { value: testValues[1].label } });
 
@@ -548,19 +610,19 @@ describe('ComboBox', () => {
 
     it('opens', () => {
       comboboxRef?.current?.open();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.notFound)).toBeInTheDocument();
     });
 
     it('closes', () => {
       comboboxRef?.current?.open();
       comboboxRef?.current?.close();
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
     });
 
     it('closes on clickOutside', () => {
       comboboxRef?.current?.open();
       clickOutside();
-      expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
     });
   });
 
@@ -610,14 +672,14 @@ describe('ComboBox', () => {
 
     beforeEach(async () => {
       render(<ComboBox getItems={getItems} onFocus={onFocus} onBlur={onBlur} />);
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       delay(0);
       onFocus.mockClear();
       onBlur.mockClear();
     });
 
     it('click on item', async () => {
-      userEvent.click(screen.getAllByTestId(ComboBoxMenuDataTids.item)[0]);
+      await userEvent.click(screen.getAllByTestId(ComboBoxMenuDataTids.item)[0]);
       await delay(0); // await for restore focus
 
       expect(screen.getByRole('textbox')).toHaveFocus();
@@ -632,8 +694,8 @@ describe('ComboBox', () => {
     });
 
     it('Enter on item', async () => {
-      userEvent.keyboard('{arrowdown}');
-      userEvent.keyboard('{enter}');
+      await userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{enter}');
 
       await delay(0);
 
@@ -655,59 +717,59 @@ describe('ComboBox', () => {
     describe('in default mode', () => {
       beforeEach(async () => {
         render(<ComboBox getItems={getItems} ref={comboboxRef} />);
-        userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
         getItems.mockClear();
       });
 
       it('opens menu if it is closed', async () => {
         comboboxRef.current?.close();
 
-        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
-        userEvent.click(screen.getByRole('textbox'));
+        await userEvent.click(screen.getByRole('textbox'));
         await delay(0);
 
-        expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+        expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
         expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
       });
 
-      it('runs empty search if menu is closed', () => {
+      it('runs empty search if menu is closed', async () => {
         comboboxRef.current?.close();
         delay(0);
-        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
 
-        userEvent.click(screen.getByRole('textbox'));
+        await userEvent.click(screen.getByRole('textbox'));
         expect(getItems).toHaveBeenCalledWith('');
       });
 
-      it("doesn't run search if menu is open", () => {
-        userEvent.click(screen.getByRole('textbox'));
+      it("doesn't run search if menu is open", async () => {
+        await userEvent.click(screen.getByRole('textbox'));
         expect(getItems).toHaveBeenCalledTimes(0);
       });
     });
 
     describe('in autocomplete mode', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         render(<ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} ref={comboboxRef} />);
-        userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
         getItems.mockClear();
       });
 
-      it("doesn't open menu if it is closed", () => {
+      it("doesn't open menu if it is closed", async () => {
         comboboxRef.current?.close();
-        userEvent.click(screen.getByRole('textbox'));
+        await userEvent.click(screen.getByRole('textbox'));
 
-        expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
+        expect(screen.queryByTestId(ComboBoxMenuDataTids.items)).not.toBeInTheDocument();
       });
 
-      it("doesn't run search if menu is closed", () => {
+      it("doesn't run search if menu is closed", async () => {
         comboboxRef.current?.close();
-        userEvent.click(screen.getByRole('textbox'));
+        await userEvent.click(screen.getByRole('textbox'));
         expect(getItems).toHaveBeenCalledTimes(0);
       });
 
-      it("doesn't run search if menu is open", () => {
-        userEvent.click(screen.getByRole('textbox'));
+      it("doesn't run search if menu is open", async () => {
+        await userEvent.click(screen.getByRole('textbox'));
         expect(getItems).toHaveBeenCalledTimes(0);
       });
     });
@@ -727,7 +789,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(query);
     });
 
@@ -748,7 +810,7 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(query);
     });
 
@@ -768,14 +830,14 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME);
       await delay(0);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(query);
     });
 
@@ -791,7 +853,7 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.failed)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
     });
 
@@ -812,7 +874,7 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.failed)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
     });
 
@@ -833,14 +895,14 @@ describe('ComboBox', () => {
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByTestId(MenuMessageDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.failed)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
     });
 
@@ -860,7 +922,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -884,7 +946,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -905,7 +967,7 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER - 100);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -914,7 +976,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -936,7 +998,7 @@ describe('ComboBox', () => {
       await delay(300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME + 100);
@@ -945,7 +1007,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -968,13 +1030,13 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER - 300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(200);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.loading)).toBeInTheDocument();
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
 
       await delay(LOADER_SHOW_TIME - 200);
@@ -983,7 +1045,7 @@ describe('ComboBox', () => {
       expect(getItems).toHaveBeenCalledWith(query);
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
-      expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
+      expect(screen.getByTestId(ComboBoxMenuDataTids.items)).toBeInTheDocument();
       expect(screen.getByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(secondQuery);
     });
 
@@ -994,7 +1056,7 @@ describe('ComboBox', () => {
       });
       render(<ComboBox getItems={getItems} />);
 
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
@@ -1003,7 +1065,7 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
@@ -1016,7 +1078,7 @@ describe('ComboBox', () => {
       });
       render(<ComboBox getItems={getItems} />);
 
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(600);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
@@ -1026,7 +1088,7 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(300);
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
@@ -1040,7 +1102,7 @@ describe('ComboBox', () => {
       [search, promise] = searchFactory(Promise.resolve(null));
     });
     const focus = async (): Promise<void> => {
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await promise;
     };
 
@@ -1113,7 +1175,7 @@ describe('ComboBox', () => {
     });
   });
 
-  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+  it.each(['', null, undefined])('should clear the value when %s passed', async (testValue) => {
     const Comp = () => {
       const [value, setValue] = useState<unknown>({ value: 1, label: 'First' });
 
@@ -1134,7 +1196,7 @@ describe('ComboBox', () => {
     const input = screen.getByTestId('InputLikeText__input');
     expect(input).toHaveTextContent(/^First$/);
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveTextContent('');
   });
 
@@ -1197,10 +1259,11 @@ describe('ComboBox', () => {
 
     const addNewElement = async () => {
       render(<Comp />);
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      userEvent.type(screen.getByRole('textbox'), 'newItem');
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.clear(screen.getByRole('textbox'));
+      await userEvent.type(screen.getByRole('textbox'), 'newItem');
       await delay(0);
-      userEvent.click(screen.getByTestId('addButton'));
+      await userEvent.click(screen.getByTestId('addButton'));
     };
 
     it('add new element', async () => {
@@ -1210,13 +1273,13 @@ describe('ComboBox', () => {
 
     it('show added item after blur', async () => {
       await addNewElement();
-      userEvent.click(screen.getByRole('textbox'));
+      await userEvent.click(screen.getByRole('textbox'));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
       clickOutside();
       await delay(0);
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
@@ -1229,7 +1292,7 @@ describe('ComboBox', () => {
         { value: 2, label: 'Second' },
       ];
 
-      const itemWrapper = (item?: { value: number; label: string }) => {
+      const itemWrapper = (item: { value: number; label: string }) => {
         if (item?.value === 2) {
           return (props: HTMLProps['a']) => <a {...props} href="#" />;
         }
@@ -1244,7 +1307,7 @@ describe('ComboBox', () => {
 
     render(<Comp />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(0);
     expect(screen.getByRole('button', { name: 'First' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Second' })).toBeInTheDocument();
@@ -1254,6 +1317,12 @@ describe('ComboBox', () => {
     render(<ComboBox getItems={jest.fn()} disabled />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
+  });
+
+  it('should disable default browser autofill', async () => {
+    render(<ComboBox getItems={() => Promise.resolve([])} />);
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    expect(screen.getByRole('textbox')).toHaveAttribute('autocomplete', 'off');
   });
 
   describe('a11y', () => {
@@ -1280,7 +1349,7 @@ describe('ComboBox', () => {
           <p id="elementId">Description</p>
         </div>,
       );
-      const comboBox = screen.getByTestId(InputLikeTextDataTids.nativeInput);
+      const comboBox = screen.getByRole('textbox');
       expect(comboBox).toHaveAttribute('aria-describedby', 'elementId');
       expect(comboBox).toHaveAccessibleDescription('Description');
     });
@@ -1293,7 +1362,7 @@ describe('ComboBox', () => {
         expect.stringContaining(ComboBoxViewIds.menu),
       );
 
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
       expect(screen.getByTestId(InputDataTids.root)).toHaveAttribute(
         'aria-controls',
@@ -1308,11 +1377,11 @@ describe('ComboBox', () => {
       });
     });
 
-    it('sets value for aria-label attribute', () => {
+    it('sets value for aria-label attribute', async () => {
       const ariaLabel = 'aria-label';
       render(<ComboBox getItems={jest.fn()} aria-label={ariaLabel} />);
 
-      userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
@@ -1332,7 +1401,7 @@ describe('ComboBox', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
     comboboxRef.current?.blur();
     await delay(0);
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    expect(screen.queryByTestId(InputDataTids.root)).not.toBeInTheDocument();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
@@ -1368,10 +1437,10 @@ describe('ComboBox', () => {
       render(<TestComponent initValue={initialValue} />);
       comboboxRef.current?.focus();
       expect(screen.getByRole('textbox')).toHaveValue(initialValue.label);
-      userEvent.clear(screen.getByRole('textbox'));
+      await userEvent.clear(screen.getByRole('textbox'));
 
       expect(await screen.findByRole('textbox')).toHaveValue('');
-      userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
+      await userEvent.click(screen.getByRole('button', { name: 'Обновить' }));
       expect(await screen.findByRole('textbox')).toHaveValue(expectedValue.label);
     });
 
@@ -1385,10 +1454,108 @@ describe('ComboBox', () => {
       expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
     });
   });
+
+  describe('with clear cross', () => {
+    const testValues = [
+      { value: '1', label: 'One' },
+      { value: '2', label: 'Two' },
+      { value: '3', label: 'Three' },
+      { value: '4', label: 'Four' },
+    ];
+    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+
+    const getTextbox = () => screen.getByRole('textbox');
+    const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
+    const queryClearCross = () => screen.queryByTestId(InputDataTids.clearCross);
+
+    it('clears controlled combobox', async () => {
+      const ControlledCombobox = () => {
+        const [value, setValue] = React.useState({ value: '2', label: 'Two' });
+        return <ComboBox getItems={getItems} showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledCombobox />);
+
+      expect(screen.getByText('Two')).toBeInTheDocument();
+      await userEvent.click(getClearCross());
+      expect(screen.queryByText('Two')).not.toBeInTheDocument();
+    });
+
+    it('clears uncontrolled combobox', async () => {
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+
+      comboboxRef.current?.focus();
+      await userEvent.type(getTextbox(), 'z');
+      expect(getTextbox()).toHaveValue('z');
+      const cross = getClearCross();
+      expect(cross).toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(cross).not.toBeInTheDocument();
+      expect(getTextbox()).toHaveValue('');
+    });
+
+    it('tests showClearIcon=always clear cross', async () => {
+      render(<ComboBox showClearIcon="always" getItems={getItems} ref={comboboxRef} />);
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).toBeNull();
+
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(texbox);
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.clear(texbox);
+      expect(queryClearCross()).toBeNull();
+    });
+
+    it('tests showClearIcon=auto clear cross', async () => {
+      render(<ComboBox showClearIcon="auto" getItems={getItems} ref={comboboxRef} />);
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      const texbox = getTextbox();
+      await userEvent.type(texbox, 'z');
+      expect(texbox).toHaveValue('z');
+      expect(getClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(texbox);
+      expect(screen.queryByRole('textbox')).not.toHaveFocus();
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.hover(texbox);
+      expect(queryClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=never clear cross', async () => {
+      render(<ComboBox showClearIcon="never" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('tests showClearIcon when disabled', async () => {
+      render(<ComboBox disabled showClearIcon="always" value={testValues[0]} getItems={getItems} ref={comboboxRef} />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+  });
 });
 
 describe('mobile comboBox', () => {
-  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
   const matchMediaMock = jest.fn().mockImplementation((query) => {
     return {
@@ -1431,7 +1598,7 @@ describe('mobile comboBox', () => {
 
   it('should fully close by method', async () => {
     render(<TestComponent />);
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(500);
 
     close();
@@ -1441,12 +1608,12 @@ describe('mobile comboBox', () => {
   it('should close and open again after being closed by public method', async () => {
     render(<TestComponent />);
 
-    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await delay(500);
 
     close();
 
-    userEvent.click(screen.getByTestId(InputDataTids.root));
+    await userEvent.click(screen.getByTestId(InputDataTids.root));
     await delay(500);
 
     expect(screen.getByTestId(MobilePopupDataTids.root)).toBeInTheDocument();

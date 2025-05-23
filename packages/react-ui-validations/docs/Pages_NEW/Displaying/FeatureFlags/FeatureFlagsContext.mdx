@@ -1,0 +1,51 @@
+import { Meta } from '@storybook/blocks';
+import { Link } from '@skbkontur/react-ui/components/Link';
+import { linkTo } from '@storybook/addon-links';
+import { Story } from '@storybook/blocks';
+import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
+
+<Meta title="Displaying/Feature flags" />
+
+# Включение и отключение отдельных фич через `ValidationsFeatureFlagsContext`
+
+## Доступные флаги
+
+```jsx static
+export interface ValidationsFeatureFlags {
+  flagName?: boolean;
+}
+```
+
+Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
+
+Флаги задаются с помощью `ValidationsFeatureFlagsContext.Provider`.
+
+```jsx static
+import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
+
+<ValidationsFeatureFlagsContext.Provider value={{ flagName: true }}>
+  {/* ... */}
+</ValidationsFeatureFlagsContext.Provider>;
+```
+
+## Использование
+
+### dropdownsDoNotOpenOnFocusByValidation
+
+В случае получения фокуса из валидации формы, на контролах <Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link>, <Link onClick={linkTo('Input data/DatePicker')}>DatePicker</Link> автоматически не откроется popup.
+
+#### Combobox
+
+<Story of={FeatureFlagsStories.ExampleCombobox} />
+
+#### DatePicker
+
+<Story of={FeatureFlagsStories.ExampleDatePicker} />
+
+## Объект со всеми флагами
+
+Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
+
+```jsx static
+const allFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
+```

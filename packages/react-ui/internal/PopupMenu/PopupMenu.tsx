@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
 import { getRandomID } from '../../lib/utils';
@@ -15,7 +15,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupIds, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -23,17 +23,23 @@ import { Menu, MenuProps } from '../Menu';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
+import { PopupMenuDataTids } from './tids';
+
+export * from './tids';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;
   openMenu: (firstItemShouldBeSelected?: boolean) => void;
   closeMenu: (restoreFocus?: boolean) => void;
   toggleMenu: () => void;
+  /** @ignore */
+  corners?: React.CSSProperties;
 }
 
 export interface PopupMenuProps
   extends CommonProps,
     Pick<MenuProps, 'preventIconsOffset'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<AriaAttributes, 'aria-label'> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
@@ -74,6 +80,9 @@ export interface PopupMenuProps
    * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
    */
   popupMenuId?: HTMLProps['id'];
+
+  /** @ignore */
+  corners?: React.CSSProperties;
 }
 
 interface PopupMenuState {
@@ -84,11 +93,6 @@ interface PopupMenuState {
 export const PopupMenuType = {
   Dropdown: 'dropdown',
   Tooltip: 'tooltip',
-} as const;
-
-export const PopupMenuDataTids = {
-  root: 'PopupMenu__root',
-  caption: 'PopupMenu__caption',
 } as const;
 
 const Positions: PopupPositionsType[] = [
@@ -112,6 +116,7 @@ type DefaultProps = Required<Pick<PopupMenuProps, 'positions' | 'type' | 'popupH
 @responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
+  public static displayName = 'PopupMenu';
 
   private isMobileLayout!: boolean;
   private rootId = PopupIds.root + getRandomID();
@@ -185,13 +190,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
                 <Menu
-                  hasShadow={false}
                   maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
                   preventIconsOffset={this.props.preventIconsOffset}
                   cyclicSelection={false}
-                  ref={this.refInternalMenu}
+                  ref={this.menuRef}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
                   header={this.props.header}
                   footer={this.props.footer}
@@ -209,7 +213,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
-  private refInternalMenu = (element: Nullable<Menu>) => (this.menu = element);
+  private menuRef = (element: Nullable<Menu>) => (this.menu = element);
 
   private handleOpen = () => {
     if (this.menu) {
@@ -223,6 +227,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     }
 
     return React.cloneElement(caption as React.ReactElement, {
+      id: this.props.id,
       'aria-controls': this.props.popupMenuId ?? this.rootId,
       'aria-expanded': this.state.menuVisible ? 'true' : 'false',
       'aria-label': this.props['aria-label'],
@@ -236,6 +241,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         openMenu: this.showMenu,
         closeMenu: this.hideMenu,
         toggleMenu: this.toggleMenu,
+        corners: this.props.corners,
       });
 
       return (

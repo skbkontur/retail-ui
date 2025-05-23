@@ -167,12 +167,19 @@ export const styles = memoizeStyle({
   },
 
   title(t: Theme) {
-    const paddingRight =
-      parseInt(t.sidePageCloseButtonPadding) +
-      parseInt(t.sidePageCloseButtonLegacyPaddingLeft) +
-      parseInt(t.sidePageCloseIconSize);
+    const paddingRight = parseInt(t.sidePageCloseButtonPadding) * 2 + parseInt(t.sidePageCloseIconSize);
     return css`
       padding-left: ${t.sidePagePaddingLeft};
+      padding-right: ${paddingRight}px;
+    `;
+  },
+
+  title5_1(t: Theme) {
+    const paddingRight =
+      parseInt(t.sidePageCloseButtonClickAreaLeft) +
+      parseInt(t.sidePageCloseIconSize) +
+      parseInt(t.sidePageCloseButtonClickAreaRight);
+    return css`
       padding-right: ${paddingRight}px;
     `;
   },
@@ -236,7 +243,29 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileClose(t: Theme) {
+  close5_1(t: Theme) {
+    return css`
+      padding-top: ${t.sidePageCloseButtonClickAreaTop};
+      margin-top: -${t.sidePageCloseButtonClickAreaTop};
+      padding-right: ${t.sidePageCloseButtonClickAreaRight};
+      margin-right: -${t.sidePageCloseButtonClickAreaRight};
+      padding-bottom: ${t.sidePageCloseButtonClickAreaBottom};
+      margin-bottom: -${t.sidePageCloseButtonClickAreaBottom};
+      padding-left: ${t.sidePageCloseButtonClickAreaLeft};
+      margin-left: -${t.sidePageCloseButtonClickAreaLeft};
+    `;
+  },
+
+  closeSticky(t: Theme) {
+    return css`
+      padding-top: ${t.sidePageCloseButtonFixedClickAreaTop};
+      margin-top: -${t.sidePageCloseButtonFixedClickAreaTop};
+      padding-bottom: ${t.sidePageCloseButtonFixedClickAreaBottom};
+      margin-bottom: -${t.sidePageCloseButtonFixedClickAreaBottom};
+    `;
+  },
+
+  closeMobile(t: Theme) {
     return css`
       padding: ${t.mobileSidePageCloseButtonClickArea};
       margin: -${t.mobileSidePageCloseButtonClickArea};
@@ -250,6 +279,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  closeFocus5_1(t: Theme) {
+    return css`
+      box-shadow: inset 0 0 0 2px ${t.borderColorFocus};
+      border-radius: 4px;
+    `;
+  },
+
   wrapperClose(t: Theme) {
     return css`
       box-sizing: border-box;
@@ -258,7 +294,13 @@ export const styles = memoizeStyle({
       padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       position: absolute;
       right: ${t.sidePageCloseButtonPadding};
-      top: 0;
+      top: ${t.sidePageCloseButtonWrapperOffsetTop};
+    `;
+  },
+
+  wrapperClose5_1(t: Theme) {
+    return css`
+      right: ${t.sidePageCloseButtonClickAreaRight};
     `;
   },
 
@@ -266,6 +308,12 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.mobileSidePageHeaderLineHeight};
       padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
+      right: ${t.mobileSidePageCloseButtonRightPadding};
+    `;
+  },
+
+  mobileWrapperClose5_1(t: Theme) {
+    return css`
       right: ${t.mobileSidePageCloseButtonPadding};
     `;
   },
@@ -282,6 +330,12 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  wrapperCloseFixed5_1(t: Theme) {
+    return css`
+      top: ${t.sidePageCloseButtonWrapperFixedOffsetTop};
     `;
   },
 
@@ -360,7 +414,9 @@ export const styles = memoizeStyle({
 
   transitionActive() {
     return css`
-      transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+      transition:
+        transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1 !important;
       transform: translate(0, 0) !important;
     `;

@@ -15,14 +15,12 @@ import { styles } from './Modal.styles';
 import { getModalBodyTheme } from './getModalBodyTheme';
 
 export interface ModalBodyProps extends CommonProps {
-  /**
-   * убирает отступы
-   */
+  /** Убирает отступы. */
   noPadding?: boolean;
 }
 
 /**
- * Контейнер с отступами от края модалки
+ * ModalBody - контейнер с отступами от края модалки.
  *
  * @visibleName Modal.Body
  */
@@ -30,6 +28,7 @@ export interface ModalBodyProps extends CommonProps {
 @rootNode
 export class ModalBody extends React.Component<ModalBodyProps> {
   public static __KONTUR_REACT_UI__ = 'ModalBody';
+  public static displayName = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
   private theme!: Theme;

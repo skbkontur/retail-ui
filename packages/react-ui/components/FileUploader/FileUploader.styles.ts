@@ -22,32 +22,13 @@ const styles = {
       }
     `;
   },
-  pulse() {
-    return keyframes`
-        0% {
-          box-shadow:
-            0px 0px 0px 0px #2DA4F9,
-            0px 0px 0px 1px rgba(45,164,249,0.7);
-        }
-        95% {
-          box-shadow:
-            0px 0px 0px 0px #2DA4F9,
-            0px 0px 0px 10px rgba(45,164,249,0);
-        }
-        100% {
-          box-shadow:
-            0px 0px 0px 0px #2DA4F9,
-            0px 0px 0px 1px rgba(45,164,249,0);
-        }
-      `;
-  },
 
   root(t: Theme) {
     return css`
       display: inline-block;
       position: relative;
-      line-height: ${t.fileUploaderLineHeight};
-      font-size: ${t.fileUploaderFontSize};
+      line-height: ${t.fileUploaderLineHeightSmall};
+      font-size: ${t.fileUploaderFontSizeSmall};
       color: ${t.fileUploaderTextColorDefault};
       background-color: ${t.fileUploaderBg};
     `;
@@ -64,8 +45,9 @@ const styles = {
       border-radius: ${t.fileUploaderBorderRadius};
       outline: none;
       cursor: pointer;
-      padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
-      transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction},
+      padding: ${t.fileUploaderPaddingYSmall} ${t.fileUploaderPaddingXSmall};
+      transition:
+        background-color ${t.transitionDuration} ${t.transitionTimingFunction},
         border-color ${t.transitionDuration} ${t.transitionTimingFunction};
       background-color: ${t.fileUploaderUploadButtonBg};
     `;
@@ -87,13 +69,6 @@ const styles = {
   },
 
   windowDragOver(t: Theme) {
-    return css`
-      border-radius: ${t.fileUploaderBorderRadius};
-      animation: ${styles.pulse()} 1.5s infinite;
-    `;
-  },
-
-  windowDragOver2022(t: Theme) {
     return css`
       border-radius: ${t.fileUploaderBorderRadius};
       animation: ${styles.calcPulse(t)} 1.5s infinite;

@@ -19,11 +19,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 
 import { SidePageBody } from './SidePageBody';
@@ -37,57 +32,35 @@ export interface SidePageProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<AriaAttributes, 'aria-label'> {
-  /**
-   * Добавить блокирующий фон, когда сайдпейдж открыт
-   */
+  /** Добавляет блокирующий фон, когда сайдпейдж открыт. */
   blockBackground?: boolean;
 
-  /**
-   * Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа
-   */
+  /** Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа. */
   disableClose?: boolean;
 
-  /**
-   * Не закрывать сайдпейдж при клике на фон.
-   */
+  /** Оставляет окно открытым при клике на фон. */
   ignoreBackgroundClick?: boolean;
 
-  /**
-   * Задать ширину сайдпейджа
-   */
+  /** Задает ширину сайдпейджа. */
   width?: number | string;
 
-  /**
-   * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
-   * Escape или на крестик).
-   */
+  /** Задает функцию, которая вызывается при запросе закрытия сайдпейджа пользователем (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
 
-  /**
-   * Вызывается, когда анимация открытия сайдпейджа полностью прошла
-   */
+  /** Задает функцию, которая вызывается при завершении анимации открытия сайдпейджа. */
   onOpened?: () => void;
 
-  /**
-   * Показывать сайдпэйдж слева
-   *
-   */
+  /** Отображает сайдпэйдж слева. */
   fromLeft?: boolean;
 
-  /**
-   * Отключить анимации
-   *
-   */
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
 
-  /**
-   * Работает только при заблокированном фоне: `blockBackground = true`
-   */
+  /** Отключает фокус-лок внутри сайдпейджа.
+   * Работает только при заблокированном фоне: `blockBackground = true`.*/
   disableFocusLock?: boolean;
 
-  /**
-   * задает отступ от края экрана
-   */
+  /** Задает отступ от края экрана. */
   offset?: number | string;
 }
 
@@ -111,16 +84,17 @@ type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'offset' 
 const TRANSITION_TIMEOUT = 200;
 
 /**
- * Сайдпейдж
+ * `SidePage` — это модальное окно, которое открывается поверх основной страницы и занимает всю высоту окна браузера.
  *
- * Содержит в себе три компоненты: **SidePage.Header**,
- * **SidePage.Body** и **SidePage.Footer**
+ * Используйте его, когда нужно сохранить контекст и показать большое количество данных.
  *
- * Для отображения серой плашки в футере в компонент
- * **Footer** необходимо передать пропс **panel**
+ * Содержит в себе три компоненты: `SidePage.Header`, `SidePage.Body` и `SidePage.Footer`.
+ *
+ * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
  */
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
+  public static displayName = 'SidePage';
 
   public static Header = SidePageHeader;
   public static Body = SidePageBody;
@@ -141,6 +115,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentDidMount() {
     globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
+  }
+
+  public componentDidUpdate(prevProps: SidePageProps) {
+    if (prevProps.blockBackground !== this.props.blockBackground) {
+      ModalStack.rerender();
+      this.setState({
+        hasBackground: ModalStack.isBlocking(this),
+      });
+    }
   }
 
   public componentWillUnmount() {
@@ -168,60 +151,54 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getProps = createPropsGetter(SidePage.defaultProps);
 
-  private featureFlags!: ReactUIFeatureFlags;
-
   public render(): JSX.Element {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
   private renderMain() {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
-
     return (
-      <RenderContainer>
-        <CommonWrapper {...this.props}>
-          <div>
-            <ResponsiveLayout>
-              {({ isMobile }) => (
-                <>
-                  {blockBackground && this.renderShadow(isMobile)}
-                  <CSSTransition
-                    in
-                    classNames={this.getTransitionNames()}
-                    appear={!disableAnimations}
-                    enter={!disableAnimations}
-                    exit={false}
-                    timeout={{
-                      enter: TRANSITION_TIMEOUT,
-                      exit: TRANSITION_TIMEOUT,
-                    }}
-                    nodeRef={this.rootRef}
-                    onEntered={onOpened}
-                  >
-                    {this.renderContainer(isMobile)}
-                  </CSSTransition>
-                  {isMobile && <HideBodyVerticalScroll />}
-                </>
-              )}
-            </ResponsiveLayout>
-          </div>
-        </CommonWrapper>
-      </RenderContainer>
+      <ResponsiveLayout>
+        {({ isMobile }) => (
+          <RenderContainer>
+            <CommonWrapper {...this.props}>
+              <ZIndex
+                priority={'Sidepage'}
+                onScroll={LayoutEvents.emit}
+                createStackingContext
+                wrapperRef={this.rootRef}
+                style={{ position: 'absolute' }}
+              >
+                {blockBackground && this.renderShadow(isMobile)}
+                <CSSTransition
+                  in
+                  classNames={this.getTransitionNames()}
+                  appear={!disableAnimations}
+                  enter={!disableAnimations}
+                  exit={false}
+                  timeout={{
+                    enter: TRANSITION_TIMEOUT,
+                    exit: TRANSITION_TIMEOUT,
+                  }}
+                  nodeRef={this.rootRef}
+                  onEntered={onOpened}
+                >
+                  {this.renderContainer(isMobile)}
+                </CSSTransition>
+                {isMobile && <HideBodyVerticalScroll />}
+              </ZIndex>
+            </CommonWrapper>
+          </RenderContainer>
+        )}
+      </ResponsiveLayout>
     );
   }
 
@@ -234,7 +211,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (disableFocusLock !== undefined) {
       return disableFocusLock;
     }
-    return !this.featureFlags.sidePageEnableFocusLockWhenBackgroundBlocked;
+    return false;
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
@@ -242,18 +219,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { offset, role } = this.getProps();
 
     return (
-      <ZIndex
+      <div
         aria-modal
         role={role}
         aria-label={ariaLabel}
-        priority={'Sidepage'}
         data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
         })}
         onScroll={LayoutEvents.emit}
-        createStackingContext
         style={
           isMobile
             ? undefined
@@ -263,7 +238,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 left: fromLeft ? offset : 'auto',
               }
         }
-        wrapperRef={this.rootRef}
       >
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
@@ -283,7 +257,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             </div>
           </RenderLayer>
         </FocusLock>
-      </ZIndex>
+      </div>
     );
   }
 
@@ -312,7 +286,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderShadow(isMobile: boolean): JSX.Element {
     return (
-      <ZIndex priority={'Sidepage'} className={styles.overlay()} onScroll={LayoutEvents.emit}>
+      <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
         {!isMobile && (
           <>
             <HideBodyVerticalScroll key="hbvs" />
@@ -325,7 +299,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             />
           </>
         )}
-      </ZIndex>
+      </div>
     );
   }
 

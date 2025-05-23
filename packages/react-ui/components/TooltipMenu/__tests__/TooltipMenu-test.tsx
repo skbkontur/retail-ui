@@ -25,7 +25,7 @@ describe('<TooltipMenu />', () => {
     expect(renderNoCaption).toThrow('Prop "caption" is required!!!');
   });
 
-  test('Contains <Menu /> after clicking on caption', () => {
+  test('Contains <Menu /> after clicking on caption', async () => {
     render(
       <TooltipMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>First MenuItem</MenuItem>
@@ -33,12 +33,12 @@ describe('<TooltipMenu />', () => {
     );
 
     expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
   });
 
-  test("Contains <MenuItem />'s after clicking on caption", () => {
+  test("Contains <MenuItem />'s after clicking on caption", async () => {
     render(
       <TooltipMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>Test</MenuItem>
@@ -48,7 +48,7 @@ describe('<TooltipMenu />', () => {
     );
 
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(screen.queryAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
   });
@@ -59,7 +59,7 @@ describe('<TooltipMenu />', () => {
     expect(screen.getByTestId(TooltipMenuDataTids.root)).toBeInTheDocument();
   });
 
-  test('Click handler on menu item should be called before closing', () => {
+  test('Click handler on menu item should be called before closing', async () => {
     let testText = 'Foo bar';
     render(
       <TooltipMenu caption={<button id="captionForTest">Test</button>}>
@@ -74,12 +74,12 @@ describe('<TooltipMenu />', () => {
     );
 
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     const menuItem = screen.getByTestId(MenuItemDataTids.root);
     expect(menuItem).toBeInTheDocument();
 
-    userEvent.click(menuItem);
+    await userEvent.click(menuItem);
     expect(testText).toBe('Bar foo');
   });
 

@@ -2,14 +2,43 @@
 <style>
   html,
   body {
-    min-height: 100%;
+    height: 100%;
   }
 
   body {
-    font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
     font-size: 14px;
     margin: 0;
     background: white;
     color: rgba(0, 0, 0, 0.87);
+    padding: 0 !important;
+  }
+
+  body,
+  .sb-wrapper {
+    font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
+  }
+
+  html.relative {
+    position: relative;
+    height: auto;
+  }
+
+  #root {
+    min-height: 100%;
+  }
+
+  * {
+    /* disable scrollbars for firefox 100 */
+    /* see ID-10438 */
+    scrollbar-width: none;
+  }
+
+  /*Кастомные стили*/
+  :root {
+    --sidebar-width: 13rem;
+    --sidebar-left-padding: 0.5rem;
+    --sidebar-inner-width: calc(var(--sidebar-width) - var(--sidebar-left-padding));
+
+    --content-width: calc(100% - var(--sidebar-width));
   }
 </style>

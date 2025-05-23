@@ -10,7 +10,6 @@ import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useCo
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { UploadIcon } from '../../internal/icons/16px';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 import { keyListener } from '../../lib/events/keyListener';
@@ -20,57 +19,52 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
-import { UploadIcon as UploadIcon2022 } from './UploadIcon';
+import { UploadIcon } from './UploadIcon';
 import { globalClasses, jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
-
-/**
- * @deprecated use SizeProp
- */
-export type FileUploaderSize = SizeProp;
 
 type FileUploaderOverriddenProps = 'size';
 
 interface _FileUploaderProps
   extends CommonProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
+  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Начальное состояние загруженных файлов */
+  initialFiles?: File[];
   /** Состояние ошибки всего контрола */
   error?: boolean;
-  /** Состояние предупреждения всего контрола */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
-  /** Свойство ширины. */
+
+  /** Задает длину компонента. */
   width?: React.CSSProperties['width'];
-  /**
-   * Задаёт размер контрола.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+
+  /** Задаёт размер контрола. */
   size?: SizeProp;
-  /** Свойство, скрывающее отображение файлов.  */
+
+  /** Скрывает отображение файлов. */
   hideFiles?: boolean;
 
-  /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
+  /** Задает функцию, через которую отправляются файлы. Используется для отслеживания статуса загрузки файла.
+   * @param {FileUploaderAttachedFile} file - файл, статус загрузки которого необходимо отследить. */
   request?: (file: FileUploaderAttachedFile) => Promise<void>;
-  /** Срабатывает при удачной попытке отправки через request */
+
+  /** Задает функцию, которая вызывается при удачной попытке отправки через request. */
   onRequestSuccess?: (fileId: string) => void;
-  /** Срабатывает при неудачной попытке отправки через request */
+
+  /** Задает функцию, которая вызывается при неудачной попытке отправки через request. */
   onRequestError?: (fileId: string) => void;
 
-  /**
-   * Функция валидации каждого файла.
-   * Срабатывает после выбора файлов и перед попыткой отправить в request.
-   * Чтобы вывести валидацию ошибки, промис должен вернуть строку.
-   * */
+  /** Определяет функцию валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. Чтобы вывести валидацию ошибки, промис должен вернуть строку. * */
   validateBeforeUpload?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
 
-  /**
-   * Функция, позволяющая кастомизировать файлы.
-   * Через нее можно вешать кастомные валидации на каждый файл.
-   * */
+  /** Задает функцию, которая позволяет кастомизировать файлы. Через нее можно вешать кастомные валидации на каждый файл. */
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
@@ -79,6 +73,7 @@ export interface FileUploaderRef extends InstanceWithRootNode {
   blur: () => void;
   /** Сбрасывает выбранные файлы */
   reset: () => void;
+  removeFile: (fileId: string) => void;
 }
 
 export const FileUploaderDataTids = {
@@ -90,11 +85,11 @@ export const FileUploaderDataTids = {
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
-const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
+const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
   const theme = useContext(ThemeContext);
-  const _isTheme2022 = isTheme2022(theme);
 
   const {
+    initialFiles,
     disabled,
     error,
     warning,
@@ -163,7 +158,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   /** common part **/
   const handleChange = useCallback(
     (newFiles: FileList | null) => {
-      if (!newFiles) {
+      if (!newFiles || !newFiles.length) {
         return;
       }
 
@@ -188,16 +183,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   );
 
   const handleDrop = useCallback(
-    (event) => {
+    (event: DragEvent) => {
       if (disabled) {
         return;
       }
 
       const { dataTransfer } = event;
-      const { files } = dataTransfer;
-
-      if (files?.length > 0) {
-        handleChange(files);
+      if (dataTransfer) {
+        if (dataTransfer.files?.length > 0) {
+          handleChange(dataTransfer.files);
+        }
         dataTransfer.clearData();
       }
     },
@@ -220,11 +215,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [
+  useImperativeHandle(ref, () => ({ focus, blur, reset, removeFile, getRootNode: () => rootNodeRef.current }), [
     ref,
     blur,
     focus,
     reset,
+    removeFile,
   ]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
@@ -253,6 +249,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     }
   };
 
+  const handleRemoveFile = useCallback((fileId: string) => {
+    const dataTransfer = new DataTransfer();
+    files
+      .filter((f) => f.id !== fileId)
+      .forEach((file) => {
+        dataTransfer.items.add(file.originalFile);
+      });
+    inputRef.current && (inputRef.current.files = dataTransfer.files);
+  }, []);
+
   const [hovered, setHovered] = useState(false);
 
   const uploadButtonClassNames = cx(
@@ -267,10 +273,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   );
 
   const canDrop = isWindowDraggable && !disabled;
-  const uploadButtonWrapperClassNames = cx(
-    !_isTheme2022 && canDrop && jsStyles.windowDragOver(theme),
-    _isTheme2022 && canDrop && jsStyles.windowDragOver2022(theme),
-  );
+  const uploadButtonWrapperClassNames = cx(canDrop && jsStyles.windowDragOver(theme));
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), sizeIconClass, disabled && jsStyles.iconDisabled(theme));
 
@@ -289,6 +292,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);
   }, [isMinLengthReached, hasOneFileForSingle]);
 
+  useEffect(() => {
+    if (!files || !files.length || !inputRef.current) {
+      return;
+    }
+
+    const dataTransfer = new DataTransfer();
+    files.forEach((file) => dataTransfer.items.add(file.originalFile));
+    inputRef.current.files = dataTransfer.files;
+  }, []);
+
   const rootNodeRef = useRef(null);
 
   const iconSizes: Record<SizeProp, number> = {
@@ -296,7 +309,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),
   };
-  const icon = _isTheme2022 ? <UploadIcon2022 size={iconSizes[size]} /> : <UploadIcon />;
+  const icon = <UploadIcon size={iconSizes[size]} />;
 
   return (
     <CommonWrapper {...props}>
@@ -306,7 +319,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
         style={useMemoObject({ width })}
         ref={rootNodeRef}
       >
-        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} size={size} />}
+        {!hideFiles && !isSingleMode && !!files.length && (
+          <FileUploaderFileList renderFile={renderFile} size={size} onRemove={handleRemoveFile} />
+        )}
         <div className={uploadButtonWrapperClassNames}>
           <label
             onMouseEnter={() => setHovered(true)}
@@ -332,7 +347,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
               >
                 {hasOneFileForSingle ? (
                   <div ref={fileDivRef} className={jsStyles.singleFile()}>
-                    {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
+                    {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} onRemove={handleRemoveFile} />)}
                   </div>
                 ) : (
                   <>
@@ -342,22 +357,22 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                 )}
               </div>
             </div>
-            <input
-              {...inputProps}
-              data-tid={FileUploaderDataTids.input}
-              ref={inputRef}
-              tabIndex={disabled ? -1 : 0}
-              type="file"
-              disabled={disabled}
-              multiple={multiple}
-              className={jsStyles.visuallyHidden()}
-              onClick={stopPropagation}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-              value={''}
-            />
+            <FocusControlWrapper onBlurWhenDisabled={() => setFocusedByTab(false)}>
+              <input
+                {...inputProps}
+                data-tid={FileUploaderDataTids.input}
+                ref={inputRef}
+                tabIndex={disabled ? -1 : 0}
+                type="file"
+                disabled={disabled}
+                multiple={multiple}
+                className={jsStyles.visuallyHidden()}
+                onClick={stopPropagation}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+            </FocusControlWrapper>
           </label>
         </div>
       </div>
@@ -367,6 +382,11 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
 export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
+/**
+ * `FileUploader` — контрол для выбора пользователем файла на компьютере и отображения статуса его отправки на сервер.
+ *
+ * Можно использовать для синхронной отправки данных, например, в форме. Или же можно использовать в асинхронном режиме.
+ */
 export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(
   React.memo(_FileUploader),
 );

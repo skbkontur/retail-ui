@@ -7,15 +7,19 @@ import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
 interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
+  /** Задает функцию, которая вызывается при изменении лейаута. */
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
+
+  /** @ignore */
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
+
+  /** Позволяет кастомизировать возвращаемые флаги. */
   customMediaQueries?: T;
 }
 
 /**
- * Компонент для определения текущего лэйаута.
+ * Компонент `ResponsiveLayout` для определения текущего лэйаута.
  */
-
 export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(props: ResponsiveLayoutProps<T>) {
   const layoutFlags = useResponsiveLayout<T>({ customMediaQueries: props.customMediaQueries });
 
@@ -31,3 +35,6 @@ export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(props
     </CommonWrapper>
   );
 }
+
+ResponsiveLayout.__KONTUR_REACT_UI__ = 'ResponsiveLayout';
+ResponsiveLayout.displayName = 'ResponsiveLayout';

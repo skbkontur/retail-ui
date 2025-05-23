@@ -24,42 +24,26 @@ interface TabType<T extends ValueBaseType> {
 }
 
 export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
-  /**
-   * Позволяет задать кастомный класс подчёркиванию таба.
-   */
+  /** Задает кастомный класс подчёркиванию таба. */
   indicatorClassName?: string;
 
-  /**
-   * Задаёт размер контрола.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
+  /** Задает размер контрола. */
   size?: SizeProp;
 
-  /**
-   * Задаёт текущий активный `<Tab />`. Принимает `id` таба.
-   */
+  /** Задает текущий активный `<Tab />`. Принимает `id` таба. */
   value: T;
 
-  /**
-   * Функция, позволяющая изменить текущий активный `<Tab />`.
-   */
+  /** Задает функцию, изменяющую текущий активный `<Tab />`. */
   onValueChange?: (value: T) => void;
 
-  /**
-   * Переводит компонент в режим вертикального отображения.
-   * @default false
-   */
+  /** Задает расположение элементов по вертикали.
+   * @default false */
   vertical?: boolean;
 
-  /**
-   * `CSS`-свойство `width`.
-   */
+  /** Задает ширину компонента Tabs. */
   width?: number | string;
 
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его.
-   */
+  /** @ignore */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 }
 
@@ -71,11 +55,17 @@ export const TabsDataTids = {
 type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 
 /**
- * Родитель компонента `<Tab />`. Связывает `Tab`'ы в группу и позволяет управлять их состоянием.
+ * Родитель компонента Tab. Связывает `Tab`'ы в группу и позволяет управлять их состоянием, помогают в навигации.
+ *
+ * Используйте `Tabs` для второстепенной навигации, для группировки или фильтрации контента.
+ *
+ * Не используйте `Tabs` для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
+ * Не используйте `Tabs` для переключения состояний — для этого есть RadioGroup, Toggle и Switcher.
  */
 @rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
+  public static displayName = 'Tabs';
 
   public static defaultProps: DefaultProps = {
     vertical: false,

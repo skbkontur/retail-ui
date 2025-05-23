@@ -1,6 +1,4 @@
 import React from 'react';
-import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
-import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
@@ -10,21 +8,10 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import styled from 'styled-components';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
-
-interface LinkContainerProps {
-  error?: boolean;
-}
-
-const LinkContainer = styled.span<LinkContainerProps>`
-    background-color: ${(props) => (props.error ? '#FDE8E8' : 'transparent')}
-    padding: 1px 5px;
-    margin: -1px -5px;
-`;
 
 export interface ContactInfo {
   name: string;
@@ -242,14 +229,9 @@ export default class EditorsDemo extends React.Component {
 
           <Form.Line title="Ссылка">
             <ValidationWrapper validationInfo={v.getNode((x) => x.clicked).get()}>
-              <LinkContainer>
-                <Link
-                  icon={data.clicked ? <ThumbUpIcon /> : <ThumbDownIcon />}
-                  onClick={() => this.handleChange({ clicked: !data.clicked })}
-                >
-                  Нажми меня
-                </Link>
-              </LinkContainer>
+              <Link onClick={() => this.handleChange({ clicked: !data.clicked })}>
+                Нажми меня
+              </Link>
             </ValidationWrapper>
           </Form.Line>
 
@@ -268,10 +250,7 @@ export default class EditorsDemo extends React.Component {
   };
 
   private handleSubmit = async (): Promise<void> => {
-    if (!this.container) {
-      throw new Error('invalid state');
-    }
-    if (await this.container.validate()) {
+    if (await this.container?.validate()) {
       alert('success');
     }
   };

@@ -1,14 +1,15 @@
-Простой пример.
+### Базовый пример
 
 ```jsx harmony
 const [value, setValue] = React.useState();
 
-const items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
+const items = [Select.staticElement(() => <Select.Item>Not
+  selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
-<Select items={items} value={value} onValueChange={setValue} />;
+<Select items={items} value={value} onValueChange={setValue}/>;
 ```
 
-
+### Запрет выделения и выбора
 В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню
 
 ```jsx harmony
@@ -20,6 +21,7 @@ const items = [<Select.Item isNotSelectable>Not selectable</Select.Item>, 'One',
 <Select items={items} value={value} onValueChange={setValue} />
 ```
 
+### Очистка значения
 Очистить значение в `Select`'е можно только с помощью `null`
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
@@ -34,7 +36,7 @@ const items = ['One', 'Two', 'Three', 'Four'];
 </Group>
 ```
 
-Пример с полем поиска.
+### Поле поиска
 
 ```jsx harmony
 const [value, setValue] = React.useState();
@@ -44,20 +46,21 @@ const items = ['One', 'Two', 'Three', Select.SEP, 'Four'];
 <Select items={items} value={value} onValueChange={setValue} search />;
 ```
 
-Пример использования пропа `_renderButton`:
+### Пример использования пропа `_renderButton`:
 
 ```jsx harmony
-import { Link } from '@skbkontur/react-ui';
+import {Link} from '@skbkontur/react-ui';
 import PeopleIcon from '@skbkontur/react-icons/People';
 
 const [value, setValue] = React.useState();
 
-const  items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
+const items = [Select.staticElement(() => <Select.Item>Not
+  selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
 const renderLinkButton = params => {
   const linkProps = {
     disabled: params.disabled,
-    icon: <PeopleIcon />,
+    icon: <PeopleIcon/>,
     _button: true,
     _buttonOpened: params.opened,
 
@@ -76,7 +79,7 @@ const renderLinkButton = params => {
 />;
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface SelectLocale {
@@ -92,7 +95,7 @@ const en_GB = {
 };
 ```
 
-У Select есть 3 стандартных размера.
+### Размер
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
 

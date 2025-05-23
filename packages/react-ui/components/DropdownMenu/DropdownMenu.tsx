@@ -1,4 +1,4 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Nullable } from '../../typings/utility-types';
@@ -13,6 +13,7 @@ import { getDropdownMenuTheme } from './getDropdownMenuTheme';
 
 export interface DropdownMenuProps
   extends Pick<AriaAttributes, 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
   /** Максимальная высота меню */
@@ -56,16 +57,20 @@ export interface DropdownMenuProps
    * Не показывать анимацию
    */
   disableAnimations?: boolean;
+
+  /** @ignore */
+  corners?: React.CSSProperties;
 }
 
 type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
 
 /**
- * Меню, раскрывающееся по клику на переданный в `caption` элемент
+ * Выпадающее меню `DropdownMenu` раскрывается по клику на переданный в `caption` элемент.
  */
 @rootNode
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
+  public static displayName = 'DropdownMenu';
 
   public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
@@ -103,6 +108,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
+          id={this.props.id}
           aria-label={this.props['aria-label']}
           ref={this.refPopupMenu}
           caption={this.props.caption}
@@ -115,6 +121,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}
+          corners={this.props.corners}
           onClose={this.props.onClose}
           onOpen={this.props.onOpen}
           popupMenuId={this.props.popupMenuId}

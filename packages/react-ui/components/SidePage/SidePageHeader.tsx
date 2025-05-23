@@ -11,7 +11,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -19,7 +19,10 @@ import { SidePageCloseButton } from './SidePageCloseButton';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+  /** Закрепляет хедер сверху сайдпейджа. */
   sticky?: boolean;
+
+  /** Определяет, нужно ли показывать ModalSeparator. */
   hasSeparator?: boolean;
 }
 
@@ -41,6 +44,7 @@ export const SidePageHeaderDataTids = {
 @rootNode
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
+  public static displayName = 'SidePageHeader';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
@@ -60,8 +64,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
   private setRootNode!: TSetRootNode;
-  private closeIcon = (<SidePageCloseButton />);
-
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
     if (!this.wrapper) {
@@ -124,7 +126,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const isStickyDesktop = !this.isMobileLayout && this.getStickyProp() && isReadyToFix;
     const isStickyMobile = this.isMobileLayout && this.getStickyProp();
 
-    const header = isTheme2022(this.theme) ? this.renderHeader2022 : this.renderHeader;
+    const header = this.renderHeader;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -142,31 +144,26 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   private renderHeader = (fixed = false) => {
-    return (
-      <div
-        className={cx(styles.header(this.theme), {
-          [styles.headerFixed(this.theme)]: fixed,
-          [styles.mobileHeader(this.theme)]: this.isMobileLayout,
-        })}
-      >
-        {this.renderClose(fixed)}
-        <div
-          className={cx(styles.title(this.theme), {
-            [styles.mobileTitle(this.theme)]: this.isMobileLayout,
-            [styles.titleFixed()]: fixed,
-          })}
-        >
-          {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
-        </div>
-      </div>
-    );
-  };
-
-  private renderHeader2022 = (fixed = false) => {
     const isDisplayed = this.props.hasSeparator || fixed;
     return (
       <div>
-        {this.renderHeader(fixed)}
+        <div
+          className={cx(styles.header(this.theme), {
+            [styles.headerFixed(this.theme)]: fixed,
+            [styles.mobileHeader(this.theme)]: this.isMobileLayout,
+          })}
+        >
+          {this.renderClose(fixed)}
+          <div
+            className={cx(styles.title(this.theme), {
+              [styles.title5_1(this.theme)]: isThemeGTE(this.theme, '5.1'),
+              [styles.mobileTitle(this.theme)]: this.isMobileLayout,
+              [styles.titleFixed()]: fixed,
+            })}
+          >
+            {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
+          </div>
+        </div>
         {isDisplayed && <ModalSeparator fixed={fixed} />}
       </div>
     );
@@ -174,18 +171,22 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderClose = (fixed: boolean) => {
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
+    const versionGTE5_1 = isThemeGTE(this.theme, '5.1');
     return (
       <div
         className={cx(styles.wrapperClose(this.theme), {
+          [styles.wrapperClose5_1(this.theme)]: versionGTE5_1,
           [styles.wrapperCloseFixed(this.theme)]: fixed,
+          [styles.wrapperCloseFixed5_1(this.theme)]: fixed && versionGTE5_1,
           [styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
+          [styles.mobileWrapperClose5_1(this.theme)]: this.isMobileLayout && versionGTE5_1,
         })}
       >
         {this.isMobileLayout ? (
-          this.closeIcon
+          <SidePageCloseButton isHeaderFixed={fixed} isMobile />
         ) : (
           <Sticky side="top" offset={stickyOffset}>
-            {this.closeIcon}
+            <SidePageCloseButton isHeaderFixed={fixed} />
           </Sticky>
         )}
       </div>

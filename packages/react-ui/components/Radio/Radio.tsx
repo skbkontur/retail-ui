@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -15,13 +13,9 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Radio.styles';
-
-/**
- * @deprecated use SizeProp
- */
-export type RadioSize = SizeProp;
 
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,
@@ -29,41 +23,34 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         *  Состояние валидации при ошибке.
-         */
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /**
-         * Размер
-         */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /**
-         * Состояние фокуса.
-         */
+
+        /** Задает состояние фокуса. */
         focused?: boolean;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+
+        /** Задает функцию, которая вызывается при изменении value. */
         onValueChange?: (value: T) => void;
-        /**
-         * HTML-событие `onmouseenter`
-         */
+
+        /** Задает HTML-событие `onmouseenter`.
+         * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`
-         */
+
+        /** Задает HTML-событие `onmouseleave`.
+         * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `onmouseover`
-         */
+
+        /** Задает HTML-событие `onmouseover`.
+         * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-атрибут `value`.
-         */
+
+        /** Устанавливает значение. */
         value: T;
       }
     > {}
@@ -79,11 +66,12 @@ export const RadioDataTids = {
 type DefaultProps = Required<Pick<RadioProps<any>, 'focused' | 'size'>>;
 
 /**
- * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
+ * Радио-кнопки `Radio` используются, когда может быть выбран только один вариант из нескольких.
  */
 @rootNode
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
+  public static displayName = 'Radio';
 
   public state = {
     focusedByKeyboard: false,
@@ -145,7 +133,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -245,7 +233,9 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     return (
       <label data-tid={RadioDataTids.root} {...labelProps}>
-        <input {...inputProps} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} />
+        </FocusControlWrapper>
         <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>
@@ -304,8 +294,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByKeyboard: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByKeyboard: false });
   };
 }

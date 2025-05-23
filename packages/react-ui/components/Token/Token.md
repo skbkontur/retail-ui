@@ -1,4 +1,4 @@
-Token example
+### Базовый пример
 
 ```jsx harmony
 import { Token } from '@skbkontur/react-ui';
@@ -6,7 +6,8 @@ import { Token } from '@skbkontur/react-ui';
 <Token>Example</Token>;
 ```
 
-You can control color of each token
+### Цвет токена
+У разных токенов может быть разный цвет.
 
 ```jsx harmony
 import { Gapped, Token } from '@skbkontur/react-ui';
@@ -88,7 +89,7 @@ const colors = {
 </Gapped>;
 ```
 
-Can accept validation state
+### Состояние валидации
 
 ```jsx harmony
 import { Gapped, Token } from '@skbkontur/react-ui';
@@ -111,9 +112,11 @@ import { Gapped, Token } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-У Token есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
+import { Gapped, Token } from '@skbkontur/react-ui';
+
 <Gapped vertical>
   <Token size="small">
     Маленький

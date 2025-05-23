@@ -71,6 +71,6 @@ export default function transform(file: FileInfo, api: API) {
       return path.node;
     });
   if (modified) {
-    return result.toSource();
+    return result.toSource({ lineTerminator: '\n' });
   }
 }

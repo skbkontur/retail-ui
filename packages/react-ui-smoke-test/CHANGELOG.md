@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-smoke-test@3.0.0...react-ui-smoke-test@3.0.1) (2025-04-11)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.13...react-ui-smoke-test@3.0.0) (2024-10-21)
+
+
+### Features
+
+* update dependencies ([#3400](https://github.com/skbkontur/retail-ui/issues/3400)) ([d54f08d](https://github.com/skbkontur/retail-ui/commit/d54f08db9b10e2b10cb2d40c695a79f4e93271f5))
+
+
+
+
+
+## [2.0.13](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.12...react-ui-smoke-test@2.0.13) (2024-09-30)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
+## [2.0.12](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.11...react-ui-smoke-test@2.0.12) (2024-04-16)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
+## [2.0.11](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.10...react-ui-smoke-test@2.0.11) (2024-04-09)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
 ## [2.0.10](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.9...react-ui-smoke-test@2.0.10) (2023-12-04)
 
 **Note:** Version bump only for package react-ui-smoke-test

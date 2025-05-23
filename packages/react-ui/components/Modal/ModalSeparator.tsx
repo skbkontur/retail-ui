@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from './Modal.styles';
 
 export interface ModalSeparatorProps extends CommonProps {
+  /** Фиксирует позицию ModalSeparator. */
   fixed?: boolean;
 }
 
@@ -24,3 +25,6 @@ export function ModalSeparator({ fixed }: ModalSeparatorProps) {
     </div>
   );
 }
+
+ModalSeparator.__KONTUR_REACT_UI__ = 'ModalSeparator';
+ModalSeparator.displayName = 'ModalSeparator';

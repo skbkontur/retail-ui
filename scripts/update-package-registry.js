@@ -1,60 +1,46 @@
 const path = require('path');
-const { existsSync, readFileSync, writeFileSync, unlinkSync } = require('fs');
+const { existsSync, readFileSync, writeFileSync } = require('fs');
 
 const LOCK_FILES_PATHS = [
   path.join(__dirname, '../yarn.lock'),
   path.join(__dirname, '../packages/react-ui-testing/TestPages/yarn.lock'),
   path.join(__dirname, '../packages/react-ui-smoke-test/react-ui-ssr/yarn.lock'),
 ];
-const ORIGINAL_REGISTRIES_FILE_NAME = 'original_registries.json';
-const ENV_PACKAGE_REGISTRY = getRegistryFromEnv();
 
-const CONFIG_PACKAGE_REGISTRIES = ['https://registry.npmjs.org', 'https://registry.yarnpkg.com'];
+const YARNRC_FILE_PATH = path.join(__dirname, '../.yarnrc');
+const NPMRC_FILE_PATH = path.join(__dirname, '../.npmrc');
+const ENV_FILE_PATH = path.join(__dirname, '../.env');
+const NEXUS_PACKAGE_REGISTRY = getValueFromFile(ENV_FILE_PATH, 'PACKAGE_REGISTRY');
+const NPM_PACKAGE_REGISTRY = getValueFromFile(NPMRC_FILE_PATH, 'registry');
 
-if (ENV_PACKAGE_REGISTRY) {
+if (NEXUS_PACKAGE_REGISTRY) {
+  const yarnrcFile = readFileSync(YARNRC_FILE_PATH, 'utf-8');
+
+  if (process.argv.includes('back')) {
+    writeFileSync(YARNRC_FILE_PATH, yarnrcFile.replaceAll(NEXUS_PACKAGE_REGISTRY, NPM_PACKAGE_REGISTRY));
+  } else {
+    writeFileSync(YARNRC_FILE_PATH, yarnrcFile.replaceAll(NPM_PACKAGE_REGISTRY, NEXUS_PACKAGE_REGISTRY));
+  }
+
   LOCK_FILES_PATHS.forEach((lockFilePath) => {
     const lockFile = readFileSync(lockFilePath, 'utf-8');
-    const originalRegistriesFilePath = path.join(path.dirname(lockFilePath), ORIGINAL_REGISTRIES_FILE_NAME);
 
-    let modifiedLockFile = '';
-
-    if (process.argv.includes('back')) {
-      const originalRegistries = require(originalRegistriesFilePath);
-
-      modifiedLockFile = lockFile.replaceAll(ENV_PACKAGE_REGISTRY, () => {
-        return originalRegistries.shift();
-      });
-
-      unlinkSync(originalRegistriesFilePath);
-    } else {
-      const originalRegistries = [];
-
-      modifiedLockFile = lockFile.replaceAll(new RegExp(CONFIG_PACKAGE_REGISTRIES.join('|'), 'g'), (match) => {
-        originalRegistries.push(match);
-        return ENV_PACKAGE_REGISTRY;
-      });
-
-      writeFileSync(originalRegistriesFilePath, JSON.stringify(originalRegistries, null, 2));
-    }
+    const modifiedLockFile = process.argv.includes('back')
+      ? lockFile.replaceAll(NEXUS_PACKAGE_REGISTRY, NPM_PACKAGE_REGISTRY)
+      : lockFile.replaceAll(NPM_PACKAGE_REGISTRY, NEXUS_PACKAGE_REGISTRY);
 
     writeFileSync(lockFilePath, modifiedLockFile);
   });
 }
 
-function getRegistryFromEnv() {
-  const ENV_VAR_NAME = 'PACKAGE_REGISTRY';
-  const ENV_FILE_PATH = path.join(__dirname, '../.env');
-
-  if (process.env[ENV_VAR_NAME]) {
-    return process.env[ENV_VAR_NAME];
-  }
-
-  if (!existsSync(ENV_FILE_PATH)) {
+function getValueFromFile(filePath, valueName) {
+  if (!existsSync(filePath)) {
     return undefined;
   }
 
-  return readFileSync(ENV_FILE_PATH, 'utf-8')
+  return readFileSync(filePath, 'utf-8')
     .split('\n')
-    .find((line) => line.startsWith(`${ENV_VAR_NAME}=`))
-    ?.split('=')[1];
+    .find((line) => line.startsWith(`${valueName}=`))
+    ?.split('=')[1]
+    .trim();
 }

@@ -2,7 +2,7 @@ import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'reac
 import { globalObject, SafeTimer } from '@skbkontur/global-object';
 
 interface IUseDropProps {
-  onDrop?: (event: Event) => void;
+  onDrop?: (event: DragEvent) => void;
 }
 
 type IElementWithListener = Pick<HTMLElement, 'addEventListener' | 'removeEventListener'>;
@@ -25,7 +25,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
   }, []);
 
   const handleDragOver = useCallback(
-    (event) => {
+    (event: DragEvent) => {
       event.preventDefault();
       setIsDraggable(true);
 
@@ -38,13 +38,13 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
     [clearTimer],
   );
 
-  const preventDefault = useCallback((event) => {
+  const preventDefault = useCallback((event: DragEvent) => {
     event.preventDefault();
     event.stopPropagation();
   }, []);
 
   const handleDrop = useCallback(
-    (event: Event) => {
+    (event: DragEvent) => {
       preventDefault(event);
       setIsDraggable(false);
       overRef.current = false;

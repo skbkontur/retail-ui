@@ -1,0 +1,9 @@
+{
+  "files": ["./build/react-ui-dist/index.d.ts"],
+  "compilerOptions": {
+    "lib": ["es2017", "es2015", "dom"],
+    "types": [],
+    "skipLibCheck": false,
+    "allowSyntheticDefaultImports": true
+  }
+}

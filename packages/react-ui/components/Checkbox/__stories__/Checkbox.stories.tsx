@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 
-import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
-import { delay } from '../../../lib/utils';
 import { SizeProp } from '../../../lib/types/props';
 
 interface PlainCheckboxState {
   checked: false;
   size?: SizeProp;
 }
-class PlainCheckbox extends React.Component {
+class PlainCheckbox extends React.Component<React.PropsWithChildren> {
   public state: PlainCheckboxState = {
     checked: false,
   };
@@ -35,7 +34,7 @@ interface IndeterminatePlaygroundState {
   checked: boolean;
 }
 
-class IndeterminatePlayground extends React.Component {
+class IndeterminatePlayground extends React.Component<React.PropsWithChildren> {
   public state: IndeterminatePlaygroundState = {
     checked: false,
   };
@@ -93,117 +92,23 @@ class IndeterminatePlayground extends React.Component {
   };
 }
 
-const checkboxTests: CreeveyTests = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hovered() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }),
-      })
-      .perform();
-    await delay(1000);
+export default {
+  title: 'Checkbox',
+  component: Checkbox,
+} as Meta;
 
-    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-  },
-  async pressed() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }),
-      })
-      .press()
-      .perform();
-    await delay(1000);
+export const Default: Story = () => {
+  const [checked, setChecked] = React.useState(false);
 
-    await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .release()
-      .perform();
-  },
-  async clicked() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-  },
-  async tabPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: this.browser.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  },
-  async spacePress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-tid~="test-checkbox"]' }))
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: this.browser.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .sendKeys(this.keys.TAB)
-      .pause(1000)
-      .sendKeys(this.keys.SPACE)
-      .pause(1000)
-      .perform();
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('spacePress');
-  },
+  return (
+    <Checkbox checked={checked} onValueChange={setChecked} data-tid="test-checkbox">
+      Обычный чекбокс
+    </Checkbox>
+  );
 };
-
-export default { title: 'Checkbox' } as Meta;
 
 export const Plain: Story = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
 Plain.storyName = 'plain';
-
-Plain.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hovered', 'pressed', 'clicked'],
-      },
-    },
-    tests: checkboxTests,
-  },
-};
 
 export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
 Unchecked.storyName = 'unchecked';
@@ -215,25 +120,6 @@ export const Checked = () => (
   </Checkbox>
 );
 Checked.storyName = 'checked';
-
-Checked.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hovered', 'pressed', 'clicked'],
-      },
-    },
-    tests: {
-      idle: checkboxTests['idle'],
-      hovered: checkboxTests['hovered'],
-      pressed: checkboxTests['pressed'],
-    },
-  },
-};
 
 export const Disabled = () => <Checkbox disabled>Disabled</Checkbox>;
 Disabled.storyName = 'disabled';
@@ -320,63 +206,6 @@ ProgrammaticFocus.parameters = { creevey: { skip: true } };
 export const Indeterminate: Story = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
 Indeterminate.storyName = 'indeterminate';
 
-Indeterminate.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
-    },
-    tests: {
-      async plain() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('plain');
-      },
-      async hovered() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'label' }),
-          })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
-      },
-      async tabPress() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async clicked() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};
-
 export const Highlighted: Story = () => {
   return (
     <div style={{ margin: 5 }}>
@@ -394,27 +223,6 @@ export const Highlighted: Story = () => {
 };
 Highlighted.storyName = 'highlighted';
 
-Highlighted.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-    },
-  },
-};
-
 export const CheckboxLabelSelectionWithPressedShift: Story = () => {
   const [checked, setChecked] = useState(false);
 
@@ -425,25 +233,6 @@ export const CheckboxLabelSelectionWithPressedShift: Story = () => {
   );
 };
 CheckboxLabelSelectionWithPressedShift.storyName = 'checkbox label selection with pressed shift';
-
-CheckboxLabelSelectionWithPressedShift.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async 'selected with pressed shift'() {
-        const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
-
-        await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('selected with pressed shift');
-
-        await this.browser.actions({ bridge: true }).keyUp(this.keys.SHIFT).perform();
-      },
-    },
-  },
-};
 
 export const Size: Story = () => {
   return (

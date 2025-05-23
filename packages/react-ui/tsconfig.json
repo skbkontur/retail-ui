@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "types": ["jest", "@testing-library/jest-dom", "creevey/selenium"],
     "isolatedModules": true,
     "importHelpers": false,
     "useUnknownInCatchVariables": false
-  }
+  },
+  "exclude": ["**/__docs__/**/*"]
 }

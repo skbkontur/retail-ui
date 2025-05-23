@@ -3,9 +3,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const shouldCompensateFontFamily = (fontFamilyCompensation: string): boolean =>
-  Boolean(parseInt(fontFamilyCompensation));
-
 export const styles = memoizeStyle({
   wrapper() {
     return css`
@@ -65,12 +62,6 @@ export const styles = memoizeStyle({
       box-shadow: none;
       border-color: transparent;
       background-clip: padding-box;
-    `;
-  },
-
-  useDefaultColor(t: Theme) {
-    return css`
-      color: ${t.inputIconColor};
     `;
   },
 
@@ -254,14 +245,8 @@ export const styles = memoizeStyle({
 
   sizeSmallFallback(t: Theme) {
     return css`
-      padding-top: ${shift(
-        t.inputPaddingYSmall,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYSmall,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
-      )};
+      padding-top: ${shift(t.inputPaddingYSmall, '0')};
+      padding-bottom: ${shift(t.inputPaddingYSmall, '0')};
       padding-left: ${t.inputPaddingXSmall};
       padding-right: ${t.inputPaddingXSmall};
       line-height: normal;
@@ -283,14 +268,8 @@ export const styles = memoizeStyle({
 
   sizeMediumFallback(t: Theme) {
     return css`
-      padding-top: ${shift(
-        t.inputPaddingYMedium,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYMedium,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
-      )};
+      padding-top: ${shift(t.inputPaddingYMedium, '0')};
+      padding-bottom: ${shift(t.inputPaddingYMedium, '0')};
       padding-left: ${t.inputPaddingXMedium};
       padding-right: ${t.inputPaddingXMedium};
       line-height: normal;
@@ -302,14 +281,8 @@ export const styles = memoizeStyle({
       font-size: ${t.inputFontSizeLarge};
       line-height: ${t.inputLineHeightLarge};
       height: ${t.inputHeightLarge};
-      padding-top: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
-      )};
+      padding-top: ${shift(t.inputPaddingYLarge, '0')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '0')};
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
       border-radius: ${t.inputBorderRadiusLarge};
@@ -318,128 +291,11 @@ export const styles = memoizeStyle({
 
   sizeLargeFallback(t: Theme) {
     return css`
-      padding-top: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-2' : '0',
-      )};
-      padding-bottom: ${shift(
-        t.inputPaddingYLarge,
-        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '2' : '0',
-      )};
+      padding-top: ${shift(t.inputPaddingYLarge, '0')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '0')};
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
       line-height: normal;
-    `;
-  },
-
-  prefix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColor};
-    `;
-  },
-
-  prefixDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
-
-  suffix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColor};
-    `;
-  },
-
-  suffixDisabled(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderColorDisabled};
-    `;
-  },
-
-  sideContainer() {
-    return css`
-      align-items: center;
-      display: flex;
-      flex-shrink: 0;
-      height: 100%;
-
-      &::before {
-        content: '\\a0';
-        display: inline-block;
-        width: 0;
-      }
-    `;
-  },
-
-  rightContainer() {
-    return css`
-      justify-self: flex-end;
-      margin: 0 0 0 auto;
-      padding-left: 0;
-    `;
-  },
-
-  icon() {
-    return css`
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
-      text-align: center;
-      box-sizing: content-box !important; // fix possible "reset.css" problem
-    `;
-  },
-
-  iconFocus(t: Theme) {
-    return css`
-      color: ${t.inputFocusedIconColor};
-    `;
-  },
-
-  iconDisabled() {
-    return css`
-      cursor: default;
-    `;
-  },
-
-  leftIconSmall(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeSmall};
-      padding-right: ${t.inputIconGapSmall};
-    `;
-  },
-
-  rightIconSmall(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeSmall};
-      padding-left: ${t.inputIconGapSmall};
-    `;
-  },
-
-  leftIconMedium(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeMedium};
-      padding-right: ${t.inputIconGapMedium};
-    `;
-  },
-
-  rightIconMedium(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeMedium};
-      padding-left: ${t.inputIconGapMedium};
-    `;
-  },
-
-  leftIconLarge(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeLarge};
-      padding-right: ${t.inputIconGapLarge};
-    `;
-  },
-
-  rightIconLarge(t: Theme) {
-    return css`
-      min-width: ${t.inputIconSizeLarge};
-      padding-left: ${t.inputIconGapLarge};
     `;
   },
 

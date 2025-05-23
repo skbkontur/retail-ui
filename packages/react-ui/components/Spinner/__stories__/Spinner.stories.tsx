@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Meta } from '../../../typings/stories';
 import { Spinner } from '../Spinner';
-import { OkIcon } from '../../../internal/icons/16px';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 
 const reactNodeCaption = (
   <div>
@@ -15,13 +15,14 @@ const SpinnerLikeIcon = () => (
     <Spinner type="mini" caption={null} />
     Загрузка
     <br />
-    <OkIcon />
+    <CheckAIcon16Regular />
     Загрузка
   </>
 );
 
 export default {
   title: 'Spinner',
+  component: Spinner,
   parameters: {
     creevey: {
       skip: {
@@ -30,7 +31,7 @@ export default {
     },
   },
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div style={{ height: 150, width: 200, padding: 4 }}>
         <Story />
       </div>
@@ -42,6 +43,7 @@ export const Normal = () => <Spinner />;
 export const Big = () => <Spinner type="big" />;
 export const Mini = () => <Spinner type="mini" />;
 export const MiniDimmed = () => <Spinner type="mini" dimmed />;
+export const WithCaption = () => <Spinner caption={'Loading'} />;
 export const WithCustomColor = () => <Spinner type="big" color={'pink'} />;
 export const WithCustomWidth = () => <Spinner type="big" width={10} />;
 MiniDimmed.storyName = 'Mini dimmed';

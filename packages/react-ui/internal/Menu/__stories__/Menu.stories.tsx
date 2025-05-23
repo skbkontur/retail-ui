@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
-import { OkIcon } from '../../../internal/icons/16px';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 import { Menu } from '../Menu';
-import { MenuItem } from '../../../components/MenuItem';
+import { MenuItem, MenuItemProps } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 
@@ -11,7 +11,7 @@ export default {
   title: 'Menu',
   parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div id="menu-test-container" style={{ padding: 10 }}>
         <Story />
       </div>
@@ -31,8 +31,8 @@ WithItems.storyName = 'with Items';
 export const WithItemsWithIcons = () => (
   <Menu>
     <MenuHeader>MenuHeader</MenuHeader>
-    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
@@ -40,15 +40,11 @@ export const WithItemsWithIcons = () => (
 export const WithItemsWithIconsWithoutTextAlignment = () => (
   <Menu preventIconsOffset>
     <MenuHeader>MenuHeader</MenuHeader>
-    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
-
-WithItemsWithIconsWithoutTextAlignment.parameters = {
-  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
-};
 
 export const WithHeader = () => (
   <Menu>
@@ -97,67 +93,6 @@ export const WithMaxHeight: Story = () => (
 );
 WithMaxHeight.storyName = 'with maxHeight';
 
-WithMaxHeight.parameters = {
-  creevey: {
-    captureElement: '[data-tid="menu-container"',
-    skip: {
-      flacky: { in: ['chrome2022'] },
-    },
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async 'moved up from top to the last Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved up from top to the last Item');
-      },
-      async 'moved up from bottom to the first Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved up from bottom to the first Item');
-      },
-      async 'moved down from top to the last Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved down from top to the last Item');
-      },
-      async 'moved down from bottom to the first Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved down from bottom to the first Item');
-      },
-    },
-  },
-};
-
 export const WithWidth = () => (
   <Menu width={300}>
     <MenuHeader>MenuHeader</MenuHeader>
@@ -181,7 +116,7 @@ export const WithLongItems = () => (
 WithLongItems.storyName = 'with long Items';
 
 export const WithoutShadow = () => (
-  <Menu hasShadow={false}>
+  <Menu>
     <MenuHeader>MenuHeader</MenuHeader>
     <MenuItem>MenuItem1</MenuItem>
     <MenuSeparator />
@@ -192,34 +127,14 @@ export const WithoutShadow = () => (
 WithoutShadow.storyName = 'without Shadow';
 
 export const WithDisabledMenuItem: Story = () => (
-  <Menu hasShadow={false}>
+  <Menu>
     <MenuItem disabled>MenuItem1</MenuItem>
     <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
   </Menu>
 );
 WithDisabledMenuItem.storyName = 'with disabled MenuItem';
 
-WithDisabledMenuItem.parameters = {
-  creevey: {
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['mouseenter'] },
-    },
-    tests: {
-      async mouseenter() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('mouseenter');
-      },
-    },
-  },
-};
-
-class MoveControls extends React.Component {
+class MoveControls extends React.Component<React.PropsWithChildren> {
   private menu: Menu | null = null;
 
   public render() {
@@ -236,7 +151,7 @@ class MoveControls extends React.Component {
         <br />
         <div data-tid="menu-container" style={{ padding: 10 }}>
           {React.isValidElement(this.props.children)
-            ? React.cloneElement(this.props.children, { ref: this.refMenu })
+            ? React.cloneElement(this.props.children, { ref: this.refMenu } as MenuItemProps)
             : this.props.children}
         </div>
       </div>

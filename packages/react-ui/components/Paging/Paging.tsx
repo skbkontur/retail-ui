@@ -11,12 +11,11 @@ import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowChevronRightIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -28,47 +27,51 @@ import { ForwardIcon } from './ForwardIcon';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 export interface ItemComponentProps {
+  /** Определяет, является ли страница текущей. */
   active: boolean;
+
+  /** @ignore */
   children?: React.ReactNode;
+
+  /** Задает HTML-атрибут class. */
   className: string;
+
+  /** Задает функцию, которая вызывается при клике на элемент. */
   onClick: () => void;
+
+  /** Задает номер текущей страницы. */
   pageNumber: number | 'forward';
+
+  /** Задает HTML-атрибут `tabindex`. */
   tabIndex: number;
 }
 
 export interface PagingProps extends CommonProps {
   activePage: number;
-  /**
-   * Компонент обертки по умолчанию
-   * @default <span />
-   */
+  /** Компонент обертки по умолчанию.
+   * @default <span /> */
   component?: React.ComponentType<ItemComponentProps>;
+
+  /** Задает функцию, которая вызывается при переключении страницы. */
   onPageChange: (pageNumber: number) => void;
+
+  /** Задает общее количество страниц. */
   pagesCount: number;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Отключает навигационные подсказки.
-   * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
-   * (либо элемент в фокусе, либо globalListeners === true)
-   */
+
+  /** Отключает навигационные подсказки.
+   * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры (либо элемент в фокусе, либо globalListeners === true). */
   withoutNavigationHint?: boolean;
+
+  /** Задает подпить у пейджинга. */
   caption?: string;
-  /**
-   * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
-   * Если на странице используется несколько элементов
-   * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
-   * на каждом из них. Такие случаи лучше обрабатывать отдельно.
-   */
+
+  /** Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
+   * Если на странице используется несколько элементов **Paging** с useGlobalListener === true,
+   * то обработчик keyDown будет вызываться на каждом из них. Такие случаи лучше обрабатывать отдельно. */
   useGlobalListener?: boolean;
-  /**
-   * Определяет, нужно ли показывать `Paging` когда страница всего одна.
-   *
-   * Этот проп будет удалён в 5-ой версии библиотеки,
-   * так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
-   *
-   * @default false
-   */
-  shouldBeVisibleWithLessThanTwoPages?: boolean;
 }
 
 export interface PagingState {
@@ -87,20 +90,20 @@ export const PagingDataTids = {
   pageLink: 'Paging__pageLink',
 } as const;
 
-type DefaultProps = Required<
-  Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
->;
+type DefaultProps = Required<Pick<PagingProps, 'component' | 'useGlobalListener'>>;
 
+/**
+ * Постраничная навигация `Paging` (пейджинг или пагинация) — способ представления большого количества однородной информации, когда контент разбивается на страницы.
+ */
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
+  public static displayName = 'Paging';
 
   public static defaultProps: DefaultProps = {
     component: PagingDefaultComponent,
-    shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
-    'data-tid': PagingDataTids.root,
   };
 
   private getProps = createPropsGetter(Paging.defaultProps);
@@ -152,7 +155,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
-    if (this.props.pagesCount < 2 && !this.getProps().shouldBeVisibleWithLessThanTwoPages) {
+    if (this.props.pagesCount < 2) {
       return null;
     }
 
@@ -167,12 +170,16 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   private renderMain() {
-    const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
+    const { useGlobalListener } = this.getProps();
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...this.props}
+        {...getVisualStateDataAttributes({ disabled: this.props.disabled })}
+      >
         <span
           tabIndex={this.props.disabled ? -1 : 0}
-          data-tid={dataTid}
+          data-tid={PagingDataTids.root}
           className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
@@ -217,28 +224,16 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = isTheme2022(this.theme)
-      ? cx(
-          styles.pageLink(this.theme),
-          styles.forwardLink(this.theme),
-          focused && styles.pageLinkFocused(this.theme),
-          (disabled || this.props.disabled) && styles.pageLinkDisabled(this.theme),
-        )
-      : cx({
-          [styles.forwardLink(this.theme)]: true,
-          [styles.forwardLinkFocused()]: focused,
-          [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
-        });
+    const classes = cx(
+      styles.pageLink(this.theme),
+      styles.forwardLink(this.theme),
+      focused && styles.pageLinkFocused(this.theme),
+      (disabled || this.props.disabled) && styles.forwardLinkDisabled(this.theme),
+    );
     const Component = this.getProps().component;
     const { forward } = this.locale;
 
-    const forwardIcon = isTheme2022(this.theme) ? (
-      <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />
-    ) : (
-      <span className={styles.forwardIcon(this.theme)}>
-        <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
-      </span>
-    );
+    const forwardIcon = <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />;
 
     return (
       <Component
@@ -249,6 +244,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as const}
+        {...getVisualStateDataAttributes({ disabled })}
       >
         {this.props.caption || forward}
         {forwardIcon}
@@ -257,12 +253,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
+    const disabled = this.props.disabled;
     const classes = cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,
-      [styles.pageLinkDisabled(this.theme)]: this.props.disabled,
+      [styles.pageLinkDisabled(this.theme)]: disabled,
       [styles.pageLinkCurrent(this.theme)]: active,
-      [styles.pageLinkCurrentDisabled(this.theme)]: active && this.props.disabled,
+      [styles.pageLinkCurrentDisabled(this.theme)]: active && disabled,
     });
     const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -272,6 +269,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
         className={styles.pageLinkWrapper()}
+        {...getVisualStateDataAttributes({ active, disabled })}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component

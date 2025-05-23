@@ -1,13 +1,15 @@
 import React from 'react';
 
 export interface ValidationsFeatureFlags {
-  validationsRemoveExtraSpans?: boolean;
+  dropdownsDoNotOpenOnFocusByValidation?: boolean;
 }
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
-  validationsRemoveExtraSpans: false,
+  dropdownsDoNotOpenOnFocusByValidation: false,
 };
 
 export const ValidationsFeatureFlagsContext =
   React.createContext<ValidationsFeatureFlags>(validationsFeatureFlagsDefault);
+
 ValidationsFeatureFlagsContext.displayName = 'ValidationsFeatureFlagsContext';
+ValidationsFeatureFlagsContext.__KONTUR_REACT_UI__ = 'ValidationsFeatureFlagsContext';

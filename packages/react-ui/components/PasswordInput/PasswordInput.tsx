@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
@@ -18,18 +16,22 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
 import { PasswordInputLocale, PasswordInputLocaleHelper } from './locale';
 
-export interface PasswordInputProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps, InputProps {
+export interface PasswordInputProps
+  extends Pick<AriaAttributes, 'aria-label'>,
+    CommonProps,
+    Omit<InputProps, 'showClearIcon'> {
+  /** Включает CapsLock детектор. */
   detectCapsLock?: boolean;
 }
 
 export interface PasswordInputState {
   visible: boolean;
+  focused: boolean;
   capsLockEnabled?: boolean | null;
 }
 
@@ -42,12 +44,15 @@ export const PasswordInputDataTids = {
 type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
 
 /**
- * Компонент для ввода пароля
+ * `PasswordInput` — однострочное поле для ввода пароля, в котором символы заменяются на точки.
+ *
+ * Не используйте такое поле для ввода одноразовых кодов из смс. У них короткий срок действия и используются они только один раз.
  */
 @rootNode
 @locale('PasswordInput', PasswordInputLocaleHelper)
 export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
+  public static displayName = 'PasswordInput';
 
   public static propTypes = {
     /**
@@ -64,6 +69,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
   public state: PasswordInputState = {
     visible: false,
+    focused: false,
     capsLockEnabled: false,
   };
 
@@ -100,7 +106,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -122,7 +128,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
    * @public
    */
   public blur = () => {
-    this.handleBlur();
+    if (this.input) {
+      this.input.blur();
+    }
   };
 
   private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -161,18 +169,32 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private handleToggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocus);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.focusOnInput);
   };
 
-  private handleFocus = () => {
+  private focusOnInput = () => {
     if (this.input) {
       this.input.focus();
     }
   };
 
-  private handleBlur = () => {
-    if (this.input) {
-      this.input.blur();
+  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.state.focused) {
+      return;
+    }
+
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  };
+
+  private handleFocusOutside = () => {
+    this.hideSymbols();
+
+    if (this.state.focused) {
+      this.setState({ focused: false });
     }
   };
 
@@ -205,11 +227,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
               className={styles.icon()}
               data-tid={PasswordInputDataTids.eyeIcon}
             >
-              <PasswordInputIcon
-                size={this.props.size}
-                visible={this.state.visible}
-                isTheme2022={isTheme2022(this.theme)}
-              />
+              <PasswordInputIcon size={this.props.size} visible={this.state.visible} />
             </button>
           )}
         </span>
@@ -232,10 +250,15 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
+      onFocus: this.handleFocus,
     };
 
     return (
-      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
+      <RenderLayer
+        active={this.state.focused}
+        onFocusOutside={this.handleFocusOutside}
+        onClickOutside={this.handleFocusOutside}
+      >
         <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>

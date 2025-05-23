@@ -11,7 +11,6 @@ import {
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { delay } from '../../../lib/utils';
 
 function getItems(count: number) {
   const items = [];
@@ -27,14 +26,16 @@ const wrapperStyle = {
   border: '1px solid #000',
 };
 
-const DynamicContent: React.FC<{
-  state: ScrollContainerScrollStateY | ScrollContainerScrollStateX;
-  scroll: (percentage: number) => void;
-  add: () => void;
-  remove: () => void;
-  onChangeScrollYState?: (x: ScrollContainerScrollStateY) => void;
-  onChangeScrollXState?: (x: ScrollContainerScrollStateX) => void;
-}> = ({ children, state, scroll, add, remove, onChangeScrollXState, onChangeScrollYState }) => {
+const DynamicContent: React.FC<
+  React.PropsWithChildren<{
+    state: ScrollContainerScrollStateY | ScrollContainerScrollStateX;
+    scroll: (percentage: number) => void;
+    add: () => void;
+    remove: () => void;
+    onChangeScrollYState?: (x: ScrollContainerScrollStateY) => void;
+    onChangeScrollXState?: (x: ScrollContainerScrollStateX) => void;
+  }>
+> = ({ children, state, scroll, add, remove, onChangeScrollXState, onChangeScrollYState }) => {
   return (
     <Gapped verticalAlign="top">
       <div id="test-container" style={{ padding: 10 }}>
@@ -66,7 +67,10 @@ const DynamicContent: React.FC<{
   );
 };
 
-export default { title: 'ScrollContainer' };
+export default {
+  title: 'ScrollContainer',
+  component: ScrollContainer,
+};
 
 export const WithLargeContentHeight = () => {
   return (
@@ -147,7 +151,7 @@ export const WithScrollState = () => {
                     ))}
                   </ScrollContainer>
                 </div>
-                <div style={theme.prototype.constructor.name === 'DarkTheme' ? footerDarkStyles : footerStyles}>
+                <div style={theme.prototype.constructor.name.includes('Dark') ? footerDarkStyles : footerStyles}>
                   footer
                 </div>
               </div>
@@ -187,50 +191,6 @@ export const WithDynamicContent: Story = () => {
     </DynamicContent>
   );
 };
-WithDynamicContent.parameters = {
-  creevey: {
-    captureElement: '#test-container',
-    tests: {
-      async changeContent() {
-        const idle = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#add' }))
-          .perform();
-        const addContent = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll50' }))
-          .perform();
-        const scroll50 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll100' }))
-          .perform();
-        const scroll100 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#remove' }))
-          .perform();
-        const removeContent = await this.takeScreenshot();
-
-        await this.expect({ idle, addContent, scroll50, scroll100, removeContent }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const WithOnlyCustomHorizontalScroll: Story = () => {
   const [state, setState] = React.useState<ScrollContainerScrollStateX>('left');
@@ -258,86 +218,6 @@ export const WithOnlyCustomHorizontalScroll: Story = () => {
 };
 
 WithOnlyCustomHorizontalScroll.storyName = 'with only custom horizontal scroll';
-WithOnlyCustomHorizontalScroll.parameters = {
-  creevey: {
-    captureElement: '#test-container',
-    tests: {
-      async moveScroll() {
-        const idle = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll50' }))
-          .perform();
-        const scroll50 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll100' }))
-          .perform();
-        const scroll100 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll0' }))
-          .perform();
-        const scroll0 = await this.takeScreenshot();
-
-        await this.expect({ idle, scroll50, scroll100, scroll0 }).to.matchImages();
-      },
-
-      async changeContent() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#add' }))
-          .perform();
-        const addContent = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll50' }))
-          .perform();
-        const scroll50 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll100' }))
-          .perform();
-        const scroll100 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scroll0' }))
-          .perform();
-        const scroll0 = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#remove' }))
-          .perform();
-        const removeContent = await this.takeScreenshot();
-
-        await this.expect({ addContent, scroll50, scroll100, scroll0, removeContent }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const WithScrollTo: Story = () => {
   const refScrollContainer = React.useRef<ScrollContainer>(null);
@@ -387,66 +267,6 @@ export const WithScrollTo: Story = () => {
   );
 };
 
-WithScrollTo.parameters = {
-  creevey: {
-    captureElement: '#test-container',
-    tests: {
-      async scrollTo() {
-        const idle = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scrollTo' }))
-          .perform();
-        const scrollTo = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scrollToTop' }))
-          .perform();
-        const scrollToTop = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scrollToLeft' }))
-          .perform();
-        const scrollToLeft = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scrollToBottom' }))
-          .perform();
-        const scrollToBottom = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#scrollToRight' }))
-          .perform();
-        const scrollToRight = await this.takeScreenshot();
-
-        await this.expect({
-          idle,
-          scrollTo,
-          scrollToTop,
-          scrollToBottom,
-          scrollToLeft,
-          scrollToRight,
-        }).to.matchImages();
-      },
-    },
-  },
-};
-
 export const OffsetY: Story = () => (
   <div style={wrapperStyle}>
     <ScrollContainer
@@ -464,9 +284,6 @@ export const OffsetY: Story = () => (
     </ScrollContainer>
   </div>
 );
-OffsetY.parameters = {
-  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
-};
 
 export const OffsetX = () => (
   <div style={wrapperStyle}>
@@ -489,10 +306,6 @@ export const OffsetX = () => (
     </ScrollContainer>
   </div>
 );
-OffsetX.parameters = {
-  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
-};
-
 export const OffsetYAndX: Story = () => (
   <div style={wrapperStyle}>
     <ScrollContainer
@@ -517,56 +330,6 @@ export const OffsetYAndX: Story = () => (
     </ScrollContainer>
   </div>
 );
-OffsetYAndX.parameters = {
-  creevey: { skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } } },
-};
-
-export const HideScrollBar: Story = () => (
-  <div style={wrapperStyle}>
-    <ScrollContainer
-      hideScrollBar
-      // Magic delay to capture the scrollbar
-      hideScrollBarDelay={2000}
-      disableAnimations
-    >
-      <div style={{ width: 300 }}>
-        {Array(30)
-          .fill(null)
-          .map((_, i) => (
-            <div style={{ width: 200 }} key={i}>
-              {i}
-            </div>
-          ))}
-      </div>
-    </ScrollContainer>
-  </div>
-);
-HideScrollBar.parameters = {
-  creevey: {
-    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
-    tests: {
-      async hideScroll() {
-        const beforeScroll = await this.takeScreenshot();
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
-          if (scrollContainer) {
-            scrollContainer.scrollTop = 500;
-          }
-        });
-        this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({ origin: this.browser.findElement({ css: 'body' }) });
-        await delay(200);
-        const duringScroll = await this.takeScreenshot();
-        await delay(3000);
-        const afterScroll = await this.takeScreenshot();
-        await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const ScrollBarVisibleAfterTogglingDisabled: Story = () => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -592,24 +355,6 @@ export const ScrollBarVisibleAfterTogglingDisabled: Story = () => {
 };
 
 ScrollBarVisibleAfterTogglingDisabled.storyName = 'scroll bar visible after toggling disabled';
-ScrollBarVisibleAfterTogglingDisabled.parameters = {
-  creevey: {
-    skip: { 'themes dont affect logic': { in: /^(?!\bchrome\b)/ } },
-    tests: {
-      async toggleDisabled() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="disable-button"]' }))
-          .click(this.browser.findElement({ css: '[data-tid="disable-button"]' }))
-          .perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('toggleDisabled');
-      },
-    },
-  },
-};
 
 export const ShowScrollBarOnScroll: Story = () => (
   <div style={wrapperStyle}>
@@ -631,32 +376,6 @@ export const ShowScrollBarOnScroll: Story = () => (
     </ScrollContainer>
   </div>
 );
-ShowScrollBarOnScroll.parameters = {
-  creevey: {
-    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
-    tests: {
-      async hideScroll() {
-        const beforeScroll = await this.takeScreenshot();
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
-          if (scrollContainer) {
-            scrollContainer.scrollTop = 500;
-          }
-        });
-        this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({ origin: this.browser.findElement({ css: 'body' }) });
-        await delay(200);
-        const duringScroll = await this.takeScreenshot();
-        await delay(3000);
-        const afterScroll = await this.takeScreenshot();
-        await this.expect({ beforeScroll, duringScroll, afterScroll }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const ShowScrollBarOnHover: Story = () => (
   <div style={wrapperStyle}>
@@ -678,34 +397,6 @@ export const ShowScrollBarOnHover: Story = () => (
     </ScrollContainer>
   </div>
 );
-ShowScrollBarOnHover.parameters = {
-  creevey: {
-    skip: { 'hover works only in firefox': { in: /^(?!\b(firefox)\b)/ } },
-    tests: {
-      async hideScroll() {
-        this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid~="ScrollContainer__root"]' }),
-          })
-          .perform();
-        await delay(500);
-        const hovered = await this.takeScreenshot();
-        this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({ x: 1000, y: 700 })
-          .perform();
-        await delay(3000);
-        const withoutHover = await this.takeScreenshot();
-        await this.expect({ hovered, withoutHover }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const NeverShowScrollBar: Story = () => (
   <div style={wrapperStyle}>
@@ -722,8 +413,3 @@ export const NeverShowScrollBar: Story = () => (
     </ScrollContainer>
   </div>
 );
-NeverShowScrollBar.parameters = {
-  creevey: {
-    skip: { 'themes dont affect logic': { in: /^(?!\b(firefox|chrome)\b)/ } },
-  },
-};

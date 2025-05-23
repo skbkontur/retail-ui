@@ -9,6 +9,7 @@ import { Gapped } from '../../Gapped';
 
 export default {
   title: 'MenuItem',
+  component: MenuItem,
 } as Meta;
 
 export const MobileMenuItemWithIcon = () => {
@@ -26,7 +27,7 @@ export const MenuItemWithIcon = () => {
 MenuItemWithIcon.storyName = 'menu item with icon';
 MenuItemWithIcon.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
+    skip: { in: /^(?!\bchrome2022\b)/ },
   },
 };
 
@@ -46,7 +47,7 @@ export const MenuItemWithBiggerFontSize = () => {
 MenuItemWithBiggerFontSize.storyName = 'menu item with bigger font size';
 MenuItemWithBiggerFontSize.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
+    skip: { in: /^(?!\bchrome2022\b)/ },
   },
 };
 

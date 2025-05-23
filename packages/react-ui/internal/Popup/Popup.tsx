@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, LegacyRef } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
@@ -7,11 +7,11 @@ import { globalObject } from '@skbkontur/global-object';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ZIndex } from '../ZIndex';
+import { Priority, ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
-import { isIE11, isEdge, isSafari } from '../../lib/client';
+import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
@@ -21,10 +21,15 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import {
+  getFullReactUIFlagsContext,
+  ReactUIFeatureFlags,
+  ReactUIFeatureFlagsContext,
+} from '../../lib/featureFlagsContext';
+import { mergeRefs } from '../../lib/mergeRefs';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -33,23 +38,30 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const PopupPositions = [
-  'top left',
+export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'];
+
+export const PopupPinnablePositions = [
   'top center',
+  'top left',
   'top right',
-  'right top',
-  'right middle',
-  'right bottom',
-  'bottom right',
   'bottom center',
   'bottom left',
-  'left bottom',
+  'bottom right',
   'left middle',
   'left top',
-] as const;
+  'left bottom',
+  'right middle',
+  'right top',
+  'right bottom',
+];
+
+export const PopupPositions = [...PopupPinnablePositions, ...PopupNonPinnablePositions] as const;
+
 export const DefaultPosition = PopupPositions[0];
 
-export type PopupPositionsType = typeof PopupPositions[number];
+export type PopupPositionsType = (typeof PopupPositions)[number];
+export type PopupPinnablePositionsType = (typeof PopupPinnablePositions)[number];
+export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
 
 export const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
@@ -73,7 +85,7 @@ export interface PopupProps
   extends Omit<CommonProps, 'children'>,
     PopupHandlerProps,
     Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
-  anchorElement: React.ReactNode | HTMLElement;
+  anchorElement: React.ReactNode | Element;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
@@ -86,7 +98,9 @@ export interface PopupProps
   pinOffset?: number;
   pinSize?: number;
   popupOffset?: number;
-  positions: Readonly<PopupPositionsType[]>;
+  priority?: Priority;
+  positions?: Readonly<PopupPositionsType[]>;
+  pos?: PopupPositionsType | ShortPopupPositionsType;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
@@ -95,15 +109,18 @@ export interface PopupProps
   useWrapper?: boolean;
   ignoreHover?: boolean;
   width?: React.CSSProperties['width'];
+  minWidth?: React.CSSProperties['minWidth'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
-   * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
+   * (в том числе, когда он выходит за пределы экрана, но может быть проскролен в него).
    *
    * Нужен только для Tooltip. В остальных случаях позиция перестраивается автоматически.
    * @see https://github.com/skbkontur/retail-ui/pull/1195
    */
   tryPreserveFirstRenderedPosition?: boolean;
   withoutMobile?: boolean;
+  /** @ignore */
+  disablePortal?: boolean;
   mobileOnCloseRequest?: () => void;
   /**
    * Возвращает текущую позицию попапа
@@ -137,7 +154,15 @@ export const PopupIds = {
 type DefaultProps = Required<
   Pick<
     PopupProps,
-    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width'
+    | 'popupOffset'
+    | 'hasPin'
+    | 'hasShadow'
+    | 'disablePortal'
+    | 'disableAnimations'
+    | 'useWrapper'
+    | 'ignoreHover'
+    | 'width'
+    | 'priority'
   >
 >;
 
@@ -145,6 +170,7 @@ type DefaultProps = Required<
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
+  public static displayName = 'Popup';
 
   public static propTypes = {
     /**
@@ -203,6 +229,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     positions: PropTypes.array,
 
     /**
+     * Приоритетная позиция попапа
+     */
+    pos: PropTypes.string,
+
+    /**
+     * Отключает использование портала
+     */
+    disablePortal: PropTypes.bool,
+
+    /**
      * Игнорировать ли события hover/click
      */
     ignoreHover: PropTypes.bool,
@@ -215,7 +251,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
+    disablePortal: false,
     width: 'auto',
+    priority: ZIndex.priorities.Popup,
   };
 
   private getProps = createPropsGetter(Popup.defaultProps);
@@ -225,6 +263,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
+  public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
@@ -235,6 +274,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private rootId = PopupIds.root + getRandomID();
 
   public anchorElement: Nullable<Element> = null;
+  private absoluteParent: Nullable<HTMLDivElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -295,12 +335,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -318,7 +365,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderMain() {
-    const { location } = this.state;
     const { anchorElement } = this.props;
     const useWrapper = this.getProps().useWrapper;
 
@@ -334,14 +380,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: (instance: Nullable<React.ReactInstance>) => {
-              this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
-              originalRef && callChildRef(originalRef, instance);
-            },
-          })
+            ref: mergeRefs(
+              (anchor as React.RefAttributes<typeof anchor>)?.ref as React.RefCallback<any>,
+              this.updateAnchorElement,
+            ),
+          } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
-
     // we need to get anchor's DOM node
     // so we either set our own ref on it via cloning
     // or relay on findDOMNode (inside getRootNode)
@@ -349,15 +393,40 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // in the case when the anchor is not refable
 
     const canGetAnchorNode = !!anchorWithRef || isInstanceOf(anchorElement, globalObject.Element);
+    const renderRef = canGetAnchorNode ? null : this.updateAnchorElement;
+    const renderAnchor = anchorWithRef || anchor;
+
+    return this.props.disablePortal
+      ? this.renderWithoutPortal(renderAnchor, renderRef)
+      : this.renderInPortal(renderAnchor, renderRef);
+  }
+
+  private renderInPortal = (anchor: React.ReactNode, ref: null | LegacyRef<RenderContainer>) => {
+    const { location } = this.state;
 
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
+      <RenderContainer anchor={anchor} ref={ref}>
         {this.isMobileLayout && !this.props.withoutMobile
           ? this.renderMobile()
           : location && this.renderContent(location)}
       </RenderContainer>
     );
-  }
+  };
+
+  private renderWithoutPortal = (anchor: React.ReactNode, ref: null | LegacyRef<EmptyWrapper>) => {
+    const { location } = this.state;
+
+    return (
+      <EmptyWrapper ref={ref}>
+        {anchor}
+        {location && (
+          <div ref={this.updateAbsoluteElement} className={styles.absoluteParent()}>
+            {this.renderContent(location)}
+          </div>
+        )}
+      </EmptyWrapper>
+    );
+  };
 
   private updateAnchorElement = (instance: Nullable<React.ReactInstance>) => {
     const childDomNode = isInstanceWithAnchorElement(instance) ? instance.getAnchorElement() : getRootNode(instance);
@@ -368,6 +437,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.anchorElement = childDomNode;
       this.addEventListeners(childDomNode);
     }
+  };
+
+  private updateAbsoluteElement = (instance: HTMLDivElement) => {
+    this.absoluteParent = instance;
   };
 
   private addEventListeners(element: Nullable<Element>) {
@@ -432,25 +505,26 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private calculateWidth = (width: PopupProps['width']) => {
     if (typeof width === 'string' && width.includes('%')) {
-      const anchorWidth = Math.floor(getDOMRect(this.anchorElement).width);
-      return this.anchorElement ? (anchorWidth * parseFloat(width)) / 100 : 0;
+      const anchorWidth = getDOMRect(this.anchorElement).width;
+
+      return width.replace(/(\d)+%/g, (percent: string) => `${(anchorWidth * parseFloat(percent)) / 100}px`);
     }
     return width;
   };
 
   private content = (children: React.ReactNode) => {
     const { backgroundColor } = this.props;
-    const width = this.getProps().width;
+    const { width, minWidth } = this.getProps();
 
     return (
       <div
         className={styles.content(this.theme)}
         data-tid={PopupDataTids.content}
-        ref={mergeRefs([this.refForTransition, this.refPopupContentElement])}
+        ref={mergeRefs(this.refForTransition, this.refPopupContentElement)}
       >
         <div
           className={styles.contentInner(this.theme)}
-          style={{ backgroundColor, width: this.calculateWidth(width) }}
+          style={{ backgroundColor, width: this.calculateWidth(width), minWidth: this.calculateWidth(minWidth) }}
           data-tid={PopupDataTids.contentInner}
         >
           {children}
@@ -464,10 +538,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { hasShadow, disableAnimations, ignoreHover } = this.getProps();
     const children = this.renderChildren();
 
+    const relativeShift = this.getRelativeShift();
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
-
-    const shouldFallbackShadow = isIE11 || isEdge || isSafari;
+    const rootStyle: React.CSSProperties = {
+      maxWidth,
+      top: location.coordinates.top + relativeShift.top,
+      left: location.coordinates.left + relativeShift.left,
+    };
 
     return (
       <Transition
@@ -486,11 +563,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             <ZIndex
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
-              priority={'Popup'}
+              priority={this.props.priority}
               className={cx({
                 [styles.popup(this.theme)]: true,
-                [styles.shadow(this.theme)]: hasShadow && !shouldFallbackShadow,
-                [styles.shadowFallback(this.theme)]: hasShadow && shouldFallbackShadow,
+                [styles.shadow(this.theme)]: hasShadow,
                 [styles.popupIgnoreHover()]: ignoreHover,
                 ...(disableAnimations
                   ? {}
@@ -523,16 +599,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupContentElement = (element: Nullable<Element>) => {
+  private refPopupContentElement = (element: HTMLDivElement) => {
     this.lastPopupContentElement = element;
   };
 
   private renderPin(positionName: string): React.ReactNode {
-    /**
-     * Box-shadow does not appear under the pin. Borders are used instead.
-     * In non-ie browsers drop-shadow filter is used. It is applying
-     * shadow to the pin too.
-     */
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
@@ -541,7 +612,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
-      hasPin && (
+      hasPin &&
+      !PopupNonPinnablePositions.includes(positionName) && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
@@ -618,8 +690,26 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
+  private reorderPropsPositionsWithPriorityPos() {
+    const positions = this.props.positions ? this.props.positions : PopupPinnablePositions;
+    let pos_ = '';
+    if (this.props.pos) {
+      pos_ = this.props.pos;
+    } else {
+      pos_ = positions[0];
+    }
+    const index = positions.findIndex((position) => position.startsWith(pos_));
+    if (index === -1) {
+      warning(false, 'Unexpected position ' + pos_ + ' passed to Popup. Expected one of: ' + positions.join(', '));
+      return positions;
+    }
+    return [...positions.slice(index), ...positions.slice(0, index)];
+  }
+
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
-    const { positions, tryPreserveFirstRenderedPosition } = this.props;
+    const { tryPreserveFirstRenderedPosition } = this.getProps();
+    const positions = this.reorderPropsPositionsWithPriorityPos();
+
     const anchorElement = this.anchorElement;
 
     warning(
@@ -684,6 +774,24 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
+  private getRelativeShift = () => {
+    const { absoluteParent } = this;
+
+    if (!this.props.disablePortal || !absoluteParent) {
+      return {
+        top: 0,
+        left: 0,
+      };
+    }
+
+    const rect = PopupHelper.getElementAbsoluteRect(absoluteParent);
+
+    return {
+      top: -rect.top,
+      left: -rect.left,
+    };
+  };
+
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
     const { margin: marginFromProps } = this.props;
     const margin =
@@ -697,6 +805,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'top':
         return {
           top: anchorRect.top - popupRect.height - margin,
+          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+        };
+      case 'middle':
+        return {
+          top: anchorRect.top + anchorRect.height / 2 - popupRect.height / 2,
           left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'bottom':
@@ -725,10 +838,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     switch (align) {
       case 'top':
       case 'bottom':
-        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinOffsetY);
+        return pinOffset || parseInt(this.theme.popupPinOffsetY);
       case 'left':
       case 'right':
-        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinOffsetX);
+        return pinOffset || parseInt(this.theme.popupPinOffsetX);
       case 'center':
       case 'middle':
         return 0;
@@ -761,5 +874,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       default:
         throw new Error(`Unexpected align '${align}'`);
     }
+  }
+}
+
+// Нужно, чтобы получать по рефу dom-элемент, в который зарендерится anchor
+type EmptyWrapperProps = Readonly<{
+  children: React.ReactNode;
+}>;
+
+class EmptyWrapper extends React.Component<EmptyWrapperProps> {
+  public render() {
+    return this.props.children;
   }
 }

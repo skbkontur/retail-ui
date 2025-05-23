@@ -8,6 +8,7 @@ import { Radio } from '../Radio';
 
 export default {
   title: 'Radio',
+  component: Radio,
   parameters: {
     creevey: {
       skip: {
@@ -32,13 +33,6 @@ export const RadioWithDifferentStates = () => (
   </div>
 );
 RadioWithDifferentStates.storyName = 'Radio with different states';
-RadioWithDifferentStates.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['chromeFlat8px'] },
-    },
-  },
-};
 
 export const Playground = () => {
   class Comp extends React.Component {
@@ -83,30 +77,6 @@ export const Highlighted: Story = () => {
       </div>
     </div>
   );
-};
-
-Highlighted.parameters = {
-  creevey: {
-    skip: {
-      flaky: { in: /firefox/ },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'body' }))
-          .sendKeys(this.keys.TAB)
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-    },
-  },
 };
 
 export const Size: Story = () => {

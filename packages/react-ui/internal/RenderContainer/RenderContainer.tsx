@@ -9,8 +9,16 @@ import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
 
+interface GlobalWithReactTesting {
+  ReactTesting?: any;
+}
+
+export const PORTAL_INLET_ATTR = 'data-render-container-id';
+export const PORTAL_OUTLET_ATTR = 'data-rendered-container-id';
+
 export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
+  public static displayName = 'RenderContainer';
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
@@ -43,12 +51,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     const domContainer = globalObject.document?.createElement('div');
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
-      domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
+      domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
       this.domContainer = domContainer;
     }
   }
 
   private mountContainer() {
+    const globalWithReactTesting = globalObject as GlobalWithReactTesting;
+
     if (!this.domContainer) {
       this.createContainer();
     }
@@ -58,8 +68,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
       }
-      if (globalObject.ReactTesting) {
-        globalObject.ReactTesting.addRenderContainer(this.rootId, this);
+      if (globalWithReactTesting.ReactTesting) {
+        globalWithReactTesting.ReactTesting.addRenderContainer(this.rootId, this);
       }
     }
   }
@@ -79,8 +89,9 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
-      if (globalObject.ReactTesting) {
-        globalObject.ReactTesting.removeRenderContainer(this.rootId);
+      const globalWithReactTesting = globalObject as GlobalWithReactTesting;
+      if (globalWithReactTesting.ReactTesting) {
+        globalWithReactTesting.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
   }

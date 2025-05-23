@@ -11,24 +11,21 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Gapped, GappedProps } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
+  /** @ignore */
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-  /**
-   * Включает серый цвет в футере
-   */
+
+  /** Включает серый цвет в футере. */
   panel?: boolean;
-  /**
-   * Закрепляет футер снизу сайдпейджа
-   */
+
+  /** Закрепляет футер снизу сайдпейджа. */
   sticky?: boolean;
-  /**
-   * Задаёт отступ между элементами футера
-   */
+
+  /** Задает расстояние между элементами футера в пикселях. */
   gap?: GappedProps['gap'];
 }
 
@@ -47,8 +44,9 @@ export const SidePageFooterDataTids = {
  */
 @responsiveLayout
 @rootNode
-export class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {
+export class SidePageFooter extends React.Component<React.PropsWithChildren<SidePageFooterProps>> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
+  public static displayName = 'SidePageFooter';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
@@ -112,10 +110,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
   };
 
   private renderMain() {
-    let separator: React.ReactNode = null;
-    if (isTheme2022(this.theme)) {
-      separator = (this.props.panel || this.state.fixed) && <ModalSeparator fixed={this.state.fixed} />;
-    }
+    const separator: React.ReactNode = (this.props.panel || this.state.fixed) && (
+      <ModalSeparator fixed={this.state.fixed} />
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>

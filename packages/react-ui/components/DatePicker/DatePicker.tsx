@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
+import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
 import { locale } from '../../lib/locale/decorators';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
 import { DateInput } from '../DateInput';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
@@ -27,9 +25,13 @@ import { Theme } from '../../lib/theming/Theme';
 import { Button } from '../Button';
 import { getTodayDate } from '../Calendar/CalendarUtils';
 import { SizeProp } from '../../lib/types/props';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { getMenuPositions } from '../../lib/getMenuPositions';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './DatePicker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import { MobilePicker } from './MobilePicker';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -43,44 +45,64 @@ const INPUT_PASS_PROPS = {
 export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate'>,
+  extends Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
+
   autoFocus?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Отвечает за отображение кнопки "Сегодня".
-   */
+
+  /** Отображает кнопку "Сегодня" в календаре. */
   enableTodayLink?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
+
+  /** Задает nекущую позицию выпадающего окна вручную. */
+  menuPos?: 'top' | 'bottom';
+
+  /** Задает выравнивание меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает размер контрола. */
   size?: SizeProp;
+
+  /** Задает значение автокомплита. */
   value?: string | null;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задает ширину автокомплита. */
   width?: number | string;
+
+  /** Задает функцию, которая вызывается при потере датапикером фокуса. */
   onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
+
+  /** Задает функцию, вызывающуюся при изменении value.
+   * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange: (value: string) => void;
+
+  /** Задает функцию, которая вызывается при получении датапикером фокуса. */
   onFocus?: () => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (e: React.MouseEvent<any>) => void;
-  /**
-   * Использовать на мобильных устройствах нативный календарь для выбора дат.
-   *
-   * - На iOS нативный календарь не умеет работать с minDate и maxDate
-   */
+
+  /** Позволяет использовать на мобильных устройствах нативный календарь для выбора дат.
+   * На iOS нативный календарь не умеет работать с minDate и maxDate. */
   useMobileNativeDatePicker?: boolean;
 }
 
@@ -100,20 +122,24 @@ export const DatePickerDataTids = {
 
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
+/**
+ * Поле `DatePicker` помогает вводить дату с клавиатуры или выбирать ее с помощью мыши.
+ *
+ * Используйте поле с датой, когда нужно ввести дату в формате ДД.ММ.ГГГГ.
+ *
+ * Поле с датой отличается от обычного поля ввода наличием иконки, маски и блока календаря.
+ */
+@responsiveLayout
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
+  public static displayName = 'DatePicker';
 
   public static propTypes = {
     autoFocus: PropTypes.bool,
 
     disabled: PropTypes.bool,
-
-    /**
-     * Включает кнопку сегодня в календаре
-     */
-    enableTodayLink: PropTypes.bool,
 
     error: PropTypes.bool,
 
@@ -121,6 +147,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
      * Максимальная дата в календаре.
      */
     maxDate: PropTypes.string.isRequired,
+
+    menuPos: PropTypes.oneOf(['top', 'bottom']),
 
     menuAlign: PropTypes.oneOf(['left', 'right']),
 
@@ -153,6 +181,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     onMouseOver: PropTypes.func,
 
     isHoliday: PropTypes.func,
+
+    renderDay: PropTypes.func,
+
+    onMonthChange: PropTypes.func,
   };
 
   public static defaultProps: DefaultProps = {
@@ -162,8 +194,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
   private theme!: Theme;
-  private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
+  private canOpenPopup = true;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -195,6 +227,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private input: DateInput | null = null;
   private focused = false;
   private setRootNode!: TSetRootNode;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -207,11 +240,15 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: DatePickerProps, prevState: DatePickerState) {
     const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
+    }
+
+    if (prevState.opened && !opened && this.isMobileLayout) {
+      this.handleBlur();
     }
   }
 
@@ -228,14 +265,18 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   /**
    * @public
    */
-  public focus() {
+  public focus(opts?: { withoutOpenDropdown?: boolean }) {
     if (this.props.disabled) {
       return;
     }
+
+    if (opts?.withoutOpenDropdown) {
+      this.canOpenPopup = false;
+    }
+
     if (this.input) {
       this.input.focus();
     }
-    this.handleFocus();
   }
 
   /**
@@ -254,7 +295,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
           return (
             <ThemeContext.Provider value={ThemeFactory.create({ calendarBottomSeparatorBorder: 'none' }, theme)}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
                 {this.renderMain}
               </CommonWrapper>
             </ThemeContext.Provider>
@@ -267,50 +308,70 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
     let picker = null;
 
-    const { minDate, maxDate } = this.getProps();
+    const { minDate, maxDate, menuPos, menuAlign } = this.getProps();
+
+    const isMobile = this.isMobileLayout;
 
     if (this.state.opened) {
-      picker = (
-        <LocaleContext.Provider
-          value={{
-            locale: {
-              Calendar: {
-                months: this.locale.months,
-                dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
-                selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
-                selectYearAriaLabel: this.locale.selectYearAriaLabel,
-                selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
+      if (isMobile) {
+        picker = (
+          <MobilePicker
+            value={this.props.value}
+            minDate={this.parseValueToDate(minDate)}
+            maxDate={this.parseValueToDate(maxDate)}
+            onValueChange={this.props.onValueChange}
+            enableTodayLink={this.props.enableTodayLink}
+            isHoliday={this.props.isHoliday}
+            onCloseRequest={this.handleMobileCloseRequest}
+            renderDay={props.renderDay}
+            onMonthChange={props.onMonthChange}
+          />
+        );
+      } else {
+        picker = (
+          <LocaleContext.Provider
+            value={{
+              locale: {
+                Calendar: {
+                  months: this.locale.months,
+                  dayCellChooseDateAriaLabel: this.locale.dayCellChooseDateAriaLabel,
+                  selectMonthAriaLabel: this.locale.selectMonthAriaLabel,
+                  selectYearAriaLabel: this.locale.selectYearAriaLabel,
+                  selectChosenAriaLabel: this.locale.selectChosenAriaLabel,
+                },
               },
-            },
-          }}
-        >
-          <DropdownContainer
-            menuPos={this.props.menuPos}
-            data-tid={DatePickerDataTids.root}
-            getParent={this.getParent}
-            offsetY={parseInt(this.theme.datePickerMenuOffsetY)}
-            align={this.props.menuAlign}
+            }}
           >
-            <div
-              data-tid={DatePickerDataTids.pickerRoot}
-              className={styles.calendarWrapper(this.theme)}
-              onMouseDown={(e) => e.preventDefault()}
+            <Popup
+              opened
+              hasShadow
+              priority={ZIndex.priorities.PopupMenu}
+              positions={getMenuPositions(menuPos, menuAlign)}
+              data-tid={DatePickerDataTids.root}
+              anchorElement={this.getParent()}
+              margin={parseInt(this.theme.datePickerMenuOffsetY)}
             >
-              <Calendar
-                ref={(c) => (this.calendar = c)}
-                maxDate={this.parseValueToDate(maxDate)}
-                minDate={this.parseValueToDate(minDate)}
-                onValueChange={this.handleValueChange}
-                isHoliday={this.props.isHoliday}
-                value={this.parseValueToDate(this.props.value)}
-              />
-              {this.props.enableTodayLink && this.renderTodayLink()}{' '}
-            </div>
-          </DropdownContainer>
-        </LocaleContext.Provider>
-      );
+              <div
+                data-tid={DatePickerDataTids.pickerRoot}
+                className={styles.calendarWrapper(this.theme)}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                <Calendar
+                  maxDate={this.parseValueToDate(maxDate)}
+                  minDate={this.parseValueToDate(minDate)}
+                  onValueChange={this.handleValueChange}
+                  isHoliday={this.props.isHoliday}
+                  value={this.parseValueToDate(this.props.value)}
+                  renderDay={this.props.renderDay}
+                  onMonthChange={this.props.onMonthChange}
+                />
+                {this.props.enableTodayLink && this.renderTodayLink()}{' '}
+              </div>
+            </Popup>
+          </LocaleContext.Provider>
+        );
+      }
     }
-
     return (
       <label
         className={styles.root()}
@@ -321,6 +382,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
         data-tid={DatePickerDataTids.label}
       >
         <DateInput
+          id={this.props.id}
           {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
@@ -328,12 +390,14 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
           withIcon
           minDate={minDate}
           maxDate={maxDate}
-          onBlur={this.handleBlur}
+          onBlur={isMobile ? undefined : this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
+          onClick={this.openPickerPopup}
+          onKeyDown={this.handleKeyDown}
           data-tid={DatePickerDataTids.input}
         />
-        {this.state.canUseMobileNativeDatePicker && (
+        {this.state.canUseMobileNativeDatePicker ? (
           <NativeDateInput
             onValueChange={this.props.onValueChange}
             value={this.props.value || ''}
@@ -341,8 +405,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             maxDate={maxDate}
             disabled={this.props.disabled}
           />
+        ) : (
+          picker
         )}
-        {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );
   };
@@ -366,45 +431,22 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
       .setComponents(InternalDateGetter.getTodayComponents())
       .toString({ withPad: true, withSeparator: true });
 
-    if (isTheme2022(this.theme)) {
-      return (
-        <div style={{ margin: 8 }}>
-          <Button
-            aria-label={this.locale.todayAriaLabel}
-            data-tid={DatePickerDataTids.pickerTodayWrapper}
-            width="100%"
-            onClick={this.handleSelectToday(today)}
-            icon={<ArrowAUpIcon16Light />}
-          >
-            {this.locale.today}
-          </Button>
-        </div>
-      );
-    }
-
     return (
-      <button
-        aria-label={this.locale.todayAriaLabel}
-        data-tid={DatePickerDataTids.pickerTodayWrapper}
-        className={cx({
-          [styles.todayLinkWrapper(this.theme)]: true,
-        })}
-        onClick={this.handleSelectToday(today)}
-        tabIndex={-1}
-      >
-        {`${this.locale.today} ${today}`}
-      </button>
+      <div style={{ margin: 8 }}>
+        <Button
+          aria-label={this.locale.todayAriaLabel}
+          data-tid={DatePickerDataTids.pickerTodayWrapper}
+          width="100%"
+          onClick={() => {
+            this.handleSelect(today);
+          }}
+          icon={<ArrowAUpIcon16Light />}
+        >
+          {this.locale.today}
+        </Button>
+      </div>
     );
   }
-
-  private handleSelectToday = (today: string) => () => {
-    this.handleSelect(today);
-
-    if (this.calendar) {
-      const { month, year } = this.state.today;
-      this.calendar.scrollToMonth(month, year);
-    }
-  };
 
   public getParent = () => {
     return getRootNode(this);
@@ -419,17 +461,35 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     this.input = ref;
   };
 
+  private openPickerPopup = () => {
+    this.setState({ opened: true });
+  };
+
   private handleFocus = () => {
     if (this.focused) {
       return;
     }
 
-    this.focused = true;
+    if (!this.canOpenPopup) {
+      this.canOpenPopup = true;
+    } else {
+      this.openPickerPopup();
+    }
 
-    this.setState({ opened: true });
+    this.focused = true;
 
     if (this.props.onFocus) {
       this.props.onFocus();
+    }
+  };
+
+  private handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!this.state.opened) {
+      this.openPickerPopup();
+    }
+
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
     }
   };
 
@@ -459,5 +519,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }
+  };
+
+  private handleMobileCloseRequest = () => {
+    this.close();
   };
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import React, { StrictMode } from 'react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
@@ -23,6 +23,40 @@ describe('Global Loader', () => {
     expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
     expect(refGlobalLoader.current?.state.dead).toBe(true);
     expect(refGlobalLoader2.current?.state.dead).toBe(false);
+  });
+
+  describe('in StrictMode', () => {
+    it('should render', async () => {
+      render(
+        <StrictMode>
+          <GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />
+        </StrictMode>,
+      );
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.dead).toBe(false);
+    });
+
+    it('should only render one instance', async () => {
+      render(
+        <StrictMode>
+          <GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader} />
+        </StrictMode>,
+      );
+      render(
+        <StrictMode>
+          <GlobalLoader expectedResponseTime={2000} active ref={refGlobalLoader2} />
+        </StrictMode>,
+      );
+
+      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+
+      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      expect(refGlobalLoader.current?.state.dead).toBe(true);
+      expect(refGlobalLoader2.current?.state.dead).toBe(false);
+    });
   });
 
   describe('with props', () => {
@@ -150,7 +184,9 @@ describe('Global Loader', () => {
       );
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
-      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      });
     });
   });
 
@@ -175,21 +211,29 @@ describe('Global Loader', () => {
     });
 
     it('should set error', async () => {
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
 
-      GlobalLoader.reject();
+      act(() => {
+        GlobalLoader.reject();
+      });
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'error');
     });
 
     it('should set success', async () => {
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
 
-      GlobalLoader.done();
+      act(() => {
+        GlobalLoader.done();
+      });
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'success');
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
@@ -197,10 +241,16 @@ describe('Global Loader', () => {
     });
 
     it('should start after success animation', async () => {
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      GlobalLoader.done();
-      GlobalLoader.start();
+      act(() => {
+        GlobalLoader.done();
+      });
+      act(() => {
+        GlobalLoader.start();
+      });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
 

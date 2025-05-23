@@ -9,47 +9,34 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
 export interface GlobalLoaderProps {
-  /**
-   * Время(ms) до появления лоадера
-   */
+  /** Устанавливает задержку в миллисекундах до появления лоадера. */
   delayBeforeShow?: number;
-  /**
-   * Время(ms) до исчезновения лоадера
-   */
+
+  /** Устанавливает задержку в миллисекундах до исчезновения лоадера. */
   delayBeforeHide?: number;
-  /**
-   * Ожидаемое время(ms) ответа сервера
-   */
+
+  /** Устанавливает ожидаемое время(ms) ответа сервера. */
   expectedResponseTime?: number;
-  /**
-   * Анимация лоадера в виде спиннера
-   */
+
+  /** Определяет, нужно ли показывать анимацию лоадера в виде спиннера. */
   rejected?: boolean;
-  /**
-   * Показывать лоадер
-   */
+
+  /** Определяет, показывать ли лоадер. */
   active?: boolean;
-  /**
-   * Не показывать анимацию
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
-  /**
-   * Коллбек, вызывающийся после появления лоадера
-   */
+
+  /** Задает коллбек, вызывающийся после появления лоадера. */
   onStart?(): void;
-  /**
-   * Коллбек, вызывающийся после исчезновения лоадера
-   */
+
+  /** Задает коллбек, вызывающийся после исчезновения лоадера. */
   onDone?(): void;
-  /**
-   * Коллбек, вызывающийся после вызова `GlobalLoader.reject()`.
-   * Или после установки пропа `rejected = true`
-   */
+
+  /** Задает коллбек, вызывающийся после вызова GlobalLoader.reject(). Или после установки пропа rejected = true. */
   onReject?(): void;
-  /**
-   * Коллбек, вызывающийся после вызова `GlobalLoader.accept()`.
-   * Или после установки пропа `rejected = false`
-   */
+
+  /** Задает коллбек, вызывающийся после вызова GlobalLoader.accept() или установки пропа rejected = false. */
   onAccept?(): void;
 }
 export interface GlobalLoaderState {
@@ -74,9 +61,25 @@ type DefaultProps = Required<
   >
 >;
 
-let currentGlobalLoader: GlobalLoader;
+let currentGlobalLoader: GlobalLoader | null;
+
+/**
+ * Глобальный лоадер `GlobalLoader` — это универсальный индикатор обмена данными с сервером.
+ * Он появляется у верхней границы экрана и выглядит как тоненькая полоска, окрашенная в фирменный цвет продукта.
+ *
+ * `GlobalLoader` может быть только один в приложении. Поэтому, каждый новый экземпляр компонента "убивает" предыдущий экземпляр, и начинает перехватывать статические методы.
+ *
+ * Предполагается монтирование компонента в единственном месте. И управление им через статические методы, либо через пропы.
+ *
+ * `GlobalLoader` работает в двух режимах:
+ * * как прогресс-бар, примерно показывает ход получения данных от сервера.
+ * * как спиннер, когда есть проблемы с соединением.
+ */
 @rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
+  public static __KONTUR_REACT_UI__ = 'GlobalLoader';
+  public static displayName = 'GlobalLoader';
+
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
@@ -118,6 +121,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
   componentDidMount() {
     currentGlobalLoader?.kill();
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     currentGlobalLoader = this;
     const { active, rejected } = this.getProps();
     if (active) {
@@ -126,6 +130,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     if (rejected) {
       this.setReject(true);
     }
+  }
+
+  componentWillUnmount(): void {
+    currentGlobalLoader = null;
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
@@ -179,9 +187,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static start = (expectedResponseTime?: number) => {
-    currentGlobalLoader.setActive();
+    currentGlobalLoader?.setActive();
     if (typeof expectedResponseTime === 'number') {
-      currentGlobalLoader.updateExpectedResponseTime(expectedResponseTime);
+      currentGlobalLoader?.updateExpectedResponseTime(expectedResponseTime);
     }
   };
 
@@ -192,7 +200,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static done = () => {
-    currentGlobalLoader.setDone();
+    currentGlobalLoader?.setDone();
   };
 
   /**
@@ -202,7 +210,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static reject = () => {
-    currentGlobalLoader.setReject(true);
+    currentGlobalLoader?.setReject(true);
   };
 
   /**
@@ -212,7 +220,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    * @public
    */
   public static accept = () => {
-    currentGlobalLoader.setReject(false);
+    currentGlobalLoader?.setReject(false);
   };
 
   public setActive = () => {

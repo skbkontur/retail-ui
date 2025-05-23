@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { MenuItemDataTids } from '../../MenuItem';
 import { MenuDataTids } from '../../../internal/Menu';
-import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
 import { Select, SelectDataTids, SelectIds } from '../Select';
 
+const itemsObject = {
+  first: 'One',
+  second: 'Not selectable',
+  third: 'Two',
+  fourth: '3',
+  fifth: 'Four',
+  sixth: 'Five',
+  seventh: 'Six',
+  eighth: 'Seven',
+  ninth: 'Seenv',
+};
+
 describe('Select', () => {
-  it('uses areValuesEqual for comparing value with item in menu', () => {
+  it('uses areValuesEqual for comparing value with item in menu', async () => {
     interface ValueType {
       id: number;
       name: string;
@@ -45,15 +56,19 @@ describe('Select', () => {
     );
     const currentValueText = currentValue.name;
 
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
 
     const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
-    const selectedMenuItem = menuItems.find(
-      (element) => element.hasAttribute('state') && element.getAttribute('state') === 'selected',
-    );
+    const selectedMenuItem = menuItems.find((element) => element.getAttribute('data-visual-state-selected') === '');
     expect(selectedMenuItem).toBeInTheDocument();
     expect(selectedMenuItem).toHaveTextContent(currentValueText);
+  });
+
+  it('has id attribute', () => {
+    const selectId = 'selectId';
+    const result = render(<Select id={selectId} />);
+    expect(result.container.querySelector(`button#${selectId}`)).not.toBeNull();
   });
 
   it('calls onKeyDown', () => {
@@ -66,149 +81,25 @@ describe('Select', () => {
     expect(onKeyDown).toHaveBeenCalledWith(expect.objectContaining({ key: 'k' }));
   });
 
-  it('should execute `onFocus` with default button', () => {
+  it('should execute `onFocus` with default button', async () => {
     const onFocus = jest.fn();
     render(<Select onFocus={onFocus} />);
 
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('should execute `onBlur` with default button', () => {
+  it('should execute `onBlur` with default button', async () => {
     const onBlur = jest.fn();
     render(<Select onFocus={onBlur} />);
 
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('should search item of any type', async () => {
-    const first = 'One';
-    const second = 'Not selectable';
-    const third = 'Two';
-    const fourth = '3';
-    const fifth = 'Four';
-    const sixth = 'Five';
-    const seventh = 'Six';
-    const eighth = 'Seven';
-    const ninth = 'Seenv';
-    render(
-      <Select
-        items={[
-          first,
-          Select.static(() => <Select.Item>{second}</Select.Item>),
-          third,
-          +fourth,
-          Select.SEP,
-          fifth,
-          <Select.Item key="random_key">{sixth}</Select.Item>,
-          [6, seventh],
-          [7, eighth, 777],
-          ninth,
-        ]}
-        search
-        disablePortal
-        onValueChange={console.log}
-      />,
-    );
-
-    // None of the items should be presented when `Select` is closed.
-    expect(screen.queryByRole('button', { name: first })).not.toBeInTheDocument();
-    expect(screen.queryByText(second)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: third })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fourth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fifth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: sixth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: eighth })).not.toBeInTheDocument();
-    expect(screen.queryByText(eighth)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
-
-    const button = screen.getByRole('button', { name: SelectLocaleHelper.get(defaultLangCode).placeholder as string });
-    await userEvent.click(button);
-
-    // All items should be presented when `Select` is opened.
-    expect(screen.getByRole('button', { name: first })).toBeInTheDocument();
-    expect(screen.getByText(second)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: third })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: fourth })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: fifth })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: sixth })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: seventh })).toBeInTheDocument();
-    expect(screen.getByText(eighth)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: ninth })).toBeInTheDocument();
-
-    const input = screen.getByRole('textbox');
-
-    await userEvent.type(input, 'e');
-    // After entering 'e' only `first`, `second`, `sixth`, `eighth` and `ninth` items should be presented.
-    expect(screen.getByRole('button', { name: first })).toBeInTheDocument();
-    expect(screen.getByText(second)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: sixth })).toBeInTheDocument();
-    expect(screen.getByText(eighth)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: ninth })).toBeInTheDocument();
-    // All other items should not be presented
-    expect(screen.queryByRole('button', { name: third })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fourth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fifth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
-
-    await userEvent.type(input, 'v');
-    // After entering 'ev' only `seventh` item should be presented.
-    expect(screen.getByText(eighth)).toBeInTheDocument();
-    // All other items should not be presented.
-    expect(screen.queryByRole('button', { name: first })).not.toBeInTheDocument();
-    expect(screen.queryByText(second)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: third })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fourth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fifth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: sixth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
-
-    await userEvent.clear(input);
-    // After clearing the input all items should be presented again.
-    expect(screen.getByRole('button', { name: first })).toBeInTheDocument();
-    expect(screen.getByText(second)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: third })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: fourth })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: fifth })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: sixth })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: seventh })).toBeInTheDocument();
-    expect(screen.getByText(eighth)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: ninth })).toBeInTheDocument();
-
-    await userEvent.type(input, 's');
-    // After entering 's' only `second` and `seventh` items should be presented.
-    expect(screen.getByText(second)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: seventh })).toBeInTheDocument();
-    expect(screen.getByText(eighth)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: ninth })).toBeInTheDocument();
-    // All other items should not be presented.
-    expect(screen.queryByRole('button', { name: first })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: third })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fourth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fifth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: sixth })).not.toBeInTheDocument();
-    await userEvent.clear(input);
-
-    await userEvent.type(input, '3');
-    // After entering '3' only `fourth` item should be presented.
-    expect(screen.getByRole('button', { name: fourth })).toBeInTheDocument();
-    // All other items should not be presented.
-    expect(screen.queryByRole('button', { name: first })).not.toBeInTheDocument();
-    expect(screen.queryByText(second)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: third })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: fifth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: sixth })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
-    expect(screen.queryByText(eighth)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
-  });
-
-  it('should clear the value when null passed', () => {
+  it('should clear the value when null passed', async () => {
     const Comp = () => {
       const items = ['One'];
 
@@ -227,7 +118,7 @@ describe('Select', () => {
     const input = screen.getByText('One');
     expect(input).toHaveTextContent(/^One$/);
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     const placeholderRegExp = new RegExp(`^${SelectLocaleHelper.get(defaultLangCode).placeholder}$`);
     expect(input).toHaveTextContent(placeholderRegExp);
   });
@@ -241,26 +132,26 @@ describe('Select', () => {
   });
 
   describe('a11y', () => {
-    it('should change value of aria-expanded when opening and closing', () => {
+    it('should change value of aria-expanded when opening and closing', async () => {
       render(<Select />);
 
       const button = screen.getByRole('button');
 
       expect(button).toHaveAttribute('aria-expanded', 'false');
 
-      userEvent.click(button);
+      await userEvent.click(button);
 
       expect(button).toHaveAttribute('aria-expanded', 'true');
     });
 
-    it('should connect dropdown with button through aria-controls', () => {
+    it('should connect dropdown with button through aria-controls', async () => {
       render(<Select items={['one', 'two', 'three']} />);
 
       const button = screen.getByRole('button');
 
       expect(button).toHaveAttribute('aria-controls', expect.stringContaining(SelectIds.menu));
 
-      userEvent.click(button);
+      await userEvent.click(button);
 
       expect(screen.getByTestId(SelectDataTids.menu)).toHaveAttribute('id', expect.stringContaining(SelectIds.menu));
     });
@@ -305,6 +196,12 @@ describe('Select', () => {
       );
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
+    });
+
+    it('sets value disabled `_renderButton` is passed', () => {
+      render(<Select disabled _renderButton={(params) => <button {...params}>test</button>} />);
+
+      expect(screen.getByRole('button')).toBeDisabled();
     });
   });
 
@@ -382,37 +279,52 @@ describe('Select', () => {
     });
 
     it('should open menu by method', () => {
-      selectRef.current?.open();
+      act(() => {
+        selectRef.current?.open();
+      });
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
     });
 
     it('should handel onOpen event when open() method has been called', () => {
-      selectRef.current?.open();
+      act(() => {
+        selectRef.current?.open();
+      });
       expect(onOpen).toHaveBeenCalled();
     });
 
     it('should close menu by method', () => {
-      selectRef.current?.open();
+      act(() => {
+        selectRef.current?.open();
+      });
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
-
-      selectRef.current?.close();
+      act(() => {
+        selectRef.current?.close();
+      });
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
     });
 
     it('should handel onClose event when close() method has been called', () => {
-      selectRef.current?.open();
-      selectRef.current?.close();
+      act(() => {
+        selectRef.current?.open();
+      });
+      act(() => {
+        selectRef.current?.close();
+      });
 
       expect(onClose).toHaveBeenCalled();
     });
 
     it('should not call onClose event when menu wasn`t open', () => {
-      selectRef.current?.close();
+      act(() => {
+        selectRef.current?.close();
+      });
       expect(onClose).not.toHaveBeenCalled();
     });
 
     it('should focus by method', () => {
-      selectRef.current?.focus();
+      act(() => {
+        selectRef.current?.focus();
+      });
       expect(screen.getByRole('button')).toHaveFocus();
     });
   });
@@ -429,48 +341,180 @@ describe('Select', () => {
       render(<Comp />);
     });
 
-    it('should choose item when pressing enter key', () => {
-      userEvent.click(screen.getByRole('button'));
+    it('should choose item when pressing enter key', async () => {
+      await userEvent.click(screen.getByRole('button'));
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
-      userEvent.keyboard('{arrowdown}');
-      userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{arrowdown}');
+      await userEvent.keyboard('{arrowdown}');
 
-      userEvent.keyboard('{enter}');
+      await userEvent.keyboard('{enter}');
 
       expect(screen.queryByTestId(MenuDataTids.root)).not.toBeInTheDocument();
       expect(screen.getByRole('button')).toHaveTextContent(testItems[1]);
     });
 
-    it('should move highligted item when pressing arrow down key', () => {
-      userEvent.click(screen.getByRole('button'));
+    it('should move highligted item when pressing arrow down key', async () => {
+      await userEvent.click(screen.getByRole('button'));
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
-      userEvent.keyboard('{arrowdown}');
+      expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toBeFalsy();
+      await userEvent.keyboard('{arrowdown}');
 
-      expect(
-        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
-      ).toHaveTextContent(testItems[0]);
+      expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toHaveTextContent(
+        testItems[0],
+      );
 
-      userEvent.keyboard('{arrowdown}');
-      expect(
-        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
-      ).toHaveTextContent(testItems[1]);
+      await userEvent.keyboard('{arrowdown}');
+      expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toHaveTextContent(
+        testItems[1],
+      );
     });
 
-    it('should move highligted item when pressing arrow up key', () => {
-      userEvent.click(screen.getByRole('button'));
+    it('should move highligted item when pressing arrow up key', async () => {
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(MenuDataTids.root)).toBeInTheDocument();
       const menuItems = screen.getAllByTestId(MenuItemDataTids.root);
 
-      expect(menuItems.find((element) => element.hasAttribute('state'))).toBeFalsy();
-      userEvent.keyboard('{arrowup}');
+      expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toBeFalsy();
+      await userEvent.keyboard('{arrowup}');
 
-      expect(
-        menuItems.find((element) => element.hasAttribute('state') && element.getAttribute('state') === 'hover'),
-      ).toHaveTextContent(testItems[testItems.length - 1]);
+      expect(menuItems.find((element) => element.getAttribute('data-visual-state-hover') === '')).toHaveTextContent(
+        testItems[testItems.length - 1],
+      );
+    });
+  });
+  describe('with item of any type', () => {
+    beforeEach(() => {
+      render(
+        <Select
+          items={[
+            itemsObject.first,
+            Select.staticElement(() => <Select.Item>{itemsObject.second}</Select.Item>),
+            itemsObject.third,
+            +itemsObject.fourth,
+            Select.SEP,
+            itemsObject.fifth,
+            <Select.Item key="random_key">{itemsObject.sixth}</Select.Item>,
+            [6, itemsObject.seventh],
+            [7, itemsObject.eighth, 777],
+            itemsObject.ninth,
+          ]}
+          search
+          disablePortal
+        />,
+      );
+    });
+    it('should not show any items when `Select` is closed.', () => {
+      expect(screen.queryByRole('button', { name: itemsObject.first })).not.toBeInTheDocument();
+      expect(screen.queryByText(itemsObject.second)).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.third })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fourth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fifth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.sixth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.seventh })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.eighth })).not.toBeInTheDocument();
+      expect(screen.queryByText(itemsObject.eighth)).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.ninth })).not.toBeInTheDocument();
+    });
+    it('should show all items when `Select` is opened', async () => {
+      const button = screen.getByRole('button', {
+        name: SelectLocaleHelper.get(defaultLangCode).placeholder as string,
+      });
+      await userEvent.click(button);
+
+      // All items should be presented when `Select` is opened.
+      expect(screen.getByRole('button', { name: itemsObject.first })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.second)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.third })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.fourth })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.fifth })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.sixth })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.seventh })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.eighth)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.ninth })).toBeInTheDocument();
+    });
+
+    it('should correctly filter items on input change', async () => {
+      const button = screen.getByRole('button', {
+        name: SelectLocaleHelper.get(defaultLangCode).placeholder as string,
+      });
+      await userEvent.click(button);
+      const input = screen.getByRole('textbox');
+
+      await userEvent.type(input, 'e');
+      // After entering 'e' only `first`, `second`, `sixth`, `eighth` and `ninth` items should be presented.
+      expect(screen.getByRole('button', { name: itemsObject.first })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.second)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.sixth })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.eighth)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.ninth })).toBeInTheDocument();
+      // All other items should not be presented
+      expect(screen.queryByRole('button', { name: itemsObject.third })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fourth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fifth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.seventh })).not.toBeInTheDocument();
+
+      await userEvent.type(input, 'v');
+      // After entering 'ev' only `seventh` item should be presented.
+      expect(screen.getByText(itemsObject.eighth)).toBeInTheDocument();
+      // All other items should not be presented.
+      expect(screen.queryByRole('button', { name: itemsObject.first })).not.toBeInTheDocument();
+      expect(screen.queryByText(itemsObject.second)).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.third })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fourth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fifth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.sixth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.seventh })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.ninth })).not.toBeInTheDocument();
+
+      await userEvent.clear(input);
+      // After clearing the input all items should be presented again.
+      expect(screen.getByRole('button', { name: itemsObject.first })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.second)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.third })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.fourth })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.fifth })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.sixth })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.seventh })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.eighth)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.ninth })).toBeInTheDocument();
+    });
+    it('should correctly filter items on input change (more cases)', async () => {
+      const button = screen.getByRole('button', {
+        name: SelectLocaleHelper.get(defaultLangCode).placeholder as string,
+      });
+      await userEvent.click(button);
+      const input = screen.getByRole('textbox');
+
+      await userEvent.type(input, 's');
+      // After entering 's' only `second` and `seventh` items should be presented.
+      expect(screen.getByText(itemsObject.second)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.seventh })).toBeInTheDocument();
+      expect(screen.getByText(itemsObject.eighth)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: itemsObject.ninth })).toBeInTheDocument();
+      // All other items should not be presented.
+      expect(screen.queryByRole('button', { name: itemsObject.first })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.third })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fourth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fifth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.sixth })).not.toBeInTheDocument();
+
+      await userEvent.clear(input);
+
+      await userEvent.type(input, '3');
+      // After entering '3' only `fourth` item should be presented.
+      expect(screen.getByRole('button', { name: itemsObject.fourth })).toBeInTheDocument();
+      // All other items should not be presented.
+      expect(screen.queryByRole('button', { name: itemsObject.first })).not.toBeInTheDocument();
+      expect(screen.queryByText(itemsObject.second)).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.third })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.fifth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.sixth })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.seventh })).not.toBeInTheDocument();
+      expect(screen.queryByText(itemsObject.eighth)).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: itemsObject.ninth })).not.toBeInTheDocument();
     });
   });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 
 import { ArrowCDownIcon16Regular } from '../../internal/icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';

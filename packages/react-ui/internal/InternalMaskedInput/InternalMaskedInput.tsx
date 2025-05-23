@@ -1,7 +1,5 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
+import ReactInputMask, { InputState } from 'react-input-mask';
 
 import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -43,7 +41,8 @@ export const MaskedInputDataTids = {
  * todo: выпилить в 5 версии библиотеки.
  * */
 export class InternalMaskedInput extends React.PureComponent<InternalMaskedInputProps, MaskedInputState> {
-  public static __KONTUR_REACT_UI__ = 'MaskedInput';
+  public static __KONTUR_REACT_UI__ = 'InternalMaskedInput';
+  public static displayName = 'InternalMaskedInput';
 
   public static defaultProps: DefaultProps = {
     maskChar: '_',
@@ -122,6 +121,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
         <ReactInputMask
           {...inputProps}
           maskChar={null}
+          // @ts-expect-error InternalMaskedInput will be deleted in 5.0
           beforeMaskedValueChange={this.preprocess}
           alwaysShowMask={false}
           onChange={this.handleChange}
@@ -133,7 +133,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
           style={{ ...style }}
         />
         {this.isMaskVisible() && (
-          <span className={cx(styles.inputMask(this.theme), leftClass)}>
+          <span className={cx(styles.inputMask(this.theme), leftClass)} translate="no">
             {leftHelper}
             {rightHelper}
           </span>
@@ -196,7 +196,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
     newState: InputState,
     oldState: InputState,
     userInput: string,
-    options: MaskOptions & Pick<InternalMaskedInputProps, 'mask'>,
+    options: Pick<InternalMaskedInputProps, 'mask'>,
   ) => {
     const visibleMaskChars = new Array(options.mask.length).fill(this.getProps().maskChar);
 
@@ -208,6 +208,7 @@ export class InternalMaskedInput extends React.PureComponent<InternalMaskedInput
     }
 
     options.mask.split('').forEach((char: string, index: number) => {
+      // @ts-expect-error InternalMaskedInput will be deleted in 5.0
       if (options.permanents.includes(index)) {
         visibleMaskChars[index] = char;
       }

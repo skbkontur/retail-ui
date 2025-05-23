@@ -23,12 +23,13 @@ export interface ComboBoxMenuProps<T> {
   items?: Nullable<Array<ComboBoxExtendedItem<T>>>;
   totalCount?: number;
   loading?: boolean;
+  hasMargin?: boolean;
   maxMenuHeight?: number | string;
   refMenu?: (menu: Nullable<Menu>) => void;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
   onValueChange: (value: T) => any;
   renderAddButton?: () => React.ReactNode;
   caption?: React.ReactNode;
@@ -52,6 +53,7 @@ type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 're
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
+  public static displayName = 'ComboBoxMenu';
 
   public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,
@@ -107,6 +109,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         <Menu
           maxHeight={maxHeight}
           ref={refMenu}
+          hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
           data-tid={ComboBoxMenuDataTids.loading}
@@ -123,6 +126,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         <Menu
           ref={refMenu}
           maxHeight={maxHeight}
+          hasMargin={this.props.hasMargin}
           disableScrollContainer={isMobile}
           id={this.props.menuId}
           data-tid={ComboBoxMenuDataTids.failed}
@@ -141,7 +145,13 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       const notFoundValue = renderNotFound();
       if (renderAddButton) {
         return (
-          <Menu id={this.props.menuId} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
+          <Menu
+            id={this.props.menuId}
+            hasMargin={this.props.hasMargin}
+            maxHeight={maxHeight}
+            ref={refMenu}
+            disableScrollContainer={isMobile}
+          >
             {renderAddButton}
           </Menu>
         );
@@ -149,7 +159,13 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
       if (notFoundValue) {
         return (
-          <Menu id={this.props.menuId} maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
+          <Menu
+            id={this.props.menuId}
+            hasMargin={this.props.hasMargin}
+            maxHeight={maxHeight}
+            ref={refMenu}
+            disableScrollContainer={isMobile}
+          >
             <MenuMessage size={this.props.size} data-tid={ComboBoxMenuDataTids.notFound}>
               {notFoundValue}
             </MenuMessage>
@@ -180,6 +196,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         data-tid={ComboBoxMenuDataTids.items}
         ref={refMenu}
         maxHeight={maxHeight}
+        hasMargin={this.props.hasMargin}
         disableScrollContainer={isMobile}
       >
         {renderedItems}

@@ -13,19 +13,20 @@ import { TokenInputDataTids, TokenInputMenuAlign, TokenInputProps } from './Toke
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: PopupProps['anchorElement'];
+  /** Задает шинину выпадающего меню. */
   menuWidth: TokenInputProps<string>['menuWidth'];
+  /** Задает выравнивание выпадающего меню. */
   menuAlign: TokenInputMenuAlign;
-  /**
-   * Позволяет задать `id` выпадающему меню.
-   *
-   * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
-   */
+  /** Задает id выпадающему меню.
+   Полезно при реализации a11y. Например, помогает связать aria-controls с выпадающим меню. */
   popupMenuId?: HTMLProps['id'];
+  /** Задает размер контрола. */
   size?: TokenSize;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
+  public static displayName = 'TokenInputMenu';
 
   private theme!: Theme;
 
@@ -103,8 +104,10 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         withoutMobile
       >
         <ComboBoxMenu
+          size={this.props.size}
           items={items}
           loading={loading}
+          hasMargin={false}
           maxMenuHeight={maxMenuHeight}
           onValueChange={onValueChange}
           opened={opened}
@@ -120,9 +123,9 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
   }
 
   private getPopupMargin = (): number => {
-    const paddingY = parseInt(this.theme.tokenInputPaddingY, 10) || 0;
+    const paddingY = parseInt(this.theme.tokenInputPaddingYSmall, 10) || 0;
     const outlineWidth = parseInt(this.theme.controlOutlineWidth, 10) || 0;
-    const marginY = parseInt(this.theme.tokenMarginY, 10) || 0;
+    const marginY = parseInt(this.theme.tokenMarginYSmall, 10) || 0;
 
     return paddingY + outlineWidth + marginY;
   };

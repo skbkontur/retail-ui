@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactPortal, AriaAttributes } from 'react';
+import React, { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'react';
 import invariant from 'invariant';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
@@ -14,7 +14,6 @@ import {
 import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonUse } from '../Button';
-import { DropdownContainer, DropdownContainerProps } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
@@ -25,56 +24,66 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { MenuHeaderProps } from '../MenuHeader';
 import { SizeProp } from '../../lib/types/props';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
+import { styles as linkStyles } from '../Link/Link.styles';
+import { Popup } from '../../internal/Popup';
+import { ZIndex } from '../../internal/ZIndex';
+import { getMenuPositions } from '../../lib/getMenuPositions';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
+import { SelectDataTids } from './tids';
+
+export * from './tids';
 
 export interface ButtonParams
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'> {
+  /** Делает компонент недоступным. */
   disabled?: boolean;
+
+  /** Задает лейбл. */
   label: React.ReactNode;
+
+  /** Задает функцию, которая вызывается при клике на селект. */
   onClick: () => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
+
+  /** Определяет, открыто ли выпадающее меню. */
   opened: boolean;
+
+  /** Определяет, есть ли Placeholder. */
   isPlaceholder: boolean;
+
+  /** Задает размер контрола. */
   size: SizeProp;
 }
 
 const PASS_BUTTON_PROPS = {
+  id: true,
   disabled: true,
   error: true,
   use: true,
   size: true,
   warning: true,
+  corners: true,
 
   onMouseEnter: true,
   onMouseLeave: true,
   onMouseOver: true,
 };
-
-export const SelectDataTids = {
-  root: 'Select__root',
-  menu: 'Select__menu',
-} as const;
 
 export const SelectIds = {
   menu: SelectDataTids.menu,
@@ -89,90 +98,132 @@ type SelectItem<TValue, TItem> =
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
-    Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'> {
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** @ignore */
   _icon?: React.ReactNode;
+
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
+
+  /** @ignore */
+  corners?: React.CSSProperties;
+
+  /** Задает значение по умолчанию. */
   defaultValue?: TValue;
-  /**
-   * Отключает использование портала
-   */
+
+  menuOffset?: number;
+
+  /** Отключает использование портала. */
   disablePortal?: boolean;
+
+  /** Делает компонент недоступным.*/
   disabled?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
+
+  /** Задает функцию, которая отфильтровывает элементы по заданному паттерну. */
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  /**
-   * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
-   * `Array`, `Map`, `Immutable.Map`.
+
+  /** Задает набор значений. Поддерживаются любые перечисляемые типы, в том числе `Array`, `Map`, `Immutable.Map`.
    *
-   * Элементы воспринимаются следующим образом: если элемент — это массив, то
-   * первый элемент является значением, второй — отображается в списке,
-   * а третий – комментарий;
-   * если элемент не является массивом, то он используется и для отображения,
-   * и для значения.
+   * Элементы воспринимаются следующим образом: если элемент — это массив, то первый элемент является значением,
+   * второй — отображается в списке, а третий – комментарий;
+   * если элемент не является массивом, то он используется и для отображения, и для значения.
    *
    * Для вставки разделителя можно использовать `Select.SEP`.
    *
    * Вставить невыделяемый элемент со своей разметкой можно так:
+   * @example
    * ```
    * <Select ...
-   *   items={[Select.static(() => <div>My Element</div>)]}
+   *   items={[Select.staticElement(() => <div>My Element</div>)]}
    * />
    * ```
    *
    * Чтобы добавить стандартный отступ для статического элемента:
+   * @example
    * ```
    * <Select.Item>My Element</Select.Item>
-   * ```
-   */
+   * ``` */
   items?: Array<SelectItem<TValue, TItem>>;
+
+  /** Задает максимальную высоту меню. */
   maxMenuHeight?: number;
+
+  /** Задает максимальную ширину. */
   maxWidth?: React.CSSProperties['maxWidth'];
+
+  /** Задает текущую позицию выпадающего окна вручную. */
+  menuPos?: 'top' | 'bottom' | 'middle';
+
+  /** Задает выравнивание меню. */
   menuAlign?: 'left' | 'right';
+
+  /** Задает ширину выпадающего меню. */
   menuWidth?: React.CSSProperties['width'];
+
+  /** Задает функцию, вызывающуюся при изменении value. */
   onValueChange?: (value: TValue) => void;
+
+  /** Задает функцию, которая вызывается при закрытии меню. */
   onClose?: () => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave) */
   onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+
+  /** Задает функцию, которая вызывается при открытии меню. */
   onOpen?: () => void;
+
+  /** Задает текст, который отображается если не введено никакое значение. */
   placeholder?: React.ReactNode;
-  /**
-   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
-   * *item*.
-   */
+
+  /** Задает функцию, которая отображает элемент в выпадающем списке. */
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-   */
+
+  /** Задает функцию, которая отображает выбранный элемент. */
   renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для сравнения `value` с элементом из `items`
-   */
+
+  /** Задает функцию сравнения `value` с элементом из `items`. */
   areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
-  /**
-   * Показывать строку поиска в списке.
-   */
+
+  /** Показывает строку поиска в списке. */
   search?: boolean;
+
+  /** Задает значение. */
   value?: TValue;
+
+  theme?: ThemeIn | Theme;
+
+  /** Задает длину контрола. */
   width?: number | string;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Задаёт стиль кнопки. */
   use?: ButtonUse;
+
+  /** Задает размер. */
   size?: SizeProp;
+
+  /** Задаёт HTML-событие `onfocus`. */
   onFocus?: React.FocusEventHandler<HTMLElement>;
+
+  /** Задаёт HTML-событие `onblur`. */
   onBlur?: React.FocusEventHandler<HTMLElement>;
-  /**
-   * Текст заголовка выпадающего меню в мобильной версии
-   */
+
+  /** Задает текст заголовка выпадающего меню в мобильной версии. */
   mobileMenuHeaderText?: string;
 }
 
@@ -190,6 +241,16 @@ type DefaultProps<TValue, TItem> = Required<
   Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
 >;
 
+/**
+ * Раскрывающийся список `Select` позволяет выбрать значение из заранее известного набора вариантов.
+ *
+ * Используйте `Select` при:
+ * * заполнении форм, например для выбора месяца.
+ * * переключении состояний, например, фильтра.
+ * * выборе предустановленных настроек, например, частоты уведомлений, часового пояса.
+ *
+ * Не используйте `Select` для выбора элементов меню. В таком случае воспользуйтесь компонентом Dropdown.
+ */
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
@@ -197,6 +258,7 @@ type DefaultProps<TValue, TItem> = Required<
 // eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
+  public static displayName = 'Select';
 
   public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
     renderValue,
@@ -210,10 +272,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static static = (element: React.ReactElement | (() => React.ReactElement)) => {
+  public static staticElement = (element: React.ReactElement | (() => React.ReactElement)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
-      'Select.static(element) expects element to be a valid react element.',
+      'Select.staticElement(element) expects element to be a valid react element.',
     );
     return element;
   };
@@ -232,7 +294,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -245,24 +306,17 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = ThemeFactory.create(
-                  {
-                    menuOffsetY: theme.selectMenuOffsetY,
-                  },
-                  theme,
-                );
-                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
-              }}
-            </ThemeContext.Consumer>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = ThemeFactory.create(
+            {
+              menuOffsetY: theme.selectMenuOffsetY,
+            },
+            theme,
           );
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -319,6 +373,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
+    const dataTid = this.getProps()['data-tid'] ?? SelectDataTids.root;
     const button = (
       <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
         {this.getButton(buttonParams)}
@@ -334,7 +389,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const root = (
       <span
-        data-tid={SelectDataTids.root}
+        data-tid={dataTid}
         className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
         style={style}
       >
@@ -366,6 +421,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onClick: this.toggle,
       onKeyDown: this.handleKey,
       size: this.getProps().size,
+      disabled: this.getProps().disabled,
     };
 
     return buttonParams;
@@ -418,6 +474,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const use = this.getProps().use;
 
     const labelProps = {
+      'data-tid': SelectDataTids.label,
       className: cx({
         [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,
@@ -431,11 +488,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
-    const icon = isTheme2022(this.theme) ? <ArrowDownIcon size={this.props.size} /> : <ArrowChevronDownIcon />;
+    const icon = <ArrowDownIcon size={this.props.size} />;
 
     return (
       <Button {...buttonProps}>
-        <div className={styles.selectButtonContainer()}>
+        <div className={cx(styles.selectButtonContainer(), { [linkStyles.root(this.theme)]: use === 'link' })}>
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
@@ -473,29 +530,34 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
-    const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
+    const { menuWidth, menuPos, menuAlign } = this.getProps();
 
     return (
-      <DropdownContainer
+      <Popup
+        opened
+        hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        getParent={this.dropdownContainerGetParent}
-        align={this.props.menuAlign}
+        positions={getMenuPositions(menuPos, menuAlign)}
+        anchorElement={this.popupGetParent()}
+        priority={ZIndex.priorities.PopupMenu}
         disablePortal={this.props.disablePortal}
-        hasFixedWidth={hasFixedWidth}
-        menuPos={this.props.menuPos}
+        margin={parseInt(this.theme.menuOffsetY) - 1}
+        width={menuWidth}
+        minWidth={menuWidth === undefined ? '100%' : undefined}
+        popupOffset={this.props.menuOffset}
       >
         <Menu
+          hasMargin={false}
           ref={this.refMenu}
-          width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
-          align={this.props.menuAlign}
+          align={menuAlign}
         >
           {search}
           {this.getMenuItems(value)}
         </Menu>
-      </DropdownContainer>
+      </Popup>
     );
   }
 
@@ -518,7 +580,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         onCloseRequest={this.close}
         opened={this.state.opened}
       >
-        <Menu hasShadow={false} onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
+        <Menu onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
           {this.getMenuItems(value)}
         </Menu>
       </MobilePopup>
@@ -547,7 +609,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           const element = item();
 
           if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key: i, isMobile, size });
+            return React.cloneElement(element, { key: i, isMobile, size } as MenuItemProps);
           }
 
           return null;
@@ -579,7 +641,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   };
 
-  private dropdownContainerGetParent = () => {
+  private popupGetParent = () => {
     return getRootNode(this);
   };
 
@@ -638,10 +700,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private handleSearch = (value: string) => {
-    const menuItemsAtAnyLevel = this.featureFlags.menuItemsAtAnyLevel;
-
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(menuItemsAtAnyLevel ? 0 : 1);
+    this.menu?.highlightItem(0);
   };
 
   private select(value: TValue) {
@@ -722,7 +782,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,
-          'aria-label': buttonElement.props['aria-label'] ?? this.props['aria-label'],
+          'aria-label': (buttonElement as React.ReactElement).props['aria-label'] ?? this.props['aria-label'],
         })
       : buttonElement;
   };

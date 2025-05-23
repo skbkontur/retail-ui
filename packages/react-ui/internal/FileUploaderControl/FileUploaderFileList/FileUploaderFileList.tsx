@@ -13,6 +13,7 @@ import { jsStyles } from './FileUploaderFileList.styles';
 interface FileUploaderFileListProps {
   renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
   size: SizeProp;
+  onRemove(fileId: string): void;
 }
 
 export const FileUploaderFileDataTids = {
@@ -20,7 +21,7 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
-  const { renderFile, size } = props;
+  const { renderFile, size, onRemove } = props;
   const { files } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
@@ -33,9 +34,9 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   return (
     <div data-tid={FileUploaderFileDataTids.fileList}>
       {files.map((file) => (
-        <div key={file.id} className={cx(jsStyles.fileWrapper(theme), fileWrapperClass)}>
+        <div key={file.id} className={cx(jsStyles.fileWrapper(), fileWrapperClass)}>
           <div className={jsStyles.file()}>
-            {renderFile(file, <FileUploaderFile file={file} showSize multiple size={size} />)}
+            {renderFile(file, <FileUploaderFile file={file} showSize multiple size={size} onRemove={onRemove} />)}
           </div>
         </div>
       ))}
@@ -43,4 +44,5 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   );
 };
 
+FileUploaderFileList.__KONTUR_REACT_UI__ = 'FileUploaderFileList';
 FileUploaderFileList.displayName = 'FileUploaderFileList';

@@ -1,7 +1,7 @@
 import { globalObject } from '@skbkontur/global-object';
 
 import { Theme } from '../../lib/theming/Theme';
-import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 
@@ -32,14 +32,14 @@ const ALL_USED_VARIABLES_SET = new Set<keyof Theme>();
 
 export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
-
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
-  baseThemes.push(DEFAULT_THEME);
+  baseThemes.push(LIGHT_THEME);
   baseThemes.push(DARK_THEME);
 
+  // @ts-expect-error не очень-то и хотелось
   const componentsContext = require.context('../../../', true, /\.styles.ts$/);
-  componentsContext.keys().forEach((fileName) => {
+  componentsContext.keys().forEach((fileName: string) => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
     const componentDescription: ComponentDescriptionType = {};

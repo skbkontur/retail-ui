@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper, ValidationsFeatureFlagsContext } from '../src';
+import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 export default {
@@ -22,19 +22,19 @@ export const Required = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationsRemoveExtraSpans: true }}>
-      <div style={{ padding: 20 }}>
-        <ValidationContainer ref={refContainer}>
-          <ValidationWrapper validationInfo={validateSex()}>
-            <Checkbox checked={checked ? checked : false} onValueChange={setChecked}>
-              Checkbox
-            </Checkbox>
-          </ValidationWrapper>
-          <div style={{ padding: '20px 0' }}>
-            <Button onClick={() => refContainer.current?.validate()}>Check</Button>
-          </div>
-        </ValidationContainer>
-      </div>
-    </ValidationsFeatureFlagsContext.Provider>
+    <div style={{ padding: 20, width: 250, height: 80 }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateSex()}>
+          <Checkbox data-tid="checkbox" checked={checked ? checked : false} onValueChange={setChecked}>
+            Checkbox
+          </Checkbox>
+        </ValidationWrapper>
+        <div style={{ padding: '20px 0' }}>
+          <Button data-tid="button" onClick={() => refContainer.current?.validate()}>
+            Check
+          </Button>
+        </div>
+      </ValidationContainer>
+    </div>
   );
 };

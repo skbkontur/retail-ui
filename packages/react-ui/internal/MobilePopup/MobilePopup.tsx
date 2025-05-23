@@ -11,6 +11,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
+import { MobilePopupFooter } from './MobilePopupFooter';
 
 interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
@@ -26,6 +27,10 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    */
   headerChildComponent?: React.ReactNode;
   /**
+   * Подвал всплывающего окна
+   */
+  footerChildComponent?: React.ReactNode;
+  /**
    * Позволяет получить контент всплывающего окна без обёртки в виде `RenderContainer`
    */
   withoutRenderContainer?: boolean;
@@ -37,6 +42,7 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    * Позволяет контролировать текущее состояние всплывающего окна
    */
   opened: boolean;
+  children?: React.ReactNode;
 }
 
 export const MobilePopupDataTids = {
@@ -47,6 +53,7 @@ export const MobilePopupDataTids = {
 @rootNode
 export class MobilePopup extends React.Component<MobilePopupProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
+  public static displayName = 'MobileMenuHeader';
 
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
@@ -79,6 +86,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
                 <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
                   <div className={jsStyles.content(this.theme)}>{this.props.children}</div>
+                  <MobilePopupFooter>{this.props.footerChildComponent}</MobilePopupFooter>
                 </div>
                 <div onClick={this.close} className={jsStyles.bottomIndent()} />
               </div>

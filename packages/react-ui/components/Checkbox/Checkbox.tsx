@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
@@ -8,24 +6,18 @@ import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
-
-/**
- * @deprecated use SizeProp
- */
-export type CheckboxSize = SizeProp;
 
 export interface CheckboxProps
   extends CommonProps,
@@ -33,43 +25,38 @@ export interface CheckboxProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Контент `label`
-         */
+        /** @ignore */
         children?: React.ReactNode;
-        /**
-         * Состояние валидации при ошибке.
-         */
+
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /** Размер */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /**
-         * HTML-событие `mouseenter`.
-         */
+
+        /** Задает HTML-событие `onmouseenter`.
+         * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`.
-         */
+
+        /** Задает HTML-событие `onmouseleave`.
+         * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseover`.
-         */
+
+        /** Задает HTML-событие `onmouseover`.
+         * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
+
+        /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange?: (value: boolean) => void;
-        /**
-         * HTML-событие `onblur`.
-         */
+
+        /** Задает HTML-событие `onblur`.
+         * @ignore */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
-         */
+
+        /** Устанавливает начальное [неопределенное состояние чекбокса](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate). */
         initialIndeterminate?: boolean;
       }
     > {}
@@ -86,9 +73,16 @@ export const CheckboxDataTids = {
 
 type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
 
+/**
+ * `Checkbox` используется для управления параметром с двумя состояниями.
+ *
+ * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
+ * Для немедленного включения какого-то режима в интерфейсе лучше подходит Toggle.
+ */
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
+  public static displayName = 'Checkbox';
 
   public static defaultProps: DefaultProps = {
     size: 'small',
@@ -197,7 +191,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -266,28 +260,18 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const _isTheme2022 = isTheme2022(this.theme);
-
-    const iconClass = cx(
-      styles.icon(),
-      !_isTheme2022 && styles.iconFixPosition(),
-      !props.checked && !isIndeterminate && styles.iconUnchecked(),
-    );
+    const iconClass = cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
 
     const iconSize = parseInt(this.getCheckboxBoxSize());
-    const IconCheck = _isTheme2022 ? (
+    const IconCheck = (
       <span className={iconClass}>
         <CheckedIcon size={iconSize} />
       </span>
-    ) : (
-      <OkIcon className={iconClass} />
     );
-    const IconSquare = _isTheme2022 ? (
+    const IconSquare = (
       <span className={iconClass}>
         <IndeterminateIcon size={iconSize} />
       </span>
-    ) : (
-      <SquareIcon className={iconClass} />
     );
 
     const rootClass = cx(this.getRootSizeClassName(), {
@@ -348,7 +332,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseOver={onMouseOver}
         onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+          <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
+        </FocusControlWrapper>
         {box}
         {caption}
       </label>
@@ -371,9 +357,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
+  private resetFocus = () => this.setState({ focusedByTab: false });
+
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.resetFocus();
     this.props.onBlur?.(e);
-    this.setState({ focusedByTab: false });
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

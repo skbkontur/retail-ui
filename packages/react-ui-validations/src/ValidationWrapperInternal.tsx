@@ -3,17 +3,13 @@ import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
 
-import {
-  ValidationsFeatureFlags,
-  ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
-} from './utils/featureFlagsContext';
 import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
 import { ValidationContext, ValidationContextType } from './ValidationContextWrapper';
+import { ValidationsFeatureFlags, ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -69,14 +65,13 @@ export class ValidationWrapperInternal extends React.Component<
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
-
   private featureFlags!: ValidationsFeatureFlags;
 
   public componentDidMount() {
     warning(
       this.context,
       'ValidationWrapper should appears as child of ValidationContainer.\n' +
-        'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
+        'https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs',
     );
     if (this.context) {
       this.context.register(this);
@@ -100,7 +95,7 @@ export class ValidationWrapperInternal extends React.Component<
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
       if (this.child && typeof this.child.focus === 'function') {
-        this.child.focus();
+        this.child.focus({ withoutOpenDropdown: this.featureFlags.dropdownsDoNotOpenOnFocusByValidation });
       }
     }
     this.isChanging = false;
@@ -152,13 +147,9 @@ export class ValidationWrapperInternal extends React.Component<
     return (
       <ValidationsFeatureFlagsContext.Consumer>
         {(flags) => {
-          this.featureFlags = getFullValidationsFlagsContext(flags);
+          this.featureFlags = flags;
           return React.cloneElement(
-            this.props.errorMessage(
-              this.featureFlags.validationsRemoveExtraSpans ? clonedChild : <span>{clonedChild}</span>,
-              !!validation,
-              validation,
-            ),
+            this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
             {
               'data-tid': dataTid,
             },
@@ -248,10 +239,12 @@ export class ValidationWrapperInternal extends React.Component<
     }
 
     return new Promise((resolve) => {
-      this.setState({ validation }, resolve);
-      if (Boolean(current) !== Boolean(validation)) {
-        this.context.onValidationUpdated(this, !validation);
-      }
+      this.setState({ validation }, () => {
+        if (Boolean(current) !== Boolean(validation)) {
+          this.context.onValidationUpdated(this, !validation);
+        }
+        resolve();
+      });
     });
   }
 

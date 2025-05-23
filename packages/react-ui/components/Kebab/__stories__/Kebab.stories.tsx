@@ -2,12 +2,11 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
-import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
 import { KebabProps } from '..';
-import { delay } from '../../../lib/utils';
+import { MenuHeader } from '../../MenuHeader';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
@@ -16,82 +15,11 @@ interface KebabItem {
   action: string;
 }
 
-const kebabTests: CreeveyTests = {
-  async plain() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-  },
-  async hovered() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-  },
-  async clicked() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-  },
-  async clickedOnButton2ndTime() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
-      .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('clickedOnButton2ndTime');
-  },
-  async tabPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  },
-  async enterPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .sendKeys(this.keys.ENTER)
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
-  },
-  async escapePress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .sendKeys(this.keys.ENTER)
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.ESCAPE)
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
-  },
-};
-
 export default {
   title: 'Kebab',
+  component: Kebab,
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: '120px 0',
@@ -108,77 +36,11 @@ export default {
 export const Small: Story = () => <SomethingWithKebab size="small" />;
 Small.storyName = '14px';
 
-Small.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hovered', 'clickedOnButton2ndTime'],
-      },
-    },
-    tests: kebabTests,
-  },
-};
-
 export const Medium: Story = () => <SomethingWithKebab size="medium" />;
 Medium.storyName = '18px';
 
-Medium.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hovered', 'clickedOnButton2ndTime'],
-      },
-    },
-    tests: kebabTests,
-  },
-};
-
 export const Large: Story = () => <SomethingWithKebab size="large" />;
 Large.storyName = '20px';
-
-Large.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hovered', 'clickedOnButton2ndTime'],
-      },
-    },
-    tests: kebabTests,
-  },
-};
-
-export const KebabHintRemovePinFeatureFlag: Story = () => {
-  return (
-    <ReactUIFeatureFlagsContext.Provider value={{ kebabHintRemovePin: true }}>
-      <SomethingWithKebab size="large" />
-    </ReactUIFeatureFlagsContext.Provider>
-  );
-};
-KebabHintRemovePinFeatureFlag.storyName = 'with kebabHintRemovePin feature flag';
-KebabHintRemovePinFeatureFlag.parameters = {
-  creevey: {
-    skip: {
-      'story-skip-0': { in: /^(?!\b.*2022.*\b)/ },
-      'story-skip-1': {
-        in: /(?!\b.*2022.*\b)/,
-        tests: ['plain', 'hovered', 'clickedOnButton2ndTime', 'tabPress', 'enterPress', 'escapePress'],
-      },
-    },
-    tests: kebabTests,
-  },
-};
 
 export const KebabWithCustomIcon: Story = () => {
   return (
@@ -248,23 +110,26 @@ MobileExampleWithHorizontalPadding.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: {
-    captureElement: null,
-    tests: {
-      async opened() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
-          .perform();
-        await delay(200);
-        await this.browser
-          .actions({ bridge: true })
-          .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-      },
-    },
-  },
 };
+
+export const WithItemsAndIcons: Story = () => (
+  <div style={{ width: 200, textAlign: 'center' }}>
+    <Kebab>
+      <MenuHeader>MenuHeader</MenuHeader>
+      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem>MenuItem3</MenuItem>
+    </Kebab>
+  </div>
+);
+
+export const WithItemsAndIconsWithoutTextAlignment = () => (
+  <div style={{ width: 200, textAlign: 'center' }}>
+    <Kebab preventIconsOffset>
+      <MenuHeader>MenuHeader</MenuHeader>
+      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem>MenuItem3</MenuItem>
+    </Kebab>
+  </div>
+);

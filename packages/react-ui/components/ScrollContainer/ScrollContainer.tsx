@@ -13,6 +13,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -32,55 +33,56 @@ type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
 type OffsetCSSPropsX = 'right' | 'bottom' | 'left';
 
 export interface ScrollContainerProps extends CommonProps {
-  /**
-   * Инвертировать цвет скроллбара
-   * @default false
-   */
+  /** Инвертирует цвет скроллбара.
+   * @default false */
   invert?: boolean;
+
+  /** Задает максимальную высоту. */
   maxHeight?: React.CSSProperties['maxHeight'];
+
+  /** Задает максимальную ширину. */
   maxWidth?: React.CSSProperties['maxWidth'];
-  /**
-   * @default false
-   */
+
+  /** Отключает скролл окна, когда меню открыто.
+   * @default false */
   preventWindowScroll?: boolean;
-  /**
-   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
-   * @default 'auto'
-   */
+
+  /** Задает поведение скролла. (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+   * @default 'auto' */
   scrollBehaviour?: ScrollBehaviour;
+
+  /** Задает функцию, которая вызывается при скроле по горизонтали. */
   onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
+
+  /** Задает функцию, которая вызывается при скроле по вертикали. */
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
-  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
+
+  /** Задает функцию, которая вызывается при скроле.
+   * @deprecated use onScroll */
+  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void;
+
+  /** Задает функцию, которая вызывается при скроле. */
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
-  /**
-   * Отключение кастомного скролла
-   */
+
+  /** Отключает кастомный скролл. */
   disabled?: boolean;
-  /**
-   * Смещение вертикального скроллбара
-   */
+
+  /** Задает смещение вертикального скроллбара. */
   offsetY?: Partial<Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>>;
-  /**
-   * Смещение горизонтального скроллбара
-   */
+
+  /** Задает смещение горизонтального скроллбара. */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
-  /**
-   * Скрывать скроллбар при отсутствии активности пользователя
-   * @deprecated use showScrollBar
-   */
-  hideScrollBar?: boolean;
-  /**
-   * Показывать скроллбар
-   */
+
+  /** Определяет, нужно ли показывать скроллбар. */
   showScrollBar?: 'always' | 'scroll' | 'hover' | 'never';
-  /**
-   * Задержка перед скрытием скроллбара, ms. Работает только если `hideScrollBar = true` или `showScrollBar = 'scroll' | 'hover'`
-   */
+
+  /** Устанавливает задержку в миллисекундах перед скрытием скроллбара.
+   * Работает только при hideScrollBar = true или showScrollBar = 'scroll' | 'hover'. */
   hideScrollBarDelay?: number;
-  /**
-   * Отключить анимации
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
+  scrollRef?: React.Ref<HTMLDivElement | null>;
 }
 
 export const ScrollContainerDataTids = {
@@ -91,13 +93,7 @@ export const ScrollContainerDataTids = {
 type DefaultProps = Required<
   Pick<
     ScrollContainerProps,
-    | 'invert'
-    | 'scrollBehaviour'
-    | 'preventWindowScroll'
-    | 'hideScrollBar'
-    | 'disableAnimations'
-    | 'hideScrollBarDelay'
-    | 'showScrollBar'
+    'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'disableAnimations' | 'hideScrollBarDelay' | 'showScrollBar'
   >
 >;
 
@@ -107,9 +103,13 @@ interface ScrollContainerState {
   isHovered: boolean;
 }
 
+/**
+ * `ScrollContainer` используется для создания контейнера с кастомными полосами прокрутки, который обеспечивает прокрутку содержимого по горизонтали или вертикали.
+ */
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
+  public static displayName = 'ScrollContainer';
 
   public inner: Nullable<HTMLElement>;
 
@@ -126,7 +126,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
-    hideScrollBar: false,
     disableAnimations: isTestEnv,
     hideScrollBarDelay: 500,
     showScrollBar: 'always',
@@ -137,7 +136,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   private setRootNode!: TSetRootNode;
-  private initialIsScrollBarVisible = !this.getProps().hideScrollBar && this.getProps().showScrollBar === 'always';
+  private initialIsScrollBarVisible = this.getProps().showScrollBar === 'always';
 
   public state: ScrollContainerState = {
     isScrollBarXVisible: this.initialIsScrollBarVisible,
@@ -323,8 +322,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     if (scrollState !== prevScrollState) {
       this.handleScrollStateChange(scrollState, axis);
     }
-    const { hideScrollBar, showScrollBar } = this.getProps();
-    (hideScrollBar || showScrollBar === 'scroll') && this.showScrollBarOnMouseWheel(axis);
+    const { showScrollBar } = this.getProps();
+    showScrollBar === 'scroll' && this.showScrollBarOnMouseWheel(axis);
   };
 
   private refScrollBarY = (scrollbar: Nullable<ScrollBar>) => {
@@ -343,6 +342,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
     }
     this.inner = element;
+
+    if (this.props.scrollRef) {
+      callChildRef(this.props.scrollRef, element);
+    }
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {

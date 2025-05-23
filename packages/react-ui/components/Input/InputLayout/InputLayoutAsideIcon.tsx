@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { isElement } from 'react-is';
 
 import { isKonturIcon } from '../../../lib/utils';
@@ -30,8 +30,8 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
   };
 
   let _icon = icon instanceof Function ? icon() : icon;
-  if (isElement(icon) && isKonturIcon(icon)) {
-    _icon = React.cloneElement(icon, { size: icon.props.size ?? sizes[size] });
+  if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
+    _icon = React.cloneElement(icon as ReactElement, { size: icon.props.size ?? sizes[size] });
   }
 
   const style: React.CSSProperties = {};
@@ -43,19 +43,17 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     }
   }
 
-  return (
-    _icon && (
-      <span
-        style={style}
-        className={cx(
-          stylesLayout.aside(),
-          stylesLayout.icon(theme),
-          focused && stylesLayout.iconFocus(theme),
-          disabled && stylesLayout.iconDisabled(),
-        )}
-      >
-        {_icon}
-      </span>
-    )
-  );
+  return _icon ? (
+    <span
+      style={style}
+      className={cx(
+        stylesLayout.aside(),
+        stylesLayout.icon(theme),
+        focused && stylesLayout.iconFocus(theme),
+        disabled && stylesLayout.iconDisabled(theme),
+      )}
+    >
+      {_icon}
+    </span>
+  ) : null;
 };

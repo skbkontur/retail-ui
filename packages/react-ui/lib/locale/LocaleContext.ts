@@ -14,3 +14,4 @@ export const LocaleContext = React.createContext<LocaleContextProps>({
 });
 
 LocaleContext.displayName = 'LocaleContext';
+LocaleContext.__KONTUR_REACT_UI__ = 'LocaleContext';

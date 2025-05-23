@@ -1,4 +1,4 @@
-Базовый пример меню.
+### Базовый пример меню
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -43,7 +43,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
-Меню с заданной шириной.
+### Ширина
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -61,7 +61,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
-Меню с заданной максимальной высотой.
+### Максимальная высота
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -79,7 +79,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
-Меню с выпадашкой слева по центру.
+### Выпадашка слева по центру
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -97,7 +97,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
-Меню c шапкой и подвалом.
+### Меню c шапкой и подвалом
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -113,7 +113,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
-С иконками и включенным по-умолчанию автоматическим выравниванием текста.
+### Иконка и автовыравнивание текста
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, DropdownMenu } from '@skbkontur/react-ui';
@@ -127,7 +127,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 </DropdownMenu>;
 ```
 
-С иконками и отключенным автоматическим выравниванием текста.
+### Иконка и отключенное автовыравнивание текста
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, DropdownMenu } from '@skbkontur/react-ui';
@@ -141,7 +141,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 </DropdownMenu>
 ```
 
-Меню с отключенной анимацией.
+### Отключенная анимация
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
@@ -158,6 +158,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
+### Подпись
 В `caption` можно передать любой элемент.
 
 ```jsx harmony
@@ -178,7 +179,7 @@ import { MenuItem } from '@skbkontur/react-ui';
 </DropdownMenu>;
 ```
 
-Пример с чекбоксом внутри MenuItem.
+### Чекбокс внутри MenuItem
 
 ```jsx harmony
 import { MenuItem, Checkbox, Button, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
@@ -219,7 +220,8 @@ const renderCaption = ({ openMenu, closeMenu }) => {
 </DropdownMenu>
 ```
 
-Условный рендер элементов меню (с сохранением поведения [MenuItem](#/Components/MenuItem)).
+### Условный рендер элементов меню
+(с сохранением поведения [MenuItem](#/Components/MenuItem))
 
 ```jsx harmony
 import {Button, MenuItem, Gapped, MenuSeparator} from '@skbkontur/react-ui';
@@ -247,3 +249,42 @@ const hiddenItems = [
   </DropdownMenu>
 </Gapped>
 ```
+
+С использованием фиче-флага menuItemsAtAnyLevel. Mожно использовать различные обертки для пунктов меню.
+
+```jsx harmony
+import {
+    DropdownMenu,
+    Button,
+    MenuHeader,
+    MenuItem,
+    MenuSeparator,
+    ReactUIFeatureFlagsContext,
+    Gapped
+} from '@skbkontur/react-ui';
+
+const groupedMenuItems = (
+  <div>
+    <MenuItem>MenuItem1</MenuItem>
+    <MenuItem>MenuItem2</MenuItem>
+    <MenuItem isNotSelectable>Not Selectable</MenuItem>
+  </div>
+);
+
+<Gapped>
+  <ReactUIFeatureFlagsContext.Provider value={{ menuItemsAtAnyLevel: true }}>
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <>
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
+        <div>
+          {groupedMenuItems}
+        </div>
+      </>
+      <MenuItem>MenuItem3</MenuItem>
+    </DropdownMenu>
+  </ReactUIFeatureFlagsContext.Provider>
+</Gapped>;
+```
+
+

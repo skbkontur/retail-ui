@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { mount } from 'enzyme';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -19,7 +19,6 @@ import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests_
 describe('<Input />', () => {
   let consoleSpy: jest.SpyInstance;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   beforeEach(() => (consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})));
   afterEach(() => consoleSpy.mockRestore());
 
@@ -41,15 +40,15 @@ describe('<Input />', () => {
   });
 
   it('renders leftIcon', () => {
-    const leftIcon = <i className="my-testy-icon" />;
+    const leftIcon = <i data-tid="my-testy-icon" />;
     render(<Input value="" leftIcon={leftIcon} />);
-    expect(document.querySelector('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
   it('renders rightIcon', () => {
-    const rightIcon = <i className="my-testy-icon" />;
+    const rightIcon = <i data-tid="my-testy-icon" />;
     render(<Input value="" rightIcon={rightIcon} />);
-    expect(document.querySelector('.my-testy-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
   it('renders MaskedInput on mask prop', () => {
@@ -80,7 +79,7 @@ describe('<Input />', () => {
     });
   });
 
-  it('type can be changed from allowed for masking to forbidden for masking', () => {
+  it('type can be changed from allowed for masking to forbidden for masking', async () => {
     const updatedType = 'date';
     const Component = () => {
       const [type, setType] = useState<InputType>('text');
@@ -94,12 +93,14 @@ describe('<Input />', () => {
     };
     render(<Component />);
 
-    userEvent.click(screen.getByRole('button'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
 
     expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
   });
 
-  it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, () => {
+  it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, async () => {
     const updatedType = 'number';
     const Component = () => {
       const [type, setType] = useState<InputType>('text');
@@ -113,7 +114,9 @@ describe('<Input />', () => {
     };
     render(<Component />);
 
-    userEvent.click(screen.getByRole('button'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
 
     expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
   });
@@ -128,9 +131,9 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
 
-  it('cant focus element when its disabled', () => {
+  it('cant focus element when its disabled', async () => {
     render(<Input value="" disabled />);
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByRole('textbox')).not.toHaveFocus();
   });
 
@@ -139,10 +142,10 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('id', 'someId');
   });
 
-  it('maxLength prop works', () => {
+  it('maxLength prop works', async () => {
     render(<Input maxLength={5} />);
     const element = screen.getByRole('textbox');
-    userEvent.type(element, '123456');
+    await userEvent.type(element, '123456');
     expect(element).toHaveValue('12345');
   });
 
@@ -156,11 +159,11 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('title', 'someTitle');
   });
 
-  it('handels onClick event', () => {
+  it('handels onClick event', async () => {
     const onClick = jest.fn();
     render(<Input value="some value to copy" onClick={onClick} />);
     const element = screen.getByRole('textbox');
-    userEvent.click(element);
+    await userEvent.click(element);
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
@@ -178,19 +181,19 @@ describe('<Input />', () => {
     expect(onMouseDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyUp event', () => {
+  it('handels onKeyUp event', async () => {
     const onKeyUp = jest.fn();
     render(<Input value="some value to copy" onKeyUp={onKeyUp} />);
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onKeyUp).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onInput event', () => {
+  it('handels onInput event', async () => {
     const onInput = jest.fn();
     render(<Input onInput={onInput} />);
     const element = screen.getByRole('textbox');
-    userEvent.type(element, 'A');
+    await userEvent.type(element, 'A');
     expect(element).toHaveValue('A');
     expect(onInput).toHaveBeenCalledTimes(1);
   });
@@ -202,12 +205,13 @@ describe('<Input />', () => {
     expect(onCopy).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onPaste event', () => {
+  it('handels onPaste event', async () => {
     const onPaste = jest.fn();
     render(<Input onPaste={onPaste} />);
     const text = 'It handels onPaste event';
     const element = screen.getByRole('textbox');
-    userEvent.paste(element, text);
+    await userEvent.click(element);
+    await userEvent.paste(text);
     expect(element).toHaveValue(text);
     expect(onPaste).toHaveBeenCalledTimes(1);
   });
@@ -289,10 +293,12 @@ describe('<Input />', () => {
   });
 
   selectionAllowedTypes.forEach((type) => {
-    it(`selectAllOnFocus prop works with type="${type}"`, () => {
+    it(`selectAllOnFocus prop works with type="${type}"`, async () => {
       const value = 'Prop works';
       render(<Input type={type} value={value} selectAllOnFocus />);
-      userEvent.tab();
+      await act(async () => {
+        await userEvent.tab();
+      });
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
@@ -300,9 +306,11 @@ describe('<Input />', () => {
   });
 
   selectionForbiddenTypes.forEach((type) => {
-    it(`selectAllOnFocus prop doesn't work with type="${type}"`, () => {
+    it(`selectAllOnFocus prop doesn't work with type="${type}"`, async () => {
       render(<Input type={type} value="value" selectAllOnFocus />);
-      userEvent.tab();
+      await act(async () => {
+        await userEvent.tab();
+      });
 
       expect((document.activeElement as HTMLInputElement).selectionStart).toBeNull();
       expect((document.activeElement as HTMLInputElement).selectionEnd).toBeNull();
@@ -310,7 +318,7 @@ describe('<Input />', () => {
     });
   });
 
-  it('type can be changed from allowed for selection to forbidden for selection', () => {
+  it('type can be changed from allowed for selection to forbidden for selection', async () => {
     const value = 'value';
     const updatedType = 'date';
     const Component = () => {
@@ -324,14 +332,18 @@ describe('<Input />', () => {
       );
     };
     render(<Component />);
-
-    fireEvent.focus(screen.getByRole('textbox'));
+    await act(async () => {
+      fireEvent.focus(screen.getByRole('textbox'));
+    });
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
-
-    userEvent.click(screen.getByRole('button'));
-    fireEvent.focus(screen.getByRole('textbox'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
+    act(() => {
+      fireEvent.focus(screen.getByRole('textbox'));
+    });
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBeUndefined();
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBeUndefined();
@@ -343,12 +355,11 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
     expect(consoleSpy).not.toHaveBeenCalled();
     if (consoleSpy.mock.calls.length) {
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(consoleSpy.mock.calls[0][0]).not.toContain('Warning: React does not recognize');
     }
   });
 
-  it('blink method works', () => {
+  it('blink method works', async () => {
     const blinkMock = jest.fn();
     const refInput = React.createRef<Input>();
     render(<Input ref={refInput} />);
@@ -356,29 +367,29 @@ describe('<Input />', () => {
     if (refInput.current) {
       refInput.current.blink = blinkMock;
     }
-    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+    await userEvent.type(screen.getByRole('textbox'), '{backspace}');
 
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedInput', () => {
+  it('call handleUnexpectedInput', async () => {
     const unexpectedInputHandlerMock = jest.fn();
     render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
     const element = screen.getByRole('textbox');
 
-    userEvent.type(element, '{backspace}');
+    await userEvent.type(element, '{backspace}');
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
 
-    userEvent.type(element, '123');
+    await userEvent.type(element, '123');
     expect(screen.getByRole('textbox')).toHaveValue('123');
 
-    userEvent.type(element, '{backspace}');
+    await userEvent.type(element, '{backspace}');
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should clear the value when an empty string passed', () => {
+  it('should clear the value when an empty string passed', async () => {
     const Comp = () => {
       const [value, setValue] = useState('');
 
@@ -395,49 +406,49 @@ describe('<Input />', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'abc');
+    await userEvent.type(input, 'abc');
     expect(input).toHaveValue('abc');
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveValue('');
 
-    userEvent.type(input, 'a');
+    await userEvent.type(input, 'a');
     expect(input).toHaveValue('a');
   });
 
-  it('handels onBlur event', () => {
+  it('handels onBlur event', async () => {
     const onBlur = jest.fn();
     render(<Input onBlur={onBlur} />);
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
     screen.getByRole('textbox').blur();
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', () => {
+  it('handels onFocus event', async () => {
     const onFocus = jest.fn();
     render(<Input onFocus={onFocus} />);
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', () => {
+  it('handels onKeyDown event', async () => {
     const onKeyDown = jest.fn();
     render(<Input onKeyDown={onKeyDown} />);
 
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyPress event', () => {
+  it('handels onKeyPress event', async () => {
     const onKeyPress = jest.fn();
     render(<Input onKeyPress={onKeyPress} />);
 
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onKeyPress).toHaveBeenCalledTimes(1);
   });
@@ -452,7 +463,6 @@ describe('<Input />', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} />);
     if (inputRef.current) {
-      //@ts-expect-error privat field
       inputRef.current.input = null;
     }
     const setSelectionToNull = () => inputRef.current?.setSelectionRange(0, 3);
@@ -480,12 +490,12 @@ describe('<Input />', () => {
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
-  it('maskedInput calls onUnexpectedInput', () => {
+  it('maskedInput calls onUnexpectedInput', async () => {
     const unexpectedInputHandlerMock = jest.fn();
 
     render(<Input value="" mask={'(999) 999-9999'} onUnexpectedInput={unexpectedInputHandlerMock} />);
-    userEvent.click(screen.getByRole('textbox'));
-    userEvent.keyboard('A');
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.keyboard('A');
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
@@ -514,6 +524,191 @@ describe('<Input />', () => {
       render(<Input aria-label={ariaLabel} />);
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
+
+  describe('clear cross', () => {
+    const getTextbox = () => screen.getByRole('textbox');
+    const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
+    const queryClearCross = () => screen.queryByTestId(InputDataTids.clearCross);
+    const queryRightIcon = () => screen.queryByTestId('my-testy-icon');
+
+    it('clears uncontrolled input', async () => {
+      render(<Input showClearIcon="always" />);
+      const input = getTextbox();
+
+      await userEvent.type(input, 'z');
+      expect(input).toHaveValue('z');
+
+      await userEvent.click(getClearCross());
+
+      expect(input).toHaveValue('');
+    });
+
+    it('clears uncontrolled input with default value', async () => {
+      render(<Input showClearIcon="always" defaultValue="z" />);
+      const input = getTextbox();
+      expect(input).toHaveValue('z');
+
+      await userEvent.click(getClearCross());
+      expect(input).toHaveValue('');
+    });
+
+    it('clears controlled input', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      await userEvent.click(getClearCross());
+      expect(getTextbox()).toHaveValue('');
+    });
+
+    it('tests showClearIcon=always clear cross', () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=auto prop to input', async () => {
+      const onBlur = jest.fn();
+      const onMouseEnter = jest.fn();
+      const onMouseLeave = jest.fn();
+      const onClick = jest.fn();
+      const ControlledInput = () => {
+        const [value, setValue] = React.useState<string>('');
+        return (
+          <Input
+            onBlur={onBlur}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            showClearIcon="auto"
+            value={value}
+            onValueChange={setValue}
+          />
+        );
+      };
+      render(<ControlledInput />);
+      const input = getTextbox();
+      expect(queryClearCross()).toBeNull();
+
+      await userEvent.type(input, 'hello');
+      expect(onMouseEnter).toHaveBeenCalledTimes(1);
+      expect(onClick).toHaveBeenCalledTimes(1);
+      expect(input).toHaveValue('hello');
+      expect(queryClearCross()).toBeInTheDocument();
+
+      await userEvent.click(document.body);
+      expect(onBlur).toHaveBeenCalledTimes(1);
+      expect(input).not.toHaveFocus();
+
+      // necessary because userEvent.click(document.body) doesn't unhover previous hovered element
+      await userEvent.unhover(input);
+      expect(onMouseLeave).toHaveBeenCalledTimes(1);
+      expect(queryClearCross()).toBeNull();
+    });
+
+    it('tests showClearIcon=auto hover clear cross', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.hover(getTextbox());
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=auto focus clear cross', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(getTextbox());
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=never clear cross', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input showClearIcon="never" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(getTextbox());
+      expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=always when rightIcon', async () => {
+      const rightIcon = <i data-tid="my-testy-icon" />;
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input rightIcon={rightIcon} showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      const cross = getClearCross();
+      expect(cross).toBeInTheDocument();
+      expect(queryRightIcon()).not.toBeInTheDocument();
+
+      await userEvent.click(cross);
+      expect(cross).not.toBeInTheDocument();
+      expect(queryRightIcon()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon=auto when rightIcon', async () => {
+      const rightIcon = <i data-tid="my-testy-icon" />;
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input rightIcon={rightIcon} showClearIcon="auto" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+      const input = getTextbox();
+
+      expect(queryClearCross()).toBeNull();
+      expect(queryRightIcon()).toBeInTheDocument();
+
+      await userEvent.hover(input);
+      expect(queryClearCross()).toBeInTheDocument();
+      expect(queryRightIcon()).toBeNull();
+
+      await userEvent.unhover(input);
+      expect(queryClearCross()).toBeNull();
+      expect(queryRightIcon()).toBeInTheDocument();
+
+      await userEvent.click(input);
+      expect(queryClearCross()).toBeInTheDocument();
+      expect(queryRightIcon()).toBeNull();
+
+      await userEvent.click(getClearCross());
+      expect(queryClearCross()).toBeNull();
+      expect(queryRightIcon()).toBeInTheDocument();
+    });
+
+    it('tests showClearIcon when disabled', async () => {
+      const ControlledInput = () => {
+        const [value, setValue] = useState<string>('z');
+        return <Input disabled showClearIcon="always" value={value} onValueChange={setValue} />;
+      };
+      render(<ControlledInput />);
+
+      expect(queryClearCross()).not.toBeInTheDocument();
+
+      await userEvent.click(getTextbox());
+      expect(queryClearCross()).not.toBeInTheDocument();
     });
   });
 });

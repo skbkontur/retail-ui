@@ -1,10 +1,32 @@
-Базовый пример ссылки.
+### Базовый пример
 
 ```jsx harmony
-<Link>Обычная ссылка</Link>
+<Link href="https://kontur.ru" target="_blank">Обычная ссылка</Link>
 ```
 
-Ссылка может иметь различные стили, а также быть отключенной.
+### Корневой элемент
+Cсылка может рендерить кнопку в качестве корневого элемента, c помощью пропа `component`. Cсылка принимает все пропы переданного в `component` компонента.
+Рекомендуется к использованию вместо кнопки с `use=link`, если нужна кнопка с визуалом ссылки.
+
+```jsx harmony
+import { Link } from '@skbkontur/react-ui';
+
+<Link component='button'>Кнопка, но выглядит как ссылка</Link>
+```
+
+### Проп `component`
+С помощью пропа `component`, ссылка может рендерить компонент `Link` из `react router` в качестве корневого элемента.
+
+```jsx static
+import { Link } from '@skbkontur/react-ui';
+import { Link as RouterLink, BrowserRouter } from 'react-router-dom';
+
+<BrowserRouter>
+  <Link to='/dashboard' component={RouterLink}>react-router-dom link</Link>
+</BrowserRouter>
+```
+
+### Стили и disabled
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -18,7 +40,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-Пример ссылки с иконкой.
+### Иконка
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -31,7 +53,7 @@ import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
 </Gapped>
 ```
 
-Пример ссылок ведущих на внешние ресурсы.
+### Ссылки, ведущие на внешние ресурсы
 
 _Примечание_:
 
@@ -52,7 +74,7 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>
 ```
 
-Ссылка в состоянии загрузки.
+### Состояние загрузки
 
 **Поведение**: если у ссылки есть иконка, она заменяется на спиннер, когда иконки две заменяется только левая.
 
@@ -73,7 +95,7 @@ const [isLoading, setIsLoading] = React.useState(false);
 </Gapped>
 ```
 
-Ссылка может иметь кастомное действие при нажатии.
+### Кастомное действие при нажатии
 
 ```jsx harmony
 import { Toast } from '@skbkontur/react-ui';
@@ -81,7 +103,7 @@ import { Toast } from '@skbkontur/react-ui';
 <Link onClick={() => Toast.push("Ты нажал на ссылку!")}>Ссылка с кастомным действием</Link>
 ```
 
-Пример ссылки с пропом `theme`
+### Проп `theme`
 
 ```jsx harmony
 import { Link, Gapped } from '@skbkontur/react-ui';
@@ -93,19 +115,18 @@ import { Link, Gapped } from '@skbkontur/react-ui';
 ```
 
 
-Пример кастомизации ссылки
+### Кастомизация ссылки
 
 ```jsx harmony
 import { Toast, Button } from "@skbkontur/react-ui";
 import { CopyIcon16Regular } from "@skbkontur/icons/CopyIcon16Regular"
 
 const textDecorationStyles = {
-  linkLineBorderBottomWidth: '0',
-  linkHoverTextDecoration: 'underline'
+  linkTextUnderlineOffset: '1px'
 }
 
 const underlineOnHoverStyles = {
-  linkLineBorderBottomColor: 'transparent',
+  linkTextDecorationColor: 'transparent',
 }
 
 const differentColorStyles = {
@@ -133,7 +154,7 @@ const tdStyle = {
   padding: '8px',
 };
 
-const renderExampleRow = (title, styles, index) => {
+const renderExampleRow = (title, styles) => {
     return (
         <tr>
           <td style={tdStyle}>{title}</td>
@@ -154,9 +175,8 @@ const renderExampleRow = (title, styles, index) => {
     <th style={tdStyle}>Пример</th>
     <th style={tdStyle}>Переменные темы</th>
   </tr>
-  {renderExampleRow('Ссылка с подчеркиванием через text-decoration', textDecorationStyles)}
+  {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
   {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
   {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
 </table>
 ```
-

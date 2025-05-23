@@ -1,6 +1,7 @@
 import React from 'react';
-import GuidesLink from '../GuidesLink/GuidesLink';
 import OriginalPathlineRenderer from 'react-styleguidist/lib/client/rsg-components/Pathline/PathlineRenderer';
+
+import GuidesLink from '../GuidesLink/GuidesLink';
 
 interface Props {
   children: string;

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-find-dom-node */
 import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';

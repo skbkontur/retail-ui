@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-codemod@1.2.1...react-ui-codemod@2.0.0) (2024-10-21)
+
+
+### Bug Fixes
+
+* **Link:** replace border-bottom with text-decoration ([#3462](https://github.com/skbkontur/retail-ui/issues/3462)) ([bcb40ac](https://github.com/skbkontur/retail-ui/commit/bcb40ac1b41d0d16176a125339502d5721a2bf33))
+
+
+### Features
+
+* **Picker:** remove deprecated component ([#3522](https://github.com/skbkontur/retail-ui/issues/3522)) ([ec536e3](https://github.com/skbkontur/retail-ui/commit/ec536e37c94bd9b0e045081264627871f478e479))
+* **Popup:** replace DropdownContainer, unify shadows  ([#3451](https://github.com/skbkontur/retail-ui/issues/3451)) ([723ec43](https://github.com/skbkontur/retail-ui/commit/723ec43470bec9f0dd89b5f899ffffb90004a538))
+* **react-ui-codemod:** add codemod for react-ui 5.0 ([#3477](https://github.com/skbkontur/retail-ui/issues/3477)) ([1b660d5](https://github.com/skbkontur/retail-ui/commit/1b660d5b59392254e93b2c5abe4a4c8bc04c7a8d))
+* **react-ui:** remove deprecated entities ([#3523](https://github.com/skbkontur/retail-ui/issues/3523)) ([edfa035](https://github.com/skbkontur/retail-ui/commit/edfa03543e630f9090639bcb46dd18ed9edd16f2))
+* update dependencies ([#3400](https://github.com/skbkontur/retail-ui/issues/3400)) ([d54f08d](https://github.com/skbkontur/retail-ui/commit/d54f08db9b10e2b10cb2d40c695a79f4e93271f5))
+
+
+
+
+
 ## [1.2.1](https://github.com/skbkontur/retail-ui/compare/react-ui-codemod@1.2.0...react-ui-codemod@1.2.1) (2022-04-25)
 
 **Note:** Version bump only for package react-ui-codemod

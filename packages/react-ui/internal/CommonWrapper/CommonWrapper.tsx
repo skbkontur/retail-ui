@@ -3,58 +3,49 @@ import React from 'react';
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
-import { getRootNode, rootNode, TSetRootNode, TRootNodeSubscription, isInstanceWithRootNode } from '../../lib/rootNode';
+import { getRootNode, isInstanceWithRootNode, rootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
-export interface CommonProps {
-  /**
-   * HTML-атрибут `class`.
-   */
-  className?: React.HTMLAttributes<HTMLElement>['className'];
-  /**
-   * HTML-атрибут `style`.
-   */
-  style?: React.HTMLAttributes<HTMLElement>['style'];
-  /**
-   * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
-   */
-  'data-tid'?: string;
-  children?: React.ReactNode;
-}
+import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
+import { extractCommonProps } from './utils/extractCommonProps';
+import { getCommonVisualStateDataAttributes } from './utils/getCommonVisualStateDataAttributes';
 
-interface CommonPropsRootNodeRef {
-  rootNodeRef?: (instance: Nullable<Element>) => void;
-}
-
-export type NotCommonProps<P> = Omit<P, keyof CommonProps>;
-
-export type CommonWrapperProps<P> = P & {
-  children: React.ReactNode | ((rest: CommonWrapperRestProps<P>) => React.ReactNode);
-};
-export type CommonWrapperRestProps<P> = Omit<NotCommonProps<P>, 'children'>;
+export type CommonPropsWithRootNodeRef = CommonProps & CommonPropsRootNodeRef;
 
 @rootNode
-export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> extends React.Component<
+export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.Component<
   CommonWrapperProps<P> & CommonPropsRootNodeRef
 > {
+  public static __KONTUR_REACT_UI__ = 'CommonWrapper';
+  public static displayName = 'CommonWrapper';
+
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
   render() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
+
+    const getChildProps = (child: React.ReactElement<CommonProps & React.RefAttributes<any>>) => {
+      const childProps: Record<string, unknown> = {
+        ...getCommonVisualStateDataAttributes(rest),
+        ...dataProps,
+      };
+
+      isRefableElement(child) && (childProps.ref = this.ref);
+
+      const classNames: string = cx(child.props.className, className);
+      classNames && (childProps.className = classNames);
+
+      const styles: React.CSSProperties = { ...child.props.style, ...style };
+      Object.keys(styles).length && (childProps.style = styles);
+
+      return childProps;
+    };
+
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
-      ? React.cloneElement(this.child, {
-          ref: isRefableElement(this.child) ? this.ref : null,
-          className: cx(this.child.props.className, className),
-          style: {
-            ...this.child.props.style,
-            ...style,
-          },
-          ...dataProps,
-        })
+      ? React.cloneElement(this.child, getChildProps(this.child))
       : this.child;
   }
 
@@ -62,7 +53,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     this.setRootNode(instance);
     this.props.rootNodeRef?.(getRootNode(instance));
 
-    // refs are called when instances change
+    // refs are called when instances change,
     // so we have to renew or remove old subscription
     this.rootNodeSubscription?.remove();
     this.rootNodeSubscription = null;
@@ -75,38 +66,8 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     }
 
     const originalRef = (this.child as React.RefAttributes<any>)?.ref;
-    originalRef && callChildRef(originalRef, instance);
+    if (typeof originalRef === 'function' || (originalRef && typeof originalRef === 'object')) {
+      originalRef && callChildRef(originalRef, instance);
+    }
   };
 }
-
-const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
-  props: P,
-): [CommonProps & CommonPropsRootNodeRef, NotCommonProps<P>] => {
-  const common = {} as CommonProps & CommonPropsRootNodeRef;
-  const rest = {} as NotCommonProps<P>;
-
-  for (const key in props) {
-    if (isCommonProp(key)) {
-      // @ts-expect-error: See: https://github.com/skbkontur/retail-ui/pull/2257#discussion_r565275843 and https://github.com/skbkontur/retail-ui/pull/2257#discussion_r569542736.
-      common[key] = props[key];
-    } else {
-      // @ts-expect-error: Read the comment above.
-      rest[key] = props[key];
-    }
-  }
-
-  return [common, rest];
-};
-
-const isCommonProp = (name: string) => {
-  switch (true) {
-    case name === 'className':
-    case name === 'style':
-    case name === 'rootNodeRef':
-    case name === 'children':
-    case name.indexOf('data-') === 0: // все data-атрибуты
-      return true;
-    default:
-      return false;
-  }
-};

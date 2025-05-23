@@ -2,6 +2,8 @@
   "extends": "../../tsconfig.json",
   "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
   "compilerOptions": {
-    "useUnknownInCatchVariables": false
+    "types": ["node", "jest", "@testing-library/jest-dom", "creevey/selenium"],
+    "useUnknownInCatchVariables": false,
+    "moduleResolution": "Node"
   }
 }

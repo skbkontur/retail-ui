@@ -1,27 +1,22 @@
-const webpack = require('webpack');
-
 const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
-module.exports = async ({ config, mode }) => {
-  config.resolve.extensions.unshift('.ts', '.tsx');
-
+module.exports = async ({ config }) => {
   if (isTestEnv) {
     config.entry.unshift('@skbkontur/react-props2attrs');
   }
 
   config.entry.unshift('core-js/stable');
+  config.resolve.extensions.unshift('.ts', '.tsx');
+
+  // storybook's rule for css doesn't handle css-modules
+  const filteredStorybooksWebpackRules = (config.module.rules || []).filter((r) => r.test && !r.test.test('.css'));
 
   config.module.rules = [
+    ...filteredStorybooksWebpackRules,
     {
       test: /\.(ts|tsx)$/,
-      exclude: /node_moduels/,
+      exclude: /node_modules/,
       use: [
-        {
-          loader: 'ts-loader',
-          options: {
-            transpileOnly: true,
-          },
-        },
         {
           loader: 'string-replace-loader',
           options: {
@@ -33,7 +28,7 @@ module.exports = async ({ config, mode }) => {
     },
     {
       test: /\.(css|less)$/,
-      loaders: [
+      use: [
         'style-loader',
         {
           loader: 'css-loader',
@@ -41,6 +36,7 @@ module.exports = async ({ config, mode }) => {
             modules: {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
+              namedExport: false,
             },
           },
         },

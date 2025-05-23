@@ -132,6 +132,7 @@ export const styles = memoizeStyle({
 
   stickyTabsWrapper(t: Theme) {
     return css`
+      margin-top: 39px;
       &:after {
         box-shadow: 0 2px 10px 0px ${t.textColorDefault};
       }

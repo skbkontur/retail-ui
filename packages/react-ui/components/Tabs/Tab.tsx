@@ -13,10 +13,10 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { SizeProp } from '../../lib/types/props';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
-import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
-import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
+import { TabsContext, TabsContextDefaultValue, TabsContextType } from './TabsContext';
+import { globalClasses, horizontalStyles, styles, verticalStyles } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -30,62 +30,38 @@ export const TabDataTids = {
   root: 'Tab__root',
 } as const;
 
-/**
- * @deprecated use SizeProp
- */
-export type TabSize = SizeProp;
-
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps {
-  /**
-   * Позволяет передавать свой компонент, строку или функцию, которая заменит собой элемент используемый в компоненте по умолчанию. Реализует паттерн [render prop](https://www.patterns.dev/posts/render-props-pattern).
-   */
+  /** Позволяет передавать свой компонент, строку или функцию, которая заменит собой элемент используемый в компоненте по умолчанию.
+   * Реализует паттерн [render prop](https://www.patterns.dev/posts/render-props-pattern). */
   component?: React.ComponentType<any> | string;
 
-  /**
-   * `HTML`-аттрибут `href`.
-   */
+  /** Задает HTML-атрибут `href` - адрес, на который следует перейти. */
   href?: string;
 
-  /**
-   * Уникальный идентификатор таба. По нему компонент `<Tabs />` определяет какой `<Tab />` сейчас выбран.
-   */
+  /** Задает уникальный идентификатор таба. По нему компонент `<Tabs />` определяет какой `<Tab />` сейчас выбран. */
   id?: T;
 
-  /**
-   * `HTML`-событие `onclick`.
-   */
+  /**`HTML`-событие `onclick`. */
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 
-  /**
-   * `HTML`-событие `onkeydown`.
-   */
+  /** `HTML`-событие `onkeydown`. */
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
-  /**
-   * Переводит компонент в отключенное состояние.
-   */
+  /** Делает компонент недоступным. */
   disabled?: boolean;
 
-  /**
-   * Визуальное состояние ошибки.
-   */
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
 
-  /**
-   * Визуальное состояние предупреждения.
-   */
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
 
-  /**
-   * Визуальное состояние успеха.
-   */
+  /** Устанавливает визульное состояние валидации "успех". */
   success?: boolean;
 
-  /**
-   * Визуальное состояние главного элемента.
-   */
+  /** Задает визульное состояние главного элемента. */
   primary?: boolean;
 }
 
@@ -96,11 +72,12 @@ export interface TabState {
 type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 
 /**
- * Вложенный элемент компонента `<Tabs />`.
+ * Вложенный элемент компонента Tabs.
  */
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
+  public static displayName = 'Tab';
 
   public static contextType = TabsContext;
   public context: TabsContextType = this.context;
@@ -192,7 +169,11 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper
+        rootNodeRef={this.setRootNode}
+        {...getVisualStateDataAttributes({ active: isActive, disabled })}
+        {...this.props}
+      >
         <Component
           data-tid={TabDataTids.root}
           className={cx({

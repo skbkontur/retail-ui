@@ -13,7 +13,7 @@ describe('Tab', () => {
     expect(() => render(<TabGeneric />)).not.toThrow();
   });
 
-  it('should handle OnClick event', () => {
+  it('should handle OnClick event', async () => {
     const onClick = jest.fn();
     render(
       <Tabs value="fuji">
@@ -26,12 +26,12 @@ describe('Tab', () => {
     );
 
     const tabs = screen.getAllByTestId(TabDataTids.root);
-    userEvent.click(tabs[1]);
+    await userEvent.click(tabs[1]);
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('should handle onKeyDown event', () => {
+  it('should handle onKeyDown event', async () => {
     const onKeyDown = jest.fn();
     render(
       <Tabs value="fuji">
@@ -42,12 +42,12 @@ describe('Tab', () => {
         <Tabs.Tab id="alps">Alps</Tabs.Tab>
       </Tabs>,
     );
-    userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
+    await userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('should not call onKeyDown event on disabled tab', () => {
+  it('should not call onKeyDown event on disabled tab', async () => {
     const onKeyDown = jest.fn();
     render(
       <Tabs value="fuji">
@@ -58,12 +58,12 @@ describe('Tab', () => {
         <Tabs.Tab id="alps">Alps</Tabs.Tab>
       </Tabs>,
     );
-    userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
+    await userEvent.type(screen.getAllByTestId(TabDataTids.root)[1], '{enter}');
 
     expect(onKeyDown).not.toHaveBeenCalled();
   });
 
-  it('should focus by tab', () => {
+  it('should focus by tab', async () => {
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
@@ -71,11 +71,11 @@ describe('Tab', () => {
     );
     expect(screen.getByTestId(TabDataTids.root)).not.toHaveFocus();
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByTestId(TabDataTids.root)).toHaveFocus();
   });
 
-  it('should pass focus by arrowright press', () => {
+  it('should pass focus by arrowright press', async () => {
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
@@ -84,15 +84,15 @@ describe('Tab', () => {
     );
     const tabs = screen.getAllByTestId(TabDataTids.root);
     expect(tabs[0]).not.toHaveFocus();
-    userEvent.tab();
+    await userEvent.tab();
     expect(tabs[0]).toHaveFocus();
 
-    userEvent.type(tabs[0], '{arrowright}');
+    await userEvent.type(tabs[0], '{arrowright}');
     expect(tabs[0]).not.toHaveFocus();
     expect(tabs[1]).toHaveFocus();
   });
 
-  it('should focus by arrowleft', () => {
+  it('should focus by arrowleft', async () => {
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
@@ -101,17 +101,17 @@ describe('Tab', () => {
     );
     const tabs = screen.getAllByTestId(TabDataTids.root);
     expect(tabs[0]).not.toHaveFocus();
-    userEvent.tab();
+    await userEvent.tab();
     expect(tabs[0]).toHaveFocus();
 
-    userEvent.type(tabs[0], '{arrowright}');
+    await userEvent.type(tabs[0], '{arrowright}');
     expect(tabs[0]).not.toHaveFocus();
 
-    userEvent.type(tabs[0], '{arrowleft}');
+    await userEvent.type(tabs[0], '{arrowleft}');
     expect(tabs[0]).toHaveFocus();
   });
 
-  it('should not focus on disabled tab by pressing tab', () => {
+  it('should not focus on disabled tab by pressing tab', async () => {
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
@@ -124,10 +124,10 @@ describe('Tab', () => {
 
     const tabs = screen.getAllByTestId(TabDataTids.root);
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(tabs[0]).toHaveFocus();
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(tabs[0]).not.toHaveFocus();
     expect(tabs[1]).not.toHaveFocus();
     expect(tabs[2]).toHaveFocus();
@@ -142,7 +142,7 @@ describe('Tab', () => {
         </Tabs>,
       );
 
-      expect(screen.getByRole('link')).toHaveAttribute('aria-label', ariaLabel);
+      expect(screen.getByTestId(TabDataTids.root)).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 });

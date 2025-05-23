@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
@@ -13,29 +11,19 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isIE11, isSafari17 } from '../../lib/client';
+import { isIE11, isSafariWithTextareaBug } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { SizeProp } from '../../lib/types/props';
-import {
-  getFullReactUIFlagsContext,
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-} from '../../lib/featureFlagsContext';
 import { InputAlign } from '../Input';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
-
-/**
- * @deprecated use SizeProp
- */
-export type TextareaSize = SizeProp;
 
 export const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
@@ -46,80 +34,61 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /**
-         * Состояние валидации при ошибке.
-         */
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /** Не активное состояние */
+
+        /** Делает компонент недоступным. */
         disabled?: boolean;
-        /** Размер */
+
+        /** Задает размер компонента. */
         size?: SizeProp;
-        /**
-         * Автоматический ресайз
-         * в зависимости от содержимого
-         */
+
+        /** Выполняет автоматический ресайз в зависимости от содержимого. */
         autoResize?: boolean;
-        /**
-         * Число строк
-         */
+
+        /** Задает высоту текстарии в виде числа строк видимых без скролла. */
         rows?: number;
-        /**
-         * Максимальное число строк при
-         * автоматическом ресайзе
-         */
+
+        /** Задает максимальное число строк при автоматическом ресайзе. */
         maxRows?: string | number;
 
-        /**
-         * Стандартный ресайз
-         * Попадает в `style`
-         */
+        /** Задает направления ресайза компонента.
+         * Попадает в `style`. */
         resize?: React.CSSProperties['resize'];
 
-        /**
-         * Ширина
-         */
+        /** Задает ширину текстэрии. */
         width?: React.CSSProperties['width'];
 
-        /**
-         * Вызывается при изменении `value`
-         */
+        /** Задает функцию, которая вызывается при изменении `value`. */
         onValueChange?: (value: string) => void;
 
-        /** Выделение значения при фокусе */
+        /** Определяет, нужно ли выделять введенное значение при фокусе. Работает с типами text, password, tel, search, url. */
         selectAllOnFocus?: boolean;
 
-        /** Показывать счетчик символов */
+        /** Определяет, нужно ли показывать счетчик символов. */
         showLengthCounter?: boolean;
 
-        /** Допустимое количество символов в поле. Отображается в счетчике.
-         * Если не указано, равно `maxLength`
-         */
+        /** Задает допустимое количество символов в поле. Отображается в счетчике.
+         * @default maxLength */
         lengthCounter?: number;
 
-        /** Подсказка к счетчику символов.
-         *
-         * По умолчанию - тултип с содержимым из пропа, если передан`ReactNode`.
-         *
-         * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
-         *
+        /** Задает подсказку к счетчику символов.
+         * По умолчанию - тултип с содержимым из пропа, если передан `ReactNode`.
+         * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой.
+         * @example
          * ```
          * counterHelp={() => <Tooltip render={...}><HelpIcon /></Tooltip>}
-         * ```
-         * */
+         * ``` */
         counterHelp?: ReactNode | (() => ReactNode);
 
-        /** Добавлять дополнительную свободную строку при авто-ресайзе.
-         * @see https://guides.kontur.ru/components/textarea/#04
-         * */
+        /** Добавляет дополнительную свободную строку при авто-ресайзе.
+         * @see https://guides.kontur.ru/components/textarea/#04 */
         extraRow?: boolean;
 
-        /** Отключать анимацию при авто-ресайзе.
-         * Автоматически отключается когда в `extraRow` передан `false`.
-         */
+        /** Отключает анимацию при авто-ресайзе. Автоматически отключается когда в `extraRow` передан `false`. */
         disableAnimations?: boolean;
         /** Выравнивание текста */
         align?: InputAlign;
@@ -140,15 +109,15 @@ export const TextareaDataTids = {
 type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations' | 'size'>>;
 
 /**
- * Компонент для ввода многострочного текста.
+ * Многострочное поле `Textarea` — это поле ввода, которое позволяет работать с несколькими строками текста.
  *
- * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`
- *
- * ** `className` и `style`  игнорируются**
+ * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
+ * Пропы **`className` и `style` игнорируются**.
  */
 @rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
+  public static displayName = 'Textarea';
 
   public static propTypes = {
     error: PropTypes.bool,
@@ -213,7 +182,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private getProps = createPropsGetter(Textarea.defaultProps);
-  private featureFlags!: ReactUIFeatureFlags;
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
@@ -306,23 +274,16 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -455,8 +416,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       />
     );
 
-    const Component =
-      this.featureFlags.textareaUseSafari17Workaround && isSafari17 ? TextareaWithSafari17Workaround : 'textarea';
+    const Component = isSafariWithTextareaBug ? TextareaWithSafari17Workaround : 'textarea';
 
     return (
       <RenderLayer

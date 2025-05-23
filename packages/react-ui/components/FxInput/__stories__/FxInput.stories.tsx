@@ -9,7 +9,10 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FxInputProps } from '..';
 import { SizeProp } from '../../../lib/types/props';
 
-export default { title: 'FxInput' } as Meta;
+export default {
+  title: 'FxInput',
+  component: FxInput,
+} as Meta;
 
 export const TypeText = () => <TestFxInput />;
 TypeText.storyName = 'type text';
@@ -38,27 +41,6 @@ Borderless.storyName = 'borderless';
 
 export const WithWidthStory: Story = () => <WithWidth />;
 WithWidthStory.storyName = 'with width';
-
-WithWidthStory.parameters = {
-  creevey: {
-    tests: {
-      async 'inside auto container'() {
-        const element = await this.browser.findElement({ css: '[data-tid="container"]' });
-        await this.expect(await element.takeScreenshot()).to.matchImage('inside auto container');
-      },
-      async 'inside fixed container'() {
-        const element = await this.browser.findElement({ css: '[data-tid="container"]' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#toggle-width' }))
-          .perform();
-        await this.expect(await element.takeScreenshot()).to.matchImage('inside fixed container');
-      },
-    },
-  },
-};
 
 interface TestFxInputProps {
   type: FxInputProps['type'];
@@ -116,7 +98,7 @@ interface TestWrapperProps {
   width?: number | string;
   ruler?: boolean;
 }
-class TestWrapper extends React.Component<TestWrapperProps> {
+class TestWrapper extends React.Component<React.PropsWithChildren<TestWrapperProps>> {
   public render() {
     const { width, ruler, children } = this.props;
     const style: React.CSSProperties = {
@@ -135,7 +117,7 @@ class TestWrapper extends React.Component<TestWrapperProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <div style={theme.prototype.constructor.name === 'DarkTheme' ? darkStyle : style}>
+            <div style={theme.prototype.constructor.name.includes('Dark') ? darkStyle : style}>
               {ruler && <BGRuler color="#888" left={10} right={9} />}
               {children}
             </div>

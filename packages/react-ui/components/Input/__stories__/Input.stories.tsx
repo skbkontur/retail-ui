@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -10,6 +10,7 @@ import { Gapped } from '../../Gapped';
 
 export default {
   title: 'Input',
+  component: Input,
 } as Meta;
 
 type InputState = Partial<InputProps>;
@@ -267,7 +268,6 @@ export const Type: Story = () => (
     presetProps={{}}
   />
 );
-Type.parameters = { creevey: { skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } } };
 
 const typeStates: InputState[] = [
   { type: 'text', defaultValue: 'Value' },
@@ -307,9 +307,6 @@ export const TypeApi: Story = () => (
     />
   </>
 );
-TypeApi.parameters = {
-  creevey: { skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } } },
-};
 
 const typeApiTypes: InputState[] = [
   { type: 'number' },
@@ -381,3 +378,96 @@ export const BlinkingByButton: Story = () => {
   return <Sample />;
 };
 BlinkingByButton.parameters = { creevey: { skip: true } };
+
+export const Default: Story = () => (
+  <div id="input">
+    <Input spellCheck={false} />
+  </div>
+);
+
+export const WithMask: Story = () => (
+  <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
+);
+
+export const WithMaskAndCustomUnmaskedValue: Story = () => {
+  const [value, setValue] = useState('+795');
+
+  return (
+    <Input
+      width="150"
+      mask="+7 999 999-99-99"
+      maskChar={'_'}
+      placeholder="+7"
+      alwaysShowMask
+      value={value}
+      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
+    />
+  );
+};
+
+export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
+
+export const SelectAllByButton: Story = () => {
+  let input: Input | null = null;
+
+  const selectAll = () => {
+    if (input) {
+      input.selectAll();
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <Input ref={(element) => (input = element)} defaultValue="Some value" />
+      </div>
+      <button data-tid="select-all" onClick={selectAll}>
+        Select all
+      </button>
+    </div>
+  );
+};
+SelectAllByButton.storyName = 'Select all by button';
+
+export const MaxLength: Story = () => (
+  <div id="input">
+    <Input maxLength={3} placeholder="maxLength={3}" />
+  </div>
+);
+
+export const UncontrolledInputWithPlaceholder: Story = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_value, setValue] = React.useState<string>();
+  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
+};
+UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
+
+export const WithMaskAndSelectAllProp: Story = () => {
+  const inputRef = React.useRef<Input>(null);
+  const [value, setValue] = React.useState('11');
+  const selectAll = React.useCallback(() => {
+    inputRef.current?.selectAll();
+  }, [inputRef.current]);
+  return (
+    <div>
+      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
+    </div>
+  );
+};
+
+export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
+
+export const InputTypeApi: Story = () => <Input defaultValue={123} type="number" selectAllOnFocus />;
+
+export const ClearCrossSizes: Story = () => {
+  const [valueSmall, setValueSmall] = React.useState('Small');
+  const [valueMedium, setValueMedium] = React.useState('Medium');
+  const [valueLarge, setValueLarge] = React.useState('Large');
+  return (
+    <Gapped vertical gap={5}>
+      <Input showClearIcon="always" size="small" value={valueSmall} onValueChange={setValueSmall} />
+      <Input showClearIcon="always" size="medium" value={valueMedium} onValueChange={setValueMedium} />
+      <Input showClearIcon="always" size="large" value={valueLarge} onValueChange={setValueLarge} />
+    </Gapped>
+  );
+};

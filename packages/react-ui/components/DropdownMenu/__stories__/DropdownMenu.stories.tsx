@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 
-import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
@@ -14,12 +14,13 @@ import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
-import { delay } from '../../../lib/utils';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 
 export default {
   title: 'DropdownMenu',
+  component: DropdownMenu,
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: '20px 120px 150px',
@@ -43,97 +44,6 @@ export const SimpleExample: Story = () => (
   </DropdownMenu>
 );
 SimpleExample.storyName = 'Simple example';
-
-SimpleExample.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async clickAfterClickedOnCaption() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async enterPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
-      },
-      async escapePress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ESCAPE)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
-      },
-    },
-  },
-};
 
 const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   return (
@@ -177,69 +87,15 @@ const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   );
 };
 
-const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
-  return {
-    async 'out of viewport'() {
-      if (side === 'left') {
-        await this.browser.executeScript(function () {
-          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
-          container.scrollLeft = container.scrollWidth;
-        });
-      }
-
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
-        .perform();
-      await delay(1000);
-
-      await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
-    },
-    async 'out of edge with min menu width'() {
-      if (side === 'left') {
-        await this.browser.executeScript(function () {
-          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
-          container.scrollLeft = container.scrollWidth;
-        });
-      }
-
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
-        .perform();
-      await delay(1000);
-
-      await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
-    },
-  };
-};
-
 export const MenuOutOfViewPortRight: Story = () => {
   return <MenuOutOfViewPortSample side={'right'} />;
 };
 MenuOutOfViewPortRight.storyName = 'Menu out of viewport right';
 
-MenuOutOfViewPortRight.parameters = {
-  creevey: {
-    skip: { flacky: { in: ['firefox2022', 'firefox2022Dark'] } },
-    tests: outOfViewTests('right'),
-  },
-};
-
 export const MenuOutOfViewPortLeft: Story = () => {
   return <MenuOutOfViewPortSample side={'left'} />;
 };
 MenuOutOfViewPortLeft.storyName = 'Menu out of viewport left';
-
-MenuOutOfViewPortLeft.parameters = {
-  creevey: {
-    tests: outOfViewTests('left'),
-  },
-};
 
 export const CaptionWidth: Story = () => (
   <div style={{ width: '300px' }}>
@@ -260,18 +116,6 @@ export const CaptionWidth: Story = () => (
   </div>
 );
 CaptionWidth.storyName = 'Caption width 100%';
-
-CaptionWidth.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-    },
-  },
-};
 
 export const ExampleWithWidthOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
@@ -377,54 +221,6 @@ export const WithHeaderAndFooter: Story = () => (
 );
 WithHeaderAndFooter.storyName = 'With header and footer';
 
-WithHeaderAndFooter.parameters = {
-  creevey: {
-    tests: {
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
-      },
-      async 'scrolled by 100'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
-          scrollContainer.scrollTop += 100;
-        });
-        await delay(2000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
-      },
-      async 'scrolled down to bottom'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
-          scrollContainer.scrollTop += scrollContainer.scrollHeight;
-        });
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled down to bottom');
-      },
-    },
-  },
-};
-
 interface DropdownWithScrollStateChangeState {
   hasHeader: boolean;
   value: string;
@@ -506,23 +302,41 @@ MobileExampleWithHorizontalPadding.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: {
-    captureElement: null,
-    tests: {
-      async opened() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DropdownMenu"]' }))
-          .perform();
-        await delay(200);
-        await this.browser
-          .actions({ bridge: true })
-          .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-      },
-    },
-  },
 };
+
+export const WithItemsAndIcons = () => (
+  <DropdownMenu caption={<Button>Click me</Button>}>
+    <MenuHeader>MenuHeader</MenuHeader>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </DropdownMenu>
+);
+
+export const WithItemsAndIconsWithoutTextAlignment = () => (
+  <DropdownMenu preventIconsOffset caption={<Button>Click me</Button>}>
+    <MenuHeader>MenuHeader</MenuHeader>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+    <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </DropdownMenu>
+);
+
+export const WithNestedMenuItems = () => {
+  const [caption, setCaption] = useState('not selected');
+  const onClick = () => {
+    setCaption('selected');
+  };
+  return (
+    <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
+      <>
+        <div>
+          <MenuItem>Раз</MenuItem>
+          <MenuItem onClick={onClick}>Два</MenuItem>
+        </div>
+        <MenuItem>Три</MenuItem>
+      </>
+    </DropdownMenu>
+  );
+};
+WithNestedMenuItems.storyName = 'With nested menu items';

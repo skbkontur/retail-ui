@@ -7,7 +7,6 @@ import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Checkbox, CheckboxProps } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
-import { delay } from '../../../lib/utils';
 
 interface PlaygroundState {
   loadingActive: CheckboxProps['checked'];
@@ -90,16 +89,15 @@ class Playground extends React.Component {
                   checked={this.state.checked}
                   onValueChange={this.toggle.bind(this)}
                   loading={this.state.loading}
-                  color="#28bf4f"
                 />{' '}
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
-                <Toggle checked={false} disabled color="#28bf4f" />
+                <Toggle checked={false} disabled />
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked disabled color="#28bf4f" />
+                <Toggle checked disabled />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -202,46 +200,13 @@ class SimpleChildrenLines extends React.Component {
   }
 }
 
-export default { title: 'Toggle' };
+export default {
+  title: 'Toggle',
+  component: Toggle,
+};
 
 export const Plain: Story = () => <Simple />;
 Plain.storyName = 'plain';
-
-Plain.parameters = {
-  creevey: {
-    skip: {
-      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'clicked' },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async pressed() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'label' }),
-          })
-          .press()
-          .perform();
-        await delay(1000);
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};
 
 export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
 Uncontrolled.storyName = 'uncontrolled';
@@ -263,66 +228,11 @@ export const DisabledWithTooltip: Story = () => (
 );
 DisabledWithTooltip.storyName = 'disabled with Tooltip';
 
-DisabledWithTooltip.parameters = {
-  creevey: {
-    tests: {
-      async pressed() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'label' }),
-          })
-          .press()
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-      },
-    },
-  },
-};
-
 export const WithChildren: Story = () => <SimpleChildren />;
 WithChildren.storyName = 'with children';
 
-WithChildren.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-    },
-  },
-};
-
 export const WithLongDescription: Story = () => <SimpleChildrenLines />;
 WithLongDescription.storyName = 'with long description';
-
-WithLongDescription.parameters = {
-  creevey: {
-    skip: {
-      flaky: { in: ['chrome2022', 'chrome2022Dark'], tests: 'clicked' },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};
 
 export const WithLeftCaption: Story = () => <Toggle captionPosition="left">left caption</Toggle>;
 

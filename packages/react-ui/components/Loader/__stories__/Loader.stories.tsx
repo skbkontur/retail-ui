@@ -4,7 +4,7 @@ import { AnyObject } from '../../../lib/utils';
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
-import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
+import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Toggle } from '../../Toggle';
 
@@ -28,7 +28,7 @@ interface ContentComponentProps {
   additionalStyle?: AnyObject;
   loaderProps?: Partial<LoaderProps>;
 }
-class ContentComponent extends React.Component<ContentComponentProps> {
+class ContentComponent extends React.Component<React.PropsWithChildren<ContentComponentProps>> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;
     return (
@@ -37,7 +37,7 @@ class ContentComponent extends React.Component<ContentComponentProps> {
           return (
             <div
               style={
-                theme.prototype.constructor.name === 'DarkTheme'
+                theme.prototype.constructor.name.includes('Dark')
                   ? { ...darkWrapperStyle, ...additionalStyle }
                   : { ...wrapperStyle, ...additionalStyle }
               }
@@ -76,7 +76,10 @@ class NumberList extends React.Component<NumberListProps> {
   }
 }
 
-export default { title: 'Loader' };
+export default {
+  title: 'Loader',
+  component: Loader,
+};
 
 export const Simple = () => {
   const [toggleValue, setToggleValue] = useState(false);
@@ -221,38 +224,8 @@ BothDimensionsScrollableContentWithSpacesAround.parameters = { creevey: { skip: 
 export const ActiveLoader: Story = () => <LoaderAndButton active />;
 ActiveLoader.storyName = 'Active loader';
 
-ActiveLoader.parameters = {
-  creevey: {
-    tests: {
-      async 'covers children'() {
-        const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
-        const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
-
-        await this.browser.actions({ bridge: true }).click(button).perform();
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('cover children');
-      },
-    },
-  },
-};
-
 export const InactiveLoader: Story = () => <LoaderAndButton active={false} />;
 InactiveLoader.storyName = 'Inactive loader';
-
-InactiveLoader.parameters = {
-  creevey: {
-    tests: {
-      async "doesn't cover children"() {
-        const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
-        const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
-
-        await this.browser.actions({ bridge: true }).click(button).perform();
-
-        await this.expect(await element.takeScreenshot()).to.matchImage("doesn't cover children");
-      },
-    },
-  },
-};
 
 export const WrapperWithCustomHeightAndInactiveLoader = () => (
   <ThemeContext.Consumer>
@@ -262,7 +235,7 @@ export const WrapperWithCustomHeightAndInactiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />
@@ -282,7 +255,7 @@ export const WrapperWithCustomHeightAndActiveLoader = () => (
           <div
             style={{
               height: '100%',
-              backgroundColor: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#DEDEDE',
+              backgroundColor: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#DEDEDE',
             }}
           >
             <NumberList itemsCount={10} />
@@ -311,7 +284,7 @@ export const WithCustomComponent: Story = () => {
   const getTestComponent = () => {
     return (
       <div style={{ display: 'inline-block', textAlign: 'center' }}>
-        <EyeOpenedIcon color={'blue'} size={25} />
+        <EyeOpenIcon16Light color={'blue'} size={25} />
         <span style={{ display: 'block', color: 'red' }}>Загрузка</span>
       </div>
     );
@@ -348,24 +321,4 @@ export const FocusInside: Story = () => {
       </button>
     </div>
   );
-};
-FocusInside.parameters = {
-  creevey: {
-    tests: {
-      async 'focus inside'() {
-        const loader = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
-        const toggle = await this.browser.findElement({ css: '[data-tid~="toggle-loader"]' });
-
-        await this.browser.actions().sendKeys(this.keys.TAB).perform();
-        const enabled = await loader.takeScreenshot();
-
-        await this.browser.actions().click(toggle).move({ x: 0, y: 0 }).click().perform();
-
-        await this.browser.actions().sendKeys(this.keys.TAB).perform();
-        const disabled = await loader.takeScreenshot();
-
-        await this.expect({ enabled, disabled }).to.matchImages();
-      },
-    },
-  },
 };

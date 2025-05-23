@@ -10,8 +10,18 @@ import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { Dropdown } from '../../Dropdown';
+import { DropdownMenu } from '../../DropdownMenu';
+import { Select } from '../../Select';
+import { Autocomplete } from '../../Autocomplete';
+import { PasswordInput } from '../../PasswordInput';
+import { CurrencyInput } from '../../CurrencyInput';
+import { FxInput } from '../../FxInput';
 
-export default { title: 'Group' };
+export default {
+  title: 'Group',
+  component: Group,
+};
 
 export const SimpleGroupWithInputAndButton: Story = () => (
   <Group width="300px">
@@ -21,24 +31,21 @@ export const SimpleGroupWithInputAndButton: Story = () => (
 );
 SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
 
-SimpleGroupWithInputAndButton.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async 'focused input'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('focused input');
-      },
-    },
-  },
-};
+export const GroupWithAllSupportedComponents: Story = () => (
+  <Group>
+    <Button icon={<UserIcon />} />
+    <Input value="" placeholder="Input" />
+    <FxInput value="" placeholder="FxInput" onValueChange={console.log} />
+    <Autocomplete value="" placeholder="Autocomplete" onValueChange={console.log} />
+    <PasswordInput value="" placeholder="PasswordInput" onValueChange={console.log} />
+    <CurrencyInput value={1} placeholder="CurrencyInput" onValueChange={console.log} />
+    <Select value="" placeholder="Select value" onValueChange={console.log} />
+    <Dropdown caption="Dropdown" />
+    <DropdownMenu caption={(props) => <Button corners={props.corners}>DropdownMenu</Button>} />
+    <Button icon={<DeleteIcon />} />
+  </Group>
+);
+GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components';
 
 export const SimpleGroupWithCustomInputsWidth = () => (
   <Group>
@@ -49,14 +56,18 @@ export const SimpleGroupWithCustomInputsWidth = () => (
 );
 SimpleGroupWithCustomInputsWidth.storyName = 'Simple Group with custom Inputs width';
 
-export const GroupWithInputAndMultipleButtons = () => (
-  <Group>
-    <Button>Clear</Button>
-    <Input placeholder="Search" width="100%" />
-    <Button icon={<SearchIcon />} />
-    <Button>Cancel</Button>
-  </Group>
-);
+export const GroupWithInputAndMultipleButtons = () => {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <Group>
+      <Button onClick={() => setValue('')}>Clear</Button>
+      <Input value={value} onValueChange={setValue} placeholder="Search" width="100%" />
+      <Button icon={<SearchIcon />} />
+      <Button>Cancel</Button>
+    </Group>
+  );
+};
 GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
 GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
@@ -87,7 +98,7 @@ export const WithWidth = () => (
       return (
         <div
           style={{
-            background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#eee',
+            background: theme.prototype.constructor.name.includes('Dark') ? '1f1f1f' : '#eee',
             padding: '30px 10px 10px',
             position: 'relative',
           }}

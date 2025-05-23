@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React, { ComponentType } from 'react';
 
 import { FileUploaderControlProvider, FileUploaderControlProviderProps } from './FileUploaderControlProvider';

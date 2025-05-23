@@ -99,10 +99,7 @@ export default class FormValidityDemo extends React.Component {
   };
 
   private handleSubmit = async (): Promise<void> => {
-    if (!this.container) {
-      throw new Error('invalid state');
-    }
-    const isValid = await this.container.validate();
+    const isValid = await this.container?.validate();
     this.setState({ isValid });
   };
 

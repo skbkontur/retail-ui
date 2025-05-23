@@ -1,10 +1,5 @@
 import React from 'react';
 
-import {
-  ValidationsFeatureFlags,
-  ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
-} from './utils/featureFlagsContext';
 import { ReactUiDetection, Tooltip } from './ReactUiDetection';
 
 export type TooltipPosition =
@@ -30,31 +25,25 @@ export interface ValidationTooltipProps {
 }
 
 export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
-  private featureFlags!: ValidationsFeatureFlags;
+  public static __KONTUR_REACT_UI__ = 'ValidationTooltip';
+  public static displayName = 'ValidationTooltip';
+
   public render() {
     const { children, pos, error, render, ...rest } = this.props;
 
     const onlyChild = React.Children.only(children);
     const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
 
-    return (
-      <ValidationsFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullValidationsFlagsContext(flags);
-          return !this.featureFlags.validationsRemoveExtraSpans &&
-            (ReactUiDetection.isRadioGroup(child) ||
-              ReactUiDetection.isTokenInput(child) ||
-              ReactUiDetection.isSwitcher(child)) ? (
-            <Tooltip useWrapper={false} pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
-              {child}
-            </Tooltip>
-          ) : (
-            <Tooltip pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
-              {children}
-            </Tooltip>
-          );
-        }}
-      </ValidationsFeatureFlagsContext.Consumer>
+    return ReactUiDetection.isRadioGroup(child) ||
+      ReactUiDetection.isTokenInput(child) ||
+      ReactUiDetection.isSwitcher(child) ? (
+      <Tooltip useWrapper={false} pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
+        {child}
+      </Tooltip>
+    ) : (
+      <Tooltip pos={pos} render={error && render} trigger={'hover&focus'} {...rest}>
+        {children}
+      </Tooltip>
     );
   }
 }

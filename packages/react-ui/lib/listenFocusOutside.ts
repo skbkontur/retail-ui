@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
 
+import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../internal/RenderContainer';
+
 import { isInstanceOf } from './isInstanceOf';
 import { isFirefox } from './client';
 
@@ -80,9 +82,9 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     return container ? container : null;
   }
 
-  const newContainerId = currentNode.getAttribute('data-rendered-container-id');
+  const newContainerId = currentNode.getAttribute(PORTAL_OUTLET_ATTR);
   if (newContainerId) {
-    const nextNode = globalObject.document?.querySelector(`[data-render-container-id~="${newContainerId}"]`);
+    const nextNode = globalObject.document?.querySelector(`[${PORTAL_INLET_ATTR}~="${newContainerId}"]`);
 
     if (!nextNode) {
       throw Error(`Origin node for render container was not found`);

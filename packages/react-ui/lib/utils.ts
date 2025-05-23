@@ -1,12 +1,19 @@
-import React from 'react';
+import type React from 'react';
+import { isValidElement } from 'react';
 import { isForwardRef } from 'react-is';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { CurrencyInputProps } from '../components/CurrencyInput';
-import { PasswordInputProps } from '../components/PasswordInput';
-import { InputProps } from '../components/Input';
-import { AutocompleteProps } from '../components/Autocomplete';
-import { FxInputProps } from '../components/FxInput';
+import type { CurrencyInputProps } from '../components/CurrencyInput';
+import type { PasswordInputProps } from '../components/PasswordInput';
+import type { InputProps } from '../components/Input';
+import type { AutocompleteProps } from '../components/Autocomplete';
+import type { FxInputProps } from '../components/FxInput';
+import type { SelectProps } from '../components/Select';
+import type { DropdownProps } from '../components/Dropdown';
+import type { DropdownMenuProps } from '../components/DropdownMenu';
+import type { ButtonProps } from '../components/Button';
+
+export { delay } from './delay';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -21,7 +28,7 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export type AnyObject = Record<string, unknown>;
 
-export const delay = (ms: number) => new Promise((resolve) => globalObject.setTimeout(resolve, ms));
+export type NoInfer<T> = T extends infer U ? U : never;
 
 export const emptyHandler = () => {
   /* noop */
@@ -45,6 +52,7 @@ export function taskWithDelay(task: () => void, ms: number) {
 }
 
 export type FunctionWithParams<R = any> = (...args: any[]) => R;
+
 export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParams {
   return typeof x === 'function';
 }
@@ -79,7 +87,7 @@ export const isExternalLink = (link: string): boolean => {
  * Check if the given ReactNode is an element of the specified ReactUI component
  */
 export const isReactUINode = (componentName: string, node: React.ReactNode): boolean => {
-  if (React.isValidElement(node)) {
+  if (isValidElement(node)) {
     return (
       Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
       // @ts-expect-error: React doesn't know about existence of __KONTUR_REACT_UI__.
@@ -152,19 +160,7 @@ export const isReactUIComponent = <P = any>(name: string) => {
   };
 };
 
-/**
- * Merges two or more refs into one.
- *
- * @param refs Array of refs.
- * @returns A single ref composing all the refs passed.
- *
- * @example
- * const SomeComponent = forwardRef((props, ref) => {
- *  const localRef = useRef();
- *
- *  return <div ref={mergeRefs([localRef, ref])} />;
- * });
- */
+/** @deprecated Переехал в `lib/mergeRefs.ts`. Со следующей мажорной версии от сюда будет удален*/
 export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
@@ -183,7 +179,7 @@ export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React
  * @param props Props object to extract data attributes from.
  * @returns Separated data attributes and all other props.
  */
-export const extractDataProps = <T>(props: T) => {
+export const extractDataProps = <T extends Record<string, any>>(props: T) => {
   const dataProps: Record<string, any> = {};
   const restWithoutDataProps: Record<string, any> = {};
 
@@ -213,39 +209,19 @@ export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
   return keyIndex >= 0;
 };
 
-export const isInputLike =
-  isReactUIComponent<InputProps>('Input') ||
-  isReactUIComponent<FxInputProps>('FxInput') ||
-  isReactUIComponent<AutocompleteProps>('Autocomplete') ||
-  isReactUIComponent<PasswordInputProps>('PasswordInput') ||
-  isReactUIComponent<CurrencyInputProps>('CurrencyInput');
+export const isButton = isReactUIComponent<ButtonProps>('Button');
+export const isInput = isReactUIComponent<InputProps>('Input');
+export const isFxInput = isReactUIComponent<FxInputProps>('FxInput');
+export const isAutocomplete = isReactUIComponent<AutocompleteProps>('Autocomplete');
+export const isPasswordInput = isReactUIComponent<PasswordInputProps>('PasswordInput');
+export const isCurrencyInput = isReactUIComponent<CurrencyInputProps>('CurrencyInput');
+export const isSelect = isReactUIComponent<SelectProps<unknown, unknown>>('Select');
+export const isDropdown = isReactUIComponent<DropdownProps>('Dropdown');
+export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMenu');
 
 export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
-
-/**
- * Allows to get text of all nested children as a string
- *
- * @param children React's children
- * @returns Nested child text or an empty string
- */
-export function getChildrenText(children: React.ReactNode): string {
-  if (typeof children === 'string' || typeof children === 'number') {
-    return children.toString();
-  }
-
-  if (Array.isArray(children)) {
-    return children.map((entry) => getChildrenText(entry)).join('');
-  }
-
-  const nextChild = (children as React.ReactElement)?.props.children;
-  if (!nextChild) {
-    return '';
-  }
-
-  return getChildrenText(nextChild);
-}
 
 export function clickOutside() {
   const event = document.createEvent('HTMLEvents');

@@ -25,6 +25,7 @@ export const SidePageBodyDataTids = {
 @rootNode
 export class SidePageBody extends React.Component<SidePageBodyProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageBody';
+  public static displayName = 'SidePageBody';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;

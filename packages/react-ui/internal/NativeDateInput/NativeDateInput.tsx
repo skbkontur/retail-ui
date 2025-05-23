@@ -18,6 +18,8 @@ const DEFAULT_MAX_DATE = '2099-12-31';
 
 export class NativeDateInput extends React.Component<NativeDateInputProps> {
   public static __KONTUR_REACT_UI__ = 'NativeDatePicker';
+  public static displayName = 'NativeDatePicker';
+
   private input: Nullable<HTMLInputElement>;
 
   public render() {

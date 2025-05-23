@@ -3,13 +3,11 @@ import { func, shape, string } from 'prop-types';
 
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
-import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
 import { styles } from './ToastView.styles';
@@ -17,14 +15,11 @@ import { Action, ToastDataTids } from './Toast';
 import { ToastLocale, ToastLocaleHelper } from './locale';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
-  /**
-   * Toast content
-   */
+  /** Задает контент тоста. */
   children?: string;
-  /**
-   * Adds action handling and close icon for toast
-   */
+  /** Добавляет возможность действия и кнопку закрытия у тоста. */
   action?: Nullable<Action>;
+  showCloseIcon?: boolean;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -57,14 +52,14 @@ export class ToastView extends React.Component<ToastViewProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<ToastViewProps>) => {
-    const { action, onClose, ...rest } = props;
+  private renderMain = () => {
+    const { action, showCloseIcon, onClose, onMouseEnter, onMouseLeave } = this.props;
 
     const link = action ? (
       <button
@@ -77,21 +72,8 @@ export class ToastView extends React.Component<ToastViewProps> {
       </button>
     ) : null;
 
-    let close = action ? (
-      <span className={styles.closeWrapper(this.theme)}>
-        <span
-          aria-label={this.locale.closeButtonAriaLabel}
-          data-tid={ToastDataTids.close}
-          className={styles.close(this.theme)}
-          onClick={onClose}
-        >
-          <CrossIcon />
-        </span>
-      </span>
-    ) : null;
-
-    if (isTheme2022(this.theme) && close) {
-      close = (
+    const close =
+      action || showCloseIcon ? (
         <span className={styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
             aria-label={this.locale.closeButtonAriaLabel}
@@ -104,17 +86,24 @@ export class ToastView extends React.Component<ToastViewProps> {
             tabbable={false}
           />
         </span>
-      );
-    }
+      ) : null;
 
     return (
-      <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
-        <div data-tid={ToastDataTids.toastView} {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
-          <span>{this.props.children}</span>
-          {link}
-          {close}
-        </div>
-      </ZIndex>
+      <CommonWrapper {...this.props}>
+        <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
+          <div
+            data-tid={ToastDataTids.toastView}
+            className={styles.root(this.theme)}
+            ref={this.setRootNode}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            <span>{this.props.children}</span>
+            {link}
+            {close}
+          </div>
+        </ZIndex>
+      </CommonWrapper>
     );
   };
 }

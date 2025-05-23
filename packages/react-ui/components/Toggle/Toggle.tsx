@@ -1,6 +1,5 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, InputHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -10,85 +9,63 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { styles, globalClasses } from './Toggle.styles';
 
-/**
- * @deprecated use SizeProp
- */
-export type ToggleSize = SizeProp;
-
-let colorWarningShown = false;
-
-export interface ToggleProps extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
+export interface ToggleProps
+  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+    Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'name'>,
+    CommonProps {
+  /** @ignore */
   children?: React.ReactNode;
-  /**
-   * Положение `children` относительно переключателя.
-   * @default 'right'
-   */
+
+  /** Задает положение `children` относительно переключателя.
+   * @default 'right' */
   captionPosition?: 'left' | 'right';
-  /**
-   * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
-   * @default false
-   */
+
+  /** Включает тогл.
+   * @default false */
   checked?: boolean;
-  /**
-   * Делает `тогл` включенным по умолчанию.
-   */
+
+  /** Делает `тогл` включенным по умолчанию. Не работает при заданном пропе `checked`. */
   defaultChecked?: boolean;
-  /**
-   * Отключает `тогл`.
-   */
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
-  /**
-   * Событие вызывающееся, когда значение `тогла` меняется, передаёт текущее значение тогла в переданную функцию.
-   */
+
+  /** Задает функцию, вызывающуюся при изменении значения. */
   onValueChange?: (value: boolean) => void;
-  /**
-   * Событие вызывающееся при клике на `тогл`.
-   */
+
+  /** Задает функцию, которая вызывается при клике на `тогл`. */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  /**
-   * Состояние валидации при предупреждении.
-   * @default false
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение".
+   * @default false */
   warning?: boolean;
-  /**
-   * Состояние валидации при ошибке.
-   * @default false
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка".
+   * @default false */
   error?: boolean;
-  /**
-   * Добавляет стили для состояния `loading` и отключает `тогл`.
-   */
+
+  /** Переводит тогл в состояние загрузки: добавляет стили для состояния `loading` и отключает `тогл`.*/
   loading?: boolean;
-  /**
-   * Если true, выставляет фокус на `тогле` после загрузки страницы.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка".
+   * @default false */
   autoFocus?: boolean;
-  /** Размер */
+
+  /** Задает размер контрола. */
   size?: SizeProp;
-  /**
-   * Событие вызывающееся, когда `тогл` получает фокус.
-   */
+
+  /** Задает функцию, которая вызывается, когда `тогл` получает фокус.*/
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
-  /**
-   * Событие вызывающееся, когда `тогл` теряет фокус.
-   */
+
+  /** Задает функцию, которая вызывается, когда `тогл` теряет фокус. */
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  /**
-   * @deprecated используйте переменную темы `toggleBgChecked` вместо этого пропа.
-   */
-  color?: React.CSSProperties['color'];
-  /**
-   * HTML-атрибут `id` для передачи во внутренний `<input />`.
-   */
-  id?: string;
-  /**
-   * Не показывать анимацию
-   */
+
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
 }
 
@@ -106,11 +83,15 @@ type DefaultProps = Required<
 >;
 
 /**
- * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
+ * `Toggle` переключает состояния. Например, включает или отключает уведомления в настройках.
+ * `Toggle` представляет из себя надпись + переключатель.
+ *
+ * `Toggle` нельзя использовать для выбора элементов в списке. Например, выбрать несколько писем.
  */
 @rootNode
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
+  public static displayName = 'Toggle';
 
   public static propTypes = {
     checked: PropTypes.bool,
@@ -120,12 +101,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: PropTypes.bool,
     warning: PropTypes.bool,
     onValueChange: PropTypes.func,
-    color: (props: ToggleProps) => {
-      if (props.color && !colorWarningShown) {
-        warning(false, `[Toggle]: prop 'color' is deprecated. Please, use theme variable 'toggleBgChecked' instead. `);
-        colorWarningShown = true;
-      }
-    },
   };
 
   public static defaultProps: DefaultProps = {
@@ -239,21 +214,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
-  private getActiveHandleSizeClassName() {
-    if (isTheme2022(this.theme)) {
-      return '';
-    }
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.activeHandleLarge(this.theme);
-      case 'medium':
-        return styles.activeHandleMedium(this.theme);
-      case 'small':
-      default:
-        return styles.activeHandleSmall(this.theme);
-    }
-  }
-
   private getCaptionSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
@@ -271,8 +231,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       children,
       warning,
       error,
-      color,
       id,
+      name,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
     } = this.props;
@@ -288,7 +248,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       [globalClasses.containerLoading]: loading,
     });
 
-    const labelClassNames = cx(this.getRootSizeClassName(), this.getActiveHandleSizeClassName(), {
+    const labelClassNames = cx(this.getRootSizeClassName(), {
       [styles.root(this.theme)]: true,
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: !!disabled,
@@ -318,50 +278,24 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={this.handleChange}
-              className={cx(this.getInputSizeClassName(), isTheme2022(this.theme) && styles.input2022(this.theme), {
-                [styles.input(this.theme)]: true,
-              })}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              ref={this.inputRef}
-              disabled={disabled}
-              id={id}
-              role="switch"
-              aria-label={ariaLabel}
-              aria-describedby={ariaDescribedby}
-            />
-            <div
-              className={containerClassNames}
-              style={
-                checked && color && !disabled
-                  ? {
-                      backgroundColor: color,
-                      boxShadow: `inset 0 0 0 1px ${color}`,
-                    }
-                  : undefined
-              }
-            >
-              {!isTheme2022(this.theme) && (
-                <div
-                  className={cx(styles.activeBackground(), globalClasses.background, {
-                    [styles.activeBackgroundLoading(this.theme)]: loading,
-                    [styles.disabledBackground(this.theme)]: disabled,
-                  })}
-                  style={
-                    checked && color && !disabled
-                      ? {
-                          backgroundColor: color,
-                          boxShadow: `inset 0 0 0 1px ${color}`,
-                        }
-                      : undefined
-                  }
-                />
-              )}
-            </div>
+            <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={this.handleChange}
+                className={cx(this.getInputSizeClassName(), styles.input(this.theme))}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                ref={this.inputRef}
+                disabled={disabled}
+                id={id}
+                name={name}
+                role="switch"
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              />
+            </FocusControlWrapper>
+            <div className={containerClassNames} />
             <div
               className={cx(this.getHandleSizeClassName(), globalClasses.handle, {
                 [styles.handle(this.theme)]: true,
@@ -405,13 +339,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focusByTab: false });
+
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
-    this.setState({
-      focusByTab: false,
-    });
+    this.resetFocus();
+    this.props.onBlur?.(event);
   };
 
   private isUncontrolled() {

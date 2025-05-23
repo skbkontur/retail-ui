@@ -7,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
+import { PORTAL_INLET_ATTR } from './RenderContainer';
 
 interface RenderInnerContainerProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
@@ -38,13 +39,14 @@ export const Portal = ({ container, rt_rootID, children }: PortalProps) => {
   return (
     <React.Fragment>
       {container ? ReactDOM.createPortal(children, container) : <SSRPlaceholder />}
-      {container ? <noscript data-render-container-id={rt_rootID} /> : <SSRPlaceholder />}
+      {container ? <noscript {...{ [PORTAL_INLET_ATTR]: rt_rootID }} /> : <SSRPlaceholder />}
     </React.Fragment>
   );
 };
 
 export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
+  public static displayName = 'RenderInnerContainer';
 
   public render() {
     const { anchor, children, domContainer, rootId } = this.props;
@@ -70,3 +72,6 @@ Portal.propTypes = {
   rt_rootID: propTypes.string.isRequired,
   children: propTypes.node.isRequired,
 };
+
+Portal.__KONTUR_REACT_UI__ = 'Portal';
+Portal.displayName = 'Portal';

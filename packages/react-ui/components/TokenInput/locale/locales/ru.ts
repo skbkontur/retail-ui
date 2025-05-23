@@ -1,6 +1,6 @@
 import { TokenInputLocale } from '../types';
 
 export const componentsLocales: TokenInputLocale = {
-  addButtonComment: 'Нажмите запятую или пробел',
+  addButtonComment: 'Нажмите запятую',
   addButtonTitle: 'Добавить',
 };

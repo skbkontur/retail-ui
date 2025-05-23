@@ -1,3 +1,4 @@
+### Базовый пример
 ```jsx harmony
 import { Token } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
@@ -59,7 +60,7 @@ const tokenColors = {
 </div>;
 ```
 
-У TokenInput есть 3 стандартных размера.
+### Размер
 
 ```jsx harmony
 import { Token } from '@skbkontur/react-ui';
@@ -98,7 +99,7 @@ const getItems = q =>
 </div>;
 ```
 
-Заблокированный TokenInput с кастомными Token:
+### Заблокированный TokenInput с кастомными Token
 
 ```jsx harmony
 import { Token } from '@skbkontur/react-ui';
@@ -124,15 +125,15 @@ async function getItems(query) {
 />
 ```
 
-Ограничение количества токенов в выпадающем списке
+### Ограничение количества токенов в выпадающем списке
 
 ```jsx harmony
-import { Token, MenuHeader } from '@skbkontur/react-ui';
+import { Token } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
-import { Promise } from 'es6-promise';
+
 
 const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
-const cities = require('../ComboBox/__mocks__/./kladr.json');
+const { cities } = require('../ComboBox/__mocks__/cities');
 
 const maxItems = 5;
 
@@ -168,7 +169,7 @@ const renderTotalCount = (foundCount, totalCount) => (
 </div>
 ```
 
-Пример с кастомным типом элементов меню
+### Кастомный тип элементов меню
 ```jsx harmony
 import { Token } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
@@ -215,7 +216,7 @@ const getModelItems = async (query) => {
 </div>;
 ```
 
-#### Пример с дебаунсом функции getItems
+### Дебаунс функции getItems
 
 Функция debounce из lodash некорректно работает с async/promise, поэтому лучше использовать кастомную функцию, как в примере ниже.
 
@@ -260,7 +261,8 @@ const getItems = async (query) => {
   placeholder="Начните вводить название"
 />
 ```
-Типизированная версия функции
+
+### Типизированная версия функции
 
 ```typescript static
 function debounceAsync<T, Callback extends (...args: any[]) => Promise<T>>(
@@ -286,7 +288,7 @@ function debounceAsync<T, Callback extends (...args: any[]) => Promise<T>>(
 }
 ```
 
-#### Локали по умолчанию
+### Локали по умолчанию
 
 ```typescript static
 interface TokenInputLocale {
@@ -295,12 +297,12 @@ interface TokenInputLocale {
 }
 
 const ru_RU = {
-  addButtonComment: 'Нажмите запятую или пробел',
+  addButtonComment: 'Нажмите запятую',
   addButtonTitle: 'Добавить',
 };
 
 const en_GB = {
-  addButtonComment: 'Type comma or space',
+  addButtonComment: 'Type comma',
   addButtonTitle: 'Add',
 };
 ```

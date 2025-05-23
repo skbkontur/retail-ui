@@ -9,8 +9,9 @@ export interface ResizeDetectorProps {
   fullHeight?: boolean;
 }
 
-export class ResizeDetector extends React.Component<ResizeDetectorProps> {
+export class ResizeDetector extends React.Component<React.PropsWithChildren<ResizeDetectorProps>> {
   public static __KONTUR_REACT_UI__ = 'ResizeDetector';
+  public static displayName = 'ResizeDetector';
 
   private iframeWindow: Window | null = null;
 

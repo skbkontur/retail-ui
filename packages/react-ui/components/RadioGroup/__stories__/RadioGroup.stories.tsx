@@ -6,7 +6,6 @@ import { Radio } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Nullable } from '../../../typings/utility-types';
-import { delay } from '../../../lib/utils';
 import { RadioGroupProps } from '..';
 
 interface ComponentState {
@@ -49,88 +48,15 @@ class Component extends React.Component<RadioGroupProps<string>> {
   };
 }
 
-export default { title: 'RadioGroup' };
+export default {
+  title: 'RadioGroup',
+  component: RadioGroup,
+};
 
 export const Vertical: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;
 };
 Vertical.storyName = 'vertical';
-
-Vertical.parameters = {
-  creevey: {
-    captureElement: '#RadioGroup-wrap',
-    skip: {
-      'story-skip-0': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-1': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async hovered() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async mouseLeave() {
-        // NOTE Firefox bug if click send right after click from previous test it results as double click
-        await delay(500);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('mouseLeave');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async arrow_down() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
-          .sendKeys(this.keys.TAB)
-          .pause(100)
-          .sendKeys(this.keys.DOWN)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('arrow_down');
-      },
-    },
-  },
-};
 
 export const Inline = () => <Component inline items={['One', 'Two', 'Three']} />;
 Inline.storyName = 'inline';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 
 import { Story } from '../../../typings/stories';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
@@ -34,30 +35,8 @@ export const FileUploaderFileWithValidationError: Story = () => {
           validationResult: { isValid: false, message: 'Валидация не прошла' },
         }}
         size="small"
+        onRemove={action('onRemove')}
       />
     </div>
   );
-};
-
-FileUploaderFileWithValidationError.parameters = {
-  creevey: {
-    tests: {
-      async hover() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-tid="FileUploader__fileName"]' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-      },
-    },
-    skip: {
-      'story-skip-0': {
-        in: /^(?!\b(chrome)\b)/,
-      },
-    },
-  },
 };

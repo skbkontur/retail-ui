@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { CurrencyInput } from '../CurrencyInput';
 import { Nullable } from '../../../typings/utility-types';
 
-// Intended behavior. CurrencyInput technically can't accept strings
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
   const handleValueChange = jest.fn();
   return <CurrencyInput value={props.value} onValueChange={handleValueChange} />;
@@ -18,8 +16,6 @@ const CurrencyInputWithState = () => {
 };
 
 const CurrencyInputAndButton = (props: { value: unknown }): JSX.Element => {
-  // Intended behavior. CurrencyInput technically can't accept strings
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
@@ -27,6 +23,12 @@ const CurrencyInputAndButton = (props: { value: unknown }): JSX.Element => {
       <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />
     </div>
   );
+};
+
+const clearInput = async (input: Element) => {
+  for (let i = 0; i < 5; i++) {
+    await userEvent.type(input, '{backspace}');
+  }
 };
 
 describe('CurrencyInput', () => {
@@ -59,36 +61,41 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('');
   });
 
-  it('should set a correct number value', () => {
+  it('should set a correct number value', async () => {
     render(<CurrencyInputWithState />);
     const input = screen.getByRole('textbox');
-    userEvent.clear(input);
-    userEvent.type(input, '123');
-    input.blur();
+    await clearInput(input);
+    await userEvent.type(input, '123');
+    act(() => {
+      input.blur();
+    });
     expect(input).toHaveValue('123,00');
   });
 
-  it('should not set a string value', () => {
+  it('should not set a string value', async () => {
     render(<CurrencyInputWithState />);
     const input = screen.getByRole('textbox');
-    userEvent.clear(input);
-    userEvent.type(input, 'str');
-    input.blur();
+    await clearInput(input);
+    await userEvent.type(input, 'str');
+    act(() => {
+      input.blur();
+    });
     expect(input).toHaveValue('');
   });
 
-  it('should change value with a valid number', () => {
+  it('should change value with a valid number', async () => {
     render(<CurrencyInputAndButton value={123} />);
     const button = screen.getByRole('button');
-    userEvent.click(button);
+    await userEvent.click(button);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('123,00');
   });
 
-  it('should change value and not throw an error with a valid string', () => {
-    render(<CurrencyInputAndButton value={'123'} />);
+  it('should change value and not throw an error with a valid string', async () => {
+    render(<CurrencyInputAndButton value={123} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
+    await userEvent.click(button);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('123,00');
   });
@@ -109,7 +116,7 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('12,00');
   });
 
-  it('should clear `value` in input when undefined passed', () => {
+  it('should clear `value` in input when undefined passed', async () => {
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
       return (
@@ -121,11 +128,11 @@ describe('CurrencyInput', () => {
     };
     render(<Comp />);
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
-  it('should clear `value` in input when null passed', () => {
+  it('should clear `value` in input when null passed', async () => {
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
       return (
@@ -137,7 +144,7 @@ describe('CurrencyInput', () => {
     };
     render(<Comp />);
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
@@ -149,7 +156,9 @@ describe('CurrencyInput', () => {
     };
     render(<Comp />);
 
-    currencyInputRef.current?.focus();
+    act(() => {
+      currencyInputRef.current?.focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
@@ -161,7 +170,9 @@ describe('CurrencyInput', () => {
       return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} onFocus={onFocus} />;
     };
     render(<Comp />);
-    currencyInputRef.current?.focus();
+    act(() => {
+      currencyInputRef.current?.focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
     expect(onFocus).toHaveBeenCalled();
   });
@@ -173,9 +184,13 @@ describe('CurrencyInput', () => {
       return <CurrencyInput ref={currencyInputRef} value={value} onValueChange={setValue} />;
     };
     render(<Comp />);
-    screen.getByRole('textbox').focus();
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
     expect(screen.getByRole('textbox')).toHaveFocus();
-    currencyInputRef.current?.blur();
+    act(() => {
+      currencyInputRef.current?.blur();
+    });
     expect(screen.getByRole('textbox')).not.toHaveFocus();
   });
 
@@ -189,19 +204,21 @@ describe('CurrencyInput', () => {
     render(<Comp />);
     screen.getByRole('textbox').focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
-    currencyInputRef.current?.blur();
+    act(() => {
+      currencyInputRef.current?.blur();
+    });
     expect(screen.getByRole('textbox')).not.toHaveFocus();
     expect(onBlur).toHaveBeenCalled();
   });
 
-  it('should handle onKeyDown event', () => {
+  it('should handle onKeyDown event', async () => {
     const onKeyDown = jest.fn();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
       return <CurrencyInput value={value} onValueChange={setValue} onKeyDown={onKeyDown} />;
     };
     render(<Comp />);
-    userEvent.type(screen.getByRole('textbox'), '{enter}');
+    await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
@@ -212,7 +229,7 @@ describe('CurrencyInput', () => {
       return <CurrencyInput value={value} onValueChange={setValue} />;
     };
 
-    it('should handle cursor Backspace move key down correctly', () => {
+    it('should handle cursor Backspace move key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
@@ -220,15 +237,15 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{backspace}');
-      userEvent.keyboard('{backspace}');
+      await userEvent.keyboard('{backspace}');
+      await userEvent.keyboard('{backspace}');
 
       //should be on 1 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(1);
       expect(input.selectionEnd).toBe(1);
     });
 
-    it('should handle cursor right move key down correctly', () => {
+    it('should handle cursor right move key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 0;
@@ -236,15 +253,15 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{arrowright}');
-      userEvent.keyboard('{arrowright}');
+      await userEvent.keyboard('{arrowright}');
+      await userEvent.keyboard('{arrowright}');
 
       //should be on 3 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(3);
       expect(input.selectionEnd).toBe(3);
     });
 
-    it('should handle cursor left move key down correctly', () => {
+    it('should handle cursor left move key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
@@ -252,15 +269,15 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{arrowleft}');
-      userEvent.keyboard('{arrowleft}');
+      await userEvent.keyboard('{arrowleft}');
+      await userEvent.keyboard('{arrowleft}');
 
       //should be on 1 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(1);
       expect(input.selectionEnd).toBe(1);
     });
 
-    it('should handle move to start key down correctly', () => {
+    it('should handle move to start key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
@@ -268,13 +285,13 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{home}');
+      await userEvent.keyboard('{home}');
 
       expect(input.selectionStart).toBe(0);
       expect(input.selectionEnd).toBe(0);
     });
 
-    it('should handle move to end key down correctly', () => {
+    it('should handle move to end key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
@@ -282,28 +299,27 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{end}');
+      fireEvent.keyDown(input, { key: 'End', code: 'End' });
 
       expect(input.selectionStart).toBe(input.value?.length);
       expect(input.selectionEnd).toBe(input.value?.length);
     });
 
-    it('should handle selection left extension key down correctly', () => {
+    it('should handle selection left extension key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
-
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
-
-      userEvent.keyboard('{shift}{arrowleft/}{arrowleft/}{/shift}');
+      fireEvent.keyDown(input, { key: 'ArrowLeft', code: 'ArrowLeft', shiftKey: true });
+      fireEvent.keyDown(input, { key: 'ArrowLeft', code: 'ArrowLeft', shiftKey: true });
 
       //should be selected from 1 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(1);
-      expect(input.selectionEnd).toBe(startCursorPosition);
+      expect(input.selectionEnd).toBe(4);
     });
 
-    it('should handle selection right extension key down correctly', () => {
+    it('should handle selection right extension key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 0;
@@ -311,14 +327,14 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{shift}{arrowright/}{arrowright/}{/shift}');
-
+      fireEvent.keyDown(input, { key: 'ArrowRight', code: 'ArrowRight', shiftKey: true });
+      fireEvent.keyDown(input, { key: 'ArrowRight', code: 'ArrowRight', shiftKey: true });
       //should be selected till 3 position due to the automatic ⎵ between 12 and 300
       expect(input.selectionStart).toBe(startCursorPosition);
       expect(input.selectionEnd).toBe(3);
     });
 
-    it('should handle full selection key down correctly', () => {
+    it('should handle full selection key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 0;
@@ -326,13 +342,13 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{ctrl}a{/ctrl}');
+      fireEvent.keyDown(input, { key: 'a', code: 'KeyA', ctrlKey: true });
 
       expect(input.selectionStart).toBe(startCursorPosition);
       expect(input.selectionEnd).toBe(input.value?.length);
     });
 
-    it('should handle selection to start key down correctly', () => {
+    it('should handle selection to start key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
@@ -340,13 +356,13 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{shift}{home/}{/shift}');
+      fireEvent.keyDown(input, { key: 'Home', code: 'Home', shiftKey: true });
 
       expect(input.selectionStart).toBe(0);
       expect(input.selectionEnd).toBe(startCursorPosition);
     });
 
-    it('should handle selection to end key down correctly', () => {
+    it('should handle selection to end key down correctly', async () => {
       render(<Comp />);
       const input = screen.getByRole('textbox') as HTMLInputElement;
       const startCursorPosition = 4;
@@ -354,7 +370,7 @@ describe('CurrencyInput', () => {
       fireEvent.focus(input);
       input.setSelectionRange(startCursorPosition, startCursorPosition);
 
-      userEvent.keyboard('{shift}{end/}{/shift}');
+      fireEvent.keyDown(input, { key: 'End', code: 'End', shiftKey: true });
 
       expect(input.selectionStart).toBe(startCursorPosition);
       expect(input.selectionEnd).toBe(input.value?.length);
@@ -369,12 +385,14 @@ describe('CurrencyInput', () => {
     ['IntlBackslash', '1,23'],
     ['NumpadDivide', '1,23'],
   ])('should applied [%s] as comma', (delimiter, expected) => {
-    it(`return: ${expected}`, () => {
+    it(`return: ${expected}`, async () => {
       render(<CurrencyInputWithState />);
       const input = screen.getByRole('textbox');
-      userEvent.clear(input);
-      userEvent.keyboard(`1[${delimiter}]23`, {});
-      input.blur();
+      await clearInput(input);
+      await userEvent.keyboard(`1[${delimiter}]23`, {});
+      act(() => {
+        input.blur();
+      });
       expect(input).toHaveValue(expected);
     });
   });

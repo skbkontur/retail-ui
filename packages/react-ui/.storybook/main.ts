@@ -1,36 +1,11 @@
-const path = require('path');
+import type { StorybookConfig } from '@storybook/react-webpack5';
 
-module.exports = {
-  addons: [
-    'creevey',
-    'creevey/preset/ie11',
-    '@storybook/addon-links',
-    '@storybook/addon-a11y',
-    '@storybook/addon-ie11',
-    {
-      name: '@storybook/addon-essentials',
-      options: {
-        docs: false,
-      },
-    },
-  ],
-  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
-  typescript: {
-    reactDocgen: 'none',
-  },
-  features: {
-    postcss: false,
-  },
-  managerWebpack: (config) => {
-    config.module.rules.push({
-      test: /@remix-run|react-router/,
-      loader: 'babel-loader',
-      options: {
-        babelrc: false,
-        envName: 'cjs',
-        extends: path.join(__dirname, '../.babelrc.js'),
-      },
-    });
-    return config;
-  },
-};
+import docsConfig from './config-docs';
+import storiesConfig from './config-stories';
+
+function getConfig(): StorybookConfig {
+  return process.env.STORYBOOK_REACT_UI_DOCS ? docsConfig : storiesConfig;
+}
+
+const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
+export default config;

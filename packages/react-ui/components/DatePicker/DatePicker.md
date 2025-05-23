@@ -60,6 +60,7 @@ let removeTooltip = () => setTooltip(false);
 ```
 
 Очистить значение в `DatePicker`'е можно с помощью пустой строки, `null` или `undefined`
+
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
 
@@ -131,7 +132,7 @@ const isHoliday = (day, isWeekend) => {
 <details><summary>`data.gov.ru`</summary>
 
 Docs:
-https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
+<https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo>
 
 Request:
 
@@ -222,6 +223,7 @@ import { DateOrder, DateSeparator, Gapped, LocaleContext, Select, LangCodes } fr
 
 class DatePickerFormatting extends React.Component {
   constructor() {
+    super();
     this.state = {
       order: DateOrder.YMD,
       separator: 'Dot',
@@ -271,6 +273,28 @@ class DatePickerFormatting extends React.Component {
 }
 
 <DatePickerFormatting />;
+```
+
+### Кастомный рендер дня
+Подбробный пример в [Calendar](#/Components/Calendar)
+
+```jsx harmony
+import { CalendarDay } from "@skbkontur/react-ui";
+
+const [value, setValue] = React.useState('12.05.2022');
+
+const renderDay = (props) => {
+  const [date] = props.date.split('.').map(Number);
+  const isEven = date % 2 === 0;
+
+  if (isEven) {
+    return <CalendarDay {...props} style={{ background: '#e9f8e3' }} />
+  }
+
+  return <CalendarDay {...props} />
+};
+
+<DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 ```
 
 #### Локали по умолчанию
@@ -338,3 +362,7 @@ const en_GB = {
   dayCellChooseDateAriaLabel: 'Choose date',
 };
 ```
+
+### Адаптивность
+
+На мобильных устройствах есть несколько вариантов. По умолчанию откроется адаптивная версия в попапе. Но можно открывать нативный календарь, если передать проп `useMobileNativeDatePicker`.

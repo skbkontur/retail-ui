@@ -3,7 +3,7 @@ import React, { PropsWithChildren, useCallback, useState } from 'react';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 
-import { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils';
+import { FileUploaderAttachedFile, FileUploaderFileStatus, getAttachedFile } from './fileUtils';
 import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { useControlLocale } from './hooks/useControlLocale';
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
@@ -40,10 +40,23 @@ const updateFile = (
   return newFiles;
 };
 
-export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploaderControlProviderProps>) => {
-  const { children, onValueChange, onRemove, onAttach } = props;
+export const FileUploaderControlProvider = (
+  props: PropsWithChildren<
+    FileUploaderControlProviderProps & {
+      initialFiles?: File[];
+      multiple?: boolean;
+    }
+  >,
+) => {
+  const { initialFiles, multiple, children, onValueChange, onRemove, onAttach } = props;
 
-  const [files, setFiles] = useState<FileUploaderAttachedFile[]>([]);
+  const [files, setFiles] = useState<FileUploaderAttachedFile[]>(() => {
+    if (initialFiles && initialFiles.length > 0) {
+      const attachedFiles = initialFiles.map(getAttachedFile);
+      return multiple ? attachedFiles : [attachedFiles[0]];
+    }
+    return [];
+  });
   const [isMinLengthReached, setIsMinLengthReached] = useState<boolean>(false);
   const locale = useControlLocale();
 

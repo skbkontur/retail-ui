@@ -8,9 +8,9 @@ import { SingleToast } from '../SingleToast';
 import { ToastDataTids } from '../../Toast';
 import { ToastLocaleHelper } from '../../Toast/locale';
 
-describe('ToastView', () => {
+describe('SingleToast', () => {
   describe('a11y', () => {
-    it('has correct aria-label on close button', () => {
+    it('has correct aria-label on close button', async () => {
       function showComplexNotification() {
         SingleToast.push(
           'Successfully saved',
@@ -28,7 +28,7 @@ describe('ToastView', () => {
         </>,
       );
 
-      userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('button'));
 
       expect(screen.getByTestId(ToastDataTids.close)).toHaveAttribute(
         'aria-label',
@@ -57,9 +57,31 @@ describe('ToastView', () => {
         </>,
       );
 
-      userEvent.click(screen.getByRole('button', { name: buttonName }));
+      await userEvent.click(screen.getByRole('button', { name: buttonName }));
 
       expect(screen.getByTestId(ToastDataTids.action)).toHaveAttribute('aria-label', ariaLabel);
     });
+  });
+
+  it('change showCloseIcon in SingleInput', async () => {
+    render(
+      <>
+        <SingleToast />
+        <Button onClick={() => SingleToast.push('Static SingleToast', null, 5000, true)}>
+          Показать статический тост c крестиком
+        </Button>
+        <Button onClick={() => SingleToast.push('Static SingleToast', null, 5000, false)}>
+          Показать статический тост без крестика
+        </Button>
+      </>,
+    );
+
+    const buttons = screen.getAllByRole('button');
+
+    await userEvent.click(buttons[0]);
+    expect(screen.queryByTestId(ToastDataTids.close)).toBeInTheDocument();
+
+    await userEvent.click(buttons[1]);
+    expect(screen.queryByTestId(ToastDataTids.close)).not.toBeInTheDocument();
   });
 });

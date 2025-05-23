@@ -1,10 +1,5 @@
 import React from 'react';
 
-import {
-  ValidationsFeatureFlags,
-  ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
-} from './utils/featureFlagsContext';
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
@@ -162,19 +157,9 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return FocusMode.None;
   }
 
-  private featureFlags!: ValidationsFeatureFlags;
-
-  private children = (flags: ValidationsFeatureFlags) => {
-    if (flags.validationsRemoveExtraSpans) {
-      return this.props.children;
-    }
-
-    return <span>{this.props.children}</span>;
-  };
-
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {
     if (React.isValidElement(children)) {
-      return React.cloneElement(children, {
+      return React.cloneElement(children as React.ReactElement, {
         'data-tid': this.props['data-tid'],
       });
     }
@@ -184,16 +169,9 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   public render() {
     return (
-      <ValidationsFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullValidationsFlagsContext(flags);
-          return (
-            <ValidationContext.Provider value={this}>
-              {this.renderChildren(this.children(this.featureFlags))}
-            </ValidationContext.Provider>
-          );
-        }}
-      </ValidationsFeatureFlagsContext.Consumer>
+      <ValidationContext.Provider value={this}>
+        {this.renderChildren(<div style={{ display: 'inline' }}>{this.props.children}</div>)}
+      </ValidationContext.Provider>
     );
   }
 }

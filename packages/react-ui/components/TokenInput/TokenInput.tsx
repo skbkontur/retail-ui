@@ -3,6 +3,7 @@ import React, {
   ChangeEvent,
   FocusEvent,
   FocusEventHandler,
+  HTMLAttributes,
   KeyboardEvent,
   MouseEventHandler,
   ReactNode,
@@ -27,23 +28,17 @@ import {
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps, TokenSize } from '../Token';
-import { MenuItemState } from '../MenuItem';
+import { MenuItemState, MenuItem } from '../MenuItem';
 import { AnyObject, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
-import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
-import {
-  ReactUIFeatureFlags,
-  ReactUIFeatureFlagsContext,
-  getFullReactUIFlagsContext,
-} from '../../lib/featureFlagsContext';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -61,139 +56,126 @@ export enum TokenInputType {
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
-export interface TokenInputProps<T> extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>, CommonProps {
-  /**
-   * Выбранные токены, которые будут отображаться в поле ввода
-   */
+export interface TokenInputProps<T>
+  extends CommonProps,
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'> {
+  /** Задает выбранные токены, которые будут отображаться в поле ввода. */
   selectedItems?: T[];
-  /**
-   * Вызывается при добавлении нового токена
-   */
+
+  /** Задает функцию, которая вызывается при добавлении нового токена. */
   onValueChange?: (items: T[]) => void;
+
+  /** Задает HTML-событие `onmouseenter`.
+   * @ignore */
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+
+  /** Задает HTML-событие `onmouseleave`.
+   * @ignore */
   onMouseLeave?: MouseEventHandler<HTMLDivElement>;
+
+  /** Задает HTML-событие `onfocus`.
+   * @ignore */
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
+
+  /** Задает HTML-событие `onblur`.
+   * @ignore */
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
+
+  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
-  /** Размер */
+
+  /** Задает размер контрола. */
   size?: TokenSize;
-  /**
-   * Тип инпута. Возможные значения:
-   *
-   *   `TokenInputType.WithReference` (можно выбирать токены только из предложенных, нельзя добавить новые)
-   *
-   *   `TokenInputType.WithoutReference` (можно добавлять токены, но нельзя выбирать)
-   *
-   *   `TokenInputType.Combined` (можно и выбирать, и добавлять)
-   */
+
+  /** Задает тип инпута.
+   * Возможные значения:
+   *   `TokenInputType.WithReference` (можно выбирать токены только из предложенных, нельзя добавить новые).
+   *   `TokenInputType.WithoutReference` (можно добавлять токены, но нельзя выбирать).
+   *   `TokenInputType.Combined` (можно и выбирать, и добавлять). */
   type?: TokenInputType;
-  /**
-   * Ширина выпадающего меню может быть указана как 'auto'
-   * а также в пикселях, процентах (от ширины инпута)
-   * или других конкретных единицах
-   *
-   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
-   * (по ширине текста)
-   */
+
+  /** Задает ширину выпадающего меню. Может быть 'auto', в пикселях, процентах (от ширины инпута) и других конкретных единицах.
+   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto' (по ширине текста). */
   menuWidth?: React.CSSProperties['width'];
-  /**
-   * Определяет выравнивание меню. Принимает значения `left` и `cursor`
-   */
+
+  /** Задает выравнивание выпадающего меню. */
   menuAlign?: TokenInputMenuAlign;
-  /**
-   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
-   * По умолчанию ожидаются строки.
-   *
-   * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `renderItem`, `valueToString`
-   */
+
+  /** Задает функцию поиска элементов, должна возвращать Promise с массивом элементов. По умолчанию ожидаются строки.
+   * Элементы могут быть любого типа. В таком случае необходимо определить свойства `renderItem`, `valueToString`. */
   getItems?: (query: string) => Promise<T[]>;
-  /**
-   * Скрывает меню при пустом вводе
-   */
+
+  /** Скрывает меню при пустом вводе. */
   hideMenuIfEmptyInputValue?: boolean;
-  /**
-   * Позволяет настроить отображение элемента списка
-   */
+
+  /** Задает функцию, которая отображает элемент списка. */
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode | null;
-  /**
-   * Позволяет настроить отображение выбранного значения
-   */
+
+  /** Задает функцию, которая отображает выбранное значение. */
   renderValue?: (item: T) => React.ReactNode;
-  /**
-   * Функция должна возвращать строковое представление токена
-   * @default item => item
-   */
+
+  /** Задает функцию, которая возвращает строковое представление токена.
+   * @default item => item */
   valueToString?: (item: T) => string;
-  /**
-   * Функция отображающая сообщение об общем количестве элементов.
-   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`.
-   */
+
+  /** Задает функцию, которая отображает сообщение об общем количестве элементов.
+   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`. */
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  /**
-   * Общее количество элементов.
-   * Необходим для работы `renderTotalCount`
-   */
+
+  /** Определяет общее количество элементов. Необходим для работы `renderTotalCount`. */
   totalCount?: number;
-  /**
-   * Отображает заданное содержимое, если ничего не найдено. Работает если не рендерится `AddButton`
-   */
+
+  /** Задает функцию, которая отображает заданное содержимое при пустом результате поиска. Не работает, если рендерится `AddButton`. */
   renderNotFound?: () => React.ReactNode;
-  /**
-   * Преобразует значение в элемент списка
-   */
+
+  /** Преобразует значение в элемент списка. */
   valueToItem?: (item: string) => T;
-  /**
-   * Определяет уникальный ключ по элементу
-   */
+
+  /** Определяет уникальный ключ по элементу. */
   toKey?: (item: T) => string | number | undefined;
+
+  /** Задает текст, который отображается если не введено никакое значение. */
   placeholder?: string;
-  /**
-   * Символы, которые разделяют введённый текст на токены
-   */
+
+  /** Задает символы, которые разделяют введённый текст на токены. */
   delimiters?: string[];
-  /**
-   * Состояние валидации при ошибке.
-   */
+
+  /** Переводит контрол в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Состояние валидации при предупреждении.
-   */
+
+  /** Переводит контрол в состояние валидации "предупреждение". */
   warning?: boolean;
+
+  /** Делает компонент недоступным. */
   disabled?: boolean;
+
+  /** Задает ширину токен-инпута. */
   width?: string | number;
+
+  /** Задает максимальную высоту выпадающего меню. */
   maxMenuHeight?: number | string;
-  /**
-   * Позволяет настроить отображение токена, предоставляя возможность кастомизации внешнего вида и поведения токена
-   */
+
+  /** Задает функцию, которая отображает токен и предоставляет возможность кастомизации внешнего вида и поведения токена. */
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
-  /**
-   * Вызывается при изменении текста в поле ввода,
-   */
+
+  /** Задает функцию, вызывающуюся при изменении текста в поле ввода. */
   onInputValueChange?: (value: string) => void;
-  /**
-   * Функция отрисовки кнопки добавления в выпадающем списке.
-   * Работает только когда тип инпута = `TokenInputType.Combined`
-   */
+
+  /** Задает функцию отрисовки кнопки добавления в выпадающем списке */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
-  /**
-   * Функция для обработки ситуации, когда была введена
-   * строка в инпут и был потерян фокус с компонента
-   *
+
+  /** Задает функцию для обработки ввода строки в инпут и последующую потерю фокуса компонентом.
    * Функция срабатывает с аргументом инпута строки
    *
-   * Если при потере фокуса в выпадающем списке будет только один
-   * элемент и  результат `valueToString` с этим элементом будет
-   * совпадать со значение в текстовом поле, то
-   * сработает `onValueChange` со значением данного элемента
+   * Если при потере фокуса в выпадающем списке будет только один элемент и  результат `valueToString` с этим элементом будет
+   * совпадать со значение в текстовом поле, то сработает `onValueChange` со значением данного элемента
    *
-   * Сама функция также может вернуть значение,
-   * неравное `undefined`, с которым будет вызван `onValueChange`.
-   * Если возвращаемое значение будет равно `null`,
-   * то сработает очистка текущего значения инпута,
-   * а в режиме редактирования токен будет удален
-   */
+   * Сама функция также может вернуть значение, неравное `undefined`, с которым будет вызван `onValueChange`.
+   * При возвращаемом значении `null` будет выполнена очистка текущего значения инпута, а в режиме редактирования токен будет удален. */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
+
+  /** Задает типы вводимых данных. */
   inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
 }
 
@@ -254,6 +236,7 @@ type DefaultProps<T> = Required<
 >;
 
 const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
@@ -268,19 +251,25 @@ const defaultRenderToken = <T extends AnyObject>(
     disabled={disabled}
     size={size}
   >
-    {item}
+    {item.toString()}
   </Token>
 );
 
+/**
+ * Поле с токенами `TokenInput` — это поле ввода со списком подсказок.
+ *
+ * Поле с токенами используют для выбора нескольких значений из справочника и для добавления своих значений.
+ */
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
+  public static displayName = 'TokenInput';
 
   public static defaultProps: DefaultProps<any> = {
     selectedItems: [],
     // TEMP_FAKE_FLAG помогает узнать, остались ли разделители дефолтными или пользователь передал их равными дефолтным.
-    delimiters: [',', ' ', TEMP_FAKE_FLAG],
+    delimiters: [',', TEMP_FAKE_FLAG],
     renderItem: identity,
     renderValue: identity,
     valueToString: identity,
@@ -302,9 +291,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (delimiters.every((delimiter) => delimiter !== TEMP_FAKE_FLAG)) {
       return delimiters;
     }
-    if (this.featureFlags.tokenInputRemoveWhitespaceFromDefaultDelimiters) {
-      return delimiters.filter((delimiter) => delimiter !== ' ' && delimiter !== TEMP_FAKE_FLAG);
-    }
     return delimiters.filter((delimiter) => delimiter !== TEMP_FAKE_FLAG);
   }
 
@@ -314,13 +300,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return { ...propsWithOldDelimiters, delimiters: this.getDelimiters() };
   }
 
+  private get textareaId() {
+    return this.props.id ?? this._textareaId;
+  }
+
   public state: TokenInputState<T> = DefaultState;
 
-  private readonly textareaId: string = getUid();
+  private readonly _textareaId: string = getUid();
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
-  private featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -375,19 +364,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -425,7 +407,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       error,
       warning,
       disabled,
-      placeholder,
       renderNotFound,
       hideMenuIfEmptyInputValue,
       inputMode,
@@ -460,8 +441,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
       width: inputValueWidth,
       height: inputValueHeight,
-      // input растягивается на всю ширину чтобы placeholder не обрезался
-      flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
@@ -477,25 +456,36 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [styles.inputDisabled(theme)]: !!disabled,
     });
 
-    const textHolder = (
-      <textarea
-        id={this.textareaId}
-        ref={this.inputRef}
-        value={inputValue}
-        style={inputInlineStyles}
-        spellCheck={false}
-        disabled={disabled}
-        className={inputClassName}
-        placeholder={selectedItems.length > 0 ? undefined : placeholder}
-        onFocus={this.handleInputFocus}
-        onBlur={this.handleInputBlur}
-        onChange={this.handleChangeInputValue}
-        onKeyDown={this.handleKeyDown}
-        onPaste={this.handleInputPaste}
-        inputMode={inputMode}
-        aria-label={ariaLabel}
-        aria-describedby={ariaDescribedby}
-      />
+    const placeholder = selectedItems.length === 0 && !inputValue ? this.props.placeholder : '';
+
+    const inputNode = (
+      <TokenView
+        size={this.getProps().size}
+        className={cx({
+          // input растягивается на всю ширину чтобы placeholder не обрезался
+          [styles.inputPlaceholderWrapper()]: Boolean(placeholder),
+        })}
+        hideCloseButton={Boolean(placeholder)}
+      >
+        <textarea
+          id={this.textareaId}
+          ref={this.inputRef}
+          value={inputValue}
+          style={inputInlineStyles}
+          spellCheck={false}
+          disabled={disabled}
+          className={inputClassName}
+          placeholder={placeholder}
+          onFocus={this.handleInputFocus}
+          onBlur={this.handleInputBlur}
+          onChange={this.handleChangeInputValue}
+          onKeyDown={this.handleKeyDown}
+          onPaste={this.handleInputPaste}
+          inputMode={inputMode}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+        />
+      </TokenView>
     );
 
     return (
@@ -513,13 +503,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              text={inputValue === '' ? placeholder : inputValue}
+              text={inputValue}
               theme={this.theme}
               size={this.getProps().size}
             />
             {this.renderTokensStart()}
-
-            <TokenView size={this.getProps().size}>{textHolder}</TokenView>
+            {inputNode}
             {showMenu && (
               <TokenInputMenu
                 popupMenuId={this.rootId}
@@ -537,6 +526,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 menuAlign={menuAlign}
                 renderTotalCount={renderTotalCount}
                 totalCount={totalCount}
+                size={this.getProps().size}
               />
             )}
             {this.renderTokensEnd()}
@@ -805,9 +795,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const selectItemIndex = autocompleteItemsUnique.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
-      if (this.menuRef) {
-        this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
-      }
+      setTimeout(() => this.menuRef?.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex), 0);
     }
   };
 

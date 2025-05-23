@@ -10,31 +10,27 @@
   },
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@skbkontur/eslint-config": "*",
-    "commitizen": "^4.2.3",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "env-cmd": "^10.1.0",
-    "husky": "^6.0.0",
+    "husky": "^9.0.11",
     "lerna": "^4.0.0",
-    "prettier": "2.3.2"
+    "prettier": "3.2.5"
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd lerna version --create-release github",
+    "release": "env-cmd lerna version",
     "release:next:prerelease": "env-cmd lerna version prerelease --preid next --no-changelog --ignore-changes='!packages/react-ui/**'",
     "release:next:preminor": "env-cmd lerna version preminor --preid next --no-changelog  --ignore-changes='!packages/react-ui/**'",
     "prepare": "husky install",
-    "preinstall": "node scripts/update-package-registry",
-    "postinstall": "node scripts/update-package-registry back"
+    "deps": "node scripts/deps"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "resolutions": {
-    "selenium-webdriver": "4.0.0-beta.4"
   }
 }

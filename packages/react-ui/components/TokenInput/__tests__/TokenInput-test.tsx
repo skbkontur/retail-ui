@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { PopupIds } from '../../../internal/Popup';
@@ -10,7 +10,6 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -21,6 +20,12 @@ describe('<TokenInput />', () => {
     const onChange = jest.fn();
     render(<TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />);
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Placeholder');
+  });
+
+  it('has id attribute', () => {
+    const tokenInputId = 'tokenInputId';
+    const result = render(<TokenInput id={tokenInputId} getItems={getItems} selectedItems={[]} />);
+    expect(result.container.querySelector(`textarea#${tokenInputId}`)).not.toBeNull();
   });
 
   it('should throw error without getItems prop', () => {
@@ -53,13 +58,15 @@ describe('<TokenInput />', () => {
     const tokenInputRef = React.createRef<TokenInput>();
     render(<TokenInput getItems={getItems} selectedItems={[]} ref={tokenInputRef} />);
     const textarea = screen.getByRole('textbox');
-    fireEvent.focus(textarea);
+    act(() => {
+      fireEvent.focus(textarea);
+    });
     fireEvent.change(screen.getByRole('textbox'), { target: { value: inputValue } });
-
     expect(screen.getByTestId(TokenInputDataTids.tokenInputMenu)).toBeInTheDocument();
     expect(textarea).toHaveValue(inputValue);
-
-    tokenInputRef.current?.reset();
+    act(() => {
+      tokenInputRef.current?.reset();
+    });
 
     expect(screen.queryByTestId(TokenInputDataTids.tokenInputMenu)).not.toBeInTheDocument();
     expect(textarea).toHaveValue('');
@@ -85,7 +92,7 @@ describe('<TokenInput />', () => {
       const props = {};
       render(<TestTokenInput {...props} />);
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
-      userEvent.type(screen.getByRole('textbox'), '--');
+      await userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
       expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(expectedComment);
@@ -95,7 +102,7 @@ describe('<TokenInput />', () => {
       const props = {};
       render(<TokenInputWithLocaleProvider {...props} />);
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
-      userEvent.type(screen.getByRole('textbox'), '--');
+      await userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
       expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(expectedComment);
@@ -105,7 +112,7 @@ describe('<TokenInput />', () => {
       const props = { langCode: LangCodes.en_GB };
       render(<TokenInputWithLocaleProvider {...props} />);
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_GB).addButtonComment;
-      userEvent.type(screen.getByRole('textbox'), '--');
+      await userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
       expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(expectedComment);
@@ -116,7 +123,7 @@ describe('<TokenInput />', () => {
 
       const props = { locale: { TokenInput: { addButtonComment: customComment } } };
       render(<TokenInputWithLocaleProvider {...props} />);
-      userEvent.type(screen.getByRole('textbox'), '--');
+      await userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
 
       expect(screen.getByTestId(MenuItemDataTids.comment)).toHaveTextContent(customComment);
@@ -126,7 +133,7 @@ describe('<TokenInput />', () => {
       const { rerender } = render(<TokenInputWithLocaleProvider langCode={LangCodes.en_GB} />);
 
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
-      userEvent.type(screen.getByRole('textbox'), '--');
+      await userEvent.type(screen.getByRole('textbox'), '--');
       await delay(0);
       rerender(<TokenInputWithLocaleProvider langCode={LangCodes.ru_RU} />);
 
@@ -134,15 +141,15 @@ describe('<TokenInput />', () => {
     });
   });
 
-  it('should call onInputValueChange', () => {
+  it('should call onInputValueChange', async () => {
     const onInputValueChange = jest.fn();
     const value = 'text';
     render(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
-    userEvent.type(screen.getByRole('textbox'), value);
+    await userEvent.type(screen.getByRole('textbox'), value);
     expect(onInputValueChange).toHaveBeenCalledWith(value);
   });
 
-  it('should blures tokenInput when esc pressed', () => {
+  it('should blures tokenInput when esc pressed', async () => {
     const tokenInputRef = React.createRef<TokenInput>();
 
     const onValueChange = jest.fn();
@@ -156,18 +163,22 @@ describe('<TokenInput />', () => {
     );
 
     const element = screen.getByRole('textbox');
-    tokenInputRef.current?.focus();
+    act(() => {
+      tokenInputRef.current?.focus();
+    });
     expect(element).toHaveFocus();
 
-    userEvent.keyboard('{esc}');
+    act(() => {
+      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape', code: 'Escape' });
+    });
     expect(element).not.toHaveFocus();
   });
 
-  it('should handle comma keydown separator', () => {
+  it('should handle comma keydown separator', async () => {
     render(<TokenInputWithState disabledToken={''} />);
     const element = screen.getByRole('textbox');
     element.click();
-    userEvent.keyboard('aaa,bbb,ccc,');
+    await userEvent.keyboard('aaa,bbb,ccc,');
     delay(1);
     expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
   });
@@ -182,7 +193,7 @@ describe('<TokenInput />', () => {
         renderAddButton={(v) => <span data-tid="AddButton">{getButtonText(v)}</span>}
       />,
     );
-    userEvent.type(screen.getByRole('textbox'), value);
+    await userEvent.type(screen.getByRole('textbox'), value);
     await delay(0);
 
     const addButton = screen.getByTestId('AddButton');
@@ -206,9 +217,9 @@ describe('<TokenInput />', () => {
         )}
       />,
     );
-    userEvent.type(screen.getByRole('textbox'), value);
+    await userEvent.type(screen.getByRole('textbox'), value);
     await delay(0);
-    userEvent.click(screen.getByTestId('AddButton'));
+    await userEvent.click(screen.getByTestId('AddButton'));
 
     expect(onValueChange).toHaveBeenCalledWith([value]);
   });
@@ -226,7 +237,7 @@ describe('<TokenInput />', () => {
         onValueChange={onValueChange}
       />,
     );
-    userEvent.type(screen.getByRole('textbox'), value);
+    await userEvent.type(screen.getByRole('textbox'), value);
     await delay(0);
     tokenInputRef.current?.blur();
 
@@ -240,7 +251,7 @@ describe('<TokenInput />', () => {
     expect(token).toBeInTheDocument();
     expect(screen.getByRole('textbox')).not.toHaveTextContent('xxx');
 
-    userEvent.dblClick(token);
+    await userEvent.dblClick(token);
 
     expect(token).not.toBeInTheDocument();
     expect(screen.getByRole('textbox')).toHaveTextContent('xxx');
@@ -249,7 +260,7 @@ describe('<TokenInput />', () => {
   it('should delete token if value was deleted in editing token mode', async () => {
     render(<TokenInputWithSelectedItem />);
     const input = screen.getByRole('textbox');
-    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+    await userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
     await userEvent.keyboard('[Backspace]');
     input.blur();
 
@@ -259,11 +270,12 @@ describe('<TokenInput />', () => {
   it('should render token if the token value has not changed during editing', async () => {
     render(<TokenInputWithSelectedItem />);
     const input = screen.getByRole('textbox');
-    userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
+    await userEvent.dblClick(screen.getByTestId(TokenDataTids.root));
     await delay(0);
     expect(screen.queryByTestId(TokenDataTids.root)).not.toBeInTheDocument();
-    input.blur();
-
+    act(() => {
+      input.blur();
+    });
     expect(screen.getByTestId(TokenDataTids.root)).toBeInTheDocument();
   });
 
@@ -294,64 +306,46 @@ describe('<TokenInput />', () => {
     expect(screen.getByText('bbb')).toBeInTheDocument();
   });
 
-  describe('with tokenInputRemoveWhitespaceFromDefaultDelimiters flag', () => {
-    const TokenInputWithFeatureFlagsContext = (props: { customDelimiters?: string[] }) => {
-      const [selectedItems, setSelectedItems] = useState(['']);
+  it('should not handle whitespace keydown separator', async () => {
+    render(<SimpleTokenInput />);
+    const tokenInput = screen.getByRole('textbox');
 
-      return (
-        <ReactUIFeatureFlagsContext.Provider value={{ tokenInputRemoveWhitespaceFromDefaultDelimiters: true }}>
-          <TokenInput
-            type={TokenInputType.Combined}
-            getItems={getItems}
-            selectedItems={selectedItems}
-            onValueChange={setSelectedItems}
-            delimiters={props.customDelimiters}
-          />
-        </ReactUIFeatureFlagsContext.Provider>
-      );
-    };
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa bbb ccc');
+    delay(1);
+    const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+    expect(tokenCount).toBe(1);
+  });
 
-    it('should not handle whitespace keydown separator', async () => {
-      render(<TokenInputWithFeatureFlagsContext />);
-      const tokenInput = screen.getByRole('textbox');
+  it('should handle comma keydown separator', async () => {
+    render(<SimpleTokenInput />);
+    const tokenInput = screen.getByRole('textbox');
 
-      tokenInput.click();
-      userEvent.type(tokenInput, 'aaa bbb ccc');
-      delay(1);
-      const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
-      expect(tokenCount).toBe(1);
-    });
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa,bbb,ccc');
+    delay(1);
+    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
+  });
 
-    it('should handle comma keydown separator', async () => {
-      render(<TokenInputWithFeatureFlagsContext />);
-      const tokenInput = screen.getByRole('textbox');
+  it('should not handle default separators when custom separators', async () => {
+    render(<SimpleTokenInput customDelimiters={[';']} />);
+    const tokenInput = screen.getByRole('textbox');
 
-      tokenInput.click();
-      userEvent.type(tokenInput, 'aaa,bbb,ccc');
-      delay(1);
-      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
-    });
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa,bbb ccc');
+    delay(1);
+    const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+    expect(tokenCount).toBe(1);
+  });
 
-    it('should not handle default separators when custom separators', async () => {
-      render(<TokenInputWithFeatureFlagsContext customDelimiters={[';']} />);
-      const tokenInput = screen.getByRole('textbox');
+  it('should handle custom separators', async () => {
+    render(<SimpleTokenInput customDelimiters={[';']} />);
+    const tokenInput = screen.getByRole('textbox');
 
-      tokenInput.click();
-      userEvent.type(tokenInput, 'aaa,bbb ccc');
-      delay(1);
-      const tokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
-      expect(tokenCount).toBe(1);
-    });
-
-    it('should handle custom separators', async () => {
-      render(<TokenInputWithFeatureFlagsContext customDelimiters={[';']} />);
-      const tokenInput = screen.getByRole('textbox');
-
-      tokenInput.click();
-      userEvent.type(tokenInput, 'aaa;bbb;ccc');
-      delay(1);
-      expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
-    });
+    tokenInput.click();
+    await userEvent.type(tokenInput, 'aaa;bbb;ccc');
+    delay(1);
+    expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
   });
 
   describe('a11y', () => {
@@ -367,10 +361,10 @@ describe('<TokenInput />', () => {
       expect(tokenInput).toHaveAccessibleDescription('Description');
     });
 
-    it('should connect input and dropdown through aria-controls', () => {
+    it('should connect input and dropdown through aria-controls', async () => {
       render(<TokenInputWithSelectedItem />);
 
-      userEvent.click(screen.getByRole('textbox'));
+      await userEvent.click(screen.getByRole('textbox'));
 
       expect(screen.getByTestId(TokenInputDataTids.label)).toHaveAttribute(
         'aria-controls',
@@ -391,10 +385,11 @@ describe('<TokenInput />', () => {
   });
 });
 
-function TokenInputWithState(props: { disabledToken: string }) {
+function TokenInputWithState(props: { disabledToken?: string; customDelimiters?: string[] }) {
   const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
   return (
     <TokenInput
+      delimiters={props.customDelimiters}
       type={TokenInputType.Combined}
       getItems={getItems}
       selectedItems={selectedItems}
@@ -407,6 +402,20 @@ function TokenInputWithState(props: { disabledToken: string }) {
     />
   );
 }
+
+const SimpleTokenInput = (props: { customDelimiters?: string[] }) => {
+  const [selectedItems, setSelectedItems] = useState(['']);
+
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      delimiters={props.customDelimiters}
+    />
+  );
+};
 
 function TokenInputWithSelectedItem() {
   const [selectedItems, setSelectedItems] = useState(['xxx']);

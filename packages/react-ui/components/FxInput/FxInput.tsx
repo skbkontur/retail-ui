@@ -1,5 +1,3 @@
-// TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { AriaAttributes } from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,10 +6,8 @@ import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
-import { FunctionIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { SizeProp } from '../../lib/types/props';
@@ -25,22 +21,32 @@ export interface FxInputProps
     Override<
       CurrencyInputProps,
       {
-        /** Авто-режим */
+        /** Устанавливает авто-режим. */
         auto?: boolean;
-        /** Тип инпута */
+
+        /** Задает тип инпута */
         type?: 'currency' | InputProps['type'];
-        /** onRestore */
+
+        /** Задает функцию, которая вызывается при нажатии на кнопку Restore. */
         onRestore?: () => void;
-        /** onValueChange */
+
+        /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
-        /** Значение */
+
+        /** Задает значение инпута. */
         value?: React.ReactText;
-        /** ref Input'а */
+
+        /** Задает ref инпута. */
         refInput?: (element: CurrencyInput | Input | null) => void;
-        /** Убрать лишние нули после запятой */
+
+        /** Убирает лишние нули после запятой. */
         hideTrailingZeros?: boolean;
-        /** Позвоялет задать атрибут aria-label кнопке восстановления (restore button) */
+
+        /** Задает атрибут aria-label кнопке восстановления (restore button). */
         buttonAriaLabel?: AriaAttributes['aria-label'];
+
+        /** @ignore */
+        corners?: React.CSSProperties;
       }
     > {}
 
@@ -51,10 +57,17 @@ export const FxInputDataTids = {
 type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value'>>;
 type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 
-/** Принимает все свойства `Input`'a */
+/**
+ * Автополе `FxInput`.
+ *
+ * Используйте `FxInput`, если поле вычисляемое и вы рассчитали значение.
+ *
+ * Принимает все свойства `Input`'a.
+ */
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
+  public static displayName = 'FxInput';
 
   public static propTypes = {
     auto: PropTypes.bool,
@@ -95,19 +108,16 @@ export class FxInput extends React.Component<FxInputProps> {
     };
 
     let button = null;
-    let inputCorners: InputProps['corners'];
-    let IconFunction = <FunctionIcon />;
-
-    if (isTheme2022(this.theme)) {
-      inputCorners = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      const iconSizes: Record<SizeProp, number> = {
-        small: parseInt(this.theme.inputIconSizeSmall),
-        medium: parseInt(this.theme.inputIconSizeMedium),
-        large: parseInt(this.theme.inputIconSizeLarge),
-      };
-      const size = this.props.size || Input.defaultProps.size;
-      IconFunction = <MathFunctionIcon size={iconSizes[size]} />;
-    }
+    const inputCorners: InputProps['corners'] = auto
+      ? { ...rest.corners }
+      : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0, ...rest.corners };
+    const iconSizes: Record<SizeProp, number> = {
+      small: parseInt(this.theme.inputIconSizeSmall),
+      medium: parseInt(this.theme.inputIconSizeMedium),
+      large: parseInt(this.theme.inputIconSizeLarge),
+    };
+    const size = this.props.size || Input.defaultProps.size;
+    const IconFunction = <MathFunctionIcon size={iconSizes[size]} />;
 
     if (auto) {
       inputProps.leftIcon = IconFunction;
@@ -116,6 +126,7 @@ export class FxInput extends React.Component<FxInputProps> {
         <FxInputRestoreBtn
           size={rest.size}
           onRestore={onRestore}
+          corners={rest.corners}
           disabled={rest.disabled}
           borderless={rest.borderless}
           aria-label={props.buttonAriaLabel}

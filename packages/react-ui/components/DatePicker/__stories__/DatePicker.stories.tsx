@@ -1,6 +1,8 @@
 import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -9,8 +11,9 @@ import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
-import { delay, emptyHandler } from '../../../lib/utils';
+import { emptyHandler } from '../../../lib/utils';
 import { SizeProp } from '../../../lib/types/props';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;
@@ -94,6 +97,7 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
 
 export default {
   title: 'DatePicker',
+  component: DatePicker,
 } as Meta;
 
 export const WithMouseeventHandlers: Story = () => {
@@ -112,66 +116,6 @@ export const WithMouseeventHandlers: Story = () => {
   );
 };
 WithMouseeventHandlers.storyName = 'with mouseevent handlers';
-
-WithMouseeventHandlers.parameters = {
-  creevey: {
-    tests: {
-      async opened() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-      },
-      async 'DateSelect month'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({ bridge: true })
-          .click(
-            this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-            }),
-          )
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
-      },
-      async 'DateSelect year'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({ bridge: true })
-          .click(
-            this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-            }),
-          )
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
-      },
-    },
-  },
-};
 
 export const WithMobileNativeDatePicker = () => {
   const [date, setDate] = useState('02.07.2017');
@@ -196,6 +140,28 @@ export const WithMobileNativeDatePicker = () => {
 };
 WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
 WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
+
+export const MobilePicker: Story = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider value={ThemeFactory.create(theme, LIGHT_THEME)}>
+            <DatePicker enableTodayLink width="auto" value={date} onValueChange={setDate} />
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+MobilePicker.storyName = 'MobilePicker';
+MobilePicker.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
@@ -283,67 +249,6 @@ export const DatePickerWithMinMaxDate: Story = () => (
 );
 DatePickerWithMinMaxDate.storyName = 'DatePicker with min max date';
 
-DatePickerWithMinMaxDate.parameters = {
-  creevey: {
-    skip: {
-      flaky: {
-        in: /^(?!\b(chrome|ie11)\b)/,
-        tests: ['DateSelect months', 'DateSelect years'],
-      },
-    },
-    tests: {
-      async 'DateSelect months'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .pause(1000)
-          .perform();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(
-            this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-            }),
-          )
-          .pause(1000)
-          .perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
-      },
-      async 'DateSelect years'() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .pause(1000)
-          .perform();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(
-            this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-            }),
-          )
-          .pause(1000)
-          .perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
-      },
-    },
-  },
-};
-
 export const DatePickerLocaleProvider = () => {
   return (
     <div style={{ paddingTop: 200 }}>
@@ -390,25 +295,6 @@ export const DatePickerInRelativeBody: Story = () => {
   );
 };
 DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
-DatePickerInRelativeBody.parameters = {
-  creevey: {
-    tests: {
-      async opened() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-      },
-    },
-  },
-};
 
 export const WithManualPosition: Story = () => {
   const [menuPos, setMenuPos] = useState<'top' | 'bottom'>('top');
@@ -419,7 +305,6 @@ export const WithManualPosition: Story = () => {
     toggleIsRelative(!isRelative);
     document.querySelector('html')?.classList.toggle(relativeClassName);
   }, [isRelative]);
-
   useEffect(() => {
     return () => {
       document.querySelector('html')?.classList.remove(relativeClassName);
@@ -439,66 +324,3 @@ export const WithManualPosition: Story = () => {
   );
 };
 WithManualPosition.storyName = 'with manual position';
-WithManualPosition.parameters = {
-  creevey: {
-    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
-    tests: {
-      async 'opened top without relative position'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened top without relative position');
-      },
-      async 'opened bottom without relative position'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom without relative position');
-      },
-      async 'opened top with relative position'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened top with relative position');
-      },
-      async 'opened bottom with relative position'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid~="pos"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-tid~="relative"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened bottom');
-      },
-    },
-  },
-};

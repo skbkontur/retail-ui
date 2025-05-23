@@ -34,10 +34,11 @@ export const Required = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, width: 550, height: 100 }}>
       <ValidationContainer>
         <ValidationWrapper validationInfo={validateValue()}>
           <ComboBox
+            data-tid="combobox"
             onValueChange={setSelected}
             getItems={() => Promise.resolve(items)}
             placeholder="Начните вводить название"

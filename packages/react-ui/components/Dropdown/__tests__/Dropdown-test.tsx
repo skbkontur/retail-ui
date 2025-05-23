@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Dropdown, DropdownDataTids } from '../Dropdown';
@@ -22,30 +22,40 @@ describe('Dropdown', () => {
     expect(screen.getByTestId(DropdownDataTids.root)).toBeInTheDocument();
   });
 
+  it('has id attribute', () => {
+    const dropdownId = 'dropdownId';
+    const result = render(
+      <Dropdown id={dropdownId} caption="button">
+        <MenuItem>Menu item</MenuItem>
+      </Dropdown>,
+    );
+    expect(result.container.querySelector(`button#${dropdownId}`)).not.toBeNull();
+  });
+
   it('Renders caption', () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
     expect(screen.getByTestId(DropdownDataTids.root)).toBeInTheDocument();
   });
 
-  it('Renders items', () => {
+  it('Renders items', async () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByText(menuItemText)).toBeInTheDocument();
   });
 
-  it('opens and closes', () => {
+  it('opens and closes', async () => {
     render(<Dropdown caption={caption}>{menuItem}</Dropdown>);
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
 
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId(captionDatatid));
+    await userEvent.click(screen.getByTestId(captionDatatid));
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 
@@ -81,7 +91,9 @@ describe('Dropdown', () => {
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
-    dropdownRef.current?.open();
+    act(() => {
+      dropdownRef.current?.open();
+    });
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
   });
 
@@ -95,11 +107,13 @@ describe('Dropdown', () => {
     );
     //is menu open check
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
-
-    dropdownRef.current?.open();
+    act(() => {
+      dropdownRef.current?.open();
+    });
     expect(screen.getByTestId(MenuItemDataTids.root)).toBeInTheDocument();
-
-    dropdownRef.current?.close();
+    act(() => {
+      dropdownRef.current?.close();
+    });
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
   });
 });

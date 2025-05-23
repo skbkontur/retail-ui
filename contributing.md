@@ -350,13 +350,10 @@ function foo() {}
    Стоит избегать общих слов, таких как "change". Вместо этого опишите в чем конкретно произошло изменение.
 
    Примеры:
-   - validationsRemoveExtraSpans - Избавиться от обертки span в ValidationContainer, ValidationWrapper и ValidationText
    - tokenInputRemoveWhitespaceFromDefaultDelimiters - В TokenInput изменили разделитель по умолчанию
 
 2) Добавьте флаг в ReactUIFeatureFlags в файл ReactUIFeatureFlagsContext.tsx и в документацию FEATUREFLAGSCONTEXT.md
 
 # Помощь
 
-По любым возникающим вопросам можно обращаться в канал поддержки в Слаке:
-* если вы из Контура - [#infra_front_support](https://kontur.slack.com/archives/C013HTCE18Q)
-* если нет — написать письмо на адрес [канала](mailto:infra_front_support-aaaacbgbb3vpa72paf5w4xwtge@kontur.slack.com).
+По любым возникающим вопросам можно обращаться в канал поддержки в Маттермосте - [#infra_front_support](https://chat.skbkontur.ru/kontur/channels/infra_front_support)

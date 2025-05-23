@@ -2,7 +2,6 @@ import React from 'react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
-import { delay } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
@@ -12,8 +11,9 @@ import { Button } from '../../Button';
 
 export default {
   title: 'TooltipMenu',
+  component: TooltipMenu,
   decorators: [
-    (Story) => (
+    (Story: () => JSX.Element) => (
       <div
         style={{
           padding: 200,
@@ -39,85 +39,6 @@ export const SimpleExample: Story = () => (
 );
 SimpleExample.storyName = 'Simple example';
 
-SimpleExample.parameters = {
-  creevey: {
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['clickAfterClickedOnCaption', 'clicked'],
-      },
-
-      'story-skip-1': { in: /(?!\b(firefox)\b)/, tests: ['tabPress'] },
-    },
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async clickAfterClickedOnCaption() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async clickedOutside() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clickedOutside');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async enterPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
-      },
-      async escapePress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .sendKeys(this.keys.ENTER)
-          .sendKeys(this.keys.ESCAPE)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
-      },
-    },
-  },
-};
-
 export const MobileExampleHorizontalPaddings: Story = () => (
   <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
     <MenuHeader>Заголовок меню</MenuHeader>
@@ -131,25 +52,6 @@ export const MobileExampleHorizontalPaddings: Story = () => (
 MobileExampleHorizontalPaddings.parameters = {
   viewport: {
     defaultViewport: 'iphone',
-  },
-  creevey: {
-    captureElement: null,
-    tests: {
-      async opened() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '#test-element' }))
-          .perform();
-        await delay(200);
-        await this.browser
-          .actions({ bridge: true })
-          .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-      },
-    },
   },
 };
 
@@ -239,3 +141,38 @@ export const MenuWithoutAnimations = () => (
 );
 MenuWithoutAnimations.storyName = 'Menu without animations';
 MenuWithoutAnimations.parameters = { creevey: { skip: true } };
+
+export const WithItemsAndIcons = () => (
+  <div style={{ width: 200, textAlign: 'center' }}>
+    <TooltipMenu
+      caption={
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          <MenuIcon size={32} />
+        </span>
+      }
+    >
+      <MenuHeader>MenuHeader</MenuHeader>
+      <MenuItem icon={<LightbulbIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<LightbulbIcon />}>MenuItem2</MenuItem>
+      <MenuItem>MenuItem3</MenuItem>
+    </TooltipMenu>
+  </div>
+);
+
+export const WithItemsAndIconsWithoutTextAlignment = () => (
+  <div style={{ width: 200, textAlign: 'center' }}>
+    <TooltipMenu
+      preventIconsOffset
+      caption={
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
+          <MenuIcon size={32} />
+        </span>
+      }
+    >
+      <MenuHeader>MenuHeader</MenuHeader>
+      <MenuItem icon={<LightbulbIcon />}>MenuItem1</MenuItem>
+      <MenuItem icon={<LightbulbIcon />}>MenuItem2</MenuItem>
+      <MenuItem>MenuItem3</MenuItem>
+    </TooltipMenu>
+  </div>
+);

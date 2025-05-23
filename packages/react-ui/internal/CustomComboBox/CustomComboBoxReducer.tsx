@@ -23,8 +23,9 @@ export type CustomComboBoxAction<T> =
       fixValueChange: boolean | undefined;
     }
   | { type: 'Mount' }
-  | { type: 'Focus' }
+  | { type: 'Focus'; searchOnFocus?: boolean }
   | { type: 'InputClick' }
+  | { type: 'ClearCrossClick' }
   | { type: 'Blur' }
   | { type: 'Reset' }
   | { type: 'Open' }
@@ -55,6 +56,7 @@ interface EffectFactory {
   focus: Effect;
 
   valueChange: (value: any) => Effect;
+  valueClear: Effect;
   unexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
   inputChange: Effect;
   inputFocus: Effect;
@@ -102,6 +104,9 @@ export const Effect: EffectFactory = {
     if (onValueChange) {
       onValueChange(value);
     }
+  },
+  valueClear: (dispatch) => {
+    dispatch({ type: 'TextChange', value: '' });
   },
   unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
     const { onUnexpectedInput, valueToString } = getProps();
@@ -332,7 +337,7 @@ export function reducer<T>(
         focused: true,
         editing: true,
       };
-      if (!props.searchOnFocus) {
+      if (!action.searchOnFocus) {
         return [newState, [Effect.focus]];
       }
       if (state.editing) {
@@ -348,6 +353,13 @@ export function reducer<T>(
         return [newState, [Effect.search('')]];
       }
       return state;
+    }
+    case 'ClearCrossClick': {
+      const newState = {
+        editing: true,
+        loading: true,
+      };
+      return [newState, [Effect.valueClear, Effect.focus, Effect.search('')]];
     }
     case 'Blur': {
       const { inputChanged, items } = state;

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-
 import { ThemeContext } from '@skbkontur/react-ui';
 import Context from 'react-styleguidist/lib/client/rsg-components/Context';
+
 import { THEMES } from '../ThemeSwitcher/constants';
 
 function ThemeWrapper({ children }: any): any {

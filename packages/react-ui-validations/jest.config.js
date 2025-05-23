@@ -1,5 +1,5 @@
 module.exports = {
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
   testResultsProcessor: 'jest-teamcity-reporter',
   moduleNameMapper: {
     '\\.(css|less)$': 'identity-obj-proxy',

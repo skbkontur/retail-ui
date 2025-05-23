@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { Dropdown } from '../../../components/Dropdown';
 import { Story } from '../../../typings/stories';
@@ -22,8 +23,8 @@ import { ToastView } from '../../../components/Toast/ToastView';
 import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAndButton';
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
-import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SingleToast } from '../../../components/SingleToast';
 
 const linearLightGradient = `repeating-linear-gradient(
                                 60deg,
@@ -420,7 +421,6 @@ class TooltipAndSelect extends React.Component {
             value={'small'}
             items={['small', 'medium', 'large']}
             size={'small'}
-            data-tid="test-select"
           />
         </Tooltip>
       </div>
@@ -439,10 +439,9 @@ class LoaderInSidePage extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -477,10 +476,9 @@ class SidePageAndSelect extends React.Component {
               <SidePage.Body>
                 <div
                   style={{
-                    background:
-                      theme.prototype.constructor.name === 'DarkTheme'
-                        ? '' + linearDarkGradient + ''
-                        : '' + linearLightGradient + '',
+                    background: theme.prototype.constructor.name.includes('Dark')
+                      ? '' + linearDarkGradient + ''
+                      : '' + linearLightGradient + '',
                     height: 600,
                     padding: '20px 0',
                   }}
@@ -722,127 +720,17 @@ TooltipNearLoaderStory.storyName = 'Tooltip near Loader';
 export const HintAndModalStory: Story = () => <HintAndModal />;
 HintAndModalStory.storyName = 'Hint and modal';
 
-HintAndModalStory.parameters = {
-  creevey: {
-    tests: {
-      async 'Modal covers hint'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="open-modal"]' }))
-          .perform();
-
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.modalBody button' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
-      },
-    },
-  },
-};
-
 export const BigModalWithLoaderStory: Story = () => <BigModalWithLoader />;
 BigModalWithLoaderStory.storyName = 'Big modal with Loader';
-
-BigModalWithLoaderStory.parameters = {
-  creevey: {
-    tests: {
-      async 'Header covers Loader'() {
-        await this.browser.executeScript(function () {
-          const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-
-          if (sidePage) {
-            sidePage.scrollTop = sidePage.offsetHeight / 3;
-          }
-        });
-
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
-      },
-    },
-  },
-};
 
 export const TooltipAndSelectStory: Story = () => <TooltipAndSelect />;
 TooltipAndSelectStory.storyName = 'Tooltip and Select';
 
-TooltipAndSelectStory.parameters = {
-  creevey: {
-    tests: {
-      async 'Menu covers tooltip'() {
-        const element = await this.browser.findElement({ css: '.container' });
-
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="test-select"]' }))
-          .sendKeys('q')
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('Modal covers hint');
-      },
-    },
-  },
-};
-
 export const LoaderInSidePageBody: Story = () => <LoaderInSidePage />;
 LoaderInSidePageBody.storyName = 'Loader in SidePage.Body';
 
-LoaderInSidePageBody.parameters = {
-  creevey: {
-    tests: {
-      async 'is covered by Header and Footer'() {
-        await this.browser.executeScript(function () {
-          const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
-          if (sidePage) {
-            sidePage.scrollTop = sidePage.offsetHeight;
-          }
-        });
-
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
-      },
-    },
-  },
-};
-
 export const SidepageAndSelect: Story = () => <SidePageAndSelect />;
 SidepageAndSelect.storyName = 'Sidepage and Select';
-
-SidepageAndSelect.parameters = {
-  creevey: {
-    tests: {
-      async 'SidePage covers Select and Tooltip'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.select-container button' }))
-          .sendKeys('q')
-          .perform();
-
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.open-sidepage-container button' }))
-          .perform();
-
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.sidepage-select-continer button' }))
-          .sendKeys('q')
-          .perform();
-
-        const element = await this.browser.findElement({ css: `[data-tid='SidePage__container']` });
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
-      },
-    },
-  },
-};
 
 export const ToastAndLoaderStory = () => <ToastAndLoader />;
 ToastAndLoaderStory.storyName = 'Toast and Loader';
@@ -850,51 +738,8 @@ ToastAndLoaderStory.storyName = 'Toast and Loader';
 export const ElementsInLoaderInModalStory: Story = () => <ElementsInLoaderInModal />;
 ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
 
-ElementsInLoaderInModalStory.parameters = {
-  creevey: {
-    tests: {
-      async 'Open Dropdown while Loader is inactive'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
-      },
-      async 'Hide Hint on active Loader'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
-      },
-    },
-  },
-};
-
 export const LoaderAndSidePageStory: Story = () => <LoaderAndSidePage />;
 LoaderAndSidePageStory.storyName = 'Loader and SidePage';
-
-LoaderAndSidePageStory.parameters = {
-  creevey: {
-    tests: {
-      async 'SidePage shadow cover Loader'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
-          .perform();
-
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
-      },
-    },
-  },
-};
 
 export const ModalInLoaderAndModalStory: Story = () => <ModalInLoaderAndModal />;
 ModalInLoaderAndModalStory.storyName = 'Modal in Loader and Modal';
@@ -906,24 +751,6 @@ StickyAndLoaderStory.parameters = { creevey: { captureElement: null } };
 
 export const StickyAndTooltipsStory: Story = () => <StickyAndTooltips />;
 StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
-
-StickyAndTooltipsStory.parameters = {
-  creevey: {
-    tests: {
-      async 'Sticky covers outside Popup and DropdownContainer'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-          'Sticky covers outside Popup and DropdownContainer',
-        );
-      },
-    },
-  },
-};
 
 export const ModalSidePageStack = () => {
   const [isModalOpen, setModalOpen] = React.useState(false);
@@ -969,22 +796,6 @@ export const ModalAndToast: Story = () => {
   );
 };
 
-ModalAndToast.parameters = {
-  creevey: {
-    tests: {
-      async toastShown() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Button"] button' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
-
 export const ToastOverEverything: Story = () => {
   const toast = React.useRef<Toast>(null);
   const showRefToast = () => {
@@ -1004,9 +815,10 @@ export const ToastOverEverything: Story = () => {
             <button data-tid="ref-toast" onClick={showRefToast}>
               Ref Toast
             </button>
+            <SingleToast />
             <button
               data-tid="static-toast"
-              onClick={() => Toast.push('Static Toast', { label: 'Close', handler: Toast.close })}
+              onClick={() => SingleToast.push('Static Toast', { label: 'Close', handler: SingleToast.close })}
             >
               Static Toast
             </button>
@@ -1015,45 +827,6 @@ export const ToastOverEverything: Story = () => {
       </SidePage.Body>
     </SidePage>
   );
-};
-
-ToastOverEverything.parameters = {
-  creevey: {
-    skip: { 'flickering screenshot': { in: /^(?!\b(firefox))/, tests: 'staticToast' } },
-    tests: {
-      async staticToast() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="static-toast"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-
-        const shown = await this.browser.takeScreenshot();
-
-        // Toast rendered by static method doesn't get removed
-        // when story switches, so we have to close it manually
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="ToastView__close"]' }))
-          .pause(500)
-          .perform();
-
-        await this.expect(shown).to.matchImage();
-      },
-      async refToast() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid~="ref-toast"]' }))
-          .pause(1000)
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
 };
 
 export const ModalWithDropdown: Story = () => {
@@ -1096,56 +869,210 @@ export const ModalWithDropdown: Story = () => {
   );
 };
 
-ModalWithDropdown.parameters = {
-  creevey: {
-    skip: { 'no themes': { in: /^(?!\b(chrome|firefox)\b)/ } },
-    tests: {
-      async 'dropdown overlaps static header'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="dropdown_top"]' }))
-          .perform();
-        await delay(1000);
+function Root({ children }: React.PropsWithChildren<any>) {
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const theme = React.useContext(ThemeContext);
 
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-      async 'dropdown lays under fixed header'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="dropdown_top"]' }))
-          .perform();
-        await delay(1000);
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-          scrollContainer.scrollTop = scrollContainer.scrollHeight;
-        });
-        await delay(1000);
+  React.useEffect(() => {
+    if (rootRef.current) {
+      const App = () => children;
+      children &&
+        ReactDOM.render(
+          <ThemeContext.Provider value={theme}>
+            <App />
+          </ThemeContext.Provider>,
+          rootRef.current,
+        );
+    }
+  }, []);
 
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-      async 'dropdown lays under fixed footer'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="dropdown_bottom"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
-      async 'dropdown overlaps static footer'() {
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="dropdown_bottom"]' }))
-          .perform();
-        await delay(1000);
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-          scrollContainer.scrollTop = scrollContainer.scrollHeight;
-        });
-        await delay(1000);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-      },
+  React.useLayoutEffect(
+    () => () => {
+      rootRef.current && ReactDOM.unmountComponentAtNode(rootRef.current);
     },
-  },
+    [],
+  );
+
+  return <div ref={rootRef} style={{ display: 'inline-block' }} />;
+}
+
+function Classic({ withRoot = false }) {
+  const selectRef = React.useRef<Select>(null);
+  React.useEffect(() => {
+    selectRef.current?.open();
+  }, []);
+
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column', paddingBottom: 50 }}>
+      <div>
+        <Tooltip render={() => 'Tooltip 1'} pos="bottom center" trigger="opened" allowedPositions={['bottom center']}>
+          Тултип
+        </Tooltip>
+        <br />
+        <Select
+          ref={selectRef}
+          width="120px"
+          items={[123]}
+          renderItem={() => (
+            <MayBeRoot>
+              <Tooltip
+                render={() => 'Tooltip 2'}
+                pos="right middle"
+                trigger="opened"
+                allowedPositions={['right middle']}
+              >
+                {title}
+              </Tooltip>
+            </MayBeRoot>
+          )}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ActiveLoader({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+      <div
+        style={{
+          width: 200,
+          background: '#eee',
+          padding: 10,
+        }}
+      >
+        <MayBeRoot>
+          <Loader active caption={null}>
+            <div style={{ minWidth: 200 }}>
+              {title}
+              <Classic />
+            </div>
+          </Loader>
+        </MayBeRoot>
+      </div>
+    </div>
+  );
+}
+
+function DisabledLoaderInPortal({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+      <div
+        style={{
+          width: 200,
+          height: 140,
+          background: '#eee',
+          padding: 10,
+        }}
+      >
+        <Popup opened anchorElement={<div />} pos="bottom left" priority="Modal">
+          <MayBeRoot>
+            <Loader caption={null}>
+              <div style={{ minWidth: 200 }}>
+                {title}
+                <Classic />
+              </div>
+            </Loader>
+          </MayBeRoot>
+        </Popup>
+      </div>
+    </div>
+  );
+}
+
+function Upper({ withRoot = false }) {
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  return (
+    <div style={{ display: 'flex', rowGap: 200, flexDirection: 'column', minWidth: 100 }}>
+      <div>
+        <Tooltip
+          render={() => (
+            <Tooltip
+              render={() => (
+                <Tooltip
+                  render={() => 'Tooltip 3'}
+                  pos="bottom left"
+                  trigger="opened"
+                  allowedPositions={['bottom left']}
+                >
+                  Tooltip 2
+                </Tooltip>
+              )}
+              pos="bottom left"
+              trigger="opened"
+              allowedPositions={['bottom left']}
+            >
+              Tooltip 1
+            </Tooltip>
+          )}
+          pos="bottom left"
+          trigger="opened"
+          allowedPositions={['bottom left']}
+        />
+      </div>
+
+      <ZIndex priority={9001}>
+        <MayBeRoot>
+          <Tooltip render={() => 'Tooltip'} pos="top center" trigger="opened" allowedPositions={['top center']}>
+            {title}
+          </Tooltip>
+        </MayBeRoot>
+      </ZIndex>
+    </div>
+  );
+}
+
+const SeveralRoots = (props: { title: string; goldenSample: React.ReactNode; withRoot: React.ReactNode }) => {
+  return (
+    <div style={{ padding: 50, display: 'flex', flexDirection: 'column', rowGap: 20, width: 600 }}>
+      <h3 style={{ textAlign: 'center' }}>{props.title}</h3>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        <h3>Эталон</h3>
+        <h3>Root</h3>
+      </div>
+      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+        {props.goldenSample}
+        {props.withRoot}
+      </div>
+    </div>
+  );
 };
+
+export const SeveralRootsSimple = () => {
+  return <SeveralRoots title="Простой пример" goldenSample={<Classic />} withRoot={<Classic withRoot />} />;
+};
+SeveralRootsSimple.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+
+export const SeveralRootsActiveLoader = () => {
+  return <SeveralRoots title="Активный Лоадер" goldenSample={<ActiveLoader />} withRoot={<ActiveLoader withRoot />} />;
+};
+SeveralRootsActiveLoader.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+
+export const SeveralRootsDisabledLoaderInPortal = () => {
+  return (
+    <SeveralRoots
+      title="Неактивный Лоадер в Портале"
+      goldenSample={<DisabledLoaderInPortal />}
+      withRoot={<DisabledLoaderInPortal withRoot />}
+    />
+  );
+};
+SeveralRootsDisabledLoaderInPortal.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};
+
+export const SeveralRootsUpper = () => {
+  return <SeveralRoots title="Выше всех" goldenSample={<Upper />} withRoot={<Upper withRoot />} />;
+};
+SeveralRootsUpper.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };

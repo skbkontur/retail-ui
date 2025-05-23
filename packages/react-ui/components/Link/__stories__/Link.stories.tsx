@@ -2,34 +2,18 @@ import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 
-import { Story, CreeveyTests } from '../../../typings/stories';
-import { Link } from '../Link';
+import { Story } from '../../../typings/stories';
+import { ComponentTable } from '../../../internal/ComponentTable';
+import { Link, LinkProps } from '../Link';
+import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
-import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
-
-const linkTests: CreeveyTests = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hover() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-  },
-};
 
 export default {
   title: 'Link',
+  component: Link,
   parameters: {
     creevey: {
       skip: {
@@ -39,39 +23,7 @@ export default {
   },
 };
 
-const focusedLinkTest: CreeveyTests = {
-  async 'tab press'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPressHovered');
-  },
-};
-
 export const Simple: Story = () => <Link>Simple Link</Link>;
-Simple.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
 
 export const WithIcon: Story = () => {
   return (
@@ -82,6 +34,9 @@ export const WithIcon: Story = () => {
           Both Icons Link
         </Link>
         <Link rightIcon={<CheckAIcon16Light />}>Right Icon Link</Link>
+        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />} error>
+          Both Icons Link Error
+        </Link>
       </Gapped>
       <Gapped gap={20}>
         <Link loading icon={<CheckAIcon16Light />}>
@@ -93,23 +48,12 @@ export const WithIcon: Story = () => {
         <Link loading rightIcon={<CheckAIcon16Light />}>
           Right Icon Link
         </Link>
+        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />} warning>
+          Both Icons Link Warning
+        </Link>
       </Gapped>
     </Gapped>
   );
-};
-WithIcon.parameters = {
-  creevey: {
-    tests: {
-      idle: linkTests['idle'],
-      hover: linkTests['hover'],
-      'tab press': focusedLinkTest['tab press'],
-    },
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-      'story-skip-1': { in: /^(?!\b(chrome|firefox)(2022)*(Dark)*\b)/, tests: ['tab press'] },
-    },
-  },
 };
 
 export const Danger: Story = () => (
@@ -117,37 +61,10 @@ export const Danger: Story = () => (
     Simple Link
   </Link>
 );
-Danger.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
 
 export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
-Grayed.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
 
 export const Disabled: Story = () => <Link disabled>Simple link</Link>;
-Disabled.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
 WithOnClick.storyName = 'With onClick';
@@ -171,52 +88,12 @@ export const Loading: Story = () => (
     </Link>
   </Gapped>
 );
-Loading.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: {
-      // TODO @Khlutkova fix after update browsers
-      'story-skip-0': { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    },
-  },
-};
-
-const focusedStyledLinkTest: CreeveyTests = {
-  async 'tab press'() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPressHovered');
-  },
-};
 export const FocusedStyledLink: Story = () => {
   return (
     <ThemeContext.Consumer>
       {(theme) => {
         return (
-          <ThemeContext.Provider value={ThemeFactory.create({ linkLineHoverBorderBottomStyle: 'dotted' }, theme)}>
+          <ThemeContext.Provider value={ThemeFactory.create({ linkHoverTextDecorationStyle: 'dotted' }, theme)}>
             <Link icon={<OkIcon />}>Simple Link</Link>
           </ThemeContext.Provider>
         );
@@ -224,26 +101,89 @@ export const FocusedStyledLink: Story = () => {
     </ThemeContext.Consumer>
   );
 };
-FocusedStyledLink.parameters = {
-  creevey: {
-    tests: focusedStyledLinkTest,
-    skip: { flacky: { in: /^(?!\b(firefox2022)\b)/ } },
-  },
+
+type LinkState = Partial<LinkProps<'a' | 'button'>>;
+
+const linkUseStates: LinkState[] = [{ use: 'default' }, { use: 'danger' }, { use: 'success' }, { use: 'grayed' }];
+const componentPropStates: LinkState[] = [
+  { children: 'Button' },
+  { disabled: true },
+  { icon: <CheckAIcon16Light /> },
+  { icon: <CheckAIcon16Light />, loading: true },
+  { rightIcon: <CheckAIcon16Light /> },
+  { rightIcon: <CheckAIcon16Light />, loading: true },
+  { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light /> },
+  { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light />, loading: true },
+  { warning: true },
+  { error: true },
+];
+
+export const LinkAsButton: Story = () => {
+  return (
+    <ComponentTable
+      Component={Link}
+      cols={linkUseStates.map((state) => ({ props: state }))}
+      rows={componentPropStates.map((x) => ({ props: x }))}
+      presetProps={{ children: 'Button', component: 'button' }}
+    />
+  );
 };
 
-export const WithLinkFocusOutlineFeatureFlag = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ linkFocusOutline: true }}>
-    <Link>Link</Link>
-  </ReactUIFeatureFlagsContext.Provider>
-);
-
-WithLinkFocusOutlineFeatureFlag.parameters = {
-  creevey: {
-    tests: focusedStyledLinkTest,
-    skip: {
-      'hover does not work': {
-        in: /chrome/,
-      },
-    },
-  },
+export const LinkAsButtonValidation: Story = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Button use="link" warning>
+        Warning
+      </Button>
+      <Link warning>Warning</Link>
+      <Button use="link" error>
+        Error
+      </Button>
+      <Link error>Error</Link>
+    </Gapped>
+  );
 };
+
+export const MultilineLink: Story = () => {
+  return (
+    <div style={{ width: 300 }}>
+      <ComponentTable
+        Component={Link}
+        cols={[{ props: {} }, { props: { error: true } }, { props: { warning: true } }]}
+        rows={[{ props: {} }]}
+        presetProps={{ children: 'Mul tilyi  Multili ne Link Multiline' }}
+      />
+    </div>
+  );
+};
+
+export const SameColorsInDifferentUse: Story = () => {
+  const differentColorStyles = {
+    linkColor: 'blue',
+    linkHoverColor: 'red',
+    linkActiveColor: 'yellow',
+
+    linkGrayedColor: 'blue',
+    linkGrayedHoverColor: 'red',
+    linkGrayedActiveColor: 'yellow',
+  };
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <Gapped vertical>
+            <ThemeContext.Provider value={ThemeFactory.create(differentColorStyles, theme)}>
+              <Gapped vertical>
+                <Link use="default">Я дефолтная ссылка, закастомленная под серую</Link>
+                <Link use="grayed">Я серая ссылка</Link>
+                <span>Они должны быть одинаковых цветов</span>
+              </Gapped>
+            </ThemeContext.Provider>
+          </Gapped>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+SameColorsInDifferentUse.parameters = { creevey: { skip: true } };

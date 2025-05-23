@@ -1,6 +1,5 @@
-import React, { RefAttributes } from 'react';
-import { act } from 'react-dom/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
+import React, { useRef, useState, act } from 'react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -30,7 +29,7 @@ const getFilesList = () => {
 
 const addFiles = async (files: File[]) => {
   await act(async () => {
-    const input = screen.getByTestId(FileUploaderDataTids.root).querySelector('input[type="file"]');
+    const input = screen.getByTestId(FileUploaderDataTids.input);
     if (input !== null) {
       fireEvent.change(input, { target: { files } });
     }
@@ -39,15 +38,54 @@ const addFiles = async (files: File[]) => {
   });
 };
 
-const removeFile = async () => {
+const removeFile = async (filename?: string) => {
   await act(async () => {
-    userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
+    if (filename) {
+      const element = screen
+        .getByText(filename)
+        .closest(`[data-tid="${FileUploaderFileDataTids.file}"]`) as HTMLElement;
+      const removeIcon = within(element).getByTestId(FileUploaderFileDataTids.fileIcon);
+      await userEvent.click(removeIcon);
+    } else {
+      await userEvent.click(screen.getByTestId(FileUploaderFileDataTids.fileIcon));
+    }
   });
 };
 
 const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File;
 
+function createFile(filename: string, content = 'content'): File {
+  return new File([content], filename, { type: 'text/plain' });
+}
+
 describe('FileUploader', () => {
+  const originalDT = global.DataTransfer;
+  const originalFiles = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files');
+
+  beforeAll(() => {
+    //@ts-ignore
+    global.DataTransfer = class DataTransfer {
+      constructor() {
+        //@ts-ignore
+        this.items = new Set();
+        //@ts-ignore
+        this.files = this.items;
+      }
+    };
+  });
+
+  beforeEach(() =>
+    Object.defineProperty(HTMLInputElement.prototype, 'files', {
+      writable: true,
+      value: [],
+    }),
+  );
+
+  afterAll(() => {
+    global.DataTransfer = originalDT;
+    Object.defineProperty(HTMLInputElement.prototype, 'files', originalFiles as DataTransfer['files']);
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       render(<FileUploader />);
@@ -106,8 +144,7 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const renderComp = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) =>
-      render(<FileUploader {...props} />);
+    const renderComp = (props: FileUploaderProps) => render(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {
@@ -126,7 +163,7 @@ describe('FileUploader', () => {
         const onFocus = jest.fn();
         renderComp({ onFocus });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         expect(onFocus).toHaveBeenCalledTimes(1);
@@ -136,7 +173,7 @@ describe('FileUploader', () => {
         const onFocus = jest.fn();
         renderComp({ onFocus, disabled: true });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
 
         expect(input).not.toHaveFocus();
@@ -149,7 +186,7 @@ describe('FileUploader', () => {
         const onBlur = jest.fn();
         renderComp({ onBlur });
 
-        userEvent.tab();
+        await userEvent.tab();
         const input = screen.getByTestId(FileUploaderDataTids.input);
         expect(input).toHaveFocus();
         if (input !== null) {
@@ -304,7 +341,7 @@ describe('FileUploader', () => {
       it('should handle onValueChange after reset', async () => {
         const onValueChange = jest.fn();
         const ref = React.createRef<FileUploaderRef>();
-        renderComp({ onValueChange, ref });
+        render(<FileUploader onValueChange={onValueChange} ref={ref} />);
 
         await addFiles([file]);
 
@@ -464,13 +501,11 @@ describe('FileUploader', () => {
       expect(getBaseButtonContent()).toBe(expectedText);
     };
 
-    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render files for multiple control', async () => {
       render(<FileUploader multiple hideFiles />);
       await expectation();
     });
 
-    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render file for single control', async () => {
       render(<FileUploader hideFiles />);
       await expectation();
@@ -502,6 +537,72 @@ describe('FileUploader', () => {
       const rootNode = ref.current?.getRootNode?.();
       expect(rootNode).toBeInTheDocument();
       expect(rootNode).toBe(screen.getByTestId(FileUploaderDataTids.root));
+    });
+  });
+
+  describe('initialFiles', () => {
+    describe('single mode', () => {
+      it('should remove file', async () => {
+        render(<FileUploader multiple={false} initialFiles={[createFile('test.txt')]} />);
+        expect(screen.getByText('test.txt')).toBeInTheDocument();
+        await removeFile('test.txt');
+        expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+        screen.debug();
+      });
+
+      it('should render one initialFile when many files', () => {
+        render(<FileUploader multiple={false} initialFiles={[createFile('test.txt'), createFile('test2.txt')]} />);
+
+        expect(screen.getByText('test.txt')).toBeInTheDocument();
+        expect(screen.queryByText('test2.txt')).not.toBeInTheDocument();
+      });
+    });
+
+    describe('multiple mode', () => {
+      it('should remove multiple files', async () => {
+        render(<FileUploader multiple initialFiles={[createFile('test.txt'), createFile('test2.txt')]} />);
+
+        expect(screen.getByText('test.txt')).toBeInTheDocument();
+        expect(screen.getByText('test2.txt')).toBeInTheDocument();
+
+        await removeFile('test.txt');
+        expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+        expect(screen.getByText('test2.txt')).toBeInTheDocument();
+
+        await removeFile('test2.txt');
+        expect(screen.queryByText('test.txt')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('with exposed removeFiles', () => {
+    const TestComponent = () => {
+      const fileUploaderRef = useRef<FileUploaderRef>(null);
+      const [fileList, setFileList] = useState<FileUploaderAttachedFile[]>([]);
+      return (
+        <>
+          <FileUploader ref={fileUploaderRef} multiple onValueChange={(files) => setFileList(files)} />
+          {fileList.map((file) => {
+            return (
+              <button key={file.id} onClick={() => fileUploaderRef.current?.removeFile(file.id)}>
+                Delete file
+              </button>
+            );
+          })}
+        </>
+      );
+    };
+    it('should delete right files', async () => {
+      render(<TestComponent />);
+      await addFiles([createFile('foo'), createFile('bar')]);
+
+      userEvent.click(screen.getAllByRole('button')[0]);
+      await act(async () => {
+        await delay(100);
+      });
+
+      expect(screen.getAllByTestId(`${FileUploaderFileDataTids.file}`)).toHaveLength(1);
+      expect(screen.queryByText('foo')).not.toBeInTheDocument();
     });
   });
 });

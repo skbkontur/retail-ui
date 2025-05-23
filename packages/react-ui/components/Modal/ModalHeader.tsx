@@ -12,7 +12,10 @@ import { ModalContext } from './ModalContext';
 import { ModalSeparator } from './ModalSeparator';
 
 export interface ModalHeaderProps extends CommonProps {
+  /** Закрепляет хедер сверху модального окна. */
   sticky?: boolean;
+
+  /** @ignore */
   children?: ReactNode;
 }
 
@@ -21,7 +24,7 @@ export const ModalHeaderDataTids = {
 } as const;
 
 /**
- * Шапка модального окна
+ * Шапка модального окна.
  *
  * @visibleName Modal.Header
  */
@@ -33,7 +36,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const { sticky = !layout.isMobile, children } = props;
 
   useLayoutEffect(() => {
-    modal.setHasHeader?.();
+    modal.setHasHeader?.(true);
 
     return () => modal.setHasHeader?.(false);
   }, []);
@@ -69,6 +72,7 @@ function ModalHeader(props: ModalHeaderProps) {
 }
 
 ModalHeader.__KONTUR_REACT_UI__ = 'ModalHeader';
+ModalHeader.displayName = 'ModalHeader';
 ModalHeader.__MODAL_HEADER__ = true;
 
 export { ModalHeader };

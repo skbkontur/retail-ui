@@ -9,7 +9,7 @@ import { componentsLocales as SidePageLocalesEn } from '../locale/locales/en';
 import { componentsLocales as SidePageLocalesRu } from '../locale/locales/ru';
 
 describe('SidePage', () => {
-  it('onClose event performs an action on click', () => {
+  it('onClose event performs an action on click', async () => {
     const onClose = jest.fn();
     render(
       <SidePage onClose={onClose}>
@@ -21,7 +21,7 @@ describe('SidePage', () => {
 
     expect(onClose).not.toHaveBeenCalled();
 
-    userEvent.click(closeButton);
+    await userEvent.click(closeButton);
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

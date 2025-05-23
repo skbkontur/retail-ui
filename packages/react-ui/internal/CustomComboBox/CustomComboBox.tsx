@@ -1,9 +1,9 @@
-import React, { AriaAttributes } from 'react';
+import React, { AriaAttributes, HTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input, InputIconType } from '../../components/Input';
+import { Input, InputIconType, ShowClearIcon } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
@@ -12,7 +12,6 @@ import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { DropdownContainerProps } from '../DropdownContainer';
 import { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import { SizeProp } from '../../lib/types/props';
 import {
@@ -26,9 +25,11 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
+export * from './tids';
+
 export interface CustomComboBoxProps<T>
-  extends Pick<DropdownContainerProps, 'menuPos'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+    Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
@@ -40,6 +41,10 @@ export interface CustomComboBoxProps<T>
    */
   error?: boolean;
   maxLength?: number;
+  /**
+   * Позволяет вручную задать текущую позицию выпадающего окна
+   */
+  menuPos?: 'top' | 'bottom';
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
@@ -58,6 +63,7 @@ export interface CustomComboBoxProps<T>
   size?: SizeProp;
   totalCount?: number;
   value?: Nullable<T>;
+  showClearIcon?: ShowClearIcon;
   /**
    * Cостояние валидации при предупреждении.
    */
@@ -67,7 +73,7 @@ export interface CustomComboBoxProps<T>
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  itemWrapper?: (item: T) => React.ComponentType<unknown>;
+  itemWrapper?: (item: T) => React.ComponentType;
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
@@ -105,14 +111,11 @@ export const DefaultState = {
   size: 'small',
 };
 
-export const CustomComboBoxDataTids = {
-  comboBoxView: 'ComboBoxView__root',
-} as const;
-
 @responsiveLayout
 @rootNode
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
+  public static displayName = 'CustomComboBox';
 
   public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input | InternalTextareaWithLayout>;
@@ -124,6 +127,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
   private isMobileLayout!: boolean;
   private featureFlags!: ReactUIFeatureFlags;
+  private canOpenPopup = true;
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
@@ -131,9 +135,13 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   /**
    * @public
    */
-  public focus = () => {
+  public focus = (opts?: { withoutOpenDropdown?: boolean }) => {
     if (this.props.disabled) {
       return;
+    }
+
+    if (opts?.withoutOpenDropdown) {
+      this.canOpenPopup = false;
     }
 
     if (this.input) {
@@ -262,18 +270,20 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       error: this.props.error,
       items: this.state.items,
       loading: this.state.loading,
-      menuAlign: this.props.menuAlign,
       opened: this.state.opened,
       drawArrow: this.props.drawArrow,
       menuPos: this.props.menuPos,
+      menuAlign: this.props.menuAlign,
       placeholder: this.props.placeholder,
       size: this.props.size,
       textValue: this.state.textValue,
       totalCount: this.props.totalCount,
       value: this.props.value,
+      showClearIcon: this.props.showClearIcon,
       warning: this.props.warning,
       'aria-describedby': this.props['aria-describedby'],
       'aria-label': this.props['aria-label'],
+      id: this.props.id,
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
@@ -290,6 +300,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
+      onClearCrossClick: () => this.dispatch({ type: 'ClearCrossClick' }),
       onInputKeyDown: (event: React.KeyboardEvent) => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
@@ -407,8 +418,13 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (this.focused) {
       return;
     }
+
     this.focused = true;
-    this.dispatch({ type: 'Focus' });
+    this.dispatch({ type: 'Focus', searchOnFocus: this.canOpenPopup && this.props.searchOnFocus });
+
+    if (!this.canOpenPopup) {
+      this.canOpenPopup = true;
+    }
   };
 
   private handleMobileClose = () => {

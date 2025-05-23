@@ -3,10 +3,16 @@ import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { THEME_2022 } from '../../../lib/theming/themes/Theme2022';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { Button, ButtonDataTids, ButtonType } from '../Button';
 
 describe('Button', () => {
+  it('has id attribute', () => {
+    const buttonId = 'buttonId';
+    const result = render(<Button id={buttonId}>Foo</Button>);
+    expect(result.container.querySelector(`button#${buttonId}`)).toHaveTextContent('Foo');
+  });
+
   it('has correct label', () => {
     render(<Button>Foo</Button>);
     expect(screen.getByRole('button')).toHaveTextContent('Foo');
@@ -19,61 +25,61 @@ describe('Button', () => {
     });
   });
 
-  it('handels click event', async () => {
+  it('handles click event', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onClick.mock.calls).toHaveLength(1);
   });
 
-  it('handels onBlur event', () => {
+  it('handels onBlur event', async () => {
     const onBlur = jest.fn();
     render(<Button onBlur={onBlur} />);
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
     screen.getByRole('button').blur();
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', () => {
+  it('handels onFocus event', async () => {
     const onFocus = jest.fn();
     render(<Button onFocus={onFocus} />);
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', () => {
+  it('handels onKeyDown event', async () => {
     const onKeyDown = jest.fn();
     render(<Button onKeyDown={onKeyDown} />);
 
-    userEvent.type(screen.getByRole('button'), '{enter}');
+    await userEvent.type(screen.getByRole('button'), '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseEnter event', () => {
+  it('handels onMouseEnter event', async () => {
     const onMouseEnter = jest.fn();
     render(<Button onMouseEnter={onMouseEnter} />);
 
-    userEvent.type(screen.getByRole('button'), '{mouseenter}');
+    await userEvent.type(screen.getByRole('button'), '{mouseenter}');
 
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseOver event', () => {
+  it('handels onMouseOver event', async () => {
     const onMouseOver = jest.fn();
     render(<Button onMouseOver={onMouseOver} />);
 
-    userEvent.type(screen.getByRole('button'), '{mouseover}');
+    await userEvent.type(screen.getByRole('button'), '{mouseover}');
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', () => {
+  it('handles onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
     render(<Button onMouseLeave={onMouseLeave} />);
 
@@ -87,15 +93,15 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveFocus();
   });
 
-  it('unable to focus disabled element', () => {
+  it('unable to focus disabled element', async () => {
     render(<Button disabled />);
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
 
-  it('unable to focus loading element', () => {
+  it('unable to focus loading element', async () => {
     render(<Button loading />);
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
 
@@ -160,7 +166,7 @@ describe('Button', () => {
     expect(screen.getByRole(role)).toBeInTheDocument();
   });
 
-  it('switches `aria-checked` from `false` to `true`', () => {
+  it('switches `aria-checked` from `false` to `true`', async () => {
     const Component = () => {
       const [isChecked, setIsChecked] = useState(false);
       return <Button role="switch" onClick={() => setIsChecked(true)} aria-checked={isChecked} />;
@@ -170,22 +176,22 @@ describe('Button', () => {
 
     const button = screen.getByRole('switch');
     expect(button).not.toBeChecked();
-    userEvent.click(button);
+    await userEvent.click(button);
     expect(button).toBeChecked();
   });
 
-  it('event `onClickCapture` works correctly', () => {
+  it('event `onClickCapture` works correctly', async () => {
     const onClickCapture = jest.fn();
     render(<Button onClickCapture={onClickCapture} />);
 
     expect(onClickCapture).not.toHaveBeenCalled();
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onClickCapture).toHaveBeenCalledTimes(1);
   });
 
-  it('events `onMouseDown` and `onMouseUp` work correctly', () => {
+  it('events `onMouseDown` and `onMouseUp` work correctly', async () => {
     const onMouseDown = jest.fn();
     const onMouseUp = jest.fn();
     render(<Button onMouseDown={onMouseDown} onMouseUp={onMouseUp} />);
@@ -193,7 +199,7 @@ describe('Button', () => {
     expect(onMouseDown).not.toHaveBeenCalled();
     expect(onMouseUp).not.toHaveBeenCalled();
 
-    userEvent.click(screen.getByRole('button'));
+    await userEvent.click(screen.getByRole('button'));
 
     expect(onMouseDown).toHaveBeenCalledTimes(1);
     expect(onMouseUp).toHaveBeenCalledTimes(1);
@@ -201,7 +207,7 @@ describe('Button', () => {
 
   it('has data-tid `Button__spinner` when component in loading state (THEME_2022)', () => {
     render(
-      <ThemeContext.Provider value={THEME_2022}>
+      <ThemeContext.Provider value={LIGHT_THEME}>
         <Button loading />
       </ThemeContext.Provider>,
     );
@@ -209,12 +215,29 @@ describe('Button', () => {
     expect(screen.getByTestId(ButtonDataTids.spinner)).toBeInTheDocument();
   });
 
+  it(`className prop shouldn't override value on root`, () => {
+    const props = { className: '' };
+    render(<Button {...props}>Button</Button>);
+
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveClass('', { exact: true });
+  });
+
+  it(`data-tid prop shouldn't override value on root`, () => {
+    const props = { 'data-tid': 'foo' };
+
+    render(<Button {...props}>Button</Button>);
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAttribute('data-tid', ButtonDataTids.rootElement);
+  });
+
   describe('with use=link prop', () => {
     const handleSubmit = jest.fn();
     const handleReset = jest.fn();
     const TestForm = ({ submit }: { submit?: boolean }) => {
       return (
-        <ThemeContext.Provider value={THEME_2022}>
+        <ThemeContext.Provider value={LIGHT_THEME}>
           <form onSubmit={handleSubmit} onReset={handleReset}>
             <Button type={submit ? 'submit' : 'reset'} use={'link'} size={'medium'}>
               {submit ? 'Submit' : 'Reset'}
@@ -223,16 +246,56 @@ describe('Button', () => {
         </ThemeContext.Provider>
       );
     };
-    it('type=submit submits form on click (THEME_2022)', () => {
+    it('type=submit submits form on click (THEME_2022)', async () => {
       render(<TestForm submit />);
-      userEvent.click(screen.getByText('Submit'));
+      await userEvent.click(screen.getByText('Submit'));
       expect(handleSubmit).toHaveBeenCalled();
     });
 
-    it('type=reset resets form on click (THEME_2022)', () => {
+    it('type=reset resets form on click (THEME_2022)', async () => {
       render(<TestForm />);
-      userEvent.click(screen.getByText('Reset'));
+      await userEvent.click(screen.getByText('Reset'));
       expect(handleReset).toHaveBeenCalled();
+    });
+  });
+
+  describe('with component=a prop', () => {
+    it('should render <a> tag', () => {
+      render(
+        <Button component="a" href="/">
+          Button as Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toBeInTheDocument();
+    });
+
+    it('should render <button> tag when omitted', () => {
+      render(<Button>Button</Button>);
+
+      expect(screen.getByRole('button')).toBeInTheDocument();
+    });
+
+    it.each([{ disabled: true }, { loading: true }])(`shouldn't be focusable when %p`, (prop) => {
+      render(
+        <Button href="/" component="a" {...prop}>
+          Button Link
+        </Button>,
+      );
+
+      userEvent.tab();
+      expect(screen.getByRole('link')).not.toHaveFocus();
+    });
+
+    it(`should have correct tabIndex`, () => {
+      render(
+        // eslint-disable-next-line jsx-a11y/tabindex-no-positive
+        <Button component="a" href="/" tabIndex={1}>
+          Button Link
+        </Button>,
+      );
+
+      expect(screen.getByRole('link')).toHaveAttribute('tabindex', '1');
     });
   });
 });

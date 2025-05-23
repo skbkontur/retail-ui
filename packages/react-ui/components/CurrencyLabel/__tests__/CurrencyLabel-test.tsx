@@ -5,6 +5,12 @@ import { CurrencyLabel, CurrencyLabelDataTids } from '../CurrencyLabel';
 import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants';
 
 describe('CurrencyLabel', () => {
+  it('has id attribute', () => {
+    const labelId = 'labelId';
+    const result = render(<CurrencyLabel id={labelId} value={12345} />);
+    expect(result.container.querySelector(`#${labelId}`)).not.toBeNull();
+  });
+
   it('should correctly format value', () => {
     render(<CurrencyLabel value={12345} fractionDigits={0} />);
 
@@ -37,7 +43,6 @@ describe('CurrencyLabel', () => {
   });
 
   describe('Warnings', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     afterEach(() => {

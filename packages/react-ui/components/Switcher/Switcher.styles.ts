@@ -61,7 +61,28 @@ export const styles = memoizeStyle({
     const outsideWidth = `${parseInt(t.switcherOutlineWidth) - insideWidth}px`;
     return css`
       border-radius: ${t.switcherBorderRadius};
-      box-shadow: inset 0 0 0 ${insideWidth}px ${t.borderColorError}, 0 0 0 ${outsideWidth} ${t.borderColorError};
+      box-shadow:
+        inset 0 0 0 ${insideWidth}px ${t.borderColorError},
+        0 0 0 ${outsideWidth} ${t.borderColorError};
+    `;
+  },
+
+  error5_1(t: Theme) {
+    return css`
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
+        left: 1px;
+        z-index: 1;
+        border-radius: ${t.switcherBorderRadius};
+        box-shadow: 0 0 0 ${t.switcherOutlineWidth} ${t.borderColorError};
+      }
     `;
   },
 });

@@ -1,5 +1,4 @@
 // TODO: Enable this rule in functional components.
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
 import React, { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
 import warning from 'warning';
@@ -14,11 +13,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { isFunction } from '../../lib/utils';
 import { SizeProp } from '../../lib/types/props';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
+import { catchUnreachableWarning } from '../../lib/typeGuards';
 
 import { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -27,12 +27,9 @@ import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
-/**
- * @deprecated use SizeProp
- */
-export type InputSize = SizeProp;
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = typeof inputTypes[number];
+export type ShowClearIcon = 'auto' | 'always' | 'never';
+export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
@@ -51,6 +48,28 @@ export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = ma
     .map((i) => `"${i}"`)
     .join(', ')}.`;
 };
+export const calculateClearCrossShowedState = ({
+  showClearIcon,
+  notEmptyValue,
+  focused,
+  hovered,
+}: {
+  showClearIcon: ShowClearIcon;
+  notEmptyValue: boolean;
+  focused?: boolean;
+  hovered?: boolean;
+}): boolean => {
+  switch (showClearIcon) {
+    case 'always':
+      return notEmptyValue;
+    case 'auto':
+      return Boolean((focused || hovered) && notEmptyValue);
+    case 'never':
+      return false;
+    default:
+      return catchUnreachableWarning(showClearIcon, false);
+  }
+};
 
 export interface InputProps
   extends CommonProps,
@@ -59,102 +78,102 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /**
-         * Иконка слева
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
+        /** Показывать иконку очистки значения в непустом поле:
+         * - `always` — всегда показывать иконку
+         * - `auto` — показывать иконку при hover/focus
+         * - `never` — не показывать иконку
+         * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
+         * @default never */
+        showClearIcon?: ShowClearIcon;
+
+        /** Задает иконку слева.
+         * При использовании `ReactNode` применяются дефолтные стили для иконки.
+         * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         leftIcon?: InputIconType;
-        /**
-         * Иконка справа
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
+
+        /** Добавляет иконку справа.
+         * При использовании `ReactNode` применяются дефолтные стили для иконки.
+         * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         rightIcon?: InputIconType;
-        /**
-         * Состояние валидации при ошибке.
-         */
+
+        /** Переводит контрол в состояние валидации "ошибка". */
         error?: boolean;
-        /**
-         * Состояние валидации при предупреждении.
-         */
+
+        /** Переводит контрол в состояние валидации "предупреждение". */
         warning?: boolean;
-        /** Режим прозрачной рамки */
+
+        /** Убирает обводку. */
         borderless?: boolean;
-        /** Выравнивание текста */
+
+        /** Задает выравнивание контента. */
         align?: InputAlign;
-        /**
-         * Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+
+        /** Задает паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         mask?: Nullable<string>;
-        /**
-         * Символ маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+
+        /** Устанавливает символ маски.
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         maskChar?: Nullable<string>;
-        /**
-         * Словарь символов-регулярок для задания маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-         */
+
+        /** Задает словарь символов-регулярок для задания маски
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput.
+         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }. */
         formatChars?: Record<string, string>;
-        /**
-         * Показывать символы маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput
-         */
+
+        /** Включает показ символов маски.
+         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         alwaysShowMask?: boolean;
-        /** Размер */
+
+        /** Задает размер. */
         size?: SizeProp;
-        /** onValueChange */
+
+        /** Задает функцию, которая вызывается при изменении значения в инпуте. */
         onValueChange?: (value: string) => void;
-        /** Вызывается на label */
+
+        /** @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+
+        /** @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+
+        /** @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Тип. Возможные значения: 'password' | 'text' | 'number' | 'tel' | 'search' | 'time' | 'date' | 'url' | 'email'
-         * */
+
+        /** Задает тип инпута. */
         type?: InputType;
-        /** Значение */
+
+        /** Задает значение. */
         value?: string;
+
+        ///** */
         capture?: boolean;
 
-        /**
-         * Префикс
-         * `ReactNode` перед значением, но после иконки
-         */
+        /** Устанавливает префикс `ReactNode` перед значением, но после иконки. */
         prefix?: React.ReactNode;
-        /**
-         * Суффикс
-         * `ReactNode` после значения, но перед правой иконкой
-         */
+
+        /** Устанавливает суффикс `ReactNode` после значения, но перед правой иконкой. */
         suffix?: React.ReactNode;
-        /** Выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
+
+        /** Определяет, нужно ли выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
         selectAllOnFocus?: boolean;
-        /**
-         * Обработчик неправильного ввода.
-         * По-умолчанию, инпут вспыхивает акцентным цветом.
-         * Если передан - вызывается переданный обработчик,
-         * в таком случае вспыхивание можно вызвать
-         * публичным методом инстанса `blink()`.
-         *
-         * @param value значение инпута.
-         */
+
+        /** Задает функцию для обработки ввода.
+         * При неправильном вводе инпут по-умолчанию вспыхивает акцентным цветом.
+         * Если `onUnexpectedInput` передан - вызывается переданный обработчик b вспыхивание можно вызвать публичным методом инстанса `blink()`.
+         * @param {string} value - значение инпута. */
         onUnexpectedInput?: (value: string) => void;
-        /** @ignore */
+
+        /** Устанавливает радиус скруглений углов.
+         * @ignore */
         corners?: Partial<
           Pick<
             React.CSSProperties,
             'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
           >
         >;
-        /**
-         * Элемент заменяет нативный input.
-         * Должен иметь пропы `InputElementProps` и тип `InputElement`
-         * */
+
+        /** Устанавливает элемент, заменяющий нативный input. Должен иметь пропы `InputElementProps` и тип `InputElement`. */
         element?: ReactElement<InputElementProps>;
       }
     > {}
@@ -162,41 +181,80 @@ export interface InputProps
 export interface InputState {
   blinking: boolean;
   focused: boolean;
+  hovered: boolean;
   needsPolyfillPlaceholder: boolean;
+  clearCrossShowed: boolean;
 }
 
 export const InputDataTids = {
   root: 'Input__root',
+  clearCross: 'Input__clearCross',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size' | 'type'>>;
+type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>>;
 
 /**
+ * Поле ввода `Input` дает возможность указать значение с помощью клавиатуры.
+ *
+ * Используйте поле ввода для коротких текстовых или цифровых значений без предсказуемого формата.
+ *
+ *  Если вводимое значение имеет определенный формат, используйте специальную версию поля:
+ * * Поле с паролем PasswordInput.
+ * * Поле с валютой CurrencyInput.
+ * * Поле с маской MaskedInput.
+ * * Автополе FxInput.
+ *
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
- *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
+  public static displayName = 'Input';
 
   public static defaultProps: DefaultProps = {
     size: 'small',
     type: 'text',
+    showClearIcon: 'never',
   };
 
   private getProps = createPropsGetter(Input.defaultProps);
+
+  private selectAllId: number | null = null;
+  private theme!: Theme;
+  private blinkTimeout: SafeTimer;
+  public input: HTMLInputElement | null = null;
+  private setRootNode!: TSetRootNode;
+
+  private getClearCrossShowed = ({
+    focused,
+    hovered,
+    hasInitialValue,
+  }: {
+    focused?: boolean;
+    hovered?: boolean;
+    hasInitialValue?: boolean;
+  }): boolean => {
+    if (this.props.disabled) {
+      return false;
+    }
+    return calculateClearCrossShowedState({
+      showClearIcon: this.getProps().showClearIcon,
+      notEmptyValue: Boolean(this.input?.value || hasInitialValue),
+      focused,
+      hovered,
+    });
+  };
 
   public state: InputState = {
     needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
+    hovered: false,
+    clearCrossShowed: this.getClearCrossShowed({
+      focused: false,
+      hasInitialValue: Boolean(this.props.value || this.props.defaultValue),
+    }),
   };
-
-  private selectAllId: number | null = null;
-  private theme!: Theme;
-  private blinkTimeout: SafeTimer;
-  private input: HTMLInputElement | null = null;
-  private setRootNode!: TSetRootNode;
 
   private outputMaskError() {
     warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(this.getProps().type));
@@ -302,7 +360,7 @@ export class Input extends React.Component<InputProps, InputState> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -320,14 +378,17 @@ export class Input extends React.Component<InputProps, InputState> {
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    */
-  public selectAll = (): void => {
+  public selectAll = (): void => this._selectAll();
+
+  public delaySelectAll = (): number | null => {
+    return (this.selectAllId = globalObject.requestAnimationFrame?.(this._selectAll) ?? null);
+  };
+
+  private _selectAll = (): void => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
     }
   };
-
-  private delaySelectAll = (): number | null =>
-    (this.selectAllId = globalObject.requestAnimationFrame?.(this.selectAll) ?? null);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
@@ -394,6 +455,7 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-controls': ariaControls,
       'aria-label': ariaLabel,
       element,
+      showClearIcon,
       ...rest
     } = props;
 
@@ -414,8 +476,8 @@ export class Input extends React.Component<InputProps, InputState> {
       }),
       'aria-controls': ariaControls,
       style: { width, ...corners },
-      onMouseEnter,
-      onMouseLeave,
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
       onMouseOver,
     };
 
@@ -441,48 +503,39 @@ export class Input extends React.Component<InputProps, InputState> {
       'aria-label': ariaLabel,
     };
 
-    const input = this.getInput(inputProps);
+    const input = (
+      <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>{this.getInput(inputProps)}</FocusControlWrapper>
+    );
 
-    if (isTheme2022(this.theme)) {
-      return (
-        <InputLayout
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
-          prefix={prefix}
-          suffix={suffix}
-          labelProps={labelProps}
-          context={{ disabled: Boolean(disabled), focused, size }}
-        >
-          {input}
-          {this.state.needsPolyfillPlaceholder && (
-            <PolyfillPlaceholder
-              isMaskVisible={this.isMaskVisible}
-              value={value}
-              defaultValue={this.props.defaultValue}
-              align={align}
-            >
-              {placeholder}
-            </PolyfillPlaceholder>
-          )}
-        </InputLayout>
+    const getRightIcon = () => {
+      return this.state.clearCrossShowed ? (
+        <ClearCrossIcon data-tid={InputDataTids.clearCross} size={size} onClick={this.handleClearInput} />
+      ) : (
+        rightIcon
       );
-    }
+    };
 
     return (
-      <label data-tid={InputDataTids.root} {...labelProps}>
-        <span className={styles.sideContainer()}>
-          {this.renderLeftIcon()}
-          {this.renderPrefix()}
-        </span>
-        <span className={styles.wrapper()}>
-          {input}
-          {this.renderPlaceholder()}
-        </span>
-        <span className={cx(styles.sideContainer(), styles.rightContainer())}>
-          {this.renderSuffix()}
-          {this.renderRightIcon()}
-        </span>
-      </label>
+      <InputLayout
+        leftIcon={leftIcon}
+        rightIcon={getRightIcon()}
+        prefix={prefix}
+        suffix={suffix}
+        labelProps={labelProps}
+        context={{ disabled: Boolean(disabled), focused, size }}
+      >
+        {input}
+        {this.state.needsPolyfillPlaceholder && (
+          <PolyfillPlaceholder
+            isMaskVisible={this.isMaskVisible}
+            value={value}
+            defaultValue={this.props.defaultValue}
+            align={align}
+          >
+            {placeholder}
+          </PolyfillPlaceholder>
+        )}
+      </InputLayout>
     );
   };
 
@@ -499,73 +552,6 @@ export class Input extends React.Component<InputProps, InputState> {
         onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
-  }
-
-  private getIconSizeClassname(right = false) {
-    switch (this.getProps().size) {
-      case 'large':
-        return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
-      case 'medium':
-        return right ? styles.rightIconMedium(this.theme) : styles.leftIconMedium(this.theme);
-      case 'small':
-      default:
-        return right ? styles.rightIconSmall(this.theme) : styles.leftIconSmall(this.theme);
-    }
-  }
-
-  private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname());
-  }
-
-  private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(true));
-  }
-
-  private renderIcon(icon: InputIconType, sizeClassName: string) {
-    if (!icon) {
-      return null;
-    }
-    const { disabled } = this.props;
-    const iconNode = isFunction(icon) ? icon() : icon;
-
-    return (
-      <span
-        className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
-          [styles.iconFocus(this.theme)]: this.state.focused,
-          [styles.iconDisabled()]: disabled,
-        })}
-      >
-        {iconNode}
-      </span>
-    );
-  }
-
-  private renderPlaceholder() {
-    const { disabled } = this.props;
-    const { focused } = this.state;
-    let placeholder = null;
-
-    if (
-      this.state.needsPolyfillPlaceholder &&
-      this.props.placeholder &&
-      !this.isMaskVisible &&
-      !this.props.value &&
-      !this.props.defaultValue
-    ) {
-      placeholder = (
-        <div
-          className={cx(styles.placeholder(this.theme), {
-            [styles.placeholderDisabled(this.theme)]: disabled,
-            [styles.placeholderFocus(this.theme)]: focused,
-          })}
-          style={{ textAlign: this.props.align || 'inherit' }}
-        >
-          {this.props.placeholder}
-        </div>
-      );
-    }
-
-    return placeholder;
   }
 
   private getSizeClassName() {
@@ -597,6 +583,18 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
+  private handleClearInput = () => {
+    if (this.input) {
+      this.input.value = '';
+    }
+
+    this.setState({ clearCrossShowed: false });
+
+    if (this.props.onValueChange) {
+      this.props.onValueChange('');
+    }
+  };
+
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
@@ -612,11 +610,35 @@ export class Input extends React.Component<InputProps, InputState> {
     if (this.props.onChange) {
       this.props.onChange(event);
     }
+
+    this.setState({
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: this.state.hovered }),
+    });
+  };
+
+  private handleMouseEnter = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+    this.setState({
+      hovered: true,
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: true }),
+    });
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(e);
+    }
+  };
+  private handleMouseLeave = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+    this.setState({
+      hovered: false,
+      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: false }),
+    });
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(e);
+    }
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
+      clearCrossShowed: this.getClearCrossShowed({ focused: true, hovered: this.state.hovered }),
     });
 
     if (this.props.selectAllOnFocus) {
@@ -664,35 +686,19 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
+  private resetFocus = () => this.setState({ focused: false });
+
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    this.setState({ focused: false });
-
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
+    const showClearIcon = this.props.showClearIcon;
+    if (showClearIcon && getRootNode(this)?.contains(event.relatedTarget)) {
+      this.setState({ focused: false });
+    } else {
+      const clearCrossShowed = this.getClearCrossShowed({ focused: false, hovered: this.state.hovered });
+      this.setState({
+        focused: false,
+        clearCrossShowed,
+      });
+      this.props.onBlur?.(event);
     }
-  };
-
-  private renderPrefix = () => {
-    const { prefix, disabled } = this.props;
-
-    if (!prefix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>{prefix}</span>
-    );
-  };
-
-  private renderSuffix = () => {
-    const { suffix, disabled } = this.props;
-
-    if (!suffix) {
-      return null;
-    }
-
-    return (
-      <span className={cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>{suffix}</span>
-    );
   };
 }

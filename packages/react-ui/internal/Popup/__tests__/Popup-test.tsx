@@ -15,7 +15,7 @@ import { CommonWrapper } from '../../CommonWrapper';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
@@ -254,7 +254,7 @@ describe('rootNode', () => {
     testRootNode(TestPopup, popupRef, PopupDataTids.root);
   });
   describe('on mobile', () => {
-    const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+    const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
     const oldMatchMedia = window.matchMedia;
     const matchMediaMock = jest.fn().mockImplementation((query) => {
       return {

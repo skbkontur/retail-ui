@@ -17,40 +17,25 @@ export interface TooltipMenuProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'preventIconsOffset'> {
+  /** @ignore */
   children?: TooltipMenuChildType | TooltipMenuChildType[];
-  /** Максимальная высота меню */
+  /** Задает максимальную высоту меню. */
   menuMaxHeight?: number | string;
-  /** Ширина меню */
+  /** Задает ширину меню. */
   menuWidth?: number | string;
-  /**
-   * Элемент или функция возвращающая элемент,
-   * если передана, используется вместо `caption`,
-   * в таком случае управлять открытием и закрытием меню
-   * придется в этой функции
-   */
+  /** Задает элемент или функцию возвращающую элемент, которые используется вместо `caption`.
+   * В случае функции, внутри нее необходимо управлять открытием и закрытием меню. */
   caption: PopupMenuProps['caption'];
-  /**
-   * Произвольный элемент, который будет отрендерен в шапке меню.
-   *
-   * _Примечание_: контрол [MenuHeader](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`.
-   */
+  /** Задает элемент, который будет отрендерен в шапке меню.
+   * _Примечание_: контрол [MenuHeader](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`. */
   header?: React.ReactNode;
-  /**
-   * Произвольный элемент, который будет отрендерен в подвале меню.
-   *
-   * Перед элементом переданным в `footer` будет отрендерен [MenuSeparator](#/Components/MenuSeparator).
-   */
+  /** Задает элемент, который будет отрендерен в подвале меню.
+   * Перед элементом переданным в `footer` будет отрендерен [MenuSeparator](#/Components/MenuSeparator). */
   footer?: React.ReactNode;
-  /**  Список позиций доступных для расположения выпадашки относительно `caption`.
-   *
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
-   *
-   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
-   */
+  /** Определяет список позиций, доступных для расположения выпадашки относительно caption.
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка. */
   positions?: PopupPositionsType[];
-  /**
-   * Не показывать анимацию
-   */
+  /** Отключает анимацию. */
   disableAnimations?: boolean;
 }
 
@@ -61,7 +46,7 @@ export const TooltipMenuDataTids = {
 type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
 
 /**
- * Меню, раскрывающееся по клику на переданный в `caption` элемент.
+ * Меню `TooltipMenu` раскрывается по клику на переданный в `caption` элемент.
  *
  * Положение меню задаётся с помощью массива `positions` и работает так:
  * первое значение в массиве - дефолтная позиция, меню раскроется на этой позиции, если оно не будет выходить за пределы `viewport`,
@@ -74,6 +59,8 @@ type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
 @rootNode
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
+  public static displayName = 'TooltipMenu';
+
   private setRootNode!: TSetRootNode;
 
   public static defaultProps: DefaultProps = {
@@ -98,10 +85,10 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: theme.tooltipMenuPinOffset,
+                  popupPinOffsetX: theme.tooltipMenuPinOffsetX,
+                  popupPinOffsetY: theme.tooltipMenuPinOffsetY,
                   popupMargin: theme.tooltipMenuMargin,
                   popupPinSize: theme.tooltipMenuPinSize,
-                  menuScrollContainerContentWrapperPaddingY: theme.menuLegacyPaddingY,
                 },
                 theme,
               )}

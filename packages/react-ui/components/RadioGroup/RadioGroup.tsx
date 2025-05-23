@@ -6,83 +6,72 @@ import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
-  /**
-   * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
-   * или значений из параметра `items`
-   */
+  /** Задает значение по умолчанию. Должно быть одним из значений дочерних радиокнопок или значений из параметра `items`. */
   defaultValue?: T;
-  /**
-   * Значение радиогруппы. Должно быть одним из значений радиокнопок.
-   * Если не указано, то компонент будет работать, как неконтролируемый
-   */
+
+  /** Задает значение радиогруппы. Должно быть одним из значений радиокнопок.
+   * Если не указано, то компонент будет работать, как неконтролируемый. */
   value?: T;
-  /**
-   * Может быть использовано, если не передан параметр `children`
-   *
-   * Массив параметров радиокнопок. Может быть типа `Array<Value>` или
-   * `Array<[Value, Data]>`, где тип `Value` — значение радиокнопки, а `Data`
-   * — значение которое будет использовано вторым параметром в `renderItem`.
-   * Если тип `items: Array<Value>`, то он будет приведен к типу
-   * `Array<[Value, Value]>`
-   */
+
+  /** Задает массив параметров радиокнопок. Может быть типа `Array<Value>` или `Array<[Value, Data]>`,
+   * где тип `Value` — значение радиокнопки, а `Data` — значение которое будет использовано вторым параметром в `renderItem`.
+   * Тип `Array<Value>` будет приведен к типу `Array<[Value, Value]>`.
+   * Может быть использовано, если не передан параметр `children`. */
   items?: T[] | Array<[T, React.ReactNode]>;
-  /**
-   * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
-   * случайное имя
-   */
+
+  /** Устанавливает аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется случайное имя. */
   name?: string;
 
-  /**
-   * Метод получения уникального ключа по элементу
-   * @param item
-   */
+  /** Получает уникальный ключ по элементу
+   * @param item - элемент, по которуму нужно получить ключ. */
   toKey?: (item: T) => string | number;
-  /**
-   * Дизейблит все радиокнопки
-   */
+
+  /** Делает все радиокнопки недоступными. */
   disabled?: boolean;
-  /**
-   * Переводит все радиокнопки в состояние валидации: предупреждение.
-   */
+
+  /** Переводит все радиокнопки в состояние валидации "предупреждение". */
   warning?: boolean;
-  /**
-   * Переводит все радиокнопки в состояние валидации: ошибка.
-   */
+
+  /** Переводит все радиокнопки в состояние валидации "ошибка". */
   error?: boolean;
-  /**
-   * Выравнивает элементы в строку. Не работает с `children`
-   */
+
+  /** Выравнивает элементы items в строку. Не работает с children. */
   inline?: boolean;
-  /**
-   * Ширина радиогруппы. Не работает с `children`
-   */
+
+  /** Задает ширину радиогруппы. Не работает с `children`. */
   width?: React.CSSProperties['width'];
-  /**
-   * Метод отрисовки контента радиокнопки. Не работает с `children`.
-   *
-   * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
-   */
+
+  /** Задает функцию, которая отображает контент радиокнопки. Не работает с `children`.
+   * @param {Value} itemValue - значение радиокнопки.
+   * @param {Data} data - значение для отрисовки радиокнопки. */
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
-  /**
-   * Атрибут для указания id элемента(-ов), описывающих его
-   */
+
+  /** @ignore */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
-  /** Вызывается при изменении `value` */
+
+  /** Задает функцию, которая вызывается при изменении значения радиогруппы (value). */
   onValueChange?: (value: T) => void;
+
+  /** Задает функцию, которая вызывается при потере радиогруппой фокуса. */
   onBlur?: (event: FocusEvent) => void;
+
+  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: () => any;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
   onMouseOver?: () => any;
+
+  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). См разницу с onMouseOver в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: () => any;
 }
 
@@ -97,25 +86,23 @@ export const RadioGroupDataTids = {
 type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
 
 /**
+ * Группа радиокнопок `RadioGroup` используется для выбора одного значения из нескольких, когда вариантов выбора немного — 2–5.
  *
- * `children` может содержать любую разметку с компонентами Radio,
- * если не передан параметр `items`.
- * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
- * как и параметр `value` самой радиогруппы.
+ * `children` может содержать любую разметку с компонентами Radio, если не передан параметр `items`.
+ * Каждому компоненту Radio нужно указать параметр `value`, такого же типа, как и параметр `value` самой радиогруппы.
  *
- * Значения активного элемента сравниваются по строгому равенству `===`
+ * Значения активного элемента сравниваются по строгому равенству `===`.
  */
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
+  public static displayName = 'RadioGroup';
 
   public static defaultProps: DefaultProps = {
     renderItem,
   };
 
   public static Prevent = Prevent;
-
-  private theme!: Theme;
 
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
@@ -142,18 +129,15 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
-    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur, 'aria-describedby': ariaDescribedby } = this.props;
+    const {
+      width,
+      onMouseLeave,
+      onMouseOver,
+      onMouseEnter,
+      onBlur,
+      'aria-describedby': ariaDescribedby,
+      disabled,
+    } = this.props;
     const style = {
       width: width ?? 'auto',
     };
@@ -164,7 +148,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
         <FocusTrap onBlur={onBlur}>
           <span
             data-tid={RadioGroupDataTids.root}
@@ -230,7 +214,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     const itemProps = {
       key: this.getKeyByItem(itemValue),
       className: cx({
-        [styles.item(this.theme)]: true,
+        [styles.item()]: true,
         [styles.itemFirst()]: index === 0,
         [styles.itemInline()]: !!this.props.inline,
       }),
@@ -275,7 +259,7 @@ function mapItems<T>(
 
 function normalizeEntry<T>(entry: T | [T, React.ReactNode]): [T, React.ReactNode] {
   if (!Array.isArray(entry)) {
-    return [entry, entry];
+    return [entry, entry as unknown as React.ReactNode];
   }
   return entry;
 }

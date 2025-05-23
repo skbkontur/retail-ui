@@ -3,6 +3,178 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.6...react-ui-validations@2.1.0) (2025-04-11)
+
+
+### Bug Fixes
+
+* **DatePicker:** don't call extra onFocus in public focus() method ([d44b0cf](https://github.com/skbkontur/retail-ui/commit/d44b0cf7daf9b960758032804d05342d1c6fdced))
+* docs webpack.config ([c01b15b](https://github.com/skbkontur/retail-ui/commit/c01b15b13e9a72b68dd5da0fa05fbf7edb4dca21))
+* **Modal,SidePage:** update cross clickarea and focus outline ([063d3a5](https://github.com/skbkontur/retail-ui/commit/063d3a52424057244d129eec0e18fb4436e05dd5))
+
+
+### Features
+
+* add new DateRangePicker component ([cb49382](https://github.com/skbkontur/retail-ui/commit/cb49382162aa008288ecdcf1c016253fa88f93b7))
+* **Validation:** add flag to not open dropdown via submit ([74b38ba](https://github.com/skbkontur/retail-ui/commit/74b38ba420d8ac062d4978d4d7523a49bd3cba18))
+
+
+
+
+
+## [2.0.6](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.5...react-ui-validations@2.0.6) (2025-03-03)
+
+
+### Bug Fixes
+
+* **validations:** updating `level` in `validationInfo` ([#3595](https://github.com/skbkontur/retail-ui/issues/3595)) ([05b20f1](https://github.com/skbkontur/retail-ui/commit/05b20f1141b18903bfac89e8b4f57d574b10e98d))
+
+
+
+
+
+## [2.0.5](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.4...react-ui-validations@2.0.5) (2025-01-24)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [2.0.4](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.3...react-ui-validations@2.0.4) (2025-01-17)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [2.0.3](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.2...react-ui-validations@2.0.3) (2024-12-23)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [2.0.2](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.1...react-ui-validations@2.0.2) (2024-11-22)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [2.0.1](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.0.0...react-ui-validations@2.0.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* **docs:** change router type ([#3536](https://github.com/skbkontur/retail-ui/issues/3536)) ([ba8035f](https://github.com/skbkontur/retail-ui/commit/ba8035f9edccf42ec3788c4c920ab32d26e509bf))
+
+
+
+
+
+# [2.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@1.16.3...react-ui-validations@2.0.0) (2024-10-21)
+
+
+### Bug Fixes
+
+* **Theming:** use right colors for error outline and disabled text ([#3493](https://github.com/skbkontur/retail-ui/issues/3493)) ([7a98ee1](https://github.com/skbkontur/retail-ui/commit/7a98ee1815176303582f543e3551a57e65752055))
+* **ValidationWrapper:** add div wrapper, fix w3c issue, tooltip and text position ([#3463](https://github.com/skbkontur/retail-ui/issues/3463)) ([e83e842](https://github.com/skbkontur/retail-ui/commit/e83e842891ce81a5a2c13334d5de4cdb30d03bb8))
+
+
+### Features
+
+* **MaskedInput:** (rev. 2) ([#3390](https://github.com/skbkontur/retail-ui/issues/3390)) ([b2fb84f](https://github.com/skbkontur/retail-ui/commit/b2fb84f662fbb28c03ff38544d4f367a7446a778))
+* **Popup:** replace DropdownContainer, unify shadows  ([#3451](https://github.com/skbkontur/retail-ui/issues/3451)) ([723ec43](https://github.com/skbkontur/retail-ui/commit/723ec43470bec9f0dd89b5f899ffffb90004a538))
+* remove feature flags ([#3434](https://github.com/skbkontur/retail-ui/issues/3434)) ([26676a3](https://github.com/skbkontur/retail-ui/commit/26676a307c055110410f786941d9ace1f07dafe4))
+* update dependencies ([#3400](https://github.com/skbkontur/retail-ui/issues/3400)) ([d54f08d](https://github.com/skbkontur/retail-ui/commit/d54f08db9b10e2b10cb2d40c695a79f4e93271f5))
+
+
+
+
+
+## [1.16.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.16.2...react-ui-validations@1.16.3) (2024-08-20)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.16.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.16.1...react-ui-validations@1.16.2) (2024-07-09)
+
+
+### Bug Fixes
+
+* **validations:** program validation on multiple fields ([#3454](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3454)) ([8317e0b](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/8317e0baac36346a15cfff7477f4b482430a007d))
+
+
+
+
+
+## [1.16.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.16.0...react-ui-validations@1.16.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **validations:** fix NonNullable type ([#3460](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3460)) ([666cc42](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/666cc4276309eef304f66d945d33d1423f231967))
+
+
+
+
+
+# [1.16.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.15.1...react-ui-validations@1.16.0) (2024-06-17)
+
+
+### Features
+
+* **validations:** use `ThemeContext` ([#3446](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3446)) ([74fd90b](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/74fd90b337968eed217a478bf913e6ce2f7fe962))
+
+
+
+
+
+## [1.15.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.15.0...react-ui-validations@1.15.1) (2024-05-22)
+
+
+### Bug Fixes
+
+* **Validation:** correct types ([#3423](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3423)) ([ad99c60](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/ad99c60de80c7bd4388e18df1c635b05801a6693))
+
+
+
+
+
+# [1.15.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.4...react-ui-validations@1.15.0) (2024-05-14)
+
+
+### Features
+
+* **Validations:** fixedValidationTextColors and darkTheme feature flags ([#3420](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3420)) ([248da6f](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/248da6fe1223a88fabd7f2d3934f6d45bd1b081c))
+
+
+
+
+
+## [1.14.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.3...react-ui-validations@1.14.4) (2024-04-16)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.14.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.2...react-ui-validations@1.14.3) (2024-04-09)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 ## [1.14.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.14.1...react-ui-validations@1.14.2) (2024-03-12)
 
 

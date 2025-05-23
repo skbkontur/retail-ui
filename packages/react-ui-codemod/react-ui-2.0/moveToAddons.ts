@@ -32,27 +32,29 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
   let modified = false;
 
   result
-    .find(j.ImportDeclaration, node => node.source.value.match(INITIAL_SOURCE))
-    .find(j.ImportSpecifier, node => componentsToTransform.some(component => node.imported.name.startsWith(component)))
-    .forEach(importSpecifier => {
+    .find(j.ImportDeclaration, (node) => node.source.value.match(INITIAL_SOURCE))
+    .find(j.ImportSpecifier, (node) =>
+      componentsToTransform.some((component) => node.imported.name.startsWith(component)),
+    )
+    .forEach((importSpecifier) => {
       moveSpecifierToSeparateImport(api, importSpecifier, FINAL_SOURCE);
       modified = true;
     });
 
   result
-    .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(INITIAL_SOURCE))
-    .find(j.ExportSpecifier, node => componentsToTransform.some(component => node.local.name.startsWith(component)))
-    .forEach(exportSpecifier => {
+    .find(j.ExportNamedDeclaration, (node) => node.source && node.source.value.match(INITIAL_SOURCE))
+    .find(j.ExportSpecifier, (node) => componentsToTransform.some((component) => node.local.name.startsWith(component)))
+    .forEach((exportSpecifier) => {
       moveSpecifierToSeparateExport(api, exportSpecifier, FINAL_SOURCE);
       modified = true;
     });
 
-  const exportAllDeclarations = result.find(j.ExportAllDeclaration, node =>
+  const exportAllDeclarations = result.find(j.ExportAllDeclaration, (node) =>
     node.source.value.match(INITIAL_SOURCE + '/components/Fias/types'),
   );
   if (exportAllDeclarations.length) {
-    exportAllDeclarations.replaceWith(exportDeclaration =>
-      j.exportAllDeclaration(null, j.stringLiteral(FINAL_SOURCE + '/components/Fias/types')),
+    exportAllDeclarations.replaceWith(() =>
+      j.exportAllDeclaration(j.stringLiteral(FINAL_SOURCE + '/components/Fias/types'), null),
     );
     modified = true;
   }
@@ -62,5 +64,5 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     modified = deduplicateExports(api, result, FINAL_SOURCE) || modified;
   }
 
-  return modified ? result.toSource() : null;
+  return modified ? result.toSource({ lineTerminator: '\n' }) : null;
 }

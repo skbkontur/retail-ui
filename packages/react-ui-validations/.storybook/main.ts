@@ -1,12 +1,19 @@
-module.exports = {
-  core: { disableTelemetry: true },
-  addons: ['creevey', 'creevey/preset/ie11'],
+import type { StorybookConfig } from '@storybook/react-webpack5';
+const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
+
+const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.tsx'],
-  typescript: {
-    check: false,
-    reactDocgen: 'none',
+  addons: ['creevey'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: !isTestEnv,
+      strictMode: true,
+    },
   },
-  features: {
-    postcss: false,
+  core: {
+    disableWhatsNewNotifications: true,
+    disableTelemetry: true,
   },
 };
+export default config;

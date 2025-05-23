@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 import EventEmitter from 'eventemitter3';
 
@@ -6,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 
 import { getRootNode } from './getRootNode';
 
-export type TSetRootNode = (e: Nullable<React.ReactNode>) => void;
+export type TSetRootNode = (e: Nullable<React.ReactInstance>) => void;
 
 export interface TRootNodeSubscription {
   remove: () => void;
@@ -22,6 +21,7 @@ interface ComponentWithDefaultRootNode {
 }
 interface ComponentWithKonturReactUI {
   __KONTUR_REACT_UI__?: string;
+  displayName?: string;
 }
 
 interface DecoratableClassComponent extends ComponentWithDefaultRootNode, ComponentWithKonturReactUI {
@@ -30,8 +30,10 @@ interface DecoratableClassComponent extends ComponentWithDefaultRootNode, Compon
 
 export function rootNode<T extends DecoratableClassComponent>(Component: T) {
   const rootNode = class extends Component implements InstanceWithRootNode {
-    public rootNode: Nullable<Element> = Component.defaultRootNode;
     public static __KONTUR_REACT_UI__ = Component.__KONTUR_REACT_UI__;
+    public static displayName = Component.displayName;
+
+    public rootNode: Nullable<Element> = Component.defaultRootNode;
     public rootNodeEmitter = new EventEmitter();
     public constructor(...args: any[]) {
       super(args[0]);

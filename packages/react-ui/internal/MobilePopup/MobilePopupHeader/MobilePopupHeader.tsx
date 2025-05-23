@@ -14,8 +14,9 @@ interface MobilePopupHeaderProps {
   caption?: string;
 }
 
-export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
+export class MobilePopupHeader extends React.Component<React.PropsWithChildren<MobilePopupHeaderProps>> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
+  public static displayName = 'MobileMenuHeader';
 
   private theme!: Theme;
 
