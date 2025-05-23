@@ -2,6 +2,7 @@
   key:
     files:
       - yarn.lock
+      - '**/package.json'
   paths:
     - '**/node_modules/'
 
