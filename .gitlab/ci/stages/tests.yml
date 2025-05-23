@@ -115,6 +115,7 @@ Selenium Testing:
     - echo "что-то с дотнетом, позже разберусь"
 
 Validations · Screenshot tests:
+  image: docker-proxy.kontur.host/node:18-alpine # contains ip utility
   extends:
     - .test-base
     - .react-ui-validations-workspace
