@@ -149,6 +149,7 @@ export const styles = memoizeStyle({
 
   outlineLink() {
     return css`
+      cursor: default;
       box-shadow: none;
       left: -2px;
       right: -2px;
