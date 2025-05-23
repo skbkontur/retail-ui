@@ -1,8 +1,8 @@
 #!/bin/bash
-source ./.gitlab-ci/scripts/logging/logging.sh
+source ./.gitlab/ci/scripts/logging/logging.sh
 
 workspace=$1
-section_id="$1 Smoke tests"
+section_id="$1 Unit tests"
 
 startLogCollapsedSection "$section_id"
 

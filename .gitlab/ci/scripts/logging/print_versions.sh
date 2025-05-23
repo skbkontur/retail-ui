@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source ./.gitlab-ci/scripts/logging/logging.sh
+source ./.gitlab/ci/scripts/logging/logging.sh
 
 REACT=${REACT_VERSION:-17}
 TYPESCRIPT=${TYPESCRIPT_VERSION:-4}

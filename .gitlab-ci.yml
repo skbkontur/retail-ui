@@ -1,1 +1,1 @@
-include: '.gitlab-ci/.gitlab-ci.yml'
+include: '.gitlab/ci/index.yml'

@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./.gitlab-ci/scripts/logging/logging.sh
+source ./.gitlab/ci/scripts/logging/logging.sh
 
 section_id="yarn install"
 

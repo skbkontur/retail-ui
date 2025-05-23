@@ -1,0 +1,7 @@
+yarn_install:
+  extends:
+    - .cache_push
+  stage: install
+  script:
+    - yarn set-testing-package-versions
+    - source .gitlab/ci/scripts/install/install.sh

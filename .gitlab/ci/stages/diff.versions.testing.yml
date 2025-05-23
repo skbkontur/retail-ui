@@ -13,6 +13,6 @@ matrix-tests:
   trigger:
     strategy: depend
     include:
-      - local: /.gitlab-ci/templates/base.yml
-      - local: /.gitlab-ci/stages/install.yml
-      - local: /.gitlab-ci/stages/tests.yml
+      - local: /.gitlab/ci/templates/base.yml
+      - local: /.gitlab/ci/stages/install.yml
+      - local: /.gitlab/ci/stages/tests.yml

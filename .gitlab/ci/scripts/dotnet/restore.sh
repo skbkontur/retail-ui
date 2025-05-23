@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./.gitlab-ci/scripts/logging/logging.sh
+source ./.gitlab/ci/scripts/logging/logging.sh
 
 solution=$1
 section_id="dotnet restore $solution"

@@ -1,8 +1,0 @@
-yarn_install:
-  extends:
-    - .cache_push
-  stage: install
-  script:
-    - source .gitlab-ci/scripts/install/install.sh
-  after_script:
-    - git status

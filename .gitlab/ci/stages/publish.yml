@@ -11,7 +11,7 @@ React-UI · Publish:
     - echo "добавить кукисы, дальше работать не будет"
     - npm config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"
     - npm whoami #check AUTH
-    - source .gitlab-ci/scripts/publish/release.sh $WORKSPACE
+    - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
     - npm config delete "//registry.npmjs.org/:_authToken"
 
 React-UI · Storybook Docs:
@@ -34,10 +34,10 @@ Validations · Publish:
     - when: manual
   script:
     - echo "добавить кукисы, дальше работать не будет"
-    - source .gitlab-ci/scripts/build/build.sh $WORKSPACE
+    - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
     - npm config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"
     - npm whoami #check AUTH
-    - source .gitlab-ci/scripts/publish/deploy.sh
+    - source .gitlab/ci/scripts/publish/deploy.sh
     - npm config delete "//registry.npmjs.org/:_authToken"
 
 Validations · Storybook Docs:
