@@ -83,6 +83,8 @@ kind('TokenInput', () => {
           bridge: true,
         })
         .sendKeys('a')
+        .pause(300)
+        .move({ x: 0, y: 0 })
         .perform();
       const typed = await context.takeScreenshot();
       await context.matchImages({ selected, typed });
@@ -409,6 +411,32 @@ kind('TokenInput', () => {
       const tab3 = await context.takeScreenshot();
 
       await context.matchImages({ tab1, tab2, tab3 });
+    });
+  });
+
+  story('VariousMenuPositions', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } },
+    });
+
+    test('all positions in viewport', async (context) => {
+      async function clickOnTokenInput(tid: string): Promise<Buffer> {
+        await context.webdriver
+          .actions({ bridge: true })
+          .click(context.webdriver.findElement({ css: `[data-tid~="${tid}"]` }))
+          .perform();
+        await delay(800);
+        return await context.takeScreenshot();
+      }
+
+      const leftTop = await clickOnTokenInput('TokenInputViewLeftTop');
+      const leftMiddle = await clickOnTokenInput('TokenInputViewLeftMiddle');
+      const leftBottom = await clickOnTokenInput('TokenInputViewLeftBottom');
+      const rightTop = await clickOnTokenInput('TokenInputViewRightTop');
+      const rightMiddle = await clickOnTokenInput('TokenInputViewRightMiddle');
+      const rightBottom = await clickOnTokenInput('TokenInputViewRightBottom');
+
+      await context.matchImages({ leftTop, leftMiddle, leftBottom, rightTop, rightMiddle, rightBottom });
     });
   });
 });

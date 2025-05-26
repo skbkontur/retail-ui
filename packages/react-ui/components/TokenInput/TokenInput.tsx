@@ -176,8 +176,8 @@ export interface TokenInputProps<T>
   /** Задает функцию для обработки ввода строки в инпут и последующую потерю фокуса компонентом.
    * Функция срабатывает с аргументом инпута строки
    *
-   * Если при потере фокуса в выпадающем списке будет только один элемент и  результат `valueToString` с этим элементом будет
-   * совпадать со значение в текстовом поле, то сработает `onValueChange` со значением данного элемента
+   * Если при потере фокуса в выпадающем списке будет только один элемент и результат `valueToString` с этим элементом будет
+   * совпадать со значением в текстовом поле, то сработает `onValueChange` со значением данного элемента
    *
    * Сама функция также может вернуть значение, неравное `undefined`, с которым будет вызван `onValueChange`.
    * При возвращаемом значении `null` будет выполнена очистка текущего значения инпута, а в режиме редактирования токен будет удален. */
@@ -525,7 +525,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={menuAlign === 'cursor' ? this.input : this.wrapper}
+                anchorElementForCursor={this.input}
+                anchorElementRoot={this.wrapper}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}

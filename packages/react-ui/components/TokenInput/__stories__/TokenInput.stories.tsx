@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
 
 import type { Meta, Story } from '../../../typings/stories';
@@ -37,9 +38,11 @@ function getSelectedItems(props: WrapperProps) {
 interface WrapperProps extends Partial<TokenInputProps<string>> {
   numberItems?: number;
 }
+
 interface WrapperState {
   selectedItems: string[];
 }
+
 class Wrapper extends React.Component<WrapperProps, WrapperState> {
   constructor(props: WrapperProps) {
     super(props);
@@ -310,3 +313,57 @@ export const WithPlaceholderAndWidth: Story = () => (
   </div>
 );
 WithPlaceholderAndWidth.storyName = 'with placeholder and width';
+
+const getVariousItems = async (q: string) => {
+  if (!isTestEnv) {
+    await delay(400);
+  }
+  return ['First Element', 'Second', 'El1', 'El2', 'El3', 'Fourth Element With Long Text'].filter(
+    (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q,
+  );
+};
+
+const TokenInputView: React.FC = (props) => {
+  const [selectedItems, setSelectedItems] = React.useState<string[]>(['First Element']);
+  return (
+    <TokenInput
+      {...props}
+      placeholder="Ткни в меня"
+      type={TokenInputType.Combined}
+      getItems={getVariousItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+    />
+  );
+};
+
+export const VariousMenuPositions: Story = () => {
+  const styleWrapper: CSSProperties = {
+    display: 'flex',
+    height: '100%',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  };
+
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: '#666' }}>
+      <div style={{ position: 'fixed', left: 8, top: 8, bottom: 8 }}>
+        <div style={styleWrapper}>
+          <TokenInputView data-tid="TokenInputViewLeftTop" />
+          <TokenInputView data-tid="TokenInputViewLeftMiddle" />
+          <TokenInputView data-tid="TokenInputViewLeftBottom" />
+        </div>
+      </div>
+      <div style={{ position: 'fixed', right: 8, top: 8, bottom: 8 }}>
+        <div style={styleWrapper}>
+          <TokenInputView data-tid="TokenInputViewRightTop" />
+          <TokenInputView data-tid="TokenInputViewRightMiddle" />
+          <TokenInputView data-tid="TokenInputViewRightBottom" />
+        </div>
+      </div>
+    </div>
+  );
+};
+VariousMenuPositions.storyName = 'various menu positions';
+VariousMenuPositions.parameters = { creevey: { captureElement: null } };
