@@ -19,9 +19,10 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {
-      legacyRootApi: true,
+      strictMode: process?.env?.STRICT_MODE === 'true',
       fastRefresh: true,
-      strictMode: true,
+      //Для версионного прогона убран, чтобы 18 реакт гонялся по честному
+      ...(process?.env?.REACT_VERSION ? {} : { legacyRootApi: true }),
     },
   },
   core: {
@@ -29,4 +30,5 @@ const config: StorybookConfig = {
     disableTelemetry: true,
   },
 };
+
 export default config;

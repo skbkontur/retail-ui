@@ -1,5 +1,6 @@
 matrix-tests:
-  stage: night
+  stage: diff.versions.testing
+  needs: []
   parallel:
     matrix:
       - REACT_VERSION: [ "17", "18" ]
@@ -10,5 +11,6 @@ matrix-tests:
       when: always
     - when: manual
   trigger:
+    strategy: depend
     include:
       - local: /.gitlab-ci/stages/tests.yml

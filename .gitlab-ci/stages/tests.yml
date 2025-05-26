@@ -25,8 +25,8 @@ React-UI · Smoke Tests:
     - source .gitlab-ci/scripts/tests/smoke.sh $WORKSPACE
 
 React-UI · Screenshot tests:
-  image: docker-proxy.kontur.host/node:18-alpine
   extends:
+    - .install-ip-utilities
     - .test-base
     - .react-ui-workspace
     - .use_install_cache
@@ -90,8 +90,8 @@ Selenium Testing:
     - echo "что-то с дотнетом, позже разберусь"
 
 Validations · Screenshot tests:
-  image: docker-proxy.kontur.host/node:18-alpine
   extends:
+    - .install-ip-utilities
     - .test-base
     - .react-ui-validations-workspace
     - .use_install_cache

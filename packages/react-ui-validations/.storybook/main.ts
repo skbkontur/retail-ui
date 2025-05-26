@@ -8,7 +8,9 @@ const config: StorybookConfig = {
     name: '@storybook/react-webpack5',
     options: {
       fastRefresh: !isTestEnv,
-      strictMode: true,
+      strictMode: process?.env?.STRICT_MODE === 'true',
+      //Для версионного прогона убран, чтобы 18 реакт гонялся по честному
+      legacyRootApi: !process?.env?.REACT_VERSION,
     },
   },
   core: {
