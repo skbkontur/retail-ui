@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
 import { SeleniumWebdriver } from 'creevey/selenium';
-import { storybookUrl } from './storybook-url';
+import { storybookUrl, resolveStorybookUrl } from './storybook-url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -25,6 +25,7 @@ const capabilities = debug
 const reportFilePath = path.resolve(__dirname, '..', 'reports');
 const config: CreeveyConfig = {
   storybookUrl,
+  resolveStorybookUrl,
   webdriver: SeleniumWebdriver,
   storiesProvider: hybridStoriesProvider,
   testsRegex: /.creevey.(m|c)?(t|j)s$/,

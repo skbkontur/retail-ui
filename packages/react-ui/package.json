@@ -118,7 +118,7 @@
     "chalk": "4.1.0",
     "copyfiles": "^2.4.1",
     "core-js": "^3.37.1",
-    "creevey": "0.10.0-beta.42",
+    "creevey": "0.10.0-beta.47",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",

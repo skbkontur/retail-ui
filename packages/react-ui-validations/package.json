@@ -98,7 +98,7 @@
     "start-server-and-test": "1.14.0",
     "babel-plugin-search-and-replace": "1.1.1",
     "core-js": "^3.37.1",
-    "creevey": "0.10.0-beta.42",
+    "creevey": "0.10.0-beta.47",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "dts-bundle": "^0.7.3",
