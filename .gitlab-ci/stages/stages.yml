@@ -2,4 +2,4 @@ stages:
   - .pre
   - test
   - publish
-  - night
+  - diff.versions.testing
