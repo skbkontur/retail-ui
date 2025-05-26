@@ -71,6 +71,7 @@ export const DUMMY_LOCATION: PopupLocation = {
     top: -9999,
     left: -9999,
   },
+  isFullyVisible: false,
 };
 
 export interface PopupHandlerProps {
@@ -127,7 +128,7 @@ export interface PopupProps
   /**
    * Возвращает текущую позицию попапа
    */
-  onPositionChange?: (pos: PopupPositionsType) => void;
+  onPositionChange?: (pos: PopupPositionsType, isFullyVisible: boolean) => void;
 }
 
 interface PopupLocation {
@@ -136,6 +137,7 @@ interface PopupLocation {
     top: number;
   };
   position: PopupPositionsType;
+  isFullyVisible: boolean;
 }
 
 export interface PopupState {
@@ -657,7 +659,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const location = this.getLocation(popupContentElement, this.state.location);
     if (location) {
-      this.props.onPositionChange?.(location?.position);
+      this.props.onPositionChange?.(location.position, location.isFullyVisible);
     }
 
     if (!this.locationEquals(this.state.location, location)) {
@@ -708,7 +710,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return [...positions.slice(index), ...positions.slice(0, index)];
   }
 
-  private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
+  private getLocation(popupElement: Element, location?: Nullable<PopupLocation>): Nullable<PopupLocation> {
     const { tryPreserveFirstRenderedPosition } = this.getProps();
     const positions = this.reorderPropsPositionsWithPriorityPos();
 
@@ -745,20 +747,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         (isFullyVisible && position === positions[0])
       ) {
         // сохраняем текущую позицию
-        return { coordinates, position };
+        return { coordinates, position, isFullyVisible: true };
       }
     }
 
     for (position of positions) {
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
-        return { coordinates, position };
+        return { coordinates, position, isFullyVisible: true };
       }
     }
 
     position = positions[0];
     coordinates = this.getCoordinates(anchorRect, popupRect, position);
-    return { coordinates, position };
+
+    return { coordinates, position, isFullyVisible: false };
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { HTMLProps } from '../../typings/html';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { PopupProps } from '../../internal/Popup';
+import type { PopupPositionsType, PopupProps } from '../../internal/Popup';
 import { Popup } from '../../internal/Popup';
 import type { ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { ComboBoxMenu } from '../../internal/CustomComboBox';
@@ -15,8 +15,11 @@ import type { TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 import { TokenInputDataTids } from './TokenInput';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
-  anchorElement: PopupProps['anchorElement'];
-  /** Задает шинину выпадающего меню. */
+  /** html-элемент от которого будет позиционировано Menu в случае menuAlign cursor */
+  anchorElementForCursor: PopupProps['anchorElement'];
+  /** html-элемент от которого будет позиционировано Menu в случае menuAlign left */
+  anchorElementRoot: PopupProps['anchorElement'];
+  /** Задает ширину выпадающего меню. */
   menuWidth: TokenInputProps<string>['menuWidth'];
   /** Задает выравнивание выпадающего меню. */
   menuAlign: TokenInputMenuAlign;
@@ -27,9 +30,15 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   size?: TokenSize;
 }
 
-export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
+interface TokenInputMenuState {
+  forceMenuLeftAlign?: boolean;
+}
+
+export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>, TokenInputMenuState> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
   public static displayName = 'TokenInputMenu';
+
+  public state: TokenInputMenuState = {};
 
   private theme!: Theme;
 
@@ -84,18 +93,24 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       renderItem,
       onValueChange,
       renderAddButton,
-      anchorElement,
+      anchorElementForCursor,
+      anchorElementRoot,
       menuWidth,
-      menuAlign,
     } = this.props;
+
+    const menuAlign = this.state.forceMenuLeftAlign ? 'left' : this.props.menuAlign;
 
     return (
       <Popup
         id={this.props.popupMenuId}
         data-tid={TokenInputDataTids.tokenInputMenu}
         opened={!!opened}
-        positions={['bottom left', 'top left']}
-        anchorElement={anchorElement}
+        positions={
+          menuAlign === 'cursor'
+            ? ['bottom left', 'top left']
+            : ['bottom left', 'top left', 'bottom right', 'top right']
+        }
+        anchorElement={menuAlign === 'cursor' ? anchorElementForCursor : anchorElementRoot}
         popupOffset={
           menuAlign === 'left'
             ? parseInt(this.theme.tokenInputPopupOffset)
@@ -105,6 +120,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         hasShadow
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
         withoutMobile
+        onPositionChange={this.handleMenuPositionChange}
       >
         <ComboBoxMenu
           size={this.props.size}
@@ -124,6 +140,12 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       </Popup>
     );
   }
+
+  private handleMenuPositionChange = (_: PopupPositionsType, isFullyVisible: boolean) => {
+    if (!this.state.forceMenuLeftAlign && !isFullyVisible && this.props.menuAlign === 'cursor') {
+      this.setState({ forceMenuLeftAlign: true });
+    }
+  };
 
   private getPopupMargin = (): number => {
     const paddingY = parseInt(this.theme.tokenInputPaddingYSmall, 10) || 0;
