@@ -22,7 +22,7 @@ const config: StorybookConfig = {
       strictMode: process?.env?.STRICT_MODE === 'true',
       fastRefresh: true,
       //Для версионного прогона убран, чтобы 18 реакт гонялся по честному
-      ...(process?.env?.REACT_VERSION ? {} : { legacyRootApi: true }),
+      legacyRootApi: Number(process?.env?.REACT_VERSION || 17) < 18,
     },
   },
   core: {

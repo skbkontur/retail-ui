@@ -1,0 +1,17 @@
+.cache_common: &cache_common
+  key:
+    files:
+      - yarn.lock
+      - packages/**/package.json
+  paths:
+    - '**/node_modules/'
+
+.cache_push:
+  cache:
+    <<: *cache_common
+    policy: push
+
+.use-install-cache:
+  cache:
+    <<: *cache_common
+    policy: pull
