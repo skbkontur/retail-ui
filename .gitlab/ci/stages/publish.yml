@@ -12,6 +12,9 @@ React-UI · Publish:
     - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
+
+React-UI Deploy:
+  stage: publish
   trigger:
     include:
       - local: .gitlab/ci/stages/docs.yaml
