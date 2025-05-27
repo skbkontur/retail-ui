@@ -22,12 +22,12 @@ React-UI · Storybook Docs:
   script:
     - echo "добавить скрипты, дальше работать не будет"
     - PACKAGE_NAME=${CI_COMMIT_TAG%@*} # remove the version part from tag, e.g. "@1.0.0"
-    - PACKAGE_VERSION=${CI_COMMIT_TAG##*@"} # remove the name part from tag, e.g. "@skbkontur/react-ui@"
+    - PACKAGE_VERSION=${CI_COMMIT_TAG##*@} # remove the name part from tag, e.g. "@skbkontur/react-ui@"
     - echo "$PACKAGE_NAME"
     - echo "$PACKAGE_VERSION"
     - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
     - git clone https://oauth2:$GITLAB_COMMITER_TOKEN@git.skbkontur.ru/ui/docs.git ../docs
-    - mkdir -p ../docs/docs/storybook/react-ui/${TARGET_DIR:=$("$CI_COMMIT_REF_NAME" | sed 's/^.*@\([0-9a-zA-Z.-]*\)$/\1/')} # use branch name if TARGET_DIR is empty in merge request pipeline
+    - mkdir -p ../docs/docs/storybook/react-ui/${TARGET_DIR:=PACKAGE_VERSION} # use branch name if TARGET_DIR is empty in merge request pipeline
     - cp -r ./packages/react-ui/.storybook/build/* ../docs/docs/storybook/react-ui/$TARGET_DIR
     - cd ../docs
     - git config user.email "ci-commiter@email.com"
