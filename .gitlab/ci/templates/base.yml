@@ -9,6 +9,7 @@ stages:
   - install
   - test
   - publish
+  - docs
   - diff.versions.testing
 
 .react-ui-workspace:
