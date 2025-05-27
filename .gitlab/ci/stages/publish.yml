@@ -21,8 +21,8 @@ React-UI · Storybook Docs:
   stage: publish
   script:
     - echo "добавить скрипты, дальше работать не будет"
-    - PACKAGE_NAME=${$CI_COMMIT_TAG%@*} # remove the version part from tag, e.g. "@1.0.0"
-    - PACKAGE_VERSION=${$CI_COMMIT_TAG##*@"} # remove the name part from tag, e.g. "@skbkontur/react-ui@"
+    - PACKAGE_NAME=${CI_COMMIT_TAG%@*} # remove the version part from tag, e.g. "@1.0.0"
+    - PACKAGE_VERSION=${CI_COMMIT_TAG##*@"} # remove the name part from tag, e.g. "@skbkontur/react-ui@"
     - echo "$PACKAGE_NAME"
     - echo "$PACKAGE_VERSION"
     - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
