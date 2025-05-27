@@ -1,0 +1,50 @@
+React-UI · Publish:
+  extends:
+    - .react-ui-workspace
+    - .use-install-cache
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^@skbkontur\/react-ui\/.*$/
+      when: always
+    - when: manual
+  script:
+    - echo "добавить кукисы, дальше работать не будет"
+    - npm config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"
+    - npm whoami #check AUTH
+    - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
+    - npm config delete "//registry.npmjs.org/:_authToken"
+
+React-UI · Storybook Docs:
+  extends:
+    - .react-ui-workspace
+    - .use-install-cache
+  when: manual
+  stage: publish
+  script:
+    - echo "добавить скрипты, дальше работать не будет"
+
+Validations · Publish:
+  extends:
+    - .react-ui-validations-workspace
+    - .use-install-cache
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^@skbkontur\/react-ui-validations\/.*$/ # выяснить как стартует
+      when: always
+    - when: manual
+  script:
+    - echo "добавить кукисы, дальше работать не будет"
+    - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
+    - npm config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"
+    - npm whoami #check AUTH
+    - source .gitlab/ci/scripts/publish/deploy.sh
+    - npm config delete "//registry.npmjs.org/:_authToken"
+
+Validations · Storybook Docs:
+  extends:
+    - .react-ui-validations-workspace
+    - .use-install-cache
+  when: manual
+  stage: publish
+  script:
+    - echo "добавить скрипты, дальше работать не будет"

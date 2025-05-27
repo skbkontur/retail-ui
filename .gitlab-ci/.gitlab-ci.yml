@@ -1,6 +1,0 @@
-include:
-  - '/.gitlab-ci/stages/stages.yml'
-  - '/.gitlab-ci/stages/install.yml'
-  - '/.gitlab-ci/stages/tests.yml'
-  - '/.gitlab-ci/stages/publish.yml'
-  - '/.gitlab-ci/stages/diff.versions.testing.yml'
