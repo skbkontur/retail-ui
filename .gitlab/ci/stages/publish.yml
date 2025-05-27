@@ -12,30 +12,32 @@ React-UI · Publish:
     - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
+  trigger:
+    include:
+      - local: .gitlab/ci/stages/docs.yaml
 
-React-UI · Storybook Docs:
-  extends:
-    - .react-ui-workspace
-    - .use-install-cache
-  when: manual
-  stage: publish
-  script:
-    - echo "добавить скрипты, дальше работать не будет"
-    - PACKAGE_NAME=${CI_COMMIT_TAG%@*} # remove the version part from tag, e.g. "@1.0.0"
-    - PACKAGE_VERSION=${CI_COMMIT_TAG##*@} # remove the name part from tag, e.g. "@skbkontur/react-ui@"
-    - echo "$PACKAGE_NAME"
-    - echo "$PACKAGE_VERSION"
-    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
-    - git clone https://oauth2:$GITLAB_COMMITER_TOKEN@git.skbkontur.ru/ui/docs.git ../docs
-    - mkdir -p ../docs/docs/storybook/react-ui/${TARGET_DIR:=PACKAGE_VERSION} # use branch name if TARGET_DIR is empty in merge request pipeline
-    - cp -r ./packages/react-ui/.storybook/build/* ../docs/docs/storybook/react-ui/$TARGET_DIR
-    - cd ../docs
-    - git config user.email "ci-commiter@email.com"
-    - git config user.name "ci-commiter"
-    - git add .
-    - git commit -m "deploy docs from ci job $CI_JOB_ID"
-    - git pull --rebase
-    - git push origin master
+# React-UI · Storybook Docs:
+#   extends:
+#     - .react-ui-workspace
+#     - .use-install-cache
+#   when: manual
+#   stage: publish
+#   script:
+#     - echo "добавить скрипты, дальше работать не будет"
+#     - PACKAGE_NAME=${CI_COMMIT_TAG%@*} # remove the version part from tag, e.g. "@1.0.0"
+#     - PACKAGE_VERSION=${CI_COMMIT_TAG##*@} # remove the name part from tag, e.g. "@skbkontur/react-ui@"
+#     - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
+#     - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
+#     - git clone https://oauth2:$GITLAB_COMMITER_TOKEN@git.skbkontur.ru/ui/docs.git ../docs
+#     - mkdir -p ../docs/docs/storybook/react-ui/${TARGET_DIR:=$PACKAGE_VERSION} # use branch name if TARGET_DIR is empty in merge request pipeline
+#     - cp -r ./packages/react-ui/.storybook/build/* ../docs/docs/storybook/react-ui/$TARGET_DIR
+#     - cd ../docs
+#     - git config user.email "ci-commiter@email.com"
+#     - git config user.name "ci-commiter"
+#     - git add .
+#     - git commit -m "deploy docs from ci job $CI_JOB_ID"
+#     - git pull --rebase
+#     - git push origin master
 
 Validations · Publish:
   extends:
@@ -53,12 +55,11 @@ Validations · Publish:
     - npm whoami #check AUTH
     - source .gitlab/ci/scripts/publish/deploy.sh
     - npm config delete "//registry.npmjs.org/:_authToken"
-
-Validations · Storybook Docs:
-  extends:
-    - .react-ui-validations-workspace
-    - .use-install-cache
-  when: manual
-  stage: publish
-  script:
-    - echo "добавить скрипты, дальше работать не будет"
+# Validations · Storybook Docs:
+#   extends:
+#     - .react-ui-validations-workspace
+#     - .use-install-cache
+#   when: manual
+#   stage: publish
+#   script:
+#     - echo "добавить скрипты, дальше работать не будет"

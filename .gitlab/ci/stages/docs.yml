@@ -1,0 +1,25 @@
+.docs-base:
+  stage: docs
+  extends:
+    - .use-install-cache
+  needs: ['install']
+  rules:
+    - when: manual
+  before_script:
+    - echo "дока $WORKSPACE"
+    - echo "$CI_COMMIT_REF_NAME"
+    - PACKAGE_NAME=$WORKSPACE
+    - PACKAGE_VERSION=$(node -pe 'JSON.parse(process.argv[1])["$PACKAGE_NAME"]' "$(npm pkg get version --ws)")
+    - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
+  artifacts:
+    when: always
+
+React UI Docs:
+  extends:
+    - .react-ui-workspace
+    - .docs-base
+
+React UI Validations Docs:
+  extends:
+    - .react-ui-validations-workspace
+    - .docs-base
