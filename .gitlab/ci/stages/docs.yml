@@ -18,9 +18,13 @@ React UI Docs:
   extends:
     - .react-ui-workspace
     - .docs-base
+  script:
+    - echo "дока $WORKSPACE"
 
 React UI Validations Docs:
   stage: docs
   extends:
     - .react-ui-validations-workspace
     - .docs-base
+  script:
+    - echo "дока $WORKSPACE"
