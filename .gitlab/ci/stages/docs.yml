@@ -1,5 +1,4 @@
 .docs-base:
-  stage: docs
   extends:
     - .use-install-cache
   needs: ['install']
@@ -15,11 +14,13 @@
     when: always
 
 React UI Docs:
+  stage: docs
   extends:
     - .react-ui-workspace
     - .docs-base
 
 React UI Validations Docs:
+  stage: docs
   extends:
     - .react-ui-validations-workspace
     - .docs-base
