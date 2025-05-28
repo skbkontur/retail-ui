@@ -6,5 +6,6 @@ addons.setConfig({
   theme,
   sidebar: {
     showRoots: false,
+    collapsedRoots: ['Versioning', 'Information', 'Button', 'Input data', 'Display data', 'Menu', 'Overlay', 'Layout'],
   },
 });
