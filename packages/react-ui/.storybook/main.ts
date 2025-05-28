@@ -1,12 +1,33 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
-import docsConfig from './config-docs';
-import storiesConfig from './config-stories';
-
-function getConfig(): StorybookConfig {
-  return process.env.STORYBOOK_REACT_UI_DOCS ? docsConfig : storiesConfig;
-}
-
-const config: StorybookConfig = { ...getConfig() }; // storybook требует ObjectExpression для конфига
+const config: StorybookConfig = {
+  stories: ['../components/**/!(*.docs)*.stories.tsx', '../internal/**/*.stories.tsx'],
+  docs: {
+    docsMode: false,
+  },
+  addons: [
+    'creevey',
+    '@storybook/addon-links',
+    '@storybook/addon-a11y',
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        docs: false,
+      },
+    },
+  ],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      legacyRootApi: true,
+      fastRefresh: true,
+      strictMode: true,
+    },
+  },
+  core: {
+    disableWhatsNewNotifications: true,
+    disableTelemetry: true,
+  },
+};
 
 export default config;
