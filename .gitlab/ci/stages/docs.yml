@@ -1,8 +1,7 @@
 .docs-base:
   extends:
     - .use-install-cache
-  rules:
-    - when: manual
+  when: on_success
   before_script:
     - echo "дока $WORKSPACE"
     - echo "$CI_COMMIT_REF_NAME"
@@ -14,14 +13,20 @@
 
 React UI Docs:
   stage: docs
+  rules:
+    when: manual
+    needs: [React UI Publish]
   extends:
     - .react-ui-workspace
     - .docs-base
   script:
     - echo "дока $WORKSPACE"
 
-React UI Validations Docs:
+Validations Docs:
   stage: docs
+  rules:
+    when: manual
+    needs: [Validations Publish]
   extends:
     - .react-ui-validations-workspace
     - .docs-base

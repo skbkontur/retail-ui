@@ -13,16 +13,6 @@ React UI Publish:
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
 
-React-UI Deploy:
-  stage: publish
-  needs: ['React UI Publish']
-  when: on_success
-  trigger:
-    include:
-      - local: .gitlab/ci/templates/base.yml
-      - local: /.gitlab/ci/stages/install.yml
-      - local: .gitlab/ci/stages/docs.yml
-
 # React-UI · Storybook Docs:
 #   extends:
 #     - .react-ui-workspace
@@ -46,7 +36,7 @@ React-UI Deploy:
 #     - git pull --rebase
 #     - git push origin master
 
-Validations · Publish:
+Validations Publish:
   extends:
     - .react-ui-validations-workspace
     - .use-install-cache
