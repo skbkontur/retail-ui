@@ -9,10 +9,6 @@ React UI Publish:
       allow_failure: true
     - when: manual
   script:
-    - echo $CI_COMMIT_REF
-    - echo $CI_COMMIT_TAG
-    - echo $("@skbkontur/react-ui@0.0.0" =~ /^@skbkontur\/react-ui\/.*$/)
-    - echo $("@skbkontur/react-ui@0.0.0" =~ /^@skbkontur\/react-ui@.*$/)
     - echo "добавить кукисы, дальше работать не будет"
     - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
     - npm whoami #check AUTH

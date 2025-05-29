@@ -1,13 +1,12 @@
 .docs-base:
   extends:
     - .use-install-cache
-  when: on_success
   before_script:
     - echo "дока $WORKSPACE"
     - echo "$CI_COMMIT_REF_NAME"
     - PACKAGE_NAME=$WORKSPACE
-    - echo "$(node -pe '$PACKAGE_NAME')
-    - PACKAGE_VERSION="$(node -pe 'JSON.parse(process.argv[1])["$PACKAGE_NAME"]' '$(npm pkg get version --ws)')"
+      - echo "$(node -pe \"console.log($PACKAGE_NAME)\")
+    - PACKAGE_VERSION=$(node -pe 'JSON.parse(process.argv[1])[\"$PACKAGE_NAME\"]' $(npm pkg get version --ws))
     - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
   artifacts:
     when: always
