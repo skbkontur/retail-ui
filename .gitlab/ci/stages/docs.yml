@@ -14,8 +14,8 @@
 React UI Docs:
   stage: docs
   rules:
-    when: manual
-    needs: [React UI Publish]
+    - needs: [React UI Publish]
+    - when: manual
   extends:
     - .react-ui-workspace
     - .docs-base
@@ -25,8 +25,8 @@ React UI Docs:
 Validations Docs:
   stage: docs
   rules:
-    when: manual
-    needs: [Validations Publish]
+    - needs: [Validations Publish]
+    - when: manual
   extends:
     - .react-ui-validations-workspace
     - .docs-base
