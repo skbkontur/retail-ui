@@ -1,6 +1,6 @@
 yarn_install:
   extends:
-    - .cache_push
+    - .use-install-cache
   stage: install
   script:
     - yarn set-testing-package-versions
