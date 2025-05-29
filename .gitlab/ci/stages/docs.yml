@@ -10,12 +10,15 @@
     - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
   artifacts:
     when: always
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui/.storybook/build/*
 
 React UI Docs:
   stage: docs
   rules:
-    - needs: [React UI Publish]
     - when: manual
+    - needs: [React UI Publish]
+    - allow_failure: true
   extends:
     - .react-ui-workspace
     - .docs-base
@@ -25,8 +28,9 @@ React UI Docs:
 Validations Docs:
   stage: docs
   rules:
-    - needs: [Validations Publish]
     - when: manual
+    - needs: [Validations Publish]
+    - allow_failure: true
   extends:
     - .react-ui-validations-workspace
     - .docs-base
