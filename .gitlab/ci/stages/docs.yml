@@ -1,6 +1,7 @@
 .docs-base:
   extends:
     - .use-install-cache
+
   before_script:
     - echo "дока $WORKSPACE"
     - echo "$CI_COMMIT_REF_NAME"
@@ -15,24 +16,22 @@
 
 React UI Docs:
   stage: docs
-  rules:
-    - when: manual
-    - needs: [React UI Publish]
-      allow_failure: true
   extends:
     - .react-ui-workspace
     - .docs-base
+  rules:
+    - when: manual
+    - if: $WORKSPACE == "@skbkontur/react-ui"
   script:
     - echo "дока $WORKSPACE"
 
 Validations Docs:
   stage: docs
-  rules:
-    - when: manual
-    - needs: [Validations Publish]
-      allow_failure: true
   extends:
     - .react-ui-validations-workspace
     - .docs-base
+  rules:
+    - when: manual
+    - if: $WORKSPACE == "@skbkontur/react-ui-validations"
   script:
     - echo "дока $WORKSPACE"
