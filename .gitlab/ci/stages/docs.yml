@@ -5,7 +5,7 @@
     - echo "дока $WORKSPACE"
     - echo "$CI_COMMIT_REF_NAME"
     - PACKAGE_NAME=$WORKSPACE
-      - echo "$(node -pe \"console.log($PACKAGE_NAME)\")
+    - node -e "console.log($PACKAGE_NAME)"
     - PACKAGE_VERSION=$(node -pe 'JSON.parse(process.argv[1])[\"$PACKAGE_NAME\"]' $(npm pkg get version --ws))
     - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
   artifacts:
@@ -16,9 +16,9 @@
 React UI Docs:
   stage: docs
   rules:
+    - when: manual
     - needs: [React UI Publish]
       allow_failure: true
-    - when: manual
   extends:
     - .react-ui-workspace
     - .docs-base
@@ -28,9 +28,9 @@ React UI Docs:
 Validations Docs:
   stage: docs
   rules:
+    - when: manual
     - needs: [Validations Publish]
       allow_failure: true
-    - when: manual
   extends:
     - .react-ui-validations-workspace
     - .docs-base
