@@ -1,4 +1,4 @@
-React-UI · Publish:
+React UI Publish:
   extends:
     - .react-ui-workspace
     - .use-install-cache
@@ -15,6 +15,8 @@ React-UI · Publish:
 
 React-UI Deploy:
   stage: publish
+  needs: ['React UI Publish']
+  when: on_success
   trigger:
     include:
       - local: .gitlab/ci/stages/docs.yml
