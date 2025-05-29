@@ -1,7 +1,6 @@
 .docs-base:
   extends:
     - .use-install-cache
-  needs: ['yarn_install']
   rules:
     - when: manual
   before_script:

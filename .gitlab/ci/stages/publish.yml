@@ -17,7 +17,7 @@ React-UI Deploy:
   stage: publish
   trigger:
     include:
-      - local: .gitlab/ci/stages/docs.yaml
+      - local: .gitlab/ci/stages/docs.yml
 
 # React-UI · Storybook Docs:
 #   extends:
@@ -53,11 +53,12 @@ Validations · Publish:
     - when: manual
   script:
     - echo "добавить кукисы, дальше работать не будет"
-    - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
-    - npm config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"
+    # - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
+    - npm config set "//registry.npmjs.org/:_authToken" "$NPM_TOKEN"
     - npm whoami #check AUTH
-    - source .gitlab/ci/scripts/publish/deploy.sh
+    # - source .gitlab/ci/scripts/publish/deploy.sh
     - npm config delete "//registry.npmjs.org/:_authToken"
+    - npm whoami
 # Validations · Storybook Docs:
 #   extends:
 #     - .react-ui-validations-workspace
