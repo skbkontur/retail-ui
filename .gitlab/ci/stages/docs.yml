@@ -9,8 +9,6 @@
     - PACKAGE_NAME=$WORKSPACE
     - PACKAGE_VERSION=$(node -pe 'JSON.parse(process.argv[1])["$PACKAGE_NAME"]' "$(npm pkg get version --ws)")
     - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
-  script:
-    - echo "docs-base"
   artifacts:
     when: always
 

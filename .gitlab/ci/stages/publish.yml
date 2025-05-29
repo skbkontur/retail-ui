@@ -19,6 +19,8 @@ React-UI Deploy:
   when: on_success
   trigger:
     include:
+      - local: .gitlab/ci/templates/base.yml
+      - local: /.gitlab/ci/stages/install.yml
       - local: .gitlab/ci/stages/docs.yml
 
 # React-UI · Storybook Docs:
