@@ -3,7 +3,7 @@
   extends:
     - .use-install-cache
   needs: [yarn_install]
-  before_script:
+  script:
     - echo "дока $WORKSPACE"
     - echo "$CI_COMMIT_REF_NAME"
     - ALL_PACKAGES_VERSIONS="$(npm pkg get version --ws)"
