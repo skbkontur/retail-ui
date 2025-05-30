@@ -22,7 +22,7 @@ React UI Docs:
   rules:
     - if: $IS_REACT_UI_RELEASE != "true"
       when: manual
-    - if: $IS_REACT_UI_RELEASE == true
+    - if: $IS_REACT_UI_RELEASE == "true"
       needs: [React UI Publish]
       when: on_success
   script:
