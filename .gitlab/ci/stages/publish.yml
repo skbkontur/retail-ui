@@ -3,12 +3,17 @@
     - .use-install-cache
   stage: publish
   before_script:
-    - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
-    - npm whoami
+    - echo //registry.npmjs.org/:_authToken=test >> .npmrc
+    # - npm whoami
   script:
     - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
   after_script:
-    - rm -rf .npmrc
+    # - rm -rf .npmrc
+  artifacts:
+    when: always
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui/package.json
+      - $CI_PROJECT_DIR/packages/react-ui/.npmrc
 
 React UI Publish:
   extends:
