@@ -3,13 +3,13 @@
     - .use-install-cache
   stage: publish
   before_script:
-    - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
-    - ls $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    - ls $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/ -a
   script:
     - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
   after_script:
     - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
-    - ls $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/
+    - ls $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/ -a
 
 React UI Publish:
   extends:
