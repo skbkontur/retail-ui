@@ -185,13 +185,7 @@ class SimpleChildrenLines extends React.Component {
   public render() {
     return (
       <div style={{ width: 250 }}>
-        <Toggle
-          checked={this.state.checked}
-          onValueChange={() => {
-            const { checked } = this.state;
-            this.setState({ checked: !checked });
-          }}
-        >
+        <Toggle checked={this.state.checked} onValueChange={(checked: boolean) => this.setState({ checked })}>
           <span>
             Возможно очень длинный текст, который может не влезть в одну строку и частично перенесётся на следующую.
           </span>
