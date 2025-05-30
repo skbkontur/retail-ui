@@ -14,7 +14,7 @@ React UI Publish:
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
 
-React UI PostPublish:
+PostPublish:
   stage: publish
   needs: [React UI Publish]
   extends:
