@@ -21,7 +21,7 @@
     "build": "run-p build:esm build:cjs && node scripts/build/postbuild",
     "clean": "git clean -fdxqe node_modules",
     "prerelease": "node scripts/publish/prepublish && yarn build",
-    "release": "npm publish ./build --workspaces=false --dry-run",
+    "release": "npm publish ./build --workspaces=false ",
     "build-old-docs": "rimraf .styleguide/deploy && yarn run styleguide:build",
     "deploy-old-docs": "gh-pages -a -d .styleguide/deploy -r git@github.com:skbkontur/react-ui.git",
     "storybook": "node ../../scripts/patch-node-options.js \"storybook dev -p 6060\"",
