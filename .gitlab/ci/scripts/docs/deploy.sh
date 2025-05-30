@@ -14,7 +14,7 @@ cd ../docs
 git config user.email "ci-commiter@email.com"
 git config user.name "ci-commiter"
 git add .
-git commit -m "deploy docs from ci job $CI_JOB_ID"
+git commit -m "deploy docs from ci job $CI_JOB_ID" -q
 git pull --rebase
 # git push origin master
 echo "OK"

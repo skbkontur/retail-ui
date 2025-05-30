@@ -1,8 +1,7 @@
 yarn_install:
   extends:
-    - .use-install-cache
+    - .cache_push
   stage: install
   script:
-    - echo $CI_COMMIT_TAG
     - yarn set-testing-package-versions
     - source .gitlab/ci/scripts/install/install.sh
