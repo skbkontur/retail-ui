@@ -4,13 +4,14 @@
   stage: publish
   before_script:
     - export TEST_TOKEN=TEST_TOKEN
-    - echo "//registry.npmjs.org/:_authToken=${TEST_TOKEN}" >> $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
-    - nano $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    - echo "//registry.npmjs.org/:_authToken=${TEST_TOKEN}" > $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    - cat $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    - echo "//registry.npmjs.org/:_authToken=${TEST_TOKEN}" > .npmrc
   script:
     - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
   after_script:
     - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
-    - ls $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/ -a
+    - rm -rf .npmrc
 
 React UI Publish:
   extends:
