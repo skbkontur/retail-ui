@@ -11,11 +11,11 @@
     - PACKAGE_NAME=${WORKSPACE#@skbkontur/} # remove the "@skbkontur/" part
     - source .gitlab/ci/scripts/docs/build.sh $WORKSPACE
     - |
-      if [[ $CI_COMMIT_TAG =~ "$RELEASE_TAG_REGEXP" || $CI_COMMIT_BRANCH == "master" ]]; then
+      if [[ $CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "master" ]]; then
         source .gitlab/ci/scripts/docs/deploy.sh $PACKAGE_NAME $PACKAGE_VERSION
       else
           echo "Skipping docs deploy for branch: $CI_COMMIT_BRANCH. See artifacts instead:"
-          echo "$CI_PAGES_URL/-/jobs/$CI_JOB_ID/artifacts/packages/$PACKAGE_NAME/.storybook/build/index.html"
+          echo "$CI_PAGES_DOMAIN/-/react-ui/jobs/$CI_JOB_ID/artifacts/packages/$PACKAGE_NAME/.storybook/build/index.html"
       fi
 
 React UI Docs:
