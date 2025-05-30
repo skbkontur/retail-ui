@@ -14,16 +14,16 @@ React UI Publish:
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
 
-PostPublish:
-  stage: publish
-  needs: [React UI Publish]
-  extends:
-    - .react-ui-workspace
-  trigger:
-    include:
-      - local: /.gitlab/ci/templates/base.yml
-      - local: /.gitlab/ci/templates/cache.yml
-      - local: /.gitlab/ci/stages/docs.yml
+# PostPublish:
+#   stage: publish
+#   needs: [React UI Publish]
+#   extends:
+#     - .react-ui-workspace
+#   trigger:
+#     include:
+#       - local: /.gitlab/ci/templates/base.yml
+#       - local: /.gitlab/ci/templates/cache.yml
+#       - local: /.gitlab/ci/stages/docs.yml
 
 # React-UI · Storybook Docs:
 #   extends:
