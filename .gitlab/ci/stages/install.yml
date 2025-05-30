@@ -3,5 +3,8 @@ yarn_install:
     - .use-install-cache
   stage: install
   script:
+    - echo $IS_RELEASE
+    - echo $IS_REACT_UI_RELEASE
+    - echo $IS_VALIDATIONS_RELEASE
     - yarn set-testing-package-versions
     - source .gitlab/ci/scripts/install/install.sh
