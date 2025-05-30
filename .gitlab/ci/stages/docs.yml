@@ -7,7 +7,7 @@
     - echo "$CI_COMMIT_REF_NAME"
     - PACKAGE_NAME=$WORKSPACE
     - node -e "console.log('$PACKAGE_NAME')"
-    - PACKAGE_VERSION=$(node -pe 'JSON.parse(process.argv[1])[\"$PACKAGE_NAME\"]' $(npm pkg get version --ws))
+    - PACKAGE_VERSION=$(node -pe 'JSON.parse(process.argv[1])["$PACKAGE_NAME"]' $(npm pkg get version --ws))
     - echo "$PACKAGE_NAME" "$PACKAGE_VERSION"
   artifacts:
     when: always
@@ -20,9 +20,9 @@ React UI Docs:
     - .react-ui-workspace
     - .docs-base
   rules:
-    - if: $CI_COMMIT_TAG !~ /^@skbkontur\/react-ui@.*$/
+    - if: $IS_REACT_UI_RELEASE == "false"
       when: manual
-    - if: $CI_COMMIT_TAG =~ /^@skbkontur\/react-ui@.*$/
+    - if: $IS_REACT_UI_RELEASE == "true"
       needs: [React UI Publish]
       when: on_success
   script:
@@ -34,9 +34,9 @@ Validations Docs:
     - .react-ui-validations-workspace
     - .docs-base
   rules:
-    - if: $CI_COMMIT_TAG !~ /^@skbkontur\/react-ui-validations@.*$/
+    - if: $IS_VALIDATIONS_RELEASE == "false"
       when: manual
-    - if: $CI_COMMIT_TAG =~ /^@skbkontur\/react-ui-validations@.*$/
+    - if: $IS_VALIDATIONS_RELEASE == "true"
       needs: [Validations Publish]
       when: on_success
   script:
