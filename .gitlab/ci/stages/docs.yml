@@ -22,6 +22,7 @@ React UI Docs:
     - when: manual
     - if: $WORKSPACE == "@skbkontur/react-ui"
       when: always
+    - allow_failure: true
   script:
     - echo "дока $WORKSPACE"
 
@@ -34,5 +35,6 @@ Validations Docs:
     - when: manual
     - if: $WORKSPACE == "@skbkontur/react-ui-validations"
       when: always
+    - allow_failure: true
   script:
     - echo "дока $WORKSPACE"
