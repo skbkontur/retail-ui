@@ -7,7 +7,7 @@
     - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
     - npm whoami #check AUTH
     # - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
-    # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
+    - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
 
 React UI Publish:
   extends:
