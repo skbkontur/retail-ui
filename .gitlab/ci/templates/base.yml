@@ -9,7 +9,13 @@ stages:
   - install
   - test
   - publish
+  - docs
   - diff.versions.testing
+
+variables:
+  RELEASE_TAG_REGEXP: /^@skbkontur\/.*@.*$/
+  REACT_UI_RELEASE_TAG_REGEXP: /^@skbkontur\/react-ui@.*$/
+  VALIDATIONS_RELEASE_TAG_REGEXP: /^@skbkontur\/react-ui-validations@.*$/
 
 .react-ui-workspace:
   variables:

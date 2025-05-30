@@ -3,6 +3,8 @@
   "version": "2.1.3",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
+    "prerelease": "yarn build && yarn predeploy",
+    "release": "npm publish ./build/react-ui-dist --workspaces=false",
     "prebuild": "yarn clean",
     "clean": "rimraf dist build",
     "build": "npm-run-all --continue-on-error build:*",
