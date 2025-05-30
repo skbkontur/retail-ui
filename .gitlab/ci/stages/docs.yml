@@ -13,7 +13,7 @@
         source .gitlab/ci/scripts/docs/deploy.sh $PACKAGE_NAME $PACKAGE_VERSION
       else
           echo "Skipping docs deploy for branch: $CI_COMMIT_BRANCH. See artifacts instead:"
-          echo "https://$CI_PAGES_HOSTNAME/-/react-ui/-/jobs/$CI_JOB_ID/artifacts/packages/$PACKAGE_NAME/.storybook/build/index.html"
+          echo "https://$CI_PROJECT_NAMESPACE.$CI_PAGES_DOMAIN/-/react-ui/-/jobs/$CI_JOB_ID/artifacts/packages/$PACKAGE_NAME/.storybook/build/index.html"
       fi
 
 React UI Docs:
