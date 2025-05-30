@@ -5,9 +5,7 @@ React UI Publish:
   stage: publish
   when:
   rules:
-    - if: $IS_REACT_UI_RELEASE == "true"
-      when: always
-    - when: never
+    - if: $CI_COMMIT_TAG =~ $REACT_UI_RELEASE_TAG_REGEXP
   script:
     - echo "добавить кукисы, дальше работать не будет"
     - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
@@ -54,9 +52,7 @@ Validations Publish:
     - .use-install-cache
   stage: publish
   rules:
-    - if: $IS_VALIDATIONS_RELEASE == "true"
-      when: always
-    - when: never
+    - if: $CI_COMMIT_TAG =~ $VALIDATIONS_RELEASE_TAG_REGEXP
   script:
     - echo "добавить кукисы, дальше работать не будет"
     # - source .gitlab/ci/scripts/build/build.sh $WORKSPACE

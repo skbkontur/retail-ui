@@ -20,9 +20,9 @@ React UI Docs:
     - .react-ui-workspace
     - .docs-base
   rules:
-    - if: $IS_REACT_UI_RELEASE != "true"
+    - if: $CI_COMMIT_TAG !~ $REACT_UI_RELEASE_TAG_REGEXP
       when: manual
-    - if: $IS_REACT_UI_RELEASE == "true"
+    - if: $CI_COMMIT_TAG =~ $REACT_UI_RELEASE_TAG_REGEXP
       needs: [React UI Publish]
       when: on_success
   script:
@@ -34,9 +34,9 @@ Validations Docs:
     - .react-ui-validations-workspace
     - .docs-base
   rules:
-    - if: $IS_VALIDATIONS_RELEASE == "false"
+    - if: $CI_COMMIT_TAG !~ $VALIDATIONS_RELEASE_TAG_REGEXP
       when: manual
-    - if: $IS_VALIDATIONS_RELEASE == "true"
+    - if: $CI_COMMIT_TAG =~ $VALIDATIONS_RELEASE_TAG_REGEXP
       needs: [Validations Publish]
       when: on_success
   script:
