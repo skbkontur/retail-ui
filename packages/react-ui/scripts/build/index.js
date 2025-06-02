@@ -68,7 +68,7 @@ function write(src, relative) {
   outputFileSync(dest, data.code);
   outputFileSync(dest + '.map', JSON.stringify(data.map));
   chmod(src, dest);
-  logTransform(src, dest);
+  // logTransform(src, dest);
 }
 
 function logTransform(src, dest) {
