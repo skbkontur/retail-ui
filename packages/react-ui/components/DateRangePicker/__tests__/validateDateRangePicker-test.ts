@@ -25,6 +25,7 @@ describe('validate', () => {
     expect(validate('01.ff.2019', '01.11.2030')).toEqual([false, true]);
     expect(validate('01.11.2030', '2')).toEqual([false, false]);
     expect(validate('32.12.2000', '30.02.2020')).toEqual([false, false]);
+    expect(validate('', '99.99.2018')).toEqual([false, false]);
   });
 
   it('should validate by optional (allowEmpty)', () => {
@@ -35,5 +36,11 @@ describe('validate', () => {
     expect(validate('', '10.10.2020')).toEqual([false, true]);
     expect(validate('10.10.2020', '', { endOptional: true })).toEqual([true, true]);
     expect(validate('10.10.2020', '')).toEqual([true, false]);
+    expect(validate('10.10.2020', '10.10.2019', { startOptional: true, endOptional: true })).toEqual([false, false]);
+  });
+
+  it('should validate by optional and limits', () => {
+    expect(validate('', '01.01.2000', { minDate: '01.01.2010', startOptional: true })).toEqual([true, false]);
+    expect(validate('01.01.2000', '', { minDate: '01.01.2010', endOptional: true })).toEqual([false, true]);
   });
 });

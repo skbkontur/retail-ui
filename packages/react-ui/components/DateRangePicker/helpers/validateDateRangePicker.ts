@@ -1,7 +1,7 @@
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../../lib/date/types';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants';
-import { isGreater } from '../../../lib/date/comparison';
+import { isLessOrEqual } from '../../../lib/date/comparison';
 import type { Nullable } from '../../../typings/utility-types';
 
 interface ValidationOptions {
@@ -24,34 +24,34 @@ export function validateDateRangePicker(
   options: ValidationOptions = defaultOptions,
 ) {
   const { startOptional, endOptional, minDate, maxDate } = { ...defaultOptions, ...options };
+  const isStartEmpty = !startValue;
+  const isStartRequired = !startOptional;
+  const isEndEmpty = !endValue;
+  const isEndRequired = !endOptional;
 
-  if (startOptional && !startValue && endOptional && !endValue) {
-    return [true, true];
-  }
-
-  const isStartRequiredAndEmpty = !startOptional && !startValue;
-  const isEndRequiredAndEmpty = !endOptional && !endValue;
-
-  if (isStartRequiredAndEmpty || isEndRequiredAndEmpty) {
-    return [!isStartRequiredAndEmpty, !isEndRequiredAndEmpty];
-  }
-
-  const isValuesRequired = !startOptional && !endOptional;
-  if (isValuesRequired && isGreater(startValue || '', endValue || '')) {
+  if (!isStartEmpty && !isEndEmpty && !isRangeValid(startValue, endValue)) {
     return [false, false];
   }
 
-  const internalDate = new InternalDate({
+  const internalDate = getInternalDate(minDate, maxDate);
+
+  const isStartValid = isStartEmpty ? !isStartRequired : checkDate(internalDate.parseValue(startValue));
+  const isEndValid = isEndEmpty ? !isEndRequired : checkDate(internalDate.parseValue(endValue));
+
+  return [isStartValid, isEndValid];
+}
+
+function isRangeValid(startValue: Nullable<string>, endValue: Nullable<string>) {
+  return isLessOrEqual(startValue || '', endValue || '');
+}
+
+function getInternalDate(minDate?: string, maxDate?: string) {
+  return new InternalDate({
     order: InternalDateOrder.DMY,
     separator: InternalDateSeparator.Dot,
   })
     .setRangeStart(new InternalDate({ value: minDate }))
     .setRangeEnd(new InternalDate({ value: maxDate }));
-
-  const isStartValid = startValue ? checkDate(internalDate.parseValue(startValue)) : true;
-  const isEndValid = endValue ? checkDate(internalDate.parseValue(endValue)) : true;
-
-  return [isStartValid, isEndValid];
 }
 
 function checkDate(internalDate: InternalDate) {
