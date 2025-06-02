@@ -82,7 +82,7 @@ function moveModule(filepath) {
     const srcFile = path.join(srcDir, filename);
     const destFile = path.join(destDir, filename);
     if (fs.existsSync(srcFile)) {
-      log(`Move`, destFile, `gray`);
+      // log(`Move`, destFile, `gray`);
 
       fs.moveSync(srcFile, destFile);
     }
@@ -108,7 +108,7 @@ function createPackageJson(esmPath, cjsPath, typesPath) {
 
 function transformRelativePaths(filename) {
   if (fs.existsSync(filename)) {
-    log(`Transform`, filename, `yellow`);
+    // log(`Transform`, filename, `yellow`);
 
     const code = fs.readFileSync(filename, 'utf8');
 
