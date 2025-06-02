@@ -8,11 +8,14 @@
     - echo "registry=https://registry.npmjs.org" > .npmrc
     - cat .npmrc
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+    - echo "registry=https://registry.npmjs.org" > $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
   script:
     - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
   after_script:
-    # - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    - ls -a $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
     - rm -rf .npmrc
+    - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
 
 React UI Publish:
   extends:
