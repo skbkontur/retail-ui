@@ -3,16 +3,15 @@
     - .use-install-cache
   stage: publish
   before_script:
-    - export TEST_TOKEN=SUPER_TOKEN
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-    - echo "//registry.npmjs.org/:_authToken=${TEST_TOKEN}" > .npmrc2
-    - cat .npmrc2
+    - echo "//registry.npmjs.org/:_authToken=${TEST_VAR_VISIBLE}" >> .npmrc
+    - echo "//registry.npmjs.org/:_authToken=${TEST_VAR_MASKED}" >> .npmrc
+    - cat .npmrc
   script:
-    - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
+    - echo "test"
+    # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
   after_script:
-    - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
-    - rm -rf .npmrc
+    # - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/.npmrc
+    # - rm -rf .npmrc
 
 React UI Publish:
   extends:
