@@ -2,9 +2,9 @@
 Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов
 
 ```jsx harmony
-import SearchIcon from '@skbkontur/react-icons/Search';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 import { Button, Gapped, Input, Select, Tooltip } from '@skbkontur/react-ui';
 
 const [size, setSize] = React.useState('small');
@@ -29,15 +29,15 @@ const render = () => (
       <Select width={120} value={size} items={['small', 'medium', 'large']} onValueChange={setSize} size={size} />
     </Gapped>
     <Tooltip render={render} pos="right top">
-      <Input size={size} leftIcon={<SearchIcon />} width={170} />
+      <Input size={size} leftIcon={<SearchLoupeIcon16Regular />} width={170} />
     </Tooltip>
     <Tooltip render={render} pos="right top">
-      <Button size={size} icon={<MenuIcon />}>
+      <Button size={size} icon={<UiMenuBars3HIcon16Regular />}>
         Menu
       </Button>
     </Tooltip>
     <Tooltip render={render} pos="right top">
-      <HelpDotIcon />
+      <QuestionCircleIcon16Regular />
     </Tooltip>
   </Gapped>
 </div>;
@@ -300,7 +300,7 @@ class AnchorTooltipExample extends React.Component {
 У тултипа можно переопределить задержку перед его появлением. Скрытие же происходит с задержкой по умолчанию.
 
 ```jsx harmony
-import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 import { Input, Gapped, Tooltip } from '@skbkontur/react-ui';
 
 const [delay, setDelay] = React.useState(100);
@@ -315,7 +315,7 @@ const render = () => (
   <Gapped vertical>
     <Gapped>Show delay: <Input value={delay} onValueChange={setDelay} /></Gapped>
     <Tooltip render={render} delayBeforeShow={delay} pos="right top">
-      <HelpDotIcon />
+      <QuestionCircleIcon16Regular />
     </Tooltip>
   </Gapped>
 </div>;

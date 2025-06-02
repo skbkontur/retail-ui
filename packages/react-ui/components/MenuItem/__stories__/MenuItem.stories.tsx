@@ -1,5 +1,5 @@
 import React from 'react';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -14,7 +14,7 @@ export default {
 
 export const MobileMenuItemWithIcon = () => {
   return (
-    <MenuItem icon={<OkIcon />} isMobile>
+    <MenuItem icon={<CheckAIcon16Regular />} isMobile>
       Мобильный айтем с иконкой
     </MenuItem>
   );
@@ -22,7 +22,7 @@ export const MobileMenuItemWithIcon = () => {
 MobileMenuItemWithIcon.storyName = 'mobile menu item with icon';
 
 export const MenuItemWithIcon = () => {
-  return <MenuItem icon={<OkIcon />}>Меню айтем с иконкой</MenuItem>;
+  return <MenuItem icon={<CheckAIcon16Regular />}>Меню айтем с иконкой</MenuItem>;
 };
 MenuItemWithIcon.storyName = 'menu item with icon';
 MenuItemWithIcon.parameters = {
@@ -38,7 +38,7 @@ export const MenuItemWithBiggerFontSize = () => {
         <ThemeContext.Provider
           value={ThemeFactory.create({ menuItemFontSizeSmall: '18px', menuItemPaddingYSmall: '8px' }, theme)}
         >
-          <MenuItem icon={<OkIcon />}>Меню айтем с увеличенным размером шрифта</MenuItem>
+          <MenuItem icon={<CheckAIcon16Regular />}>Меню айтем с увеличенным размером шрифта</MenuItem>
         </ThemeContext.Provider>
       )}
     </ThemeContext.Consumer>
@@ -55,16 +55,16 @@ export const Size = () => {
   const comment = <span>Комментарий</span>;
   return (
     <Gapped>
-      <MenuItem icon={<OkIcon />} comment={comment}>
+      <MenuItem icon={<CheckAIcon16Regular />} comment={comment}>
         Без размера
       </MenuItem>
-      <MenuItem size={'small'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size={'small'} icon={<CheckAIcon16Regular />} comment={comment}>
         Маленький
       </MenuItem>
-      <MenuItem size={'medium'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size={'medium'} icon={<CheckAIcon16Regular />} comment={comment}>
         Средний
       </MenuItem>
-      <MenuItem size={'large'} icon={<OkIcon />} comment={comment}>
+      <MenuItem size={'large'} icon={<CheckAIcon16Regular />} comment={comment}>
         Большой
       </MenuItem>
     </Gapped>

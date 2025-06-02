@@ -1,5 +1,5 @@
 import React from 'react';
-import OkIcon from '@skbkontur/react-icons/';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 
 import type { Story } from '../../../typings/stories';
 import { ComboBoxView } from '../ComboBoxView';
@@ -43,8 +43,8 @@ export const InputLikeText: Story = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
-      состоянии загрузки
+      <ComboBoxView loading rightIcon={<CheckAIcon16Regular />} items={new Array(2)} value="Hello" /> ComboBoxView с
+      правой иконкой в состоянии загрузки
     </div>
     <ComboBoxView error disabled placeholder="Error and Disabled" />
   </Gapped>

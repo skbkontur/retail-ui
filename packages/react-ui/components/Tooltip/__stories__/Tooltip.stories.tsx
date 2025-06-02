@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import type { CSSProperties } from 'react';
 import React from 'react';
-import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 
 import type { Nullable } from '../../../typings/utility-types';
 import type { Story } from '../../../typings/stories';
@@ -672,7 +672,7 @@ TooltipWithManualControl.storyName = 'manual control';
 
 export const TooltipWithIconFromPackage = () => (
   <TestTooltip trigger="opened" pos="bottom center">
-    <HelpDotIcon />
+    <QuestionCircleIcon16Regular />
   </TestTooltip>
 );
 TooltipWithIconFromPackage.storyName = 'tooltip with icon';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 
@@ -150,7 +150,7 @@ describe('<Autocomplete />', () => {
   it('passes leftIcon prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
-    const leftIcon = <OkIcon data-tid="my-testy-icon" />;
+    const leftIcon = <CheckAIcon16Regular data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, leftIcon };
     render(<Autocomplete {...props} />);
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
@@ -159,7 +159,7 @@ describe('<Autocomplete />', () => {
   it('passes rightIcon prop to input', () => {
     const onValueChange = jest.fn();
     const source: any[] = [];
-    const rightIcon = <OkIcon data-tid="my-testy-icon" />;
+    const rightIcon = <CheckAIcon16Regular data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, rightIcon };
     render(<Autocomplete {...props} />);
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();

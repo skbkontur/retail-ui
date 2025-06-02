@@ -7,7 +7,6 @@ import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import styled from 'styled-components';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
-import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
 
 import * as Validations from '../src/index';
 import * as ReactUI from '../../react-ui/index';
@@ -82,7 +81,6 @@ addons.setConfig({
       styled,
       HandThumbDownIcon,
       HandThumbUpIcon,
-      ThumbUpIcon,
       SpaceFiller,
     },
     decorators: [ThemeDecorator, FeatureFlagsDecorator],

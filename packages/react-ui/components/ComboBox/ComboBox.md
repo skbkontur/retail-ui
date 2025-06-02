@@ -152,7 +152,7 @@ let renderItem = item => (
 ### Переопределение `renderValue`, `renderItem` и `itemWrapper`
 
 ```jsx harmony
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 import { Tooltip } from '@skbkontur/react-ui';
 
 const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
@@ -206,7 +206,7 @@ const customRenderItem = item => (
           minWidth: '20px',
         }}
       >
-        {item.approved ? <OkIcon size={14} /> : null}
+        {item.approved ? <CheckAIcon16Regular size={14} /> : null}
       </span>
       <span
         style={{

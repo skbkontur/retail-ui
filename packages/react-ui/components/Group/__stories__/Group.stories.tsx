@@ -1,7 +1,7 @@
 import React from 'react';
-import UserIcon from '@skbkontur/react-icons/User';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
+import { People1Icon16Regular } from '@skbkontur/icons/icons/People1Icon/People1Icon16Regular';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
 
 import type { Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
@@ -26,14 +26,14 @@ export default {
 export const SimpleGroupWithInputAndButton: Story = () => (
   <Group width="300px">
     <Input placeholder="Search" width="100%" />
-    <Button icon={<SearchIcon />} />
+    <Button icon={<SearchLoupeIcon16Regular />} />
   </Group>
 );
 SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
 
 export const GroupWithAllSupportedComponents: Story = () => (
   <Group>
-    <Button icon={<UserIcon />} />
+    <Button icon={<People1Icon16Regular />} />
     <Input value="" placeholder="Input" />
     <FxInput value="" placeholder="FxInput" onValueChange={console.log} />
     <Autocomplete value="" placeholder="Autocomplete" onValueChange={console.log} />
@@ -42,7 +42,7 @@ export const GroupWithAllSupportedComponents: Story = () => (
     <Select value="" placeholder="Select value" onValueChange={console.log} />
     <Dropdown caption="Dropdown" />
     <DropdownMenu caption={(props) => <Button corners={props.corners}>DropdownMenu</Button>} />
-    <Button icon={<DeleteIcon />} />
+    <Button icon={<XIcon16Regular />} />
   </Group>
 );
 GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components';
@@ -50,7 +50,7 @@ GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components
 export const SimpleGroupWithCustomInputsWidth = () => (
   <Group>
     <Input placeholder="Search" width="300px" />
-    <Button icon={<SearchIcon />} />
+    <Button icon={<SearchLoupeIcon16Regular />} />
     <Input placeholder="Search" width="100px" />
   </Group>
 );
@@ -63,7 +63,7 @@ export const GroupWithInputAndMultipleButtons = () => {
     <Group>
       <Button onClick={() => setValue('')}>Clear</Button>
       <Input value={value} onValueChange={setValue} placeholder="Search" width="100%" />
-      <Button icon={<SearchIcon />} />
+      <Button icon={<SearchLoupeIcon16Regular />} />
       <Button>Cancel</Button>
     </Group>
   );
@@ -82,8 +82,8 @@ ButtonGroup.storyName = 'Button group';
 
 export const ComplexElements = () => (
   <Group>
-    <Button icon={<DeleteIcon />} onClick={() => Toast.push('Clear!')} width="10px" />
-    <Input placeholder="Disabled" disabled rightIcon={<UserIcon />} width="100%" />
+    <Button icon={<XIcon16Regular />} onClick={() => Toast.push('Clear!')} width="10px" />
+    <Input placeholder="Disabled" disabled rightIcon={<People1Icon16Regular />} width="100%" />
     <Button onClick={() => Toast.push('Push!')} error>
       Push
     </Button>
@@ -106,7 +106,7 @@ export const WithWidth = () => (
           <BGRuler color="#888" left={10} right={9} />
           <Group width={240}>
             <Button>
-              <DeleteIcon />
+              <XIcon16Regular />
             </Button>
             <Input placeholder="240px" width="100%" />
           </Group>
@@ -114,7 +114,7 @@ export const WithWidth = () => (
           <br />
           <Group>
             <Button>
-              <DeleteIcon />
+              <XIcon16Regular />
             </Button>
             <Input placeholder="no width" width="100%" />
           </Group>
