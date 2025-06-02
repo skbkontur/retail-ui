@@ -1,6 +1,6 @@
 import React from 'react';
-import EditIcon from '@skbkontur/react-icons/Edit';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
 import EventEmitter from 'eventemitter3';
 
 import { isColor } from '../../lib/styles/ColorHelpers';
@@ -103,7 +103,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
               </Gapped>
             </div>
             <Hint text={'Изменить значение'}>
-              <Link icon={<EditIcon />} onClick={this.handleEditLinkClick} />
+              <Link icon={<ToolPencilLineIcon16Regular />} onClick={this.handleEditLinkClick} />
             </Hint>
           </Gapped>
         </div>
@@ -140,7 +140,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     return (
       <Hint text={'Вернуться к базовой переменной'}>
         <div className={styles.linkRoot()}>
-          <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
+          <Link icon={<XIcon16Regular />} onClick={this.rollbackToBaseVariable} />
         </div>
       </Hint>
     );

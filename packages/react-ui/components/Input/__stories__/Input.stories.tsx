@@ -1,7 +1,7 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import SearchIcon from '@skbkontur/react-icons/Search';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
 import type { Meta, Story } from '../../../typings/stories';
@@ -35,16 +35,16 @@ const alignStates: InputState[] = [{ align: 'center' }, { align: 'left' }, { ali
 
 const alignDifferentStates: InputState[] = [
   {},
-  { leftIcon: <SearchIcon /> },
-  { rightIcon: <SearchIcon /> },
+  { leftIcon: <SearchLoupeIcon16Regular /> },
+  { rightIcon: <SearchLoupeIcon16Regular /> },
   { prefix: 'PR' },
   { suffix: 'SF' },
-  { leftIcon: <SearchIcon />, prefix: 'PR' },
-  { leftIcon: <SearchIcon />, suffix: 'SF' },
-  { rightIcon: <SearchIcon />, prefix: 'PR' },
-  { rightIcon: <SearchIcon />, suffix: 'SF' },
-  { leftIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
-  { rightIcon: <SearchIcon />, prefix: 'PR', suffix: 'SF' },
+  { leftIcon: <SearchLoupeIcon16Regular />, prefix: 'PR' },
+  { leftIcon: <SearchLoupeIcon16Regular />, suffix: 'SF' },
+  { rightIcon: <SearchLoupeIcon16Regular />, prefix: 'PR' },
+  { rightIcon: <SearchLoupeIcon16Regular />, suffix: 'SF' },
+  { leftIcon: <SearchLoupeIcon16Regular />, prefix: 'PR', suffix: 'SF' },
+  { rightIcon: <SearchLoupeIcon16Regular />, prefix: 'PR', suffix: 'SF' },
 ];
 
 export const AlwaysShowMask: Story = () => (
@@ -90,8 +90,8 @@ const disabledStates: InputState[] = [
   { value: 'Some text' },
   { placeholder: 'Placeholder' },
   { type: 'password', value: 'Value' },
-  { leftIcon: <SearchIcon /> },
-  { rightIcon: <SearchIcon /> },
+  { leftIcon: <SearchLoupeIcon16Regular /> },
+  { rightIcon: <SearchLoupeIcon16Regular /> },
   { prefix: 'PR' },
   { suffix: 'SF' },
 ];
@@ -111,7 +111,7 @@ export const LeftIcon: Story = () => (
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={iconsLeftStates.map((x) => ({ props: x }))}
-    presetProps={{ leftIcon: <SearchIcon /> }}
+    presetProps={{ leftIcon: <SearchLoupeIcon16Regular /> }}
   />
 );
 
@@ -120,12 +120,12 @@ export const RightIcon: Story = () => (
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={iconsRightStates.map((x) => ({ props: x }))}
-    presetProps={{ rightIcon: <SearchIcon /> }}
+    presetProps={{ rightIcon: <SearchLoupeIcon16Regular /> }}
   />
 );
 
-const iconFunc = () => <SearchIcon />;
-iconFunc.toString = () => '() => <SearchIcon />';
+const iconFunc = () => <SearchLoupeIcon16Regular />;
+iconFunc.toString = () => '() => <SearchLoupeIcon16Regular />';
 
 const iconsStates: InputState[] = [{}, { defaultValue: 'Value' }, { disabled: true }];
 
@@ -196,12 +196,12 @@ const inputPrefixOrSuffixStates: InputState[] = [
   {},
   { value: 'Value' },
   { placeholder: 'Placeholder' },
-  { rightIcon: <SearchIcon /> },
-  { rightIcon: <SearchIcon />, value: 'Value' },
-  { rightIcon: <SearchIcon />, placeholder: 'Placeholder' },
-  { leftIcon: <SearchIcon /> },
-  { leftIcon: <SearchIcon />, value: 'Value' },
-  { leftIcon: <SearchIcon />, placeholder: 'Placeholder' },
+  { rightIcon: <SearchLoupeIcon16Regular /> },
+  { rightIcon: <SearchLoupeIcon16Regular />, value: 'Value' },
+  { rightIcon: <SearchLoupeIcon16Regular />, placeholder: 'Placeholder' },
+  { leftIcon: <SearchLoupeIcon16Regular /> },
+  { leftIcon: <SearchLoupeIcon16Regular />, value: 'Value' },
+  { leftIcon: <SearchLoupeIcon16Regular />, placeholder: 'Placeholder' },
 ];
 
 const inputPrefixStates: InputState[] = [...inputPrefixOrSuffixStates, { prefix: 'ooo-long-long-long-johnson' }];
@@ -256,7 +256,7 @@ export const TextStylesReset: Story = () => (
       <Input defaultValue="Value" />
       <Input defaultValue="Disabled" disabled />
       <Input mask="a9*MASK" alwaysShowMask />
-      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+      <Input leftIcon={<SearchLoupeIcon16Regular />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
     </Gapped>
   </div>
 );
@@ -320,22 +320,22 @@ const typeApiTypesDate: InputState[] = [{ type: 'date' }];
 const typeApiTypesTime: InputState[] = [{ type: 'time' }];
 
 const typeApiProps: InputState[] = [
-  { leftIcon: <SearchIcon />, value: '123' },
-  { rightIcon: <SearchIcon />, value: '123' },
-  { rightIcon: <SearchIcon />, placeholder: 'placeholder' },
+  { leftIcon: <SearchLoupeIcon16Regular />, value: '123' },
+  { rightIcon: <SearchLoupeIcon16Regular />, value: '123' },
+  { rightIcon: <SearchLoupeIcon16Regular />, placeholder: 'placeholder' },
   { prefix: 'prefix: ' },
   { suffix: ' suffix' },
 ];
 const typeApiPropsDate: InputState[] = [
-  { rightIcon: <SearchIcon /> },
-  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchLoupeIcon16Regular /> },
+  { leftIcon: <SearchLoupeIcon16Regular /> },
   { value: '2022-05-04' },
   { prefix: 'prefix: ' },
   { suffix: ' suffix' },
 ];
 const typeApiPropsTime: InputState[] = [
-  { rightIcon: <SearchIcon /> },
-  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchLoupeIcon16Regular /> },
+  { leftIcon: <SearchLoupeIcon16Regular /> },
   { value: '18:00' },
   { prefix: 'prefix: ' },
   { suffix: ' suffix' },

@@ -1,7 +1,7 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
-import AddIcon from '@skbkontur/react-icons/Add';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
 import { action } from '@storybook/addon-actions';
 import type { CSFStory } from 'creevey';
 
@@ -287,7 +287,9 @@ WithNull.parameters = { creevey: { skip: true } };
 export const UseLink: Story = () => <Select use="link" items={['one', 'two', 'three']} />;
 UseLink.storyName = 'use link';
 
-export const UseLinkWithIcon: Story = () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />;
+export const UseLinkWithIcon: Story = () => (
+  <Select _icon={<PlusIcon16Regular />} use="link" items={['one', 'two', 'three']} />
+);
 UseLinkWithIcon.storyName = 'use link with icon';
 
 export const WithTextOverflow: Story = () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />;

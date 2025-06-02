@@ -1,6 +1,6 @@
 import React from 'react';
-import SpinnerIcon from '@skbkontur/react-icons/Spinner';
-import CrownIcon from '@skbkontur/react-icons/Crown';
+import { UiLoadSpinnerIcon16Regular } from '@skbkontur/icons/icons/UiLoadSpinnerIcon/UiLoadSpinnerIcon16Regular';
+import { JewelCrownIcon16Regular } from '@skbkontur/icons/icons/JewelCrownIcon/JewelCrownIcon16Regular';
 
 import { Button } from '../Button';
 import { Link } from '../Link';
@@ -126,7 +126,7 @@ TextSpinner.storyName = 'Text, Spinner';
 
 export const IconSpinner = () => (
   <div>
-    <SpinnerIcon />
+    <UiLoadSpinnerIcon16Regular />
     <Spinner type="mini" />
   </div>
 );
@@ -161,10 +161,10 @@ const BaselineFont: React.FC<{
     >
       <Gapped>
         <div style={{ width }}>{fontFamily}</div>
-        <CrownIcon />
+        <JewelCrownIcon16Regular />
         <Link>Ok</Link>
-        <Link icon={<CrownIcon />}>Ok</Link>
-        <Link loading icon={<CrownIcon />}>
+        <Link icon={<JewelCrownIcon16Regular />}>Ok</Link>
+        <Link loading icon={<JewelCrownIcon16Regular />}>
           Ok
         </Link>
         <Toggle size={size}>Tg</Toggle>
@@ -181,7 +181,7 @@ const BaselineFont: React.FC<{
         </Radio>
         <Radio value="" size={size} />
         <Kebab size={size}>
-          <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
+          <MenuItem icon={<JewelCrownIcon16Regular />}>Menu</MenuItem>
         </Kebab>
         <MenuItem size={size} state="hover">
           Menu

@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 
 import type { Meta, Story } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
@@ -45,9 +45,9 @@ Large.storyName = '20px';
 export const KebabWithCustomIcon: Story = () => {
   return (
     <>
-      <SomethingWithKebab size="small" icon={<OkIcon color="#757575" />} />
-      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575" />} />
-      <SomethingWithKebab size="large" icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size="small" icon={<CheckAIcon16Regular color="#757575" />} />
+      <SomethingWithKebab size="medium" icon={<CheckAIcon16Regular color="#757575" />} />
+      <SomethingWithKebab size="large" icon={<CheckAIcon16Regular color="#757575" />} />
     </>
   );
 };
@@ -74,6 +74,7 @@ interface SomethingWithKebabProps {
   menuMaxHeight?: number | string;
   icon?: React.ReactNode;
 }
+
 class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
   public render() {
     const itemsList = this.props.items || defaultItemsList;
@@ -116,8 +117,8 @@ export const WithItemsAndIcons: Story = () => (
   <div style={{ width: 200, textAlign: 'center' }}>
     <Kebab>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   </div>
@@ -127,8 +128,8 @@ export const WithItemsAndIconsWithoutTextAlignment = () => (
   <div style={{ width: 200, textAlign: 'center' }}>
     <Kebab preventIconsOffset>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   </div>

@@ -3,14 +3,14 @@ import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import type { Preview } from '@storybook/react';
 import { addons } from '@storybook/manager-api';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
+import { MathFunctionIcon16Regular } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon16Regular';
 import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
 import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
-import FunctionIcon from '@skbkontur/react-icons/Function';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 import {
@@ -22,7 +22,6 @@ import {
   isLessOrEqual,
 } from '@skbkontur/react-ui/lib/date/comparison';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
-import PeopleIcon from '@skbkontur/react-icons/People';
 import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
@@ -186,11 +185,11 @@ addons.setConfig({
       isLess,
       isLessOrEqual,
       ViewDateInputValidateChecks,
-      MenuIcon,
-      PeopleIcon,
-      SearchIcon,
-      HelpDotIcon,
-      FunctionIcon,
+      UiMenuBars3HIcon16Regular,
+      People3Icon,
+      SearchLoupeIcon16Regular,
+      QuestionCircleIcon16Regular,
+      MathFunctionIcon16Regular,
       CopyIcon16Regular,
       TrashCanIcon,
       MoneyTypeCoinsIcon,
@@ -208,7 +207,6 @@ addons.setConfig({
       ToolPencilLineIcon24Regular,
       TrashCanIcon24Regular,
       TechPhoneSmartIcon,
-      People3Icon,
       UiMenuBars3HIcon,
       QuestionCircleIcon,
       LightbulbIcon32Regular,

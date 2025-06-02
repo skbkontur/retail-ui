@@ -49,8 +49,8 @@ const items = ['One', 'Two', 'Three', Select.SEP, 'Four'];
 ### Пример использования пропа `_renderButton`:
 
 ```jsx harmony
-import {Link} from '@skbkontur/react-ui';
-import PeopleIcon from '@skbkontur/react-icons/People';
+import { Link } from '@skbkontur/react-ui';
+import { People3Icon16Regular } from '@skbkontur/icons/icons/People3Icon/People3Icon16Regular';
 
 const [value, setValue] = React.useState();
 
@@ -60,7 +60,7 @@ const items = [Select.staticElement(() => <Select.Item>Not
 const renderLinkButton = params => {
   const linkProps = {
     disabled: params.disabled,
-    icon: <PeopleIcon/>,
+    icon: <People3Icon16Regular />,
     _button: true,
     _buttonOpened: params.opened,
 

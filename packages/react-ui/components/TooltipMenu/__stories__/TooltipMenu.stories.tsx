@@ -1,6 +1,6 @@
 import React from 'react';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
+import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular';
 
 import type { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
@@ -83,7 +83,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
   <TooltipMenu
     caption={
       <span style={{ display: 'inline-block' }} tabIndex={0}>
-        <MenuIcon size={32} />
+        <UiMenuBars3HIcon16Regular size={32} />
       </span>
     }
     menuWidth="220px"
@@ -100,7 +100,7 @@ export const MenuInRightPositionOnly = () => (
   <TooltipMenu
     caption={
       <span style={{ display: 'inline-block' }} tabIndex={0}>
-        <LightbulbIcon size={32} />
+        <LightbulbIcon16Regular size={32} />
       </span>
     }
     menuWidth="160px"
@@ -118,7 +118,7 @@ export const MenuInTopPositionOnlyAlignRight = () => (
   <TooltipMenu
     caption={
       <span style={{ display: 'inline-block' }} tabIndex={0}>
-        <LightbulbIcon size={32} />
+        <LightbulbIcon16Regular size={32} />
       </span>
     }
     menuWidth="150px"
@@ -147,13 +147,13 @@ export const WithItemsAndIcons = () => (
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <MenuIcon size={32} />
+          <UiMenuBars3HIcon16Regular size={32} />
         </span>
       }
     >
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<LightbulbIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<LightbulbIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem1</MenuItem>
+      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   </div>
@@ -165,13 +165,13 @@ export const WithItemsAndIconsWithoutTextAlignment = () => (
       preventIconsOffset
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <MenuIcon size={32} />
+          <UiMenuBars3HIcon16Regular size={32} />
         </span>
       }
     >
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<LightbulbIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<LightbulbIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem1</MenuItem>
+      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   </div>

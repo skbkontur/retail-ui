@@ -1,15 +1,14 @@
 ### Базовый пример
 ```jsx harmony
-import SearchIcon from '@skbkontur/react-icons/Search';
 
 <Input />;
 ```
 
 ### Иконка
 ```jsx harmony
-import SearchIcon from '@skbkontur/react-icons/Search';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 
-<Input leftIcon={<SearchIcon />} />;
+<Input leftIcon={<SearchLoupeIcon16Regular />} />;
 ```
 
 ### Очистка значения
@@ -29,12 +28,12 @@ const [value, setValue] = React.useState('Значение');
 ### Префикс
 
 ```jsx harmony
-import SearchIcon from '@skbkontur/react-icons/Search';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 
 <Input
   width={400}
   prefix="https://kontur.ru/search?query="
-  rightIcon={<SearchIcon />}
+  rightIcon={<SearchLoupeIcon16Regular />}
 />;
 ```
 

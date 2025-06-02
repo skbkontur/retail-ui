@@ -108,12 +108,12 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
-import MenuIcon from '@skbkontur/react-icons/Menu';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
 
 <TooltipMenu
   caption={
     <span style={{ display: 'inline-block' }} tabIndex="0">
-      <MenuIcon size={32} />
+      <UiMenuBars3HIcon16Regular size={32} />
     </span>
   }
   menuWidth="300px"
@@ -128,12 +128,12 @@ import MenuIcon from '@skbkontur/react-icons/Menu';
 
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
-import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
+import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular';
 
 <TooltipMenu
   caption={
     <span style={{ display: 'inline-block' }} tabIndex="0">
-      <LightbulbIcon size={32} />
+      <LightbulbIcon16Regular size={32} />
     </span>
   }
   menuWidth="300px"
@@ -149,12 +149,12 @@ import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
-import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
+import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular';
 
 <TooltipMenu
   caption={
     <span style={{ display: 'inline-block' }} tabIndex="0">
-      <LightbulbIcon size={32} />
+      <LightbulbIcon16Regular size={32} />
     </span>
   }
   menuWidth="300px"
@@ -186,12 +186,12 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
 
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>MenuHeader</MenuHeader>
-  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem icon={<PlusIcon16Regular />}>MenuItem1</MenuItem>
+  <MenuItem icon={<PlusIcon16Regular />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
 </TooltipMenu>;
 ```
@@ -200,12 +200,12 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
 
 <TooltipMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>MenuHeader</MenuHeader>
-  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem icon={<PlusIcon16Regular />}>MenuItem1</MenuItem>
+  <MenuItem icon={<PlusIcon16Regular />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
 </TooltipMenu>
 ```

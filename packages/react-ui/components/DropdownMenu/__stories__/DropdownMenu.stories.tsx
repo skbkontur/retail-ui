@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import AddIcon from '@skbkontur/react-icons/Add';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
+import { ArrowADownRightIcon16Regular } from '@skbkontur/icons/icons/ArrowADownRightIcon/ArrowADownRightIcon16Regular';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
 
 import type { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
@@ -147,7 +147,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
     menuWidth="300px"
     caption={
       <span tabIndex={0} style={{ display: 'inline-block' }}>
-        <MenuIcon size={32} />
+        <UiMenuBars3HIcon16Regular size={32} />
       </span>
     }
   >
@@ -164,7 +164,7 @@ export const OnlyStaticElements = () => (
     menuWidth="300px"
     caption={
       <span tabIndex={0} style={{ display: 'inline-block' }}>
-        <MenuIcon size={32} />
+        <UiMenuBars3HIcon16Regular size={32} />
       </span>
     }
   >
@@ -188,7 +188,7 @@ export const CaptionAcceptsAFunction = () => (
         }}
       >
         <Button use="primary" onClick={captionProps.toggleMenu}>
-          <ArrowSize2Icon size={16} />
+          <ArrowADownRightIcon16Regular size={16} />
         </Button>
       </span>
     )}
@@ -257,14 +257,19 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
           padding: '10px 18px 10px 8px',
         }}
       >
-        <Input leftIcon={<SearchIcon />} value={this.state.value} onValueChange={this.handleInputChange} width={220} />
+        <Input
+          leftIcon={<SearchLoupeIcon16Regular />}
+          value={this.state.value}
+          onValueChange={this.handleInputChange}
+          width={220}
+        />
       </div>
     );
   };
 
   private footer = () => {
     const { hasHeader } = this.state;
-    const icon = hasHeader ? <DeleteIcon /> : <AddIcon />;
+    const icon = hasHeader ? <XIcon16Regular /> : <PlusIcon16Regular />;
     return (
       <div style={{ paddingTop: 4 }}>
         <Button use={'link'} icon={icon} onClick={this.switchHeaderState}>

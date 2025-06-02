@@ -117,12 +117,12 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, DropdownMenu } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';;
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>MenuHeader</MenuHeader>
-  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
 </DropdownMenu>;
 ```
@@ -131,12 +131,12 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, DropdownMenu } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';;
 
 <DropdownMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>MenuHeader</MenuHeader>
-  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
 </DropdownMenu>
 ```
@@ -162,13 +162,13 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 В `caption` можно передать любой элемент.
 
 ```jsx harmony
-import MenuIcon from '@skbkontur/react-icons/Menu';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
 import { MenuItem } from '@skbkontur/react-ui';
 
 <DropdownMenu
   caption={
     <span style={{ display: 'inline-block' }} tabIndex="0">
-      <MenuIcon size={32} />
+      <UiMenuBars3HIcon16Regular size={32} />
     </span>
   }
   menuWidth="300px"

@@ -1,15 +1,15 @@
 import type { ReactElement } from 'react';
 import React from 'react';
-import ArchivePack from '@skbkontur/react-icons/ArchivePack';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import { XIcon16Light, XIcon20Light, XIcon24Regular } from '@skbkontur/icons/icons/XIcon';
-import {
-  CheckAIcon,
-  CheckAIcon16Light,
-  CheckAIcon20Light,
-  CheckAIcon24Regular,
-} from '@skbkontur/icons/icons/CheckAIcon';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
+import { ArchiveBoxIcon16Regular } from '@skbkontur/icons/icons/ArchiveBoxIcon/ArchiveBoxIcon16Regular';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { XIcon16Light } from '@skbkontur/icons/icons/XIcon/XIcon16Light';
+import { XIcon20Light } from '@skbkontur/icons/icons/XIcon/XIcon20Light';
+import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
+import { CheckAIcon20Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon20Light';
+import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
 
 import type { Meta, Story } from '../../../typings/stories';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
@@ -73,12 +73,12 @@ const buttonAsLinkTestingProps: ButtonState[] = [
   { children: 'Link' },
   { disabled: true },
   { loading: true },
-  { icon: <OkIcon /> },
-  { icon: <OkIcon />, disabled: true },
-  { rightIcon: <OkIcon /> },
-  { rightIcon: <OkIcon />, disabled: true },
-  { icon: <OkIcon />, rightIcon: <OkIcon /> },
-  { icon: <OkIcon />, rightIcon: <OkIcon />, disabled: true },
+  { icon: <CheckAIcon16Regular /> },
+  { icon: <CheckAIcon16Regular />, disabled: true },
+  { rightIcon: <CheckAIcon16Regular /> },
+  { rightIcon: <CheckAIcon16Regular />, disabled: true },
+  { icon: <CheckAIcon16Regular />, rightIcon: <CheckAIcon16Regular /> },
+  { icon: <CheckAIcon16Regular />, rightIcon: <CheckAIcon16Regular />, disabled: true },
   { error: true },
   { warning: true },
 ];
@@ -301,14 +301,14 @@ export const Icon: Story = () => (
   />
 );
 const iconDifferentStates: ButtonState[] = [
-  { icon: <ArchivePack /> },
-  { icon: <ArchivePack />, children: 'Button' },
-  { icon: <OkIcon /> },
-  { icon: <OkIcon />, loading: true },
-  { icon: <OkIcon />, children: 'Button' },
-  { icon: <OkIcon />, children: 'Button', size: 'medium' },
-  { icon: <OkIcon />, children: 'Button', size: 'large' },
-  { icon: <OkIcon />, children: 'Button', loading: true },
+  { icon: <ArchiveBoxIcon16Regular /> },
+  { icon: <ArchiveBoxIcon16Regular />, children: 'Button' },
+  { icon: <CheckAIcon16Regular /> },
+  { icon: <CheckAIcon16Regular />, loading: true },
+  { icon: <CheckAIcon16Regular />, children: 'Button' },
+  { icon: <CheckAIcon16Regular />, children: 'Button', size: 'medium' },
+  { icon: <CheckAIcon16Regular />, children: 'Button', size: 'large' },
+  { icon: <CheckAIcon16Regular />, children: 'Button', loading: true },
 ];
 
 export const RightIcon: Story = () => (
@@ -377,7 +377,11 @@ export const MultilineTextWithLinkButton = () => (
   </div>
 );
 
-const disabledDifferentStates: ButtonState[] = [{}, { loading: true }, { loading: true, icon: <OkIcon /> }];
+const disabledDifferentStates: ButtonState[] = [
+  {},
+  { loading: true },
+  { loading: true, icon: <CheckAIcon16Regular /> },
+];
 
 export const Checked: Story = () => (
   <ComponentTable
@@ -440,11 +444,11 @@ const differentPriorityStates: ButtonState[] = [
 export const IconDifferentContent = () => (
   <Gapped vertical>
     <span>Icon as children</span>
-    <Button>{<OkIcon />}</Button>
-    <Button icon={<OkIcon />} use={'primary'}>
+    <Button>{<CheckAIcon16Regular />}</Button>
+    <Button icon={<CheckAIcon16Regular />} use={'primary'}>
       Icon with long text and color
     </Button>
-    <Button icon={<OkIcon />} width="200px">
+    <Button icon={<CheckAIcon16Regular />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
@@ -452,10 +456,10 @@ export const IconDifferentContent = () => (
 
 export const RightIconDifferentContent = () => (
   <Gapped vertical>
-    <Button rightIcon={<OkIcon />} use={'primary'}>
+    <Button rightIcon={<CheckAIcon16Regular />} use={'primary'}>
       Icon with long text and color
     </Button>
-    <Button rightIcon={<OkIcon />} width="200px">
+    <Button rightIcon={<CheckAIcon16Regular />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
@@ -463,10 +467,10 @@ export const RightIconDifferentContent = () => (
 
 export const BothIconsDifferentContent = () => (
   <Gapped vertical>
-    <Button icon={<OkIcon />} rightIcon={<OkIcon />} use={'primary'}>
+    <Button icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />} use={'primary'}>
       Icon with long text and color
     </Button>
-    <Button icon={<OkIcon />} rightIcon={<OkIcon />} width="200px">
+    <Button icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
@@ -502,7 +506,7 @@ export const TextStylesReset = () => (
     <Gapped>
       <span>Inherited Styles</span>
       <Button>
-        <SearchIcon />
+        <SearchLoupeIcon16Regular />
       </Button>
       <Button>Button</Button>
       <Button visuallyFocused>Focused</Button>
@@ -543,12 +547,12 @@ const unusedDifferentStates: ButtonState[] = [
 export const IconColor: Story = () => {
   return (
     <Gapped vertical>
-      <Button icon={<OkIcon color="red" />}>Old icon</Button>
+      <Button icon={<CheckAIcon16Regular color="red" />}>Old icon</Button>
       <Button icon={<CheckAIcon color="red" />}>New icon</Button>
       <Button
         icon={
           <span style={{ color: 'red' }}>
-            <OkIcon />
+            <CheckAIcon16Regular />
           </span>
         }
       >
@@ -563,7 +567,7 @@ export const IconColor: Story = () => {
       >
         New icon in span
       </Button>
-      <Button theme={{ btnIconColor: 'red' }} icon={<OkIcon />}>
+      <Button theme={{ btnIconColor: 'red' }} icon={<CheckAIcon16Regular />}>
         btnIconColor
       </Button>
     </Gapped>
@@ -626,7 +630,7 @@ export const ButtonAsLinkIconColor: Story = () => {
       data-tid="test-button"
       theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }}
       component="a"
-      icon={<OkIcon />}
+      icon={<CheckAIcon16Regular />}
     >
       Button as link
     </Button>
@@ -635,7 +639,7 @@ export const ButtonAsLinkIconColor: Story = () => {
 
 export const ButtonAsLinkIconDisabledColor: Story = () => {
   return (
-    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<OkIcon />} disabled>
+    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<CheckAIcon16Regular />} disabled>
       Button as link
     </Button>
   );

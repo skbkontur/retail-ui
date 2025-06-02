@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import type { ReactNode } from 'react';
 import React, { useState, useContext } from 'react';
-import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
+import { MediaUiAStopIcon16Regular } from '@skbkontur/icons/icons/MediaUiAStopIcon/MediaUiAStopIcon16Regular';
 
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import type { Story } from '../../../typings/stories';
@@ -105,19 +105,64 @@ class ModalWithIconInput extends React.Component {
     return (
       <Modal onClose={this.close}>
         <Modal.Header>
-          <Input size="large" placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size="medium" placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size="small" placeholder="Modal.Header" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input
+            size="large"
+            placeholder="Modal.Header"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
+          <Input
+            size="medium"
+            placeholder="Modal.Header"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
+          <Input
+            size="small"
+            placeholder="Modal.Header"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
         </Modal.Header>
         <Modal.Body>
-          <Input size="large" placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size="medium" placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size="small" placeholder="Modal.Body" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input
+            size="large"
+            placeholder="Modal.Body"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
+          <Input
+            size="medium"
+            placeholder="Modal.Body"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
+          <Input
+            size="small"
+            placeholder="Modal.Body"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
         </Modal.Body>
         <Modal.Footer>
-          <Input size="large" placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size="medium" placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
-          <Input size="small" placeholder="Modal.Footer" leftIcon={<BorderAllIcon />} rightIcon={<BorderAllIcon />} />
+          <Input
+            size="large"
+            placeholder="Modal.Footer"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
+          <Input
+            size="medium"
+            placeholder="Modal.Footer"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
+          <Input
+            size="small"
+            placeholder="Modal.Footer"
+            leftIcon={<MediaUiAStopIcon16Regular />}
+            rightIcon={<MediaUiAStopIcon16Regular />}
+          />
         </Modal.Footer>
       </Modal>
     );

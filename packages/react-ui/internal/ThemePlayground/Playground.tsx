@@ -1,10 +1,10 @@
 import React from 'react';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import LinkIcon from '@skbkontur/react-icons/Link';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import ErrorIcon from '@skbkontur/react-icons/Error';
-import TrashIcon from '@skbkontur/react-icons/Trash';
-import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { AttachLinkIcon16Regular } from '@skbkontur/icons/icons/AttachLinkIcon/AttachLinkIcon16Regular';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
+import { MinusCircleIcon16Regular } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 
 import type { ButtonProps } from '../../components/Button';
 import { Button } from '../../components/Button';
@@ -140,11 +140,11 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderLinksGroup = () => {
     const propsList: LinkProps[] = [
-      { icon: <LinkIcon />, children: 'Enabled' },
-      { icon: <OkIcon />, use: 'success', children: 'Success' },
-      { icon: <ErrorIcon />, use: 'danger', children: 'Danger' },
-      { icon: <TrashIcon />, use: 'grayed', children: 'Grayed' },
-      { icon: <TrashIcon />, children: 'Disabled', disabled: true },
+      { icon: <AttachLinkIcon16Regular />, children: 'Enabled' },
+      { icon: <CheckAIcon16Regular />, use: 'success', children: 'Success' },
+      { icon: <MinusCircleIcon16Regular />, use: 'danger', children: 'Danger' },
+      { icon: <TrashCanIcon16Regular />, use: 'grayed', children: 'Grayed' },
+      { icon: <TrashCanIcon16Regular />, children: 'Disabled', disabled: true },
     ];
     return (
       <ComponentsGroup title={'Ссылки'} theme={this.theme}>
@@ -185,7 +185,7 @@ export class Playground extends React.Component<PlaygroundProps> {
     const fromProps = getComponentsFromPropsList(<Input width={120} />, propsList);
     return (
       <ComponentsGroup title={'Поле ввода'} theme={this.theme}>
-        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />
+        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchLoupeIcon16Regular />} />
         <div>
           <Gapped gap={10}>{fromProps}</Gapped>
         </div>
@@ -248,7 +248,7 @@ export class Playground extends React.Component<PlaygroundProps> {
     return (
       <ComponentsGroup title={'Тултип'} theme={this.theme}>
         <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
-          <Link icon={<HelpDotIcon />} />
+          <Link icon={<QuestionCircleIcon16Regular />} />
         </Tooltip>
       </ComponentsGroup>
     );

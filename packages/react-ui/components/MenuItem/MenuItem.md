@@ -65,23 +65,23 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
-import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
+import { TechPhoneSmartIcon16Regular } from '@skbkontur/icons/icons/TechPhoneSmartIcon/TechPhoneSmartIcon16Regular';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
+import { HandThumbDownIcon16Regular } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon16Regular';
 
 
 <DropdownMenu
   caption={<Button use="primary">Открыть меню с иконками</Button>}
   >
-  <MenuItem icon={<OkIcon />}>Базовый элемент меню c иконкой</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>Базовый элемент меню c иконкой</MenuItem>
   <MenuItem
     disabled
-    icon={<ThumbDownIcon />}
+    icon={<HandThumbDownIcon16Regular />}
     >
     Отключённый элемент меню с иконкой
   </MenuItem>
   <MenuItem
-    icon={<DeviceSmartphoneIcon />}
+    icon={<TechPhoneSmartIcon16Regular />}
     comment="А слева вы можете видеть икону 21-го века"
     >
      Элемент меню с описанием и иконкой

@@ -1,18 +1,18 @@
 ### Базовый пример
 ```jsx harmony
-import FunctionIcon from '@skbkontur/react-icons/Function';
-import SearchIcon from '@skbkontur/react-icons/Search';
+import { MathFunctionIcon16Regular } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon16Regular';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import { Button, Input } from '@skbkontur/react-ui';
 
 const [value, setValue] = React.useState('Foo');
 
 <Group width={300}>
   <Button>
-    <FunctionIcon />
+    <MathFunctionIcon16Regular />
   </Button>
   <Input value={value} width="100%" onValueChange={setValue} />
   <Button>
-    <SearchIcon />
+    <SearchLoupeIcon16Regular />
   </Button>
   <Button>Bar</Button>
 </Group>;

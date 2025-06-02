@@ -1,8 +1,8 @@
 ### Базовый пример
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { Gapped, MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
@@ -22,10 +22,10 @@ let Card = ({ name, post }) => (
     </div>
 
     <Kebab size="large">
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashCanIcon16Regular />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -47,8 +47,8 @@ let Card = ({ name, post }) => (
 ### Размер
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { Gapped, MenuItem, Toast} from '@skbkontur/react-ui';
 
 let style = {
@@ -67,10 +67,10 @@ let Card = ({ title, size }) => (
     </div>
 
     <Kebab size={size}>
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashCanIcon16Regular />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -87,8 +87,8 @@ let Card = ({ title, size }) => (
 ### Кебаб-меню с выпадашкой слева
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
@@ -108,10 +108,10 @@ let Card = ({ title }) => (
     </div>
 
     <Kebab positions={['left middle']} size="large">
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashCanIcon16Regular />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -124,8 +124,8 @@ let Card = ({ title }) => (
 ### Кастомное действие при открытии
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
@@ -147,10 +147,10 @@ let Card = ({ title }) => (
       onOpen={() => Toast.push('Кебаб-меню открылось!')}
       size="large"
       >
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashCanIcon16Regular />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -164,12 +164,12 @@ let Card = ({ title }) => (
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 
 <Kebab>
   <MenuHeader>MenuHeader</MenuHeader>
-  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
 </Kebab>;
 ```
@@ -178,12 +178,12 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator, Kebab } from '@skbkontur/react-ui';
-import OkIcon from '@skbkontur/react-icons/Ok';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 
 <Kebab preventIconsOffset>
   <MenuHeader>MenuHeader</MenuHeader>
-  <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
-  <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
+  <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
   <MenuItem>MenuItem3</MenuItem>
 </Kebab>
 ```
@@ -191,8 +191,8 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 ### Отключенное кебаб-меню
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
@@ -211,10 +211,10 @@ let Card = ({ title }) => (
     </div>
 
     <Kebab disabled size="large">
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashCanIcon16Regular />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -227,8 +227,8 @@ let Card = ({ title }) => (
 ### Отключенная анимация
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
@@ -247,10 +247,10 @@ let Card = ({ title }) => (
     </div>
 
     <Kebab disableAnimations size="large">
-      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Отредактировано')}>
+      <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Отредактировано')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Удалено')}>
+      <MenuItem icon={<TrashCanIcon16Regular />} onClick={() => Toast.push('Удалено')}>
         Удалить
       </MenuItem>
     </Kebab>
@@ -263,8 +263,8 @@ let Card = ({ title }) => (
 ### Высота
 
 ```jsx harmony
-import EditIcon from '@skbkontur/react-icons/Edit';
-import TrashIcon from '@skbkontur/react-icons/Trash';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {

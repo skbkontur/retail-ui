@@ -1,6 +1,5 @@
 import React from 'react';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
 
 import type { Story } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -30,26 +29,26 @@ export const WithIcon: Story = () => {
   return (
     <Gapped vertical>
       <Gapped gap={20}>
-        <Link icon={<CheckAIcon16Light />}>Left Icon Link</Link>
-        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+        <Link icon={<CheckAIcon16Regular />}>Left Icon Link</Link>
+        <Link icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />}>
           Both Icons Link
         </Link>
-        <Link rightIcon={<CheckAIcon16Light />}>Right Icon Link</Link>
-        <Link icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />} error>
+        <Link rightIcon={<CheckAIcon16Regular />}>Right Icon Link</Link>
+        <Link icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />} error>
           Both Icons Link Error
         </Link>
       </Gapped>
       <Gapped gap={20}>
-        <Link loading icon={<CheckAIcon16Light />}>
+        <Link loading icon={<CheckAIcon16Regular />}>
           Left Icon Link
         </Link>
-        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />}>
+        <Link loading icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />}>
           Both Icons Link
         </Link>
-        <Link loading rightIcon={<CheckAIcon16Light />}>
+        <Link loading rightIcon={<CheckAIcon16Regular />}>
           Right Icon Link
         </Link>
-        <Link loading icon={<CheckAIcon16Light />} rightIcon={<CheckAIcon16Light />} warning>
+        <Link loading icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />} warning>
           Both Icons Link Warning
         </Link>
       </Gapped>
@@ -58,7 +57,7 @@ export const WithIcon: Story = () => {
 };
 
 export const Danger: Story = () => (
-  <Link icon={<OkIcon />} use="danger">
+  <Link icon={<CheckAIcon16Regular />} use="danger">
     Simple Link
   </Link>
 );
@@ -84,7 +83,7 @@ export const Loading: Story = () => (
       <Link loading>loading link </Link>
       and end of line
     </div>
-    <Link loading icon={<OkIcon />}>
+    <Link loading icon={<CheckAIcon16Regular />}>
       Loading link with icon
     </Link>
   </Gapped>
@@ -95,7 +94,7 @@ export const FocusedStyledLink: Story = () => {
       {(theme) => {
         return (
           <ThemeContext.Provider value={ThemeFactory.create({ linkHoverTextDecorationStyle: 'dotted' }, theme)}>
-            <Link icon={<OkIcon />}>Simple Link</Link>
+            <Link icon={<CheckAIcon16Regular />}>Simple Link</Link>
           </ThemeContext.Provider>
         );
       }}
@@ -109,12 +108,12 @@ const linkUseStates: LinkState[] = [{ use: 'default' }, { use: 'danger' }, { use
 const componentPropStates: LinkState[] = [
   { children: 'Button' },
   { disabled: true },
-  { icon: <CheckAIcon16Light /> },
-  { icon: <CheckAIcon16Light />, loading: true },
-  { rightIcon: <CheckAIcon16Light /> },
-  { rightIcon: <CheckAIcon16Light />, loading: true },
-  { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light /> },
-  { icon: <CheckAIcon16Light />, rightIcon: <CheckAIcon16Light />, loading: true },
+  { icon: <CheckAIcon16Regular /> },
+  { icon: <CheckAIcon16Regular />, loading: true },
+  { rightIcon: <CheckAIcon16Regular /> },
+  { rightIcon: <CheckAIcon16Regular />, loading: true },
+  { icon: <CheckAIcon16Regular />, rightIcon: <CheckAIcon16Regular /> },
+  { icon: <CheckAIcon16Regular />, rightIcon: <CheckAIcon16Regular />, loading: true },
   { warning: true },
   { error: true },
 ];
