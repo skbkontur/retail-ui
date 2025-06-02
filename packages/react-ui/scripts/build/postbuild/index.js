@@ -51,7 +51,7 @@ function isIndexFile(file) {
 }
 
 function handleModule(esmPath, cjsPath) {
-  log(`Handle`, esmPath, `green`);
+  // log(`Handle`, esmPath, `green`);
 
   const typesPath = esmPath.replace('.js', '.d.ts');
   const movedModulePath = moveModule(esmPath);
@@ -75,7 +75,7 @@ function moveModule(filepath) {
 
   const resultpath = path.join(destDir, fileInfo.base);
 
-  log(`Move`, resultpath, `gray`);
+  // log(`Move`, resultpath, `gray`);
 
   fs.moveSync(filepath, resultpath);
   extraFilesToMove.forEach((filename) => {
@@ -101,7 +101,7 @@ function createPackageJson(esmPath, cjsPath, typesPath) {
   };
   const packageJsonPath = path.join(dir, 'package.json');
 
-  log(`Create`, packageJsonPath, `blue`);
+  // log(`Create`, packageJsonPath, `blue`);
 
   outputFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 }
