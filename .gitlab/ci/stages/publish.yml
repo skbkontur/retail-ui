@@ -15,7 +15,7 @@
     - ls -a
     - echo "registry=https://registry.npmjs.org" > .npmrc
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-    - npm publish
+    - npm publish --workspaces=false
   after_script:
     # - ls -a $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
     # - rm -rf .npmrc
