@@ -10,40 +10,9 @@ const delay = time => args => new Promise(resolve => setTimeout(resolve, time, a
 const getItems = q =>
   Promise.resolve(
     ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-      x => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+      x => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q,
     ),
   ).then(delay(500));
-
-const tokenColors = {
-  First: {
-    idle: 'grayIdle',
-    active: 'grayActive',
-  },
-  Second: {
-    idle: 'blueIdle',
-    active: 'blueActive',
-  },
-  Third: {
-    idle: 'greenIdle',
-    active: 'greenActive',
-  },
-  Fourth: {
-    idle: 'yellowIdle',
-    active: 'yellowActive',
-  },
-  Fifth: {
-    idle: 'redIdle',
-    active: 'redActive',
-  },
-  Sixth: {
-    idle: 'white',
-    active: 'black',
-  },
-  default: {
-    idle: 'defaultIdle',
-    active: 'defaultActive',
-  },
-};
 
 <div style={{ width: '300px' }}>
   <TokenInput
@@ -52,7 +21,7 @@ const tokenColors = {
     selectedItems={selectedItems}
     onValueChange={setSelectedItems}
     renderToken={(item, tokenProps) => (
-      <Token key={item.toString()} colors={tokenColors[item] || tokenColors.default} {...tokenProps}>
+      <Token key={item.toString()} {...tokenProps}>
         {item}
       </Token>
     )}
