@@ -14,89 +14,7 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Базовый пример';
 
-/** У разных токенов может быть разный цвет. */
 export const Example2: Story = () => {
-  const colors = {
-    default: {
-      idle: 'defaultIdle',
-      active: 'defaultActive',
-    },
-    gray: {
-      idle: 'grayIdle',
-      active: 'grayActive',
-    },
-    blue: {
-      idle: 'blueIdle',
-      active: 'blueActive',
-    },
-    green: {
-      idle: 'greenIdle',
-      active: 'greenActive',
-    },
-    yellow: {
-      idle: 'yellowIdle',
-      active: 'yellowActive',
-    },
-    red: {
-      idle: 'redIdle',
-      active: 'redActive',
-    },
-    mono: {
-      idle: 'white',
-      active: 'black',
-    },
-  };
-
-  return (
-    <Gapped gap={20} vertical>
-      <Gapped gap={10}>
-        <Token colors={colors.default}>Default</Token>
-        <Token isActive colors={colors.default}>
-          Default
-        </Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token colors={colors.gray}>Gray</Token>
-        <Token isActive colors={colors.gray}>
-          Gray
-        </Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token colors={colors.blue}>Blue</Token>
-        <Token isActive colors={colors.blue}>
-          Blue
-        </Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token colors={colors.green}>Green</Token>
-        <Token isActive colors={colors.green}>
-          Green
-        </Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token colors={colors.yellow}>Yellow</Token>
-        <Token isActive colors={colors.yellow}>
-          Yellow
-        </Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token colors={colors.red}>Red</Token>
-        <Token isActive colors={colors.red}>
-          Red
-        </Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token colors={colors.mono}>Monochrome</Token>
-        <Token isActive colors={colors.mono}>
-          Monochrome
-        </Token>
-      </Gapped>
-    </Gapped>
-  );
-};
-Example2.storyName = 'Цвет токена';
-
-export const Example3: Story = () => {
   return (
     <Gapped gap={20} vertical>
       <Gapped gap={10}>
@@ -116,9 +34,9 @@ export const Example3: Story = () => {
     </Gapped>
   );
 };
-Example3.storyName = 'Состояние валидации';
+Example2.storyName = 'Состояние валидации';
 
-export const Example4: Story = () => {
+export const Example3: Story = () => {
   return (
     <Gapped vertical>
       <Token size="small">Маленький</Token>
@@ -127,4 +45,4 @@ export const Example4: Story = () => {
     </Gapped>
   );
 };
-Example4.storyName = 'Размер';
+Example3.storyName = 'Размер';
