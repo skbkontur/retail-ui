@@ -1,6 +1,6 @@
 import React from 'react';
 import type { FileUploaderRef } from '@skbkontur/react-ui';
-import { FileUploader, Button } from '@skbkontur/react-ui';
+import { FileUploader, Button, Toggle, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
@@ -71,18 +71,45 @@ export const Example7: Story = () => {
     />
   );
 };
-Example7.storyName = 'Валидация файла в списке';
-
-export const Example8: Story = () => {
-  return <FileUploader multiple error />;
-};
-Example8.storyName = 'Валидация контрола';
+Example7.storyName = 'Валидация файлов в списке перед отправкой на сервер';
 
 /**
- * В критичных случаях, если нужно удалить файлы можно удалить вручную, используя метод removeFile из ref.
- * Обратите внимание, что при вызове removeFile вызываются коллбэки onRemove и onValueChange.
+ * Чтобы указать на ошибку загрузки файла на сервер, функция `request` должна вернуть `Promise` в состоянии `rejected`.
+ * Тогда рядом с файлом появится иконка ошибки.
+ *
+ * Проп `onRequestError` можно использовать для переключения состояния ошибки всей формы.
  */
+export const Example8: Story = () => {
+  const [error, setError] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
+
+  const request = () =>
+    new Promise<void>((resolve, reject) => {
+      setTimeout(() => (showError ? reject() : resolve()), 1000);
+    });
+  const reject = () => setError(true);
+
+  return (
+    <Gapped vertical>
+      <FileUploader multiple error={error} onRemove={() => setError(false)} request={request} onRequestError={reject} />
+      <Toggle checked={showError} onValueChange={setShowError}>
+        Показывать ошибку загрузки
+      </Toggle>
+    </Gapped>
+  );
+};
+Example8.storyName = 'Валидация файлов в списке на сервере';
+
 export const Example9: Story = () => {
+  return <FileUploader multiple error />;
+};
+Example9.storyName = 'Валидация контрола';
+
+/**
+ * Если требуется удалить файлы вручную, используйте метод `removeFile` из `ref`.
+ * При его вызове автоматически вызываются колбэки `onValueChange` и `onRemove`.
+ */
+export const Example10: Story = () => {
   const fileUploaderRef = React.useRef<FileUploaderRef>(null);
   const [fileList, setFileList] = React.useState<FileUploaderAttachedFile[]>([]);
   return (
@@ -99,4 +126,4 @@ export const Example9: Story = () => {
   );
 };
 
-Example9.storyName = 'Ручное удаление файлов';
+Example10.storyName = 'Ручное удаление файлов';
