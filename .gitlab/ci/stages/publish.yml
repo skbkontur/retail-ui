@@ -9,14 +9,14 @@
     # - cat .npmrc
     # - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
   script:
-    # - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
-    - yarn workspace @skbkontur/react-ui prerelease
-    - cd $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
-    - ls -a
+    - npm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
+    - source .gitlab/ci/scripts/publish/release.sh $WORKSPACE
+    # - yarn workspace @skbkontur/react-ui prerelease
+    # - cd $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
+    # - ls -a
     # - echo "registry=https://registry.npmjs.org" > .npmrc
     # - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-    - npm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
-    - npm publish
+    # - npm publish
   after_script:
     # - ls -a $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
     # - rm -rf .npmrc
