@@ -14,12 +14,14 @@
     - cd $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
     - ls -a
     # - echo "registry=https://registry.npmjs.org" > .npmrc
-    - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-    - npm publish --workspaces=false
+    # - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+    - npm config set "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
+    - npm publish
   after_script:
     # - ls -a $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
     # - rm -rf .npmrc
     # - rm -rf $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/.npmrc
+    - npm config delete "//registry.npmjs.org/:_authToken"
 
 React UI Publish:
   extends:
