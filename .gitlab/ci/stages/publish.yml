@@ -13,7 +13,7 @@
     - yarn workspace @skbkontur/react-ui prerelease
     - cd $CI_PROJECT_DIR/packages/${WORKSPACE#@skbkontur/}/build/
     - ls -a
-    - echo "registry=https://registry.npmjs.org" > .npmrc
+    # - echo "registry=https://registry.npmjs.org" > .npmrc
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
     - npm publish --workspaces=false
   after_script:
