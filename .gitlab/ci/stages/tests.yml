@@ -1,14 +1,9 @@
 .test-base:
   extends:
     - .use-install-cache
-  artifacts:
-    when: always
-    reports:
-      annotations: $CI_PROJECT_DIR/annotations.json
   before_script:
     - yarn set-testing-package-versions
-  after_script:
-    - source .gitlab/ci/scripts/logging/print_versions.sh $WORKSPACE
+    - source .gitlab/ci/scripts/logging/print_versions.sh
 
 React-UI · Lint/Tests:
   stage: test
@@ -47,18 +42,20 @@ React-UI · Screenshot tests:
     - .test-base
     - .react-ui-workspace
   stage: test
+  script:
+    - source .gitlab/ci/scripts/creevey/install-ip-utilities.sh
+    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
+    - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE
+  after_script:
+    - source .gitlab/ci/scripts/logging/annotations.sh "Creevey Report" "${JOB_ARTIFACTS_URL}/packages/${WORKSPACE#@skbkontur/}/reports/index.html"
   artifacts:
     when: always
     paths:
       - $CI_PROJECT_DIR/packages/react-ui/reports/*
-      - $CI_PROJECT_DIR/packages/react-ui/package.json
     reports:
+      annotations: $CI_PROJECT_DIR/annotations.json
       junit:
         - $CI_PROJECT_DIR/packages/react-ui/reports/*.xml
-  script:
-    - source .gitlab/ci/scripts/creevey/install-ip-utilities.sh
-    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
-    - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE "react-ui"
 
 React-UI · Build:
   extends:
@@ -103,8 +100,7 @@ Validations · Build:
       - $CI_PROJECT_DIR/packages/react-ui-validations/build
   script:
     - source .gitlab/ci/scripts/build/build.sh $WORKSPACE
-    - source .gitlab/ci/scripts/publish/predeploy.sh $WORKSPACE
-    - source .gitlab/ci/scripts/build/pack.sh $WORKSPACE $FILENAME
+    # - source .gitlab/ci/scripts/build/pack.sh $WORKSPACE $FILENAME
 
 Selenium Testing:
   extends:
@@ -121,17 +117,20 @@ Validations · Screenshot tests:
     - .react-ui-validations-workspace
     - .use-install-cache
   stage: test
+  script:
+    - source .gitlab/ci/scripts/creevey/install-ip-utilities.sh
+    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
+    - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE
+  after_script:
+    - source .gitlab/ci/scripts/logging/annotations.sh "Creevey Report" "${JOB_ARTIFACTS_URL}/packages/${WORKSPACE#@skbkontur/}/reports/index.html"
   artifacts:
     when: always
     paths:
       - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*
     reports:
+      annotations: $CI_PROJECT_DIR/annotations.json
       junit:
         - $CI_PROJECT_DIR/packages/react-ui-validations/reports/*.xml
-  script:
-    - source .gitlab/ci/scripts/creevey/install-ip-utilities.sh
-    - source .gitlab/ci/scripts/storybook/build.sh $WORKSPACE
-    - source .gitlab/ci/scripts/creevey/test.sh $WORKSPACE "react-ui-validations"
 
 Validations · NUnit:
   extends:

@@ -2,7 +2,6 @@
 source ./.gitlab/ci/scripts/logging/logging.sh
 
 workspace=$1
-package_path=$2
 section_id="$workspace UI Сreevey"
 
 startLogCollapsedSection "$section_id"
