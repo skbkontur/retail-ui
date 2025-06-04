@@ -237,10 +237,22 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     [handleRemoveFile, removeFile],
   );
 
+  const handleReset = useCallback(() => {
+    reset();
+    const dataTransfer = new DataTransfer();
+    inputRef.current && (inputRef.current.files = dataTransfer.files);
+  }, [reset, handleRemoveFile]);
+
   useImperativeHandle(
     ref,
-    () => ({ focus, blur, reset, removeFile: handleExternalFileDeletion, getRootNode: () => rootNodeRef.current }),
-    [ref, blur, focus, reset, handleExternalFileDeletion],
+    () => ({
+      focus,
+      blur,
+      reset: handleReset,
+      removeFile: handleExternalFileDeletion,
+      getRootNode: () => rootNodeRef.current,
+    }),
+    [ref, blur, focus, handleReset, handleExternalFileDeletion],
   );
 
   const [focusedByTab, setFocusedByTab] = useState(false);

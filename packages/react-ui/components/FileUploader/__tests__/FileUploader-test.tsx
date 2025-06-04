@@ -629,7 +629,7 @@ describe('FileUploader', () => {
     });
   });
 
-  describe('with exposed removeFiles', () => {
+  describe('methods exposed in ref', () => {
     const TestComponent = () => {
       const fileUploaderRef = useRef<FileUploaderRef>(null);
       const [fileList, setFileList] = useState<FileUploaderAttachedFile[]>([]);
@@ -643,10 +643,11 @@ describe('FileUploader', () => {
               </button>
             );
           })}
+          <button onClick={() => fileUploaderRef.current?.reset()}>Reset</button>
         </>
       );
     };
-    it('should delete right files', async () => {
+    it('removeFiles should delete files completely', async () => {
       render(<TestComponent />);
       const input = screen.getByTestId(`${FileUploaderDataTids.input}`) as HTMLInputElement;
       const files = [createFile('foo'), createFile('bar')];
@@ -657,8 +658,23 @@ describe('FileUploader', () => {
       await userEvent.click(screen.getAllByRole('button')[0]);
 
       expect(input.files?.length).toBe(1);
-      expect(screen.getAllByTestId(`${FileUploaderFileDataTids.file}`)).toHaveLength(1);
+      expect(screen.queryByText('bar')).toBeInTheDocument();
       expect(screen.queryByText('foo')).not.toBeInTheDocument();
+    });
+
+    it('reset should remove files completely', async () => {
+      render(<TestComponent />);
+      const input = screen.getByTestId(`${FileUploaderDataTids.input}`) as HTMLInputElement;
+      const files = [createFile('bar')];
+
+      await addFiles(files);
+      await userEvent.click(screen.getByText('Reset'));
+
+      expect(input.files?.length).toBe(0);
+      expect(screen.queryByText('bar')).not.toBeInTheDocument();
+
+      await addFiles(files);
+      expect(screen.queryByText('bar')).toBeInTheDocument();
     });
   });
 });
