@@ -1,0 +1,53 @@
+.docs-base:
+  stage: docs
+  extends:
+    - .use-install-cache
+  needs: [Install Deps]
+  script:
+    - source .gitlab/ci/scripts/docs/build.sh $WORKSPACE
+    - ALL_PACKAGES_VERSIONS="$(npm pkg get version --ws)" # returns "{ '@skbkontur/react-ui': '1.0.0', ... }"
+    - PACKAGE_VERSION=$(node -pe "($ALL_PACKAGES_VERSIONS)['$WORKSPACE']")
+    - PACKAGE_NAME=${WORKSPACE#@skbkontur/} # remove the "@skbkontur/" part
+    - |
+      if [[ $CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "master" ]]; then
+        source .gitlab/ci/scripts/docs/deploy.sh $PACKAGE_NAME $PACKAGE_VERSION
+        DOCS_URL="${HOSTED_STORYBOOKS_URL}/${PACKAGE_NAME}/${PACKAGE_VERSION}/"
+      else
+        DOCS_URL="${JOB_ARTIFACTS_URL}/packages/$PACKAGE_NAME/.storybook/build/index.html"
+        echo "Skipping docs deploy for branch: $CI_COMMIT_BRANCH. See artifacts instead: $DOCS_URL."
+      fi
+    - source .gitlab/ci/scripts/logging/annotations.sh "Docs URL" $DOCS_URL
+  artifacts:
+    when: always
+    reports:
+      annotations: $CI_PROJECT_DIR/annotations.json
+
+React UI Docs:
+  extends:
+    - .docs-base
+    - .react-ui-workspace
+  rules:
+    - if: $CI_COMMIT_TAG !~ $RELEASE_TAG_REGEXP
+      when: manual
+    - if: $CI_COMMIT_TAG =~ $REACT_UI_RELEASE_TAG_REGEXP
+      needs: [React UI Publish]
+      when: on_success
+  artifacts:
+    when: always
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui/.storybook/build/*
+
+Validations Docs:
+  extends:
+    - .react-ui-validations-workspace
+    - .docs-base
+  rules:
+    - if: $CI_COMMIT_TAG !~ $RELEASE_TAG_REGEXP
+      when: manual
+    - if: $CI_COMMIT_TAG =~ $VALIDATIONS_RELEASE_TAG_REGEXP
+      needs: [Validations Publish]
+      when: on_success
+  artifacts:
+    when: always
+    paths:
+      - $CI_PROJECT_DIR/packages/react-ui-validations/.storybook/build/*

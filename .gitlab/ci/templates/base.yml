@@ -9,7 +9,15 @@ stages:
   - install
   - test
   - publish
+  - docs
   - diff.versions.testing
+
+variables:
+  RELEASE_TAG_REGEXP: /^@skbkontur\/.*@.*$/
+  REACT_UI_RELEASE_TAG_REGEXP: /^@skbkontur\/react-ui@.*$/
+  VALIDATIONS_RELEASE_TAG_REGEXP: /^@skbkontur\/react-ui-validations@.*$/
+  JOB_ARTIFACTS_URL: https://$CI_PROJECT_NAMESPACE.$CI_PAGES_DOMAIN/-/react-ui/-/jobs/$CI_JOB_ID/artifacts
+  HOSTED_STORYBOOKS_URL: https://$CI_PROJECT_NAMESPACE.$CI_PAGES_DOMAIN/docs/storybook
 
 .react-ui-workspace:
   variables:
