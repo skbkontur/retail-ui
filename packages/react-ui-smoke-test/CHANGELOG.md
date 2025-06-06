@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-smoke-test@3.0.1...react-ui-smoke-test@3.0.2) (2025-06-06)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
 ## [3.0.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-smoke-test@3.0.0...react-ui-smoke-test@3.0.1) (2025-04-11)
 
 **Note:** Version bump only for package react-ui-smoke-test

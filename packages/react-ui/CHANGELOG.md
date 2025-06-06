@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.3...@skbkontur/react-ui@5.1.4) (2025-06-06)
+
+
+### Bug Fixes
+
+* **Button:** hover and click areas are the same ([eba5b6b](https://github.com/skbkontur/retail-ui/commit/eba5b6b814f35b2b2ffa9932387157abea683258))
+* **ComboBox:** onInputKeyDown doesn't fire on mobile ([1b00e91](https://github.com/skbkontur/retail-ui/commit/1b00e91dbad50c1bd26b29acad8d2a0b97c88bc0))
+* **DateRangePicker:** validate optional periods ranges ([c29d52e](https://github.com/skbkontur/retail-ui/commit/c29d52e63c5ca132a707b7792154bc28b79c9d05))
+* **FileUploader:** reset method deletes files completely ([6997ee6](https://github.com/skbkontur/retail-ui/commit/6997ee6f0de3eaa84b1804e78c4c4bc80be65532))
+* **SingleToast:** remove deprecation in static methods ([7065269](https://github.com/skbkontur/retail-ui/commit/70652694f1a71e54edbe5934b5cf7932f7922ebd))
+* **TokenInput:** token menu always visible in viewport ([71c849d](https://github.com/skbkontur/retail-ui/commit/71c849d655146cb3afb2d040fb2dd38a7e58767e))
+
+
+
+
+
 ## [5.1.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.2...@skbkontur/react-ui@5.1.3) (2025-05-06)
 
 
