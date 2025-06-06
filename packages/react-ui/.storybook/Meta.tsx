@@ -16,6 +16,9 @@ import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import { MenuSeparator } from '../components/MenuSeparator';
 
+import { checkAccess } from './check-access';
+import { getEditLink } from './get-edit-link';
+
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
   { icon: '🇬🇧', caption: 'English', value: 'en' },
@@ -99,6 +102,22 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
 
   useEffect(() => {
     let url;
+
+    checkAccess().then((hasAccess) => {
+      if (hasAccess) {
+        getEditLink().then((link) => {
+          const editLink = document.createElement('a');
+          editLink.href = link;
+          editLink.target = '_blank';
+          editLink.innerHTML = `<img style="margin-left: 8px" src="https://s.kontur.ru/common-v2/icons-ui/black/tool-pencil-square/tool-pencil-square-20-Regular.svg" alt="" />`;
+          editLink.ariaLabel = 'Редактировать';
+          if (!document.querySelector('.sbdocs-content h1 a')) {
+            document.querySelector('.sbdocs-content h1')?.appendChild(editLink);
+          }
+        });
+      }
+    });
+
     try {
       url = new URL(window.parent.location.toString());
       if (url.hash) {
