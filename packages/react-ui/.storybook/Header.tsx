@@ -17,8 +17,8 @@ export const Header = ({ component, guides, figma }: HeaderProps = {}) => {
   const [hasAccess, setHasAccess] = React.useState(false);
 
   useEffect(() => {
-    checkAccess().then(() => {
-      setHasAccess(true);
+    checkAccess().then((status) => {
+      setHasAccess(status);
     });
   }, []);
 
