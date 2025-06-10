@@ -1,6 +1,6 @@
 export const checkAccess = (): Promise<boolean> => {
   return new Promise((resolve) => {
-    fetch('https://git.skbkontur.ru/api/v4/projects', {
+    fetch('https://ui.gitlab-pages.kontur.host/docs/storybook/versions.json', {
       method: 'HEAD',
     })
       .then((response) => {
