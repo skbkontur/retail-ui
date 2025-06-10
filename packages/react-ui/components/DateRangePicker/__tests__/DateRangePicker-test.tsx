@@ -493,18 +493,24 @@ describe('DateRangePicker', () => {
       expect(screen.getByText(renamedMonths[6])).toBeInTheDocument();
     });
 
-    it.each(['', null, undefined])('should clear the value when %s passed', async (testValue) => {
+    it.each(['', null, undefined])('should clear the value when %s passed', async (emptyValue) => {
       const Comp = () => {
-        const [value, setValue] = useState<string | null | undefined>('24.08.2022');
+        const [startValue, setStartValue] = useState<string | null | undefined>('24.08.2022');
+        const [endValue, setEndValue] = useState<string | null | undefined>('28.08.2022');
+
+        const handleReset = () => {
+          setStartValue(emptyValue);
+          setEndValue(emptyValue);
+        };
 
         return (
           <>
             <DateRangePicker>
-              <DateRangePicker.Start value={value} onValueChange={setValue} />
+              <DateRangePicker.Start value={startValue} onValueChange={setStartValue} />
               <DateRangePicker.Separator />
-              <DateRangePicker.End />
+              <DateRangePicker.End value={endValue} onValueChange={setEndValue} />
             </DateRangePicker>
-            <button onClick={() => setValue(testValue)}>Clear</button>
+            <button onClick={handleReset}>Clear</button>
           </>
         );
       };
@@ -514,7 +520,16 @@ describe('DateRangePicker', () => {
       const startInput = screen.getByTestId(DateRangePickerDataTids.start);
       expect(startInput).toHaveTextContent(/^24.08.2022$/);
 
+      await startInput.click();
+      expect(screen.getByTestId(DateRangePickerDataTids.rangeStart)).toBeInTheDocument();
+      expect(screen.getByTestId(DateRangePickerDataTids.rangeEnd)).toBeInTheDocument();
+
       await userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+
+      await startInput.click();
+      expect(screen.queryByTestId(DateRangePickerDataTids.rangeStart)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(DateRangePickerDataTids.rangeEnd)).not.toBeInTheDocument();
+
       const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
       const expectedRegExp = new RegExp(`^${expected}$`);
       expect(startInput).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });

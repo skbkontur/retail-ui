@@ -6,7 +6,7 @@ import type { DateInputProps } from '../DateInput';
 import { DateInput } from '../DateInput';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { isNonNullable, isNullable } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils';
 
 import { DateRangePickerContext } from './DateRangePickerContext';
 import { DateRangePickerDataTids } from './DateRangePicker';
@@ -53,14 +53,10 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
   useImperativeHandle(ref, () => (isStart ? startRef.current : endRef.current), []);
 
   useEffect(() => {
-    if (isNullable(props.value)) {
-      return;
-    }
-
-    if (isStart) {
-      setStartValue(props.value);
-    } else if (isEnd) {
-      setEndValue(props.value);
+    if (isStart && startValue !== props.value) {
+      setStartValue(props.value || '');
+    } else if (isEnd && endValue !== props.value) {
+      setEndValue(props.value || '');
     }
   }, [props.value]);
 

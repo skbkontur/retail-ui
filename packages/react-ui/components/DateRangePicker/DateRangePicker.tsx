@@ -48,6 +48,8 @@ export const DateRangePickerDataTids = {
   endOptionalButton: 'DateRangePicker__endOptionalButton',
   mobileStart: 'DateRangePicker__mobileStart',
   mobileEnd: 'DateRangePicker__mobileEnd',
+  rangeStart: 'DateRangePicker__rangeStart',
+  rangeEnd: 'DateRangePicker__rangeEnd',
 } as const;
 
 const DayDateAttribute = 'data-date-range-picker-day';
@@ -492,6 +494,13 @@ export const DateRangePicker = Object.assign(
         [DayDateAttribute]: props.date,
       };
 
+      let dataTid = null;
+      if (isDayFirst) {
+        dataTid = DateRangePickerDataTids.rangeStart;
+      } else if (isDayLast) {
+        dataTid = DateRangePickerDataTids.rangeEnd;
+      }
+
       return (
         <div
           className={cx(
@@ -509,6 +518,7 @@ export const DateRangePicker = Object.assign(
               [styles.rangeCalendarDayInHoveredPeriod(t)]: isDayInHoveredPeriod,
             },
           )}
+          data-tid={dataTid}
         >
           {renderDayFn ? renderDayFn(renderDayProps) : <CalendarDay {...renderDayProps} />}
         </div>
