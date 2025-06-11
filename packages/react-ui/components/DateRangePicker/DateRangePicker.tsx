@@ -50,6 +50,8 @@ export const DateRangePickerDataTids = {
   mobileEnd: 'DateRangePicker__mobileEnd',
 } as const;
 
+const DayDateAttribute = 'data-date-range-picker-day';
+
 export interface DateRangePickerProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
@@ -301,7 +303,11 @@ export const DateRangePicker = Object.assign(
         anchorElement={getRootNode(dateRangePickerRef.current)}
         margin={parseInt(theme.datePickerMenuOffsetY)}
       >
-        <div className={styles.calendarWrapper(theme)} onMouseDown={(e) => e.preventDefault()}>
+        <div
+          className={styles.calendarWrapper(theme)}
+          onMouseDown={(e) => e.preventDefault()}
+          onMouseMove={handleCalendarRangeMouseMove}
+        >
           {renderCalendar(theme)}
           {renderButtons()}
         </div>
@@ -412,6 +418,21 @@ export const DateRangePicker = Object.assign(
       </ThemeContext.Consumer>
     );
 
+    // Use parent mousemove event instead each CalendarDay's mouseenter / mouseover
+    function handleCalendarRangeMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+      if (!startValue && !endValue) {
+        return;
+      }
+
+      const hoveredElement = e.target as HTMLElement;
+      if (!hoveredElement.hasAttribute(DayDateAttribute) && hoveredDay === null) {
+        return;
+      }
+
+      const date = String(hoveredElement?.getAttribute(DayDateAttribute)) || null;
+      setHoveredDay(date);
+    }
+
     function renderCalendarRange(
       props: CalendarDayProps,
       t: Theme,
@@ -466,10 +487,13 @@ export const DateRangePicker = Object.assign(
         }
       }
 
+      const renderDayProps = {
+        ...props,
+        [DayDateAttribute]: props.date,
+      };
+
       return (
         <div
-          onMouseOver={() => setHoveredDay(day)}
-          onMouseOut={() => setHoveredDay(null)}
           className={cx(
             styles.rangeCalendarDay(),
             css`
@@ -486,7 +510,7 @@ export const DateRangePicker = Object.assign(
             },
           )}
         >
-          {renderDayFn ? renderDayFn(props) : <CalendarDay {...props} />}
+          {renderDayFn ? renderDayFn(renderDayProps) : <CalendarDay {...renderDayProps} />}
         </div>
       );
     }
