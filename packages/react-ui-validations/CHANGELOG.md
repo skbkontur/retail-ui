@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.5](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.1.4...react-ui-validations@2.1.5) (2025-06-11)
+
+
+### Bug Fixes
+
+* **Validations:** scroll to element on focus in iframe ([fa9beab](https://github.com/skbkontur/retail-ui/commit/fa9beab61c5cedb547757b14fa544e1798b8ebf2))
+
+
+
+
+
 ## [2.1.4](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.1.3...react-ui-validations@2.1.4) (2025-06-06)
 
 **Note:** Version bump only for package react-ui-validations

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.4...@skbkontur/react-ui@5.1.5) (2025-06-11)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** improve calendar scrolling speed ([8489445](https://github.com/skbkontur/retail-ui/commit/8489445e48acdeabcf1e8d09e3eceed549bdefe1))
+* **DateRangePicker:** reset calendar range by null & undefined ([afcb3c2](https://github.com/skbkontur/retail-ui/commit/afcb3c2f2d94e49a4b781a375469af91c975a387))
+* **Validations:** scroll to element on focus in iframe ([fa9beab](https://github.com/skbkontur/retail-ui/commit/fa9beab61c5cedb547757b14fa544e1798b8ebf2))
+
+
+
+
+
 ## [5.1.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.3...@skbkontur/react-ui@5.1.4) (2025-06-06)
 
 
