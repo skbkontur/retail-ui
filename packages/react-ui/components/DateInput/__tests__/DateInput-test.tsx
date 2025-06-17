@@ -11,6 +11,7 @@ import type { DateInputProps } from '../DateInput';
 import { DateInput, DateInputDataTids } from '../DateInput';
 import type { LocaleContextProps } from '../../../lib/locale';
 import { LocaleContext } from '../../../lib/locale';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 type InitialDate = string;
 type PressedKeys = string[];
@@ -339,6 +340,24 @@ describe('DateInput as InputlikeText', () => {
 
     inputLikeTextRef.current?.blur();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+
+  it('re-enters day digits after blur and refocus', async () => {
+    renderRTL(
+      <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNuberTypingOnRefocus: true }}>
+        <DateInput value="" />
+      </ReactUIFeatureFlagsContext.Provider>,
+    );
+    const input = getInput();
+
+    await userEvent.type(input, '1');
+    expect(input.textContent).toMatch(/^1/);
+
+    await userEvent.tab();
+    expect(input.textContent).toMatch(/^01/);
+
+    await userEvent.type(input, '12');
+    expect(input.textContent).toMatch(/^12/);
   });
 
   it('blink method works', async () => {

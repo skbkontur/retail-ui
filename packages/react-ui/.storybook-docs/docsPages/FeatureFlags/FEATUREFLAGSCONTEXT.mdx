@@ -15,6 +15,7 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 ```typescript static
 export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
+  dateInputFixSameNuberTypingOnRefocus?: boolean;
 }
 ```
 
@@ -25,7 +26,12 @@ export interface ReactUIFeatureFlags {
 ```jsx static
 import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+<ReactUIFeatureFlagsContext.Provider
+  value={{
+    comboBoxAllowValueChangeInEditingState: true,
+    dateInputFixSameNuberTypingOnRefocus: true,
+  }}
+>
   {/* ... */}
 </ReactUIFeatureFlagsContext.Provider>;
 ```
@@ -39,6 +45,12 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
 
 <Story of={FeatureFlagsStories.Example1} />
+
+### dateInputFixSameNuberTypingOnRefocus
+
+Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>
+
+<Story of={FeatureFlagsStories.Example2} />
 
 ## Объект со всеми флагами
 
