@@ -2,10 +2,12 @@ import React from 'react';
 
 export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
+  dateInputFixSameNuberTypingOnRefocus?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   comboBoxAllowValueChangeInEditingState: false,
+  dateInputFixSameNuberTypingOnRefocus: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

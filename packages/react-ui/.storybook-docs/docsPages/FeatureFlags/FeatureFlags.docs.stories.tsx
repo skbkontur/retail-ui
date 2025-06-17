@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ComboBox, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+import { Button, ComboBox, DateInput, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -36,4 +36,16 @@ export const Example1: Story = () => {
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
+
 Example1.storyName = 'comboBoxAllowValueChangeInEditingState';
+
+export const Example2: Story = () => {
+  const [value, setValue] = React.useState('');
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNuberTypingOnRefocus: true }}>
+      <DateInput value={value} onValueChange={setValue} />
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+
+Example2.storyName = 'dateInputNewTypingBehaviour';
