@@ -4,6 +4,8 @@ default:
   image: docker-proxy.kontur.host/node:18
   tags:
     - idevops-k8s
+  artifacts:
+    expire_in: 1 week
 
 stages:
   - install
