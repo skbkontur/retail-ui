@@ -409,17 +409,20 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private emitChange = (): void => {
-    const value = this.iDateMediator.getInternalString();
-    if (this.props.value === value) {
-      return;
-    }
     if (this.props.onValueChange) {
-      this.props.onValueChange(value);
+      const value = this.iDateMediator.getInternalString();
+      if (this.props.value !== value) {
+        this.props.onValueChange(value);
+      }
     }
-    if (this.blurEvent && this.props.onBlur) {
-      this.props.onBlur(this.blurEvent);
-      this.blurEvent = null;
-    }
+
+    // `this.blurEvent` is always null in `flushSync` without `setTimeout` due to sync update
+    setTimeout(() => {
+      if (this.blurEvent && this.props.onBlur) {
+        this.props.onBlur(this.blurEvent);
+        this.blurEvent = null;
+      }
+    });
   };
 
   private clearSelected = (): void => {

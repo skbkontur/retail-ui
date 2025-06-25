@@ -279,6 +279,19 @@ describe('DateInput as InputlikeText', () => {
     expect(onBlur).toHaveBeenCalled();
   });
 
+  it('should handle onBlur event after entering date', async () => {
+    const onBlur = jest.fn();
+    renderRTL(<DateInput onBlur={onBlur} />);
+    const input = screen.getByTestId(InputLikeTextDataTids.root);
+
+    await userEvent.tab();
+    expect(input).toHaveFocus();
+    await userEvent.type(input, '1');
+    await userEvent.tab();
+    expect(input).not.toHaveFocus();
+    expect(onBlur).toHaveBeenCalled();
+  });
+
   it('should handle double click', async () => {
     const inputLikeTextRef = React.createRef<DateInput>();
     const value = '27.04.1988';
