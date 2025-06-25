@@ -9705,7 +9705,7 @@ create-jest@^29.7.0:
 
 creevey@0.10.0-beta.47:
   version "0.10.0-beta.47"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/creevey/-/creevey-0.10.0-beta.47.tgz#42b405f2739dd6e055316c69c4705797476c4ccd"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.10.0-beta.47.tgz#42b405f2739dd6e055316c69c4705797476c4ccd"
   integrity sha512-4FxZRmh7Qrq7GsSU650Gr1w/Pwd19BFrDcK1eF+CnTf7yKE1qyVUC/7fgCn0Vep74eAZd86K21K/ihNL8VbSQQ==
   dependencies:
     "@octokit/core" "^6.1.4"
