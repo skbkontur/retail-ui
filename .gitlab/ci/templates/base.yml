@@ -26,6 +26,8 @@ variables:
 workflow:
   name: $PIPELINE_NAME
   rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_OPEN_MERGE_REQUESTS
+      when: never # во избежание дублирования пайплайна на пуш в ветку и на событие в МРе
     - if: $REACT_VERSION != null
       variables:
         CACHE_PREFIX: 'react-$REACT_VERSION' # для каждой тестируемой зависимости нужно пересоздавать кэш
