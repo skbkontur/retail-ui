@@ -1,6 +1,6 @@
 .publish-base:
   extends:
-    - .use-install-cache
+    - .cache_pull
   stage: publish
   needs: [Install Deps]
   before_script:

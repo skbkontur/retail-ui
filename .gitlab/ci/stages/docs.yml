@@ -1,7 +1,7 @@
 .docs-base:
   stage: docs
   extends:
-    - .use-install-cache
+    - .cache_pull
   needs: [Install Deps]
   script:
     - source .gitlab/ci/scripts/docs/build.sh $WORKSPACE
