@@ -1,6 +1,6 @@
 .test-base:
   extends:
-    - .use-install-cache
+    - .cache_pull
   before_script:
     - yarn set-testing-package-versions
     - source .gitlab/ci/scripts/logging/print_versions.sh
@@ -10,7 +10,7 @@ React-UI · Lint/Tests:
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use-install-cache
+    - .cache_pull
   script:
     - source .gitlab/ci/scripts/tests/lint.sh $WORKSPACE
     - source .gitlab/ci/scripts/tests/unit.sh $WORKSPACE
@@ -61,7 +61,7 @@ React-UI · Build:
   extends:
     - .test-base
     - .react-ui-workspace
-    - .use-install-cache
+    - .cache_pull
   stage: test
   variables:
     FILENAME: 'skbkontur-react-ui.tgz'
@@ -76,7 +76,7 @@ Validations · Lint/Tests:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use-install-cache
+    - .cache_pull
   stage: test
   script:
     - source .gitlab/ci/scripts/tests/lint.sh $WORKSPACE
@@ -91,7 +91,7 @@ Validations · Build:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use-install-cache
+    - .cache_pull
   stage: test
   variables:
     FILENAME: 'skbkontur-react-ui-validations.tgz'
@@ -115,7 +115,7 @@ Validations · Screenshot tests:
   extends:
     - .test-base
     - .react-ui-validations-workspace
-    - .use-install-cache
+    - .cache_pull
   stage: test
   script:
     - source .gitlab/ci/scripts/creevey/install-ip-utilities.sh

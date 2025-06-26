@@ -3,6 +3,7 @@
     files:
       - yarn.lock
       - '**/package.json'
+    prefix: $CACHE_PREFIX
   paths:
     - '**/node_modules/'
 
@@ -11,7 +12,7 @@
     <<: *cache_common
     policy: push
 
-.use-install-cache:
+.cache_pull:
   cache:
     <<: *cache_common
     policy: pull

@@ -16,3 +16,5 @@ matrix-tests:
       - local: /.gitlab/ci/templates/base.yml
       - local: /.gitlab/ci/stages/install.yml
       - local: /.gitlab/ci/stages/tests.yml
+  inherit:
+    variables: false # чтобы стригеренные пайплайны имели собственные $CACHE_PREFIX and $PIPELINE_NAME, а не наследовали их от родительского
