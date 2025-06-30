@@ -9,7 +9,7 @@ import { Toast, ToastDataTids } from './Toast';
 
 export class ToastStatic {
   public static push = (
-    notification: string,
+    notification: React.ReactNode,
     action?: Nullable<Action>,
     showTime?: number,
     showCloseIcon?: boolean,
@@ -33,7 +33,7 @@ export class ToastStatic {
   };
 
   public static _push = (
-    notification: string,
+    notification: React.ReactNode,
     action?: Nullable<Action>,
     showTime?: number,
     showCloseIcon?: boolean,
