@@ -27,7 +27,7 @@ export interface Action {
 }
 
 export interface ToastState {
-  notification: Nullable<string>;
+  notification: Nullable<React.ReactNode>;
   action: Nullable<Action>;
   id: number;
   showTime: Nullable<number>;
@@ -70,7 +70,12 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private theme!: Theme;
 
   /** @deprecated use `push` method in ref or `SingleToast.push` */
-  public static push(notification: string, action?: Nullable<Action>, showTime?: number, showCloseIcon?: boolean) {
+  public static push(
+    notification: React.ReactNode,
+    action?: Nullable<Action>,
+    showTime?: number,
+    showCloseIcon?: boolean,
+  ) {
     ToastStatic.push(notification, action, showTime, showCloseIcon);
   }
 
@@ -122,13 +127,13 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * Время показа можно задать вручную, передав `showTime`.
    *
    * @public
-   * @param {string} notification
-   * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
+   * @param {React.ReactNode} notification
+   * @param {Action} action `action` опциональный параметр формата `{ label: React.ReactNode, handler: function }`
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
    * @param {number} showTime Время существования Toast в миллисекундах
    * @param {boolean} showCloseIcon Добавляет крестик для закрытия тоста. При указывании action в onPush крестик отображается всегда.
    */
-  public push(notification: string, action?: Nullable<Action>, showTime?: number, showCloseIcon?: boolean) {
+  public push(notification: React.ReactNode, action?: Nullable<Action>, showTime?: number, showCloseIcon?: boolean) {
     if (this.state.notification) {
       this.close();
     }

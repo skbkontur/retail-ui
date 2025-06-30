@@ -32,6 +32,10 @@ kind('Toast', () => {
     kindTests();
   });
 
+  story('ReactNodeExample', () => {
+    kindTests();
+  });
+
   story('button', () => {
     kindTests();
   });

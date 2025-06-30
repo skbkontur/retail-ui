@@ -21,7 +21,7 @@ import { ToastLocaleHelper } from './locale';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   /** Задает контент тоста. */
-  children?: string;
+  children?: React.ReactNode;
   /** Добавляет возможность действия и кнопку закрытия у тоста. */
   action?: Nullable<Action>;
   showCloseIcon?: boolean;
