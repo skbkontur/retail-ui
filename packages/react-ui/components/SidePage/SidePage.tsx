@@ -178,7 +178,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 priority={'Sidepage'}
                 onScroll={LayoutEvents.emit}
                 createStackingContext
-                wrapperRef={this.rootRef}
                 style={{ position: 'absolute' }}
               >
                 {blockBackground && this.renderShadow(isMobile)}
@@ -232,6 +231,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
         })}
+        ref={this.rootRef}
         onScroll={LayoutEvents.emit}
         style={
           isMobile
