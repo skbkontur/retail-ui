@@ -14,6 +14,7 @@ import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
+import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './SidePage.styles';
 import type { SidePageContextType } from './SidePageContext';
@@ -134,13 +135,15 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SidePageHeaderDataTids.root} ref={this.wrapperRef} className={styles.headerWrapper()}>
-          {isStickyDesktop || isStickyMobile ? (
-            <Sticky ref={this.stickyRef} side="top">
-              {header}
-            </Sticky>
-          ) : (
-            header()
-          )}
+          <ReactUIFeatureFlagsContext.Provider value={{ stickyReduceLayoutEvents: true }}>
+            {isStickyDesktop || isStickyMobile ? (
+              <Sticky ref={this.stickyRef} side="top">
+                {header}
+              </Sticky>
+            ) : (
+              header()
+            )}
+          </ReactUIFeatureFlagsContext.Provider>
         </div>
       </CommonWrapper>
     );
