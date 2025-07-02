@@ -14,6 +14,8 @@ import type { TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Sticky.styles';
 
@@ -91,6 +93,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
   private reflowCounter = 0;
   private setRootNode!: TSetRootNode;
+  public featureFlags!: ReactUIFeatureFlags;
 
   public componentDidMount() {
     this.reflow();
@@ -107,7 +110,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
     if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
       if (this.reflowCounter < MAX_REFLOW_RETRIES) {
-        LayoutEvents.emit();
+        this.featureFlags.stickyReduceLayoutEvents ? this.reflow() : LayoutEvents.emit();
         this.reflowCounter += 1;
         return;
       }
@@ -116,6 +119,17 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   }
 
   public render() {
+    return (
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return this.renderMain();
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
+    );
+  }
+
+  private renderMain() {
     let { children } = this.props;
     const { side } = this.props;
     const offset = this.getProps().offset;
