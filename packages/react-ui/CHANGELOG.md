@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.5...@skbkontur/react-ui@5.1.6) (2025-07-02)
+
+
+### Bug Fixes
+
+* **DatePicker,DateInput:** onBlur wasn't called, calendar wasn't closed ([a67649c](https://github.com/skbkontur/retail-ui/commit/a67649c1d862cc23c7981c16610da50bb8046c37))
+* **SidePage,Sticky:** prevent page crash, reduce rerenders ([17bddad](https://github.com/skbkontur/retail-ui/commit/17bddad211bb8cc29aa4323fd9aabca8d3fca9f5))
+* **SidePage:** revert lost animation ([eab52ad](https://github.com/skbkontur/retail-ui/commit/eab52adf66ad0211ee5b9b1d8e61aa9e7f5c6066))
+
+
+
+
+
 ## [5.1.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.4...@skbkontur/react-ui@5.1.5) (2025-06-11)
 
 
