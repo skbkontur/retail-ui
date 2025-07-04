@@ -56,11 +56,35 @@ export const Example3: Story = () => {
 Example3.storyName = 'Счетчик введенных символов';
 
 export const Example4: Story = () => {
+  const [valueSmall, setValueSmall] = React.useState('');
+  const [valueMedium, setValueMedium] = React.useState('');
+  const [valueLarge, setValueLarge] = React.useState('');
   return (
     <Gapped vertical>
-      <Textarea size={'small'} value={'Маленький'} autoResize rows={1} />
-      <Textarea size={'medium'} value={'Средний'} autoResize rows={1} />
-      <Textarea size={'large'} value={'Большой'} autoResize rows={1} />
+      <Textarea
+        size={'small'}
+        value={valueSmall}
+        onValueChange={setValueSmall}
+        autoResize
+        rows={1}
+        placeholder="Маленький"
+      />
+      <Textarea
+        size={'medium'}
+        value={valueMedium}
+        onValueChange={setValueMedium}
+        autoResize
+        rows={1}
+        placeholder="Средний"
+      />
+      <Textarea
+        size={'large'}
+        value={valueLarge}
+        onValueChange={setValueLarge}
+        autoResize
+        rows={1}
+        placeholder="Большой"
+      />
     </Gapped>
   );
 };
