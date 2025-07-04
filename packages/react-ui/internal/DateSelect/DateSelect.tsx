@@ -14,6 +14,7 @@ import type { ButtonParams } from '../../components/Select';
 import { Select } from '../../components/Select';
 import { MenuItem } from '../../components/MenuItem';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
+import type { PopupPositionsType } from '../../internal/Popup/types';
 
 import { globalClasses, styles } from './DateSelect.styles';
 
@@ -47,6 +48,15 @@ export const DateSelectDataTids = {
 } as const;
 
 type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
+
+const DATE_SELECT_POSITIONS: PopupPositionsType[] = [
+  'middle left',
+  'middle right',
+  'bottom left',
+  'top left',
+  'bottom right',
+  'top right',
+];
 
 @responsiveLayout
 @locale('Calendar', DatePickerLocaleHelper)
@@ -147,6 +157,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
         disabled={disabled}
         _renderButton={this.renderButton}
         menuPos="middle"
+        positions={DATE_SELECT_POSITIONS}
         renderValue={this.getItem}
         items={this.getItems()}
         menuOffset={parseInt(this.theme.menuPaddingX) + parseInt(this.theme.menuItemPaddingXSmall)}
