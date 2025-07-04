@@ -198,3 +198,13 @@ CalendarWithPeriod.parameters = {
     skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
   },
 };
+
+export const CalendarWithDateSelectMiddlePosition: Story = () => {
+  const [date, setDate] = React.useState('12.05.2022');
+
+  return (
+    <div style={{ padding: '200px 0' }}>
+      <Calendar value={date} onValueChange={setDate} />
+    </div>
+  );
+};

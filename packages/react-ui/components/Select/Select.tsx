@@ -39,7 +39,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { MenuHeaderProps } from '../MenuHeader';
 import type { SizeProp } from '../../lib/types/props';
 import { styles as linkStyles } from '../Link/Link.styles';
-import { Popup } from '../../internal/Popup';
+import { Popup, type PopupPositionsType } from '../../internal/Popup';
 import { ZIndex } from '../../internal/ZIndex';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 
@@ -160,6 +160,9 @@ export interface SelectProps<TValue, TItem>
 
   /** Задает максимальную ширину. */
   maxWidth?: React.CSSProperties['maxWidth'];
+
+  /** Задает позиции выпадающего меню. */
+  positions?: PopupPositionsType[];
 
   /** Задает текущую позицию выпадающего окна вручную. */
   menuPos?: 'top' | 'bottom' | 'middle';
@@ -536,7 +539,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
-    const { menuWidth, menuPos, menuAlign } = this.getProps();
+    const { menuWidth, menuPos, menuAlign, positions } = this.getProps();
 
     return (
       <Popup
@@ -544,7 +547,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         hasShadow
         id={this.menuId}
         data-tid={SelectDataTids.menu}
-        positions={getMenuPositions(menuPos, menuAlign)}
+        positions={positions ?? getMenuPositions(menuPos, menuAlign)}
         anchorElement={this.popupGetParent()}
         priority={ZIndex.priorities.PopupMenu}
         disablePortal={this.props.disablePortal}
