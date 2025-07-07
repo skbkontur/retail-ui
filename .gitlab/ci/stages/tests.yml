@@ -38,6 +38,7 @@ React-UI · Smoke Tests:
         - $CI_PROJECT_DIR/packages/react-ui-smoke-test/reports/*.xml
 
 React-UI · Screenshot tests:
+  tags: ['idevops-kubernetes']
   extends:
     - .test-base
     - .react-ui-workspace
@@ -112,6 +113,7 @@ Selenium Testing:
     - echo "что-то с дотнетом, позже разберусь"
 
 Validations · Screenshot tests:
+  tags: ['idevops-kubernetes']
   extends:
     - .test-base
     - .react-ui-validations-workspace
