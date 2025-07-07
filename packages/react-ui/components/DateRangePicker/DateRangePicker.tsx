@@ -59,7 +59,14 @@ export interface DateRangePickerProps
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
     Pick<
       DatePickerProps,
-      'size' | 'renderDay' | 'menuPos' | 'menuAlign' | 'useMobileNativeDatePicker' | 'enableTodayLink' | 'onMonthChange'
+      | 'size'
+      | 'width'
+      | 'renderDay'
+      | 'menuPos'
+      | 'menuAlign'
+      | 'useMobileNativeDatePicker'
+      | 'enableTodayLink'
+      | 'onMonthChange'
     > {
   /**
    * Элементы DateRangePicker:
@@ -258,7 +265,7 @@ export const DateRangePicker = Object.assign(
       <MobilePopup
         opened
         headerChildComponent={
-          <div className={cx(styles.inputWrapper(), styles.inputWrapperWidthFull())}>
+          <div className={cx(styles.root(theme), styles.inputWrapperWidthFull())}>
             <DateInput
               withIcon
               value={startValue}
@@ -386,35 +393,32 @@ export const DateRangePicker = Object.assign(
       <ThemeContext.Consumer>
         {(theme) => (
           <ThemeContext.Provider value={getDateRangePickerTheme(theme)}>
-            <CommonWrapper {...props}>
-              <div
-                className={styles.root(theme)}
-                role="group"
-                aria-describedby={props['aria-describedby']}
-                aria-label={props['aria-label']}
-                aria-labelledby={props['aria-labelledby']}
-                data-tid={DateRangePickerDataTids.root}
-                ref={dateRangePickerRef}
-              >
-                <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
-                  <div
-                    className={cx(
-                      styles.inputWrapper(),
-                      styles.inputWrapperWidth(theme),
-                      css`
-                        font-size: ${getFontSize(theme, props.size)};
-                      `,
-                    )}
-                  >
-                    {props.children}
-                  </div>
+            <DateRangePickerContext.Provider value={dateRangePickerContextProps}>
+              <CommonWrapper {...props}>
+                <div
+                  className={cx(
+                    styles.root(theme),
+                    styles.inputWrapperWidth(theme),
+                    css`
+                      font-size: ${getFontSize(theme, props.size)};
+                    `,
+                  )}
+                  role="group"
+                  aria-describedby={props['aria-describedby']}
+                  aria-label={props['aria-label']}
+                  aria-labelledby={props['aria-labelledby']}
+                  data-tid={DateRangePickerDataTids.root}
+                  ref={dateRangePickerRef}
+                  style={{ width: props.width }}
+                >
+                  {props.children}
 
                   {props.useMobileNativeDatePicker && isMobile
                     ? renderMobileNativeDateInput()
                     : isCalendarOpen && (isMobile ? renderMobileCalendar(theme) : renderDesktopCalendar(theme))}
-                </DateRangePickerContext.Provider>
-              </div>
-            </CommonWrapper>
+                </div>
+              </CommonWrapper>
+            </DateRangePickerContext.Provider>
           </ThemeContext.Provider>
         )}
       </ThemeContext.Consumer>
