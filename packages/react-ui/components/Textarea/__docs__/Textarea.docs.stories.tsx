@@ -46,6 +46,7 @@ export const Example3: Story = () => {
       value={value}
       onValueChange={setValue}
       placeholder="Счетчик появляется при фокусе"
+      autoResize
       lengthCounter={10}
       showLengthCounter
       counterHelp="Hello 👋"
