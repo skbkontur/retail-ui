@@ -6,14 +6,9 @@ import { CalendarDataTids } from '../Calendar';
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      display: inline-block;
-      color: ${t.textColorDefault};
-    `;
-  },
-  inputWrapper() {
-    return css`
       display: inline-flex;
       align-items: center;
+      color: ${t.textColorDefault};
 
       & > * {
         flex: 1 1 50%;

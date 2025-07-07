@@ -115,6 +115,30 @@ export const Sizes: Story = () => {
 };
 Sizes.parameters = {};
 
+export const WrapperWidth: Story = () => {
+  return (
+    <>
+      {renderPicker('400px')}
+      {renderPicker('100%')}
+      {renderPicker('80%')}
+    </>
+  );
+
+  function renderPicker(width: string) {
+    return (
+      <>
+        <h2>{width}</h2>
+        <DateRangePicker width={width}>
+          <DateRangePicker.Start />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End />
+        </DateRangePicker>
+      </>
+    );
+  }
+};
+WrapperWidth.parameters = {};
+
 export const MinMax: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
