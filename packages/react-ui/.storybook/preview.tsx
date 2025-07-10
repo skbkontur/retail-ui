@@ -49,6 +49,7 @@ import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup';
 import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
 import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions';
+import { emit } from '../lib/LayoutEvents';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -218,6 +219,7 @@ addons.setConfig({
       ALL_LIGHT_THEMES,
       ALL_DARK_THEMES,
       parseVersionFromThemeName,
+      emit,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,

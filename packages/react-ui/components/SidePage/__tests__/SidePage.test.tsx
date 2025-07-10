@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -24,6 +24,54 @@ describe('SidePage', () => {
     await userEvent.click(closeButton);
 
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('two sticky headers and scroll do not crash the page', async () => {
+    const TestComponent = () => {
+      const [innerSidePage, setInnerSidePage] = React.useState(false);
+      return (
+        <SidePage>
+          <SidePage.Header sticky>Outer SidePageHeader</SidePage.Header>
+          <SidePage.Body>
+            <div style={{ height: 4000 }}>
+              <button onClick={() => setInnerSidePage(true)}>open inner SidePage</button>
+              {innerSidePage && (
+                <SidePage>
+                  <SidePage.Header sticky>Inner SidePageHeader</SidePage.Header>
+                  <SidePage.Body>
+                    <div style={{ height: 4000 }} />
+                  </SidePage.Body>
+                </SidePage>
+              )}
+            </div>
+          </SidePage.Body>
+        </SidePage>
+      );
+    };
+
+    render(<TestComponent />);
+
+    expect(screen.getByText('Outer SidePageHeader')).toBeInTheDocument();
+
+    const outerScrollContainer = screen.getAllByTestId('SidePage__container').at(0);
+
+    if (outerScrollContainer) {
+      outerScrollContainer.scrollTop = 30; // scroll the outer SidePage a little to make its header fixed
+    }
+
+    expect(screen.getByText('Outer SidePageHeader')).toBeInTheDocument();
+
+    act(() => {
+      screen.getByText('open inner SidePage').click();
+    });
+
+    expect(screen.getByText('Inner SidePageHeader')).toBeInTheDocument();
+
+    expect(() => {
+      screen.getAllByTestId('SidePage__container')[1].scrollTop = 30; // scroll the inner SidePage a little to make its header fixed
+    }).not.toThrow(); // in case of a too many Sticky rerenders this may crash the whole page by the 'Maximum update depth exceeded' error. @see IF-2317
+
+    expect(screen.getByText('Inner SidePageHeader')).toBeInTheDocument();
   });
 
   describe('a11y', () => {
