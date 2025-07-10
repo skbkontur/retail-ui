@@ -3,11 +3,13 @@ import React from 'react';
 export interface ValidationsFeatureFlags {
   dropdownsDoNotOpenOnFocusByValidation?: boolean;
   hideTooltipOnSelectionControls?: boolean;
+  validationWrapperValidateOnMount?: boolean;
 }
 
 export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
   dropdownsDoNotOpenOnFocusByValidation: false,
   hideTooltipOnSelectionControls: false,
+  validationWrapperValidateOnMount: false,
 };
 
 export const ValidationsFeatureFlagsContext =

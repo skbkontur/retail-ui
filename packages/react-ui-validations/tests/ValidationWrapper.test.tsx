@@ -3,8 +3,8 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeFactory } from '@skbkontur/react-ui';
 
-import type { ValidationInfo } from '../src';
-import { ValidationContainer, ValidationWrapper, text } from '../src';
+import type { ValidationBehaviour, ValidationInfo } from '../src';
+import { text, ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
 import { ThemeContext } from '../src/ReactUiDetection';
 
 function setup(jsx: any) {
@@ -253,6 +253,67 @@ describe('ValidationWrapper', () => {
 
       expect(screen.queryByText('message 1')).toBeInTheDocument();
       expect(screen.queryByText('message 2')).toBeInTheDocument();
+    });
+  });
+
+  describe('validate on mount', () => {
+    const TestContainer = ({ validationType }: { validationType: ValidationBehaviour }) => {
+      const containerRef = React.useRef<ValidationContainer>(null);
+      const submit = () => containerRef.current?.validate();
+
+      return (
+        <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
+          <ValidationContainer ref={containerRef}>
+            <ValidationWrapper
+              validationInfo={{
+                type: validationType,
+                level: 'error',
+                message: 'message',
+              }}
+              renderMessage={text('bottom')}
+            >
+              <InputLike />
+            </ValidationWrapper>
+            <button onClick={submit}>Submit</button>
+          </ValidationContainer>
+        </ValidationsFeatureFlagsContext.Provider>
+      );
+    };
+
+    it('should work with `submit` validation', async () => {
+      render(<TestContainer validationType="submit" />);
+
+      expect(screen.queryByText('message')).not.toBeInTheDocument();
+
+      act(() => {
+        screen.getByRole('button').click();
+      });
+
+      expect(screen.queryByText('message')).toBeInTheDocument();
+    });
+
+    it('should work with `lostfocus` validation', async () => {
+      render(<TestContainer validationType="lostfocus" />);
+
+      expect(screen.queryByText('message')).not.toBeInTheDocument();
+
+      act(() => {
+        screen.getByRole('button').click();
+      });
+
+      expect(screen.queryByText('message')).toBeInTheDocument();
+    });
+
+    it('should work with `immediate` validation', async () => {
+      render(<TestContainer validationType="immediate" />);
+
+      expect(screen.queryByText('message')).toBeInTheDocument();
+
+      act(() => {
+        screen.getByRole('button').click();
+      });
+
+      expect(screen.queryByText('message')).toBeInTheDocument();
     });
   });
 });
