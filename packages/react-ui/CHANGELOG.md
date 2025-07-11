@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.6...@skbkontur/react-ui@5.1.7) (2025-07-11)
+
+
+### Bug Fixes
+
+* **Calendar,DateSelect:** always show Select in the viewport ([67f8925](https://github.com/skbkontur/retail-ui/commit/67f8925117913159c13865078828679d7a086711))
+* **CalendarDay:** fix day click handler ([6082b4d](https://github.com/skbkontur/retail-ui/commit/6082b4d38621f3a9fe435594c067167d193df715))
+
+
+### Features
+
+* **DateRangePicker:** add width prop, remove extra wrap ([6bfd6c3](https://github.com/skbkontur/retail-ui/commit/6bfd6c3ab8781b76d3bbdf836c85a4d2f843bb4f))
+
+
+
+
+
 ## [5.1.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.5...@skbkontur/react-ui@5.1.6) (2025-07-02)
 
 
