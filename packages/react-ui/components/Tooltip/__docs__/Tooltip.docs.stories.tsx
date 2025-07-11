@@ -2,7 +2,7 @@ import React from 'react';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { UiMenuBars3HIcon } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
-import type { SizeProp } from '@skbkontur/react-ui';
+import type { SizeProp, TooltipTrigger } from '@skbkontur/react-ui';
 import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
@@ -13,7 +13,6 @@ export default {
   parameters: { creevey: { skip: true } },
 };
 
-/** Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов */
 export const Example1: Story = () => {
   const [size, setSize] = React.useState<SizeProp>('small');
 
@@ -94,7 +93,14 @@ Example2.storyName = 'Выравнивание базовой линии';
 export const Example3: Story = () => {
   const S = 60;
 
-  const Block = ({ pos, trigger, top, left }) => (
+  interface Block {
+    pos: string;
+    trigger: TooltipTrigger;
+    top: number;
+    left: number;
+  }
+
+  const Block: React.FC<Block> = ({ pos, trigger, top, left }) => (
     <div
       style={{
         top,
@@ -106,7 +112,7 @@ export const Example3: Story = () => {
     >
       <Tooltip render={() => pos} pos={pos} trigger={trigger}>
         <div
-          tabIndex={trigger === 'focus' || trigger === 'hover&focus' ? 0 : null}
+          tabIndex={trigger === 'focus' || trigger === 'hover&focus' ? 0 : undefined}
           style={{
             height: S - 5,
             width: S - 5,
@@ -120,10 +126,7 @@ export const Example3: Story = () => {
   );
 
   class UseManualTooltip extends React.Component {
-    constructor(props) {
-      super(props);
-      this.tooltip = null;
-    }
+    private tooltip: Tooltip | null = null;
 
     render() {
       return (
@@ -225,7 +228,7 @@ export const Example3: Story = () => {
         </Gapped>
       </Center>
 
-      {!isManual && blocks.map((block, i) => <Block key={i} {...block} trigger={trigger} />)}
+      {!isManual && blocks.map((block, i) => <Block key={i} {...block} trigger={trigger as TooltipTrigger} />)}
     </div>
   );
 };
@@ -233,6 +236,16 @@ Example3.storyName = 'Расположение тултипа';
 
 /** Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения. */
 export const Example4: Story = () => {
+  interface Block {
+    top: number;
+    left: number;
+  }
+
+  interface Anchor {
+    blocks: Block[];
+    anchor: HTMLElement | null;
+  }
+
   const S = 60;
   const blockStyle = {
     height: S - 5,
@@ -241,7 +254,7 @@ export const Example4: Story = () => {
     background: 'gray',
     border: '1px solid',
   };
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     width: S * 9,
     height: S * 9,
     position: 'relative',
@@ -255,7 +268,7 @@ export const Example4: Story = () => {
     border: '1px solid',
   };
 
-  const blocks = [
+  const blocks: Block[] = [
     { top: S, left: S * 2 },
     { top: S, left: S * 4 },
     { top: S, left: S * 6 },
@@ -271,14 +284,10 @@ export const Example4: Story = () => {
   ];
 
   class AnchorTooltipExample extends React.Component {
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        blocks,
-        anchor: null,
-      };
-    }
+    state: Anchor = {
+      blocks,
+      anchor: null,
+    };
 
     render() {
       return (
@@ -291,7 +300,7 @@ export const Example4: Story = () => {
               <div key={i} style={{ top, left, display: 'inline-block', position: 'absolute' }}>
                 <div
                   style={blockStyle}
-                  onMouseEnter={(event) => this.setState({ anchor: event.target })}
+                  onMouseEnter={(event) => this.setState({ anchor: event.currentTarget })}
                   onMouseLeave={() => this.setState({ anchor: null })}
                 />
               </div>
@@ -311,12 +320,16 @@ export const Example5: Story = () => {
   const [delay, setDelay] = React.useState(100);
 
   const render = () => <div>{`Showed with ${delay}ms delay`}</div>;
+  const handleDelayChange = (value: string) => {
+    const valueAsNumber = Number(value);
+    setDelay(isNaN(valueAsNumber) || valueAsNumber < 0 ? 0 : valueAsNumber);
+  };
 
   return (
     <div>
       <Gapped vertical>
         <Gapped>
-          Show delay: <Input value={delay} onValueChange={setDelay} />
+          Show delay: <Input value={delay.toString()} onValueChange={handleDelayChange} />
         </Gapped>
         <Tooltip render={render} delayBeforeShow={delay} pos="right top">
           <QuestionCircleIcon />
