@@ -11,7 +11,7 @@ const focusedLinkTest = () => {
       })
       .sendKeys(Key.TAB)
       .perform();
-    await delay(1000);
+    await delay(2000);
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
     await context.webdriver
       .actions({
@@ -21,7 +21,7 @@ const focusedLinkTest = () => {
         origin: context.webdriver.findElement({ css: 'a' }),
       })
       .perform();
-    await delay(1000);
+    await delay(2000);
     await context.matchImage(await context.takeScreenshot(), 'tabPressHovered');
   });
 };

@@ -11,12 +11,12 @@ kind('Checkbox', () => {
           bridge: true,
         })
         .click(checkButton)
-        .pause(100)
+        .pause(1000)
         .move({
           origin: checkbox,
         })
         .perform();
-      await delay(500);
+      await delay(1000);
       await context.matchImage(await context.takeScreenshot());
     });
   });

@@ -177,7 +177,7 @@ kind('MaskedInput', () => {
           bridge: true,
         })
         .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(500)
+        .pause(1000)
         .perform();
       const select_half = await context.takeScreenshot();
       await context.webdriver
@@ -186,10 +186,15 @@ kind('MaskedInput', () => {
         })
         .click(context.webdriver.findElement({ css: 'body' }))
         .click(context.webdriver.findElement({ css: 'input' }))
-        .sendKeys('1234')
+        .pause(1000)
+        .sendKeys('1')
+        .sendKeys('2')
+        .sendKeys('3')
+        .sendKeys('4')
+        .pause(1000)
         .click(context.webdriver.findElement({ css: 'body' }))
         .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(500)
+        .pause(1000)
         .perform();
       const select_all = await context.takeScreenshot();
       await context.matchImages({ idle, select_half, select_all });

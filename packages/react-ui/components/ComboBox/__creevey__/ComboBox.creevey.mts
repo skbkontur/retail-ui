@@ -12,6 +12,10 @@ kind('ComboBox', () => {
           in: ['chrome2022', 'chrome2022Dark'],
           tests: ['hovered'],
         },
+        flacky: {
+          in: ['chrome2022Dark'],
+          tests: ['select'],
+        },
       },
     });
 

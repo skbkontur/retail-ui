@@ -148,7 +148,7 @@ kind('DateRangePicker', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
         .perform();
-      await delay(1000);
+      await delay(2000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'MobilePicker on iphone opened');
     });
   });

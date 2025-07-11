@@ -80,9 +80,13 @@ kind('Toggle', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: `[data-tid="${ToggleDataTids.root}"]` }))
+        .move({
+          origin: context.webdriver.findElement({ css: `[data-tid="${ToggleDataTids.root}"]` }),
+        })
+        .pause(2000)
+        .click()
         .perform();
-      await delay(1000);
+      await delay(2000);
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
   });
