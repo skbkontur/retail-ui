@@ -57,16 +57,6 @@ const getPublishVersion = (distTag, version, hash) => {
   return distTag !== TAGS.UNSTABLE ? version : `0.0.0-${hash.slice(0, 10)}`;
 };
 
-const getHomepage = (distTag, publishVersion) => {
-  const HOMEPAGE = 'https://tech.skbkontur.ru/react-ui/';
-  switch (distTag) {
-    case TAGS.UNSTABLE:
-      return `${HOMEPAGE}unstable/${publishVersion}/`;
-    default:
-      return `${HOMEPAGE}${publishVersion}/`;
-  }
-};
-
 const getReleaseTagName = (version) => {
   return `@skbkontur/react-ui@${version}`;
 };
@@ -152,7 +142,7 @@ const getPackageInfo = (configPath = PACKAGE_JSON) => {
   }
 
   const publishVersion = getPublishVersion(distTag, config.version, getRevisionID());
-  const homepage = getHomepage(distTag, publishVersion);
+  const homepage = 'https://tech.skbkontur.ru/kontur-ui/';
 
   return {
     publishVersion,
