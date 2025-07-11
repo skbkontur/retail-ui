@@ -16,6 +16,7 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
   dateInputFixSameNuberTypingOnRefocus?: boolean;
+  radioGroupRemoveBaselineSpacer?: boolean;
 }
 ```
 
@@ -30,6 +31,7 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
   value={{
     comboBoxAllowValueChangeInEditingState: true,
     dateInputFixSameNuberTypingOnRefocus: true,
+    radioGroupRemoveBaselineSpacer: true,
   }}
 >
   {/* ... */}
@@ -51,6 +53,12 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>
 
 <Story of={FeatureFlagsStories.Example2} />
+
+### radioGroupRemoveBaselineSpacer
+
+Флаг убирает неконтролируемый отступ снизу у RadioGroup.
+
+<Story of={FeatureFlagsStories.Example3} />
 
 ## Объект со всеми флагами
 

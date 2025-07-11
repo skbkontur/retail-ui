@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ComboBox, DateInput, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+import { Button, ComboBox, DateInput, RadioGroup, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -49,3 +49,32 @@ export const Example2: Story = () => {
 };
 
 Example2.storyName = 'dateInputNewTypingBehaviour';
+
+export const Example3: Story = () => {
+  return (
+    <ReactUIFeatureFlagsContext.Provider
+      value={{
+        radioGroupRemoveBaselineSpacer: true,
+      }}
+    >
+      <div
+        style={{
+          background: '#ed3f3f',
+          margin: '5px',
+          display: 'inline-block',
+        }}
+      >
+        <RadioGroup
+          style={{
+            background: 'white',
+          }}
+          name="number-simple"
+          items={['One', 'Two', 'Three', 'Four']}
+          defaultValue="One"
+        />
+      </div>
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+
+Example3.storyName = 'radioGroupRemoveBaselineSpacer';
