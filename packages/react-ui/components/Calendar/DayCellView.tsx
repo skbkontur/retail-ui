@@ -24,28 +24,20 @@ export const DayCellView = (props: DayCellViewProps) => {
 
   const humanDateString = InternalDateTransformer.dateToHumanString(date);
 
+  const dayClickHandler = useCallback(() => {
+    onDateClick?.(date);
+  }, [onDateClick, date]);
+
   const dayProps: CalendarDayProps = {
     isToday: Boolean(today && CDS.isEqual(date, today)),
     isSelected: Boolean(value && CDS.isEqual(date, value)),
     isDisabled,
     isWeekend: isHoliday?.(humanDateString, date.isWeekend) ?? date.isWeekend,
     date: humanDateString,
+    onDayClick: dayClickHandler,
   };
 
   const dayElement: ReactElement<CalendarDayProps> = renderDay?.(dayProps) ?? <CalendarDay {...dayProps} />;
-  const customDayClickHandler = dayElement.props.onClick;
 
-  const dayClickHandler = useCallback<NonNullable<typeof customDayClickHandler>>(
-    (e) => {
-      customDayClickHandler?.(e);
-      onDateClick?.(date);
-    },
-    [customDayClickHandler, onDateClick, date],
-  );
-
-  const dayElementWithClickHandler = React.cloneElement<CalendarDayProps>(dayElement, {
-    onClick: dayClickHandler,
-  });
-
-  return <div className={styles.cell(theme)}>{dayElementWithClickHandler}</div>;
+  return <div className={styles.cell(theme)}>{dayElement}</div>;
 };

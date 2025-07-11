@@ -89,7 +89,7 @@ export const Example4: Story = () => {
 };
 Example4.storyName = 'Высота';
 
-/** Для кастомнизации дней в календаре используется метод `renderDay` и компонент [Calendar.Day](#/Components/Calendar/Calendar.Day) */
+/** Для кастомнизации дней в календаре используется проп `renderDay`. Корректная работа подразумевает обязательное использование компонента `<CalendarDay />` и передачу в него всех приходящих в функцию пропов: `<Calendar renderDay={(props) => <CalendarDay {...props} />} />`. */
 export const Example5: Story = () => {
   const initialValue = '02.09.2023';
 

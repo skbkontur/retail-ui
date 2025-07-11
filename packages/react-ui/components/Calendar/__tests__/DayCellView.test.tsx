@@ -10,6 +10,7 @@ import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru'
 import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { CalendarLocaleHelper } from '../locale';
+import { Hint } from '../../Hint';
 
 describe('DayCellView', () => {
   describe('a11y', () => {
@@ -84,7 +85,9 @@ describe('DayCellView', () => {
     const expectedDate = '06.11.2021';
     const onValueChange = jest.fn();
     const customDayOnClick = jest.fn();
-    const renderDay: CalendarProps['renderDay'] = (props) => <CalendarDay {...props} onClick={customDayOnClick} />;
+    const renderDay: CalendarProps['renderDay'] = (props) => {
+      return <CalendarDay {...props} onClick={customDayOnClick} />;
+    };
 
     render(<Calendar value={initialDate} renderDay={renderDay} onValueChange={onValueChange} />);
 
@@ -101,5 +104,33 @@ describe('DayCellView', () => {
 
     expect(onValueChange).toHaveBeenCalled();
     expect(customDayOnClick).toHaveBeenCalled();
+  });
+
+  it('click on a day should work with custom CalendarDay wrapper', async () => {
+    const initialDate = '03.11.2021';
+    const expectedDate = '06.11.2021';
+    const onValueChange = jest.fn();
+    const renderDay: CalendarProps['renderDay'] = (props) => {
+      return (
+        <Hint text="Hint">
+          <CalendarDay {...props} />
+        </Hint>
+      );
+    };
+
+    render(<Calendar value={initialDate} renderDay={renderDay} onValueChange={onValueChange} />);
+
+    const dayToClickOn = screen.getByRole('button', {
+      name: `${CalendarLocaleHelper.get(LangCodes.ru_RU).dayCellChooseDateAriaLabel}: ${new InternalDate({
+        langCode: LangCodes.ru_RU,
+        value: expectedDate,
+      }).toA11YFormat()}`,
+    });
+
+    await userEvent.click(dayToClickOn, {
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    });
+
+    expect(onValueChange).toHaveBeenCalled();
   });
 });
