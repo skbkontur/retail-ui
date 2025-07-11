@@ -489,7 +489,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.setState({ selected });
     }
 
-    const { inputMode, changed } = this.iDateMediator.inputKey(event.key, selected, this.state.inputMode);
+    const { inputMode, changed } = this.iDateMediator.inputKey(
+      event.key,
+      selected,
+      this.state.inputMode,
+      this.featureFlags.dateInputAllowInvalidValuesInDays,
+    );
 
     if (!this.featureFlags.dateInputFixSameNuberTypingOnRefocus) {
       if (!changed) {

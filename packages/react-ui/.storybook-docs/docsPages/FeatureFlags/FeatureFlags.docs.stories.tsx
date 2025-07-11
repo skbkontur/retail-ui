@@ -1,5 +1,13 @@
 import React from 'react';
-import { Button, ComboBox, DateInput, RadioGroup, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
+import {
+  Button,
+  ComboBox,
+  DateInput,
+  DatePicker,
+  RadioGroup,
+  ReactUIFeatureFlagsContext,
+  Tooltip,
+} from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -48,9 +56,41 @@ export const Example2: Story = () => {
   );
 };
 
-Example2.storyName = 'dateInputNewTypingBehaviour';
+Example2.storyName = 'dateInputFixSameNuberTypingOnRefocus';
 
 export const Example3: Story = () => {
+  const [value, setValue] = React.useState('01.02.2025');
+  const [error, setError] = React.useState(false);
+  const [tooltip, setTooltip] = React.useState(false);
+  const unvalidate = () => {
+    setError(false);
+    setTooltip(false);
+  };
+  const validate = () => {
+    const errorNew = DatePicker.validate(value);
+    setError(!errorNew);
+    setTooltip(!errorNew);
+  };
+  const removeTooltip = () => setTooltip(false);
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ dateInputAllowInvalidValuesInDays: true }}>
+      <Tooltip trigger={tooltip ? 'opened' : 'closed'} render={() => 'Невалидная дата'} onCloseClick={removeTooltip}>
+        <DatePicker
+          error={error}
+          value={value}
+          onValueChange={setValue}
+          onFocus={unvalidate}
+          onBlur={validate}
+          enableTodayLink
+        />
+      </Tooltip>
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+
+Example3.storyName = 'dateInputAllowInvalidValuesInDays';
+
+export const Example4: Story = () => {
   return (
     <ReactUIFeatureFlagsContext.Provider
       value={{
@@ -77,4 +117,4 @@ export const Example3: Story = () => {
   );
 };
 
-Example3.storyName = 'radioGroupRemoveBaselineSpacer';
+Example4.storyName = 'radioGroupRemoveBaselineSpacer';

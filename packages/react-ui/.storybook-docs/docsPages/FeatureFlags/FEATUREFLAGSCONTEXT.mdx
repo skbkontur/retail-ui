@@ -16,6 +16,7 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
   dateInputFixSameNuberTypingOnRefocus?: boolean;
+  dateInputAllowInvalidValuesInDays?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
 }
 ```
@@ -31,7 +32,6 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
   value={{
     comboBoxAllowValueChangeInEditingState: true,
     dateInputFixSameNuberTypingOnRefocus: true,
-    radioGroupRemoveBaselineSpacer: true,
   }}
 >
   {/* ... */}
@@ -56,9 +56,20 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 ### radioGroupRemoveBaselineSpacer
 
-Флаг убирает неконтролируемый отступ снизу у RadioGroup.
+Флаг убирает лишний отступ под RadioGroup
 
 <Story of={FeatureFlagsStories.Example3} />
+
+### dateInputAllowInvalidValuesInDays
+
+Флаг разрешает ввод любых дней в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link> для более удобного редактирования.
+
+Например, при редактировании даты `01.02.2025` и вводе цифр `3` и `1`:
+
+- Было `03.01.2025`
+- Стало `31.02.2025`
+
+<Story of={FeatureFlagsStories.Example4} />
 
 ## Объект со всеми флагами
 

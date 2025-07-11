@@ -140,6 +140,37 @@ describe('DateInput as InputlikeText', () => {
       });
     });
 
+    // TODO: Merge with KeyDownCase after remove `dateInputAllowInvalidValuesInDays`
+    const KeyDownCases_dateInputAllowInvalidValuesInDays: KeyDownCase[] = [
+      ...KeyDownCases.filter((x) => !x.includes('03.03.2017')),
+      ['01.02.2025', ['2', '9'], '29.02.2025'],
+      ['01.02.2025', ['3', '0'], '30.02.2025'],
+      ['01.02.2025', ['3', '1'], '31.02.2025'],
+      ['01.06.2025', ['3', '1'], '31.06.2025'],
+      ['28.02.2025', ['ArrowUp'], '01.02.2025'],
+    ];
+
+    KeyDownCases_dateInputAllowInvalidValuesInDays.forEach(([initDate, keys, expected]) => {
+      const keyString = keys.join(' > ');
+      const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
+
+      it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}" with \`dateInputAllowInvalidValuesInDays\` flag`, async () => {
+        const onValueChange = jest.fn();
+        renderRTL(
+          <ReactUIFeatureFlagsContext.Provider value={{ dateInputAllowInvalidValuesInDays: true }}>
+            <LocaleDateInput propsDateInput={{ value: initDate, onValueChange }} propsLocale={{}} />
+          </ReactUIFeatureFlagsContext.Provider>,
+        );
+        const input = getInput();
+        await userEvent.click(input);
+
+        keys.forEach((key) => fireEvent.keyDown(input, { key }));
+
+        const [value] = onValueChange.mock.calls[onValueChange.mock.calls.length - 1];
+        expect(value).toBe(expected);
+      });
+    });
+
     const PasteCases = [
       [InternalDateOrder.DMY, '23.02.2017', '23.02.2017'],
       [InternalDateOrder.DMY, '23/02/2017', '23.02.2017'],
