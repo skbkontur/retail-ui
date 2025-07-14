@@ -1,14 +1,16 @@
 import * as CheckboxStories from './Checkbox.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={CheckboxStories} />
 
-# Checkbox
-
-[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/selection-elements/checkbox/)
-
-[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A7278)
+<Header
+  component="Checkbox"
+  guides="https://guides.kontur.ru/components/selection-elements/checkbox/"
+  figma="https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI?node-id=203%3A7278"
+/>
 
 <Description />
 
@@ -18,10 +20,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 

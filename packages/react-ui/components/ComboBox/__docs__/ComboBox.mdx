@@ -1,14 +1,16 @@
 import * as ComboBoxStories from './ComboBox.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={ComboBoxStories} />
 
-# ComboBox
-
-[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/input-fields/combobox/)
-
-[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A1602)
+<Header
+  component="Combobox"
+  guides="https://guides.kontur.ru/components/input-fields/combobox/"
+  figma="https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A1602"
+/>
 
 <Description />
 
@@ -18,10 +20,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 

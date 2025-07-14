@@ -99,6 +99,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
 
   useEffect(() => {
     let url;
+
     try {
       url = new URL(window.parent.location.toString());
       if (url.hash) {

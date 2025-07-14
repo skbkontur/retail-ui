@@ -1,12 +1,12 @@
 import * as LoaderStories from './Loader.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={LoaderStories} />
 
-# Loader
-
-[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/progress-indicators/spinner/)
+<Header component="Loader" guides="https://guides.kontur.ru/components/progress-indicators/spinner/" />
 
 <Description />
 
@@ -16,10 +16,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 

@@ -1,10 +1,12 @@
 import * as CalendarDayStories from './CalendarDay.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={CalendarDayStories} />
 
-# Calendar
+<Header component="Calendar" />
 
 <Description />
 
@@ -14,10 +16,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 

@@ -1,14 +1,16 @@
 import * as TextareaStories from './Textarea.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={TextareaStories} />
 
-# Textarea
-
-[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/input-fields/textarea/)
-
-[Компонент в Figma](https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A2333)
+<Header
+  component="Textarea"
+  guides="https://guides.kontur.ru/components/input-fields/textarea/"
+  figma="https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A2333"
+/>
 
 <Description />
 
@@ -18,10 +20,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 

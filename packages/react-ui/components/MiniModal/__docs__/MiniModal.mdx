@@ -1,14 +1,16 @@
 import * as MiniModalStories from './MiniModal.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={MiniModalStories} />
 
-# MiniModal
-
-[Компонент в Контур.Гайдах](https://guides.kontur.ru/components/popup-elements/modal/#Mini-modalka)
-
-[Компонент в Figma](https://www.figma.com/design/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI?node-id=21689-33399&t=agVpD90pHKOeCgsR-4)
+<Header
+  component="MiniModal"
+  guides="https://guides.kontur.ru/components/popup-elements/modal/#Mini-modalka"
+  figma="https://www.figma.com/design/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI?node-id=21689-33399&t=agVpD90pHKOeCgsR-4"
+/>
 
 <Description />
 
@@ -18,10 +20,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 

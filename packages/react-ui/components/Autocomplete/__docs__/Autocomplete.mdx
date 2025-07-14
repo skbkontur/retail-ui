@@ -1,12 +1,15 @@
 import * as AutocompleteStories from './Autocomplete.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
+
 import { Autocomplete } from '../Autocomplete';
 import { Button, Group, Gapped } from '@skbkontur/react-ui';
 
 <Meta of={AutocompleteStories} />
 
-# Autocomplete
+<Header component="Autocomplete" />
 
 <Description />
 
@@ -16,10 +19,7 @@ import { Button, Group, Gapped } from '@skbkontur/react-ui';
 
 ## Пропы
 
-<details>
-  <summary>Открыть таблицу с пропами</summary>
-  <ArgTypes />
-</details>
+<PropsTable />
 
 ## Примеры использования
 
