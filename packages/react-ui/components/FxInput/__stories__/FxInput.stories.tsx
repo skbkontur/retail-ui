@@ -50,7 +50,7 @@ interface TestFxInputProps {
 }
 interface TestFxInputState {
   auto: boolean;
-  value: React.ReactText;
+  value: string | number;
 }
 class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   public static defaultProps: { type: TestFxInputProps['type'] } = {
@@ -82,7 +82,7 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
     );
   }
 
-  private handleChange = (value: React.ReactText) => {
+  private handleChange = (value: string | number) => {
     this.setState({ value, auto: false });
   };
 
