@@ -14,7 +14,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "prebuild": "run-s clean build:types",
+    "prebuild": "run-s clean 'build:types'",
     "build:types": "tsc -p ./prod.tsconfig.json --emitDeclarationOnly --diagnostics --outDir build",
     "build:cjs": "cross-env BABEL_ENV=cjs node scripts/build",
     "build:esm": "node scripts/build",

@@ -1,0 +1,3 @@
+include:
+  - project: "ui/gitlab-ci"
+    file: "index.yml"
