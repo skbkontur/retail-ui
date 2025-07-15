@@ -375,7 +375,7 @@ describe('DateInput as InputlikeText', () => {
 
   it('re-enters day digits after blur and refocus', async () => {
     renderRTL(
-      <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNuberTypingOnRefocus: true }}>
+      <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNumberTypingOnRefocus: true }}>
         <DateInput value="" />
       </ReactUIFeatureFlagsContext.Provider>,
     );

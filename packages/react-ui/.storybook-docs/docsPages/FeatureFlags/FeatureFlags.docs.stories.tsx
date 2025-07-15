@@ -50,13 +50,13 @@ Example1.storyName = 'comboBoxAllowValueChangeInEditingState';
 export const Example2: Story = () => {
   const [value, setValue] = React.useState('');
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNuberTypingOnRefocus: true }}>
+    <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNumberTypingOnRefocus: true }}>
       <DateInput value={value} onValueChange={setValue} />
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
 
-Example2.storyName = 'dateInputFixSameNuberTypingOnRefocus';
+Example2.storyName = 'dateInputFixSameNumberTypingOnRefocus';
 
 export const Example3: Story = () => {
   const [value, setValue] = React.useState('01.02.2025');

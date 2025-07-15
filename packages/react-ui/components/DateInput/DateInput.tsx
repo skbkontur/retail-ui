@@ -496,7 +496,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.featureFlags.dateInputAllowInvalidValuesInDays,
     );
 
-    if (!this.featureFlags.dateInputFixSameNuberTypingOnRefocus) {
+    if (!this.featureFlags.dateInputFixSameNumberTypingOnRefocus) {
       if (!changed) {
         this.blink();
         return;

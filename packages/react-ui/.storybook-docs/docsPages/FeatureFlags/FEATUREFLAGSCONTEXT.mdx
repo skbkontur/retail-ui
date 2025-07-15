@@ -15,7 +15,7 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 ```typescript static
 export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
-  dateInputFixSameNuberTypingOnRefocus?: boolean;
+  dateInputFixSameNumberTypingOnRefocus?: boolean;
   dateInputAllowInvalidValuesInDays?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
 }
@@ -31,7 +31,7 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 <ReactUIFeatureFlagsContext.Provider
   value={{
     comboBoxAllowValueChangeInEditingState: true,
-    dateInputFixSameNuberTypingOnRefocus: true,
+    dateInputFixSameNumberTypingOnRefocus: true,
   }}
 >
   {/* ... */}
@@ -48,7 +48,7 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 <Story of={FeatureFlagsStories.Example1} />
 
-### dateInputFixSameNuberTypingOnRefocus
+### dateInputFixSameNumberTypingOnRefocus
 
 Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>
 

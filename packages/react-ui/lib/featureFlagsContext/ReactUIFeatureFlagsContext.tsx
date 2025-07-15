@@ -2,14 +2,14 @@ import React from 'react';
 
 export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
-  dateInputFixSameNuberTypingOnRefocus?: boolean;
+  dateInputFixSameNumberTypingOnRefocus?: boolean;
   dateInputAllowInvalidValuesInDays?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   comboBoxAllowValueChangeInEditingState: false,
-  dateInputFixSameNuberTypingOnRefocus: false,
+  dateInputFixSameNumberTypingOnRefocus: false,
   dateInputAllowInvalidValuesInDays: false,
   radioGroupRemoveBaselineSpacer: false,
 };
