@@ -11,6 +11,7 @@ import type { DateInputProps } from '../DateInput';
 import { DateInput, DateInputDataTids } from '../DateInput';
 import type { LocaleContextProps } from '../../../lib/locale';
 import { LocaleContext } from '../../../lib/locale';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 type InitialDate = string;
 type PressedKeys = string[];
@@ -129,6 +130,37 @@ describe('DateInput as InputlikeText', () => {
       it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, async () => {
         const onValueChange = jest.fn();
         render({ value: initDate, onValueChange });
+        const input = getInput();
+        await userEvent.click(input);
+
+        keys.forEach((key) => fireEvent.keyDown(input, { key }));
+
+        const [value] = onValueChange.mock.calls[onValueChange.mock.calls.length - 1];
+        expect(value).toBe(expected);
+      });
+    });
+
+    // TODO: Merge with KeyDownCase after remove `dateInputAllowInvalidValuesInDays`
+    const KeyDownCases_dateInputAllowInvalidValuesInDays: KeyDownCase[] = [
+      ...KeyDownCases.filter((x) => !x.includes('03.03.2017')),
+      ['01.02.2025', ['2', '9'], '29.02.2025'],
+      ['01.02.2025', ['3', '0'], '30.02.2025'],
+      ['01.02.2025', ['3', '1'], '31.02.2025'],
+      ['01.06.2025', ['3', '1'], '31.06.2025'],
+      ['28.02.2025', ['ArrowUp'], '01.02.2025'],
+    ];
+
+    KeyDownCases_dateInputAllowInvalidValuesInDays.forEach(([initDate, keys, expected]) => {
+      const keyString = keys.join(' > ');
+      const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
+
+      it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}" with \`dateInputAllowInvalidValuesInDays\` flag`, async () => {
+        const onValueChange = jest.fn();
+        renderRTL(
+          <ReactUIFeatureFlagsContext.Provider value={{ dateInputAllowInvalidValuesInDays: true }}>
+            <LocaleDateInput propsDateInput={{ value: initDate, onValueChange }} propsLocale={{}} />
+          </ReactUIFeatureFlagsContext.Provider>,
+        );
         const input = getInput();
         await userEvent.click(input);
 
@@ -352,6 +384,24 @@ describe('DateInput as InputlikeText', () => {
 
     inputLikeTextRef.current?.blur();
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+  });
+
+  it('re-enters day digits after blur and refocus', async () => {
+    renderRTL(
+      <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNumberTypingOnRefocus: true }}>
+        <DateInput value="" />
+      </ReactUIFeatureFlagsContext.Provider>,
+    );
+    const input = getInput();
+
+    await userEvent.type(input, '1');
+    expect(input.textContent).toMatch(/^1/);
+
+    await userEvent.tab();
+    expect(input.textContent).toMatch(/^01/);
+
+    await userEvent.type(input, '12');
+    expect(input.textContent).toMatch(/^12/);
   });
 
   it('blink method works', async () => {

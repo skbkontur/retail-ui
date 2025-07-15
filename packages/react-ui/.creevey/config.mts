@@ -22,7 +22,7 @@ const capabilities = debug
       enableVideo: true,
     }
   : {};
-
+const reportFilePath = path.resolve(__dirname, '..', 'reports');
 const config: CreeveyConfig = {
   storybookUrl,
   resolveStorybookUrl,
@@ -30,10 +30,14 @@ const config: CreeveyConfig = {
   storiesProvider: hybridStoriesProvider,
   testsRegex: /.creevey.(m|c)?(t|j)s$/,
   testsDir: path.join(__dirname, '../'),
-  reportDir: path.join(__dirname, 'report'),
+  reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),
+  reporter: process.env.GITLAB_CI ? 'junit' : 'teamcity',
+  reporterOptions: {
+    outputFile: process.env.GITLAB_CI ? path.join(reportFilePath, 'junit.xml') : undefined,
+  },
   gridUrl: process.env.GRID_URL,
-  maxRetries: process.env.TEAMCITY_VERSION ? 5 : 0,
+  maxRetries: process.env.GITLAB_CI || process.env.TEAMCITY_VERSION ? 5 : 0,
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
     chrome2022: {

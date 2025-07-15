@@ -5,15 +5,18 @@ import {
   ComboBox,
   DatePicker,
   Gapped,
+  Input,
   Radio,
   RadioGroup,
   Select,
   Switcher,
+  Tabs,
   Toggle,
 } from '@skbkontur/react-ui';
 import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 
 import {
+  ValidationBehaviour,
   ValidationContainer,
   ValidationInfo,
   ValidationsFeatureFlagsContext,
@@ -189,5 +192,66 @@ export const ExampleDatePicker: Story = () => {
         <Button onClick={handleSubmit}>Call submit</Button>
       </div>
     </div>
+  );
+};
+
+export const ValidateOnMount: Story = () => {
+  const container = React.useRef<ValidationContainer>(null);
+
+  async function handleSubmit(): Promise<void> {
+    await container.current?.validate();
+  }
+
+  const [type, setType] = React.useState('submit');
+  const [activeTab, setActiveTab] = React.useState<'phone' | 'email'>('phone');
+
+  const [phone, setPhone] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [check, setCheck] = React.useState<boolean>(false);
+
+  const errorInfo: ValidationInfo = {
+    message: 'Заполните поле',
+    type: type as ValidationBehaviour,
+  };
+
+  return (
+    <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
+      <ValidationContainer ref={container}>
+        <Gapped gap={16} vertical>
+          <Switcher onValueChange={setType} value={type} items={['submit', 'lostfocus', 'immediate']} />
+
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <Tabs.Tab id="phone">Phone</Tabs.Tab>
+            <Tabs.Tab id="email">Email</Tabs.Tab>
+          </Tabs>
+
+          {activeTab === 'phone' && (
+            <div>
+              <ValidationWrapper validationInfo={phone ? null : errorInfo}>
+                <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
+              </ValidationWrapper>
+            </div>
+          )}
+
+          {activeTab === 'email' && (
+            <div title="Email">
+              <ValidationWrapper validationInfo={email ? null : errorInfo}>
+                <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+              </ValidationWrapper>
+            </div>
+          )}
+
+          <ValidationWrapper validationInfo={check ? null : errorInfo}>
+            <Checkbox checked={check} onValueChange={setCheck}>
+              Чекбокс вне табов
+            </Checkbox>
+          </ValidationWrapper>
+
+          <Button use={'primary'} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Gapped>
+      </ValidationContainer>
+    </ValidationsFeatureFlagsContext.Provider>
   );
 };

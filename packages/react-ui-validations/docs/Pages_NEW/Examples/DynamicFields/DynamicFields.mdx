@@ -1,0 +1,11 @@
+import { Story } from '@storybook/blocks';
+import * as DocsStories from './DynamicFields.docs.stories.tsx';
+import { Meta } from '../../../../.storybook-docs/Meta';
+
+<Meta of={DocsStories} />
+
+# Динамические поля
+
+Фиче-флаг `validationWrapperValidateOnMount` отображает актуальное состояние валидации поля даже после его перемонтирования. Например, после переключения вкладок внутри формы, которая уже была провалидирована.
+
+<Story of={DocsStories.DynamicFields} />

@@ -7,6 +7,7 @@ import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import type { Nullable } from '../../../typings/utility-types';
 import type { RadioGroupProps } from '..';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 interface ComponentState {
   value: string;
@@ -198,3 +199,36 @@ export const Disabled = () => (
   </RadioGroup>
 );
 Disabled.storyName = 'disabled';
+
+export const RemoveBaselineSpacer = () => (
+  <div id="RemoveBaselineSpacer-wrap" style={{ textWrap: 'nowrap' }}>
+    <ReactUIFeatureFlagsContext.Provider value={{ radioGroupRemoveBaselineSpacer: true }}>
+      <div style={{ background: 'red', margin: '5px' }}>
+        <h5>Флаг true</h5>
+        <RadioGroup
+          style={{ background: 'green' }}
+          name="number-simple"
+          items={['One', 'Two', 'Three', 'Four']}
+          defaultValue="One"
+        />
+      </div>
+    </ReactUIFeatureFlagsContext.Provider>
+
+    <div style={{ background: 'red', margin: '5px' }}>
+      <h5>Флаг false</h5>
+      <RadioGroup
+        style={{ background: 'green' }}
+        name="number-simple"
+        items={['One', 'Two', 'Three', 'Four']}
+        defaultValue="One"
+      />
+    </div>
+  </div>
+);
+RemoveBaselineSpacer.storyName = 'RemoveBaselineSpacer';
+
+RemoveBaselineSpacer.parameters = {
+  creevey: {
+    captureElement: '#RemoveBaselineSpacer-wrap',
+  },
+};

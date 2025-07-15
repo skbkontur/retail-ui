@@ -23,6 +23,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -47,6 +48,9 @@ export interface SidePageProps
 
   /** Задает ширину сайдпейджа. */
   width?: number | string;
+
+  /** Задает ширину сайдпейджаю на мобилке. По умолчанию ширина во весь экран. */
+  mobileWidth?: number | string;
 
   /** Задает функцию, которая вызывается при запросе закрытия сайдпейджа пользователем (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
@@ -114,7 +118,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private layout: HTMLElement | null = null;
   private header: SidePageHeader | null = null;
   private footer: SidePageFooter | null = null;
-  private rootRef = React.createRef<HTMLDivElement>();
+  public rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     globalObject.addEventListener?.('keydown', this.handleKeyDown);
@@ -169,6 +173,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private renderMain() {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
+    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
     return (
       <ResponsiveLayout>
         {({ isMobile }) => (
@@ -180,7 +185,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 createStackingContext
                 style={{ position: 'absolute' }}
               >
-                {blockBackground && this.renderShadow(isMobile)}
+                {(versionGTE5_2 || !isMobile) && blockBackground && this.renderShadow()}
                 <CSSTransition
                   in
                   classNames={this.getTransitionNames()}
@@ -218,8 +223,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
+    const { mobileWidth, blockBackground, fromLeft, 'aria-label': ariaLabel } = this.props;
     const { offset, role } = this.getProps();
+
+    const widthDesktop = this.props.width || (blockBackground ? 800 : 500);
+    const widthMobile = this.props.mobileWidth || '100%';
+    const width = isMobile ? widthMobile : widthDesktop;
 
     return (
       <div
@@ -229,15 +238,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
-          [styles.mobileRoot()]: isMobile,
         })}
         ref={this.rootRef}
         onScroll={LayoutEvents.emit}
         style={
-          isMobile
-            ? undefined
+          isMobile && !isThemeGTE(this.theme, '5.2')
+            ? {
+                width: mobileWidth || '100%',
+              }
             : {
-                width: width || (blockBackground ? 800 : 500),
+                width,
                 right: fromLeft ? 'auto' : offset,
                 left: fromLeft ? offset : 'auto',
               }
@@ -288,21 +298,17 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return this.layout.clientWidth;
   };
 
-  private renderShadow(isMobile: boolean): JSX.Element {
+  private renderShadow(): JSX.Element {
     return (
       <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
-        {!isMobile && (
-          <>
-            <HideBodyVerticalScroll key="hbvs" />
-            <div
-              key="overlay"
-              className={cx({
-                [styles.background()]: true,
-                [styles.backgroundGray(this.theme)]: this.state.hasBackground,
-              })}
-            />
-          </>
-        )}
+        <HideBodyVerticalScroll key="hbvs" />
+        <div
+          key="overlay"
+          className={cx({
+            [styles.background()]: true,
+            [styles.backgroundGray(this.theme)]: this.state.hasBackground,
+          })}
+        />
       </div>
     );
   }

@@ -26,7 +26,9 @@
     "release:next:prerelease": "env-cmd lerna version prerelease --preid next --no-changelog --ignore-changes='!packages/react-ui/**'",
     "release:next:preminor": "env-cmd lerna version preminor --preid next --no-changelog  --ignore-changes='!packages/react-ui/**'",
     "prepare": "husky install",
-    "deps": "node scripts/deps"
+    "deps": "node scripts/deps",
+    "set-testing-package-versions": "node scripts/testing/set-package-versions.js",
+    "set-testing-package-versions-local": "cross-env REACT_VERSION=17 TYPESCRIPT_VERSION=4 node scripts/testing/set-package-versions.js"
   },
   "config": {
     "commitizen": {

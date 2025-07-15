@@ -86,7 +86,7 @@ describe('Calendar', () => {
     );
 
     await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 8000 });
-  });
+  }, 10000);
 
   it('onMonthChange returns correct year', async () => {
     const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
@@ -108,7 +108,7 @@ describe('Calendar', () => {
     });
 
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 8000 });
-  });
+  }, 10000);
 
   it('should set langCode', () => {
     render(

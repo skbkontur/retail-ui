@@ -83,4 +83,14 @@ kind('RadioGroup', () => {
       await context.matchImage(await context.takeScreenshot(), 'arrow_down');
     });
   });
+
+  story('RemoveBaselineSpacer', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: '#RemoveBaselineSpacer-wrap',
+    });
+
+    test('defaultState', async (context) => {
+      await context.matchImage(await context.takeScreenshot(), 'defaultState');
+    });
+  });
 });

@@ -40,7 +40,7 @@ export interface FxInputProps
         onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
 
         /** Задает значение инпута. */
-        value?: React.ReactText;
+        value?: string | number;
 
         /** Задает ref инпута. */
         refInput?: (element: CurrencyInput | Input | null) => void;

@@ -55,9 +55,7 @@ Example5.storyName = 'Получение фокуса после загрузк�
 
 export const Example6: Story = () => {
   return (
-    <Gapped gap="20px">
-      <Toggle warning>Warning</Toggle>
-      <Toggle error>Error</Toggle>
+    <Gapped gap={20}>
       <Toggle loading>Loading</Toggle>
       <Toggle disabled>Disabled</Toggle>
     </Gapped>

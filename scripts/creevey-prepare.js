@@ -7,7 +7,7 @@ const config = require(path.join(path.dirname(`${process.cwd()}/${process.argv[2
 const STORYBOOK_NOT_RESPOND_TIMEOUT = 300000;
 const STORYBOOK_RUN_COMMAND = 'yarn storybook:test';
 
-if (!process.env.GRID_URL || !process.env.GET_IP_URL) {
+if (!process.env.GITLAB_CI && (!process.env.GRID_URL || !process.env.GET_IP_URL)) {
   error('Для запуска Creevey создайте в корне файл .env c переменными GRID_URL= и GET_IP_URL=');
   error('Подробнее: https://github.com/skbkontur/retail-ui/blob/next/contributing.md#скриншотные-тесты\n');
   process.exit(1);

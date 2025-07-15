@@ -1,7 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import { ChildProcess, spawn, spawnSync, execSync } from 'child_process';
+import type { ChildProcess} from 'child_process';
+import { spawn, spawnSync, execSync } from 'child_process';
 
 import puppeteer from 'puppeteer';
 import waitOn from 'wait-on';
@@ -51,14 +52,14 @@ describe('React-ui smoke test', () => {
       serveProcess = serveApplication(appDirectory);
       await openPageOnBrowser(screenshotPath);
 
-      expect(console.error).not.toBeCalled();
+      expect(console.error).not.toHaveBeenCalled();
     },
     TIMEOUT,
   );
 
   it('Render all controls and validations on server side (SSR)', async () => {
     execSync(`yarn install && yarn server`, { stdio: 'inherit', cwd: path.join(__dirname, 'react-ui-ssr') });
-    expect(console.error).not.toBeCalled();
+    expect(console.error).not.toHaveBeenCalled();
   });
 });
 
@@ -103,7 +104,7 @@ function serveApplication(appFolder: string): ChildProcess {
 }
 
 async function openPageOnBrowser(screenshotPath: string) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
   const page = await browser.newPage();
 
   await page.setViewport({

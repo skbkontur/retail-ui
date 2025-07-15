@@ -99,3 +99,24 @@ export const ToastWithCross = () => {
   );
 };
 ToastWithCross.storyName = 'Крестик без кнопки действия';
+
+export const ToastWithReactNode = () => (
+  <div>
+    <Button
+      data-tid="show-toast"
+      onClick={() =>
+        Toast.push(
+          <div>
+            Эту и другую полезную информацию вы найдете в разделе{' '}
+            <a href="/" target="_blank" style={{ color: '#69c5ff', fontWeight: 'bold', textDecoration: 'none' }}>
+              Помощь
+            </a>
+          </div>,
+        )
+      }
+    >
+      Show toast
+    </Button>
+  </div>
+);
+ToastWithReactNode.storyName = 'Тост с кастомным ReactNode';

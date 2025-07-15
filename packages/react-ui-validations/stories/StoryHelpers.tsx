@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { renderElement } from '@storybook/react-dom-shim';
 
 export const IframeRenderer = ({ children, extraHTML = '', width = 150, height = 70, id = '' }: any) => {
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
@@ -28,7 +28,7 @@ export const IframeRenderer = ({ children, extraHTML = '', width = 150, height =
         </style>
         <div id="root" />
       `);
-      createRoot(root.getElementById('root')).render(children);
+      renderElement(children, root.getElementById('root'));
     }
   }, [children]);
 

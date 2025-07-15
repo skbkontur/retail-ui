@@ -10,9 +10,9 @@ import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
 import type { ValidationContextType } from './ValidationContextWrapper';
+import { ValidationContext } from './ValidationContextWrapper';
 import type { ValidationsFeatureFlags } from './utils/featureFlagsContext';
 import { ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
-import { ValidationContext } from './ValidationContextWrapper';
 
 export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 
@@ -74,7 +74,11 @@ export class ValidationWrapperInternal extends React.Component<
     if (this.context) {
       this.context.register(this);
     }
-    this.applyValidation(this.props.validation);
+    if (this.featureFlags.validationWrapperValidateOnMount && this.context.isValidationCalled()) {
+      this.processSubmit();
+    } else {
+      this.applyValidation(this.props.validation);
+    }
   }
 
   public componentWillUnmount() {

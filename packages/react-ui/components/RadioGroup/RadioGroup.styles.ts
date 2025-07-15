@@ -10,6 +10,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  removeBaselineSpacer() {
+    return css`
+      vertical-align: bottom;
+    `;
+  },
+
   item() {
     return css`
       display: table;

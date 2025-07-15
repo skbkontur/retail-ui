@@ -25,6 +25,7 @@ export interface ValidationContextType {
   onValidationUpdated: (wrapper: ValidationWrapperInternal, isValid: boolean) => void;
   getSettings: () => ValidationContextSettings;
   isAnyWrapperInChangingMode: () => boolean;
+  isValidationCalled: () => boolean;
 }
 
 export const ValidationContext = React.createContext<ValidationContextType>({
@@ -37,12 +38,14 @@ export const ValidationContext = React.createContext<ValidationContextType>({
     disableSmoothScroll: false,
   }),
   isAnyWrapperInChangingMode: () => false,
+  isValidationCalled: () => false,
 });
 
 ValidationContext.displayName = 'ValidationContext';
 
 export class ValidationContextWrapper extends React.Component<ValidationContextWrapperProps> {
   public childWrappers: ValidationWrapperInternal[] = [];
+  public validationHasBeenCalled: boolean = false;
 
   public getSettings(): ValidationContextSettings {
     let scrollOffset: ScrollOffset = {};
@@ -95,6 +98,10 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return this.childWrappers.some((x) => x.isChanging);
   }
 
+  public isValidationCalled(): boolean {
+    return this.validationHasBeenCalled;
+  }
+
   public onValidationRemoved() {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
@@ -133,6 +140,8 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     const focusMode = ValidationContextWrapper.getFocusMode(withoutFocusOrValidationSettings);
 
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
+
+    this.validationHasBeenCalled = true;
 
     const childrenWrappersSortedByPosition = this.getChildWrappersSortedByPosition();
     const firstError = childrenWrappersSortedByPosition.find((x) => x.hasError());

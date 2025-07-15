@@ -73,6 +73,13 @@ export const StaticMethod = () => (
 );
 StaticMethod.storyName = 'static method';
 
+export const ReactNodeExample = () => (
+  <button data-tid="show-toast" onClick={() => Toast.push(<div>ReactNode example</div>)}>
+    Show toast
+  </button>
+);
+ReactNodeExample.storyName = 'react node example';
+
 export const ToastWithCross = () => {
   function showComplexNotification() {
     Toast.push('Toast throw static method', null, 10000, true);
