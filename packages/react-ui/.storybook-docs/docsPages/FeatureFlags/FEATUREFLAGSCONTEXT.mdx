@@ -1,5 +1,4 @@
 import { Story } from '@storybook/blocks';
-
 import { linkTo } from '@storybook/addon-links';
 import { Link } from '../../../components/Link';
 import { Meta } from '../../Meta';
@@ -8,68 +7,37 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 
 <Meta of={FeatureFlagsStories} />
 
-# Включение и отключение отдельных фич через `ReactUIFeatureFlagsContext`
+# Feature flags
 
-## Доступные флаги
+Фича-флаги позволяют заранее применять будущие **breaking changes** (ломающие изменения) до выхода очередного мажорного релиза библииотеки.
 
-```typescript static
-export interface ReactUIFeatureFlags {
-  comboBoxAllowValueChangeInEditingState?: boolean;
-  stickyReduceLayoutEvents?: boolean;
-  dateInputFixSameNumberTypingOnRefocus?: boolean;
-  dateInputAllowInvalidValuesInDays?: boolean;
-  radioGroupRemoveBaselineSpacer?: boolean;
-}
-```
+При выходе очередной мажорной версии, например, `5.x.x` → `6.x.x`, будет применено новое поведение, а сами фича-флаги будут удалены.
 
-Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
+## Подключение фича-флагов
 
-Флаги задаются с помощью `ReactUIFeatureFlagsContext.Provider`.
+Чтобы применить доработку/исправление нужно указать фича-флаги в `<ReactUIFeatureFlagsContext.Provider>`
 
 ```jsx static
 import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<ReactUIFeatureFlagsContext.Provider
-  value={{
-    comboBoxAllowValueChangeInEditingState: true,
-    dateInputFixSameNumberTypingOnRefocus: true,
-  }}
->
-  {/* ... */}
-</ReactUIFeatureFlagsContext.Provider>;
+function ExampleComponent() {
+  return (
+    <ReactUIFeatureFlagsContext.Provider
+      value={{
+        dateInputFixSameNumberTypingOnRefocus: true,
+        dateInputAllowInvalidValuesInDays: true,
+        radioGroupRemoveBaselineSpacer: true,
+        comboBoxAllowValueChangeInEditingState: true,
+        stickyReduceLayoutEvents: true,
+      }}
+    >
+      {/* Внутри будут работать все фича-флаги с true */}
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+}
 ```
 
-## Использование
-
-### comboBoxAllowValueChangeInEditingState
-
-Этот флаг позволяет менять значение value в Combobox в режиме редактирования. Теперь при изменении value в этом режиме, <Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link> примет и корректно отрисует новое значение. А в случае, если при этом было открыто выпадающее меню, данные в нём тоже будут обновлены без принудительного закрытия.
-
-В примере ниже, при нажатии на кнопку "Обновить" после редактирования текста без флага, в функции handleValueChange приходилось бы дополнительно вызывать метод Combobox'a reset.
-
-<Story of={FeatureFlagsStories.Example1} />
-
-### stickyReduceLayoutEvents
-
-Этот флаг уменьшает количество перерисовок в `<Sticky/>` и предотвращает падение страницы в отдельных случаях. Но в ситуациях, когда вокруг содержимого `<Sticky/>` рисуются выпадашки, может потребоваться вручную вызвать пересчет их позиции. Для этого существует функция `emit` из `@skbkontur/react-ui/lib/LayoutEvents`.
-
-В примере ниже, при включенном `<Sticky/>` и флаге, `<Tooltip/>` отстает от положения кнопок при их смещении. Но его можно поправить вручную, вызвав функцию `emit`.
-
-Не нужно скролить страницу после включения `<Sticky/>`, т.к. это вызывает пересчет позиции `<Tooltip/>` автоматически.
-
-<Story of={FeatureFlagsStories.Example2} />
-=======
-### dateInputFixSameNumberTypingOnRefocus
-
-Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>
-
-<Story of={FeatureFlagsStories.Example2} />
-
-### radioGroupRemoveBaselineSpacer
-
-Флаг убирает лишний отступ под RadioGroup
-
-<Story of={FeatureFlagsStories.Example3} />
+## Список флагов
 
 ### dateInputAllowInvalidValuesInDays
 
@@ -80,13 +48,51 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 - Было `03.01.2025`
 - Стало `31.02.2025`
 
-<Story of={FeatureFlagsStories.Example4} />
->>>>>>> next:packages/react-ui/.storybook-docs/docsPages/FeatureFlags/FEATUREFLAGSCONTEXT.mdx
+<Story of={FeatureFlagsStories.DateInputAllowInvalidValuesInDays} />
+
+### dateInputFixSameNumberTypingOnRefocus
+
+Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>
+
+<Story of={FeatureFlagsStories.DateInputFixSameNumberTypingOnRefocus} />
+
+### comboBoxAllowValueChangeInEditingState
+
+Флаг позволяет менять значение `value` в <Link onClick={linkTo('Input data/ComboBox')}>Combobox</Link> в режиме редактирования.
+
+Теперь при изменении `value` в `<ComboBox>` обновится и корректно отрисуется новое значение. Если при редактировании открыто выпадающее меню, то данные в нём так же будут обновлены без принудительного закрытия.
+
+С фича-флагом при нажатии «Обновить» в функции `handleValueChange` больше не требуется вызов метода `ComboBoxRef.current.reset()`.
+
+<Story of={FeatureFlagsStories.ComboBoxAllowValueChangeInEditingState} />
+
+### radioGroupRemoveBaselineSpacer
+
+Флаг убирает лишний отступ под <Link onClick={linkTo('Input data/RadioGroup')}>RadioGroup</Link>
+
+<Story of={FeatureFlagsStories.RadioGroupRemoveBaselineSpacer} />
+
+### stickyReduceLayoutEvents
+
+Этот флаг уменьшает количество перерисовок в `<Sticky/>` и предотвращает падение страницы в отдельных случаях. Но в ситуациях, когда вокруг содержимого `<Sticky/>` рисуются выпадашки, может потребоваться вручную вызвать пересчет их позиции. Для этого существует функция `emit` из `@skbkontur/react-ui/lib/LayoutEvents`.
+
+В примере ниже, при включенном `<Sticky/>` и флаге, `<Tooltip/>` отстает от положения кнопок при их смещении. Но его можно поправить вручную, вызвав функцию `emit`.
+
+Не нужно скролить страницу после включения `<Sticky/>`, т.к. это вызывает пересчет позиции `<Tooltip/>` автоматически.
+
+<Story of={FeatureFlagsStories.StickyReduceLayoutEvents} />
 
 ## Объект со всеми флагами
 
-Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
+Для получения объекта со списком всех фича-флагов необходимо применить вспомогательные функции к объектам заданных флагов
 
 ```typescript static
-const allFlags = getFullValidationsFlagsContext(useContext(ReactUIFeatureFlagsContext));
+import { getFullReactUIFlagsContext } from '@skbkontur/react-ui';
+import { getFullValidationsFlagsContext } from '@skbkontur/react-ui-validtions';
+
+// Для React UI
+getFullReactUIFlagsContext(useContext(ReactUIFeatureFlagsContext));
+
+// Для React UI Validations
+getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
 ```

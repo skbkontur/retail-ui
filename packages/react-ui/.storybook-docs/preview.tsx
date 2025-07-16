@@ -75,8 +75,6 @@ const customViewports = {
   },
 };
 
-const MOBILE_REGEXP = /Mobile.*/i;
-
 const preview: Preview = {
   parameters: {
     docs: {

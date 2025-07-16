@@ -4,19 +4,22 @@ import {
   ComboBox,
   DateInput,
   DatePicker,
+  Gapped,
   RadioGroup,
   ReactUIFeatureFlagsContext,
+  Sticky,
   Tooltip,
 } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
+import { emit } from '../../../lib/LayoutEvents';
 
 export default {
   title: 'Information/Feature flags',
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
+export const ComboBoxAllowValueChangeInEditingState: Story = () => {
   const [value, setValue] = React.useState({ value: '', label: '' });
 
   const handleValueChange = () => {
@@ -31,23 +34,23 @@ export const Example1: Story = () => {
 
   return (
     <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
-      <Button onClick={handleValueChange}>Обновить</Button>
-      <ComboBox
-        value={value}
-        searchOnFocus={false}
-        getItems={getItems}
-        onValueChange={(value) => setValue(value)}
-        onInputValueChange={(value) => {
-          setValue({ value, label: value });
-        }}
-      />
+      <Gapped>
+        <ComboBox
+          value={value}
+          searchOnFocus={false}
+          getItems={getItems}
+          onValueChange={(value) => setValue(value)}
+          onInputValueChange={(value) => {
+            setValue({ value, label: value });
+          }}
+        />
+        <Button onClick={handleValueChange}>Обновить</Button>
+      </Gapped>
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
 
-Example1.storyName = 'comboBoxAllowValueChangeInEditingState';
-
-export const Example2: Story = () => {
+export const DateInputFixSameNumberTypingOnRefocus: Story = () => {
   const [value, setValue] = React.useState('');
   return (
     <ReactUIFeatureFlagsContext.Provider value={{ dateInputFixSameNumberTypingOnRefocus: true }}>
@@ -56,9 +59,7 @@ export const Example2: Story = () => {
   );
 };
 
-Example2.storyName = 'dateInputFixSameNumberTypingOnRefocus';
-
-export const Example3: Story = () => {
+export const DateInputAllowInvalidValuesInDays: Story = () => {
   const [value, setValue] = React.useState('01.02.2025');
   const [error, setError] = React.useState(false);
   const [tooltip, setTooltip] = React.useState(false);
@@ -88,9 +89,49 @@ export const Example3: Story = () => {
   );
 };
 
-Example3.storyName = 'dateInputAllowInvalidValuesInDays';
+export const StickyReduceLayoutEvents: Story = () => {
+  const [sticky, setSticky] = React.useState(false);
+  const [stickyOffset, setStickyOffset] = React.useState(8);
+  const [flag, setFlag] = React.useState(true);
+  const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
+  const toggleSticky = () => setSticky(!sticky);
+  const toggleFlag = () => setFlag(!flag);
+  const handleOffsetChange = () => setStickyOffset(Math.random() * 200);
+  // Tooltip не должен перерисовываться, чтобы демонстрировать эффект отставания
+  // т.е. его пропы и children не должны меняться
+  const renderTooltip = React.useCallback(() => 'Tooltip, который отстает при включенном флаге', []);
 
-export const Example4: Story = () => {
+  const content = (
+    <div ref={setAnchor} style={{ display: 'inline-flex', gap: 8 }}>
+      <Button onClick={toggleSticky}>1. {sticky ? 'Выключить' : 'Включить'} Sticky</Button>
+      <Button onClick={handleOffsetChange}>2. Сместить кнопки</Button>
+      <Button onClick={emit}>3. Поправить Tooltip</Button>
+      <Button onClick={toggleFlag}>4. {flag ? 'Выключить' : 'Включить'} флаг</Button>
+    </div>
+  );
+
+  return (
+    <div>
+      {anchor && <Tooltip anchorElement={anchor} render={renderTooltip} trigger="opened" pos="right middle" />}
+      <div style={{ height: sticky ? 500 : 0 }} />
+      <ReactUIFeatureFlagsContext.Provider
+        value={{
+          stickyReduceLayoutEvents: flag,
+        }}
+      >
+        {sticky ? (
+          <Sticky side="bottom" offset={stickyOffset}>
+            {content}
+          </Sticky>
+        ) : (
+          content
+        )}
+      </ReactUIFeatureFlagsContext.Provider>
+    </div>
+  );
+};
+
+export const RadioGroupRemoveBaselineSpacer: Story = () => {
   return (
     <ReactUIFeatureFlagsContext.Provider
       value={{
@@ -116,5 +157,3 @@ export const Example4: Story = () => {
     </ReactUIFeatureFlagsContext.Provider>
   );
 };
-
-Example4.storyName = 'radioGroupRemoveBaselineSpacer';

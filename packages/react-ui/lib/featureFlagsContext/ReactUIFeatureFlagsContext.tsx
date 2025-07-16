@@ -1,18 +1,18 @@
 import React from 'react';
 
 export interface ReactUIFeatureFlags {
-  comboBoxAllowValueChangeInEditingState?: boolean;
-  stickyReduceLayoutEvents?: boolean;
   dateInputFixSameNumberTypingOnRefocus?: boolean;
   dateInputAllowInvalidValuesInDays?: boolean;
+  comboBoxAllowValueChangeInEditingState?: boolean;
+  stickyReduceLayoutEvents?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  comboBoxAllowValueChangeInEditingState: false,
-  stickyReduceLayoutEvents: false,
   dateInputFixSameNumberTypingOnRefocus: false,
   dateInputAllowInvalidValuesInDays: false,
+  comboBoxAllowValueChangeInEditingState: false,
+  stickyReduceLayoutEvents: false,
   radioGroupRemoveBaselineSpacer: false,
 };
 
