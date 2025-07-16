@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.7...@skbkontur/react-ui@5.2.0) (2025-07-16)
+
+
+### Bug Fixes
+
+* **DateInput,DatePicker:** input same number after blur and refocus (feature flag `dateInputFixSameNumberTypingOnRefocus`) ([fc068d8](https://github.com/skbkontur/retail-ui/commit/fc068d8d09852764a4d41543bbd3a9caa7e1f110))
+* **RadioGroup:** fix baseline spacer (feature flag `radioGroupRemoveBaselineSpacer`) ([c7ca31a](https://github.com/skbkontur/retail-ui/commit/c7ca31a9d00385d14223f090ad9f731456cf122a))
+* **Toast:** extend notification type to ReactNode ([a58ec5a](https://github.com/skbkontur/retail-ui/commit/a58ec5af1ac75e860f058bdf597d5160097fb334))
+* **Kebab:** update colors in DarkTheme ([79fa1f5](https://github.com/skbkontur/retail-ui/commit/79fa1f51ee9ecebee7371c2308ee01ad3744eb5e))
+* **MenuItem:** use default cursor for nonselectable items ([b260ef9](https://github.com/skbkontur/retail-ui/commit/b260ef9db12d0b004f0e46e3686127325e0bd8fb))
+* **FxInput:** inline deprecated React.ReactText type ([790ab0b](https://github.com/skbkontur/retail-ui/commit/790ab0b3036d0592bac022bdb7484b4022fbfe07))
+
+
+### Features
+
+* **Modal, MiniModal, SidePage:** update mobile versions ([6bebba9](https://github.com/skbkontur/retail-ui/commit/6bebba9118e8bf0ffdd5797cd3c26b2a5bee6e28))
+* **DateInput,DatePicker:** allow invalid values in days (feature flag `dateInputAllowInvalidValuesInDays`) ([cc35707](https://github.com/skbkontur/retail-ui/commit/cc357071a20364875851ecf37130b5c81548c80b))
+
+
+
+
+
+
 ## [5.1.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.6...@skbkontur/react-ui@5.1.7) (2025-07-11)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prerelease": "yarn build && yarn predeploy",
@@ -96,7 +96,6 @@
     "@types/styled-components": "^5.1.34",
     "@types/warning": "^3.0.0",
     "babel-loader": "^9.1.3",
-    "start-server-and-test": "1.14.0",
     "babel-plugin-search-and-replace": "1.1.1",
     "core-js": "^3.37.1",
     "creevey": "0.10.0-beta.47",
@@ -127,6 +126,7 @@
     "selenium-webdriver": "^4.27.0",
     "serve": "^13.0.2",
     "shelljs": "^0.8.3",
+    "start-server-and-test": "1.14.0",
     "storybook": "7.6.18",
     "string-replace-loader": "^3.1.0",
     "style-loader": "^4.0.0",
