@@ -53,6 +53,7 @@ import { emit } from '../lib/LayoutEvents';
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
+import { FeatureFlagToggle } from './FeatureFlagToggle';
 
 const isDocsEnv = Boolean(process.env.STORYBOOK_REACT_UI_DOCS);
 
@@ -206,6 +207,7 @@ addons.setConfig({
       ALL_DARK_THEMES,
       parseVersionFromThemeName,
       emit,
+      FeatureFlagToggle,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,

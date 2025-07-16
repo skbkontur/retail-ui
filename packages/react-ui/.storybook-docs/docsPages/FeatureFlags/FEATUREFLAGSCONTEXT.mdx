@@ -52,19 +52,9 @@ function ExampleComponent() {
 
 ### dateInputFixSameNumberTypingOnRefocus
 
-Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>
+Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>.
 
 <Story of={FeatureFlagsStories.DateInputFixSameNumberTypingOnRefocus} />
-
-### comboBoxAllowValueChangeInEditingState
-
-Флаг позволяет менять значение `value` в <Link onClick={linkTo('Input data/ComboBox')}>Combobox</Link> в режиме редактирования.
-
-Теперь при изменении `value` в `<ComboBox>` обновится и корректно отрисуется новое значение. Если при редактировании открыто выпадающее меню, то данные в нём так же будут обновлены без принудительного закрытия.
-
-С фича-флагом при нажатии «Обновить» в функции `handleValueChange` больше не требуется вызов метода `ComboBoxRef.current.reset()`.
-
-<Story of={FeatureFlagsStories.ComboBoxAllowValueChangeInEditingState} />
 
 ### radioGroupRemoveBaselineSpacer
 
@@ -72,13 +62,25 @@ function ExampleComponent() {
 
 <Story of={FeatureFlagsStories.RadioGroupRemoveBaselineSpacer} />
 
+### comboBoxAllowValueChangeInEditingState
+
+Флаг позволяет менять значение `value` в <Link onClick={linkTo('Input data/ComboBox')}>Combobox</Link> в режиме редактирования.
+
+Теперь при изменении `value` в `<ComboBox>` примет и корректно отрисует новое значение.
+
+Если при редактировании открыто выпадающее меню, то данные в нём будут обновлены без принудительного закрытия.
+
+С фича-флагом при нажатии «Обновить» в функции `handleValueChange` больше не требуется вызов метода `ComboBoxRef.current.reset()`.
+
+<Story of={FeatureFlagsStories.ComboBoxAllowValueChangeInEditingState} />
+
 ### stickyReduceLayoutEvents
 
 Этот флаг уменьшает количество перерисовок в `<Sticky/>` и предотвращает падение страницы в отдельных случаях. Но в ситуациях, когда вокруг содержимого `<Sticky/>` рисуются выпадашки, может потребоваться вручную вызвать пересчет их позиции. Для этого существует функция `emit` из `@skbkontur/react-ui/lib/LayoutEvents`.
 
 В примере ниже, при включенном `<Sticky/>` и флаге, `<Tooltip/>` отстает от положения кнопок при их смещении. Но его можно поправить вручную, вызвав функцию `emit`.
 
-Не нужно скролить страницу после включения `<Sticky/>`, т.к. это вызывает пересчет позиции `<Tooltip/>` автоматически.
+В примере не нужно скролить страницу после включения `<Sticky/>`, поскольку это вызывает пересчет позиции `<Tooltip/>` автоматически.
 
 <Story of={FeatureFlagsStories.StickyReduceLayoutEvents} />
 
