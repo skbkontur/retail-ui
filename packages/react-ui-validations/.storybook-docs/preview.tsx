@@ -14,6 +14,7 @@ import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValid
 import { Form } from '../docs/Common/Form';
 import { SpaceFiller } from '../docs/Common/SpaceFiller';
 
+import { FeatureFlagToggle } from './FeatureFlagToggle';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
 
@@ -82,6 +83,7 @@ addons.setConfig({
       HandThumbDownIcon,
       HandThumbUpIcon,
       SpaceFiller,
+      FeatureFlagToggle,
     },
     decorators: [ThemeDecorator, FeatureFlagsDecorator],
   } as LiveConfig,

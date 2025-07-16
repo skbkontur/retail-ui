@@ -6,15 +6,31 @@ import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 
 <Meta title="Displaying/Feature flags" />
 
-# Включение и отключение отдельных фич через `ValidationsFeatureFlagsContext`
+# Feature flags
 
-## Доступные флаги
+Фича-флаги позволяют заранее применять будущие **breaking changes** (ломающие изменения) до выхода очередного мажорного релиза библииотеки.
+
+При выходе очередной мажорной версии, например, `2.x.x` → `3.x.x`, будет применено новое поведение, а сами фича-флаги будут удалены.
+
+## Подключение фича-флагов
+
+Чтобы применить доработку/исправление нужно указать фича-флаги в `<ValidationsFeatureFlagsContext.Provider>`
 
 ```jsx static
-export interface ValidationsFeatureFlags {
-  dropdownsDoNotOpenOnFocusByValidation?: boolean;
-  hideTooltipOnSelectionControls?: boolean;
-  validationWrapperValidateOnMount?: boolean;
+import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
+
+function ExampleComponent() {
+  return (
+    <ValidationsFeatureFlagsContext.Provider
+      value={{
+        validationWrapperValidateOnMount: true,
+        hideTooltipOnSelectionControls: true,
+        dropdownsDoNotOpenOnFocusByValidation: true,
+      }}
+    >
+      {/* Внутри будут работать все фича-флаги с true */}
+    </ValidationsFeatureFlagsContext.Provider>
+  );
 }
 ```
 
@@ -30,7 +46,7 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 </ValidationsFeatureFlagsContext.Provider>;
 ```
 
-## Использование
+## Список фича-флагов
 
 ### validationWrapperValidateOnMount
 
@@ -63,5 +79,7 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
 
 ```jsx static
-const allFlags = getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
+import { getFullValidationsFlagsContext } from '@skbkontur/react-ui-validtions';
+
+getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
 ```

@@ -15,6 +15,8 @@ import {
 } from '@skbkontur/react-ui';
 import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 
+import { FeatureFlagToggle } from '../../../../.storybook-docs/FeatureFlagToggle';
+
 import {
   ValidationBehaviour,
   ValidationContainer,
@@ -34,8 +36,8 @@ interface ComboBoxStoryState {
 }
 
 export const ExampleSelection: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
   const container = React.useRef<ValidationContainer>(null);
-  const [useFlag, setUseFlag] = React.useState<boolean>(false);
 
   const [combobox, setCombobox] = React.useState<ComboBoxStoryState>();
   const [radioGroup, setRadioGroup] = React.useState<string>('');
@@ -52,13 +54,9 @@ export const ExampleSelection: Story = () => {
   const validation: ValidationInfo = { message: 'Выбери значение', type: 'submit' };
 
   return (
-    <div style={{ padding: 24 }}>
-      <div style={{ paddingBottom: 24, display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Toggle checked={useFlag} onValueChange={setUseFlag}>
-          Включить флаг hideTooltipOnSelectionControls
-        </Toggle>
-      </div>
-      <ValidationsFeatureFlagsContext.Provider value={{ hideTooltipOnSelectionControls: useFlag }}>
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ValidationsFeatureFlagsContext.Provider value={{ hideTooltipOnSelectionControls: isFlagEnabled }}>
         <ValidationContainer ref={container}>
           <Gapped vertical gap={32}>
             <ValidationWrapper validationInfo={validation}>
@@ -117,27 +115,23 @@ export const ExampleSelection: Story = () => {
       <div style={{ paddingTop: 48 }}>
         <Button onClick={handleSubmit}>Call submit</Button>
       </div>
-    </div>
+    </>
   );
 };
 
 export const ExampleCombobox: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
   const [selected, setSelected] = React.useState<ComboBoxStoryState>({ value: 'one', label: 'one' });
   const container = React.useRef<ValidationContainer>(null);
-  const [useFlag, setUseFlag] = React.useState<boolean>(false);
 
   async function handleSubmit() {
     await container.current?.validate();
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <div style={{ paddingBottom: 24, display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Toggle checked={useFlag} onValueChange={setUseFlag}>
-          Включить флаг dropdownsDoNotOpenOnFocusByValidation
-        </Toggle>
-      </div>
-      <ValidationsFeatureFlagsContext.Provider value={{ dropdownsDoNotOpenOnFocusByValidation: useFlag }}>
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ValidationsFeatureFlagsContext.Provider value={{ dropdownsDoNotOpenOnFocusByValidation: isFlagEnabled }}>
         <ValidationContainer ref={container}>
           <ValidationWrapper
             validationInfo={{
@@ -156,27 +150,23 @@ export const ExampleCombobox: Story = () => {
       <div style={{ paddingTop: 48 }}>
         <Button onClick={handleSubmit}>Call submit</Button>
       </div>
-    </div>
+    </>
   );
 };
 
 export const ExampleDatePicker: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
   const container = React.useRef<ValidationContainer>(null);
   const [value, setValue] = React.useState<Date | string | null>(null);
-  const [useFlag, setUseFlag] = React.useState<boolean>(false);
 
   async function handleSubmit() {
     await container.current?.validate();
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <div style={{ paddingBottom: 24, display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Toggle checked={useFlag} onValueChange={setUseFlag}>
-          Включить флаг dropdownsDoNotOpenOnFocusByValidation
-        </Toggle>
-      </div>
-      <ValidationsFeatureFlagsContext.Provider value={{ dropdownsDoNotOpenOnFocusByValidation: useFlag }}>
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ValidationsFeatureFlagsContext.Provider value={{ dropdownsDoNotOpenOnFocusByValidation: isFlagEnabled }}>
         <ValidationContainer ref={container}>
           <ValidationWrapper
             validationInfo={{
@@ -191,11 +181,12 @@ export const ExampleDatePicker: Story = () => {
       <div style={{ paddingTop: 48 }}>
         <Button onClick={handleSubmit}>Call submit</Button>
       </div>
-    </div>
+    </>
   );
 };
 
 export const ValidateOnMount: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
   const container = React.useRef<ValidationContainer>(null);
 
   async function handleSubmit(): Promise<void> {
@@ -215,43 +206,46 @@ export const ValidateOnMount: Story = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
-      <ValidationContainer ref={container}>
-        <Gapped gap={16} vertical>
-          <Switcher onValueChange={setType} value={type} items={['submit', 'lostfocus', 'immediate']} />
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
+        <ValidationContainer ref={container}>
+          <Gapped gap={16} vertical>
+            <Switcher onValueChange={setType} value={type} items={['submit', 'lostfocus', 'immediate']} />
 
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <Tabs.Tab id="phone">Phone</Tabs.Tab>
-            <Tabs.Tab id="email">Email</Tabs.Tab>
-          </Tabs>
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <Tabs.Tab id="phone">Phone</Tabs.Tab>
+              <Tabs.Tab id="email">Email</Tabs.Tab>
+            </Tabs>
 
-          {activeTab === 'phone' && (
-            <div>
-              <ValidationWrapper validationInfo={phone ? null : errorInfo}>
-                <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
-              </ValidationWrapper>
-            </div>
-          )}
+            {activeTab === 'phone' && (
+              <div>
+                <ValidationWrapper validationInfo={phone ? null : errorInfo}>
+                  <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
+                </ValidationWrapper>
+              </div>
+            )}
 
-          {activeTab === 'email' && (
-            <div title="Email">
-              <ValidationWrapper validationInfo={email ? null : errorInfo}>
-                <Input placeholder="Почта" value={email} onValueChange={setEmail} />
-              </ValidationWrapper>
-            </div>
-          )}
+            {activeTab === 'email' && (
+              <div title="Email">
+                <ValidationWrapper validationInfo={email ? null : errorInfo}>
+                  <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+                </ValidationWrapper>
+              </div>
+            )}
 
-          <ValidationWrapper validationInfo={check ? null : errorInfo}>
-            <Checkbox checked={check} onValueChange={setCheck}>
-              Чекбокс вне табов
-            </Checkbox>
-          </ValidationWrapper>
+            <ValidationWrapper validationInfo={check ? null : errorInfo}>
+              <Checkbox checked={check} onValueChange={setCheck}>
+                Чекбокс вне табов
+              </Checkbox>
+            </ValidationWrapper>
 
-          <Button use={'primary'} onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Gapped>
-      </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
+            <Button use={'primary'} onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Gapped>
+        </ValidationContainer>
+      </ValidationsFeatureFlagsContext.Provider>
+    </>
   );
 };
