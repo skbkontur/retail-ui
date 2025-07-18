@@ -53,8 +53,8 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
 };
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
-    { value: ThemeType.LightTheme, label: 'Светлая 2022 тема' },
-    { value: ThemeType.DarkTheme, label: 'Тёмная 2022 тема' },
+    { value: ThemeType.LightTheme, label: 'Светлая тема' },
+    { value: ThemeType.DarkTheme, label: 'Тёмная тема' },
   ];
 
   constructor(props: PlaygroundProps) {
