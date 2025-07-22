@@ -99,41 +99,6 @@ export const RadioGroupRemoveBaselineSpacer: Story = () => {
   );
 };
 
-export const ComboBoxAllowValueChangeInEditingState: Story = () => {
-  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
-  const [value, setValue] = React.useState({ value: '', label: '' });
-
-  const handleValueChange = () => {
-    setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
-  };
-
-  const getItems = () =>
-    Promise.resolve([
-      { value: 'Первый', label: 'Первый' },
-      { value: 'Второй', label: 'Второй' },
-    ]);
-
-  return (
-    <>
-      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
-      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: isFlagEnabled }}>
-        <Gapped>
-          <ComboBox
-            value={value}
-            searchOnFocus={false}
-            getItems={getItems}
-            onValueChange={(value) => setValue(value)}
-            onInputValueChange={(value) => {
-              setValue({ value, label: value });
-            }}
-          />
-          <Button onClick={handleValueChange}>Обновить</Button>
-        </Gapped>
-      </ReactUIFeatureFlagsContext.Provider>
-    </>
-  );
-};
-
 export const StickyReduceLayoutEvents: Story = () => {
   const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
   const [sticky, setSticky] = React.useState(false);
@@ -177,5 +142,40 @@ export const StickyReduceLayoutEvents: Story = () => {
         </ReactUIFeatureFlagsContext.Provider>
       </>
     </div>
+  );
+};
+
+export const ComboBoxAllowValueChangeInEditingState: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [value, setValue] = React.useState({ value: '', label: '' });
+
+  const handleValueChange = () => {
+    setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
+  };
+
+  const getItems = () =>
+    Promise.resolve([
+      { value: 'Первый', label: 'Первый' },
+      { value: 'Второй', label: 'Второй' },
+    ]);
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: isFlagEnabled }}>
+        <Gapped>
+          <ComboBox
+            value={value}
+            searchOnFocus={false}
+            getItems={getItems}
+            onValueChange={(value) => setValue(value)}
+            onInputValueChange={(value) => {
+              setValue({ value, label: value });
+            }}
+          />
+          <Button onClick={handleValueChange}>Обновить</Button>
+        </Gapped>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
   );
 };
