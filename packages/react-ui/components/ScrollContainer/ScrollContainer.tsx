@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
 
@@ -115,15 +114,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   public static displayName = 'ScrollContainer';
 
   public inner: Nullable<HTMLElement>;
-
-  public static propTypes = {
-    invert: PropTypes.bool,
-    maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    scrollBehaviour: PropTypes.oneOf(['auto', 'smooth']),
-    preventWindowScroll: PropTypes.bool,
-    onScrollStateChange: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps = {
     invert: false,

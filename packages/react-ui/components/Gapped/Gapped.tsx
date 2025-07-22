@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isNonNullable } from '../../lib/utils';
 import type { CommonProps } from '../../internal/CommonWrapper';
@@ -39,23 +38,6 @@ type DefaultProps = Required<Pick<GappedProps, 'wrap' | 'vertical' | 'verticalAl
 export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
   public static displayName = 'Gapped';
-
-  public static propTypes = {
-    /**
-     * Расстояние между элементами.
-     */
-    gap: PropTypes.number,
-
-    /**
-     * Располагать элементы вертикально.
-     */
-    vertical: PropTypes.bool,
-
-    /**
-     * Вертикальное выравнивание элементов.
-     */
-    verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
-  };
 
   private setRootNode!: TSetRootNode;
 

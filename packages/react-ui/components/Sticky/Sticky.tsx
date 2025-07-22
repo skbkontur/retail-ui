@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -60,22 +59,6 @@ type DefaultProps = Required<Pick<StickyProps, 'offset'>>;
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
   public static displayName = 'Sticky';
-
-  public static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    /**
-     * Функция, которая возвращает DOM-элемент, который нельзя пересекать.
-     */
-    getStop: PropTypes.func,
-
-    /**
-     * Отступ от границы в пикселях
-     */
-    offset: PropTypes.number,
-
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
-  };
 
   public static defaultProps: DefaultProps = { offset: 0 };
 

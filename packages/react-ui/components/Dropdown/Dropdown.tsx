@@ -1,6 +1,5 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
@@ -133,69 +132,6 @@ export class Dropdown extends React.Component<DropdownProps> {
   public static Header = MenuHeader;
   public static MenuItem = MenuItem;
   public static Separator = MenuSeparator;
-
-  public static propTypes = {
-    /**
-     * Подпись на кнопке.
-     */
-    caption: PropTypes.node.isRequired,
-
-    /**
-     * Отключает использование портала
-     */
-    disablePortal: PropTypes.bool,
-
-    /**
-     * Визуально отключает Dropdown
-     */
-    disabled: PropTypes.bool,
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Иконка слева от текста кнопки
-     */
-    icon: PropTypes.node,
-
-    maxMenuHeight: PropTypes.number,
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
-
-    menuWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-
-    /**
-     * Смотри Button.
-     */
-    use: PropTypes.any,
-
-    /**
-     * Визуально показать наличие предупреждения.
-     */
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Вызывается при закрытии меню.
-     */
-    onClose: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    /**
-     * Вызывается при открытии меню.
-     */
-    onOpen: PropTypes.func,
-  };
 
   private _select: Nullable<DropdownSelectType>;
   private setRootNode!: TSetRootNode;

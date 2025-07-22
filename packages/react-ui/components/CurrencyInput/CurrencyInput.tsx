@@ -1,6 +1,5 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
@@ -84,32 +83,6 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
   public static displayName = 'CurrencyInput';
 
-  public static propTypes = {
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-    autoFocus: PropTypes.bool,
-    borderless: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    fractionDigits: PropTypes.number,
-    hideTrailingZeros: PropTypes.bool,
-    leftIcon: PropTypes.element,
-    placeholder: PropTypes.string,
-    signed: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: (props: CurrencyInputProps) => {
-      warning(isValidNumber(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
-    },
-    warning: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onBlur: PropTypes.func,
-    onValueChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onSubmit: PropTypes.func,
-  };
-
   public static defaultProps: DefaultProps = {
     align: 'right',
     fractionDigits: 2,
@@ -119,6 +92,18 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   };
 
   private getProps = createPropsGetter(CurrencyInput.defaultProps);
+  private validateProps(props: CurrencyInputProps): void {
+    warning(isNumeric(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
+    warning(
+      props.maxLength === undefined,
+      `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
+    );
+    warning(
+      (props.integerDigits || 0) + (props.fractionDigits || 0) <= MAX_SAFE_DIGITS,
+      `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
+        `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
+    );
+  }
 
   public state: CurrencyInputState = {
     ...this.getState(this.getProps().value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
@@ -130,23 +115,15 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
-    const { maxLength, integerDigits } = this.props;
-    const fractionDigits = this.getProps().fractionDigits;
-    warning(
-      maxLength === undefined,
-      `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
-    );
-    warning(
-      (integerDigits || 0) + (fractionDigits || 0) <= MAX_SAFE_DIGITS,
-      `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
-        `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
-    );
+    this.validateProps(this.getProps());
   }
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.getProps();
+    this.validateProps(this.getProps());
+
     if (
-      (isValidNumber(value) && isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
+      (isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
       prevProps.fractionDigits !== fractionDigits
     ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
@@ -499,10 +476,6 @@ function getInputSelectionFromEvent(input: EventTarget): Selection {
 
 function isNumeric(value: unknown): value is number | string {
   return !isNaN(parseFloat(value as string)) && isFinite(value as number);
-}
-
-function isValidNumber(value: unknown): boolean {
-  return !isNaN(Number(value));
 }
 
 const getPlaceholder = (props: CurrencyInputProps) => {

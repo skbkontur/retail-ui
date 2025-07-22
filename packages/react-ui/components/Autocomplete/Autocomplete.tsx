@@ -1,6 +1,5 @@
 import type { AriaAttributes, KeyboardEvent } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
@@ -138,29 +137,6 @@ type DefaultProps = Required<
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
   public static displayName = 'Autocomplete';
-
-  public static propTypes = {
-    /**
-     * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
-     * — *item*.
-     */
-    renderItem: PropTypes.func,
-
-    /**
-     * Если передан массив, то совпадения ищутся по этому массиву.
-     *
-     * Если передается функция, то она должна возвращать thenable, который
-     * резолвится уже отфильтрованным массивом. Возвращенный thenable может
-     * иметь метод cancel, который будет вызван при отмене поиска (пользователь
-     * изменил строку поиска, автокомплит потерял фокус).
-     * ```
-     * function(pattern) {
-     *   return service.findAll(pattern);
-     * }
-     * ```
-     */
-    source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  };
 
   public static defaultProps: DefaultProps = {
     renderItem,

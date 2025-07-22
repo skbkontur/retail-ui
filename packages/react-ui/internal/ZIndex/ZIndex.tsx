@@ -1,6 +1,7 @@
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 import isEqual from 'lodash.isequal';
+import warning from 'warning';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import type { TSetRootNode } from '../../lib/rootNode';
@@ -75,17 +76,16 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   };
 
   private getProps = createPropsGetter(ZIndex.defaultProps);
-
-  public static propTypes = {
-    delta(props: ZIndexProps) {
-      if ((props.delta || ZIndex.defaultProps.delta) <= 0) {
-        return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
-      }
-      if (Math.trunc(props.delta || ZIndex.defaultProps.delta) !== props.delta) {
-        return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
-      }
-    },
-  };
+  private validateProps(delta: ZIndexProps['delta']): void {
+    warning(
+      (delta || ZIndex.defaultProps.delta) > 0,
+      `[ZIndex]: Prop 'delta' must be greater than 0, received ${delta}`,
+    );
+    warning(
+      Math.trunc(delta || ZIndex.defaultProps.delta) === delta,
+      `[ZIndex]: Prop 'delta' must be integer, received ${delta}`,
+    );
+  }
 
   private setRootNode!: TSetRootNode;
   private zIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null = null;
@@ -96,7 +96,10 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<ZIndexProps>) {
-    if (prevProps.priority !== this.props.priority || prevProps.delta !== this.props.delta) {
+    const props = this.getProps();
+
+    this.validateProps(props.delta);
+    if (prevProps.priority !== props.priority || prevProps.delta !== props.delta) {
       removeZIndex(this.state.zIndex);
       this.setState({ zIndex: this.increment() });
     }

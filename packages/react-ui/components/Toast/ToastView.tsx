@@ -1,6 +1,5 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import { func, shape, string } from 'prop-types';
 
 import { locale } from '../../lib/locale/decorators';
 import type { Nullable } from '../../typings/utility-types';
@@ -33,21 +32,6 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
 @rootNode
 @locale('Toast', ToastLocaleHelper)
 export class ToastView extends React.Component<ToastViewProps> {
-  public static propTypes = {
-    /**
-     * Adds action handling and close icon for toast
-     */
-    action: shape({
-      label: string.isRequired,
-      handler: func.isRequired,
-    }),
-    /**
-     * Toast content
-     */
-    children: string.isRequired,
-    onClose: func,
-  };
-
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
   private readonly locale!: ToastLocale;

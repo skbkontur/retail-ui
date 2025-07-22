@@ -1,6 +1,5 @@
 import type { AriaAttributes, ReactNode } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
 
@@ -119,60 +118,6 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
   public static displayName = 'Textarea';
-
-  public static propTypes = {
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-    disabled: PropTypes.bool,
-
-    autoResize: PropTypes.bool,
-    extraRow: PropTypes.bool,
-    disableAnimations: PropTypes.bool,
-    maxRows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    resize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    id: PropTypes.string,
-    name: PropTypes.string,
-    title: PropTypes.string,
-    spellCheck: PropTypes.bool,
-    role: PropTypes.string,
-    maxLength: PropTypes.number,
-    tabIndex: PropTypes.number,
-    rows: PropTypes.number,
-    placeholder: PropTypes.string,
-
-    value: PropTypes.string,
-    defaultValue: PropTypes.string,
-    onValueChange: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onMouseMove: PropTypes.func,
-    onMouseOut: PropTypes.func,
-
-    onMouseUp: PropTypes.func,
-    onMouseDown: PropTypes.func,
-    onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    onKeyUp: PropTypes.func,
-    onInput: PropTypes.func,
-
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-
-    onScroll: PropTypes.func,
-    onWheel: PropTypes.func,
-
-    onCut: PropTypes.func,
-    onPaste: PropTypes.func,
-    onCopy: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps = {
     rows: 3,

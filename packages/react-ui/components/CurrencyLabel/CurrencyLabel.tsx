@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
+import warning from 'warning';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
@@ -44,6 +45,26 @@ const CurrencyLabel = forwardRefAndName(
     }: CurrencyLabelProps,
     ref: React.Ref<HTMLDivElement>,
   ) {
+    React.useEffect(() => {
+      warning(
+        fractionDigits <= MAX_SAFE_DIGITS,
+        `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
+          `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
+      );
+
+      const { fraction } = CurrencyHelper.destructString(String(value)) || { fraction: '' };
+      warning(
+        fraction.length <= fractionDigits,
+        `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property,` +
+          `'value' will not be cutted`,
+      );
+
+      warning(
+        Number.isInteger(fractionDigits),
+        `[CurrencyLabel]: Prop 'fractionDigits' is not integer, fraction part of these property will not be used`,
+      );
+    }, [fractionDigits, value]);
+
     return (
       <CommonWrapper {...rest}>
         <span id={id} data-tid={CurrencyLabelDataTids.root} ref={ref}>
@@ -55,32 +76,5 @@ const CurrencyLabel = forwardRefAndName(
     );
   },
 );
-
-CurrencyLabel.propTypes = {
-  // @ts-ignore
-  fractionDigits: ({ fractionDigits = FRACTION_DIGITS_DEFAULT, value }: CurrencyLabelProps) => {
-    if (fractionDigits > MAX_SAFE_DIGITS) {
-      return new Error(
-        `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
-          `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
-      );
-    }
-
-    const { fraction } = CurrencyHelper.destructString(String(value)) || { fraction: '' };
-    if (fraction.length > fractionDigits) {
-      return new Error(
-        `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property,` +
-          `'value' will not be cutted`,
-      );
-    }
-
-    if (!Number.isInteger(fractionDigits)) {
-      return new Error(
-        `[CurrencyLabel]: Prop 'fractionDigits' is not integer, fraction part of these property will not be used`,
-      );
-    }
-    return null;
-  },
-};
 
 export { CurrencyLabel };

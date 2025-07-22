@@ -1,6 +1,5 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Group } from '../Group';
 import type { InputProps } from '../Input';
@@ -74,11 +73,6 @@ type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
   public static displayName = 'FxInput';
-
-  public static propTypes = {
-    auto: PropTypes.bool,
-    type: PropTypes.string,
-  };
 
   public static defaultProps: DefaultProps = {
     width: 250,

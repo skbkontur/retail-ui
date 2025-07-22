@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
@@ -36,7 +35,9 @@ export interface LoaderProps extends CommonProps {
    * @default false */
   active?: boolean;
 
-  /** Задает подпись под спиннером. */
+  /** Задает подпись под спиннером.
+   * @default  "Загрузка"
+   */
   caption?: SpinnerProps['caption'];
 
   /** Задает компонент, заменяющий спиннер. */
@@ -47,7 +48,7 @@ export interface LoaderProps extends CommonProps {
   type?: LoaderType;
 
   /** Устанавливает время в миллисекундах для показа вуали без спиннера.
-   * @default 30.0 */
+   * @default 300 */
   delayBeforeSpinnerShow?: number;
 
   /** Устанавливает минимальное время в миллисекундах для показа спиннера.
@@ -89,44 +90,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private getProps = createPropsGetter(Loader.defaultProps);
-
-  public static propTypes = {
-    /**
-     * показываем лоадер или нет
-     */
-    active: PropTypes.bool,
-
-    /**
-     * Текст рядом с лоадером.
-     *
-     * @default  "Загрузка"
-     */
-    caption: Spinner.propTypes.caption,
-
-    component: PropTypes.node,
-
-    /**
-     * Класс для обертки
-     */
-    className: PropTypes.string,
-
-    /**
-     * Тип спиннера: mini, normal, big
-     *
-     * @default  normal
-     */
-    type: PropTypes.oneOf(types),
-    /**
-     * Время в миллисекундах для показа вуали без спиннера.
-     * @default 300
-     */
-    delayBeforeSpinnerShow: PropTypes.number,
-    /**
-     * Минимальное время в миллисекундах для показа спиннера
-     * @default 1000
-     */
-    minimalDelayBeforeSpinnerHide: PropTypes.number,
-  };
 
   private theme!: Theme;
   private setRootNode!: TSetRootNode;

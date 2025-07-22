@@ -6774,7 +6774,7 @@
   resolved "https://registry.npmjs.org/@types/prismjs/-/prismjs-1.26.4.tgz#1a9e1074619ce1d7322669e5b46fbe823925103a"
   integrity sha512-rlAnzkW2sZOjbqZ743IHUhFcvzaGbqijwOu8QZnZCjfQzBqFE3s4lOTJEsxikImav9uzz/42I+O7YUs1mWgMlg==
 
-"@types/prop-types@*", "@types/prop-types@15.7.12":
+"@types/prop-types@*":
   version "15.7.12"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.12.tgz#12bb1e2be27293c1406acb6af1c3f3a1481d98c6"
   integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
@@ -8231,11 +8231,6 @@ babel-plugin-search-and-replace@1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/babel-plugin-search-and-replace/-/babel-plugin-search-and-replace-1.1.1.tgz#2e5b4488e41d9eba1c220651b1a9b350fdf10915"
   integrity sha512-fjP2VTF3mxxOUnc96mdK22llH92A6gu7A5AFapJmgnqsQi3bqLduIRP0FpA2r5vRZOYPpnX4rE5izQlpsMBjSA==
-
-babel-plugin-transform-react-remove-prop-types@^0.4.24:
-  version "0.4.24"
-  resolved "https://registry.npmjs.org/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
-  integrity sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==
 
 babel-preset-current-node-syntax@^1.0.0:
   version "1.0.1"
@@ -17379,7 +17374,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
+prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==

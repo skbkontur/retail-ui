@@ -45,7 +45,7 @@ describe('CurrencyLabel', () => {
   describe('Warnings', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    afterEach(() => {
+    beforeEach(() => {
       consoleSpy.mockClear();
     });
 
@@ -58,7 +58,7 @@ describe('CurrencyLabel', () => {
       const props = { value: 123.45, fractionDigits };
       render(<CurrencyLabel {...props} />);
       expect(consoleSpy).toHaveBeenCalledTimes(1);
-      expect(consoleSpy.mock.calls[0][2]).toContain(
+      expect(consoleSpy.mock.calls[0][0]).toContain(
         `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}`,
       );
     });
@@ -68,7 +68,7 @@ describe('CurrencyLabel', () => {
       render(<CurrencyLabel {...props} />);
 
       expect(consoleSpy).toHaveBeenCalledTimes(1);
-      expect(consoleSpy.mock.calls[0][2]).toContain(`[CurrencyLabel]: Prop 'fractionDigits' is not integer`);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`[CurrencyLabel]: Prop 'fractionDigits' is not integer`);
     });
 
     it('should throw error if fractionDigits is less than the fractional part of the value', () => {
@@ -76,7 +76,7 @@ describe('CurrencyLabel', () => {
       render(<CurrencyLabel {...props} />);
 
       expect(consoleSpy).toHaveBeenCalledTimes(1);
-      expect(consoleSpy.mock.calls[0][2]).toContain(
+      expect(consoleSpy.mock.calls[0][0]).toContain(
         `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property,` +
           `'value' will not be cutted`,
       );

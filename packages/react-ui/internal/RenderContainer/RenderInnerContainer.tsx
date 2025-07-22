@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import propTypes from 'prop-types';
-import { globalObject } from '@skbkontur/global-object';
 
 import type { Nullable } from '../../typings/utility-types';
-import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 
 import type { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 import { PORTAL_INLET_ATTR } from './RenderContainer';
@@ -66,12 +63,6 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
     return inner;
   }
 }
-
-Portal.propTypes = {
-  container: safePropTypesInstanceOf(globalObject.HTMLElement),
-  rt_rootID: propTypes.string.isRequired,
-  children: propTypes.node.isRequired,
-};
 
 Portal.__KONTUR_REACT_UI__ = 'Portal';
 Portal.displayName = 'Portal';

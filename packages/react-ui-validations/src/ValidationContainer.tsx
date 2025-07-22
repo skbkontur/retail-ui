@@ -1,4 +1,5 @@
 import React from 'react';
+import warning from 'warning';
 
 import type { Nullable } from '../typings/Types';
 
@@ -37,17 +38,12 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   };
 
   private getProps = createPropsGetter(ValidationContainer.defaultProps);
-
-  public static propTypes = {
-    scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
-      const { scrollOffset } = props;
-      if (typeof scrollOffset === 'number') {
-        return new Error(
-          `[${componentName}]: scrollOffset as a number type has been deprecated, now use object { top?: number; bottom?: number; }`,
-        );
-      }
-    },
-  };
+  private validateProps(scrollOffset: ValidationContainerProps['scrollOffset']): void {
+    warning(
+      typeof scrollOffset !== 'number',
+      `[ValidationContainer]: scrollOffset as a number type has been deprecated, now use object { top?: number; bottom?: number; }`,
+    );
+  }
 
   private childContext: ValidationContextWrapper | null = null;
 
@@ -73,6 +69,15 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       throw new Error('childContext is not defined');
     }
     return this.childContext.validate(withoutFocusOrValidationSettings);
+  }
+
+  public componentDidMount() {
+    this.validateProps(this.getProps().scrollOffset);
+  }
+
+  public componentDidUpdate() {
+    const props = this.getProps();
+    this.validateProps(props.scrollOffset);
   }
 
   public render() {

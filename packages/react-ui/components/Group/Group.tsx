@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
 import type { CommonProps } from '../../internal/CommonWrapper';
@@ -108,10 +107,6 @@ export class Group extends React.Component<GroupProps> {
   public static displayName = 'Group';
 
   private setRootNode!: TSetRootNode;
-
-  public static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  };
 
   public render() {
     const style: React.CSSProperties = {

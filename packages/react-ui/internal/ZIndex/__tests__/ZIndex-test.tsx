@@ -110,4 +110,30 @@ describe('ZIndex', () => {
       expect(screen.queryByTestId('z-index')).not.toBeInTheDocument();
     });
   });
+
+  describe('Warnings', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    beforeEach(() => {
+      consoleSpy.mockClear();
+    });
+
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
+
+    it('should throw error if delta is less than or equal to 0', () => {
+      const delta = -1;
+      render(<ZIndex delta={delta}></ZIndex>);
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`[ZIndex]: Prop 'delta' must be greater than 0, received ${delta}`);
+    });
+
+    it('should throw error if delta is not an integer', () => {
+      const delta = 0.1;
+      render(<ZIndex delta={delta}></ZIndex>);
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][0]).toContain(`[ZIndex]: Prop 'delta' must be integer, received ${delta}`);
+    });
+  });
 });

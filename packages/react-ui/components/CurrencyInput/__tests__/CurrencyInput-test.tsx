@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { CurrencyInput } from '../CurrencyInput';
 import type { Nullable } from '../../../typings/utility-types';
+import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants';
 
 const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
   const handleValueChange = jest.fn();
@@ -403,6 +404,50 @@ describe('CurrencyInput', () => {
       render(<CurrencyInput aria-label={ariaLabel} onValueChange={jest.fn()} />);
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
+    });
+  });
+
+  describe('Warnings', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    beforeEach(() => {
+      consoleSpy.mockClear();
+    });
+
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
+
+    it('should throw error if value is not a valid number', () => {
+      const props = { value: NaN, onValueChange: () => 1 };
+      render(<CurrencyInput {...props} />);
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][0]).toContain('[CurrencyInput]: Prop `value` is not a valid number');
+    });
+
+    it('should throw error if prop maxLength is used', () => {
+      const props = { value: 1, onValueChange: () => {}, maxLength: 1 };
+      render(<CurrencyInput {...props} />);
+
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][0]).toContain(
+        `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
+      );
+    });
+
+    it('should throw error if sum of integerDigits and fractionDigits exceeds MAX_SAFE_DIGITS', () => {
+      const props = {
+        value: 1,
+        onValueChange: () => {},
+        fractionDigits: MAX_SAFE_DIGITS,
+        integerDigits: MAX_SAFE_DIGITS,
+      };
+      render(<CurrencyInput {...props} />);
+
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy.mock.calls[0][0]).toContain(
+        `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}`,
+      );
     });
   });
 });

@@ -1,6 +1,5 @@
 import type { HTMLAttributes, LegacyRef } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
@@ -16,7 +15,6 @@ import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } 
 import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
-import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
@@ -89,21 +87,57 @@ export interface PopupProps
   extends Omit<CommonProps, 'children'>,
     PopupHandlerProps,
     Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
+  /**
+   * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
+   */
   anchorElement: React.ReactNode | Element;
+  /**
+   * Фон попапа и пина
+   */
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
+  /**
+   * Показывать ли пин
+   */
   hasPin?: boolean;
+  /**
+   * Применять ли box-shadow на попапе. При false отключает границу на пине
+   */
   hasShadow?: boolean;
   disableAnimations?: boolean;
+  /**
+   * Отступ попапа от элемента
+   */
   margin?: number;
   maxWidth?: number | string;
+  /**
+   * Показан или скрыт попап
+   */
   opened: boolean;
+  /**
+   * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
+   */
   pinOffset?: number;
+  /**
+   * Сторона пина без учёта границы.
+   * Пин представляет собой равносторонний треугольник, высота от попапа
+   * до "носика" пина будет соответствовать формуле (size* √3)/2
+   */
   pinSize?: number;
+  /**
+   * смещение попапа относительно родительского элемента
+   */
   popupOffset?: number;
   priority?: Priority;
+  /**
+   * С какой стороны показывать попап и край попапа,
+   * на котором будет отображаться пин
+   */
   positions?: Readonly<PopupPositionsType[]>;
+  /**
+   * Приоритетная позиция попапа
+   */
   pos?: PopupPositionsType | ShortPopupPositionsType;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
@@ -111,6 +145,9 @@ export interface PopupProps
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper?: boolean;
+  /**
+   * Игнорировать ли события hover/click
+   */
   ignoreHover?: boolean;
   width?: React.CSSProperties['width'];
   minWidth?: React.CSSProperties['minWidth'];
@@ -176,78 +213,6 @@ type DefaultProps = Required<
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
   public static displayName = 'Popup';
-
-  public static propTypes = {
-    /**
-     * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
-     */
-    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(globalObject.HTMLElement), PropTypes.node]).isRequired,
-
-    /**
-     * Фон попапа и пина
-     */
-    backgroundColor: PropTypes.string,
-
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    /**
-     * Показывать ли пин
-     */
-    hasPin: PropTypes.bool,
-
-    /**
-     * Применять ли box-shadow на попапе. При false отключает границу на пине
-     */
-    hasShadow: PropTypes.bool,
-
-    /**
-     * Отступ попапа от элемента
-     */
-    margin: PropTypes.number,
-
-    /**
-     * Показан или скрыт попап
-     */
-    opened: PropTypes.bool,
-
-    /**
-     * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
-     */
-    pinOffset: PropTypes.number,
-
-    /**
-     * Сторона пина без учёта границы.
-     * Пин представляет собой равносторонний треугольник, высота от попапа
-     * до "носика" пина будет соответствовать формуле (size* √3)/2
-     */
-    pinSize: PropTypes.number,
-
-    /**
-     * смещение попапа относительно родительского элемента
-     */
-    popupOffset: PropTypes.number,
-
-    /**
-     * С какой стороны показывать попап и край попапа,
-     * на котором будет отображаться пин
-     */
-    positions: PropTypes.array,
-
-    /**
-     * Приоритетная позиция попапа
-     */
-    pos: PropTypes.string,
-
-    /**
-     * Отключает использование портала
-     */
-    disablePortal: PropTypes.bool,
-
-    /**
-     * Игнорировать ли события hover/click
-     */
-    ignoreHover: PropTypes.bool,
-  };
 
   public static defaultProps: DefaultProps = {
     popupOffset: 0,

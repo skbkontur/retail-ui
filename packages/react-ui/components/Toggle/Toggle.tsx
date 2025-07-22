@@ -1,6 +1,5 @@
 import React from 'react';
 import type { AriaAttributes, InputHTMLAttributes } from 'react';
-import PropTypes from 'prop-types';
 
 import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -95,16 +94,6 @@ type DefaultProps = Required<
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
   public static displayName = 'Toggle';
-
-  public static propTypes = {
-    checked: PropTypes.bool,
-    defaultChecked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    loading: PropTypes.bool,
-    warning: PropTypes.bool,
-    onValueChange: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps = {
     disabled: false,

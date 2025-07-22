@@ -24,7 +24,6 @@
     "less": "4.2.0",
     "less-loader": "12.2.0",
     "modify-babel-preset": "^3.2.1",
-    "prop-types": "^15.8.1",
     "react-router": "^6.23.1",
     "script-loader": "^0.7.2",
     "semver": "^7.6.2",

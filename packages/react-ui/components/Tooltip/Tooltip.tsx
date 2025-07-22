@@ -127,20 +127,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public static __KONTUR_REACT_UI__ = 'Tooltip';
   public static displayName = 'Tooltip';
 
-  public static propTypes = {
-    children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
-      const children = props[propName];
-      warning(
-        children || props.anchorElement,
-        `[${componentName}]: you must provide either 'children' or 'anchorElement' prop for ${componentName} to work properly`,
-      );
-      warning(
-        !(Array.isArray(children) && props.useWrapper === false),
-        `[${componentName}]: you provided multiple children, but useWrapper={false} - forcing wrapper <span/> for positioning to work correctly`,
-      );
-    },
-  };
-
   public static defaultProps: DefaultProps = {
     trigger: 'hover',
     disableAnimations: isTestEnv,
@@ -149,6 +135,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private getProps = createPropsGetter(Tooltip.defaultProps);
+  private validateProps(props: TooltipProps): void {
+    warning(
+      props.children || props.anchorElement,
+      `[Tooltip]: you must provide either 'children' or 'anchorElement' prop for Tooltip to work properly`,
+    );
+  }
 
   public static delay = DEFAULT_DELAY;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
@@ -167,8 +159,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
   }
 
+  public componentDidMount(): void {
+    this.validateProps(this.getProps());
+  }
+
   public componentDidUpdate() {
     const { trigger } = this.getProps();
+
+    this.validateProps(this.getProps());
     if (trigger === 'closed' && this.state.opened) {
       this.close();
     }

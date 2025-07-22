@@ -211,5 +211,25 @@ describe('ValidationContainer', () => {
       act(() => screen.getByRole('button', { name: 'Repair' }).click());
       expect(onValidationUpdated).toBeCalledWith(true);
     });
+
+    describe('Warnings', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      beforeEach(() => {
+        consoleSpy.mockClear();
+      });
+
+      afterAll(() => {
+        consoleSpy.mockRestore();
+      });
+
+      it('should throw error if scrollOffset is a number', () => {
+        render(<ValidationContainer scrollOffset={1}></ValidationContainer>);
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+        expect(consoleSpy.mock.calls[0][0]).toContain(
+          `[ValidationContainer]: scrollOffset as a number type has been deprecated`,
+        );
+      });
+    });
   });
 });

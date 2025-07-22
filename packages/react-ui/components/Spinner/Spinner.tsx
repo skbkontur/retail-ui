@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -58,26 +57,6 @@ type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
   public static displayName = 'Spinner';
-
-  public static propTypes = {
-    /**
-     * Текст рядом с мини-лоадером.
-     *
-     * 'Загрузка' - значение по-умолчанию
-     */
-    caption: PropTypes.node,
-
-    dimmed: PropTypes.bool,
-
-    /**
-     * Тип спиннера: mini, normal, big
-     *
-     * Значение по-умолчанию - normal
-     *
-     * Spinner.types - все доступные типы
-     */
-    type: PropTypes.oneOf(types),
-  };
 
   public static defaultProps: DefaultProps = {
     type: 'normal',

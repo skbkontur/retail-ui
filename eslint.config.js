@@ -85,7 +85,6 @@ module.exports = [
       'react/no-find-dom-node': 0,
       '@typescript-eslint/no-unused-vars': [1, { ignoreRestSiblings: true }],
       'react/jsx-boolean-value': 2,
-      'react/prop-types': [2, { skipUndeclared: true }],
       'react-hooks/exhaustive-deps': 0,
       'react/no-unstable-nested-components': [2, { allowAsProps: true }],
       'react-hooks/rules-of-hooks': 2,

@@ -746,5 +746,25 @@ describe('Tooltip', () => {
         expect(findDOMNode).toHaveBeenCalled();
       });
     });
+
+    describe('Warnings', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      beforeEach(() => {
+        consoleSpy.mockClear();
+      });
+
+      afterAll(() => {
+        consoleSpy.mockRestore();
+      });
+
+      it('should throw error if neither children nor anchorElement prop is provided to Tooltip', () => {
+        render(<Tooltip />);
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+        expect(consoleSpy.mock.calls[0][0]).toContain(
+          `[Tooltip]: you must provide either 'children' or 'anchorElement' prop for Tooltip to work properly`,
+        );
+      });
+    });
   });
 });

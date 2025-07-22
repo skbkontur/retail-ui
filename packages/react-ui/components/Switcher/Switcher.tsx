@@ -1,6 +1,5 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { getButtonCorners, Group } from '../Group';
@@ -90,24 +89,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   public static defaultProps: DefaultProps = {
     role: 'switch',
-  };
-
-  public static propTypes = {
-    error: PropTypes.bool,
-    disabled: PropTypes.bool,
-    items: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.arrayOf(
-        PropTypes.shape({
-          label: PropTypes.string,
-          value: PropTypes.string,
-        }),
-      ),
-    ]).isRequired,
-    caption: PropTypes.string,
-    value: PropTypes.string,
-    onValueChange: PropTypes.func,
-    renderItem: PropTypes.func,
   };
 
   public state: SwitcherState = {

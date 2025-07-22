@@ -77,4 +77,3 @@ global.ResizeObserver = class {
  */
 
 delete React.createClass;
-delete React.PropTypes;

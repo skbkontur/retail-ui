@@ -1,5 +1,4 @@
 import React, { createRef } from 'react';
-import PropTypes from 'prop-types';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { getRandomID, isNonNullable } from '../../lib/utils';
@@ -63,22 +62,6 @@ const DATE_SELECT_POSITIONS: PopupPositionsType[] = [
 export class DateSelect extends React.PureComponent<DateSelectProps> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
   public static displayName = 'DateSelect';
-
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    type: PropTypes.string,
-
-    value: PropTypes.number.isRequired,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onValueChange: PropTypes.func,
-
-    minValue: PropTypes.number,
-
-    maxValue: PropTypes.number,
-  };
 
   public static defaultProps: DefaultProps = {
     type: 'year',

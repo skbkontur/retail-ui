@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 
@@ -75,7 +74,10 @@ export interface DatePickerProps
   /** Задает размер контрола. */
   size?: SizeProp;
 
-  /** Задает значение автокомплита. */
+  /**
+   * Строка формата `dd.mm.yyyy`
+   * Задает значение автокомплита.
+   */
   value?: string | null;
 
   /** Переводит контрол в состояние валидации "предупреждение". */
@@ -140,57 +142,6 @@ type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
   public static displayName = 'DatePicker';
-
-  public static propTypes = {
-    autoFocus: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    error: PropTypes.bool,
-
-    /**
-     * Максимальная дата в календаре.
-     */
-    maxDate: PropTypes.string.isRequired,
-
-    menuPos: PropTypes.oneOf(['top', 'bottom']),
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
-
-    /**
-     * Минимальная дата в календаре.
-     */
-    minDate: PropTypes.string.isRequired,
-
-    /**
-     * Строка формата `dd.mm.yyyy`
-     */
-    value: PropTypes.string,
-
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onBlur: PropTypes.func,
-
-    onValueChange: PropTypes.func.isRequired,
-
-    onFocus: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    isHoliday: PropTypes.func,
-
-    renderDay: PropTypes.func,
-
-    onMonthChange: PropTypes.func,
-  };
 
   public static defaultProps: DefaultProps = {
     minDate: MIN_FULLDATE,

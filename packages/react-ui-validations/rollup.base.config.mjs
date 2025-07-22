@@ -23,6 +23,6 @@ export function buildConfig(outputDir, reactUiPackageName) {
         preventAssignment: true,
       }),
     ],
-    external: ['lodash.isequal', 'react-dom', 'react', 'prop-types', 'warning'],
+    external: ['lodash.isequal', 'react-dom', 'react', 'warning'],
   };
 }

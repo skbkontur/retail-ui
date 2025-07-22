@@ -1,6 +1,5 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
@@ -107,26 +106,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
   public static displayName = 'MenuItem';
   public static __MENU_ITEM__ = true;
-
-  public static propTypes = {
-    comment: PropTypes.node,
-
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.node,
-
-    loose: PropTypes.bool,
-
-    state: PropTypes.string,
-
-    target: PropTypes.string,
-
-    onClick: PropTypes.func,
-
-    size: PropTypes.string,
-  };
 
   public state = {
     iconOffsetTop: 0,

@@ -48,7 +48,6 @@ export interface ComponentTableProps<C, P, S> {
 
 type DefaultProps<C, P, S> = Required<Pick<ComponentTableProps<C, P, S>, 'presetProps' | 'presetState'>>;
 
-// Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,

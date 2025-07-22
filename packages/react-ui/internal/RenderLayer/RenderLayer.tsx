@@ -25,17 +25,6 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
   public static displayName = 'RenderLayer';
 
-  public static propTypes = {
-    active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
-      const { active, onClickOutside, onFocusOutside } = props;
-      if (active && !(onClickOutside || onFocusOutside)) {
-        return new Error(
-          `[${componentName}]: using the component without either 'onClickOutside' or 'onFocusOutside' callback is pointless.`,
-        );
-      }
-    },
-  };
-
   public static defaultProps: DefaultProps = {
     active: true,
   };
@@ -54,7 +43,8 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   public componentDidUpdate(prevProps: RenderLayerProps) {
-    const active = this.getProps().active;
+    const { active } = this.getProps();
+
     if (!prevProps.active && active) {
       this.attachListeners();
     }
