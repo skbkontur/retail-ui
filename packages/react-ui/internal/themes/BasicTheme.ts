@@ -842,6 +842,8 @@ export class BasicThemeClass {
   public static modalFixedFooterMarginTop = '0px';
 
   public static modalSeparatorBorderBottom = '1px solid #E6E6E6';
+  public static modalSeparatorMargin = '0 32px';
+  public static modalSeparatorFixedMargin = '0 16px';
   public static modalBodyTextColor = 'inherit';
   public static modalFooterTextColor = 'inherit';
   public static modalBodyPaddingTop = '0';

@@ -21,7 +21,7 @@ export function ModalSeparator({ fixed }: ModalSeparatorProps) {
 
   return (
     <div className={styles.modalSeparatorWrapper()}>
-      <div className={cx(styles.modalSeparator(theme), fixed && styles.modalSeparatorFixed())} />
+      <div className={cx(styles.modalSeparator(theme), fixed && styles.modalSeparatorFixed(theme))} />
     </div>
   );
 }

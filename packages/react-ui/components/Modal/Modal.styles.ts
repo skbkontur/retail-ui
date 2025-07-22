@@ -554,14 +554,14 @@ export const styles = memoizeStyle({
   modalSeparator(t: Theme) {
     return css`
       border-bottom: ${t.modalSeparatorBorderBottom};
-      margin: 0 32px;
+      margin: ${t.modalSeparatorMargin};
       transition: margin 0.3s;
     `;
   },
 
-  modalSeparatorFixed() {
+  modalSeparatorFixed(t: Theme) {
     return css`
-      margin: 0 16px;
+      margin: ${t.modalSeparatorFixedMargin};
     `;
   },
 });
