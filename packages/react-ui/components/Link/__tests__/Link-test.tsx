@@ -35,6 +35,13 @@ describe('Link', () => {
       fireEvent.keyDown(screen.getByTestId(LinkDataTids.root), { key: 'Enter', code: 'Enter' });
       expect(onClick).toHaveBeenCalledTimes(0);
     });
+
+    it('does not follow the link', async () => {
+      const initialLocation = window.location.href;
+      renderRTL({ href: 'https://kontur.ru', disabled: true });
+      await userEvent.click(screen.getByTestId(LinkDataTids.root));
+      expect(window.location.href).toBe(initialLocation);
+    });
   });
 
   describe('"rel" attribute', () => {

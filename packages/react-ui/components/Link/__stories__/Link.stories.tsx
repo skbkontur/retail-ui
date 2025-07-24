@@ -8,6 +8,7 @@ import { Link } from '../Link';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
+import { Hint } from '../../Hint';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
@@ -187,3 +188,10 @@ export const SameColorsInDifferentUse: Story = () => {
   );
 };
 SameColorsInDifferentUse.parameters = { creevey: { skip: true } };
+
+export const HintOnDisabledLink = () => (
+  <Hint text="TEXT">
+    <Link disabled>DISABLED LINK</Link>
+  </Hint>
+);
+HintOnDisabledLink.storyName = 'HintOnDisabledLink';

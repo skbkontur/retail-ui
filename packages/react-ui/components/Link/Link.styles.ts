@@ -146,6 +146,7 @@ export const styles = memoizeStyle({
 
       &:hover {
         color: ${t.linkDisabledColor};
+        text-decoration-color: ${t.linkTextDecorationColor};
       }
     `;
   },

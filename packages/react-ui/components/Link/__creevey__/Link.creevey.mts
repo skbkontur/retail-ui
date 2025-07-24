@@ -159,4 +159,17 @@ kind('Link', () => {
 
     focusedStyledLinkTest();
   });
+
+  story('HintOnDisabledLink', () => {
+    test('hover', async (context) => {
+      await context.webdriver
+        .actions()
+        .move({
+          origin: context.webdriver.findElement({ css: 'a' }),
+        })
+        .perform();
+      await delay(1000);
+      await context.matchImage(await context.webdriver.takeScreenshot(), 'open');
+    });
+  });
 });

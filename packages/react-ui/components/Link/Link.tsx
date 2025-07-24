@@ -244,6 +244,11 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
   private handleClick = (event: React.MouseEvent) => {
     const { onClick, disabled, loading } = this.props;
 
+    if (disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     if (onClick && !disabled && !loading) {
       onClick(event);
     }
