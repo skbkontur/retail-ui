@@ -15,6 +15,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  description5_3(t: Theme) {
+    return css`
+      font-size: ${t.miniModalDescriptionFontSize};
+      line-height: ${t.miniModalDescriptionLineHeight};
+    `;
+  },
+
   title() {
     return css`
       text-align: center;

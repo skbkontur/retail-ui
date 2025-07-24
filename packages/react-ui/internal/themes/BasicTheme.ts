@@ -2552,6 +2552,8 @@ export class BasicThemeClass {
   public static miniModalHeaderPaddingBottom = '0';
   public static miniModalBodyPaddingTop = '16px';
   public static miniModalBodyPaddingBottom = '0';
+  public static miniModalDescriptionFontSize = 'inherit';
+  public static miniModalDescriptionLineHeight = 'normal';
   public static miniModalHeaderPaddingTop = '32px';
   public static miniModalActionGap = '8px';
   public static miniModalCancelIndent = '8px';
