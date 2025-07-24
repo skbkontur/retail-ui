@@ -12,6 +12,8 @@ import type { SelectProps } from '../components/Select';
 import type { DropdownProps } from '../components/Dropdown';
 import type { DropdownMenuProps } from '../components/DropdownMenu';
 import type { ButtonProps } from '../components/Button';
+import type { TooltipProps } from '../components/Tooltip';
+import type { HintProps } from '../components/Hint';
 
 export { delay } from './delay';
 
@@ -218,6 +220,8 @@ export const isCurrencyInput = isReactUIComponent<CurrencyInputProps>('CurrencyI
 export const isSelect = isReactUIComponent<SelectProps<unknown, unknown>>('Select');
 export const isDropdown = isReactUIComponent<DropdownProps>('Dropdown');
 export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMenu');
+export const isHint = isReactUIComponent<HintProps>('Hint');
+export const isTooltip = isReactUIComponent<TooltipProps>('Tooltip');
 
 export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');

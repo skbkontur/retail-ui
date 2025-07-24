@@ -6,6 +6,7 @@ export interface ReactUIFeatureFlags {
   comboBoxAllowValueChangeInEditingState?: boolean;
   stickyReduceLayoutEvents?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
+  groupAddHintAndTooltipSupport?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -14,6 +15,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   comboBoxAllowValueChangeInEditingState: false,
   stickyReduceLayoutEvents: false,
   radioGroupRemoveBaselineSpacer: false,
+  groupAddHintAndTooltipSupport: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

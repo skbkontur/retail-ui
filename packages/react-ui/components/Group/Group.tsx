@@ -16,7 +16,11 @@ import {
   isInput,
   isPasswordInput,
   isSelect,
+  isTooltip,
+  isHint,
 } from '../../lib/utils';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Group.styles';
 
@@ -25,7 +29,7 @@ export interface GroupProps extends CommonProps {
   width?: React.CSSProperties['width'];
 }
 
-interface GroupChildProps {
+interface GroupChildProps extends CommonProps {
   width?: React.CSSProperties['width'];
   corners?: number;
 }
@@ -72,8 +76,8 @@ export const getButtonCorners = (isFirstChild: boolean, isLastChild: boolean): R
   };
 };
 
-const tryPassCorners = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
-  const corners = getButtonCorners(child === firstChild, child === lastChild);
+const tryPassCorners = (child: React.ReactNode, isFirstChild: boolean, isLastChild: boolean) => {
+  const corners = getButtonCorners(isFirstChild, isLastChild);
 
   if (
     isButton(child) ||
@@ -92,6 +96,8 @@ const tryPassCorners = (child: React.ReactNode, firstChild: React.ReactNode, las
   return child;
 };
 
+const hasWidthInPercent = (child: React.ReactElement<GroupChildProps>) => String(child.props.width).includes('%');
+
 export const GroupDataTids = {
   root: 'Group__root',
 } as const;
@@ -107,6 +113,7 @@ export class Group extends React.Component<GroupProps> {
   public static displayName = 'Group';
 
   private setRootNode!: TSetRootNode;
+  private featureFlags!: ReactUIFeatureFlags;
 
   public render() {
     const style: React.CSSProperties = {
@@ -118,40 +125,88 @@ export class Group extends React.Component<GroupProps> {
     const lastChild = getLastChild(childrenArray);
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
-          {React.Children.map(childrenArray, (child) => {
-            if (!child || !React.isValidElement<GroupChildProps>(child)) {
-              return null;
-            }
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
+                {React.Children.map(childrenArray, (child) => {
+                  if (!child || !React.isValidElement<GroupChildProps>(child)) {
+                    return null;
+                  }
 
-            const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
+                  const isFirstChild = child === firstChild;
+                  const isLastChild = child === lastChild;
 
-            const modifiedChild = tryPassCorners(child, firstChild, lastChild);
+                  if (this.featureFlags.groupAddHintAndTooltipSupport && (isHint(child) || isTooltip(child))) {
+                    return this.renderWrappedChildren(child, isFirstChild, isLastChild);
+                  }
 
-            const isFirstChild = child === firstChild;
-
-            return (
-              <div
-                className={cx({
-                  [styles.fixed()]: !isWidthInPercent,
-                  [styles.stretch()]: isWidthInPercent,
-                  [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
+                  return this.renderChild(child, isFirstChild, isLastChild, hasWidthInPercent(child));
                 })}
-              >
-                <div
-                  className={cx({
-                    [styles.item()]: true,
-                    [styles.itemFirst()]: isFirstChild,
-                  })}
-                >
-                  {modifiedChild}
-                </div>
-              </div>
-            );
-          })}
-        </span>
-      </CommonWrapper>
+              </span>
+            </CommonWrapper>
+          );
+        }}
+      </ReactUIFeatureFlagsContext.Consumer>
     );
+  }
+
+  private renderChild = (
+    child: React.ReactNode,
+    isFirstChild: boolean,
+    isLastChild: boolean,
+    isWidthInPercent: boolean,
+  ) => (
+    <div
+      className={cx({
+        [styles.fixed()]: !isWidthInPercent,
+        [styles.stretch()]: isWidthInPercent,
+        [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
+      })}
+    >
+      <div
+        className={cx({
+          [styles.item()]: true,
+          [styles.itemFirst()]: isFirstChild,
+        })}
+      >
+        {tryPassCorners(child, isFirstChild, isLastChild)}
+      </div>
+    </div>
+  );
+
+  private renderWrappedChildren(
+    parent: React.ReactElement<GroupChildProps>,
+    isParentFirst: boolean,
+    isParentLast: boolean,
+  ): React.ReactNode {
+    let shouldStretchParent = false;
+    const nestedChildren = React.Children.toArray(parent.props.children);
+
+    const modifiedChildren = nestedChildren.map((nestedChild, index) => {
+      if (!nestedChild || !React.isValidElement<GroupChildProps>(nestedChild)) {
+        return null;
+      }
+
+      const isFirstChild = isParentFirst && index === 0;
+      const isLastChild = isParentLast && index === nestedChildren.length - 1;
+      if (hasWidthInPercent(nestedChild)) {
+        shouldStretchParent = true;
+      }
+
+      return this.renderChild(nestedChild, isFirstChild, isLastChild, hasWidthInPercent(nestedChild));
+    });
+
+    const wrappedChildren = (
+      <div className={cx(styles.wrappedChildren(), { [styles.stretch()]: shouldStretchParent })}>
+        {modifiedChildren}
+      </div>
+    );
+
+    return React.cloneElement<GroupChildProps>(parent, {
+      children: wrappedChildren,
+    });
   }
 }

@@ -8,6 +8,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  wrappedChildren() {
+    return css`
+      display: flex;
+    `;
+  },
+
   fixed() {
     return css`
       flex-shrink: 0;

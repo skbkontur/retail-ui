@@ -5,11 +5,12 @@ import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
 
 import type { Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Group } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Dropdown } from '../../Dropdown';
 import { DropdownMenu } from '../../DropdownMenu';
 import { Select } from '../../Select';
@@ -17,6 +18,9 @@ import { Autocomplete } from '../../Autocomplete';
 import { PasswordInput } from '../../PasswordInput';
 import { CurrencyInput } from '../../CurrencyInput';
 import { FxInput } from '../../FxInput';
+import { Hint } from '../../Hint';
+import { Tooltip } from '../../Tooltip';
+import { Gapped } from '../../Gapped';
 
 export default {
   title: 'Group',
@@ -47,7 +51,7 @@ export const GroupWithAllSupportedComponents: Story = () => (
 );
 GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components';
 
-export const SimpleGroupWithCustomInputsWidth = () => (
+export const SimpleGroupWithCustomInputsWidth: Story = () => (
   <Group>
     <Input placeholder="Search" width="300px" />
     <Button icon={<SearchLoupeIcon16Regular />} />
@@ -56,7 +60,7 @@ export const SimpleGroupWithCustomInputsWidth = () => (
 );
 SimpleGroupWithCustomInputsWidth.storyName = 'Simple Group with custom Inputs width';
 
-export const GroupWithInputAndMultipleButtons = () => {
+export const GroupWithInputAndMultipleButtons: Story = () => {
   const [value, setValue] = React.useState('');
 
   return (
@@ -71,7 +75,7 @@ export const GroupWithInputAndMultipleButtons = () => {
 GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
 GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
-export const ButtonGroup = () => (
+export const ButtonGroup: Story = () => (
   <Group>
     <Button onClick={() => Toast.push('Раз')}>Раз</Button>
     <Button onClick={() => Toast.push('Два')}>Два</Button>
@@ -80,7 +84,7 @@ export const ButtonGroup = () => (
 );
 ButtonGroup.storyName = 'Button group';
 
-export const ComplexElements = () => (
+export const ComplexElements: Story = () => (
   <Group>
     <Button icon={<XIcon16Regular />} onClick={() => Toast.push('Clear!')} width="10px" />
     <Input placeholder="Disabled" disabled rightIcon={<People1Icon16Regular />} width="100%" />
@@ -92,7 +96,7 @@ export const ComplexElements = () => (
 ComplexElements.storyName = 'Complex elements';
 ComplexElements.parameters = { creevey: { skip: true } };
 
-export const WithWidth = () => (
+export const WithWidth: Story = () => (
   <ThemeContext.Consumer>
     {(theme) => {
       return (
@@ -124,3 +128,76 @@ export const WithWidth = () => (
   </ThemeContext.Consumer>
 );
 WithWidth.storyName = 'With width';
+
+export const WithHintsAndTooltips: Story = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
+    <Group>
+      <Hint text="Hint">
+        <Button>Hint</Button>
+      </Hint>
+      <Button>Button</Button>
+      <Tooltip render={() => 'Tooltip'}>
+        <Button>Tooltip</Button>
+      </Tooltip>
+    </Group>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+WithHintsAndTooltips.storyName = 'With Hints and Tooltips';
+
+export const WithStretchedInputWrappedInHint: Story = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
+    <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
+      <Group width={500}>
+        <Button icon={<SearchLoupeIcon16Regular />}></Button>
+        <Hint manual opened text="I wrap this input">
+          <Input placeholder="Wrapped" width="100%" />
+        </Hint>
+      </Group>
+    </div>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+WithStretchedInputWrappedInHint.storyName = 'With stretched Input wrapped in Hint';
+
+export const WithStretchedInputWrappedInTooltip: Story = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
+    <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
+      <Group width={500}>
+        <Button icon={<SearchLoupeIcon16Regular />}></Button>
+        <Tooltip render={() => 'I wrap this input'} trigger="opened">
+          <Input placeholder="Wrapped" width="100%" />
+        </Tooltip>
+      </Group>
+    </div>
+  </ReactUIFeatureFlagsContext.Provider>
+);
+WithStretchedInputWrappedInTooltip.storyName = 'With stretched Input wrapped in Tooltip';
+
+export const WithNestedSiblings: Story = () => {
+  const stretchButton = (
+    <Button style={{ background: 'blue' }} width="100%">
+      100%
+    </Button>
+  );
+  const fixedButton = <Button style={{ background: 'blue' }}>None</Button>;
+
+  const groupWithNestedSiblings = (stretchedSiblingsCount: number) => (
+    <Group width={600}>
+      <Button style={{ background: 'orange' }} width="100%">
+        {'100% (Not nested)'}
+      </Button>
+      <Hint text="Hint nesting three buttons">
+        {[0, 1, 2].map((i) => (stretchedSiblingsCount > i ? stretchButton : fixedButton))}
+      </Hint>
+    </Group>
+  );
+
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
+      <Gapped gap={16} vertical>
+        {[0, 1, 2, 3].map((stretchedSiblingsCount) => groupWithNestedSiblings(stretchedSiblingsCount))}
+      </Gapped>
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+WithNestedSiblings.storyName = 'With nested siblings (Exotic)';
+WithNestedSiblings.parameters = { creevey: { skip: true } };

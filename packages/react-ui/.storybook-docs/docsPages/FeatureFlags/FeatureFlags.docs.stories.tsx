@@ -5,11 +5,16 @@ import {
   DateInput,
   DatePicker,
   Gapped,
+  Group,
+  Hint,
+  Input,
   RadioGroup,
   ReactUIFeatureFlagsContext,
   Sticky,
   Tooltip,
 } from '@skbkontur/react-ui';
+import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
+import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 
 import type { Meta, Story } from '../../../typings/stories';
 import { emit } from '../../../lib/LayoutEvents';
@@ -174,6 +179,33 @@ export const ComboBoxAllowValueChangeInEditingState: Story = () => {
           />
           <Button onClick={handleValueChange}>Обновить</Button>
         </Gapped>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const GroupAddHintsAndTooltipsSupport: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: isFlagEnabled }}>
+        <Group width={350}>
+          <Hint text="Обрати внимание на скругления">
+            <Button>
+              <MathFunctionIcon />
+            </Button>
+          </Hint>
+          <Tooltip render={() => 'Этот Input должен растянуться'}>
+            <Input width="100%" placeholder="Поиск" />
+          </Tooltip>
+          <Hint text="Обрати внимание на скругления">
+            <Button>
+              <SearchLoupeIcon />
+            </Button>
+          </Hint>
+        </Group>
       </ReactUIFeatureFlagsContext.Provider>
     </>
   );
