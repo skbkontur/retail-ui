@@ -8,7 +8,6 @@ import {
   RadioGroup,
   ReactUIFeatureFlagsContext,
   Sticky,
-  Toggle,
   Tooltip,
 } from '@skbkontur/react-ui';
 
