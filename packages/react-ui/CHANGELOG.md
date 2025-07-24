@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.2.0...@skbkontur/react-ui@5.2.1) (2025-07-24)
+
+
+### Bug Fixes
+
+* **Link:** fix Hint on Link disabled ([e34d0a4](https://github.com/skbkontur/retail-ui/commit/e34d0a45fd4c621547012fc5f10025e785ac3e0c))
+
+
+### Features
+
+* **Modal:** add ability change ModalSeparator margin ([55e4819](https://github.com/skbkontur/retail-ui/commit/55e48198d192d4aaa7c83a51987eb82f900f759a))
+
+
+
+
+
 # [5.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.1.7...@skbkontur/react-ui@5.2.0) (2025-07-16)
 
 
