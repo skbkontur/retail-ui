@@ -208,7 +208,7 @@ export const ValidateOnMount: Story = () => {
   return (
     <>
       <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
-      <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
+      <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: isFlagEnabled }}>
         <ValidationContainer ref={container}>
           <Gapped gap={16} vertical>
             <Switcher onValueChange={setType} value={type} items={['submit', 'lostfocus', 'immediate']} />
