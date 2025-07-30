@@ -62,16 +62,6 @@ function ExampleComponent() {
 
 <Story of={FeatureFlagsStories.RadioGroupRemoveBaselineSpacer} />
 
-### stickyReduceLayoutEvents
-
-Этот флаг уменьшает количество перерисовок в `<Sticky/>` и предотвращает падение страницы в отдельных случаях. Но в ситуациях, когда вокруг содержимого `<Sticky/>` рисуются выпадашки, может потребоваться вручную вызвать пересчет их позиции. Для этого существует функция `emit` из `@skbkontur/react-ui/lib/LayoutEvents`.
-
-В примере ниже, при включенном `<Sticky/>` и флаге, `<Tooltip/>` отстает от положения кнопок при их смещении. Но его можно поправить вручную, вызвав функцию `emit`.
-
-В примере не нужно скролить страницу после включения `<Sticky/>`, поскольку это вызывает пересчет позиции `<Tooltip/>` автоматически.
-
-<Story of={FeatureFlagsStories.StickyReduceLayoutEvents} />
-
 ### comboBoxAllowValueChangeInEditingState
 
 Флаг позволяет менять значение `value` в <Link onClick={linkTo('Input data/ComboBox')}>Combobox</Link> в режиме редактирования.
