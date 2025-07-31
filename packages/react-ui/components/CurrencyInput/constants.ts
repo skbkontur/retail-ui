@@ -1,4 +1,3 @@
-// https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15
 export const MAX_SAFE_DIGITS = 15;
 
 // + десятичный разделитель

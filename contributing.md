@@ -28,9 +28,7 @@
 
 ### Полезные ссылки:
 
-- Документация:
-  - [Контролы](https://tech.skbkontur.ru/react-ui/)
-  - [Валидации](https://tech.skbkontur.ru/react-ui-validations/)
+- [Документация](https://tech.skbkontur.ru/kontur-ui/)
 - NPM-пакеты:
   - [retail-ui](https://npmjs.com/package/retail-ui) (больше не поддерживается, используйте `@skbkontur/react-ui`)
   - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)

@@ -76,6 +76,9 @@ type DefaultProps = Required<
  *
  * Максимальная длина числа - **15 цифр** (с десятичным разделителем в любом месте).
  *
+ * **Почему 15?** Максимальное безопасное целочисленное значение - 9007199254740991 (16 цифр). Убрав один разряд под знак, мы получим "новое" максимальное безопасное значение - 999999999999999 (15 цифр).
+ * При этом десятичный резделитель может находиться в любом месте. Если целая часть равна 0, то она не учитывается. Детали можно почитать здесь - [MDN web docs](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER).
+ *
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 @rootNode
@@ -101,7 +104,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     warning(
       (props.integerDigits || 0) + (props.fractionDigits || 0) <= MAX_SAFE_DIGITS,
       `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
-        `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
+        `\nSee CurrencyInput documentation`,
     );
   }
 

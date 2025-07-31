@@ -55,8 +55,7 @@
    нулевой ширины `String.fromCharCode(0x2060)`.
 4. IE11 не поддерживается.
 
-Технические подробности можно почитать в [#3390](https://github.com/skbkontur/retail-ui/pull/3390), а примеры посмотреть
-на [странице компонента](#/Components/MaskedInput).
+Технические подробности можно почитать в [#3390](https://github.com/skbkontur/retail-ui/pull/3390), а примеры посмотреть документации компонента MaskedInput.
 
 Старые пропы маски в `Input`, такие, как `mask`, `maskChar`, `formatChars` и `alwaysShowMask`, уже были помечены
 устаревшими ранее, но пока остаются в библиотеке.

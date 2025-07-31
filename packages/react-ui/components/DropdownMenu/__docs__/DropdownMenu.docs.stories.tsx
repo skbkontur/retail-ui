@@ -200,7 +200,7 @@ export const Example10: Story = () => {
 };
 Example10.storyName = 'Чекбокс внутри MenuItem';
 
-/** (с сохранением поведения [MenuItem](#/Components/MenuItem)) */
+/** (с сохранением поведения MenuItem) */
 export const Example11: Story = () => {
   const [showItems, setShowItems] = React.useState(false);
 

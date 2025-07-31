@@ -48,8 +48,7 @@ const CurrencyLabel = forwardRefAndName(
     React.useEffect(() => {
       warning(
         fractionDigits <= MAX_SAFE_DIGITS,
-        `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
-          `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
+        `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` + `\nSee CurrencyInput documentation`,
       );
 
       const { fraction } = CurrencyHelper.destructString(String(value)) || { fraction: '' };
