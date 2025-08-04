@@ -487,10 +487,10 @@ export const Example7: Story = () => {
     );
 
   return (
-    <div>
+    <Group>
       <ComboBox ref={ref} getItems={getItems} onValueChange={setSelected} placeholder="Enter number" value={selected} />
       <Button onClick={handleReset}>Reset</Button>
-    </div>
+    </Group>
   );
 };
 Example7.storyName = 'Сброс значения';
