@@ -109,16 +109,6 @@ export const Example7: Story = () => {
 };
 Example7.storyName = 'Узкая Кнопка';
 
-export const Example8: Story = () => {
-  return (
-    <Gapped gap={5}>
-      <Button warning>Warning</Button>
-      <Button error>Error</Button>
-    </Gapped>
-  );
-};
-Example8.storyName = 'Состояние валидации';
-
 export const Example9: Story = () => {
   return (
     <Gapped gap={5}>
