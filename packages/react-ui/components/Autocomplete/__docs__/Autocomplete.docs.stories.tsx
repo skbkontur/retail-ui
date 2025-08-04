@@ -94,15 +94,6 @@ export const Example7: Story = () => {
 };
 Example7.storyName = 'Расположение выпадающего окна Autocomplete';
 
-export const Example8: Story = () => {
-  const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
-
-  const [value, setValue] = React.useState('');
-
-  return <Autocomplete source={items} value={value} onValueChange={setValue} hasShadow />;
-};
-Example8.storyName = 'Тень у выпадающего меню';
-
 export const Example9: Story = () => {
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
