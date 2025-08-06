@@ -53,8 +53,8 @@
     "index.js.map"
   ],
   "peerDependencies": {
-    "react": ">=16.9",
-    "react-dom": ">=16.9",
+    "react": ">=16.9 <19",
+    "react-dom": ">=16.9 <19",
     "retail-ui": ">=5 <6"
   },
   "dependencies": {
