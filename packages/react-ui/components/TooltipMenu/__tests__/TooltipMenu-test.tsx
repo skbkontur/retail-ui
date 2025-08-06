@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
 
 import { TooltipMenu } from '../TooltipMenu';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem';
@@ -81,6 +82,28 @@ describe('<TooltipMenu />', () => {
 
     await userEvent.click(menuItem);
     expect(testText).toBe('Bar foo');
+  });
+
+  it('accepts function as caption', async () => {
+    const captionFunc = ({ toggleMenu }: PopupMenuCaptionProps) => {
+      return (
+        <button data-tid="caption-func" onClick={toggleMenu}>
+          Caption
+        </button>
+      );
+    };
+    render(
+      <TooltipMenu caption={captionFunc}>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+      </TooltipMenu>,
+    );
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId('caption-func'));
+
+    expect(screen.getAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
   });
 
   describe('a11y', () => {

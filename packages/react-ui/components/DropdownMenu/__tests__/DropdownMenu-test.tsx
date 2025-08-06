@@ -1,6 +1,7 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
 
 import { PopupDataTids } from '../../../internal/Popup';
 import { DropdownMenu } from '../DropdownMenu';
@@ -55,6 +56,28 @@ describe('<DropdownMenu />', () => {
     expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByTestId(captionDatatid));
+
+    expect(screen.getAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
+  });
+
+  it('accepts function as caption', async () => {
+    const captionFunc = ({ toggleMenu }: PopupMenuCaptionProps) => {
+      return (
+        <button data-tid="caption-func" onClick={toggleMenu}>
+          Caption
+        </button>
+      );
+    };
+    render(
+      <DropdownMenu caption={captionFunc}>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+        <MenuItem>Test</MenuItem>
+      </DropdownMenu>,
+    );
+    expect(screen.queryByTestId(MenuItemDataTids.root)).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId('caption-func'));
 
     expect(screen.getAllByTestId(MenuItemDataTids.root)).toHaveLength(3);
   });

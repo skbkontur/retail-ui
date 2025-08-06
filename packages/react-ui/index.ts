@@ -56,5 +56,6 @@ export * from './lib/theming/themes/LightTheme';
 export * from './lib/theming/themes/DarkTheme';
 export * from './lib/types/props';
 export * from './internal/Popup/types';
+export type { PopupMenuCaptionProps } from './internal/PopupMenu';
 export * as ColorFunctions from './lib/styles/ColorFunctions';
 export * as DimensionFunctions from './lib/styles/DimensionFunctions';
