@@ -38,6 +38,7 @@ import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
 import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
+import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon';
 
 import { ThemeContext } from '../lib/theming/ThemeContext';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
@@ -173,6 +174,7 @@ addons.setConfig({
       isLess,
       isLessOrEqual,
       ViewDateInputValidateChecks,
+      ArrowUiCornerOutUpRightIcon,
       UiMenuBars3HIcon16Regular,
       People3Icon,
       SearchLoupeIcon16Regular,
