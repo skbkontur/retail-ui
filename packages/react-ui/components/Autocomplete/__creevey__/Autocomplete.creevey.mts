@@ -236,4 +236,8 @@ kind('Autocomplete', () => {
   story('MenuPos', () => {
     menuPosTests();
   });
+
+  story('WithPercentageMenuWidth', () => {
+    commonTests();
+  });
 });

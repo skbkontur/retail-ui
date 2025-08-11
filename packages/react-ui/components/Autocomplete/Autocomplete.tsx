@@ -280,12 +280,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const items = this.state.items;
     const { menuPos, menuAlign, menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, disablePortal } =
       this.getProps();
+    const calculatedMenuWidth = menuWidth ? '100%' : width && getDOMRect(this.rootSpan).width;
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
       hasShadow: false,
       hasMargin: false,
-      width: menuWidth || (width && getDOMRect(this.rootSpan).width),
+      width: calculatedMenuWidth,
       preventWindowScroll,
     };
     if (!items || items.length === 0) {

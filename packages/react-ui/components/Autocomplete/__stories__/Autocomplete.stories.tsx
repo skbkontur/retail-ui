@@ -265,3 +265,12 @@ MenuPos.storyName = 'menuPos';
 export const ClearCross = () => {
   return <Autocomplete showClearIcon="always" value="hello" onValueChange={() => {}} />;
 };
+
+export const WithPercentageMenuWidth = () => (
+  <UncontrolledAutocomplete
+    menuWidth="80%"
+    source={['One', 'Two', 'Three']}
+    renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
+  />
+);
+WithPercentageMenuWidth.storyName = 'with percentage menuWidth';
