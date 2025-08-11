@@ -35,6 +35,9 @@ import { TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
 import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
 import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
+import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/icons/TechScreenMonitorIcon';
+import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon';
+import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon';
 import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
@@ -202,6 +205,9 @@ addons.setConfig({
       LightbulbIcon32Regular,
       NotificationBellAlarmIcon64Regular,
       UiFilterFunnelIcon16Regular,
+      TechScreenMonitorIcon16Light,
+      WeatherMoonIcon16Light,
+      WeatherSunIcon16Light,
       ShowcaseGroup,
       ThemeContext,
       ThemeFactory,

@@ -1,5 +1,9 @@
 import React from 'react';
-import { Switcher, Hint, Tooltip } from '@skbkontur/react-ui';
+import type { ButtonProps, SwitcherItems } from '@skbkontur/react-ui';
+import { Switcher, Hint, Tooltip, Gapped } from '@skbkontur/react-ui';
+import { WeatherSunIcon16Light } from '@skbkontur/icons/WeatherSunIcon16Light';
+import { WeatherMoonIcon16Light } from '@skbkontur/icons/WeatherMoonIcon16Light';
+import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/TechScreenMonitorIcon16Light';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -9,87 +13,103 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
-  const [value, setValue] = React.useState();
+export const BasicExample: Story = () => {
+  const [value, setValue] = React.useState('');
 
   return (
-    <Switcher caption="Switch the switcher" items={['One', 'Two', 'Three']} value={value} onValueChange={setValue} />
+    <Switcher caption="Выбери вариант" items={['Первый', 'Второй', 'Третий']} value={value} onValueChange={setValue} />
   );
 };
-Example1.storyName = 'Базовый пример';
+BasicExample.storyName = 'Базовый пример';
 
 /** Случай, когда `items` принимает объект типа `{ label: string, value: string }` */
-export const Example2: Story = () => {
-  const [value, setValue] = React.useState();
-  const items = [
+export const WithItemsAsObjects: Story = () => {
+  const [value, setValue] = React.useState('');
+  const items: SwitcherItems[] = [
     {
-      label: 'One',
-      value: '111',
+      label: '1',
+      value: '1',
     },
     {
-      label: 'Two',
-      value: '222',
+      label: '2',
+      value: '2',
     },
     {
-      label: 'Three',
-      value: '333',
+      label: '3',
+      value: '3',
+    },
+    {
+      label: '4',
+      value: '4',
     },
   ];
 
-  return <Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} />;
+  return (
+    <Gapped gap={8} vertical>
+      <Switcher caption="Отчет за" items={items} value={value} onValueChange={setValue} />
+      <div>value: {value}</div>
+    </Gapped>
+  );
 };
-Example2.storyName = 'items в виде объектов';
+WithItemsAsObjects.storyName = 'items в виде объектов';
 
 /** Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку */
-export const Example3: Story = () => {
-  const [value, setValue] = React.useState();
-  const items = [
+export const WithCustomButtonProps: Story = () => {
+  const [value, setValue] = React.useState('system');
+  const items: SwitcherItems[] = [
     {
-      label: 'One',
-      value: '111',
+      label: '',
+      value: 'light',
       buttonProps: {
-        'data-tid': '1-1-1',
-        disabled: true,
+        icon: <WeatherSunIcon16Light />,
       },
     },
     {
-      label: 'Three',
-      value: '333',
+      label: '',
+      value: 'system',
       buttonProps: {
-        'data-tid': '1-1-1',
-        use: 'primary',
+        icon: <TechScreenMonitorIcon16Light />,
       },
     },
     {
-      label: 'Two',
-      value: '222',
+      label: '',
+      value: 'dark',
       buttonProps: {
-        'data-tid': '1-1-1',
-        arrow: true,
+        icon: <WeatherMoonIcon16Light />,
       },
     },
   ];
 
-  return <Switcher caption="Switch the switcher" items={items} value={value} onValueChange={setValue} />;
+  return <Switcher items={items} value={value} onValueChange={setValue} />;
 };
-Example3.storyName = 'Кастомизация кнопки';
+WithCustomButtonProps.storyName = 'Кастомизация кнопки';
 
 /** Пример с методом `renderItem` для кастомизации `items`: */
-export const Example4: Story = () => {
-  const [value, setValue] = React.useState();
-  const items = ['One', 'Two', 'Three'];
+export const WithCustomRenderItem: Story = () => {
+  const [value, setValue] = React.useState('');
+  const items = ['Самовывоз', 'Постамат', 'Курьер'];
 
-  const renderItem = (label, value, buttonProps, renderDefault) => {
-    if (value === 'One') {
+  const renderItem = (label: string, value: string, buttonProps: ButtonProps, renderDefault: () => React.ReactNode) => {
+    if (value === 'Постамат') {
       return (
-        <Hint pos="bottom" text="Подсказка" opened manual>
+        <Hint pos="bottom" text="Доставим в удобный пункт выдачи">
           {renderDefault()}
         </Hint>
       );
     }
-    if (value === 'Three') {
+    if (value === 'Курьер') {
       return (
-        <Tooltip pos="right middle" trigger="opened" render={() => 'Тултип'}>
+        <Tooltip
+          pos="top left"
+          trigger="click"
+          render={() => (
+            <div>
+              Из-за повышенного объема заказов
+              <br />
+              возможно длительное ожидание
+            </div>
+          )}
+        >
           {renderDefault()}
         </Tooltip>
       );
@@ -98,13 +118,24 @@ export const Example4: Story = () => {
   };
 
   return (
-    <Switcher
-      caption="Switch the switcher"
-      items={items}
-      value={value}
-      onValueChange={setValue}
-      renderItem={renderItem}
-    />
+    <Switcher caption="Способ получения" items={items} value={value} onValueChange={setValue} renderItem={renderItem} />
   );
 };
-Example4.storyName = 'Кастомизация items';
+WithCustomRenderItem.storyName = 'Кастомизация items';
+
+/** Пример с разными значениями пропа `width`: */
+export const WithCustomWidth: Story = () => {
+  const [valueFirst, setValueFirst] = React.useState('');
+  const [valueSecond, setValueSecond] = React.useState('');
+  const [valueThird, setValueThird] = React.useState('');
+  const items = ['Первый', 'Второй', 'Третий'];
+
+  return (
+    <Gapped vertical gap={16}>
+      <Switcher width={250} items={items} value={valueFirst} onValueChange={setValueFirst} />
+      <Switcher width="50%" items={items} value={valueSecond} onValueChange={setValueSecond} />
+      <Switcher width="100%" items={items} value={valueThird} onValueChange={setValueThird} />
+    </Gapped>
+  );
+};
+WithCustomWidth.storyName = 'Кастомизация ширины';

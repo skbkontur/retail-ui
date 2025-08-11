@@ -4,6 +4,8 @@ import type { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root() {
     return css`
+      display: flex;
+      align-items: center;
       line-height: normal;
     `;
   },
@@ -12,6 +14,12 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       vertical-align: middle;
+    `;
+  },
+
+  wrapCustomWidth() {
+    return css`
+      flex-grow: 1;
     `;
   },
 

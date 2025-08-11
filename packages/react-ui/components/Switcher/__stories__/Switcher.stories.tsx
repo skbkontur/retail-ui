@@ -1,7 +1,8 @@
 import React from 'react';
+import type { CommonProps } from 'react-ui/internal/CommonWrapper/types';
 
 import type { Story } from '../../../typings/stories';
-import type { SwitcherProps } from '../Switcher';
+import type { SwitcherItems, SwitcherProps } from '../Switcher';
 import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 import { Hint } from '../../Hint';
@@ -47,12 +48,12 @@ export const Horizontal: Story = () => {
 };
 Horizontal.storyName = 'horizontal';
 
-export const Errored = () => {
+export const Errored: Story = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
 Errored.storyName = 'errored';
 
-export const Disabled = () => {
+export const Disabled: Story = () => {
   return (
     <Gapped vertical>
       <Switcher disabled value={'One'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
@@ -61,10 +62,9 @@ export const Disabled = () => {
     </Gapped>
   );
 };
-
 Disabled.storyName = 'disabled';
 
-const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonProps> }> = [
+const items: SwitcherItems[] = [
   {
     label: 'One',
     value: '111',
@@ -123,7 +123,6 @@ export const WithCustomRenderItems: Story = () => {
     </div>
   );
 };
-
 WithCustomRenderItems.storyName = 'with custom render item';
 
 export const CompareWithButton: Story = () => {
@@ -184,3 +183,90 @@ export const CompareWithButton: Story = () => {
 CompareWithButton.parameters = {
   creevey: { skip: true },
 };
+
+interface LabelledSwitcherExampleProps extends CommonProps {
+  label?: string;
+}
+
+function LabelledSwitcherExample({ label, children }: LabelledSwitcherExampleProps): React.ReactElement {
+  return (
+    <div>
+      <div style={{ color: '#AAAAAA' }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+export const WithCustomWidth: Story = () => {
+  const items: SwitcherItems[] = ['One', 'Two', 'Three'];
+  const itemsWithProps: SwitcherItems[] = [
+    {
+      label: '100px',
+      value: '1',
+      buttonProps: {
+        width: 100,
+      },
+    },
+    {
+      label: '200px',
+      value: '2',
+      buttonProps: {
+        width: 200,
+      },
+    },
+    {
+      label: 'Should stretch',
+      value: '3',
+    },
+  ];
+
+  return (
+    <Gapped vertical gap={16}>
+      <LabelledSwitcherExample label="width=500px">
+        <Switcher items={items} width={'500px'} />
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=500px + caption">
+        <Switcher caption="Надпись учитывается в ширине" items={items} width={'500px'} />
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=50%">
+        <div style={{ width: '300px', backgroundColor: 'lightgreen', padding: '8px' }}>
+          <Switcher items={items} width={'50%'} />
+        </div>
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=100%">
+        <div style={{ width: '300px', backgroundColor: 'lightgreen', padding: '8px' }}>
+          <Switcher items={items} width={'100%'} />
+        </div>
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=20px">
+        <Switcher items={items} width={'20px'} />
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=20px + caption">
+        <Switcher caption="Этой надписи будет плохо" items={items} width={'20px'} />
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=800px + buttonProps:{width}">
+        <Switcher items={itemsWithProps} width={'800px'} />
+      </LabelledSwitcherExample>
+
+      <LabelledSwitcherExample label="width=800px + buttonProps:{width} + caption">
+        <Switcher caption="Название" items={itemsWithProps} width={'800px'} />
+      </LabelledSwitcherExample>
+    </Gapped>
+  );
+};
+WithCustomWidth.storyName = 'with custom width';
+
+export const WithCustomWidthAndRenderItem: Story = () => {
+  return (
+    <div style={{ padding: '65px 20px' }}>
+      <Component items={items} renderItem={renderItem} width={'500px'} />
+    </div>
+  );
+};
+WithCustomWidthAndRenderItem.storyName = 'with custom width and renderItem';

@@ -15,6 +15,7 @@ import type { TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { SizeProp } from '../../lib/types/props';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
+import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -27,7 +28,7 @@ export const SwitcherDataTids = {
 } as const;
 
 export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, CommonProps {
-  /** Задает список строк или список элементов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }`. */
+  /** Задает список элементов в свитчере. Это массив строк или объектов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }` */
   items: SwitcherItems[];
 
   /** Устанавливает значение свитчера. */
@@ -45,16 +46,13 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
   /** Задает размер контрола. */
   size?: SizeProp;
 
+  /** Задает ширину контрола. С этим пропом элементы внутри автоматически равномерно растянутся. */
+  width?: React.CSSProperties['width'];
+
   /** Делает компонент недоступным. */
   disabled?: boolean;
 
-  /** Задает функцию отрисовки элемента.
-   * @param `label` -
-   * @param `value` -
-   * @param `buttonProps` -
-   * @param `renderDefault` -
-   * @param `ariaLabel` -
-   */
+  /** Задает функцию отрисовки элемента. Параметр `renderDefault` - это встроенная дефолтная функция отрисовки элемента, которую можно вызывать в `renderItem`. */
   renderItem?: (
     label: string,
     value: string,
@@ -119,15 +117,22 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     };
     const isThemeGTE_5_1 = isThemeGTE(this.theme, '5.1');
     const isTheme_5_0 = !isThemeGTE_5_1;
-    const items = <Group>{this._renderItems()}</Group>;
+    const items = (
+      <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
+        <Group width={'100%'}>{this._renderItems()}</Group>
+      </ReactUIFeatureFlagsContext.Provider>
+    );
 
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
-    const wrapperClassName = cx(styles.wrap(), isThemeGTE_5_1 && this.props.error && styles.error5_1(this.theme));
-    const errorClassName = cx(isTheme_5_0 && this.props.error && styles.error(this.theme));
+    const wrapperClassName = cx(styles.wrap(), {
+      [styles.error5_1(this.theme)]: isThemeGTE_5_1 && this.props.error,
+      [styles.wrapCustomWidth()]: this.props.width !== undefined,
+    });
+    const errorClassName = cx({ [styles.error(this.theme)]: isTheme_5_0 && this.props.error });
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={SwitcherDataTids.root} className={styles.root()}>
+        <div data-tid={SwitcherDataTids.root} className={styles.root()} style={{ width: this.props.width }}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={wrapperClassName}>
             <input {...inputProps} />
@@ -222,7 +227,8 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private _renderItems = () => {
-    const { items, value, size, disabled, role, renderItem } = this.props;
+    const { items, value, size, width, disabled, role, renderItem } = this.props;
+
     return items.map((item, i) => {
       const {
         'aria-label': ariaLabel,
@@ -251,8 +257,11 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         ...customButtonProps,
       };
 
-      const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps, ariaLabel);
+      if (!buttonProps.width && width) {
+        buttonProps.width = '100%';
+      }
 
+      const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps, ariaLabel);
       return renderItem ? renderItem(label, itemValue, buttonProps, renderDefault, ariaLabel) : renderDefault();
     });
   };
