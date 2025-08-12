@@ -84,7 +84,7 @@ class CustomClassComponent extends React.Component {
     return <div ref={this.rootNode}>children text</div>;
   }
 
-  getRootNode() {
+  getRootNode = () => {
     return this.rootNode.current;
   }
 }
