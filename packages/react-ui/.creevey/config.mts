@@ -28,7 +28,7 @@ const config: CreeveyConfig = {
   resolveStorybookUrl,
   webdriver: SeleniumWebdriver,
   storiesProvider: hybridStoriesProvider,
-  testsRegex: /.creevey.(m|c)?(t|j)s$/,
+  testsRegex: /\.creevey.(m|c)?(t|j)s$/,
   testsDir: path.join(__dirname, '../'),
   reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),

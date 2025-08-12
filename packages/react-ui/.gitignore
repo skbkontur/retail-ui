@@ -20,7 +20,7 @@ gemini-report
 /components/**/*.d.ts
 /components/**/*.js
 /components/**/*.map
-.creevey/report
+/reports/
 
 yarn-debug.log
 yarn-error.log

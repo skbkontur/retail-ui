@@ -1,3 +1,5 @@
 /.rpt2_cache
 /build
 /dist
+/reports/
+/.storybook/build
