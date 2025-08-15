@@ -1,8 +1,7 @@
 import { story, kind, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
-import { PopupMenuDataTids } from '../../../internal/PopupMenu/tids';
-import { delay } from '../../../lib/delay';
+import { delay } from '../../../lib/delay.mjs';
 
 const textAlignmentTests = () => {
   test('opened', async (context) => {
@@ -10,7 +9,7 @@ const textAlignmentTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: `[data-tid~="${PopupMenuDataTids.caption}"]` }))
+      .click(context.webdriver.findElement({ css: `[data-tid~="PopupMenu__caption"]` }))
       .perform();
     await delay(1000);
     await context.matchImage(await context.takeScreenshot(), 'opened');

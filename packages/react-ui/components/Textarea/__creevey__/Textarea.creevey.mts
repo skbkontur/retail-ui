@@ -1,7 +1,7 @@
 import { story, kind, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay';
+import { delay } from '../../../lib/delay.mjs';
 
 kind('Textarea', () => {
   story('DifferentStates', () => {

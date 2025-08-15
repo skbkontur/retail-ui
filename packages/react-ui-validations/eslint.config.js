@@ -19,6 +19,7 @@ module.exports = [
       '**/bundle/**',
       '**/dist/**',
       '**/.creevey/**',
+      '**/reports/**',
     ],
   },
 ];

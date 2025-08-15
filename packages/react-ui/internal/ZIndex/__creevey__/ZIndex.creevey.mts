@@ -1,7 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay';
-import { SelectDataTids } from '../../../components/Select/tids';
+import { delay } from '../../../lib/delay.mjs';
 
 kind('ZIndex', () => {
   story('HintAndModalStory', () => {
@@ -38,7 +37,7 @@ kind('ZIndex', () => {
       const element = await context.webdriver.findElement({ css: '.container' });
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid=${SelectDataTids.label}]` }))
+        .click(context.webdriver.findElement({ css: `[data-tid="Select__label"]` }))
         .sendKeys('q')
         .perform();
       await delay(1000);

@@ -34,7 +34,7 @@ const config: CreeveyConfig = {
   screenDir: path.join(__dirname, 'images'),
   gridUrl: process.env.GRID_URL,
   maxRetries: process.env.GITLAB_CI || process.env.TEAMCITY_VERSION ? 5 : 0,
-  reporter: process.env.GITLAB_CI ? 'junit' : 'teamcity',
+  reporter: process.env.GITLAB_CI ? 'junit' : process.env.TEAMCITY_VERSION ? 'teamcity' : undefined,
   reporterOptions: {
     outputFile: process.env.GITLAB_CI ? path.join(reportFilePath, 'junit.xml') : undefined,
   },

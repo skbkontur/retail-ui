@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay';
+import { delay } from '../../../lib/delay.mjs';
 
 kind('ScrollContainer', () => {
   story('WithDynamicContent', ({ setStoryParameters }) => {

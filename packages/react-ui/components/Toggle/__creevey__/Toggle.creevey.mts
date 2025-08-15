@@ -1,8 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay';
-import { ToggleDataTids } from '../Toggle';
-import { TooltipDataTids } from '../../Tooltip';
+import { delay } from '../../../lib/delay.mjs';
 
 kind('Toggle', () => {
   story('Plain', ({ setStoryParameters }) => {
@@ -22,7 +20,7 @@ kind('Toggle', () => {
           bridge: true,
         })
         .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="${ToggleDataTids.root}"]` }),
+          origin: context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }),
         })
         .press()
         .perform();
@@ -35,7 +33,7 @@ kind('Toggle', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: `[data-tid="${ToggleDataTids.root}"]` }))
+        .click(context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'clicked');
@@ -49,7 +47,7 @@ kind('Toggle', () => {
           bridge: true,
         })
         .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="${TooltipDataTids.root}"]` }),
+          origin: context.webdriver.findElement({ css: `[data-tid="Tooltip__root"]` }),
         })
         .press()
         .perform();
@@ -81,7 +79,7 @@ kind('Toggle', () => {
           bridge: true,
         })
         .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="${ToggleDataTids.root}"]` }),
+          origin: context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }),
         })
         .pause(2000)
         .click()

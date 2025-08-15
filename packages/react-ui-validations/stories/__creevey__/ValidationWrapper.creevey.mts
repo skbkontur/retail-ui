@@ -1,5 +1,6 @@
 import { story, kind, test } from 'creevey';
-import { delay } from '@skbkontur/react-ui/lib/delay';
+
+import { delay } from './delay.mjs';
 
 kind('ValidationWrapper', () => {
   story('ScrollAndFocusInIframe', () => {

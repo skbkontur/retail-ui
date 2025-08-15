@@ -1,7 +1,7 @@
 import { kind, story, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay';
+import { delay } from '../../../lib/delay.mjs';
 
 const kebabTests = () => {
   test('hovered', async (context) => {

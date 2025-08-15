@@ -1,8 +1,7 @@
 import { story, kind, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay';
-import { CustomComboBoxDataTids } from '../../../internal/CustomComboBox/tids';
+import { delay } from '../../../lib/delay.mjs';
 
 kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
@@ -448,7 +447,7 @@ kind('ComboBox', () => {
     test('opened', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="${CustomComboBoxDataTids.comboBoxView}"]` }))
+        .click(context.webdriver.findElement({ css: `[data-tid~="ComboBoxView__root"]` }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'opened');

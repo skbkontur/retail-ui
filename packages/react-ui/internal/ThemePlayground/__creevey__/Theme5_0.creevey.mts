@@ -1,7 +1,7 @@
 import { kind, story, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay';
+import { delay } from '../../../lib/delay.mjs';
 
 kind('ThemeVersions/5_0', () => {
   story('Modal5_0', () => {

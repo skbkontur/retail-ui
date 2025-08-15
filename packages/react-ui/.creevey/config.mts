@@ -32,7 +32,7 @@ const config: CreeveyConfig = {
   testsDir: path.join(__dirname, '../'),
   reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),
-  reporter: process.env.GITLAB_CI ? 'junit' : 'teamcity',
+  reporter: process.env.GITLAB_CI ? 'junit' : process.env.TEAMCITY_VERSION ? 'teamcity' : undefined,
   reporterOptions: {
     outputFile: process.env.GITLAB_CI ? path.join(reportFilePath, 'junit.xml') : undefined,
   },

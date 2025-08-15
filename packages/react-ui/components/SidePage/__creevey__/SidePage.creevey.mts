@@ -1,8 +1,7 @@
 import { story, kind, test } from 'creevey';
 import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay';
-import { SidePageFooterDataTids } from '../SidePageFooter';
+import { delay } from '../../../lib/delay.mjs';
 
 const simpleTests = () => {
   test('open side-page', async (context) => {
@@ -334,14 +333,14 @@ kind('SidePage', () => {
 
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="${SidePageFooterDataTids.root}"] button` }))
+        .click(context.webdriver.findElement({ css: `[data-tid~="SidePageFooter__root"] button` }))
         .perform();
       await delay(100);
       const editModeSidePage = await context.webdriver.takeScreenshot();
 
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="${SidePageFooterDataTids.root}"] button` }))
+        .click(context.webdriver.findElement({ css: `[data-tid~="SidePageFooter__root"] button` }))
         .perform();
       await delay(100);
       const againViewModeSidePage = await context.takeScreenshot();

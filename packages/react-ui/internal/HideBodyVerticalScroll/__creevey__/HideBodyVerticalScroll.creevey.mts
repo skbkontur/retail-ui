@@ -1,6 +1,6 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay';
+import { delay } from '../../../lib/delay.mjs';
 
 const testScrollLockUnlock = () => {
   test('scroll, lock, unlock', async (context) => {

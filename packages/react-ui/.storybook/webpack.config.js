@@ -66,7 +66,7 @@ module.exports = async ({ config }) => {
   // NOTE Need to allow write tests inside stories for Creevey
   config.node = { __filename: true };
   config.watchOptions = {
-    ignored: /node_modules|.creevey/,
+    ignored: /node_modules|.creevey|reports/,
   };
 
   return config;
