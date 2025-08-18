@@ -5,6 +5,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME_5_2 } from '../../../lib/theming/themes/LightTheme';
 import { MiniModal } from '../../../components/MiniModal';
 import { Button } from '../../../components/Button';
+import { Paging } from '../../../components/Paging';
 
 export default {
   title: 'ThemeVersions/5_2',
@@ -34,3 +35,9 @@ export const MiniModal5_2: Story = () => (
     </MiniModal.Footer>
   </MiniModal>
 );
+
+export const Paging5_2: Story = () => {
+  const [activePage, setActivePage] = React.useState(1);
+  return <Paging pagesCount={30} activePage={activePage} onPageChange={setActivePage} />;
+};
+Paging5_2.storyName = 'Paging in 5.2';

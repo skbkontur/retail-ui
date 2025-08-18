@@ -2,13 +2,48 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
-  paging(t: Theme) {
+  paging() {
     return css`
       user-select: none;
       outline: 0;
+      display: inline-block;
+      font-variant-numeric: tabular-nums;
+    `;
+  },
+
+  pagingMobile() {
+    return css`
+      text-wrap-mode: nowrap;
+    `;
+  },
+
+  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в `6.0` */
+  pagingLegacy(t: Theme) {
+    return css`
       font-size: ${t.pagingFontSize};
       line-height: ${t.pagingLineHeight};
-      display: inline-block;
+      font-variant-numeric: normal;
+    `;
+  },
+
+  pagingSmall(t: Theme) {
+    return css`
+      font-size: ${t.pagingFontSizeSmall};
+      line-height: ${t.pagingLineHeightSmall};
+    `;
+  },
+
+  pagingMedium(t: Theme) {
+    return css`
+      font-size: ${t.pagingFontSizeMedium};
+      line-height: ${t.pagingLineHeightMedium};
+    `;
+  },
+
+  pagingLarge(t: Theme) {
+    return css`
+      font-size: ${t.pagingFontSizeLarge};
+      line-height: ${t.pagingLineHeightLarge};
     `;
   },
 
@@ -22,7 +57,34 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.pagingDotsColor};
       display: inline-block;
+    `;
+  },
+
+  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в 6.0 */
+  dotsLegacy(t: Theme) {
+    return css`
       padding: ${t.pagingDotsPadding};
+    `;
+  },
+
+  dotsSmall(t: Theme) {
+    return css`
+      line-height: 0;
+      padding: ${t.pagingDotsPaddingSmall};
+    `;
+  },
+
+  dotsMedium(t: Theme) {
+    return css`
+      line-height: 0;
+      padding: ${t.pagingDotsPaddingMedium};
+    `;
+  },
+
+  dotsLarge(t: Theme) {
+    return css`
+      line-height: 0;
+      padding: ${t.pagingDotsPaddingLarge};
     `;
   },
 
@@ -37,14 +99,52 @@ export const styles = memoizeStyle({
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: inline-block;
-      margin-top: ${t.pagingPageForwardLinkMarginTop};
-      margin-left: ${t.pagingPageForwardLinkMarginLeft};
       outline: none;
-      padding-right: ${t.pagingPageForwardLinkPaddingRight};
       position: relative;
       text-decoration: none;
       user-select: none;
       vertical-align: top;
+    `;
+  },
+
+  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в 6.0 */
+  forwardLinkLegacy(t: Theme) {
+    return css`
+      margin-top: ${t.pagingPageForwardLinkMarginTop};
+      margin-left: ${t.pagingPageForwardLinkMarginLeft};
+      padding-right: ${t.pagingPageForwardLinkPaddingRight};
+    `;
+  },
+
+  forwardLinkSmall(t: Theme) {
+    return css`
+      padding: ${t.pagingForwardLinkPaddingSmall};
+    `;
+  },
+
+  forwardLinkMedium(t: Theme) {
+    return css`
+      padding: ${t.pagingForwardLinkPaddingMedium};
+    `;
+  },
+
+  forwardLinkLarge(t: Theme) {
+    return css`
+      padding: ${t.pagingForwardLinkPaddingLarge};
+    `;
+  },
+
+  forwardLinkMediumMobile(t: Theme) {
+    return css`
+      line-height: ${t.pagingFontSizeMedium};
+      padding: ${t.pagingForwardLinkPaddingMediumMobile};
+    `;
+  },
+
+  forwardLinkLargeMobile(t: Theme) {
+    return css`
+      line-height: ${t.pagingFontSizeLarge};
+      padding: ${t.pagingForwardLinkPaddingLargeMobile};
     `;
   },
 
@@ -72,15 +172,44 @@ export const styles = memoizeStyle({
       color: ${t.pagingPageLinkColor};
       cursor: pointer;
       display: block;
-      margin: ${t.pagingPageLinkMargin};
       outline: none;
-      min-width: ${t.pagingPageLinkMinWidth};
-      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
       text-decoration: none;
 
       &:hover {
-        background: ${t.pagingPageLinkHoverBg};
+        background-color: ${t.pagingPageLinkHoverBg};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction};
       }
+
+      &:active {
+        background-color: ${t.pagingPageLinkActiveBg};
+      }
+    `;
+  },
+
+  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в 6.0 */
+  pageLinkLegacy(t: Theme) {
+    return css`
+      margin: ${t.pagingPageLinkMargin};
+      min-width: ${t.pagingPageLinkMinWidth};
+      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX};
+    `;
+  },
+
+  pageLinkSmall(t: Theme) {
+    return css`
+      padding: ${t.pagingPageLinkPaddingYSmall} ${t.pagingPageLinkPaddingXSmall};
+    `;
+  },
+
+  pageLinkMedium(t: Theme) {
+    return css`
+      padding: ${t.pagingPageLinkPaddingYMedium} ${t.pagingPageLinkPaddingXMedium};
+    `;
+  },
+
+  pageLinkLarge(t: Theme) {
+    return css`
+      padding: ${t.pagingPageLinkPaddingYLarge} ${t.pagingPageLinkPaddingXLarge};
     `;
   },
 
@@ -94,14 +223,14 @@ export const styles = memoizeStyle({
   pageLinkCurrent(t: Theme) {
     return css`
       cursor: default;
-      background: ${t.pagingPageLinkActiveBg} !important; // override hover styles
+      background-color: ${t.pagingPageLinkActiveBg} !important;
       color: ${t.pagingPageLinkActiveColor};
     `;
   },
 
   pageLinkCurrentDisabled(t: Theme) {
     return css`
-      background: ${t.pagingPageLinkDisabledActiveBg} !important;
+      background-color: ${t.pagingPageLinkDisabledActiveBg} !important;
       color: ${t.linkDisabledColor};
     `;
   },

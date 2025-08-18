@@ -1077,49 +1077,97 @@ export class BasicThemeClass {
   public static mobileDateSelectLineHeight = '20px';
   //#endregion DateSelect
   //#region Paging
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
+   * @see {@link pagingFontSizeSmall `pagingFontSizeSmall`} */
   public static get pagingFontSize() {
     return this.fontSizeMedium;
   }
-  public static get pagingForwardIconSize() {
-    return this.pagingFontSize;
+  public static get pagingFontSizeSmall() {
+    return this.fontSizeSmall;
   }
+  public static get pagingFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get pagingFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
+   * @see {@link pagingLineHeightSmall `pagingLineHeightSmall`} */
+  public static pagingLineHeight = '22px';
+  public static get pagingLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get pagingLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get pagingLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static pagingPageLinkBoxSizing = 'border-box';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
+  public static pagingPageLinkMinWidth = '0.75em';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
+   * @see {@link pagingPageLinkPaddingYSmall `pagingPageLinkPaddingYSmall`} */
+  public static pagingPageLinkPaddingY = '0.3125em';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
+   * @see {@link pagingPageLinkPaddingXSmall `pagingPageLinkPaddingXSmall`} */
+  public static pagingPageLinkPaddingX = '12px';
+  public static pagingPageLinkPaddingYSmall = '6px';
+  public static pagingPageLinkPaddingXSmall = '11.5px';
+  public static pagingPageLinkPaddingYMedium = '9px';
+  public static pagingPageLinkPaddingXMedium = '15px';
+  public static pagingPageLinkPaddingYLarge = '12px';
+  public static pagingPageLinkPaddingXLarge = '18.5px';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
+  public static pagingPageLinkMargin = '0px 1px';
+  public static pagingPageLinkBorderRadius = '9999px';
   public static get pagingPageLinkColor() {
     return this.textColorDefault;
   }
-  public static pagingPageLinkBoxSizing = 'border-box';
-  public static pagingPageLinkPaddingX = '12px';
-  public static pagingPageLinkPaddingY = '0.3125em';
-  public static pagingPageLinkMinWidth = '0.75em';
-  public static pagingPageForwardLinkMarginTop = '';
-  public static pagingPageForwardLinkMarginLeft = '0px';
-  public static get pagingPageForwardLinkPaddingRight() {
-    return this.pagingPageLinkPaddingX;
-  }
-  public static pagingLineHeight = '22px';
-  public static pagingDotsColor = '#ADADAD';
-  public static pagingDotsPadding = '0.375em 0.625em 0';
-  public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
-  public static pagingPageLinkDisabledActiveBg = 'rgba(0, 0, 0, 0.04)';
   public static get pagingPageLinkActiveColor() {
     return this.textColorDefault;
   }
+  public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static pagingPageLinkDisabledActiveBg = 'rgba(0, 0, 0, 0.04)';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
-  public static pagingPageLinkBorderRadius = '9999px';
-  public static get pagingPageLinkHintColor() {
-    return this.placeholderColor;
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
+  public static pagingPageForwardLinkMarginTop = '';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
+  public static pagingPageForwardLinkMarginLeft = '0px';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
+  public static get pagingPageForwardLinkPaddingRight() {
+    return this.pagingPageLinkPaddingX;
   }
-  public static pagingPageLinkHintFontSize = '12px';
-  public static pagingPageLinkHintLineHeight = '16px';
-  public static pagingPageLinkHintMargin = '4px -20px 0px';
-  public static pagingPageLinkMargin = '0px 1px';
+  public static pagingForwardLinkPaddingSmall = '6px 8px 6px 12px';
+  public static pagingForwardLinkPaddingMedium = '9px 12px 9px 16px';
+  public static pagingForwardLinkPaddingLarge = '12px 16px 12px 20px';
+  public static pagingForwardLinkPaddingMediumMobile = '10px';
+  public static pagingForwardLinkPaddingLargeMobile = '12px';
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
+  public static get pagingForwardIconSize() {
+    return this.pagingFontSize;
+  }
   public static get pagingForwardLinkColor() {
     return this.textColorDefault;
   }
   public static get pagingForwardLinkDisabledColor() {
     return this.linkDisabledColor;
   }
+  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
+   * @see {@link pagingDotsPaddingSmall `pagingDotsPaddingSmall`} */
+  public static pagingDotsPadding = '0.375em 0.625em 0';
+  public static pagingDotsPaddingSmall = '11px 8px 5px 8px';
+  public static pagingDotsPaddingMedium = '14px 12px 10px 12px';
+  public static pagingDotsPaddingLarge = '19px 16px 13px 16px';
+  public static pagingDotsColor = '#ADADAD';
   public static get pagingDotsDisabledColor() {
     return this.textColorDisabled;
+  }
+  public static pagingPageLinkHintFontSize = '12px';
+  public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkHintMargin = '4px -20px 0px';
+  public static get pagingPageLinkHintColor() {
+    return this.placeholderColor;
   }
   //#endregion Paging
   //#region Hint

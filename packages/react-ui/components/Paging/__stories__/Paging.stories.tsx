@@ -7,6 +7,7 @@ import type { ItemComponentProps } from '../Paging';
 import { Paging } from '../Paging';
 import { emptyHandler } from '../../../lib/utils';
 import type { PagingProps } from '..';
+import { Gapped } from '../../Gapped';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
 dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
@@ -151,6 +152,7 @@ GoToAbsensePageStory.storyName = 'GoToAbsensePage';
 export const SimpleSamples = () => (
   <>
     <PagingWithState pagesCount={1} />
+    <PagingWithState pagesCount={5} />
     <PagingWithState pagesCount={7} />
     <PagingWithState pagesCount={8} />
     <PagingWithState pagesCount={12} />
@@ -194,6 +196,19 @@ PagingDisabledForwardLink.parameters = {
     skip: { in: /^(?!\b(chrome2022|chrome2022Dark)\b)/ },
   },
 };
+
+export const WithSizes: Story = () => {
+  const [activePage, setActivePage] = React.useState(1);
+  return (
+    <Gapped vertical gap={16}>
+      <Paging pagesCount={30} activePage={activePage} onPageChange={setActivePage} />
+      <Paging pagesCount={30} size={'small'} activePage={activePage} onPageChange={setActivePage} />
+      <Paging pagesCount={30} size={'medium'} activePage={activePage} onPageChange={setActivePage} />
+      <Paging pagesCount={30} size={'large'} activePage={activePage} onPageChange={setActivePage} />
+    </Gapped>
+  );
+};
+WithSizes.storyName = 'WithSizes';
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
@@ -241,3 +256,42 @@ class Playground extends React.Component {
     action(event.type)(event.key);
   };
 }
+
+export const SimpleStaticExamplesMobile: Story = () => {
+  return (
+    <Gapped vertical gap={8}>
+      <Paging pagesCount={5} activePage={1} onPageChange={() => {}} />
+      <Paging pagesCount={6} activePage={1} onPageChange={() => {}} />
+      <Paging pagesCount={7} activePage={1} onPageChange={() => {}} />
+      <Paging pagesCount={7} activePage={4} onPageChange={() => {}} />
+      <Paging pagesCount={7} activePage={5} onPageChange={() => {}} />
+      <Paging pagesCount={7} activePage={6} onPageChange={() => {}} />
+      <Paging pagesCount={7} activePage={7} onPageChange={() => {}} />
+      <Paging pagesCount={1} activePage={1} onPageChange={() => {}} />
+    </Gapped>
+  );
+};
+SimpleStaticExamplesMobile.storyName = 'Simple static examples mobile';
+SimpleStaticExamplesMobile.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
+export const WithSizesMobile: Story = () => {
+  const [activePage, setActivePage] = React.useState(1);
+  return (
+    <Gapped vertical gap={8}>
+      <Paging pagesCount={30} activePage={activePage} onPageChange={setActivePage} />
+      <Paging pagesCount={30} size={'small'} activePage={activePage} onPageChange={setActivePage} />
+      <Paging pagesCount={30} size={'medium'} activePage={activePage} onPageChange={setActivePage} />
+      <Paging pagesCount={30} size={'large'} activePage={activePage} onPageChange={setActivePage} />
+    </Gapped>
+  );
+};
+WithSizesMobile.storyName = 'With sizes mobile';
+WithSizesMobile.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};

@@ -10,6 +10,7 @@ import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -17,6 +18,8 @@ import type { TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { ResponsiveLayout } from '../ResponsiveLayout';
+import type { SizeProp } from '../../lib/types/props';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -24,7 +27,8 @@ import { getItems } from './PagingHelper';
 import type { PagingLocale } from './locale';
 import { PagingLocaleHelper } from './locale';
 import { PagingDefaultComponent } from './PagingDefaultComponent';
-import { ForwardIcon } from './ForwardIcon';
+import { ForwardIcon, ForwardIconMobile } from './ForwardIcon';
+import { DotsIcon } from './DotsIcon';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
@@ -52,7 +56,7 @@ export interface PagingProps extends CommonProps {
   activePage: number;
 
   /** Компонент обертки по умолчанию.
-   * @default <span /> */
+   * @default <span/> */
   component?: React.ComponentType<ItemComponentProps>;
 
   /** Задает функцию, которая вызывается при переключении страницы. */
@@ -60,6 +64,10 @@ export interface PagingProps extends CommonProps {
 
   /** Задает общее количество страниц. */
   pagesCount: number;
+
+  /** Задает размер контрола.
+   * @default 'small', начиная с версии темы 5.3. До этого по умолчанию стоит старый размер 'legacy'. */
+  size?: SizeProp;
 
   /** Делает компонент недоступным. */
   disabled?: boolean;
@@ -95,6 +103,13 @@ export const PagingDataTids = {
 
 type DefaultProps = Required<Pick<PagingProps, 'component' | 'useGlobalListener'>>;
 
+interface PagingSizeClassNames {
+  root: string;
+  dots: string;
+  forwardLink: string;
+  pageLink: string;
+}
+
 /**
  * Постраничная навигация `Paging` (пейджинг или пагинация) — способ представления большого количества однородной информации, когда контент разбивается на страницы.
  */
@@ -113,7 +128,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private setRootNode!: TSetRootNode;
 
-  public static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
+  public static isForward(pageNumber: number | 'forward'): boolean {
     return pageNumber === 'forward';
   }
 
@@ -125,6 +140,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private theme!: Theme;
   private readonly locale!: PagingLocale;
+  private isMobile!: boolean;
+  private sizeClassNames!: PagingSizeClassNames;
   private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
 
@@ -165,7 +182,15 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <ResponsiveLayout>
+              {({ isMobile }) => {
+                this.isMobile = isMobile && isThemeGTE(this.theme, '5.3');
+                this.sizeClassNames = this.getPagingSizeClassNames();
+                return this.renderMain();
+              }}
+            </ResponsiveLayout>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -182,14 +207,17 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={PagingDataTids.root}
-          className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
+          className={cx(styles.paging(), this.sizeClassNames.root, {
+            [styles.pagingMobile()]: this.isMobile,
+            [styles.pagingDisabled()]: this.props.disabled,
+          })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onMouseDown={this.handleMouseDown}
           ref={this.refContainer}
         >
-          {this.getItems().map(this.renderItem)}
+          {this.getItems().map((item, index) => this.renderItem(item, index))}
         </span>
       </CommonWrapper>
     );
@@ -218,37 +246,43 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       <span
         data-tid={PagingDataTids.dots}
         key={key}
-        className={cx({ [styles.dots(this.theme)]: true, [styles.dotsDisabled(this.theme)]: this.props.disabled })}
+        className={cx(styles.dots(this.theme), this.sizeClassNames.dots, {
+          [styles.dotsDisabled(this.theme)]: this.props.disabled,
+        })}
       >
-        {'...'}
+        {this.getDotsIcon()}
       </span>
     );
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = cx(
+    const classNames = cx(
       styles.pageLink(this.theme),
+      this.sizeClassNames.pageLink,
       styles.forwardLink(this.theme),
-      focused && styles.pageLinkFocused(this.theme),
-      (disabled || this.props.disabled) && styles.forwardLinkDisabled(this.theme),
+      this.sizeClassNames.forwardLink,
+      {
+        [styles.pageLinkFocused(this.theme)]: focused,
+        [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
+      },
     );
     const Component = this.getProps().component;
     const { forward } = this.locale;
 
-    const forwardIcon = <ForwardIcon size={parseInt(this.theme.pagingForwardIconSize)} style={{ marginLeft: 4 }} />;
+    const forwardIcon = this.getForwardIcon();
 
     return (
       <Component
         key={'forward'}
         data-tid={PagingDataTids.forwardLink}
         active={false}
-        className={classes}
+        className={classNames}
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as const}
         {...getVisualStateDataAttributes({ disabled })}
       >
-        {this.props.caption || forward}
+        {!this.isMobile && (this.props.caption || forward)}
         {forwardIcon}
       </Component>
     );
@@ -256,8 +290,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
     const disabled = this.props.disabled;
-    const classes = cx({
-      [styles.pageLink(this.theme)]: true,
+    const classNames = cx(styles.pageLink(this.theme), this.sizeClassNames.pageLink, {
       [styles.pageLinkFocused(this.theme)]: focused,
       [styles.pageLinkDisabled(this.theme)]: disabled,
       [styles.pageLinkCurrent(this.theme)]: active,
@@ -277,14 +310,14 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         <Component
           data-tid={PagingDataTids.pageLink}
           active={active}
-          className={classes}
+          className={classNames}
           onClick={handleClick}
           tabIndex={-1}
           pageNumber={pageNumber}
         >
           {pageNumber}
         </Component>
-        {active && this.renderNavigationHint()}
+        {active && !this.isMobile && this.renderNavigationHint()}
       </span>
     );
   };
@@ -303,7 +336,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       hint = (
         <>
           <span className={canGoBackward ? '' : styles.transparent()}>{'←'}</span>
-          <span>{NavigationHelper.getKeyName()}</span>
+          <span>{NavigationHelper.getKeyName(this.theme)}</span>
           <span className={canGoForward ? '' : styles.transparent()}>{'→'}</span>
         </>
       );
@@ -340,11 +373,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(e) && isArrowLeft) {
+    if (NavigationHelper.checkKeyPressed(e, this.theme) && isArrowLeft) {
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(e) && isArrowRight) {
+    if (NavigationHelper.checkKeyPressed(e, this.theme) && isArrowRight) {
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
@@ -389,7 +422,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private getItems = (): ItemType[] => {
-    return getItems(this.props.activePage, this.props.pagesCount).concat('forward');
+    return getItems(this.props.activePage, this.props.pagesCount, this.isMobile).concat('forward');
   };
 
   private getFocusedItem = (): Nullable<ItemType> => {
@@ -488,5 +521,67 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private refContainer = (element: HTMLSpanElement | null) => {
     this.container = element;
+  };
+
+  private getPagingSizeClassNames = (): PagingSizeClassNames => {
+    const size = this.getSize();
+    switch (size) {
+      case 'legacy':
+        return {
+          root: styles.pagingLegacy(this.theme),
+          dots: styles.dotsLegacy(this.theme),
+          forwardLink: styles.forwardLinkLegacy(this.theme),
+          pageLink: styles.pageLinkLegacy(this.theme),
+        };
+      case 'small':
+        return {
+          root: styles.pagingSmall(this.theme),
+          dots: styles.dotsSmall(this.theme),
+          forwardLink: styles.forwardLinkSmall(this.theme),
+          pageLink: styles.pageLinkSmall(this.theme),
+        };
+      case 'medium':
+        return {
+          root: styles.pagingMedium(this.theme),
+          dots: styles.dotsMedium(this.theme),
+          forwardLink: this.isMobile
+            ? styles.forwardLinkMediumMobile(this.theme)
+            : styles.forwardLinkMedium(this.theme),
+          pageLink: styles.pageLinkMedium(this.theme),
+        };
+      case 'large':
+        return {
+          root: styles.pagingLarge(this.theme),
+          dots: styles.dotsLarge(this.theme),
+          forwardLink: this.isMobile ? styles.forwardLinkLargeMobile(this.theme) : styles.forwardLinkLarge(this.theme),
+          pageLink: styles.pageLinkLarge(this.theme),
+        };
+      default:
+        throw new TypeError(`Invalid size prop: '${this.props.size}'`);
+    }
+  };
+
+  private getDotsIcon = () => {
+    const size = this.getSize();
+    return size === 'legacy' ? '...' : <DotsIcon size={size} />;
+  };
+
+  private getForwardIcon = () => {
+    const size = this.getSize();
+    const iconSize = size === 'legacy' ? parseInt(this.theme.pagingForwardIconSize) : size;
+    return this.isMobile ? (
+      <ForwardIconMobile size={iconSize} />
+    ) : (
+      <ForwardIcon size={iconSize} style={{ marginLeft: 4 }} />
+    );
+  };
+
+  private getSize = () => {
+    if (this.props.size) {
+      return this.isMobile && this.props.size === 'small' ? 'medium' : this.props.size;
+    }
+
+    const defaultSize = isThemeGTE(this.theme, '5.3') ? 'small' : 'legacy';
+    return this.isMobile && defaultSize === 'small' ? 'medium' : defaultSize;
   };
 }
