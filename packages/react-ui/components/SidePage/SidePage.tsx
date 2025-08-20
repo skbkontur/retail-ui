@@ -7,7 +7,6 @@ import { globalObject } from '@skbkontur/global-object';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import type { ModalStackSubscription } from '../../lib/ModalStack';
 import { ModalStack } from '../../lib/ModalStack';
@@ -361,7 +360,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       return;
     }
     if (isKeyEscape(e)) {
-      stopPropagation(e);
+      e.stopPropagation();
       this.requestClose();
     }
   };

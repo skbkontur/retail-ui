@@ -9,7 +9,6 @@ import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { ZIndex } from '../../internal/ZIndex';
-import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import type { ModalStackSubscription } from '../../lib/ModalStack';
 import { ModalStack } from '../../lib/ModalStack';
@@ -392,7 +391,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       return;
     }
     if (isKeyEscape(e)) {
-      stopPropagation(e);
+      e.stopPropagation();
       this.requestClose();
     }
   };
