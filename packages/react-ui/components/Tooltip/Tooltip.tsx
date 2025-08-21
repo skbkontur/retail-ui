@@ -17,7 +17,7 @@ import type { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -151,6 +151,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
   private clickedOutside = true;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();

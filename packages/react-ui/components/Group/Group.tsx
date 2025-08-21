@@ -4,7 +4,7 @@ import { isIE11, isEdge } from '../../lib/client';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import {
   isButton,
@@ -112,6 +112,7 @@ export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
   public static displayName = 'Group';
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private featureFlags!: ReactUIFeatureFlags;
 

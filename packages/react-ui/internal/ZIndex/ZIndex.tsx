@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -87,6 +87,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     );
   }
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private zIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null = null;
 

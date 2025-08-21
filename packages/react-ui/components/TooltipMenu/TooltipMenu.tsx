@@ -11,7 +11,7 @@ import type { MenuHeaderProps } from '../MenuHeader';
 import type { PopupPositionsType } from '../../internal/Popup';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
@@ -65,6 +65,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
   public static displayName = 'TooltipMenu';
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public static defaultProps: DefaultProps = {

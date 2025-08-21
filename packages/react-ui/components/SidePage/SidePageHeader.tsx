@@ -9,7 +9,7 @@ import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
@@ -76,6 +76,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private wrapper: HTMLElement | null = null;
   private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private featureFlags!: ReactUIFeatureFlags;
   public get regularHeight(): number {

@@ -17,7 +17,7 @@ import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonW
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -182,6 +182,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
 
   private input: DateInput | null = null;
   private focused = false;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private isMobileLayout!: boolean;
 

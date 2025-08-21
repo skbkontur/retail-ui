@@ -8,7 +8,7 @@ import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import type { SizeProp } from '../../lib/types/props';
@@ -66,6 +66,7 @@ export class Token extends React.Component<TokenProps> {
   public static displayName = 'Token';
 
   private theme!: Theme;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: TokenLocale;
 

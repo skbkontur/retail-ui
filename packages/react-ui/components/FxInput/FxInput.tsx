@@ -11,7 +11,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { Override } from '../../typings/utility-types';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
@@ -84,6 +84,7 @@ export class FxInput extends React.Component<FxInputProps> {
   private input: Input | CurrencyInput | null = null;
 
   private getProps = createPropsGetter(FxInput.defaultProps);
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {

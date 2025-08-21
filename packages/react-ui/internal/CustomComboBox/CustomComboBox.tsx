@@ -13,7 +13,7 @@ import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { ComboBoxExtendedItem } from '../../components/ComboBox';
 import type { SizeProp } from '../../lib/types/props';
@@ -172,6 +172,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     this.handleBlur();
   };
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   /**

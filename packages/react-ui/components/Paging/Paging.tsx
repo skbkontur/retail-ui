@@ -14,7 +14,7 @@ import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
@@ -126,6 +126,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private getProps = createPropsGetter(Paging.defaultProps);
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public static isForward(pageNumber: number | 'forward'): boolean {

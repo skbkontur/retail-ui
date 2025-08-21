@@ -9,7 +9,7 @@ import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import type { PopupPositionsType } from '../../internal/Popup';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
@@ -84,6 +84,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   private getProps = createPropsGetter(DropdownMenu.defaultProps);
 
   private popupMenu: Nullable<PopupMenu> = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   constructor(props: DropdownMenuProps) {

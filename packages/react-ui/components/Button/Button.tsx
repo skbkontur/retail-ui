@@ -11,7 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -157,6 +157,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {

@@ -14,7 +14,7 @@ import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode, getRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -151,6 +151,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private getProps = createPropsGetter(ComboBoxView.defaultProps);
 
   private input: Nullable<Input>;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;

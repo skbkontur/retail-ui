@@ -6,7 +6,7 @@ import type { Nullable } from '../../typings/utility-types';
 import type { MenuItemState } from '../MenuItem';
 import type { ShowClearIcon, InputIconType } from '../Input';
 import type { CommonProps } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
@@ -220,6 +220,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   private getProps = createPropsGetter(ComboBox.defaultProps);
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   /**

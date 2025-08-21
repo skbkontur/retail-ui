@@ -11,7 +11,7 @@ import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { SizeProp } from '../../lib/types/props';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
@@ -94,6 +94,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private theme!: Theme;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {

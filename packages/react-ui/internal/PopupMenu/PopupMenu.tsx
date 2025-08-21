@@ -20,7 +20,7 @@ import type { Nullable } from '../../typings/utility-types';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { MenuProps } from '../Menu';
@@ -145,6 +145,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private captionWrapper: HTMLSpanElement | null = null;
   private savedFocusableElement: HTMLElement | null = null;
   private menu: Nullable<Menu> = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {

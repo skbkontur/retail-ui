@@ -11,7 +11,7 @@ import { Input } from '../Input';
 import type { Nullable, Override } from '../../typings/utility-types';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
@@ -115,6 +115,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   private input: Nullable<Input>;
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {

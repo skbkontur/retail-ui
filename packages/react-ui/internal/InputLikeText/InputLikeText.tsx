@@ -19,7 +19,7 @@ import type { CommonProps, CommonWrapperRestProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
@@ -93,6 +93,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private dragging = false;
   private focusTimeout: SafeTimer;
   private blinkTimeout: SafeTimer;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   /**

@@ -16,7 +16,7 @@ import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonW
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
@@ -172,6 +172,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private textareaObserver = globalObject.MutationObserver
     ? new globalObject.MutationObserver(this.reflowCounter)
     : null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты

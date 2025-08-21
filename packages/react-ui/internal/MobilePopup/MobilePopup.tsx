@@ -8,7 +8,7 @@ import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ZIndex } from '../ZIndex';
 import { RenderLayer } from '../RenderLayer';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 
 import { jsStyles } from './MobilePopup.styles';
@@ -61,6 +61,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   public static readonly defaultRootNode = null;
 
   private theme!: Theme;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {

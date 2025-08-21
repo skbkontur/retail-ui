@@ -5,6 +5,7 @@ import type { Nullable } from '../../typings/utility-types';
 
 import { getRootNode } from './getRootNode';
 
+export type TGetRootNode = () => Nullable<Element>;
 export type TSetRootNode = (e: Nullable<React.ReactInstance>) => void;
 
 export interface TRootNodeSubscription {
@@ -12,7 +13,7 @@ export interface TRootNodeSubscription {
 }
 
 export interface InstanceWithRootNode {
-  getRootNode: () => Nullable<Element>;
+  getRootNode: TGetRootNode;
   addRootNodeChangeListener?: (callback: (node: Nullable<Element>) => void) => TRootNodeSubscription;
 }
 

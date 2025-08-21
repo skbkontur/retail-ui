@@ -10,7 +10,7 @@ import type { Nullable } from '../../typings/utility-types';
 import type { ButtonUse } from '../Button';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
@@ -134,6 +134,7 @@ export class Dropdown extends React.Component<DropdownProps> {
   public static Separator = MenuSeparator;
 
   private _select: Nullable<DropdownSelectType>;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 

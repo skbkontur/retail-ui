@@ -6,7 +6,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
@@ -31,6 +31,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
 
   private theme!: Theme;
   private isMobileLayout!: boolean;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {

@@ -5,7 +5,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
@@ -33,6 +33,7 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
   private isMobileLayout!: boolean;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidUpdate() {

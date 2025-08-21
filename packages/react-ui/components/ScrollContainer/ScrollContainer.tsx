@@ -9,7 +9,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -128,6 +128,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private initialIsScrollBarVisible = this.getProps().showScrollBar === 'always';
 

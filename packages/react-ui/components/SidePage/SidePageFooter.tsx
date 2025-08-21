@@ -7,7 +7,7 @@ import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import type { GappedProps } from '../Gapped';
@@ -63,6 +63,7 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
   private theme!: Theme;
   private content: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {

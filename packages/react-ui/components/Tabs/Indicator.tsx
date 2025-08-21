@@ -8,7 +8,7 @@ import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
@@ -46,6 +46,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }> = null;
 
   private removeTabUpdatesListener: Nullable<() => void> = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {

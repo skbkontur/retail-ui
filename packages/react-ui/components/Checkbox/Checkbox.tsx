@@ -10,7 +10,7 @@ import { isEdge, isIE11 } from '../../lib/client';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -167,6 +167,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     globalObject.document?.removeEventListener('keyup', this.handleShiftRelease);
   };
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(prevProps: CheckboxProps) {

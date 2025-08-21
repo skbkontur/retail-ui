@@ -13,7 +13,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -95,6 +95,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private timer: SafeTimer;
   private theme!: Theme;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   private popupRef = React.createRef<Popup>();

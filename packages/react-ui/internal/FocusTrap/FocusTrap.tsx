@@ -4,7 +4,7 @@ import { globalObject } from '@skbkontur/global-object';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 
@@ -18,6 +18,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
   public static displayName = 'FocusTrap';
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   private focusOutsideListenerToken: {

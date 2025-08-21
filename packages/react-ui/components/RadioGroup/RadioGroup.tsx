@@ -10,7 +10,7 @@ import { FocusTrap } from '../../internal/FocusTrap';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
@@ -113,6 +113,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private featureFlags!: ReactUIFeatureFlags;
 

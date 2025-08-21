@@ -9,7 +9,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -75,6 +75,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   private inner: Nullable<HTMLElement>;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
   private reflowCounter = 0;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   public featureFlags!: ReactUIFeatureFlags;
 

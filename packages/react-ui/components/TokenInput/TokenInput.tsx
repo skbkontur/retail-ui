@@ -40,7 +40,7 @@ import { locale } from '../../lib/locale/decorators';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
@@ -322,6 +322,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
 

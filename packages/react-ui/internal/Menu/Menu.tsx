@@ -16,7 +16,7 @@ import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -114,6 +114,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private scrollContainer: Nullable<ScrollContainer>;
   private isMobileLayout!: boolean;
   private unmounted = false;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;

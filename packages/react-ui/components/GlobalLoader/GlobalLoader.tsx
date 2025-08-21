@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
@@ -82,6 +82,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   public static __KONTUR_REACT_UI__ = 'GlobalLoader';
   public static displayName = 'GlobalLoader';
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private getProps = createPropsGetter(GlobalLoader.defaultProps);
 

@@ -21,7 +21,7 @@ import { CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -238,6 +238,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
   private isMobileLayout!: boolean;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
   private hasAnchorElementListeners = false;

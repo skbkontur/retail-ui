@@ -9,7 +9,7 @@ import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonW
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isEdge, isIE11 } from '../../lib/client';
@@ -92,6 +92,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public context: RadioGroupContextType<T> = this.context;
 
   private inputEl = React.createRef<HTMLInputElement>();
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 

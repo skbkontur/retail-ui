@@ -16,7 +16,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -92,6 +92,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private getProps = createPropsGetter(Loader.defaultProps);
 
   private theme!: Theme;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private spinnerContainerNode: Nullable<HTMLDivElement>;
   private childrenContainerNode: Nullable<HTMLDivElement>;

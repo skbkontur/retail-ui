@@ -20,7 +20,7 @@ import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonW
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import type { SizeProp } from '../../lib/types/props';
@@ -167,6 +167,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private requestId = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   /**

@@ -12,7 +12,7 @@ import type { Nullable } from '../../typings/utility-types';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 
 import { styles } from './Toast.styles';
@@ -75,6 +75,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
   public static displayName = 'Toast';
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 

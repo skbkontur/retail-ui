@@ -3,7 +3,7 @@ import React from 'react';
 import { isNonNullable } from '../../lib/utils';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
@@ -39,6 +39,7 @@ export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
   public static displayName = 'Gapped';
 
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public static defaultProps: DefaultProps = {

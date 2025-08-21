@@ -11,7 +11,7 @@ import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { SizeProp } from '../../lib/types/props';
 import type { MenuContextType } from '../../internal/Menu/MenuContext';
@@ -114,6 +114,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private theme!: Theme;
   private mouseEntered = false;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private rootRef: Nullable<HTMLElement> = null;
   private contentRef = React.createRef<HTMLElement>();

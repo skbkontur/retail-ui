@@ -7,7 +7,7 @@ import { globalObject } from '@skbkontur/global-object';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { cx } from '../../lib/theming/Emotion';
 import type { CommonProps } from '../../internal/CommonWrapper';
@@ -129,6 +129,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private root: Nullable<HTMLElement>;
   private animation = animation();
   private touchStartY: Nullable<number> = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   constructor(props: CalendarProps) {

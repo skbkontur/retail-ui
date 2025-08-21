@@ -1,0 +1,44 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../Meta';
+
+import * as StrictModeStories from './StrictMode.docs.stories';
+
+<Meta of={StrictModeStories} />
+
+# StrictMode
+
+Начиная с версий `@skbkontur/react-ui@3.10.0` и `@skbkontur/react-ui-validations@1.7.0` поддерживается `React.StrictMode`.
+
+Некоторым компонентам библиотеки необходимо иметь доступ до корневой DOM-ноды своих children. Ранее для этого
+использовался метод `findDomNode`, который в `StrictMode` запрещён. Теперь получение DOM-ноды реализовано в библиотеке через
+`ref`, из-за чего появились некоторые требования к компонентам, передаваемым в `Hint`, `Tooltip`, `Popup` или `Tab`:
+
+## Использование с forwardRef
+
+При передаче функциональных компонентов в `react <= 18`, они должны использовать `React.forwardRef`:
+
+<Story of={StrictModeStories.WithFunctionChildren} />
+
+## Использование с useImperativeHandle
+
+При использовании хука `useImperativeHandle`, возвращаемый объект должен реализовывать метод `getRootNode`, возвращающий DOM-ноду:
+
+<Story of={StrictModeStories.WithImperativeHandleChildren} />
+
+## Использование с классовыми компонентами
+
+В классовых компонентах инстанс должен реализовывать метод `getRootNode`, возвращающий DOM-ноду:
+
+<Story of={StrictModeStories.WithClassChildren} />
+
+## Использование с компонентами React UI
+
+При оборачивании компонентов React UI нужно брать DOM-ноду через `getRootNode` у инстанса компонента:
+
+<Story of={StrictModeStories.WithReactUIComponent} />
+
+## Без StictMode
+
+Без `StrictMode` будет применяться `findDomNode`, который не совместим со `StrictMode`.
+
+[Подробнее в pull request →](https://github.com/skbkontur/retail-ui/pull/2518)

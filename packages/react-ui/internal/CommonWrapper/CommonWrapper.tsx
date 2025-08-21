@@ -3,7 +3,7 @@ import React from 'react';
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import type { Nullable } from '../../typings/utility-types';
-import type { TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
@@ -21,6 +21,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
   public static displayName = 'CommonWrapper';
 
   private child: React.ReactNode;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 

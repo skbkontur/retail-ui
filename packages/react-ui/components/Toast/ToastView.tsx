@@ -8,7 +8,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 
@@ -33,6 +33,7 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
 @locale('Toast', ToastLocaleHelper)
 export class ToastView extends React.Component<ToastViewProps> {
   private theme!: Theme;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: ToastLocale;
 

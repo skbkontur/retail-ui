@@ -16,7 +16,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
@@ -73,6 +73,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   private theme!: Theme;
 
   private input: Nullable<Input>;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: PasswordInputLocale;
 

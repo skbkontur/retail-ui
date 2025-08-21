@@ -1,7 +1,7 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
 
-import type { TSetRootNode } from '../../lib/rootNode';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { CommonWrapper } from '../CommonWrapper';
@@ -29,6 +29,7 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   public static displayName = 'IgnoreLayerClick';
 
   private element: Element | null = null;
+  public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
