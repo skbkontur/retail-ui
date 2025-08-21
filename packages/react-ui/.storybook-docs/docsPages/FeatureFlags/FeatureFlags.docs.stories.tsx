@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Autocomplete,
   Button,
   ComboBox,
   DateInput,
@@ -228,6 +229,39 @@ export const PopupFixPinTearing: Story = () => {
             <Button>Кнопка</Button>
           </Tooltip>
         </div>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const AutocompleteUseMaskedInput: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
+  const [value, setValue] = React.useState<string>('');
+
+  const getOnlyDigits = (value: string) => value.match(/\d+/g)?.join('') || '';
+  const items: string[] = ['+7 912 043-98-27', '+7 912 999-11-22', '+7 912 444-55-99'];
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ autocompleteUseMaskedInput: isFlagEnabled }}>
+        <Gapped>
+          <Autocomplete
+            value={value}
+            width="150"
+            mask="+7 999 999-99-99"
+            placeholder="+7"
+            alwaysShowMask
+            source={(pattern) => {
+              const numbers = getOnlyDigits(pattern);
+              return new Promise((resolve) => {
+                resolve(items.filter((item) => getOnlyDigits(item).startsWith(numbers)));
+              });
+            }}
+            onValueChange={setValue}
+          />
+          <label>значение в onValueChange: {value}</label>
+        </Gapped>
       </ReactUIFeatureFlagsContext.Provider>
     </>
   );

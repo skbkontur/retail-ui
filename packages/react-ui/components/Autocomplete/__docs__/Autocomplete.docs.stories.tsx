@@ -59,7 +59,7 @@ export const Example4: Story = () => {
 
   return <Autocomplete source={items} value={value} onValueChange={setValue} selectAllOnFocus />;
 };
-Example4.storyName = 'Выделение введеного значения при фокусе';
+Example4.storyName = 'Выделение введенного значения при фокусе';
 
 export const Example5: Story = () => {
   const items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
@@ -152,3 +152,28 @@ export const Example10: Story = () => {
   );
 };
 Example10.storyName = 'Иконка очистки поля';
+
+export const Example11: Story = () => {
+  const [value, setValue] = React.useState<string>('');
+
+  const getOnlyDigits = (value: string) => value.match(/\d+/g)?.join('') || '';
+  const items: string[] = ['+7 912 043-98-27', '+7 912 999-11-22', '+7 912 444-55-99'];
+
+  return (
+    <Autocomplete
+      value={value}
+      width="150"
+      mask="+7 999 999-99-99"
+      placeholder="+7"
+      alwaysShowMask
+      source={(pattern) => {
+        const numbers = getOnlyDigits(pattern);
+        return new Promise((resolve) => {
+          resolve(items.filter((item) => getOnlyDigits(item).startsWith(numbers)));
+        });
+      }}
+      onValueChange={setValue}
+    />
+  );
+};
+Example11.storyName = 'Использование маски ввода';

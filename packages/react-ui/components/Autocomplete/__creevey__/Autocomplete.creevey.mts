@@ -1,4 +1,5 @@
 import { story, kind, test } from 'creevey';
+import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay.mjs';
 
@@ -239,5 +240,42 @@ kind('Autocomplete', () => {
 
   story('WithPercentageMenuWidth', () => {
     commonTests();
+  });
+
+  story('WithMask', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'no themes': { in: /^(?!\b(chrome2022)\b)/ },
+      },
+    });
+
+    test('search with mask select without input value', async (context) => {
+      const screenshotElement = context.webdriver.findElement({
+        css: '#test-element',
+      });
+      const autocompleteElement = context.webdriver.findElement({
+        css: `[data-tid~="Autocomplete__root"]`,
+      });
+      await context.webdriver
+        .actions({ bridge: true })
+        .click(autocompleteElement)
+        .sendKeys(Key.ARROW_DOWN)
+        .sendKeys(Key.ENTER)
+        .perform();
+      await delay(1000);
+      await context.matchImage(await screenshotElement.takeScreenshot());
+    });
+
+    test('search with mask', async (context) => {
+      const screenshotElement = context.webdriver.findElement({
+        css: '#test-element',
+      });
+      const autocompleteElement = context.webdriver.findElement({
+        css: `[data-tid~="Autocomplete__root"]`,
+      });
+      await context.webdriver.actions({ bridge: true }).click(autocompleteElement).sendKeys('912').perform();
+      await delay(1000);
+      await context.matchImage(await screenshotElement.takeScreenshot());
+    });
   });
 });

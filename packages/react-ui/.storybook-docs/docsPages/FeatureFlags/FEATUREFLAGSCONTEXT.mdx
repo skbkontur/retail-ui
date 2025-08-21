@@ -112,6 +112,14 @@ function ExampleComponent() {
 
 <Story of={FeatureFlagsStories.SidePageNotCutTitleOnStuckByDefault} />
 
+### autocompleteUseMaskedInput
+
+Флаг изменяет поведение `<Autocomplete mask={...}/>`: вместо `<MaskedInput/>` используется `<Input mask={...}/>`, который будет удалён в следующем мажорном релизе.
+
+В пропе `value` с включенным флагом будут храниться и введенные символы, и символы маски. Это ломающее изменение, нужно проверить и исправить работу с поиском в `source`.
+
+<Story of={FeatureFlagsStories.AutocompleteUseMaskedInput} />
+
 ## Объект со всеми флагами
 
 Для получения объекта со списком всех фича-флагов необходимо применить вспомогательные функции к объектам заданных флагов

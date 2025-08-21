@@ -1,5 +1,6 @@
 import type { AriaAttributes, KeyboardEvent } from 'react';
 import React from 'react';
+import { globalObject } from '@skbkontur/global-object';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
@@ -27,6 +28,10 @@ import type { SizeProp } from '../../lib/types/props';
 import { Popup } from '../../internal/Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
+import { getSafeMaskInputType, MaskedInput, type MaskedProps } from '../MaskedInput';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
+import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
+import { getFullReactUIFlagsContext } from '../../lib/featureFlagsContext/FeatureFlagsHelpers';
 
 import { styles } from './Autocomplete.styles';
 import type { AutocompleteLocale } from './locale';
@@ -53,8 +58,9 @@ function renderItem(item: any) {
 export interface AutocompleteProps
   extends CommonProps,
     Pick<AriaAttributes, 'aria-label'>,
+    Pick<Partial<MaskedProps>, 'alwaysShowMask' | 'mask' | 'maskChar'>,
     Override<
-      InputProps,
+      Omit<InputProps, 'alwaysShowMask' | 'mask' | 'maskChar'>,
       {
         /** Задает функцию, которая отрисовывает элементы меню. */
         renderItem?: (item: string) => React.ReactNode;
@@ -163,6 +169,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private menuId = AutocompleteIds.menu + getRandomID();
   private rootSpan: Nullable<HTMLSpanElement>;
   private mobilePopup: Nullable<MobilePopup>;
+  private featureFlags!: ReactUIFeatureFlags;
 
   private requestId = 0;
 
@@ -194,18 +201,25 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = getAutocompleteTheme(theme);
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
-            <ThemeContext.Provider value={this.theme}>
-              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                {this.renderMain}
-              </CommonWrapper>
-            </ThemeContext.Provider>
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = getAutocompleteTheme(theme);
+                return (
+                  <ThemeContext.Provider value={this.theme}>
+                    <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                      {this.renderMain}
+                    </CommonWrapper>
+                  </ThemeContext.Provider>
+                );
+              }}
+            </ThemeContext.Consumer>
           );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
   public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
@@ -228,7 +242,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuPos,
       width = this.theme.inputWidth,
       mobileMenuHeaderText,
-      'aria-label': ariaLabel,
+      type,
       ...rest
     } = props;
 
@@ -236,6 +250,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ...rest,
       width: '100%',
       autoComplete: 'off',
+      'aria-controls': this.menuId,
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -252,7 +267,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           style={{ width }}
           ref={this.refRootSpan}
         >
-          <Input aria-label={ariaLabel} aria-controls={this.menuId} {...inputProps} />
+          {this.getInput(inputProps)}
+
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
       </RenderLayer>
@@ -313,6 +329,19 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
+  private getInput = (inputProps: InputProps) => {
+    return this.featureFlags.autocompleteUseMaskedInput && this.props.mask ? (
+      <MaskedInput
+        {...inputProps}
+        type={getSafeMaskInputType(this.props.type)}
+        mask={this.props.mask}
+        maskChar={this.props.maskChar}
+      />
+    ) : (
+      <Input {...inputProps} mask={this.props.mask} maskChar={this.props.maskChar} />
+    );
+  };
+
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
       autoComplete: 'off',
@@ -322,6 +351,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       onKeyPress: this.handleKeyPressMobile,
       value: this.props.value,
       placeholder: this.locale.enterValue,
+      type: this.props.type,
+      inputMode: this.props.inputMode,
+      'aria-label': this.props['aria-label'],
+      'aria-controls': this.menuId,
     };
 
     const items = this.state.items;
@@ -329,7 +362,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <MobilePopup
         id={this.menuId}
-        headerChildComponent={<Input {...inputProps} />}
+        headerChildComponent={this.getInput(inputProps)}
         caption={this.props.mobileMenuHeaderText}
         opened={this.state.isMobileOpened}
         onCloseRequest={this.handleCloseMobile}
@@ -476,7 +509,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     });
 
     this.fireChange(value);
-    this.blur();
+
+    // NOTE: этот таймаут - костыль. Проблема в старом ReactInputMask, он сеттит пустой value при потере фокуса.
+    // Можно будет убрать после полного перехода на MaskedInput
+    globalObject.setTimeout(() => {
+      this.blur();
+    }, 0);
   }
 
   private updateItems(value: string) {

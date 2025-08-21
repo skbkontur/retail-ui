@@ -274,3 +274,26 @@ export const WithPercentageMenuWidth = () => (
   />
 );
 WithPercentageMenuWidth.storyName = 'with percentage menuWidth';
+
+export const WithMask: Story = () => {
+  const getOnlyDigits = (value: string) => value.match(/\d+/g)?.join('') || '';
+  const items: string[] = ['+7 912 043-98-27', '+7 912 999-11-22', '+7 912 444-55-99'];
+  return (
+    <div>
+      <UncontrolledAutocomplete
+        value=""
+        source={(pattern) => {
+          const numbers = getOnlyDigits(pattern);
+          return new Promise((resolve) => {
+            resolve(items.filter((item) => getOnlyDigits(item).startsWith(numbers)));
+          });
+        }}
+        width="150"
+        mask="+7 999 999-99-99"
+        placeholder="+7"
+        alwaysShowMask
+        onValueChange={console.log}
+      />
+    </div>
+  );
+};

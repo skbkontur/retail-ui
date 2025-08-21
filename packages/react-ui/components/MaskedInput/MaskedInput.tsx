@@ -55,6 +55,22 @@ export interface MaskedProps {
 
 export type MaskInputType = Exclude<InputType, 'number' | 'date' | 'time' | 'password'>;
 
+export const getSafeMaskInputType = (type?: InputType): MaskInputType | undefined => {
+  if (!type) {
+    return type;
+  }
+
+  switch (type) {
+    case 'number':
+    case 'date':
+    case 'time':
+    case 'password':
+      return 'text';
+    default:
+      return type;
+  }
+};
+
 export interface MaskedInputProps
   extends MaskedProps,
     Omit<

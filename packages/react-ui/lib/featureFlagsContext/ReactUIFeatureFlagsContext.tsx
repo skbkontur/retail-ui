@@ -8,6 +8,7 @@ export interface ReactUIFeatureFlags {
   radioGroupRemoveBaselineSpacer?: boolean;
   groupAddHintAndTooltipSupport?: boolean;
   popupFixPinTearing?: boolean;
+  autocompleteUseMaskedInput?: boolean;
   sidePageDisableHeaderShrink?: boolean;
   sidePageNotCutTitleOnStuckByDefault?: boolean;
 }
@@ -20,6 +21,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   radioGroupRemoveBaselineSpacer: false,
   groupAddHintAndTooltipSupport: false,
   popupFixPinTearing: false,
+  autocompleteUseMaskedInput: false,
   sidePageDisableHeaderShrink: false,
   sidePageNotCutTitleOnStuckByDefault: false,
 };
