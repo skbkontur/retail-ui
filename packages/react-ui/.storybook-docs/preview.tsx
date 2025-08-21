@@ -5,7 +5,6 @@ import { addons } from '@storybook/manager-api';
 import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 import { MathFunctionIcon16Regular } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon16Regular';
 import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
@@ -34,7 +33,13 @@ import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icon
 import { TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
 import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
-import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
+import {
+  QuestionCircleIcon,
+  QuestionCircleIcon16Light,
+  QuestionCircleIcon16Regular,
+  QuestionCircleIcon20Light,
+} from '@skbkontur/icons/icons/QuestionCircleIcon';
+import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon';
 import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/icons/TechScreenMonitorIcon';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon';
@@ -42,6 +47,7 @@ import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon';
+import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light';
 
 import { ThemeContext } from '../lib/theming/ThemeContext';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
@@ -181,7 +187,9 @@ addons.setConfig({
       UiMenuBars3HIcon16Regular,
       People3Icon,
       SearchLoupeIcon16Regular,
+      QuestionCircleIcon16Light,
       QuestionCircleIcon16Regular,
+      QuestionCircleIcon20Light,
       MathFunctionIcon16Regular,
       CopyIcon16Regular,
       TrashCanIcon,
@@ -208,6 +216,8 @@ addons.setConfig({
       TechScreenMonitorIcon16Light,
       WeatherMoonIcon16Light,
       WeatherSunIcon16Light,
+      SecurityLockClosedIcon20Light,
+      DocPlusIcon16Light,
       ShowcaseGroup,
       ThemeContext,
       ThemeFactory,

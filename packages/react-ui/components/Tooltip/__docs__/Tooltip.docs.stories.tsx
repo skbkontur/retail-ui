@@ -1,9 +1,8 @@
 import React from 'react';
-import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
-import { UiMenuBars3HIcon } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
-import { QuestionCircleIcon } from '@skbkontur/icons/icons/QuestionCircleIcon';
-import type { SizeProp, TooltipTrigger } from '@skbkontur/react-ui';
-import { Tooltip, Button, Gapped, Input, Select, RadioGroup, Radio, Center } from '@skbkontur/react-ui';
+import { QuestionCircleIcon20Light } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon20Light';
+import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon/SecurityLockClosedIcon20Light';
+import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light';
+import { Tooltip, Button, Gapped, Input, Link, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
 
@@ -13,169 +12,120 @@ export default {
   parameters: { creevey: { skip: true } },
 };
 
-export const Example1: Story = () => {
-  const [size, setSize] = React.useState<SizeProp>('small');
-
-  const render = () => {
-    const getFontSize = () => {
-      switch (size) {
-        case 'large':
-          return 24;
-        case 'medium':
-          return 20;
-        case 'small':
-        default:
-          return 16;
-      }
-    };
-
-    return (
-      <div
-        style={{
-          width: 250,
-          fontSize: getFontSize(),
-        }}
-      >
-        Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и
-        модернизации форм развития.
-      </div>
-    );
-  };
+export const BasicExample: Story = () => {
+  const tooltipContent = () => <div style={{ width: 150 }}>Подсказка, которая поможет понять сценарий</div>;
 
   return (
     <div>
-      <Gapped vertical>
-        <Gapped>
-          <div style={{ width: 40 }}>Size</div>
-          <Select width={120} value={size} items={['small', 'medium', 'large']} onValueChange={setSize} size={size} />
+      <Gapped vertical gap={16}>
+        <Gapped gap={32}>
+          <div style={{ width: 60 }}>hover</div>
+          <Tooltip render={tooltipContent}>
+            <QuestionCircleIcon20Light />
+          </Tooltip>
+          <Tooltip render={tooltipContent} pos="right top">
+            <Input placeholder="По наведению" />
+          </Tooltip>
         </Gapped>
-        <Tooltip render={render} pos="right top">
-          <Input size={size} leftIcon={<SearchLoupeIcon />} width={170} />
-        </Tooltip>
-        <Tooltip render={render} pos="right top">
-          <Button size={size} icon={<UiMenuBars3HIcon />}>
-            Menu
-          </Button>
-        </Tooltip>
-        <Tooltip render={render} pos="right top">
-          <QuestionCircleIcon />
-        </Tooltip>
+        <Gapped gap={32}>
+          <div style={{ width: 60 }}>click</div>
+          <Tooltip render={tooltipContent} trigger="click">
+            <Link component="button">
+              <QuestionCircleIcon20Light />
+            </Link>
+          </Tooltip>
+          <Tooltip render={tooltipContent} trigger="click" pos="right top">
+            <Input placeholder="По нажатию" />
+          </Tooltip>
+        </Gapped>
+        <Gapped gap={32}>
+          <div style={{ width: 60 }}>focus</div>
+          <Tooltip render={tooltipContent} trigger="focus">
+            <Link component="button">
+              <QuestionCircleIcon20Light />
+            </Link>
+          </Tooltip>
+          <Tooltip render={tooltipContent} trigger="focus" pos="right top">
+            <Input placeholder="По фокусу" />
+          </Tooltip>
+        </Gapped>
       </Gapped>
     </div>
   );
 };
-Example1.storyName = 'Базовый пример';
+BasicExample.storyName = 'Базовый пример';
 
-/** Выравнивание базовой линии с RadioGroup требует дополнительных отступов. */
-export const Example2: Story = () => {
-  const render = () => <div>Выровнено по первому Radio</div>;
+export const WithSizeExample: Story = () => {
+  const tooltipContent = () => <div style={{ width: 150 }}>Подсказка, которая поможет понять сценарий</div>;
 
   return (
-    <div>
-      <Tooltip useWrapper={false} render={render} pos="right top">
-        <div style={{ padding: '10px 0', display: 'inline-block' }}>
-          <RadioGroup>
-            <Gapped vertical gap={0}>
-              <Radio value="2">Two</Radio>
-              <Radio value="4">Four</Radio>
-              <Radio value="6">Six</Radio>
-              <Radio value="8">Eight</Radio>
-            </Gapped>
-          </RadioGroup>
-        </div>
-      </Tooltip>
-    </div>
+    <Gapped vertical gap={16}>
+      <Gapped gap={32}>
+        <div style={{ width: 60 }}>small</div>
+        <Tooltip render={tooltipContent} trigger="hover&focus" pos="right top">
+          <Input placeholder="Маленький" />
+        </Tooltip>
+      </Gapped>
+      <Gapped gap={32}>
+        <div style={{ width: 60 }}>medium</div>
+        <Tooltip render={tooltipContent} trigger="hover&focus" pos="right top" size="medium">
+          <Input placeholder="Средний" size="medium" />
+        </Tooltip>
+      </Gapped>
+      <Gapped gap={32}>
+        <div style={{ width: 60 }}>large</div>
+        <Tooltip render={tooltipContent} trigger="hover&focus" pos="right top" size="large">
+          <Input placeholder="Большой" size="large" />
+        </Tooltip>
+      </Gapped>
+    </Gapped>
   );
 };
-Example2.storyName = 'Выравнивание базовой линии';
+WithSizeExample.storyName = 'Размеры тултипа';
 
-/** Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов. */
-export const Example3: Story = () => {
-  const S = 60;
+export const WithButtonInsideExample: Story = () => {
+  const tooltipContent = () => (
+    <Gapped vertical gap={12} style={{ width: 200 }}>
+      Эта функциональность недоступна на вашем тарифе
+      <Button use="pay">Купить тариф Премиум</Button>
+    </Gapped>
+  );
 
-  interface Block {
-    pos: string;
-    trigger: TooltipTrigger;
-    top: number;
-    left: number;
-  }
+  return (
+    <Tooltip render={tooltipContent} pos="right top">
+      <Button disabled icon={<SecurityLockClosedIcon20Light />}>
+        Что-то классное
+      </Button>
+    </Tooltip>
+  );
+};
+WithButtonInsideExample.storyName = 'Тултип с кастомным контентом';
 
-  const Block: React.FC<Block> = ({ pos, trigger, top, left }) => (
-    <div
-      style={{
-        top,
-        left,
-        display: 'inline-block',
-        position: 'absolute',
-        cursor: trigger === 'click' ? 'pointer' : 'default',
-      }}
-    >
-      <Tooltip render={() => pos} pos={pos} trigger={trigger}>
-        <div
-          tabIndex={trigger === 'focus' || trigger === 'hover&focus' ? 0 : undefined}
-          style={{
-            height: S - 5,
-            width: S - 5,
-            background: 'gray',
-            border: 'solid 1px',
-            boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
-          }}
-        />
-      </Tooltip>
+/** Тултип может располагаться в одной из 12 позиций. */
+export const PositioningExample: Story = () => {
+  const S = 80;
+  const tooltipContent = (pos: string) => (
+    <div>
+      Позиция
+      <br />'{pos}'
     </div>
   );
 
-  class UseManualTooltip extends React.Component {
-    private tooltip: Tooltip | null = null;
-
-    render() {
-      return (
-        <Gapped vertical>
-          <Gapped>
-            <Button width={1.5 * S - 5} onClick={this.handleClickOnShow.bind(this)}>
-              Show
-            </Button>
-            <Button width={1.5 * S - 5} onClick={this.handleClickOnHide.bind(this)}>
-              Hide
-            </Button>
-          </Gapped>
-          <Tooltip
-            render={() => 'Manual tooltip'}
-            pos="bottom center"
-            trigger="manual"
-            ref={(element) => {
-              this.tooltip = element;
-            }}
-          >
-            <div
-              style={{
-                width: 3 * S,
-                height: S,
-                lineHeight: `${S}px`,
-                background: 'gray',
-                border: 'solid 1px',
-                boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
-                textAlign: 'center',
-              }}
-            >
-              Manual control
-            </div>
-          </Tooltip>
-        </Gapped>
-      );
-    }
-
-    handleClickOnShow() {
-      if (this.tooltip) {
-        this.tooltip.show();
-      }
-    }
-    handleClickOnHide() {
-      if (this.tooltip) {
-        this.tooltip.hide();
-      }
-    }
-  }
+  const absoluteAnchor = (top: number, left: number, pos: string) => (
+    <Tooltip render={() => tooltipContent(pos)} pos={pos} trigger="opened" closeButton={false}>
+      <div
+        style={{
+          display: 'inline-block',
+          position: 'absolute',
+          top,
+          left,
+          height: S - 5,
+          width: S - 5,
+          border: 'solid 1px',
+        }}
+      />
+    </Tooltip>
+  );
 
   const blocks = [
     { top: S, left: S * 2, pos: 'top left' },
@@ -191,151 +141,115 @@ export const Example3: Story = () => {
     { top: S * 4, left: S, pos: 'left middle' },
     { top: S * 2, left: S, pos: 'left top' },
   ];
-
-  const [trigger, setTrigger] = React.useState('hover');
-
-  const isManual = trigger === 'manual';
-
   return (
     <div
       style={{
         width: S * 9,
         height: S * 9,
         position: 'relative',
-        border: '1px solid',
-        background: `repeating-linear-gradient(
-                                45deg,
-                                #808080,
-                                #808080 ${S / 4}px,
-                                #d3d3d3 ${S / 4}px,
-                                #d3d3d3 ${S / 2}px
-                              )`,
       }}
     >
-      <Center>
-        <Gapped vertical>
-          <Gapped>
-            Trigger
-            <Select
-              width={S * 2}
-              size="small"
-              value={trigger}
-              items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
-              onValueChange={setTrigger}
-            />
-          </Gapped>
-          {isManual ? <UseManualTooltip /> : null}
-        </Gapped>
-      </Center>
-
-      {!isManual && blocks.map((block, i) => <Block key={i} {...block} trigger={trigger as TooltipTrigger} />)}
+      {blocks.map((block) => absoluteAnchor(block.top, block.left, block.pos))}
     </div>
   );
 };
-Example3.storyName = 'Расположение тултипа';
+PositioningExample.storyName = 'Расположение тултипа';
 
-/** Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения. */
-export const Example4: Story = () => {
-  interface Block {
-    top: number;
-    left: number;
-  }
+/** Пример реализации тултипа [контекстного обучения](https://guides.kontur.ru/principles/onbording/contextual-hints/). */
+export const ContextualHintsExample: Story = () => {
+  const [tooltipVisible, setTooltipVisible] = React.useState(false);
 
-  interface Anchor {
-    blocks: Block[];
-    anchor: HTMLElement | null;
-  }
+  const tooltipTheme = ThemeFactory.create({
+    tooltipBg: '#2291FF',
+    tooltipTextColor: '#FFFFFF',
+  });
+  const tooltipContentTheme = ThemeFactory.create({
+    btnDefaultTextColor: '#FFFFFF',
+    btnBacklessBorderColor: '#FFFFFF8A',
+    btnBacklessHoverBg: '#FFFFFF0F',
+    btnBacklessActiveBg: '#FFFFFF1A',
+  });
 
-  const S = 60;
-  const blockStyle = {
-    height: S - 5,
-    width: S - 5,
-    boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
-    background: 'gray',
-    border: '1px solid',
-  };
-  const containerStyle: React.CSSProperties = {
-    width: S * 9,
-    height: S * 9,
-    position: 'relative',
-    background: `repeating-linear-gradient(
-                                  45deg,
-                                  #808080,
-                                  #808080 ${S / 4}px,
-                                  #d3d3d3 ${S / 4}px,
-                                  #d3d3d3 ${S / 2}px
-                                )`,
-    border: '1px solid',
-  };
+  const tooltipRef = React.useRef<Tooltip>(null);
+  const tooltipContent = () => (
+    <ThemeContext.Provider value={tooltipContentTheme}>
+      <Gapped vertical gap={16} style={{ width: 280 }}>
+        <img
+          src="https://kontur.ru/Files/userfiles/image/transparent-blank.png"
+          alt="transparent-blank"
+          width={280}
+          height={184}
+          style={{ borderRadius: '8px', backgroundColor: '#FFFFFF' }}
+        />
+        <Gapped vertical gap={6}>
+          <b>Заголовок контекстного обучения</b>
+          Дополнительный текст в несколько строк, описывающий новую возможность
+        </Gapped>
+        <Button use="backless" size="medium" onClick={handleHideClick}>
+          Понятно
+        </Button>
+      </Gapped>
+    </ThemeContext.Provider>
+  );
 
-  const blocks: Block[] = [
-    { top: S, left: S * 2 },
-    { top: S, left: S * 4 },
-    { top: S, left: S * 6 },
-    { top: S * 2, left: S * 7 },
-    { top: S * 4, left: S * 7 },
-    { top: S * 6, left: S * 7 },
-    { top: S * 7, left: S * 6 },
-    { top: S * 7, left: S * 4 },
-    { top: S * 7, left: S * 2 },
-    { top: S * 6, left: S },
-    { top: S * 4, left: S },
-    { top: S * 2, left: S },
-  ];
-
-  class AnchorTooltipExample extends React.Component {
-    state: Anchor = {
-      blocks,
-      anchor: null,
-    };
-
-    render() {
-      return (
-        <>
-          {this.state.anchor ? (
-            <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
-          ) : null}
-          <div style={containerStyle}>
-            {this.state.blocks.map(({ top, left }, i) => (
-              <div key={i} style={{ top, left, display: 'inline-block', position: 'absolute' }}>
-                <div
-                  style={blockStyle}
-                  onMouseEnter={(event) => this.setState({ anchor: event.currentTarget })}
-                  onMouseLeave={() => this.setState({ anchor: null })}
-                />
-              </div>
-            ))}
-          </div>
-        </>
-      );
+  const handleHideClick = () => {
+    if (tooltipRef.current) {
+      setTooltipVisible(false);
+      tooltipRef.current.hide();
     }
-  }
+  };
+  const handleShowClick = () => {
+    if (tooltipRef.current) {
+      setTooltipVisible(true);
+      tooltipRef.current.show();
+    }
+  };
 
-  return <AnchorTooltipExample />;
+  return (
+    <ThemeContext.Provider value={tooltipTheme}>
+      <Gapped vertical gap={16}>
+        <Tooltip
+          render={tooltipContent}
+          pos="right top"
+          size="medium"
+          trigger="manual"
+          ref={tooltipRef}
+          closeButton={false}
+        >
+          <Button icon={<DocPlusIcon16Light />} use="text">
+            Добавить запись
+          </Button>
+        </Tooltip>
+        <Button onClick={tooltipVisible ? handleHideClick : handleShowClick} width={130}>
+          {tooltipVisible ? 'Скрыть' : 'Показать'} тултип
+        </Button>
+      </Gapped>
+    </ThemeContext.Provider>
+  );
 };
-Example4.storyName = 'anchorElement';
+ContextualHintsExample.storyName = 'Тултип контекстного обучения';
 
-/** У тултипа можно переопределить задержку перед его появлением. Скрытие же происходит с задержкой по умолчанию. */
-export const Example5: Story = () => {
+/** Тултипы, которые открываются по наведению, появляются и скрываются с задержкой в 100 миллисекунд.
+ *
+ * Задержку перед появлением можно переопределить с помощью пропа `delayBeforeShow`. */
+export const CustomDelayExample: Story = () => {
   const [delay, setDelay] = React.useState(100);
 
-  const render = () => <div>{`Showed with ${delay}ms delay`}</div>;
+  const tooltipContent = () => `Я показался с задержкой в ${delay}мс`;
   const handleDelayChange = (value: string) => {
     const valueAsNumber = Number(value);
     setDelay(isNaN(valueAsNumber) || valueAsNumber < 0 ? 0 : valueAsNumber);
   };
 
   return (
-    <div>
-      <Gapped vertical>
-        <Gapped>
-          Show delay: <Input value={delay.toString()} onValueChange={handleDelayChange} />
-        </Gapped>
-        <Tooltip render={render} delayBeforeShow={delay} pos="right top">
-          <QuestionCircleIcon />
-        </Tooltip>
+    <Gapped vertical>
+      <Gapped>
+        Задержка: <Input value={delay.toString()} onValueChange={handleDelayChange} />
       </Gapped>
-    </div>
+      <Tooltip render={tooltipContent} delayBeforeShow={delay} pos="right top">
+        <QuestionCircleIcon20Light />
+      </Tooltip>
+    </Gapped>
   );
 };
-Example5.storyName = 'Задержка перед появлением';
+CustomDelayExample.storyName = 'Задержка перед появлением';

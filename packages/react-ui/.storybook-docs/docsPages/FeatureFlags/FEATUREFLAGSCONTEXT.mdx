@@ -92,6 +92,14 @@ function ExampleComponent() {
 
 <Story of={FeatureFlagsStories.GroupAddHintsAndTooltipsSupport} />
 
+### popupFixPinTearing
+
+Флаг заменяет реализацию клювика у попап-элементов на новую, использующую `clip-path`.
+
+Это устраняет случаи, когда клювик отрывается от элемента при масштабировании страниц на разных экранах.
+
+<Story of={FeatureFlagsStories.PopupFixPinTearing} />
+
 ### sidePageDisableHeaderShrink
 
 Флаг позволяет отключить уменьшение высоты `<SidePage.Header />` при прокрутке содержимого.

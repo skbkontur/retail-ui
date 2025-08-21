@@ -724,9 +724,24 @@ export class BasicThemeClass {
 
   //#endregion Select
   //#region Tooltip
+  /** @deprecated Эта переменная устарела при появлении размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipPaddingYSmall `tooltipPaddingYSmall`} */
   public static tooltipPaddingY = '16px';
+  /** @deprecated Эта переменная устарела при появлении размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipPaddingXSmall `tooltipPaddingXSmall`} */
   public static tooltipPaddingX = '16px';
+  public static tooltipPaddingYSmall = '16px';
+  public static tooltipPaddingXSmall = '16px';
+  public static tooltipPaddingYMedium = '20px';
+  public static tooltipPaddingXMedium = '20px';
+  public static tooltipPaddingYLarge = '24px';
+  public static tooltipPaddingXLarge = '24px';
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipCloseBtnPaddingSmall `tooltipCloseBtnPaddingSmall`} */
   public static tooltipCloseBtnPadding = '4px';
+  public static tooltipCloseBtnPaddingSmall = '4px';
+  public static tooltipCloseBtnPaddingMedium = '6px';
+  public static tooltipCloseBtnPaddingLarge = '8px';
   public static tooltipCloseBtnSide = '16px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.32)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
@@ -737,18 +752,65 @@ export class BasicThemeClass {
   public static get tooltipBorder() {
     return this.popupBorder;
   }
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipBorderRadiusSmall `tooltipBorderRadiusSmall`} */
   public static tooltipBorderRadius = '8px';
-  public static tooltipPinOffsetX = '16px';
+  public static tooltipBorderRadiusSmall = '8px';
+  public static tooltipBorderRadiusMedium = '10px';
+  public static tooltipBorderRadiusLarge = '12px';
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipPinOffsetYSmall `tooltipPinOffsetYSmall`} */
   public static tooltipPinOffsetY = '18px';
+  public static tooltipPinOffsetYSmall = '18px';
+  public static tooltipPinOffsetYMedium = '21px';
+  public static tooltipPinOffsetYLarge = '24px';
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipPinOffsetXSmall `tooltipPinOffsetXSmall` */
+  public static tooltipPinOffsetX = '16px';
+  public static tooltipPinOffsetXSmall = '16px';
+  public static tooltipPinOffsetXMedium = '20px';
+  public static tooltipPinOffsetXLarge = '24px';
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipMarginSmall `tooltipMarginSmall`} */
   public static tooltipMargin = '10px';
+  public static tooltipMarginSmall = '10px';
+  public static tooltipMarginMedium = '12px';
+  public static tooltipMarginLarge = '14px';
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipPinSizeSmall `tooltipPinSizeSmall`} */
   public static get tooltipPinSize() {
     return this.popupPinSize;
   }
+  public static tooltipPinSizeSmall = '8px';
+  public static tooltipPinSizeMedium = '10px';
+  public static tooltipPinSizeLarge = '12px';
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipFontSizeSmall `tooltipFontSizeSmall`} */
   public static get tooltipFontSize() {
     return this.fontSizeSmall;
   }
+  public static get tooltipFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get tooltipFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get tooltipFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
+   * @see {@link tooltipLineHeightSmall `tooltipLineHeightSmall`} */
   public static get tooltipLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get tooltipLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get tooltipLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get tooltipLineHeightLarge() {
+    return this.controlLineHeightLarge;
   }
   //#endregion Tooltip
   //#region TooltipMenu

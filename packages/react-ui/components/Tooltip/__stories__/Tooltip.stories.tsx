@@ -735,5 +735,38 @@ class AnchorTooltipExample extends React.Component {
 }
 
 export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
-
 TooltipWithAnchor.storyName = 'Tooltip with anchor';
+
+export const WithSizes: Story = () => {
+  const labeledDiv = (label: string) => (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '64px',
+        height: '64px',
+        background: 'lightblue',
+      }}
+    >
+      {label}
+    </div>
+  );
+  return (
+    <Gapped gap={128} style={{ padding: '96px' }}>
+      <Tooltip trigger="opened" render={() => 'Lorem Ipsum'}>
+        {labeledDiv('Default')}
+      </Tooltip>
+      <Tooltip trigger="opened" size="small" render={() => 'Lorem Ipsum'}>
+        {labeledDiv('Small')}
+      </Tooltip>
+      <Tooltip trigger="opened" size="medium" render={() => 'Lorem Ipsum'}>
+        {labeledDiv('Medium')}
+      </Tooltip>
+      <Tooltip trigger="opened" size="large" render={() => 'Lorem Ipsum'}>
+        {labeledDiv('Large')}
+      </Tooltip>
+    </Gapped>
+  );
+};
+WithSizes.storyName = 'With sizes';

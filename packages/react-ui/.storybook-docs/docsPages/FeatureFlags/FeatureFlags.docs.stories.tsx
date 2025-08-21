@@ -212,6 +212,27 @@ export const GroupAddHintsAndTooltipsSupport: Story = () => {
   );
 };
 
+export const PopupFixPinTearing: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ popupFixPinTearing: isFlagEnabled }}>
+        <div style={{ paddingTop: 80 }}>
+          <Tooltip
+            render={() => <div style={{ width: 150 }}>Попробуй оторвать мой клювик</div>}
+            trigger="opened"
+            pos="top left"
+          >
+            <Button>Кнопка</Button>
+          </Tooltip>
+        </div>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
 export const SidePageDisableHeaderShrink: Story = () => {
   const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
   const [opened, setOpened] = React.useState(false);

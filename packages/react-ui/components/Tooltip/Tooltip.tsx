@@ -2,6 +2,7 @@ import React from 'react';
 import warning from 'warning';
 import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
+import type { SizeProp } from 'react-ui/lib/types/props';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -25,6 +26,7 @@ import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon'
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
+import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Tooltip.styles';
 
@@ -49,37 +51,55 @@ export type TooltipTrigger =
 export interface TooltipProps extends CommonProps {
   /** Указывает элемент, относительно которого позиционировать тултип. */
   anchorElement?: HTMLElement;
+
   /** @ignore */
   children?: React.ReactNode;
+
   /** Задает HTML-атрибут class. */
   className?: string;
+
   /** Отображает крестик для закрытия тултипа. По-умолчанию крестик виден, если проп *trigger* не равен `hover` или `focus`. */
   closeButton?: boolean;
+
   /** Задает функцию, которая возвращает содержимое тултипа. Если функция вернула `null`, то тултип не показывается. */
   render?: Nullable<() => React.ReactNode>;
+
   /** Задает приоритетное расположение подсказки относительно текста. */
   pos?: ShortPopupPositionsType | PopupPositionsType;
+
+  /** Задает размер тултипа.
+   * @default 'small' */
+  size?: SizeProp;
+
   /** Задает триггер открытия тултипа. */
   trigger?: TooltipTrigger;
+
   /** Задает хендлер, который вызывается при клике по крестику. */
   onCloseClick?: React.MouseEventHandler<HTMLElement>;
+
   /** Задает хендлер, который вызывается при клике по крестику или снаружи тултипа. */
   onCloseRequest?: (event?: Event | React.MouseEvent) => void;
+
   /** Задает хендлер, который вызывается при закрытии тултипа. */
   onClose?: () => void;
+
   /** Задает хендлер, который вызывается при открытии тултипа. */
   onOpen?: () => void;
+
   /** Задает список позиций, которые тултип будет занимать.
    * Если положение тултипа в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция.
    * Обязательно должен включать позицию указанную в `pos`. */
   allowedPositions?: PopupPositionsType[];
+
   /** Отключает анимацию.
    * @default false */
   disableAnimations?: boolean;
+
   /** Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`.
    * Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически. */
   useWrapper?: boolean;
+
   /** Устанавливает задержку в миллисекундах до появления лоадера. */
   delayBeforeShow?: number;
 }
@@ -112,15 +132,25 @@ const OldPositions: PopupPositionsType[] = [
   'bottom right',
 ];
 
-type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>>;
+interface TooltipSizeVariables {
+  closeButtonStyle: string;
+  contentStyle: string;
+  borderRadius: string;
+  pinSize: string;
+  pinOffsetX: string;
+  pinOffsetY: string;
+  margin: string;
+}
+
+type DefaultProps = Required<
+  Pick<TooltipProps, 'size' | 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>
+>;
 
 /**
- * `Tooltip` — это подсказка, которую пользователь открывает сам, кликом по элементу.
+ * `Tooltip` — это подсказка, которая объясняет состояние контрола или даёт контекстную справку.
  *
- * `Tooltip` используется для коротких поясняющих текстов, если необходимо дать разъяснение к деталям интерфейса, упомянутой информации или помочь с заполнением полей.
- * Если эти подробности не нужны постоянно, но могут помочь пользователю в момент когда он испытывает трудности.
- *
- * Для подсказки, всплывающей по наведению используйте Hint.
+ * Открывается по клику, фокусом на элемент или по наведению. В отличие от `Hint`, `Tooltip` может содержать
+ * изображения, кнопки, ссылки и прочие интерактивные элементы.
  */
 @rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
@@ -128,6 +158,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public static displayName = 'Tooltip';
 
   public static defaultProps: DefaultProps = {
+    size: 'small',
     trigger: 'hover',
     disableAnimations: isTestEnv,
     useWrapper: false,
@@ -147,6 +178,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
+  private sizeVariables!: TooltipSizeVariables;
   public featureFlags!: ReactUIFeatureFlags;
   private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
@@ -186,17 +218,18 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
             <ThemeContext.Consumer>
               {(theme) => {
                 this.theme = theme;
+                this.sizeVariables = this.getSizeVariables();
                 return (
                   <ThemeContext.Provider
                     value={ThemeFactory.create(
                       {
-                        popupMargin: theme.tooltipMargin,
-                        popupBorder: theme.tooltipBorder,
-                        popupBorderRadius: theme.tooltipBorderRadius,
-                        popupPinSize: theme.tooltipPinSize,
-                        popupPinOffsetX: theme.tooltipPinOffsetX,
-                        popupPinOffsetY: theme.tooltipPinOffsetY,
                         popupBackground: theme.tooltipBg,
+                        popupBorder: theme.tooltipBorder,
+                        popupBorderRadius: this.sizeVariables.borderRadius,
+                        popupPinSize: this.sizeVariables.pinSize,
+                        popupPinOffsetX: this.sizeVariables.pinOffsetX,
+                        popupPinOffsetY: this.sizeVariables.pinOffsetY,
+                        popupMargin: this.sizeVariables.margin,
                       },
                       theme,
                     )}
@@ -219,7 +252,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     return (
-      <div ref={this.refContent} className={styles.tooltipContent(this.theme)} data-tid={TooltipDataTids.content}>
+      <div
+        ref={this.refContent}
+        className={cx(styles.tooltipContent(this.theme), this.sizeVariables.contentStyle)}
+        data-tid={TooltipDataTids.content}
+      >
         {content}
         {this.renderCloseButton()}
       </div>
@@ -247,7 +284,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
     return (
       <div
-        className={styles.cross(this.theme)}
+        className={cx(styles.closeButton(this.theme), this.sizeVariables.closeButtonStyle)}
         onClick={this.handleCloseButtonClick}
         data-tid={TooltipDataTids.crossIcon}
       >
@@ -526,5 +563,51 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.close();
+  };
+
+  private getSizeVariables = (): TooltipSizeVariables => {
+    switch (this.props.size) {
+      case 'small':
+        return {
+          closeButtonStyle: styles.closeButtonSmall(this.theme),
+          contentStyle: styles.tooltipContentSmall(this.theme),
+          borderRadius: this.theme.tooltipBorderRadiusSmall,
+          pinSize: this.theme.tooltipPinSizeSmall,
+          pinOffsetX: this.theme.tooltipPinOffsetXSmall,
+          pinOffsetY: this.theme.tooltipPinOffsetYSmall,
+          margin: this.theme.tooltipMarginSmall,
+        };
+      case 'medium':
+        return {
+          closeButtonStyle: styles.closeButtonMedium(this.theme),
+          contentStyle: styles.tooltipContentMedium(this.theme),
+          borderRadius: this.theme.tooltipBorderRadiusMedium,
+          pinSize: this.theme.tooltipPinSizeMedium,
+          pinOffsetX: this.theme.tooltipPinOffsetXMedium,
+          pinOffsetY: this.theme.tooltipPinOffsetYMedium,
+          margin: this.theme.tooltipMarginMedium,
+        };
+      case 'large':
+        return {
+          closeButtonStyle: styles.closeButtonLarge(this.theme),
+          contentStyle: styles.tooltipContentLarge(this.theme),
+          borderRadius: this.theme.tooltipBorderRadiusLarge,
+          pinSize: this.theme.tooltipPinSizeLarge,
+          pinOffsetX: this.theme.tooltipPinOffsetXLarge,
+          pinOffsetY: this.theme.tooltipPinOffsetYLarge,
+          margin: this.theme.tooltipMarginLarge,
+        };
+      default:
+        console.error(`Can't get size variables: invalid value in size prop '${this.props.size}'. Returning default`);
+        return {
+          closeButtonStyle: styles.closeButtonSmall(this.theme),
+          contentStyle: styles.tooltipContentSmall(this.theme),
+          borderRadius: this.theme.tooltipBorderRadiusSmall,
+          pinSize: this.theme.tooltipPinSizeSmall,
+          pinOffsetX: this.theme.tooltipPinOffsetXSmall,
+          pinOffsetY: this.theme.tooltipPinOffsetYSmall,
+          margin: this.theme.tooltipMarginSmall,
+        };
+    }
   };
 }

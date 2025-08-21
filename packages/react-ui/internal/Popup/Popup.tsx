@@ -31,10 +31,11 @@ import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../li
 import { mergeRefs } from '../../lib/mergeRefs';
 import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes';
 
-import { PopupPin } from './PopupPin';
+import { PopupPinNew } from './PopupPinNew';
 import type { Offset, PositionObject, Rect } from './PopupHelper';
 import { PopupHelper } from './PopupHelper';
 import { styles } from './Popup.styles';
+import { PopupPin } from './PopupPin';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -593,7 +594,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       hasPin &&
-      !PopupNonPinnablePositions.includes(positionName) && (
+      !PopupNonPinnablePositions.includes(positionName) &&
+      (this.featureFlags.popupFixPinTearing ? (
+        <PopupPinNew
+          popupElement={this.lastPopupContentElement}
+          popupPosition={positionName}
+          size={pinSize || parseInt(this.theme.popupPinSize)}
+          offset={this.getPinOffset(position.align)}
+          backgroundColor={backgroundColor || this.theme.popupBackground}
+        />
+      ) : (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
@@ -603,7 +613,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
         />
-      )
+      ))
     );
   }
 

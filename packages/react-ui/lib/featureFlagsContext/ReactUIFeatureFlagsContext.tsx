@@ -7,6 +7,7 @@ export interface ReactUIFeatureFlags {
   stickyReduceLayoutEvents?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
   groupAddHintAndTooltipSupport?: boolean;
+  popupFixPinTearing?: boolean;
   sidePageDisableHeaderShrink?: boolean;
   sidePageNotCutTitleOnStuckByDefault?: boolean;
 }
@@ -18,6 +19,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   stickyReduceLayoutEvents: false,
   radioGroupRemoveBaselineSpacer: false,
   groupAddHintAndTooltipSupport: false,
+  popupFixPinTearing: false,
   sidePageDisableHeaderShrink: false,
   sidePageNotCutTitleOnStuckByDefault: false,
 };
