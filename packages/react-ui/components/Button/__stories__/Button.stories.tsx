@@ -595,6 +595,27 @@ export const HoverTextColor: Story = () => {
   );
 };
 
+export const BtnBacklessBgAndTextColor: Story = () => {
+  const myTheme = ThemeFactory.create({
+    btnBacklessTextColor: 'white',
+    btnBacklessBg: 'blue',
+  });
+
+  return (
+    <ThemeContext.Provider value={myTheme}>
+      <Button use="backless">Backless</Button>
+    </ThemeContext.Provider>
+  );
+};
+BtnBacklessBgAndTextColor.storyName = 'Backless with custom bg and text colors';
+BtnBacklessBgAndTextColor.parameters = {
+  creevey: {
+    skip: {
+      'not browser specific': { in: /^(?!\b(chrome2022|chrome2022Dark)\b)/ },
+    },
+  },
+};
+
 export const BtnBacklessBgHoverActive: Story = () => {
   const myTheme = ThemeFactory.create(
     {

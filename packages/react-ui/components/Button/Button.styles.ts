@@ -552,9 +552,6 @@ export const styles = memoizeStyle({
     return css`
       ${buttonUseMixin(t.btnBacklessBg, '', '', t.btnBacklessTextColor, t.btnBacklessBorderColor, t.btnBorderWidth)};
 
-      color: ${t.btnDefaultTextColor};
-      background: transparent;
-
       &:hover {
         ${buttonHoverMixin(
           t.btnBacklessHoverBg,
