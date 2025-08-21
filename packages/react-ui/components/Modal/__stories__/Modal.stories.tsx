@@ -675,3 +675,15 @@ export const CrossFocusedByTab: Story = () => {
     </Modal>
   );
 };
+
+export const WithCutTitleOnStuck: Story = () => {
+  return (
+    <Modal width={500}>
+      <Modal.Header cutTitleOnStuck>Очень очень очень очень очень длинный заголовок</Modal.Header>
+      <Modal.Body>
+        <div style={{ height: '1000px' }}>Тело модалки</div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+WithCutTitleOnStuck.storyName = 'With cut title on stuck';

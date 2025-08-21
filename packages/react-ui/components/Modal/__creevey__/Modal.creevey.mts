@@ -237,4 +237,18 @@ kind('Modal', () => {
       await context.matchImage(await context.webdriver.takeScreenshot());
     });
   });
+
+  story('WithCutTitleOnStuck', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: 'body',
+    });
+
+    test('after scrolling', async (context) => {
+      await context.webdriver.executeScript(function () {
+        const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+        modalContainer.scrollTop = 300;
+      });
+      await context.matchImage(await context.takeScreenshot(), 'after scrolling');
+    });
+  });
 });

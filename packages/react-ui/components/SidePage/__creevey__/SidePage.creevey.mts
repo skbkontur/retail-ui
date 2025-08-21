@@ -15,6 +15,16 @@ const simpleTests = () => {
   });
 };
 
+const afterScrollingTest = () => {
+  test('after scrolling', async (context) => {
+    await context.webdriver.executeScript(function () {
+      const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+      sidepageContainer.scrollTop = 300;
+    });
+    await context.matchImage(await context.takeScreenshot());
+  });
+};
+
 kind('SidePage', () => {
   story('SidePageOverAnotherSidePageStory', () => {
     test('open internal side-page', async (context) => {
@@ -416,5 +426,21 @@ kind('SidePage', () => {
         })
         .to.matchImages();
     });
+  });
+
+  story('DisableHeaderShrink', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: 'body',
+    });
+
+    afterScrollingTest();
+  });
+
+  story('WithNotCutTitleOnStuck', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: 'body',
+    });
+
+    afterScrollingTest();
   });
 });

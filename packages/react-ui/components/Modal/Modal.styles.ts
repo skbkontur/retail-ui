@@ -351,6 +351,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  titleCut() {
+    return css`
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    `;
+  },
+
   body(t: Theme) {
     return css`
       border-radius: ${t.modalBodyBorderRadius};

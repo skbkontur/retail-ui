@@ -12,6 +12,7 @@ import {
   ReactUIFeatureFlagsContext,
   Sticky,
   Tooltip,
+  SidePage,
 } from '@skbkontur/react-ui';
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
@@ -208,5 +209,102 @@ export const GroupAddHintsAndTooltipsSupport: Story = () => {
         </Group>
       </ReactUIFeatureFlagsContext.Provider>
     </>
+  );
+};
+
+export const SidePageDisableHeaderShrink: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [opened, setOpened] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <ReactUIFeatureFlagsContext.Provider value={{ sidePageDisableHeaderShrink: isFlagEnabled }}>
+        <SidePage onClose={close} blockBackground>
+          <SidePage.Header>Title</SidePage.Header>
+          <SidePage.Body>
+            <div
+              style={{
+                background: `#d6d6d6`,
+                height: 1600,
+                padding: '20px 0',
+              }}
+            >
+              <SidePage.Container>
+                <p>SidePage Body Content</p>
+              </SidePage.Container>
+            </div>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Button onClick={close}>Close</Button>
+          </SidePage.Footer>
+        </SidePage>
+      </ReactUIFeatureFlagsContext.Provider>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      {opened && renderSidePage()}
+      <Button onClick={open}>Open</Button>
+    </div>
+  );
+};
+
+export const SidePageNotCutTitleOnStuckByDefault: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [opened, setOpened] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <ReactUIFeatureFlagsContext.Provider value={{ sidePageNotCutTitleOnStuckByDefault: isFlagEnabled }}>
+        <SidePage onClose={close} blockBackground>
+          <SidePage.Header>
+            Very very very very very very very very very very very very very very very very very very very very long
+            title
+          </SidePage.Header>
+          <SidePage.Body>
+            <div
+              style={{
+                background: `#d6d6d6`,
+                height: 1600,
+                padding: '20px 0',
+              }}
+            >
+              <SidePage.Container>
+                <p>SidePage Body Content</p>
+              </SidePage.Container>
+            </div>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Button onClick={close}>Close</Button>
+          </SidePage.Footer>
+        </SidePage>
+      </ReactUIFeatureFlagsContext.Provider>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      {opened && renderSidePage()}
+      <Button onClick={open}>Open</Button>
+    </div>
   );
 };

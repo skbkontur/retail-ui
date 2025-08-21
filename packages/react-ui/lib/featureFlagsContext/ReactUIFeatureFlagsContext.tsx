@@ -7,6 +7,8 @@ export interface ReactUIFeatureFlags {
   stickyReduceLayoutEvents?: boolean;
   radioGroupRemoveBaselineSpacer?: boolean;
   groupAddHintAndTooltipSupport?: boolean;
+  sidePageDisableHeaderShrink?: boolean;
+  sidePageNotCutTitleOnStuckByDefault?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -16,6 +18,8 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   stickyReduceLayoutEvents: false,
   radioGroupRemoveBaselineSpacer: false,
   groupAddHintAndTooltipSupport: false,
+  sidePageDisableHeaderShrink: false,
+  sidePageNotCutTitleOnStuckByDefault: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

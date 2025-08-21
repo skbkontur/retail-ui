@@ -143,9 +143,6 @@ export const styles = memoizeStyle({
   headerFixed(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
-      font-size: ${t.sidePageHeaderFixedFontSize};
-      line-height: ${t.sidePageHeaderFixedLineHeight};
-      padding: ${t.sidePageHeaderFixedPaddingY} 0;
 
       &:after {
         bottom: 0px;
@@ -157,6 +154,23 @@ export const styles = memoizeStyle({
         z-index: -1;
         box-shadow: ${t.sidePageFixedHeaderShadow};
       }
+    `;
+  },
+
+  headerShrink(t: Theme) {
+    return css`
+      font-size: ${t.sidePageHeaderFixedFontSize};
+      line-height: ${t.sidePageHeaderFixedLineHeight};
+      padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  headerNativeStuck(t: Theme) {
+    return css`
+      position: sticky;
+      top: 0;
+      z-index: 16000;
+      background: ${t.sidePageBgDefault};
     `;
   },
 
@@ -186,7 +200,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  titleFixed() {
+  titleCut() {
     return css`
       overflow: hidden;
       text-overflow: ellipsis;

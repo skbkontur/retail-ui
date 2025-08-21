@@ -92,6 +92,18 @@ function ExampleComponent() {
 
 <Story of={FeatureFlagsStories.GroupAddHintsAndTooltipsSupport} />
 
+### sidePageDisableHeaderShrink
+
+Флаг позволяет отключить уменьшение высоты `<SidePage.Header />` при прокрутке содержимого.
+
+<Story of={FeatureFlagsStories.SidePageDisableHeaderShrink} />
+
+### sidePageNotCutTitleOnStuckByDefault
+
+Флаг задает значение по умолчанию для пропа `<SidePage.Header />`: `cutTitleOnStuck=false`. В результате длинный заголовок в `<SidePage.Header />` не обрезается при прокрутке содержимого.
+
+<Story of={FeatureFlagsStories.SidePageNotCutTitleOnStuckByDefault} />
+
 ## Объект со всеми флагами
 
 Для получения объекта со списком всех фича-флагов необходимо применить вспомогательные функции к объектам заданных флагов

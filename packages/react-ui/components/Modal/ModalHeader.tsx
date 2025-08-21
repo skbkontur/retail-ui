@@ -20,6 +20,12 @@ export interface ModalHeaderProps extends CommonProps {
 
   /** @ignore */
   children?: ReactNode;
+
+  /**
+   * Обрезает длинный заголовок при «залипании» шапки.
+   * @default false
+   */
+  cutTitleOnStuck?: boolean;
 }
 
 export const ModalHeaderDataTids = {
@@ -36,7 +42,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, children } = props;
+  const { sticky = !layout.isMobile, cutTitleOnStuck = false, children } = props;
 
   useLayoutEffect(() => {
     modal.setHasHeader?.(true);
@@ -56,6 +62,7 @@ function ModalHeader(props: ModalHeaderProps) {
             layout.isMobile && styles.mobileHeader(theme),
             Boolean(modal.additionalPadding) && styles.headerAddPadding(theme),
             fixed && styles.fixedHeader(theme),
+            cutTitleOnStuck && fixed && styles.titleCut(),
             versionGTE5_2 && fixed && styles.fixedHeader5_2(),
             fixed && layout.isMobile && styles.mobileFixedHeader(theme),
             versionGTE5_2 && fixed && layout.isMobile && styles.mobileFixedHeader5_2(theme),

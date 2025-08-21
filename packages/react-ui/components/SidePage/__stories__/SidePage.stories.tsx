@@ -10,6 +10,7 @@ import { Modal } from '../../Modal';
 import { Gapped } from '../../Gapped';
 import type { Shape } from '../../../typings/utility-types';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 const textSample = (
   <p>
@@ -972,3 +973,19 @@ MobileSidepageWithMobileWidth.parameters = {
   viewport: { defaultViewport: 'iphone' },
   creevey: { captureElement: null },
 };
+
+export const DisableHeaderShrink: Story = () => (
+  <ReactUIFeatureFlagsContext.Provider value={{ sidePageDisableHeaderShrink: true }}>
+    <WithLongTitle />
+  </ReactUIFeatureFlagsContext.Provider>
+);
+DisableHeaderShrink.storyName = 'Disable header shrink';
+
+export const WithNotCutTitleOnStuck: Story = () => {
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ sidePageNotCutTitleOnStuckByDefault: true }}>
+      <WithLongTitle />
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};
+WithNotCutTitleOnStuck.storyName = 'With not cut title on stuck';
