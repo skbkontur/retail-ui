@@ -6,4 +6,10 @@ kind('ThemeVersions/5_2', () => {
       await context.matchImage(await context.takeScreenshot(), 'idle');
     });
   });
+
+  story('Button5_2', () => {
+    test('with right icon', async (context) => {
+      await context.matchImage(await context.takeScreenshot(), 'with right icon');
+    });
+  });
 });

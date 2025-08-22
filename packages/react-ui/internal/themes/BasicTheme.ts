@@ -616,9 +616,20 @@ export class BasicThemeClass {
     return this.btnTextHoverBg;
   }
 
-  public static btnWithIconPaddingLeftSmall = '8px';
-  public static btnWithIconPaddingLeftMedium = '10px';
-  public static btnWithIconPaddingLeftLarge = '12px';
+  /** @deprecated use btnWithIconPadding[Small/Medium/Large] instead */
+  public static get btnWithIconPaddingLeftSmall() {
+    return this.btnWithIconPaddingSmall;
+  }
+  public static get btnWithIconPaddingLeftMedium() {
+    return this.btnWithIconPaddingMedium;
+  }
+  public static get btnWithIconPaddingLeftLarge() {
+    return this.btnWithIconPaddingLarge;
+  }
+
+  public static btnWithIconPaddingSmall = '8px';
+  public static btnWithIconPaddingMedium = '10px';
+  public static btnWithIconPaddingLarge = '12px';
 
   public static btnIconColor = '';
   public static btnIconHoverColor = '';

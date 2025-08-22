@@ -74,41 +74,37 @@ export const styles = memoizeStyle({
 
   withArrowIconRightSmall(t: Theme) {
     return css`
-      padding-right: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingLeftSmall} + ${t.btnWithIconPaddingLeftSmall});
+      padding-right: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingSmall} + ${t.btnWithIconPaddingSmall});
     `;
   },
 
   withArrowIconRightMedium(t: Theme) {
     return css`
-      padding-right: calc(
-        ${t.btnIconSizeMedium} + ${t.btnWithIconPaddingLeftMedium} + ${t.btnWithIconPaddingLeftMedium}
-      );
+      padding-right: calc(${t.btnIconSizeMedium} + ${t.btnWithIconPaddingMedium} + ${t.btnWithIconPaddingMedium});
     `;
   },
 
   withArrowIconRightLarge(t: Theme) {
     return css`
-      padding-right: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLeftLarge} + ${t.btnWithIconPaddingLeftLarge});
+      padding-right: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLarge} + ${t.btnWithIconPaddingLarge});
     `;
   },
 
   withArrowIconLeftSmall(t: Theme) {
     return css`
-      padding-left: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingLeftSmall} + ${t.btnWithIconPaddingLeftSmall});
+      padding-left: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingSmall} + ${t.btnWithIconPaddingSmall});
     `;
   },
 
   withArrowIconLeftMedium(t: Theme) {
     return css`
-      padding-left: calc(
-        ${t.btnIconSizeMedium} + ${t.btnWithIconPaddingLeftMedium} + ${t.btnWithIconPaddingLeftMedium}
-      );
+      padding-left: calc(${t.btnIconSizeMedium} + ${t.btnWithIconPaddingMedium} + ${t.btnWithIconPaddingMedium});
     `;
   },
 
   withArrowIconLeftLarge(t: Theme) {
     return css`
-      padding-left: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLeftLarge} + ${t.btnWithIconPaddingLeftLarge});
+      padding-left: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLarge} + ${t.btnWithIconPaddingLarge});
     `;
   },
 
@@ -214,37 +210,76 @@ export const styles = memoizeStyle({
 
   sizeSmallWithIcon(t: Theme) {
     return css`
-      padding-left: ${t.btnWithIconPaddingLeftSmall};
+      padding-left: ${t.btnWithIconPaddingSmall};
     `;
   },
 
   sizeMediumWithIcon(t: Theme) {
     return css`
-      padding-left: ${t.btnWithIconPaddingLeftMedium};
+      padding-left: ${t.btnWithIconPaddingMedium};
     `;
   },
 
   sizeLargeWithIcon(t: Theme) {
     return css`
-      padding-left: ${t.btnWithIconPaddingLeftLarge};
+      padding-left: ${t.btnWithIconPaddingLarge};
+    `;
+  },
+
+  sizeSmallWithRightIcon(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingSmall};
+    `;
+  },
+
+  sizeMediumWithRightIcon(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingMedium};
+    `;
+  },
+
+  sizeLargeWithRightIcon(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingLarge};
     `;
   },
 
   sizeSmallWithIconWithoutText(t: Theme) {
     return css`
-      padding-right: ${t.btnWithIconPaddingLeftSmall};
+      padding-right: ${t.btnWithIconPaddingSmall};
     `;
   },
 
   sizeMediumWithIconWithoutText(t: Theme) {
     return css`
-      padding-right: ${t.btnWithIconPaddingLeftMedium};
+      padding-right: ${t.btnWithIconPaddingMedium};
     `;
   },
 
   sizeLargeWithIconWithoutText(t: Theme) {
     return css`
-      padding-right: ${t.btnWithIconPaddingLeftLarge};
+      padding-right: ${t.btnWithIconPaddingLarge};
+    `;
+  },
+
+  sizeSmallWithIconWithoutText5_3(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingSmall};
+      padding-right: ${t.btnWithIconPaddingSmall};
+    `;
+  },
+
+  sizeMediumWithIconWithoutText5_3(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingMedium};
+      padding-right: ${t.btnWithIconPaddingMedium};
+    `;
+  },
+
+  sizeLargeWithIconWithoutText5_3(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingLarge};
+      padding-right: ${t.btnWithIconPaddingLarge};
     `;
   },
 
@@ -356,21 +391,21 @@ export const styles = memoizeStyle({
 
   arrowIconRootSmall(t: Theme) {
     return css`
-      padding: 0 ${t.btnWithIconPaddingLeftSmall} 0 ${t.btnWithIconPaddingLeftSmall};
+      padding: 0 ${t.btnWithIconPaddingSmall} 0 ${t.btnWithIconPaddingSmall};
       width: ${t.btnIconSizeSmall};
     `;
   },
 
   arrowIconRootMedium(t: Theme) {
     return css`
-      padding: 0 ${t.btnWithIconPaddingLeftMedium} 0 ${t.btnWithIconPaddingLeftMedium};
+      padding: 0 ${t.btnWithIconPaddingMedium} 0 ${t.btnWithIconPaddingMedium};
       width: ${t.btnIconSizeMedium};
     `;
   },
 
   arrowIconRootLarge(t: Theme) {
     return css`
-      padding: 0 ${t.btnWithIconPaddingLeftLarge} 0 ${t.btnWithIconPaddingLeftLarge};
+      padding: 0 ${t.btnWithIconPaddingLarge} 0 ${t.btnWithIconPaddingLarge};
       width: ${t.btnIconSizeLarge};
     `;
   },

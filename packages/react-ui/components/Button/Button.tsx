@@ -7,6 +7,7 @@ import { isKonturIcon } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -422,26 +423,52 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   }
 
   private getSizeClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return cx(styles.sizeLarge(this.theme), {
+    const { icon, rightIcon, children, size } = this.getProps();
+    const isThemeGTE_5_3 = isThemeGTE(this.theme, '5.3');
+
+    switch (size) {
+      case 'large': {
+        const commonClasses = {
           [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
-          [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
-          [styles.sizeLargeWithIconWithoutText(this.theme)]: !!this.props.icon && !this.props.children,
-        });
-      case 'medium':
-        return cx(styles.sizeMedium(this.theme), {
+          [styles.sizeLargeWithIcon(this.theme)]: !!icon,
+          [styles.sizeLargeWithIconWithoutText(this.theme)]: !!icon && !children,
+        };
+
+        const themeSpecificClasses = {
+          [styles.sizeLargeWithRightIcon(this.theme)]: !!rightIcon,
+          [styles.sizeLargeWithIconWithoutText5_3(this.theme)]: (!!icon || !!rightIcon) && !children,
+        };
+        return cx(styles.sizeLarge(this.theme), commonClasses, isThemeGTE_5_3 && themeSpecificClasses);
+      }
+      case 'medium': {
+        const commonClasses = {
           [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
-          [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
-          [styles.sizeMediumWithIconWithoutText(this.theme)]: !!this.props.icon && !this.props.children,
-        });
+          [styles.sizeMediumWithIcon(this.theme)]: !!icon,
+          [styles.sizeMediumWithIconWithoutText(this.theme)]: !!icon && !children,
+        };
+
+        const themeSpecificClasses = {
+          [styles.sizeMediumWithRightIcon(this.theme)]: !!rightIcon,
+          [styles.sizeMediumWithIconWithoutText5_3(this.theme)]: (!!icon || !!rightIcon) && !children,
+        };
+
+        return cx(styles.sizeMedium(this.theme), commonClasses, isThemeGTE_5_3 && themeSpecificClasses);
+      }
       case 'small':
-      default:
-        return cx(styles.sizeSmall(this.theme), {
+      default: {
+        const commonClasses = {
           [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
-          [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
-          [styles.sizeSmallWithIconWithoutText(this.theme)]: !!this.props.icon && !this.props.children,
-        });
+          [styles.sizeSmallWithIcon(this.theme)]: !!icon,
+          [styles.sizeSmallWithIconWithoutText(this.theme)]: !!icon && !children,
+        };
+
+        const themeSpecificClasses = {
+          [styles.sizeSmallWithRightIcon(this.theme)]: !!rightIcon,
+          [styles.sizeSmallWithIconWithoutText5_3(this.theme)]: (!!icon || !!rightIcon) && !children,
+        };
+
+        return cx(styles.sizeSmall(this.theme), commonClasses, isThemeGTE_5_3 && themeSpecificClasses);
+      }
     }
   }
 

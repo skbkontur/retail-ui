@@ -1,4 +1,5 @@
 import React from 'react';
+import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
 
 import type { Story, Meta } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
@@ -6,6 +7,7 @@ import { LIGHT_THEME_5_2 } from '../../../lib/theming/themes/LightTheme';
 import { MiniModal } from '../../../components/MiniModal';
 import { Button } from '../../../components/Button';
 import { Paging } from '../../../components/Paging';
+import { Gapped } from '../../../components/Gapped';
 
 export default {
   title: 'ThemeVersions/5_2',
@@ -41,3 +43,11 @@ export const Paging5_2: Story = () => {
   return <Paging pagesCount={30} activePage={activePage} onPageChange={setActivePage} />;
 };
 Paging5_2.storyName = 'Paging in 5.2';
+
+export const Button5_2: Story = () => (
+  <Gapped style={{ padding: '5px' }} vertical>
+    <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
+    <Button rightIcon={<XIcon16Regular />} />
+  </Gapped>
+);
+Button5_2.parameters = { creevey: { captureElement: '[data-tid="Gapped__vertical"]' } };
