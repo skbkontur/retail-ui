@@ -164,7 +164,7 @@ export const ContextualHintsExample: Story = () => {
     tooltipTextColor: '#FFFFFF',
   });
   const tooltipContentTheme = ThemeFactory.create({
-    btnDefaultTextColor: '#FFFFFF',
+    btnBacklessTextColor: '#FFFFFF',
     btnBacklessBorderColor: '#FFFFFF8A',
     btnBacklessHoverBg: '#FFFFFF0F',
     btnBacklessActiveBg: '#FFFFFF1A',
