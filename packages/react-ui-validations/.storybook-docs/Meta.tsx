@@ -9,6 +9,8 @@ import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/Arrow
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { linkTo } from '@storybook/addon-links';
@@ -52,8 +54,25 @@ const styles = {
       background: rgba(0, 0, 0, 0.1);
     }
   `,
+
   menuItem: css`
+    position: relative;
+    width: 100%;
     min-width: 250px !important;
+    overflow: hidden;
+  `,
+  menuItemLabel: css`
+    padding-left: 8px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   `,
   menuComment: css`
     position: relative;
@@ -126,20 +145,20 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </div>
           }
         >
+          <MenuHeader>Темы React UI</MenuHeader>
           {themes.map(({ icon, caption, value }) => (
             <MenuItem
+              key={value}
               className={styles.menuItem}
               comment={<div className={styles.menuComment}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
             >
               {caption}
-              <div className={styles.menuIcon}>{icon}</div>
+              {icon && <div className={styles.menuIcon}>{icon}</div>}
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuItem>
-            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах в React-UI → Information → Theme
-          </MenuItem>
+          <MenuFooter>Подробнее в React UI/Information/Theme</MenuFooter>
         </DropdownMenu>
         <DropdownMenu
           caption={
@@ -158,12 +177,12 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
                 onValueChange={(newValue) => {
                   if (newValue) {
                     context.channel.emit('updateGlobals', {
-                      globals: { featureFlags: [...currentFeatureFlags, flag] },
+                      globals: { validationsFeatureFlags: [...currentFeatureFlags, flag] },
                     });
                   } else {
                     context.channel.emit('updateGlobals', {
                       globals: {
-                        featureFlags: currentFeatureFlags.filter((featureFlag) => featureFlag !== flag),
+                        validationsFeatureFlags: currentFeatureFlags.filter((featureFlag) => featureFlag !== flag),
                       },
                     });
                   }
