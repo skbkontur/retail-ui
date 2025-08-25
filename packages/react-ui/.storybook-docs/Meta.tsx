@@ -12,19 +12,39 @@ import { linkTo } from '@storybook/addon-links';
 import { DropdownMenu } from '../components/DropdownMenu';
 import { MenuItem } from '../components/MenuItem';
 import { Toggle } from '../components/Toggle';
+import { MenuHeader } from '../components/MenuHeader';
+import { MenuSeparator } from '../components/MenuSeparator';
 import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
-import { MenuSeparator } from '../components/MenuSeparator';
+import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme';
+import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
 
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },
   { icon: '🇬🇧', caption: 'English', value: 'en' },
 ];
-const themes = [
-  { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
-  { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
-];
+
+const themes = [...Object.keys(ALL_LIGHT_THEMES), ...Object.keys(ALL_DARK_THEMES)].map((themeName) => {
+  const parseVersion = (str: string) => {
+    const match = str.match(/_(\d+)_(\d+)$/);
+    if (!match) {
+      return null;
+    }
+    return `${match[1]}.${match[2]}`;
+  };
+  const themeType = themeName.includes('LIGHT') ? 'Light' : 'Dark';
+  const themeIcon = themeType === 'Light' ? <WeatherSunIcon16Light /> : <WeatherMoonIcon16Light />;
+  const themeVersion = parseVersion(themeName);
+  return {
+    icon: themeIcon,
+    type: themeType,
+    version: themeVersion,
+    value: themeName,
+  };
+});
+
 const allFeatureFlags = Object.keys(reactUIFeatureFlagsDefault);
+
 const styles = {
   menuWrap: css`
     height: 20px;
@@ -59,7 +79,23 @@ const styles = {
     }
   `,
   menuItem: css`
+    position: relative;
+    width: 100%;
     min-width: 250px !important;
+    overflow: hidden;
+  `,
+  menuItemLabel: css`
+    padding-left: 8px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   `,
   menuComment: css`
     position: relative;
@@ -83,8 +119,8 @@ const styles = {
     top: -0.5px;
     margin-left: 4px !important;
     vertical-align: middle;
-    border-radius: 50%;
-    line-height: 11px;
+    border-radius: 8px;
+    line-height: 1;
     padding: 2px 4px 1px;
     font-weight: 600;
   `,
@@ -94,7 +130,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
   const context = useContext(DocsContext);
 
   if (of && !context.componentStories().some((x) => x.title === of.default.title)) {
-    context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
+    context.referenceMeta(of, true);
   }
 
   useEffect(() => {
@@ -125,30 +161,58 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
   //@ts-expect-error: store is not public
   const currentFeatureFlags: string[] = context.store.globals.globals.featureFlags;
 
+  const renderMenuItem = (props: { caption: string; value: string; icon?: React.ReactNode; onClick: () => void }) => (
+    <MenuItem
+      className={styles.menuItem}
+      comment={<div className={styles.menuComment}>{props.value}</div>}
+      onClick={props.onClick}
+    >
+      {props.caption}
+      {props.icon && <div className={styles.menuIcon}>{props.icon}</div>}
+    </MenuItem>
+  );
+
   return (
     <div className={styles.menuWrap}>
       <div className={styles.menu}>
         <DropdownMenu
           caption={
             <div className={styles.menuSelect}>
-              <WeatherSunMoonIcon16Light /> {currentTheme ? currentTheme.caption : themes[0].caption}
+              <WeatherSunMoonIcon16Light /> {currentTheme ? currentTheme.type : themes[0].type}
+              {currentTheme?.version && <span className={styles.menuCountry}>{currentTheme?.version}</span>}
             </div>
           }
         >
-          {themes.map(({ icon, caption, value }) => (
-            <MenuItem
-              key={caption}
-              className={styles.menuItem}
-              comment={<div className={styles.menuComment}>{value}</div>}
-              onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
-            >
-              {caption}
-              <div className={styles.menuIcon}>{icon}</div>
-            </MenuItem>
-          ))}
+          <MenuHeader>Темы по умолчанию</MenuHeader>
+          {themes
+            .filter((x) => x.version === null)
+            .map(({ icon, type, value }) =>
+              renderMenuItem({
+                caption: type,
+                value,
+                icon,
+                onClick: () => context.channel.emit('updateGlobals', { globals: { theme: value } }),
+              }),
+            )}
 
           <MenuSeparator />
-          <MenuItem onClick={linkTo('Information/Theme/ThemeContext')} style={{ cursor: 'pointer' }}>
+
+          <MenuHeader>Темы для предыдущих версий</MenuHeader>
+          {themes
+            .filter((x) => x.version !== null)
+            .sort((a, b) => (a.version as string).localeCompare(b.version as string))
+            .slice(0, -2)
+            .map(({ icon, type, version, value }) =>
+              renderMenuItem({
+                caption: `${version} ${type}`,
+                value,
+                icon,
+                onClick: () => context.channel.emit('updateGlobals', { globals: { theme: value } }),
+              }),
+            )}
+
+          <MenuSeparator />
+          <MenuItem onClick={linkTo('Information/Theme')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о темах
           </MenuItem>
         </DropdownMenu>
@@ -159,17 +223,14 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
             </div>
           }
         >
-          {languages.map(({ icon, caption, value }) => (
-            <MenuItem
-              key={caption}
-              className={styles.menuItem}
-              comment={<div className={styles.menuComment}>{value}</div>}
-              onClick={() => context.channel.emit('updateGlobals', { globals: { locale: value } })}
-            >
-              {caption}
-              <div className={styles.menuIcon}>{icon}</div>
-            </MenuItem>
-          ))}
+          {languages.map(({ icon, caption, value }) =>
+            renderMenuItem({
+              caption,
+              value,
+              icon,
+              onClick: () => context.channel.emit('updateGlobals', { globals: { locale: value } }),
+            }),
+          )}
           <MenuSeparator />
           <MenuItem onClick={linkTo('Information/Locale')} style={{ cursor: 'pointer' }}>
             <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о локализации
@@ -188,6 +249,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           {allFeatureFlags.map((flag) => (
             <MenuItem key={flag} className={styles.menuItem}>
               <Toggle
+                id={flag}
                 checked={currentFeatureFlags.includes(flag)}
                 onValueChange={(newValue) => {
                   if (newValue) {
@@ -202,9 +264,10 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
                     });
                   }
                 }}
-              >
+              />
+              <label htmlFor={flag} className={styles.menuItemLabel}>
                 {flag}
-              </Toggle>
+              </label>
             </MenuItem>
           ))}
           {allFeatureFlags.length !== 0 && <MenuSeparator />}
