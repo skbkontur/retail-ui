@@ -16,7 +16,18 @@ export const ShowcaseGroup = (props: ShowcaseGroupProps) => {
 
   return (
     <div>
-      {props.title && <h2 style={{ color: theme.textColorDefault }}>{props.title}</h2>}
+      {props.title && (
+        <div
+          style={{
+            fontSize: '21px',
+            lineHeight: '1.2',
+            margin: '16px 0',
+            color: theme.textColorDefault,
+          }}
+        >
+          {props.title}
+        </div>
+      )}
       <Gapped gap={10}>
         <Button>Button</Button>
         <Input />
