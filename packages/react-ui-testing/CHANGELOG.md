@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.10.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.9.1...react-ui-testing@3.10.0) (2025-08-25)
+
+
+### Features
+
+* remove propTypes ([569e003](https://git.skbkontur.ru/ui/react-ui/commits/569e00312319557883da6536622a393aee932e95))
+
+
+
+
+
 ## [3.9.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.9.0...react-ui-testing@3.9.1) (2025-04-11)
 
 **Note:** Version bump only for package react-ui-testing

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.2.0...react-ui-validations@2.3.0) (2025-08-25)
+
+
+### Features
+
+* mark that react 19 is not supported yet ([7a2dcc0](https://github.com/skbkontur/retail-ui/commit/7a2dcc0bdbf4e112c064abdf4c157768dcb49ce2))
+* remove propTypes ([569e003](https://github.com/skbkontur/retail-ui/commit/569e00312319557883da6536622a393aee932e95))
+
+
+
+
+
 ## [2.2.1](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.2.0...react-ui-validations@2.2.1) (2025-07-24)
 
 **Note:** Version bump only for package react-ui-validations

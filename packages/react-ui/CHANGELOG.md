@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.2.1...@skbkontur/react-ui@5.3.0) (2025-08-25)
+
+
+### Bug Fixes
+
+* **Autocomplete:** fix display with percentage menuWidth ([bf66bf3](https://github.com/skbkontur/retail-ui/commit/bf66bf36f9f3021693b6fba73a86e13df578f424))
+* **Button:** backless buttons theme variables work ([4ea52a2](https://github.com/skbkontur/retail-ui/commit/4ea52a2139b8126ba7f1dfad99b6baf1e361d14d))
+* **Button:** fix padding for Button with rightIcon ([0ef8416](https://github.com/skbkontur/retail-ui/commit/0ef8416b03068f92cdf2d53a042a6d08266eac4f))
+* **MiniModal:** change fontSize and lineHeight at description section ([edbe400](https://github.com/skbkontur/retail-ui/commit/edbe4002e5872ba088336267ecf46ed5aab3a297))
+* **Tooltip:** remove extra gap between Popup and pin ([f7e7533](https://github.com/skbkontur/retail-ui/commit/f7e75338ca72db382866a3aca22083dd05093a31))
+* **react-ui:** make getRootNode public ([192b23b](https://github.com/skbkontur/retail-ui/commit/192b23b1374eb5460a151879ac1cf113a82f85ff))
+* export PopupMenuCaptionProps type ([3283924](https://github.com/skbkontur/retail-ui/commit/3283924fe3839524ee446243cf71bb3b75a392b2))
+
+
+### Features
+
+* **Autocomplete:** change mask behaviour ([2ef8a58](https://github.com/skbkontur/retail-ui/commit/2ef8a586d1f24548ba907439de4624c220aa999d))
+* **Group:** add Hint and Tooltip support ([8a0f130](https://github.com/skbkontur/retail-ui/commit/8a0f13013a667dc5097ae9d326f796f7b75500dc))
+* mark that react 19 is not supported yet ([7a2dcc0](https://github.com/skbkontur/retail-ui/commit/7a2dcc0bdbf4e112c064abdf4c157768dcb49ce2))
+* **Paging:** add `size` prop and adaptivity ([1011f0d](https://github.com/skbkontur/retail-ui/commit/1011f0d3dffce1f85a06a4d1c040367ddd3ff62a))
+* **Paging:** show `⌥"` symbol in macOS ([1011f0d](https://github.com/skbkontur/retail-ui/commit/1011f0d3dffce1f85a06a4d1c040367ddd3ff62a))
+* remove propTypes ([569e003](https://github.com/skbkontur/retail-ui/commit/569e00312319557883da6536622a393aee932e95))
+* **SidePage, Modal:** unifiy headers behavior ([bc9e505](https://github.com/skbkontur/retail-ui/commit/bc9e505b58d5d4676f1f528144b777d312eede40))
+* **SidePage:** fix SidePage header blinking ([bc9e505](https://github.com/skbkontur/retail-ui/commit/bc9e505b58d5d4676f1f528144b777d312eede40))
+* **Switcher:** add `width` prop ([949ccb6](https://github.com/skbkontur/retail-ui/commit/949ccb6e9f1ada57f086e3ed58ba265ad9f84b85))
+* **Tooltip:** add `size` prop ([f7e7533](https://github.com/skbkontur/retail-ui/commit/f7e75338ca72db382866a3aca22083dd05093a31))
+
+
+
+
+
 # [5.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.2.0...@skbkontur/react-ui@5.2.1) (2025-07-24)
 
 
