@@ -98,7 +98,7 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderTabs() {
     const { onThemeChange, onEditLinkClick } = this.props;
-    const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
+    const tabsOuterWrapperStyle = { background: this.theme.bgDefault, marginTop: 36 };
     const tabsOuterWrapperClass = cx({
       [styles.tabsWrapper(this.theme)]: true,
       [styles.stickyTabsWrapper(this.theme)]: useSticky,
@@ -109,8 +109,8 @@ export class Playground extends React.Component<PlaygroundProps> {
         <Gapped gap={40}>
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
             <div className={styles.tabsInnerWrapper(this.theme)}>
-              <Tabs.Tab id={ThemeType.LightTheme}>Тема 2022</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.DarkTheme}>Тема 2022 Тёмная</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.LightTheme}>Светлая тема</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.DarkTheme}>Тёмная тема</Tabs.Tab>
             </div>
           </Tabs>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>

@@ -4,8 +4,9 @@ import type { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   playground() {
     return css`
-      margin: -16px;
-      padding: 32px;
+      margin: 0 -24px;
+      padding: 0 24px;
+      border-radius: 8px;
     `;
   },
 
@@ -86,7 +87,6 @@ export const styles = memoizeStyle({
     return css`
       position: relative;
       z-index: 1;
-      padding-left: 10px;
       width: 240px;
       display: flex;
     `;
@@ -107,8 +107,6 @@ export const styles = memoizeStyle({
 
   tabsWrapper(t: Theme) {
     return css`
-      margin: 0 -32px;
-      padding: 11px 32px;
       position: relative;
       color: ${t.textColorDefault};
 
@@ -132,7 +130,6 @@ export const styles = memoizeStyle({
 
   stickyTabsWrapper(t: Theme) {
     return css`
-      margin-top: 39px;
       &:after {
         box-shadow: 0 2px 10px 0px ${t.textColorDefault};
       }

@@ -8,7 +8,7 @@ import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme';
 import { parseVersionFromThemeName } from '../../../lib/theming/ThemeVersions';
 
 export default {
-  title: 'Information/Theme/ThemeContext',
+  title: 'Information/Theme',
   parameters: { creevey: { skip: true } },
 } as Meta;
 

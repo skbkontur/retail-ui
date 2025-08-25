@@ -103,7 +103,16 @@ const preview: Preview = {
         method: 'alphabetical',
         order: [
           'Information',
-          ['Mobiles', 'Server Side Rendering', 'DataTids', 'Theme', 'Locale', 'Feature flags'],
+          [
+            'Mobiles',
+            'Theme',
+            'ThemePlayground',
+            'Locale',
+            'DataTids',
+            'Feature flags',
+            'StrictMode',
+            'Server Side Rendering',
+          ],
           'Versioning',
           ['Migration', 'Changelog'],
           'Button',
