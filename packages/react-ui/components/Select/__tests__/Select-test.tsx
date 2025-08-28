@@ -123,6 +123,18 @@ describe('Select', () => {
     expect(input).toHaveTextContent(placeholderRegExp);
   });
 
+  it('should has placeholder when passed', async () => {
+    render(<Select placeholder={'placeholder text'} />);
+
+    expect(screen.getByRole('button').textContent).toBe('placeholder text');
+  });
+
+  it('should has empty placeholder when "" passed', async () => {
+    render(<Select placeholder={''} />);
+
+    expect(screen.getByRole('button').textContent).toBe('');
+  });
+
   it('should pass generic type without type errors', () => {
     function SelectGeneric<T>() {
       return <Select<T> />;

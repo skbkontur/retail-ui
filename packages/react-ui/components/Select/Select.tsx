@@ -449,7 +449,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     return {
-      label: <span>{this.props.placeholder || this.locale?.placeholder}</span>,
+      label: <span>{this.props.placeholder ?? this.locale?.placeholder}</span>,
       isPlaceholder: true,
     };
   }
