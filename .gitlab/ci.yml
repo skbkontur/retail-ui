@@ -1,3 +1,4 @@
 include:
-  - project: "ui/gitlab-ci"
-    file: "index.yml"
+  - project: $CI_CONFIG_PROJECT
+    ref: $CI_CONFIG_BRANCH
+    file: 'index.yml'
