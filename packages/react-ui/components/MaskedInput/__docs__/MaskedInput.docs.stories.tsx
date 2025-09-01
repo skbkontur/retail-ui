@@ -1,5 +1,5 @@
 import React from 'react';
-import { MaskedInput } from '@skbkontur/react-ui';
+import { Gapped, MaskedInput } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -18,7 +18,13 @@ export const Example1: Story = () => {
       <span>value: "{value}"</span>
       <br />
       <br />
-      <MaskedInput mask="+7 (999) 999-99-99" placeholder="Номер телефона" value={value} onValueChange={setValue} />
+      <MaskedInput
+        mask="+7 (999) 999-99-99"
+        placeholder="Номер телефона"
+        type="tel"
+        value={value}
+        onValueChange={setValue}
+      />
     </>
   );
 };
@@ -45,6 +51,7 @@ export const Example3: Story = () => {
         placeholder="Номер карты"
         alwaysShowMask
         value={value}
+        inputMode="numeric"
         onValueChange={setValue}
       />
     </>
@@ -84,7 +91,7 @@ export const Example5: Story = () => {
       <span>value: "{value}"</span>
       <br />
       <br />
-      <MaskedInput mask="+7 (999) 999-99-99" unmask alwaysShowMask value={value} onValueChange={setValue} />
+      <MaskedInput mask="+7 (999) 999-99-99" unmask alwaysShowMask type="tel" value={value} onValueChange={setValue} />
     </>
   );
 };
@@ -99,8 +106,47 @@ export const Example6: Story = () => {
       <span>value: "{value}"</span>
       <br />
       <br />
-      <MaskedInput mask="+{7} (999) 999-99-99" unmask alwaysShowMask value={value} onValueChange={setValue} />
+      <MaskedInput
+        mask="+{7} (999) 999-99-99"
+        unmask
+        alwaysShowMask
+        type="tel"
+        value={value}
+        onValueChange={setValue}
+      />
     </>
   );
 };
 Example6.storyName = 'Проп `unmask` с фигурными скобками';
+
+/** Пример маски с буквами и цифрами */
+export const Example7: Story = () => {
+  const [valueLetter, setValueLetter] = React.useState('');
+  const [valueNumber, setValueNumber] = React.useState('');
+  const [valueAny, setValueAny] = React.useState('');
+
+  return (
+    <Gapped vertical>
+      <MaskedInput
+        mask="aaaa aaaa aaaa aaaa"
+        placeholder="Только буквы"
+        value={valueLetter}
+        onValueChange={setValueLetter}
+      />
+      <MaskedInput
+        mask="9999 9999 9999 9999"
+        placeholder="Только цифры"
+        inputMode="numeric"
+        value={valueNumber}
+        onValueChange={setValueNumber}
+      />
+      <MaskedInput
+        mask="**** **** **** ****"
+        placeholder="Буквы и цифры"
+        value={valueAny}
+        onValueChange={setValueAny}
+      />
+    </Gapped>
+  );
+};
+Example7.storyName = 'Пример с буквами и цифрами';
