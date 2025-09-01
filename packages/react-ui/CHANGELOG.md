@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.0...@skbkontur/react-ui@5.3.1) (2025-09-01)
+
+
+### Bug Fixes
+
+* **select:** fix pass empty placeholder ([eb5b0ed](https://github.com/skbkontur/retail-ui/commit/eb5b0ed94c5133ab4a0a461ca656512583c292ff))
+
+
+
+
+
 # [5.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.2.1...@skbkontur/react-ui@5.3.0) (2025-08-25)
 
 

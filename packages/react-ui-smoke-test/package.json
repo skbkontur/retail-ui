@@ -1,6 +1,6 @@
 {
   "name": "react-ui-smoke-test",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "private": true,
   "scripts": {
     "pretest": "rimraf ./temp",

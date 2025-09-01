@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prerelease": "yarn build && yarn predeploy",
