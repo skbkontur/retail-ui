@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Checkbox } from '../Checkbox';
+import { Checkbox, CheckboxDataTids } from '../Checkbox';
 
 describe('Checkbox', () => {
   it('should call onBlur after radio click', () => {
@@ -68,7 +68,7 @@ describe('Checkbox', () => {
     expect(screen.getByTestId('Checkbox__root')).toHaveTextContent('test');
   });
 
-  it('handels onFocus event', async () => {
+  it('handles onFocus event', async () => {
     const onFocus = jest.fn();
     render(<Checkbox onFocus={onFocus} />);
 
@@ -77,7 +77,7 @@ describe('Checkbox', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onBlur event', async () => {
+  it('handles onBlur event', async () => {
     const onBlur = jest.fn();
     render(<Checkbox onBlur={onBlur} />);
 
@@ -87,28 +87,28 @@ describe('Checkbox', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseEnter event', () => {
+  it('handles onMouseEnter event', () => {
     const onMouseEnter = jest.fn();
     render(<Checkbox onMouseEnter={onMouseEnter} />);
     fireEvent.mouseEnter(screen.getByRole('checkbox'));
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', () => {
+  it('handles onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
     render(<Checkbox onMouseLeave={onMouseLeave} />);
     fireEvent.mouseLeave(screen.getByRole('checkbox'));
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onValueChange event', async () => {
+  it('handles onValueChange event', async () => {
     const onValueChange = jest.fn();
     render(<Checkbox onChange={onValueChange} />);
     await userEvent.click(screen.getByRole('checkbox'));
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onClick event', async () => {
+  it('handles onClick event', async () => {
     const onClick = jest.fn();
     render(<Checkbox onClick={onClick} />);
     await userEvent.click(screen.getByRole('checkbox'));
@@ -140,6 +140,19 @@ describe('Checkbox', () => {
 
     await userEvent.click(screen.getByRole('checkbox'));
     expect(screen.getByRole('checkbox')).not.toBeChecked();
+  });
+
+  it('with stopPropagation in onClick should prevent event bubbling', async () => {
+    const parentOnClick = jest.fn(() => {
+      console.log('button clicked');
+    });
+    render(<button onClick={parentOnClick}>{<Checkbox onClick={(e) => e.stopPropagation()} />}</button>);
+
+    const checkbox = screen.getByTestId(`${CheckboxDataTids.root}`);
+
+    await userEvent.click(checkbox);
+
+    expect(parentOnClick).toHaveBeenCalledTimes(0);
   });
 
   describe('a11y', () => {

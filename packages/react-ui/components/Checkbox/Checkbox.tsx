@@ -54,6 +54,10 @@ export interface CheckboxProps
         /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange?: (value: boolean) => void;
 
+        /** Задает HTML-событие `onclick`.
+         * @ignore */
+        onClick?: React.MouseEventHandler<HTMLLabelElement>;
+
         /** Задает HTML-событие `onblur`.
          * @ignore */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -243,6 +247,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       onMouseLeave,
       onMouseOver,
       onValueChange,
+      onClick,
       type,
       initialIndeterminate,
       'aria-describedby': ariaDescribedby,
@@ -280,7 +285,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onClick: this.handleClick,
       ref: this.input,
     };
 
@@ -321,7 +325,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseOver={onMouseOver}
-        onClick={fixFirefoxModifiedClickOnLabel(this.input)}
+        onClick={this.handleClick}
       >
         <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
@@ -364,7 +368,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     this.props.onChange?.(event);
   };
 
-  private handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  private handleClick = (e: React.MouseEvent<HTMLLabelElement>) => {
+    const handleModifierClickInFirefox = fixFirefoxModifiedClickOnLabel(this.input);
+    handleModifierClickInFirefox(e);
     this.props.onClick?.(e);
     // support IE11's and old Edge's special behavior
     // https://github.com/jquery/jquery/issues/1698
