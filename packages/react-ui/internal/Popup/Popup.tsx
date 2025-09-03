@@ -12,7 +12,6 @@ import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import type { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { getRandomID, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
-import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -37,7 +36,6 @@ import { PopupHelper } from './PopupHelper';
 import { styles } from './Popup.styles';
 import { PopupPin } from './PopupPin';
 
-const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
 export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'];
@@ -585,8 +583,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderPin(positionName: string): React.ReactNode {
-    const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
-    const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
+    const pinBorder = this.theme.popupBorderColor;
 
     const { pinSize, backgroundColor, borderColor } = this.props;
     const { hasShadow, hasPin } = this.getProps();
@@ -662,21 +659,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return false;
     }
 
-    if (!isIE11 && !isEdge) {
-      return (
-        x.coordinates.left === y.coordinates.left &&
-        x.coordinates.top === y.coordinates.top &&
-        x.position === y.position
-      );
-    }
-
-    // Для ie/edge обновляем позицию только при разнице минимум в 1. Иначе есть вероятность
-    // уйти в бесконечный ререндер
-
     return (
-      x.position === y.position &&
-      Math.abs(x.coordinates.top - y.coordinates.top) <= 1 &&
-      Math.abs(x.coordinates.left - y.coordinates.left) <= 1
+      x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
     );
   }
 

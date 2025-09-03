@@ -15,7 +15,6 @@ import { ModalStack } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { isIE11 } from '../../lib/client';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -59,7 +58,7 @@ export interface ModalProps
   /** Задает функцию, которая вызывается, когда пользователь запросил закрытие окна (нажал на фон, на Escape или на крестик). */
   onClose?: () => void;
 
-  /** Отключает фокус-лок внутри модалки. По умолчанию true для IE11. */
+  /** Отключает фокус-лок внутри модалки. */
   disableFocusLock?: boolean;
 
   /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
@@ -117,8 +116,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Footer = ModalFooter;
 
   public static defaultProps: DefaultProps = {
-    // NOTE: в ie нормально не работает
-    disableFocusLock: isIE11,
+    disableFocusLock: false,
     role: 'dialog',
     mobileAppearance: 'auto',
   };

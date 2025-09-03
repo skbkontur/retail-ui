@@ -11,7 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isIE11, isSafariWithTextareaBug } from '../../lib/client';
+import { isSafariWithTextareaBug } from '../../lib/client';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -277,9 +277,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private delaySelectAll = (): number | null =>
-    (this.selectAllId = globalObject.requestAnimationFrame?.(this.selectAll) ?? null);
-
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
       globalObject.cancelAnimationFrame?.(this.selectAllId);
@@ -520,7 +517,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
-      this.node && !isIE11 ? this.selectAll() : this.delaySelectAll();
+      this.node && this.selectAll();
     }
 
     if (this.props.onFocus) {

@@ -158,12 +158,6 @@ export class MouseDrag {
     if (typeof globalObject.MouseEvent === 'function') {
       return new globalObject.MouseEvent(type, e);
     }
-    // <=IE11
-    const eIE11 = globalObject.document?.createEvent('MouseEvent');
-    if (eIE11) {
-      eIE11.initEvent(type, true, true);
-      return eIE11;
-    }
   };
 
   private dispatchEvent = (mouseDragEvent?: MouseDragEvent): void => {

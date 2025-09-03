@@ -18,7 +18,6 @@ import type { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
-import { isIE11 } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { CommonProps } from '../CommonWrapper';
@@ -467,11 +466,7 @@ function childrenToArray(children: React.ReactNode): React.ReactNode[] {
 
 const getAlignRightClass = (props: MenuProps) => {
   if (props.align === 'right') {
-    return cx({
-      [styles.alignRight()]: !isIE11,
-      [styles.alignRightIE11()]: isIE11,
-      [styles.alignRightIE11FixAutoWidth()]: isIE11 && props.width === 'auto',
-    });
+    return cx(styles.alignRight());
   }
 
   return null;

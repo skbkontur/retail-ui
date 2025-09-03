@@ -95,32 +95,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  rootFallback() {
-    return css`
-      display: inline-table;
-
-      & > * {
-        // fix root's :active state in IE11 that gets blocked by nested elements
-        pointer-events: none;
-      }
-    `;
-  },
-
-  rootWrapperIE11() {
-    return css`
-      display: inline;
-    `;
-  },
-
   boxWrapper(t: Theme) {
     return css`
       position: absolute;
       box-sizing: border-box;
       padding: ${t.checkboxBorderWidth};
-
-      // fix position in ie11
-      display: inline-block;
-      left: 0;
     )};
     `;
   },
@@ -249,12 +228,6 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.checkboxTextColorDefault};
       padding-left: ${t.checkboxCaptionGap};
-    `;
-  },
-
-  captionIE11() {
-    return css`
-      display: table-cell;
     `;
   },
 });

@@ -12,7 +12,6 @@ import { keyListener } from '../../lib/events/keyListener';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
-import { isEdge, isIE11 } from '../../lib/client';
 import type { RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 import { RadioGroupContext } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -212,7 +211,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     const labelProps = {
       className: cx(styles.root(this.theme), this.getRootSizeClassName(), {
         [styles.rootChecked(this.theme)]: this.props.checked,
-        [styles.rootIE11()]: isIE11 || isEdge,
       }),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
@@ -227,7 +225,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       inputProps.suppressHydrationWarning = true;
       labelProps.className = cx(styles.root(this.theme), this.getRootSizeClassName(), {
         [styles.rootChecked(this.theme)]: checked,
-        [styles.rootIE11()]: isIE11 || isEdge,
       });
       radioProps.className = cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
@@ -255,7 +252,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     const captionClassNames = cx({
       [styles.caption(this.theme)]: true,
       [styles.captionDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
-      [styles.captionIE11()]: isIE11 || isEdge,
     });
 
     return <div className={captionClassNames}>{this.props.children}</div>;

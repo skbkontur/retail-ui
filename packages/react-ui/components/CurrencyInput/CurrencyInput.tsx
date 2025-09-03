@@ -1,11 +1,9 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
-import debounce from 'lodash.debounce';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
-import { isIE11 } from '../../lib/client';
 import type { InputProps } from '../Input';
 import { Input } from '../Input';
 import type { Nullable, Override } from '../../typings/utility-types';
@@ -213,16 +211,8 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     this.setState({ selection: normilized });
   }
 
-  // for IE11
-  private readonly debouncedSetSelectionFromEvent = debounce(this.setSelectionFromEvent, 300);
-
   private handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
-    if (isIE11) {
-      event.persist();
-      this.debouncedSetSelectionFromEvent(event);
-    } else {
-      this.setSelectionFromEvent(event);
-    }
+    this.setSelectionFromEvent(event);
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

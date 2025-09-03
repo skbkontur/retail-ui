@@ -7,7 +7,6 @@ import { locale } from '../../lib/locale/decorators';
 import type { Nullable } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { emptyHandler } from '../../lib/utils';
-import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
@@ -306,7 +305,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         key={pageNumber}
         className={styles.pageLinkWrapper()}
         {...getVisualStateDataAttributes({ active, disabled })}
-        onMouseDown={this.handleMouseDownPageLink}
       >
         <Component
           data-tid={PagingDataTids.pageLink}
@@ -347,14 +345,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private handleMouseDown = () => {
     this.setState({ focusedByTab: false, focusedItem: null });
-  };
-
-  private handleMouseDownPageLink = () => {
-    if (isIE11) {
-      // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
-      // Поэтому горячие клавиши работают пока span существует на странице.
-      globalObject.setTimeout(() => this.container && this.container.focus(), 0);
-    }
   };
 
   private handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {

@@ -75,13 +75,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  focusFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
-    `;
-  },
-
   placeholder(t: Theme) {
     return css`
       -ms-user-select: none;
@@ -189,25 +182,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  warningFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning};
-    `;
-  },
-
   error(t: Theme) {
     return css`
       border-color: ${t.inputBorderColorError};
       box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError};
       z-index: 2;
-    `;
-  },
-
-  errorFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError};
     `;
   },
 
@@ -243,16 +222,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  sizeSmallFallback(t: Theme) {
-    return css`
-      padding-top: ${shift(t.inputPaddingYSmall, '0')};
-      padding-bottom: ${shift(t.inputPaddingYSmall, '0')};
-      padding-left: ${t.inputPaddingXSmall};
-      padding-right: ${t.inputPaddingXSmall};
-      line-height: normal;
-    `;
-  },
-
   sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
@@ -266,16 +235,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  sizeMediumFallback(t: Theme) {
-    return css`
-      padding-top: ${shift(t.inputPaddingYMedium, '0')};
-      padding-bottom: ${shift(t.inputPaddingYMedium, '0')};
-      padding-left: ${t.inputPaddingXMedium};
-      padding-right: ${t.inputPaddingXMedium};
-      line-height: normal;
-    `;
-  },
-
   sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
@@ -286,16 +245,6 @@ export const styles = memoizeStyle({
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
       border-radius: ${t.inputBorderRadiusLarge};
-    `;
-  },
-
-  sizeLargeFallback(t: Theme) {
-    return css`
-      padding-top: ${shift(t.inputPaddingYLarge, '0')};
-      padding-bottom: ${shift(t.inputPaddingYLarge, '0')};
-      padding-left: ${t.inputPaddingXLarge};
-      padding-right: ${t.inputPaddingXLarge};
-      line-height: normal;
     `;
   },
 

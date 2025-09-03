@@ -9,7 +9,6 @@ import type { Menu } from '../Menu';
 import type { InputLikeText } from '../InputLikeText';
 import type { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
-import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
@@ -438,7 +437,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   };
 
   private handleClickOutside = (e: Event) => {
-    fixClickFocusIE(e);
     this.handleBlur();
   };
 

@@ -6,7 +6,6 @@ import type { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { isEdge, isIE11 } from '../../lib/client';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -272,7 +271,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     const rootClass = cx(this.getRootSizeClassName(), {
       [styles.root(this.theme)]: true,
-      [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
       [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
       [styles.disabled(this.theme)]: Boolean(props.disabled),
@@ -292,7 +290,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (this.props.children) {
       const captionClass = cx({
         [styles.caption(this.theme)]: true,
-        [styles.captionIE11()]: isIE11 || isEdge,
         [styles.disabled(this.theme)]: Boolean(props.disabled),
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
@@ -372,22 +369,5 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     const handleModifierClickInFirefox = fixFirefoxModifiedClickOnLabel(this.input);
     handleModifierClickInFirefox(e);
     this.props.onClick?.(e);
-    // support IE11's and old Edge's special behavior
-    // https://github.com/jquery/jquery/issues/1698
-    if (this.state.indeterminate && (isIE11 || isEdge)) {
-      this.resetIndeterminate();
-      // simulate correct behavior only if onValueChange is used
-      // because we cant simulate real native onChange event
-      if (this.props.onValueChange && this.input.current) {
-        const checked = !this.input.current.checked;
-
-        if (this.props.checked === undefined) {
-          // in case of uncontrolled mode
-          this.input.current.checked = checked;
-        }
-
-        this.props.onValueChange(checked);
-      }
-    }
   };
 }

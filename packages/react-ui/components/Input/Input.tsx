@@ -6,7 +6,6 @@ import warning from 'warning';
 import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
 
-import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import type { Nullable, Override } from '../../typings/utility-types';
@@ -475,9 +474,6 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.disabled(this.theme)]: disabled,
         [styles.warning(this.theme)]: warning,
         [styles.error(this.theme)]: error,
-        [styles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-        [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
-        [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
       }),
       'aria-controls': ariaControls,
       style: { width, ...corners },
@@ -564,18 +560,15 @@ export class Input extends React.Component<InputProps, InputState> {
       case 'large':
         return cx({
           [styles.sizeLarge(this.theme)]: true,
-          [styles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'medium':
         return cx({
           [styles.sizeMedium(this.theme)]: true,
-          [styles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'small':
       default:
         return cx({
           [styles.sizeSmall(this.theme)]: true,
-          [styles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
         });
     }
   }
@@ -647,7 +640,7 @@ export class Input extends React.Component<InputProps, InputState> {
     });
 
     if (this.props.selectAllOnFocus) {
-      this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
+      this.input && this.selectAll();
     }
 
     if (this.props.onFocus) {

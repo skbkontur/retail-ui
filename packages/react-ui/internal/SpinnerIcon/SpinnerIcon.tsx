@@ -1,15 +1,5 @@
 import React from 'react';
 
-import { isIE11 } from '../../lib/client';
-import {
-  SpinnerFallbackAnimationRunner,
-  createOffsetAnimation,
-  createLengthAnimation,
-  createColorAnimation,
-  createRotationAnimation,
-} from '../../components/Spinner/SpinnerFallbackAnimation';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './SpinnerIcon.styles';
@@ -23,7 +13,6 @@ interface SpinnerIconSize {
 export interface SpinnerIconProps {
   className?: string;
   size: SpinnerIconSize | keyof typeof sizes;
-  dimmed?: boolean;
   inline?: boolean;
   width?: number;
   color?: React.CSSProperties['color'];
@@ -51,51 +40,9 @@ const isSizeAlias = (size: unknown): size is keyof typeof sizes => {
   return typeof size === 'string' && size in sizes;
 };
 
-export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: SpinnerIconProps) => {
+export const SpinnerIcon = ({ size, className, inline, width, color }: SpinnerIconProps) => {
   const _size = isSizeAlias(size) ? sizes[size] : size;
   const currentSize = inline ? sizes.mini : _size;
-  const svgRef = React.useRef<SVGSVGElement>(null);
-
-  if (isIE11 && !isTestEnv) {
-    // This condition will not change during app's life time
-    // So its OK to use hooks here
-    // https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { red, yellow, green, brand } = React.useContext(ThemeContext);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    React.useEffect(() => {
-      const svg = svgRef.current;
-
-      const setStyleProperty: CSSStyleDeclaration['setProperty'] = (...args) => {
-        if (svg) {
-          svg.style.setProperty(...args);
-        }
-      };
-
-      fallbackAnimationRef.current = new SpinnerFallbackAnimationRunner(
-        [
-          createOffsetAnimation(0, -230, 1000, setStyleProperty, '%'),
-          createLengthAnimation([62, 168], [187, 43], 2000, setStyleProperty, '%'),
-          createRotationAnimation(0, 360, 2000, setStyleProperty),
-          ...(dimmed ? [] : [createColorAnimation([red, yellow, green, brand], 1500, setStyleProperty)]),
-        ],
-        1000 / 60,
-      );
-
-      return () => {
-        const fallbackAnimation = fallbackAnimationRef.current;
-        if (fallbackAnimation) {
-          fallbackAnimation.stop();
-        }
-        if (svg) {
-          svg.removeAttribute('style');
-        }
-      };
-    }, [dimmed, red, yellow, green, brand]);
-  }
 
   return (
     <span className={cx(styles.root(), { [styles.rootInline()]: inline })}>
@@ -111,7 +58,6 @@ export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: S
         strokeDasharray={`${(10 * currentSize.radius) / 6}, ${(27 * currentSize.radius) / 6}`}
         strokeDashoffset="0"
         strokeWidth={width || currentSize.width}
-        ref={svgRef}
         focusable="false"
         aria-hidden="true"
       >

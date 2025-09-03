@@ -16,7 +16,6 @@ import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { Nullable, Override } from '../../typings/utility-types';
-import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
@@ -444,8 +443,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
   };
 
-  private handleClickOutside = (e: Event) => {
-    fixClickFocusIE(e);
+  private handleClickOutside = () => {
     this.handleBlur();
   };
 

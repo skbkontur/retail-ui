@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { isIE11, isEdge } from '../../lib/client';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -164,7 +163,6 @@ export class Group extends React.Component<GroupProps> {
       className={cx({
         [styles.fixed()]: !isWidthInPercent,
         [styles.stretch()]: isWidthInPercent,
-        [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
       })}
     >
       <div

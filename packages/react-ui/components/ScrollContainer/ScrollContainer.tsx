@@ -8,7 +8,6 @@ import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { isIE11 } from '../../lib/client';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
@@ -195,7 +194,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           <div
             style={innerStyle}
             ref={this.refInner}
-            className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
+            className={cx(styles.inner(), globalClasses.inner)}
             data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
           >

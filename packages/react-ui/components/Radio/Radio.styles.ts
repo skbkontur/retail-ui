@@ -61,12 +61,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  rootIE11() {
-    return css`
-      display: inline-table;
-    `;
-  },
-
   rootChecked(t: Theme) {
     return css`
       &:hover .${globalClasses.circle} {
@@ -216,12 +210,6 @@ export const styles = memoizeStyle({
       padding-left: ${t.radioCaptionGap};
       white-space: normal;
       color: ${t.radioTextColor};
-    `;
-  },
-
-  captionIE11() {
-    return css`
-      display: table-cell;
     `;
   },
 

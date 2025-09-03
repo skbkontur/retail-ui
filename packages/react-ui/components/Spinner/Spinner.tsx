@@ -103,7 +103,6 @@ export class Spinner extends React.Component<SpinnerProps> {
           [styles.circleDimmedColor(this.theme)]: dimmed,
           [styles.circleWithoutColorAnimation()]: dimmed || !!this.props.color,
         })}
-        dimmed={dimmed}
         width={this.props.width}
         color={this.props.color}
         inline={inline}

@@ -2,13 +2,7 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import {
-  buttonUseMixin,
-  buttonHoverMixin,
-  buttonActiveMixin,
-  buttonSizeMixin,
-  buttonSizeMixinIE11,
-} from './Button.mixins';
+import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
 
 export const globalClasses = prefix('button')({
   root: 'root',
@@ -37,7 +31,7 @@ export const styles = memoizeStyle({
       position: relative;
       text-align: center;
       width: 100%;
-      height: 100%; // fix height in ie11
+      height: 100%;
 
       .${globalClasses.innerShadow} {
         content: '';
@@ -174,12 +168,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  sizeSmallIE11(t: Theme) {
-    return css`
-      ${buttonSizeMixinIE11(t.btnPaddingXSmall, t.btnPaddingYSmall)};
-    `;
-  },
-
   sizeMedium(t: Theme) {
     return css`
       border-radius: ${t.btnBorderRadiusMedium};
@@ -188,23 +176,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  sizeMediumIE11(t: Theme) {
-    return css`
-      ${buttonSizeMixinIE11(t.btnPaddingXMedium, t.btnPaddingYMedium)};
-    `;
-  },
-
   sizeLarge(t: Theme) {
     return css`
       border-radius: ${t.btnBorderRadiusLarge};
 
       ${buttonSizeMixin(t.btnFontSizeLarge, t.btnLineHeightLarge, t.btnPaddingXLarge, t.btnPaddingYLarge)};
-    `;
-  },
-
-  sizeLargeIE11(t: Theme) {
-    return css`
-      ${buttonSizeMixinIE11(t.btnPaddingXLarge, t.btnPaddingYLarge)};
     `;
   },
 

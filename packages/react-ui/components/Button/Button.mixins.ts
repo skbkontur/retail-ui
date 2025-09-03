@@ -75,10 +75,3 @@ export const buttonSizeMixin = (fontSize: string, lineHeight: string, paddingX: 
     line-height: ${lineHeight};
   `;
 };
-
-export const buttonSizeMixinIE11 = (paddingX: string, paddingY: string) => {
-  return css`
-    padding: ${getBtnPadding(paddingY, paddingX)};
-    line-height: normal;
-  `;
-};

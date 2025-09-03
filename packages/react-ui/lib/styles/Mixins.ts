@@ -42,8 +42,6 @@ export const resetText = () => {
     font-variant: normal;
     font-stretch: normal;
 
-    /* ie11 doesnt support 'initial' */
-    text-align: left;
     text-align: initial;
     text-transform: none;
     text-shadow: none;

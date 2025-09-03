@@ -35,16 +35,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  innerIE11() {
-    return css`
-      /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
-      margin-bottom: -1px;
-      padding-bottom: 1px;
-      margin-right: -1px;
-      padding-right: 1px;
-    `;
-  },
-
   scrollBar(t: Theme) {
     return css`
       position: absolute;

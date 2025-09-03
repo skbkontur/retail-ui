@@ -14,25 +14,7 @@ kind('Hint', () => {
     });
   });
 
-  story('WithSVGIcon', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        'internal logic being tested and not something UI related': {
-          in: [
-            'chromeDark',
-            'chrome8px',
-            'firefox8px',
-            'firefox',
-            'firefoxFlat8px',
-            'firefoxDark',
-            'ie118px',
-            'ie11',
-            'ie11Dark',
-          ],
-        },
-      },
-    });
-
+  story('WithSVGIcon', () => {
     test('idle', async (context) => {
       await context.matchImage(await context.takeScreenshot(), 'idle');
     });

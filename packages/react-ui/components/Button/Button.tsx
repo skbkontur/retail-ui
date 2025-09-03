@@ -4,7 +4,7 @@ import { globalObject } from '@skbkontur/global-object';
 
 import type { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { isKonturIcon } from '../../lib/utils';
-import { isIE11, isEdge, isSafari } from '../../lib/client';
+import { isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
@@ -429,7 +429,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     switch (size) {
       case 'large': {
         const commonClasses = {
-          [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeLargeWithIcon(this.theme)]: !!icon,
           [styles.sizeLargeWithIconWithoutText(this.theme)]: !!icon && !children,
         };
@@ -442,7 +441,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       }
       case 'medium': {
         const commonClasses = {
-          [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeMediumWithIcon(this.theme)]: !!icon,
           [styles.sizeMediumWithIconWithoutText(this.theme)]: !!icon && !children,
         };
@@ -457,7 +455,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       case 'small':
       default: {
         const commonClasses = {
-          [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeSmallWithIcon(this.theme)]: !!icon,
           [styles.sizeSmallWithIconWithoutText(this.theme)]: !!icon && !children,
         };

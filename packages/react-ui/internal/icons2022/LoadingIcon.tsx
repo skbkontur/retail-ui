@@ -12,7 +12,6 @@ const Icon = (props: SpinnerIconProps) => {
   const theme = React.useContext(ThemeContext);
   return (
     <SpinnerIcon
-      dimmed
       className={cx(styles.circle(theme), styles.circleDimmedColor(theme), styles.circleWithoutColorAnimation())}
       {...props}
     />

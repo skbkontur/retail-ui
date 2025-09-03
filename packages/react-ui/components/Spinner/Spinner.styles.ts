@@ -1,20 +1,17 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
-import { isIE11 } from '../../lib/client';
 
 export const styles = memoizeStyle({
   circle(t: Theme) {
     return css`
       stroke: ${t.spinnerColor};
 
-      ${!isIE11 &&
-      `
-          animation: ${AnimationKeyframes.spinnerCircleOffset()} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-            ${AnimationKeyframes.spinnerCircleLength()} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-            ${AnimationKeyframes.spinnerCircleRotate()} 2s linear infinite,
-            ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
-        `}
+      animation:
+        ${AnimationKeyframes.spinnerCircleOffset()} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+        ${AnimationKeyframes.spinnerCircleLength()} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
+        ${AnimationKeyframes.spinnerCircleRotate()} 2s linear infinite,
+        ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
     `;
   },
   circleDimmedColor(t: Theme) {
@@ -24,12 +21,10 @@ export const styles = memoizeStyle({
   },
   circleWithoutColorAnimation() {
     return css`
-      ${!isIE11 &&
-      `
-          animation: ${AnimationKeyframes.spinnerCircleOffset()} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-          ${AnimationKeyframes.spinnerCircleLength()} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-          ${AnimationKeyframes.spinnerCircleRotate()} 2s linear infinite;
-        `}
+      animation:
+        ${AnimationKeyframes.spinnerCircleOffset()} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+        ${AnimationKeyframes.spinnerCircleLength()} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
+        ${AnimationKeyframes.spinnerCircleRotate()} 2s linear infinite;
     `;
   },
 

@@ -1,6 +1,5 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -10,7 +9,6 @@ import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardE
 import type { InputProps } from '../Input';
 import { Input } from '../Input';
 import type { Nullable } from '../../typings/utility-types';
-import { isIE11 } from '../../lib/client';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Theme } from '../../lib/theming/Theme';
@@ -80,13 +78,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   public componentDidMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
-    }
-
-    // @ts-expect-error: IE-specific API.
-    if (isIE11 && isBrowser(globalObject) && !globalObject.document.msCapsLockWarningOff) {
-      // @ts-expect-error: Read the comment above.
-      // turns off default ie capslock warning
-      globalObject.document.msCapsLockWarningOff = true;
     }
   }
 

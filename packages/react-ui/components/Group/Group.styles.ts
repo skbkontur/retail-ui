@@ -28,12 +28,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  stretchFallback() {
-    return css`
-      flex-basis: 100%;
-    `;
-  },
-
   item() {
     return css`
       margin-left: -1px;

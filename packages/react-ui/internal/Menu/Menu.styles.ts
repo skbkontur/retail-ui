@@ -32,20 +32,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  alignRightIE11() {
-    return css`
-      float: right;
-      width: 100%;
-    `;
-  },
-
-  alignRightIE11FixAutoWidth() {
-    return css`
-      box-sizing: border-box !important; // override root styles
-      overflow: hidden !important; // override root styles
-    `;
-  },
-
   scrollContainer(t: Theme) {
     return css`
       padding: ${t.menuScrollContainerContentWrapperPaddingY} 0;

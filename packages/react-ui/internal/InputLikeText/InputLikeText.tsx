@@ -5,10 +5,9 @@ import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
-import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import type { MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { MouseDrag } from '../../lib/events/MouseDrag';
-import { isEdge, isIE11, isMobile } from '../../lib/client';
+import { isMobile } from '../../lib/client';
 import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
 import type { InputProps, InputState } from '../../components/Input';
 import { calculateClearCrossShowedState, InputDataTids } from '../../components/Input';
@@ -18,17 +17,14 @@ import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps, CommonWrapperRestProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { findRenderContainer } from '../../lib/listenFocusOutside';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
-import { isInstanceOf } from '../../lib/isInstanceOf';
 import { FocusControlWrapper } from '../FocusControlWrapper';
 import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
 
-import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {
@@ -86,12 +82,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
-  private hiddenInput: HTMLInputElement | null = null;
-  private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
-  private frozen = false;
-  private frozenBlur = false;
   private dragging = false;
-  private focusTimeout: SafeTimer;
   private blinkTimeout: SafeTimer;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
@@ -137,28 +128,14 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.dragging || !node) {
       return;
     }
-    if (isIE11 && globalObject.document && findRenderContainer(node, globalObject.document.body)) {
-      // Code below causes Popup to close after triggering the focus event on the body in IE11
-      return;
-    }
-    this.frozen = true;
-    this.frozenBlur = true;
 
-    this.lastSelectedInnerNode = [node, start, end];
     this.selectNodeContentsDebounced(node, start, end);
-
-    if (this.focusTimeout) {
-      globalObject.clearInterval(this.focusTimeout);
-    }
-    this.focusTimeout = globalObject.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
   };
 
   public componentDidMount() {
     if (this.node) {
       MouseDrag.listen(this.node).onMouseDragStart(this.handleMouseDragStart).onMouseDragEnd(this.handleMouseDragEnd);
     }
-    globalObject.document?.addEventListener('mousedown', this.handleDocumentMouseDown);
-    globalObject.document?.addEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   public componentWillUnmount() {
@@ -166,8 +143,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       globalObject.clearTimeout(this.blinkTimeout);
     }
     MouseDrag.stop(this.node);
-    globalObject.document?.removeEventListener('mousedown', this.handleDocumentMouseDown);
-    globalObject.document?.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
 
   public render() {
@@ -238,9 +213,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
-      [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-      [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
-      [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       [jsInputStyles.hideBlinkingCursor()]: isMobile,
     });
 
@@ -265,7 +237,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           onBlur={this.handleBlur}
           ref={this.innerRef}
           onKeyDown={this.handleKeyDown}
-          onMouseDown={this.handleMouseDown}
           role="textbox"
           aria-disabled={disabled}
           aria-describedby={ariaDescribedby}
@@ -289,7 +260,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
               {this.renderPlaceholder()}
             </span>
             {rightSide}
-            {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
           </InputLayoutContext.Provider>
         </span>
       </FocusControlWrapper>
@@ -316,39 +286,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return null;
   };
 
-  private handleDocumentMouseDown = (e: MouseEvent) => {
-    if (this.state.focused && this.node && isInstanceOf(e.target, globalObject.Node) && !this.node.contains(e.target)) {
-      this.defrost();
-    }
-  };
-
-  private handleDocumentKeyDown = (e: KeyboardEvent) => {
-    if (this.state.focused && isKeyTab(e)) {
-      this.defrost();
-    }
-  };
-
-  private handleMouseDown = () => {
-    this.frozen = true;
-  };
-
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.disabled) {
       return;
-    }
-
-    if (isIE11 && isShortcutPaste(e) && this.hiddenInput) {
-      this.frozen = true;
-      globalObject.setTimeout(() => {
-        if (this.lastSelectedInnerNode) {
-          this.selectInnerNode(...this.lastSelectedInnerNode);
-        }
-        if (this.node) {
-          this.node.focus();
-        }
-      }, 0);
-
-      this.hiddenInput.focus();
     }
 
     if (this.props.onKeyDown) {
@@ -384,17 +324,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     if (this.props.disabled) {
-      if (isIE11 && globalObject.document) {
-        selectNodeContents(globalObject.document.body, 0, 0);
-      }
       return;
-    }
-
-    if ((isIE11 || isEdge) && this.frozen) {
-      this.frozen = false;
-      if (this.state.focused) {
-        return;
-      }
     }
 
     // Auto-batching React@18 creates problems that are fixed with flushSync
@@ -415,9 +345,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (isMobile) {
       this.node?.removeAttribute('contenteditable');
     }
-    if ((isIE11 || isEdge) && this.frozenBlur) {
-      this.frozenBlur = false;
-    }
     removeAllSelections();
     this.setState({ focused: false });
   };
@@ -430,14 +357,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     if (this.props.disabled) {
       e.stopPropagation();
-      return;
-    }
-
-    if ((isIE11 || isEdge) && this.frozenBlur) {
-      this.frozenBlur = false;
-      return;
-    }
-    if ((isIE11 || isEdge) && this.frozen) {
       return;
     }
 
@@ -455,10 +374,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.setState({ clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: false }) });
   };
 
-  private hiddenInputRef = (el: HTMLInputElement | null) => {
-    this.hiddenInput = el;
-  };
-
   private innerRef = (el: HTMLElement | null) => {
     if (this.props.innerRef) {
       this.props.innerRef(el);
@@ -466,28 +381,20 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.node = el;
   };
 
-  private defrost = (): void => {
-    this.frozen = false;
-    this.frozenBlur = false;
-  };
-
   private getSizeClassName = () => {
     switch (this.getProps().size) {
       case 'large':
         return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,
-          [jsInputStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'medium':
         return cx({
           [jsInputStyles.sizeMedium(this.theme)]: true,
-          [jsInputStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'small':
       default:
         return cx({
           [jsInputStyles.sizeSmall(this.theme)]: true,
-          [jsInputStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
         });
     }
   };

@@ -81,7 +81,6 @@
     "@storybook/addon-controls": "7.6.18",
     "@storybook/addon-docs": "7.6.18",
     "@storybook/addon-essentials": "7.6.18",
-    "@storybook/addon-ie11": "0.0.6",
     "@storybook/addon-interactions": "^7.6.18",
     "@storybook/addon-links": "7.6.18",
     "@storybook/blocks": "^7.6.18",

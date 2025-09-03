@@ -71,7 +71,7 @@ kind('DatePicker', () => {
     setStoryParameters({
       skip: {
         flaky: {
-          in: /^(?!\b(chrome|ie11)\b)/,
+          in: ['chrome2022', 'chrome2022Dark', 'firefox2022', 'firefox2022Dark'],
           tests: ['DateSelect months', 'DateSelect years'],
         },
       },
