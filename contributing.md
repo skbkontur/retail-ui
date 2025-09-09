@@ -71,7 +71,6 @@
   - `build` — сборка библиотеки
   - `storybook` — Storybook
   - `storybook:test` — Storybook со стилями для тестов
-  - `styleguide` — Styleguidist server
   - `fix` — форматирование кода по правилам eslint и prettier
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
@@ -193,7 +192,6 @@ packages/
 └── react-ui/
     ├── .creevey/
     ├── .storybook/
-    ├── .styleguide/
     ├── ...
     └── components/
         ├── ...
@@ -212,7 +210,6 @@ packages/
 | `react-ui/`                                   | Библиотека контролов                     |
 | `react-ui/.creevey/`                          | [Скриншотные тесты](#скриншотные-тесты)  |
 | `react-ui/.storybook/`                        | Конфиг Storybook                         |
-| `react-ui/.styleguide/`                       | Конфиг React Styleguidist                |
 | `react-ui/components/`                        | Компоненты контролов                     |
 | `react-ui/components/Button`                  | Компонент кнопки                         |
 | `react-ui/components/Button/__stories__/`     | [Stories](#создание-story) для Storybook |
@@ -290,25 +287,6 @@ ButtonWithError.parameters = {
 Существующие тесты обновляются тем же образом (шаги 3 и 4).
 
 # Документация
-
-## Styleguidist
-
-Для документирования компонентов используется [React Styleguidist](https://github.com/styleguidist/react-styleguidist). Он позволяет документировать пропы и методы, а также демонстрировать примеры использования. Более подробную информацию можно найти в [официальной документации](https://react-styleguidist.js.org/docs/documenting.html).
-
-Собранная документация всегда доступна на [витрине](https://tech.skbkontur.ru/react-ui/). А локально она запускается так:
-
-```
-yarn workspace @skbkontur/react-ui styleguide
-```
-
-Для того, чтобы новый компонент появился в документации, его нужно поместить в отдельную одноименную директорию внутри `packages/react-ui/components` и сопроводить файлом `README.md`:
-
-```
-components/
-└── MyComponent/
-    ├── MyComponent.tsx
-    └── README.md
-```
 
 ## JSDoc
 

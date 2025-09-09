@@ -1,3 +1,0 @@
-# Редакторы
-
-    !!DemoWithCode!!./Editors

@@ -10,8 +10,6 @@ gemini-report
 /docs/dist/
 /build
 /reports
-.styleguide/build
-.styleguide/deploy
 .storybook/build
 *.less.d.ts
 /lib/**/*.js

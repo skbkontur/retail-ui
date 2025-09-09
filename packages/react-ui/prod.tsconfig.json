@@ -6,7 +6,6 @@
     "**/__stories__/**/*",
     "**/__docs__/**/*",
     "**/__creevey__/**/*",
-    ".styleguide",
     "build"
   ]
 }

@@ -10,7 +10,6 @@ module.exports = [
       '**/testing/react-devtools/**',
       '**/coverage/**',
       '**/gemini-report/**',
-      '**/.styleguide/**',
       '**/storybook-static/**',
       '**/build/**',
       '**/lib/**/*.js',

@@ -14,7 +14,6 @@ const checkoutFiles = () => {
     'packages/retail-ui/scripts/package/',
     'packages/retail-ui/scripts/git/',
     'packages/retail-ui/scripts/build/',
-    'packages/retail-ui/.styleguide/',
     '.gitignore',
     'packages/retail-ui/.gitignore',
   ];
@@ -41,10 +40,7 @@ const updatePackageJson = () => {
     prepublishOnly: 'yarn clean && node scripts/publish/prepublish && yarn build',
     clean: 'git clean -fdxqe node_modules',
     postpublish: 'yarn deploy && npm run publish:react-ui',
-    predeploy: 'rimraf .styleguide/build && yarn run styleguide:build',
-    deploy: 'gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git',
     'publish:react-ui': 'npm publish ./build',
-    'styleguide:build': 'node .styleguide/build',
   });
 
   delete config.scripts.postdeploy;

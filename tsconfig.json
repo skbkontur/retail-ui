@@ -7,7 +7,11 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "target": "es5",
-    "lib": ["es2017", "es2015", "dom"],
+    "lib": [
+      "es2017",
+      "es2015",
+      "dom"
+    ],
     "importHelpers": true,
     "declaration": true,
     "esModuleInterop": true,
@@ -17,7 +21,6 @@
   "exclude": [
     "node_modules",
     "**/node_modules/*",
-    "**/styleguide",
     "**/build",
     "**/cra-template-react-ui",
     "**/test-app"
