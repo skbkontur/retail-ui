@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.11.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.11.0...react-ui-testing@3.11.1) (2025-09-10)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
 # [3.11.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.9.1...react-ui-testing@3.11.0) (2025-09-01)
 
 
