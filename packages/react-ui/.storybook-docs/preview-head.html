@@ -18,15 +18,55 @@
     font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
   }
 
-  #storybook-docs .sbdocs-wrapper p,
-  #storybook-docs .sbdocs-wrapper li {
-    font-size: 16px;
-    color: rgba(0, 0, 0, 0.87);
+  #storybook-docs .sbdocs-content {
+    & > h1 {
+      margin-bottom: 24px;
+    }
+
+    & > h2 {
+      margin-top: 12px;
+      border-bottom: none !important;
+    }
+
+    & > h2 {
+      margin-top: 12px;
+      border-bottom: none !important;
+    }
+
+    & > h2:empty {
+      display: none;
+    }
+
+    & > h3 {
+      margin: 24px 0 12px;
+    }
+
+    & > h4 {
+      margin: 16px 0 12px;
+    }
+
+    & > p {
+      margin: 8px 0;
+    }
+
+    & > p + h2 {
+      margin-top: 32px;
+    }
+
+    & > p,
+    & > li {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    & > code {
+      font-family: monospace;
+      font-size: 14px;
+    }
   }
 
-  #storybook-docs .sbdocs-wrapper code {
-    font-family: monospace;
-    font-size: 14px;
+  .toc-list-item.is-active-li > a {
+    font-weight: 700 !important;
   }
 
   html.relative {
@@ -54,10 +94,6 @@
   .dark [data-role='preview-wrapper'] > div,
   .dark [data-role='preview-wrapper'] + div {
     background: #292929;
-  }
-
-  #storybook-docs .sbdocs-wrapper details > summary {
-    color: rgba(0, 0, 0, 0.87);
   }
 
   /*Кастомные стили*/
@@ -137,7 +173,7 @@
   }
 
   .toc-list-item > a {
-    color: #3c3c3c !important;
+    color: #222 !important;
 
     &:hover {
       color: #222 !important;

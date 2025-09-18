@@ -19,36 +19,55 @@
     font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
   }
 
-  #storybook-docs .sbdocs-content > h2 {
-    margin-top: 12px;
-    border-bottom: none !important;
+  #storybook-docs .sbdocs-content {
+    & > h1 {
+      margin-bottom: 24px;
+    }
+
+    & > h2 {
+      margin-top: 12px;
+      border-bottom: none !important;
+    }
+
+    & > h2 {
+      margin-top: 12px;
+      border-bottom: none !important;
+    }
+
+    & > h2:empty {
+      display: none;
+    }
+
+    & > h3 {
+      margin: 24px 0 12px;
+    }
+
+    & > h4 {
+      margin: 16px 0 12px;
+    }
+
+    & > p {
+      margin: 8px 0;
+    }
+
+    & > p + h2 {
+      margin-top: 32px;
+    }
+
+    & > p,
+    & > li {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    & > code {
+      font-family: monospace;
+      font-size: 14px;
+    }
   }
 
-  #storybook-docs .sbdocs-content > h2:empty {
-    display: none;
-  }
-
-  #storybook-docs .sbdocs-content > div > h3 {
-    margin: 24px 0 12px;
-  }
-
-  #storybook-docs .sbdocs-content > div > p {
-    margin: 8px 0;
-  }
-
-  #storybook-docs .sbdocs-content > p + h2 {
-    margin-top: 32px;
-  }
-
-  #storybook-docs .sbdocs-wrapper p,
-  #storybook-docs .sbdocs-wrapper li {
-    font-size: 16px;
-    color: rgba(0, 0, 0, 0.87);
-  }
-
-  #storybook-docs .sbdocs-wrapper code {
-    font-family: monospace;
-    font-size: 14px;
+  .toc-list-item.is-active-li > a {
+    font-weight: 700 !important;
   }
 
   html.relative {
@@ -136,16 +155,9 @@
     margin: 0 !important;
   }
 
-  div:has(> div > div.toc-wrapper) p {
-    display: none;
-  }
-
   div:has(> div > div.toc-wrapper) .toc-list-item {
-    padding-top: 6px;
     padding-left: 0 !important;
-    padding-bottom: 6px;
     margin-left: 0 !important;
-    text-wrap: balance;
     font-size: 14px !important;
   }
 
@@ -155,10 +167,6 @@
 
   .toc-list-item.is-active-li:before {
     content: none !important;
-  }
-
-  .toc-list-item.is-active-li > a {
-    font-weight: 700 !important;
   }
 
   .toc-list-item > a {
