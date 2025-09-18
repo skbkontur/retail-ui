@@ -90,8 +90,8 @@ const preview: Preview = {
   parameters: {
     docs: {
       toc: {
-        title: 'Содержание',
-        headingSelector: 'h2, h3, h4, h1#change-log ~ h1',
+        title: '',
+        headingSelector: '.sbdocs > h2, .sbdocs > h3, .sbdocs > h4, h1#change-log ~ h1',
         ignoreSelector: 'h1#change-log ~ h3',
       },
       controls: {
