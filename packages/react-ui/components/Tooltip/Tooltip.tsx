@@ -2,7 +2,6 @@ import React from 'react';
 import warning from 'warning';
 import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
-import type { SizeProp } from 'react-ui/lib/types/props';
 
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -27,6 +26,8 @@ import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { cx } from '../../lib/theming/Emotion';
+import type { SizeProp } from '../../lib/types/props';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Tooltip.styles';
 
@@ -117,7 +118,7 @@ export const TooltipDataTids = {
   crossIcon: 'Tooltip__crossIcon',
 } as const;
 
-const OldPositions: PopupPositionsType[] = [
+const DefaultPositions: PopupPositionsType[] = [
   'right bottom',
   'right middle',
   'right top',
@@ -189,7 +190,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private popupRef = React.createRef<Popup>();
 
   public getAllowedPositions() {
-    return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+    return this.props.allowedPositions ? this.props.allowedPositions : DefaultPositions;
   }
 
   public componentDidMount(): void {
@@ -358,7 +359,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
-          positions={this.getPositions()}
+          positions={isThemeGTE(this.theme, '5.4') ? this.getPositions() : this.props.allowedPositions}
           pos={this.props.pos}
           ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
@@ -374,9 +375,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  private getPositions = (): PopupPositionsType[] | undefined => {
-    return this.props.allowedPositions;
-  };
+  private getPositions = (): PopupPositionsType[] =>
+    this.props.allowedPositions
+      ? this.props.allowedPositions.filter((item) => DefaultPositions.includes(item))
+      : DefaultPositions;
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
