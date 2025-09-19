@@ -27,7 +27,7 @@ export const Header = ({ component, guides, figma }: HeaderProps = {}) => {
       display: flex;
       gap: 2px;
       align-items: flex-start;
-      padding: 12px 0 24px;
+      margin: 12px 0 24px !important;
     }
 
     a {
