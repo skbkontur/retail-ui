@@ -77,6 +77,23 @@ module.exports = [
           message: "Use `import { ... } from 'react-dom'`",
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-ui',
+              message: 'Please use relative path or "@skbkontur/react-ui" instead.',
+            },
+          ],
+          patterns: [
+            {
+              group: ['react-ui/*'],
+              message: 'Please use relative path or "@skbkontur/react-ui" instead.',
+            },
+          ],
+        },
+      ],
       'import/default': 0,
       'import/order': [2, { 'newlines-between': 'always' }],
       'import/no-unresolved': 0,

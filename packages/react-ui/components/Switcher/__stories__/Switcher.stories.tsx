@@ -1,5 +1,4 @@
 import React from 'react';
-import type { CommonProps } from 'react-ui/internal/CommonWrapper/types';
 
 import type { Story } from '../../../typings/stories';
 import type { SwitcherItems, SwitcherProps } from '../Switcher';
@@ -13,6 +12,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Select } from '../../Select';
 import type { SizeProp } from '../../../lib/types/props';
+import type { CommonProps } from '../../../internal/CommonWrapper/types';
 
 interface ComponentState {
   value: string;

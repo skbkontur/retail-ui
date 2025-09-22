@@ -1,9 +1,9 @@
 import React from 'react';
-import type { DropdownProps } from 'react-ui';
 
 import type { PopupPositionsType, PopupProps } from '../Popup';
 import { Popup } from '../Popup';
 import type { Nullable } from '../../../typings/utility-types';
+import type { DropdownProps } from '../../../components/Dropdown';
 import { Tooltip } from '../../../components/Tooltip';
 import { ComboBox } from '../../../components/ComboBox';
 import { Hint } from '../../../components/Hint';

@@ -2,8 +2,8 @@ import React from 'react';
 import warning from 'warning';
 import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
-import type { SizeProp } from 'react-ui/lib/types/props';
 
+import type { SizeProp } from '../../lib/types/props';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
