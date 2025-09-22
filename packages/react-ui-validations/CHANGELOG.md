@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.3](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.3.2...react-ui-validations@2.3.3) (2025-09-22)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 ## [2.3.2](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.3.1...react-ui-validations@2.3.2) (2025-09-10)
 
 **Note:** Version bump only for package react-ui-validations
