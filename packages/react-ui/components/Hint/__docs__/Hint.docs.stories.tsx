@@ -75,24 +75,24 @@ Example6.storyName = 'Всплытие без анимации';
 В подобных случаях следуют использовать проп `useWrapper`: */
 export const Example7: Story = () => {
   return (
-    <Hint useWrapper text="Подсказа всё равно отображается">
+    <Hint useWrapper text="Подсказка всё равно отображается">
       <button disabled>native button</button>
     </Hint>
   );
 };
-Example7.storyName = 'Встроеная обёртка';
+Example7.storyName = 'Встроенная обёртка';
 
 /** Т.к. встроённая обёртка это `<span>` без стилей, то она может работать некорректно в определённых ситуациях.
 В таких случаях стоит использовать собственную обётку: */
 export const Example8: Story = () => {
   return (
     <>
-      <Hint useWrapper text="Подсказа">
+      <Hint useWrapper text="Подсказка">
         <button disabled style={{ height: 40 }}>
           useWrapper prop
         </button>
       </Hint>
-      <Hint text="Подсказа">
+      <Hint text="Подсказка">
         <span style={{ display: 'inline-block' }}>
           <button disabled style={{ height: 40 }}>
             custom wrapper
