@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.3...@skbkontur/react-ui@5.3.4) (2025-09-23)
+
+
+### Bug Fixes
+
+* **react-ui:** use imask with fixed sourcemap ([a4ee23d](https://github.com/skbkontur/retail-ui/commit/a4ee23de971210302c2e3dfcf9f1e9b1c5eb2ad5))
+
+
+
+
+
 ## [5.3.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.2...@skbkontur/react-ui@5.3.3) (2025-09-22)
 
 
