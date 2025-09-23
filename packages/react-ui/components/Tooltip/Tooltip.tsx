@@ -27,7 +27,6 @@ import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { cx } from '../../lib/theming/Emotion';
-import type { SizeProp } from '../../lib/types/props';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Tooltip.styles';
