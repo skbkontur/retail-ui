@@ -280,4 +280,48 @@ describe('MaskedInput', () => {
       });
     });
   });
+
+  describe('cleaning input', () => {
+    it(`without unmask`, async () => {
+      let value = '';
+      const Comp = () => {
+        return <MaskedInput mask="{+7} (999) 999-99-99" onValueChange={(v) => (value = v)} />;
+      };
+      render(<Comp />);
+
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.type(input, '1');
+      expect(value).toBe('+7 (1__) ___-__-__');
+      await userEvent.clear(input);
+      expect(value).toBe('');
+    });
+
+    it(`with unmask and brackets`, async () => {
+      let value = '';
+      const Comp = () => {
+        return <MaskedInput mask="{+7} (999) 999-99-99" onValueChange={(v) => (value = v)} unmask />;
+      };
+      render(<Comp />);
+
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.type(input, '1');
+      expect(value).toBe('+71');
+      await userEvent.clear(input);
+      expect(value).toBe('');
+    });
+
+    it(`with unmask and without brackets`, async () => {
+      let value = '';
+      const Comp = () => {
+        return <MaskedInput mask="+7 (999) 999-99-99" onValueChange={(v) => (value = v)} unmask />;
+      };
+      render(<Comp />);
+
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.type(input, '1');
+      expect(value).toBe('1');
+      await userEvent.clear(input);
+      expect(value).toBe('');
+    });
+  });
 });

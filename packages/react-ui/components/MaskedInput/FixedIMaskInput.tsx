@@ -204,8 +204,9 @@ export const FixedIMaskInput = forwardRefAndName(
 
     function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
       const maskRef = imaskRef.current?.maskRef;
-      if (restProps.unmask && maskRef && maskRef.rawInputValue === '' && maskRef.unmaskedValue !== '') {
-        // Для случаев, когда в value остаются только зафиксированные - {} - очищаем value полностью
+      if (maskRef && maskRef.rawInputValue === '') {
+        // в случае, когда пользователь стер все из инпута, очищаем value полностью
+        // иначе в value остаются символы маски
         props.onAccept?.('', maskRef, e.nativeEvent as InputEvent);
       }
 
