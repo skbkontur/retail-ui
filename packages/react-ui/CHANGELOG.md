@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.6...@skbkontur/react-ui@5.3.7) (2025-09-24)
+
+
+### Bug Fixes
+
+* **MaskedInput:** return "" from onValueChange after input cleaning ([884ed1c](https://github.com/skbkontur/retail-ui/commit/884ed1c296d36bea895b3cb13481dcf67052193f))
+
+
+
+
+
 ## [5.3.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.5...@skbkontur/react-ui@5.3.6) (2025-09-24)
 
 
