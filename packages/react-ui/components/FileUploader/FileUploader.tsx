@@ -193,6 +193,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
       const { dataTransfer } = event;
       if (dataTransfer) {
         if (dataTransfer.files?.length > 0) {
+          inputRef.current && (inputRef.current.files = dataTransfer.files);
           handleChange(dataTransfer.files);
         }
       }
