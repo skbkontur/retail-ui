@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.5...@skbkontur/react-ui@5.3.6) (2025-09-24)
+
+
+### Bug Fixes
+
+* **ComboBox,MaskedInput:** support mask and filter value on paste ([a6f6935](https://github.com/skbkontur/retail-ui/commit/a6f69355a1b962dbaf8a86158c6b833b2159eb48))
+
+
+
+
+
 ## [5.3.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.4...@skbkontur/react-ui@5.3.5) (2025-09-24)
 
 
