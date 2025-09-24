@@ -19,6 +19,7 @@ import type { ComboBoxExtendedItem } from '../../components/ComboBox';
 import type { SizeProp } from '../../lib/types/props';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
+import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
@@ -30,7 +31,8 @@ export * from './tids';
 export interface CustomComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
-    CommonProps {
+    CommonProps,
+    Partial<Pick<MaskedInputProps, 'mask' | 'maskChar' | 'formatChars'>> {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -80,6 +82,7 @@ export interface CustomComboBoxProps<T>
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+  onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
 }
 
 export interface CustomComboBoxState<T> {
@@ -290,6 +293,10 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       leftIcon: this.props.leftIcon,
       rightIcon: this.props.rightIcon,
       inputMode: this.props.inputMode,
+      mask: this.props.mask,
+      maskChar: this.props.maskChar,
+      formatChars: this.props.formatChars,
+      onBeforePasteInMask: this.props.onBeforePasteInMask,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,

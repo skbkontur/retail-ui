@@ -91,6 +91,32 @@ describe('MaskedInput', () => {
     expect(input).toHaveValue('+7 (___) ___ __ __');
   });
 
+  it('filter paste values', async () => {
+    const Component = ({ onBeforePasteValue }: { onBeforePasteValue: (value: string) => string }) => {
+      const [value, setValue] = React.useState<string>('');
+
+      return (
+        <MaskedInput
+          value={value}
+          mask="+7 (999) 999-99-99"
+          onBeforePasteValue={onBeforePasteValue}
+          onValueChange={setValue}
+        />
+      );
+    };
+
+    const beforePasteValueHandler = jest.fn((value) => value.slice(3));
+
+    render(<Component onBeforePasteValue={beforePasteValueHandler} />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.paste('+7 (912) 043-22-28');
+    expect(beforePasteValueHandler).toHaveBeenCalledTimes(1);
+    expect(beforePasteValueHandler).toHaveBeenCalledWith('+7 (912) 043-22-28');
+
+    expect(screen.getByRole('textbox')).toHaveValue('+7 (912) 043-22-28');
+  });
+
   it.each([
     ['', ''],
     ['+7 (', '+7 ('],

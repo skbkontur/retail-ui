@@ -10,10 +10,12 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
+import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../MaskedInput';
 
 export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
+    Partial<Pick<MaskedInputProps, 'mask' | 'maskChar' | 'formatChars'>>,
     CommonProps {
   /** Показывать иконку очистки значения в непустом поле:
    * - `always` — всегда показывать иконку
@@ -168,6 +170,9 @@ export interface ComboBoxProps<T>
 
   /** Задает типы вводимых данных. */
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
+
+  /** Задает функцию, которая вызывается при вставке значения в инпут с маской. */
+  onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
 }
 
 export interface ComboBoxItem {

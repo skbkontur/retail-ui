@@ -14,6 +14,8 @@ import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
 import { ColorableInputElement } from './ColorableInputElement';
 import { FixedIMaskInput } from './FixedIMaskInput';
 
+export type MaskedInputOnBeforePasteValue = (value: string) => string;
+
 export interface MaskedProps {
   /** Паттерн маски */
   mask: string;
@@ -38,6 +40,14 @@ export interface MaskedProps {
    * @param blink вспыхнуть акцентным цвтетом.
    */
   onUnexpectedInput?: (value: string, blink: () => void) => void;
+
+  /** Задает обработчик вставки значения в инпут.
+   * В value будет передано значение из буфера обмена.
+   * Возвращаемое значение будет использовано как значение инпута.
+   * Используется для фильтрации значения при вставке из буфера обмена.
+   * @param value значение вставки.
+   */
+  onBeforePasteValue?: MaskedInputOnBeforePasteValue;
 
   /** Убирает из value символы, не введённые пользователем
    * @default false */
@@ -98,6 +108,7 @@ export const MaskedInput = forwardRefAndName(
       onValueChange,
       onUnexpectedInput,
       onChange,
+      onBeforePasteValue,
       element,
       className,
       ...inputProps
@@ -147,6 +158,7 @@ export const MaskedInput = forwardRefAndName(
         onBlur={handleBlur}
         onInput={handleInput}
         onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
         className={cx(globalClasses.root, uiFontGlobalClassesRoot, className, styles.root(theme))}
         element={
           colored ? (
@@ -159,6 +171,15 @@ export const MaskedInput = forwardRefAndName(
         }
       />
     );
+
+    function handlePaste(event: React.ClipboardEvent<HTMLInputElement>) {
+      if (onBeforePasteValue && onValueChange) {
+        event.preventDefault();
+        onValueChange?.(onBeforePasteValue(event.clipboardData?.getData('text') ?? ''));
+      }
+
+      props.onPaste?.(event);
+    }
 
     function getCompatibleIMaskProps(): IMaskInputProps<HTMLInputElement> {
       return {

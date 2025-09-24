@@ -985,3 +985,67 @@ export const ComboboxWithClearCross: Story = () => {
     </Gapped>
   );
 };
+
+export const ComboboxWithMask: Story = () => {
+  const [value, setValue] = React.useState<Nullable<ComboboxItem>>(null);
+
+  const getOnlyDigits = (value: string) => value.match(/\d+/g)?.join('') || '';
+  const getItems = (q: string) => {
+    const numbers = getOnlyDigits(q);
+    return Promise.resolve(
+      [
+        {
+          value: 79120439827,
+          label: '+7 912 043-98-27',
+        },
+        {
+          value: 79120432228,
+          label: '+7 912 043-22-28',
+        },
+      ].filter((x) => x.value.toString().startsWith(numbers)),
+    );
+  };
+
+  return (
+    <ComboBox<ComboboxItem>
+      showClearIcon="always"
+      getItems={getItems}
+      value={value}
+      mask="+7 999 999-99-99"
+      maskChar="_"
+      formatChars={{
+        '9': '[0-9]',
+      }}
+      onValueChange={setValue}
+      onBeforePasteInMask={handlePaste}
+    />
+  );
+
+  function handlePaste(value: string): string {
+    const phoneNumber = tryGetPhoneNumber(value);
+    if (phoneNumber.length === 11 && phoneNumber.startsWith('7')) {
+      return phoneNumber;
+    }
+    return value;
+  }
+};
+
+function tryGetPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, '');
+  let phoneNumber = digits;
+  if (digits.length >= 10) {
+    if (digits.startsWith('8') && digits.length === 11) {
+      phoneNumber = '7' + digits.slice(1);
+    } else if (digits.startsWith('7') && digits.length === 11) {
+      phoneNumber = digits;
+    } else if (digits.length === 10) {
+      phoneNumber = '7' + digits;
+    }
+  }
+  return phoneNumber;
+}
+ComboboxWithMask.parameters = {
+  creevey: {
+    skip: true, // manual review only
+  },
+};

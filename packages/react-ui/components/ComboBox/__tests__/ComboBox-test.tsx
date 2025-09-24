@@ -326,6 +326,58 @@ describe('ComboBox', () => {
     expect(screen.queryByTestId(MenuDataTids.root)).toBeInTheDocument();
   });
 
+  describe('with mask', () => {
+    it('correct input value', async () => {
+      const testValues = [
+        { value: '79120439827', label: '+7 912 043-98-27' },
+        { value: '79120432228', label: '+7 912 043-22-28' },
+        { value: '79120432229', label: '+7 912 043-22-29' },
+      ];
+
+      const getItems = (query: string) => Promise.resolve(testValues.filter((item) => item.label.includes(query)));
+      render(<ComboBox mask="+7 999 999-99-99" getItems={getItems} />);
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.type(screen.getByRole('textbox'), '9120439827');
+      expect(screen.getByRole('textbox')).toHaveValue('+7 912 043-98-27');
+    });
+
+    it('correct value on paste with mask', async () => {
+      const testValues = [
+        { value: '79120439827', label: '+7 912 043-98-27' },
+        { value: '79120432228', label: '+7 912 043-22-28' },
+        { value: '79120432229', label: '+7 912 043-22-29' },
+      ];
+
+      const getItems = (query: string) =>
+        Promise.resolve(testValues.filter((item) => query && item.label.includes(query)));
+
+      const changeHandler = jest.fn();
+      const unexpectedInputHandler = jest.fn((value: string) => testValues.find((item) => item.label.includes(value)));
+      const maskOnBeforePasteHandler = jest.fn((value: string) => value.slice(3)); // NOTE: подрезаем 3 символа '+7 ', иначе в маске будет +7 791-20-43-22
+      render(
+        <ComboBox
+          onValueChange={changeHandler}
+          getItems={getItems}
+          mask="+7 999 999-99-99"
+          onBeforePasteInMask={maskOnBeforePasteHandler}
+          onUnexpectedInput={unexpectedInputHandler}
+        />,
+      );
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.paste(testValues[1].label);
+
+      expect(maskOnBeforePasteHandler).toHaveBeenCalledTimes(1);
+      expect(screen.getByRole('textbox')).toHaveValue('+7 912 043-22-28');
+
+      await delay(300);
+      clickOutside();
+      await delay(0);
+
+      expect(unexpectedInputHandler).toHaveBeenCalledWith('912 043-22-28');
+      expect(changeHandler).toHaveBeenCalledWith(testValues[1]);
+    });
+  });
+
   describe('call focus with param withoutOpenDropdown=true', () => {
     beforeEach(async () => {
       render(

@@ -588,3 +588,34 @@ export const Example9: Story = () => {
   );
 };
 Example9.storyName = 'Размер';
+
+export const Example10: Story = () => {
+  const [value, setValue] = React.useState<{ value: number; label: string } | null>(null);
+  const getOnlyDigits = (value: string) => value.match(/\d+/g)?.join('') || '';
+  const getItems = (q: string) => {
+    const numbers = getOnlyDigits(q);
+    return Promise.resolve(
+      [
+        {
+          value: 79120439827,
+          label: '+7 912 043-98-27',
+        },
+        {
+          value: 79120432228,
+          label: '+7 912 043-22-28',
+        },
+      ].filter((x) => x.value.toString().startsWith(numbers)),
+    );
+  };
+  return (
+    <ComboBox
+      showClearIcon="always"
+      getItems={getItems}
+      value={value}
+      onValueChange={setValue}
+      mask="+7 999 999-99-99"
+      maskChar="_"
+    />
+  );
+};
+Example10.storyName = 'Маска';

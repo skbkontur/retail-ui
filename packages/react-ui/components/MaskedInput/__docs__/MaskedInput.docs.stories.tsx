@@ -150,3 +150,25 @@ export const Example7: Story = () => {
   );
 };
 Example7.storyName = 'Пример с буквами и цифрами';
+
+export const Example8: Story = () => {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <>
+      <span>value: "+7 (999) 999-99-99"</span>
+      <br />
+      <br />
+      <MaskedInput
+        mask="+7 (999) 999-99-99"
+        unmask
+        alwaysShowMask
+        type="tel"
+        value={value}
+        onBeforePasteValue={(value) => value.replace(/\D/g, '').slice(1)}
+        onValueChange={setValue}
+      />
+    </>
+  );
+};
+Example8.storyName = 'Проп `onBeforePasteValue` для фильтрации значения при вставке из буфера обмена';

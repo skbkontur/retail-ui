@@ -25,6 +25,10 @@ import type { SizeProp } from '../../lib/types/props';
 import { Popup } from '../Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../ZIndex';
+import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput';
+import { MaskedInput } from '../../components/MaskedInput';
+import { styles as MaskedInputStyles } from '../../components/MaskedInput/MaskedInput.styles';
+import { cx } from '../../lib/theming/Emotion';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -36,7 +40,8 @@ import { getComboBoxTheme } from './getComboBoxTheme';
 interface ComboBoxViewProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
-    CommonProps {
+    CommonProps,
+    Partial<Pick<MaskedInputProps, 'mask' | 'maskChar' | 'formatChars'>> {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -73,6 +78,7 @@ interface ComboBoxViewProps<T>
   rightIcon?: InputIconType;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 
+  onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
   onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
   onFocus?: () => void;
@@ -353,44 +359,59 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
       showClearIcon,
+      mask,
+      maskChar,
+      formatChars,
+      onBeforePasteInMask,
     } = this.props;
-
-    const { renderValue } = this.getProps();
 
     const rightIcon = this.getRightIcon();
 
     if (editing) {
-      return (
-        <Input
-          id={id}
-          align={align}
-          borderless={borderless}
-          disabled={disabled}
-          error={error}
-          maxLength={this.props.maxLength}
-          onBlur={isMobile ? undefined : onInputBlur}
-          onValueChange={onInputValueChange}
-          onFocus={onInputFocus}
-          onClick={isMobile ? this.handleMobileFocus : onInputClick}
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
-          value={textValue || ''}
-          onKeyDown={onInputKeyDown}
-          placeholder={placeholder}
-          width="100%"
-          size={size}
-          ref={this.refInput}
-          warning={warning}
-          inputMode={inputMode}
-          autoComplete="off"
-          aria-describedby={ariaDescribedby}
-          aria-controls={this.menuId}
-          aria-label={ariaLabel}
-          showClearIcon={showClearIcon}
-        />
-      );
+      const inputProps: InputProps = {
+        id,
+        align,
+        borderless,
+        disabled,
+        error,
+        onBlur: isMobile ? undefined : onInputBlur,
+        onValueChange: onInputValueChange,
+        onFocus: onInputFocus,
+        onClick: isMobile ? this.handleMobileFocus : onInputClick,
+        leftIcon,
+        rightIcon,
+        value: textValue || '',
+        onKeyDown: onInputKeyDown,
+        placeholder,
+        width: '100%',
+        size,
+        warning,
+        inputMode,
+        autoComplete: 'off',
+        'aria-describedby': ariaDescribedby,
+        'aria-controls': this.menuId,
+        'aria-label': ariaLabel,
+        showClearIcon,
+      };
+
+      if (mask) {
+        return (
+          <MaskedInput
+            ref={this.refInput}
+            {...inputProps}
+            type="text"
+            mask={mask}
+            maskChar={maskChar}
+            formatChars={formatChars}
+            onBeforePasteValue={onBeforePasteInMask}
+          />
+        );
+      }
+
+      return <Input ref={this.refInput} maxLength={this.props.maxLength} {...inputProps} />;
     }
 
+    const { renderValue } = this.getProps();
     return (
       <InputLikeText
         id={id}
@@ -409,6 +430,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
         showClearIcon={showClearIcon}
+        className={cx(mask && MaskedInputStyles.root(this.theme))}
         onClearCrossClick={this.props.onClearCrossClick}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}

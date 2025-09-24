@@ -468,3 +468,24 @@ ChangeTheme.parameters = {
     skip: { 'enough basic theme': { in: /^(?!\b(chrome2022)\b)/ } },
   },
 };
+
+export const WithMaskOnBeforePaste: Story = () => {
+  const [value, setValue] = useState('');
+  return (
+    <div>
+      <input data-tid="input" type="text" value="79120439827" onChange={(e) => setValue(e.target.value)} />
+      <MaskedInput
+        mask="+7 999 999-99-99"
+        data-tid="masked-input"
+        value={value}
+        onValueChange={setValue}
+        onBeforePasteValue={(value) => value.slice(1)}
+      />
+    </div>
+  );
+};
+WithMaskOnBeforePaste.parameters = {
+  creevey: {
+    skip: true, // manual review only
+  },
+};
