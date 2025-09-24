@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.4...@skbkontur/react-ui@5.3.5) (2025-09-24)
+
+
+### Bug Fixes
+
+* **FileUploader:** set files on drop ([ba181f3](https://github.com/skbkontur/retail-ui/commit/ba181f3e89354bea9e18e4ca20dd97c43c7e292e))
+
+
+
+
+
 ## [5.3.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.3...@skbkontur/react-ui@5.3.4) (2025-09-23)
 
 
