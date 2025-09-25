@@ -1,11 +1,12 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
+import warning from 'warning';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Nullable } from '../../typings/utility-types';
 import type { PopupMenuProps } from '../../internal/PopupMenu';
 import { PopupMenu } from '../../internal/PopupMenu';
-import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
+import { isTestEnv } from '../../lib/currentEnvironment';
 import type { PopupPositionsType } from '../../internal/Popup';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -90,8 +91,8 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   constructor(props: DropdownMenuProps) {
     super(props);
 
-    if (!props.caption && !isProductionEnv) {
-      throw new Error('Prop "caption" is required!!!');
+    if (!props.caption) {
+      warning(false, 'Prop "caption" is required!!!');
     }
   }
 

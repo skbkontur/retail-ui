@@ -20,6 +20,16 @@ async function getItems(query: string) {
 }
 
 describe('<TokenInput />', () => {
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+  beforeEach(() => {
+    consoleSpy.mockClear();
+  });
+
+  afterAll(() => {
+    consoleSpy.mockRestore();
+  });
+
   it('should contains placeholder', () => {
     const onChange = jest.fn();
     render(<TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />);
@@ -33,8 +43,8 @@ describe('<TokenInput />', () => {
   });
 
   it('should throw error without getItems prop', () => {
-    const renderNoGetItems = () => render(<TokenInput />);
-    expect(renderNoGetItems).toThrow('Missed getItems for type');
+    render(<TokenInput />);
+    expect(consoleSpy).toHaveBeenCalledWith('Warning: getItems is required for "Combined" and "WithReference" modes.');
   });
 
   it('should focus input', () => {

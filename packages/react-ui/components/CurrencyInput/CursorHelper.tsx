@@ -1,3 +1,5 @@
+import warning from 'warning';
+
 import type { Selection } from './SelectionHelper';
 
 export type CursorMap = number[];
@@ -25,7 +27,8 @@ export class CursorHelper {
 
   public static calculatePosition(map: CursorMap, position: number, step: number) {
     if (position < 0 || map.length <= position) {
-      throw new Error(`position out of range [${0} .. ${map.length - 1}], actual value: ${position}`);
+      warning(false, `position out of range [${0} .. ${map.length - 1}], actual value: ${position}`);
+      return position < 0 ? 0 : map.length - 1;
     }
     const raw = CursorHelper.toRawPosition(map, position);
     return CursorHelper.toFormattedPosition(map, raw + step);

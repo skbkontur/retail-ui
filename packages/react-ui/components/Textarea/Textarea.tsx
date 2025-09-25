@@ -2,6 +2,7 @@ import type { AriaAttributes, ReactNode } from 'react';
 import React from 'react';
 import throttle from 'lodash.throttle';
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
@@ -258,7 +259,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
    */
   public setSelectionRange = (start: number, end: number) => {
     if (!this.node) {
-      throw new Error('Cannot call "setSelectionRange" on unmounted Input');
+      warning(false, 'Cannot call "setSelectionRange" on unmounted Input');
+      return;
     }
 
     if (globalObject.document?.activeElement !== this.node) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import warning from 'warning';
 
 import type { Nullable } from '../../typings/utility-types';
 
@@ -101,21 +102,28 @@ export class PopupPin extends React.Component<Props> {
       case 'right':
         return 'left';
       default:
-        throw new TypeError('Unknown direction ' + popupDirection);
+        warning(
+          false,
+          `Unknown direction ${popupDirection}. Must be one of - 'top', 'bottom', 'left', 'right'. Returning default value.`,
+        );
+        return 'bottom';
     }
   }
 
   private getWrapperStyle(left: number, top: number, borderWidth: number) {
     const direction = this.getPopupOppositeDirection();
+
+    const defaultWrapperStyle = {
+      [direction]: -borderWidth + 'px',
+      left: left + 'px',
+      width: borderWidth * 2 + 'px',
+      height: borderWidth + 'px',
+    };
+
     switch (direction) {
       case 'top':
       case 'bottom':
-        return {
-          [direction]: -borderWidth + 'px',
-          left: left + 'px',
-          width: borderWidth * 2 + 'px',
-          height: borderWidth + 'px',
-        };
+        return defaultWrapperStyle;
       case 'left':
       case 'right':
         return {
@@ -125,22 +133,29 @@ export class PopupPin extends React.Component<Props> {
           width: borderWidth + 'px',
         };
       default:
-        throw new TypeError('Unknown direction ' + direction);
+        warning(
+          false,
+          `Unexpected direction '${direction}'. Must be one of - 'top', 'right', 'bottom', 'left'. Returning default value.`,
+        );
+        return defaultWrapperStyle;
     }
   }
 
   private getOuterStyle(activeBorder: string, borderWitdth: number, borderColor: string): React.CSSProperties {
     const direction = this.getPopupOppositeDirection();
+
+    const defaultOuterStyle = {
+      ...borderStyles,
+      [direction]: -borderWitdth + 'px',
+      left: '0px',
+      borderWidth: borderWitdth + 'px',
+      ['border' + activeBorder + 'Color']: borderColor,
+    } as React.CSSProperties;
+
     switch (direction) {
       case 'top':
       case 'bottom':
-        return {
-          ...borderStyles,
-          [direction]: -borderWitdth + 'px',
-          left: '0px',
-          borderWidth: borderWitdth + 'px',
-          ['border' + activeBorder + 'Color']: borderColor,
-        } as React.CSSProperties;
+        return defaultOuterStyle;
       case 'left':
       case 'right':
         return {
@@ -151,22 +166,29 @@ export class PopupPin extends React.Component<Props> {
           ['border' + activeBorder + 'Color']: borderColor,
         } as React.CSSProperties;
       default:
-        throw new TypeError('Unknown direction ' + direction);
+        warning(
+          false,
+          `Unexpected direction '${direction}'. Must be one of - 'top', 'right', 'bottom', 'left'. Returning default value.`,
+        );
+        return defaultOuterStyle;
     }
   }
 
   private getInnerStyle(activeBorder: string, borderWitdth: number, borderColor: string): React.CSSProperties {
     const direction = this.getPopupOppositeDirection();
+
+    const defaultInnerStyle = {
+      ...borderStyles,
+      [direction]: -borderWitdth + 2 + 'px',
+      left: -borderWitdth + 'px',
+      borderWidth: borderWitdth + 'px',
+      ['border' + activeBorder + 'Color']: borderColor,
+    } as React.CSSProperties;
+
     switch (direction) {
       case 'top':
       case 'bottom':
-        return {
-          ...borderStyles,
-          [direction]: -borderWitdth + 2 + 'px',
-          left: -borderWitdth + 'px',
-          borderWidth: borderWitdth + 'px',
-          ['border' + activeBorder + 'Color']: borderColor,
-        } as React.CSSProperties;
+        return defaultInnerStyle;
       case 'left':
       case 'right':
         return {
@@ -177,7 +199,11 @@ export class PopupPin extends React.Component<Props> {
           ['border' + activeBorder + 'Color']: borderColor,
         } as React.CSSProperties;
       default:
-        throw new TypeError('Unknown direction ' + direction);
+        warning(
+          false,
+          `Unexpected direction '${direction}'. Must be one of - 'top', 'right', 'bottom', 'left'. Returning default value.`,
+        );
+        return defaultInnerStyle;
     }
   }
 
@@ -191,16 +217,18 @@ export class PopupPin extends React.Component<Props> {
     const bordersDelta = 2 * borderWidth;
     const outerSize = pinSize + bordersDelta;
 
+    const defaultOptions = {
+      outerTop: popupRect.height,
+      outerLeft: this.getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+      innerTop: -outerSize,
+      innerLeft: -outerSize + bordersDelta,
+      activeBorder: 'Top',
+      outerSize,
+    };
+
     switch (popupPosition.direction) {
       case 'top':
-        return {
-          outerTop: popupRect.height,
-          outerLeft: this.getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
-          innerTop: -outerSize,
-          innerLeft: -outerSize + bordersDelta,
-          activeBorder: 'Top',
-          outerSize,
-        };
+        return defaultOptions;
       case 'bottom':
         return {
           outerTop: -2 * outerSize,
@@ -229,33 +257,47 @@ export class PopupPin extends React.Component<Props> {
           outerSize,
         };
       default:
-        throw new Error('Direction must be one of top, right, bottom, left');
+        warning(
+          false,
+          `Unexpected align '${popupPosition.direction}'. Must be one of - 'top', 'right', 'bottom', 'left'. Returning default value.`,
+        );
+        return defaultOptions;
     }
   }
 
   private getPinTopCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
+    const defaultTopCoordinate = pinOffset;
     switch (align) {
       case 'top':
-        return pinOffset;
+        return defaultTopCoordinate;
       case 'middle':
         return popupRect.height / 2 - pinHeight;
       case 'bottom':
         return popupRect.height - pinOffset - 2 * pinHeight;
       default:
-        throw new Error(`Unexpected align '${align}'`);
+        warning(
+          false,
+          `Unexpected align '${align}'. Must be one of - 'top', 'middle', 'bottom'. Returning default value.`,
+        );
+        return defaultTopCoordinate;
     }
   }
 
   private getPinLeftCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
+    const defaultLetfCoordinate = popupRect.width / 2 - pinHeight;
     switch (align) {
       case 'left':
         return pinOffset;
       case 'center':
-        return popupRect.width / 2 - pinHeight;
+        return defaultLetfCoordinate;
       case 'right':
         return popupRect.width - pinOffset - 2 * pinHeight;
       default:
-        throw new Error(`Unexpected align '${align}'`);
+        warning(
+          false,
+          `Unexpected align '${align}'. Must be one of - 'left', 'center', 'right'. Returning default value.`,
+        );
+        return defaultLetfCoordinate;
     }
   }
 }

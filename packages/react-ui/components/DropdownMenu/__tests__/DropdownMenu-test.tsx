@@ -12,9 +12,15 @@ import { delay } from '../../../lib/utils';
 describe('<DropdownMenu />', () => {
   const captionDatatid = 'captionForTest';
   const caption = <button data-tid={captionDatatid}>Test</button>;
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
   beforeEach(() => {
     window.scrollTo = jest.fn();
+    consoleSpy.mockClear();
+  });
+
+  afterAll(() => {
+    consoleSpy.mockRestore();
   });
 
   it('Render without crashes', () => {
@@ -28,9 +34,9 @@ describe('<DropdownMenu />', () => {
     expect(result.container.querySelector(`button#${dropdownMenuId}`)).not.toBeNull();
   });
 
-  it('Throw, if caption is not passed', () => {
-    const renderNoCaption = () => render(<DropdownMenu caption={undefined} />);
-    expect(renderNoCaption).toThrow();
+  it('should log a warning if caption is not passed', () => {
+    render(<DropdownMenu caption={undefined} />);
+    expect(consoleSpy).toHaveBeenCalledWith('Warning: Prop "caption" is required!!!');
   });
 
   it('Contains <Menu /> after clicking on caption', async () => {

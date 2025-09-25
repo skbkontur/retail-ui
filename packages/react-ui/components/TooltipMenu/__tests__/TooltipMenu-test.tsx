@@ -9,8 +9,15 @@ import { MenuDataTids } from '../../../internal/Menu';
 import { TooltipMenuDataTids } from '..';
 
 describe('<TooltipMenu />', () => {
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
   beforeEach(() => {
     window.scrollTo = jest.fn();
+    consoleSpy.mockClear();
+  });
+
+  afterAll(() => {
+    consoleSpy.mockRestore();
   });
 
   test('Render without crashes', () => {
@@ -19,11 +26,11 @@ describe('<TooltipMenu />', () => {
     expect(screen.getByTestId(TooltipMenuDataTids.root)).toBeInTheDocument();
   });
 
-  test('Throw, if caption is not passed', () => {
+  test('should log a warning if caption is not passed', () => {
     // @ts-expect-error: `caption` prop is purposefully not provided.
-    const renderNoCaption = () => render(<TooltipMenu />);
+    render(<TooltipMenu />);
 
-    expect(renderNoCaption).toThrow('Prop "caption" is required!!!');
+    expect(consoleSpy).toHaveBeenCalledWith('Warning: Prop "caption" is required!!!');
   });
 
   test('Contains <Menu /> after clicking on caption', async () => {

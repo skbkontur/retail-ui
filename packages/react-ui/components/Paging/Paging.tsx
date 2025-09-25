@@ -1,5 +1,6 @@
 import React from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -516,6 +517,14 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private getPagingSizeClassNames = (): PagingSizeClassNames => {
     const size = this.getSize();
+
+    const defaultClassNames = {
+      root: styles.pagingSmall(this.theme),
+      dots: styles.dotsSmall(this.theme),
+      forwardLink: styles.forwardLinkSmall(this.theme),
+      pageLink: styles.pageLinkSmall(this.theme),
+    };
+
     switch (size) {
       case 'legacy':
         return {
@@ -525,12 +534,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
           pageLink: styles.pageLinkLegacy(this.theme),
         };
       case 'small':
-        return {
-          root: styles.pagingSmall(this.theme),
-          dots: styles.dotsSmall(this.theme),
-          forwardLink: styles.forwardLinkSmall(this.theme),
-          pageLink: styles.pageLinkSmall(this.theme),
-        };
+        return defaultClassNames;
       case 'medium':
         return {
           root: styles.pagingMedium(this.theme),
@@ -548,7 +552,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
           pageLink: styles.pageLinkLarge(this.theme),
         };
       default:
-        throw new TypeError(`Invalid size prop: '${this.props.size}'`);
+        warning(false, `Invalid size prop: '${this.props.size}'`);
+        return defaultClassNames;
     }
   };
 

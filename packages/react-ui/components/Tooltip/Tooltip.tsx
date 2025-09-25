@@ -3,7 +3,6 @@ import warning from 'warning';
 import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
 
-import type { SizeProp } from '../../lib/types/props';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
@@ -310,7 +309,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
     const trigger = this.getProps().trigger;
     if (trigger === 'opened' || trigger === 'closed') {
-      warning(true, `Function 'show' is not supported with trigger specified '${trigger}'`);
+      warning(false, `Function 'show' is not supported with trigger specified '${trigger}'`);
       return;
     }
     this.open();
@@ -324,7 +323,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public hide() {
     const trigger = this.getProps().trigger;
     if (trigger === 'opened' || trigger === 'closed') {
-      warning(true, `Function 'hide' is not supported with trigger specified '${trigger}'`);
+      warning(false, `Function 'hide' is not supported with trigger specified '${trigger}'`);
       return;
     }
     this.close();
@@ -393,6 +392,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     const useWrapper = !!props.children && this.getProps().useWrapper;
     const trigger = this.getProps().trigger;
 
+    const defaultPopupAndLayerProps: ReturnType<typeof this.getPopupAndLayerProps> = {
+      popupProps: {
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave,
+        useWrapper,
+      },
+    };
+
     switch (trigger) {
       case 'opened':
         return {
@@ -414,15 +421,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           },
         };
 
-      case 'hoverAnchor':
-      case 'hover':
-        return {
-          popupProps: {
-            onMouseEnter: this.handleMouseEnter,
-            onMouseLeave: this.handleMouseLeave,
-            useWrapper,
-          },
-        };
       case 'manual':
         return {
           popupProps: {
@@ -465,8 +463,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           },
         };
 
+      case 'hoverAnchor':
+      case 'hover':
+        return defaultPopupAndLayerProps;
       default:
-        throw new Error('Unknown trigger specified: ' + trigger);
+        warning(false, `Unknown trigger specified: ${trigger}. Returning default value.`);
+        return defaultPopupAndLayerProps;
     }
   }
 
@@ -601,7 +603,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           margin: this.theme.tooltipMarginLarge,
         };
       default:
-        console.error(`Can't get size variables: invalid value in size prop '${this.props.size}'. Returning default`);
+        warning(false, `Can't get size variables: invalid value in size prop '${this.props.size}'. Returning default`);
         return {
           closeButtonStyle: styles.closeButtonSmall(this.theme),
           contentStyle: styles.tooltipContentSmall(this.theme),

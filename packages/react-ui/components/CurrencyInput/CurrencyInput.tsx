@@ -458,7 +458,13 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
 function getInputSelectionFromEvent(input: EventTarget): Selection {
   if (!isInstanceOf(input, globalObject.HTMLInputElement)) {
-    throw new Error('input is not HTMLInputElement');
+    warning(false, 'input is not HTMLInputElement');
+
+    return {
+      start: 0,
+      end: 0,
+      direction: 'none',
+    };
   }
 
   return {

@@ -776,12 +776,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
+    const defaultCoordinates = {
+      top: anchorRect.top - popupRect.height - margin,
+      left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+    };
+
     switch (position.direction) {
       case 'top':
-        return {
-          top: anchorRect.top - popupRect.height - margin,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
-        };
+        return defaultCoordinates;
       case 'middle':
         return {
           top: anchorRect.top + anchorRect.height / 2 - popupRect.height / 2,
@@ -803,17 +805,22 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           left: anchorRect.left + anchorRect.width + margin,
         };
       default:
-        throw new Error(`Unexpected direction '${position.direction}'`);
+        warning(
+          false,
+          `Unexpected align '${position.direction}'. Must be one of - 'top', 'bottom', 'left', 'right', 'center', 'middle'. Returning default value.`,
+        );
+        return defaultCoordinates;
     }
   }
 
   private getPinOffset(align: string) {
     const { pinOffset } = this.props;
+    const defaultPinOffset = pinOffset || parseInt(this.theme.popupPinOffsetY);
 
     switch (align) {
       case 'top':
       case 'bottom':
-        return pinOffset || parseInt(this.theme.popupPinOffsetY);
+        return defaultPinOffset;
       case 'left':
       case 'right':
         return pinOffset || parseInt(this.theme.popupPinOffsetX);
@@ -821,33 +828,49 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'middle':
         return 0;
       default:
-        throw new Error(`Unexpected align '${align}'`);
+        warning(
+          false,
+          `Unexpected align '${align}'. Must be one of - 'top', 'bottom', 'left', 'right', 'center', 'middle'. Returning default value.`,
+        );
+        return defaultPinOffset;
     }
   }
 
   private getHorizontalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
+    const defaultHorizontalPosition = anchorRect.left - (popupRect.width - anchorRect.width) / 2;
+
     switch (align) {
       case 'left':
         return anchorRect.left - popupOffset;
       case 'center':
-        return anchorRect.left - (popupRect.width - anchorRect.width) / 2;
+        return defaultHorizontalPosition;
       case 'right':
         return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
       default:
-        throw new Error(`Unexpected align '${align}'`);
+        warning(
+          false,
+          `Unexpected align '${align}'. Must be one of - 'left', 'center', 'right'. Returning default value.`,
+        );
+        return defaultHorizontalPosition;
     }
   }
 
   private getVerticalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
+    const defaultVerticalPosition = anchorRect.top - popupOffset;
+
     switch (align) {
       case 'top':
-        return anchorRect.top - popupOffset;
+        return defaultVerticalPosition;
       case 'middle':
         return anchorRect.top - (popupRect.height - anchorRect.height) / 2;
       case 'bottom':
         return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
       default:
-        throw new Error(`Unexpected align '${align}'`);
+        warning(
+          false,
+          `Unexpected align '${align}'. Must be one of - 'top', 'middle', 'bottom'. Returning default value.`,
+        );
+        return defaultVerticalPosition;
     }
   }
 }

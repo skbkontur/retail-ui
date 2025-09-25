@@ -1,3 +1,5 @@
+import warning from 'warning';
+
 import type { Nullable, Omit } from '../typings/Types';
 
 import type { ScrollOffset } from './ValidationContainer';
@@ -145,7 +147,7 @@ function ease(time: number): number {
 
 function getDocumentBodyStrict(activeDocument: Document): Element {
   if (isNullable(activeDocument.body)) {
-    throw new Error('Scrolling can be used only in browser');
+    warning(false, 'Scrolling can be used only in browser');
   }
 
   return activeDocument.body;

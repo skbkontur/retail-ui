@@ -53,10 +53,10 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   public async submit(
     withoutFocusOrValidationSettings: ValidateArgumentType = { focusMode: FocusMode.Errors },
   ): Promise<void> {
-    if (!this.childContext) {
-      throw new Error('childContext is not defined');
+    if (this.childContext) {
+      await this.childContext.validate(withoutFocusOrValidationSettings);
     }
-    await this.childContext.validate(withoutFocusOrValidationSettings);
+    warning(false, 'childContext is not defined');
   }
 
   public async validate(withoutFocus?: boolean): Promise<boolean>;
@@ -66,7 +66,8 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
     withoutFocusOrValidationSettings: ValidateArgumentType = { focusMode: FocusMode.Errors },
   ): Promise<boolean> {
     if (!this.childContext) {
-      throw new Error('childContext is not defined');
+      warning(false, 'childContext is not defined');
+      return Promise.resolve(false);
     }
     return this.childContext.validate(withoutFocusOrValidationSettings);
   }

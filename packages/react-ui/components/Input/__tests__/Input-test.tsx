@@ -481,8 +481,8 @@ describe('<Input />', () => {
     if (inputRef.current) {
       inputRef.current.input = null;
     }
-    const setSelectionToNull = () => inputRef.current?.setSelectionRange(0, 3);
-    expect(setSelectionToNull).toThrow('Cannot call "setSelectionRange" on unmounted Input');
+    inputRef.current?.setSelectionRange(0, 3);
+    expect(consoleSpy).toHaveBeenCalledWith('Warning: Cannot call "setSelectionRange" on unmounted Input');
   });
 
   it('passes onMouseEnter prop to label', () => {

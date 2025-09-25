@@ -1,3 +1,5 @@
+import warning from 'warning';
+
 import { isProductionEnv } from '../../lib/currentEnvironment';
 import type { PopupPositionsType } from '../Popup';
 import { PopupPositions } from '../Popup';
@@ -16,6 +18,7 @@ export const isValidPositions = (positions: PopupPositionsType[]): boolean => {
       return true;
     }
 
-    throw new Error(`Unxpected position "${item}"`);
+    warning(false, `Unexpected position "${item}"`);
+    return false;
   });
 };

@@ -2,6 +2,15 @@ import { extractPath, extractTokens, PathTokensCache } from '../src/Validations/
 
 describe('PathHelper', () => {
   describe('extractPath', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    beforeEach(() => {
+      consoleSpy.mockClear();
+    });
+
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
     describe('classic function', () => {
       it('empty path', () => {
         const path = extractPath('function(x){return x;}');
@@ -48,7 +57,8 @@ describe('PathHelper', () => {
         expect(path).toStrictEqual('[  v djf g" dsd] f[sl dfgj');
       });
       it('does not throw error for $', () => {
-        expect(() => extractPath('function($) { return  $.someProperty }')).not.toThrow();
+        extractPath('function($) { return  $.someProperty }');
+        expect(consoleSpy).not.toHaveBeenCalled();
       });
     });
     describe('arrow function', () => {
@@ -93,7 +103,8 @@ describe('PathHelper', () => {
         expect(path).toStrictEqual('[  v djf g" dsd] f[sl dfgj');
       });
       it('does not throw error for $', () => {
-        expect(() => extractPath('$ => $.someProperty')).not.toThrow();
+        extractPath('$ => $.someProperty');
+        expect(consoleSpy).not.toHaveBeenCalled();
       });
     });
   });

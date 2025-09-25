@@ -337,7 +337,8 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     if (!this.input) {
-      throw new Error('Cannot call "setSelectionRange" on unmounted Input');
+      warning(false, 'Cannot call "setSelectionRange" on unmounted Input');
+      return;
     }
 
     if (globalObject.document?.activeElement !== this.input) {

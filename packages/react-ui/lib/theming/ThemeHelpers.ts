@@ -99,7 +99,7 @@ export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): bool
     theme[REACT_UI_THEME_MARKERS.themeVersion.key];
 
   if (!themeVersion) {
-    warning(true, `[ThemeHelpers]: The theme doesn't have a version. Checking for ${version}.`);
+    warning(false, `[ThemeHelpers]: The theme doesn't have a version. Checking for ${version}.`);
     return false;
   }
 

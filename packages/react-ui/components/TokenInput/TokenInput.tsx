@@ -11,6 +11,7 @@ import type {
 import React from 'react';
 import isEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
+import logWarning from 'warning';
 
 import { PopupIds } from '../../internal/Popup';
 import {
@@ -418,7 +419,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
-      throw Error('Missed getItems for type ' + this.type);
+      logWarning(false, `getItems is required for "Combined" and "WithReference" modes.`);
     }
 
     const {

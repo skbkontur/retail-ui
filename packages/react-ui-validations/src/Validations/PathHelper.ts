@@ -1,3 +1,5 @@
+import warning from 'warning';
+
 const classicFunctionRegEx =
   /^\s*function\s*\(\s*([A-Za-z0-9_$]+)\s*\)\s*\{\s*(?:(?:"use strict"|'use strict');?)?\s*return\s+\1\s*([.[].*?)?\s*;?\s*\}\s*$/;
 const arrowFunctionRegEx = /^\s*\(?\s*([A-Za-z0-9_$]+)\s*\)?\s*=>\s*\1\s*([.[].*?)?\s*$/;
@@ -13,7 +15,9 @@ export function extractPath(lambda: string): string {
   if (match && match.length === 3) {
     return (match[2] || '').replace(/(^\.\s*)/g, '');
   }
-  throw new Error(`Not supported or invalid path: <${lambda}>`);
+
+  warning(false, `Not supported or invalid path: <${lambda}>`);
+  return '';
 }
 
 export function extractTokens(path: string): string[] {

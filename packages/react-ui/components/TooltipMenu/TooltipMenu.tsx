@@ -1,12 +1,13 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
+import warning from 'warning';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { PopupMenuProps } from '../../internal/PopupMenu';
 import { PopupMenu } from '../../internal/PopupMenu';
 import type { MenuItemProps } from '../MenuItem';
-import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
+import { isTestEnv } from '../../lib/currentEnvironment';
 import type { MenuHeaderProps } from '../MenuHeader';
 import type { PopupPositionsType } from '../../internal/Popup';
 import type { CommonProps } from '../../internal/CommonWrapper';
@@ -77,8 +78,8 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   constructor(props: TooltipMenuProps) {
     super(props);
 
-    if (!props.caption && !isProductionEnv) {
-      throw new Error('Prop "caption" is required!!!');
+    if (!props.caption) {
+      warning(false, 'Prop "caption" is required!!!');
     }
   }
 

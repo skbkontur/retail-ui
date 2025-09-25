@@ -1,4 +1,5 @@
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 let scrollbarWidth: number | null = null;
 
@@ -8,7 +9,8 @@ export function getScrollWidth() {
   }
   const { body } = globalObject.document;
   if (!body) {
-    throw Error('There is no "body" element in "document"');
+    warning(false, 'There is no "body" element in "document"');
+    return 0;
   }
 
   if (scrollbarWidth !== null) {

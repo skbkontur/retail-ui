@@ -1,4 +1,5 @@
 import React from 'react';
+import warning from 'warning';
 
 import type { ReactUIComponentWithRef } from './forwardRefAndName';
 import { getDisplayName } from './getDisplayName';
@@ -8,9 +9,11 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
 
   const isCorrectPostfix = postfixRegex.test(word);
   if (!isCorrectPostfix) {
-    throw new Error(
+    warning(
+      false,
       `Component's displayName property must end with '${regexContent}' in order to be wrapped in withClassWrapper HOC`,
     );
+    return word;
   }
 
   return word.replace(postfixRegex, '');

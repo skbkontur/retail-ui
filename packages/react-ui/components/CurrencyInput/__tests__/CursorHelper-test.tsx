@@ -59,6 +59,16 @@ describe('CursorHelper', () => {
   });
 
   describe('calculatePosition', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    beforeEach(() => {
+      consoleSpy.mockClear();
+    });
+
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
+
     [
       { value: [0], position: 0, step: 0, expected: 0 },
       { value: [0], position: 0, step: 1, expected: 0 },
@@ -82,6 +92,21 @@ describe('CursorHelper', () => {
       it(`calculatePosition([${x.value}], ${x.position}, ${x.step}) === ${x.expected}`, () => {
         const actual = CursorHelper.calculatePosition(x.value, x.position, x.step);
         const expected = x.expected;
+        expect(actual).toBe(expected);
+      });
+    });
+
+    [
+      { value: [0, 1, 2, 3], position: -1, step: 0, expected: 0 },
+      { value: [0, 1, 2, 3], position: 4, step: 1, expected: 3 },
+    ].forEach((x) => {
+      it(`should throw when position is out of range`, () => {
+        const actual = CursorHelper.calculatePosition(x.value, x.position, x.step);
+        const expected = x.expected;
+
+        expect(consoleSpy).toHaveBeenCalledWith(
+          `Warning: position out of range [${0} .. ${x.value.length - 1}], actual value: ${x.position}`,
+        );
         expect(actual).toBe(expected);
       });
     });

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
+import warning from 'warning';
 
 import type { Nullable } from '../../typings/utility-types';
 
@@ -18,7 +19,8 @@ export class ToastStatic {
       ToastStatic.node = globalObject.document.createElement('div');
       const { body } = globalObject.document;
       if (!body) {
-        throw Error('There is no "body" element in "document"');
+        warning(false, 'There is no "body" element in "document"');
+        return;
       }
       body.appendChild(ToastStatic.node);
 
