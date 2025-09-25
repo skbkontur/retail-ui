@@ -80,6 +80,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
       <ZIndex id={this.props.id} className={jsStyles.zIndex()} priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
+            <div className={jsStyles.bg()} />
             <RenderLayer onClickOutside={this.close}>
               <div
                 ref={this.setRootNode}
@@ -94,7 +95,6 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
                 <div onClick={this.close} className={jsStyles.bottomIndent()} />
               </div>
             </RenderLayer>
-            <div className={jsStyles.bg()} />
             <HideBodyVerticalScroll />
           </div>
         </Transition>
