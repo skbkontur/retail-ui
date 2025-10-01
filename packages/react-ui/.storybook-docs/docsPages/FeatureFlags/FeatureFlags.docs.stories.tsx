@@ -14,6 +14,8 @@ import {
   Sticky,
   Tooltip,
   SidePage,
+  TokenInput,
+  TokenInputType,
 } from '@skbkontur/react-ui';
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
@@ -360,6 +362,24 @@ export const SidePageNotCutTitleOnStuckByDefault: Story = () => {
       <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
       {opened && renderSidePage()}
       <Button onClick={open}>Open</Button>
+    </div>
+  );
+};
+
+export const TokenInputCreateTokenOnBlur: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [selectedItems, setSelectedItems] = React.useState([]);
+
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ tokenInputCreateTokenOnBlurInWithoutReferenceMode: isFlagEnabled }}>
+        <TokenInput
+          type={TokenInputType.WithoutReference}
+          selectedItems={selectedItems}
+          onValueChange={setSelectedItems}
+        />
+      </ReactUIFeatureFlagsContext.Provider>
     </div>
   );
 };

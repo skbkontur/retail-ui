@@ -11,6 +11,7 @@ export interface ReactUIFeatureFlags {
   autocompleteUseMaskedInput?: boolean;
   sidePageDisableHeaderShrink?: boolean;
   sidePageNotCutTitleOnStuckByDefault?: boolean;
+  tokenInputCreateTokenOnBlurInWithoutReferenceMode?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -24,6 +25,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   autocompleteUseMaskedInput: false,
   sidePageDisableHeaderShrink: false,
   sidePageNotCutTitleOnStuckByDefault: false,
+  tokenInputCreateTokenOnBlurInWithoutReferenceMode: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);

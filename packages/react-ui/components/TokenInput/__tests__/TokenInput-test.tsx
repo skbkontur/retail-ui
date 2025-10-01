@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import type { ReactUIFeatureFlags } from '../../../lib/featureFlagsContext';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { PopupIds } from '../../../internal/Popup';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import type { LocaleContextProps } from '../../../lib/locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
+import type { TokenInputProps } from '../TokenInput';
 import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
 import { Token, TokenDataTids } from '../../Token';
 import { MenuItemDataTids } from '../../MenuItem';
@@ -384,22 +387,93 @@ describe('<TokenInput />', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
+  describe('feature flags', () => {
+    const renderWithFeatureFlags = (flags: ReactUIFeatureFlags, props: TokenInputProps<string>) =>
+      render(
+        <ReactUIFeatureFlagsContext.Provider value={flags}>
+          <TokenInputWithState {...props} />
+        </ReactUIFeatureFlagsContext.Provider>,
+      );
+
+    it('should add new tokens on blur in "without reference" mode', async () => {
+      renderWithFeatureFlags(
+        { tokenInputCreateTokenOnBlurInWithoutReferenceMode: true },
+        { type: TokenInputType.WithoutReference },
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      const startingTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+      tokenInput.click();
+
+      await userEvent.type(tokenInput, 'foo');
+      await userEvent.keyboard('[Tab]');
+
+      const actualTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+      const expectedTokenCount = startingTokenCount + 1;
+      expect(actualTokenCount).toBe(expectedTokenCount);
+    });
+
+    it('should not affect onUnexpectedInput behavior when it returns value', async () => {
+      const expectedValue = 'expectedValue';
+      renderWithFeatureFlags(
+        { tokenInputCreateTokenOnBlurInWithoutReferenceMode: true },
+        { onUnexpectedInput: () => expectedValue, type: TokenInputType.WithoutReference },
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      const startingTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+      tokenInput.click();
+
+      await userEvent.type(tokenInput, 'foo');
+      await userEvent.keyboard('[Tab]');
+
+      const actualTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+      const expectedTokenCount = startingTokenCount + 1;
+
+      expect(actualTokenCount).toBe(expectedTokenCount);
+      expect(screen.queryAllByTestId(TokenDataTids.root).at(-1)).toHaveTextContent(expectedValue);
+    });
+
+    it.each([
+      [null, TokenInputType.WithoutReference, 3],
+      [undefined, TokenInputType.WithoutReference, 4],
+    ])('should not affect onUnexpectedInput behavior when it returns - %o', async (returnedValue, type, expected) => {
+      renderWithFeatureFlags(
+        { tokenInputCreateTokenOnBlurInWithoutReferenceMode: true },
+        { onUnexpectedInput: () => returnedValue, type },
+      );
+
+      const tokenInput = screen.getByRole('textbox');
+      tokenInput.click();
+
+      await userEvent.type(tokenInput, 'foo');
+      await userEvent.keyboard('[Tab]');
+
+      const actualTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
+      expect(actualTokenCount).toBe(expected);
+    });
+  });
 });
 
-function TokenInputWithState(props: { disabledToken?: string; customDelimiters?: string[] }) {
+function TokenInputWithState({
+  disabledToken,
+  customDelimiters,
+  ...rest
+}: { disabledToken?: string; customDelimiters?: string[] } & Partial<TokenInputProps<string>>) {
   const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
   return (
     <TokenInput
-      delimiters={props.customDelimiters}
+      delimiters={customDelimiters}
       type={TokenInputType.Combined}
       getItems={getItems}
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}
       renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === props.disabledToken}>
+        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === disabledToken}>
           {item}
         </Token>
       )}
+      {...rest}
     />
   );
 }

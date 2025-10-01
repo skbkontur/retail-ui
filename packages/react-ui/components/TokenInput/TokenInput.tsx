@@ -45,6 +45,8 @@ import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import type { TokenInputLocale } from './locale';
 import { TokenInputLocaleHelper } from './locale';
@@ -318,6 +320,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
+  public featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -373,12 +376,19 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = theme;
+                return this.renderMain();
+              }}
+            </ThemeContext.Consumer>
+          );
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -442,7 +452,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.type !== TokenInputType.WithoutReference &&
       this.isCursorVisible &&
       activeTokens.length === 0 &&
-      (inputValue !== '' || !hideMenuIfEmptyInputValue);
+      (this.isInputValueChanged || !hideMenuIfEmptyInputValue);
 
     const theme = this.theme;
 
@@ -580,7 +590,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return false;
     }
 
-    if (this.type === TokenInputType.Combined && this.state.inputValue !== '') {
+    if (this.type === TokenInputType.Combined && this.isInputValueChanged) {
       return true;
     }
   }
@@ -602,7 +612,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isCursorVisibleForState(state: TokenInputState<T>) {
-    return state.inFocus && (state.inputValue !== '' || state.activeTokens.length === 0);
+    return state.inFocus && (this.isInputValueChanged || state.activeTokens.length === 0);
   }
 
   private inputRef = (node: HTMLTextAreaElement) => (this.input = node);
@@ -772,7 +782,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private tryGetItems = async (query = '') => {
-    if (this.props.getItems && (this.state.inputValue !== '' || !this.props.hideMenuIfEmptyInputValue)) {
+    if (this.props.getItems && (this.isInputValueChanged || !this.props.hideMenuIfEmptyInputValue)) {
       this.dispatch({ type: 'SET_LOADING', payload: true });
       const autocompleteItems = await this.props.getItems(query);
       this.dispatch({ type: 'SET_LOADING', payload: false });
@@ -796,7 +806,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         }
       }
 
-      if (query === '' || this.state.inputValue !== '') {
+      if (query === '' || this.isInputValueChanged) {
         this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: autocompleteItemsUnique }, () => {
           LayoutEvents.emit();
           this.highlightMenuItem();
@@ -1018,7 +1028,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const editingTokenIndex = selectedItems.findIndex((item) => item === itemNew);
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
-    if (this.state.inputValue !== '') {
+    if (this.isInputValueChanged) {
       if (this.state.reservedInputValue === undefined) {
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
       }
@@ -1036,7 +1046,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const newItems = selectedItems.concat([]);
 
     if (!this.hasValueInItems(selectedItems, editedItem)) {
-      newItems.splice(editingTokenIndex, 1, ...(inputValue !== '' ? [editedItem] : []));
+      newItems.splice(editingTokenIndex, 1, ...(this.isInputValueChanged ? [editedItem] : []));
       this.handleValueChange(newItems);
     }
 
@@ -1058,27 +1068,32 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { inputValue } = this.state;
     const { onUnexpectedInput } = this.props;
 
-    if (onUnexpectedInput) {
-      // чекаем не возвращает ли что-нибудь обработчик
-      const returnedValue = onUnexpectedInput(inputValue);
+    // чекаем не возвращает ли что-нибудь обработчик
+    const returnedValue = onUnexpectedInput?.(inputValue);
 
-      if (returnedValue === undefined) {
-        return;
+    if (returnedValue === undefined) {
+      if (
+        this.featureFlags.tokenInputCreateTokenOnBlurInWithoutReferenceMode &&
+        this.type === TokenInputType.WithoutReference
+      ) {
+        this.handleAddItem();
       }
 
-      if (returnedValue === null) {
-        this.dispatch({ type: 'CLEAR_INPUT' }, () => {
-          if (this.isEditingMode) {
-            this.finishTokenEdit();
-          }
-        });
+      return;
+    }
 
-        return;
-      }
+    if (returnedValue === null) {
+      this.dispatch({ type: 'CLEAR_INPUT' }, () => {
+        if (this.isEditingMode) {
+          this.finishTokenEdit();
+        }
+      });
 
-      if (returnedValue) {
-        this.selectItem(returnedValue);
-      }
+      return;
+    }
+
+    if (returnedValue) {
+      this.selectItem(returnedValue);
     }
   };
 
@@ -1089,7 +1104,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (query.endsWith(' ')) {
       query = query.trimRight() + ' ';
     }
-    if (this.state.inputValue !== '' && query === '') {
+    if (this.isInputValueChanged && query === '') {
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     }
     this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
