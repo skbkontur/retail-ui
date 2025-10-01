@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.7...@skbkontur/react-ui@5.3.8) (2025-10-01)
+
+
+### Bug Fixes
+
+* **TokenInput:** create token on blur in "withoutReference" mode (feature flag) ([10ebcbb](https://github.com/skbkontur/retail-ui/commit/10ebcbb58e3736f5c4887ea8daca148b55b6c6d6))
+
+
+
+
+
 ## [5.3.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.6...@skbkontur/react-ui@5.3.7) (2025-09-24)
 
 
