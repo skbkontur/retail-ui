@@ -162,6 +162,25 @@ export const isReactUIComponent = <P = any>(name: string) => {
   };
 };
 
+/**
+ * Checks if a component instance is a ReactUI component with the given name.
+ *
+ * @typeParam T Expected ReactUI component type.
+ * @param instance Component instance.
+ * @param componentName ReactUI component name.
+ * @returns `true` if it matches, otherwise `false`.
+ */
+export const isReactUIInstance = <T extends React.Component>(
+  instance: React.Component,
+  componentName: string,
+): instance is T => {
+  const constructor = instance?.constructor;
+  if (!constructor) {
+    return false;
+  }
+  return '__KONTUR_REACT_UI__' in constructor && constructor.__KONTUR_REACT_UI__ === componentName;
+};
+
 /** @deprecated Переехал в `lib/mergeRefs.ts`. Со следующей мажорной версии от сюда будет удален*/
 export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
   return (value) => {
