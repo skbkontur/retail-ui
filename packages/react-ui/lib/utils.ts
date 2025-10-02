@@ -175,9 +175,6 @@ export const isReactUIInstance = <T extends React.Component>(
   componentName: string,
 ): instance is T => {
   const constructor = instance?.constructor;
-  if (!constructor) {
-    return false;
-  }
   return '__KONTUR_REACT_UI__' in constructor && constructor.__KONTUR_REACT_UI__ === componentName;
 };
 
