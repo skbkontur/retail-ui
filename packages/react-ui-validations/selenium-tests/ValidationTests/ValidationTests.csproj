@@ -1,89 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD4B7D2A-496F-444A-A0ED-A16E3ACD7C31}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SKBKontur.ValidationTests</RootNamespace>
     <AssemblyName>ValidationTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <RootNamespace>SKBKontur.ValidationTests</RootNamespace>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=2020.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2020.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Kontur.ReactUI.SeleniumTesting, Version=3.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kontur.ReactUI.SeleniumTesting.3.5.1\lib\net45\Kontur.ReactUI.SeleniumTesting.dll</HintPath>
-    </Reference>
-    <Reference Include="Kontur.RetryableAssertions, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kontur.RetryableAssertions.0.0.2-alpha\lib\net45\Kontur.RetryableAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="Kontur.Selone, Version=0.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kontur.Selone.0.0.6-alpha\lib\net45\Kontur.Selone.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver, Version=3.13.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Selenium.WebDriver.3.13.1\lib\net45\WebDriver.dll</HintPath>
-    </Reference>
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+    <PackageReference Include="Kontur.ReactUI.SeleniumTesting" Version="3.5.1" />
+    <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.2-alpha" />
+    <PackageReference Include="Kontur.Selone" Version="0.0.6-alpha" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblySetUpFixture.cs" />
-    <Compile Include="Controls\ControlExtensions.cs" />
-    <Compile Include="Controls\ControlPropertyExtensions.cs" />
-    <Compile Include="Controls\InputExtensions.cs" />
-    <Compile Include="Controls\ValidationWrapper.cs" />
-    <Compile Include="Infrastructure\ChromeDriverFactory.cs" />
-    <Compile Include="Infrastructure\StorybookTestBase.cs" />
-    <Compile Include="Infrastructure\TestBase.cs" />
-    <Compile Include="Storybook\Sync\LostfocusDependentValidation.cs" />
-    <Compile Include="Storybook\Sync\ImmediateValidation.cs" />
-    <Compile Include="Storybook\Sync\LostfocusDynamicValidation.cs" />
-    <Compile Include="Storybook\Sync\LostfocusValidation.cs" />
-    <Compile Include="Storybook\Sync\SingleInputPage.cs" />
-    <Compile Include="Storybook\Sync\SubmitValidation.cs" />
-    <Compile Include="Storybook\Sync\PreinvalidImmediateValidation.cs" />
-    <Compile Include="Storybook\Sync\PreinvalidLostfocusValidation.cs" />
-    <Compile Include="Storybook\Sync\PreinvalidSubmitValidation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

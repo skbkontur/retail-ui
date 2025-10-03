@@ -4,7 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 import { globalObject } from '@skbkontur/global-object';
 
-import { isNonNullable } from '../../lib/utils';
+import { isNonNullable, isReactUIInstance } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
@@ -327,7 +327,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private handleStackChange = (stack: readonly React.Component[]) => {
-    const sidePages = stack.filter((x) => x instanceof SidePage && x.props.fromLeft === this.props.fromLeft);
+    const sidePages = stack.filter(
+      (x) => isReactUIInstance<SidePage>(x, 'SidePage') && x.props.fromLeft === this.props.fromLeft,
+    );
     const currentSidePagePosition = sidePages.indexOf(this);
 
     const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
