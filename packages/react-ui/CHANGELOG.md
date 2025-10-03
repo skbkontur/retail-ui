@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.8...@skbkontur/react-ui@5.3.9) (2025-10-03)
+
+
+### Bug Fixes
+
+* **SidePage:** add support for overlays from widgets ([8a968cb](https://github.com/skbkontur/retail-ui/commit/8a968cb3b896d4ca22f9ed5116bb600a036426b4))
+
+
+
+
+
 ## [5.3.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.7...@skbkontur/react-ui@5.3.8) (2025-10-01)
 
 
