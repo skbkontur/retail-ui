@@ -1,4 +1,4 @@
 include:
   - project: $CI_CONFIG_PROJECT
-    ref: 'dotnet-configs'
+    ref: $CI_CONFIG_BRANCH
     file: 'index.yml'
