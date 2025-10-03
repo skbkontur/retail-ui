@@ -2,3 +2,8 @@ bin/
 debug/
 packages/
 *.DotSettings.user
+
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/

@@ -34,7 +34,9 @@
     "creevey": "node ../../scripts/creevey-prepare.js .creevey/config.mts && creevey -c .creevey/config.mts",
     "creevey:ci": "start-server-and-test storybook:serve http://localhost:6060 creevey",
     "creevey:update": "creevey -c .creevey/config.mts --update",
-    "creevey:ui": "yarn creevey --ui"
+    "creevey:ui": "yarn creevey --ui",
+    "selenium:test": "dotnet test ./selenium-tests/ValidationTests/ValidationTests.csproj --configuration Release --framework netcoreapp3.1",
+    "selenium:ci": "start-server-and-test storybook http://localhost:6060/iframe.html selenium:test"
   },
   "main": "./index.js",
   "types": "./index.d.ts",

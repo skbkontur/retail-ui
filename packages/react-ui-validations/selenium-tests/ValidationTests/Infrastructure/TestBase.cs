@@ -1,6 +1,11 @@
-﻿using NUnit.Framework;
+using System;
+using System.Drawing;
+
+using NUnit.Framework;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 
 namespace SKBKontur.ValidationTests.Infrastructure
 {
@@ -9,13 +14,13 @@ namespace SKBKontur.ValidationTests.Infrastructure
         [SetUp]
         public virtual void SetUp()
         {
-            WebDriver = AssemblySetUpFixture.WebDriverPool.Acquire();
+            WebDriver = AssemblySetUpFixture.WebDriver;
         }
 
         [TearDown]
         public void TearDown()
         {
-            AssemblySetUpFixture.WebDriverPool.Release(WebDriver);
+            WebDriver = null;
         }
 
         protected IWebDriver WebDriver;

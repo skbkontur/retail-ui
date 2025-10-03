@@ -3,3 +3,4 @@
 /dist
 /reports/
 /.storybook/build
+/selenium-tests/.vs
