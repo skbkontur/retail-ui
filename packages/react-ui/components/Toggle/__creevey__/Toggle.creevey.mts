@@ -47,7 +47,7 @@ kind('Toggle', () => {
           bridge: true,
         })
         .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="Tooltip__root"]` }),
+          origin: context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }),
         })
         .press()
         .perform();

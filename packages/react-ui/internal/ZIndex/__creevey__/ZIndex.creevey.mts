@@ -94,7 +94,7 @@ kind('ZIndex', () => {
     test('Open Dropdown while Loader is inactive', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'Open Dropdown while Loader is inactive');
@@ -103,7 +103,7 @@ kind('ZIndex', () => {
     test('Hide Hint on active Loader', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Toggle"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Toggle__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'Hide Hint on active Loader');
@@ -114,7 +114,7 @@ kind('ZIndex', () => {
     test('SidePage shadow cover Loader', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Toggle"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Toggle__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'SidePage shadow cover Loader');
@@ -125,7 +125,7 @@ kind('ZIndex', () => {
     test('Sticky covers outside Popup', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'Sticky covers outside Popup');
@@ -136,7 +136,7 @@ kind('ZIndex', () => {
     test('toastShown', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Button"] button' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Button__root"] button' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot());

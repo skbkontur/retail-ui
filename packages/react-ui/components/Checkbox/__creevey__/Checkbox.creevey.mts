@@ -233,7 +233,7 @@ kind('Checkbox', () => {
 
     test('selected with pressed shift', async (context) => {
       const checkbox = await context.webdriver.findElement({
-        css: '[data-comp-name~="Checkbox"]',
+        css: '[data-tid~="Checkbox__root"]',
       });
       await context.webdriver.actions({ bridge: true }).keyDown(Key.SHIFT).click(checkbox).perform();
       await context.matchImage(await context.takeScreenshot(), 'selected with pressed shift');

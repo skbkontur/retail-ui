@@ -10,7 +10,7 @@ const kebabTests = () => {
         bridge: true,
       })
       .move({
-        origin: context.webdriver.findElement({ css: '[data-comp-name~="Kebab"]' }),
+        origin: context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }),
       })
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'hovered');
@@ -21,7 +21,7 @@ const kebabTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Kebab"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'clicked');
   });
@@ -31,8 +31,8 @@ const kebabTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Kebab"]' }))
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Kebab"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'clickedOnButton2ndTime');
   });

@@ -26,7 +26,7 @@ kind('CurrencyInput', () => {
         })
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name*="CurrencyInput"] input',
+            css: '[data-tid~="CurrencyInput__root"] input',
           }),
         )
         .perform();
@@ -40,7 +40,7 @@ kind('CurrencyInput', () => {
         })
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name*="CurrencyInput"] input',
+            css: '[data-tid~="CurrencyInput__root"] input',
           }),
         )
         .sendKeys('1')

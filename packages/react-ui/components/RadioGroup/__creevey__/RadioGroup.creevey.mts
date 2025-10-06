@@ -25,7 +25,7 @@ kind('RadioGroup', () => {
           bridge: true,
         })
         .move({
-          origin: context.webdriver.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }),
+          origin: context.webdriver.findElement({ css: '[data-tid~="RadioGroup__root"] > span > label' }),
         })
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'hovered');
@@ -36,7 +36,7 @@ kind('RadioGroup', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="RadioGroup__root"] > span > label' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
@@ -48,7 +48,7 @@ kind('RadioGroup', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="RadioGroup__root"] > span > label' }))
         .perform();
       await context.webdriver
         .actions({

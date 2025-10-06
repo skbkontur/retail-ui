@@ -38,8 +38,8 @@ kind('TooltipMenu', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TooltipMenu__root"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TooltipMenu__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clickAfterClickedOnCaption');
     });
@@ -49,7 +49,7 @@ kind('TooltipMenu', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TooltipMenu__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
@@ -59,7 +59,7 @@ kind('TooltipMenu', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TooltipMenu__root"]' }))
         .click(context.webdriver.findElement({ css: 'body' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clickedOutside');
@@ -110,7 +110,7 @@ kind('TooltipMenu', () => {
       await delay(200);
       await context.webdriver
         .actions({ bridge: true })
-        .move({ origin: context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
+        .move({ origin: context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }) })
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');

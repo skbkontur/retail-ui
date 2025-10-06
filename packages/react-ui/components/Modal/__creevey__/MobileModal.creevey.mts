@@ -9,14 +9,14 @@ kind('Modal/Mobile', () => {
 
       await context.webdriver.executeScript(function () {
         const modalContainer = document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = (modalContent.scrollHeight - modalContainer.offsetHeight) / 2;
       });
       await delay(500);
       const scrollToMiddle = await context.webdriver.takeScreenshot();
 
       await context.webdriver.executeScript(function () {
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
       await delay(500);
@@ -32,14 +32,14 @@ kind('Modal/Mobile', () => {
 
       await context.webdriver.executeScript(function () {
         const modalContainer = document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = (modalContent.scrollHeight - modalContainer.offsetHeight) / 2;
       });
       await delay(500);
       const scrollToMiddle = await context.webdriver.takeScreenshot();
 
       await context.webdriver.executeScript(function () {
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
       await delay(500);
@@ -54,7 +54,7 @@ kind('Modal/Mobile', () => {
       const top = await context.webdriver.takeScreenshot();
 
       await context.webdriver.executeScript(function () {
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
       await delay(500);
@@ -70,14 +70,14 @@ kind('Modal/Mobile', () => {
 
       await context.webdriver.executeScript(function () {
         const modalContainer = document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = (modalContent.scrollHeight - modalContainer.offsetHeight) / 2;
       });
       await delay(500);
       const scrollToMiddle = await context.webdriver.takeScreenshot();
 
       await context.webdriver.executeScript(function () {
-        const modalContent = document.querySelector('[data-prop-classname~="focus-lock-container"]') as HTMLElement;
+        const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
       await delay(500);

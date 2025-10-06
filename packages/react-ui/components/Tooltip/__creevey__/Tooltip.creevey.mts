@@ -255,7 +255,7 @@ kind('Tooltip', () => {
 
   story('DynamicTriggersStory', ({ setStoryParameters }) => {
     setStoryParameters({
-      captureElement: '[data-comp-name~="TestTooltip"]',
+      captureElement: '[data-tid~="TestTooltip"]',
     });
 
     test('without trigger', async (context) => {
