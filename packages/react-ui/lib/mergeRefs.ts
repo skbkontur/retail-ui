@@ -5,11 +5,10 @@ import type { Nullable } from '../typings/utility-types';
 import { isNonNullable, isNullable } from './utils';
 
 type RefVariants<T> = Nullable<React.RefObject<T> | React.RefCallback<T>>;
-type RefCallback<T> = ReturnType<typeof createRefCallback<T>>;
 const CALLBACK_AS_KEY = { callbackAsKey: true };
 
 type CacheKey<T> = NonNullable<RefVariants<T> | typeof CALLBACK_AS_KEY>;
-type CacheValue<T> = RefCallback<T> | WeakMap<CacheKey<T>, CacheValue<T>>;
+type CacheValue<T> = React.RefCallback<T> | WeakMap<CacheKey<T>, CacheValue<T>>;
 
 const cache = new WeakMap<CacheKey<any>, CacheValue<any>>();
 
@@ -29,7 +28,7 @@ const cache = new WeakMap<CacheKey<any>, CacheValue<any>>();
  *  return <div ref={mergeRefs(localRef, ref)} />;
  * });
  */
-export function mergeRefs<T>(...refs: Array<RefVariants<T>>): RefCallback<T> {
+export function mergeRefs<T>(...refs: Array<RefVariants<T>>): React.RefCallback<T> {
   const cacheLevel = getLeafRefInCache(...refs);
 
   const cachedCallback = cacheLevel.get(CALLBACK_AS_KEY);
