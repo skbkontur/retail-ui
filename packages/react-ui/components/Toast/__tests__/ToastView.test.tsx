@@ -3,23 +3,28 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../../components/Button';
-import { Toast, ToastDataTids } from '../Toast';
+import { ToastDataTids } from '../Toast';
 import { componentsLocales as ToastViewLocaleRu } from '../locale/locales/ru';
+import { SingleToast } from '../../../components/SingleToast';
 
 describe('ToastView', () => {
   describe('a11y', () => {
     it('has correct aria-label on close button', async () => {
       function showComplexNotification() {
-        Toast.push(
-          'Successfully saved',
-          {
+        SingleToast.push('Successfully saved', {
+          action: {
             label: 'Cancel',
-            handler: () => Toast.push('Canceled'),
+            handler: () => SingleToast.push('Canceled'),
           },
-          15000,
-        );
+          showTime: 15_000,
+        });
       }
-      render(<Button onClick={showComplexNotification}>Show notification</Button>);
+      render(
+        <>
+          <SingleToast />
+          <Button onClick={showComplexNotification}>Show notification</Button>
+        </>,
+      );
 
       await userEvent.click(screen.getByRole('button'));
 
@@ -33,17 +38,21 @@ describe('ToastView', () => {
       const ariaLabel = 'aria-label';
       const buttonName = 'button';
       function showComplexNotification() {
-        Toast.push(
-          'Successfully saved',
-          {
+        SingleToast.push('Successfully saved', {
+          action: {
             label: 'Cancel',
-            handler: () => Toast.push('Canceled'),
+            handler: () => SingleToast.push('Canceled'),
             'aria-label': ariaLabel,
           },
-          15000,
-        );
+          showTime: 15_000,
+        });
       }
-      render(<Button onClick={showComplexNotification}>{buttonName}</Button>);
+      render(
+        <>
+          <SingleToast />
+          <Button onClick={showComplexNotification}>{buttonName}</Button>
+        </>,
+      );
 
       await userEvent.click(screen.getByRole('button', { name: buttonName }));
 

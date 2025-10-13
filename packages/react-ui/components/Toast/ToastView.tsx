@@ -11,9 +11,10 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
+import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './ToastView.styles';
-import type { Action } from './Toast';
+import type { Action, ToastUse } from './Toast';
 import { ToastDataTids } from './Toast';
 import type { ToastLocale } from './locale';
 import { ToastLocaleHelper } from './locale';
@@ -27,6 +28,10 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
+  /**
+   * Задаёт стили для отображения тоста в зависимости от назначения.
+   **/
+  use?: ToastUse;
 }
 
 @rootNode
@@ -49,13 +54,22 @@ export class ToastView extends React.Component<ToastViewProps> {
   }
 
   private renderMain = () => {
-    const { action, showCloseIcon, onClose, onMouseEnter, onMouseLeave } = this.props;
+    const { action, showCloseIcon, onClose, onMouseEnter, onMouseLeave, use } = this.props;
+
+    const toastCloseColors =
+      use === 'error'
+        ? { hover: this.theme.toastCloseHoverColorError, default: this.theme.toastCloseColorError }
+        : { hover: this.theme.toastCloseHoverColor, default: this.theme.toastCloseColor };
+
+    const toastActionColorsClassName =
+      use === 'error' ? styles.toastActionErrorColor(this.theme) : styles.toastActionDefaultColor(this.theme);
+    const toastActionClassNames = cx(styles.link(this.theme), toastActionColorsClassName);
 
     const link = action ? (
       <button
         aria-label={action['aria-label']}
         data-tid={ToastDataTids.action}
-        className={styles.link(this.theme)}
+        className={toastActionClassNames}
         onClick={action.handler}
       >
         {action.label}
@@ -71,19 +85,21 @@ export class ToastView extends React.Component<ToastViewProps> {
             onClick={onClose}
             size={parseInt(this.theme.toastCloseSize)}
             side={40}
-            color={this.theme.toastCloseColor}
-            colorHover={this.theme.toastCloseHoverColor}
+            color={toastCloseColors.default}
+            colorHover={toastCloseColors.hover}
             tabbable={false}
           />
         </span>
       ) : null;
+
+    const rootClassName = cx(styles.root(this.theme), styles[use ?? 'default'](this.theme));
 
     return (
       <CommonWrapper {...this.props}>
         <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
           <div
             data-tid={ToastDataTids.toastView}
-            className={styles.root(this.theme)}
+            className={rootClassName}
             ref={this.setRootNode}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}

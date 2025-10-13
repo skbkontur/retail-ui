@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast, Button, Gapped } from '@skbkontur/react-ui';
+import { Toast, Button, Gapped, SingleToast } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -9,44 +9,66 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
-  function showComplexNotification() {
-    Toast.push('Successfully saved', {
-      label: 'Cancel',
-      handler: () => Toast.push('Canceled'),
-    });
-  }
+export const Default: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
 
-  return <Button onClick={showComplexNotification}>Show notification</Button>;
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      toast.push('Default text');
+    }
+  };
+
+  return (
+    <>
+      <Toast ref={toastRef} />
+      <Button onClick={showNotification}>Show notification</Button>
+    </>
+  );
 };
-Example1.storyName = 'Вызов статических методов';
+Default.storyName = 'Базовый пример использования Toast-а';
 
-export const Example2: Story = () => {
-  function showComplexNotification() {
-    Toast.push(
-      'Successfully saved',
-      {
-        label: 'Cancel',
-        handler: () => Toast.push('Canceled'),
-      },
-      15000,
-    );
-  }
+export const WithAction: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
 
-  return <Button onClick={showComplexNotification}>Show notification</Button>;
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      toast.push('Toast with action', {
+        action: { label: 'Cancel', handler: () => toast.push('Canceled') },
+      });
+    }
+  };
+
+  return (
+    <>
+      <Toast ref={toastRef} />
+      <Button onClick={showNotification}>Show notification</Button>
+    </>
+  );
 };
-Example2.storyName = 'Кастомный showTime';
+WithAction.storyName = 'Тост с кнопкой действия';
 
-export const Example3: Story = () => {
-  function showComplexNotification() {
-    Toast.push('Successfully saved', null, 15000);
-  }
+export const CustomShowTime: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
 
-  return <Button onClick={showComplexNotification}>Show notification</Button>;
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      toast.push('Toast with custom showTime', { showTime: 15_000 });
+    }
+  };
+
+  return (
+    <>
+      <Toast ref={toastRef} />
+      <Button onClick={showNotification}>Show notification</Button>
+    </>
+  );
 };
-Example3.storyName = 'Кастомный showTime без action';
+CustomShowTime.storyName = 'Кастомный showTime';
 
-export const Example4: Story = () => {
+export const ExampleWithCallbackRef: Story = () => {
   class Toaster extends React.Component {
     showNotification() {
       this.notifier.push('Successfully');
@@ -68,27 +90,20 @@ export const Example4: Story = () => {
 
   return <Toaster />;
 };
-Example4.storyName = 'Использование `ref`';
+ExampleWithCallbackRef.storyName = 'Использование `ref`';
 
 export const ToastWithCross = () => {
-  function showComplexNotification() {
-    Toast.push('Toast throw static method', null, 10000, true);
-  }
-
   const toastRef = React.useRef<Toast>(null);
+
   const showNotification = () => {
     const { current: toast } = toastRef;
     if (toast) {
-      toast.push('Toast throw instance method', null, 10000, true);
+      toast.push('Toast with cross', { showCloseIcon: true });
     }
   };
 
   return (
     <Gapped>
-      <Button data-tid="show-static-toast" onClick={showComplexNotification}>
-        Show Toast throw static push
-      </Button>
-
       <div>
         <Toast ref={toastRef} />
         <Button data-tid="show-instance-toast" onClick={showNotification}>
@@ -98,25 +113,74 @@ export const ToastWithCross = () => {
     </Gapped>
   );
 };
-ToastWithCross.storyName = 'Крестик без кнопки действия';
+ToastWithCross.storyName = 'С крестиком для закрытия';
 
-export const ToastWithReactNode = () => (
-  <div>
-    <Button
-      data-tid="show-toast"
-      onClick={() =>
-        Toast.push(
-          <div>
-            Эту и другую полезную информацию вы найдете в разделе{' '}
-            <a href="/" target="_blank" style={{ color: '#69c5ff', fontWeight: 'bold', textDecoration: 'none' }}>
-              Помощь
-            </a>
-          </div>,
-        )
-      }
-    >
-      Show toast
-    </Button>
-  </div>
-);
+export const ToastWithReactNode = () => {
+  const toastRef = React.useRef<Toast>(null);
+
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      toast.push(
+        <div>
+          Эту и другую полезную информацию вы найдете в разделе{' '}
+          <a href="/" target="_blank" style={{ color: '#69c5ff', fontWeight: 'bold', textDecoration: 'none' }}>
+            Помощь
+          </a>
+        </div>,
+      );
+    }
+  };
+
+  return (
+    <div>
+      <Toast ref={toastRef} />
+      <Button data-tid="show-toast" onClick={showNotification}>
+        Show toast
+      </Button>
+    </div>
+  );
+};
 ToastWithReactNode.storyName = 'Тост с кастомным ReactNode';
+
+export const ToastWithUseError = () => {
+  const toastRef = React.useRef<Toast>(null);
+
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+
+    if (toast) {
+      toast.push('Toast with use error', { use: 'error' });
+    }
+  };
+
+  return (
+    <Gapped>
+      <div>
+        <Toast ref={toastRef} />
+        <Button data-tid="show-instance-toast" onClick={showNotification}>
+          Show Toast With Error
+        </Button>
+      </div>
+    </Gapped>
+  );
+};
+ToastWithUseError.storyName = 'Тост в состоянии ошибки';
+
+export const SingleToastExample = () => {
+  const showNotification = () => {
+    SingleToast.push('Пример использования SingleToast');
+  };
+
+  return (
+    <Gapped>
+      <div>
+        <SingleToast />
+        <Button data-tid="show-instance-toast" onClick={showNotification}>
+          Show Toast
+        </Button>
+      </div>
+    </Gapped>
+  );
+};
+SingleToastExample.storyName = 'Пример использования статического метода у SingleToast';

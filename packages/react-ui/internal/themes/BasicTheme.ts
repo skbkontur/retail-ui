@@ -1279,15 +1279,23 @@ export class BasicThemeClass {
   public static toastBorder = 'none';
   public static toastTop = '24px';
   public static toastBg = 'rgba(0, 0, 0, 0.76)';
+  public static toastErrorBg = '#F63B3F';
   public static toastColor = 'white';
+  public static toastColorError = '#fff';
   public static toastLinkColor = '#fff';
+  public static toastLinkColorError = '#fff';
   public static toastLinkTextDecorationHover = '';
   public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
+  public static toastLinkBgHoverError = 'rgba(255, 255, 255, 0.08)';
   public static toastLinkBgActive = 'rgba(0, 0, 0, 0.87)';
+  public static toastLinkBgActiveError = 'rgba(255, 255, 255, 0.04)';
+  public static toastLinkColorActiveError = 'rgba(255, 255, 255, 0.64)';
   public static toastLinkPadding = '12px';
   public static toastClosePadding = '16px';
   public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
+  public static toastCloseColorError = 'rgba(255, 255, 255, 0.6)';
   public static toastCloseHoverColor = 'white';
+  public static toastCloseHoverColorError = 'white';
   public static toastCloseSize = '16px';
 
   //#endregion Toast
