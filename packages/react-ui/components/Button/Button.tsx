@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import warning from 'warning';
 import type { Emotion } from '@emotion/css/create-instance';
@@ -80,10 +80,10 @@ export interface ButtonInnerProps extends CommonProps {
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
-  icon?: React.ReactElement;
+  icon?: React.ReactElement<any>;
 
   /** Добавляет иконку справа от текста кнопки. */
-  rightIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement<any>;
 
   /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
@@ -441,7 +441,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     );
   };
 
-  private renderIcon2022(icon: React.ReactElement | undefined) {
+  private renderIcon2022(icon: React.ReactElement<any> | undefined) {
     if (icon && isKonturIcon(icon)) {
       const sizes = getButtonIconSizes(this.theme);
       return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.size] });

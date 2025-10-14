@@ -1,4 +1,4 @@
-import type { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import type { Emotion } from '@emotion/css/types/create-instance';
 
@@ -244,7 +244,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       return caption;
     }
 
-    return React.cloneElement(caption as React.ReactElement, {
+    return React.cloneElement(caption as React.ReactElement<any>, {
       id: this.props.id,
       'aria-controls': this.props.popupMenuId ?? this.rootId,
       'aria-expanded': this.state.menuVisible ? 'true' : 'false',
@@ -266,7 +266,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         <span
           data-tid={PopupMenuDataTids.caption}
           className={this.styles.caption()}
-          ref={(element) => (this.captionWrapper = element)}
+          ref={element => {
+            (this.captionWrapper = element);
+          }}
         >
           {this.passPropsToCaption(caption)}
         </span>
@@ -278,7 +280,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         data-tid={PopupMenuDataTids.caption}
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
-        ref={(element) => (this.captionWrapper = element)}
+        ref={element => {
+          (this.captionWrapper = element);
+        }}
         className={this.styles.caption()}
       >
         {this.passPropsToCaption(this.props.caption)}

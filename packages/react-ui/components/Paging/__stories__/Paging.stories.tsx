@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { StoryFn } from '@storybook/react';
 

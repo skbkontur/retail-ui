@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { GlobalObject } from '../../lib/globalObject';
@@ -26,10 +26,10 @@ export interface LinkInnerProps extends CommonProps {
   disabled?: boolean;
 
   /** Добавляет иконку слева от ссылки. */
-  icon?: React.ReactElement;
+  icon?: React.ReactElement<any>;
 
   /** Добавляет иконку справа от ссылки. */
-  rightIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement<any>;
 
   /** Задаёт стиль ссылки. */
   use?: 'default' | 'success' | 'danger' | 'grayed';

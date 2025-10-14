@@ -101,8 +101,8 @@ type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
   | TValue
-  | React.ReactElement
-  | (() => React.ReactElement);
+  | React.ReactElement<any>
+  | (() => React.ReactElement<any>);
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
@@ -284,7 +284,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static staticElement = (element: React.ReactElement | (() => React.ReactElement)) => {
+  public static staticElement = (element: React.ReactElement<any> | (() => React.ReactElement<any>)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.staticElement(element) expects element to be a valid react element.',
@@ -800,7 +800,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const buttonElement = React.Children.only(button);
 
     return React.isValidElement(buttonElement)
-      ? React.cloneElement(buttonElement as React.ReactElement, {
+      ? React.cloneElement(buttonElement as React.ReactElement<any>, {
           ref: this.buttonRef,
           onFocus: this.props.onFocus,
           onBlur: this.props.onBlur,
@@ -808,7 +808,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,
-          'aria-label': (buttonElement as React.ReactElement).props['aria-label'] ?? this.props['aria-label'],
+          'aria-label': (buttonElement as React.ReactElement<any>).props['aria-label'] ?? this.props['aria-label'],
         })
       : buttonElement;
   };

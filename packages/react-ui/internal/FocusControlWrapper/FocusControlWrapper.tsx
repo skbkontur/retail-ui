@@ -21,9 +21,9 @@ export function FocusControlWrapper({ disabled, children, onBlurWhenDisabled, ..
   const isValidChildren = children && isValidElement(children);
 
   const { handleFocus, handleBlur } = useFocusControl({
-    disabled: disabled ?? (isValidChildren ? (children as ReactElement).props.disabled : undefined),
-    onFocus: isValidChildren ? (children as ReactElement).props.onFocus : undefined,
-    onBlur: isValidChildren ? (children as ReactElement).props.onBlur : undefined,
+    disabled: disabled ?? (isValidChildren ? (children as ReactElement<any>).props.disabled : undefined),
+    onFocus: isValidChildren ? (children as ReactElement<any>).props.onFocus : undefined,
+    onBlur: isValidChildren ? (children as ReactElement<any>).props.onBlur : undefined,
     onBlurWhenDisabled,
   });
 
@@ -34,7 +34,7 @@ export function FocusControlWrapper({ disabled, children, onBlurWhenDisabled, ..
   return (
     <CommonWrapper {...rest}>
       {React.Children.only(
-        cloneElement(children as ReactElement, {
+        cloneElement(children as ReactElement<any>, {
           onFocus: handleFocus,
           onBlur: handleBlur,
         }),

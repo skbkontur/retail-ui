@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { GlobalObject } from '../../lib/globalObject';

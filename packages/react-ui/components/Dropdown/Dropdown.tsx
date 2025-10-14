@@ -1,4 +1,4 @@
-import type { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 
 import { filterProps } from '../../lib/filterProps';

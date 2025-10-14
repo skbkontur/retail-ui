@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import React from 'react';
 import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 

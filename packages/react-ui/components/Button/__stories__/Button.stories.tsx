@@ -95,7 +95,7 @@ const getUseStates = () => {
   return useStates2022.map((x) => ({ props: x }));
 };
 
-const getIcon = (icon: ReactElement) => {
+const getIcon = (icon: ReactElement<any>) => {
   return icon;
 };
 

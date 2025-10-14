@@ -25,7 +25,7 @@ export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
 
 export interface GlobalLoaderViewRef {
   element: HTMLDivElement;
-  refObject: React.RefObject<GlobalLoaderViewRef['element']>;
+  refObject: React.RefObject<GlobalLoaderViewRef['element'] | null>;
 }
 
 export const GlobalLoaderView = ({

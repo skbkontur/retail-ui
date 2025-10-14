@@ -115,7 +115,7 @@ Disabled.parameters = { creevey: { skip: true } };
 
 export const WithCustomElements = () => (
   // @ts-expect-error: Undocumented feature.
-  <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
+  (<TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />)
 );
 WithCustomElements.storyName = 'with custom elements';
 WithCustomElements.parameters = { creevey: { skip: true } };
@@ -209,7 +209,9 @@ export const OpenCloseSearchMethods = () => {
   return (
     <div>
       <ComboBox
-        ref={(e) => (combobox = e)}
+        ref={e => {
+          (combobox = e);
+        }}
         value={items[0]}
         getItems={search}
         renderItem={(i) => i.name}
@@ -676,7 +678,9 @@ class ComboBoxWithExternalValue extends React.Component {
         onValueChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
-        ref={(element) => (this.combobox = element)}
+        ref={element => {
+          (this.combobox = element);
+        }}
       />
       <Button data-tid="setValueBtn" onClick={this.fill}>
         Set `First`
@@ -823,11 +827,9 @@ export const WithExtendedItem: Story = () => {
   );
 
   return (
-    <>
-      Пример передачи в getItems всех допустимых типов.
-      <br />
-      Должны работать навигация клавишами и выбор пункта.
-      <br />
+    <>Пример передачи в getItems всех допустимых типов.
+            <br />Должны работать навигация клавишами и выбор пункта.
+            <br />
       <ComboBox<ValueType>
         value={value}
         onValueChange={setValue}
@@ -854,10 +856,10 @@ export const WithExtendedItem: Story = () => {
         }
         renderItem={(item, state) => <RenderItem {...{ ...item, state }} />}
         itemWrapper={(item) =>
-          function itemWrapper(props: React.PropsWithChildren) {
+          (function itemWrapper(props: React.PropsWithChildren) {
             const isJust2Items = item.id === 5 || item.id === 6;
             return <button {...props}>{isJust2Items ? props.children : <ItemWrapper {...item} />}</button>;
-          }
+          })
         }
       />
     </>
@@ -942,7 +944,9 @@ export const WithMenuAlignAndMenuPos: Story = () => {
     { menuAlign: 'left', disablePortal: true },
   ];
   const renderSelect = (props: Partial<ComboBoxProps<unknown>>) => (
-    <ComboBox ref={(el) => el?.search('')} width={100} getItems={async () => []} {...props} />
+    <ComboBox ref={el => {
+      el?.search('');
+    }} width={100} getItems={async () => []} {...props} />
   );
 
   return (

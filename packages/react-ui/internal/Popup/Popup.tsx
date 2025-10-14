@@ -1,4 +1,4 @@
-import type { HTMLAttributes, LegacyRef } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import React from 'react';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
@@ -368,7 +368,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       : this.renderInPortal(renderAnchor, renderRef);
   }
 
-  private renderInPortal = (anchor: React.ReactNode, ref: null | LegacyRef<RenderContainer>) => {
+  private renderInPortal = (anchor: React.ReactNode, ref: null | Ref<RenderContainer>) => {
     const { location } = this.state;
 
     return (
@@ -380,7 +380,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   };
 
-  private renderWithoutPortal = (anchor: React.ReactNode, ref: null | LegacyRef<EmptyWrapper>) => {
+  private renderWithoutPortal = (anchor: React.ReactNode, ref: null | Ref<EmptyWrapper>) => {
     const { location } = this.state;
 
     return (

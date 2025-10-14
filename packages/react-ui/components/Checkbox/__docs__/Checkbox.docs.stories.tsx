@@ -67,7 +67,9 @@ export const Example4: Story = () => {
 
   return (
     <Gapped vertical>
-      <Checkbox ref={checkboxInstance} checked={checked} onValueChange={setChecked}>
+      <Checkbox ref={(el: any) => {
+        (checkboxInstance = el);
+      }} checked={checked} onValueChange={setChecked}>
         Пример чекбокса с программным фокусом
       </Checkbox>
       <Gapped gap={12}>
@@ -100,7 +102,14 @@ export const Example5: Story = () => {
 
   return (
     <Gapped vertical>
-      <Checkbox initialIndeterminate checked={checked} onValueChange={setChecked} ref={checkboxInstance}>
+      <Checkbox
+        initialIndeterminate
+        checked={checked}
+        onValueChange={setChecked}
+        ref={(el: any) => {
+          (checkboxInstance = el);
+        }}
+      >
         Неопределённый чекбокс
       </Checkbox>
       <Gapped>
@@ -134,7 +143,9 @@ export const Example6: Story = () => {
     <>
       <Checkbox
         checked={checkedSiblings.length === siblingCheckboxes.length}
-        ref={parentCheckboxRef}
+        ref={(el: any) => {
+          (parentCheckboxRef = el);
+        }}
         onValueChange={() => {
           if (checkedSiblings.length === siblingCheckboxes.length) {
             setCheckedSiblings(() => []);

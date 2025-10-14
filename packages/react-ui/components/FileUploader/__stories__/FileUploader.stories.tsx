@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, type JSX } from 'react';
 
 import { createFile, FileUploaderFileStatus } from '../../../internal/FileUploaderControl/fileUtils';
 import { Button } from '../../Button';

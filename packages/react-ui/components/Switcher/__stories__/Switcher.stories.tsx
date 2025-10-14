@@ -188,7 +188,7 @@ interface LabelledSwitcherExampleProps extends CommonProps {
   label?: string;
 }
 
-function LabelledSwitcherExample({ label, children }: LabelledSwitcherExampleProps): React.ReactElement {
+function LabelledSwitcherExample({ label, children }: LabelledSwitcherExampleProps): React.ReactElement<any> {
   return (
     <div>
       <div style={{ color: '#AAAAAA' }}>{label}</div>

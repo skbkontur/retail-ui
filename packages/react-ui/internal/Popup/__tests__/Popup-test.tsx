@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { PopupDataTids } from '..';
@@ -112,7 +112,7 @@ describe('rootNode', () => {
 
   const testRootNode = (
     Component: ({ opened }: Pick<PopupProps, 'opened'>) => JSX.Element,
-    popupRef: React.RefObject<Popup & InstanceWithRootNode>,
+    popupRef: React.RefObject<Popup & InstanceWithRootNode | null>,
     dataTid: string,
   ) => {
     it('is null by default when closed and getRootNode is defined', () => {

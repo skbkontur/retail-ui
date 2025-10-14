@@ -4,7 +4,7 @@ import type { Nullable } from '../typings/utility-types';
 
 import { isNonNullable, isNullable } from './utils';
 
-type RefVariants<T> = Nullable<React.RefObject<T> | React.RefCallback<T>>;
+type RefVariants<T> = Nullable<React.RefObject<T | null> | React.RefCallback<T>>;
 type RefCallback<T> = ReturnType<typeof createRefCallback<T>>;
 const CALLBACK_AS_KEY = { callbackAsKey: true };
 

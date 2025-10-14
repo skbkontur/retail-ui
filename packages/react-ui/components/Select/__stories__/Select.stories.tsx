@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
+import React, { useState, type JSX } from 'react';
 import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
 import { action } from '@storybook/addon-actions';
 import type { CSFStory } from 'creevey';
@@ -314,7 +314,7 @@ export const ExternalFocus = () => {
       );
     }
 
-    private refSelect: React.RefObject<Select> = React.createRef<Select>();
+    private refSelect: React.RefObject<Select | null> = React.createRef<Select>();
 
     private handleClick = () => {
       if (this.selectElem) {
@@ -393,7 +393,9 @@ export const WithSearchAndVariousWidth: Story = () => {
         100%
       </Button>
       <br />
-      <Select ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select ref={ref => {
+        (selectElem = ref);
+      }} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };
@@ -415,7 +417,9 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     { menuAlign: 'left', disablePortal: true },
   ];
   const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
-    <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
+    <Select ref={el => {
+      el?.open();
+    }} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
   );
 
   return (

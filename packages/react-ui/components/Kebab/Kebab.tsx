@@ -1,4 +1,4 @@
-import type { AriaAttributes, ReactElement, HTMLAttributes } from 'react';
+import type { AriaAttributes, ReactElement, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 import type { Emotion } from '@emotion/css/types/create-instance';
@@ -246,14 +246,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon() {
     const { icon = <KebabIcon /> } = this.getProps();
 
-    if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
+    if (isElement(icon) && isKonturIcon(icon as ReactElement<any>)) {
       const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),
       };
 
-      return React.cloneElement(icon as ReactElement, {
+      return React.cloneElement(icon as ReactElement<any>, {
         size: icon.props.size ?? sizes[this.size],
         color: icon.props.color ?? this.theme.kebabIconColor,
       });

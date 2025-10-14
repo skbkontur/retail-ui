@@ -467,7 +467,7 @@ export const DateRangePicker = Object.assign(
     function renderCalendarRange(
       props: CalendarDayProps,
       t: Theme,
-      renderDayFn: ((props: CalendarDayProps) => React.ReactElement) | undefined,
+      renderDayFn: ((props: CalendarDayProps) => React.ReactElement<any>) | undefined,
     ) {
       const day = props.date;
 

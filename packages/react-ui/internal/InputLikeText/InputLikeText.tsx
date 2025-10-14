@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import type { Emotion } from '@emotion/css/types/create-instance';

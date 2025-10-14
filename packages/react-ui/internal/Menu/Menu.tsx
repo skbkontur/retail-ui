@@ -280,7 +280,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           [this.styles.wrapper()]: true,
           [this.styles.headerWrapper()]: true,
         })}
-        ref={(el) => (this.header = el)}
+        ref={el => {
+          (this.header = el);
+        }}
       >
         <div className={this.styles.contentWrapper()}>{this.props.header}</div>
         <div className={this.styles.menuSeparatorWrapper(this.theme)}>
@@ -297,7 +299,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           [this.styles.wrapper()]: true,
           [this.styles.footerWrapper()]: true,
         })}
-        ref={(el) => (this.footer = el)}
+        ref={el => {
+          (this.footer = el);
+        }}
       >
         <div className={this.styles.menuSeparatorWrapper(this.theme)}>
           {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
