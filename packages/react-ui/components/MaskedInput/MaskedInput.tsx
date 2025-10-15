@@ -131,6 +131,8 @@ export const MaskedInput = forwardRefAndName(
     useImperativeHandle(
       ref,
       () =>
+        //TODO Fix this
+        // @ts-ignore
         inputRef.current &&
         Object.assign(inputRef.current, {
           selectAll: () => {

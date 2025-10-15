@@ -50,6 +50,8 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
 
   const { isMobile } = useResponsiveLayout();
 
+  //TODO Fix this shit
+  // @ts-ignore
   useImperativeHandle(ref, () => (isStart ? startRef.current : endRef.current), []);
 
   useEffect(() => {

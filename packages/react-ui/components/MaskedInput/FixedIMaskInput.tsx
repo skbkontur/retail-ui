@@ -55,6 +55,8 @@ export const FixedIMaskInput = forwardRefAndName(
       }
     }, []);
 
+    //TODO Fix this
+    // @ts-ignore
     useImperativeHandle(ref, () => imaskRef.current, []);
 
     return (

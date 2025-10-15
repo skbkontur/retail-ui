@@ -10,7 +10,9 @@ export const withFileUploaderControlProvider = <TProps extends Record<string, an
   >,
 ) => {
   return React.memo(
+    //TODO Remove ts-ignore
     React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>(
+      // @ts-ignore
       (props: TProps & FileUploaderControlProviderProps, ref) => {
         const { onRemove, onValueChange, onAttach, initialFiles, ...rest } = props;
         return (

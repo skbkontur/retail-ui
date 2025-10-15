@@ -657,10 +657,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return state.inFocus && (this.isInputValueChanged || state.activeTokens.length === 0);
   }
 
-  private inputRef = (node: HTMLTextAreaElement) => (this.input = node);
-  private tokensInputMenuRef = (node: TokenInputMenu<T>) => (this.tokensInputMenu = node);
-  private textHelperRef = (node: TextWidthHelper) => (this.textHelper = node);
-  private wrapperRef = (node: HTMLLabelElement) => (this.wrapper = node);
+  private inputRef = (node: HTMLTextAreaElement) => {this.input = node};
+  private tokensInputMenuRef = (node: TokenInputMenu<T>) => {this.tokensInputMenu = node};
+  private textHelperRef = (node: TextWidthHelper) => {this.textHelper = node};
+  private wrapperRef = (node: HTMLLabelElement) => {this.wrapper = node};
 
   private dispatch = (action: TokenInputAction, cb?: () => void) => {
     this.setState((prevState) => tokenInputReducer(prevState, action), cb);
