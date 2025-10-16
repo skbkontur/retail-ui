@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.9...@skbkontur/react-ui@5.3.10) (2025-10-16)
+
+
+### Bug Fixes
+
+* **DatePicker:** pass correct value to onValueChange on blur ([8e82ee0](https://github.com/skbkontur/retail-ui/commit/8e82ee07ae2e29a6ab608863e89bb85511597a10))
+
+
+
+
+
 ## [5.3.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.8...@skbkontur/react-ui@5.3.9) (2025-10-03)
 
 

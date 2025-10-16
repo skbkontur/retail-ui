@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.3.3...react-ui-validations@3.0.0) (2025-10-16)
+
+
+### Features
+
+* **react-ui-testing:** drop support for net45, use netstandard2.0 only, move to gitlab ci ([0fb54f3](https://github.com/skbkontur/retail-ui/commit/0fb54f30ce1ec24c84cb8a03b75d5693ff8cb1d7))
+
+
+### BREAKING CHANGES
+
+* **react-ui-testing:** drop support for net45
+
+
+
+
+
 ## [2.3.3](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.3.2...react-ui-validations@2.3.3) (2025-09-22)
 
 **Note:** Version bump only for package react-ui-validations
