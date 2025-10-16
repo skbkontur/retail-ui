@@ -161,7 +161,7 @@ export const Example4: Story = () => {
 };
 Example4.storyName = 'Ручное форматирование даты';
 
-/** Подбробный пример в компоненте Calendar. */
+/** Подробный пример в компоненте Calendar. */
 export const Example5: Story = () => {
   const [value, setValue] = React.useState('12.05.2022');
 

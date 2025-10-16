@@ -309,7 +309,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false });
+  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false }, false);
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     this.resetFocus();
