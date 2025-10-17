@@ -12,6 +12,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../MaskedInput';
 
+export type ComboBoxViewMode = 'singleline' | 'multiline' | 'multiline-editing';
+
 export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
@@ -173,6 +175,18 @@ export interface ComboBoxProps<T>
 
   /** Задает функцию, которая вызывается при вставке значения в инпут с маской. */
   onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
+
+  /** Режим отображения комбобокса
+   * - `singleline` — однострочный
+   * - `multiline` — многострочный
+   * - `multiline-editing` — многострочный только при редактировании
+   *
+   * multiline-режимы не работают, если указан проп `mask`. В таком случае будет использован однострочный режим.
+   * @default singleline */
+  viewMode?: ComboBoxViewMode;
+
+  /** Максимальное кол-во строк для многострочных режимов отображения комбобокса */
+  maxRows?: number;
 }
 
 export interface ComboBoxItem {
@@ -193,6 +207,7 @@ type DefaultProps<T> = Required<
     | 'searchOnFocus'
     | 'drawArrow'
     | 'showClearIcon'
+    | 'viewMode'
   >
 >;
 
@@ -220,6 +235,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     searchOnFocus: true,
     drawArrow: true,
     showClearIcon: 'never',
+    viewMode: 'singleline',
   };
 
   private getProps = createPropsGetter(ComboBox.defaultProps);

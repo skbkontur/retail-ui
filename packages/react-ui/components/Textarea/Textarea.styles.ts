@@ -28,6 +28,7 @@ export const styles = memoizeStyle({
 
   textarea(t: Theme) {
     return css`
+      margin: ${t.textareaMargin};
       -webkit-appearance: none;
       background: ${t.textareaBg};
       background-clip: ${t.textareaBackgroundClip};
@@ -45,7 +46,7 @@ export const styles = memoizeStyle({
       transition:
         border-color ${t.transitionDuration} ${t.transitionTimingFunction},
         height 0.2s ease-out;
-      vertical-align: middle;
+      vertical-align: ${t.textareaVerticalAlign};
       width: 100%;
       border-radius: ${t.textareaBorderRadius};
       white-space: pre-wrap;

@@ -20,6 +20,7 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
+import type { InputAlign } from '../Input';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -27,11 +28,11 @@ import type { TextareaCounterRef } from './TextareaCounter';
 import { TextareaCounter } from './TextareaCounter';
 import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
 
-const DEFAULT_WIDTH = 250;
+export const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends Pick<AriaAttributes, 'aria-controls' | 'aria-label'>,
     CommonProps,
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -92,6 +93,8 @@ export interface TextareaProps
 
         /** Отключает анимацию при авто-ресайзе. Автоматически отключается когда в `extraRow` передан `false`. */
         disableAnimations?: boolean;
+        /** Выравнивание текста */
+        align?: InputAlign;
       }
     > {}
 
@@ -125,6 +128,15 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     extraRow: true,
     size: 'small',
     disableAnimations: isTestEnv,
+  };
+
+  public clear = () => {
+    if (this.node) {
+      this.node.value = '';
+    }
+    if (this.fakeNode) {
+      this.fakeNode.value = '';
+    }
   };
 
   private getProps = createPropsGetter(Textarea.defaultProps);
@@ -330,6 +342,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaStyle = {
       resize: autoResize ? 'none' : resize,
+      textAlign: this.props.align,
     };
 
     let placeholderPolyfill = null;

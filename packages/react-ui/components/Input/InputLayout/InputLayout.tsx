@@ -16,20 +16,22 @@ type InputLayoutRootFromInputProps = Pick<InputProps, 'leftIcon' | 'rightIcon' |
 export interface InputLayoutRootProps extends InputLayoutRootFromInputProps, CommonProps {
   labelProps: React.LabelHTMLAttributes<HTMLLabelElement>;
   context: Partial<InputLayoutContextProps>;
+  tag?: 'label' | 'span';
 }
 
 export const InputLayout = forwardRefAndName<HTMLLabelElement, InputLayoutRootProps>('InputLayout', (props, ref) => {
-  const { leftIcon, rightIcon, prefix, suffix, labelProps, context, children } = props;
+  const { leftIcon, rightIcon, prefix, suffix, labelProps, context, children, tag = 'label' } = props;
   const _context: InputLayoutContextProps = { ...InputLayoutContextDefault, ...context };
+  const Tag = tag;
 
   return (
     <InputLayoutContext.Provider value={_context}>
       <CommonWrapper {...props}>
-        <label ref={ref} data-tid={InputDataTids.root} {...labelProps}>
+        <Tag ref={ref} data-tid={InputDataTids.root} {...labelProps}>
           <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
           <span className={stylesLayout.input()}>{children}</span>
           <InputLayoutAside icon={rightIcon} text={suffix} side="right" />
-        </label>
+        </Tag>
       </CommonWrapper>
     </InputLayoutContext.Provider>
   );

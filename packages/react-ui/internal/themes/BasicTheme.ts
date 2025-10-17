@@ -2155,6 +2155,8 @@ export class BasicThemeClass {
   public static get textareaCounterHelpIconColor() {
     return this.linkColor;
   }
+  public static textareaMargin = '';
+  public static textareaVerticalAlign = 'middle';
 
   //#endregion Textarea
   //#region Radio
@@ -2652,6 +2654,8 @@ export class BasicThemeClass {
 
   public static clearCrossIconColor = 'rgba(0, 0, 0, 0.54)';
   public static clearCrossIconHoverColor = 'rgba(0, 0, 0, 0.87)';
+
+  public static clearCrossIconAlign = 'center';
 
   //#endregion ClearCrossIcon
 

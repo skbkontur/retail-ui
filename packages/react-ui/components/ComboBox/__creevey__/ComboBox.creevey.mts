@@ -3,6 +3,73 @@ import { Key } from 'selenium-webdriver';
 
 import { delay } from '../../../lib/delay.mjs';
 
+const multilineTest = () => {
+  test('plain', async (context) => {
+    const plain = await context.takeScreenshot();
+    await context.webdriver
+      .actions({
+        bridge: true,
+      })
+      .click(context.webdriver.findElement({ css: '[data-tid~="ComboBoxView__root"]' }))
+      .pause(1000)
+      .perform();
+    const opened = await context.takeScreenshot();
+
+    await context.webdriver
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(Key.ARROW_DOWN)
+      .sendKeys(Key.ARROW_DOWN)
+      .sendKeys(Key.ARROW_DOWN)
+      .sendKeys(Key.ENTER)
+      .pause(1000)
+      .perform();
+    const closed = await context.takeScreenshot();
+
+    await context.webdriver
+      .actions({
+        bridge: true,
+      })
+      .move({ origin: context.webdriver.findElement({ css: 'body' }) })
+      .press()
+      .release()
+      .pause(1000)
+      .perform();
+    const blur = await context.takeScreenshot();
+
+    await context.webdriver
+      .actions({
+        bridge: true,
+      })
+      .move({ origin: context.webdriver.findElement({ css: '[data-tid~="ComboBoxView__root"]' }) })
+      .pause(1000)
+      .perform();
+    await context.webdriver
+      .actions({
+        bridge: true,
+      })
+      .move({ origin: context.webdriver.findElement({ css: `[data-tid="Input__clearCross"]` }) })
+      .press()
+      .release()
+      .pause(1000)
+      .perform();
+    await context.webdriver
+      .actions({
+        bridge: true,
+      })
+      .move({ origin: context.webdriver.findElement({ css: 'body' }) })
+      .press()
+      .release()
+      .pause(1000)
+      .perform();
+    const cleared = await context.takeScreenshot();
+
+    await delay(1000);
+    await context.matchImages({ plain, opened, closed, blur, cleared });
+  });
+};
+
 kind('ComboBox', () => {
   story('SimpleComboboxStory', ({ setStoryParameters }) => {
     setStoryParameters({
@@ -540,5 +607,13 @@ kind('ComboBox', () => {
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'ClickedAll');
     });
+  });
+
+  story('MultilineComboboxStory', () => {
+    multilineTest();
+  });
+
+  story('MultilineEditingComboboxStory', () => {
+    multilineTest();
   });
 });

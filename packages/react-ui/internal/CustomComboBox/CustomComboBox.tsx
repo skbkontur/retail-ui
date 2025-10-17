@@ -15,11 +15,12 @@ import { CommonWrapper } from '../CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
-import type { ComboBoxExtendedItem } from '../../components/ComboBox';
+import type { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox';
 import type { SizeProp } from '../../lib/types/props';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput';
+import type { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
@@ -83,6 +84,8 @@ export interface CustomComboBoxProps<T>
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
   onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
+  viewMode?: ComboBoxViewMode;
+  maxRows?: number;
 }
 
 export interface CustomComboBoxState<T> {
@@ -120,7 +123,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public static displayName = 'CustomComboBox';
 
   public state: CustomComboBoxState<T> = DefaultState;
-  public input: Nullable<Input>;
+  public input: Nullable<Input | InternalTextareaWithLayout>;
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
@@ -324,7 +327,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       repeatRequest: this.state.repeatRequest,
       requestStatus: this.state.requestStatus,
 
-      refInput: (input: Nullable<Input>) => {
+      refInput: (input: Nullable<Input | InternalTextareaWithLayout>) => {
         this.input = input;
       },
       refMenu: (menu: Nullable<Menu>) => {
@@ -333,6 +336,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       refInputLikeText: (inputLikeText: Nullable<InputLikeText>) => {
         this.inputLikeText = inputLikeText;
       },
+      viewMode: this.props.viewMode,
+      maxRows: this.props.maxRows,
     };
 
     return (
