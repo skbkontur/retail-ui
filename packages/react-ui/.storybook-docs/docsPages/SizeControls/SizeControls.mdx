@@ -1,0 +1,62 @@
+import * as SizeStories from './SizeContext.docs.stories';
+import { Story } from '@storybook/blocks';
+import { linkTo } from '@storybook/addon-links';
+import { Link } from '../../../components/Link';
+
+import { Meta } from '../../Meta';
+
+<Meta of={SizeStories} />
+
+# SizeControl
+
+Контекст для управления размерами контролов `React.Context<SizeControlContext>`, позволяет единообразно задать дефолтный размер для большинства компонентов библиотеки. Это:
+
+- упрощает конфигурирование размеров на уровне экрана/модуля;
+- избавляет от дублирования пропа `size` у каждого компонента;
+- помогает быстро переключать плотность интерфейса (например, small ↔ medium ↔ large)
+
+Если компонент принимает проп `size`, он использует значение из контекста по умолчанию. При необходимости размер можно переопределить пропом.
+
+## Подключение
+
+```tsx static
+import { SizeControlContext } from '@skbkontur/react-ui';
+
+export function Page() {
+  return (
+    <SizeControlContext.Provider value={{ size: 'medium' }}>
+      {/* Внутри провайдера все компоненты по умолчанию будут medium */}
+    </SizeControlContext.Provider>
+  );
+}
+```
+
+## Поддерживаемые размеры
+
+```ts static
+type SizeProp = 'small' | 'medium' | 'large';
+```
+
+## Быстрый пример
+
+В примере ниже компонент внутри провайдера автоматически принимают размер из контекста.
+
+<Story of={SizeStories.Example1} />
+
+## Интерактивный переключатель размера
+
+Потестируйте разные значения `size` и посмотрите, как меняются компоненты.
+
+<Story of={SizeStories.InteractiveSizeSwitcher} />
+
+## Набор типовых компонентов
+
+Пример показывает, как единый размер влияет на разные компоненты одновременно.
+
+<Story of={SizeStories.ShowcaseCommonComponents} />
+
+## Переопределение размера пропом
+
+Даже внутри провайдера можно задать конкретный размер компоненту через проп `size`. Это удобно для редких исключений.
+
+<Story of={SizeStories.OverrideWithPropInsideContext} />

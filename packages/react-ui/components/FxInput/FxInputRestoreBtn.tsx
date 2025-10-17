@@ -1,10 +1,10 @@
 import type { AriaAttributes } from 'react';
 import React, { useContext } from 'react';
 
-import { Input } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Button } from '../Button';
 import type { SizeProp } from '../../lib/types/props';
+import { useSizeControl } from '../../lib/size/useSizeControl';
 
 import { UndoIcon } from './UndoIcon';
 import type { FxInputProps } from './FxInput';
@@ -18,8 +18,7 @@ interface FxInputRestoreBtnProps
 
 export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> = (props) => {
   const theme = useContext(ThemeContext);
-
-  const size = props.size || Input.defaultProps.size;
+  const size = useSizeControl(props.size);
 
   const iconSizes: Record<SizeProp, number> = {
     small: parseInt(theme.inputIconSizeSmall),

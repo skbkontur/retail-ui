@@ -19,6 +19,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Link } from '../Link';
 import type { SizeProp } from '../../lib/types/props';
 import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import type { ButtonIconProps } from './ButtonIcon';
@@ -125,12 +126,13 @@ export const ButtonDataTids = {
   spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'use' | 'size' | 'type' | 'component'>>;
+type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'use' | 'type' | 'component'>>;
 
 const SpanComponent: React.FunctionComponent<HTMLAttributes<HTMLSpanElement>> = ({ children, ...rest }) => {
   return <span {...rest}>{children}</span>;
 };
 
+@withSize
 @rootNode
 export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> extends React.Component<
   ButtonProps<C>,
@@ -142,8 +144,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
   public static defaultProps: DefaultProps = {
     use: 'default',
-    size: 'small',
-    // By default the type attribute is 'submit'. IE8 will fire a click event
+    // By default, the type attribute is 'submit'. IE8 will fire a click event
     // on this button if somewhere on the page user presses Enter while some
     // input is focused. So we set type to 'button' by default.
     type: 'button',
@@ -158,6 +159,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
+  private size!: SizeProp;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
@@ -243,11 +245,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       tabIndex,
       component: _component,
       use: useProp,
-      size: sizeProp,
       theme,
       ...rest
     } = props;
-    const { use, size, component, children } = this.getProps();
+    const { use, component, children } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
 
@@ -255,7 +256,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const isLink = use === 'link';
 
     const [rootClassNameWithArrow, arrowNode] = useButtonArrow(
-      { ...this.props, isFocused: Boolean(isFocused) },
+      { ...this.props, isFocused: Boolean(isFocused), size: this.size },
       this.theme,
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
@@ -330,7 +331,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     const iconProps: Omit<ButtonIconProps, 'position'> = {
       use,
-      size: this.getProps().size,
+      size: this.size,
       hasChildren: !!children,
       loading: loading || false,
     };
@@ -359,7 +360,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     }
 
     const hasLoadingNode = loading && !icon && !rightIcon;
-    const loadingNode = hasLoadingNode && <LoadingButtonIcon size={size} />;
+    const loadingNode = hasLoadingNode && <LoadingButtonIcon size={this.size} />;
 
     let captionNode = (
       <div
@@ -416,17 +417,17 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   private renderIcon2022(icon: React.ReactElement | undefined) {
     if (icon && isKonturIcon(icon)) {
       const sizes = getButtonIconSizes(this.theme);
-      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.getProps().size] });
+      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.size] });
     }
 
     return icon;
   }
 
   private getSizeClassName() {
-    const { icon, rightIcon, children, size } = this.getProps();
+    const { icon, rightIcon, children } = this.getProps();
     const isThemeGTE_5_3 = isThemeGTE(this.theme, '5.3');
 
-    switch (size) {
+    switch (this.size) {
       case 'large': {
         const commonClasses = {
           [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
@@ -473,7 +474,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   }
 
   private getSizeWrapClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.wrapLarge(this.theme);
       case 'medium':

@@ -13,9 +13,10 @@ import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { withSize } from '../../lib/size/SizeDecorator';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
@@ -73,8 +74,6 @@ export const CheckboxDataTids = {
   root: 'Checkbox__root',
 } as const;
 
-type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
-
 /**
  * `Checkbox` используется для управления параметром с двумя состояниями.
  *
@@ -82,18 +81,13 @@ type DefaultProps = Required<Pick<CheckboxProps, 'size'>>;
  * Для немедленного включения какого-то режима в интерфейсе лучше подходит Toggle.
  */
 @rootNode
+@withSize
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
   public static displayName = 'Checkbox';
 
-  public static defaultProps: DefaultProps = {
-    size: 'small',
-  };
-
-  private getProps = createPropsGetter(Checkbox.defaultProps);
-
   private getRootSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.rootLarge(this.theme);
       case 'medium':
@@ -105,7 +99,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   }
 
   private getBoxWrapperSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.boxWrapperLarge(this.theme);
       case 'medium':
@@ -117,7 +111,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   }
 
   private getCheckboxBoxSize() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return this.theme.checkboxBoxSizeLarge;
       case 'medium':
@@ -133,9 +127,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     indeterminate: this.props.initialIndeterminate || false,
     isShiftPressed: false,
   };
+  private size!: SizeProp;
 
   private theme!: Theme;
   private input = React.createRef<HTMLInputElement>();
+  private getProps = createPropsGetter({});
 
   private handleShiftPress = (e: KeyboardEvent) => {
     if (e.key === 'Shift') {
@@ -251,7 +247,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const iconClass = cx(styles.icon(), !props.checked && !isIndeterminate && styles.iconUnchecked());
+    const iconClass = cx(styles.icon(), !this.props.checked && !isIndeterminate && styles.iconUnchecked());
 
     const iconSize = parseInt(this.getCheckboxBoxSize());
     const IconCheck = (
@@ -268,9 +264,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     const rootClass = cx(this.getRootSizeClassName(), {
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
-      [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [styles.rootChecked(this.theme)]: this.props.checked || isIndeterminate,
       [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
-      [styles.disabled(this.theme)]: Boolean(props.disabled),
+      [styles.disabled(this.theme)]: Boolean(this.props.disabled),
     });
 
     const inputProps = {
@@ -289,7 +285,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       const captionClass = cx({
         [styles.caption(this.theme)]: true,
         [styles.captionIE11()]: isIE11 || isEdge,
-        [styles.disabled(this.theme)]: Boolean(props.disabled),
+        [styles.disabled(this.theme)]: Boolean(this.props.disabled),
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
@@ -302,11 +298,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       >
         <div
           className={cx(styles.box(this.theme), globalClasses.box, {
-            [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+            [styles.boxChecked(this.theme)]: this.props.checked || isIndeterminate,
             [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-            [styles.boxError(this.theme)]: props.error,
-            [styles.boxWarning(this.theme)]: props.warning,
-            [styles.boxDisabled(this.theme)]: props.disabled,
+            [styles.boxError(this.theme)]: this.props.error,
+            [styles.boxWarning(this.theme)]: this.props.warning,
+            [styles.boxDisabled(this.theme)]: this.props.disabled,
           })}
         >
           {(isIndeterminate && IconSquare) || IconCheck}

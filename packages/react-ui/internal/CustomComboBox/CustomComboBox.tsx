@@ -21,6 +21,7 @@ import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { ReactUIFeatureFlagsContext, getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
 import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput';
 import type { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
@@ -113,11 +114,11 @@ export const DefaultState = {
   textValue: '',
   repeatRequest: () => undefined,
   requestStatus: ComboBoxRequestStatus.Unknown,
-  size: 'small',
 };
 
 @responsiveLayout
 @rootNode
+@withSize
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
   public static displayName = 'CustomComboBox';
@@ -180,6 +181,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   };
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private size!: SizeProp;
 
   /**
    * @public
@@ -281,7 +283,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       menuPos: this.props.menuPos,
       menuAlign: this.props.menuAlign,
       placeholder: this.props.placeholder,
-      size: this.props.size,
+      size: this.size,
       textValue: this.state.textValue,
       totalCount: this.props.totalCount,
       value: this.props.value,
@@ -346,7 +348,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
           this.featureFlags = getFullReactUIFlagsContext(flags);
           return (
             <CommonWrapper {...this.props}>
-              <ComboBoxView {...viewProps} size={this.props.size} ref={this.setRootNode} />
+              <ComboBoxView {...viewProps} size={this.size} ref={this.setRootNode} />
             </CommonWrapper>
           );
         }}

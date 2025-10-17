@@ -18,6 +18,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
+import { withSize } from '../../lib/size/SizeDecorator';
+import type { SizeProp } from '../../lib/types/props';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './PasswordInput.styles';
@@ -45,30 +47,25 @@ export const PasswordInputDataTids = {
   eyeIcon: 'PasswordInputEyeIcon',
 } as const;
 
-type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
-
 /**
  * `PasswordInput` — однострочное поле для ввода пароля, в котором символы заменяются на точки.
  *
  * Не используйте такое поле для ввода одноразовых кодов из смс. У них короткий срок действия и используются они только один раз.
  */
+
 @rootNode
 @locale('PasswordInput', PasswordInputLocaleHelper)
+@withSize
 export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
   public static displayName = 'PasswordInput';
-
-  public static defaultProps: DefaultProps = {
-    size: 'small',
-  };
-
-  private getProps = createPropsGetter(PasswordInput.defaultProps);
 
   public state: PasswordInputState = {
     visible: false,
     focused: false,
     capsLockEnabled: false,
   };
+  private size!: SizeProp;
 
   private theme!: Theme;
 
@@ -76,6 +73,8 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: PasswordInputLocale;
+
+  private getProps = createPropsGetter({});
 
   public componentDidMount() {
     if (this.props.detectCapsLock) {
@@ -98,7 +97,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     return state;
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -197,7 +196,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private getEyeWrapperClassname() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);
       case 'medium':
@@ -225,7 +224,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
               className={styles.icon()}
               data-tid={PasswordInputDataTids.eyeIcon}
             >
-              <PasswordInputIcon size={this.props.size} visible={this.state.visible} />
+              <PasswordInputIcon size={this.size} visible={this.state.visible} />
             </button>
           )}
         </span>
@@ -242,15 +241,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
-    const { detectCapsLock, ...rest } = props;
-    const inputProps = {
-      ...rest,
-      onKeyDown: this.handleKeydown,
-      onKeyPress: this.handleKeyPress,
-      rightIcon: this.renderEye(),
-      onFocus: this.handleFocus,
-    };
-
     return (
       <RenderLayer
         active={this.state.focused}
@@ -258,7 +248,15 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         onClickOutside={this.handleFocusOutside}
       >
         <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
-          <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+          <Input
+            ref={this.refInput}
+            type={this.state.visible ? 'text' : 'password'}
+            onKeyDown={this.handleKeydown}
+            onKeyPress={this.handleKeyPress}
+            rightIcon={this.renderEye()}
+            onFocus={this.handleFocus}
+            {...props}
+          />
         </div>
       </RenderLayer>
     );

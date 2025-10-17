@@ -21,6 +21,7 @@ import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import type { InputAlign } from '../Input';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -109,7 +110,7 @@ export const TextareaDataTids = {
   helpIcon: 'TextareaCounter__helpIcon',
 } as const;
 
-type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations' | 'size'>>;
+type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
 
 /**
  * Многострочное поле `Textarea` — это поле ввода, которое позволяет работать с несколькими строками текста.
@@ -117,7 +118,9 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
  * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
  * Пропы **`className` и `style` игнорируются**.
  */
+
 @rootNode
+@withSize
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
   public static displayName = 'Textarea';
@@ -126,7 +129,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 3,
     maxRows: 15,
     extraRow: true,
-    size: 'small',
     disableAnimations: isTestEnv,
   };
 
@@ -142,7 +144,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private getProps = createPropsGetter(Textarea.defaultProps);
 
   private getRootSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.rootLarge(this.theme);
       case 'medium':
@@ -154,7 +156,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   private getTextareaSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.textareaLarge(this.theme);
       case 'medium':
@@ -169,6 +171,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     needsPolyfillPlaceholder,
     isCounterVisible: false,
   };
+  private size!: SizeProp;
+
   private reflowCounter = () => {
     if (this.counter) {
       this.counter.reflow();
@@ -365,7 +369,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     const counter = showLengthCounter && isCounterVisible && this.node && (
       <TextareaCounter
         textarea={this.node}
-        size={this.getProps().size}
+        size={this.size}
         help={counterHelp}
         value={textareaProps.value}
         length={textareaProps.maxLength ?? lengthCounter ?? 0}

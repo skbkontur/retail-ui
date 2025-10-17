@@ -27,6 +27,8 @@ import { InputLayoutContext, InputLayoutContextDefault } from '../../components/
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { FocusControlWrapper } from '../FocusControlWrapper';
 import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
+import { withSize } from '../../lib/size/SizeDecorator';
+import type { SizeProp } from '../../lib/types/props';
 
 import { HiddenInput } from './HiddenInput';
 import { styles } from './InputLikeText.styles';
@@ -50,15 +52,15 @@ export const InputLikeTextDataTids = {
   nativeInput: 'InputLikeText__nativeInput',
 } as const;
 
-type DefaultProps = Required<Pick<InputLikeTextProps, 'size' | 'showClearIcon'>>;
+type DefaultProps = Required<Pick<InputLikeTextProps, 'showClearIcon'>>;
 
+@withSize
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
   public static displayName = 'InputLikeText';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
     showClearIcon: 'never',
   };
 
@@ -85,6 +87,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private theme!: Theme;
+  private size!: SizeProp;
   private node: HTMLElement | null = null;
   private hiddenInput: HTMLInputElement | null = null;
   private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
@@ -193,7 +196,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       align,
       borderless,
       width,
-      size,
       error,
       warning,
       onValueChange,
@@ -219,7 +221,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return this.state.clearCrossShowed ? (
         <ClearCrossIcon
           data-tid={InputDataTids.clearCross}
-          size={size}
+          size={this.size}
           onFocus={(event) => event.stopPropagation()}
           onClick={onClearCrossClick}
         />
@@ -247,7 +249,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const wrapperClass = cx(jsInputStyles.wrapper(), {
       [styles.userSelectContain()]: focused,
     });
-
+    const size = this.size;
     const context = InputLayoutContextDefault;
     Object.assign(context, { disabled, focused, size });
 
@@ -472,7 +474,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getSizeClassName = () => {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,

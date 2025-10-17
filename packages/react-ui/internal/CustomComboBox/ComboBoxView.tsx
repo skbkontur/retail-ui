@@ -30,6 +30,7 @@ import { MaskedInput } from '../../components/MaskedInput';
 import { styles as MaskedInputStyles } from '../../components/MaskedInput/MaskedInput.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -119,7 +120,6 @@ type DefaultProps<T> = Required<
     | 'requestStatus'
     | 'onClickOutside'
     | 'onFocusOutside'
-    | 'size'
     | 'width'
     | 'showClearIcon'
   >
@@ -136,6 +136,7 @@ interface ComboBoxViewState {
 
 @responsiveLayout
 @rootNode
+@withSize
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
   public static displayName = 'ComboBoxView';
@@ -152,7 +153,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     onFocusOutside: () => {
       /**/
     },
-    size: 'small',
     width: 250,
     showClearIcon: 'never',
   };
@@ -166,6 +166,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<Popup>();
   private theme!: Theme;
+  private size!: SizeProp;
   private menuId = ComboBoxViewIds.menu + getRandomID();
 
   public state = {
@@ -242,8 +243,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   private getComboBoxMenu = () => {
-    const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount, size } =
-      this.props;
+    const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount } = this.props;
 
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
@@ -265,7 +265,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         requestStatus={requestStatus}
         totalCount={totalCount}
         isMobile={this.isMobileLayout}
-        size={size}
+        size={this.size}
       />
     );
   };
@@ -358,7 +358,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       refInputLikeText,
       leftIcon,
       inputMode,
-      size,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
       showClearIcon,
@@ -387,7 +386,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       onKeyDown: onInputKeyDown,
       placeholder,
       width: '100%',
-      size,
       ref: this.refInput,
       warning,
       inputMode,
@@ -396,6 +394,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       'aria-controls': this.menuId,
       'aria-label': ariaLabel,
       showClearIcon,
+      size: this.size,
     };
 
     const multilineTextareaProps = {
@@ -443,7 +442,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         disabled={disabled}
         warning={warning}
         placeholder={placeholder}
-        size={size}
+        size={this.size}
         width="100%"
         ref={refInputLikeText}
         aria-describedby={ariaDescribedby}
@@ -487,7 +486,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   );
 
   private getRightIcon = () => {
-    const { loading, items, drawArrow, rightIcon, size } = this.props;
+    const { loading, items, drawArrow, rightIcon } = this.props;
+    const size = this.size;
 
     if (loading && items && !!items.length) {
       return <LoadingIcon size={size} />;
