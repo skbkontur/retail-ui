@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Dropdown } from '../../../components/Dropdown';
 import type { Story } from '../../../typings/stories';
@@ -28,6 +28,7 @@ import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { SingleToast } from '../../../components/SingleToast';
+
 
 const linearLightGradient = `repeating-linear-gradient(
                                 60deg,
@@ -888,24 +889,24 @@ ModalWithDropdown.parameters = { creevey: { captureElement: null } };
 
 function Root({ children }: React.PropsWithChildren<any>) {
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const reactRoot = React.useRef<ReturnType<typeof createRoot>>(null)
   const theme = React.useContext(ThemeContext);
 
   React.useEffect(() => {
-    if (rootRef.current) {
+    if (rootRef.current && children) {
       const App = () => children;
-      children &&
-        ReactDOM.render(
-          <ThemeContext.Provider value={theme}>
-            <App />
-          </ThemeContext.Provider>,
-          rootRef.current,
-        );
+      reactRoot.current =  createRoot(rootRef.current);
+      reactRoot.current.render(
+        <ThemeContext.Provider value={theme}>
+          <App />
+        </ThemeContext.Provider>,
+      );
     }
   }, []);
 
   React.useLayoutEffect(
     () => () => {
-      rootRef.current && ReactDOM.unmountComponentAtNode(rootRef.current);
+      reactRoot.current && reactRoot.current.unmount();
     },
     [],
   );
