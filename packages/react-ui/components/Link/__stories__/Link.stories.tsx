@@ -6,11 +6,11 @@ import { ComponentTable } from '../../../internal/ComponentTable';
 import type { LinkProps } from '../Link';
 import { Link } from '../Link';
 import { Button } from '../../Button';
-import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 import { Hint } from '../../Hint';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { SingleToast } from '../../SingleToast';
 
 export default {
   title: 'Link',
@@ -60,7 +60,12 @@ export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
 
 export const Disabled: Story = () => <Link disabled>Simple link</Link>;
 
-export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
+export const WithOnClick = () => (
+  <>
+    <SingleToast />
+    <Link onClick={() => SingleToast.push('Clicked!')}>Simple Link</Link>
+  </>
+);
 WithOnClick.storyName = 'With onClick';
 WithOnClick.parameters = { creevey: { skip: true } };
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import type { RenderResult } from '@testing-library/react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import * as ReactUI from '../../index';
-import type { AnyObject } from '../../lib/utils';
-import { delay } from '../../lib/utils';
 import type { Toast } from '../../index';
 import { ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
+import type { AnyObject } from '../../lib/utils';
+import { delay } from '../../lib/utils';
 import { InputLikeTextDataTids } from '../../internal/InputLikeText';
 import { getRootNode } from '../../lib/rootNode';
 

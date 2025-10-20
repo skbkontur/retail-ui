@@ -31,12 +31,12 @@ import {
   ScrollContainer,
   Select,
   SidePage,
+  SingleToast,
   Spinner,
   Sticky,
   Switcher,
   Tabs,
   Textarea,
-  Toast,
   Toggle,
   Token,
   TokenInput,
@@ -91,8 +91,9 @@ export const App = () => {
       </Group>
       <Hint text="World">Hello</Hint>
       <Input />
+      <SingleToast />
       <Kebab size="large">
-        <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Nope')}>
+        <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => SingleToast.push('Nope')}>
           Редактировать
         </MenuItem>
       </Kebab>

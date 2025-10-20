@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Toast, GlobalLoader, Button } from '@skbkontur/react-ui';
+import { Button, GlobalLoader, Select, SingleToast } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
 
@@ -73,6 +73,7 @@ function GlobalLoaderWithTimer() {
   let timer: ReturnType<typeof setInterval> | null = null;
   return (
     <div>
+      <SingleToast />
       <div>
         Выберите ожидаемое время ответа от сервера (expectedResponseTime):
         <Select<number, number> items={times} value={expectedResponseTime} onValueChange={setExpectedResponseTime} />
@@ -95,7 +96,7 @@ function GlobalLoaderWithTimer() {
           setDone(true);
         }}
       />
-      <Toast />
+      <SingleToast />
     </div>
   );
   function startGlobalLoader() {
@@ -105,7 +106,7 @@ function GlobalLoaderWithTimer() {
     startTimer();
     setTimeout(() => {
       setActive(false);
-      Toast.push('Загрузка завершена');
+      SingleToast.push('Загрузка завершена');
     }, time * 1000);
   }
   function startTimer() {

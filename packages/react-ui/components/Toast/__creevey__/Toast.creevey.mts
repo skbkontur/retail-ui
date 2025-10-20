@@ -1,4 +1,4 @@
-import { story, kind, test } from 'creevey';
+import { kind, story, test } from 'creevey';
 
 import { delay } from '../../../lib/delay.mjs';
 
@@ -32,14 +32,6 @@ kind('Toast', () => {
     kindTests();
   });
 
-  story('StaticMethod', () => {
-    kindTests();
-  });
-
-  story('ReactNodeExample', () => {
-    kindTests();
-  });
-
   story('button', () => {
     kindTests();
   });
@@ -62,24 +54,13 @@ kind('Toast', () => {
 
   story('ToastWithCross', () => {
     test('idle', async (context) => {
-      const showStaticToastButton = context.webdriver.findElement({ css: '[data-tid="show-static-toast"]' });
       const showInstanceToastButton = context.webdriver.findElement({ css: '[data-tid="show-instance-toast"]' });
 
-      await context.webdriver.actions({ bridge: true }).click(showStaticToastButton).perform();
-      await delay(1000);
-      const staticToast = await context.takeScreenshot();
-
-      const closeFirstToast = context.webdriver.findElement({ css: '[data-tid="ToastView__close"]' });
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(closeFirstToast)
-        .pause(100)
-        .click(showInstanceToastButton)
-        .perform();
+      await context.webdriver.actions({ bridge: true }).pause(100).click(showInstanceToastButton).perform();
       await delay(1000);
       const instanceToast = await context.takeScreenshot();
 
-      await context.matchImages({ staticToast, instanceToast });
+      await context.matchImages({ instanceToast });
     });
   });
 });

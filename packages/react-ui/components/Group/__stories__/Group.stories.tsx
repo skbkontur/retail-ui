@@ -9,7 +9,6 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Group } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
-import { Toast } from '../../Toast';
 import { Dropdown } from '../../Dropdown';
 import { DropdownMenu } from '../../DropdownMenu';
 import { Select } from '../../Select';
@@ -20,6 +19,7 @@ import { FxInput } from '../../FxInput';
 import { Hint } from '../../Hint';
 import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
+import { SingleToast } from '../../SingleToast';
 
 export default {
   title: 'Group',
@@ -75,22 +75,30 @@ GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Butt
 GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
 export const ButtonGroup: Story = () => (
-  <Group>
-    <Button onClick={() => Toast.push('Раз')}>Раз</Button>
-    <Button onClick={() => Toast.push('Два')}>Два</Button>
-    <Button onClick={() => Toast.push('Три')}>Три</Button>
-  </Group>
+  <>
+    <SingleToast />
+
+    <Group>
+      <Button onClick={() => SingleToast.push('Раз')}>Раз</Button>
+      <Button onClick={() => SingleToast.push('Два')}>Два</Button>
+      <Button onClick={() => SingleToast.push('Три')}>Три</Button>
+    </Group>
+  </>
 );
 ButtonGroup.storyName = 'Button group';
 
 export const ComplexElements: Story = () => (
-  <Group>
-    <Button icon={<XIcon16Regular />} onClick={() => Toast.push('Clear!')} width="10px" />
-    <Input placeholder="Disabled" disabled rightIcon={<People1Icon16Regular />} width="100%" />
-    <Button onClick={() => Toast.push('Push!')} error>
-      Push
-    </Button>
-  </Group>
+  <>
+    <SingleToast />
+
+    <Group>
+      <Button icon={<XIcon16Regular />} onClick={() => SingleToast.push('Clear!')} width="10px" />
+      <Input placeholder="Disabled" disabled rightIcon={<People1Icon16Regular />} width="100%" />
+      <Button onClick={() => SingleToast.push('Push!')} error>
+        Push
+      </Button>
+    </Group>
+  </>
 );
 ComplexElements.storyName = 'Complex elements';
 ComplexElements.parameters = { creevey: { skip: true } };

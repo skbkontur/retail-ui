@@ -2,15 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import type { Nullable } from '../../typings/utility-types';
-import type { ToastClose, Action, ToastProps, ToastUse, ToastPushConfig } from '../Toast/Toast';
-import { Toast } from '../Toast/Toast';
+import type { ToastClose, Action, ToastProps, ToastUse, ToastPushConfig } from '../Toast';
+import { Toast } from '../Toast';
 
 /**
  * `SingleToast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.
  * Результат может быть положительным, отрицательным или нейтральным.
  *
  * Позволяет вызывать тосты с помощью статических методов.
- * В отличие от статических методов из компонента Toast их можно кастомизировать и они работают с `React@18`.
  *
  * Метод `push` поддерживает два api.
  *

@@ -33,22 +33,6 @@ export default class ToastTestPage extends React.Component {
             </Button>
           </Case.Body>
         </Case>
-
-        <Case title="Static toast">
-          <Case.Body>
-            <Button
-              data-tid="StaticToastButton"
-              onClick={() =>
-                Toast.push('Static', {
-                  label: 'close',
-                  handler: () => Toast.close(),
-                })
-              }
-            >
-              Notify
-            </Button>
-          </Case.Body>
-        </Case>
       </CaseSuite>
     );
   }

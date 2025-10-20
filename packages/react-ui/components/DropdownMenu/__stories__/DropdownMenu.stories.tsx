@@ -12,10 +12,10 @@ import { MenuSeparator } from '../../MenuSeparator';
 import type { DropdownMenuProps } from '../DropdownMenu';
 import { DropdownMenu } from '../DropdownMenu';
 import { Button } from '../../Button';
-import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
+import { SingleToast } from '../../SingleToast';
 
 const meta: Meta = {
   title: 'DropdownMenu',
@@ -38,13 +38,16 @@ const meta: Meta = {
 export default meta;
 
 export const SimpleExample: Story = () => (
-  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-    <MenuHeader>Заголовок меню</MenuHeader>
-    <MenuSeparator />
-    <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
-    <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
-    <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
-  </DropdownMenu>
+  <>
+    <SingleToast />
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem onClick={() => SingleToast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Три')}>Три</MenuItem>
+    </DropdownMenu>
+  </>
 );
 SimpleExample.storyName = 'Simple example';
 
@@ -102,6 +105,7 @@ MenuOutOfViewPortLeft.storyName = 'Menu out of viewport left';
 
 export const CaptionWidth: Story = () => (
   <div style={{ width: '300px' }}>
+    <SingleToast />
     <DropdownMenu
       caption={
         <Button width={'100%'} use="primary">
@@ -112,9 +116,9 @@ export const CaptionWidth: Story = () => (
     >
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
-      <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
-      <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
-      <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Три')}>Три</MenuItem>
     </DropdownMenu>
   </div>
 );
@@ -204,13 +208,16 @@ CaptionAcceptsAFunction.storyName = 'Caption accepts a function';
 CaptionAcceptsAFunction.parameters = { creevey: { skip: true } };
 
 export const WithoutAnimations = () => (
-  <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню</Button>}>
-    <MenuHeader>Заголовок меню</MenuHeader>
-    <MenuSeparator />
-    <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
-    <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
-    <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
-  </DropdownMenu>
+  <>
+    <SingleToast />
+    <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню</Button>}>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem onClick={() => SingleToast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Три')}>Три</MenuItem>
+    </DropdownMenu>
+  </>
 );
 WithoutAnimations.storyName = 'Without animations';
 WithoutAnimations.parameters = { creevey: { skip: true } };
@@ -297,13 +304,16 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
 }
 
 export const MobileExampleWithHorizontalPadding: Story = () => (
-  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-    <MenuHeader>Заголовок меню</MenuHeader>
-    <MenuSeparator />
-    <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
-    <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
-    <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
-  </DropdownMenu>
+  <>
+    <SingleToast />
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem onClick={() => SingleToast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => SingleToast.push('Три')}>Три</MenuItem>
+    </DropdownMenu>
+  </>
 );
 
 MobileExampleWithHorizontalPadding.parameters = {

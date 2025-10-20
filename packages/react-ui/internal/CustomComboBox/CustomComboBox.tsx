@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
 import type { Nullable } from '../../typings/utility-types';
-import type { InputIconType, Input, ShowClearIcon } from '../../components/Input';
+import type { Input, InputIconType, ShowClearIcon } from '../../components/Input';
 import type { Menu } from '../Menu';
 import type { InputLikeText } from '../InputLikeText';
 import type { MenuItemState } from '../../components/MenuItem';

@@ -67,28 +67,21 @@ ComplexNotification.storyName = 'complex notification';
 export const UseErrorExample = () => <TestNotifier use="error" />;
 UseErrorExample.storyName = 'use error example';
 
-/** TODO: после отказа от static метода переписать историю на ref-ку */
-export const StaticMethod = () => (
-  <button data-tid="show-toast" onClick={() => Toast.push('Static method call')}>
-    Show static
-  </button>
-);
-StaticMethod.storyName = 'static method';
+export const ReactNodeExample = () => {
+  const toastRef = React.useRef<Toast>(null);
 
-/** TODO: после отказа от static метода переписать историю на ref-ку */
-export const ReactNodeExample = () => (
-  <button data-tid="show-toast" onClick={() => Toast.push(<div>ReactNode example</div>)}>
-    Show toast
-  </button>
-);
+  return (
+    <>
+      <Toast ref={toastRef} />
+      <button data-tid="show-toast" onClick={() => toastRef.current?.push(<div>ReactNode example</div>)}>
+        Show toast
+      </button>
+    </>
+  );
+};
 ReactNodeExample.storyName = 'react node example';
 
-/** TODO: после отказа от static метода переписать историю на ref-ку */
 export const ToastWithCross = () => {
-  function showComplexNotification() {
-    Toast.push('Toast throw static method', null, 10_000, true);
-  }
-
   const toastRef = React.useRef<Toast>(null);
   const showNotification = () => {
     const { current: toast } = toastRef;
@@ -100,10 +93,6 @@ export const ToastWithCross = () => {
 
   return (
     <Gapped>
-      <button data-tid="show-static-toast" onClick={showComplexNotification}>
-        Show Toast throw static push
-      </button>
-
       <div>
         <Toast ref={toastRef} />
         <button data-tid="show-instance-toast" onClick={showNotification}>

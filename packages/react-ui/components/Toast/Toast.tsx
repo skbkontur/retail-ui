@@ -18,7 +18,6 @@ import { rootNode } from '../../lib/rootNode';
 import { styles } from './Toast.styles';
 import type { ToastViewProps } from './ToastView';
 import { ToastView } from './ToastView';
-import { ToastStatic } from './ToastStatic';
 
 export interface Action {
   label: string;
@@ -94,13 +93,6 @@ export const ToastDataTids = {
  * `Toast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.
  * Результат может быть положительным, отрицательным или нейтральным.
  *
- * Доступен статический метод: `Toast.push(notification, action?, showTime?)`.
- * Однако, при его использовании не работает кастомизация и могут быть проблемы с перекрытием уведомления другими элементами страницы.
- *
- * В обозримом будущем планируем **полностью избавиться** от статического метода в компоненте `Toast`.
- *
- * В качестве альтернативы для `Toast.push` мы рекомендуем использовать компонент `SingleToast` или вызов метода push через `ref`.
- *
  * Метод `push` через ref поддерживает два api.
  *
  * 1. Устаревший с последовательной передачей аргументов: `toastRef.current.push('Hi', { label: 'Cancel', handler: () => {} }, 15000)`
@@ -116,21 +108,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
-
-  /** @deprecated use `push` method in ref or `SingleToast.push` */
-  public static push: ToastPush = (
-    notification: React.ReactNode,
-    action?: Nullable<Action>,
-    showTime?: number,
-    showCloseIcon?: boolean,
-  ) => {
-    ToastStatic.push(notification, action, showTime, showCloseIcon);
-  };
-
-  /** @deprecated use `close` method in ref or `SingleToast.close` */
-  public static close: ToastClose = () => {
-    ToastStatic.close();
-  };
 
   public _toast: Nullable<ToastView>;
   private _timeout: SafeTimer;
