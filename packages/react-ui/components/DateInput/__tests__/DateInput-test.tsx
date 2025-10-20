@@ -305,16 +305,16 @@ describe('DateInput as InputlikeText', () => {
     const onBlur = jest.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
     await userEvent.tab();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).toHaveFocus();
     await userEvent.tab();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).not.toHaveFocus();
     expect(onBlur).toHaveBeenCalled();
   });
 
   it('should handle onBlur event after entering date', async () => {
     const onBlur = jest.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
-    const input = screen.getByTestId(InputLikeTextDataTids.root);
+    const input = screen.getByTestId(DateInputDataTids.root);
 
     await userEvent.tab();
     expect(input).toHaveFocus();
@@ -331,7 +331,7 @@ describe('DateInput as InputlikeText', () => {
     renderRTL(<DateInput value={value} ref={inputLikeTextRef} />);
     const input = getInput();
     await userEvent.dblClick(input);
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).toHaveFocus();
     await delay(0);
     expect(getSelection()?.toString()).toBe(value);
   });
@@ -370,20 +370,20 @@ describe('DateInput as InputlikeText', () => {
     const inputLikeTextRef = React.createRef<DateInput>();
     renderRTL(<DateInput ref={inputLikeTextRef} />);
 
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).not.toHaveFocus();
 
     inputLikeTextRef.current?.focus();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).toHaveFocus();
   });
 
   it('should blur by method', () => {
     const inputLikeTextRef = React.createRef<DateInput>();
     renderRTL(<DateInput ref={inputLikeTextRef} />);
     inputLikeTextRef.current?.focus();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).toHaveFocus();
 
     inputLikeTextRef.current?.blur();
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).not.toHaveFocus();
   });
 
   it('re-enters day digits after blur and refocus', async () => {
@@ -420,7 +420,7 @@ describe('DateInput as InputlikeText', () => {
   it('should focus if autoFocus prop passed', () => {
     renderRTL(<DateInput autoFocus />);
 
-    expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveFocus();
+    expect(screen.getByTestId(DateInputDataTids.root)).toHaveFocus();
   });
 
   it('should render with icon', () => {

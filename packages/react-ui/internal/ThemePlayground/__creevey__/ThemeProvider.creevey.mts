@@ -16,7 +16,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 top', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-prop-id="lightTheme"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tab-id="lightTheme"]' }))
         .perform();
       await delay(500);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'theme 2022 top');
@@ -25,7 +25,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 bottom', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-prop-id="lightTheme"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tab-id="lightTheme"]' }))
         .perform();
       await context.webdriver.executeScript(function () {
         document.documentElement.scrollTop = document.documentElement.scrollHeight;
@@ -37,7 +37,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 dark top', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-prop-id="darkTheme"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tab-id="darkTheme"]' }))
         .perform();
       await delay(500);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'theme 2022 dark top');
@@ -46,7 +46,7 @@ kind('ThemeProvider', () => {
     test('theme 2022 dark bottom', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-prop-id="darkTheme"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tab-id="darkTheme"]' }))
         .perform();
       await context.webdriver.executeScript(function () {
         document.documentElement.scrollTop = document.documentElement.scrollHeight;

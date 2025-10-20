@@ -18,7 +18,7 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
@@ -30,7 +30,7 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.webdriver
@@ -51,14 +51,14 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.webdriver
         .actions({ bridge: true })
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           }),
         )
         .perform();
@@ -83,7 +83,7 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__root"]' }))
         .pause(1000)
         .perform();
       await context.webdriver
@@ -106,7 +106,7 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__root"]' }))
         .pause(1000)
         .perform();
       await context.webdriver
@@ -115,7 +115,7 @@ kind('DatePicker', () => {
         })
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           }),
         )
         .pause(1000)
@@ -131,7 +131,7 @@ kind('DatePicker', () => {
           bridge: true,
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="toggle-relative-position"]' }))
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
@@ -146,7 +146,7 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top without relative position');
@@ -159,7 +159,7 @@ kind('DatePicker', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom without relative position');
@@ -172,7 +172,7 @@ kind('DatePicker', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="relative"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top with relative position');
@@ -187,7 +187,7 @@ kind('DatePicker', () => {
         .pause(1000)
         .click(context.webdriver.findElement({ css: '[data-tid~="relative"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom');
@@ -200,7 +200,7 @@ kind('DatePicker', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="DatePicker__label"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'MobilePicker on iphone opened');

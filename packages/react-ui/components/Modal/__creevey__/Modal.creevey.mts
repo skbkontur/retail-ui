@@ -38,7 +38,7 @@ kind('Modal', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Button"]:nth-of-type(1)' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Button__root"]:nth-of-type(1)' }))
         .perform();
       await delay(100);
       await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
@@ -132,7 +132,7 @@ kind('Modal', () => {
         .perform();
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '#modal-inner [data-comp-name~="Toggle"]' }))
+        .click(context.webdriver.findElement({ css: '#modal-inner [data-tid~="Toggle__root"]' }))
         .pause(500)
         .perform();
       await context.matchImage(await context.webdriver.takeScreenshot(), 'toggle content height');

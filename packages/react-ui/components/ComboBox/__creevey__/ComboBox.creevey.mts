@@ -94,7 +94,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
@@ -104,7 +104,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -112,7 +112,7 @@ kind('ComboBox', () => {
         })
         .move({
           origin: context.webdriver.findElement({
-            css: '[data-comp-name~="MenuItem"]:nth-of-type(4)',
+            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
           }),
         })
         .perform();
@@ -124,7 +124,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -132,7 +132,7 @@ kind('ComboBox', () => {
         })
         .move({
           origin: context.webdriver.findElement({
-            css: '[data-comp-name~="MenuItem"]:nth-of-type(4)',
+            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
           }),
         })
         .perform();
@@ -151,7 +151,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -168,7 +168,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -186,7 +186,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -200,7 +200,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Input"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Input__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'opened again');
     });
@@ -210,7 +210,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -227,7 +227,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -245,7 +245,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .pause(1000)
         .sendKeys(Key.ARROW_DOWN)
         .sendKeys(Key.ARROW_DOWN)
@@ -261,7 +261,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .pause(500)
         .sendKeys('Second')
         .pause(500)
@@ -279,7 +279,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .pause(1000)
         .sendKeys('Second')
         .pause(500)
@@ -295,7 +295,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'selected_2');
     });
@@ -326,7 +326,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.matchImage(await element.takeScreenshot(), 'opened');
     });
@@ -339,7 +339,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -347,7 +347,7 @@ kind('ComboBox', () => {
         })
         .move({
           origin: context.webdriver.findElement({
-            css: '[data-comp-name~="MenuItem"]:nth-of-type(4)',
+            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
           }),
         })
         .perform();
@@ -362,7 +362,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.webdriver
         .actions({
@@ -370,7 +370,7 @@ kind('ComboBox', () => {
         })
         .move({
           origin: context.webdriver.findElement({
-            css: '[data-comp-name~="MenuItem"]:nth-of-type(4)',
+            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
           }),
         })
         .perform();
@@ -391,7 +391,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
@@ -416,7 +416,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: "[data-comp-name~='Toggle']" }))
+        .click(context.webdriver.findElement({ css: "[data-tid~='Toggle__root']" }))
         .perform();
       await delay(200);
       await context.matchImage(await context.takeScreenshot(), 'with error');
@@ -427,9 +427,9 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: "[data-comp-name~='Toggle']" }))
+        .click(context.webdriver.findElement({ css: "[data-tid~='Toggle__root']" }))
         .pause(200)
-        .click(context.webdriver.findElement({ css: "[data-comp-name~='Toggle']" }))
+        .click(context.webdriver.findElement({ css: "[data-tid~='Toggle__root']" }))
         .perform();
       await delay(200);
       await context.matchImage(await context.takeScreenshot(), 'plain again');
@@ -531,7 +531,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top with portal');
@@ -544,7 +544,7 @@ kind('ComboBox', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom with portal');
@@ -557,7 +557,7 @@ kind('ComboBox', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top without portal');
@@ -582,7 +582,7 @@ kind('ComboBox', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom without portal');

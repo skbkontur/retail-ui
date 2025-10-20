@@ -71,7 +71,7 @@ kind('Sticky', () => {
 
     test('fixed', async (context) => {
       await context.webdriver.executeScript(function () {
-        const sticky = window.document.querySelector('[data-comp-name~="Sticky"]') as HTMLElement;
+        const sticky = window.document.querySelector('[data-tid~="Sticky__root"]') as HTMLElement;
         const scrollOffset = sticky.getBoundingClientRect().top - window.innerHeight;
 
         window.scrollTo(0, scrollOffset);

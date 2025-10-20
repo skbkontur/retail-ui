@@ -95,7 +95,7 @@ kind('Input', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }))
         .click(input)
         .sendKeys('m')
         .click(submit)

@@ -39,6 +39,7 @@ export interface DateInputState {
 }
 
 export const DateInputDataTids = {
+  root: 'DateInput__root',
   icon: 'DateInput__icon',
 } as const;
 
@@ -236,6 +237,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <InputLikeText
+            data-tid={DateInputDataTids.root}
             id={this.props.id}
             width={width}
             ref={this.inputLikeTextRef}
@@ -309,7 +311,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false });
+  private resetFocus = () => this.updateValue({ focused: false, selected: null, inputMode: false }, false);
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     this.resetFocus();

@@ -27,6 +27,7 @@ import { InputLayoutContext, InputLayoutContextDefault } from '../../components/
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { FocusControlWrapper } from '../FocusControlWrapper';
 import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
+import { blink } from '../../lib/blink';
 import { withSize } from '../../lib/size/SizeDecorator';
 import type { SizeProp } from '../../lib/types/props';
 
@@ -79,7 +80,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   public state = {
-    blinking: false,
     focused: false,
     clearCrossShowed: this.getClearCrossShowed({
       focused: false,
@@ -95,7 +95,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private frozenBlur = false;
   private dragging = false;
   private focusTimeout: SafeTimer;
-  private blinkTimeout: SafeTimer;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
@@ -124,8 +123,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.props.disabled) {
       return;
     }
-    this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalObject.setTimeout(() => this.setState({ blinking: false }), 150);
+    blink({
+      el: this.node,
+      blinkColor: this.theme.inputBlinkColor,
     });
   }
 
@@ -165,9 +165,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   public componentWillUnmount() {
-    if (this.blinkTimeout) {
-      globalObject.clearTimeout(this.blinkTimeout);
-    }
     MouseDrag.stop(this.node);
     globalObject.document?.removeEventListener('mousedown', this.handleDocumentMouseDown);
     globalObject.document?.removeEventListener('keydown', this.handleDocumentKeyDown);
@@ -216,7 +213,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       ...rest
     } = props;
 
-    const { focused, blinking } = this.state;
+    const { focused } = this.state;
     const getRightIcon = () => {
       return this.state.clearCrossShowed ? (
         <ClearCrossIcon
@@ -237,7 +234,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
       [jsInputStyles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
-      [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
       [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),

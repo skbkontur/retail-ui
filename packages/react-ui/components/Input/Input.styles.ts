@@ -1,4 +1,4 @@
-import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
@@ -216,17 +216,6 @@ export const styles = memoizeStyle({
       background-color: ${t.inputDisabledBg};
       border-color: ${t.inputDisabledBorderColor};
       box-shadow: none;
-    `;
-  },
-
-  blink(t: Theme) {
-    const blinkAnimation = keyframes`
-    0% {
-      background-color: ${t.inputBlinkColor};
-    }
-  `;
-    return css`
-      animation: ${blinkAnimation} 0.15s ease-in;
     `;
   },
 

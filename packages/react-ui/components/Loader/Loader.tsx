@@ -64,6 +64,7 @@ export interface LoaderState {
 }
 
 export const LoaderDataTids = {
+  idle: 'Loader__Idle',
   veil: 'Loader__Veil',
   spinner: 'Loader__Spinner',
 } as const;
@@ -207,7 +208,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.loader()} data-tid={isLoaderActive ? LoaderDataTids.veil : ''}>
+        <div
+          className={styles.loader()}
+          data-tid={this.props['data-tid'] || (isLoaderActive ? LoaderDataTids.veil : LoaderDataTids.idle)}
+        >
           <ZIndex
             applyZIndex={isLoaderActive}
             coverChildren={isLoaderActive}
