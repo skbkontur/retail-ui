@@ -261,7 +261,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
 
-    const trueDisabled = disabled || loading;
+    const nonInteractive = disabled || loading;
     const rootClassName = cx(
       styles.root(this.theme),
       styles[use](this.theme),
@@ -270,7 +270,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       _noPadding && styles.noPadding(),
       _noRightPadding && styles.noRightPadding(),
       rootClassNameWithArrow,
-      ...(trueDisabled
+      ...(nonInteractive
         ? [
             styles.disabled(this.theme),
             isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
@@ -296,10 +296,9 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
         textAlign: align,
         ...corners,
       },
-      disabled: trueDisabled,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      tabIndex: this.getTabIndex({ disableFocus, disabled: trueDisabled, tabIndex }),
+      tabIndex: this.getTabIndex({ disableFocus, disabled: nonInteractive, tabIndex }),
     };
 
     const wrapProps = {
@@ -312,10 +311,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       },
     };
 
+    const buttonOnlyProps = component === 'button' ? { disabled: nonInteractive } : {};
+
     const innerShadowNode = null;
 
     let outlineNode = null;
-    if ((!isFocused || isLink) && !trueDisabled) {
+    if ((!isFocused || isLink) && !nonInteractive) {
       outlineNode = (
         <div
           className={cx(styles.outline(), {
@@ -349,7 +350,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
         [styles.linkLineHeight()]: !isSafari,
         [styles.linkLineHeightSafariFallback()]: isSafari,
         [styles.linkFocus(this.theme)]: isFocused,
-        [styles.linkDisabled(this.theme)]: trueDisabled,
+        [styles.linkDisabled(this.theme)]: nonInteractive,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
@@ -404,7 +405,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     return (
       <span {...wrapProps} data-tid={ButtonDataTids.root}>
-        <Root data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps}>
+        <Root data-tid={ButtonDataTids.rootElement} ref={this._ref} {...rootProps} {...buttonOnlyProps}>
           {innerShadowNode}
           {outlineNode}
           {arrowNode}
