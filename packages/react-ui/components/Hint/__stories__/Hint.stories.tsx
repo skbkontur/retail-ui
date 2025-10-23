@@ -202,12 +202,12 @@ export const HintNearScreenEdge = () => (
       <div style={{ position: 'absolute', bottom: '-10px', left: '50px', display: 'flex', flexDirection: 'row' }}>
         <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            A Case A
           </Button>
         </Hint>
         <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            A Case A
           </Button>
         </Tooltip>
       </div>
@@ -215,12 +215,12 @@ export const HintNearScreenEdge = () => (
       <div style={{ position: 'absolute', top: '-10px', left: '50px', display: 'flex', flexDirection: 'row' }}>
         <Hint text={'Hey there!'} pos="top center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            B Case B
           </Button>
         </Hint>
         <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            B Case B
           </Button>
         </Tooltip>
       </div>
@@ -228,12 +228,12 @@ export const HintNearScreenEdge = () => (
       <div style={{ position: 'absolute', left: '0px', top: '100px', display: 'flex', flexDirection: 'column' }}>
         <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            C Case C
           </Button>
         </Hint>
         <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            C Case C
           </Button>
         </Tooltip>
       </div>
@@ -241,12 +241,12 @@ export const HintNearScreenEdge = () => (
       <div style={{ position: 'absolute', left: '-30px', top: '300px', display: 'flex', flexDirection: 'column' }}>
         <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            D Case D
           </Button>
         </Hint>
         <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            D Case D
           </Button>
         </Tooltip>
       </div>
@@ -254,12 +254,12 @@ export const HintNearScreenEdge = () => (
       <div style={{ position: 'absolute', left: '-60px', top: '500px', display: 'flex', flexDirection: 'column' }}>
         <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            E Case E
           </Button>
         </Hint>
         <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            E Case E
           </Button>
         </Tooltip>
       </div>
@@ -267,7 +267,7 @@ export const HintNearScreenEdge = () => (
       <div style={{ position: 'absolute', left: '-60px', bottom: '-30px', display: 'flex', flexDirection: 'column' }}>
         <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
           <Button use="success" size="medium" width={135} disabled>
-            Пригласить
+            F Case F
           </Button>
         </Hint>
       </div>
@@ -276,12 +276,12 @@ export const HintNearScreenEdge = () => (
     <div style={{ position: 'absolute', bottom: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
       <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          G Case G
         </Button>
       </Hint>
       <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          G Case G
         </Button>
       </Tooltip>
     </div>
@@ -289,12 +289,12 @@ export const HintNearScreenEdge = () => (
     <div style={{ position: 'absolute', top: '-10px', right: '50px', display: 'flex', flexDirection: 'row' }}>
       <Hint text={'Hey there!'} pos="top center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          H Case H
         </Button>
       </Hint>
       <Tooltip render={() => <div>Hey there!</div>} pos="top center" trigger="opened">
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          H Case H
         </Button>
       </Tooltip>
     </div>
@@ -302,12 +302,12 @@ export const HintNearScreenEdge = () => (
     <div style={{ position: 'absolute', right: '0px', top: '100px', display: 'flex', flexDirection: 'column' }}>
       <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          I Case I
         </Button>
       </Hint>
       <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          I Case I
         </Button>
       </Tooltip>
     </div>
@@ -315,12 +315,12 @@ export const HintNearScreenEdge = () => (
     <div style={{ position: 'absolute', right: '-30px', top: '300px', display: 'flex', flexDirection: 'column' }}>
       <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          J Case J
         </Button>
       </Hint>
       <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          J Case J
         </Button>
       </Tooltip>
     </div>
@@ -328,12 +328,12 @@ export const HintNearScreenEdge = () => (
     <div style={{ position: 'absolute', right: '-60px', top: '500px', display: 'flex', flexDirection: 'column' }}>
       <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          M Case M
         </Button>
       </Hint>
       <Tooltip render={() => <div>Hey there!</div>} pos="bottom center" trigger="opened">
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          M Case M
         </Button>
       </Tooltip>
     </div>
@@ -341,7 +341,7 @@ export const HintNearScreenEdge = () => (
     <div style={{ position: 'absolute', right: '-60px', bottom: '-30px', display: 'flex', flexDirection: 'column' }}>
       <Hint text={'Hey there!'} pos="bottom center" maxWidth={295} manual opened>
         <Button use="success" size="medium" width={135} disabled>
-          Пригласить
+          N Case N
         </Button>
       </Hint>
     </div>

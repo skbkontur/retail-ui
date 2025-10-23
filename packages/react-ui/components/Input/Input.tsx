@@ -23,6 +23,7 @@ import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
 import { blink } from '../../lib/blink';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import type { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -194,7 +195,7 @@ export const InputDataTids = {
   clearCross: 'Input__clearCross',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>>;
+type DefaultProps = Required<Pick<InputProps, 'type' | 'showClearIcon'>>;
 
 /**
  * Поле ввода `Input` дает возможность указать значение с помощью клавиатуры.
@@ -210,15 +211,16 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  */
 @rootNode
+@withSize
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
   public static displayName = 'Input';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
     type: 'text',
     showClearIcon: 'never',
   };
+  private size!: SizeProp;
 
   private getProps = createPropsGetter(Input.defaultProps);
 
@@ -484,12 +486,11 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const getRightIcon = () => {
       return this.state.clearCrossShowed ? (
-        <ClearCrossIcon data-tid={InputDataTids.clearCross} size={size} onClick={this.handleClearInput} />
+        <ClearCrossIcon data-tid={InputDataTids.clearCross} size={this.size} onClick={this.handleClearInput} />
       ) : (
         rightIcon
       );
     };
-
     return (
       <InputLayout
         leftIcon={leftIcon}
@@ -497,7 +498,7 @@ export class Input extends React.Component<InputProps, InputState> {
         prefix={prefix}
         suffix={suffix}
         labelProps={labelProps}
-        context={{ disabled: Boolean(disabled), focused, size }}
+        context={{ disabled: Boolean(disabled), focused, size: this.size }}
       >
         {input}
         {this.state.needsPolyfillPlaceholder && (
@@ -530,7 +531,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return cx({
           [styles.sizeLarge(this.theme)]: true,

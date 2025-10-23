@@ -23,6 +23,7 @@ import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -66,12 +67,14 @@ export interface KebabState {
   focusedByTab: boolean;
 }
 
-type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations'>>;
+type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'disableAnimations'>>;
 
 /**
  * Кебаб-меню `Kebab` содержит действия с объектом.
  */
+
 @rootNode
+@withSize
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
   public static displayName = 'Kebab';
@@ -80,7 +83,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
-    size: 'small',
     disableAnimations: isTestEnv,
   };
 
@@ -92,6 +94,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private theme!: Theme;
+  private size!: SizeProp;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
@@ -158,7 +161,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderCaption = (captionProps: PopupMenuCaptionProps) => {
-    const { disabled, size } = this.getProps();
+    const { disabled } = this.getProps();
+    const size = this.size;
     const handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!disabled) {
         this.handleCaptionKeyDown(event, captionProps.openMenu);
@@ -231,7 +235,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    const { size, icon = <KebabIcon /> } = this.getProps();
+    const { icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
       const sizes: Record<SizeProp, number> = {
@@ -241,7 +245,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       };
 
       return React.cloneElement(icon as ReactElement, {
-        size: icon.props.size ?? sizes[size],
+        size: icon.props.size ?? sizes[this.size],
         color: icon.props.color ?? this.theme.kebabIconColor,
       });
     }

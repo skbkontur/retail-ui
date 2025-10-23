@@ -216,7 +216,7 @@ export const DisabledWithCaption: Story = () => {
 
 export const DisabledWithTooltip: Story = () => (
   <div style={{ padding: '50px' }}>
-    <Tooltip render={() => 'Hello'}>
+    <Tooltip render={() => 'Hello'} pos="bottom center">
       <Toggle disabled />
     </Tooltip>
   </div>

@@ -276,3 +276,14 @@ export const DifferentSizes: Story = () => {
   );
 };
 DifferentSizes.storyName = 'size';
+
+export const DifferentAlign: Story = () => {
+  return (
+    <Gapped vertical>
+      <Textarea align={'center'} value={'Align: center'} autoResize />
+      <Textarea align={'right'} value={'Align: right'} autoResize />
+      <Textarea value={'Align: default'} autoResize />
+    </Gapped>
+  );
+};
+DifferentAlign.storyName = 'align';

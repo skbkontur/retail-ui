@@ -12,10 +12,8 @@ export const styles = memoizeStyle({
   root(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
-      background: ${t.toastBg};
       border-radius: ${t.toastBorderRadius};
       border: ${t.toastBorder};
-      color: ${t.toastColor};
       display: inline-flex;
       font-size: ${t.toastFontSize};
       line-height: ${t.toastLineHeight};
@@ -23,6 +21,20 @@ export const styles = memoizeStyle({
       padding: ${paddingTop} ${t.toastPaddingX} ${paddingBottom};
       position: relative;
       top: ${t.toastTop};
+    `;
+  },
+
+  default(t: Theme) {
+    return css`
+      background: ${t.toastBg};
+      color: ${t.toastColor};
+    `;
+  },
+
+  error(t: Theme) {
+    return css`
+      background: ${t.toastErrorBg};
+      color: ${t.toastColorError};
     `;
   },
 
@@ -53,7 +65,6 @@ export const styles = memoizeStyle({
     return css`
       border: none;
       font: inherit;
-      color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
@@ -63,6 +74,29 @@ export const styles = memoizeStyle({
 
       padding: ${padding};
       transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
+    `;
+  },
+
+  toastActionErrorColor(t: Theme) {
+    return css`
+      color: ${t.toastLinkColorError};
+
+      &:hover {
+        background: ${t.toastLinkBgHoverError};
+        text-decoration: ${t.toastLinkTextDecorationHover};
+      }
+
+      &:active {
+        background: ${t.toastLinkBgActiveError};
+        color: ${t.toastLinkColorActiveError};
+      }
+    `;
+  },
+
+  toastActionDefaultColor(t: Theme) {
+    return css`
+      color: ${t.toastLinkColor};
+
       &:hover {
         background: ${t.toastLinkBgHover};
         text-decoration: ${t.toastLinkTextDecorationHover};

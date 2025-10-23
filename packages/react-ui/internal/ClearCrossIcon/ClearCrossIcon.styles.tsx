@@ -13,8 +13,11 @@ export const styles = memoizeStyle({
         color: ${t.clearCrossIconHoverColor};
       }
       display: flex;
-      justify-content: center;
+      justify-content: ${t.clearCrossIconAlign};
       align-items: center;
+      position: absolute;
+      right: -${t.inputBorderWidth};
+      top: -${t.inputBorderWidth};
     `;
   },
 
@@ -28,7 +31,6 @@ export const styles = memoizeStyle({
     return css`
       width: ${t.clearCrossIconWidthSmall};
       height: ${t.clearCrossIconHeightSmall};
-      margin-right: ${t.clearCrossIconRightMarginSmall};
       border-radius: ${t.clearCrossIconBorderRadiusSmall};
     `;
   },
@@ -36,7 +38,6 @@ export const styles = memoizeStyle({
     return css`
       width: ${t.clearCrossIconWidthMedium};
       height: ${t.clearCrossIconHeightMedium};
-      margin-right: ${t.clearCrossIconRightMarginMedium};
       border-radius: ${t.clearCrossIconBorderRadiusMedium};
     `;
   },
@@ -44,8 +45,25 @@ export const styles = memoizeStyle({
     return css`
       width: ${t.clearCrossIconWidthLarge};
       height: ${t.clearCrossIconHeightLarge};
-      margin-right: ${t.clearCrossIconRightMarginLarge};
       border-radius: ${t.clearCrossIconBorderRadiusLarge};
+    `;
+  },
+  relativeWidthSmall(t: Theme) {
+    return css`
+      display: inline-block;
+      width: ${t.inputIconSizeSmall};
+    `;
+  },
+  relativeWidthMedium(t: Theme) {
+    return css`
+      display: inline-block;
+      width: ${t.inputIconSizeMedium};
+    `;
+  },
+  relativeWidthLarge(t: Theme) {
+    return css`
+      display: inline-block;
+      width: ${t.inputIconSizeLarge};
     `;
   },
 });

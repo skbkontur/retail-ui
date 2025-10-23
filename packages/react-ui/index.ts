@@ -50,6 +50,7 @@ export * from './components/ResponsiveLayout';
 export * from './components/MaskedInput';
 export * from './lib/featureFlagsContext';
 export * from './lib/locale';
+export * from './lib/size';
 export * from './lib/theming/ThemeContext';
 export * from './lib/theming/ThemeFactory';
 export * from './lib/theming/themes/LightTheme';

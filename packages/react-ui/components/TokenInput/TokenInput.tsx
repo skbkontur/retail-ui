@@ -47,6 +47,8 @@ import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
+import { withSize } from '../../lib/size/SizeDecorator';
+import type { SizeProp } from '../../lib/types/props';
 
 import type { TokenInputLocale } from './locale';
 import { TokenInputLocaleHelper } from './locale';
@@ -241,7 +243,6 @@ type DefaultProps<T> = Required<
     | 'onMouseLeave'
     | 'menuWidth'
     | 'menuAlign'
-    | 'size'
   >
 >;
 
@@ -272,6 +273,7 @@ const defaultRenderToken = <T extends AnyObject>(
  */
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
+@withSize
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
   public static displayName = 'TokenInput';
@@ -293,7 +295,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onMouseLeave: emptyHandler,
     menuWidth: 'auto',
     menuAlign: 'cursor',
-    size: 'small',
   };
 
   private getDelimiters(): string[] {
@@ -320,6 +321,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
+  private size!: SizeProp;
   public featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
@@ -393,7 +395,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private getLabelSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.labelLarge(this.theme);
       case 'medium':
@@ -405,7 +407,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private getInputSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.inputLarge(this.theme);
       case 'medium':
@@ -479,7 +481,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const inputNode = (
       <TokenView
-        size={this.getProps().size}
+        size={this.size}
         className={cx({
           // input растягивается на всю ширину чтобы placeholder не обрезался
           [styles.inputPlaceholderWrapper()]: Boolean(placeholder),
@@ -520,12 +522,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             aria-controls={this.rootId}
             data-tid={TokenInputDataTids.label}
           >
-            <TextWidthHelper
-              ref={this.textHelperRef}
-              text={inputValue}
-              theme={this.theme}
-              size={this.getProps().size}
-            />
+            <TextWidthHelper ref={this.textHelperRef} text={inputValue} theme={this.theme} size={this.size} />
             {this.renderTokensStart()}
             {inputNode}
             {showMenu && (
@@ -546,12 +543,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 menuAlign={menuAlign}
                 renderTotalCount={renderTotalCount}
                 totalCount={totalCount}
-                size={this.getProps().size}
+                size={this.size}
               />
             )}
             {this.renderTokensEnd()}
             {this.isEditingMode ? (
-              <TokenView size={this.props.size}>
+              <TokenView size={this.size}>
                 <span className={styles.reservedInput(theme)}>{reservedInputValue}</span>
               </TokenView>
             ) : null}
@@ -1142,7 +1139,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private renderToken = (item: T) => {
-    const { renderToken = defaultRenderToken, disabled, size } = this.props;
+    const { renderToken = defaultRenderToken, disabled } = this.props;
 
     const isActive = this.state.activeTokens.includes(item);
 
@@ -1170,7 +1167,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const renderedToken = renderToken(item as T & AnyObject, {
-      size,
+      size: this.size,
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,

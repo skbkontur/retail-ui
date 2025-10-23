@@ -7,7 +7,6 @@ import type { Theme } from '../../lib/theming/Theme';
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
 import type { ButtonInnerProps } from './Button';
-import { Button } from './Button';
 import { globalClasses, styles } from './Button.styles';
 
 type ButtonArrowProps = Pick<
@@ -17,7 +16,7 @@ type ButtonArrowProps = Pick<
   isFocused: boolean;
 };
 
-const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({ arrow, size = Button.defaultProps.size }) => {
+const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({ arrow, size }) => {
   const theme = useContext(ThemeContext);
 
   const getArrowIconRootClassName = () => {

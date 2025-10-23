@@ -163,7 +163,7 @@ export const WithStretchedInputWrappedInTooltip: Story = () => (
     <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
       <Group width={500}>
         <Button icon={<SearchLoupeIcon16Regular />}></Button>
-        <Tooltip render={() => 'I wrap this input'} trigger="opened">
+        <Tooltip render={() => 'I wrap this input'} trigger="opened" pos="top center">
           <Input placeholder="Wrapped" width="100%" />
         </Tooltip>
       </Group>
