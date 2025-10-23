@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "5.3.10",
+  "version": "5.3.11",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.10...@skbkontur/react-ui@5.3.11) (2025-10-22)
+
+
+### Bug Fixes
+
+* **SidePage:** fix clipping of shadows/focuses inside SidePage.Body ([d41d10e](https://github.com/skbkontur/retail-ui/commit/d41d10ea28c546c97b3f0dff902b37054f6be364))
+
+
+
+
+
 ## [5.3.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.9...@skbkontur/react-ui@5.3.10) (2025-10-16)
 
 

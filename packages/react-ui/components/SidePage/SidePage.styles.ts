@@ -170,7 +170,7 @@ export const styles = memoizeStyle({
       position: sticky;
       top: 0;
       z-index: 16000;
-      background: ${t.sidePageBgDefault};
+      background: linear-gradient(to top, transparent ${t.sidePageHeaderPaddingBottom}, ${t.sidePageBgDefault} 0px);
     `;
   },
 
