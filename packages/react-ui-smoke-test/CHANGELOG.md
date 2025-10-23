@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-smoke-test@3.0.6...react-ui-smoke-test@3.1.0) (2025-10-23)
+
+
+### Features
+
+* **react-ui:** update react-focus-lock package ([d733020](https://git.skbkontur.ru/ui/react-ui/commits/d73302034bc23e703fca38022fe038e717635bab))
+
+
+
+
+
 ## [3.0.6](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-smoke-test@3.0.3...react-ui-smoke-test@3.0.6) (2025-09-01)
 
 **Note:** Version bump only for package react-ui-smoke-test

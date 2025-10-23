@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.11...@skbkontur/react-ui@5.4.0) (2025-10-23)
+
+
+### Bug Fixes
+
+* **Tooltip:** use correct default positions ([3237031](https://github.com/skbkontur/retail-ui/commit/3237031370d74729b3b4dcb2bc7439cfb38b0df3))
+
+
+### Features
+
+* **SizeControlContext:** add context for size controlling  ([66cc2ac](https://github.com/skbkontur/retail-ui/commit/66cc2acb818f4391fb7349b52da7433f627a367d))
+* **Combobox:** add multiline behavior ([cab53bd](https://github.com/skbkontur/retail-ui/commit/cab53bd482d8716cf294db333d39b6fc8515955c))
+* **Toast,SingleToast:** add  `use` option and `error` view ([9958f1b](https://github.com/skbkontur/retail-ui/commit/9958f1b117645244566ef652290766d3923dfc4a))
+* **react-ui:** update react-focus-lock package ([d733020](https://github.com/skbkontur/retail-ui/commit/d73302034bc23e703fca38022fe038e717635bab))
+
+
+
+
+
 ## [5.3.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.10...@skbkontur/react-ui@5.3.11) (2025-10-22)
 
 
