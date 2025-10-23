@@ -70,6 +70,7 @@ describe('Toast', () => {
     expect(onClose.mock.calls).toHaveLength(1);
   });
 
+  /** @deprecated используется старый api метод push */
   it('support actions in tosts', () => {
     const actionLabel = 'action';
     const toastRef = React.createRef<Toast>();
@@ -84,6 +85,23 @@ describe('Toast', () => {
     expect(screen.getByTestId(ToastDataTids.action)).toHaveTextContent(actionLabel);
   });
 
+  /** TODO: в версии 6.0 будет единственным доступным api метода push */
+  it('support actions in tosts with new api', () => {
+    const actionLabel = 'action';
+    const toastRef = React.createRef<Toast>();
+    render(<Toast ref={toastRef} />);
+    act(() => {
+      toastRef.current?.push('message', {
+        action: {
+          label: actionLabel,
+          handler: () => undefined,
+        },
+      });
+    });
+    expect(screen.getByTestId(ToastDataTids.action)).toBeInTheDocument();
+    expect(screen.getByTestId(ToastDataTids.action)).toHaveTextContent(actionLabel);
+  });
+
   it('passes right actions in tosts', async () => {
     const toastRef = React.createRef<Toast>();
     const handler = jest.fn();
@@ -91,8 +109,10 @@ describe('Toast', () => {
     render(<Toast ref={toastRef} />);
     act(() => {
       toastRef.current?.push('message', {
-        label: 'action',
-        handler,
+        action: {
+          label: 'action',
+          handler,
+        },
       });
     });
     act(() => {

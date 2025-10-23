@@ -27,6 +27,8 @@ import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
 import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { cx } from '../../lib/theming/Emotion';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles } from './Tooltip.styles';
 
@@ -117,7 +119,7 @@ export const TooltipDataTids = {
   crossIcon: 'Tooltip__crossIcon',
 } as const;
 
-const OldPositions: PopupPositionsType[] = [
+const DefaultPositions: PopupPositionsType[] = [
   'right bottom',
   'right middle',
   'right top',
@@ -142,9 +144,7 @@ interface TooltipSizeVariables {
   margin: string;
 }
 
-type DefaultProps = Required<
-  Pick<TooltipProps, 'size' | 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>
->;
+type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>>;
 
 /**
  * `Tooltip` — это подсказка, которая объясняет состояние контрола или даёт контекстную справку.
@@ -152,13 +152,14 @@ type DefaultProps = Required<
  * Открывается по клику, фокусом на элемент или по наведению. В отличие от `Hint`, `Tooltip` может содержать
  * изображения, кнопки, ссылки и прочие интерактивные элементы.
  */
+
 @rootNode
+@withSize
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
   public static displayName = 'Tooltip';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
     trigger: 'hover',
     disableAnimations: isTestEnv,
     useWrapper: false,
@@ -178,6 +179,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
+  private size!: SizeProp;
   private sizeVariables!: TooltipSizeVariables;
   public featureFlags!: ReactUIFeatureFlags;
   private hoverTimeout: SafeTimer;
@@ -189,7 +191,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private popupRef = React.createRef<Popup>();
 
   public getAllowedPositions() {
-    return this.props.allowedPositions ? this.props.allowedPositions : OldPositions;
+    return this.props.allowedPositions ? this.props.allowedPositions : DefaultPositions;
   }
 
   public componentDidMount(): void {
@@ -358,7 +360,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
-          positions={this.getPositions()}
+          positions={isThemeGTE(this.theme, '5.4') ? this.getPositions() : this.props.allowedPositions}
           pos={this.props.pos}
           ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
@@ -374,9 +376,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  private getPositions = (): PopupPositionsType[] | undefined => {
-    return this.props.allowedPositions;
-  };
+  private getPositions = (): PopupPositionsType[] =>
+    this.props.allowedPositions
+      ? this.props.allowedPositions.filter((item) => DefaultPositions.includes(item))
+      : DefaultPositions;
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
@@ -566,7 +569,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private getSizeVariables = (): TooltipSizeVariables => {
-    switch (this.props.size) {
+    switch (this.size) {
       case 'small':
         return {
           closeButtonStyle: styles.closeButtonSmall(this.theme),
@@ -598,7 +601,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           margin: this.theme.tooltipMarginLarge,
         };
       default:
-        console.error(`Can't get size variables: invalid value in size prop '${this.props.size}'. Returning default`);
+        console.error(`Can't get size variables: invalid value in size prop '${this.size}'. Returning default`);
         return {
           closeButtonStyle: styles.closeButtonSmall(this.theme),
           contentStyle: styles.tooltipContentSmall(this.theme),

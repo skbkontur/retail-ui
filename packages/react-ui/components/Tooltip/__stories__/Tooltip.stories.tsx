@@ -707,7 +707,7 @@ class AnchorTooltipExample extends React.Component {
     return (
       <>
         {this.state.anchor ? (
-          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" pos="top center" />
         ) : null}
         <div style={{ width: 180, height: 180, position: 'relative' }}>
           <div
@@ -754,16 +754,16 @@ export const WithSizes: Story = () => {
   );
   return (
     <Gapped gap={128} style={{ padding: '96px' }}>
-      <Tooltip trigger="opened" render={() => 'Lorem Ipsum'}>
+      <Tooltip trigger="opened" render={() => 'Lorem Ipsum'} pos="top center">
         {labeledDiv('Default')}
       </Tooltip>
-      <Tooltip trigger="opened" size="small" render={() => 'Lorem Ipsum'}>
+      <Tooltip trigger="opened" size="small" render={() => 'Lorem Ipsum'} pos="top center">
         {labeledDiv('Small')}
       </Tooltip>
-      <Tooltip trigger="opened" size="medium" render={() => 'Lorem Ipsum'}>
+      <Tooltip trigger="opened" size="medium" render={() => 'Lorem Ipsum'} pos="top center">
         {labeledDiv('Medium')}
       </Tooltip>
-      <Tooltip trigger="opened" size="large" render={() => 'Lorem Ipsum'}>
+      <Tooltip trigger="opened" size="large" render={() => 'Lorem Ipsum'} pos="top center">
         {labeledDiv('Large')}
       </Tooltip>
     </Gapped>

@@ -8,6 +8,9 @@ export default { title: 'ToastView', parameters: { creevey: { skip: true } } };
 export const SimpleToast = () => <Toast>Changes saved</Toast>;
 SimpleToast.storyName = 'simple toast';
 
+export const ErrorToast = () => <Toast use="error">Oops</Toast>;
+ErrorToast.storyName = 'error toast';
+
 export const WithAction = () => (
   <Toast action={{ label: 'Cancel', handler: action('action') }} onClose={action('close')}>
     Changes saved

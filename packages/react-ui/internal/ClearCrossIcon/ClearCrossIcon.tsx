@@ -20,19 +20,25 @@ export interface ClearCrossIconProps
   /** Ширина и высота иконки крестика
    * @default small */
   size?: SizeProp;
+  'data-tid'?: string;
 }
 
-export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({ size = 'small', style, ...rest }) => {
+export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({
+  size = 'small',
+  style,
+  'data-tid': dataTid,
+  ...rest
+}) => {
   const theme = React.useContext(ThemeContext);
-  const getSizeClassName = (size: TokenSize) => {
+  const getSizeClassNames = (size: TokenSize) => {
     switch (size) {
       case 'large':
-        return styles.clearCrossLarge(theme);
+        return { button: styles.clearCrossLarge(theme), span: styles.relativeWidthLarge(theme) };
       case 'medium':
-        return styles.clearCrossMedium(theme);
+        return { button: styles.clearCrossMedium(theme), span: styles.relativeWidthMedium(theme) };
       case 'small':
       default:
-        return styles.clearCrossSmall(theme);
+        return { button: styles.clearCrossSmall(theme), span: styles.relativeWidthSmall(theme) };
     }
   };
 
@@ -50,22 +56,25 @@ export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({ s
 
   return (
     <CommonWrapper {...rest}>
-      <button
-        type="button"
-        tabIndex={-1}
-        className={cx(
-          styles.root(theme),
-          // Todo: use &:focus-visible on root instead styles.focus. It supported on Chrome >= 86, Firefox >= 4, Safari >= 15.4
-          focusedByTab && styles.focus(theme),
-          getSizeClassName(size),
-        )}
-        style={style}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        {...rest}
-      >
-        <CrossIcon size={size} focusable />
-      </button>
+      <span className={getSizeClassNames(size).span}>
+        <button
+          data-tid={dataTid}
+          type="button"
+          tabIndex={-1}
+          className={cx(
+            styles.root(theme),
+            // Todo: use &:focus-visible on root instead styles.focus. It supported on Chrome >= 86, Firefox >= 4, Safari >= 15.4
+            focusedByTab && styles.focus(theme),
+            getSizeClassNames(size).button,
+          )}
+          style={style}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...rest}
+        >
+          <CrossIcon size={size} focusable />
+        </button>
+      </span>
     </CommonWrapper>
   );
 };

@@ -16,6 +16,7 @@ import { rootNode } from '../../lib/rootNode';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { SizeProp } from '../../lib/types/props';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
@@ -69,7 +70,9 @@ type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
  *
  * Принимает все свойства `Input`'a.
  */
+
 @rootNode
+@withSize
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
   public static displayName = 'FxInput';
@@ -81,6 +84,7 @@ export class FxInput extends React.Component<FxInputProps> {
   };
 
   private theme!: Theme;
+  private size!: SizeProp;
   private input: Input | CurrencyInput | null = null;
 
   private getProps = createPropsGetter(FxInput.defaultProps);
@@ -117,7 +121,7 @@ export class FxInput extends React.Component<FxInputProps> {
       medium: parseInt(this.theme.inputIconSizeMedium),
       large: parseInt(this.theme.inputIconSizeLarge),
     };
-    const size = this.props.size || Input.defaultProps.size;
+    const size = this.size;
     const IconFunction = <MathFunctionIcon size={iconSizes[size]} />;
 
     if (auto) {
@@ -125,7 +129,7 @@ export class FxInput extends React.Component<FxInputProps> {
     } else {
       button = (
         <FxInputRestoreBtn
-          size={rest.size}
+          size={this.size}
           onRestore={onRestore}
           corners={rest.corners}
           disabled={rest.disabled}
@@ -143,7 +147,7 @@ export class FxInput extends React.Component<FxInputProps> {
             {...inputProps}
             {...rest}
             corners={inputCorners}
-            size={this.props.size}
+            size={this.size}
             width={'100%'}
             ref={this.refInput}
             value={value as CurrencyInputProps['value']}
@@ -154,7 +158,7 @@ export class FxInput extends React.Component<FxInputProps> {
             {...inputProps}
             {...rest}
             corners={inputCorners}
-            size={this.props.size}
+            size={this.size}
             width={'100%'}
             ref={this.refInput}
             type={type}

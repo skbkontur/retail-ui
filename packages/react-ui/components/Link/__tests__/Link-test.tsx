@@ -126,5 +126,25 @@ describe('Link', () => {
 
       expect(screen.getByRole('button')).toHaveAttribute('tabindex', '1');
     });
+
+    it('should pass disabled prop to root', () => {
+      render(
+        <Link component="button" disabled>
+          Button Link
+        </Link>,
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('disabled');
+    });
+
+    it('should not pass disabled prop to root with component="a" prop', () => {
+      render(
+        <Link component="a" href="/" disabled>
+          Link
+        </Link>,
+      );
+
+      expect(screen.getByRole('link')).not.toHaveAttribute('disabled');
+    });
   });
 });

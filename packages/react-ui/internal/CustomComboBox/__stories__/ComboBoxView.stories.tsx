@@ -51,6 +51,69 @@ export const InputLikeText: Story = () => (
 );
 InputLikeText.storyName = 'input like text';
 
+export const ComboboxViewMultiline: Story = () => (
+  <Gapped vertical>
+    <ComboBoxView textValue={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView size="medium" textValue={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView size="large" textValue={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
+    <ComboBoxView
+      leftIcon={<CheckAIcon16Regular />}
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<CheckAIcon16Regular />}
+      size="medium"
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<CheckAIcon16Regular />}
+      size="large"
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      rightIcon={<CheckAIcon16Regular />}
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      rightIcon={<CheckAIcon16Regular />}
+      size="medium"
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      rightIcon={<CheckAIcon16Regular />}
+      size="large"
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<CheckAIcon16Regular />}
+      rightIcon={<CheckAIcon16Regular />}
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<CheckAIcon16Regular />}
+      rightIcon={<CheckAIcon16Regular />}
+      size="medium"
+      textValue={'looooooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+    <ComboBoxView
+      leftIcon={<CheckAIcon16Regular />}
+      rightIcon={<CheckAIcon16Regular />}
+      size="large"
+      textValue={'looooooooooooooooooooooong hello multiline'}
+      viewMode={'multiline'}
+    />
+  </Gapped>
+);
+ComboboxViewMultiline.storyName = 'multiline';
+
 export const InputLikeTextWithPlaceholder = () => (
   <Gapped vertical>
     <ComboBoxView placeholder="placeholder" />

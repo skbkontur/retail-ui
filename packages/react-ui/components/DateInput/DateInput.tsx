@@ -22,6 +22,7 @@ import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { CalendarIcon } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -93,13 +94,14 @@ export interface DateInputProps
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
-type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
+type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'width'>>;
 
 /**
  * Компонент поля `DateInput` из DatePicker'а помогает выбирать дату с клавиатуры.
  */
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
+@withSize
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
   public static displayName = 'DateInput';
@@ -108,9 +110,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
-    size: 'small',
     width: 125,
   };
+  private size!: SizeProp;
 
   private getProps = createPropsGetter(DateInput.defaultProps);
 
@@ -229,7 +231,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const showValue = Boolean(focused || valueFormatted);
-    const { width, size } = this.getProps();
+    const { width } = this.getProps();
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -239,7 +241,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             id={this.props.id}
             width={width}
             ref={this.inputLikeTextRef}
-            size={size}
+            size={this.size}
             disabled={this.props.disabled}
             error={this.props.error}
             warning={this.props.warning}
@@ -277,7 +279,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   private renderIcon = () => {
     const { withIcon, disabled = false } = this.props;
-    const size = this.getProps().size;
+    const size = this.size;
 
     if (withIcon) {
       const theme = this.theme;

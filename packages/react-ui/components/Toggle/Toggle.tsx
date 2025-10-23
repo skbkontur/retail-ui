@@ -13,6 +13,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -80,9 +81,7 @@ export const ToggleDataTids = {
   root: 'Toggle__root',
 } as const;
 
-type DefaultProps = Required<
-  Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition' | 'disableAnimations' | 'size'>
->;
+type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition' | 'disableAnimations'>>;
 
 /**
  * `Toggle` переключает состояния. Например, включает или отключает уведомления в настройках.
@@ -91,6 +90,7 @@ type DefaultProps = Required<
  * `Toggle` нельзя использовать для выбора элементов в списке. Например, выбрать несколько писем.
  */
 @rootNode
+@withSize
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
   public static displayName = 'Toggle';
@@ -100,8 +100,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
     captionPosition: 'right',
     disableAnimations: isTestEnv,
-    size: 'small',
   };
+  private size!: SizeProp;
 
   private getProps = createPropsGetter(Toggle.defaultProps);
 
@@ -148,7 +148,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private getContainerSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.containerLarge(this.theme);
       case 'medium':
@@ -160,7 +160,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private getHandleSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.handleLarge(this.theme);
       case 'medium':
@@ -172,7 +172,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private getButtonSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.buttonLarge(this.theme);
       case 'medium':
@@ -184,7 +184,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private getRootSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.rootLarge(this.theme);
       case 'medium':
@@ -196,7 +196,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private getInputSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.inputLarge(this.theme);
       case 'medium':
@@ -208,7 +208,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private getCaptionSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.captionLarge(this.theme);
       case 'medium':
