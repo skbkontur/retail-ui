@@ -184,7 +184,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
           onClick={() => onValueChange(option)}
           aria-label={`Выбрать ${this.isYearType ? 'год' : 'месяц'} ${this.getItem(option)}`}
           data-tid={DateSelectDataTids.menuItem}
-          data-prop-disabled={isOptionDisabled}
+          data-disabled={isOptionDisabled}
           key={option}
         >
           {this.getItem(option)}

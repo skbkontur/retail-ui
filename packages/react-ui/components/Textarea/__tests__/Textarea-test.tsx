@@ -209,5 +209,11 @@ describe('Textarea', () => {
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
+    it('sets value for aria-controls attribute', () => {
+      const ariaControls = 'aria-controls';
+      render(<Textarea aria-controls={ariaControls} />);
+
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-controls', ariaControls);
+    });
   });
 });

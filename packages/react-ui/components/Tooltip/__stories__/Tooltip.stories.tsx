@@ -35,7 +35,7 @@ class TestTooltip extends React.Component<React.PropsWithChildren<TestTooltipPro
     const { trigger, children } = this.props;
 
     return (
-      <div style={{ padding: '150px' }}>
+      <div data-tid="TestTooltip" style={{ padding: '150px' }}>
         <Tooltip
           pos={this.getProps().pos}
           render={() => <div>Hey there!</div>}

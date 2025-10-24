@@ -22,7 +22,7 @@ kind('Dropdown', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await element.takeScreenshot(), 'clicked');
@@ -34,14 +34,14 @@ kind('Dropdown', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await context.webdriver
         .actions({
           bridge: true,
         })
         .move({
-          origin: context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }),
+          origin: context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }),
         })
         .perform();
       await delay(1000);
@@ -54,13 +54,13 @@ kind('Dropdown', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await context.webdriver
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await element.takeScreenshot(), 'selected item');
@@ -75,7 +75,7 @@ kind('Dropdown', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'clicked');
@@ -88,7 +88,7 @@ kind('Dropdown', () => {
     test('scrolled', async (context) => {
       await context.webdriver
         .actions()
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       const opened = await context.takeScreenshot();
       await context.webdriver.executeScript(function () {
@@ -106,7 +106,7 @@ kind('Dropdown', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
@@ -120,7 +120,7 @@ kind('Dropdown', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top with portal');
@@ -133,7 +133,7 @@ kind('Dropdown', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom with portal');
@@ -146,7 +146,7 @@ kind('Dropdown', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top without portal');
@@ -161,7 +161,7 @@ kind('Dropdown', () => {
         .pause(1000)
         .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Dropdown__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom without portal');

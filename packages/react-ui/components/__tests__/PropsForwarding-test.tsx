@@ -17,6 +17,7 @@ function isPublicComponent(component: any, name: string) {
     case 'ReactUIFeatureFlagsContext':
     case 'LocaleContext':
     case 'ThemeContext':
+    case 'SizeControlContext':
       return false;
     default:
       return Object.prototype.hasOwnProperty.call(component, '__KONTUR_REACT_UI__');

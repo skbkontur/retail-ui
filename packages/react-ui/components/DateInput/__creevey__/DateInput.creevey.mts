@@ -11,7 +11,7 @@ kind('DateInput', () => {
 
     test('focus', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
@@ -27,7 +27,7 @@ kind('DateInput', () => {
 
     test('focus', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
@@ -43,7 +43,7 @@ kind('DateInput', () => {
 
     test('focus', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
@@ -55,7 +55,7 @@ kind('DateInput', () => {
   story('BlurAlwaysAfterChange', () => {
     test('value not changed', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
@@ -72,7 +72,7 @@ kind('DateInput', () => {
 
     test('value changed', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
@@ -90,7 +90,7 @@ kind('DateInput', () => {
 
     test('value restored', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
@@ -103,7 +103,7 @@ kind('DateInput', () => {
         .click(context.webdriver.findElement({ css: 'body' }))
         .perform();
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.blur();
         }
@@ -119,7 +119,7 @@ kind('DateInput', () => {
 
     test('focused', async (context) => {
       await context.webdriver.executeScript(function () {
-        const input = window.document.querySelector("[data-comp-name~='DateInput']");
+        const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }

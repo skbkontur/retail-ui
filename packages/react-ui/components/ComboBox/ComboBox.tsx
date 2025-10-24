@@ -12,6 +12,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../MaskedInput';
 
+export type ComboBoxViewMode = 'singleline' | 'multiline' | 'multiline-editing';
+
 export interface ComboBoxProps<T>
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
@@ -87,7 +89,10 @@ export interface ComboBoxProps<T>
   /** Задает функцию, которая вызывается при получении комбобоксом фокуса. */
   onFocus?: () => void;
 
-  /** Задает функцию, которая вызывается при изменении текста в поле ввода, если результатом функции будет строка, то она станет следующим состоянием полем ввода. */
+  /** Задает функцию, которая вызывается при изменении текста в поле ввода, если результатом функции будет строка, то она станет следующим состоянием полем ввода.
+   *
+   * **Не рекомендуется менять значение, передаваемое в проп `value`, внутри этой функции. Используйте для этих целей `onValueChange` или `onUnexpectedInput`. Иначе возможно неожиданное поведение компонента.**
+   */
   onInputValueChange?: (value: string) => Nullable<string> | void;
 
   /** Задает функцию для обработки ввода строки в инпут и последующей потерей фокуса компонентом.
@@ -173,6 +178,18 @@ export interface ComboBoxProps<T>
 
   /** Задает функцию, которая вызывается при вставке значения в инпут с маской. */
   onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
+
+  /** Режим отображения комбобокса
+   * - `singleline` — однострочный
+   * - `multiline` — многострочный
+   * - `multiline-editing` — многострочный только при редактировании
+   *
+   * multiline-режимы не работают, если указан проп `mask`. В таком случае будет использован однострочный режим.
+   * @default singleline */
+  viewMode?: ComboBoxViewMode;
+
+  /** Максимальное кол-во строк для многострочных режимов отображения комбобокса */
+  maxRows?: number;
 }
 
 export interface ComboBoxItem {
@@ -193,6 +210,7 @@ type DefaultProps<T> = Required<
     | 'searchOnFocus'
     | 'drawArrow'
     | 'showClearIcon'
+    | 'viewMode'
   >
 >;
 
@@ -220,6 +238,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     searchOnFocus: true,
     drawArrow: true,
     showClearIcon: 'never',
+    viewMode: 'singleline',
   };
 
   private getProps = createPropsGetter(ComboBox.defaultProps);

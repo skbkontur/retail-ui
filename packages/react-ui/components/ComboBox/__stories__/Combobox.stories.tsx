@@ -398,8 +398,9 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ...ComboBox.defaultProps,
     getItems: () => Promise.resolve([]),
   };
+  private repeatCount = this.props.viewMode === 'singleline' ? 1 : 8;
   public state = {
-    value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
+    value: this.props.noInitialValue ? null : { value: 1, label: `${'First'.repeat(this.repeatCount)}` },
   };
   private setRootNode!: TSetRootNode;
   private comboBoxRef: React.RefObject<ComboBox | null> = React.createRef<ComboBox>();
@@ -431,12 +432,12 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   }
 
   private items: ComboboxItem[] = [
-    { value: 1, label: 'First' },
-    { value: 2, label: 'Second' },
-    { value: 3, label: 'Third' },
-    { value: 4, label: 'Fourth' },
-    { value: 5, label: 'Fifth' },
-    { value: 6, label: 'Sixth' },
+    { value: 1, label: `${'First'.repeat(this.repeatCount)}` },
+    { value: 2, label: `${'Second'.repeat(this.repeatCount)}` },
+    { value: 3, label: `${'Third'.repeat(this.repeatCount)}` },
+    { value: 4, label: `${'Fourth'.repeat(this.repeatCount)}` },
+    { value: 5, label: `${'Fifth'.repeat(this.repeatCount)}` },
+    { value: 6, label: `${'Sixth'.repeat(this.repeatCount)}` },
     { value: 7, label: 'A long long long long long long time ago' },
   ];
   private getItems = (query: string) =>
@@ -1049,3 +1050,31 @@ ComboboxWithMask.parameters = {
     skip: true, // manual review only
   },
 };
+
+export const MultilineComboboxStory: Story = () => (
+  <div style={{ paddingBottom: 230, paddingRight: 40 }}>
+    <SimpleCombobox viewMode={'multiline'} showClearIcon={'auto'} />
+  </div>
+);
+MultilineComboboxStory.storyName = 'multiline combobox';
+
+export const MultilineRestrictedComboboxStory: Story = () => {
+  return (
+    <ComboBox
+      viewMode={'multiline'}
+      maxRows={3}
+      value={{ value: 1, label: 'Long'.repeat(30) }}
+      getItems={async () => []}
+    />
+  );
+};
+MultilineRestrictedComboboxStory.storyName = 'multiline restricted combobox';
+
+export const MultilineEditingComboboxStory: Story = () => {
+  return (
+    <div style={{ paddingBottom: 230, paddingRight: 40 }}>
+      <SimpleCombobox viewMode={'multiline-editing'} showClearIcon={'auto'} />
+    </div>
+  );
+};
+MultilineEditingComboboxStory.storyName = 'multiline editing combobox';

@@ -1,13 +1,8 @@
 const path = require('path');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
 
 module.exports = async ({ config }) => {
-  if (isTestEnv) {
-    config.entry.unshift(path.join(__dirname, './scripts/props2attrs'));
-  }
-
   config.devtool = 'eval-source-map';
   config.entry.unshift('core-js/stable');
   config.resolve.extensions.unshift('.ts', '.tsx');

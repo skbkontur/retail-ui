@@ -1,16 +1,19 @@
 using OpenQA.Selenium;
 
-namespace SKBKontur.SeleniumTesting.Controls;
-
-public class DateRangePickerInput : BaseDateInput
+namespace SKBKontur.SeleniumTesting.Controls
 {
-    public DateRangePickerInput(ISearchContainer container, ISelector selector)
-        : base(container, selector)
+    public class DateRangePickerInput : BaseDateInput
     {
-    }
+        public DateRangePickerInput(ISearchContainer container, ISelector selector)
+            : base(container, selector)
+        {
+        }
 
-    protected override IStrategy GetStrategy(IWebElement container)
-    {
-        return new SpanInputStrategy(container);
+        protected override IStrategy GetStrategy(IWebElement container)
+        {
+            return new SpanInputStrategy(container);
+        }
     }
 }
+
+

@@ -222,12 +222,12 @@ kind('DropdownMenu', () => {
     test('opened', async (context) => {
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="DropdownMenu"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="PopupMenu__root"]' }))
         .perform();
       await delay(200);
       await context.webdriver
         .actions({ bridge: true })
-        .move({ origin: context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }) })
+        .move({ origin: context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }) })
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');

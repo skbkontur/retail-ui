@@ -619,3 +619,56 @@ export const Example10: Story = () => {
   );
 };
 Example10.storyName = 'Маска';
+
+export const Example11: Story = () => {
+  const items: Record<string, string> = {
+    1: 'multiline-editing + showClearIcon="auto" | this is random text to extend area',
+    2: 'multiline + showClearIcon="auto" | this is random text to extend area',
+    3: `multiline + maxRows={3} |"${' this is random text to extend area'.repeat(4)}`,
+    4: 'Short',
+  };
+  const getItems = (q: string) => {
+    return Promise.resolve(Object.keys(items).filter((key) => items[key].toLowerCase().includes(q.toLowerCase())));
+  };
+  const render = (v: number) => items[v];
+
+  const [valueMultilineEditing, setValueMultilineEditing] = React.useState(1);
+  const [valueMultiline, setValueMultiline] = React.useState(2);
+  const [valueMultilineRestricted, setValueMultilineRestricted] = React.useState(3);
+
+  return (
+    <Gapped vertical>
+      <ComboBox
+        getItems={getItems}
+        onValueChange={setValueMultilineEditing}
+        value={valueMultilineEditing}
+        renderValue={render}
+        valueToString={render}
+        renderItem={render}
+        viewMode="multiline-editing"
+        showClearIcon="auto"
+      />
+      <ComboBox
+        getItems={getItems}
+        onValueChange={setValueMultiline}
+        value={valueMultiline}
+        renderValue={render}
+        valueToString={render}
+        renderItem={render}
+        viewMode="multiline"
+        showClearIcon="auto"
+      />
+      <ComboBox
+        getItems={getItems}
+        onValueChange={setValueMultilineRestricted}
+        value={valueMultilineRestricted}
+        renderValue={render}
+        valueToString={render}
+        renderItem={render}
+        viewMode="multiline"
+        maxRows={3}
+      />
+    </Gapped>
+  );
+};
+Example11.storyName = 'Многострочный комбобокс';

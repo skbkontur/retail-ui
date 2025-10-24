@@ -55,7 +55,7 @@ export const SingleInputPage: FC<SingleInputPageProps> = ({
         <Gapped vertical>
           <ValidationWrapper data-tid="InputValidation" validationInfo={validate()} renderMessage={text()}>
             <Input
-              data-prop-focused={String(focused)}
+              data-focused={String(focused)}
               data-tid={'Input'}
               value={value}
               onValueChange={setValue}

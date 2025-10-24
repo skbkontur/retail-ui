@@ -211,6 +211,29 @@ describe('DatePicker', () => {
     await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
   }, 10000);
 
+  it('onValueChange should return correct date', async () => {
+    const Comp = () => {
+      const [value, setValue] = React.useState('');
+      return (
+        <>
+          <DatePicker value={value} onValueChange={setValue} />
+          <p>{value}</p>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const userInput = '01';
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.keyboard(userInput);
+    await userEvent.keyboard('[Tab]');
+
+    const expectedDate = `${userInput}${new Date().toLocaleDateString('ru-RU').slice(2)}`;
+
+    expect(screen.getByText(expectedDate)).toBeInTheDocument();
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', async () => {
       render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);

@@ -31,6 +31,7 @@ import { getSafeMaskInputType, MaskedInput, type MaskedProps } from '../MaskedIn
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 import { getFullReactUIFlagsContext } from '../../lib/featureFlagsContext/FeatureFlagsHelpers';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles } from './Autocomplete.styles';
 import type { AutocompleteLocale } from './locale';
@@ -124,10 +125,7 @@ export const AutocompleteIds = {
 } as const;
 
 type DefaultProps = Required<
-  Pick<
-    AutocompleteProps,
-    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll'
-  >
+  Pick<AutocompleteProps, 'renderItem' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'preventWindowScroll'>
 >;
 
 /**
@@ -139,13 +137,13 @@ type DefaultProps = Required<
 @responsiveLayout
 @rootNode
 @locale('Autocomplete', AutocompleteLocaleHelper)
+@withSize
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
   public static displayName = 'Autocomplete';
 
   public static defaultProps: DefaultProps = {
     renderItem,
-    size: 'small',
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,
@@ -160,6 +158,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   };
 
   private theme!: Theme;
+  private size!: SizeProp;
   private readonly locale!: AutocompleteLocale;
   private isMobileLayout!: boolean;
   private opened = false;
@@ -382,7 +381,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return items
       ? items.map((item, i) => {
           return (
-            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile} size={this.props.size}>
+            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile} size={this.size}>
               {this.getProps().renderItem(item)}
             </MenuItem>
           );

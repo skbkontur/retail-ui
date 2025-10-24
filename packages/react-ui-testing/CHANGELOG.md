@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.11.1...react-ui-testing@4.0.0) (2025-10-03)
+
+
+### Features
+
+* **react-ui-testing:** drop support for net45, use netstandard2.0 only, move to gitlab ci ([0fb54f3](https://git.skbkontur.ru/ui/react-ui/commits/0fb54f30ce1ec24c84cb8a03b75d5693ff8cb1d7))
+
+
+### BREAKING CHANGES
+
+* **react-ui-testing:** drop support for net45
+
+
+
+
+
 ## [3.11.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.11.0...react-ui-testing@3.11.1) (2025-09-10)
 
 **Note:** Version bump only for package react-ui-testing

@@ -13,7 +13,7 @@ kind('Calendar', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Calendar"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
         .pause(1000)
         .click(
           context.webdriver.findElement({
@@ -30,11 +30,11 @@ kind('Calendar', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Calendar"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
         .pause(1000)
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           }),
         )
         .perform();
@@ -82,7 +82,7 @@ kind('Calendar', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Calendar"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
         .pause(1000)
         .click(
           context.webdriver.findElement({
@@ -99,11 +99,11 @@ kind('Calendar', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Calendar"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
         .pause(1000)
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           }),
         )
         .perform();

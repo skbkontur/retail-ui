@@ -194,6 +194,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
           return styles.lineFocusGrayed(this.theme);
       }
     };
+
     const rootProps = {
       ...rest,
       className: cx({
@@ -216,8 +217,15 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
       rel: this.getRel(),
     };
 
+    const buttonOnlyProps = Root === 'button' ? { disabled: nonInteractive } : {};
+
     return (
-      <Root data-tid={LinkDataTids.root} {...rootProps} {...getVisualStateDataAttributes({ disabled })}>
+      <Root
+        data-tid={LinkDataTids.root}
+        {...rootProps}
+        {...buttonOnlyProps}
+        {...getVisualStateDataAttributes({ disabled })}
+      >
         {leftIconElement}
         {this.props.children}
         {rightIconElement}

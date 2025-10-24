@@ -11,7 +11,7 @@ kind('Switcher', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Button"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Button__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });

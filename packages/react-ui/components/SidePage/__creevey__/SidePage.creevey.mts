@@ -34,7 +34,7 @@ kind('SidePage', () => {
         .perform();
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="SidePage.Body"] button' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="SidePageBody__root"] button' }))
         .perform();
       await context.matchImage(await context.webdriver.takeScreenshot(), 'open internal side-page');
     });
@@ -46,13 +46,11 @@ kind('SidePage', () => {
         .perform();
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="SidePage.Body"] button' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="SidePageBody__root"] button' }))
         .perform();
       await context.webdriver
         .actions({ bridge: true })
-        .click(
-          context.webdriver.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }),
-        )
+        .click(context.webdriver.findElement({ css: '.react-ui:last-child [data-tid~="SidePageFooter__root"] button' }))
         .perform();
       await context.matchImage(await context.webdriver.takeScreenshot(), 'close internal side-page');
     });
@@ -66,7 +64,7 @@ kind('SidePage', () => {
         .perform();
       await context.webdriver
         .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="SidePage.Body"] button' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="SidePageBody__root"] button' }))
         .perform();
       await context.webdriver.executeScript(function () {
         const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
@@ -77,9 +75,7 @@ kind('SidePage', () => {
       });
       await context.webdriver
         .actions({ bridge: true })
-        .click(
-          context.webdriver.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePage.Footer"] button' }),
-        )
+        .click(context.webdriver.findElement({ css: '.react-ui:last-child [data-tid~="SidePageFooter__root"] button' }))
         .perform();
       await context.matchImage(
         await context.webdriver.takeScreenshot(),
@@ -213,7 +209,7 @@ kind('SidePage', () => {
     test('fixed close element', async (context) => {
       await context.webdriver.executeScript(function () {
         const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-        const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePage.Header"]') as HTMLElement;
+        const sidePageHeader = window.document.querySelector('[data-tid~="SidePageHeader__root"]') as HTMLElement;
         const fixedHeaderHeight = 50;
 
         sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
@@ -225,7 +221,7 @@ kind('SidePage', () => {
     test('fixed header', async (context) => {
       await context.webdriver.executeScript(function () {
         const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-        const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePage.Header"]') as HTMLElement;
+        const sidePageHeader = window.document.querySelector('[data-tid~="SidePageHeader__root"]') as HTMLElement;
         const fixedHeaderHeight = 50;
 
         sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;

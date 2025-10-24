@@ -1,9 +1,8 @@
 // TODO: Enable this rule in functional components.
 import invariant from 'invariant';
 import type { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
-import React from 'react';
+import React, { createRef } from 'react';
 import warning from 'warning';
-import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -22,6 +21,8 @@ import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
+import { blink } from '../../lib/blink';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import type { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
@@ -163,7 +164,7 @@ export interface InputProps
 
         /** Задает функцию для обработки ввода.
          * При неправильном вводе инпут по-умолчанию вспыхивает акцентным цветом.
-         * Если `onUnexpectedInput` передан - вызывается переданный обработчик b вспыхивание можно вызвать публичным методом инстанса `blink()`.
+         * Если `onUnexpectedInput` передан - вызывается переданный обработчик и вспыхивание можно вызвать публичным методом инстанса `blink()`.
          * @param {string} value - значение инпута. */
         onUnexpectedInput?: (value: string) => void;
 
@@ -182,7 +183,6 @@ export interface InputProps
     > {}
 
 export interface InputState {
-  blinking: boolean;
   focused: boolean;
   hovered: boolean;
   needsPolyfillPlaceholder: boolean;
@@ -194,7 +194,7 @@ export const InputDataTids = {
   clearCross: 'Input__clearCross',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>>;
+type DefaultProps = Required<Pick<InputProps, 'type' | 'showClearIcon'>>;
 
 /**
  * Поле ввода `Input` дает возможность указать значение с помощью клавиатуры.
@@ -210,22 +210,23 @@ type DefaultProps = Required<Pick<InputProps, 'size' | 'type' | 'showClearIcon'>
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  */
 @rootNode
+@withSize
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
   public static displayName = 'Input';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
     type: 'text',
     showClearIcon: 'never',
   };
+  private size!: SizeProp;
 
   private getProps = createPropsGetter(Input.defaultProps);
 
   private selectAllId: number | null = null;
   private theme!: Theme;
-  private blinkTimeout: SafeTimer;
   public input: HTMLInputElement | null = null;
+  public labelRef = createRef<HTMLLabelElement>();
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
@@ -251,7 +252,6 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public state: InputState = {
     needsPolyfillPlaceholder,
-    blinking: false,
     focused: false,
     hovered: false,
     clearCrossShowed: this.getClearCrossShowed({
@@ -275,9 +275,6 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   public componentWillUnmount() {
-    if (this.blinkTimeout) {
-      globalObject.clearTimeout(this.blinkTimeout);
-    }
     this.cancelDelayedSelectAll();
   }
 
@@ -308,18 +305,7 @@ export class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public blink() {
-    if (this.blinkTimeout) {
-      this.cancelBlink(() => {
-        // trigger reflow to restart animation
-        // @see https://css-tricks.com/restart-css-animation/#article-header-id-0
-        void (this.input && this.input.offsetWidth);
-        this.blink();
-      });
-      return;
-    }
-    this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalObject.setTimeout(this.cancelBlink, 150);
-    });
+    blink({ el: this.labelRef.current, blinkColor: this.theme.inputBlinkColor });
   }
 
   /**
@@ -402,20 +388,6 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private cancelBlink = (callback?: () => void): void => {
-    if (this.blinkTimeout) {
-      globalObject.clearTimeout(this.blinkTimeout);
-      this.blinkTimeout = 0;
-      if (this.state.blinking) {
-        this.setState({ blinking: false }, callback);
-        return;
-      }
-    }
-    if (callback) {
-      callback();
-    }
-  };
-
   private getInput = (inputProps: InputElementProps & ClassAttributes<HTMLInputElement>) => {
     if (this.props.element) {
       return React.cloneElement(this.props.element, inputProps);
@@ -464,13 +436,12 @@ export class Input extends React.Component<InputProps, InputState> {
       ...rest
     } = props;
 
-    const { blinking, focused } = this.state;
+    const { focused } = this.state;
 
     const labelProps = {
       className: cx(styles.root(this.theme), this.getSizeClassName(), {
         [styles.focus(this.theme)]: focused && !warning && !error,
         [styles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
-        [styles.blink(this.theme)]: blinking,
         [styles.borderless()]: borderless && !focused,
         [styles.disabled(this.theme)]: disabled,
         [styles.warning(this.theme)]: warning,
@@ -481,6 +452,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
       onMouseOver,
+      ref: this.labelRef,
     };
 
     const inputProps: InputElementProps & ClassAttributes<HTMLInputElement> = {
@@ -511,12 +483,11 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const getRightIcon = () => {
       return this.state.clearCrossShowed ? (
-        <ClearCrossIcon data-tid={InputDataTids.clearCross} size={size} onClick={this.handleClearInput} />
+        <ClearCrossIcon data-tid={InputDataTids.clearCross} size={this.size} onClick={this.handleClearInput} />
       ) : (
         rightIcon
       );
     };
-
     return (
       <InputLayout
         leftIcon={leftIcon}
@@ -524,7 +495,7 @@ export class Input extends React.Component<InputProps, InputState> {
         prefix={prefix}
         suffix={suffix}
         labelProps={labelProps}
-        context={{ disabled: Boolean(disabled), focused, size }}
+        context={{ disabled: Boolean(disabled), focused, size: this.size }}
       >
         {input}
         {this.state.needsPolyfillPlaceholder && (
@@ -557,7 +528,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return cx({
           [styles.sizeLarge(this.theme)]: true,

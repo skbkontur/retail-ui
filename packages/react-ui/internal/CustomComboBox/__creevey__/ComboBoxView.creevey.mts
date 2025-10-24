@@ -22,7 +22,7 @@ kind('ComboBoxView', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'focused first element');
     });

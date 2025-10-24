@@ -42,6 +42,7 @@ import { styles as linkStyles } from '../Link/Link.styles';
 import { Popup, type PopupPositionsType } from '../../internal/Popup';
 import { ZIndex } from '../../internal/ZIndex';
 import { getMenuPositions } from '../../lib/getMenuPositions';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
@@ -247,7 +248,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 type DefaultProps<TValue, TItem> = Required<
-  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use' | 'size'>
+  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use'>
 >;
 
 /**
@@ -260,9 +261,11 @@ type DefaultProps<TValue, TItem> = Required<
  *
  * Не используйте `Select` для выбора элементов меню. В таком случае воспользуйтесь компонентом Dropdown.
  */
+
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
+@withSize
 // Suggested solutions break current behavior
 // eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
@@ -275,7 +278,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     areValuesEqual,
     filterItem,
     use: 'default',
-    size: 'small',
   };
 
   public static Item = Item;
@@ -296,6 +298,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private theme!: Theme;
+  private size!: SizeProp;
   private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
@@ -430,7 +433,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       isPlaceholder,
       onClick: this.toggle,
       onKeyDown: this.handleKey,
-      size: this.getProps().size,
+      size: this.size,
       disabled: this.getProps().disabled,
     };
 
@@ -498,12 +501,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
-    const icon = <ArrowDownIcon size={this.props.size} />;
+    const icon = <ArrowDownIcon size={this.size} />;
 
     return (
       <Button {...buttonProps}>
         <div className={cx(styles.selectButtonContainer(), { [linkStyles.root(this.theme)]: use === 'link' })}>
-          {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
+          {this.props._icon && <div className={this.getLeftIconClass(this.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
           <div
@@ -521,7 +524,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSelectIconGap(): number {
     const getArrowPadding = () => {
-      switch (this.props.size) {
+      switch (this.size) {
         case 'large':
           return this.theme.selectIconGapLarge;
         case 'medium':
@@ -611,7 +614,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getMenuItems = (value: Nullable<TValue>) => {
     const isMobile = this.isMobileLayout;
-    const size = this.props.size;
+    const size = this.size;
 
     return this.mapItems(
       (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
@@ -642,7 +645,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             onClick={this.select.bind(this, iValue)}
             comment={comment}
             isMobile={isMobile}
-            size={this.props.size}
+            size={this.size}
           >
             {this.getProps().renderItem(iValue, item)}
           </MenuItem>
@@ -788,7 +791,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           ref: this.buttonRef,
           onFocus: this.props.onFocus,
           onBlur: this.props.onBlur,
-          size: this.props.size,
+          size: this.size,
           'aria-describedby': this.props['aria-describedby'],
           'aria-expanded': this.state.opened ? 'true' : 'false',
           'aria-controls': this.menuId,

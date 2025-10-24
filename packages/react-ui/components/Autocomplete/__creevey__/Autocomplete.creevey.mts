@@ -9,7 +9,7 @@ const commonTests = () => {
       css: '#test-element',
     });
     const autocompleteElement = context.webdriver.findElement({
-      css: '[data-comp-name~="Autocomplete"]',
+      css: '[data-tid~="Autocomplete__root"]',
     });
     await context.webdriver.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
     await delay(1000);
@@ -54,7 +54,7 @@ const mobileHintsTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }))
       .click(context.webdriver.findElement({ css: 'input' }))
       .perform();
     await delay(200);
@@ -68,7 +68,7 @@ const sizeTests = () => {
       css: '#test-element',
     });
     const autocompleteElements = await context.webdriver.findElements({
-      css: '[data-comp-name~="Autocomplete"]',
+      css: '[data-tid~="Autocomplete__root"]',
     });
     await context.webdriver.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
     await delay(1000);
@@ -80,7 +80,7 @@ const sizeTests = () => {
       css: '#test-element',
     });
     const autocompleteElements = await context.webdriver.findElements({
-      css: '[data-comp-name~="Autocomplete"]',
+      css: '[data-tid~="Autocomplete__root"]',
     });
     await context.webdriver.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
     await delay(1000);
@@ -92,7 +92,7 @@ const sizeTests = () => {
       css: '#test-element',
     });
     const autocompleteElements = await context.webdriver.findElements({
-      css: '[data-comp-name~="Autocomplete"]',
+      css: '[data-tid~="Autocomplete__root"]',
     });
     await context.webdriver.actions({ bridge: true }).click(autocompleteElements[2]).sendKeys('o').perform();
     await delay(1000);
@@ -103,7 +103,7 @@ const sizeTests = () => {
 const menuPosTests = () => {
   test('focus and type text menu top', async (context) => {
     const screenshotElement = context.webdriver.findElement({ css: '#test-element' });
-    const autocompleteElements = await context.webdriver.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+    const autocompleteElements = await context.webdriver.findElements({ css: '[data-tid~="Autocomplete__root"]' });
 
     await context.webdriver.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
     await delay(1000);
@@ -112,7 +112,7 @@ const menuPosTests = () => {
   });
   test('focus and type text menu bottom', async (context) => {
     const screenshotElement = context.webdriver.findElement({ css: '#test-element' });
-    const autocompleteElements = await context.webdriver.findElements({ css: '[data-comp-name~="Autocomplete"]' });
+    const autocompleteElements = await context.webdriver.findElements({ css: '[data-tid~="Autocomplete__root"]' });
 
     await context.webdriver.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
     await delay(1000);
@@ -129,7 +129,7 @@ kind('Autocomplete', () => {
 
     test('focused', async (context) => {
       const autocompleteElement = context.webdriver.findElement({
-        css: '[data-comp-name~="Autocomplete"]',
+        css: '[data-tid~="Autocomplete__root"]',
       });
       await context.webdriver.actions({ bridge: true }).click(autocompleteElement).perform();
       await delay(1000);
@@ -200,7 +200,7 @@ kind('Autocomplete', () => {
         css: '#test-element',
       });
       const autocompleteElement = context.webdriver.findElement({
-        css: '[data-comp-name~="Autocomplete"]',
+        css: '[data-tid~="Autocomplete__root"]',
       });
       await context.webdriver.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
       await delay(1000);
@@ -212,7 +212,7 @@ kind('Autocomplete', () => {
         css: '#test-element',
       });
       const autocompleteElement = context.webdriver.findElement({
-        css: '[data-comp-name~="Autocomplete"]',
+        css: '[data-tid~="Autocomplete__root"]',
       });
       await context.webdriver
         .actions({ bridge: true })

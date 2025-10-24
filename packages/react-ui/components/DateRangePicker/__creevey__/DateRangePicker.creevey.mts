@@ -51,7 +51,7 @@ kind('DateRangePicker', () => {
         .actions({ bridge: true })
         .click(
           context.webdriver.findElement({
-            css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           }),
         )
         .move({ origin: context.webdriver.findElement({ css: 'body' }) })

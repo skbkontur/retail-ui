@@ -1,3 +1,5 @@
+using System.Threading;
+
 using Kontur.Selone.Properties;
 
 using SKBKontur.SeleniumTesting;
@@ -30,6 +32,7 @@ namespace SKBKontur.ValidationTests.Controls
 
         public static void WaitError(this ControlBase control)
         {
+            Thread.Sleep(500); // Wait() below doesn't work for some reason 
             control.WithError().Wait().True();
         }
 
@@ -40,7 +43,7 @@ namespace SKBKontur.ValidationTests.Controls
 
         public static bool HasFocus(this ControlBase control)
         {
-            return control.GetAttributeValue("data-prop-focused") == "true";
+            return control.GetAttributeValue("data-focused") == "true";
         }
 
         public static void WaitFocus(this ControlBase control)
@@ -55,6 +58,7 @@ namespace SKBKontur.ValidationTests.Controls
 
         public static void WaitNoError(this ControlBase control)
         {
+            Thread.Sleep(500); // Wait() below doesn't work for some reason 
             control.WithError().Wait().False();
         }
 

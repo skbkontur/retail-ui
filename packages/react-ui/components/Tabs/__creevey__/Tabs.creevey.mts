@@ -9,7 +9,7 @@ const tabsSimpleTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(1)' }))
       .perform();
     await context.webdriver
       .actions({
@@ -26,7 +26,7 @@ const tabsSimpleTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(3)' }))
       .perform();
     await delay(1000);
     await context.webdriver
@@ -49,7 +49,7 @@ const tabsSimpleTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(1)' }))
       .perform();
     await context.webdriver
       .actions({
@@ -57,7 +57,7 @@ const tabsSimpleTests = () => {
       })
       .sendKeys(Key.ARROW_RIGHT)
       .pause(500)
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(3)' }))
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'reset focus after click');
   });
@@ -73,7 +73,7 @@ const tabsTests = () => {
         bridge: true,
       })
       .move({
-        origin: context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }),
+        origin: context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }),
       })
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'hovered');
@@ -84,7 +84,7 @@ const tabsTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'clicked');
   });
@@ -94,7 +94,7 @@ const tabsTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
       .move({
         origin: context.webdriver.findElement({ css: 'body' }),
       })
@@ -107,11 +107,11 @@ const tabsTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
       .move({
         origin: context.webdriver.findElement({ css: 'body' }),
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
       .perform();
     await context.matchImage(await context.takeScreenshot(), 'focused');
   });
@@ -121,7 +121,7 @@ const tabsTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
       .perform();
     await delay(1000);
     await context.webdriver
@@ -139,7 +139,7 @@ const tabsTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
       .perform();
     await delay(1000);
     await context.webdriver

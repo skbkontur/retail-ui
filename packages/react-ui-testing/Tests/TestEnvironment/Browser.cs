@@ -39,7 +39,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             }
             catch (Exception ex)
             {
-                throw new Exception($"Can't open page with url={url}\r\n" + ex.Message);
+                throw new Exception($"Can't open page with url={url}\r\n" + $"http://{defaultDomain}:{defaultPort}/{url}/" + ex.Message);
             }
         }
 

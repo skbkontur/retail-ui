@@ -177,9 +177,6 @@ export const ComboBoxAllowValueChangeInEditingState: Story = () => {
             searchOnFocus={false}
             getItems={getItems}
             onValueChange={(value) => setValue(value)}
-            onInputValueChange={(value) => {
-              setValue({ value, label: value });
-            }}
           />
           <Button onClick={handleValueChange}>Обновить</Button>
         </Gapped>

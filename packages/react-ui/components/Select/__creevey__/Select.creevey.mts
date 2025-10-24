@@ -9,7 +9,7 @@ const clickedTest = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
       .perform();
     await delay(1000);
     await context.matchImage(await context.takeScreenshot(), 'clicked');
@@ -29,14 +29,14 @@ const selectTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
       .perform();
     await context.webdriver
       .actions({
         bridge: true,
       })
       .move({
-        origin: context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }),
+        origin: context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }),
       })
       .perform();
     await delay(1000);
@@ -48,13 +48,13 @@ const selectTests = () => {
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
       .perform();
     await context.webdriver
       .actions({
         bridge: true,
       })
-      .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+      .click(context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }))
       .perform();
     await delay(1000);
     await context.matchImage(await context.takeScreenshot(), 'selected item');
@@ -149,7 +149,7 @@ kind('Select', () => {
 
     test('search', async (context) => {
       const root = await context.webdriver.findElement({ css: '[data-tid="root"]' });
-      const select = await context.webdriver.findElement({ css: '[data-comp-name~="Select"]' });
+      const select = await context.webdriver.findElement({ css: '[data-tid~="Select__root"]' });
       await context.webdriver
         .actions({
           bridge: true,
@@ -170,7 +170,7 @@ kind('Select', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Input"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Input__root"]' }))
         .sendKeys('test')
         .pause(500)
         .perform();
@@ -229,7 +229,7 @@ kind('Select', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top with portal');
@@ -242,7 +242,7 @@ kind('Select', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom with portal');
@@ -255,7 +255,7 @@ kind('Select', () => {
         })
         .click(context.webdriver.findElement({ css: '[data-tid~="portal"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top without portal');
@@ -270,7 +270,7 @@ kind('Select', () => {
         .pause(1000)
         .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
         .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Select"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom without portal');

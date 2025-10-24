@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
@@ -24,6 +23,9 @@ import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayout
 import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
 import { FocusControlWrapper } from '../FocusControlWrapper';
 import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
+import { blink } from '../../lib/blink';
+import { withSize } from '../../lib/size/SizeDecorator';
+import type { SizeProp } from '../../lib/types/props';
 
 import { styles } from './InputLikeText.styles';
 
@@ -46,15 +48,15 @@ export const InputLikeTextDataTids = {
   nativeInput: 'InputLikeText__nativeInput',
 } as const;
 
-type DefaultProps = Required<Pick<InputLikeTextProps, 'size' | 'showClearIcon'>>;
+type DefaultProps = Required<Pick<InputLikeTextProps, 'showClearIcon'>>;
 
+@withSize
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
   public static displayName = 'InputLikeText';
 
   public static defaultProps: DefaultProps = {
-    size: 'small',
     showClearIcon: 'never',
   };
 
@@ -73,7 +75,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   public state = {
-    blinking: false,
     focused: false,
     clearCrossShowed: this.getClearCrossShowed({
       focused: false,
@@ -81,9 +82,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private theme!: Theme;
+  private size!: SizeProp;
   private node: HTMLElement | null = null;
   private dragging = false;
-  private blinkTimeout: SafeTimer;
+
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
@@ -112,8 +114,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.props.disabled) {
       return;
     }
-    this.setState({ blinking: true }, () => {
-      this.blinkTimeout = globalObject.setTimeout(() => this.setState({ blinking: false }), 150);
+    blink({
+      el: this.node,
+      blinkColor: this.theme.inputBlinkColor,
     });
   }
 
@@ -139,9 +142,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   public componentWillUnmount() {
-    if (this.blinkTimeout) {
-      globalObject.clearTimeout(this.blinkTimeout);
-    }
     MouseDrag.stop(this.node);
   }
 
@@ -168,7 +168,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       align,
       borderless,
       width,
-      size,
       error,
       warning,
       onValueChange,
@@ -189,12 +188,12 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       ...rest
     } = props;
 
-    const { focused, blinking } = this.state;
+    const { focused } = this.state;
     const getRightIcon = () => {
       return this.state.clearCrossShowed ? (
         <ClearCrossIcon
           data-tid={InputDataTids.clearCross}
-          size={size}
+          size={this.size}
           onFocus={(event) => event.stopPropagation()}
           onClick={onClearCrossClick}
         />
@@ -210,7 +209,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
       [jsInputStyles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
-      [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
       [jsInputStyles.hideBlinkingCursor()]: isMobile,
@@ -219,7 +217,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const wrapperClass = cx(jsInputStyles.wrapper(), {
       [styles.userSelectContain()]: focused,
     });
-
+    const size = this.size;
     const context = InputLayoutContextDefault;
     Object.assign(context, { disabled, focused, size });
 
@@ -382,7 +380,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getSizeClassName = () => {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,

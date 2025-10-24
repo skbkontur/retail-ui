@@ -25,7 +25,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
@@ -35,7 +35,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .sendKeys('a')
         .perform();
       await context.matchImage(await context.takeScreenshot(), 'withMenu');
@@ -54,7 +54,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .sendKeys('a')
         .perform();
       await delay(1000);
@@ -75,7 +75,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="Token"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
         .perform();
       const selected = await context.takeScreenshot();
       await context.webdriver
@@ -95,14 +95,14 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .doubleClick(context.webdriver.findElement({ css: '[data-comp-name~="Token"]' }))
+        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
         .perform();
       const doubleClickOnToken = await context.takeScreenshot();
       await context.webdriver
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="ComboBoxMenu__item"]' }))
         .perform();
       const clickOnMenuItem = await context.takeScreenshot();
       await context.webdriver
@@ -151,7 +151,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .sendKeys('zzz')
         .perform();
       await context.matchImage(await context.takeScreenshot());
@@ -173,7 +173,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .pause(1000)
         .sendKeys('aaa')
         .pause(1000)
@@ -186,7 +186,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .sendKeys(Key.BACK_SPACE)
         .sendKeys(Key.BACK_SPACE)
         .sendKeys(Key.BACK_SPACE)
@@ -201,7 +201,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .pause(1000)
         .sendKeys('clear')
         .move({ x: 0, y: 0 })
@@ -218,7 +218,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .sendKeys(Key.BACK_SPACE)
         .sendKeys(Key.BACK_SPACE)
         .sendKeys(Key.BACK_SPACE)
@@ -244,7 +244,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .pause(300)
         .sendKeys('aaa')
         .pause(300)
@@ -259,7 +259,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .doubleClick(context.webdriver.findElement({ css: '[data-comp-name~="Token"]' }))
+        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
         .pause(1000)
         .sendKeys('aaa')
         .pause(300)
@@ -272,7 +272,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .doubleClick(context.webdriver.findElement({ css: '[data-comp-name~="Token"]' }))
+        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
         .pause(1000)
         .sendKeys('zzz')
         .pause(300)
@@ -285,7 +285,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .doubleClick(context.webdriver.findElement({ css: '[data-comp-name~="Token"]' }))
+        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
         .pause(1000)
         .sendKeys(Key.BACK_SPACE)
         .sendKeys(Key.BACK_SPACE)
@@ -303,7 +303,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .doubleClick(context.webdriver.findElement({ css: '[data-comp-name~="Token"]' }))
+        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
         .pause(1000)
         .sendKeys('EDITED')
         .pause(300)
@@ -334,7 +334,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .sendKeys('a')
         .perform();
       await context.matchImage(await context.takeScreenshot());
@@ -356,7 +356,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot());
@@ -378,7 +378,7 @@ kind('TokenInput', () => {
         .actions({
           bridge: true,
         })
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
         .pause(500)
         .sendKeys('a')
         .perform();
@@ -388,7 +388,7 @@ kind('TokenInput', () => {
           bridge: true,
         })
 
-        .click(context.webdriver.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+        .click(context.webdriver.findElement({ css: '[data-tid~="Menu__root"]' }))
         .perform();
       await delay(1000);
       await context.matchImage(await context.takeScreenshot());

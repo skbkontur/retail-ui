@@ -1,10 +1,4 @@
-const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
-
 module.exports = async ({ config }) => {
-  if (isTestEnv) {
-    config.entry.unshift('@skbkontur/react-props2attrs');
-  }
-
   config.entry.unshift('core-js/stable');
   config.resolve.extensions.unshift('.ts', '.tsx');
 

@@ -17,6 +17,7 @@ import { RadioGroupContext } from '../RadioGroup/RadioGroupContext';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -66,12 +67,13 @@ export const RadioDataTids = {
   root: 'Radio__root',
 } as const;
 
-type DefaultProps = Required<Pick<RadioProps<any>, 'focused' | 'size'>>;
+type DefaultProps = Required<Pick<RadioProps<any>, 'focused'>>;
 
 /**
  * Радио-кнопки `Radio` используются, когда может быть выбран только один вариант из нескольких.
  */
 @rootNode
+@withSize
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
   public static displayName = 'Radio';
@@ -82,13 +84,13 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public static defaultProps: DefaultProps = {
     focused: false,
-    size: 'small',
   };
 
   private getProps = createPropsGetter(Radio.defaultProps);
 
   public static contextType = RadioGroupContext;
   public context: RadioGroupContextType<T> = this.context;
+  private size!: SizeProp;
 
   private inputEl = React.createRef<HTMLInputElement>();
   public getRootNode!: TGetRootNode;
@@ -96,7 +98,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private theme!: Theme;
 
   private getRootSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.rootLarge(this.theme);
       case 'medium':
@@ -108,7 +110,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   }
 
   private getCircleSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.circleLarge(this.theme);
       case 'medium':
@@ -120,7 +122,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   }
 
   private getCheckedSizeClassName() {
-    switch (this.getProps().size) {
+    switch (this.size) {
       case 'large':
         return styles.checkedLarge(this.theme);
       case 'medium':

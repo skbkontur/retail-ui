@@ -14,6 +14,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  wrapperMultiline() {
+    return css`
+      overflow-wrap: anywhere;
+      white-space: normal;
+      overflow: visible;
+    `;
+  },
+
   userSelectContain() {
     return css`
       user-select: text;

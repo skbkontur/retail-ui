@@ -20,6 +20,10 @@ kind('Toast', () => {
     kindTests();
   });
 
+  story('UseErrorExample', () => {
+    kindTests();
+  });
+
   story('ComplexNotification', () => {
     kindTests();
   });
