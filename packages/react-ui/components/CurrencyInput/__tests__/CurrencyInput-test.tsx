@@ -418,11 +418,19 @@ describe('CurrencyInput', () => {
       consoleSpy.mockRestore();
     });
 
-    it('should throw error if value is not a valid number', () => {
-      const props = { value: NaN, onValueChange: () => 1 };
-      render(<CurrencyInput {...props} />);
-      expect(consoleSpy).toHaveBeenCalledTimes(1);
-      expect(consoleSpy.mock.calls[0][0]).toContain('[CurrencyInput]: Prop `value` is not a valid number');
+    describe('should throw error if value is NOT a valid number', () => {
+      it.each([['str'], [Number.POSITIVE_INFINITY], [Number.NEGATIVE_INFINITY], [NaN]])('%s', (value) => {
+        render(<CurrencyInputWithValueProp value={value} />);
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+        expect(consoleSpy.mock.calls[0][0]).toContain('[CurrencyInput]: Prop `value` is not a valid number');
+      });
+    });
+
+    describe('should NOT throw error if value is null or undefined', () => {
+      it.each([[null], [undefined]])('%s', (value) => {
+        render(<CurrencyInputWithValueProp value={value} />);
+        expect(consoleSpy).not.toHaveBeenCalled();
+      });
     });
 
     it('should throw error if prop maxLength is used', () => {
