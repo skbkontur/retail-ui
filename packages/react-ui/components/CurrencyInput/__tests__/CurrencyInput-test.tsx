@@ -224,6 +224,23 @@ describe('CurrencyInput', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
+  it('should handle onPaste event', async () => {
+    const onPaste = jest.fn();
+    const PASTE_TEXT = '1000';
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput value={value} onValueChange={setValue} onPaste={onPaste} />;
+    };
+
+    render(<Comp />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.paste(PASTE_TEXT);
+
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onPaste.mock.lastCall?.[0].clipboardData.getData('text/plain')).toBe(PASTE_TEXT);
+  });
+
   describe('Cursor handels', () => {
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12300.45);

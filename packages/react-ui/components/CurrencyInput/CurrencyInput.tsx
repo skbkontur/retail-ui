@@ -407,6 +407,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const selection = this.getSelection(event.target);
     this.inputValue(selection.start, selection.end, data);
     event.preventDefault();
+    this.props.onPaste?.(event);
   };
 
   private handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
