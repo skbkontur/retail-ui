@@ -1,16 +1,15 @@
+import 'creevey/playwright';
 import { story, kind, test } from 'creevey';
+
+import { tid, waitForByTid } from './helpers.mjs';
 
 kind('DateRangePicker', () => {
   story('Example1', () => {
     test('submit', async (context) => {
-      const submitButton = await context.webdriver.findElement({ css: '[data-tid~="submit-button"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submitButton)
-        .pause(1000)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('submit-button')).click();
+      await waitForByTid(page, 'Calendar__root');
+      await waitForByTid(page, 'Tooltip__content');
       await context.matchImage(await context.takeScreenshot());
     });
   });

@@ -1,76 +1,52 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from './delay.mjs';
+import 'creevey/playwright';
+import { tid, waitForByTid } from './helpers.mjs';
+
+const validationMessage = 'Значение должно состоять из двух слов';
 
 kind('Input', () => {
   story('TwoWordsRequired', () => {
     test('invalidText', async (context) => {
-      const input = await context.webdriver.findElement({ css: '[data-tid~="test-input"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(input)
-        .sendKeys('test')
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-input')).fill('test');
+      await page.keyboard.press('Tab');
+      await page.getByText(validationMessage).waitFor();
       await context.matchImage(await context.takeScreenshot());
     });
   });
 
   story('ReactElementInMessage', () => {
     test('invalidText', async (context) => {
-      const input = await context.webdriver.findElement({ css: '[data-tid~="test-input"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(input)
-        .sendKeys('test')
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-input')).fill('test');
+      await page.keyboard.press('Tab');
+      await page.getByText(validationMessage).waitFor();
       await context.matchImage(await context.takeScreenshot());
     });
   });
 
   story('ScrollMessage', () => {
     test('invalidText', async (context) => {
-      const submitTop = await context.webdriver.findElement({ css: '[data-tid~="top-submit"]' });
-      const submitCenter = await context.webdriver.findElement({ css: '[data-tid~="center-submit"]' });
-      const submitBottom = await context.webdriver.findElement({ css: '[data-tid~="bottom-submit"]' });
+      const page = context.webdriver;
 
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submitTop)
-        .perform();
-      await delay(500);
-      const autoscrollAfterTopSubmit = await context.webdriver.takeScreenshot();
+      await page.locator(tid('top-submit')).click();
+      await page.waitForTimeout(500);
+      const autoscrollAfterTopSubmit = await page.screenshot();
 
-      await context.webdriver.executeScript(function () {
+      await page.evaluate(() => {
         window.scrollBy(0, -100);
       });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submitCenter)
-        .perform();
-      await delay(500);
-      const noScrollAfterCenterSubmit = await context.webdriver.takeScreenshot();
+      await page.locator(tid('center-submit')).click();
+      await page.waitForTimeout(500);
+      const noScrollAfterCenterSubmit = await page.screenshot();
 
-      await context.webdriver.executeScript(function () {
+      await page.evaluate(() => {
         window.scroll(0, window.document.body.scrollHeight);
       });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submitBottom)
-        .perform();
-      await delay(1000);
-      const autoscrollAfterBottomSubmit = await context.webdriver.takeScreenshot();
+      await page.locator(tid('bottom-submit')).click();
+      await page.waitForTimeout(1000);
+      const autoscrollAfterBottomSubmit = await page.screenshot();
 
       await context.matchImages({
         autoscrollAfterTopSubmit,
@@ -82,147 +58,79 @@ kind('Input', () => {
 
   story('DependentFields', () => {
     test('maleInSelectAndAnotherInInput', async (context) => {
-      const input = await context.webdriver.findElement({ css: '[data-tid~="test-input"]' });
-      const select = await context.webdriver.findElement({ css: '[data-tid~="select"]' });
-      const submit = await context.webdriver.findElement({ css: '[data-tid~="submit"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(select)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }))
-        .click(input)
-        .sendKeys('m')
-        .click(submit)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('select')).click();
+      await page.locator('[data-tid="MenuItem__root"]').first().click();
+      await page.locator(tid('test-input')).fill('m');
+      await page.locator(tid('submit')).click();
       await context.matchImage(await context.takeScreenshot());
     });
   });
 
   story('ScrollInsideTheContainer', () => {
     test('clickSubmit', async (context) => {
-      const submit = await context.webdriver.findElement({ css: '[data-tid~="submit"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submit)
-        .perform();
-      await delay(1500);
+      const page = context.webdriver;
+      await page.locator(tid('submit')).click();
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot());
     });
   });
 
   story('SelectFirstControlForValidation', () => {
     test('invalidText', async (context) => {
-      const submit = await context.webdriver.findElement({ css: '[data-tid~="submit"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submit)
-        .pause(500)
-        .sendKeys("i'm active!")
-        .perform();
-      const focusedThenFilledWhenSubmitAndAllEmpty = await context.webdriver.takeScreenshot();
+      const page = context.webdriver;
+      const submit = await page.locator(tid('submit'));
+      await submit.click();
+      await page.waitForTimeout(500);
+      await page.keyboard.type("i'm active!");
+      const focusedThenFilledWhenSubmitAndAllEmpty = await page.screenshot();
 
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submit)
-        .perform();
-      const secondFocusedWhenSubmitAndFirstFull = await context.webdriver.takeScreenshot();
+      await submit.click();
+      const secondFocusedWhenSubmitAndFirstFull = await page.screenshot();
       await context.matchImages({ focusedThenFilledWhenSubmitAndAllEmpty, secondFocusedWhenSubmitAndFirstFull });
     });
   });
 
   story('ScrollWithFixedPlaceBottom', () => {
     test('invalidText', async (context) => {
-      const submit = await context.webdriver.findElement({ css: '[data-tid~="submit"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submit)
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.locator(tid('submit')).click();
+      await page.waitForTimeout(500);
+      await context.matchImage(await page.screenshot());
     });
   });
 
   story('ValidationWithLevelWarning', () => {
     test('validateImmediate', async (context) => {
-      const immediateValidationInput = await context.webdriver.findElement({
-        css: '[data-tid~="immediate-validation-input"]',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(immediateValidationInput)
-        .sendKeys('test')
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('immediate-validation-input')).fill('test');
       await context.matchImage(await context.takeScreenshot());
     });
+
     test('validateOnLostfocus', async (context) => {
-      const lostfocusValidationInput = await context.webdriver.findElement({
-        css: '[data-tid~="lostfocus-validation-input"]',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(lostfocusValidationInput)
-        .sendKeys('test')
-        .perform();
+      const page = context.webdriver;
+      const lostfocusValidationInput = await page.locator(tid('lostfocus-validation-input'));
+      await lostfocusValidationInput.fill('test');
       const noTooltipImmediate = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .move({
-          origin: lostfocusValidationInput,
-        })
-        .perform();
+      await page.locator('body').click();
+      await lostfocusValidationInput.hover();
+      await waitForByTid(page, 'PopupContent');
       const tooltipOnHover = await context.takeScreenshot();
       await context.matchImages({ noTooltipImmediate, tooltipOnHover });
     });
-    test('validateOnSubmit', async (context) => {
-      const submitValidationInput = await context.webdriver.findElement({
-        css: '[data-tid~="submit-validation-input"]',
-      });
-      const submit = await context.webdriver.findElement({ css: '[data-tid~="submit"]' });
 
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submitValidationInput)
-        .sendKeys('test')
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .move({
-          origin: submitValidationInput,
-        })
-        .perform();
+    test('validateOnSubmit', async (context) => {
+      const page = context.webdriver;
+      const submitValidationInput = await page.locator(tid('submit-validation-input'));
+      await submitValidationInput.fill('test');
+      await page.locator('body').click();
       const noTooltipOnBlur = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submit)
-        .move({
-          origin: submitValidationInput,
-        })
-        .perform();
-      await delay(1000);
+      const submit = await page.locator('[data-tid~="submit"]');
+      await submit.click();
+      await submitValidationInput.fill('test');
+      await submitValidationInput.hover();
+      await page.locator('[data-tid~="PopupContent"]').waitFor();
       const tooltipOnSubmitAndHover = await context.takeScreenshot();
 
       await context.matchImages({ noTooltipOnBlur, tooltipOnSubmitAndHover });
@@ -231,17 +139,12 @@ kind('Input', () => {
 
   story('TooltipTopLeft', () => {
     test('invalidTooltip', async (context) => {
-      const input = await context.webdriver.findElement({ css: '.react-ui-1xb4xgu' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(input)
-        .sendKeys('test')
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .click(input)
-        .pause(500)
-        .perform();
+      const page = context.webdriver;
+      const input = await page.getByRole('textbox');
+      await input.fill('test');
+      await page.locator('body').click();
+      await input.hover();
+      await waitForByTid(page, 'PopupContent');
       await context.matchImage(await context.takeScreenshot());
     });
   });

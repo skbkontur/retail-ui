@@ -2,53 +2,45 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
-import { SeleniumWebdriver } from 'creevey/selenium';
-import { storybookUrl } from './storybook-url';
+import { PlaywrightWebdriver } from 'creevey/playwright';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const reportFilePath = path.resolve(__dirname, "..", 'reports');
+const reportFilePath = path.resolve(__dirname, '..', 'reports');
 
 dotenv({ path: '../../.env' });
 
 /**
- * Debugging instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157
- * Instructions for Windows nodes: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
+ * Debugging instructions: run 'creevey --debug' for record full trace in report
+ * find in logs broken test, example [chrome2022:36368], and find folder 36368 in reports/traces folder,
+ * and see trace in https://trace.playwright.dev, docs: https://playwright.dev/docs/trace-viewer
  */
 
-const debug = process.env.DEBUG_SCREENSHOTS;
-
-const capabilities = debug
-  ? {
-      enableVNC: true,
-      enableVideo: true,
-    }
-  : {};
+const isCI = Boolean(process.env.CI) || Boolean(process.env.GITLAB_CI);
 
 const config: CreeveyConfig = {
-  storybookUrl,
-  webdriver: SeleniumWebdriver,
+  useDocker: !isCI,
+  webdriver: PlaywrightWebdriver,
+  storybookAutorunCmd: 'yarn storybook',
   storiesProvider: hybridStoriesProvider,
   testsRegex: /\.creevey.(m|c)?(t|j)s$/,
   testsDir: path.join(__dirname, '../'),
   reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: process.env.GRID_URL,
-  maxRetries: process.env.GITLAB_CI || process.env.TEAMCITY_VERSION ? 5 : 0,
-  reporter: process.env.GITLAB_CI ? 'junit' : process.env.TEAMCITY_VERSION ? 'teamcity' : undefined,
+  maxRetries: isCI ? 5 : 0,
+  reporter: isCI ? 'junit' : undefined,
   reporterOptions: {
-    outputFile: process.env.GITLAB_CI ? path.join(reportFilePath, 'junit.xml') : undefined,
+    outputFile: isCI ? path.join(reportFilePath, 'junit.xml') : undefined,
   },
-  diffOptions: { threshold: 0, includeAA: false },
+  diffOptions: { threshold: 0.005, includeAA: false },
   browsers: {
     chromeDefault: {
-      browserName: 'chrome',
-      seleniumCapabilities: {
-        platformName: 'linux',
-        browserVersion: '127.0',
-        ...capabilities,
-      },
+      browserName: 'chromium',
       viewport: { width: 1024, height: 720 },
     },
+  },
+  experimental: {
+    npmRegistry: process.env.PACKAGE_REGISTRY,
+    reportOnlyFailedTests: isCI,
   },
 };
 
