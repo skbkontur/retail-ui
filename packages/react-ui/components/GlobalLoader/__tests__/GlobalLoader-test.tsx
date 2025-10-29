@@ -129,7 +129,9 @@ describe('Global Loader', () => {
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      });
     });
 
     it('should hide in start->done->start->done scenario', async () => {

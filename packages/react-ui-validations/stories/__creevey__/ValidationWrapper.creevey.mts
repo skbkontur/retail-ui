@@ -1,22 +1,16 @@
+import 'creevey/playwright';
 import { story, kind, test } from 'creevey';
 
-import { delay } from './delay.mjs';
+import { tid } from './helpers.mjs';
 
 kind('ValidationWrapper', () => {
   story('ScrollAndFocusInIframe', () => {
     test('scroll', async (context) => {
-      const idle = await context.webdriver.takeScreenshot();
-      const submitOutside = await context.webdriver.findElement({ css: '[data-tid~="outside-submit"]' });
-
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(submitOutside)
-        .perform();
-
-      await delay(500);
-      const scrollOnOutsideSubmit = await context.webdriver.takeScreenshot();
+      const page = context.webdriver;
+      const idle = await page.screenshot();
+      await page.locator(tid('outside-submit')).click();
+      await page.waitForTimeout(500);
+      const scrollOnOutsideSubmit = await page.screenshot();
 
       await context.matchImages({ idle, scrollOnOutsideSubmit });
     });

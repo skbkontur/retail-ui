@@ -92,6 +92,7 @@
 - [Yarn](https://yarnpkg.com)
 - [Git](https://git-scm.com/)
 - [Git LFS](https://git-lfs.github.com)
+- [Docker](https://rancherdesktop.io/)
 
 ### Репозиторий
 

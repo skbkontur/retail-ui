@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
   "compilerOptions": {
-    "types": ["node", "jest", "@testing-library/jest-dom", "creevey/selenium"],
+    "types": ["node", "jest", "@testing-library/jest-dom", "creevey/playwright"],
     "useUnknownInCatchVariables": false,
     "moduleResolution": "Node"
   }

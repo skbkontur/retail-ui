@@ -1,30 +1,23 @@
 import { story, kind, test } from 'creevey';
 
+import 'creevey/playwright';
+import { tid, waitForByTid } from './helpers.mjs';
+
 kind('Radiogroup', () => {
   story('RadioGroupWithItemsProp', () => {
     test('idle', async (context) => {
-      const button = await context.webdriver.findElement({ css: '[data-tid~="button"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(button)
-        .pause(500)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('button')).click();
+      await waitForByTid(page, 'PopupContent');
       await context.matchImage(await context.takeScreenshot());
     });
   });
 
   story('RadioGroupWithChildrenRadio', () => {
     test('idle', async (context) => {
-      const button = await context.webdriver.findElement({ css: '[data-tid~="button"]' });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(button)
-        .pause(500)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('button')).click();
+      await waitForByTid(page, 'PopupContent');
       await context.matchImage(await context.takeScreenshot());
     });
   });
