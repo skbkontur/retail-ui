@@ -14,6 +14,7 @@ import {
   Sticky,
   Tooltip,
   SidePage,
+  FxInput,
   TokenInput,
   TokenInputType,
 } from '@skbkontur/react-ui';
@@ -261,6 +262,30 @@ export const AutocompleteUseMaskedInput: Story = () => {
           />
           <label>значение в onValueChange: {value}</label>
         </Gapped>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const FxInputUseMaskedInput: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
+  const [value, setValue] = React.useState<string>('');
+
+  return (
+    <>
+      <span>value: {value}</span>
+      <br />
+      <br />
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ fxInputUseMaskedInput: isFlagEnabled }}>
+        <FxInput
+          value={value}
+          width="150px"
+          mask="999 999 999"
+          alwaysShowMask
+          onValueChange={setValue}
+          onRestore={() => setValue('')}
+        />
       </ReactUIFeatureFlagsContext.Provider>
     </>
   );

@@ -64,4 +64,36 @@ describe('FxInput', () => {
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
+
+  describe('Warnings', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const getMaskCurrencyWarnings = (consoleCalls: jest.MockContext<any, any>['calls']) =>
+      consoleCalls.filter(([msg]) => msg.includes(`[FxInput]: Prop "mask" is not supported when type="currency"`));
+
+    beforeEach(() => {
+      consoleSpy.mockClear();
+    });
+
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
+
+    it('should throw error if type="currency" and prop mask is specified', () => {
+      render(<FxInput mask="9" type="currency" onValueChange={() => {}} />);
+      const warnings = getMaskCurrencyWarnings(consoleSpy.mock.calls);
+      expect(warnings.length).toBe(1);
+    });
+
+    it(`shouldn't throw error if prop mask is specified without type="currency"`, () => {
+      render(<FxInput mask="9" onValueChange={() => {}} />);
+      const warnings = getMaskCurrencyWarnings(consoleSpy.mock.calls);
+      expect(warnings.length).toBe(0);
+    });
+
+    it(`shouldn't throw error if type="currency" without mask`, () => {
+      render(<FxInput mask="9" onValueChange={() => {}} />);
+      const warnings = getMaskCurrencyWarnings(consoleSpy.mock.calls);
+      expect(warnings.length).toBe(0);
+    });
+  });
 });

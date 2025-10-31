@@ -32,6 +32,8 @@ TypeCurrency.storyName = 'type currency';
 export const WithDisabled = () => <FxInput disabled onValueChange={console.log} />;
 WithDisabled.storyName = 'with disabled';
 
+export const WithMask = () => <FxInput mask="999999" alwaysShowMask onValueChange={console.log} />;
+
 export const Borderless = () => (
   <TestWrapper>
     <TestFxInput borderless />

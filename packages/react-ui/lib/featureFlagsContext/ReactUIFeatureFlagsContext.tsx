@@ -9,6 +9,7 @@ export interface ReactUIFeatureFlags {
   groupAddHintAndTooltipSupport?: boolean;
   popupFixPinTearing?: boolean;
   autocompleteUseMaskedInput?: boolean;
+  fxInputUseMaskedInput?: boolean;
   sidePageDisableHeaderShrink?: boolean;
   sidePageNotCutTitleOnStuckByDefault?: boolean;
   tokenInputCreateTokenOnBlurInWithoutReferenceMode?: boolean;
@@ -23,6 +24,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   groupAddHintAndTooltipSupport: false,
   popupFixPinTearing: false,
   autocompleteUseMaskedInput: false,
+  fxInputUseMaskedInput: false,
   sidePageDisableHeaderShrink: false,
   sidePageNotCutTitleOnStuckByDefault: false,
   tokenInputCreateTokenOnBlurInWithoutReferenceMode: false,

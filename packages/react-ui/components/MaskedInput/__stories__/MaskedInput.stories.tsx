@@ -59,6 +59,30 @@ const maskStates: InputState[] = [
   { alwaysShowMask: true, type: 'tel', mask: '*** ***', defaultValue: 'Value' },
   { alwaysShowMask: true, type: 'url', mask: '*** ***', defaultValue: 'Value' },
   { alwaysShowMask: true, type: 'search', mask: '*** ***', defaultValue: 'Value' },
+  { alwaysShowMask: true, mask: '9'.repeat(25) },
+];
+
+export const Align: Story = () => (
+  <ComponentTable
+    Component={MaskedInput}
+    cols={sizeStates.map((x) => ({ props: x }))}
+    rows={alignStates.map((x) => ({ props: x }))}
+    presetProps={{ mask: '999999', alwaysShowMask: true }}
+  />
+);
+
+Mask.parameters = {
+  creevey: {
+    skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
+  },
+};
+const alignStates: InputState[] = [
+  {},
+  { align: 'right' },
+  { align: 'center' },
+  { value: '123' },
+  { align: 'right', value: '123' },
+  { align: 'center', value: '123' },
 ];
 
 export const PrefixOrSuffix: Story = () => (
