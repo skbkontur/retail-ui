@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.0...@skbkontur/react-ui@5.4.1) (2025-11-01)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** do not warn about null value ([5a2f5bd](https://github.com/skbkontur/retail-ui/commit/5a2f5bd09598e11e4e69dd96eca55dd44c6f78e0))
+* **CurrencyInput:** fix onPaste handler ([a50f7e0](https://github.com/skbkontur/retail-ui/commit/a50f7e0cf859381c0eb54a38fe5aca61a77f5f5d))
+* **FxInput:** add support `mask` & feature flag `fxInputUseMaskedInput` ([f86d3bd](https://github.com/skbkontur/retail-ui/commit/f86d3bde8e205dbea77faee0fd079266af04980f))
+
+
+
+
+
 # [5.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.3.11...@skbkontur/react-ui@5.4.0) (2025-10-23)
 
 
