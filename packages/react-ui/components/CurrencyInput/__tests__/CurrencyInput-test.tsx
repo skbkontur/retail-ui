@@ -224,6 +224,23 @@ describe('CurrencyInput', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
+  it('should handle onPaste event', async () => {
+    const onPaste = jest.fn();
+    const PASTE_TEXT = '1000';
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return <CurrencyInput value={value} onValueChange={setValue} onPaste={onPaste} />;
+    };
+
+    render(<Comp />);
+
+    await userEvent.click(screen.getByRole('textbox'));
+    await userEvent.paste(PASTE_TEXT);
+
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onPaste.mock.lastCall?.[0].clipboardData.getData('text/plain')).toBe(PASTE_TEXT);
+  });
+
   describe('Cursor handels', () => {
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12300.45);
@@ -418,11 +435,19 @@ describe('CurrencyInput', () => {
       consoleSpy.mockRestore();
     });
 
-    it('should throw error if value is not a valid number', () => {
-      const props = { value: NaN, onValueChange: () => 1 };
-      render(<CurrencyInput {...props} />);
-      expect(consoleSpy).toHaveBeenCalledTimes(1);
-      expect(consoleSpy.mock.calls[0][0]).toContain('[CurrencyInput]: Prop `value` is not a valid number');
+    describe('should throw error if value is NOT a valid number', () => {
+      it.each([['str'], [Number.POSITIVE_INFINITY], [Number.NEGATIVE_INFINITY], [NaN]])('%s', (value) => {
+        render(<CurrencyInputWithValueProp value={value} />);
+        expect(consoleSpy).toHaveBeenCalledTimes(1);
+        expect(consoleSpy.mock.calls[0][0]).toContain('[CurrencyInput]: Prop `value` is not a valid number');
+      });
+    });
+
+    describe('should NOT throw error if value is null or undefined', () => {
+      it.each([[null], [undefined]])('%s', (value) => {
+        render(<CurrencyInputWithValueProp value={value} />);
+        expect(consoleSpy).not.toHaveBeenCalled();
+      });
     });
 
     it('should throw error if prop maxLength is used', () => {

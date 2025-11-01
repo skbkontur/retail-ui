@@ -94,7 +94,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   private getProps = createPropsGetter(CurrencyInput.defaultProps);
   private validateProps(props: CurrencyInputProps): void {
-    warning(isNumeric(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
+    warning(
+      isNumeric(props.value) || isNullable(props.value),
+      '[CurrencyInput]: Prop `value` is not a valid number. Received value is `' + props.value + '`.',
+    );
     warning(
       props.maxLength === undefined,
       `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
@@ -394,6 +397,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const selection = this.getSelection(event.target);
     this.inputValue(selection.start, selection.end, data);
     event.preventDefault();
+    this.props.onPaste?.(event);
   };
 
   private handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {

@@ -253,3 +253,20 @@ export function clickOutside() {
 export function isElement(el: unknown): el is Element {
   return !!el && typeof el === 'object' && 'nodeType' in el && el.nodeType === Node.ELEMENT_NODE;
 }
+
+export function isDocument(node?: Document | null): node is Document {
+  return !!node && typeof node === 'object' && node.nodeType === Node.DOCUMENT_NODE;
+}
+
+export function isWindow(node?: Window | null): node is Window {
+  return !!node && typeof node === 'object' && node.window === node;
+}
+
+export function tryGetDocument(node?: Node | null): Document | null {
+  return !!node && isDocument(node.ownerDocument) ? node.ownerDocument : null;
+}
+
+export function tryGetWindow(node?: Node | null): Window | null {
+  const doc = tryGetDocument(node);
+  return isDocument(doc) ? doc.defaultView : null;
+}

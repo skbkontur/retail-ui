@@ -29,7 +29,7 @@ Example1.storyName = 'Базовый пример';
 
 /** Очистить значение в `FxInput`'е можно с помощью пустой строки или `undefined` */
 export const Example2: Story = () => {
-  const [value, setValue] = React.useState(12345);
+  const [value, setValue] = React.useState<undefined | number | string>(12345);
 
   return (
     <Group>
@@ -40,3 +40,19 @@ export const Example2: Story = () => {
   );
 };
 Example2.storyName = 'Очистка значения';
+
+export const Example3: Story = () => {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <FxInput
+      value={value}
+      width="150px"
+      mask="999"
+      alwaysShowMask
+      onValueChange={setValue}
+      onRestore={() => setValue('')}
+    />
+  );
+};
+Example3.storyName = 'Использование mask';

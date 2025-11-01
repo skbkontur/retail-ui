@@ -111,6 +111,8 @@ export const MaskedInput = forwardRefAndName(
       onBeforePasteValue,
       element,
       className,
+      // @ts-expect-error: могут передавать игнорируя ошибку
+      maxLength,
       ...inputProps
     } = props;
     const theme = useContext(ThemeContext);
@@ -162,7 +164,7 @@ export const MaskedInput = forwardRefAndName(
         className={cx(globalClasses.root, uiFontGlobalClassesRoot, className, styles.root(theme))}
         element={
           colored ? (
-            <ColorableInputElement showOnFocus={false}>
+            <ColorableInputElement showOnFocus={false} alwaysShowMask={alwaysShowMask}>
               <FixedIMaskInput {...imaskProps} onAccept={handleAccept} />
             </ColorableInputElement>
           ) : (

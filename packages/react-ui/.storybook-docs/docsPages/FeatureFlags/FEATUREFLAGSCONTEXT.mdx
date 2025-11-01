@@ -114,11 +114,17 @@ function ExampleComponent() {
 
 ### autocompleteUseMaskedInput
 
-Флаг изменяет поведение `<Autocomplete mask={...}/>`: вместо `<MaskedInput/>` используется `<Input mask={...}/>`, который будет удалён в следующем мажорном релизе.
+Флаг изменяет поведение `<Autocomplete mask={...}/>`: используется `<MaskedInput/>` вместо `<Input mask={...}/>`, который будет удалён в следующем мажорном релизе.
 
 В пропе `value` с включенным флагом будут храниться и введенные символы, и символы маски. Это ломающее изменение, нужно проверить и исправить работу с поиском в `source`.
 
 <Story of={FeatureFlagsStories.AutocompleteUseMaskedInput} />
+
+### fxInputUseMaskedInput
+
+Флаг изменяет поведение `<FxInput mask={...} />`: используется `<MaskedInput/>` вместо `<Input mask={...}/>`, который будет удалён в следующем мажорном релизе.
+
+<Story of={FeatureFlagsStories.FxInputUseMaskedInput} />
 
 ### tokenInputCreateTokenOnBlurInWithoutReferenceMode
 
