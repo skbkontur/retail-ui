@@ -177,7 +177,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private setRootNode!: TSetRootNode;
 
   /**
-   * @public
+   * @public focus method
+   * @description Focuses the input.
+   * @example
+   * <Autocomplete ref={autocompleteRef} />
+   * <button onClick={() => autocompleteRef.current?.focus()}>Focus</button>
    */
   public focus() {
     if (this.input) {
@@ -186,7 +190,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   /**
-   * @public
+   * @public blur method
+   * @description Blurs the input.
+   * @example
+   * <Autocomplete ref={autocompleteRef} />
+   * <button onClick={() => autocompleteRef.current?.blur()}>Blur</button>
    */
   public blur() {
     this.handleBlur();

@@ -55,6 +55,7 @@
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
     "normalize-wheel": "^1.0.1",
+    "react-docgen": "7.0.0",
     "react-focus-lock": "^2.11.2",
     "react-input-mask": "2.0.4",
     "react-is": "^18.3.1",
