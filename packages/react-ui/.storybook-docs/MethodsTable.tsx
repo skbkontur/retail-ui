@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import { Table } from '@storybook/components';
+import { Markdown } from '@storybook/blocks';
 
 export interface PublicMethod {
   name: string;
@@ -47,7 +48,9 @@ export const PublicMethods: FC<PublicMethodsProps> = ({ methods, className }) =>
                 <>-</>
               )}
             </td>
-            <td>{row.description || '-'}</td>
+            <td>
+              <Markdown>{row.description || '-'}</Markdown>
+            </td>
           </tr>
         ))}
       </tbody>
