@@ -7,7 +7,9 @@ import type { Story } from '../../typings/stories';
 
 import { FocusControlWrapper } from './FocusControlWrapper';
 
-export default { title: 'FocusControlWrapper' } as Meta;
+const meta: Meta = { title: 'FocusControlWrapper' };
+
+export default meta;
 
 const Header: FC<PropsWithChildren<any>> = ({ children }) => <h1 style={{ margin: 10 }}>{children}</h1>;
 const Wrapper: FC<PropsWithChildren<any>> = ({ children }) => (

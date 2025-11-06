@@ -66,9 +66,9 @@ class Wrapper extends React.Component<WrapperProps, WrapperState> {
   }
 }
 
-const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
+const FilledWrapper = (props: WrapperProps) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
-export default {
+const meta: Meta = {
   title: 'TokenInput',
   component: TokenInput,
   decorators: [
@@ -78,7 +78,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const EmptyCombined: Story = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;

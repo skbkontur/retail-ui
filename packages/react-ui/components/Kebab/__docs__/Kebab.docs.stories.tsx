@@ -6,11 +6,13 @@ import { Kebab, Gapped, MenuItem, Toast, MenuHeader } from '@skbkontur/react-ui'
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Menu/Kebab',
   component: Kebab,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const style = {
@@ -22,7 +24,7 @@ export const Example1: Story = () => {
     width: 250,
   };
 
-  const Card = ({ name, post }) => (
+  const Card = ({ name, post }: { name: string; post: string }) => (
     <div style={style}>
       <div>
         <h3>{name}</h3>
@@ -65,7 +67,7 @@ export const Example2: Story = () => {
     width: 230,
   };
 
-  const Card = ({ title, size }) => (
+  const Card = ({ title, size }: { title: string; size: 'small' | 'medium' | 'large' }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -102,7 +104,7 @@ export const Example3: Story = () => {
     width: 250,
   };
 
-  const Card = ({ title }) => (
+  const Card = ({ title }: { title: string }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -133,7 +135,7 @@ export const Example4: Story = () => {
     width: 250,
   };
 
-  const Card = ({ title }) => (
+  const Card = ({ title }: { title: string }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -188,7 +190,7 @@ export const Example7: Story = () => {
     width: 250,
   };
 
-  const Card = ({ title }) => (
+  const Card = ({ title }: { title: string }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -219,7 +221,7 @@ export const Example8: Story = () => {
     width: 250,
   };
 
-  const Card = ({ title }) => (
+  const Card = ({ title }: { title: string }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>
@@ -250,7 +252,7 @@ export const Example9: Story = () => {
     width: 250,
   };
 
-  const Card = ({ title }) => (
+  const Card = ({ title }: { title: string }) => (
     <div style={style}>
       <div>
         <h3>{title}</h3>

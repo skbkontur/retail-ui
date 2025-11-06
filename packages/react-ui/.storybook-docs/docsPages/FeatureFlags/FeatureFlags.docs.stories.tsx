@@ -25,10 +25,12 @@ import type { Meta, Story } from '../../../typings/stories';
 import { emit } from '../../../lib/LayoutEvents';
 import { FeatureFlagToggle } from '../../FeatureFlagToggle';
 
-export default {
+const meta: Meta = {
   title: 'Information/Feature flags',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const DateInputFixSameNumberTypingOnRefocus: Story = () => {
   const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);

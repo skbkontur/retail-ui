@@ -3,11 +3,13 @@ import React from 'react';
 import type { Meta } from '../../../typings/stories';
 import { SidePageFooter } from '../SidePageFooter';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/SidePage/SidePageFooter',
   component: SidePageFooter,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   return <div />;

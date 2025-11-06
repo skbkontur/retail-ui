@@ -6,7 +6,7 @@ import type { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 
-export default {
+const meta: Meta = {
   title: 'Radio',
   component: Radio,
   parameters: {
@@ -16,7 +16,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const RadioWithDifferentStates = () => (
   <div style={{ margin: '5px' }}>

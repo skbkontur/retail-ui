@@ -1,5 +1,4 @@
-/* eslint-disable import/no-default-export */
-import { API, FileInfo } from 'jscodeshift';
+import type { API, FileInfo } from 'jscodeshift';
 
 import {
   deduplicateImports,
@@ -32,7 +31,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
   let modified = false;
 
   result
-    .find(j.ImportDeclaration, (node) => node.source.value.match(INITIAL_SOURCE))
+    .find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!node.source.value.match(INITIAL_SOURCE))
     .find(j.ImportSpecifier, (node) =>
       componentsToTransform.some((component) => node.imported.name.startsWith(component)),
     )
@@ -42,15 +41,15 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     });
 
   result
-    .find(j.ExportNamedDeclaration, (node) => node.source && node.source.value.match(INITIAL_SOURCE))
-    .find(j.ExportSpecifier, (node) => componentsToTransform.some((component) => node.local.name.startsWith(component)))
+    .find(j.ExportNamedDeclaration, (node) => !!(node.source && typeof node.source.value === 'string' && node.source.value.match(INITIAL_SOURCE)))
+    .find(j.ExportSpecifier, (node) => !!(node.local && componentsToTransform.some((component) => node.local?.name.startsWith(component))))
     .forEach((exportSpecifier) => {
       moveSpecifierToSeparateExport(api, exportSpecifier, FINAL_SOURCE);
       modified = true;
     });
 
   const exportAllDeclarations = result.find(j.ExportAllDeclaration, (node) =>
-    node.source.value.match(INITIAL_SOURCE + '/components/Fias/types'),
+    typeof node.source.value === 'string' && !!node.source.value.match(INITIAL_SOURCE + '/components/Fias/types'),
   );
   if (exportAllDeclarations.length) {
     exportAllDeclarations.replaceWith(() =>

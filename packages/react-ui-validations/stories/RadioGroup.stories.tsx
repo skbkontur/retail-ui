@@ -9,9 +9,11 @@ import { ValidationContainer, ValidationWrapper } from '../src';
 import type { Nullable } from '../typings/Types';
 import { isNullable } from '../src/utils/isNullable';
 
-export default {
+const meta: Meta = {
   title: 'RadioGroup',
-} as Meta;
+};
+
+export default meta;
 
 type Sex = 'male' | 'female';
 

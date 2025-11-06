@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '../../../typings/stories';
 import { SingleToast } from '../SingleToast';
 
-export default {
+const meta: Meta = {
   title: 'SingleToast',
   component: SingleToast,
   decorators: [
@@ -22,7 +22,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const StaticErrorMethod = () => (
   <>

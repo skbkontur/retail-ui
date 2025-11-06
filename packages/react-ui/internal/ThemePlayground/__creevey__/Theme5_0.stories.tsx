@@ -5,7 +5,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME_5_0 } from '../../../lib/theming/themes/LightTheme';
 import { Switcher } from '../../../components/Switcher';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/5_0',
   decorators: [
     (Story) => (
@@ -22,7 +22,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const Switcher5_0: Story = () => {
   return <Switcher error items={['One', 'Two', 'Three']} caption={'Label for Switcher'} />;

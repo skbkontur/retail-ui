@@ -33,7 +33,7 @@ const TestNotifier = ({ complex, use }: { complex?: boolean; use?: ToastUse }) =
   );
 };
 
-export default {
+const meta: Meta = {
   title: 'Toast',
   component: Toast,
   decorators: [
@@ -54,7 +54,9 @@ export default {
       skip: { 'flickering screenshot': { in: /^(?!\b(firefox))/, tests: 'toastShown' } },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const SimpleNotification = () => <TestNotifier />;
 SimpleNotification.storyName = 'simple notification';

@@ -4,10 +4,12 @@ import type { Meta } from '../../../typings/stories';
 import { MenuHeader } from '../MenuHeader';
 import { Gapped } from '../../Gapped';
 
-export default {
+const meta: Meta = {
   title: 'MenuHeader',
   component: MenuHeader,
-} as Meta;
+};
+
+export default meta;
 
 export const Size = () => {
   return (

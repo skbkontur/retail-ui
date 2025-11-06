@@ -6,11 +6,13 @@ import { TooltipMenu, Button, MenuHeader, MenuItem, MenuSeparator, Gapped } from
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Menu/TooltipMenu',
   component: TooltipMenu,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (
@@ -37,9 +39,9 @@ export const Example2: Story = () => {
         return (
           <>
             <p>Сейчас тултип-меню {opened ? 'окрыто' : 'закрыто'}</p>
-            <Button onClick={toggleMenu}>Переключить меню</Button>
-            <Button onClick={openMenu}>Открыть меню</Button>
-            <Button onClick={closeMenu}>Закрыть меню</Button>
+            <Button onClick={() => toggleMenu()}>Переключить меню</Button>
+            <Button onClick={() => openMenu()}>Открыть меню</Button>
+            <Button onClick={() => closeMenu()}>Закрыть меню</Button>
           </>
         );
       }}
@@ -110,7 +112,7 @@ export const Example6: Story = () => {
   return (
     <TooltipMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <UiMenuBars3HIcon32Regular />
         </span>
       }
@@ -128,7 +130,7 @@ export const Example7: Story = () => {
   return (
     <TooltipMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <LightbulbIcon32Regular />
         </span>
       }
@@ -147,7 +149,7 @@ export const Example8: Story = () => {
   return (
     <TooltipMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <LightbulbIcon32Regular />
         </span>
       }
@@ -220,7 +222,7 @@ export const Example12: Story = () => {
         <MenuItem>Меня видно всегда</MenuItem>
         <MenuItem>Меня тоже</MenuItem>
         <MenuItem>Ага, и меня!</MenuItem>
-        {showItems && hiddenItems}
+        {showItems ? <>{hiddenItems}</> : <></>}
       </TooltipMenu>
     </Gapped>
   );

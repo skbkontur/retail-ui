@@ -9,10 +9,12 @@ import type { ValidationInfo } from '../src';
 import { text, ValidationContainer, ValidationWrapper } from '../src';
 import type { Nullable } from '../typings/Types';
 
-export default {
+const meta: Meta = {
   title: 'ModalWithSingleInput',
   parameters: { creevey: { captureElement: null } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1 = () => {
   const refContainer = useRef<ValidationContainer>(null);

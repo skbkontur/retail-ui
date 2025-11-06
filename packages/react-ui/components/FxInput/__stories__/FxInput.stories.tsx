@@ -9,10 +9,12 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { FxInputProps } from '..';
 import type { SizeProp } from '../../../lib/types/props';
 
-export default {
+const meta: Meta = {
   title: 'FxInput',
   component: FxInput,
-} as Meta;
+};
+
+export default meta;
 
 export const TypeText = () => <TestFxInput />;
 TypeText.storyName = 'type text';

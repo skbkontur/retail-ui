@@ -440,7 +440,7 @@ WithMenuAlignAndVariousWidth.parameters = {
   creevey: { skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } },
 };
 
-export default {
+const meta: Meta = {
   title: 'Select',
   component: Select,
   decorators: [
@@ -459,7 +459,9 @@ export default {
       return <Story />;
     },
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const WithManualPosition: Story = () => {
   const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');

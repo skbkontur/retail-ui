@@ -3,11 +3,13 @@ import { Gapped, Paging, useResponsiveLayout } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Display data/Paging',
   component: Paging,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const BasicExample: Story = () => {
   const [activePage, setActivePage] = React.useState(1);

@@ -3,9 +3,11 @@ import React, { useLayoutEffect, useState } from 'react';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'HideBodyVerticalScroll',
-} as Meta;
+};
+
+export default meta;
 
 const SampleLockScroll = ({ style }: { style?: React.CSSProperties }) => {
   const [locked, setLocked] = useState(false);

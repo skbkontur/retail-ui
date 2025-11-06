@@ -4,9 +4,11 @@ import { DARK_THEME, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontu
 
 import { text, ValidationContainer, ValidationWrapper } from '../src';
 
-export default {
+const meta: Meta = {
   title: 'Themes',
-} as Meta;
+};
+
+export default meta;
 
 function ValidationExamples() {
   return (

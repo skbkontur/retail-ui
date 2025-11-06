@@ -3,7 +3,7 @@ import React from 'react';
 import type { Meta } from '../../../typings/stories';
 import { MenuSeparator } from '../MenuSeparator';
 
-export default {
+const meta: Meta = {
   title: 'MenuSeparator',
   component: MenuSeparator,
   parameters: {
@@ -13,7 +13,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   return <MenuSeparator />;

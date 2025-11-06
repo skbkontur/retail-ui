@@ -402,7 +402,7 @@ describe('CurrencyInput', () => {
     ['Backslash', '1,23'],
     ['IntlBackslash', '1,23'],
     ['NumpadDivide', '1,23'],
-  ])('should applied [%s] as comma', (delimiter, expected) => {
+  ])('should applied [%s] as comma', (delimiter: string, expected: string) => {
     it(`return: ${expected}`, async () => {
       render(<CurrencyInputWithState />);
       const input = screen.getByRole('textbox');

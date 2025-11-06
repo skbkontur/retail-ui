@@ -243,8 +243,8 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
-interface FocusableReactElement extends React.ReactElement<any> {
-  focus: (event?: any) => void;
+interface FocusableReactElement extends React.ReactElement<unknown> {
+  focus: (event?: unknown) => void;
 }
 
 type DefaultProps<TValue, TItem> = Required<
@@ -813,7 +813,7 @@ function areValuesEqual<TValue>(value1: TValue, value2: TValue) {
   return value1 === value2;
 }
 
-function normalizeEntry(entry: any) {
+function normalizeEntry(entry: unknown) {
   if (Array.isArray(entry)) {
     return entry;
   }
@@ -821,7 +821,7 @@ function normalizeEntry(entry: any) {
   return [entry, entry, undefined];
 }
 
-const getTextFromItem = (item: any): string => {
+const getTextFromItem = (item: string | React.ReactNode | (() => React.ReactNode) | number): string => {
   if (typeof item === 'string') {
     return item;
   }

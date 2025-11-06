@@ -7,11 +7,13 @@ import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/MiniModal/MiniModal',
   component: MiniModal,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 /** Самый простой вариант использования: */
 export const Example1: Story = () => {
@@ -50,7 +52,7 @@ Example1.storyName = 'Уведомление';
 /** Иногда от пользователя требуется выбрать одно из доступных действий.
 Например, подтвердить важное действие или отклонить его: */
 export const Example2: Story = () => {
-  const ConfirmDelete = ({ name, handleDelete }) => {
+  const ConfirmDelete = ({ name, handleDelete }: { name: string; handleDelete: () => void }) => {
     const theme = React.useContext(ThemeContext);
 
     const [isOpened, setIsOpened] = React.useState(false);
@@ -105,7 +107,10 @@ Example2.storyName = 'Подтверждение';
 /** Одно и то же диалоговое окно может вызываться в разных частях приложения.
 В таком случае стоит реализовать паттерн синглтона: */
 export const Example3: Story = () => {
-  const EnableNotification = React.forwardRef(({ setStatus }, ref) => {
+  const EnableNotification = React.forwardRef<
+    { open: () => void; close: () => void },
+    { setStatus: (status: string) => void }
+  >(({ setStatus }, ref) => {
     const [isOpened, setIsOpened] = React.useState(false);
 
     const open = () => setIsOpened(true);
@@ -126,30 +131,28 @@ export const Example3: Story = () => {
 
     React.useImperativeHandle(ref, () => ({ open, close }), []);
 
-    return (
-      isOpened && (
-        <MiniModal>
-          <MiniModal.Header icon={<NotificationBellAlarmIcon64Regular />}>Разрешить уведомления?</MiniModal.Header>
-          <MiniModal.Footer direction="column">
-            <Button use="primary" size="medium" onClick={handleAllowAll}>
-              Разрешить все
-            </Button>
-            <Button size="medium" onClick={handleAllowBasic}>
-              Разрешить только основные
-            </Button>
-            <MiniModal.Indent />
-            <Button size="medium" onClick={handleDenyAll}>
-              Запретить
-            </Button>
-          </MiniModal.Footer>
-        </MiniModal>
-      )
-    );
+    return isOpened ? (
+      <MiniModal>
+        <MiniModal.Header icon={<NotificationBellAlarmIcon64Regular />}>Разрешить уведомления?</MiniModal.Header>
+        <MiniModal.Footer direction="column">
+          <Button use="primary" size="medium" onClick={handleAllowAll}>
+            Разрешить все
+          </Button>
+          <Button size="medium" onClick={handleAllowBasic}>
+            Разрешить только основные
+          </Button>
+          <MiniModal.Indent />
+          <Button size="medium" onClick={handleDenyAll}>
+            Запретить
+          </Button>
+        </MiniModal.Footer>
+      </MiniModal>
+    ) : null;
   });
 
   const [status, setStatus] = React.useState('-не выбрано-');
 
-  const NotificationEnableRef = React.useRef(null);
+  const NotificationEnableRef = React.useRef<React.ComponentRef<typeof EnableNotification>>(null);
 
   const NotificationEnableOpen = () => NotificationEnableRef.current && NotificationEnableRef.current.open();
 
@@ -178,7 +181,13 @@ Example3.storyName = 'Синглтон';
 /** Некоторые действия для корректного исполнения требуют блокировки других действий пользователя.
 В таких случаях можно, например, использовать проп `loading` для `Button`, и не позволять закрыть окно до конца исполнения: */
 export const Example4: Story = () => {
-  const WaitingUpdate = ({ handleUpdate, setLastUpdated }) => {
+  const WaitingUpdate = ({
+    handleUpdate,
+    setLastUpdated,
+  }: {
+    handleUpdate: () => Promise<unknown>;
+    setLastUpdated: (date: Date) => void;
+  }) => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [isOpened, setIsOpened] = React.useState(false);
 
@@ -227,7 +236,7 @@ export const Example4: Story = () => {
 
   return (
     <Gapped>
-      <WaitingUpdate handleUpdate={handleUpdate} setLastUpdated={setLastUpdated} />
+      <WaitingUpdate handleUpdate={() => handleUpdate()} setLastUpdated={setLastUpdated} />
       <span>Последнее обновление: {dateTimeFormat.format(lastUpdated)}</span>
     </Gapped>
   );

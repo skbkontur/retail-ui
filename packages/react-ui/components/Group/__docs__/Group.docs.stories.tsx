@@ -6,11 +6,13 @@ import { Group, Button, Input, Hint, DateRangePicker, Tooltip } from '@skbkontur
 import type { Meta, Story } from '../../../typings/stories';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 
-export default {
+const meta: Meta = {
   title: 'Layout/Group',
   component: Group,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const BasicExample: Story = () => {
   const [value, setValue] = React.useState('Foo');

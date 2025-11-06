@@ -3,11 +3,13 @@ import { SidePage, Button, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/SidePage/SidePage',
   component: SidePage,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [opened, setOpened] = React.useState(false);

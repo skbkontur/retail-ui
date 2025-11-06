@@ -7,7 +7,7 @@ import { Modal } from '../../../components/Modal';
 import { SidePage } from '../../../components/SidePage';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/5_0',
   decorators: [
     (Story) => (
@@ -24,7 +24,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const Modal5_0: Story = () => {
   return (

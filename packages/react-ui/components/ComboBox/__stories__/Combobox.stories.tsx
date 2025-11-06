@@ -6,7 +6,7 @@ import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/Chi
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 
 import type { Meta, Story } from '../../../typings/stories';
-import type { ComboBoxProps } from '../ComboBox';
+import type { ComboBoxItem, ComboBoxProps } from '../ComboBox';
 import { ComboBox } from '../ComboBox';
 import type { MenuItemState } from '../../MenuItem';
 import { MenuItem } from '../../MenuItem';
@@ -23,10 +23,12 @@ import { rootNode } from '../../../lib/rootNode';
 
 const { getCities } = require('../__mocks__/getCities.ts');
 
-export default {
+const meta: Meta = {
   title: 'ComboBox',
   component: ComboBox,
-} as Meta;
+};
+
+export default meta;
 
 export const SimpleComboboxStory: Story = () => (
   <div style={{ paddingBottom: 230, paddingRight: 40 }}>
@@ -393,7 +395,10 @@ interface ComboboxItem {
 }
 
 @rootNode
-class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
+class SimpleCombobox extends React.Component<
+  SimpleComboboxProps & ComboBoxProps<{ value: number; label: string }>,
+  SimpleComboboxState
+> {
   public static defaultProps = {
     ...ComboBox.defaultProps,
     getItems: () => Promise.resolve([]),
@@ -544,7 +549,7 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps> {
   };
 }
 
-function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
+function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: unknown) => void {
   return (x) => {
     if (x) {
       setState({ error: true });
@@ -552,7 +557,7 @@ function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: a
   };
 }
 
-function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
+function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: unknown) => void {
   return (x) => {
     if (x) {
       setState({ value: null });
@@ -560,7 +565,7 @@ function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: an
   };
 }
 
-function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
+function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: unknown) => void {
   return (x) => {
     if (x) {
       setState({ warning: true });
@@ -593,7 +598,7 @@ let searchCount = 0;
 function searchWithRejections(query: string): Promise<ValueType[]> {
   const random = (v: number) => Math.random() * v;
 
-  const delay = (v: any) => new Promise((resolve) => setTimeout(resolve, random(5) * 100, v));
+  const delay = (v: unknown) => new Promise((resolve) => setTimeout(resolve, random(5) * 100, v));
 
   searchCount++;
   return Promise.resolve()
@@ -661,7 +666,7 @@ class ComboBoxWithExternalValue extends React.Component {
     warning: false,
   };
 
-  private combobox: Nullable<ComboBox<any>>;
+  private combobox: Nullable<ComboBox<ComboBoxItem>>;
 
   public render = () => (
     <div style={{ paddingBottom: 60 }}>
@@ -919,7 +924,7 @@ export const Size: Story = () => {
 Size.storyName = 'size';
 
 export const WithMenuAlignAndMenuPos: Story = () => {
-  const row: Array<Partial<ComboBoxProps<any>>> = [
+  const row: Array<Partial<ComboBoxProps<unknown>>> = [
     { menuPos: 'bottom', value: { label: 'bottom' }, getItems: async () => [{ label: 'short value' }] },
     { menuPos: 'bottom', value: { label: 'bottom' }, getItems: async () => [{ label: 'looooooong value' }] },
     {
@@ -930,13 +935,13 @@ export const WithMenuAlignAndMenuPos: Story = () => {
     },
     { menuPos: 'top', value: { label: 'top' }, getItems: async () => [{ label: 'looooooong value' }] },
   ];
-  const col: Array<Partial<ComboBoxProps<any>>> = [
+  const col: Array<Partial<ComboBoxProps<unknown>>> = [
     { menuAlign: 'right', disablePortal: false },
     { menuAlign: 'right', disablePortal: true },
     { menuAlign: 'left', disablePortal: false },
     { menuAlign: 'left', disablePortal: true },
   ];
-  const renderSelect = (props: Partial<ComboBoxProps<any>>) => (
+  const renderSelect = (props: Partial<ComboBoxProps<unknown>>) => (
     <ComboBox ref={(el) => el?.search('')} width={100} getItems={async () => []} {...props} />
   );
 

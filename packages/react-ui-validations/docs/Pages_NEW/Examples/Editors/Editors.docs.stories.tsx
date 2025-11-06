@@ -16,10 +16,12 @@ import { createValidator, ValidationContainer, ValidationWrapper } from '../../.
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Examples/Editors',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Editors: Story = () => {
   interface ContactInfo {

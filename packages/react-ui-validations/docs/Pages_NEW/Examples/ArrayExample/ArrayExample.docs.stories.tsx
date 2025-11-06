@@ -8,10 +8,12 @@ import { isNonNullable } from '../../../../src/utils/isNonNullable';
 import { createValidator, text, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Examples/Array example',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const ArrayExample: Story = () => {
   const getDuplicatesFor = (items: string[], index: number): number[] => {

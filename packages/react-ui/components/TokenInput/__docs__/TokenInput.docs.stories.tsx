@@ -5,18 +5,23 @@ import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Input data/TokenInput/TokenInput',
   component: TokenInput,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
-  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
 
-  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
+  const delay =
+    (time: number) =>
+    (args?: string[]): Promise<string[]> =>
+      new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const getItems = (q) =>
+  const getItems = (q: string): Promise<string[]> =>
     Promise.resolve(
       ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
         (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q,
@@ -31,7 +36,7 @@ export const Example1: Story = () => {
         selectedItems={selectedItems}
         onValueChange={setSelectedItems}
         renderToken={(item, tokenProps) => (
-          <Token key={item.toString()} {...tokenProps}>
+          <Token key={item} {...tokenProps}>
             {item}
           </Token>
         )}
@@ -42,14 +47,17 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
 
-  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
+  const delay =
+    (time: number) =>
+    (args?: string[]): Promise<string[]> =>
+      new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const getItems = (q) =>
+  const getItems = (q: string): Promise<string[]> =>
     Promise.resolve(
       ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString(10) === q,
+        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q,
       ),
     ).then(delay(500));
 
@@ -64,9 +72,9 @@ export const Example2: Story = () => {
 Example2.storyName = 'Размер';
 
 export const Example3: Story = () => {
-  const [selectedItems, setSelectedItems] = React.useState(['aaa', 'bbb', 'ccc']);
+  const [selectedItems, setSelectedItems] = React.useState<string[]>(['aaa', 'bbb', 'ccc']);
 
-  async function getItems(query) {
+  async function getItems(query: string): Promise<string[]> {
     return ['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query));
   }
 
@@ -78,7 +86,7 @@ export const Example3: Story = () => {
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}
       renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={item === 'bbb' || tokenProps.disabled}>
+        <Token key={item} {...tokenProps} disabled={item === 'bbb' || tokenProps.disabled}>
           {item}
         </Token>
       )}
@@ -88,13 +96,16 @@ export const Example3: Story = () => {
 Example3.storyName = 'Заблокированный TokenInput с кастомными Token';
 
 export const Example4: Story = () => {
-  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
+  const delay =
+    (time: number) =>
+    (args?: string[]): Promise<string[]> =>
+      new Promise((resolve) => setTimeout(resolve, time, args));
   const maxItems = 5;
 
   const [totalCount, setTotalCount] = React.useState(cities.length);
-  const [value, setValue] = React.useState([]);
+  const [value, setValue] = React.useState<string[]>([]);
 
-  const getItems = (query) => {
+  const getItems = (query: string): Promise<string[]> => {
     const items = cities
       .map((x) => x.City)
       .filter((x) => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query);
@@ -104,7 +115,7 @@ export const Example4: Story = () => {
     return Promise.resolve(result).then(delay(500));
   };
 
-  const renderTotalCount = (foundCount, totalCount) => (
+  const renderTotalCount = (foundCount: number, totalCount: number) => (
     <span>
       Показано {foundCount} из {totalCount} найденных городов
     </span>
@@ -127,21 +138,22 @@ export const Example4: Story = () => {
 Example4.storyName = 'Ограничение количества токенов в выпадающем списке';
 
 export const Example5: Story = () => {
-  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [selectedItems, setSelectedItems] = React.useState<Array<{ id: string; value: string }>>([]);
 
-  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
-  const getGenericItems = () => [
+  const delay = (time: number) => (args?: unknown) => new Promise((resolve) => setTimeout(resolve, time, args));
+  const getGenericItems = (): Array<{ id: string; value: string }> => [
     { id: '111', value: 'aaa' },
     { id: '222', value: 'bbb' },
     { id: '333', value: 'ccc' },
     { id: '444', value: 'ddd' },
   ];
-  const renderItem = (item) => item.value;
-  const renderValue = (value) => value.value;
-  const valueToItem = (item) => ({
+  const renderItem = (item: { id: string; value: string }) => item.value;
+  const renderValue = (value: { id: string; value: string }) => value.value;
+  const valueToItem = (item: string) => ({
+    id: Math.random().toString(),
     value: item,
   });
-  const getModelItems = async (query) => {
+  const getModelItems = async (query: string): Promise<Array<{ id: string; value: string }>> => {
     await delay(400);
     return getGenericItems().filter((s) => s.value.includes(query));
   };
@@ -171,12 +183,12 @@ Example5.storyName = 'Кастомный тип элементов меню';
 
 /** Функция debounce из lodash некорректно работает с async/promise, поэтому лучше использовать кастомную функцию, как в примере ниже. */
 export const Example6: Story = () => {
-  const [value, setValue] = React.useState([]);
+  const [value, setValue] = React.useState<string[]>([]);
 
-  function debounceAsync(callback, wait) {
-    let timeoutId = null;
+  function debounceAsync<T extends (...args: string[]) => Promise<string[]>>(callback: T, wait: number): T {
+    let timeoutId: NodeJS.Timeout | null = null;
 
-    return (...args) => {
+    return ((...args: string[]) => {
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
@@ -189,12 +201,12 @@ export const Example6: Story = () => {
           resolve(await callback(...args));
         });
       });
-    };
+    }) as T;
   }
 
   const items = ['kon', 'kod', 'kof', 'kor', 'kos'];
 
-  const getItems = async (query) => {
+  const getItems = async (query: string): Promise<string[]> => {
     console.log('query: ', query);
     return items.filter((item) => item.includes(query));
   };

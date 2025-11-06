@@ -29,10 +29,11 @@ const getRestoreYear = (
   today: ReturnType<typeof InternalDateGetter.getTodayComponents>,
 ) => {
   if (prev.year !== null && InternalDateValidator.testParseToNumber(prev.year)) {
-    if (prev.year > 50 && prev.year < 100) {
-      return Number(prev.year) + 1900;
-    } else if (prev.year > 0 && prev.year < 51) {
-      return Number(prev.year) + 2000;
+    const yearNum = Number(prev.year);
+    if (yearNum > 50 && yearNum < 100) {
+      return yearNum + 1900;
+    } else if (yearNum > 0 && yearNum < 51) {
+      return yearNum + 2000;
     }
 
     return prev.year;

@@ -81,8 +81,7 @@ const MenuFooter = forwardRefAndName(
   },
 );
 
-//@ts-ignore
-MenuFooter.__MENU_FOOTER__ = true;
+(MenuFooter as any).__MENU_FOOTER__ = true;
 
 export { MenuFooter };
 

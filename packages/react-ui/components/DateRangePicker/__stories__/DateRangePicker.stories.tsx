@@ -11,7 +11,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { ThemeIn } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
-export default {
+const meta: Meta = {
   title: 'DateRangePicker',
   decorators: [
     (Story, { parameters }) => {
@@ -41,7 +41,9 @@ export default {
       }
     },
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   const [valueStart, setValueStart] = React.useState('');

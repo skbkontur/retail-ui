@@ -5,11 +5,13 @@ import { Link, Gapped, Button, Toast } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Button/Link',
   component: Link,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (
@@ -126,18 +128,18 @@ export const Example10: Story = () => {
     linkActiveColor: 'blue',
   };
 
-  const stringify = (styles) => {
+  const stringify = (styles: Record<string, string>) => {
     return `${Object.entries(styles)
       .map(([key, value]) => `${key}: "${value}"`)
       .join(', ')}`;
   };
 
-  const copyStyles = (styles) => {
+  const copyStyles = (styles: Record<string, string>) => {
     navigator.clipboard.writeText(stringify(styles));
     Toast.push('Copied');
   };
 
-  const tableStyle = {
+  const tableStyle: React.CSSProperties = {
     borderCollapse: 'collapse',
     width: '100%',
   };
@@ -147,7 +149,7 @@ export const Example10: Story = () => {
     padding: '8px',
   };
 
-  const renderExampleRow = (title, styles) => {
+  const renderExampleRow = (title: string, styles: Record<string, string>) => {
     return (
       <tr>
         <td style={tdStyle}>{title}</td>

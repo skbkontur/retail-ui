@@ -15,7 +15,7 @@ interface KebabItem {
   action: string;
 }
 
-export default {
+const meta: Meta = {
   title: 'Kebab',
   component: Kebab,
   decorators: [
@@ -31,7 +31,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Small: Story = () => <SomethingWithKebab size="small" />;
 Small.storyName = '14px';

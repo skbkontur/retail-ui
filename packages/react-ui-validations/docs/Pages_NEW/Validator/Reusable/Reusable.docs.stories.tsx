@@ -12,10 +12,12 @@ import {
   ValidationRule,
 } from '../../../../src';
 
-export default {
+const meta: Meta = {
   title: 'Validator/Reusable',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Reusable: Story = () => {
   const isValidEmail = (value: string): boolean => {

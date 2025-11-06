@@ -1,14 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 import { Tab, ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Display data/Tabs/Tab',
   component: Tab,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 /** Используя переменные `tabColorPrimary`, `tabColorSuccess`, `tabColorWarning` и `tabColorError` можно изменить активный цвет состояния, а библиотека автоматически подберёт цвет подчёркивания при наведении. */
 export const Example1: Story = () => {
@@ -49,26 +50,24 @@ export const Example1: Story = () => {
         style={{ display: 'inline-flex', flexDirection: 'column', justifyContent: 'space-between', height: '100px' }}
       >
         <ThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <ThemeContext.Provider value={ThemeFactory.create(colors, theme)}>
-                <Tabs value={activeRandom} onValueChange={setActiveRandom}>
-                  <Tabs.Tab primary id="primary">
-                    Primary
-                  </Tabs.Tab>
-                  <Tabs.Tab success id="success">
-                    Success
-                  </Tabs.Tab>
-                  <Tabs.Tab warning id="warning">
-                    Warning
-                  </Tabs.Tab>
-                  <Tabs.Tab error id="error">
-                    Error
-                  </Tabs.Tab>
-                </Tabs>
-              </ThemeContext.Provider>
-            );
-          }}
+          {(theme) => (
+            <ThemeContext.Provider value={ThemeFactory.create(colors, theme)}>
+              <Tabs value={activeRandom} onValueChange={setActiveRandom}>
+                <Tabs.Tab primary id="primary">
+                  Primary
+                </Tabs.Tab>
+                <Tabs.Tab success id="success">
+                  Success
+                </Tabs.Tab>
+                <Tabs.Tab warning id="warning">
+                  Warning
+                </Tabs.Tab>
+                <Tabs.Tab error id="error">
+                  Error
+                </Tabs.Tab>
+              </Tabs>
+            </ThemeContext.Provider>
+          )}
         </ThemeContext.Consumer>
         <Button onClick={() => setColors(updateColors)}>Получить новый набор цветов</Button>
       </div>
@@ -82,19 +81,21 @@ Example1.storyName = 'Кастомизация';
 export const Example2: Story = () => {
   const [active, setActive] = React.useState('/fuji');
 
-  const NavLink = (props) => <a {...props} />;
+  const NavLink = ({ children, ...props }: React.ComponentProps<'a'>) => <a {...props}>{children}</a>;
 
   return (
     <Tabs value={active} onValueChange={setActive}>
-      {/** Кастомный компонент **/}
-      <Tabs.Tab component={(props) => <NavLink {...props} />} id="/fuji">
+      {/* Кастомный компонент */}
+      <Tabs.Tab component={NavLink} id="/fuji">
         🌋 Fuji
       </Tabs.Tab>
-      {/** Функция **/}
-      <Tabs.Tab component={(props) => <a {...props} />} id="/tahat">
+
+      {/* Функция */}
+      <Tabs.Tab component={({ children, ...props }) => <a {...props}>{children}</a>} id="/tahat">
         ⛰ Tahat
       </Tabs.Tab>
-      {/** Строка **/}
+
+      {/* Строка */}
       <Tabs.Tab component="a" id="/alps">
         🗻 Alps
       </Tabs.Tab>

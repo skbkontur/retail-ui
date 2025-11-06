@@ -6,9 +6,11 @@ import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from '.
 import { LostfocusIndependentValidation as LostfocusIndependentValidationStory } from './SyncStories/LostfocusIndependentValidation';
 import { SingleInputPage } from './SyncStories/SingleInputPage';
 
-export default {
+const meta: Meta = {
   title: 'Sync',
-} as Meta;
+};
+
+export default meta;
 
 export const ImmediateValidation = () => <SingleInputPage validationType="immediate" />;
 export const SubmitValidation = () => <SingleInputPage validationType="submit" />;

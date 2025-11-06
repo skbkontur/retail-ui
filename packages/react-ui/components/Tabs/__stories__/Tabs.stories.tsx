@@ -56,7 +56,7 @@ class UncTabs extends React.Component<UncTabsProps> {
   }
 }
 
-const RouteTab = (props: any) => (
+const RouteTab = (props: { to: string; children: React.ReactNode }) => (
   <Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
     {props.children}
   </Tab>

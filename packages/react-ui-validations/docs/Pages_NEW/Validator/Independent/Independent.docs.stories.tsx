@@ -6,10 +6,12 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo, ValidationBehav
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Validator/Independent',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const LostfocusIndependent: Story = () => {
   const [name, setName] = React.useState<string>('');

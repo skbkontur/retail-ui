@@ -3,11 +3,13 @@ import { Tabs } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Display data/Tabs/Tabs',
   component: Tabs,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [active, setActive] = React.useState('fuji');
@@ -38,7 +40,7 @@ Example2.storyName = 'Расположение табов';
 
 export const Example3: Story = () => {
   const [active, setActive] = React.useState('fuji');
-  const renderCaption = (caption) => <span style={{ display: 'inline-block', width: 60 }}>{caption}</span>;
+  const renderCaption = (caption: string) => <span style={{ display: 'inline-block', width: 60 }}>{caption}</span>;
   return (
     <div>
       <div>

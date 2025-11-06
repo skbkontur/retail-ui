@@ -5,9 +5,11 @@ import { Button, Gapped, Input } from '@skbkontur/react-ui';
 import type { ValidationInfo } from '../src';
 import { text, ValidationContainer, ValidationWrapper } from '../src';
 
-export default {
+const meta: Meta = {
   title: 'ValidationContainer',
-} as Meta;
+};
+
+export default meta;
 
 const validation: ValidationInfo = { message: 'Error', type: 'immediate', level: 'error', independent: true };
 const validationWarning: ValidationInfo = {

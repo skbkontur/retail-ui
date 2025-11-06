@@ -6,10 +6,12 @@ import { DatePicker as BaseDatePicker } from '@skbkontur/react-ui/components/Dat
 
 import { ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
 
-export default {
+const meta: Meta = {
   title: 'DropdownOnSubmit',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 interface ComboBoxStoryState {
   value: string;

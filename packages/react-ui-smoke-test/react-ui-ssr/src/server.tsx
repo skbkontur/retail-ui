@@ -12,6 +12,7 @@ import { App } from './App';
 import { getPageHTML } from './getPageHTML';
 
 const element = (
+  // @ts-expect-error
   <CacheProvider value={cache}>
     <App />
   </CacheProvider>

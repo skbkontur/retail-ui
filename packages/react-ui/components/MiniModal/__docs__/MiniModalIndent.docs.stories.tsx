@@ -3,11 +3,13 @@ import React from 'react';
 import type { Meta } from '../../../typings/stories';
 import { MiniModalIndent } from '../MiniModalIndent';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/MiniModal/MiniModalIndent',
   component: MiniModalIndent,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   return <div />;

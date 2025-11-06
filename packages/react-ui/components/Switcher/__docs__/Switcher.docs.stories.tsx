@@ -7,11 +7,13 @@ import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/TechScreenMonitor
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Button/Switcher',
   component: Switcher,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const BasicExample: Story = () => {
   const [value, setValue] = React.useState('');

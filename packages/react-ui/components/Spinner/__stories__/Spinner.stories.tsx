@@ -20,7 +20,7 @@ const SpinnerLikeIcon = () => (
   </>
 );
 
-export default {
+const meta: Meta = {
   title: 'Spinner',
   component: Spinner,
   parameters: {
@@ -37,7 +37,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Normal = () => <Spinner />;
 export const Big = () => <Spinner type="big" />;

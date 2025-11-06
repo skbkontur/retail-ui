@@ -9,7 +9,7 @@ import { Button } from '../../../components/Button';
 import { Paging } from '../../../components/Paging';
 import { Gapped } from '../../../components/Gapped';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/5_2',
   decorators: [
     (Story) => (
@@ -26,7 +26,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const MiniModal5_2: Story = () => (
   <MiniModal>

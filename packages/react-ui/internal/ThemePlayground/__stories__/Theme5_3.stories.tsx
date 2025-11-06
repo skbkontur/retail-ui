@@ -8,7 +8,7 @@ import { ComboboxWithClearCross } from '../../../components/ComboBox/__stories__
 import { ClearCrossSizes } from '../../../components/Input/__stories__/Input.stories';
 import { Textarea } from '../../../components/Textarea';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/5_3',
   decorators: [
     (Story) => (
@@ -25,7 +25,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const TooltipDefaultPosition5_3: Story = () => (
   <Tooltip render={() => <div style={{ width: 100 }}>Tooltip with default position</div>} trigger="opened">

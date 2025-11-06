@@ -1,23 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-eval */
 import React from 'react';
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';
-import {
-  isBetween,
-  isEqual,
-  isGreater,
-  isGreaterOrEqual,
-  isLess,
-  isLessOrEqual,
-} from '@skbkontur/react-ui/lib/date/comparison';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Date Components/CalendarDay',
   component: CalendarDay,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const date = '20.05.2024';
@@ -25,12 +18,12 @@ export const Example1: Story = () => {
 
   return (
     <Gapped>
-      <CalendarDay style={style} date={date} />
-      <CalendarDay style={style} date={date} isToday />
-      <CalendarDay style={style} date={date} isSelected />
-      <CalendarDay style={style} date={date} isDisabled />
-      <CalendarDay style={style} date={date} isWeekend />
-      <CalendarDay style={style}>
+      <CalendarDay style={style} date={date} onDayClick={() => {}} />
+      <CalendarDay style={style} date={date} isToday onDayClick={() => {}} />
+      <CalendarDay style={style} date={date} isSelected onDayClick={() => {}} />
+      <CalendarDay style={style} date={date} isDisabled onDayClick={() => {}} />
+      <CalendarDay style={style} date={date} isWeekend onDayClick={() => {}} />
+      <CalendarDay style={style} date={date} onDayClick={() => {}}>
         <b>20</b>
       </CalendarDay>
     </Gapped>
@@ -54,7 +47,7 @@ export const Example2: Story = () => {
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
 
-  const Table = ({ children }) => (
+  const Table = ({ children }: { children: React.ReactNode }) => (
     <table>
       <thead>
         <tr>
@@ -66,7 +59,7 @@ export const Example2: Story = () => {
     </table>
   );
 
-  const Row = ({ code }) => (
+  const Row = ({ code }: { code: string }) => (
     <tr>
       <td>
         <code>{code}</code>

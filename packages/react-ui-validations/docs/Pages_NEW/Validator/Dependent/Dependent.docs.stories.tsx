@@ -6,10 +6,12 @@ import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Validator/Dependent',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Dependent: Story = () => {
   interface Data {

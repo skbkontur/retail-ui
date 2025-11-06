@@ -13,6 +13,8 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@skbkontur/eslint-config": "*",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@types/jest": "^29.5.12",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "env-cmd": "^10.1.0",

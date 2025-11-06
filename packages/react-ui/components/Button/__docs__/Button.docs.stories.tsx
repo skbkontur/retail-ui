@@ -6,11 +6,13 @@ import { Button, Gapped, Toast } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Button/Button',
   component: Button,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 /** По умолчанию, кнопка принимает все пропы `HTMLButtonElement`. */
 export const Example1: Story = () => {
@@ -129,7 +131,7 @@ Example9.storyName = 'Стрелка';
 export const Example10: Story = () => {
   const [loading, setLoading] = React.useState(false);
 
-  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
+  const delay = (time: number) => (args?: unknown) => new Promise((resolve) => setTimeout(resolve, time, args));
 
   const handleLoadingStart = () => {
     delay(2000)().then(() => {
@@ -195,18 +197,18 @@ export const Example12: Story = () => {
     btnLinkActiveColor: 'blue',
   };
 
-  const stringify = (styles) => {
+  const stringify = (styles: Record<string, string>) => {
     return `${Object.entries(styles)
       .map(([key, value]) => `${key}: "${value}"`)
       .join(', ')}`;
   };
 
-  const copyStyles = (styles) => {
+  const copyStyles = (styles: Record<string, string>) => {
     navigator.clipboard.writeText(stringify(styles));
     Toast.push('Copied');
   };
 
-  const tableStyle = {
+  const tableStyle: React.CSSProperties = {
     borderCollapse: 'collapse',
     width: '100%',
   };
@@ -216,7 +218,7 @@ export const Example12: Story = () => {
     padding: '8px',
   };
 
-  const renderExampleRow = (title, styles) => {
+  const renderExampleRow = (title: string, styles: Record<string, string>) => {
     return (
       <tr>
         <td style={tdStyle}>{title}</td>

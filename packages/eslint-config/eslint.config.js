@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { FlatCompat } = require('@eslint/eslintrc');
 const { fixupConfigRules, fixupPluginRules } = require('@eslint/compat');
 const js = require('@eslint/js');

@@ -1,6 +1,5 @@
-/* eslint-disable import/no-default-export */
-import { API, FileInfo } from 'jscodeshift';
-import { Collection } from 'jscodeshift/src/Collection';
+import type { API, FileInfo } from 'jscodeshift';
+import type { Collection } from 'jscodeshift/src/Collection';
 
 import {
   getComponentNameFromPath,
@@ -16,7 +15,7 @@ import {
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): boolean => {
   const j = api.jscodeshift;
   const suspects = collection
-    .find(j.ImportDeclaration, (node) => isReactUISource(node.source.value, path))
+    .find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!isReactUISource(node.source.value, path))
     .find(j.ImportDefaultSpecifier);
 
   if (!suspects.length) {
@@ -45,7 +44,7 @@ const transformDefaultImports = (api: API, collection: Collection<any>, path: st
 const transformNamedImports = (api: API, collection: Collection<any>, path: string): boolean => {
   const j = api.jscodeshift;
   const suspects = collection
-    .find(j.ImportDeclaration, (node) => isReactUISource(node.source.value, path))
+    .find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!isReactUISource(node.source.value, path))
     .find(j.ImportSpecifier);
 
   if (!suspects.length) {
@@ -67,7 +66,7 @@ const transformNamedImports = (api: API, collection: Collection<any>, path: stri
 
 const changeImportsSource = (api: API, collection: Collection<any>, path: string, value: string): boolean => {
   const j = api.jscodeshift;
-  const suspects = collection.find(j.ImportDeclaration, (node) => isReactUISource(node.source.value, path));
+  const suspects = collection.find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!isReactUISource(node.source.value, path));
 
   if (!suspects.length) {
     return false;
@@ -91,11 +90,11 @@ const changeImportsSource = (api: API, collection: Collection<any>, path: string
 const transformReExports = (api: API, collection: Collection<any>, path: string, sourceValue: string): boolean => {
   const j = api.jscodeshift;
 
-  const suspects1 = collection.find(j.ExportAllDeclaration, (node) => isReactUISource(node.source.value, path));
+  const suspects1 = collection.find(j.ExportAllDeclaration, (node) => typeof node.source.value === 'string' && !!isReactUISource(node.source.value, path));
 
   const suspects2 = collection.find(
     j.ExportNamedDeclaration,
-    (node) => node.source && isReactUISource(node.source.value, path),
+    (node) => !!(node.source && typeof node.source.value === 'string' && isReactUISource(node.source.value, path)),
   );
 
   if (!suspects1.length && !suspects2.length) {
@@ -123,7 +122,7 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
   });
 
   suspects2.forEach((exportDeclaration) => {
-    const originSource = exportDeclaration.node.source!.value as string;
+    const originSource = exportDeclaration.node.source?.value as string;
     const componentName = getComponentNameFromPath(originSource, path);
     if (isModuleRemoved(originSource, api.report)) {
       return;
@@ -201,11 +200,11 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
   };
 
   const suspects1 = collection
-    .find(j.ExportNamedDeclaration, (node) => node.source && isReactUISource(node.source.value, path))
-    .find(j.ExportSpecifier, (node) => isInternalComponent(node.local.name));
+    .find(j.ExportNamedDeclaration, (node) => !!(node.source && typeof node.source.value === 'string' && isReactUISource(node.source.value, path)))
+    .find(j.ExportSpecifier, (node) => !!(node.local && isInternalComponent(node.local.name)));
 
   const suspects2 = collection
-    .find(j.ImportDeclaration, (node) => isReactUISource(node.source.value, path))
+    .find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!isReactUISource(node.source.value, path))
     .find(j.ImportSpecifier, (node) => isInternalComponent(node.imported.name));
 
   if (!suspects1.length && !suspects2.length) {

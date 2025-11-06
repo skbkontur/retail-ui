@@ -3,25 +3,27 @@ import { GlobalLoader, Button, Gapped, Toggle, ThemeContext, ThemeFactory, Modal
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Display data/GlobalLoader',
   component: GlobalLoader,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (
     <Gapped>
-      <Button onClick={GlobalLoader.start} use="primary">
+      <Button onClick={() => GlobalLoader.start()} use="primary">
         start
       </Button>
-      <Button onClick={GlobalLoader.done} use="success">
+      <Button onClick={() => GlobalLoader.done()} use="success">
         done
       </Button>
-      <Button onClick={GlobalLoader.reject} use="danger">
+      <Button onClick={() => GlobalLoader.reject()} use="danger">
         reject
       </Button>
-      <Button onClick={GlobalLoader.accept} use="pay">
+      <Button onClick={() => GlobalLoader.accept()} use="pay">
         accept
       </Button>
     </Gapped>
@@ -84,10 +86,10 @@ export const Example3: Story = () => {
         <Modal.Header>Заголовок</Modal.Header>
         <Modal.Body>
           <Gapped>
-            <Button onClick={GlobalLoader.start} use="primary">
+            <Button onClick={() => GlobalLoader.start()} use="primary">
               start
             </Button>
-            <Button onClick={GlobalLoader.done} use="success">
+            <Button onClick={() => GlobalLoader.done()} use="success">
               done
             </Button>
           </Gapped>

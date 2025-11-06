@@ -8,7 +8,7 @@ import { defaultItemsList } from '../../../components/Kebab/__stories__/Kebab.it
 import { MenuItem } from '../../../components/MenuItem';
 import { Kebab, type KebabProps } from '../../../components/Kebab';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/5_1',
   decorators: [
     (Story) => (
@@ -27,7 +27,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 interface KebabItem {
   text: string;

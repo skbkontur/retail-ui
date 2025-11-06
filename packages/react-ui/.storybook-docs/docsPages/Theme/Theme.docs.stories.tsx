@@ -7,10 +7,12 @@ import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme';
 import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme';
 import { parseVersionFromThemeName } from '../../../lib/theming/ThemeVersions';
 
-export default {
+const meta: Meta = {
   title: 'Information/Theme',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });

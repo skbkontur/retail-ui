@@ -9,7 +9,7 @@ import { MenuSeparator } from '../../MenuSeparator';
 import { TooltipMenu } from '../TooltipMenu';
 import { Button } from '../../Button';
 
-export default {
+const meta: Meta = {
   title: 'TooltipMenu',
   component: TooltipMenu,
   decorators: [
@@ -26,7 +26,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const SimpleExample: Story = () => (
   <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>

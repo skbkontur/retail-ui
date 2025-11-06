@@ -3,11 +3,13 @@ import { SingleToast, Button, Gapped, Checkbox } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/SingleToast',
   component: SingleToast,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Default: Story = () => {
   const customTheme = {

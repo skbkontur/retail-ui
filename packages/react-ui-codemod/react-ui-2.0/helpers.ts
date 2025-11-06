@@ -1,5 +1,5 @@
-import { API, ASTPath, ImportSpecifier, ExportSpecifier, ImportDeclaration, ExportNamedDeclaration } from 'jscodeshift';
-import { Collection } from 'jscodeshift/src/Collection';
+import type { API, ASTPath, ImportSpecifier, ExportSpecifier, ImportDeclaration, ExportNamedDeclaration } from 'jscodeshift';
+import type { Collection } from 'jscodeshift/src/Collection';
 
 export const getComponentNameFromPath = (path: string, packagePath: string): string | null => {
   const name = path
@@ -96,9 +96,9 @@ export const moveSpecifierToSeparateDeclaration: (
 };
 
 export const dedupe: (collection: Collection<any>) => void = (collection): void => {
-  const map: { [key: string]: ASTPath<any>[] } = {};
+  const map: { [key: string]: Array<ASTPath<any>> } = {};
 
-  collection.forEach((declaration: any) => {
+  collection.forEach((declaration) => {
     const source = declaration.value.source.value;
     if (typeof source === 'string' && !isModuleRemoved(source)) {
       const array = map[source];
@@ -110,15 +110,15 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
     }
   });
 
-  const omit: any = {};
+  const omit: Record<string, boolean> = {};
 
   collection
     .filter((i) => {
       const source = i.node.source.value;
       return source && map[source] && map[source].length > 1;
     })
-    .replaceWith((p) => {
-      const source = p.node.source!.value as string;
+    .replaceWith((p: any) => {
+      const source = p.node.source?.value as string;
 
       if (p.node.specifiers[0].type === 'ImportNamespaceSpecifier') {
         return p.node;
@@ -128,8 +128,8 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
         return '';
       }
 
-      const specifiers = map[source].reduce((acc: any, v) => {
-        return [...acc, ...v.node.specifiers.filter((i: any) => i.type !== 'ImportNamespaceSpecifier')];
+      const specifiers = map[source].reduce((acc: unknown[], v) => {
+        return [...acc, ...v.node.specifiers.filter((i: {type: string}) => i.type !== 'ImportNamespaceSpecifier')];
       }, []);
 
       p.node.specifiers = specifiers;
@@ -142,7 +142,7 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
 
 export const deduplicateImports = (api: API, collection: Collection<any>, source: RegExp | string): boolean => {
   const j = api.jscodeshift;
-  const suspects = collection.find(j.ImportDeclaration, (node) => node.source.value?.match(source));
+  const suspects = collection.find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!node.source.value.match(source));
   if (suspects.length) {
     dedupe(suspects);
     return true;
@@ -152,7 +152,7 @@ export const deduplicateImports = (api: API, collection: Collection<any>, source
 
 export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): boolean => {
   const j = api.jscodeshift;
-  const suspects = collection.find(j.ExportNamedDeclaration, (node) => node.source && node.source.value.match(source));
+  const suspects = collection.find(j.ExportNamedDeclaration, (node) => !!(node.source && typeof node.source.value === 'string' && node.source.value.match(source)));
   if (suspects.length) {
     dedupe(suspects);
     return true;

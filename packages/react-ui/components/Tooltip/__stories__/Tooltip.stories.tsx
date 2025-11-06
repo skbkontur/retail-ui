@@ -87,7 +87,7 @@ FocusTooltip.storyName = 'focus tooltip';
 
 export const FocusTooltipNativeInput: Story = () => (
   <TestTooltip trigger="focus" disableAnimations>
-    <input />
+    <input aria-label="Focus input example" />
   </TestTooltip>
 );
 FocusTooltipNativeInput.storyName = 'focus tooltip (native input)';

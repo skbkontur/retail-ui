@@ -6,9 +6,11 @@ import type { ValidationInfo} from '../../src';
 import { text, ValidationContainer, ValidationWrapper } from '../../src';
 import type { Nullable } from '../../typings/Types';
 
-export default {
+const meta: Meta = {
   title: 'DependentInputs',
-} as Meta;
+}
+
+export default meta;
 
 export const Example_1 = () => {
   const [value1, setValue1] = useState<string>('');

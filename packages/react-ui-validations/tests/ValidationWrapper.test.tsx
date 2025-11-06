@@ -46,7 +46,7 @@ const ComboBoxLike = React.forwardRef<
 
   return <span ref={ref}>{value}</span>;
 });
-// @ts-expect-error: required to detect ComboBox
+
 ComboBoxLike.__KONTUR_REACT_UI__ = 'ComboBox';
 
 describe('ValidationWrapper', () => {

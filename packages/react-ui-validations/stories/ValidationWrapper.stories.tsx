@@ -7,9 +7,11 @@ import { text, ValidationContainer, ValidationWrapper } from '../src';
 
 import { IframeRenderer } from './StoryHelpers';
 
-export default {
+const meta: Meta = {
   title: 'ValidationWrapper',
-} as Meta;
+};
+
+export default meta;
 
 const ScrollMessage = forwardRef((_, ref) => {
   const refContainer = useRef<ValidationContainer>(null);

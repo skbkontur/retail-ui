@@ -8,7 +8,7 @@ import { Modal } from '../../../components/Modal';
 import { MiniModal } from '../../../components/MiniModal';
 import { Button } from '../../../components/Button';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/5_1',
   decorators: [
     (Story) => (
@@ -25,7 +25,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 export const MiniModalMobile5_1: Story = () => (
   <MiniModal>

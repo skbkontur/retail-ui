@@ -66,7 +66,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
         '\n' +
         'See https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md#strictmode' +
         '\n\n' +
-        e.message,
+        (e as Error)?.message || String(e),
     );
     return null;
   }

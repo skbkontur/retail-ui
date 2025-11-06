@@ -3,11 +3,13 @@ import { DateInput, Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSep
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Date Components/DateInput',
   component: DateInput,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return <DateInput value="27.04.1992" />;
@@ -15,7 +17,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Пример с введенной датой';
 
 export const Example2: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState<string | undefined>();
 
   return <DateInput value={value} onValueChange={setValue} />;
 };
@@ -27,8 +29,8 @@ export const Example3: Story = () => {
 Example3.storyName = 'Disabled';
 
 export const Example4: Story = () => {
-  class DateInputFormatting2 extends React.Component {
-    constructor(props) {
+  class DateInputFormatting2 extends React.Component<Record<string, never>, { langCode: LangCodes; value: string }> {
+    constructor(props: Record<string, never>) {
       super(props);
       this.state = {
         langCode: LangCodes.ru_RU,
@@ -41,7 +43,7 @@ export const Example4: Story = () => {
         <Gapped vertical gap={10}>
           <div>
             <span style={{ width: '300px', display: 'inline-block' }}>
-              Локаль (<tt>LangCodes</tt>)
+              Локаль (<code>LangCodes</code>)
             </span>
             <Select
               value={this.state.langCode}
@@ -63,8 +65,11 @@ export const Example4: Story = () => {
 Example4.storyName = 'Форматирование даты при смене локали';
 
 export const Example5: Story = () => {
-  class DateInputFormatting extends React.Component {
-    constructor(props) {
+  class DateInputFormatting extends React.Component<
+    Record<string, never>,
+    { order: DateOrder; separator: keyof typeof DateSeparator; value: string }
+  > {
+    constructor(props: Record<string, never>) {
       super(props);
       this.state = {
         order: DateOrder.YMD,
@@ -78,7 +83,7 @@ export const Example5: Story = () => {
         <Gapped vertical gap={10}>
           <div>
             <span style={{ width: '300px', display: 'inline-block' }}>
-              Порядок компонентов (<tt>DateOrder</tt>)
+              Порядок компонентов (<code>DateOrder</code>)
             </span>
             <Select
               value={this.state.order}
@@ -88,7 +93,7 @@ export const Example5: Story = () => {
           </div>
           <div>
             <span style={{ width: '300px', display: 'inline-block' }}>
-              Разделитель (<tt>DateSeparator</tt>)
+              Разделитель (<code>DateSeparator</code>)
             </span>
             <Select
               value={this.state.separator}

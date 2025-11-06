@@ -3,17 +3,19 @@ import { Center, Switcher, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Layout/Center',
   component: Center,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
-  const [alignAt, setAlignAt] = React.useState('center');
+  const [alignAt, setAlignAt] = React.useState<'left' | 'center' | 'right'>('center');
 
   return (
-    <Gapped vertical gap="12px">
+    <Gapped vertical gap={12}>
       <Switcher
         items={[
           { label: 'Слева', value: 'left' },
@@ -21,7 +23,7 @@ export const Example1: Story = () => {
           { label: 'Справа', value: 'right' },
         ]}
         value={alignAt}
-        onValueChange={setAlignAt}
+        onValueChange={(value) => setAlignAt(value as 'left' | 'center' | 'right')}
       />
 
       <Center align={alignAt} style={{ background: '#fdd', height: 150 }}>

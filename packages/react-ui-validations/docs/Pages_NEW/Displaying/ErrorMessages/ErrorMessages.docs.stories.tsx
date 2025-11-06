@@ -6,10 +6,12 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo, text, tooltip }
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Displaying/Error messages',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const TextValidation: Story = () => {
   const [value, setValue] = React.useState<string>('');

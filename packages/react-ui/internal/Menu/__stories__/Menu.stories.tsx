@@ -8,7 +8,7 @@ import { MenuItem } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 
-export default {
+const meta: Meta = {
   title: 'Menu',
   parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
@@ -18,7 +18,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const WithItems = () => (
   <Menu>

@@ -3,11 +3,13 @@ import { MenuSeparator, Button, MenuItem, DropdownMenu } from '@skbkontur/react-
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Menu/MenuSeparator',
   component: MenuSeparator,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (

@@ -7,10 +7,12 @@ import type { Meta } from '../../../typings/stories';
 import { MenuItem } from '../MenuItem';
 import { Gapped } from '../../Gapped';
 
-export default {
+const meta: Meta = {
   title: 'MenuItem',
   component: MenuItem,
-} as Meta;
+};
+
+export default meta;
 
 export const MobileMenuItemWithIcon = () => {
   return (

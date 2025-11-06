@@ -11,7 +11,7 @@ import { rootNode } from '../../../lib/rootNode';
 import { Button } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 
-export default {
+const meta: Meta = {
   title: 'Hint',
   component: Hint,
   decorators: [
@@ -21,7 +21,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
 Playground.storyName = 'playground';

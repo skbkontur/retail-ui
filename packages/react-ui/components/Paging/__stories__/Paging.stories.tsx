@@ -134,7 +134,7 @@ class PagingWithCustomComponent extends React.Component<PagingWithCustomComponen
   };
 }
 
-export default {
+const meta: Meta = {
   title: 'Paging',
   component: Paging,
   decorators: [
@@ -144,7 +144,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const GoToAbsensePageStory: Story = () => <GoToAbsensePage />;
 GoToAbsensePageStory.storyName = 'GoToAbsensePage';

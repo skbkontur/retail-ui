@@ -20,7 +20,7 @@ import { ComponentTable } from '../../../internal/ComponentTable';
 import type { ButtonProps } from '../Button';
 import { Button } from '../Button';
 
-export default {
+const meta: Meta = {
   title: 'Button',
   component: Button,
   argTypes: {
@@ -33,7 +33,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 type ButtonState = Partial<ButtonProps<'button' | 'a'>>;
 

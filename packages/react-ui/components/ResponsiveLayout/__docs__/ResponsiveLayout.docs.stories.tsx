@@ -3,11 +3,13 @@ import React from 'react';
 import type { Meta } from '../../../typings/stories';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 
-export default {
+const meta: Meta = {
   title: 'Layout/ResponsiveLayout',
   component: ResponsiveLayout,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   return <div />;

@@ -3,11 +3,13 @@ import { Checkbox, Gapped, Button } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Input data/Checkbox',
   component: Checkbox,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [checked, setChecked] = React.useState(false);
@@ -21,7 +23,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример чекбокса';
 
 export const Example2: Story = () => {
-  const CheckboxWithState = ({ children, ...props }) => {
+  const CheckboxWithState = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
     const [checked, setChecked] = React.useState(false);
 
     return (
@@ -61,24 +63,24 @@ Example3.storyName = 'Размер';
 export const Example4: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
-  let checkboxInstance = React.useRef(null);
+  const checkboxInstance = React.useRef<Checkbox>(null);
 
   return (
     <Gapped vertical>
-      <Checkbox ref={(el) => (checkboxInstance = el)} checked={checked} onValueChange={setChecked}>
+      <Checkbox ref={checkboxInstance} checked={checked} onValueChange={setChecked}>
         Пример чекбокса с программным фокусом
       </Checkbox>
       <Gapped gap={12}>
         <Button
           onClick={() => {
-            checkboxInstance.focus();
+            checkboxInstance.current?.focus();
           }}
         >
           Дать фокус
         </Button>
         <Button
           onClick={() => {
-            checkboxInstance.blur();
+            checkboxInstance.current?.blur();
           }}
         >
           Забрать фокус
@@ -94,16 +96,20 @@ Example4.storyName = 'focus и blur';
 export const Example5: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
-  let checkboxInstance = React.useRef(null);
+  const checkboxInstance = React.useRef<Checkbox>(null);
 
   return (
     <Gapped vertical>
-      <Checkbox initialIndeterminate checked={checked} onValueChange={setChecked} ref={(el) => (checkboxInstance = el)}>
+      <Checkbox initialIndeterminate checked={checked} onValueChange={setChecked} ref={checkboxInstance}>
         Неопределённый чекбокс
       </Checkbox>
       <Gapped>
-        <Button onClick={() => checkboxInstance.setIndeterminate()}>Перевести в неопределённое состояние</Button>
-        <Button onClick={() => checkboxInstance.resetIndeterminate()}>Сбросить неопределённое состояние</Button>
+        <Button onClick={() => checkboxInstance.current?.setIndeterminate()}>
+          Перевести в неопределённое состояние
+        </Button>
+        <Button onClick={() => checkboxInstance.current?.resetIndeterminate()}>
+          Сбросить неопределённое состояние
+        </Button>
       </Gapped>
     </Gapped>
   );
@@ -114,13 +120,13 @@ export const Example6: Story = () => {
   const [checkedSiblings, setCheckedSiblings] = React.useState<number[]>([]);
   const siblingCheckboxes = [1, 2];
 
-  let parentCheckboxRef;
+  const parentCheckboxRef = React.useRef<Checkbox>(null);
 
   React.useEffect(() => {
     if (checkedSiblings.length === 0 || checkedSiblings.length === siblingCheckboxes.length) {
-      parentCheckboxRef.resetIndeterminate();
+      parentCheckboxRef.current?.resetIndeterminate();
     } else if (checkedSiblings.length !== 0) {
-      parentCheckboxRef.setIndeterminate();
+      parentCheckboxRef.current?.setIndeterminate();
     }
   }, [JSON.stringify(checkedSiblings)]);
 
@@ -128,7 +134,7 @@ export const Example6: Story = () => {
     <>
       <Checkbox
         checked={checkedSiblings.length === siblingCheckboxes.length}
-        ref={(el) => (parentCheckboxRef = el)}
+        ref={parentCheckboxRef}
         onValueChange={() => {
           if (checkedSiblings.length === siblingCheckboxes.length) {
             setCheckedSiblings(() => []);

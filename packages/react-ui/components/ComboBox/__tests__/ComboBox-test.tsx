@@ -587,7 +587,9 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = jest.fn((searchQuery: string) =>
+      Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+    );
 
     it('in default mode', () => {
       const { rerender } = render(<ComboBox value={testValues[0]} getItems={getItems} />);
@@ -1190,7 +1192,7 @@ describe('ComboBox', () => {
 
   describe('Locale', () => {
     let search: jest.Mock<Promise<any>>;
-    let promise: Promise<any>;
+    let promise: Promise<unknown>;
     beforeEach(() => {
       [search, promise] = searchFactory(Promise.resolve(null));
     });
@@ -1268,7 +1270,7 @@ describe('ComboBox', () => {
     });
   });
 
-  it.each(['', null, undefined])('should clear the value when %s passed', async (testValue) => {
+  it.each(['', null, undefined])('should clear the value when %s passed', async (testValue: unknown) => {
     const Comp = () => {
       const [value, setValue] = useState<unknown>({ value: 1, label: 'First' });
 
@@ -1481,14 +1483,18 @@ describe('ComboBox', () => {
   });
 
   it('should focus by method', () => {
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = jest.fn((searchQuery: string) =>
+      Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+    );
     render(<ComboBox getItems={getItems} ref={comboboxRef} />);
     comboboxRef.current?.focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('should blur by method', async () => {
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = jest.fn((searchQuery: string) =>
+      Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+    );
     render(<ComboBox getItems={getItems} ref={comboboxRef} />);
     comboboxRef.current?.focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
@@ -1502,7 +1508,7 @@ describe('ComboBox', () => {
     const initialValue = testValues[0];
     const expectedValue = testValues[1];
 
-    const getItems = jest.fn((searchQuery) =>
+    const getItems = jest.fn((searchQuery: string) =>
       Promise.resolve(testValues.filter((value) => value.label.includes(searchQuery))),
     );
 
@@ -1555,7 +1561,9 @@ describe('ComboBox', () => {
       { value: '3', label: 'Three' },
       { value: '4', label: 'Four' },
     ];
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = jest.fn((searchQuery: string) =>
+      Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
+    );
 
     const getTextbox = () => screen.getByRole('textbox');
     const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);

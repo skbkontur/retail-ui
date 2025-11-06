@@ -15,11 +15,13 @@ import {
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Menu/DropdownMenu',
   component: DropdownMenu,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (
@@ -146,7 +148,7 @@ export const Example9: Story = () => {
   return (
     <DropdownMenu
       caption={
-        <span style={{ display: 'inline-block' }} tabIndex="0">
+        <span style={{ display: 'inline-block' }} tabIndex={0}>
           <UiMenuBars3HIcon32Regular />
         </span>
       }
@@ -163,9 +165,9 @@ Example9.storyName = 'Подпись';
 export const Example10: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
-  let close;
+  let close: () => void;
 
-  const renderCaption = ({ openMenu, closeMenu }) => {
+  const renderCaption = ({ openMenu, closeMenu }: { openMenu: () => void; closeMenu: () => void }) => {
     close = closeMenu;
     return (
       <Button onClick={openMenu} use="primary">

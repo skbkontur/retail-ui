@@ -3,11 +3,13 @@ import { MenuFooter, Button, MenuItem, DropdownMenu, Gapped } from '@skbkontur/r
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Menu/MenuFooter',
   component: MenuFooter,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (

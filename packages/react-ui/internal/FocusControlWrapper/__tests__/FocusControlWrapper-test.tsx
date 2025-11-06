@@ -14,7 +14,7 @@ interface Props {
 
 const FocusControlTestWrapper = ({ disabled, onBlurWhenDisabled, onBlur, onFocus }: Props) => (
   <FocusControlWrapper onBlurWhenDisabled={onBlurWhenDisabled}>
-    <input disabled={disabled} onBlur={onBlur} onFocus={onFocus} />
+    <input disabled={disabled} onBlur={onBlur} onFocus={onFocus} aria-label="Test input" />
   </FocusControlWrapper>
 );
 
@@ -25,7 +25,7 @@ describe('FocusControlWrapper', () => {
     const handleBlur = jest.fn(() => (getInput().style.border = 'none'));
     const handleFocus = jest.fn(() => (getInput().style.border = '1px solid blue'));
 
-    render(<input disabled={false} onBlur={handleBlur} onFocus={handleFocus} />);
+    render(<input disabled={false} onBlur={handleBlur} onFocus={handleFocus} aria-label="Test input" />);
 
     const input = getInput();
 
@@ -49,7 +49,7 @@ describe('FocusControlWrapper', () => {
         style={{ padding: 10 }}
       >
         <FocusControlWrapper onBlurWhenDisabled={handleBlurWhenDisabled}>
-          <input data-tid="Input" data-input="true" className="Input" style={{ margin: 10 }} />
+          <input data-tid="Input" data-input="true" className="Input" style={{ margin: 10 }} aria-label="Test input" />
         </FocusControlWrapper>
       </CommonWrapper>,
     );

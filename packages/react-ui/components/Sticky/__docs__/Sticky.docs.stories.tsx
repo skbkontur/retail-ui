@@ -3,11 +3,13 @@ import { Sticky } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Layout/Sticky',
   component: Sticky,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const style = {
@@ -15,7 +17,7 @@ export const Example1: Story = () => {
     background: '#f0f0f0',
   };
 
-  let stop = null;
+  let stop: HTMLElement | null = null;
 
   return (
     <div>

@@ -3,10 +3,12 @@ import { Button, Hint } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Information/StrictMode',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const WithFunctionChildren: Story = () => {
   const CustomFunctionComponent = React.forwardRef<HTMLSpanElement, object>((props, ref) => (

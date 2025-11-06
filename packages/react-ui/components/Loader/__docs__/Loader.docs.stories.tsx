@@ -3,11 +3,13 @@ import { Loader, Button } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Display data/Loader',
   component: Loader,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [isActive, setIsActive] = React.useState(true);

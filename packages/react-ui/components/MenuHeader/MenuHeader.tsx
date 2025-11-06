@@ -84,8 +84,7 @@ const MenuHeader = forwardRefAndName(
   },
 );
 
-//@ts-ignore
-MenuHeader.__MENU_HEADER__ = true;
+(MenuHeader as any).__MENU_HEADER__ = true;
 
 export { MenuHeader };
 

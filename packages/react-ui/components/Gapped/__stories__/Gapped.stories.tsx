@@ -5,7 +5,7 @@ import type { GappedProps } from '../Gapped';
 import { Gapped } from '../Gapped';
 import { Button } from '../../Button';
 
-export default {
+const meta: Meta = {
   title: 'Gapped',
   component: Gapped,
   decorators: [
@@ -15,7 +15,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Horizontal = () => (
   <Gapped gap={20}>

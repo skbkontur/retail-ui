@@ -1,5 +1,4 @@
-/* eslint-disable import/no-default-export */
-import { API, FileInfo, JSXAttribute, JSXSpreadAttribute } from 'jscodeshift';
+import type { API, FileInfo, JSXAttribute, JSXSpreadAttribute } from 'jscodeshift';
 
 interface CustomJSXElement {
   name: string;

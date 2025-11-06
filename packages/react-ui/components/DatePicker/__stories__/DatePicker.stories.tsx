@@ -67,7 +67,7 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
     );
   }
 
-  private handleChange = (value: any) => {
+  private handleChange = (value: unknown) => {
     action('change')(value);
     this.setState({ value });
   };
@@ -95,10 +95,12 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
   };
 }
 
-export default {
+const meta: Meta = {
   title: 'DatePicker',
   component: DatePicker,
-} as Meta;
+};
+
+export default meta;
 
 export const WithMouseeventHandlers: Story = () => {
   const [date, setDate] = useState('02.07.2017');

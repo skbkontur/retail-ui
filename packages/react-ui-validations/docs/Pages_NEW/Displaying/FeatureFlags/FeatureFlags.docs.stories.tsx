@@ -25,10 +25,12 @@ import {
   ValidationWrapper,
 } from '../../../../src';
 
-export default {
+const meta: Meta = {
   title: 'Information/Feature flags',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 interface ComboBoxStoryState {
   value: string;

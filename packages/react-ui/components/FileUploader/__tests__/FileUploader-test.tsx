@@ -117,15 +117,43 @@ describe('FileUploader', () => {
   const originalFiles = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'files');
 
   beforeAll(() => {
-    //@ts-ignore
     global.DataTransfer = class DataTransfer {
+      public items: DataTransferItemList;
+      public files: FileList;
+      public dropEffect: 'none' | 'copy' | 'link' | 'move' = 'none';
+      public effectAllowed:
+        | 'none'
+        | 'copy'
+        | 'copyLink'
+        | 'copyMove'
+        | 'link'
+        | 'linkMove'
+        | 'move'
+        | 'all'
+        | 'uninitialized' = 'uninitialized';
+      public types: readonly string[] = [];
+
       constructor() {
-        //@ts-ignore
         this.items = new DataTransferItemList();
-        //@ts-ignore
-        this.files = this.items;
+        this.files = this.items as unknown as FileList;
       }
-    };
+
+      getData(): string {
+        return '';
+      }
+
+      setData(): void {
+        // Mock implementation
+      }
+
+      clearData(): void {
+        // Mock implementation
+      }
+
+      setDragImage(): void {
+        // Mock implementation
+      }
+    } as unknown as typeof DataTransfer;
   });
 
   beforeEach(() =>
@@ -137,7 +165,9 @@ describe('FileUploader', () => {
 
   afterAll(() => {
     global.DataTransfer = originalDT;
-    Object.defineProperty(HTMLInputElement.prototype, 'files', originalFiles as DataTransfer['files']);
+    if (originalFiles) {
+      Object.defineProperty(HTMLInputElement.prototype, 'files', originalFiles);
+    }
   });
 
   describe('Locale', () => {

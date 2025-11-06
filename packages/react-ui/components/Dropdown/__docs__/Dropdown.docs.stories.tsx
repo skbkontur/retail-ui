@@ -3,11 +3,13 @@ import { Dropdown, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontu
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Menu/Dropdown',
   component: Dropdown,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return (

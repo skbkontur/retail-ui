@@ -443,7 +443,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.handleInputBlur();
   };
 
-  private handleClickOutside = (e: Event) => {
+  private handleClickOutside = () => {
     this.handleBlur();
   };
 

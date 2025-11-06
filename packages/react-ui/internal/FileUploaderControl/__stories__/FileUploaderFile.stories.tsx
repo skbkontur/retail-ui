@@ -20,17 +20,7 @@ export const FileUploaderFileWithValidationError: Story = () => {
       <FileUploaderFile
         file={{
           id: '',
-          originalFile: {
-            lastModified: 0,
-            name: 'test',
-            size: 0,
-            type: '',
-            text: () => Promise.resolve(''),
-            webkitRelativePath: '',
-            arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
-            slice: () => new Blob(),
-            stream: () => new ReadableStream(),
-          },
+          originalFile: new File(['test content'], 'test', { type: 'text/plain' }),
           status: FileUploaderFileStatus.Error,
           validationResult: { isValid: false, message: 'Валидация не прошла' },
         }}

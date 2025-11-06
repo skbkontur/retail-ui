@@ -3,14 +3,16 @@ import { ScrollContainer } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Layout/ScrollContainer',
   component: ScrollContainer,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
-  function items(count) {
+  function items(count: number) {
     const items = [];
     for (let i = 0; i < count; ++i) {
       items.push(i);
@@ -18,7 +20,7 @@ export const Example1: Story = () => {
     return items;
   }
 
-  const divStyle = {
+  const divStyle: React.CSSProperties = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -27,7 +29,7 @@ export const Example1: Story = () => {
     verticalAlign: 'top',
     width: 200,
   };
-  const absStyle = {
+  const absStyle: React.CSSProperties = {
     border: '1px solid',
     boxSizing: 'border-box',
     position: 'absolute',
@@ -74,7 +76,7 @@ export const Example1: Story = () => {
 Example1.storyName = 'Базовый пример';
 
 export const Example2: Story = () => {
-  const divStyle = {
+  const divStyle: React.CSSProperties = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -83,14 +85,14 @@ export const Example2: Story = () => {
     verticalAlign: 'top',
     width: 200,
   };
-  const absStyle = {
+  const absStyle: React.CSSProperties = {
     border: '1px solid',
     boxSizing: 'border-box',
     position: 'absolute',
     width: '100%',
   };
 
-  function items(count) {
+  function items(count: number) {
     const items = [];
     for (let i = 0; i < count; ++i) {
       items.push(i);
@@ -180,7 +182,7 @@ Example3.storyName = 'Смещение скроллбара';
 
 /** Проп `showScrollBar` со значением `scroll` скрывает скроллбар при отсутствии активности пользователя. Задержку на скрытие скроллбара можно регулировать пропом `hideScrollBarDelay` (по умолчанию 500ms) */
 export const Example4: Story = () => {
-  const divStyle = {
+  const divStyle: React.CSSProperties = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,
@@ -205,7 +207,7 @@ Example4.storyName = 'Скрытие если нет активности пол
 
 /** Проп `showScrollBar` со значением `hover` позволяет показывать скроллбар только когда курсор находится над скролл контейнером */
 export const Example5: Story = () => {
-  const divStyle = {
+  const divStyle: React.CSSProperties = {
     display: 'inline-block',
     border: '1px solid #f99',
     height: 200,

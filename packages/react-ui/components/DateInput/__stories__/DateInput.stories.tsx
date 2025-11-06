@@ -23,9 +23,9 @@ class DateInputFormatting extends React.Component {
     value: '21.12.2012',
   };
 
-  public handleChangeOrder = (order: any) => this.setState({ order });
-  public handleChangeSeparator = (separator: any) => this.setState({ separator });
-  public handleChangeValue = (value: any) => {
+  public handleChangeOrder = (order: unknown) => this.setState({ order });
+  public handleChangeSeparator = (separator: unknown) => this.setState({ separator });
+  public handleChangeValue = (value: unknown) => {
     action('change')(value);
     this.setState({ value });
   };
@@ -277,10 +277,12 @@ class DateInputLastEvent extends React.Component {
   }
 }
 
-export default {
+const meta: Meta = {
   title: 'DateInput',
   component: DateInput,
-} as Meta;
+};
+
+export default meta;
 
 export const Simple: Story = () => <DateInputSimple defaultValue="01.02.2017" />;
 Simple.storyName = 'simple';

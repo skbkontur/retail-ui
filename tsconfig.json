@@ -3,6 +3,7 @@
     "baseUrl": "./packages",
     "sourceMap": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "strict": true,
     "jsx": "react",
     "experimentalDecorators": true,

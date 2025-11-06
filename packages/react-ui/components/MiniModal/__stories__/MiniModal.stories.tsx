@@ -7,11 +7,13 @@ import { Button } from '../../Button';
 import { Modal } from '../../Modal';
 import type { Meta } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'MiniModal',
   component: MiniModal,
   parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
-} as Meta;
+};
+
+export default meta;
 
 export const Simple = () => (
   <MiniModal>

@@ -4,7 +4,7 @@ import type { Meta } from '../../../typings/stories';
 import { Token } from '../Token';
 import { Gapped } from '../../Gapped';
 
-export default {
+const meta: Meta = {
   title: 'Token',
   component: Token,
   decorators: [
@@ -14,7 +14,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   return (

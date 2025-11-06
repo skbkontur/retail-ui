@@ -1,4 +1,4 @@
-import { EmotionCritical } from '@emotion/server/create-instance';
+import type { EmotionCritical } from '@emotion/server/create-instance';
 
 export function getPageHTML(key: string, { html, css, ids }: EmotionCritical) {
   return `<!DOCTYPE html>

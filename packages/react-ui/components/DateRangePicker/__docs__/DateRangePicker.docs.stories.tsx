@@ -22,13 +22,15 @@ import {
   TodayButton,
 } from '../__stories__/DateRangePicker.stories';
 
-export default {
+const meta: Meta = {
   title: 'Date Components/DateRangePicker',
   component: DateRangePicker,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
 
-export const Example1 = Default;
+export default meta;
+
+export const Example1: Story = Default;
 Example1.storyName = 'Выбор периода';
 
 /**
@@ -132,7 +134,9 @@ export const ExampleDateFormat: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
   const [order, setOrder] = React.useState(DateOrder.YMD);
-  const [separator, setSeparator] = React.useState(Object.keys(DateSeparator)[0]);
+  const [separator, setSeparator] = React.useState<keyof typeof DateSeparator>(
+    Object.keys(DateSeparator)[0] as keyof typeof DateSeparator,
+  );
 
   return (
     <Gapped vertical gap={10}>
@@ -156,7 +160,6 @@ export const ExampleDateFormat: Story = () => {
         value={{
           locale: {
             DatePicker: {
-              // @ts-ignore
               separator: DateSeparator[separator],
               order,
             },

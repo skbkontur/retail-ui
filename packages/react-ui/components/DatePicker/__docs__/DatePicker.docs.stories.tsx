@@ -11,19 +11,22 @@ import {
   LangCodes,
   CalendarDay,
 } from '@skbkontur/react-ui';
+import type { CalendarDayProps } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 import * as DatePickerHelpers from '../DatePickerHelpers';
 
-export default {
+const meta: Meta = {
   title: 'Date Components/DatePicker',
   component: DatePicker,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 /** Пример с обработкой ошибок, когда пользователь ввел невалидную дату. */
 export const Example1: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState('');
   const [error, setError] = React.useState(false);
   const [tooltip, setTooltip] = React.useState(false);
 
@@ -71,7 +74,7 @@ Example1.storyName = 'Валидация';
 
 /** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
 export const Example2: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState('');
 
   const createRandomHolidays = () => {
     const holidays = new Array(10);
@@ -93,7 +96,7 @@ export const Example2: Story = () => {
   };
   const holidays = createRandomHolidays();
 
-  const isHoliday = (day, isWeekend) => {
+  const isHoliday = (day: string, isWeekend: boolean) => {
     if (holidays.includes(day)) {
       return !isWeekend;
     }
@@ -106,9 +109,9 @@ export const Example2: Story = () => {
 Example2.storyName = '`isHoliday`';
 
 export const Example4: Story = () => {
-  class DatePickerFormatting extends React.Component {
-    constructor() {
-      super();
+  class DatePickerFormatting extends React.Component<any, any> {
+    constructor(props: Record<string, never>) {
+      super(props);
       this.state = {
         order: DateOrder.YMD,
         separator: 'Dot',
@@ -121,7 +124,7 @@ export const Example4: Story = () => {
         <Gapped vertical gap={10}>
           <div>
             <span style={{ width: '300px', display: 'inline-block' }}>
-              Порядок компонентов (<tt>DateOrder</tt>)
+              Порядок компонентов (<code>DateOrder</code>)
             </span>
             <Select
               value={this.state.order}
@@ -131,7 +134,7 @@ export const Example4: Story = () => {
           </div>
           <div>
             <span style={{ width: '300px', display: 'inline-block' }}>
-              Разделитель (<tt>DateSeparator</tt>)
+              Разделитель (<code>DateSeparator</code>)
             </span>
             <Select
               value={this.state.separator}
@@ -144,7 +147,7 @@ export const Example4: Story = () => {
               langCode: LangCodes.ru_RU,
               locale: {
                 DatePicker: {
-                  separator: DateSeparator[this.state.separator],
+                  separator: DateSeparator[this.state.separator as keyof typeof DateSeparator],
                   order: this.state.order,
                 },
               },
@@ -165,7 +168,7 @@ Example4.storyName = 'Ручное форматирование даты';
 export const Example5: Story = () => {
   const [value, setValue] = React.useState('12.05.2022');
 
-  const renderDay = (props) => {
+  const renderDay = (props: CalendarDayProps) => {
     const [date] = props.date.split('.').map(Number);
     const isEven = date % 2 === 0;
 

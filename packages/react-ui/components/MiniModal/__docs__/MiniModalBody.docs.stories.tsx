@@ -3,11 +3,13 @@ import React from 'react';
 import type { Meta } from '../../../typings/stories';
 import { MiniModalBody } from '../MiniModalBody';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/MiniModal/MiniModalBody',
   component: MiniModalBody,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Default = () => {
   return <div />;

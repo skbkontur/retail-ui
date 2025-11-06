@@ -2,6 +2,7 @@ import React from 'react';
 import { CurrencyInput, Button, Group } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
+import type { Nullable } from '../../../typings/utility-types';
 
 export default {
   title: 'Input data/CurrencyInput',
@@ -10,7 +11,7 @@ export default {
 };
 
 export const Example1: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState<Nullable<number>>();
 
   return <CurrencyInput value={value} fractionDigits={3} onValueChange={setValue} />;
 };
@@ -18,7 +19,7 @@ Example1.storyName = 'Базовый пример';
 
 /** Очистить значение в `CurrencyInput` можно с помощью `null` или `undefined` */
 export const Example2: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState<Nullable<number>>();
 
   return (
     <Group>
@@ -31,7 +32,7 @@ export const Example2: Story = () => {
 Example2.storyName = 'Очистка значения';
 
 export const Example3: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState<Nullable<number>>();
 
   return <CurrencyInput value={value} fractionDigits={15} onValueChange={setValue} />;
 };

@@ -3,17 +3,19 @@ import { FxInput, Group, Button } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Input data/FxInput',
   component: FxInput,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [auto, setAuto] = React.useState(false);
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState<string | number | undefined>();
 
-  function handleValueChange(value) {
+  function handleValueChange(value: string | number | undefined) {
     setAuto(false);
     setValue(value);
   }

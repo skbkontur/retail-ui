@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import type { CSSProperties } from 'react';
 import React from 'react';
 
@@ -7,7 +6,7 @@ import { createTheme, isThemeGTE, markThemeVersion } from '../../../lib/theming/
 import { BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
 import type { ThemeVersions } from '../../../lib/theming/ThemeVersions';
 
-export default {
+const meta: Meta = {
   title: 'ThemeVersions/Test',
   parameters: {
     creevey: {
@@ -16,7 +15,9 @@ export default {
       },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 class TestThemeClass extends BasicThemeClassForExtension {
   public static color = 'initial';
@@ -58,7 +59,15 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
     '1_1': isThemeGTE(theme, '1.1' as ThemeVersions),
   })
     .filter(([, isDetected]) => isDetected)
-    .map(([version]) => <li>{version}</li>);
+    .map(([version]) => <li key={version}>{version}</li>);
+
+  let versionListElement: React.ReactNode = null;
+
+  if (isThemeGTE(theme, '1.1' as ThemeVersions)) {
+    versionListElement = <ul>{themeVersionList}</ul>;
+  } else if (isThemeGTE(theme, '1.0' as ThemeVersions)) {
+    versionListElement = <ol>{themeVersionList}</ol>;
+  }
 
   return (
     <div>
@@ -66,12 +75,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
       <pre>{JSON.stringify(styles, null, 2)}</pre>
       <div>
         <span>Detected theme versions:&nbsp;{themeVersionList.length === 0 && 'none'}</span>
-
-        {isThemeGTE(theme, '1.1' as ThemeVersions) ? (
-          <ul>{themeVersionList}</ul>
-        ) : isThemeGTE(theme, '1.0' as ThemeVersions) ? (
-          <ol>{themeVersionList}</ol>
-        ) : null}
+        {versionListElement}
       </div>
     </div>
   );

@@ -15,10 +15,12 @@ import {
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Information/Locale',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));

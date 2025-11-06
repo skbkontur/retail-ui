@@ -13,7 +13,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 
-export default {
+const meta: Meta = {
   title: 'MaskedInput',
   component: MaskedInput,
   parameters: {
@@ -21,7 +21,9 @@ export default {
       skip: { 'other themes will become deprecated': { in: /^(?!.*2022.*)/ } },
     },
   },
-} as Meta;
+};
+
+export default meta;
 
 type InputState = Partial<MaskedInputProps>;
 

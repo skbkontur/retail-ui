@@ -1,7 +1,7 @@
 import type { City } from './cities';
 import { cities } from './cities';
 
-const delay = (ms: number) => (v: any) => new Promise((resolve) => setTimeout(resolve, ms, v));
+const delay = (ms: number) => (v: unknown) => new Promise((resolve) => setTimeout(resolve, ms, v));
 
 const citiesFilterPredicate = (query: string) => (city: City) =>
   city.Id.toString() === query || city.City.toLowerCase().includes(query.toLowerCase());

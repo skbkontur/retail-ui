@@ -1,5 +1,4 @@
-/* eslint-disable import/no-default-export */
-import { API, FileInfo } from 'jscodeshift';
+import type { API, FileInfo } from 'jscodeshift';
 
 export default function (file: FileInfo, api: API) {
   const j = api.jscodeshift;

@@ -7,9 +7,11 @@ import type { ValidationInfo } from '../src';
 import { ValidationContainer, ValidationWrapper, tooltip } from '../src';
 import type { Nullable } from '../typings/Types';
 
-export default {
+const meta: Meta = {
   title: 'TokenInput',
-} as Meta;
+};
+
+export default meta;
 
 export const Required = () => {
   const refContainer = useRef<ValidationContainer>(null);

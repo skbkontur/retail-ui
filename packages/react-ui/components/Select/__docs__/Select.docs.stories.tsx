@@ -1,14 +1,17 @@
 import React from 'react';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
 import { Select, Button, Group, Link, Gapped } from '@skbkontur/react-ui';
+import type { ButtonParams } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Input data/Select',
   component: Select,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [value, setValue] = React.useState();
@@ -38,7 +41,7 @@ Example2.storyName = 'Запрет выделения и выбора';
 
 /** Очистить значение в `Select`'е можно только с помощью `null` */
 export const Example3: Story = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState<string | null>(null);
 
   const items = ['One', 'Two', 'Three', 'Four'];
 
@@ -72,7 +75,7 @@ export const Example5: Story = () => {
     'Four',
   ];
 
-  const renderLinkButton = (params) => {
+  const renderLinkButton = (params: ButtonParams) => {
     const linkProps = {
       disabled: params.disabled,
       icon: <People3Icon />,

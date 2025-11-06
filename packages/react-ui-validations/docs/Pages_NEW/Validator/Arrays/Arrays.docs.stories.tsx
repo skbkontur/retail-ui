@@ -6,10 +6,12 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Validator/Arrays',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const ObjectArray: Story = () => {
   interface ContactInfo {

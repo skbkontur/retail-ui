@@ -5,11 +5,13 @@ import { FileUploader, Button, Toggle, Gapped } from '@skbkontur/react-ui';
 import type { Meta, Story } from '../../../typings/stories';
 import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 
-export default {
+const meta: Meta = {
   title: 'Input data/FileUploader',
   component: FileUploader,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   return <FileUploader />;

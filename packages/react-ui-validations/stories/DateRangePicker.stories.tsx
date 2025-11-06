@@ -6,9 +6,11 @@ import { DateRangePicker } from '@skbkontur/react-ui/components/DateRangePicker'
 import type { ValidationInfo } from '../src';
 import { ValidationContainer, ValidationWrapper } from '../src';
 
-export default {
+const meta: Meta = {
   title: 'DateRangePicker',
-} as Meta;
+};
+
+export default meta;
 
 export const Example1 = () => {
   const refContainer = useRef<ValidationContainer>(null);

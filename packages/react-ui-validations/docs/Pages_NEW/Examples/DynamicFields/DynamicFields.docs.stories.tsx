@@ -10,9 +10,11 @@ import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
 import { ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../../../../src';
 
-export default {
+const meta: Meta = {
   title: 'Examples/Dynamic fields',
-} as Meta;
+};
+
+export default meta;
 
 export const DynamicFields: Story = () => {
   const container = React.useRef<ValidationContainer>(null);

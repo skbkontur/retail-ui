@@ -3,11 +3,13 @@ import { Gapped, MaskedInput } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Input data/MaskedInput',
   component: MaskedInput,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 /** Паттерн ввода. Пример с номером телефона. */
 export const Example1: Story = () => {

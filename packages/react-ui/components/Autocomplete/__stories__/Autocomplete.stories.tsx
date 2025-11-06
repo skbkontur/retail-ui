@@ -7,7 +7,7 @@ import type { Meta, Story } from '../../../typings/stories';
 import type { AutocompleteProps } from '..';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 
-export default {
+const meta: Meta = {
   title: 'Autocomplete',
   component: Autocomplete,
   decorators: [
@@ -21,7 +21,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';

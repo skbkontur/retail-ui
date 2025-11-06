@@ -17,7 +17,7 @@ import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
 
-export default {
+const meta: Meta = {
   title: 'DropdownMenu',
   component: DropdownMenu,
   decorators: [
@@ -33,7 +33,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const SimpleExample: Story = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>

@@ -6,10 +6,12 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Examples/Guides example',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const GuidesExample: Story = () => {
   interface Organization {

@@ -7,10 +7,12 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../..
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Displaying/Validation type',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const ImmediateValidation: Story = () => {
   const [value, setValue] = React.useState<string>('');

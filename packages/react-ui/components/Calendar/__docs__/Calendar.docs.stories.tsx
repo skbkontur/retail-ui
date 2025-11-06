@@ -3,14 +3,17 @@ import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/Da
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
+import type { CalendarDayProps } from '@skbkontur/react-ui/components/Calendar';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Date Components/Calendar',
   component: Calendar,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Example1: Story = () => {
   const [date, setDate] = React.useState('01.11.2021');
@@ -40,7 +43,7 @@ Example2.storyName = 'initialMonth и initialYear';
 
 /** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
 export const Example3: Story = () => {
-  const [date, setDate] = React.useState();
+  const [date, setDate] = React.useState<string | undefined>();
 
   const createRandomHolidays = () => {
     const holidays = new Array(10);
@@ -62,7 +65,7 @@ export const Example3: Story = () => {
   };
   const holidays = createRandomHolidays();
 
-  const isHoliday = (day, isWeekend) => {
+  const isHoliday = (day: string, isWeekend: boolean) => {
     if (holidays.includes(day)) {
       return !isWeekend;
     }
@@ -95,7 +98,7 @@ export const Example5: Story = () => {
 
   const [value, setValue] = React.useState(initialValue);
 
-  const renderDay = (props) => {
+  const renderDay = (props: CalendarDayProps) => {
     const [date, month] = props.date.split('.').map(Number);
 
     if (month === 9 && date > 12 && date < 16) {
@@ -127,7 +130,7 @@ Example5.storyName = 'Кастомный рендер дня';
 export const Example6: Story = () => {
   const theme = React.useContext(ThemeContext);
 
-  function renderDay(props) {
+  function renderDay(props: CalendarDayProps) {
     const [date, month] = props.date.split('.').map(Number);
     const randomDay = date % 6 === 0 || date % 7 === 0 || date % 8 === 0;
     const randomPrice = Math.round((date / month) * 1000);
@@ -142,7 +145,7 @@ export const Example6: Story = () => {
     );
   }
 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState<string | null>(null);
 
   return (
     <ThemeContext.Provider
@@ -166,7 +169,7 @@ Example6.storyName = 'Календарь с ценами';
 export const Example8: Story = () => {
   const initialValue = '02.09.2023';
   const [value, setValue] = React.useState(initialValue);
-  const calendarRef = React.useRef(null);
+  const calendarRef = React.useRef<Calendar>(null);
 
   return (
     <>
@@ -174,10 +177,10 @@ export const Example8: Story = () => {
         <Calendar value={value} ref={calendarRef} onValueChange={setValue} />
 
         <Gapped vertical gap={8}>
-          <Button onClick={() => calendarRef.current.scrollToMonth(1, 2023)}>I квартал</Button>
-          <Button onClick={() => calendarRef.current.scrollToMonth(4, 2023)}>II квартал</Button>
-          <Button onClick={() => calendarRef.current.scrollToMonth(7, 2023)}>III квартал</Button>
-          <Button onClick={() => calendarRef.current.scrollToMonth(10, 2023)}>IV квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(1, 2023)}>I квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(4, 2023)}>II квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(7, 2023)}>III квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(10, 2023)}>IV квартал</Button>
         </Gapped>
       </Gapped>
     </>

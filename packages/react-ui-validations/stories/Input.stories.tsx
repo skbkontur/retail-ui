@@ -10,9 +10,11 @@ import type { ValidationBehaviour, ValidationInfo } from '../src';
 import { text, tooltip, ValidationContainer, ValidationWrapper } from '../src';
 import type { Nullable } from '../typings/Types';
 
-export default {
+const meta: Meta = {
   title: 'Input',
-} as Meta;
+};
+
+export default meta;
 
 type Sex = 'male' | 'female';
 

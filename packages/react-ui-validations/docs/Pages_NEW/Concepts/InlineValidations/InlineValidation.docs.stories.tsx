@@ -5,10 +5,12 @@ import { ValidationContainer } from '../../../../src';
 import { Form } from '../../../Common/Form';
 import { WrappedInput, WrappedDatePicker, lessThanDate } from './ControlsWithValidations';
 
-export default {
+const meta: Meta = {
   title: 'Concepts/Inline validations',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const InlineValidations: Story = () => {
   const container = React.useRef<ValidationContainer>(null);

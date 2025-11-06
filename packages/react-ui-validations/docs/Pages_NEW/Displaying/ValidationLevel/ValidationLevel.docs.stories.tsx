@@ -6,10 +6,12 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo, text } from '..
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Displaying/Validation level',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const ValidationError: Story = () => {
   const validate = (value: string): Nullable<ValidationInfo> => {

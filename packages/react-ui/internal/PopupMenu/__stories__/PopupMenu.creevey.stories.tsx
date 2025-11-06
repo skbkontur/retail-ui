@@ -7,7 +7,7 @@ import { MenuItem } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
 import { Button } from '../../../components/Button';
 
-export default {
+const meta: Meta = {
   title: 'PopupMenu',
   decorators: [
     (Story: () => JSX.Element) => (
@@ -23,7 +23,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const WithItems: Story = () => (
   <PopupMenu caption={<Button>Click me</Button>}>

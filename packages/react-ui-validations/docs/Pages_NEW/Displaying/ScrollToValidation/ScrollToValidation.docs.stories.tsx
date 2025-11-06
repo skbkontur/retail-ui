@@ -8,10 +8,12 @@ import { Form } from '../../../Common/Form';
 import { SpaceFiller } from '../../../Common/SpaceFiller';
 import { Nullable } from '../../../../typings/Types';
 
-export default {
+const meta: Meta = {
   title: 'Displaying/Scroll to validation',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const ScrollToValidation: Story = () => {
   const container = React.useRef<ValidationContainer>(null);

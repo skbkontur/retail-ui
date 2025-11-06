@@ -11,7 +11,7 @@ import { MenuItem } from '../../MenuItem';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 
-export default {
+const meta: Meta = {
   title: 'Dropdown',
   component: Dropdown,
   decorators: [
@@ -21,7 +21,9 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
+
+export default meta;
 
 export const SimpleDropdown: Story = () => (
   <Dropdown caption="Items">

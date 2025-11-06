@@ -3,11 +3,13 @@ import { Toast, Button, Gapped, SingleToast } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
-export default {
+const meta: Meta = {
   title: 'Overlay/Toast',
   component: Toast,
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const Default: Story = () => {
   const toastRef = React.useRef<Toast>(null);
@@ -70,18 +72,16 @@ CustomShowTime.storyName = 'Кастомный showTime';
 
 export const ExampleWithCallbackRef: Story = () => {
   class Toaster extends React.Component {
+    private notifier = React.createRef<Toast>();
+
     showNotification() {
-      this.notifier.push('Successfully');
+      this.notifier.current?.push('Successfully');
     }
 
     render() {
       return (
         <div>
-          <Toast
-            ref={(el) => {
-              this.notifier = el;
-            }}
-          />
+          <Toast ref={this.notifier} />
           <Button onClick={() => this.showNotification()}>Show notification</Button>
         </div>
       );

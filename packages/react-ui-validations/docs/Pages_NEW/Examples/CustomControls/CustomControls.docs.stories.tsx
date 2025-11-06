@@ -5,10 +5,12 @@ import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
 import { ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-export default {
+const meta: Meta = {
   title: 'Examples/Custom controls',
   parameters: { creevey: { skip: true } },
-} as Meta;
+};
+
+export default meta;
 
 export const CustomControls: Story = () => {
   interface CustomControlProps<Elem = HTMLElement> {
