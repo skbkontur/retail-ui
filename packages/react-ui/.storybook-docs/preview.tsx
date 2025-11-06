@@ -48,6 +48,7 @@ import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/Notif
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon';
 import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light';
+import * as ReactUiValidations from '@skbkontur/react-ui-validations/src';
 
 import { ThemeContext } from '../lib/theming/ThemeContext';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
@@ -183,6 +184,7 @@ addons.setConfig({
   [LIVE_EXAMPLES_ADDON_ID]: {
     scope: {
       ...ReactUi,
+      ...ReactUiValidations,
       DatePickerHelpers,
       cities,
       isBetween,
