@@ -5,7 +5,7 @@ import { Hint } from '../../../components/Hint';
 
 describe('Setting ref to child', () => {
   it('should call callback  ref', () => {
-    const refItem = jest.fn();
+    const refItem = vi.fn();
     render(
       <Hint text={'test'}>
         <span ref={refItem} />

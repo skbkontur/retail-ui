@@ -3,7 +3,7 @@ import { render, screen, act, fireEvent } from '@testing-library/react';
 
 import { Toast, ToastDataTids } from '../Toast';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('Toast', () => {
   it('renders', () => {
@@ -37,20 +37,20 @@ describe('Toast', () => {
       toastRef.current?.push('message');
     });
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
     expect(screen.queryByTestId(ToastDataTids.toastView)).not.toBeInTheDocument();
   });
 
   it('calls onPush at push', () => {
     const toastRef = React.createRef<Toast>();
-    const onPush = jest.fn();
+    const onPush = vi.fn();
     render(<Toast onPush={onPush} ref={toastRef} />);
     act(() => {
       toastRef.current?.push('somemessage');
     });
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
     expect(onPush.mock.calls[0][0]).toBe('somemessage');
     expect(onPush.mock.calls).toHaveLength(1);
@@ -58,13 +58,13 @@ describe('Toast', () => {
 
   it('calls onClose after close', () => {
     const toastRef = React.createRef<Toast>();
-    const onClose = jest.fn();
+    const onClose = vi.fn();
     render(<Toast onClose={onClose} ref={toastRef} />);
     act(() => {
       toastRef.current?.push('message');
     });
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
     expect(onClose.mock.calls[0][0]).toBe('message');
     expect(onClose.mock.calls).toHaveLength(1);
@@ -104,7 +104,7 @@ describe('Toast', () => {
 
   it('passes right actions in tosts', async () => {
     const toastRef = React.createRef<Toast>();
-    const handler = jest.fn();
+    const handler = vi.fn();
 
     render(<Toast ref={toastRef} />);
     act(() => {

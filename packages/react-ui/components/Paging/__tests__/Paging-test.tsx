@@ -24,14 +24,14 @@ describe('Paging', () => {
   });
 
   it('should not be rendered when pagesCount < 2', () => {
-    const callback = jest.fn();
+    const callback = vi.fn();
     render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
 
     expect(screen.queryByTestId(PagingDataTids.root)).not.toBeInTheDocument();
   });
 
   it('should be rendered when pagesCount >= 2', () => {
-    const callback = jest.fn();
+    const callback = vi.fn();
     render(<Paging pagesCount={2} activePage={1} onPageChange={callback} />);
 
     expect(screen.getByTestId(PagingDataTids.root)).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('Paging', () => {
   });
 
   it('should call `onPageChange` on not chosen link', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 2;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -68,7 +68,7 @@ describe('Paging', () => {
   });
 
   it('should not call `onPageChange` on chosen link', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 1;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -80,7 +80,7 @@ describe('Paging', () => {
   });
 
   it('should call `onPageChange` with right page number', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 1;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -98,7 +98,7 @@ describe('Paging', () => {
   });
 
   it('should call `onPageChange` on forward button click', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     render(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
 
     const forwardButton = screen.getByTestId(PagingDataTids.forwardLink);
@@ -108,7 +108,7 @@ describe('Paging', () => {
   });
 
   it('should not call `onPageChange` on forward button click if active page is last', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const lastPage = 2;
     render(<Paging pagesCount={lastPage} activePage={lastPage} onPageChange={onPageChange} />);
 
@@ -119,7 +119,7 @@ describe('Paging', () => {
   });
 
   it('should call `onPageChange` on forward button click with right page number', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
@@ -130,7 +130,7 @@ describe('Paging', () => {
   });
 
   it('should handle choosing page from keyboard (right arrow key)', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 1;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -144,7 +144,7 @@ describe('Paging', () => {
   });
 
   it('should handle choosing page from keyboard (left arrow key)', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 2;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -158,7 +158,7 @@ describe('Paging', () => {
   });
 
   it('should handle ctrl + right keys', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 1;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -172,7 +172,7 @@ describe('Paging', () => {
   });
 
   it('should handle ctrl + left keys', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 2;
     const activePageIndex = activePage - 1;
     render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
@@ -186,7 +186,7 @@ describe('Paging', () => {
   });
 
   it('keyboard control available with global listener', async () => {
-    const onPageChange = jest.fn();
+    const onPageChange = vi.fn();
     const activePage = 1;
     render(<Paging useGlobalListener pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 

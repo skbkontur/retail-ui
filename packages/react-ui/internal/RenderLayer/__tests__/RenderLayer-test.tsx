@@ -5,12 +5,12 @@ import userEvent from '@testing-library/user-event';
 import { RenderLayer } from '../RenderLayer';
 
 describe('<RenderLayer />', () => {
-  const mockOnClickOutside = jest.fn();
-  const mockOnFocusOutside = jest.fn();
-  const mockGetAnchorElement = jest.fn();
+  const mockOnClickOutside = vi.fn();
+  const mockOnFocusOutside = vi.fn();
+  const mockGetAnchorElement = vi.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('active enabled by default, not breaking render without props', () => {
@@ -54,7 +54,7 @@ describe('<RenderLayer />', () => {
   });
 
   it('add event listeners on mount', () => {
-    const addEventListenerSpy = jest.spyOn(global, 'addEventListener');
+    const addEventListenerSpy = vi.spyOn(global, 'addEventListener');
 
     render(
       <RenderLayer active onClickOutside={mockOnClickOutside} onFocusOutside={mockOnFocusOutside}>
@@ -66,7 +66,7 @@ describe('<RenderLayer />', () => {
   });
 
   it('disable event listeners on unmount', () => {
-    const removeEventListenerSpy = jest.spyOn(global, 'removeEventListener');
+    const removeEventListenerSpy = vi.spyOn(global, 'removeEventListener');
     const { unmount } = render(
       <RenderLayer active onClickOutside={mockOnClickOutside} onFocusOutside={mockOnFocusOutside}>
         <div />

@@ -214,7 +214,7 @@ describe('FileUploader', () => {
 
     describe('onFocus', () => {
       it('should handle onFocus, when element focuses by tab', async () => {
-        const onFocus = jest.fn();
+        const onFocus = vi.fn();
         renderComp({ onFocus });
 
         await userEvent.tab();
@@ -224,7 +224,7 @@ describe('FileUploader', () => {
       });
 
       it('should not handle focus if element is disabled', async () => {
-        const onFocus = jest.fn();
+        const onFocus = vi.fn();
         renderComp({ onFocus, disabled: true });
 
         await userEvent.tab();
@@ -237,7 +237,7 @@ describe('FileUploader', () => {
 
     describe('onBlur', () => {
       it('should handle onFocus, when element focuses by tab', async () => {
-        const onBlur = jest.fn();
+        const onBlur = vi.fn();
         renderComp({ onBlur });
 
         await userEvent.tab();
@@ -252,7 +252,7 @@ describe('FileUploader', () => {
 
     describe('onAttach', () => {
       it('should handle onAttach, when select file', async () => {
-        const onAttach = jest.fn();
+        const onAttach = vi.fn();
         renderComp({ onAttach });
 
         await addFiles([file]);
@@ -262,7 +262,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onAttach, when all files aren"t valid', async () => {
-        const onAttach = jest.fn();
+        const onAttach = vi.fn();
         renderComp({
           onAttach,
           validateBeforeUpload: () => Promise.resolve('validation error'),
@@ -276,7 +276,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onAttach by one, when add files by one', async () => {
-        const onAttach = jest.fn();
+        const onAttach = vi.fn();
         renderComp({ onAttach });
 
         await addFiles([file]);
@@ -293,7 +293,7 @@ describe('FileUploader', () => {
 
     describe('onRemove', () => {
       it('should handle onRemove, when click delete button', async () => {
-        const onRemove = jest.fn();
+        const onRemove = vi.fn();
         renderComp({ onRemove, multiple: true });
 
         await addFiles([file]);
@@ -303,7 +303,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onRemove, when reselect file in single control', async () => {
-        const onRemove = jest.fn();
+        const onRemove = vi.fn();
         renderComp({ onRemove });
 
         await addFiles([file]);
@@ -315,7 +315,7 @@ describe('FileUploader', () => {
 
     describe('onValueChange', () => {
       it('should handle onValueChange with current files when select files', async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         renderComp({ onValueChange });
 
         await addFiles([file]);
@@ -325,7 +325,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onValueChange with empty array when remove last file', async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         renderComp({ onValueChange });
 
         await addFiles([file]);
@@ -340,7 +340,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onValueChange with all attached files for multiple control', async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         renderComp({ onValueChange, multiple: true });
 
         await addFiles([file]);
@@ -355,8 +355,8 @@ describe('FileUploader', () => {
       });
 
       it('should handle onValueChange 2 times after second add for single control', async () => {
-        const onValueChange = jest.fn();
-        const onRemove = jest.fn();
+        const onValueChange = vi.fn();
+        const onRemove = vi.fn();
         renderComp({ onValueChange, onRemove });
 
         await addFiles([file]);
@@ -373,8 +373,8 @@ describe('FileUploader', () => {
       });
 
       it('should handle onValueChange after status changing', async () => {
-        const onValueChange = jest.fn();
-        const request = jest.fn(() => Promise.resolve());
+        const onValueChange = vi.fn();
+        const request = vi.fn(() => Promise.resolve());
         renderComp({ onValueChange, request });
 
         await addFiles([file]);
@@ -383,7 +383,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onValueChange after file validation changing', async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         const validateBeforeUpload = () => Promise.resolve('validation error');
         renderComp({ onValueChange, validateBeforeUpload });
 
@@ -393,7 +393,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle onValueChange after reset', async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         const ref = React.createRef<FileUploaderRef>();
         render(<FileUploader onValueChange={onValueChange} ref={ref} />);
 
@@ -416,9 +416,9 @@ describe('FileUploader', () => {
       let onRequestError: () => void;
 
       beforeEach(() => {
-        request = jest.fn(() => Promise.resolve());
-        onRequestSuccess = jest.fn();
-        onRequestError = jest.fn();
+        request = vi.fn(() => Promise.resolve());
+        onRequestSuccess = vi.fn();
+        onRequestError = vi.fn();
       });
 
       it('should handle request and onRequestSuccess after selection of valid file', async () => {
@@ -473,7 +473,7 @@ describe('FileUploader', () => {
       });
 
       it('should handle request and onRequestError after file selection and throw error on upload file', async () => {
-        request = jest.fn(() => Promise.reject());
+        request = vi.fn(() => Promise.reject());
         renderComp({ request, onRequestSuccess, onRequestError });
 
         await addFiles([file]);
@@ -487,8 +487,8 @@ describe('FileUploader', () => {
 
     describe('validateBeforeUpload', () => {
       it('should handle validateBeforeUpload for every files', async () => {
-        const request = jest.fn(() => Promise.resolve());
-        const validateBeforeUpload = jest.fn(() => Promise.resolve(null));
+        const request = vi.fn(() => Promise.resolve());
+        const validateBeforeUpload = vi.fn(() => Promise.resolve(null));
         renderComp({ request, validateBeforeUpload, multiple: true });
 
         await addFiles([file, file]);
@@ -503,11 +503,11 @@ describe('FileUploader', () => {
         let validationOrder = 0;
         const increment = () => count++;
 
-        const request = jest.fn(() => {
+        const request = vi.fn(() => {
           requestOrder = increment();
           return Promise.resolve();
         });
-        const validateBeforeUpload = jest.fn(() => {
+        const validateBeforeUpload = vi.fn(() => {
           validationOrder = increment();
           return Promise.resolve(null);
         });
@@ -522,10 +522,10 @@ describe('FileUploader', () => {
     });
 
     it('should handle one request, validateBeforeUpload, onAttach, onValueChange for single control, if try add several files', async () => {
-      const request = jest.fn();
-      const validateBeforeUpload = jest.fn();
-      const onAttach = jest.fn();
-      const onValueChange = jest.fn();
+      const request = vi.fn();
+      const validateBeforeUpload = vi.fn();
+      const onAttach = vi.fn();
+      const onValueChange = vi.fn();
       renderComp({ request, validateBeforeUpload, onAttach, onValueChange });
 
       await addFiles([file, file, file]);

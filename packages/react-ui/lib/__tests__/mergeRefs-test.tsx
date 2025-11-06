@@ -11,7 +11,7 @@ describe('mergeRefs', () => {
       return null;
     });
 
-    const funcRef = jest.fn();
+    const funcRef = vi.fn();
     const objRef = createRef();
     const Example = ({ visible }: { visible: boolean }) => {
       if (visible) {
@@ -38,7 +38,7 @@ describe('mergeRefs', () => {
     interface CompProps {
       refFn: (element: HTMLDivElement) => void;
     }
-    const funcRef = jest.fn();
+    const funcRef = vi.fn();
     const Comp = ({ refFn }: CompProps) => {
       return <div ref={mergeRefs(refFn)} />;
     };
@@ -54,8 +54,8 @@ describe('mergeRefs', () => {
     interface CompProps {
       refFn: (element: HTMLDivElement) => void;
     }
-    const funcRef1 = jest.fn();
-    const funcRef2 = jest.fn();
+    const funcRef1 = vi.fn();
+    const funcRef2 = vi.fn();
     const Comp = ({ refFn }: CompProps) => {
       return <div ref={mergeRefs(refFn)} />;
     };
@@ -73,9 +73,9 @@ describe('mergeRefs', () => {
   });
 
   describe('return callbacks comparation', () => {
-    const funcRef1 = jest.fn();
-    const funcRef2 = jest.fn();
-    const funcRef3 = jest.fn();
+    const funcRef1 = vi.fn();
+    const funcRef2 = vi.fn();
+    const funcRef3 = vi.fn();
     it('set same refs return same callbacks', () => {
       const firstCall = mergeRefs(funcRef1, funcRef2, funcRef3);
       const secondCall = mergeRefs(funcRef1, funcRef2, funcRef3);

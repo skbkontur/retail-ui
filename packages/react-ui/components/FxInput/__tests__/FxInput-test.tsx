@@ -6,13 +6,13 @@ import { FxInput, FxInputDataTids } from '../FxInput';
 
 describe('FxInput', () => {
   it('render without crash', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(<FxInput onValueChange={onValueChange} />);
     expect(screen.getByTestId(FxInputDataTids.root)).toBeInTheDocument();
   });
 
   it('programmatically set focus and blur', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const refFxInput = React.createRef<FxInput>();
     render(<FxInput onValueChange={onValueChange} ref={refFxInput} />);
     const input = screen.getByRole('textbox');
@@ -52,23 +52,26 @@ describe('FxInput', () => {
   describe('a11y', () => {
     it('sets value for aria-label attribute (input)', () => {
       const ariaLabel = 'aria-label';
-      render(<FxInput onValueChange={jest.fn()} aria-label={ariaLabel} />);
+      render(<FxInput onValueChange={vi.fn()} aria-label={ariaLabel} />);
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
 
     it('sets value for aria-label attribute (button)', () => {
       const ariaLabel = 'aria-label';
-      render(<FxInput onValueChange={jest.fn()} buttonAriaLabel={ariaLabel} />);
+      render(<FxInput onValueChange={vi.fn()} buttonAriaLabel={ariaLabel} />);
 
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 
   describe('Warnings', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    const getMaskCurrencyWarnings = (consoleCalls: jest.MockContext<any, any>['calls']) =>
-      consoleCalls.filter(([msg]) => msg.includes(`[FxInput]: Prop "mask" is not supported when type="currency"`));
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const getMaskCurrencyWarnings = (consoleCalls: unknown[][]) =>
+      consoleCalls.filter(
+        ([msg]) =>
+          typeof msg === 'string' && msg.includes(`[FxInput]: Prop "mask" is not supported when type="currency"`),
+      );
 
     beforeEach(() => {
       consoleSpy.mockClear();

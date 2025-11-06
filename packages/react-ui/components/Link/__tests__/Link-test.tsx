@@ -9,7 +9,7 @@ const renderRTL = (props?: LinkProps) => render(<Link {...props} />);
 
 describe('Link', () => {
   it('calls `onClick` when link clicked', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
 
     renderRTL({ onClick });
     await userEvent.click(screen.getByTestId(LinkDataTids.root));
@@ -18,7 +18,7 @@ describe('Link', () => {
 
   describe('disabled link', () => {
     it('does not call `onClick` when link clicked', async () => {
-      const onClick = jest.fn();
+      const onClick = vi.fn();
 
       renderRTL({ onClick, disabled: true });
 
@@ -29,7 +29,7 @@ describe('Link', () => {
     });
 
     it('does not call `onClick` when Enter pressed', async () => {
-      const onClick = jest.fn();
+      const onClick = vi.fn();
 
       renderRTL({ onClick, disabled: true });
       fireEvent.keyDown(screen.getByTestId(LinkDataTids.root), { key: 'Enter', code: 'Enter' });

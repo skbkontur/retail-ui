@@ -6,7 +6,7 @@ import { MenuItem } from '../../../components/MenuItem';
 
 describe('Menu', () => {
   it('calls existing refs of children when highlighted', () => {
-    const refItem = jest.fn();
+    const refItem = vi.fn();
     render(
       <Menu>
         <MenuItem ref={refItem} />
@@ -21,7 +21,7 @@ describe('Menu', () => {
   });
 
   it('calls onClick on manually passed MenuItem', () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     render(
       <Menu>
         <MenuItem onClick={onClick}>
@@ -36,7 +36,7 @@ describe('Menu', () => {
   });
 
   it('does not call onClick on disabled MenuItem', () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     render(
       <Menu>
         <MenuItem onClick={onClick} disabled>

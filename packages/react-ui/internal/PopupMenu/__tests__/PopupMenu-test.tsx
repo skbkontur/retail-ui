@@ -62,7 +62,7 @@ describe('PopupMenu', () => {
   });
 
   it('should call `onOpen` callback after opening of the menu', async () => {
-    const onOpenCallback = jest.fn();
+    const onOpenCallback = vi.fn();
     const captionContent = 'caption content';
     const outsideButtonContent = 'outside button content';
 
@@ -88,7 +88,7 @@ describe('PopupMenu', () => {
   });
 
   it('should call `onClose` callback after closing of the menu', async () => {
-    const onCloseCallback = jest.fn();
+    const onCloseCallback = vi.fn();
     const captionContent = 'caption content';
     const outsideButtonContent = 'outside button content';
 

@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
-import { Gapped } from '@skbkontur/react-ui';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import type { Story } from '@skbkontur/react-ui/typings/stories';
 
 import type { ValidationBehaviour, ValidationInfo } from '../src';

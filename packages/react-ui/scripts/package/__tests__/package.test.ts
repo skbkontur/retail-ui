@@ -1,3 +1,4 @@
+// @ts-expect-error - index.js doesn't have type definitions
 import { getDistTag, TAGS } from '../index';
 
 describe('package', () => {

@@ -8,7 +8,7 @@ import { componentsLocales as TokenLocalesEn } from '../locale/locales/en';
 
 describe('Token', () => {
   it('handles onRemove event', () => {
-    const onRemove = jest.fn();
+    const onRemove = vi.fn();
 
     render(
       <div>
@@ -21,7 +21,7 @@ describe('Token', () => {
   });
 
   it('dont call onRemove event if token disabled', () => {
-    const onRemove = jest.fn();
+    const onRemove = vi.fn();
 
     render(
       <div>

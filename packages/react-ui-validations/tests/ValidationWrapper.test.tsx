@@ -1,7 +1,8 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ThemeFactory } from '@skbkontur/react-ui';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import { vi } from 'vitest';
 
 import type { ValidationBehaviour, ValidationInfo } from '../src';
 import { text, ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
@@ -52,11 +53,11 @@ ComboBoxLike.__KONTUR_REACT_UI__ = 'ComboBox';
 describe('ValidationWrapper', () => {
   describe('clone props', () => {
     it.each([
-      ['ref', jest.fn()],
-      ['onFocus', jest.fn()],
-      ['onBlur', jest.fn()],
-      ['onChange', jest.fn()],
-      ['onValueChange', jest.fn()],
+      ['ref', vi.fn()],
+      ['onFocus', vi.fn()],
+      ['onBlur', vi.fn()],
+      ['onChange', vi.fn()],
+      ['onValueChange', vi.fn()],
     ])('should call `%s` method', async (propName, propValue) => {
       render(
         <ValidationContainer>
@@ -154,13 +155,13 @@ describe('ValidationWrapper', () => {
         />,
       );
 
-      expect(screen.queryByText('message')).toHaveStyle('color: red');
+      expect(screen.queryByText('message')).toHaveStyle('color: rgb(255, 0, 0)');
 
       act(() => {
         screen.getByTestId('update-validation-info').click();
       });
 
-      expect(screen.queryByText('message')).toHaveStyle('color: orange');
+      expect(screen.queryByText('message')).toHaveStyle('color: rgb(255, 165, 0)');
     });
 
     it('should change `type`', async () => {

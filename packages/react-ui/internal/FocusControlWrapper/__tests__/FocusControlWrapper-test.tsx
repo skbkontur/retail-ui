@@ -22,8 +22,8 @@ describe('FocusControlWrapper', () => {
   it("onblur event doesn't fire when input disabled [bug in react https://github.com/facebook/react/issues/9142]", async () => {
     const getInput = () => screen.getByRole('textbox');
 
-    const handleBlur = jest.fn(() => (getInput().style.border = 'none'));
-    const handleFocus = jest.fn(() => (getInput().style.border = '1px solid blue'));
+    const handleBlur = vi.fn(() => (getInput().style.border = 'none'));
+    const handleFocus = vi.fn(() => (getInput().style.border = '1px solid #00f'));
 
     render(<input disabled={false} onBlur={handleBlur} onFocus={handleFocus} />);
 
@@ -36,11 +36,12 @@ describe('FocusControlWrapper', () => {
     input.setAttribute('disabled', '');
     await userEvent.tab();
     expect(handleBlur).not.toHaveBeenCalled();
-    expect(input).toHaveStyle('border: 1px solid blue;');
+    // Проверяем, что border остался синим, так как handleBlur не был вызван
+    expect(input).toHaveStyle('border: 1px solid #00f;');
   });
 
   it('works correct with common wrapper', () => {
-    const handleBlurWhenDisabled = jest.fn();
+    const handleBlurWhenDisabled = vi.fn();
     render(
       <CommonWrapper
         data-tid="CommonWrapper"
@@ -64,9 +65,9 @@ describe('FocusControlWrapper', () => {
   });
 
   it('called onBlurWhenDisabled only when disabled', async () => {
-    const handleFocus = jest.fn();
-    const handleBlur = jest.fn();
-    const handleBlurWhenDisabled = jest.fn();
+    const handleFocus = vi.fn();
+    const handleBlur = vi.fn();
+    const handleBlurWhenDisabled = vi.fn();
 
     const { rerender } = render(
       <FocusControlTestWrapper

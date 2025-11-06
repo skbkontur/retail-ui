@@ -1,9 +1,12 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 import React from 'react';
-import { Button, Gapped, Input } from '@skbkontur/react-ui';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
-import { ValidationContainer, ValidationWrapper, ValidationInfo, ValidationBehaviour, text } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { ValidationInfo, ValidationBehaviour } from '../../../../src';
+import { ValidationContainer, ValidationWrapper, text } from '../../../../src';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 export default {

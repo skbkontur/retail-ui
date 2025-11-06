@@ -10,7 +10,7 @@ import { TooltipMenuDataTids } from '..';
 
 describe('<TooltipMenu />', () => {
   beforeEach(() => {
-    window.scrollTo = jest.fn();
+    window.scrollTo = vi.fn();
   });
 
   test('Render without crashes', () => {

@@ -61,7 +61,7 @@ describe('<RadioGroup />', () => {
   });
 
   it('calls onValueChange on radio click', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
 
     renderRadioGroup({ items, onValueChange });
     const radios = screen.getAllByTestId(RadioDataTids.root);
@@ -94,7 +94,7 @@ describe('<RadioGroup />', () => {
   });
 
   it('handle onMouseOver event', () => {
-    const onMouseOver = jest.fn();
+    const onMouseOver = vi.fn();
 
     render(<RadioGroup items={items} onMouseOver={onMouseOver} />);
     fireEvent.mouseOver(screen.getByTestId(RadioGroupDataTids.root));
@@ -102,7 +102,7 @@ describe('<RadioGroup />', () => {
   });
 
   it('handle onMouseEnter event', () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
 
     render(<RadioGroup items={items} onMouseEnter={onMouseEnter} />);
     fireEvent.mouseEnter(screen.getByTestId(RadioGroupDataTids.root));
@@ -110,7 +110,7 @@ describe('<RadioGroup />', () => {
   });
 
   it('handle onMouseLeave event', () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
 
     render(<RadioGroup items={items} onMouseLeave={onMouseLeave} />);
     fireEvent.mouseLeave(screen.getByTestId(RadioGroupDataTids.root));
@@ -145,7 +145,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     renderRadioGroup({ children, onValueChange });
 
     const radios = screen.getAllByRole('radio');
@@ -224,7 +224,7 @@ describe('<RadioGroup />', () => {
   });
 
   it('should call `onBlur` after click outside of radio button', () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     render(<RadioGroup items={items} onBlur={onBlur} />);
 
     const radio = screen.getAllByRole('radio')[0];
@@ -232,14 +232,14 @@ describe('<RadioGroup />', () => {
     fireEvent.focus(radio);
     fireEvent.blur(radio);
     fireEvent.blur(radio);
-    clickOutside();
+    clickOutside('touchstart');
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('should call `onBlur` after click outside of radio group', async () => {
-    const onBlur = jest.fn();
-    const onRadioBlur = jest.fn();
+    const onBlur = vi.fn();
+    const onRadioBlur = vi.fn();
 
     render(
       <RadioGroup onBlur={onBlur} ref={rgRef}>
@@ -253,7 +253,7 @@ describe('<RadioGroup />', () => {
     fireEvent.blur(radioOne);
     fireEvent.blur(radioTwo);
 
-    clickOutside();
+    clickOutside('touchstart');
 
     expect(onRadioBlur).toHaveBeenCalledTimes(2);
     expect(onBlur).toHaveBeenCalledTimes(1);

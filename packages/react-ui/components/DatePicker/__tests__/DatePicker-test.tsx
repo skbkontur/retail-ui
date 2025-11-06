@@ -40,46 +40,46 @@ describe('DatePicker', () => {
 
   it('has id attribute', () => {
     const dateInputId = 'dateInputId';
-    const result = render(<DatePicker id={dateInputId} value="02.07.2017" onValueChange={jest.fn()} />);
+    const result = render(<DatePicker id={dateInputId} value="02.07.2017" onValueChange={vi.fn()} />);
     expect(result.container.querySelector(`#${dateInputId}`)).not.toBeNull();
   });
 
   it('renders', () => {
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} />);
     expect(screen.getByTestId(DatePickerDataTids.label)).toBeInTheDocument();
   });
 
   it('renders date select when open', async () => {
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   it("doesn't open on focus if disabled", async () => {
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} disabled />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('closes when become disabled', async () => {
-    const { rerender } = render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} />);
+    const { rerender } = render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
-    rerender(<DatePicker value="02.07.2017" onValueChange={jest.fn()} disabled />);
+    rerender(<DatePicker value="02.07.2017" onValueChange={vi.fn()} disabled />);
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('open when autoFocus enabled', () => {
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} autoFocus />);
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} autoFocus />);
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   it('blur() methon works', async () => {
     const datePickerRef = React.createRef<DatePicker>();
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />);
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} ref={datePickerRef} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
     act(() => {
@@ -90,8 +90,8 @@ describe('DatePicker', () => {
 
   it('handle onBlur event', async () => {
     const datePickerRef = React.createRef<DatePicker>();
-    const onBlur = jest.fn();
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} onBlur={onBlur} />);
+    const onBlur = vi.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} ref={datePickerRef} onBlur={onBlur} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
 
@@ -100,8 +100,8 @@ describe('DatePicker', () => {
   });
 
   it('handle onFocus event', async () => {
-    const onFocus = jest.fn();
-    render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} onFocus={onFocus} />);
+    const onFocus = vi.fn();
+    render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} onFocus={onFocus} />);
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     expect(onFocus).toHaveBeenCalled();
   });
@@ -110,7 +110,7 @@ describe('DatePicker', () => {
     render(
       <>
         <Input data-tid="test-input" />
-        <DatePicker value="02.07.2017" onValueChange={jest.fn()} />
+        <DatePicker value="02.07.2017" onValueChange={vi.fn()} />
       </>,
     );
     await userEvent.click(screen.getByTestId('test-input'));
@@ -123,7 +123,7 @@ describe('DatePicker', () => {
       const datePickerRef = React.createRef<DatePicker>();
       render(
         <>
-          <DatePicker value="02.07.2017" onValueChange={jest.fn()} ref={datePickerRef} />
+          <DatePicker value="02.07.2017" onValueChange={vi.fn()} ref={datePickerRef} />
         </>,
       );
       datePickerRef.current?.focus({ withoutOpenDropdown: true });
@@ -165,7 +165,7 @@ describe('DatePicker', () => {
       );
     };
     render(
-      <DatePicker value="02.07.2017" onValueChange={jest.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
+      <DatePicker value="02.07.2017" onValueChange={vi.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
     );
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
@@ -173,8 +173,8 @@ describe('DatePicker', () => {
   });
 
   it('onMonthChange returns correct month', async () => {
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
-    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
+    render(<DatePicker value={'02.06.2017'} onValueChange={vi.fn()} onMonthChange={onMonthChange} />);
 
     await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
     await userEvent.click(
@@ -196,8 +196,8 @@ describe('DatePicker', () => {
   }, 10000);
 
   it('onMonthChange returns correct year', async () => {
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
-    render(<DatePicker value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
+    render(<DatePicker value={'02.06.2017'} onValueChange={vi.fn()} onMonthChange={onMonthChange} />);
 
     await act(async () => {
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
@@ -236,7 +236,7 @@ describe('DatePicker', () => {
 
   describe('Locale', () => {
     it('render without LocaleProvider', async () => {
-      render(<DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />);
+      render(<DatePicker value="02.07.2017" onValueChange={vi.fn()} enableTodayLink />);
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
@@ -248,7 +248,7 @@ describe('DatePicker', () => {
     it('render default locale', async () => {
       render(
         <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
-          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+          <DatePicker value="02.07.2017" onValueChange={vi.fn()} enableTodayLink />
         </LocaleContext.Provider>,
       );
 
@@ -263,7 +263,7 @@ describe('DatePicker', () => {
     it('render correct locale when set langCode', async () => {
       render(
         <LocaleContext.Provider value={{ locale: {}, langCode: LangCodes.en_GB }}>
-          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+          <DatePicker value="02.07.2017" onValueChange={vi.fn()} enableTodayLink />
         </LocaleContext.Provider>,
       );
 
@@ -280,7 +280,7 @@ describe('DatePicker', () => {
     it('updates when langCode changes', async () => {
       const { rerender } = render(
         <LocaleContext.Provider value={{ locale: {}, langCode: defaultLangCode }}>
-          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+          <DatePicker value="02.07.2017" onValueChange={vi.fn()} enableTodayLink />
         </LocaleContext.Provider>,
       );
 
@@ -288,7 +288,7 @@ describe('DatePicker', () => {
 
       rerender(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <DatePicker value="02.07.2017" onValueChange={jest.fn()} enableTodayLink />
+          <DatePicker value="02.07.2017" onValueChange={vi.fn()} enableTodayLink />
         </LocaleContext.Provider>,
       );
 
@@ -317,7 +317,7 @@ describe('DatePicker', () => {
       ];
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { months: renamedMonths } } }}>
-          <DatePicker value="12.06.2022" onValueChange={jest.fn()} />
+          <DatePicker value="12.06.2022" onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -353,7 +353,7 @@ describe('DatePicker', () => {
     });
 
     it('should have disabled input', () => {
-      render(<DatePicker onValueChange={jest.fn()} disabled />);
+      render(<DatePicker onValueChange={vi.fn()} disabled />);
 
       expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
     });
@@ -361,7 +361,7 @@ describe('DatePicker', () => {
 
   describe('a11y', () => {
     it('sets value for aria-label attribute (ru)', async () => {
-      render(<DatePicker enableTodayLink onValueChange={jest.fn()} />);
+      render(<DatePicker enableTodayLink onValueChange={vi.fn()} />);
 
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
@@ -374,7 +374,7 @@ describe('DatePicker', () => {
     it('sets value for aria-label attribute (en)', async () => {
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+          <DatePicker enableTodayLink onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -390,7 +390,7 @@ describe('DatePicker', () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { todayAriaLabel: customAriaLabel } } }}>
-          <DatePicker enableTodayLink onValueChange={jest.fn()} />
+          <DatePicker enableTodayLink onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -406,7 +406,7 @@ describe('DatePicker', () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { selectMonthAriaLabel: customAriaLabel } } }}>
-          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+          <DatePicker value={'1.2.2021'} onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -423,7 +423,7 @@ describe('DatePicker', () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { selectYearAriaLabel: customAriaLabel } } }}>
-          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+          <DatePicker value={'1.2.2021'} onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -440,7 +440,7 @@ describe('DatePicker', () => {
       const customAriaLabel = 'test';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { selectChosenAriaLabel: customAriaLabel } } }}>
-          <DatePicker value={'1.2.2021'} onValueChange={jest.fn()} />
+          <DatePicker value={'1.2.2021'} onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -458,7 +458,7 @@ describe('DatePicker', () => {
       const date = '1.2.2021';
       render(
         <LocaleContext.Provider value={{ locale: { DatePicker: { dayCellChooseDateAriaLabel: customAriaLabel } } }}>
-          <DatePicker value={date} onValueChange={jest.fn()} />
+          <DatePicker value={date} onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
       const ariaLabel = `${customAriaLabel}: ${new InternalDate({
@@ -473,15 +473,15 @@ describe('DatePicker', () => {
 
   describe('mobile', () => {
     const oldMatchMedia = window.matchMedia;
-    const matchMediaMock = jest.fn().mockImplementation((query) => {
+    const matchMediaMock = vi.fn().mockImplementation((query) => {
       return {
         matches: query === LIGHT_THEME.mobileMediaQuery,
         media: query,
         onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
       };
     });
 
@@ -598,7 +598,7 @@ describe('DatePicker', () => {
       ['01.01.2011', '11'],
       ['01.01.2011', '02'],
     ])('should not call onMonthChange when only the date changes', async (from, to) => {
-      const onMonthChange = jest.fn();
+      const onMonthChange = vi.fn();
       render(<MobilePicker initialDate={from} onMonthChange={onMonthChange} />);
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 
@@ -613,7 +613,7 @@ describe('DatePicker', () => {
       ['01.01.2011', '01.01.2012'],
       ['01.01.2011', '01.02.2012'],
     ])('should call onMonthChange when the value changes from "%s" to "%s"', async (from, to) => {
-      const onMonthChange = jest.fn();
+      const onMonthChange = vi.fn();
       render(<MobilePicker initialDate={from} onMonthChange={onMonthChange} />);
       await userEvent.click(screen.getByTestId(DatePickerDataTids.input));
 

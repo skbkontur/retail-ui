@@ -96,7 +96,7 @@ describe('Textarea', () => {
   });
 
   it('handels onPaste event', async () => {
-    const onPaste = jest.fn();
+    const onPaste = vi.fn();
     render(<Textarea onPaste={onPaste} />);
     const text = 'It handels onPaste event';
     const element = screen.getByRole('textbox');
@@ -107,7 +107,7 @@ describe('Textarea', () => {
   });
 
   it('handels onFocus event', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(<Textarea onFocus={onFocus} />);
 
     await userEvent.click(screen.getByRole('textbox'));
@@ -116,7 +116,7 @@ describe('Textarea', () => {
   });
 
   it('handels onCut event', async () => {
-    const onCut = jest.fn();
+    const onCut = vi.fn();
     render(<Textarea onCut={onCut} value={'It handels onCut event'} selectAllOnFocus />);
 
     await userEvent.click(screen.getByRole('textbox'));
@@ -126,7 +126,7 @@ describe('Textarea', () => {
   });
 
   it('handels onKeyDown event', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     render(<Textarea onKeyDown={onKeyDown} />);
 
     await userEvent.type(screen.getByRole('textbox'), '{enter}');
@@ -135,7 +135,7 @@ describe('Textarea', () => {
   });
 
   it('handels onValueChange event', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
 
     render(<Textarea onValueChange={onValueChange} value="" />);
 
@@ -147,7 +147,7 @@ describe('Textarea', () => {
   });
 
   it('handels onChange event', () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(<Textarea onChange={onChange} value="" />);
 

@@ -15,14 +15,7 @@ module.exports = {
           envName: 'cjs',
           extends: path.join(__dirname, '../../react-ui/.babelrc.js'),
         },
-      },
-      {
-        loader: 'string-replace-loader',
-        options: {
-          search: /__REACT_UI_PACKAGE__/g,
-          replace: '@skbkontur/react-ui',
-        },
-      },
+      },      
     ],
   },
   resolve: {

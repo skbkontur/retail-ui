@@ -15,7 +15,7 @@
     "react-dom": ">=16.9"
   },
   "dependencies": {
-    "@babel/runtime": "7.16.5"
+    "@babel/runtime": "7.16.5"    
   },
   "devDependencies": {
     "@emotion/react": "^11.1.5",

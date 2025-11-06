@@ -14,7 +14,7 @@ describe('<DropdownMenu />', () => {
   const caption = <button data-tid={captionDatatid}>Test</button>;
 
   beforeEach(() => {
-    window.scrollTo = jest.fn();
+    window.scrollTo = vi.fn();
   });
 
   it('Render without crashes', () => {
@@ -83,7 +83,7 @@ describe('<DropdownMenu />', () => {
   });
 
   it('Click handler on menu item should be called before closing', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
 
     render(
       <DropdownMenu caption={caption}>
@@ -99,8 +99,8 @@ describe('<DropdownMenu />', () => {
   });
 
   it('Fire onOpen and onClose when open and close dropdown', async () => {
-    const onOpen = jest.fn();
-    const onClose = jest.fn();
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
     render(
       <DropdownMenu caption={caption} onOpen={onOpen} onClose={onClose}>
         <MenuItem>Test</MenuItem>

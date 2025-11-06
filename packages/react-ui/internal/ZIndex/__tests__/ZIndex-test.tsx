@@ -8,7 +8,7 @@ import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {
-    const unmountFn = jest.fn();
+    const unmountFn = vi.fn();
     class Content extends React.Component {
       public componentWillUnmount() {
         unmountFn();
@@ -112,7 +112,7 @@ describe('ZIndex', () => {
   });
 
   describe('Warnings', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     beforeEach(() => {
       consoleSpy.mockClear();

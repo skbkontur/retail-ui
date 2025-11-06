@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-import { API, FileInfo } from 'jscodeshift';
+import type { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
   checkboxLabelGap: 'checkboxCaptionGap',
@@ -21,7 +21,7 @@ export default function transform(file: FileInfo, api: API) {
   let modified = false;
   const result = j(file.source)
     .find(j.ObjectExpression)
-    .find(j.Identifier, (node) => RENAMED_VARS[node.name])
+    .find(j.Identifier, (node) => !!RENAMED_VARS[node.name])
     .replaceWith((path) => {
       path.node.name = RENAMED_VARS[path.node.name];
       modified = true;

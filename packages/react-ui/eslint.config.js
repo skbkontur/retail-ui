@@ -26,7 +26,7 @@ module.exports = [
     plugins: {
       'testing-library': require('eslint-plugin-testing-library'),
       'jest-dom': require('eslint-plugin-jest-dom'),
-      jest: require('eslint-plugin-jest'),
+      vitest: require('eslint-plugin-vitest'),
       storybook: require('eslint-plugin-storybook'),
     },
     rules: {

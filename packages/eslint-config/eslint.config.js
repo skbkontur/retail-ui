@@ -33,7 +33,7 @@ module.exports = [
     settings: { react: { version: 'detect' } },
     languageOptions: {
       parser: typescriptEslintParser,
-      globals: { ...globals.browser, ...globals.node, ...globals.jest, ...globals.mocha, ...globals.es2020 },
+      globals: { ...globals.browser, ...globals.node, ...globals.mocha, ...globals.es2020 },
     },
   },
   {

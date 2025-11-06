@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "@testing-library/jest-dom", "creevey/selenium"],
+    "types": ["vitest/globals", "@testing-library/jest-dom", "creevey/selenium"],
     "isolatedModules": true,
     "importHelpers": false,
     "useUnknownInCatchVariables": false,

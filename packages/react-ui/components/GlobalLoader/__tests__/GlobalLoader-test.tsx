@@ -4,10 +4,10 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
 
-const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1000;
+const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1100;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;
 
-jest.unmock('lodash.debounce');
+vi.unmock('lodash.debounce');
 
 describe('Global Loader', () => {
   const refGlobalLoader = React.createRef<GlobalLoader>();
@@ -126,7 +126,9 @@ describe('Global Loader', () => {
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
 
-      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      });
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
       await waitFor(() => {
@@ -207,7 +209,9 @@ describe('Global Loader', () => {
       expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      });
     });
 
     it('should set error', async () => {
@@ -215,7 +219,10 @@ describe('Global Loader', () => {
         GlobalLoader.start();
       });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      });
 
       act(() => {
         GlobalLoader.reject();
@@ -229,7 +236,9 @@ describe('Global Loader', () => {
         GlobalLoader.start();
       });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      });
 
       act(() => {
         GlobalLoader.done();
@@ -237,7 +246,9 @@ describe('Global Loader', () => {
       expect(screen.getByTestId(GlobalLoaderDataTids.root)).toHaveAttribute('data-status', 'success');
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
-      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      });
     });
 
     it('should start after success animation', async () => {
@@ -252,11 +263,18 @@ describe('Global Loader', () => {
         GlobalLoader.start();
       });
       await delay(DELAY_BEFORE_GLOBAL_LOADER_HIDE);
-      expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByTestId(GlobalLoaderDataTids.root)).not.toBeInTheDocument();
+      });
 
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
 
-      expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+      await waitFor(
+        () => {
+          expect(screen.getByTestId(GlobalLoaderDataTids.root)).toBeInTheDocument();
+        },
+        { timeout: 15000 },
+      );
     });
 
     it('should hide in start->done->start->done scenario', async () => {

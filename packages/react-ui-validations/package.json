@@ -1,5 +1,5 @@
 {
-  "name": "react-ui-validations",
+  "name": "@skbkontur/react-ui-validations",
   "version": "2.3.5",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
@@ -8,13 +8,11 @@
     "prebuild": "yarn clean",
     "clean": "rimraf dist build",
     "build": "npm-run-all --continue-on-error build:*",
-    "build:retail-ui": "rollup --config ./rollup.retail-ui.config.mjs",
     "build:react-ui": "rollup --config ./rollup.react-ui.config.mjs",
     "predeploy": "yarn bundle-dts && yarn prepare-packages && yarn test:pack",
     "bundle-dts": "node scripts/bundle-dts.js",
     "prepare-packages": "node scripts/prepare-packages.js",
     "deploy": "npm-run-all --continue-on-error deploy:*",
-    "deploy:retail-ui": "yarn --cwd ./build/retail-ui-dist publish --non-interactive",
     "deploy:react-ui": "yarn --cwd ./build/react-ui-dist publish --non-interactive",
     "storybook": "cross-env STORYBOOK_REACT_UI_TEST=true storybook dev -p 6060",
     "storybook:build": "cross-env STORYBOOK_REACT_UI_TEST=true storybook build -o .storybook/build --quiet",
@@ -28,9 +26,9 @@
     "fix": "run-s -c fix:*",
     "fix:eslint": "yarn lint:eslint --fix",
     "fix:prettier": "yarn prettier --write .",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:pack": "tsc -p check-dts.tsconfig.json && jest --testMatch \"**\" --testPathPattern=scripts/check-pack-files.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:pack": "tsc -p check-dts.tsconfig.json && vitest run -c=vitest.predeploy.config.ts",
     "creevey": "yarn playwright install --with-deps chromium && creevey test -c .creevey/config.mts --storybook-port=6060",
     "creevey:ci": "start-server-and-test storybook:serve http://localhost:6060 creevey",
     "creevey:update": "creevey report --update -c .creevey/config.mts",
@@ -54,7 +52,7 @@
   "peerDependencies": {
     "react": ">=16.9 <19",
     "react-dom": ">=16.9 <19",
-    "retail-ui": ">=5 <6"
+    "@skbkontur/react-ui": ">=5 <6"
   },
   "dependencies": {
     "smoothscroll-polyfill": "^0.4.4",
@@ -85,7 +83,6 @@
     "@testing-library/react": "15.0.7",
     "@testing-library/react-hooks": "8.0.1",
     "@testing-library/user-event": "14.5.2",
-    "@types/jest": "^29.5.12",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@types/react-helmet": "^6.1.11",
@@ -103,9 +100,7 @@
     "gh-pages": "^6.1.1",
     "html-webpack-plugin": "5.6.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "jest-teamcity-reporter": "^0.9.0",
+    "jsdom": "^27.0.0",
     "less": "4.2.0",
     "less-loader": "12.2.0",
     "markdown": "^0.5.0",
@@ -132,6 +127,7 @@
     "ts-loader": "9.5.1",
     "tslib": "2.6.2",
     "typescript": "4.9.4",
+    "vitest": "^3.2.4",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "5.0.4"

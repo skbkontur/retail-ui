@@ -6,13 +6,13 @@ import { clickOutside } from '../../../lib/utils';
 import { FocusTrap } from '../FocusTrap';
 
 describe('<FocusTrap>', () => {
-  let onBlur: jest.Mock<Promise<string[]>>;
-  let onButtonBlur: jest.Mock<Promise<string[]>>;
+  let onBlur: ReturnType<typeof vi.fn>;
+  let onButtonBlur: ReturnType<typeof vi.fn>;
   let focusTrap: RenderResult;
 
   beforeEach(() => {
-    onBlur = jest.fn();
-    onButtonBlur = jest.fn();
+    onBlur = vi.fn();
+    onButtonBlur = vi.fn();
     focusTrap = render(
       <FocusTrap onBlur={onBlur}>
         <div>
@@ -43,7 +43,7 @@ describe('<FocusTrap>', () => {
     firstButton.blur();
     secondButton.blur();
 
-    clickOutside();
+    clickOutside('touchstart');
 
     expect(onButtonBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledTimes(1);

@@ -1,17 +1,8 @@
 import type { ReactElement } from 'react';
-import React from 'react';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 
 import { isNonNullable } from '../src/utils/isNonNullable';
-
-declare function require(name: string): any;
-
-const defaultOrNamed = (module: any, component: string) =>
-  module && module.__esModule && module.default ? module.default : module[component];
-
-const importContext = (module: any, component: string) => module[component] || React.createContext({});
-
-const Tooltip = defaultOrNamed(require('__REACT_UI_PACKAGE__/components/Tooltip'), 'Tooltip');
-const ThemeContext = importContext(require('__REACT_UI_PACKAGE__/lib/theming/ThemeContext'), 'ThemeContext');
 
 export { Tooltip, ThemeContext };
 

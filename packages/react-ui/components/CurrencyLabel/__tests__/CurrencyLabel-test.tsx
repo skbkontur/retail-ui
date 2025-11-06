@@ -43,7 +43,7 @@ describe('CurrencyLabel', () => {
   });
 
   describe('Warnings', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     beforeEach(() => {
       consoleSpy.mockClear();

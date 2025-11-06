@@ -24,7 +24,7 @@ import { SpinnerDataTids } from '../../Spinner';
 import type { ComboBoxItem } from '..';
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
-function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {
+function searchFactory<T = string[]>(promise: Promise<T>): [ReturnType<typeof vi.fn>, Promise<void>] {
   let searchCalled: () => Promise<void>;
   const searchPromise = new Promise<void>(
     (resolve) =>
@@ -34,7 +34,7 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
         return resolve();
       }),
   );
-  const search = jest.fn(() => {
+  const search = vi.fn(() => {
     searchCalled();
 
     return promise;
@@ -73,14 +73,14 @@ describe('ComboBox', () => {
   });
 
   it('fetches item when focused', async () => {
-    const search = jest.fn(() => Promise.resolve([]));
+    const search = vi.fn(() => Promise.resolve([]));
     render(<ComboBox getItems={search} />);
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     expect(search).toHaveBeenCalledWith('');
   });
 
   it('fetches items on input', async () => {
-    const search = jest.fn(() => Promise.resolve([]));
+    const search = vi.fn(() => Promise.resolve([]));
     render(<ComboBox getItems={search} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -103,7 +103,7 @@ describe('ComboBox', () => {
   it('sets items on search resolve', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    render(<ComboBox getItems={search} renderItem={(x) => x} />);
+    render(<ComboBox<string> getItems={search} renderItem={(x) => x} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
@@ -118,7 +118,7 @@ describe('ComboBox', () => {
   it('calls onValueChange if clicked on item', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} />);
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
@@ -134,7 +134,7 @@ describe('ComboBox', () => {
   it('selects first item on Enter', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} renderItem={(x) => x} value={'one'} />);
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
@@ -147,7 +147,7 @@ describe('ComboBox', () => {
 
   it('not auto selecting an item on entry when the search is empty', async () => {
     const items = ['Item 1', 'Item 2', 'Item 3'];
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(
       <ComboBox
         getItems={async (q: string) => items.filter((x) => x.toLowerCase().includes(q.toLowerCase()))}
@@ -168,7 +168,7 @@ describe('ComboBox', () => {
 
   it('selects the first item when search found multiple items', async () => {
     const items = ['Item 1', 'Item 2', 'Item 3'];
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(
       <ComboBox
         getItems={async (q: string) => items.filter((x) => x.toLowerCase().includes(q.toLowerCase()))}
@@ -214,7 +214,7 @@ describe('ComboBox', () => {
   });
 
   it('does not submit the form on the first Enter key press but submits on the second', async () => {
-    const handleSubmit = jest.fn();
+    const handleSubmit = vi.fn();
 
     const getItems = () => {
       return Promise.resolve(['one', 'two', 'three']);
@@ -253,7 +253,7 @@ describe('ComboBox', () => {
 
   it('calls onUnexpectedInput on click outside', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const onUnexpectedInput = jest.fn();
+    const onUnexpectedInput = vi.fn();
     render(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -271,8 +271,8 @@ describe('ComboBox', () => {
   });
 
   it('calls onValueChange if onUnexpectedInput return defined value', async () => {
-    const onValueChange = jest.fn();
-    const mockFn = jest
+    const onValueChange = vi.fn();
+    const mockFn = vi
       .fn(() => 'default')
       .mockImplementationOnce(() => null as unknown as string)
       .mockImplementationOnce(() => 'one')
@@ -307,7 +307,7 @@ describe('ComboBox', () => {
   });
 
   it('calls onFocus on focus', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(<ComboBox onFocus={onFocus} getItems={() => Promise.resolve([])} />);
 
     await userEvent.tab();
@@ -351,9 +351,9 @@ describe('ComboBox', () => {
       const getItems = (query: string) =>
         Promise.resolve(testValues.filter((item) => query && item.label.includes(query)));
 
-      const changeHandler = jest.fn();
-      const unexpectedInputHandler = jest.fn((value: string) => testValues.find((item) => item.label.includes(value)));
-      const maskOnBeforePasteHandler = jest.fn((value: string) => value.slice(3)); // NOTE: подрезаем 3 символа '+7 ', иначе в маске будет +7 791-20-43-22
+      const changeHandler = vi.fn();
+      const unexpectedInputHandler = vi.fn((value: string) => testValues.find((item) => item.label.includes(value)));
+      const maskOnBeforePasteHandler = vi.fn((value: string) => value.slice(3)); // NOTE: подрезаем 3 символа '+7 ', иначе в маске будет +7 791-20-43-22
       render(
         <ComboBox
           onValueChange={changeHandler}
@@ -417,7 +417,7 @@ describe('ComboBox', () => {
   });
 
   describe('onBlur callback', () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     const [search, promise] = searchFactory(Promise.resolve(['item']));
     const TestCombobox = () => <ComboBox getItems={search} onBlur={onBlur} />;
 
@@ -472,7 +472,7 @@ describe('ComboBox', () => {
       </div>,
     ];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(<ComboBox getItems={search} onValueChange={onValueChange} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -488,7 +488,7 @@ describe('ComboBox', () => {
   });
 
   it('calls element onClick on custom element select', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     const items = [
       <div key="0" onClick={onClick}>
         Hello, world
@@ -563,7 +563,7 @@ describe('ComboBox', () => {
   it('does not highlight menu item on focus with empty input', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    render(<ComboBox getItems={search} renderItem={(x) => x} />);
+    render(<ComboBox getItems={search} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
     await promise;
@@ -587,7 +587,7 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = vi.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
 
     it('in default mode', () => {
       const { rerender } = render(<ComboBox value={testValues[0]} getItems={getItems} />);
@@ -648,7 +648,7 @@ describe('ComboBox', () => {
 
   it('does not do search on focus in autocomplete mode', async () => {
     const value = { value: 1, label: 'one' };
-    const getItems = jest.fn();
+    const getItems = vi.fn();
     render(<ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -681,7 +681,7 @@ describe('ComboBox', () => {
       );
     };
 
-    const changeHandler = jest.fn();
+    const changeHandler = vi.fn();
     render(<ComboBox onValueChange={changeHandler} getItems={getItems} />);
 
     await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
@@ -722,7 +722,7 @@ describe('ComboBox', () => {
   describe('search by method', () => {
     const query = 'One';
 
-    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
+    const getItems = vi.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
 
     beforeEach(() => {
       getItems.mockClear();
@@ -759,9 +759,9 @@ describe('ComboBox', () => {
   });
 
   describe('keeps focus in input after', () => {
-    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
-    const onFocus = jest.fn();
-    const onBlur = jest.fn();
+    const getItems = vi.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
+    const onFocus = vi.fn();
+    const onBlur = vi.fn();
 
     beforeEach(async () => {
       render(<ComboBox getItems={getItems} onFocus={onFocus} onBlur={onBlur} />);
@@ -805,7 +805,7 @@ describe('ComboBox', () => {
   });
 
   describe('click on input', () => {
-    const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
+    const getItems = vi.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
 
     describe('in default mode', () => {
       beforeEach(async () => {
@@ -872,7 +872,7 @@ describe('ComboBox', () => {
     const query = 'One';
 
     it('without delay', async () => {
-      const getItems = jest.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
+      const getItems = vi.fn((query: string) => Promise.resolve(testValues.filter((x) => x.label.includes(query))));
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -887,7 +887,7 @@ describe('ComboBox', () => {
     });
 
     it(`with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(async () => {
+      const getItems = vi.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 200);
 
         return Promise.resolve(testValues.filter((x) => x.label.includes(query)));
@@ -908,7 +908,7 @@ describe('ComboBox', () => {
     });
 
     it(`with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(async () => {
+      const getItems = vi.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER + 200);
         return Promise.resolve(testValues.filter((x) => x.label.includes(query)));
       });
@@ -935,7 +935,7 @@ describe('ComboBox', () => {
     });
 
     it('rejected without delay', async () => {
-      const getItems = jest.fn(() => Promise.reject());
+      const getItems = vi.fn(() => Promise.reject());
 
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
@@ -951,7 +951,7 @@ describe('ComboBox', () => {
     });
 
     it(`rejected with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(async () => {
+      const getItems = vi.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 200);
         return Promise.reject();
       });
@@ -972,7 +972,7 @@ describe('ComboBox', () => {
     });
 
     it(`rejected with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
-      const getItems = jest.fn(async () => {
+      const getItems = vi.fn(async () => {
         await delay(DELAY_BEFORE_SHOW_LOADER + 200);
         return Promise.reject();
       });
@@ -1001,9 +1001,7 @@ describe('ComboBox', () => {
 
     it('twice without delay', async () => {
       const secondQuery = 'Two';
-      const getItems = jest.fn((searchQuery) =>
-        Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))),
-      );
+      const getItems = vi.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
       render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
       comboboxRef.current?.search(query);
@@ -1021,7 +1019,7 @@ describe('ComboBox', () => {
 
     it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
       const secondQuery = 'Two';
-      const getItems = jest.fn(async (searchQuery) => {
+      const getItems = vi.fn(async (searchQuery) => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 250);
         return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
@@ -1045,7 +1043,7 @@ describe('ComboBox', () => {
 
     it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER} loader`, async () => {
       const secondQuery = 'Two';
-      const getItems = jest.fn(async (searchQuery) => {
+      const getItems = vi.fn(async (searchQuery) => {
         await delay(DELAY_BEFORE_SHOW_LOADER - 100);
         return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
@@ -1075,7 +1073,7 @@ describe('ComboBox', () => {
 
     it(`twice with delay > ${DELAY_BEFORE_SHOW_LOADER}`, async () => {
       const secondQuery = 'Two';
-      const getItems = jest.fn(async (searchQuery) => {
+      const getItems = vi.fn(async (searchQuery) => {
         await delay(DELAY_BEFORE_SHOW_LOADER + 200);
 
         return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
@@ -1107,7 +1105,7 @@ describe('ComboBox', () => {
     it('twice with slow then fast requests', async () => {
       const delays = [DELAY_BEFORE_SHOW_LOADER + 200, DELAY_BEFORE_SHOW_LOADER - 200];
       const secondQuery = 'Two';
-      const getItems = jest.fn(async (searchQuery) => {
+      const getItems = vi.fn(async (searchQuery) => {
         await delay(delays.shift() || 0);
 
         return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
@@ -1143,7 +1141,7 @@ describe('ComboBox', () => {
     });
 
     it('long request and blur before it resolves', async () => {
-      const getItems = jest.fn(async () => {
+      const getItems = vi.fn(async () => {
         await delay(500);
         return Promise.resolve(testValues);
       });
@@ -1165,7 +1163,7 @@ describe('ComboBox', () => {
     });
 
     it('long request and blur after it resolves', async () => {
-      const getItems = jest.fn(async () => {
+      const getItems = vi.fn(async () => {
         await delay(500);
         return Promise.resolve(testValues);
       });
@@ -1189,8 +1187,8 @@ describe('ComboBox', () => {
   });
 
   describe('Locale', () => {
-    let search: jest.Mock<Promise<any>>;
-    let promise: Promise<any>;
+    let search: () => Promise<any>;
+    let promise: Promise<void>;
     beforeEach(() => {
       [search, promise] = searchFactory(Promise.resolve(null));
     });
@@ -1407,7 +1405,7 @@ describe('ComboBox', () => {
   });
 
   it('should have disabled input', () => {
-    render(<ComboBox getItems={jest.fn()} disabled />);
+    render(<ComboBox getItems={vi.fn()} disabled />);
 
     expect(screen.getByTestId(InputLikeTextDataTids.nativeInput)).toBeDisabled();
   });
@@ -1438,7 +1436,7 @@ describe('ComboBox', () => {
     it('props aria-describedby applied correctly on InputLikeText', () => {
       render(
         <div>
-          <ComboBox getItems={jest.fn()} disabled aria-describedby="elementId" />
+          <ComboBox getItems={vi.fn()} disabled aria-describedby="elementId" />
           <p id="elementId">Description</p>
         </div>,
       );
@@ -1448,7 +1446,7 @@ describe('ComboBox', () => {
     });
 
     it('should connect input and dropdown through aria-controls', async () => {
-      render(<ComboBox getItems={jest.fn()} />);
+      render(<ComboBox getItems={vi.fn()} />);
 
       expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveAttribute(
         'aria-controls',
@@ -1472,7 +1470,7 @@ describe('ComboBox', () => {
 
     it('sets value for aria-label attribute', async () => {
       const ariaLabel = 'aria-label';
-      render(<ComboBox getItems={jest.fn()} aria-label={ariaLabel} />);
+      render(<ComboBox getItems={vi.fn()} aria-label={ariaLabel} />);
 
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
 
@@ -1481,14 +1479,14 @@ describe('ComboBox', () => {
   });
 
   it('should focus by method', () => {
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = vi.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
     render(<ComboBox getItems={getItems} ref={comboboxRef} />);
     comboboxRef.current?.focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
   it('should blur by method', async () => {
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = vi.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
     render(<ComboBox getItems={getItems} ref={comboboxRef} />);
     comboboxRef.current?.focus();
     expect(screen.getByRole('textbox')).toHaveFocus();
@@ -1502,7 +1500,7 @@ describe('ComboBox', () => {
     const initialValue = testValues[0];
     const expectedValue = testValues[1];
 
-    const getItems = jest.fn((searchQuery) =>
+    const getItems = vi.fn((searchQuery) =>
       Promise.resolve(testValues.filter((value) => value.label.includes(searchQuery))),
     );
 
@@ -1555,7 +1553,7 @@ describe('ComboBox', () => {
       { value: '3', label: 'Three' },
       { value: '4', label: 'Four' },
     ];
-    const getItems = jest.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
+    const getItems = vi.fn((searchQuery) => Promise.resolve(testValues.filter((x) => x.label.includes(searchQuery))));
 
     const getTextbox = () => screen.getByRole('textbox');
     const getClearCross = () => screen.getByTestId(InputDataTids.clearCross);
@@ -1650,15 +1648,15 @@ describe('ComboBox', () => {
 describe('mobile comboBox', () => {
   const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
-  const matchMediaMock = jest.fn().mockImplementation((query) => {
+  const matchMediaMock = vi.fn().mockImplementation((query) => {
     return {
       matches: calcMatches(query),
       media: query,
       onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     };
   });
 
@@ -1714,7 +1712,7 @@ describe('mobile comboBox', () => {
   });
 
   it('should fire onKeyDown on input value', async () => {
-    const onInputKeyDown = jest.fn();
+    const onInputKeyDown = vi.fn();
     render(<ComboBox ref={comboBoxRef} getItems={getItems} onInputKeyDown={onInputKeyDown} />);
 
     await userEvent.type(screen.getByTestId(InputLikeTextDataTids.root), 'ab');

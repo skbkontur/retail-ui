@@ -11,7 +11,7 @@ export class FileReaderMock {
       },
     };
     // @ts-expect-error: Made for testing purposes.
-    window.FileReader = jest.fn(() => dummyFileReader);
+    window.FileReader = vi.fn(() => dummyFileReader);
   }
 
   static resetMock() {

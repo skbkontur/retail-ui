@@ -10,7 +10,7 @@ import { componentsLocales as SidePageLocalesRu } from '../locale/locales/ru';
 
 describe('SidePage', () => {
   it('onClose event performs an action on click', async () => {
-    const onClose = jest.fn();
+    const onClose = vi.fn();
     render(
       <SidePage onClose={onClose}>
         <SidePage.Header>Title</SidePage.Header>

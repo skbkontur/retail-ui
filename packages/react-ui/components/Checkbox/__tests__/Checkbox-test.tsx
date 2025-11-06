@@ -6,7 +6,7 @@ import { Checkbox } from '../Checkbox';
 
 describe('Checkbox', () => {
   it('should call onBlur after radio click', () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
 
     render(<Checkbox onBlur={onBlur} />);
     const checkbox = screen.getByRole('checkbox');
@@ -69,7 +69,7 @@ describe('Checkbox', () => {
   });
 
   it('handels onFocus event', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(<Checkbox onFocus={onFocus} />);
 
     await userEvent.click(screen.getByRole('checkbox'));
@@ -78,7 +78,7 @@ describe('Checkbox', () => {
   });
 
   it('handels onBlur event', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     render(<Checkbox onBlur={onBlur} />);
 
     await userEvent.click(screen.getByRole('checkbox'));
@@ -88,28 +88,28 @@ describe('Checkbox', () => {
   });
 
   it('handels onMouseEnter event', () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
     render(<Checkbox onMouseEnter={onMouseEnter} />);
     fireEvent.mouseEnter(screen.getByRole('checkbox'));
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
   it('handels onMouseLeave event', () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
     render(<Checkbox onMouseLeave={onMouseLeave} />);
     fireEvent.mouseLeave(screen.getByRole('checkbox'));
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
   it('handels onValueChange event', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(<Checkbox onChange={onValueChange} />);
     await userEvent.click(screen.getByRole('checkbox'));
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
   it('handels onClick event', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     render(<Checkbox onClick={onClick} />);
     await userEvent.click(screen.getByRole('checkbox'));
     expect(onClick).toHaveBeenCalledTimes(1);

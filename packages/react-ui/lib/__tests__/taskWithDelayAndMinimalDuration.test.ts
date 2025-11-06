@@ -3,8 +3,8 @@ import { delay } from '../utils';
 
 describe('stop() cases', () => {
   it('after before task works', async () => {
-    const taskStartCallback = jest.fn();
-    const taskStopCallback = jest.fn();
+    const taskStartCallback = vi.fn();
+    const taskStopCallback = vi.fn();
 
     const delayBeforeTaskStart = 300;
     const durationOfTask = 1000;
@@ -29,8 +29,8 @@ describe('stop() cases', () => {
   });
 
   it('after duration task ends', async () => {
-    const taskStartCallback = jest.fn();
-    const taskStopCallback = jest.fn();
+    const taskStartCallback = vi.fn();
+    const taskStopCallback = vi.fn();
 
     const delayBeforeTaskStart = 300;
     const durationOfTask = 1000;
@@ -54,8 +54,8 @@ describe('stop() cases', () => {
   });
 
   it('stop when before task start', async () => {
-    const taskStartCallback = jest.fn();
-    const taskStopCallback = jest.fn();
+    const taskStartCallback = vi.fn();
+    const taskStopCallback = vi.fn();
 
     const delayBeforeTaskStart = 300;
     const durationOfTask = 1000;
@@ -79,8 +79,8 @@ describe('stop() cases', () => {
   });
 
   it('stop callback fired when stop in last event', async () => {
-    const taskStartCallback = jest.fn();
-    const taskStopCallback = jest.fn();
+    const taskStartCallback = vi.fn();
+    const taskStopCallback = vi.fn();
 
     const delayBeforeTaskStart = 300;
     const durationOfTask = 1000;

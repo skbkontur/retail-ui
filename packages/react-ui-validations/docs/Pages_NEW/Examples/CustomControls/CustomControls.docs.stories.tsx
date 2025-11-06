@@ -1,8 +1,12 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 import React from 'react';
-import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Select } from '@skbkontur/react-ui/components/Select';
 
-import { ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
 export default {
@@ -23,6 +27,7 @@ export const CustomControls: Story = () => {
     onValueChange?: unknown;
   }
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(function MyInput(
     { error, warning, onValueChange, ...props },
     ref,

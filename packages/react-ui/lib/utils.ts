@@ -243,10 +243,9 @@ export const isKonturIcon = (icon: React.ReactElement) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
 
-export function clickOutside() {
+export function clickOutside(eventType: 'touchstart' | 'mousedown' | 'pointerup' = 'mousedown') {
   const event = document.createEvent('HTMLEvents');
-  event.initEvent('mousedown', true, true);
-
+  event.initEvent(eventType, true, true);
   document.body.dispatchEvent(event);
 }
 

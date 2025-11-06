@@ -1,16 +1,14 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
-import {
-  Button,
-  ComboBox,
-  DatePicker,
-  FileUploader,
-  Input,
-  RadioGroup,
-  Switcher,
-  TokenInput,
-  TokenInputType,
-} from '@skbkontur/react-ui';
+import { vi } from 'vitest';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher';
+import { TokenInput, TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { FileUploader } from '@skbkontur/react-ui/components/FileUploader';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 
 import type { ValidationInfo, ValidationContainerProps } from '../src';
 import { FocusMode, ValidationContainer, ValidationWrapper } from '../src';
@@ -39,7 +37,7 @@ describe('ValidationContainer', () => {
 
   describe('scroll into view on submit', () => {
     beforeEach(() => {
-      (smoothScrollIntoView as jest.Mock).mockReset();
+      (smoothScrollIntoView as ReturnType<typeof vi.fn>).mockReset();
     });
 
     const renderValidationContainer = (
@@ -162,7 +160,7 @@ describe('ValidationContainer', () => {
         );
       };
 
-      const onValidationUpdated = jest.fn();
+      const onValidationUpdated = vi.fn();
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
       await containerRef.current?.submit();
       expect(onValidationUpdated).toBeCalledWith(false);
@@ -199,7 +197,7 @@ describe('ValidationContainer', () => {
         );
       };
 
-      const onValidationUpdated = jest.fn();
+      const onValidationUpdated = vi.fn();
       const containerRef = renderValidationContainer(<ValidationForm />, { onValidationUpdated });
       await containerRef.current?.submit();
 
@@ -213,7 +211,7 @@ describe('ValidationContainer', () => {
     });
 
     describe('Warnings', () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       beforeEach(() => {
         consoleSpy.mockClear();

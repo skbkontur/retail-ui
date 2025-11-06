@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { PopupDataTids } from '..';
 import { MobilePopupDataTids } from '../../MobilePopup';
@@ -10,7 +10,7 @@ import { delay } from '../../../lib/utils';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 
 describe('Popup', () => {
-  jest.setTimeout(10000);
+  vi.setConfig({ testTimeout: 10000 });
 
   it('по дефолту открывается в первой переданной позиции', async () => {
     const anchor = document.createElement('button');
@@ -136,11 +136,12 @@ describe('rootNode', () => {
       expect(rootNode).toBe(contentContainer);
 
       rerender(<Component opened={false} />);
-      await delay(0);
 
-      rootNode = popupRef.current?.getRootNode();
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeNull();
+      await waitFor(() => {
+        rootNode = popupRef.current?.getRootNode();
+        expect(popupRef.current).not.toBeNull();
+        expect(rootNode).toBeNull();
+      });
     });
   };
 
@@ -150,15 +151,15 @@ describe('rootNode', () => {
   describe('on mobile', () => {
     const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
     const oldMatchMedia = window.matchMedia;
-    const matchMediaMock = jest.fn().mockImplementation((query) => {
+    const matchMediaMock = vi.fn().mockImplementation((query) => {
       return {
         matches: calcMatches(query),
         media: query,
         onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
       };
     });
 

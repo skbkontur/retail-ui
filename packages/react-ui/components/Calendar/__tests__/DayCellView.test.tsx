@@ -16,7 +16,7 @@ describe('DayCellView', () => {
   describe('a11y', () => {
     it('has correct aria-label (ru)', () => {
       const date = '1.2.2021';
-      render(<Calendar value={date} onValueChange={jest.fn()} />);
+      render(<Calendar value={date} onValueChange={vi.fn()} />);
 
       const ariaLabel = `${DayCellViewLocalesRu.dayCellChooseDateAriaLabel}: ${new InternalDate({
         value: date,
@@ -29,7 +29,7 @@ describe('DayCellView', () => {
       const date = '1.2.2021';
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <Calendar value={date} onValueChange={jest.fn()} />
+          <Calendar value={date} onValueChange={vi.fn()} />
         </LocaleContext.Provider>,
       );
 
@@ -62,7 +62,7 @@ describe('DayCellView', () => {
     const minDate = '02.11.2021';
     const maxDate = '05.11.2021';
     const expectedDate = '06.11.2021';
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
 
     render(<Calendar value={initialDate} minDate={minDate} maxDate={maxDate} onValueChange={onValueChange} />);
 
@@ -83,8 +83,8 @@ describe('DayCellView', () => {
   it('should not loose users click handler', async () => {
     const initialDate = '03.11.2021';
     const expectedDate = '06.11.2021';
-    const onValueChange = jest.fn();
-    const customDayOnClick = jest.fn();
+    const onValueChange = vi.fn();
+    const customDayOnClick = vi.fn();
     const renderDay: CalendarProps['renderDay'] = (props) => {
       return <CalendarDay {...props} onClick={customDayOnClick} />;
     };
@@ -109,7 +109,7 @@ describe('DayCellView', () => {
   it('click on a day should work with custom CalendarDay wrapper', async () => {
     const initialDate = '03.11.2021';
     const expectedDate = '06.11.2021';
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const renderDay: CalendarProps['renderDay'] = (props) => {
       return (
         <Hint text="Hint">

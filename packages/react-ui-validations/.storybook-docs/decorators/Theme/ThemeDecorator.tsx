@@ -1,15 +1,9 @@
 import React from 'react';
 import type { Decorator } from '@storybook/react';
-import {
-  DARK_THEME,
-  DARK_THEME_5_0,
-  DARK_THEME_5_1,
-  LIGHT_THEME,
-  LIGHT_THEME_5_0,
-  LIGHT_THEME_5_1,
-  ThemeContext,
-  ThemeFactory,
-} from '@skbkontur/react-ui';
+import { DARK_THEME, DARK_THEME_5_0, DARK_THEME_5_1 } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
+import { LIGHT_THEME, LIGHT_THEME_5_0, LIGHT_THEME_5_1 } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
 export const themes = {

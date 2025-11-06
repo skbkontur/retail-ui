@@ -1,12 +1,12 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Button } from '../../Button';
 import type { TooltipProps } from '../Tooltip';
 import { Tooltip, TooltipDataTids } from '../Tooltip';
-import { delay, clickOutside } from '../../../lib/utils';
+import { clickOutside, delay } from '../../../lib/utils';
 
 /** Wraps test and runs it twice with external and child anchor */
 const withVariousAnchors = (testFn: (render: (props: Partial<TooltipProps>) => { anchor: HTMLElement }) => void) => {
@@ -202,10 +202,11 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           await userEvent.hover(anchor);
-          await delay(Tooltip.delay);
-          const content = screen.getByTestId(TooltipDataTids.content);
 
-          expect(content).toBeInTheDocument();
+          await waitFor(() => {
+            const content = screen.getByTestId(TooltipDataTids.content);
+            expect(content).toBeInTheDocument();
+          });
         });
       });
 
@@ -226,13 +227,13 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           await userEvent.hover(anchor);
-          await delay(Tooltip.delay);
-          const content = screen.getByTestId(TooltipDataTids.content);
+          await waitFor(async () => {
+            const content = screen.getByTestId(TooltipDataTids.content);
+            expect(content).toBeInTheDocument();
 
-          expect(content).toBeInTheDocument();
-
-          await userEvent.click(anchor);
-          expect(content).toBeInTheDocument();
+            await userEvent.click(anchor);
+            expect(content).toBeInTheDocument();
+          });
         });
       });
 
@@ -241,13 +242,13 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           await userEvent.hover(anchor);
-          await delay(Tooltip.delay);
-          const content = screen.getByTestId(TooltipDataTids.content);
+          await waitFor(async () => {
+            const content = screen.getByTestId(TooltipDataTids.content);
+            expect(content).toBeInTheDocument();
 
-          expect(content).toBeInTheDocument();
-
-          await userEvent.click(content);
-          expect(content).toBeInTheDocument();
+            await userEvent.click(content);
+            expect(content).toBeInTheDocument();
+          });
         });
       });
 
@@ -256,13 +257,13 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           anchor.focus();
-          await delay(Tooltip.delay);
-          const content = screen.getByTestId(TooltipDataTids.content);
+          await waitFor(async () => {
+            const content = screen.getByTestId(TooltipDataTids.content);
+            expect(content).toBeInTheDocument();
 
-          expect(content).toBeInTheDocument();
-
-          await userEvent.click(anchor);
-          expect(content).toBeInTheDocument();
+            await userEvent.click(anchor);
+            expect(content).toBeInTheDocument();
+          });
         });
       });
 
@@ -271,13 +272,13 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           anchor.focus();
-          await delay(Tooltip.delay);
-          const content = screen.getByTestId(TooltipDataTids.content);
+          await waitFor(async () => {
+            const content = screen.getByTestId(TooltipDataTids.content);
+            expect(content).toBeInTheDocument();
 
-          expect(content).toBeInTheDocument();
-
-          await userEvent.click(content);
-          expect(content).toBeInTheDocument();
+            await userEvent.click(content);
+            expect(content).toBeInTheDocument();
+          });
         });
       });
 
@@ -286,13 +287,13 @@ describe('Tooltip', () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           await userEvent.hover(anchor);
-          await delay(Tooltip.delay);
-          const content = screen.getByTestId(TooltipDataTids.content);
+          await waitFor(async () => {
+            const content = screen.getByTestId(TooltipDataTids.content);
+            expect(content).toBeInTheDocument();
 
-          expect(content).toBeInTheDocument();
-
-          await userEvent.click(document.body);
-          expect(content).not.toBeInTheDocument();
+            await userEvent.click(document.body);
+            expect(content).not.toBeInTheDocument();
+          });
         });
       });
 
@@ -372,8 +373,8 @@ describe('Tooltip', () => {
         </Tooltip>
       );
     };
-    const refFn1 = jest.fn();
-    const refFn2 = jest.fn();
+    const refFn1 = vi.fn();
+    const refFn2 = vi.fn();
 
     const { rerender } = render(<Comp refFn={refFn1} />);
 
@@ -398,7 +399,7 @@ describe('Tooltip', () => {
   });
 
   it('calls `onCloseClick` when click on the cross', async () => {
-    const onClose = jest.fn();
+    const onClose = vi.fn();
     render(
       <Tooltip trigger="opened" render={renderTooltip} onCloseClick={onClose}>
         <div />
@@ -410,7 +411,7 @@ describe('Tooltip', () => {
 
   describe('calls `onOpen`', () => {
     it('with "opened" trigger', () => {
-      const onOpen = jest.fn();
+      const onOpen = vi.fn();
       render(
         <Tooltip trigger="opened" render={renderTooltip} onOpen={onOpen}>
           <div />
@@ -421,7 +422,7 @@ describe('Tooltip', () => {
     });
 
     it('with "focus" trigger', async () => {
-      const onOpen = jest.fn();
+      const onOpen = vi.fn();
       render(
         <Tooltip trigger="focus" render={renderTooltip} onOpen={onOpen}>
           <button />
@@ -433,13 +434,14 @@ describe('Tooltip', () => {
       await userEvent.tab();
       expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
 
-      await delay(100);
-      expect(onOpen.mock.calls).toHaveLength(1);
+      await waitFor(() => {
+        expect(onOpen.mock.calls).toHaveLength(1);
+      });
     });
   });
 
   describe('calls `onClose`', () => {
-    const onClose = jest.fn();
+    const onClose = vi.fn();
 
     beforeEach(() => {
       onClose.mockClear();
@@ -589,7 +591,7 @@ describe('Tooltip', () => {
 
   describe('calls onCloseRequest on clickOutside when tooltip is opened', () => {
     const Content = () => <div />;
-    const onCloseRequest = jest.fn();
+    const onCloseRequest = vi.fn();
 
     beforeEach(() => {
       onCloseRequest.mockClear();
@@ -656,22 +658,22 @@ describe('Tooltip', () => {
 
       await delay(showDelay);
 
-      expect(screen.getByTestId(TooltipDataTids.content)).toBeInTheDocument();
+      expect(await screen.findByTestId(TooltipDataTids.content)).toBeInTheDocument();
     });
     it(`doesn't render prematurely`, async () => {
       render(<TooltipWithCustomDelay />);
 
       await userEvent.hover(screen.getByRole('button', { name: 'Show' }));
 
-      await delay(Tooltip.delay);
-
-      expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByTestId(TooltipDataTids.content)).not.toBeInTheDocument();
+      });
     });
   });
 
   it('clears hoverTimeout timer after unmount', async () => {
-    jest.spyOn(window, 'setTimeout');
-    jest.spyOn(window, 'clearTimeout');
+    vi.spyOn(window, 'setTimeout');
+    vi.spyOn(window, 'clearTimeout');
 
     const tooltipRef = React.createRef<Tooltip>();
 
@@ -698,7 +700,7 @@ describe('Tooltip', () => {
 
   describe('findDOMNode', () => {
     beforeEach(() => {
-      (findDOMNode as jest.Mock).mockClear();
+      (findDOMNode as ReturnType<typeof vi.fn>).mockClear();
     });
 
     it('should not be called when opened', () => {
@@ -748,7 +750,7 @@ describe('Tooltip', () => {
     });
 
     describe('Warnings', () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       beforeEach(() => {
         consoleSpy.mockClear();

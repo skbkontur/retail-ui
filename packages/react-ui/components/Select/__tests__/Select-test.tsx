@@ -72,7 +72,7 @@ describe('Select', () => {
   });
 
   it('calls onKeyDown', () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     render(<Select onKeyDown={onKeyDown} />);
 
     fireEvent.keyDown(screen.getByRole('button'), { key: 'k' });
@@ -82,7 +82,7 @@ describe('Select', () => {
   });
 
   it('should execute `onFocus` with default button', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(<Select onFocus={onFocus} />);
 
     await userEvent.click(screen.getByRole('button'));
@@ -91,7 +91,7 @@ describe('Select', () => {
   });
 
   it('should execute `onBlur` with default button', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     render(<Select onFocus={onBlur} />);
 
     await userEvent.click(screen.getByRole('button'));
@@ -279,8 +279,8 @@ describe('Select', () => {
   });
 
   describe('open/close/focus methods', () => {
-    const onOpen = jest.fn();
-    const onClose = jest.fn();
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
     const selectRef = React.createRef<Select>();
     const testItems = ['One', 'Two', 'Three', 'Four'];
 

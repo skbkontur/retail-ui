@@ -40,7 +40,7 @@ describe('Tabs', () => {
   });
 
   it('should call onValueChange when switch tabs', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(
       <Tabs value="fuji" onValueChange={onValueChange}>
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>

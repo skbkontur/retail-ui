@@ -1,26 +1,23 @@
 import React from 'react';
-import {
-  Button,
-  Checkbox,
-  ComboBox,
-  DatePicker,
-  Gapped,
-  Input,
-  Radio,
-  RadioGroup,
-  Select,
-  Switcher,
-  Tabs,
-  Toggle,
-} from '@skbkontur/react-ui';
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Radio } from '@skbkontur/react-ui/components/Radio';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher';
+import { Tabs } from '@skbkontur/react-ui/components/Tabs';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { type Meta, type Story } from '@skbkontur/react-ui/typings/stories';
 
 import { FeatureFlagToggle } from '../../../../.storybook-docs/FeatureFlagToggle';
-
 import {
-  ValidationBehaviour,
+  type ValidationBehaviour,
   ValidationContainer,
-  ValidationInfo,
+  type ValidationInfo,
   ValidationsFeatureFlagsContext,
   ValidationWrapper,
 } from '../../../../src';

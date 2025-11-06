@@ -139,7 +139,7 @@ describe('getRootNode', () => {
 
   describe('findDOMNode', () => {
     beforeEach(() => {
-      (findDOMNode as jest.Mock).mockClear();
+      (findDOMNode as ReturnType<typeof vi.fn>).mockClear();
     });
 
     describe('should not be called for', () => {
