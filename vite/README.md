@@ -5,11 +5,13 @@
 ## Start
 
 1. Install dependencies
+
 ```
 npm i
 ```
 
 2. Run Vite app
+
 ```
 npm run dev
 ```
