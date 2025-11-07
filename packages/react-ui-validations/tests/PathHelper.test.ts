@@ -2,7 +2,7 @@ import { extractPath, extractTokens, PathTokensCache } from '../src/Validations/
 
 describe('PathHelper', () => {
   describe('extractPath', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     beforeEach(() => {
       consoleSpy.mockClear();

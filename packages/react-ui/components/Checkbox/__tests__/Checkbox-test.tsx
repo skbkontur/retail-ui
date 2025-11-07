@@ -143,7 +143,7 @@ describe('Checkbox', () => {
   });
 
   it('with stopPropagation in onClick should prevent event bubbling', async () => {
-    const parentOnClick = jest.fn(() => {
+    const parentOnClick = vi.fn(() => {
       console.log('button clicked');
     });
     render(<button onClick={parentOnClick}>{<Checkbox onClick={(e) => e.stopPropagation()} />}</button>);

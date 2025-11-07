@@ -20,7 +20,7 @@ async function getItems(query: string) {
 }
 
 describe('<TokenInput />', () => {
-  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
   beforeEach(() => {
     consoleSpy.mockClear();

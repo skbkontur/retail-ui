@@ -12,7 +12,7 @@ import { delay } from '../../../lib/utils';
 describe('<DropdownMenu />', () => {
   const captionDatatid = 'captionForTest';
   const caption = <button data-tid={captionDatatid}>Test</button>;
-  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
   beforeEach(() => {
     window.scrollTo = vi.fn();
