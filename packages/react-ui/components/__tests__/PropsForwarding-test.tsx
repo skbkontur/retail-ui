@@ -1,6 +1,7 @@
 import React from 'react';
 import type { RenderResult } from '@testing-library/react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import * as ReactUI from '../../index';
 import type { AnyObject } from '../../lib/utils';
@@ -33,20 +34,20 @@ const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter((name) => {
 // so we need this in order to create them dynamically
 // also we pass values to inputs to check their forwarding
 const DEFAULT_PROPS = {
-  Autocomplete: { value: '', onValueChange: jest.fn() },
-  FxInput: { onValueChange: jest.fn() },
-  CurrencyInput: { onValueChange: jest.fn() },
+  Autocomplete: { value: '', onValueChange: vi.fn() },
+  FxInput: { onValueChange: vi.fn() },
+  CurrencyInput: { onValueChange: vi.fn() },
   CurrencyLabel: { value: '' },
-  DatePicker: { onValueChange: jest.fn() },
+  DatePicker: { onValueChange: vi.fn() },
   ComboBox: { getItems: () => Promise.resolve([]) },
-  TokenInput: { type: ReactUI.TokenInputType.Combined, getItems: () => Promise.resolve([]), onValueChange: jest.fn() },
+  TokenInput: { type: ReactUI.TokenInputType.Combined, getItems: () => Promise.resolve([]), onValueChange: vi.fn() },
   Radio: { value: '' },
   RadioGroup: { items: [] },
   Dropdown: { caption: 'caption' },
   DropdownMenu: { caption: <button>caption</button> },
   Gapped: { children: '' },
   MenuHeader: { children: '' },
-  Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 3 },
+  Paging: { activePage: 0, onPageChange: vi.fn(), pagesCount: 3 },
   Sticky: { side: 'top' },
   Switcher: { items: [] },
   Tabs: { value: '' },
@@ -65,11 +66,13 @@ const DEFAULT_PROPS = {
 
 // allows rendering Tab not only inside Tabs
 // by mocking throwing module
-jest.mock('invariant', () => (...args: any[]) => {
-  if (args[1] !== 'Tab should be placed inside Tabs component') {
-    jest.requireActual('invariant')(...args);
-  }
-});
+vi.mock('invariant', () => ({
+  default: (...args: any[]) => {
+    if (args[1] !== 'Tab should be placed inside Tabs component') {
+      return vi.importActual('invariant').then((module) => (module.default as any)(...args));
+    }
+  },
+}));
 
 const createWrapper = (compName: string, initProps: AnyObject = {}): RenderResult => {
   const component = (ReactUI as any)[compName];
@@ -112,7 +115,7 @@ describe('Props Forwarding', () => {
       className: 'my-classname',
       style: {
         width: '95.5%',
-        color: 'red',
+        color: 'rgb(255, 0, 0)',
       },
     };
 
@@ -127,7 +130,11 @@ describe('Props Forwarding', () => {
       expect(wrapperNode).toHaveAttribute('data-tid', props['data-tid']);
       expect(wrapperNode).toHaveAttribute('data-testid', props['data-testid']);
       expect(wrapperNode).toHaveClass(props.className);
-      expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
+      const computedStyle = getComputedStyle(wrapperNode);
+      Object.entries(props.style).forEach(([key, value]) => {
+        const computedValue = computedStyle.getPropertyValue(key);
+        expect(computedValue).toBe(value);
+      });
     });
   });
 

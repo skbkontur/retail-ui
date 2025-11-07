@@ -101,7 +101,7 @@ describe('PasswordInput', () => {
   });
 
   it('handels onKeyPress event', async () => {
-    const onKeyPress = jest.fn();
+    const onKeyPress = vi.fn();
     const inputValue = 'input';
 
     render(<PasswordInput onKeyPress={onKeyPress} value={inputValue} />);
@@ -112,7 +112,7 @@ describe('PasswordInput', () => {
   });
 
   it('handels onKeyDown event', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     const inputValue = 'input';
 
     render(<PasswordInput onKeyDown={onKeyDown} value={inputValue} />);
@@ -213,7 +213,7 @@ describe('PasswordInput', () => {
   });
 
   it('RenderLayer not listen blur in default view', async () => {
-    const focusOutsideListener = jest.spyOn(listenFocusOutside, 'listen');
+    const focusOutsideListener = vi.spyOn(listenFocusOutside, 'listen');
 
     render(<PasswordInput />);
 

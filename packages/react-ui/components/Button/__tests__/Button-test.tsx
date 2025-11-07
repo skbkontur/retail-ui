@@ -27,7 +27,7 @@ describe('Button', () => {
   });
 
   it('handles click event', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
 
     render(<Button onClick={onClick} />);
     await userEvent.click(screen.getByRole('button'));
@@ -36,7 +36,7 @@ describe('Button', () => {
   });
 
   it('handels onBlur event', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     render(<Button onBlur={onBlur} />);
 
     await userEvent.click(screen.getByRole('button'));
@@ -46,7 +46,7 @@ describe('Button', () => {
   });
 
   it('handels onFocus event', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(<Button onFocus={onFocus} />);
 
     await userEvent.click(screen.getByRole('button'));
@@ -55,7 +55,7 @@ describe('Button', () => {
   });
 
   it('handels onKeyDown event', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     render(<Button onKeyDown={onKeyDown} />);
 
     await userEvent.type(screen.getByRole('button'), '{enter}');
@@ -64,7 +64,7 @@ describe('Button', () => {
   });
 
   it('handels onMouseEnter event', async () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
     render(<Button onMouseEnter={onMouseEnter} />);
 
     await userEvent.type(screen.getByRole('button'), '{mouseenter}');
@@ -73,7 +73,7 @@ describe('Button', () => {
   });
 
   it('handels onMouseOver event', async () => {
-    const onMouseOver = jest.fn();
+    const onMouseOver = vi.fn();
     render(<Button onMouseOver={onMouseOver} />);
 
     await userEvent.type(screen.getByRole('button'), '{mouseover}');
@@ -81,7 +81,7 @@ describe('Button', () => {
   });
 
   it('handles onMouseLeave event', () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
     render(<Button onMouseLeave={onMouseLeave} />);
 
     fireEvent.mouseLeave(screen.getByRole('button'));
@@ -182,7 +182,7 @@ describe('Button', () => {
   });
 
   it('event `onClickCapture` works correctly', async () => {
-    const onClickCapture = jest.fn();
+    const onClickCapture = vi.fn();
     render(<Button onClickCapture={onClickCapture} />);
 
     expect(onClickCapture).not.toHaveBeenCalled();
@@ -193,8 +193,8 @@ describe('Button', () => {
   });
 
   it('events `onMouseDown` and `onMouseUp` work correctly', async () => {
-    const onMouseDown = jest.fn();
-    const onMouseUp = jest.fn();
+    const onMouseDown = vi.fn();
+    const onMouseUp = vi.fn();
     render(<Button onMouseDown={onMouseDown} onMouseUp={onMouseUp} />);
 
     expect(onMouseDown).not.toHaveBeenCalled();
@@ -234,8 +234,8 @@ describe('Button', () => {
   });
 
   describe('with use=link prop', () => {
-    const handleSubmit = jest.fn();
-    const handleReset = jest.fn();
+    const handleSubmit = vi.fn();
+    const handleReset = vi.fn();
     const TestForm = ({ submit }: { submit?: boolean }) => {
       return (
         <ThemeContext.Provider value={LIGHT_THEME}>

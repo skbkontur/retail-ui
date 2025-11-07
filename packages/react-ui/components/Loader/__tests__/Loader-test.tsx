@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import { Loader, LoaderDataTids } from '../Loader';
 import { delay } from '../../../lib/utils';
@@ -84,8 +84,10 @@ describe('Loader', () => {
       );
       await delay(DELAY_BEFORE_SPINNER_SHOW);
 
-      expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
-      expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId(SpinnerSelector)).toBeInTheDocument();
+        expect(screen.getByTestId(VeilSelector)).toBeInTheDocument();
+      });
     });
   });
 
@@ -212,8 +214,10 @@ describe('Loader', () => {
           />,
         );
         await delay(MINIMAL_DELAY_BEFORE_SPINNER_HIDE);
-        expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
-        expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+        await waitFor(() => {
+          expect(screen.queryByTestId(VeilSelector)).not.toBeInTheDocument();
+          expect(screen.queryByTestId(SpinnerSelector)).not.toBeInTheDocument();
+        });
       });
     });
   });

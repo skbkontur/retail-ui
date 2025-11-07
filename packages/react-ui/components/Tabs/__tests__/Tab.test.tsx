@@ -14,7 +14,7 @@ describe('Tab', () => {
   });
 
   it('should handle OnClick event', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
@@ -32,7 +32,7 @@ describe('Tab', () => {
   });
 
   it('should handle onKeyDown event', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>
@@ -48,7 +48,7 @@ describe('Tab', () => {
   });
 
   it('should not call onKeyDown event on disabled tab', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     render(
       <Tabs value="fuji">
         <Tabs.Tab id="fuji">Fuji</Tabs.Tab>

@@ -7,7 +7,7 @@ import type { Nullable } from '../../../typings/utility-types';
 import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants';
 
 const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
-  const handleValueChange = jest.fn();
+  const handleValueChange = vi.fn();
   return <CurrencyInput value={props.value} onValueChange={handleValueChange} />;
 };
 
@@ -164,7 +164,7 @@ describe('CurrencyInput', () => {
   });
 
   it('should handle focus event', () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     const currencyInputRef = React.createRef<CurrencyInput>();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
@@ -196,7 +196,7 @@ describe('CurrencyInput', () => {
   });
 
   it('should handle blur event', () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     const currencyInputRef = React.createRef<CurrencyInput>();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
@@ -213,7 +213,7 @@ describe('CurrencyInput', () => {
   });
 
   it('should handle onKeyDown event', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
       return <CurrencyInput value={value} onValueChange={setValue} onKeyDown={onKeyDown} />;
@@ -225,7 +225,7 @@ describe('CurrencyInput', () => {
   });
 
   it('should handle onPaste event', async () => {
-    const onPaste = jest.fn();
+    const onPaste = vi.fn();
     const PASTE_TEXT = '1000';
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12345);
@@ -418,14 +418,14 @@ describe('CurrencyInput', () => {
   describe('a11y', () => {
     it('sets value for aria-label attribute', () => {
       const ariaLabel = 'aria-label';
-      render(<CurrencyInput aria-label={ariaLabel} onValueChange={jest.fn()} />);
+      render(<CurrencyInput aria-label={ariaLabel} onValueChange={vi.fn()} />);
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
 
   describe('Warnings', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     beforeEach(() => {
       consoleSpy.mockClear();

@@ -43,8 +43,8 @@ describe('DateRangePicker', () => {
   });
 
   it('should handle onValueChange event when typing', async () => {
-    const onStartValueChange = jest.fn();
-    const onEndValueChange = jest.fn();
+    const onStartValueChange = vi.fn();
+    const onEndValueChange = vi.fn();
 
     render(
       <DateRangePicker>
@@ -63,8 +63,8 @@ describe('DateRangePicker', () => {
   });
 
   it('should not handle onValueChange event on render', async () => {
-    const onStartValueChange = jest.fn();
-    const onEndValueChange = jest.fn();
+    const onStartValueChange = vi.fn();
+    const onEndValueChange = vi.fn();
 
     render(
       <DateRangePicker>
@@ -78,7 +78,7 @@ describe('DateRangePicker', () => {
   });
 
   it('should handle onValueChange when clear value', async () => {
-    const onStartValueChange = jest.fn();
+    const onStartValueChange = vi.fn();
 
     render(
       <DateRangePicker>
@@ -213,7 +213,7 @@ describe('DateRangePicker', () => {
 
   it('handle onBlur event', async () => {
     const DateRangePickerRef = React.createRef<DateInput>();
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
 
     render(
       <DateRangePicker>
@@ -230,7 +230,7 @@ describe('DateRangePicker', () => {
   });
 
   it('handle onFocus event by input-start click', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(
       <DateRangePicker>
         <DateRangePicker.Start onFocus={onFocus} />
@@ -242,7 +242,7 @@ describe('DateRangePicker', () => {
   });
 
   it('handle onFocus event by input-end click', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(
       <DateRangePicker>
         <DateRangePicker.Start />
@@ -254,8 +254,8 @@ describe('DateRangePicker', () => {
   });
 
   it('navigation from Tab open calendar', async () => {
-    const onFocusStart = jest.fn();
-    const onFocusEnd = jest.fn();
+    const onFocusStart = vi.fn();
+    const onFocusEnd = vi.fn();
     render(
       <>
         <Input data-tid="test-input" />
@@ -332,7 +332,7 @@ describe('DateRangePicker', () => {
   });
 
   it('onMonthChange returns correct month', async () => {
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
 
     render(
       <DateRangePicker onMonthChange={onMonthChange}>
@@ -361,7 +361,7 @@ describe('DateRangePicker', () => {
   }, 10000);
 
   it('onMonthChange returns correct year', async () => {
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
 
     render(
       <DateRangePicker onMonthChange={onMonthChange}>

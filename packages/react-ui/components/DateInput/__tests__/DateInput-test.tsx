@@ -128,7 +128,7 @@ describe('DateInput as InputlikeText', () => {
       const keyString = keys.join(' > ');
       const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
       it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         render({ value: initDate, onValueChange });
         const input = getInput();
         await userEvent.click(input);
@@ -155,7 +155,7 @@ describe('DateInput as InputlikeText', () => {
       const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
 
       it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}" with \`dateInputAllowInvalidValuesInDays\` flag`, async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         renderRTL(
           <ReactUIFeatureFlagsContext.Provider value={{ dateInputAllowInvalidValuesInDays: true }}>
             <LocaleDateInput propsDateInput={{ value: initDate, onValueChange }} propsLocale={{}} />
@@ -194,7 +194,7 @@ describe('DateInput as InputlikeText', () => {
 
     PasteCases.forEach(([order, pasted, expected]) => {
       it(`handles paste "${pasted}"`, () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         render(
           { onValueChange },
           {
@@ -237,7 +237,7 @@ describe('DateInput as InputlikeText', () => {
       const keyString = keys.join(' > ');
 
       it(`does not call onValueChange if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         render({ value: initDate, onValueChange, minDate, maxDate });
         const input = getInput();
         await userEvent.click(input);
@@ -265,7 +265,7 @@ describe('DateInput as InputlikeText', () => {
       const expectedDateStr = 'calls onValueChange with ' + `"${expected}"`.padEnd(12, ' ');
 
       it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, async () => {
-        const onValueChange = jest.fn();
+        const onValueChange = vi.fn();
         render({ value: initDate, onValueChange, minDate, maxDate });
         const input = getInput();
         await userEvent.click(input);
@@ -284,7 +284,7 @@ describe('DateInput as InputlikeText', () => {
   });
 
   it('should handle keydown event', () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     renderRTL(<DateInput onKeyDown={onKeyDown} />);
 
     fireEvent.keyDown(getInput(), 'a');
@@ -293,7 +293,7 @@ describe('DateInput as InputlikeText', () => {
   });
 
   it('should handle onFocus event', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     renderRTL(<DateInput onFocus={onFocus} />);
 
     await userEvent.click(getInput());
@@ -302,7 +302,7 @@ describe('DateInput as InputlikeText', () => {
   });
 
   it('should handle onBlur event', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
     await userEvent.tab();
     expect(screen.getByTestId(DateInputDataTids.root)).toHaveFocus();
@@ -312,7 +312,7 @@ describe('DateInput as InputlikeText', () => {
   });
 
   it('should handle onBlur event after entering date', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     renderRTL(<DateInput onBlur={onBlur} />);
     const input = screen.getByTestId(DateInputDataTids.root);
 
@@ -405,7 +405,7 @@ describe('DateInput as InputlikeText', () => {
   });
 
   it('blink method works', async () => {
-    const blinkMock = jest.fn();
+    const blinkMock = vi.fn();
     const inputLikeTextRef = React.createRef<DateInput>();
     renderRTL(<DateInput ref={inputLikeTextRef} />);
 

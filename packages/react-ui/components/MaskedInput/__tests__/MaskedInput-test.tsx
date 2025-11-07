@@ -105,7 +105,7 @@ describe('MaskedInput', () => {
       );
     };
 
-    const beforePasteValueHandler = jest.fn((value) => value.slice(3));
+    const beforePasteValueHandler = vi.fn((value) => value.slice(3));
 
     render(<Component onBeforePasteValue={beforePasteValueHandler} />);
 
@@ -141,7 +141,7 @@ describe('MaskedInput', () => {
       [{ mask: '9-9-9-9', unmask: true }, '12345', 1],
       [{ mask: '9-9-9-9', unmask: true }, `1234${'{backspace}'.repeat(8)}`, 1],
     ])('%j > %s > %s times', async (props, keys, expectedCount) => {
-      const handleUnexpectedInput = jest.fn();
+      const handleUnexpectedInput = vi.fn();
       const Comp = () => {
         const [value, setValue] = useState('');
         return (
@@ -212,7 +212,7 @@ describe('MaskedInput', () => {
       const [Comp, props] = getTyped(_Comp, _props);
 
       it('onValueChange don`t fire on focus when value is empty', () => {
-        const valueChangeEvent = jest.fn();
+        const valueChangeEvent = vi.fn();
         render(<Comp {...props} onValueChange={valueChangeEvent} />);
 
         const input = screen.getByRole('textbox');
@@ -222,7 +222,7 @@ describe('MaskedInput', () => {
       });
 
       it('onValueChange don`t fire on blur when value is empty', () => {
-        const valueChangeEvent = jest.fn();
+        const valueChangeEvent = vi.fn();
         render(<Comp {...props} onValueChange={valueChangeEvent} />);
 
         const input = screen.getByRole('textbox');
@@ -233,7 +233,7 @@ describe('MaskedInput', () => {
       });
 
       it('onValueChange don`t fire on focus when value is not empty', () => {
-        const valueChangeEvent = jest.fn();
+        const valueChangeEvent = vi.fn();
         render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
 
         const input = screen.getByRole('textbox');
@@ -243,7 +243,7 @@ describe('MaskedInput', () => {
       });
 
       it('onValueChange don`t fire on blur when value is not empty', () => {
-        const valueChangeEvent = jest.fn();
+        const valueChangeEvent = vi.fn();
         render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
 
         const input = screen.getByRole('textbox');
@@ -254,7 +254,7 @@ describe('MaskedInput', () => {
       });
 
       it('onValueChange don`t fire on mount when value is not empty', () => {
-        const valueChangeEvent = jest.fn();
+        const valueChangeEvent = vi.fn();
         render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
 
         expect(valueChangeEvent).not.toHaveBeenCalled();
@@ -270,7 +270,7 @@ describe('MaskedInput', () => {
         ['onPaste', fireEvent.paste, 1],
         // ['onChange', 1],     imask перехватывает onChange, поэтому его тестировать не надо
       ])('event "%s" fires the same number of times as input event', (eventName, method, event) => {
-        const handler = jest.fn();
+        const handler = vi.fn();
         render(<Comp defaultValue="123" {...{ ...props, [eventName]: handler }} />);
         const input = screen.getByRole('textbox');
 

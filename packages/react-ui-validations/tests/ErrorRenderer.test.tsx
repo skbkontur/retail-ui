@@ -1,7 +1,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import { Input } from '@skbkontur/react-ui';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { tooltip, text } from '../src/ErrorRenderer';
 import type { ValidationInfo } from '../src/ValidationWrapper';

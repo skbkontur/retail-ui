@@ -1,5 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
-import { ComboBox, DatePicker, DatePickerDataTids, TooltipDataTids } from '@skbkontur/react-ui';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { DatePicker, DatePickerDataTids } from '@skbkontur/react-ui/components/DatePicker';
+import { TooltipDataTids } from '@skbkontur/react-ui/components/Tooltip';
 import React from 'react';
 import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
 import { MenuDataTids } from '@skbkontur/react-ui/internal/Menu';

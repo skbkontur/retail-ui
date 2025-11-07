@@ -11,7 +11,7 @@ import * as listenFocusOutside from '../../../lib/listenFocusOutside';
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'Hello', onValueChange, source };
     render(<Autocomplete {...props} />);
@@ -20,7 +20,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('triggers onValueChange on input change', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source };
     render(<Autocomplete {...props} />);
@@ -31,7 +31,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('resolves sources as arrays', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source = ['One', 'Two'];
     const props = { source, onValueChange };
     render(<UncontrolledAutocomplete {...props} />);
@@ -45,7 +45,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('resolves sources as promises', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source = () => Promise.resolve(['One', 'Two']);
     const props = { source, onValueChange };
     render(<UncontrolledAutocomplete {...props} />);
@@ -62,8 +62,8 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes pattern to source', async () => {
-    const onValueChange = jest.fn();
-    const source = jest.fn(() => Promise.resolve([]));
+    const onValueChange = vi.fn();
+    const source = vi.fn(() => Promise.resolve([]));
     const props = { source, onValueChange };
     render(<UncontrolledAutocomplete {...props} />);
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
@@ -75,7 +75,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('uses renderItem prop to render items', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source = () => Promise.resolve(['One', 'Two']);
     const props = { source, renderItem: (x: string) => x.toUpperCase(), onValueChange };
     render(<UncontrolledAutocomplete {...props} />);
@@ -92,7 +92,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes value prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hel', onValueChange, source };
 
@@ -101,7 +101,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes type prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, type: 'text' as AutocompleteProps['type'] };
 
@@ -110,7 +110,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes title prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, title: 'some title' };
 
@@ -119,7 +119,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes placeholder prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, placeholder: 'SomePlaceholder' };
 
@@ -148,7 +148,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes leftIcon prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const leftIcon = <CheckAIcon16Regular data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, leftIcon };
@@ -157,7 +157,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes rightIcon prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const rightIcon = <CheckAIcon16Regular data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, rightIcon };
@@ -251,7 +251,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes id prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, id: 'someId' };
     render(<Autocomplete {...props} />);
@@ -259,7 +259,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes disabled prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, disabled: true };
     render(<Autocomplete {...props} />);
@@ -267,7 +267,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes alwaysShowMask prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, alwaysShowMask: true, mask: '(999) 999-9999' };
     render(<Autocomplete {...props} />);
@@ -276,7 +276,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes align prop to input', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, align: 'center' as AutocompleteProps['align'] };
     render(<Autocomplete {...props} />);
@@ -284,7 +284,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onCopy prop to input', () => {
-    const onCopy = jest.fn();
+    const onCopy = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onCopy };
@@ -295,7 +295,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onCut prop to input', () => {
-    const onCut = jest.fn();
+    const onCut = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onCut };
@@ -306,7 +306,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onInput prop to input', async () => {
-    const onInput = jest.fn();
+    const onInput = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onInput };
@@ -317,7 +317,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onKeyUp prop to input', async () => {
-    const onKeyUp = jest.fn();
+    const onKeyUp = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onKeyUp };
@@ -328,7 +328,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onPaste prop to input', async () => {
-    const onPaste = jest.fn();
+    const onPaste = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onPaste };
@@ -340,7 +340,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onMouseEnter prop to input', () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onMouseEnter };
@@ -351,7 +351,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onMouseLeave prop to input', () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onMouseLeave };
@@ -362,7 +362,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes onMouseOver prop to input', () => {
-    const onMouseOver = jest.fn();
+    const onMouseOver = vi.fn();
     const onValueChange = () => undefined;
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onMouseOver };
@@ -374,7 +374,7 @@ describe('<Autocomplete />', () => {
 
   it('handles onKeyDown prop', async () => {
     const onValueChange = () => undefined;
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     const source: any[] = [];
     const props = { value: 'hello', onValueChange, source, onKeyDown };
 
@@ -416,8 +416,8 @@ describe('<Autocomplete />', () => {
   //TODO: Придумать как перевести на RTL
   it('handle concurrent source requests', async () => {
     const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
-    const onValueChange = jest.fn();
-    const source = jest.fn(async (query: string) => {
+    const onValueChange = vi.fn();
+    const source = vi.fn(async (query: string) => {
       const diff = items.length - Number(query);
       await delay(Math.max(100, diff * 100));
       return items.slice(0, diff);
@@ -441,7 +441,7 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes props to input', async () => {
-    const onKeyPress = jest.fn();
+    const onKeyPress = vi.fn();
     const Comp = () => {
       const [value, setValue] = useState('hello');
       return (
@@ -459,7 +459,7 @@ describe('<Autocomplete />', () => {
   });
 
   it(`don't call listenFocusOutside method when where is no focus`, () => {
-    const focusOutsideListener = jest.spyOn(listenFocusOutside, 'listen');
+    const focusOutsideListener = vi.spyOn(listenFocusOutside, 'listen');
     const props = { value: '', source: [], onValueChange: () => '' };
     render(<Autocomplete {...props} />);
 
@@ -492,7 +492,7 @@ describe('<Autocomplete />', () => {
 
   it('sets value for aria-label attribute', () => {
     const ariaLabel = 'aria-label';
-    render(<Autocomplete aria-label={ariaLabel} source={['one']} value={'one'} onValueChange={jest.fn()} />);
+    render(<Autocomplete aria-label={ariaLabel} source={['one']} value={'one'} onValueChange={vi.fn()} />);
 
     expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
   });

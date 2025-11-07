@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { ArgTypes } from '@storybook/blocks';
+import React, { useRef, useState } from 'react';
+import { ArgTypes, useOf } from '@storybook/blocks';
 
 import { css } from '../lib/theming/Emotion';
+
+import type { PublicMethod } from './MethodsTable';
+import { PublicMethods } from './MethodsTable';
 
 export const PropsTable = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,11 +81,34 @@ export const PropsTable = () => {
     }
   `;
 
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+  const useMethods = (): PublicMethod[] => {
+    try {
+      const resolved = useOf('meta') as any;
+      const __methodsDocgenInfo = resolved.preparedMeta.component.__methodsDocgenInfo ?? [];
+      return __methodsDocgenInfo.map((method: any) => ({
+        name: method.name,
+        description: method.description,
+        params: method.params,
+      }));
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+  const methods = useMethods();
+
   return (
     <details className={detailsStyles} onToggle={(e) => setIsOpen(e.currentTarget.open)}>
-      <summary>{isOpen ? 'Скрыть список пропов' : 'Показать список пропов'}</summary>
-
-      <ArgTypes />
+      <summary>{isOpen ? 'Скрыть список пропов и методов' : 'Показать список пропов и методов'}</summary>
+      <div ref={tableContainerRef}>
+        <ArgTypes />
+      </div>
+      {methods.length > 0 && (
+        <div style={{ marginTop: -16 }}>
+          <PublicMethods methods={methods} className={tableContainerRef?.current?.querySelector('table')?.className} />
+        </div>
+      )}
     </details>
   );
 };

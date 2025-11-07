@@ -31,6 +31,9 @@ const config: StorybookConfig = {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,
   },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  },
 };
 
 export default config;

@@ -31,7 +31,7 @@ describe('<TokenInput />', () => {
   });
 
   it('should contains placeholder', () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     render(<TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />);
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', 'Placeholder');
   });
@@ -156,7 +156,7 @@ describe('<TokenInput />', () => {
   });
 
   it('should call onInputValueChange', async () => {
-    const onInputValueChange = jest.fn();
+    const onInputValueChange = vi.fn();
     const value = 'text';
     render(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
     await userEvent.type(screen.getByRole('textbox'), value);
@@ -166,7 +166,7 @@ describe('<TokenInput />', () => {
   it('should blures tokenInput when esc pressed', async () => {
     const tokenInputRef = React.createRef<TokenInput>();
 
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(
       <TokenInput
         ref={tokenInputRef}
@@ -218,7 +218,7 @@ describe('<TokenInput />', () => {
 
   it('should add item by AddButton click', async () => {
     const value = 'value';
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(
       <TokenInput
         type={TokenInputType.Combined}
@@ -242,7 +242,7 @@ describe('<TokenInput />', () => {
     const value = 'aaa';
     const tokenInputRef = React.createRef<TokenInput>();
 
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     render(
       <TokenInput
         ref={tokenInputRef}
@@ -392,7 +392,7 @@ describe('<TokenInput />', () => {
 
     it('sets value for aria-label attribute on textarea', () => {
       const ariaLabel = 'aria-label';
-      render(<TokenInput getItems={jest.fn()} aria-label={ariaLabel} />);
+      render(<TokenInput getItems={vi.fn()} aria-label={ariaLabel} />);
 
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });

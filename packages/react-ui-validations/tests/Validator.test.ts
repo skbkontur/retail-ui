@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 import { createValidator } from '../src/Validations';
 import type { Nullable } from '../typings/Types';
 
@@ -86,8 +88,8 @@ describe('Validator', () => {
       }>;
     }
 
-    const objectRule = jest.fn();
-    const valueRule = jest.fn();
+    const objectRule = vi.fn();
+    const valueRule = vi.fn();
 
     const validate = createValidator<Data>((b) => {
       b.prop(
@@ -142,9 +144,9 @@ describe('Validator', () => {
   });
 
   it('stop on first invalid check', () => {
-    const check1 = jest.fn();
-    const check2 = jest.fn();
-    const check3 = jest.fn();
+    const check1 = vi.fn();
+    const check2 = vi.fn();
+    const check3 = vi.fn();
 
     const validate = createValidator<string>((b) => {
       b.invalid((x) => check1() || x === '___', 'error1');
@@ -225,7 +227,7 @@ describe('Validator', () => {
   });
 
   it('prop value argument', () => {
-    const propRule = jest.fn();
+    const propRule = vi.fn();
 
     const validate = createValidator<string>((b) => {
       b.prop(
@@ -242,7 +244,7 @@ describe('Validator', () => {
   });
 
   it('array value index argument', () => {
-    const itemRule = jest.fn();
+    const itemRule = vi.fn();
     const validate = createValidator<string[]>((b) => {
       b.array(
         (x) => x,

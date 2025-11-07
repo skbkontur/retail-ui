@@ -6,10 +6,15 @@ module.exports = async ({ config }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   // storybook's rule for css doesn't handle css-modules
-  const filteredStorybooksWebpackRules = (config.module.rules || []).filter((r) => r.test && !r.test.test('.css'));
+  const filteredStorybooksWebpackRules = (config.module.rules || [])
+    .filter((r) => r.test && !r.test.test('.css'))
+    .filter((r) => !r.use?.some((u) => u.loader?.includes('babel-loader'))); // exclude babel-loader rules
+
+  const reactDocgenLoaderRule = filteredStorybooksWebpackRules.find((r) => r.loader?.includes('react-docgen-loader'));
+  reactDocgenLoaderRule.test = /\.(tsx)/;
+  reactDocgenLoaderRule.loader = path.resolve(__dirname, './react-docgen-loader.ts');
 
   config.module.rules = [
-    ...filteredStorybooksWebpackRules,
     {
       test: /\.(j|t)sx?$/,
       loader: 'babel-loader',
@@ -19,6 +24,8 @@ module.exports = async ({ config }) => {
         extends: path.join(__dirname, '../.babelrc.js'),
       },
     },
+    // порядок config.module.rules важен, т.к. в react-docgen-loader (filteredStorybooksWebpackRules) ожидается не транспилированный babelем код
+    ...filteredStorybooksWebpackRules,
     {
       test: /\.css$/,
       use: [

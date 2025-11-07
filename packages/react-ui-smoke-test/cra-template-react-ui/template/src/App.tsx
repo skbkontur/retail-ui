@@ -47,12 +47,6 @@ import {
 import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
 
 export const App = () => {
-  // TODO App must be pure render function
-  // Toast.push('Successfully saved', {
-  //   label: 'Cancel',
-  //   handler: () => Toast.push('Canceled'),
-  // });
-
   return (
     <main>
       <Autocomplete source={[]} value={''} onValueChange={() => ({})} />

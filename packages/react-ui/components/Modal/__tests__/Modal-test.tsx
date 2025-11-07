@@ -82,7 +82,7 @@ describe('Modal', () => {
   });
 
   it('onClose handler works', async () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal onClose={onCloseHandler}>
         <Modal.Body>Modal content</Modal.Body>
@@ -94,7 +94,7 @@ describe('Modal', () => {
   });
 
   it('disableClose prop works', () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal onClose={onCloseHandler} disableClose>
         <Modal.Body>Modal content</Modal.Body>
@@ -127,7 +127,7 @@ describe('Modal', () => {
   });
 
   it('direct click on background calls onClose', () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal onClose={onCloseHandler}>
         <Modal.Body>Modal content</Modal.Body>
@@ -139,7 +139,7 @@ describe('Modal', () => {
   });
 
   it("click on background doesn't call onClose if started/ended on modal content", () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal onClose={onCloseHandler}>
         <Modal.Body>
@@ -159,7 +159,7 @@ describe('Modal', () => {
   });
 
   it("click on content doesn't call onClose", () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal onClose={onCloseHandler}>
         <Modal.Body>
@@ -175,7 +175,7 @@ describe('Modal', () => {
   });
 
   it('click on background works if noClose is true', () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal noClose onClose={onCloseHandler}>
         <Modal.Body>Modal content</Modal.Body>
@@ -189,7 +189,7 @@ describe('Modal', () => {
   });
 
   it("click on background doesn't work if disableClose is true", () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal disableClose onClose={onCloseHandler}>
         <Modal.Body>Modal content</Modal.Body>
@@ -203,7 +203,7 @@ describe('Modal', () => {
   });
 
   it('ignoreBackgroundClick prop works', () => {
-    const onCloseHandler = jest.fn();
+    const onCloseHandler = vi.fn();
     render(
       <Modal ignoreBackgroundClick onClose={onCloseHandler}>
         <Modal.Body>Modal content</Modal.Body>
@@ -219,7 +219,7 @@ describe('Modal', () => {
   it('correct position in stack', () => {
     const modal1Ref = React.createRef<Modal>();
     const modal2Ref = React.createRef<Modal>();
-    const add = jest.spyOn(ModalStack, 'add');
+    const add = vi.spyOn(ModalStack, 'add');
     const { rerender } = render(<Modal ref={modal1Ref} />);
 
     expect(add).toHaveBeenCalledTimes(1);

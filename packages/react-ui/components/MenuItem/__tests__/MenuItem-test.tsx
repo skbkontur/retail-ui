@@ -94,7 +94,7 @@ describe('MenuItem', () => {
   });
 
   it('should pass state to functional children when highlighted by Menu', () => {
-    const renderChild = jest.fn((state: MenuItemState) => <div>{`${state}`}</div>);
+    const renderChild = vi.fn((state: MenuItemState) => <div>{`${state}`}</div>);
     render(
       <Menu initialSelectedItemIndex={0}>
         <MenuItem>{renderChild}</MenuItem>
@@ -127,7 +127,7 @@ describe('MenuItem', () => {
 
   describe('onMouseEnter', () => {
     it('calls once', async () => {
-      const onMouseEnter = jest.fn();
+      const onMouseEnter = vi.fn();
       render(
         <MenuItem onMouseEnter={onMouseEnter}>
           <span>MenuItem</span>
@@ -142,7 +142,7 @@ describe('MenuItem', () => {
     });
 
     it('calls again after onMouseLeave', async () => {
-      const onMouseEnter = jest.fn();
+      const onMouseEnter = vi.fn();
       render(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
 
       await userEvent.hover(screen.getByRole('button'));

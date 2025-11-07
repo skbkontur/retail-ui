@@ -7,9 +7,9 @@ describe('ResponsiveLayoutListeners', () => {
     const secondMediaQuery = '(min-width: 5px)';
     const thirdMediaQuery = '(min-width: 10px)';
 
-    const firstCallback = jest.fn();
-    const secondCallback = jest.fn();
-    const thirdCallback = jest.fn();
+    const firstCallback = vi.fn();
+    const secondCallback = vi.fn();
+    const thirdCallback = vi.fn();
 
     // создаем два слушателя по первому медиа-запросу
 

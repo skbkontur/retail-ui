@@ -21,15 +21,15 @@ function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: Respo
 describe('useResponsiveLayoutCustomization', () => {
   let calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
   const oldMatchMedia = window.matchMedia;
-  const matchMediaMock = jest.fn().mockImplementation((query) => {
+  const matchMediaMock = vi.fn().mockImplementation((query) => {
     return {
       matches: calcMatches(query),
       media: query,
       onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     };
   });
 

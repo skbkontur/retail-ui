@@ -1,5 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { RadioGroup, Radio, Checkbox, Toggle, Switcher, Select, ComboBox } from '@skbkontur/react-ui';
+import { Radio } from '@skbkontur/react-ui/components/Radio';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import React from 'react';
 import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
 import userEvent from '@testing-library/user-event';

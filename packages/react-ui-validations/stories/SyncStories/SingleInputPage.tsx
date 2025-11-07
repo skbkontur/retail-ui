@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 import React, { useRef, useState } from 'react';
-import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Select } from '@skbkontur/react-ui/components/Select';
 
 import type { ValidationInfo } from '../../src';
 import { text, ValidationContainer, ValidationWrapper } from '../../src';

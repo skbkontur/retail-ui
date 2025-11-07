@@ -1,6 +1,10 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { DARK_THEME, Gapped, Input, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
 import { text, ValidationContainer, ValidationWrapper } from '../src';
 

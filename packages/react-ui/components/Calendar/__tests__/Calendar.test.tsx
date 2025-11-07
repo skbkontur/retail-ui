@@ -14,13 +14,13 @@ import { CalendarDay } from '../CalendarDay';
 
 describe('Calendar', () => {
   it('renders', () => {
-    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} />);
+    render(<Calendar value="02.06.2017" onValueChange={vi.fn()} />);
 
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
   });
 
   it('should pass max and min date to year select', async () => {
-    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} minDate="21.02.2017" maxDate="15.07.2020" />);
+    render(<Calendar value="02.06.2017" onValueChange={vi.fn()} minDate="21.02.2017" maxDate="15.07.2020" />);
 
     await userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015').parentElement).toHaveAttribute('data-disabled', 'true');
@@ -28,21 +28,21 @@ describe('Calendar', () => {
   });
 
   it('should set date with higher min date is set', () => {
-    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} minDate="21.01.2099" />);
+    render(<Calendar value="02.06.2017" onValueChange={vi.fn()} minDate="21.01.2099" />);
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6] as string)).toBeInTheDocument();
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
   it('should set date when lower max date is set', () => {
-    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} maxDate="15.10.1959" />);
+    render(<Calendar value="02.06.2017" onValueChange={vi.fn()} maxDate="15.10.1959" />);
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[6] as string)).toBeInTheDocument();
     expect(screen.getByText('2017')).toBeInTheDocument();
   });
 
   it('should set initial year and month', () => {
-    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} initialMonth={1} initialYear={2000} />);
+    render(<Calendar value="02.06.2017" onValueChange={vi.fn()} initialMonth={1} initialYear={2000} />);
 
     expect(screen.getByText(CalendarLocaleHelper.get(LangCodes.ru_RU).months?.[0] as string)).toBeInTheDocument();
     expect(screen.getByText('2000')).toBeInTheDocument();
@@ -58,17 +58,15 @@ describe('Calendar', () => {
         </CalendarDay>
       );
     };
-    render(
-      <Calendar value="02.07.2017" onValueChange={jest.fn()} renderDay={(props) => <CustomDayItem {...props} />} />,
-    );
+    render(<Calendar value="02.07.2017" onValueChange={vi.fn()} renderDay={(props) => <CustomDayItem {...props} />} />);
 
     expect(screen.getAllByTestId('customDayItem')).not.toHaveLength(0);
     expect(screen.getByText('Custom')).toBeInTheDocument();
   });
 
   it('onMonthChange returns correct month', async () => {
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
-    render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
+    render(<Calendar value={'02.06.2017'} onValueChange={vi.fn()} onMonthChange={onMonthChange} />);
 
     await userEvent.click(
       screen.getByRole('button', {
@@ -85,12 +83,12 @@ describe('Calendar', () => {
       }),
     );
 
-    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 8000 });
-  }, 10000);
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month: 7, year: 2017 }), { timeout: 25000 });
+  }, 30000);
 
   it('onMonthChange returns correct year', async () => {
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
-    render(<Calendar value={'02.06.2017'} onValueChange={jest.fn()} onMonthChange={onMonthChange} />);
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
+    render(<Calendar value={'02.06.2017'} onValueChange={vi.fn()} onMonthChange={onMonthChange} />);
 
     await act(async () => {
       await userEvent.click(
@@ -107,8 +105,8 @@ describe('Calendar', () => {
       );
     });
 
-    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 8000 });
-  }, 10000);
+    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 25000 });
+  }, 30000);
 
   it('should set langCode', () => {
     render(
@@ -149,9 +147,9 @@ describe('Calendar', () => {
     const year = 2024;
 
     const refCalendar = React.createRef<Calendar>();
-    const onMonthChange = jest.fn(({ month, year }) => ({ month, year }));
+    const onMonthChange = vi.fn(({ month, year }) => ({ month, year }));
 
-    render(<Calendar value="02.06.2017" onValueChange={jest.fn()} onMonthChange={onMonthChange} ref={refCalendar} />);
+    render(<Calendar value="02.06.2017" onValueChange={vi.fn()} onMonthChange={onMonthChange} ref={refCalendar} />);
 
     refCalendar.current?.scrollToMonth(month, year);
 

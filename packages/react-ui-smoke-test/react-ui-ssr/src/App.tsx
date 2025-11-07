@@ -45,7 +45,7 @@ import {
   TooltipMenu,
 } from '@skbkontur/react-ui';
 import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
-import { ValidationContainer, ValidationWrapper } from 'react-ui-validations/src';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations/src';
 
 export const App = () => {
   return (
@@ -146,6 +146,7 @@ export const App = () => {
       <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
         <LocaleContext.Consumer>{(locale) => locale.langCode}</LocaleContext.Consumer>
       </LocaleContext.Provider>
+      <FileUploader />
       <ValidationContainer scrollOffset={{ top: 100 }}>
         <ValidationWrapper validationInfo={{ type: 'immediate', message: 'Bad' }}>
           <Input />

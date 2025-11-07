@@ -2,12 +2,16 @@ import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import type { ChildProcess} from 'child_process';
-import { spawn, spawnSync, execSync } from 'child_process';
+import { spawn, spawnSync, exec } from 'child_process';
+import { promisify } from 'util';
 
+import { vi } from 'vitest';
 import puppeteer from 'puppeteer';
 import waitOn from 'wait-on';
 
+const execAsync = promisify(exec);
 const LOAD_PAGE_TIMEOUT = 60000;
+const SSR_TIMEOUT = 240000;
 const BUILD_REACTUI_TIMEOUT = 120000;
 const TIMEOUT = 240000;
 
@@ -24,17 +28,17 @@ describe('React-ui smoke test', () => {
 
   const reactUIPackagePath = runOnTeamcity ? getPackagePathOnTeamcity() : path.join(tempDirectory, 'react-ui.tgz');
 
-  beforeAll(() => {
+  beforeAll(async () => {
     if (!runOnTeamcity) {
       if (!fs.existsSync(tempDirectory)) {
         fs.mkdirSync(tempDirectory);
       }
-      buildReactUI(reactUIPackagePath);
+      await buildReactUI(reactUIPackagePath);
     }
   }, BUILD_REACTUI_TIMEOUT);
 
   beforeEach(() => {
-    console.error = jest.fn(globalConsoleError);
+    console.error = vi.fn(globalConsoleError);
   });
 
   afterEach(() => {
@@ -47,7 +51,7 @@ describe('React-ui smoke test', () => {
   it(
     'Build and render all controls',
     async () => {
-      initApplication(appDirectory, templateDirectory, reactUIPackagePath);
+      await initApplication(appDirectory, templateDirectory, reactUIPackagePath);
       buildApplication(appDirectory);
       serveProcess = serveApplication(appDirectory);
       await openPageOnBrowser(screenshotPath);
@@ -58,26 +62,45 @@ describe('React-ui smoke test', () => {
   );
 
   it('Render all controls and validations on server side (SSR)', async () => {
-    execSync(`yarn install && yarn server`, { stdio: 'inherit', cwd: path.join(__dirname, 'react-ui-ssr') });
+    await execAsync(`yarn install`, { cwd: path.join(__dirname, 'react-ui-ssr') });        
+
+    const { stdout: stdoutServer, stderr: stderrServer } = await execAsync(`yarn server`, { cwd: path.join(__dirname, 'react-ui-ssr') });
+    if (stderrServer) {
+      console.error(stderrServer);
+    }
+    if (stdoutServer) {
+      console.log(stdoutServer);
+    }
     expect(console.error).not.toHaveBeenCalled();
-  });
+  }, SSR_TIMEOUT);
 });
 
-function buildReactUI(reactUIPackagePath: string) {
+async function buildReactUI(reactUIPackagePath: string) {
   const reactUIPath = path.join(__dirname, '../react-ui');
   const buildPath = path.join(reactUIPath, 'build');
 
-  execSync(`yarn build`, { cwd: reactUIPath, stdio: 'inherit' });
+  const { stdout: stdoutBuild, stderr: stderrBuild } = await execAsync(`yarn build`, { cwd: reactUIPath });
+  if (stderrBuild) {
+    console.error(stderrBuild);
+  }
+  if (stderrBuild) {
+    console.log(stdoutBuild);
+  }
 
-  execSync(`yarn pack --filename ${reactUIPackagePath}`, { cwd: buildPath, stdio: 'inherit' });
+  const { stdout, stderr } = await execAsync(`yarn pack --filename ${reactUIPackagePath}`, { cwd: buildPath });
+  if (stderr) {
+    console.error(stderr);
+  }
+  if (stdout) {
+    console.log(stdout);
+  }
 }
 
-function initApplication(appDirectory: string, templateDirectory: string, reactUIPackagePath: string) {
-  execSync(`npx create-react-app@latest ${appDirectory} --template file:${templateDirectory}`, { stdio: 'inherit' });
-
+async function initApplication(appDirectory: string, templateDirectory: string, reactUIPackagePath: string) {
+  await execAsync(`npx create-react-app@latest ${appDirectory} --template file:${templateDirectory}`, { });
   // yarn save and get package from cache
   // https://github.com/yarnpkg/yarn/issues/2165
-  execSync(`npm install ${reactUIPackagePath}`, { cwd: appDirectory, stdio: 'inherit' });
+  await execAsync(`npm install --loglevel=error ${reactUIPackagePath}`, { cwd: appDirectory });  
 }
 
 function buildApplication(appFolder: string) {

@@ -14,7 +14,7 @@ describe('Toggle', () => {
   });
 
   it('handels onValueChange event', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
 
     render(<Toggle onValueChange={onValueChange}>Toggle</Toggle>);
 
@@ -24,7 +24,7 @@ describe('Toggle', () => {
   });
 
   it('handels onChange event', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(<Toggle onChange={onChange}>Toggle</Toggle>);
 
@@ -34,7 +34,7 @@ describe('Toggle', () => {
   });
 
   it('handels onFocus event', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
 
     render(<Toggle onFocus={onFocus}>Toggle</Toggle>);
 
@@ -44,7 +44,7 @@ describe('Toggle', () => {
   });
 
   it('handels onBlur event', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
 
     render(<Toggle onBlur={onBlur}>Toggle</Toggle>);
 

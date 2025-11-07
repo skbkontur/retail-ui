@@ -12,7 +12,7 @@ describe('Radio', () => {
   });
 
   it('should handle onMouseEnter event', () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
 
     render(<Radio value={'One'} onMouseEnter={onMouseEnter} />);
     fireEvent.mouseEnter(screen.getByRole('radio'));
@@ -21,7 +21,7 @@ describe('Radio', () => {
   });
 
   it('should handle onMouseLeave event', () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
 
     render(<Radio value={'One'} onMouseLeave={onMouseLeave} />);
     fireEvent.mouseLeave(screen.getByRole('radio'));
@@ -30,7 +30,7 @@ describe('Radio', () => {
   });
 
   it('should handle onMouseOver event', () => {
-    const onMouseOver = jest.fn();
+    const onMouseOver = vi.fn();
 
     render(<Radio value={'One'} onMouseOver={onMouseOver} />);
     fireEvent.mouseOver(screen.getByRole('radio'));
@@ -39,7 +39,7 @@ describe('Radio', () => {
   });
 
   it('should handle onFocus event', () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     const radioRef = React.createRef<Radio<string>>();
 
     render(<Radio value={'One'} onFocus={onFocus} ref={radioRef} />);
@@ -49,7 +49,7 @@ describe('Radio', () => {
   });
 
   it('should handle onValueChange event', async () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
     const radioRef = React.createRef<Radio<string>>();
 
     render(<Radio value={'One'} onValueChange={onValueChange} ref={radioRef} />);

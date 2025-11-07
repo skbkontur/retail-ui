@@ -1,8 +1,7 @@
-const { defineInlineTest } = require('jscodeshift/dist/testUtils');
+// @ts-expect-error - jscodeshift/dist/testUtils doesn't have type definitions
+import { defineInlineTest } from 'jscodeshift/dist/testUtils';
 
-const transform = require('../transformLabelToCaption');
-
-jest.autoMockOff();
+import transform from '../transformLabelToCaption';
 
 defineInlineTest(
   transform,

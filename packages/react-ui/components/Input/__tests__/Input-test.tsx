@@ -14,9 +14,9 @@ import {
 } from '../Input';
 
 describe('<Input />', () => {
-  let consoleSpy: jest.SpyInstance;
+  let consoleSpy: ReturnType<typeof vi.spyOn>;
 
-  beforeEach(() => (consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {})));
+  beforeEach(() => (consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})));
   afterEach(() => consoleSpy.mockRestore());
 
   it('renders with given value', () => {
@@ -25,7 +25,7 @@ describe('<Input />', () => {
   });
 
   it('calls onValueChange', () => {
-    const onValueChange = jest.fn();
+    const onValueChange = vi.fn();
 
     render(<Input onValueChange={onValueChange} value="" />);
 
@@ -157,7 +157,7 @@ describe('<Input />', () => {
   });
 
   it('handels onClick event', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     render(<Input value="some value to copy" onClick={onClick} />);
     const element = screen.getByRole('textbox');
     await userEvent.click(element);
@@ -165,21 +165,21 @@ describe('<Input />', () => {
   });
 
   it('handels onMouseUp event', () => {
-    const onMouseUp = jest.fn();
+    const onMouseUp = vi.fn();
     render(<Input value="some value to copy" onMouseUp={onMouseUp} />);
     fireEvent.mouseUp(screen.getByRole('textbox'));
     expect(onMouseUp).toHaveBeenCalledTimes(1);
   });
 
   it('handels onMouseDown event', () => {
-    const onMouseDown = jest.fn();
+    const onMouseDown = vi.fn();
     render(<Input value="some value to copy" onMouseDown={onMouseDown} />);
     fireEvent.mouseDown(screen.getByRole('textbox'));
     expect(onMouseDown).toHaveBeenCalledTimes(1);
   });
 
   it('handels onKeyUp event', async () => {
-    const onKeyUp = jest.fn();
+    const onKeyUp = vi.fn();
     render(<Input value="some value to copy" onKeyUp={onKeyUp} />);
     await userEvent.type(screen.getByRole('textbox'), '{enter}');
 
@@ -187,7 +187,7 @@ describe('<Input />', () => {
   });
 
   it('handels onInput event', async () => {
-    const onInput = jest.fn();
+    const onInput = vi.fn();
     render(<Input onInput={onInput} />);
     const element = screen.getByRole('textbox');
     await userEvent.type(element, 'A');
@@ -196,14 +196,14 @@ describe('<Input />', () => {
   });
 
   it('handels onCopy event', async () => {
-    const onCopy = jest.fn();
+    const onCopy = vi.fn();
     render(<Input value="Method works" onCopy={onCopy} />);
     fireEvent.copy(screen.getByRole('textbox'));
     expect(onCopy).toHaveBeenCalledTimes(1);
   });
 
   it('handels onPaste event', async () => {
-    const onPaste = jest.fn();
+    const onPaste = vi.fn();
     render(<Input onPaste={onPaste} />);
     const text = 'It handels onPaste event';
     const element = screen.getByRole('textbox');
@@ -236,7 +236,7 @@ describe('<Input />', () => {
   });
 
   it('call handleUnexpectedInput on maxLength has been reached', () => {
-    const unexpectedInputHandlerMock = jest.fn();
+    const unexpectedInputHandlerMock = vi.fn();
     const { rerender } = render(<Input value={''} onUnexpectedInput={unexpectedInputHandlerMock} maxLength={3} />);
 
     const typeSymbol = () => {
@@ -376,7 +376,7 @@ describe('<Input />', () => {
   });
 
   it('blink method works', async () => {
-    const blinkMock = jest.fn();
+    const blinkMock = vi.fn();
     const refInput = React.createRef<Input>();
     render(<Input ref={refInput} />);
 
@@ -389,7 +389,7 @@ describe('<Input />', () => {
   });
 
   it('call handleUnexpectedInput', async () => {
-    const unexpectedInputHandlerMock = jest.fn();
+    const unexpectedInputHandlerMock = vi.fn();
     render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
     const element = screen.getByRole('textbox');
 
@@ -433,7 +433,7 @@ describe('<Input />', () => {
   });
 
   it('handels onBlur event', async () => {
-    const onBlur = jest.fn();
+    const onBlur = vi.fn();
     render(<Input onBlur={onBlur} />);
 
     await userEvent.click(screen.getByRole('textbox'));
@@ -443,7 +443,7 @@ describe('<Input />', () => {
   });
 
   it('handels onFocus event', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     render(<Input onFocus={onFocus} />);
 
     await userEvent.click(screen.getByRole('textbox'));
@@ -452,7 +452,7 @@ describe('<Input />', () => {
   });
 
   it('handels onKeyDown event', async () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     render(<Input onKeyDown={onKeyDown} />);
 
     await userEvent.type(screen.getByRole('textbox'), '{enter}');
@@ -461,7 +461,7 @@ describe('<Input />', () => {
   });
 
   it('handels onKeyPress event', async () => {
-    const onKeyPress = jest.fn();
+    const onKeyPress = vi.fn();
     render(<Input onKeyPress={onKeyPress} />);
 
     await userEvent.type(screen.getByRole('textbox'), '{enter}');
@@ -486,28 +486,28 @@ describe('<Input />', () => {
   });
 
   it('passes onMouseEnter prop to label', () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
     render(<Input value="Hello" onMouseEnter={onMouseEnter} />);
     fireEvent.mouseEnter(screen.getByTestId('Input__root'));
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
   it('passes onMouseOver prop to label', () => {
-    const onMouseOver = jest.fn();
+    const onMouseOver = vi.fn();
     render(<Input value="Hello" onMouseOver={onMouseOver} />);
     fireEvent.mouseOver(screen.getByTestId('Input__root'));
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
   it('passes onMouseLeave prop to label', () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
     render(<Input value="Hello" onMouseLeave={onMouseLeave} />);
     fireEvent.mouseLeave(screen.getByTestId('Input__root'));
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
   it('maskedInput calls onUnexpectedInput', async () => {
-    const unexpectedInputHandlerMock = jest.fn();
+    const unexpectedInputHandlerMock = vi.fn();
 
     render(<Input value="" mask={'(999) 999-9999'} onUnexpectedInput={unexpectedInputHandlerMock} />);
     await userEvent.click(screen.getByRole('textbox'));
@@ -592,10 +592,10 @@ describe('<Input />', () => {
     });
 
     it('tests showClearIcon=auto prop to input', async () => {
-      const onBlur = jest.fn();
-      const onMouseEnter = jest.fn();
-      const onMouseLeave = jest.fn();
-      const onClick = jest.fn();
+      const onBlur = vi.fn();
+      const onMouseEnter = vi.fn();
+      const onMouseLeave = vi.fn();
+      const onClick = vi.fn();
       const ControlledInput = () => {
         const [value, setValue] = React.useState<string>('');
         return (

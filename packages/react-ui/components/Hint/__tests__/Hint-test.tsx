@@ -57,7 +57,7 @@ describe('Hint', () => {
   });
 
   it('handels onMouseEnter event', async () => {
-    const onMouseEnter = jest.fn();
+    const onMouseEnter = vi.fn();
     const hintChildrenText = 'Hello';
     render(
       <Hint text="world" onMouseEnter={onMouseEnter}>
@@ -71,7 +71,7 @@ describe('Hint', () => {
   });
 
   it('handels onMouseLeave event', async () => {
-    const onMouseLeave = jest.fn();
+    const onMouseLeave = vi.fn();
     const hintChildrenText = 'Hello';
     render(
       <Hint text="world" onMouseLeave={onMouseLeave}>
@@ -84,8 +84,8 @@ describe('Hint', () => {
   });
 
   it('clears timer after unmount', async () => {
-    jest.spyOn(window, 'setTimeout');
-    jest.spyOn(window, 'clearTimeout');
+    vi.spyOn(window, 'setTimeout');
+    vi.spyOn(window, 'clearTimeout');
 
     const hintRef = React.createRef<Hint>();
 

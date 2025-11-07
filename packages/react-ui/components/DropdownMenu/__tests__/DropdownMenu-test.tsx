@@ -15,7 +15,7 @@ describe('<DropdownMenu />', () => {
   const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
   beforeEach(() => {
-    window.scrollTo = jest.fn();
+    window.scrollTo = vi.fn();
     consoleSpy.mockClear();
   });
 
@@ -89,7 +89,7 @@ describe('<DropdownMenu />', () => {
   });
 
   it('Click handler on menu item should be called before closing', async () => {
-    const onClick = jest.fn();
+    const onClick = vi.fn();
 
     render(
       <DropdownMenu caption={caption}>
@@ -105,8 +105,8 @@ describe('<DropdownMenu />', () => {
   });
 
   it('Fire onOpen and onClose when open and close dropdown', async () => {
-    const onOpen = jest.fn();
-    const onClose = jest.fn();
+    const onOpen = vi.fn();
+    const onClose = vi.fn();
     render(
       <DropdownMenu caption={caption} onOpen={onOpen} onClose={onClose}>
         <MenuItem>Test</MenuItem>

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 
 import type { Nullable } from '../typings/Types';
-import type { ThemeValidations } from '../typings/theme-context';
 
 import type { TextPosition, Validation } from './ValidationWrapperInternal';
 import { getValidationTextColor } from './utils/getValidationTextColor';
@@ -15,7 +14,7 @@ export interface ValidationTextProps {
 }
 
 export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
-  const theme = useContext<ThemeValidations>(ThemeContext);
+  const theme = useContext(ThemeContext);
   const color = getValidationTextColor(theme, validation?.level);
 
   if (pos === 'right') {

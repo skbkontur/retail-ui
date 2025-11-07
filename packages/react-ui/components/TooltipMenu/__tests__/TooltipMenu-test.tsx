@@ -12,7 +12,7 @@ describe('<TooltipMenu />', () => {
   const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
   beforeEach(() => {
-    window.scrollTo = jest.fn();
+    window.scrollTo = vi.fn();
     consoleSpy.mockClear();
   });
 

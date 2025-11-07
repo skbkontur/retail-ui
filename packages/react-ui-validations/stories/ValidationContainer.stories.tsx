@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
-import { Button, Gapped, Input } from '@skbkontur/react-ui';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import type { ValidationInfo } from '../src';
 import { text, ValidationContainer, ValidationWrapper } from '../src';

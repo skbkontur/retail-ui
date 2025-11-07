@@ -7,7 +7,7 @@ interface ItemType {
 }
 
 const createGetPropsMock = (props: Partial<CustomComboBoxProps<ItemType>>) => {
-  return jest.fn(() => ({
+  return vi.fn(() => ({
     itemToValue: (item: ItemType) => item.value,
     valueToString: (item: ItemType) => item.label,
     renderValue: (item: ItemType) => item.label,
@@ -46,9 +46,9 @@ describe('Default combobox reducer', () => {
       items[0],
     )} and inputValue="${inputValue}"`, () => {
       const mockedGetProps = createGetPropsMock({ valueToString });
-      const mockedDispatch = jest.fn();
-      const mockedGetState = jest.fn();
-      const mockedGetInstance = jest.fn();
+      const mockedDispatch = vi.fn();
+      const mockedGetState = vi.fn();
+      const mockedGetInstance = vi.fn();
 
       Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
@@ -77,9 +77,9 @@ describe('Default combobox reducer', () => {
     };
 
     const mockedGetProps = createGetPropsMock({ valueToString });
-    const mockedDispatch = jest.fn();
-    const mockedGetState = jest.fn();
-    const mockedGetInstance = jest.fn();
+    const mockedDispatch = vi.fn();
+    const mockedGetState = vi.fn();
+    const mockedGetInstance = vi.fn();
 
     Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
@@ -88,9 +88,9 @@ describe('Default combobox reducer', () => {
 
   it('UnexpectedInput with single item should call `ValueChange` action once', () => {
     const mockedGetProps = createGetPropsMock({ onUnexpectedInput: (x: any) => x, valueToString: (x: any) => x });
-    const mockedDispatch = jest.fn();
-    const mockedGetState = jest.fn();
-    const mockedGetInstance = jest.fn();
+    const mockedDispatch = vi.fn();
+    const mockedGetState = vi.fn();
+    const mockedGetInstance = vi.fn();
     Effect.unexpectedInput('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
     expect(mockedDispatch).toHaveBeenCalledTimes(1);
