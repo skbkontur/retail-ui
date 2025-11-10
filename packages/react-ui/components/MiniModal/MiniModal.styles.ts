@@ -9,14 +9,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  description() {
+  description(t: Theme) {
     return css`
       text-align: center;
-    `;
-  },
-
-  description5_3(t: Theme) {
-    return css`
       font-size: ${t.miniModalDescriptionFontSize};
       line-height: ${t.miniModalDescriptionLineHeight};
     `;

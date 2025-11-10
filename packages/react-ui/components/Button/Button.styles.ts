@@ -222,37 +222,19 @@ export const styles = memoizeStyle({
 
   sizeSmallWithIconWithoutText(t: Theme) {
     return css`
+      padding-left: ${t.btnWithIconPaddingSmall};
       padding-right: ${t.btnWithIconPaddingSmall};
     `;
   },
 
   sizeMediumWithIconWithoutText(t: Theme) {
     return css`
-      padding-right: ${t.btnWithIconPaddingMedium};
-    `;
-  },
-
-  sizeLargeWithIconWithoutText(t: Theme) {
-    return css`
-      padding-right: ${t.btnWithIconPaddingLarge};
-    `;
-  },
-
-  sizeSmallWithIconWithoutText5_3(t: Theme) {
-    return css`
-      padding-left: ${t.btnWithIconPaddingSmall};
-      padding-right: ${t.btnWithIconPaddingSmall};
-    `;
-  },
-
-  sizeMediumWithIconWithoutText5_3(t: Theme) {
-    return css`
       padding-left: ${t.btnWithIconPaddingMedium};
       padding-right: ${t.btnWithIconPaddingMedium};
     `;
   },
 
-  sizeLargeWithIconWithoutText5_3(t: Theme) {
+  sizeLargeWithIconWithoutText(t: Theme) {
     return css`
       padding-left: ${t.btnWithIconPaddingLarge};
       padding-right: ${t.btnWithIconPaddingLarge};

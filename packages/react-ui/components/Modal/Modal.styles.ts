@@ -36,6 +36,7 @@ export const styles = memoizeStyle({
       white-space: nowrap;
       text-align: center;
       height: 100%;
+      min-height: 64px;
       overflow-y: auto;
       outline: none;
     `;
@@ -49,22 +50,6 @@ export const styles = memoizeStyle({
         vertical-align: middle;
         height: 80%; /* to vertical align modal 40%/60% of screen height */
       }
-    `;
-  },
-
-  container5_2() {
-    return css`
-      min-height: 64px;
-    `;
-  },
-
-  containerMobile(t: Theme) {
-    return css`
-      height: ${t.mobileModalContainerHeight};
-      margin-top: ${t.mobileModalContainerMarginTop};
-      margin-right: ${t.mobileModalContainerMarginRight};
-      margin-bottom: ${t.mobileModalContainerMarginBottom};
-      margin-left: ${t.mobileModalContainerMarginLeft};
     `;
   },
 
@@ -112,7 +97,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileWindowFullscreen5_2() {
+  mobileWindowFullscreen() {
     return css`
       border-radius: 0;
     `;
@@ -130,15 +115,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileCenterContainer() {
-    return css`
-      margin: 0;
-      width: 100%;
-      height: 100%;
-    `;
-  },
-
-  mobileCenterContainer5_2(t: Theme) {
+  mobileCenterContainer(t: Theme) {
     return css`
       padding: 0;
       width: calc(100% - ${t.mobileModalContainerMarginLeft} - ${t.mobileModalContainerMarginRight});
@@ -149,13 +126,13 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileCenterContainerBig5_2(t: Theme) {
+  mobileCenterContainerBig(t: Theme) {
     return css`
       height: calc(100% - ${t.mobileModalContainerMarginTop} - ${t.mobileModalContainerMarginBottom});
     `;
   },
 
-  mobileCenterContainerFullscreen5_2() {
+  mobileCenterContainerFullscreen() {
     return css`
       margin: 0;
       width: 100%;
@@ -171,20 +148,27 @@ export const styles = memoizeStyle({
   },
 
   close(t: Theme) {
-    const padding = parseInt(t.modalCloseButtonPadding);
     return css`
       ${resetButton()};
       position: absolute;
       display: flex;
-      right: ${padding}px;
-      top: ${padding}px;
+      justify-content: center;
+      align-items: center;
+      right: ${t.modalCloseButtonClickAreaRight};
+      top: ${t.modalCloseButtonClickAreaTop};
       background: transparent;
       cursor: pointer;
       color: ${t.modalCloseButtonColor};
       text-align: center;
       vertical-align: middle;
-      padding: ${t.modalCloseButtonClickArea};
-      margin: -${t.modalCloseButtonClickArea};
+      padding-top: ${t.modalCloseButtonClickAreaTop};
+      margin-top: -${t.modalCloseButtonClickAreaTop};
+      padding-right: ${t.modalCloseButtonClickAreaRight};
+      margin-right: -${t.modalCloseButtonClickAreaRight};
+      padding-bottom: ${t.modalCloseButtonClickAreaBottom};
+      margin-bottom: -${t.modalCloseButtonClickAreaBottom};
+      padding-left: ${t.modalCloseButtonClickAreaLeft};
+      margin-left: -${t.modalCloseButtonClickAreaLeft};
 
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
@@ -198,28 +182,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  close5_1(t: Theme) {
-    return css`
-      justify-content: center;
-      align-items: center;
-      right: ${t.modalCloseButtonClickAreaRight};
-      top: ${t.modalCloseButtonClickAreaTop};
-
-      padding-top: ${t.modalCloseButtonClickAreaTop};
-      margin-top: -${t.modalCloseButtonClickAreaTop};
-      padding-right: ${t.modalCloseButtonClickAreaRight};
-      margin-right: -${t.modalCloseButtonClickAreaRight};
-      padding-bottom: ${t.modalCloseButtonClickAreaBottom};
-      margin-bottom: -${t.modalCloseButtonClickAreaBottom};
-      padding-left: ${t.modalCloseButtonClickAreaLeft};
-      margin-left: -${t.modalCloseButtonClickAreaLeft};
-    `;
-  },
-
   closeMobile(t: Theme) {
     return css`
       right: ${t.mobileModalCloseButtonRightPadding};
-      top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
+      top: ${t.mobileModalCloseButtonTopPadding};
       padding: ${t.mobileModalCloseButtonClickArea};
       margin: -${t.mobileModalCloseButtonClickArea};
 
@@ -230,19 +196,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  closeMobile5_1(t: Theme) {
-    return css`
-      top: ${t.mobileModalCloseButtonTopPadding};
-    `;
-  },
-
-  mobileCloseWithoutHeader() {
-    return css`
-      position: static;
-    `;
-  },
-
-  mobileCloseWithoutHeader5_2(t: Theme) {
+  mobileCloseWithoutHeader(t: Theme) {
     return css`
       position: absolute;
       padding: ${t.mobileModalWithoutHeaderCloseButtonPadding};
@@ -270,29 +224,19 @@ export const styles = memoizeStyle({
     const size = parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea) * 2;
 
     return css`
-      position: absolute;
-      right: ${t.mobileModalCloseButtonRightPadding};
-      top: ${t.mobileModalCloseButtonTopPadding};
-      padding: 0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: ${size}px;
-      height: ${size}px;
-      background: radial-gradient(50% 50% at 50% 50%, ${t.bgDefault} 60%, rgba(255, 255, 255, 0) 100%);
-      border-radius: ${size}px;
-    `;
-  },
-
-  mobileCloseWrapper5_2(t: Theme) {
-    return css`
       position: sticky;
       right: 0;
       top: 0;
+      padding: 0;
+      margin: 0;
       margin-left: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: ${t.mobileModalWithoutHeaderCloseButtonWidth};
       height: 0;
+      background: radial-gradient(50% 50% at 50% 50%, ${t.bgDefault} 60%, rgba(255, 255, 255, 0) 100%);
+      border-radius: ${size}px;
     `;
   },
 
@@ -305,13 +249,6 @@ export const styles = memoizeStyle({
   },
 
   focus(t: Theme) {
-    return css`
-      color: ${t.modalCloseButtonHoverColor};
-      outline: 2px solid ${t.borderColorFocus};
-    `;
-  },
-
-  focus5_1(t: Theme) {
     return css`
       &:before {
         content: '';
@@ -333,11 +270,6 @@ export const styles = memoizeStyle({
       word-wrap: break-word;
       color: ${t.modalHeaderTextColor};
       font-weight: ${t.modalHeaderFontWeight};
-    `;
-  },
-
-  header5_2(t: Theme) {
-    return css`
       border-radius: ${t.modalBorderRadius} ${t.modalBorderRadius} 0 0;
     `;
   },
@@ -422,6 +354,7 @@ export const styles = memoizeStyle({
       padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
       border-bottom: ${t.modalFixedHeaderBorder};
+      border-radius: 0;
 
       &:after {
         bottom: 11px;
@@ -436,20 +369,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  fixedHeader5_2() {
-    return css`
-      border-radius: 0;
-    `;
-  },
-
   mobileFixedHeader(t: Theme) {
     return css`
       padding-bottom: ${t.mobileModalHeaderPadding};
-    `;
-  },
-
-  mobileFixedHeader5_2(t: Theme) {
-    return css`
       border-radius: ${t.modalBorderRadius} ${t.modalBorderRadius} 0 0;
     `;
   },
@@ -460,6 +382,7 @@ export const styles = memoizeStyle({
       margin-top: ${t.modalFixedFooterMarginTop};
       background: ${t.modalFixedHeaderBg};
       border-top: ${t.modalFixedFooterBorder};
+      border-radius: 0;
 
       &:before {
         top: 11px;
@@ -474,13 +397,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  fixedFooter5_2() {
-    return css`
-      border-radius: 0;
-    `;
-  },
-
-  mobileFixedFooter5_2(t: Theme) {
+  mobileFixedFooter(t: Theme) {
     return css`
       border-radius: 0 0 ${t.modalBorderRadius} ${t.modalBorderRadius};
     `;
@@ -506,13 +423,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileBodyWithoutHeader() {
-    return css`
-      padding-top: 0;
-    `;
-  },
-
-  mobileBodyWithoutHeader5_2(t: Theme) {
+  mobileBodyWithoutHeader(t: Theme) {
     return css`
       padding-top: ${t.mobileModalBodyPaddingTop};
       padding-right: ${t.mobileModalWithoutHeaderCloseButtonWidth};
@@ -534,11 +445,6 @@ export const styles = memoizeStyle({
   mobileBodyAddPaddingForPanel(t: Theme) {
     return css`
       padding: ${t.mobileModalBodyPadding};
-    `;
-  },
-
-  mobileBodyAddPaddingForPanel5_2(t: Theme) {
-    return css`
       padding-bottom: ${t.mobileModalBodyPaddingBottom};
     `;
   },

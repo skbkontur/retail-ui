@@ -7,7 +7,6 @@ import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import type { CommonProps } from '../../internal/CommonWrapper';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './SidePage.styles';
 import { SidePageLocaleHelper } from './locale';
@@ -39,16 +38,13 @@ export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseBu
   };
 
   const icon = <XIcon20Regular align="none" />;
-  const versionGTE5_1 = isThemeGTE(theme, '5.1');
   return (
     <button
       aria-label={locale?.closeButtonAriaLabel}
       className={cx(styles.close(theme), {
-        [styles.close5_1(theme)]: versionGTE5_1,
-        [styles.closeFocus(theme)]: isFocusedByTab && !versionGTE5_1,
-        [styles.closeFocus5_1(theme)]: isFocusedByTab && versionGTE5_1,
-        [styles.closeSticky(theme)]: isHeaderFixed && versionGTE5_1,
-        [styles.closeMobile(theme)]: isMobile && versionGTE5_1,
+        [styles.closeFocus(theme)]: isFocusedByTab,
+        [styles.closeSticky(theme)]: isHeaderFixed,
+        [styles.closeMobile(theme)]: isMobile,
       })}
       onFocus={handleFocus}
       onBlur={handleBlur}

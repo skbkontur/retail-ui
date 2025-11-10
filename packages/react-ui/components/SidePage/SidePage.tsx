@@ -22,7 +22,6 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -172,7 +171,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private renderMain() {
     const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
-    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
     return (
       <ResponsiveLayout>
         {({ isMobile }) => (
@@ -184,7 +182,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 createStackingContext
                 style={{ position: 'absolute' }}
               >
-                {(versionGTE5_2 || !isMobile) && blockBackground && this.renderShadow()}
+                {!isMobile && blockBackground && this.renderShadow()}
                 <CSSTransition
                   in
                   classNames={this.getTransitionNames()}
@@ -226,7 +224,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { offset, role } = this.getProps();
 
     const widthDesktop = this.props.width || (blockBackground ? 800 : 500);
-    const widthMobile = this.props.mobileWidth || '100%';
+    const widthMobile = mobileWidth || '100%';
     const width = isMobile ? widthMobile : widthDesktop;
 
     return (
@@ -240,17 +238,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         })}
         ref={this.rootRef}
         onScroll={LayoutEvents.emit}
-        style={
-          isMobile && !isThemeGTE(this.theme, '5.2')
-            ? {
-                width: mobileWidth || '100%',
-              }
-            : {
-                width,
-                right: fromLeft ? 'auto' : offset,
-                left: fromLeft ? offset : 'auto',
-              }
-        }
+        style={{
+          width,
+          right: fromLeft ? 'auto' : offset,
+          left: fromLeft ? offset : 'auto',
+        }}
       >
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>

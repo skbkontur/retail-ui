@@ -20,7 +20,6 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
 
 import type { ModalContextProps } from './ModalContext';
@@ -237,8 +236,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       modalContextProps.additionalPadding = true;
     }
 
-    const versionGTE5_2 = isThemeGTE(this.theme, '5.2');
-
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
 
@@ -249,14 +246,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     const getMobileCenterContainerClassNames = () => {
-      if (versionGTE5_2) {
-        return cx(styles.mobileCenterContainer5_2(this.theme), {
-          [styles.mobileCenterContainerBig5_2(this.theme)]:
-            mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter),
-          [styles.mobileCenterContainerFullscreen5_2()]: mobileAppearance === 'fullscreen',
-        });
-      }
-      return cx(styles.mobileCenterContainer());
+      return cx(styles.mobileCenterContainer(this.theme), {
+        [styles.mobileCenterContainerBig(this.theme)]:
+          mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter),
+        [styles.mobileCenterContainerFullscreen()]: mobileAppearance === 'fullscreen',
+      });
     };
 
     return (
@@ -279,10 +273,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                   ref={this.refContainer}
                   className={cx(
                     styles.container(),
-                    versionGTE5_2 && styles.container5_2(),
-                    (!versionGTE5_2 || !isMobile) && styles.containerDesktop(),
-                    !versionGTE5_2 && isMobile && styles.containerMobile(this.theme),
-                    versionGTE5_2 && isMobile && this.getMobileContainerClassName(),
+                    !isMobile && styles.containerDesktop(),
+                    isMobile && this.getMobileContainerClassName(),
                   )}
                   onMouseDown={this.handleContainerMouseDown}
                   onMouseUp={this.handleContainerMouseUp}
@@ -305,8 +297,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       className={cx({
                         [styles.window(this.theme)]: true,
                         [styles.mobileWindow()]: isMobile,
-                        [styles.mobileWindowFullscreen5_2()]:
-                          versionGTE5_2 && isMobile && mobileAppearance === 'fullscreen',
+                        [styles.mobileWindowFullscreen()]: isMobile && mobileAppearance === 'fullscreen',
                       })}
                       style={isMobile ? undefined : style}
                     >
@@ -322,14 +313,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                               className={cx({
                                 [styles.closeWrapper(this.theme)]: true,
                                 [styles.mobileCloseWrapper(this.theme)]: isMobile,
-                                [styles.mobileCloseWrapper5_2(this.theme)]: versionGTE5_2 && isMobile,
                               })}
                             >
                               <ModalClose
                                 className={cx({
-                                  [styles.mobileCloseWithoutHeader()]: isMobile && !this.state.hasHeader,
-                                  [styles.mobileCloseWithoutHeader5_2(this.theme)]:
-                                    versionGTE5_2 && isMobile && !this.state.hasHeader,
+                                  [styles.mobileCloseWithoutHeader(this.theme)]: isMobile && !this.state.hasHeader,
                                 })}
                                 requestClose={this.requestClose}
                                 disableClose={disableClose}

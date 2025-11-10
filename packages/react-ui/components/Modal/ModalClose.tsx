@@ -8,7 +8,6 @@ import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import type { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -35,7 +34,6 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
   };
 
   const icon = <XIcon20Regular align="none" />;
-  const versionGTE5_1 = isThemeGTE(theme, '5.1');
 
   return (
     <CommonWrapper {...otherProps}>
@@ -45,12 +43,9 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
             aria-label={locale.closeButtonAriaLabel}
             className={cx({
               [styles.close(theme)]: true,
-              [styles.close5_1(theme)]: versionGTE5_1,
               [styles.closeMobile(theme)]: isMobile,
-              [styles.closeMobile5_1(theme)]: isMobile && versionGTE5_1,
               [styles.disabled(theme)]: disableClose,
-              [styles.focus(theme)]: focusedByTab && !versionGTE5_1,
-              [styles.focus5_1(theme)]: focusedByTab && versionGTE5_1,
+              [styles.focus(theme)]: focusedByTab,
             })}
             onClick={requestClose}
             onFocus={handleFocus}

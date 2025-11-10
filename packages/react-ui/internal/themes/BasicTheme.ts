@@ -867,12 +867,11 @@ export class BasicThemeClass {
   public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static modalCloseButtonPadding = '32px';
   public static modalCloseButtonBottomPadding = '20px';
-  /** @deprecated use modalCloseButtonClickArea[Top/Bottom/Left/Right] instead */
-  public static modalCloseButtonClickArea = '6px';
-  public static modalCloseButtonClickAreaTop = '6px';
-  public static modalCloseButtonClickAreaBottom = '6px';
-  public static modalCloseButtonClickAreaLeft = '6px';
-  public static modalCloseButtonClickAreaRight = '6px';
+
+  public static modalCloseButtonClickAreaTop = '30px';
+  public static modalCloseButtonClickAreaBottom = '22px';
+  public static modalCloseButtonClickAreaLeft = '24px';
+  public static modalCloseButtonClickAreaRight = '28px';
   public static modalCloseIconSize = '20px';
   public static modalBorderRadius = '16px';
   public static get modalFixedHeaderBg() {
@@ -929,9 +928,13 @@ export class BasicThemeClass {
   public static get modalFooterPanelPaddingBottom() {
     return this.modalFooterPaddingBottom;
   }
-  public static mobileModalCloseButtonRightPadding = '16px';
-  public static mobileModalCloseButtonTopPadding = '8px';
-  public static mobileModalCloseButtonClickArea = '16px';
+  public static get mobileModalCloseButtonRightPadding() {
+    return this.mobileModalCloseButtonClickArea;
+  }
+  public static get mobileModalCloseButtonTopPadding() {
+    return this.mobileModalCloseButtonClickArea;
+  }
+  public static mobileModalCloseButtonClickArea = '22px';
   public static mobileModalWithoutHeaderCloseButtonPadding = '10px';
   public static get mobileModalWithoutHeaderCloseButtonWidth() {
     return `${parseInt(this.modalCloseIconSize) + 2 * parseInt(this.mobileModalWithoutHeaderCloseButtonPadding)}px`;
@@ -940,17 +943,17 @@ export class BasicThemeClass {
   public static mobileModalHeaderFontSize = '24px';
   public static mobileModalHeaderLineHeight = '32px';
   public static mobileModalHeaderPadding = '16px';
-  public static mobileModalBodyPadding = '0 16px 16px 16px';
+  public static mobileModalBodyPadding = '0 16px 0 16px';
   public static mobileModalBodyPaddingTop = '16px';
   public static mobileModalBodyPaddingBottom = '16px';
   public static mobileModalBodyFontSize = '16px';
   public static mobileModalFooterPadding = '16px';
   public static mobileModalPaddingBottom = '16px';
   public static mobileModalContainerHeight = '100%';
-  public static mobileModalContainerMarginTop = '0';
-  public static mobileModalContainerMarginRight = '0';
-  public static mobileModalContainerMarginBottom = '0';
-  public static mobileModalContainerMarginLeft = '0';
+  public static mobileModalContainerMarginTop = '16px';
+  public static mobileModalContainerMarginRight = '16px';
+  public static mobileModalContainerMarginBottom = '16px';
+  public static mobileModalContainerMarginLeft = '16px';
   //#endregion
   //#region SidePage
   public static get sidePageFooterPanelBg() {
@@ -982,10 +985,12 @@ export class BasicThemeClass {
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
   public static sidePageHeaderPaddingTop = '24px';
-  public static sidePageHeaderStickyOffset = '9px';
+  public static sidePageHeaderStickyOffset = '10px';
   /** @deprecated use sidePageCloseButtonClickAreaLeft and sidePageCloseButtonClickAreaRight instead */
   public static sidePageCloseButtonPadding = '32px';
-  public static mobileSidePageCloseButtonPadding = '16px';
+  public static get mobileSidePageCloseButtonPadding() {
+    return this.mobileSidePageCloseButtonClickArea;
+  }
   public static get sidePageFooterPanelPaddingTop() {
     return this.sidePageFooterPaddingTop;
   }
@@ -995,15 +1000,23 @@ export class BasicThemeClass {
   public static sidePageCloseIconSize = '20px';
   /** @deprecated use sidePageCloseButtonClickArea[Top/Bottom/Left/Right] instead */
   public static sidePageCloseButtonClickArea = '6px';
-  public static sidePageCloseButtonClickAreaTop = '6px';
-  public static sidePageCloseButtonClickAreaBottom = '6px';
-  public static sidePageCloseButtonClickAreaLeft = '6px';
-  public static sidePageCloseButtonClickAreaRight = '6px';
+  public static get sidePageCloseButtonClickAreaTop() {
+    return this.modalCloseButtonClickAreaTop;
+  }
+  public static get sidePageCloseButtonClickAreaBottom() {
+    return this.modalCloseButtonClickAreaBottom;
+  }
+  public static get sidePageCloseButtonClickAreaLeft() {
+    return this.modalCloseButtonClickAreaLeft;
+  }
+  public static get sidePageCloseButtonClickAreaRight() {
+    return this.modalCloseButtonClickAreaRight;
+  }
   public static get sidePageCloseButtonFixedClickAreaTop() {
     return this.sidePageCloseButtonFixedClickAreaBottom;
   }
   public static sidePageCloseButtonFixedClickAreaBottom = '14px';
-  public static mobileSidePageCloseButtonClickArea = '16px';
+  public static mobileSidePageCloseButtonClickArea = '22px';
   public static get sidePageFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }
@@ -1018,7 +1031,7 @@ export class BasicThemeClass {
   /** @deprecated use mobileSidePageCloseButtonPadding instead */
   public static mobileSidePageCloseButtonRightPadding = '12px';
   public static sidePageHeaderFontWeight = 'bold';
-  public static sidePageCloseButtonWrapperOffsetTop = '4px';
+  public static sidePageCloseButtonWrapperOffsetTop = '2px';
   public static sidePageCloseButtonWrapperFixedOffsetTop = '4px';
   //#endregion SidePage
   //#region DateInput
@@ -2152,8 +2165,8 @@ export class BasicThemeClass {
   public static get textareaCounterHelpIconColor() {
     return this.linkColor;
   }
-  public static textareaMargin = '';
-  public static textareaVerticalAlign = 'middle';
+  public static textareaMargin = '0px'; // обнуление вертикального браузерного margin в firefox
+  public static textareaVerticalAlign = 'top';
 
   //#endregion Textarea
   //#region Radio
@@ -2604,15 +2617,9 @@ export class BasicThemeClass {
   //#endregion FileUploader
 
   //#region ClearCrossIcon
-  public static get clearCrossIconWidthSmall() {
-    return this.inputHeightSmall;
-  }
-  public static get clearCrossIconWidthMedium() {
-    return this.inputHeightMedium;
-  }
-  public static get clearCrossIconWidthLarge() {
-    return this.inputHeightLarge;
-  }
+  public static clearCrossIconWidthSmall = '24px';
+  public static clearCrossIconWidthMedium = '30px';
+  public static clearCrossIconWidthLarge = '36px';
   public static get clearCrossIconHeightSmall() {
     return this.inputHeightSmall;
   }
@@ -2652,7 +2659,7 @@ export class BasicThemeClass {
   public static clearCrossIconColor = 'rgba(0, 0, 0, 0.54)';
   public static clearCrossIconHoverColor = 'rgba(0, 0, 0, 0.87)';
 
-  public static clearCrossIconAlign = 'center';
+  public static clearCrossIconAlign = 'flex-start';
 
   //#endregion ClearCrossIcon
 
@@ -2682,8 +2689,8 @@ export class BasicThemeClass {
   public static miniModalHeaderPaddingBottom = '0';
   public static miniModalBodyPaddingTop = '16px';
   public static miniModalBodyPaddingBottom = '0';
-  public static miniModalDescriptionFontSize = 'inherit';
-  public static miniModalDescriptionLineHeight = 'normal';
+  public static miniModalDescriptionFontSize = '16px';
+  public static miniModalDescriptionLineHeight = '22px';
   public static miniModalHeaderPaddingTop = '32px';
   public static miniModalActionGap = '8px';
   public static miniModalCancelIndent = '8px';
@@ -2691,9 +2698,9 @@ export class BasicThemeClass {
   public static miniModalFooterPaddingBottom = '32px';
   public static miniModalTitleMarginTop = '16px';
   public static miniModalHeightMobile = 'auto';
-  public static miniModalMarginTopMobile = '80px';
-  public static miniModalMarginLeftMobile = '24px';
-  public static miniModalMarginRightMobile = '24px';
+  public static miniModalMarginTopMobile = '16px';
+  public static miniModalMarginLeftMobile = '16px';
+  public static miniModalMarginRightMobile = '16px';
   public static miniModalFooterPaddingMobile = '24px 16px 16px';
   public static miniModalHeaderPaddingMobile = '32px 16px 0';
   public static miniModalBodyPaddingMobile = '16px 16px 0';

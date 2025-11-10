@@ -2,8 +2,8 @@ import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/themin
 
 import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme';
 
-export const DarkTheme5_0 = createTheme({
-  themeClass: class DarkTheme5_0 extends BasicThemeClassForExtension {
+export const DarkTheme6_0 = createTheme({
+  themeClass: class DarkTheme6_0 extends BasicThemeClassForExtension {
     //#region Common variables
     public static grayXLight = '#313131';
     public static gray = 'rgba(255, 255, 255, 0.48)';
@@ -558,6 +558,11 @@ export const DarkTheme5_0 = createTheme({
 
     //#endregion FileUploader
 
+    //#region Kebab
+    public static kebabBackgroundHover = 'rgba(255, 255, 255, 0.1)';
+    public static kebabBackgroundActive = 'rgba(255, 255, 255, 0.06)';
+    //#endregion Kebab
+
     //#region react-ui-validations
     public static get validationsTextColorError() {
       return this.errorText;
@@ -566,5 +571,5 @@ export const DarkTheme5_0 = createTheme({
     //#endregion
   },
   prototypeTheme: BasicTheme,
-  themeMarkers: [markAsDarkTheme, markThemeVersion('5.0')],
+  themeMarkers: [markAsDarkTheme, markThemeVersion('6.0')],
 });

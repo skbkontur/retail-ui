@@ -207,7 +207,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = getComboBoxTheme(theme, this.props.viewMode);
+          this.theme = getComboBoxTheme(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>

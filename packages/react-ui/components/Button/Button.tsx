@@ -7,7 +7,6 @@ import { isKonturIcon } from '../../lib/utils';
 import { isSafari } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -426,47 +425,35 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
   private getSizeClassName() {
     const { icon, rightIcon, children } = this.getProps();
-    const isThemeGTE_5_3 = isThemeGTE(this.theme, '5.3');
 
     switch (this.size) {
       case 'large': {
         const commonClasses = {
           [styles.sizeLargeWithIcon(this.theme)]: !!icon,
-          [styles.sizeLargeWithIconWithoutText(this.theme)]: !!icon && !children,
+          [styles.sizeLargeWithRightIcon(this.theme)]: !!rightIcon,
+          [styles.sizeLargeWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
         };
 
-        const themeSpecificClasses = {
-          [styles.sizeLargeWithRightIcon(this.theme)]: !!rightIcon,
-          [styles.sizeLargeWithIconWithoutText5_3(this.theme)]: (!!icon || !!rightIcon) && !children,
-        };
-        return cx(styles.sizeLarge(this.theme), commonClasses, isThemeGTE_5_3 && themeSpecificClasses);
+        return cx(styles.sizeLarge(this.theme), commonClasses);
       }
       case 'medium': {
         const commonClasses = {
           [styles.sizeMediumWithIcon(this.theme)]: !!icon,
-          [styles.sizeMediumWithIconWithoutText(this.theme)]: !!icon && !children,
-        };
-
-        const themeSpecificClasses = {
           [styles.sizeMediumWithRightIcon(this.theme)]: !!rightIcon,
-          [styles.sizeMediumWithIconWithoutText5_3(this.theme)]: (!!icon || !!rightIcon) && !children,
+          [styles.sizeMediumWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
         };
 
-        return cx(styles.sizeMedium(this.theme), commonClasses, isThemeGTE_5_3 && themeSpecificClasses);
+        return cx(styles.sizeMedium(this.theme), commonClasses);
       }
       case 'small':
       default: {
         const commonClasses = {
           [styles.sizeSmallWithIcon(this.theme)]: !!icon,
-          [styles.sizeSmallWithIconWithoutText(this.theme)]: !!icon && !children,
-        };
-
-        const themeSpecificClasses = {
           [styles.sizeSmallWithRightIcon(this.theme)]: !!rightIcon,
-          [styles.sizeSmallWithIconWithoutText5_3(this.theme)]: (!!icon || !!rightIcon) && !children,
+          [styles.sizeSmallWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
         };
 
-        return cx(styles.sizeSmall(this.theme), commonClasses, isThemeGTE_5_3 && themeSpecificClasses);
+        return cx(styles.sizeSmall(this.theme), commonClasses);
       }
     }
   }

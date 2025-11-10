@@ -2,7 +2,6 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import { globalObject, isBrowser } from '@skbkontur/global-object';
 
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import type { Nullable } from '../../typings/utility-types';
 import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
@@ -271,7 +270,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
         </div>
       );
     }
-    const isThemeGTE_5_2 = isThemeGTE(this.theme, '5.2');
 
     const className = cx({
       [styles.root(this.theme)]: true,
@@ -282,7 +280,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.selected(this.theme)]: this.isSelected,
       [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
-      [styles.nonSelectable()]: isThemeGTE_5_2 && !!isNotSelectable,
+      [styles.nonSelectable()]: !!isNotSelectable,
       [styles.disabled(this.theme)]: !!disabled,
     });
 

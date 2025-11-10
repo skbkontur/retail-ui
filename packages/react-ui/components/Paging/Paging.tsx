@@ -10,7 +10,6 @@ import { keyListener } from '../../lib/events/keyListener';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -186,7 +185,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
           return (
             <ResponsiveLayout>
               {({ isMobile }) => {
-                this.isMobile = isMobile && isThemeGTE(this.theme, '5.3');
+                this.isMobile = isMobile;
                 this.sizeClassNames = this.getPagingSizeClassNames();
                 return this.renderMain();
               }}
@@ -336,7 +335,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       hint = (
         <>
           <span className={canGoBackward ? '' : styles.transparent()}>{'←'}</span>
-          <span>{NavigationHelper.getKeyName(this.theme)}</span>
+          <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent()}>{'→'}</span>
         </>
       );
@@ -365,11 +364,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(e, this.theme) && isArrowLeft) {
+    if (NavigationHelper.checkKeyPressed(e) && isArrowLeft) {
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(e, this.theme) && isArrowRight) {
+    if (NavigationHelper.checkKeyPressed(e) && isArrowRight) {
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
@@ -526,13 +525,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     };
 
     switch (size) {
-      case 'legacy':
-        return {
-          root: styles.pagingLegacy(this.theme),
-          dots: styles.dotsLegacy(this.theme),
-          forwardLink: styles.forwardLinkLegacy(this.theme),
-          pageLink: styles.pageLinkLegacy(this.theme),
-        };
       case 'small':
         return defaultClassNames;
       case 'medium':
@@ -559,12 +551,12 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private getDotsIcon = () => {
     const size = this.getSize();
-    return size === 'legacy' ? '...' : <DotsIcon size={size} />;
+    return <DotsIcon size={size} />;
   };
 
   private getForwardIcon = () => {
     const size = this.getSize();
-    const iconSize = size === 'legacy' ? parseInt(this.theme.pagingForwardIconSize) : size;
+    const iconSize = size;
     return this.isMobile ? (
       <ForwardIconMobile size={iconSize} />
     ) : (
@@ -577,7 +569,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return this.isMobile && this.props.size === 'small' ? 'medium' : this.props.size;
     }
 
-    const defaultSize = isThemeGTE(this.theme, '5.3') ? 'small' : 'legacy';
+    const defaultSize = 'small';
     return this.isMobile && defaultSize === 'small' ? 'medium' : defaultSize;
   };
 }

@@ -48,7 +48,7 @@ describe('ThemeHelpers', () => {
         }
       },
       prototypeTheme: BasicTheme,
-      themeMarkers: [markAsDarkTheme, markThemeVersion('5.0')],
+      themeMarkers: [markAsDarkTheme, markThemeVersion('6.0')],
     });
 
     test('should inherit prototype theme', () => {
@@ -64,7 +64,7 @@ describe('ThemeHelpers', () => {
         expect(isDarkTheme(theme)).toBe(true);
       });
       test('theme version', () => {
-        expect(isThemeGTE(theme, '5.0')).toBe(true);
+        expect(isThemeGTE(theme, '6.0')).toBe(true);
       });
     });
   });
@@ -101,10 +101,10 @@ describe('ThemeHelpers', () => {
     });
 
     describe('isThemeGTE', () => {
-      const theme5_1 = applyMarkers(ThemeFactory.create(TestTheme), [markThemeVersion('5.1')]);
+      const theme6_1 = applyMarkers(ThemeFactory.create(TestTheme), [markThemeVersion('6.1')]);
 
-      test('5_1 should BE greater or equal that 5_0', () => {
-        expect(isThemeGTE(theme5_1, '5.0')).toBe(true);
+      test('6_1 should BE greater or equal that 6_0', () => {
+        expect(isThemeGTE(theme6_1, '6.0')).toBe(true);
       });
     });
 
@@ -124,32 +124,32 @@ describe('ThemeHelpers', () => {
 
   describe('isThemeGTE', () => {
     const themeWithoutVersion = TestTheme;
-    const theme5_5 = applyMarkers(ThemeFactory.create({}, TestTheme), [markThemeVersion('5.5' as ThemeVersions)]);
+    const theme6_5 = applyMarkers(ThemeFactory.create({}, TestTheme), [markThemeVersion('6.5' as ThemeVersions)]);
 
     test('no version should always return false', () => {
-      expect(isThemeGTE(themeWithoutVersion, '5.0')).toBe(false);
+      expect(isThemeGTE(themeWithoutVersion, '6.0')).toBe(false);
       expect(isThemeGTE(themeWithoutVersion, '0.0' as ThemeVersions)).toBe(false);
       expect(isThemeGTE(themeWithoutVersion, '6.0' as ThemeVersions)).toBe(false);
     });
 
-    test('5_5 should BE greater or equal that 5_0', () => {
-      expect(isThemeGTE(theme5_5, '5.0')).toBe(true);
+    test('6_5 should BE greater or equal that 6_0', () => {
+      expect(isThemeGTE(theme6_5, '6.0')).toBe(true);
     });
 
-    test('5_5 should BE greater or equal that 5_5', () => {
-      expect(isThemeGTE(theme5_5, '5.5' as ThemeVersions)).toBe(true);
+    test('6_5 should BE greater or equal that 6_5', () => {
+      expect(isThemeGTE(theme6_5, '6.5' as ThemeVersions)).toBe(true);
     });
 
-    test('5_5 should BE greater or equal that 4_0', () => {
-      expect(isThemeGTE(theme5_5, '4.0' as ThemeVersions)).toBe(true);
+    test('6_5 should BE greater or equal that 4_0', () => {
+      expect(isThemeGTE(theme6_5, '4.0' as ThemeVersions)).toBe(true);
     });
 
-    test('5_5 should NOT BE greater or equal that 5_6', () => {
-      expect(isThemeGTE(theme5_5, '5.6' as ThemeVersions)).toBe(false);
+    test('6_5 should NOT BE greater or equal that 6_6', () => {
+      expect(isThemeGTE(theme6_5, '6.6' as ThemeVersions)).toBe(false);
     });
 
-    test('5_5 should NOT BE greater or equal that 6_0', () => {
-      expect(isThemeGTE(theme5_5, '6.0' as ThemeVersions)).toBe(false);
+    test('6_5 should NOT BE greater or equal that 7_0', () => {
+      expect(isThemeGTE(theme6_5, '7.0' as ThemeVersions)).toBe(false);
     });
   });
 });

@@ -11,7 +11,6 @@ import { useResponsiveLayout } from '../ResponsiveLayout';
 import type { GappedProps } from '../Gapped';
 import { Gapped } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -58,7 +57,6 @@ function ModalFooter(props: ModalFooterProps) {
     };
   }, [panel]);
 
-  const versionGTE5_2 = isThemeGTE(theme, '5.2');
   const renderContent = (fixed = false) => {
     return (
       <div>
@@ -68,11 +66,10 @@ function ModalFooter(props: ModalFooterProps) {
           className={cx(
             styles.footer(theme),
             fixed && styles.fixedFooter(theme),
-            versionGTE5_2 && fixed && styles.fixedFooter5_2(),
             Boolean(panel) && styles.panel(theme),
             fixed && Boolean(panel) && styles.fixedPanel(theme),
             layout.isMobile && styles.mobileFooter(theme),
-            versionGTE5_2 && layout.isMobile && fixed && styles.mobileFixedFooter5_2(theme),
+            layout.isMobile && fixed && styles.mobileFixedFooter(theme),
           )}
         >
           {isNonNullable(gap) ? (
@@ -92,7 +89,7 @@ function ModalFooter(props: ModalFooterProps) {
     if (modal.horizontalScroll) {
       offset += getScrollWidth();
     }
-    if (versionGTE5_2 && layout.isMobile && !modal.mobileOnFullScreen) {
+    if (layout.isMobile && !modal.mobileOnFullScreen) {
       offset += parseInt(theme.mobileModalContainerMarginBottom);
     }
     return offset;

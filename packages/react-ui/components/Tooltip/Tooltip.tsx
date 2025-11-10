@@ -25,7 +25,6 @@ import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon'
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { cx } from '../../lib/theming/Emotion';
 import type { SizeProp } from '../../lib/types/props';
-import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
 import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles } from './Tooltip.styles';
@@ -350,7 +349,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           maxWidth="none"
           opened={this.state.opened}
           disableAnimations={disableAnimations}
-          positions={isThemeGTE(this.theme, '5.4') ? this.getPositions() : this.props.allowedPositions}
+          positions={this.getPositions()}
           pos={this.props.pos}
           ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
