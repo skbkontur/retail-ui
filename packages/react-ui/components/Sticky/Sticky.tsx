@@ -15,7 +15,6 @@ import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Sticky.styles';
 
@@ -95,7 +94,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
     if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
       if (this.reflowCounter < MAX_REFLOW_RETRIES) {
-        this.featureFlags.stickyReduceLayoutEvents ? this.reflow() : LayoutEvents.emit();
+        this.reflow();
         this.reflowCounter += 1;
         return;
       }
@@ -104,14 +103,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   }
 
   public render() {
-    return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return this.renderMain();
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
-    );
+    return this.renderMain();
   }
 
   private renderMain() {

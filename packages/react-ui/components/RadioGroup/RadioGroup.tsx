@@ -13,8 +13,6 @@ import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -115,7 +113,6 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private getProps = createPropsGetter(RadioGroup.defaultProps);
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
 
   constructor(props: RadioGroupProps<T>) {
     super(props);
@@ -156,37 +153,25 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <CommonWrapper
-              rootNodeRef={this.setRootNode}
-              {...this.props}
-              {...getVisualStateDataAttributes({ disabled })}
-            >
-              <FocusTrap onBlur={onBlur}>
-                <span
-                  data-tid={RadioGroupDataTids.root}
-                  ref={this.ref}
-                  style={style}
-                  className={cx({
-                    [styles.root()]: true,
-                    [styles.removeBaselineSpacer()]: this.featureFlags.radioGroupRemoveBaselineSpacer,
-                  })}
-                  role="radiogroup"
-                  {...handlers}
-                  aria-describedby={ariaDescribedby}
-                >
-                  <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
-                    {this.renderChildren()}
-                  </RadioGroupContext.Provider>
-                </span>
-              </FocusTrap>
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
+        <FocusTrap onBlur={onBlur}>
+          <span
+            data-tid={RadioGroupDataTids.root}
+            ref={this.ref}
+            style={style}
+            className={cx({
+              [styles.root()]: true,
+            })}
+            role="radiogroup"
+            {...handlers}
+            aria-describedby={ariaDescribedby}
+          >
+            <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
+              {this.renderChildren()}
+            </RadioGroupContext.Provider>
+          </span>
+        </FocusTrap>
+      </CommonWrapper>
     );
   }
 

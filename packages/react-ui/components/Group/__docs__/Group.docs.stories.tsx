@@ -4,7 +4,6 @@ import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { Group, Button, Input, Hint, DateRangePicker, Tooltip } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 
 const meta: Meta = {
   title: 'Layout/Group',
@@ -50,29 +49,24 @@ export const UsageInDateRangePicker: Story = () => {
 };
 UsageInDateRangePicker.storyName = 'Внутри контрола DateRangePicker';
 
-/**
- * **Примечание:** на данный момент работает только с [фича-флагом `groupAddHintAndTooltipSupport`](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-feature-flags--featureflagscontext#groupaddhintandtooltipsupport).
- */
 export const WithHint: Story = () => {
   const [value, setValue] = React.useState('Foo');
 
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
-      <Group width={350}>
+    <Group width={350}>
+      <Button>
+        <MathFunctionIcon />
+      </Button>
+      <Input value={value} width="100%" onValueChange={setValue} />
+      <Tooltip render={() => 'Hi!'} trigger="opened" pos="bottom">
         <Button>
-          <MathFunctionIcon />
+          <SearchLoupeIcon />
         </Button>
-        <Input value={value} width="100%" onValueChange={setValue} />
-        <Tooltip render={() => 'Hi!'} trigger="opened" pos="bottom">
-          <Button>
-            <SearchLoupeIcon />
-          </Button>
-        </Tooltip>
-        <Hint text="Hello!">
-          <Button>Hover me</Button>
-        </Hint>
-      </Group>
-    </ReactUIFeatureFlagsContext.Provider>
+      </Tooltip>
+      <Hint text="Hello!">
+        <Button>Hover me</Button>
+      </Hint>
+    </Group>
   );
 };
 WithHint.storyName = 'С хинтом или тултипом';

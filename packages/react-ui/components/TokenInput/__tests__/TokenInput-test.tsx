@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import type { ReactUIFeatureFlags } from '../../../lib/featureFlagsContext';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { PopupIds } from '../../../internal/Popup';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import type { LocaleContextProps } from '../../../lib/locale';
@@ -397,19 +395,11 @@ describe('<TokenInput />', () => {
       expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', ariaLabel);
     });
   });
-  describe('feature flags', () => {
-    const renderWithFeatureFlags = (flags: ReactUIFeatureFlags, props: TokenInputProps<string>) =>
-      render(
-        <ReactUIFeatureFlagsContext.Provider value={flags}>
-          <TokenInputWithState {...props} />
-        </ReactUIFeatureFlagsContext.Provider>,
-      );
+  describe('in "without reference" mode', () => {
+    const renderTokenInput = (props: TokenInputProps<string>) => render(<TokenInputWithState {...props} />);
 
-    it('should add new tokens on blur in "without reference" mode', async () => {
-      renderWithFeatureFlags(
-        { tokenInputCreateTokenOnBlurInWithoutReferenceMode: true },
-        { type: TokenInputType.WithoutReference },
-      );
+    it('should add new tokens on blur', async () => {
+      renderTokenInput({ type: TokenInputType.WithoutReference });
 
       const tokenInput = screen.getByRole('textbox');
       const startingTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
@@ -425,10 +415,7 @@ describe('<TokenInput />', () => {
 
     it('should not affect onUnexpectedInput behavior when it returns value', async () => {
       const expectedValue = 'expectedValue';
-      renderWithFeatureFlags(
-        { tokenInputCreateTokenOnBlurInWithoutReferenceMode: true },
-        { onUnexpectedInput: () => expectedValue, type: TokenInputType.WithoutReference },
-      );
+      renderTokenInput({ onUnexpectedInput: () => expectedValue, type: TokenInputType.WithoutReference });
 
       const tokenInput = screen.getByRole('textbox');
       const startingTokenCount = screen.queryAllByTestId(TokenDataTids.root).length;
@@ -448,10 +435,7 @@ describe('<TokenInput />', () => {
       [null, TokenInputType.WithoutReference, 3],
       [undefined, TokenInputType.WithoutReference, 4],
     ])('should not affect onUnexpectedInput behavior when it returns - %o', async (returnedValue, type, expected) => {
-      renderWithFeatureFlags(
-        { tokenInputCreateTokenOnBlurInWithoutReferenceMode: true },
-        { onUnexpectedInput: () => returnedValue, type },
-      );
+      renderTokenInput({ onUnexpectedInput: () => returnedValue, type });
 
       const tokenInput = screen.getByRole('textbox');
       tokenInput.click();

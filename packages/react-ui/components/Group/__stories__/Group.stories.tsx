@@ -6,7 +6,6 @@ import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
 import type { Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 import { Group } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
@@ -130,45 +129,39 @@ export const WithWidth: Story = () => (
 WithWidth.storyName = 'With width';
 
 export const WithHintsAndTooltips: Story = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
-    <Group>
-      <Hint text="Hint">
-        <Button>Hint</Button>
-      </Hint>
-      <Button>Button</Button>
-      <Tooltip render={() => 'Tooltip'}>
-        <Button>Tooltip</Button>
-      </Tooltip>
-    </Group>
-  </ReactUIFeatureFlagsContext.Provider>
+  <Group>
+    <Hint text="Hint">
+      <Button>Hint</Button>
+    </Hint>
+    <Button>Button</Button>
+    <Tooltip render={() => 'Tooltip'}>
+      <Button>Tooltip</Button>
+    </Tooltip>
+  </Group>
 );
 WithHintsAndTooltips.storyName = 'With Hints and Tooltips';
 
 export const WithStretchedInputWrappedInHint: Story = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
-    <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
-      <Group width={500}>
-        <Button icon={<SearchLoupeIcon16Regular />}></Button>
-        <Hint manual opened text="I wrap this input">
-          <Input placeholder="Wrapped" width="100%" />
-        </Hint>
-      </Group>
-    </div>
-  </ReactUIFeatureFlagsContext.Provider>
+  <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
+    <Group width={500}>
+      <Button icon={<SearchLoupeIcon16Regular />}></Button>
+      <Hint manual opened text="I wrap this input">
+        <Input placeholder="Wrapped" width="100%" />
+      </Hint>
+    </Group>
+  </div>
 );
 WithStretchedInputWrappedInHint.storyName = 'With stretched Input wrapped in Hint';
 
 export const WithStretchedInputWrappedInTooltip: Story = () => (
-  <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
-    <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
-      <Group width={500}>
-        <Button icon={<SearchLoupeIcon16Regular />}></Button>
-        <Tooltip render={() => 'I wrap this input'} trigger="opened" pos="top center">
-          <Input placeholder="Wrapped" width="100%" />
-        </Tooltip>
-      </Group>
-    </div>
-  </ReactUIFeatureFlagsContext.Provider>
+  <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
+    <Group width={500}>
+      <Button icon={<SearchLoupeIcon16Regular />}></Button>
+      <Tooltip render={() => 'I wrap this input'} trigger="opened" pos="top center">
+        <Input placeholder="Wrapped" width="100%" />
+      </Tooltip>
+    </Group>
+  </div>
 );
 WithStretchedInputWrappedInTooltip.storyName = 'With stretched Input wrapped in Tooltip';
 
@@ -192,11 +185,9 @@ export const WithNestedSiblings: Story = () => {
   );
 
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
-      <Gapped gap={16} vertical>
-        {[0, 1, 2, 3].map((stretchedSiblingsCount) => groupWithNestedSiblings(stretchedSiblingsCount))}
-      </Gapped>
-    </ReactUIFeatureFlagsContext.Provider>
+    <Gapped gap={16} vertical>
+      {[0, 1, 2, 3].map((stretchedSiblingsCount) => groupWithNestedSiblings(stretchedSiblingsCount))}
+    </Gapped>
   );
 };
 WithNestedSiblings.storyName = 'With nested siblings (Exotic)';

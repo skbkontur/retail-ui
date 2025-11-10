@@ -11,8 +11,6 @@ import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from
 import { ReactUiDetection } from './ReactUiDetection';
 import type { ValidationContextType } from './ValidationContextWrapper';
 import { ValidationContext } from './ValidationContextWrapper';
-import type { ValidationsFeatureFlags } from './utils/featureFlagsContext';
-import { ValidationsFeatureFlagsContext } from './utils/featureFlagsContext';
 
 export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 
@@ -63,7 +61,6 @@ export class ValidationWrapperInternal extends React.Component<
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
-  private featureFlags!: ValidationsFeatureFlags;
 
   public componentDidMount() {
     warning(
@@ -74,7 +71,7 @@ export class ValidationWrapperInternal extends React.Component<
     if (this.context) {
       this.context.register(this);
     }
-    if (this.featureFlags.validationWrapperValidateOnMount && this.context.isValidationCalled()) {
+    if (this.context.isValidationCalled()) {
       this.processSubmit();
     } else {
       this.applyValidation(this.props.validation);
@@ -97,7 +94,7 @@ export class ValidationWrapperInternal extends React.Component<
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
       if (this.child && typeof this.child.focus === 'function') {
-        this.child.focus({ withoutOpenDropdown: this.featureFlags.dropdownsDoNotOpenOnFocusByValidation });
+        this.child.focus({ withoutOpenDropdown: true });
       }
     }
     this.isChanging = false;
@@ -127,7 +124,7 @@ export class ValidationWrapperInternal extends React.Component<
         onValueChange: (...args: any[]) => {
           this.isChanging = true;
 
-          if (this.featureFlags.hideTooltipOnSelectionControls && ReactUiDetection.isSelectionControl(children)) {
+          if (ReactUiDetection.isSelectionControl(children)) {
             this.setValidation(null);
           }
 
@@ -151,18 +148,11 @@ export class ValidationWrapperInternal extends React.Component<
       });
     }
 
-    return (
-      <ValidationsFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = flags;
-          return React.cloneElement(
-            this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
-            {
-              'data-tid': dataTid,
-            },
-          );
-        }}
-      </ValidationsFeatureFlagsContext.Consumer>
+    return React.cloneElement(
+      this.props.errorMessage(<div style={{ display: 'inline' }}>{clonedChild}</div>, !!validation, validation),
+      {
+        'data-tid': dataTid,
+      },
     );
   }
 

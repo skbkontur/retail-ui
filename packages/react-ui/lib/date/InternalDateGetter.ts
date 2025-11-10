@@ -67,14 +67,14 @@ export class InternalDateGetter {
   public static getDefaultMax(
     type: InternalDateComponentType | null,
     components?: InternalDateComponents,
-    dateInputAllowInvalidValuesInDays?: boolean,
+    shouldAllowInvalidValuesInDays?: boolean,
   ): number {
     if (type === InternalDateComponentType.Year) {
       return MAX_YEAR;
     } else if (type === InternalDateComponentType.Month) {
       return MAX_MONTH;
     } else if (type === InternalDateComponentType.Date) {
-      if (dateInputAllowInvalidValuesInDays) {
+      if (shouldAllowInvalidValuesInDays) {
         return MAX_DATE;
       }
       if (components === undefined) {

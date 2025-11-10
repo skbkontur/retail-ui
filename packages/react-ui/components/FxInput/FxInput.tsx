@@ -19,9 +19,6 @@ import type { Theme } from '../../lib/theming/Theme';
 import type { SizeProp } from '../../lib/types/props';
 import type { MaskedInputProps } from '../MaskedInput';
 import { MaskedInput } from '../MaskedInput';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext } from '../../lib/featureFlagsContext';
-import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 import { withSize } from '../../lib/size/SizeDecorator';
 
 import { MathFunctionIcon } from './MathFunctionIcon';
@@ -98,7 +95,6 @@ export class FxInput extends React.Component<FxInputProps> {
   private getProps = createPropsGetter(FxInput.defaultProps);
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
 
   private validateProps(props: FxInputProps) {
     warning(
@@ -117,23 +113,16 @@ export class FxInput extends React.Component<FxInputProps> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -243,7 +232,7 @@ export class FxInput extends React.Component<FxInputProps> {
         />
       );
     }
-    if (this.featureFlags.fxInputUseMaskedInput && mask) {
+    if (mask) {
       return (
         <MaskedInput
           {...commonInputProps}
@@ -263,10 +252,6 @@ export class FxInput extends React.Component<FxInputProps> {
         {...commonInputProps}
         leftIcon={this.getLeftIcon(props)}
         align="right"
-        mask={mask}
-        maskChar={maskChar}
-        formatChars={formatChars}
-        alwaysShowMask={alwaysShowMask}
         type={type}
         value={value as InputProps['value']}
         onValueChange={this.props.onValueChange as InputProps['onValueChange']}

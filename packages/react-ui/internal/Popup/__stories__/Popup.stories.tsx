@@ -36,13 +36,6 @@ export const DisableAnimations = () => (
 DisableAnimations.storyName = 'disableAnimations';
 DisableAnimations.parameters = { creevey: { skip: true } };
 
-export const HintStory = () => (
-  <div style={{ padding: '100px' }}>
-    <FakeHint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
-  </div>
-);
-HintStory.storyName = 'Hint';
-
 export const ToastStory = () => (
   <div style={{ padding: '100px' }}>
     <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
@@ -364,60 +357,6 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps> {
   private _clickHandler = () => {
     this.setState({ opened: false });
   };
-}
-
-interface FakeHintProps {
-  positions: PopupPositionsType[];
-  margin: number;
-}
-interface FakeHintState {
-  anchor: Nullable<HTMLElement>;
-}
-class FakeHint extends React.Component<FakeHintProps> {
-  public state: FakeHintState = {
-    anchor: null,
-  };
-
-  private anchor: Nullable<HTMLElement>;
-
-  public componentDidMount() {
-    this.setState({
-      anchor: this.anchor,
-    });
-  }
-
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          return (
-            <div>
-              <div
-                ref={(e) => (this.anchor = e)}
-                style={{ width: '100px', height: '100px', border: '1px solid black' }}
-              >
-                Hello
-              </div>
-              {this.state.anchor && (
-                <Popup
-                  hasPin
-                  opened
-                  anchorElement={this.state.anchor}
-                  positions={this.props.positions}
-                  margin={this.props.margin}
-                  backgroundColor={theme.prototype.constructor.name.includes('Dark') ? '#333' : 'rgba(0, 0, 0, 0.65)'}
-                  pinSize={10}
-                  pinOffset={7}
-                >
-                  <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
-                </Popup>
-              )}
-            </div>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
 }
 
 interface ToastProps {

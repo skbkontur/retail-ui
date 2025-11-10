@@ -259,8 +259,7 @@ kind('Autocomplete', () => {
       await context.webdriver
         .actions({ bridge: true })
         .click(autocompleteElement)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ENTER)
+        .sendKeys('912', Key.ARROW_DOWN, Key.ENTER)
         .perform();
       await delay(1000);
       await context.matchImage(await screenshotElement.takeScreenshot());

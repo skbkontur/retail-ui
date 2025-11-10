@@ -18,8 +18,6 @@ import {
   isTooltip,
   isHint,
 } from '../../lib/utils';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Group.styles';
 
@@ -113,7 +111,6 @@ export class Group extends React.Component<GroupProps> {
 
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
 
   public render() {
     const style: React.CSSProperties = {
@@ -125,31 +122,24 @@ export class Group extends React.Component<GroupProps> {
     const lastChild = getLastChild(childrenArray);
 
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
-                {React.Children.map(childrenArray, (child) => {
-                  if (!child || !React.isValidElement<GroupChildProps>(child)) {
-                    return null;
-                  }
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
+          {React.Children.map(childrenArray, (child) => {
+            if (!child || !React.isValidElement<GroupChildProps>(child)) {
+              return null;
+            }
 
-                  const isFirstChild = child === firstChild;
-                  const isLastChild = child === lastChild;
+            const isFirstChild = child === firstChild;
+            const isLastChild = child === lastChild;
 
-                  if (this.featureFlags.groupAddHintAndTooltipSupport && (isHint(child) || isTooltip(child))) {
-                    return this.renderWrappedChildren(child, isFirstChild, isLastChild);
-                  }
+            if (isHint(child) || isTooltip(child)) {
+              return this.renderWrappedChildren(child, isFirstChild, isLastChild);
+            }
 
-                  return this.renderChild(child, isFirstChild, isLastChild, hasWidthInPercent(child));
-                })}
-              </span>
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+            return this.renderChild(child, isFirstChild, isLastChild, hasWidthInPercent(child));
+          })}
+        </span>
+      </CommonWrapper>
     );
   }
 

@@ -7,11 +7,6 @@ export const styles = memoizeStyle({
       user-select: none;
       cursor: default;
       line-height: normal;
-    `;
-  },
-
-  removeBaselineSpacer() {
-    return css`
       vertical-align: bottom;
     `;
   },

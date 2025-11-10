@@ -3,8 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { globalObject } from '@skbkontur/global-object';
 
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateComponentType } from '../../lib/date/types';
@@ -142,8 +140,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     .add(Actions.WrongInput, () => this.blink())
     .build();
 
-  private featureFlags!: ReactUIFeatureFlags;
-
   constructor(props: DateInputProps) {
     super(props);
 
@@ -212,19 +208,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -497,19 +486,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.setState({ selected });
     }
 
-    const { inputMode, changed } = this.iDateMediator.inputKey(
-      event.key,
-      selected,
-      this.state.inputMode,
-      this.featureFlags.dateInputAllowInvalidValuesInDays,
-    );
-
-    if (!this.featureFlags.dateInputFixSameNumberTypingOnRefocus) {
-      if (!changed) {
-        this.blink();
-        return;
-      }
-    }
+    const { inputMode } = this.iDateMediator.inputKey(event.key, selected, this.state.inputMode);
 
     if (!inputMode) {
       this.ignoringDelimiter = true;

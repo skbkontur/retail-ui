@@ -22,115 +22,22 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 function ExampleComponent() {
   return (
-    <ReactUIFeatureFlagsContext.Provider
-      value={{
-        dateInputFixSameNumberTypingOnRefocus: true,
-        dateInputAllowInvalidValuesInDays: true,
-        radioGroupRemoveBaselineSpacer: true,
-        comboBoxAllowValueChangeInEditingState: true,
-        stickyReduceLayoutEvents: true,
-      }}
-    >
+    <ReactUIFeatureFlagsContext.Provider value={{}}>
       {/* Внутри будут работать все фича-флаги с true */}
     </ReactUIFeatureFlagsContext.Provider>
   );
 }
 ```
 
-## Список фича-флагов
+Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
 
-### dateInputAllowInvalidValuesInDays
+Флаги задаются с помощью `ValidationsFeatureFlagsContext.Provider`.
 
-Флаг разрешает ввод любых дней в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link> для более удобного редактирования.
+```jsx static
+import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-Например, при редактировании даты `01.02.2025` и вводе цифр `3` и `1`:
-
-- Было `03.01.2025`
-- Стало `31.02.2025`
-
-<Story of={FeatureFlagsStories.DateInputAllowInvalidValuesInDays} />
-
-### dateInputFixSameNumberTypingOnRefocus
-
-Флаг исправляет недоступность ввода одной и той же цифры после повторного фокуса в <Link onClick={linkTo('Input data/DateInput')}>DateInput</Link>.
-
-<Story of={FeatureFlagsStories.DateInputFixSameNumberTypingOnRefocus} />
-
-### radioGroupRemoveBaselineSpacer
-
-Флаг убирает лишний отступ под <Link onClick={linkTo('Input data/RadioGroup')}>RadioGroup</Link>
-
-<Story of={FeatureFlagsStories.RadioGroupRemoveBaselineSpacer} />
-
-### comboBoxAllowValueChangeInEditingState
-
-Флаг позволяет менять значение `value` в <Link onClick={linkTo('Input data/ComboBox')}>Combobox</Link> в режиме редактирования.
-
-Теперь при изменении `value` в `<ComboBox>` примет и корректно отрисует новое значение.
-
-Если при редактировании открыто выпадающее меню, то данные в нём будут обновлены без принудительного закрытия.
-
-С фича-флагом при нажатии «Обновить» в функции `handleValueChange` больше не требуется вызов метода `ComboBoxRef.current.reset()`.
-
-<Story of={FeatureFlagsStories.ComboBoxAllowValueChangeInEditingState} />
-
-### stickyReduceLayoutEvents
-
-Этот флаг уменьшает количество перерисовок в `<Sticky/>` и предотвращает падение страницы в отдельных случаях. Но в ситуациях, когда вокруг содержимого `<Sticky/>` рисуются выпадашки, может потребоваться вручную вызвать пересчет их позиции. Для этого существует функция `emit` из `@skbkontur/react-ui/lib/LayoutEvents`.
-
-В примере ниже, при включенном `<Sticky/>` и флаге, `<Tooltip/>` отстает от положения кнопок при их смещении. Но его можно поправить вручную, вызвав функцию `emit`.
-
-В примере не нужно скролить страницу после включения `<Sticky/>`, поскольку это вызывает пересчет позиции `<Tooltip/>` автоматически.
-
-<Story of={FeatureFlagsStories.StickyReduceLayoutEvents} />
-
-### groupAddHintsAndTooltipsSupport
-
-Флаг позволяет вставлять в `<Group/>` элементы, обёрнутые в `<Hint/>` или `<Tooltip/>`.
-
-Элементы будут отрисовываться подобно дочерним — с исправленными углами/границами, а также будут растягиваться при наличии у них `width="100%"`.
-
-<Story of={FeatureFlagsStories.GroupAddHintsAndTooltipsSupport} />
-
-### popupFixPinTearing
-
-Флаг заменяет реализацию клювика у попап-элементов на новую, использующую `clip-path`.
-
-Это устраняет случаи, когда клювик отрывается от элемента при масштабировании страниц на разных экранах.
-
-<Story of={FeatureFlagsStories.PopupFixPinTearing} />
-
-### sidePageDisableHeaderShrink
-
-Флаг позволяет отключить уменьшение высоты `<SidePage.Header />` при прокрутке содержимого.
-
-<Story of={FeatureFlagsStories.SidePageDisableHeaderShrink} />
-
-### sidePageNotCutTitleOnStuckByDefault
-
-Флаг задает значение по умолчанию для пропа `<SidePage.Header />`: `cutTitleOnStuck=false`. В результате длинный заголовок в `<SidePage.Header />` не обрезается при прокрутке содержимого.
-
-<Story of={FeatureFlagsStories.SidePageNotCutTitleOnStuckByDefault} />
-
-### autocompleteUseMaskedInput
-
-Флаг изменяет поведение `<Autocomplete mask={...}/>`: используется `<MaskedInput/>` вместо `<Input mask={...}/>`, который будет удалён в следующем мажорном релизе.
-
-В пропе `value` с включенным флагом будут храниться и введенные символы, и символы маски. Это ломающее изменение, нужно проверить и исправить работу с поиском в `source`.
-
-<Story of={FeatureFlagsStories.AutocompleteUseMaskedInput} />
-
-### fxInputUseMaskedInput
-
-Флаг изменяет поведение `<FxInput mask={...} />`: используется `<MaskedInput/>` вместо `<Input mask={...}/>`, который будет удалён в следующем мажорном релизе.
-
-<Story of={FeatureFlagsStories.FxInputUseMaskedInput} />
-
-### tokenInputCreateTokenOnBlurInWithoutReferenceMode
-
-Флаг изменяет дефолтное поведение поля с токенами в режиме работы "без словаря": текст в поле автоматически превращается в токен при потере фокуса.
-
-<Story of={FeatureFlagsStories.TokenInputCreateTokenOnBlur} />
+<ReactUIFeatureFlagsContext.Provider value={{ flagName: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
+```
 
 ## Объект со всеми флагами
 

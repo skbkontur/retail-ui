@@ -46,12 +46,7 @@ export class InternalDateMediator {
     return this;
   };
 
-  public inputKey(
-    key: string,
-    type: InternalDateComponentType | null,
-    inputMode: boolean,
-    dateInputAllowInvalidValuesInDays?: boolean,
-  ): InputKeyResult {
+  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): InputKeyResult {
     const prevValue = this.iDate.get(type);
     if (type === null) {
       const leftMostType = this.getLeftmostType();
@@ -63,11 +58,7 @@ export class InternalDateMediator {
     } else {
       this.iDate.restore(type);
     }
-    const maxValue = InternalDateGetter.getDefaultMax(
-      type,
-      this.iDate.getComponentsLikeNumber(),
-      dateInputAllowInvalidValuesInDays,
-    );
+    const maxValue = InternalDateGetter.getDefaultMax(type, this.iDate.getComponentsLikeNumber(), true);
     const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode, maxValue);
     this.iDate.set(type, nextValue);
     return { inputMode: nextInputMode, changed: nextValue !== prevValue };

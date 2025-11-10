@@ -3,7 +3,10 @@ import { story, kind, test } from 'creevey';
 import { delay } from '../../../lib/delay.mjs';
 
 kind('DateRangePicker', () => {
-  story('MinMax', () => {
+  story('MinMax', ({ setStoryParameters }) => {
+    setStoryParameters({
+      ignoreElements: '[data-tid="DateInput__icon"]', // flaky pixels in icon
+    });
     test('opened', async (context) => {
       await delay(1000);
       await context.webdriver

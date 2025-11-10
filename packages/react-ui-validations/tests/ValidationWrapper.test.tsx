@@ -5,7 +5,7 @@ import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { vi } from 'vitest';
 
 import type { ValidationBehaviour, ValidationInfo } from '../src';
-import { text, ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationWrapper } from '../src';
 import { ThemeContext } from '../src/ReactUiDetection';
 
 function setup(jsx: any) {
@@ -263,21 +263,19 @@ describe('ValidationWrapper', () => {
       const submit = () => containerRef.current?.validate();
 
       return (
-        <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
-          <ValidationContainer ref={containerRef}>
-            <ValidationWrapper
-              validationInfo={{
-                type: validationType,
-                level: 'error',
-                message: 'message',
-              }}
-              renderMessage={text('bottom')}
-            >
-              <InputLike />
-            </ValidationWrapper>
-            <button onClick={submit}>Submit</button>
-          </ValidationContainer>
-        </ValidationsFeatureFlagsContext.Provider>
+        <ValidationContainer ref={containerRef}>
+          <ValidationWrapper
+            validationInfo={{
+              type: validationType,
+              level: 'error',
+              message: 'message',
+            }}
+            renderMessage={text('bottom')}
+          >
+            <InputLike />
+          </ValidationWrapper>
+          <button onClick={submit}>Submit</button>
+        </ValidationContainer>
       );
     };
 

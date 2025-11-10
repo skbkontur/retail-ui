@@ -1,16 +1,8 @@
 import React from 'react';
 
-export interface ValidationsFeatureFlags {
-  dropdownsDoNotOpenOnFocusByValidation?: boolean;
-  hideTooltipOnSelectionControls?: boolean;
-  validationWrapperValidateOnMount?: boolean;
-}
+export interface ValidationsFeatureFlags {}
 
-export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
-  dropdownsDoNotOpenOnFocusByValidation: false,
-  hideTooltipOnSelectionControls: false,
-  validationWrapperValidateOnMount: false,
-};
+export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {};
 
 export const ValidationsFeatureFlagsContext =
   React.createContext<ValidationsFeatureFlags>(validationsFeatureFlagsDefault);

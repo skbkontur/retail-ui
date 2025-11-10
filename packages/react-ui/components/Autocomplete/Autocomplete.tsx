@@ -28,9 +28,6 @@ import { Popup } from '../../internal/Popup';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
 import { getSafeMaskInputType, MaskedInput, type MaskedProps } from '../MaskedInput';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
-import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
-import { getFullReactUIFlagsContext } from '../../lib/featureFlagsContext/FeatureFlagsHelpers';
 import { withSize } from '../../lib/size/SizeDecorator';
 
 import { styles } from './Autocomplete.styles';
@@ -167,7 +164,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private menuId = AutocompleteIds.menu + getRandomID();
   private rootSpan: Nullable<HTMLSpanElement>;
   private mobilePopup: Nullable<MobilePopup>;
-  private featureFlags!: ReactUIFeatureFlags;
 
   private requestId = 0;
 
@@ -207,25 +203,18 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = getAutocompleteTheme(theme);
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = getAutocompleteTheme(theme);
-                return (
-                  <ThemeContext.Provider value={this.theme}>
-                    <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                      {this.renderMain}
-                    </CommonWrapper>
-                  </ThemeContext.Provider>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <ThemeContext.Provider value={this.theme}>
+              <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+                {this.renderMain}
+              </CommonWrapper>
+            </ThemeContext.Provider>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
   public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
@@ -336,7 +325,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private getInput = (inputProps: InputProps) => {
-    return this.featureFlags.autocompleteUseMaskedInput && this.props.mask ? (
+    return this.props.mask ? (
       <MaskedInput
         {...inputProps}
         type={getSafeMaskInputType(this.props.type)}
@@ -344,7 +333,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         maskChar={this.props.maskChar}
       />
     ) : (
-      <Input {...inputProps} mask={this.props.mask} maskChar={this.props.maskChar} />
+      <Input {...inputProps} />
     );
   };
 

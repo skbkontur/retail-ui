@@ -8,7 +8,7 @@ import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 
 import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
-import { ValidationContainer, ValidationsFeatureFlagsContext, ValidationWrapper } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
 
 const meta: Meta = {
   title: 'Examples/Dynamic fields',
@@ -36,43 +36,41 @@ export const DynamicFields: Story = () => {
   };
 
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{ validationWrapperValidateOnMount: true }}>
-      <ValidationContainer ref={container}>
-        <Gapped gap={16} vertical>
-          <Switcher onValueChange={setType} value={type} items={['submit', 'lostfocus', 'immediate']} />
+    <ValidationContainer ref={container}>
+      <Gapped gap={16} vertical>
+        <Switcher onValueChange={setType} value={type} items={['submit', 'lostfocus', 'immediate']} />
 
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <Tabs.Tab id="phone">Phone</Tabs.Tab>
-            <Tabs.Tab id="email">Email</Tabs.Tab>
-          </Tabs>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <Tabs.Tab id="phone">Phone</Tabs.Tab>
+          <Tabs.Tab id="email">Email</Tabs.Tab>
+        </Tabs>
 
-          {activeTab === 'phone' && (
-            <div>
-              <ValidationWrapper validationInfo={phone ? null : errorInfo}>
-                <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
-              </ValidationWrapper>
-            </div>
-          )}
+        {activeTab === 'phone' && (
+          <div>
+            <ValidationWrapper validationInfo={phone ? null : errorInfo}>
+              <Input placeholder="Телефон" value={phone} onValueChange={setPhone} />
+            </ValidationWrapper>
+          </div>
+        )}
 
-          {activeTab === 'email' && (
-            <div title="Email">
-              <ValidationWrapper validationInfo={email ? null : errorInfo}>
-                <Input placeholder="Почта" value={email} onValueChange={setEmail} />
-              </ValidationWrapper>
-            </div>
-          )}
+        {activeTab === 'email' && (
+          <div title="Email">
+            <ValidationWrapper validationInfo={email ? null : errorInfo}>
+              <Input placeholder="Почта" value={email} onValueChange={setEmail} />
+            </ValidationWrapper>
+          </div>
+        )}
 
-          <ValidationWrapper validationInfo={check ? null : errorInfo}>
-            <Checkbox checked={check} onValueChange={setCheck}>
-              Чекбокс вне табов
-            </Checkbox>
-          </ValidationWrapper>
+        <ValidationWrapper validationInfo={check ? null : errorInfo}>
+          <Checkbox checked={check} onValueChange={setCheck}>
+            Чекбокс вне табов
+          </Checkbox>
+        </ValidationWrapper>
 
-          <Button use={'primary'} onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Gapped>
-      </ValidationContainer>
-    </ValidationsFeatureFlagsContext.Provider>
+        <Button use={'primary'} onClick={handleSubmit}>
+          Submit
+        </Button>
+      </Gapped>
+    </ValidationContainer>
   );
 };

@@ -15,7 +15,6 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { SizeProp } from '../../lib/types/props';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
-import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -118,11 +117,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     };
     const isThemeGTE_5_1 = isThemeGTE(this.theme, '5.1');
     const isTheme_5_0 = !isThemeGTE_5_1;
-    const items = (
-      <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: true }}>
-        <Group width={'100%'}>{this._renderItems()}</Group>
-      </ReactUIFeatureFlagsContext.Provider>
-    );
+    const items = <Group width={'100%'}>{this._renderItems()}</Group>;
 
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
     const wrapperClassName = cx(styles.wrap(), {

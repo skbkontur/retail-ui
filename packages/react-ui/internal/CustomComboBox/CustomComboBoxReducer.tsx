@@ -21,7 +21,6 @@ export type CustomComboBoxAction<T> =
       type: 'DidUpdate';
       prevProps: CustomComboBoxProps<T>;
       prevState: CustomComboBoxState<T>;
-      fixValueChange: boolean | undefined;
     }
   | { type: 'Mount' }
   | { type: 'Focus'; searchOnFocus?: boolean }
@@ -301,36 +300,31 @@ export function reducer<T>(
         return state;
       }
 
-      if (action.fixValueChange) {
-        const nextTextValue = getValueString(props.value, props.valueToString);
+      const nextTextValue = getValueString(props.value, props.valueToString);
 
-        if (!state.focused) {
-          return [
-            {
-              editing: false,
-              inputChanged: false,
-              textValue: nextTextValue,
-            },
-            [Effect.cancelRequest],
-          ];
-        }
-
-        if (state.focused && state.opened) {
-          return [{ ...state, textValue: nextTextValue }, [Effect.cancelRequest, Effect.search(nextTextValue)]];
-        }
-
-        if (state.focused) {
-          return {
-            ...state,
+      if (!state.focused) {
+        return [
+          {
+            editing: false,
+            inputChanged: false,
             textValue: nextTextValue,
-          };
-        }
+          },
+          [Effect.cancelRequest],
+        ];
       }
 
-      return {
-        opened: false,
-        textValue: state.editing ? state.textValue : getValueString(props.value, props.valueToString),
-      };
+      if (state.focused && state.opened) {
+        return [{ ...state, textValue: nextTextValue }, [Effect.cancelRequest, Effect.search(nextTextValue)]];
+      }
+
+      if (state.focused) {
+        return {
+          ...state,
+          textValue: nextTextValue,
+        };
+      }
+
+      break;
     }
     case 'Mount': {
       return {

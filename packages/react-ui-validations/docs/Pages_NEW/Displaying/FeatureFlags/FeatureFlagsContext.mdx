@@ -21,13 +21,7 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
 function ExampleComponent() {
   return (
-    <ValidationsFeatureFlagsContext.Provider
-      value={{
-        validationWrapperValidateOnMount: true,
-        hideTooltipOnSelectionControls: true,
-        dropdownsDoNotOpenOnFocusByValidation: true,
-      }}
-    >
+    <ValidationsFeatureFlagsContext.Provider value={{}}>
       {/* Внутри будут работать все фича-флаги с true */}
     </ValidationsFeatureFlagsContext.Provider>
   );
@@ -45,34 +39,6 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
   {/* ... */}
 </ValidationsFeatureFlagsContext.Provider>;
 ```
-
-## Список фича-флагов
-
-### validationWrapperValidateOnMount
-
-Поля отображают актуальное состояние валидации даже после их перемонтирования. Например, после переключения вкладок внутри формы, которая уже была провалидирована.
-
-<Story of={FeatureFlagsStories.ValidateOnMount} />
-
-### hideTooltipOnSelectionControlsFlag
-
-В контролах c выбором значений (RadioGroup, Radio, CheckBox, Toggle, Switcher, Select, ComboBox) после выбора значения будет скрываться сообщение с валидацией
-
-#### Selection Controls
-
-<Story of={FeatureFlagsStories.ExampleSelection} />
-
-### dropdownsDoNotOpenOnFocusByValidation
-
-В случае получения фокуса из валидации формы, на контролах <Link onClick={linkTo('Input data/ComboBox')}>ComboBox</Link>, <Link onClick={linkTo('Input data/DatePicker')}>DatePicker</Link> автоматически не откроется popup.
-
-#### Combobox
-
-<Story of={FeatureFlagsStories.ExampleCombobox} />
-
-#### DatePicker
-
-<Story of={FeatureFlagsStories.ExampleDatePicker} />
 
 ## Объект со всеми флагами
 

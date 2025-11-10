@@ -982,9 +982,6 @@ export class BasicThemeClass {
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
   public static sidePageHeaderPaddingTop = '24px';
-  public static sidePageHeaderFixedFontSize = '18px';
-  public static sidePageHeaderFixedLineHeight = '28px';
-  public static sidePageHeaderFixedPaddingY = '10px';
   public static sidePageHeaderStickyOffset = '9px';
   /** @deprecated use sidePageCloseButtonClickAreaLeft and sidePageCloseButtonClickAreaRight instead */
   public static sidePageCloseButtonPadding = '32px';

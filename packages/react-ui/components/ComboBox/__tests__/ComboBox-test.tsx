@@ -22,7 +22,6 @@ import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from
 import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
 import { SpinnerDataTids } from '../../Spinner';
 import type { ComboBoxItem } from '..';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [ReturnType<typeof vi.fn>, Promise<void>] {
   let searchCalled: () => Promise<void>;
@@ -613,38 +612,6 @@ describe('ComboBox', () => {
 
       rerender(<ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={getItems} />);
       expect(screen.getByTestId(InputLikeTextDataTids.root)).toHaveTextContent('');
-    });
-  });
-
-  //TODO: Remove this test when/if behaviour under comboBoxAllowValueChangeInEditingState feature flag is fixed
-  describe('keep edited input text when value changes', () => {
-    const value = { value: 1, label: 'one' };
-
-    it('in default mode', async () => {
-      const { rerender } = render(<ComboBox value={value} getItems={() => Promise.resolve([value])} />);
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
-      clickOutside();
-
-      rerender(<ComboBox value={null} getItems={() => Promise.resolve([value])} />);
-      await userEvent.click(screen.getByRole('textbox'));
-      expect(screen.getByRole('textbox')).toHaveValue('two');
-    });
-
-    it('in autocomplete mode', async () => {
-      const { rerender } = render(
-        <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
-      );
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'two' } });
-      clickOutside();
-
-      rerender(
-        <ComboBox value={null} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
-      );
-
-      await userEvent.click(screen.getByRole('textbox'));
-      expect(screen.getByRole('textbox')).toHaveValue('two');
     });
   });
 
@@ -1372,7 +1339,7 @@ describe('ComboBox', () => {
       clickOutside();
       await delay(0);
       expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+      await userEvent.click(screen.getByRole('textbox'));
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
@@ -1502,7 +1469,7 @@ describe('ComboBox', () => {
     expect(screen.getByTestId(InputLikeTextDataTids.root)).not.toHaveFocus();
   });
 
-  describe('with comboBoxAllowValueChangeInEditingState flag', () => {
+  describe('allows value change in editing state', () => {
     const initialValue = testValues[0];
     const expectedValue = testValues[1];
 
@@ -1518,7 +1485,7 @@ describe('ComboBox', () => {
       };
 
       return (
-        <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: true }}>
+        <>
           <button onClick={handleValueChange}>Обновить</button>
           <ComboBox
             ref={comboboxRef}
@@ -1526,11 +1493,11 @@ describe('ComboBox', () => {
             getItems={getItems}
             onValueChange={(value) => setSelected(value)}
           />
-        </ReactUIFeatureFlagsContext.Provider>
+        </>
       );
     };
 
-    it('should allow value change in editing state', async () => {
+    it('should correctly render new value', async () => {
       render(<TestComponent initValue={initialValue} />);
       comboboxRef.current?.focus();
       expect(screen.getByRole('textbox')).toHaveValue(initialValue.label);
@@ -1541,14 +1508,14 @@ describe('ComboBox', () => {
       expect(await screen.findByRole('textbox')).toHaveValue(expectedValue.label);
     });
 
-    it('should correctly render new value while in editing mode', async () => {
-      const { rerender } = render(<TestComponent testValue={testValues[0]} />);
+    it('should correctly render new value in menu without closing', async () => {
+      const { rerender } = render(<TestComponent testValue={initialValue} />);
       comboboxRef.current?.focus();
       expect(await screen.findAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(testValues.length);
-      rerender(<TestComponent testValue={testValues[1]} />);
+      rerender(<TestComponent testValue={expectedValue} />);
 
-      expect(await screen.findByRole('textbox')).toHaveValue(testValues[1].label);
-      expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(testValues[1].label);
+      expect(await screen.findByRole('textbox')).toHaveValue(expectedValue.label);
+      expect(await screen.findByTestId(ComboBoxMenuDataTids.item)).toHaveTextContent(expectedValue.label);
     });
   });
 

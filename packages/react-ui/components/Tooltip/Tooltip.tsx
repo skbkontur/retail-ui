@@ -23,8 +23,6 @@ import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElem
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { cx } from '../../lib/theming/Emotion';
 import type { SizeProp } from '../../lib/types/props';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
@@ -181,7 +179,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private theme!: Theme;
   private size!: SizeProp;
   private sizeVariables!: TooltipSizeVariables;
-  public featureFlags!: ReactUIFeatureFlags;
   private hoverTimeout: SafeTimer;
   private contentElement: Nullable<HTMLElement> = null;
   private clickedOutside = true;
@@ -213,37 +210,30 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          this.sizeVariables = this.getSizeVariables();
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                this.sizeVariables = this.getSizeVariables();
-                return (
-                  <ThemeContext.Provider
-                    value={ThemeFactory.create(
-                      {
-                        popupBackground: theme.tooltipBg,
-                        popupBorder: theme.tooltipBorder,
-                        popupBorderRadius: this.sizeVariables.borderRadius,
-                        popupPinSize: this.sizeVariables.pinSize,
-                        popupPinOffsetX: this.sizeVariables.pinOffsetX,
-                        popupPinOffsetY: this.sizeVariables.pinOffsetY,
-                        popupMargin: this.sizeVariables.margin,
-                      },
-                      theme,
-                    )}
-                  >
-                    {this.renderMain()}
-                  </ThemeContext.Provider>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupBackground: theme.tooltipBg,
+                  popupBorder: theme.tooltipBorder,
+                  popupBorderRadius: this.sizeVariables.borderRadius,
+                  popupPinSize: this.sizeVariables.pinSize,
+                  popupPinOffsetX: this.sizeVariables.pinOffsetX,
+                  popupPinOffsetY: this.sizeVariables.pinOffsetY,
+                  popupMargin: this.sizeVariables.margin,
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 

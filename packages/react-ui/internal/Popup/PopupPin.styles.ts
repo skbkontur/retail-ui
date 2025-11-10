@@ -1,11 +1,33 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 export const styles = memoizeStyle({
-  wrapper() {
+  pin() {
     return css`
-      overflow: hidden;
       position: absolute;
-      pointer-events: none;
+    `;
+  },
+
+  pinTop() {
+    return css`
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+    `;
+  },
+
+  pinBottom() {
+    return css`
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    `;
+  },
+
+  pinLeft() {
+    return css`
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    `;
+  },
+
+  pinRight() {
+    return css`
+      clip-path: polygon(100% 0, 0 50%, 100% 100%);
     `;
   },
 });

@@ -157,14 +157,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  headerShrink(t: Theme) {
-    return css`
-      font-size: ${t.sidePageHeaderFixedFontSize};
-      line-height: ${t.sidePageHeaderFixedLineHeight};
-      padding: ${t.sidePageHeaderFixedPaddingY} 0;
-    `;
-  },
-
   headerNativeStuck(t: Theme) {
     return css`
       position: sticky;
@@ -331,13 +323,6 @@ export const styles = memoizeStyle({
       background: ${t.sidePageFooterPanelBg};
       padding: ${t.sidePageFooterPanelPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPanelPaddingBottom}
         ${t.sidePagePaddingLeft};
-    `;
-  },
-
-  wrapperCloseFixed(t: Theme) {
-    return css`
-      line-height: ${t.sidePageHeaderFixedLineHeight};
-      padding: ${t.sidePageHeaderFixedPaddingY} 0;
     `;
   },
 

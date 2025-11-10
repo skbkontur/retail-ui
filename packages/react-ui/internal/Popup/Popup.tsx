@@ -25,16 +25,13 @@ import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { mergeRefs } from '../../lib/mergeRefs';
 import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes';
 
-import { PopupPinNew } from './PopupPinNew';
+import { PopupPin } from './PopupPin';
 import type { Offset, PositionObject, Rect } from './PopupHelper';
 import { PopupHelper } from './PopupHelper';
 import { styles } from './Popup.styles';
-import { PopupPin } from './PopupPin';
 
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
@@ -232,7 +229,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
-  public featureFlags!: ReactUIFeatureFlags;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupContentElement: Nullable<Element>;
@@ -305,19 +301,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -583,34 +572,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderPin(positionName: string): React.ReactNode {
-    const pinBorder = this.theme.popupBorderColor;
-
-    const { pinSize, backgroundColor, borderColor } = this.props;
-    const { hasShadow, hasPin } = this.getProps();
+    const { pinSize, backgroundColor } = this.props;
+    const { hasPin } = this.getProps();
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
       hasPin &&
-      !PopupNonPinnablePositions.includes(positionName) &&
-      (this.featureFlags.popupFixPinTearing ? (
-        <PopupPinNew
-          popupElement={this.lastPopupContentElement}
-          popupPosition={positionName}
-          size={pinSize || parseInt(this.theme.popupPinSize)}
-          offset={this.getPinOffset(position.align)}
-          backgroundColor={backgroundColor || this.theme.popupBackground}
-        />
-      ) : (
+      !PopupNonPinnablePositions.includes(positionName) && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}
           size={pinSize || parseInt(this.theme.popupPinSize)}
           offset={this.getPinOffset(position.align)}
-          borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || this.theme.popupBackground}
-          borderColor={borderColor || pinBorder}
         />
-      ))
+      )
     );
   }
 

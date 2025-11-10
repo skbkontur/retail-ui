@@ -46,8 +46,6 @@ import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 import { withSize } from '../../lib/size/SizeDecorator';
 import type { SizeProp } from '../../lib/types/props';
 
@@ -323,7 +321,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private readonly locale!: TokenInputLocale;
   private theme!: Theme;
   private size!: SizeProp;
-  public featureFlags!: ReactUIFeatureFlags;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -379,19 +376,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return this.renderMain();
-              }}
-            </ThemeContext.Consumer>
-          );
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -1070,10 +1060,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const returnedValue = onUnexpectedInput?.(inputValue);
 
     if (returnedValue === undefined) {
-      if (
-        this.featureFlags.tokenInputCreateTokenOnBlurInWithoutReferenceMode &&
-        this.type === TokenInputType.WithoutReference
-      ) {
+      if (this.type === TokenInputType.WithoutReference) {
         this.handleAddItem();
       }
 

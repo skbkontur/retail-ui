@@ -11,11 +11,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
-import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { ModalSeparator } from '../Modal/ModalSeparator';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
-import { getFullReactUIFlagsContext, ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext';
 
 import { styles } from './SidePage.styles';
 import type { SidePageContextType } from './SidePageContext';
@@ -32,7 +29,7 @@ export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
 
   /**
    * Обрезает длинный заголовок при «залипании» шапки.
-   * @default true. Если включить флаг sidePageNotCutTitleOnStuckByDefault, дефолтное значение - false
+   * @default false.
    */
   cutTitleOnStuck?: boolean;
 }
@@ -73,27 +70,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   private theme!: Theme;
-  private wrapper: HTMLElement | null = null;
   private sticky: Sticky | null = null;
-  private lastRegularHeight = 0;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
-  private featureFlags!: ReactUIFeatureFlags;
-  public get regularHeight(): number {
-    const { isReadyToStuck } = this.state;
-    if (!this.wrapper) {
-      return 0;
-    }
-    if (!isReadyToStuck) {
-      this.lastRegularHeight = getDOMRect(this.wrapper).height;
-    }
-    return this.lastRegularHeight;
-  }
-
-  public get fixedHeaderHeight(): number {
-    const { theme } = this;
-    return parseInt(theme.sidePageHeaderFixedLineHeight) + parseInt(theme.sidePageHeaderFixedPaddingY) * 2;
-  }
 
   public componentDidMount = () => {
     getRootNode(this)?.parentNode?.addEventListener?.('scroll', this.throttleHandleScroll, true);
@@ -117,9 +96,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   public update = () => {
     this.sticky?.reflow();
-    if (!this.featureFlags.sidePageDisableHeaderShrink) {
-      this.updateReadyToStuck();
-    }
   };
 
   public render(): JSX.Element {
@@ -146,44 +122,28 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   private renderMain() {
-    const { isReadyToStuck } = this.state;
-
-    let isStickyDesktop = !this.isMobileLayout && this.getStickyProp();
+    const isStickyDesktop = !this.isMobileLayout && this.getStickyProp();
     const isStickyMobile = this.isMobileLayout && this.getStickyProp();
 
     const header = this.renderHeader;
 
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
-          if (!this.featureFlags.sidePageDisableHeaderShrink) {
-            isStickyDesktop = isStickyDesktop && isReadyToStuck;
-          }
-
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <div
-                data-tid={SidePageHeaderDataTids.root}
-                ref={this.wrapperRef}
-                className={cx(styles.headerWrapper(), {
-                  [styles.headerNativeStuck(this.theme)]: this.state.isNativeStuck,
-                })}
-              >
-                <ReactUIFeatureFlagsContext.Provider value={{ stickyReduceLayoutEvents: true }}>
-                  {!this.state.isNativeStuck && (isStickyDesktop || isStickyMobile) ? (
-                    <Sticky ref={this.stickyRef} side="top">
-                      {header}
-                    </Sticky>
-                  ) : (
-                    header()
-                  )}
-                </ReactUIFeatureFlagsContext.Provider>
-              </div>
-            </CommonWrapper>
-          );
-        }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div
+          data-tid={SidePageHeaderDataTids.root}
+          className={cx(styles.headerWrapper(), {
+            [styles.headerNativeStuck(this.theme)]: this.state.isNativeStuck,
+          })}
+        >
+          {!this.state.isNativeStuck && (isStickyDesktop || isStickyMobile) ? (
+            <Sticky ref={this.stickyRef} side="top">
+              {header}
+            </Sticky>
+          ) : (
+            header()
+          )}
+        </div>
+      </CommonWrapper>
     );
   }
 
@@ -194,7 +154,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
         <div
           className={cx(styles.header(this.theme), {
             [styles.headerFixed(this.theme)]: fixed,
-            [styles.headerShrink(this.theme)]: fixed && !this.featureFlags.sidePageDisableHeaderShrink,
             [styles.mobileHeader(this.theme)]: this.isMobileLayout,
           })}
         >
@@ -203,8 +162,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
             className={cx(styles.title(this.theme), {
               [styles.title5_1(this.theme)]: isThemeGTE(this.theme, '5.1'),
               [styles.mobileTitle(this.theme)]: this.isMobileLayout,
-              [styles.titleCut()]:
-                fixed && (this.props.cutTitleOnStuck ?? !this.featureFlags.sidePageNotCutTitleOnStuckByDefault),
+              [styles.titleCut()]: fixed && this.props.cutTitleOnStuck,
             })}
           >
             {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
@@ -222,14 +180,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       <div
         className={cx(styles.wrapperClose(this.theme), {
           [styles.wrapperClose5_1(this.theme)]: versionGTE5_1,
-          [styles.wrapperCloseFixed(this.theme)]: fixed && !this.featureFlags.sidePageDisableHeaderShrink,
-          [styles.wrapperCloseFixed5_1(this.theme)]:
-            fixed && versionGTE5_1 && !this.featureFlags.sidePageDisableHeaderShrink,
+          [styles.wrapperCloseFixed5_1(this.theme)]: fixed && versionGTE5_1,
           [styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
           [styles.mobileWrapperClose5_1(this.theme)]: this.isMobileLayout && versionGTE5_1,
         })}
       >
-        {!(this.isMobileLayout || this.featureFlags.sidePageDisableHeaderShrink) ? (
+        {!this.isMobileLayout ? (
           <Sticky side="top" offset={stickyOffset}>
             <SidePageCloseButton isHeaderFixed={fixed} />
           </Sticky>
@@ -238,18 +194,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
         )}
       </div>
     );
-  };
-
-  private updateReadyToStuck = () => {
-    if (this.wrapper) {
-      const wrapperScrolledUp = getDOMRect(this.wrapper).top;
-      const isReadyToStuck = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
-      this.setState((state) => (state.isReadyToStuck !== isReadyToStuck ? { ...state, isReadyToStuck } : state));
-    }
-  };
-
-  private wrapperRef = (el: HTMLElement | null) => {
-    this.wrapper = el;
   };
 
   private stickyRef = (el: Sticky | null) => {
