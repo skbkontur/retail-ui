@@ -7,13 +7,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @skbkontur/typography
 
-
-
-
-
 # 0.1.0 (2025-04-02)
-
 
 ### Features
 
-* **Typography:** new package @skbkontur/typography ([c86744a](https://git.skbkontur.ru/ui/ui-parking-2/commits/c86744a3300078ad6dbff68d9a29aaf909aeed01))
+- **Typography:** new package @skbkontur/typography ([c86744a](https://git.skbkontur.ru/ui/ui-parking-2/commits/c86744a3300078ad6dbff68d9a29aaf909aeed01))

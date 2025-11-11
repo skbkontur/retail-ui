@@ -7,7 +7,7 @@ export const TextTokens = {
   },
   '12Wide': {
     fontSize: '12px',
-    lineHeight: '18px',
+    lineHeight: '20px',
     margin: '10px 0',
     fontWeight: 400,
   },
