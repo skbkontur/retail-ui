@@ -12,6 +12,7 @@ import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationB
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
+import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
 import {
   isBetween,
   isEqual,
@@ -187,6 +188,7 @@ addons.setConfig({
       ...ReactUiValidations,
       DatePickerHelpers,
       cities,
+      getCities,
       isBetween,
       isEqual,
       isGreater,
