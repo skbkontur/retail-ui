@@ -1,5 +1,7 @@
 import * as InputStories from './Input.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as InputExamples from './InputValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
+
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,16 +14,87 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A1602"
 />
 
-<Description />
+```jsx
+import { Input } from '@skbkontur/react-ui';
+```
 
-## Базовый пример
+<Description />
 
 <Primary />
 
-## Пропы
+## Все пропсы
 
 <PropsTable />
 
-## Примеры использования
+## Использование
+
+Используйте поле ввода для коротких текстовых или цифровых значений без предсказуемого формата — не больше 5 слов.
+
+По умолчанию поле ввода принимает все стандартные атрибуты, которые доступны для обычного [HTMLInputElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input).
+
+**Альтернативы и дополнения**
+
+Для полей с длинными текстовыми комментариями используйте [Textarea](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-textarea--docs).
+
+Для ввода значений в определенном формате, используйте специальную версию поля:
+
+- [PasswordInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-passwordinput--docs) — поле для ввода пароля, в котором символы заменяются на точки.
+- [CurrencyInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-currencyinput--docs) — поле для ввода денежных сумм в разной валюте.
+- [MaskedInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-maskedinput--docs) — поле с маской.
+- [FxInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-fxinput--docs) — автополе.
+
+Если же список значений заранее определен и должен отображаться пользователю для выбора, подойдут поля с подсказками:
+
+- [Autocomplete](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-autocomplete--docs)
+- [Combobox](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-combobox--docs)
+- [TokenInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-tokeninput--docs)
+
+## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+**Пример**
+
+<Story of={InputExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите [в документации пакета React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Адаптивность
+
+По умолчанию поле ввода не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ Полезно: [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)
+
+## Доступность
+
+Компонент поддерживает стандартные aria-атрибуты, если вам необходимо переопределить его поведение.
+
+**Рекомендации**
+
+- Указывайте `<label>` для каждого поля формы. Если поле нельзя обернуть в `<label>`, используйте атрибуты `htmlFor` и `id`:
+
+  ```html
+  <label htmlFor="input-id">Имя Фамилия</label> <input id="input-id" />
+  ```
+
+- Если у поля ввода нет лейбла, задайте его при помощи `aria-label`:
+
+  ```html
+  <input aria-label="Введите имя (обязательно)" />
+  ```
+
+- Если нет возможности обернуть `<Input />` в `<label>`, используйте `aria-labeledby`:
+
+  ```html
+  <label id="label">Лейбл</label> <input aria-labeledby="label" />
+  ```
+
+- Для блокировки поля ввода используйте `aria-disabled`, а визуально и интерактивно блокируйте элемент при помощи стилей и JS. Скринридер остановится на этом элементе, тогда как атрибут `disabled` скринридер проигнорирует:
+
+  ```html
+  <input aria-disabled="true" />
+  ```

@@ -33,7 +33,9 @@ import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { UiMenuBars3HIcon, UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
-import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
+import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light';
+import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light';
+import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular';
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
 import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon';
 import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light';
@@ -57,6 +59,7 @@ import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCorne
 import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light';
 import * as ReactUiValidations from '@skbkontur/react-ui-validations/src';
 
+import { Form } from '../components/__stories__/Form';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import * as ReactUi from '../index';
@@ -192,6 +195,7 @@ addons.setConfig({
     scope: {
       ...ReactUi,
       ...ReactUiValidations,
+      Form,
       DatePickerHelpers,
       cities,
       getCities,
@@ -227,7 +231,9 @@ addons.setConfig({
       HandThumbDownIcon,
       HandThumbUpIcon,
       MathFunctionIcon,
-      SearchLoupeIcon,
+      SearchLoupeIcon16Light,
+      SearchLoupeIcon20Light,
+      SearchLoupeIcon24Regular,
       ToolPencilLineIcon,
       ToolPencilLineIcon16Light,
       ToolPencilLineIcon24Regular,

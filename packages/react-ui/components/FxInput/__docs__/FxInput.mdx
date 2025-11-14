@@ -12,16 +12,35 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI-Modern-Layout?node-id=203%3A1602"
 />
 
-<Description />
+```jsx
+import { FxInput } from '@skbkontur/react-ui';
+```
 
-## Базовый пример
+<Description />
 
 <Primary />
 
-## Пропы
+## Все пропсы
 
 <PropsTable />
 
-## Примеры использования
+## Использование
+
+Компонент наследует часть базовых пропcов (размер, ширина, количество символов до/после запятой и т.д.) от компонентов Input и CurrencyInput, они включены <a href="#все-пропсы-и-методы" target="-_self"> в таблицу пропсов </a>.  
+Примеры для базовых пропсов вы можете посмотреть на странице [Input](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-input--docs) и [CurrencyInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-currencyinput--docs).
+
+Пропсы для добавления маски в поле наследуются от [MaskedInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-maskedinput--docs).
+
+## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Адаптивность
+
+По умолчанию поле ввода не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ Полезно: [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)
+
+## Доступность
+
+Для компонента действуют все те же рекомендации по доступности, что и для компонента [Input](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-input--docs).
