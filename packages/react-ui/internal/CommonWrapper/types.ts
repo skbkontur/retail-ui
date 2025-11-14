@@ -12,7 +12,7 @@ export interface CommonProps {
    */
   style?: React.HTMLAttributes<HTMLElement>['style'];
   /**
-   * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
+   * Наравне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
    */
   'data-tid'?: string;
   children?: React.ReactNode;

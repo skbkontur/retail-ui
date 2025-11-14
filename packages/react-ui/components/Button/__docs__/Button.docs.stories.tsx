@@ -1,8 +1,10 @@
 import React from 'react';
-import { XIcon16Regular } from '@skbkontur/icons/XIcon16Regular';
-import { MinusCircleIcon16Light } from '@skbkontur/icons/MinusCircleIcon16Light';
-import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
-import { Button, Gapped, Toast } from '@skbkontur/react-ui';
+import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light';
+import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular';
+import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light';
+import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light';
+import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light';
+import { Button, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -12,27 +14,23 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-/** По умолчанию, кнопка принимает все пропы `HTMLButtonElement`. */
-export const Example1: Story = () => {
-  return (
-    <Button onClick={alert} name="report">
-      Создать отчёт
-    </Button>
-  );
+export const ExampleBasic: Story = () => {
+  return <Button>Кнопка</Button>;
 };
-Example1.storyName = 'Базовый пример';
+ExampleBasic.storyName = 'Базовый пример';
 
-/** Кнопка может рендерить ссылку в качестве корневого элемента, c помощью пропа `component`. Кнопка принимает все пропы переданного в `component` компонента. */
-export const Example2: Story = () => {
-  return (
-    <Button component="a" href="https://kontur.ru" target="_blank">
-      Ссылка, но выглядит как кнопка
-    </Button>
-  );
-};
-Example2.storyName = 'Корневой компонент';
-
-export const Example3: Story = () => {
+/** Задаётся пропом `use`.
+ *  Тип влияет на внешний вид и поведение кнопки в зависимости от выбранного значения. По умолчанию: `'default'`.
+ * Доступны стили:
+ * - Default — кнопка второстепенного действия с заливкой и обводкой.
+ * - Primary — кнопка основного действия.
+ * - Success — кнопка позитивного действия.
+ * - Danger — кнопка деструктивного действия.
+ * - Pay — кнопка, связанная с оплатой.
+ * - Text — второстепенная кнопка без заливки и обводки.
+ * - Backless — второстепенная кнопка без заливки, но с обводкой.
+ * - Link — ⚠️ устарел. Рекомендуем использовать [Link](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-link--docs) с заданным корневым элементом `component=button`. */
+export const ExampleStyles: Story = () => {
   const bgStyle = {
     backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(130, 130, 130, 0.5) 1px, transparent 1px)`,
@@ -42,47 +40,22 @@ export const Example3: Story = () => {
   };
 
   return (
-    <Gapped vertical>
-      <Gapped>
-        <Button use="default">Default</Button>
-        <Button use="primary">Primary</Button>
-        <Button use="success">Success</Button>
-        <Button use="danger">Danger</Button>
-        <Button use="pay">Pay</Button>
-        <Button use="text">Text</Button>
-        <Button use="backless">Backless</Button>
-        <Button use="link">Link</Button>
-      </Gapped>
-      <Gapped style={bgStyle}>
-        <Button use="default">Default</Button>
-        <Button use="primary">Primary</Button>
-        <Button use="success">Success</Button>
-        <Button use="danger">Danger</Button>
-        <Button use="pay">Pay</Button>
-        <Button use="text">Text</Button>
-        <Button use="backless">Backless</Button>
-        <Button use="link">Link</Button>
-      </Gapped>
+    <Gapped>
+      <Button use="default">Default</Button>
+      <Button use="primary">Primary</Button>
+      <Button use="success">Success</Button>
+      <Button use="danger">Danger</Button>
+      <Button use="pay">Pay</Button>
+      <Button use="text">Text</Button>
+      <Button use="backless">Backless</Button>
+      <Button use="link">Link</Button>
     </Gapped>
   );
 };
-Example3.storyName = 'Различные стили';
+ExampleStyles.storyName = 'Стиль';
 
-/** В кнопку можно передать иконку. Иконка может находиться как слева от текста кнопки, так и справа и даже в обоих позициях одновременно. */
-export const Example4: Story = () => {
-  return (
-    <Gapped gap={5}>
-      <Button icon={<XIcon16Regular />}>Закрыть</Button>
-      <Button icon={<XIcon16Regular />} rightIcon={<XIcon16Regular />}>
-        Закрыть
-      </Button>
-      <Button rightIcon={<XIcon16Regular />}>Закрыть</Button>
-    </Gapped>
-  );
-};
-Example4.storyName = 'Иконка';
-
-export const Example5: Story = () => {
+/** Задаётся пропом `size`. По умолчанию: `'small'`. */
+export const ExampleSize: Story = () => {
   return (
     <div
       style={{
@@ -91,42 +64,98 @@ export const Example5: Story = () => {
         gap: '10px',
       }}
     >
-      <Button size="small">Маленькая</Button>
-      <Button size="medium">Средняя</Button>
-      <Button size="large">Большая</Button>
+      <Button size="small">Small</Button>
+      <Button size="medium">Medium</Button>
+      <Button size="large">Large</Button>
     </div>
   );
 };
-Example5.storyName = 'Размер';
+ExampleSize.storyName = 'Размер';
 
-export const Example6: Story = () => {
+/** Вы можете задать свою ширину кнопки с помощью пропа `width`. Может принимать как абсолютные значения — например, 150, так и относительные — например, 50%. */
+export const ExampleWidth: Story = () => {
   return <Button width={150}>Закрыть</Button>;
 };
-Example6.storyName = 'Ширина';
+ExampleWidth.storyName = 'Увеличение ширины';
 
-export const Example7: Story = () => {
-  return <Button narrow>Создать отчет</Button>;
+/** Задаётся пропом `align`. */
+export const ExampleAlign: Story = () => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'end',
+        gap: '10px',
+      }}
+    >
+      <Button width={150} align="left">
+        Left
+      </Button>
+      <Button width={150} align="center">
+        Center
+      </Button>
+      <Button width={150} align="right">
+        Right
+      </Button>
+    </div>
+  );
 };
-Example7.storyName = 'Узкая Кнопка';
+ExampleAlign.storyName = 'Выравнивание текста';
 
-export const Example9: Story = () => {
+/** В кнопку можно передать иконку.
+ * Иконка может находиться слева от текста кнопки — проп `icon`, справа — проп `rightIcon`, в обоих позициях одновременно.
+ * Если не передавать текст кнопки, будет отображаться кнопка-иконка. Для кнопки-иконки есть рекомендации по соблюдению доступности, изучите раздел <a href="#доступность" target="-_self"> Доступность </a>.
+ *
+ * Под разный размер кнопок используйте подходящие начертания и размер иконок:
+ * - Small — 16Light
+ * - Medium — 20Light
+ * - Large — 24Regular
+ */
+export const ExampleIcon: Story = () => {
   return (
     <Gapped gap={5}>
+      <Button icon={<PlusIcon16Light />}></Button>
+      <Button icon={<PlusIcon16Light />}>Создать</Button>
+      <Button size="medium" icon={<PlusIcon20Light />} rightIcon={<ArrowARightIcon20Light />}>
+        Создать
+      </Button>
+      <Button size="large" rightIcon={<ArrowARightIcon24Regular />}>
+        Создать
+      </Button>
+    </Gapped>
+  );
+};
+ExampleIcon.storyName = 'Иконки в кнопке';
+
+/** Задаётся пропом `arrow`. Рекомендуется использовать для пошаговых мастеров.
+ * При указании `arrow` без значения будет добавлена кнопка со стрелкой вправо, для кнопки со стрелкой влево укажите значение `arrow="left"`.
+ * При изменении ширины кнопки стрелка будет оставаться прикреплена к внешнему краю кнопки, а не к тексту, как это происходит при добавлении отдельной иконки.
+ */
+export const ExampleArrow: Story = () => {
+  return (
+    <Gapped gap={10}>
       <Button arrow="left" size="medium">
         Назад
       </Button>
       <Button arrow size="medium">
         Далее
       </Button>
+      <Button arrow="left" width={150}>
+        Назад
+      </Button>
+      <Button arrow width={150}>
+        Далее
+      </Button>
     </Gapped>
   );
 };
-Example9.storyName = 'Стрелка';
+ExampleArrow.storyName = 'Кнопки-стрелки';
 
-/** **Поведение:**
-Кнопка на время нахождения в состоянии загрузки отключается.
-Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая. */
-export const Example10: Story = () => {
+/** Задаётся пропом `loading`.
+ * Кнопка на время загрузки отключается.
+ *
+ * Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет — весь контент кнопки заменяется на спиннер. Когда иконки две — заменяется только левая. */
+export const ExampleLoading: Story = () => {
   const [loading, setLoading] = React.useState(false);
 
   const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
@@ -165,22 +194,117 @@ export const Example10: Story = () => {
     </Gapped>
   );
 };
-Example10.storyName = 'Состояние загрузки';
+ExampleLoading.storyName = 'Состояние загрузки';
 
-export const Example11: Story = () => {
+/** Задаётся пропом `disabled`. Кнопка меняет цвет на серый и становится недоступна для нажатия. */
+export const ExampleDisabled: Story = () => {
+  return <Button disabled>Кнопка</Button>;
+};
+ExampleDisabled.storyName = 'Состояние блокировки';
+
+/** Кнопка может рендерить ссылку в качестве корневого элемента.
+ * Переопределить корневой элемент можно c помощью пропа `component`. Кнопка принимает все пропсы переданного компонента. */
+export const ExampleLink: Story = () => {
+  return (
+    <Button component="a" href="https://kontur.ru" target="_blank">
+      Ссылка, но выглядит как кнопка
+    </Button>
+  );
+};
+ExampleLink.storyName = 'Кнопка-ссылка';
+
+/** Кнопку можно кастомизировать, изменяя свойства темы через проп `theme`. Заданные переменные будут объединены с темой из `<ThemeContext>`.
+ *
+ * Общие переменные темы и переменные для кнопки (с префиксом `btn`) смотрите на странице [ThemePlayground](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-themeplayground--docs) . */
+export const ExampleTheme: Story = () => {
   return (
     <Gapped>
-      <Button theme={{ textColorDefault: '#C00000' }}>Ok</Button>
-      <Button use="link" theme={{ linkColor: '#C00000' }}>
-        Ok
+      <Button
+        use="primary"
+        theme={{
+          btnPrimaryBg: '#26AD50',
+          btnPrimaryBorderColor: '#26AD50',
+          btnPrimaryHoverBg: '#23A14A',
+          btnPrimaryHoverBorderColor: '#23A14A',
+          btnPrimaryActiveBg: '#209644',
+          btnPrimaryActiveBorderColor: '#209644',
+        }}
+      >
+        Открыть
       </Button>
-      <Button>Ok</Button>
+      <Button
+        use="primary"
+        theme={{
+          btnPrimaryBg: '#00B59A',
+          btnPrimaryBorderColor: '#00B59A',
+          btnPrimaryHoverBg: '#00A58D',
+          btnPrimaryHoverBorderColor: '#00A58D',
+          btnPrimaryActiveBg: '#00957F',
+          btnPrimaryActiveBorderColor: '#00957F',
+        }}
+      >
+        Открыть
+      </Button>
+      <Button
+        use="primary"
+        theme={{
+          btnPrimaryBg: '#2291FF',
+          btnPrimaryBorderColor: '#2291FF',
+          btnPrimaryHoverBg: '#1F87EF',
+          btnPrimaryHoverBorderColor: '#1F87EF',
+          btnPrimaryActiveBg: '#1C7EDF',
+          btnPrimaryActiveBorderColor: '#1C7EDF',
+        }}
+      >
+        Открыть
+      </Button>
+      <Button
+        use="primary"
+        theme={{
+          btnPrimaryBg: '#366AF3',
+          btnPrimaryBorderColor: '#366AF3',
+          btnPrimaryHoverBg: '#3365E8',
+          btnPrimaryHoverBorderColor: '#3365E8',
+          btnPrimaryActiveBg: '#3060DC',
+          btnPrimaryActiveBorderColor: '#3060DC',
+        }}
+      >
+        Открыть
+      </Button>
+      <Button
+        use="primary"
+        theme={{
+          btnPrimaryBg: '#B750D1',
+          btnPrimaryBorderColor: '#B750D1',
+          btnPrimaryHoverBg: '#AA49C3',
+          btnPrimaryHoverBorderColor: '##AA49C3',
+          btnPrimaryActiveBg: '#9E43B5',
+          btnPrimaryActiveBorderColor: '#9E43B5',
+        }}
+      >
+        Открыть
+      </Button>
     </Gapped>
   );
 };
-Example11.storyName = 'Проп темы';
+ExampleTheme.storyName = 'Кастомизация: брендовая кнопка через переменные темы';
 
-export const Example12: Story = () => {
+export const ExampleHoverColor: Story = () => {
+  return (
+    <Button
+      use="text"
+      size="medium"
+      icon={<TrashCanIcon20Light />}
+      theme={{ btnTextHoverBg: '#ED3F3F', btnTextActiveBg: '#DD3333', btnTextHoverTextColor: '#FFF' }}
+    >
+      Удалить
+    </Button>
+  );
+};
+ExampleHoverColor.storyName = 'Кастомизация: смена цвета при наведении';
+
+/** ⚠️ Вариант Link устарел. Рекомендуем использовать [Link](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-link--docs) с заданным корневым элементом `component=button`. */
+export const ExampleCustomLink: Story = () => {
   const textDecorationStyles = {
     btnLinkTextUnderlineOffset: '1px',
   };
@@ -248,4 +372,4 @@ export const Example12: Story = () => {
     </table>
   );
 };
-Example12.storyName = 'Кастомизация кнопки-ссылки';
+ExampleCustomLink.storyName = 'Кастомизация: вид кнопки-ссылки';

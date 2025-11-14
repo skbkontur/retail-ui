@@ -10,6 +10,11 @@ import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
 import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
+import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light';
+import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular';
+import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light';
+import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light';
+import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
@@ -209,6 +214,11 @@ addons.setConfig({
       MoneyTypeCoinsIcon,
       NotificationBellAlarmIcon16Solid,
       CheckAIcon16Light,
+      ArrowARightIcon20Light,
+      ArrowARightIcon24Regular,
+      PlusIcon16Light,
+      PlusIcon20Light,
+      TrashCanIcon20Light,
       XIcon16Regular,
       MinusCircleIcon16Light,
       CheckAIcon,
