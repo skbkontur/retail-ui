@@ -10,8 +10,14 @@ import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
 import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
 import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
+import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light';
+import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular';
+import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light';
+import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light';
+import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
+import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
 import {
   isBetween,
   isEqual,
@@ -27,9 +33,12 @@ import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { UiMenuBars3HIcon, UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
-import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
+import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light';
+import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light';
+import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular';
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
 import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon';
+import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light';
 import { TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
 import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
@@ -187,6 +196,7 @@ addons.setConfig({
       ...ReactUiValidations,
       DatePickerHelpers,
       cities,
+      getCities,
       isBetween,
       isEqual,
       isGreater,
@@ -207,6 +217,11 @@ addons.setConfig({
       MoneyTypeCoinsIcon,
       NotificationBellAlarmIcon16Solid,
       CheckAIcon16Light,
+      ArrowARightIcon20Light,
+      ArrowARightIcon24Regular,
+      PlusIcon16Light,
+      PlusIcon20Light,
+      TrashCanIcon20Light,
       XIcon16Regular,
       MinusCircleIcon16Light,
       CheckAIcon,
@@ -214,8 +229,11 @@ addons.setConfig({
       HandThumbDownIcon,
       HandThumbUpIcon,
       MathFunctionIcon,
-      SearchLoupeIcon,
+      SearchLoupeIcon16Light,
+      SearchLoupeIcon20Light,
+      SearchLoupeIcon24Regular,
       ToolPencilLineIcon,
+      ToolPencilLineIcon16Light,
       ToolPencilLineIcon24Regular,
       TrashCanIcon24Regular,
       TechPhoneSmartIcon,

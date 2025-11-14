@@ -83,15 +83,11 @@ export interface InputProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Показывать иконку очистки значения в непустом поле:
-         * - `always` — всегда показывать иконку
-         * - `auto` — показывать иконку при hover/focus
-         * - `never` — не показывать иконку
-         * При одновременной настройке `showClearIcon` и `rightIcon` показывается иконка очистки.
+        /** Показывает иконку очистки значения в заполненном поле.
          * @default never */
         showClearIcon?: ShowClearIcon;
 
-        /** Задает иконку слева.
+        /** Добавляет иконку слева.
          * При использовании `ReactNode` применяются дефолтные стили для иконки.
          * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         leftIcon?: InputIconType;
@@ -101,19 +97,19 @@ export interface InputProps
          * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         rightIcon?: InputIconType;
 
-        /** Переводит контрол в состояние валидации "ошибка". */
+        /** Меняет визуальное отображение поля на состояние «ошибка». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
         error?: boolean;
 
-        /** Переводит контрол в состояние валидации "предупреждение". */
+        /** Меняет визуальное отображение поля на состояние «предупреждение». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
         warning?: boolean;
 
-        /** Убирает обводку. */
+        /** Убирает обводку поля. */
         borderless?: boolean;
 
-        /** Задает выравнивание контента. */
+        /** Выравнивает контент внутри поля. */
         align?: InputAlign;
 
-        /** Задает паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
+        /** Задаёт паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         mask?: Nullable<string>;
 
@@ -121,7 +117,7 @@ export interface InputProps
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         maskChar?: Nullable<string>;
 
-        /** Задает словарь символов-регулярок для задания маски
+        /** Задаёт словарь символов-регулярок для задания маски
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput.
          * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }. */
         formatChars?: Record<string, string>;
@@ -130,10 +126,12 @@ export interface InputProps
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         alwaysShowMask?: boolean;
 
-        /** Задает размер. */
+        /** Задаёт размер.
+         * @default small
+         */
         size?: SizeProp;
 
-        /** Задает функцию, которая вызывается при изменении значения в инпуте. */
+        /** Задаёт функцию, которая вызывается при изменении значения в поле ввода. */
         onValueChange?: (value: string) => void;
 
         /** @ignore */
@@ -145,13 +143,13 @@ export interface InputProps
         /** @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задает тип инпута. */
+        /** Задаёт тип поля ввода. */
         type?: InputType;
 
-        /** Задает значение. */
+        /** Задаёт значение внутри поля. */
         value?: string;
 
-        ///** */
+        /** @deprecated Со следующей мажорной версии Input перестанет поддерживать проп `capture`. */
         capture?: boolean;
 
         /** Устанавливает префикс `ReactNode` перед значением, но после иконки. */
@@ -160,13 +158,12 @@ export interface InputProps
         /** Устанавливает суффикс `ReactNode` после значения, но перед правой иконкой. */
         suffix?: React.ReactNode;
 
-        /** Определяет, нужно ли выделять введенное значение при фокусе. Работает с типами `text`, `password`, `tel`, `search`, `url`. [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange) */
+        /** Выделяет введенное значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
         selectAllOnFocus?: boolean;
 
-        /** Задает функцию для обработки ввода.
-         * При неправильном вводе инпут по-умолчанию вспыхивает акцентным цветом.
-         * Если `onUnexpectedInput` передан - вызывается переданный обработчик и вспыхивание можно вызвать публичным методом инстанса `blink()`.
-         * @param {string} value - значение инпута. */
+        /** Устанавливает обработчик на случай некорректного ввода.
+         * Если передан onUnexpectedInput, он будет вызван при ошибке, а эффект мигания можно запустить вручную через публичный метод blink.
+         * @param {string} value - значение поля. */
         onUnexpectedInput?: (value: string) => void;
 
         /** Устанавливает радиус скруглений углов.
@@ -198,17 +195,7 @@ export const InputDataTids = {
 type DefaultProps = Required<Pick<InputProps, 'type' | 'showClearIcon'>>;
 
 /**
- * Поле ввода `Input` дает возможность указать значение с помощью клавиатуры.
- *
- * Используйте поле ввода для коротких текстовых или цифровых значений без предсказуемого формата.
- *
- *  Если вводимое значение имеет определенный формат, используйте специальную версию поля:
- * * Поле с паролем PasswordInput.
- * * Поле с валютой CurrencyInput.
- * * Поле с маской MaskedInput.
- * * Автополе FxInput.
- *
- * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
+ * Поле ввода позволяет ввести или отредактировать значение.
  */
 @rootNode
 @withSize
@@ -279,7 +266,8 @@ export class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  /**
+  /** Программно устанавливает фокус на поле.
+   * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
   public focus() {
@@ -287,7 +275,7 @@ export class Input extends React.Component<InputProps, InputState> {
     this.input.focus();
   }
 
-  /**
+  /** Программно снимает фокус с кнопки.
    * @public
    */
   public blur() {
@@ -295,21 +283,21 @@ export class Input extends React.Component<InputProps, InputState> {
     this.input.blur();
   }
 
-  /**
+  /** Возвращает DOM-узел поля ввода.
    * @public
    */
   public getNode() {
     return this.input;
   }
 
-  /**
+  /** Кратковременно визуально подсвечивает поле ввода, чтобы привлечь внимание пользователя.
    * @public
    */
   public blink() {
     blink({ el: this.labelRef.current, blinkColor: this.theme.inputBlinkColor });
   }
 
-  /**
+  /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
    * @public
    * @param {number} start
    * @param {number} end
@@ -365,6 +353,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст.
    * Работает с типами `text`, `password`, `tel`, `search`, `url`
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public

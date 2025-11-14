@@ -34,28 +34,30 @@ export interface FxInputProps
     Override<
       Omit<CurrencyInputProps, 'alwaysShowMask' | 'mask' | 'maskChar' | 'formatChars'>,
       {
-        /** Устанавливает авто-режим. */
+        /** Управляет видимостью кнопки Restore:
+         * - true — кнопка Restore не отображается. Значение в поле является автоматически рассчитанным.
+         * - false — кнопка Restore отображается в поле. Значение в поле считается отредактированным. */
         auto?: boolean;
 
-        /** Задает тип инпута */
+        /** Задаёт тип поля. */
         type?: 'currency' | InputProps['type'];
 
-        /** Задает функцию, которая вызывается при нажатии на кнопку Restore. */
+        /** Задаёт функцию, которая вызывается при нажатии на кнопку Restore. */
         onRestore?: () => void;
 
-        /** Задает функцию, вызывающуюся при изменении value. */
+        /** Задаёт функцию, вызывающуюся при изменении value. */
         onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
 
-        /** Задает значение инпута. */
+        /** Задаёт значение поля. */
         value?: string | number;
 
-        /** Задает ref инпута. */
+        /** Задаёт ref поля. */
         refInput?: (element: CurrencyInput | Input | null) => void;
 
         /** Убирает лишние нули после запятой. */
         hideTrailingZeros?: boolean;
 
-        /** Задает атрибут aria-label кнопке восстановления (restore button). */
+        /** Задаёт атрибут aria-label кнопке Restore. */
         buttonAriaLabel?: AriaAttributes['aria-label'];
 
         /** @ignore */
@@ -70,14 +72,10 @@ export const FxInputDataTids = {
 type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value' | 'auto'>>;
 type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 
-/**
- * Автополе `FxInput`.
+/** В автополе можно вывести автоматически рассчитанное цифровое значение. В него можно передавать итог любого вычисления, например, сумму других полей, процент или более сложную функцию.
  *
- * Используйте `FxInput`, если поле вычисляемое и вы рассчитали значение.
- *
- * Принимает все свойства `Input`'a.
+ * У поля есть иконка математической формулы и кнопка Restore — с её помощью пользователь может вернуть исходное значение, если редактировал поле. Видимость кнопки и поведение при нажатии нужно прописывать в компоненте самостоятельно.
  */
-
 @rootNode
 @withSize
 export class FxInput extends React.Component<FxInputProps> {
@@ -157,7 +155,8 @@ export class FxInput extends React.Component<FxInputProps> {
     );
   };
 
-  /**
+  /** Программно устанавливает фокус на поле.
+   * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
   public focus = () => {
@@ -166,7 +165,7 @@ export class FxInput extends React.Component<FxInputProps> {
     }
   };
 
-  /**
+  /** Программно снимает фокус с кнопки.
    * @public
    */
   public blur = () => {

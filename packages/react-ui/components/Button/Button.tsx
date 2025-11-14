@@ -41,16 +41,19 @@ export interface ButtonInnerProps extends CommonProps {
   /** Применяет к кнопке стили псевдокласса `:active`. */
   active?: boolean;
 
-  /** Задаёт выравнивание тексту в кнопке. */
+  /** Задаёт выравнивание текста в кнопке. */
   align?: React.CSSProperties['textAlign'];
 
-  /** Превращает обычную кнопку в кнопку со стрелкой. */
+  /** Преобразует обычную кнопку в кнопку со стрелкой. */
   arrow?: boolean | 'left';
 
-  /** Устанавливает фокус на контроле после окончания загрузки страницы.*/
+  /** Устанавливает фокус на кнопке после окончания загрузки страницы.*/
   autoFocus?: boolean;
 
-  /** Убирает обводку у кнопки. */
+  /** Убирает обводку у кнопки.
+   *
+   * **Не рекомендуем использовать, противоречит дизайн-требованиям.**
+   */
   borderless?: boolean;
 
   /** @ignore */
@@ -62,13 +65,15 @@ export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   corners?: React.CSSProperties;
 
-  /** Делает компонент недоступным. */
+  /** Блокирует кнопку и перекрашивает в серый. */
   disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
 
-  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Переводит кнопку в состояние валидации "Ошибка".
+   *
+   * **Не рекомендуем использовать, противоречит дизайн-требованиям.** */
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
@@ -80,7 +85,9 @@ export interface ButtonInnerProps extends CommonProps {
   /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
 
-  /** Сужает кнопку. */
+  /** Сужает кнопку.
+   *
+   * **Не рекомендуем использовать, противоречит дизайн-требованиям.** */
   narrow?: boolean;
 
   /** Задаёт размер кнопки. */
@@ -93,21 +100,23 @@ export interface ButtonInnerProps extends CommonProps {
   title?: string;
 
   /** Задаёт стиль кнопки.
-   * **Вариант `link` устарел.**
-   * Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
+   * **Вариант `link` устарел.** Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
    */
   use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
 
-  /** Переводит контрол в состояние валидации "предупреждение". */
+  /** Переводит кнопку в состояние валидации "Предупреждение".
+   *
+   * **Не рекомендуем использовать, противоречит дизайн-требованиям.**
+   */
   warning?: boolean;
 
   /** Задаёт ширину кнопки. */
   width?: number | string;
 
-  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
+  /** Задаёт объект с переменными темы. */
   theme?: ThemeIn;
 }
 
@@ -132,6 +141,7 @@ const SpanComponent: React.FunctionComponent<HTMLAttributes<HTMLSpanElement>> = 
   return <span {...rest}>{children}</span>;
 };
 
+/** Кнопка запускает действие, сценарий или позволяет перейти на другую страницу. */
 @withSize
 @rootNode
 export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> extends React.Component<
@@ -181,14 +191,14 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     return null;
   }
 
-  /**
+  /** Программно устанавливает фокус на кнопке. Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
   public focus() {
     this.node?.focus();
   }
 
-  /**
+  /** Программно снимает фокус с кнопки.
    * @public
    */
   public blur() {

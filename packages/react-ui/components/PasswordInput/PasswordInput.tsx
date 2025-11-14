@@ -31,7 +31,7 @@ export interface PasswordInputProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Omit<InputProps, 'showClearIcon'> {
-  /** Включает CapsLock детектор. */
+  /** Визуально показывает, что активен CapsLock. */
   detectCapsLock?: boolean;
 }
 
@@ -48,9 +48,7 @@ export const PasswordInputDataTids = {
 } as const;
 
 /**
- * `PasswordInput` — однострочное поле для ввода пароля, в котором символы заменяются на точки.
- *
- * Не используйте такое поле для ввода одноразовых кодов из смс. У них короткий срок действия и используются они только один раз.
+ * Однострочное поле для ввода пароля, в котором символы заменяются на точки.
  */
 
 @rootNode
@@ -112,7 +110,8 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     );
   }
 
-  /**
+  /** Программно устанавливает фокус на поле.
+   * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
   public focus = () => {
@@ -121,7 +120,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  /**
+  /** Программно снимает фокус с кнопки.
    * @public
    */
   public blur = () => {
