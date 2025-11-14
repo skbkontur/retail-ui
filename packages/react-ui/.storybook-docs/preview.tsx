@@ -36,6 +36,7 @@ import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
 import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon';
+import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light';
 import { TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
 import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
@@ -228,6 +229,7 @@ addons.setConfig({
       MathFunctionIcon,
       SearchLoupeIcon,
       ToolPencilLineIcon,
+      ToolPencilLineIcon16Light,
       ToolPencilLineIcon24Regular,
       TrashCanIcon24Regular,
       TechPhoneSmartIcon,

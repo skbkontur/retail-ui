@@ -12,16 +12,39 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/file/87ScqxPzJpF9DcVBNYWOjM/%E2%9A%A1-Kontur-UI?type=design&node-id=953%3A23703&mode=design&t=os7wLLJCaKzU1UFM-1"
 />
 
-<Description />
+```jsx
+import { Link } from '@skbkontur/react-ui';
+```
 
-## Базовый пример
+<Description />
 
 <Primary />
 
-## Пропы
+## Все пропсы и методы
 
 <PropsTable />
 
-## Примеры использования
+## Использование
+
+Ссылка используется для навигации на другие разделы или внешние страницы.
+Не используйте ссылку для действий на странице, для этого подойдёт [кнопка](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-button--docs), в том числе кнопка в стиле Text, если нужна более легкая версия кнопки.
+
+Если же вам нужно сохранить нативные свойства ссылки, но визуально она должна выглядеть как кнопка, вы можете переопределить корневой элемент ссылки, см. пример [Управление корневым элементом](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-link--docs#управление-корневым-элементом).
+
+Для ссылки нет отдельных пропсов для размерности. На размер отображаемой ссылки влияет размер шрифта (font-size) и высота строки (line-height).
+
+## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+По умолчанию ссылка не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)
