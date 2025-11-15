@@ -321,3 +321,12 @@ export const ShouldSetFocusOnPlaceholderClick: Story = () => {
   return <DateInput />;
 };
 ShouldSetFocusOnPlaceholderClick.storyName = 'should set focus on placeholder click';
+
+export const TEST: Story = () => {
+  return (
+    <React.StrictMode>
+      <DateInput value="27.04.1992" />
+    </React.StrictMode>
+  );
+};
+TEST.parameters = { creevey: { skip: true } };
