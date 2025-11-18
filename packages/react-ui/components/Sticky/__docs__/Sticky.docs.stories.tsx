@@ -30,11 +30,15 @@ export const Example1: Story = () => {
             </div>
           </div>
         )}
-      </Sticky>Content
-            <div style={{ height: 1000 }} />
-      <div ref={el => {
-        (stop = el);
-      }} style={{ borderTop: '1px solid' }} />
+      </Sticky>
+      Content
+      <div style={{ height: 1000 }} />
+      <div
+        ref={(el) => {
+          stop = el;
+        }}
+        style={{ borderTop: '1px solid' }}
+      />
       <div style={{ height: 1000 }} />
       <Sticky side="bottom" getStop={() => stop} offset={20}>
         {(fixed) => (

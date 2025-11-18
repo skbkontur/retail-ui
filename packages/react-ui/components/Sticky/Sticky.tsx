@@ -154,9 +154,13 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     );
   }
 
-  private refWrapper = (ref: Nullable<HTMLElement>) => {this.wrapper = ref};
+  private refWrapper = (ref: Nullable<HTMLElement>) => {
+    this.wrapper = ref;
+  };
 
-  private refInner = (ref: Nullable<HTMLElement>) => {this.inner = ref};
+  private refInner = (ref: Nullable<HTMLElement>) => {
+    this.inner = ref;
+  };
 
   /**
    * Пересчитать габариты и позицию залипшего элемента

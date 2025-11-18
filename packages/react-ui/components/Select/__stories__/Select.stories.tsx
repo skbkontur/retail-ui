@@ -393,9 +393,14 @@ export const WithSearchAndVariousWidth: Story = () => {
         100%
       </Button>
       <br />
-      <Select ref={ref => {
-        (selectElem = ref);
-      }} search width={width} items={['one', 'two', 'three']} />
+      <Select
+        ref={(ref) => {
+          selectElem = ref;
+        }}
+        search
+        width={width}
+        items={['one', 'two', 'three']}
+      />
     </div>
   );
 };
@@ -417,9 +422,16 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     { menuAlign: 'left', disablePortal: true },
   ];
   const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
-    <Select ref={el => {
-      el?.open();
-    }} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
+    <Select
+      ref={(el) => {
+        el?.open();
+      }}
+      width={100}
+      menuWidth={width}
+      items={[width || 'default']}
+      value=""
+      {...props}
+    />
   );
 
   return (

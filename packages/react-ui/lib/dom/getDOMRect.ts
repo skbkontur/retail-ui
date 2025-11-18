@@ -6,7 +6,9 @@ type DOMRectDefaultValues = Omit<DOMRect, 'toJSON'>;
  * @param element - ref элемента или сам элемент
  * @returns - возвращает размер элемента и его позицию относительно viewport
  */
-export const getDOMRect = <T extends Element>(element: Nullable<T> | React.RefObject<T | null>): DOMRectDefaultValues => {
+export const getDOMRect = <T extends Element>(
+  element: Nullable<T> | React.RefObject<T | null>,
+): DOMRectDefaultValues => {
   const defaultValues: DOMRectDefaultValues = {
     width: 0,
     height: 0,

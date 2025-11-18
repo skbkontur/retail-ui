@@ -461,9 +461,14 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <MaskedInput {...DEFAULT_PROPS} value="+7 123 654" ref={element => {
-          (input = element);
-        }} alwaysShowMask />
+        <MaskedInput
+          {...DEFAULT_PROPS}
+          value="+7 123 654"
+          ref={(element) => {
+            input = element;
+          }}
+          alwaysShowMask
+        />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all

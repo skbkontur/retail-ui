@@ -112,7 +112,7 @@ describe('rootNode', () => {
 
   const testRootNode = (
     Component: ({ opened }: Pick<PopupProps, 'opened'>) => JSX.Element,
-    popupRef: React.RefObject<Popup & InstanceWithRootNode | null>,
+    popupRef: React.RefObject<(Popup & InstanceWithRootNode) | null>,
     dataTid: string,
   ) => {
     it('is null by default when closed and getRootNode is defined', () => {

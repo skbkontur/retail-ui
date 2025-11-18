@@ -231,7 +231,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
-  private menuRef = (element: Nullable<Menu>) => { this.menu = element };
+  private menuRef = (element: Nullable<Menu>) => {
+    this.menu = element;
+  };
 
   private handleOpen = () => {
     if (this.menu) {
@@ -266,8 +268,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         <span
           data-tid={PopupMenuDataTids.caption}
           className={this.styles.caption()}
-          ref={element => {
-            (this.captionWrapper = element);
+          ref={(element) => {
+            this.captionWrapper = element;
           }}
         >
           {this.passPropsToCaption(caption)}
@@ -280,8 +282,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         data-tid={PopupMenuDataTids.caption}
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
-        ref={element => {
-          (this.captionWrapper = element);
+        ref={(element) => {
+          this.captionWrapper = element;
         }}
         className={this.styles.caption()}
       >

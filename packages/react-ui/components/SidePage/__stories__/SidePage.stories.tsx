@@ -262,9 +262,9 @@ class SidePageWithCloseConfiguration extends React.Component {
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
             this.setState(
               (state: SidePageWithCloseConfigurationState) =>
-                (({
-                  [propertyName]: !state[propertyName]
-                }) as Shape<SidePageWithCloseConfigurationState>),
+                ({
+                  [propertyName]: !state[propertyName],
+                }) as Shape<SidePageWithCloseConfigurationState>,
             );
           }}
           ignoreBackgroundClick={this.state.ignoreBackgroundClick}
@@ -526,16 +526,21 @@ class TestUpdateLayoutMethod extends React.Component {
 
   public render() {
     return (
-      <SidePage blockBackground ref={ref => {
-        (this.sidePage = ref);
-      }}>
+      <SidePage
+        blockBackground
+        ref={(ref) => {
+          this.sidePage = ref;
+        }}
+      >
         <SidePage.Header>Title</SidePage.Header>
         <SidePage.Body>
           <SidePage.Container>
             {this.state.content && <TestUpdateLayoutMethod.Content />}
-            <TestUpdateLayoutMethod.ChildComp ref={ref => {
-              (this.childComp = ref);
-            }} />
+            <TestUpdateLayoutMethod.ChildComp
+              ref={(ref) => {
+                this.childComp = ref;
+              }}
+            />
           </SidePage.Container>
         </SidePage.Body>
         <SidePage.Footer>

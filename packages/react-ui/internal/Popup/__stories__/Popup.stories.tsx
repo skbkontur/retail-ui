@@ -174,9 +174,13 @@ class MinWidth extends React.Component {
   public render() {
     return (
       <div style={{ padding: '100px' }}>
-        <span ref={el => {
-          (this.anchor = el);
-        }}>x</span>
+        <span
+          ref={(el) => {
+            this.anchor = el;
+          }}
+        >
+          x
+        </span>
         {this.state.anchor && (
           <Popup hasShadow hasPin opened anchorElement={this.anchor} positions={['bottom center']}>
             <div
@@ -383,9 +387,12 @@ class Toast extends React.Component<ToastProps> {
   public render() {
     return (
       <div>
-        <div ref={e => {
-          (this.anchor = e);
-        }} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
+        <div
+          ref={(e) => {
+            this.anchor = e;
+          }}
+          style={{ width: '100px', height: '100px', border: '1px solid black' }}
+        >
           Hello
         </div>
         {this.state.anchor && (
