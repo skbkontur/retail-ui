@@ -59,7 +59,6 @@ import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCorne
 import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light';
 import * as ReactUiValidations from '@skbkontur/react-ui-validations/src';
 
-import { Form } from '../components/__stories__/Form';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 import { ThemeFactory } from '../lib/theming/ThemeFactory';
 import * as ReactUi from '../index';
@@ -195,7 +194,6 @@ addons.setConfig({
     scope: {
       ...ReactUi,
       ...ReactUiValidations,
-      Form,
       DatePickerHelpers,
       cities,
       getCities,
