@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui-validations",
-  "version": "2.3.5",
+  "version": "3.0.0",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prerelease": "yarn build && yarn predeploy",
@@ -50,9 +50,9 @@
     "index.js.map"
   ],
   "peerDependencies": {
+    "@skbkontur/react-ui": ">=5 <6",
     "react": ">=16.9 <19",
-    "react-dom": ">=16.9 <19",
-    "@skbkontur/react-ui": ">=5 <6"
+    "react-dom": ">=16.9 <19"
   },
   "dependencies": {
     "smoothscroll-polyfill": "^0.4.4",

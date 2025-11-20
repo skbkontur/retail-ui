@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@2.3.0...@skbkontur/react-ui-validations@3.0.0) (2025-11-20)
+
+
+### Bug Fixes
+
+* **FxInput:** add support `mask` & feature flag `fxInputUseMaskedInput` ([f86d3bd](https://github.com/skbkontur/retail-ui/commit/f86d3bde8e205dbea77faee0fd079266af04980f))
+* **Tooltip:** use correct default positions ([3237031](https://github.com/skbkontur/retail-ui/commit/3237031370d74729b3b4dcb2bc7439cfb38b0df3))
+
+
+### Features
+
+* **react-ui-testing:** drop support for net45, use netstandard2.0 only, move to gitlab ci ([0fb54f3](https://github.com/skbkontur/retail-ui/commit/0fb54f30ce1ec24c84cb8a03b75d5693ff8cb1d7))
+
+
+### BREAKING CHANGES
+
+* **react-ui-testing:** drop support for net45
+
+
+
+
+
 ## [2.3.5](https://github.com/skbkontur/retail-ui/compare/react-ui-validations@2.3.4...react-ui-validations@2.3.5) (2025-11-01)
 
 
