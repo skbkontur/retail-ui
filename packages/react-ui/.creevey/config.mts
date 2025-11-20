@@ -26,6 +26,7 @@ const config: CreeveyConfig = {
   webdriver: PlaywrightWebdriver,
   storybookAutorunCmd: 'yarn storybook',
   storiesProvider: hybridStoriesProvider,
+  useDocker: false,
   testsRegex: /\.creevey.(m|c)?(t|j)s$/,
   testsDir: path.join(__dirname, '../'),
   reportDir: reportFilePath,
