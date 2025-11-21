@@ -209,7 +209,7 @@ kind('Autocomplete', () => {
       const page = context.webdriver;
       const autocompleteElement = page.locator(tid('Autocomplete__root'));
       await autocompleteElement.click();
-      await page.keyboard.press('912');
+      await page.keyboard.type('912');
       await page.keyboard.press('ArrowDown');
       await page.keyboard.press('Enter');
       await page.waitForTimeout(1000);

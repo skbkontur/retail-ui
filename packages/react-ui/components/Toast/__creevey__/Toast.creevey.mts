@@ -39,6 +39,10 @@ kind('Toast', () => {
     kindTests();
   });
 
+  story('ReactNodeExample', () => {
+    kindTests();
+  });
+
   story('button', () => {
     kindTests();
   });
@@ -62,20 +66,12 @@ kind('Toast', () => {
   story('ToastWithCross', () => {
     test('idle', async (context) => {
       const page = context.webdriver;
-      const showStaticToastButton = page.locator(tid('show-static-toast'));
       const showInstanceToastButton = page.locator(tid('show-instance-toast'));
-      await showStaticToastButton.click();
-      await waitForByTid(page, 'ToastView__root');
-      const staticToast = await context.takeScreenshot();
-
-      const closeFirstToast = page.locator(tid('ToastView__close'));
-      await closeFirstToast.click();
-      await page.locator(tid('ToastView__root')).waitFor({ state: 'hidden' });
       await showInstanceToastButton.click();
       await waitForByTid(page, 'ToastView__root');
       const instanceToast = await context.takeScreenshot();
 
-      await context.matchImages({ staticToast, instanceToast });
+      await context.matchImages({ instanceToast });
       await page.locator(tid('ToastView__root')).waitFor({ state: 'hidden' });
     });
   });

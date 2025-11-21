@@ -4,10 +4,7 @@ import 'creevey/playwright';
 import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('DateRangePicker', () => {
-  story('MinMax', ({ setStoryParameters }) => {
-    setStoryParameters({
-      ignoreElements: '[data-tid="DateInput__icon"]', // flaky pixels in icon
-    });
+  story('MinMax', () => {
     test('opened', async (context) => {
       const page = context.webdriver;
       await page.waitForTimeout(1000);
