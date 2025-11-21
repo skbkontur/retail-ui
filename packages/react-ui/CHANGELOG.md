@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.1...@skbkontur/react-ui@5.4.2) (2025-11-20)
+
+
+### Bug Fixes
+
+* **ComboBox:** downgrade `react-focus-lock` to stable ([91eaf3b](https://github.com/skbkontur/retail-ui/commit/91eaf3b68156b6cda33e3049be5cb0d3ddddeb2a))
+
+
+
+
+
 ## [5.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.0...@skbkontur/react-ui@5.4.1) (2025-11-01)
 
 

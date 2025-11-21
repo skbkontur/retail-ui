@@ -1,83 +1,71 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../../components/__creevey__/helpers.mjs';
 
 kind('ZIndex', () => {
   story('HintAndModalStory', () => {
     test('Modal covers hint', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.modalBody button' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'Modal covers hint');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.locator('.modalBody button').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'Modal covers hint');
     });
   });
 
   story('BigModalWithLoaderStory', () => {
     test('Header covers Loader', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
         if (sidePage) {
           sidePage.scrollTop = sidePage.offsetHeight / 3;
         }
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'Header covers Loader');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'Header covers Loader');
     });
   });
 
   story('TooltipAndSelectStory', () => {
     test('Menu covers tooltip', async (context) => {
-      const element = await context.webdriver.findElement({ css: '.container' });
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid="Select__label"]` }))
-        .sendKeys('q')
-        .perform();
-      await delay(1000);
-      await context.matchImage(await element.takeScreenshot(), 'Modal covers hint');
+      const page = context.webdriver;
+      const element = page.locator('.container');
+      await page.locator(tid('Select__label')).click();
+      await page.keyboard.type('q');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'Modal covers hint');
     });
   });
 
   story('LoaderInSidePageBody', () => {
     test('is covered by Header and Footer', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
         if (sidePage) {
           sidePage.scrollTop = sidePage.offsetHeight;
         }
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'is covered by Header and Footer');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'is covered by Header and Footer');
     });
   });
 
   story('SidepageAndSelect', () => {
     test('SidePage covers Select and Tooltip', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.select-container button' }))
-        .sendKeys('q')
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.open-sidepage-container button' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.sidepage-select-continer button' }))
-        .sendKeys('q')
-        .perform();
-      const element = await context.webdriver.findElement({ css: `[data-tid='SidePage__container']` });
-      await delay(1000);
-      await context.matchImage(await element.takeScreenshot(), 'SidePage covers Select and Tooltip');
+      const page = context.webdriver;
+      await page.locator('.select-container button').click();
+      await page.keyboard.type('q');
+      await page.locator('.open-sidepage-container button').click();
+      await page.locator('.sidepage-select-continer button').click();
+      await page.keyboard.type('q');
+      const element = page.locator('[data-tid="SidePage__container"]');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'SidePage covers Select and Tooltip');
     });
   });
 
@@ -92,86 +80,72 @@ kind('ZIndex', () => {
     });
 
     test('Open Dropdown while Loader is inactive', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'Open Dropdown while Loader is inactive');
+      const page = context.webdriver;
+      await page.locator('[data-tid~="Select__root"]').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'Open Dropdown while Loader is inactive');
     });
 
     test('Hide Hint on active Loader', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Toggle__root"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'Hide Hint on active Loader');
+      const page = context.webdriver;
+      await page.locator('[data-tid~="Toggle__root"]').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'Hide Hint on active Loader');
     });
   });
 
   story('LoaderAndSidePageStory', () => {
     test('SidePage shadow cover Loader', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Toggle__root"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'SidePage shadow cover Loader');
+      const page = context.webdriver;
+      await page.locator('[data-tid~="Toggle__root"]').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'SidePage shadow cover Loader');
     });
   });
 
   story('StickyAndTooltipsStory', () => {
     test('Sticky covers outside Popup', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Select__root"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'Sticky covers outside Popup');
+      const page = context.webdriver;
+      await page.locator('[data-tid~="Select__root"]').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'Sticky covers outside Popup');
     });
   });
 
   story('ModalAndToast', () => {
     test('toastShown', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Button__root"] button' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.locator('[data-tid~="Button__root"] button').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
   story('ToastOverEverything', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'flickering screenshot': { in: /^(?!\b(firefox))/, tests: 'staticToast' } } });
+    setStoryParameters({
+      skip: { 'flickering screenshot': { in: /^(?!\b(firefox))/, tests: 'staticToast' } },
+      captureElement: null,
+    });
 
     test('staticToast', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="static-toast"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
-      const shown = await context.webdriver.takeScreenshot(); // Toast rendered by static method doesn't get removed
+      const page = context.webdriver;
+      await page.locator('[data-tid~="static-toast"]').click();
+      await page.waitForTimeout(1000);
+      await page.locator('body').click();
+      const shown = await context.takeScreenshot(); // Toast rendered by static method doesn't get removed
       // when story switches, so we have to close it manually
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="ToastView__close"]' }))
-        .pause(500)
-        .perform();
+      await page.locator('[data-tid~="ToastView__close"]').click();
+      await page.waitForTimeout(500);
       await context.matchImage(shown);
     });
 
     test('refToast', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="ref-toast"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.locator('[data-tid~="ref-toast"]').click();
+      await page.waitForTimeout(1000);
+      await page.locator('body').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -179,49 +153,41 @@ kind('ZIndex', () => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('dropdown overlaps static header', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="dropdown_top"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.locator('[data-tid="dropdown_top"]').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
 
     test('dropdown lays under fixed header', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="dropdown_top"]' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator('[data-tid="dropdown_top"]').click();
+      await page.waitForTimeout(1000);
+      await page.evaluate(() => {
         const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
 
     test('dropdown lays under fixed footer', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="dropdown_bottom"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.locator('[data-tid="dropdown_bottom"]').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
 
     test('dropdown overlaps static footer', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="dropdown_bottom"]' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator('[data-tid="dropdown_bottom"]').click();
+      await page.waitForTimeout(1000);
+      await page.evaluate(() => {
         const scrollContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 });

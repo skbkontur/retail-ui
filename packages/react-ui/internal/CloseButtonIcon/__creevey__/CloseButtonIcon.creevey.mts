@@ -1,23 +1,14 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
 const clickThenTAB = (clickDataTid: string) => {
   test(clickDataTid, async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: `[data-tid="${clickDataTid}"] input` }))
-      .pause(500)
-      .perform();
+    const page = context.webdriver;
+    await page.locator(`[data-tid="${clickDataTid}"] input`).click();
+    await page.waitForTimeout(500);
     const firstFocus = await context.takeScreenshot();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .pause(500)
-      .perform();
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(500);
     const secondFocus = await context.takeScreenshot();
 
     await context.matchImages({ firstFocus, secondFocus });

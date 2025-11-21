@@ -1,7 +1,5 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
-
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
 
 kind('DateInput', () => {
   story('Simple', () => {
@@ -10,7 +8,8 @@ kind('DateInput', () => {
     });
 
     test('focus', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
@@ -26,7 +25,8 @@ kind('DateInput', () => {
     });
 
     test('focus', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
@@ -42,7 +42,8 @@ kind('DateInput', () => {
     });
 
     test('focus', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
@@ -54,55 +55,43 @@ kind('DateInput', () => {
 
   story('BlurAlwaysAfterChange', () => {
     test('value not changed', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
       });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
-      await delay(500);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'value not changed');
     });
 
     test('value changed', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
       });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('12')
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
-      await delay(500);
+      await page.keyboard.type('12');
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'value changed');
     });
 
     test('value restored', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
         }
       });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.NUMPAD1)
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
-      await context.webdriver.executeScript(function () {
+      await page.keyboard.press('Numpad1');
+      await page.locator('body').click();
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.blur();
@@ -118,7 +107,8 @@ kind('DateInput', () => {
     });
 
     test('focused', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const input = window.document.querySelector("[data-tid~='DateInput__root']");
         if (input instanceof HTMLElement) {
           input.focus();
@@ -131,11 +121,9 @@ kind('DateInput', () => {
   story('WithError', () => {
     test('focused', async (context) => {
       const plain = await context.takeScreenshot();
-      const DateInputPlaceholder = context.webdriver.findElement({
-        css: '[data-tid~="DateFragmentsView__placeholder"]',
-      });
-      await context.webdriver.actions({ bridge: true }).click(DateInputPlaceholder).perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.keyboard.press('Tab'); // focus on input
+      await page.waitForTimeout(1000);
       const focused = await context.takeScreenshot();
       await context.matchImages({ plain, focused });
     });
@@ -145,11 +133,9 @@ kind('DateInput', () => {
     setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
 
     test('focused', async (context) => {
-      const DateInputPlaceholder = context.webdriver.findElement({
-        css: '[data-tid~="DateFragmentsView__placeholder"]',
-      });
-      await context.webdriver.actions({ bridge: true }).click(DateInputPlaceholder).perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.keyboard.press('Tab'); // focus on input
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot());
     });
   });

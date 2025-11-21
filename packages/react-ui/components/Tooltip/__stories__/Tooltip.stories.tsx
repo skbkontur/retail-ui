@@ -181,9 +181,7 @@ TooltipWithoutAnimations.parameters = { creevey: { skip: true } };
 
 export const HoverOnChildOnly = () => (
   <TestTooltip trigger="hoverAnchor">
-    <Button>
-      <code>trigger=&quot;hoverAnchor&quot;</code>
-    </Button>
+    <Button>trigger=&quot;hoverAnchor&quot;</Button>
   </TestTooltip>
 );
 HoverOnChildOnly.storyName = 'hover on child only';

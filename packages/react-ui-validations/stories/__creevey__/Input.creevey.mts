@@ -26,27 +26,30 @@ kind('Input', () => {
     });
   });
 
-  story('ScrollMessage', () => {
+  story('ScrollMessage', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: null,
+    });
     test('invalidText', async (context) => {
       const page = context.webdriver;
 
       await page.locator(tid('top-submit')).click();
       await page.waitForTimeout(500);
-      const autoscrollAfterTopSubmit = await page.screenshot();
+      const autoscrollAfterTopSubmit = await context.takeScreenshot();
 
       await page.evaluate(() => {
         window.scrollBy(0, -100);
       });
       await page.locator(tid('center-submit')).click();
       await page.waitForTimeout(500);
-      const noScrollAfterCenterSubmit = await page.screenshot();
+      const noScrollAfterCenterSubmit = await context.takeScreenshot();
 
       await page.evaluate(() => {
         window.scroll(0, window.document.body.scrollHeight);
       });
       await page.locator(tid('bottom-submit')).click();
       await page.waitForTimeout(1000);
-      const autoscrollAfterBottomSubmit = await page.screenshot();
+      const autoscrollAfterBottomSubmit = await context.takeScreenshot();
 
       await context.matchImages({
         autoscrollAfterTopSubmit,
@@ -76,27 +79,32 @@ kind('Input', () => {
     });
   });
 
-  story('SelectFirstControlForValidation', () => {
+  story('SelectFirstControlForValidation', ({ setStoryParameters }) => {
+    setStoryParameters({
+      captureElement: null,
+    });
     test('invalidText', async (context) => {
       const page = context.webdriver;
       const submit = await page.locator(tid('submit'));
       await submit.click();
       await page.waitForTimeout(500);
       await page.keyboard.type("i'm active!");
-      const focusedThenFilledWhenSubmitAndAllEmpty = await page.screenshot();
+      const focusedThenFilledWhenSubmitAndAllEmpty = await context.takeScreenshot();
 
       await submit.click();
-      const secondFocusedWhenSubmitAndFirstFull = await page.screenshot();
+      const secondFocusedWhenSubmitAndFirstFull = await context.takeScreenshot();
       await context.matchImages({ focusedThenFilledWhenSubmitAndAllEmpty, secondFocusedWhenSubmitAndFirstFull });
     });
   });
 
-  story('ScrollWithFixedPlaceBottom', () => {
+  story('ScrollWithFixedPlaceBottom', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
+
     test('invalidText', async (context) => {
       const page = context.webdriver;
       await page.locator(tid('submit')).click();
       await page.waitForTimeout(500);
-      await context.matchImage(await page.screenshot());
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 

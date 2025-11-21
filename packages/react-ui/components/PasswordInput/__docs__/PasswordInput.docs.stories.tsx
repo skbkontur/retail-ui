@@ -11,12 +11,13 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return <PasswordInput />;
 };
-Example1.storyName = 'Базовый пример';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
+/** Индикатор включения CapsLock активируется пропом `detectCapsLock`. Визуально покажет пользователю, что у него при вводе пароля активен CapsLock. */
+export const ExampleDetectCapsLock: Story = () => {
   return <PasswordInput detectCapsLock />;
 };
-Example2.storyName = 'Отслеживание нажатия CapsLock';
+ExampleDetectCapsLock.storyName = 'Индикатор включения CapsLock';

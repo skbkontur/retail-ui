@@ -1,27 +1,24 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
+import { tid } from '../../../components/__creevey__/helpers.mjs';
 
 const testScrollLockUnlock = () => {
   test('scroll, lock, unlock', async (context) => {
+    const page = context.webdriver;
     const toggle = async () => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="toggle-lock"]' }))
-        .perform();
-      await delay(1000);
+      await page.locator(tid('toggle-lock')).click();
+      await page.waitForTimeout(1000);
     };
-    await context.webdriver.executeScript(function () {
+    await page.evaluate(() => {
       const scrollContainer = window.document.documentElement;
       scrollContainer.scrollTop = scrollContainer.scrollHeight;
     });
-    const scrolled = await context.webdriver.takeScreenshot();
+    const scrolled = await context.takeScreenshot();
     await toggle();
-    const locked = await context.webdriver.takeScreenshot();
+    const locked = await context.takeScreenshot();
     await toggle();
-    const unlocked = await context.webdriver.takeScreenshot();
+    const unlocked = await context.takeScreenshot();
     await context.matchImages({ scrolled, locked, unlocked });
   });
 };
@@ -37,6 +34,7 @@ kind('HideBodyVerticalScroll', () => {
   story('WithScrollableContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: null,
     });
     testScrollLockUnlock();
   });
@@ -51,6 +49,7 @@ kind('HideBodyVerticalScroll', () => {
   story('Multiple_WithScrollableContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: null,
     });
     testScrollLockUnlock();
   });
@@ -58,24 +57,29 @@ kind('HideBodyVerticalScroll', () => {
   story('DisorderlyUnmountAndResize', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: null,
     });
     test('idle, hide, show, resize', async (context) => {
+      const page = context.webdriver;
       const toggle = async (index: number) => {
-        await context.webdriver.findElement({ css: `div:nth-of-type(${index}) [data-tid~="toggle-lock"]` }).click();
+        await page
+          .locator(`div:nth-of-type(${index}) ${tid('toggle-lock')}`)
+          .first()
+          .click();
       };
 
-      const idle = await context.webdriver.takeScreenshot();
+      const idle = await context.takeScreenshot();
 
       await toggle(1);
       await toggle(2);
-      const hide = await context.webdriver.takeScreenshot();
+      const hide = await context.takeScreenshot();
 
       await toggle(1);
       await toggle(2);
-      const show = await context.webdriver.takeScreenshot();
+      const show = await context.takeScreenshot();
 
-      await context.webdriver.findElement({ css: '[data-tid="resize"]' }).click();
-      const resize = await context.webdriver.takeScreenshot();
+      await page.locator(tid('resize')).click();
+      const resize = await context.takeScreenshot();
 
       await context.matchImages({ idle, hide, show, resize });
     });

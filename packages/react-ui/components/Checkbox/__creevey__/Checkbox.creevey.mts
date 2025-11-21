@@ -1,7 +1,7 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const checkboxTests = () => {
   test('idle', async (context) => {
@@ -9,85 +9,43 @@ const checkboxTests = () => {
   });
 
   test('hovered', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({
-          css: '[data-tid~="test-checkbox"]',
-        }),
-      })
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('test-checkbox')).hover();
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'hovered');
   });
 
   test('pressed', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({
-          css: '[data-tid~="test-checkbox"]',
-        }),
-      })
-      .press()
-      .pause(1000)
-      .release()
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('test-checkbox')).hover();
+    await page.mouse.down();
+    await page.waitForTimeout(1000);
+    await page.mouse.up();
   });
 
   test('clicked', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="test-checkbox"]' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('test-checkbox')).click();
     await context.matchImage(await context.takeScreenshot(), 'clicked');
   });
 
   test('tabPress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="test-checkbox"]' }))
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .sendKeys(Key.TAB)
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('test-checkbox')).click();
+    await page.locator('body').click();
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
   });
 
   test('spacePress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="test-checkbox"]' }))
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .sendKeys(Key.TAB)
-      .pause(1000)
-      .sendKeys(Key.SPACE)
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('test-checkbox')).click();
+    await page.locator('body').click();
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(1000);
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'spacePress');
   });
 };
@@ -116,88 +74,51 @@ kind('Checkbox', () => {
     });
 
     test('hovered', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="test-checkbox"]',
-          }),
-        })
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('test-checkbox')).hover();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'hovered');
     });
 
     test('pressed', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="test-checkbox"]',
-          }),
-        })
-        .press()
-        .pause(1000)
-        .release()
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-checkbox')).hover();
+      await page.mouse.down();
+      await page.waitForTimeout(1000);
+      await page.mouse.up();
     });
   });
 
   story('Indeterminate', () => {
     test('plain', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '#screenshot-capture',
-      });
-      await delay(1000);
-      await context.matchImage(await element.takeScreenshot(), 'plain');
+      const page = context.webdriver;
+      const element = page.locator('#screenshot-capture');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'plain');
     });
 
     test('hovered', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '#screenshot-capture',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: 'label' }),
-        })
-        .perform();
-      await delay(1000);
-      await context.matchImage(await element.takeScreenshot(), 'hovered');
+      const page = context.webdriver;
+      const element = page.locator('#screenshot-capture');
+      await page.locator('label').hover();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'hovered');
     });
 
     test('tabPress', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '#screenshot-capture',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.TAB)
-        .perform();
-      await delay(1000);
-      await context.matchImage(await element.takeScreenshot(), 'tabPress');
+      const page = context.webdriver;
+      const element = page.locator('#screenshot-capture');
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'tabPress');
     });
 
     test('clicked', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '#screenshot-capture',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'label' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await element.takeScreenshot(), 'clicked');
+      const page = context.webdriver;
+      const element = page.locator('#screenshot-capture');
+      await page.locator('label').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'clicked');
     });
   });
 
@@ -215,13 +136,9 @@ kind('Checkbox', () => {
     });
 
     test('tabPress', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.TAB)
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'tabPress');
     });
   });
@@ -232,12 +149,12 @@ kind('Checkbox', () => {
     });
 
     test('selected with pressed shift', async (context) => {
-      const checkbox = await context.webdriver.findElement({
-        css: '[data-tid~="Checkbox__root"]',
-      });
-      await context.webdriver.actions({ bridge: true }).keyDown(Key.SHIFT).click(checkbox).perform();
+      const page = context.webdriver;
+      const checkbox = page.locator(tid('Checkbox__root'));
+      await page.keyboard.down('Shift');
+      await checkbox.click();
       await context.matchImage(await context.takeScreenshot(), 'selected with pressed shift');
-      await context.webdriver.actions({ bridge: true }).keyUp(Key.SHIFT).perform();
+      await page.keyboard.up('Shift');
     });
   });
 });

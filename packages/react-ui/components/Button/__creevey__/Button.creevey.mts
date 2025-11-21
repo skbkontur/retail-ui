@@ -1,5 +1,7 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+
+import 'creevey/playwright';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const buttonTests = () => {
   test('idle', async (context) => {
@@ -7,54 +9,29 @@ const buttonTests = () => {
   });
 
   test('hover', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: '[data-tid~="test-button"]' }),
-      })
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('test-button')).hover();
     await context.matchImage(await context.takeScreenshot(), 'hover');
   });
 
   test('pressed', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: '[data-tid~="test-button"]' }),
-      })
-      .press()
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('test-button')).hover();
+    await page.mouse.down();
     await context.matchImage(await context.takeScreenshot(), 'pressed');
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .release()
-      .perform();
+    await page.mouse.up();
   });
 
   test('clicked', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="test-button"]' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('test-button')).click();
     await context.matchImage(await context.takeScreenshot(), 'clicked');
   });
 
   test('tabPress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .pause(500)
-      .perform();
+    const page = context.webdriver;
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
   });
 };
@@ -117,34 +94,17 @@ kind('Button', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: '[data-tid~="test-button"]' }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-button')).hover();
       await context.matchImage(await context.takeScreenshot(), 'hover');
     });
 
     test('pressed', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: '[data-tid~="test-button"]' }),
-        })
-        .press()
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-button')).hover();
+      await page.mouse.down();
       await context.matchImage(await context.takeScreenshot(), 'pressed');
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .release()
-        .perform();
+      await page.mouse.up();
     });
   });
 
@@ -158,16 +118,8 @@ kind('Button', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="test-button"]',
-          }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-button')).hover();
       await context.matchImage(await context.takeScreenshot(), 'hover');
     });
   });
@@ -182,16 +134,8 @@ kind('Button', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="test-button"]',
-          }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-button')).hover();
       await context.matchImage(await context.takeScreenshot(), 'hover');
     });
   });
@@ -216,36 +160,17 @@ kind('Button', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="test-button"]',
-          }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-button')).hover();
       await context.matchImage(await context.takeScreenshot(), 'hover');
     });
 
     test('pressed', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: '[data-tid~="test-button"]' }),
-        })
-        .press()
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('test-button')).hover();
+      await page.mouse.down();
       await context.matchImage(await context.takeScreenshot(), 'pressed');
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .release()
-        .perform();
+      await page.mouse.up();
     });
   });
 });

@@ -22,16 +22,16 @@ import { styles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
 export interface LinkInnerProps extends CommonProps {
-  /** Делает компонент недоступным. */
+  /** Ссылка меняет цвет на серый и становится недоступна для нажатия. */
   disabled?: boolean;
 
-  /** Добавляет иконку слева. */
+  /** Добавляет иконку слева от ссылки. */
   icon?: React.ReactElement;
 
-  /** Добавляет иконку справа. */
+  /** Добавляет иконку справа от ссылки. */
   rightIcon?: React.ReactElement;
 
-  /** Задает тему ссылки. */
+  /** Задаёт стиль ссылки. */
   use?: 'default' | 'success' | 'danger' | 'grayed';
 
   /** @ignore */
@@ -40,23 +40,23 @@ export interface LinkInnerProps extends CommonProps {
   /** @ignore */
   _buttonOpened?: boolean;
 
-  /** Задает HTML-атрибут `tabindex`. */
+  /** Задаёт HTML-атрибут `tabindex`. */
   tabIndex?: number;
 
-  /** Переводит кнопку в состояние загрузки. */
+  /** Переводит ссылку в состояние загрузки. */
   loading?: boolean;
 
-  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
+  /** Задаёт объект с переменными темы. */
   theme?: ThemeIn;
 
   /** Задает состояние фокуса.
    * @ignore */
   focused?: boolean;
 
-  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Переводит ссылку в состояние валидации "Ошибка". */
   error?: boolean;
 
-  /** Переводит контрол в состояние валидации "предупреждение". */
+  /** Переводит ссылку в состояние валидации "Предупреждение". */
   warning?: boolean;
 }
 
@@ -78,7 +78,7 @@ type DefaultProps = Required<Pick<LinkProps<ButtonLinkAllowedValues>, 'use' | 'c
 type DefaultizedLinkProps = DefaultizedProps<LinkProps<ButtonLinkAllowedValues>, DefaultProps>;
 
 /**
- * Элемент ссылки из HTML.
+ * С помощью ссылки пользователь может перейти на другую страницу, раздел приложения или внешний URL.
  */
 @rootNode
 export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPONENT> extends React.Component<

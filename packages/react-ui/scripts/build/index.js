@@ -9,7 +9,7 @@ const babel = require('@babel/core');
 const isCommonJS = process.env.BABEL_ENV === 'cjs';
 
 const FoldersToTransform = ['components', 'hooks', 'internal', 'lib', 'typings'];
-const IgnoreTemplates = [/__tests__/, /__mocks__/, /\.stories.tsx?$/, /__creevey__/, /__docs__/];
+const IgnoreTemplates = [/__tests__/, /__mocks__/, /\.stories.tsx?$/, /__creevey__/, /__docs__/, /\.creevey.mts?$/];
 const RootDir = path.resolve(process.cwd(), 'build');
 const OutDir = RootDir + (isCommonJS ? '/cjs' : '');
 

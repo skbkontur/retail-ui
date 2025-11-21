@@ -1,4 +1,7 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
+
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('Switcher', () => {
   story('Horizontal', () => {
@@ -7,12 +10,8 @@ kind('Switcher', () => {
     });
 
     test('clicked', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Button__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('Button__root')).first().click();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
   });

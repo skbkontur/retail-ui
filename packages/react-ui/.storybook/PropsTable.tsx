@@ -80,7 +80,7 @@ export const PropsTable = () => {
 
   return (
     <details className={detailsStyles} onToggle={(e) => setIsOpen(e.currentTarget.open)}>
-      <summary>{isOpen ? 'Скрыть список пропов' : 'Показать список пропов'}</summary>
+      <summary>{isOpen ? 'Скрыть список пропсов' : 'Показать список пропсов'}</summary>
 
       <ArgTypes />
     </details>

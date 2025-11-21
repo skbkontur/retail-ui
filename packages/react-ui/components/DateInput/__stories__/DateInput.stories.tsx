@@ -35,7 +35,7 @@ class DateInputFormatting extends React.Component {
       <Gapped vertical gap={10}>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
-            Порядок компонентов <code>InternalDateOrder</code>
+            Порядок компонентов <b>InternalDateOrder</b>
           </span>
           <Select
             value={this.state.order}
@@ -45,7 +45,7 @@ class DateInputFormatting extends React.Component {
         </div>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
-            Разделитель <code>InternalDateSeparator</code>
+            Разделитель <b>InternalDateSeparator</b>
           </span>
           <Select
             value={this.state.separator}

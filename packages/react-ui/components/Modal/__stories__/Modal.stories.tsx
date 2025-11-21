@@ -458,6 +458,7 @@ class SmallModalOnTop extends React.Component {
 export default {
   title: 'Modal',
   component: Modal,
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;

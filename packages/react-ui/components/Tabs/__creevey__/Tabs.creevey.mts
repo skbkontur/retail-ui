@@ -1,64 +1,37 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const tabsSimpleTests = () => {
   test('move focus forward', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(1)' }))
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.ARROW_RIGHT)
-      .pause(500)
-      .sendKeys(Key.ARROW_DOWN)
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(0).click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowDown');
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'move focus forward');
   });
   test('move focus backward', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(3)' }))
-      .perform();
-    await delay(1000);
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.ARROW_LEFT)
-      .perform();
-    await delay(1000);
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.ARROW_UP)
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(2).click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowLeft');
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowUp');
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'move focus backward');
   });
   test('reset focus after click', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(1)' }))
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.ARROW_RIGHT)
-      .pause(500)
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(3)' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(0).click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(500);
+    await page.locator(tid('Tab__root')).nth(2).click();
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'reset focus after click');
   });
 };
@@ -68,94 +41,53 @@ const tabsTests = () => {
   });
 
   test('hovered', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }),
-      })
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(1).hover();
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'hovered');
   });
 
   test('clicked', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(1).click();
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'clicked');
   });
 
   test('mouseLeave', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
-      .move({
-        origin: context.webdriver.findElement({ css: 'body' }),
-      })
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(1).click();
+    await page.locator('body').hover();
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'mouseLeave');
   });
 
   test('focused', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
-      .move({
-        origin: context.webdriver.findElement({ css: 'body' }),
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(1).click();
+    await page.locator('body').hover();
+    await page.locator(tid('Tab__root')).nth(1).click();
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'focused');
   });
 
   test('tabPress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
-      .perform();
-    await delay(1000);
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(1).click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
   });
 
   test('enterPress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Tab__root"]:nth-child(2)' }))
-      .perform();
-    await delay(1000);
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .perform();
-    await delay(1000);
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.ENTER)
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('Tab__root')).nth(1).click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(500);
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
     await context.matchImage(await context.takeScreenshot(), 'enterPress');
   });
 };

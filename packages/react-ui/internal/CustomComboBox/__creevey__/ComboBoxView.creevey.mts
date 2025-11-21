@@ -1,4 +1,7 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
+
+import { tid } from '../../../components/__creevey__/helpers.mjs';
 
 const FIREFOX_REGEXP = /.*firefox.*/i;
 
@@ -18,12 +21,8 @@ kind('ComboBoxView', () => {
     });
 
     test('focused first element', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).first().click();
       await context.matchImage(await context.takeScreenshot(), 'focused first element');
     });
   });

@@ -14,6 +14,11 @@ injectGlobal`
     color: white;
     -webkit-text-fill-color: white;
   }
+
+  pre,
+  code {
+    font-family: Consolas, monospace;
+  }
 `;
 
 if (isFirefox) {

@@ -1,5 +1,5 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
 kind('Radio', () => {
   story('Highlighted', ({ setStoryParameters }) => {
@@ -14,14 +14,10 @@ kind('Radio', () => {
     });
 
     test('tabPress', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .sendKeys(Key.TAB)
-        .pause(500)
-        .perform();
+      const page = context.webdriver;
+      await page.locator('body').click();
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'tabPress');
     });
   });

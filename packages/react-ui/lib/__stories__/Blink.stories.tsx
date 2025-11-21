@@ -20,21 +20,15 @@ export const Animate: Story = () => {
       <table cellPadding={5}>
         <tbody>
           <tr>
-            <td>
-              <code>1</code>
-            </td>
+            <td>1</td>
             <td>включает долгую анимацию для тестов</td>
           </tr>
           <tr>
-            <td>
-              <code>2</code>
-            </td>
+            <td>2</td>
             <td>сбрасывает долгую анимацию для тестов</td>
           </tr>
           <tr>
-            <td>
-              <code>/[a-zа-я\d]/i</code>
-            </td>
+            <td>/[a-zа-я\d]/i</td>
             <td>обычные символы вызывают обычную анимацию</td>
           </tr>
         </tbody>
@@ -56,11 +50,11 @@ export const Demo: Story = () => {
     <Gapped vertical>
       <Gapped>
         <Input value={value} onValueChange={setValue} maxLength={5} />
-        <code>animate</code>
+        <b>animate</b>
       </Gapped>
       <Gapped>
         <Input ref={deleteAnimate} value={value} onValueChange={setValue} maxLength={5} />
-        <code>fallback</code>
+        <b>fallback</b>
       </Gapped>
     </Gapped>
   );

@@ -358,3 +358,4 @@ export const WithNestedMenuItems = () => {
   );
 };
 WithNestedMenuItems.storyName = 'With nested menu items';
+WithNestedMenuItems.parameters = { creevey: { captureElement: null } };

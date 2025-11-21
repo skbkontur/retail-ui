@@ -1,7 +1,7 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid, waitForPopup } from '../../__creevey__/helpers.mjs';
 
 kind('TokenInput', () => {
   story('EmptyWithReference', ({ setStoryParameters }) => {
@@ -16,28 +16,21 @@ kind('TokenInput', () => {
     });
 
     test('idle', async (context) => {
-      await delay(100);
+      const page = context.webdriver;
+      await page.waitForTimeout(100);
       await context.matchImage(await context.takeScreenshot(), 'idle');
     });
 
     test('clicked', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
 
     test('withMenu', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .sendKeys('a')
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
+      await page.keyboard.type('a');
       await context.matchImage(await context.takeScreenshot(), 'withMenu');
     });
   });
@@ -50,14 +43,10 @@ kind('TokenInput', () => {
     });
 
     test('selectFirst', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .sendKeys('a')
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
+      await page.keyboard.type('a');
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -71,60 +60,41 @@ kind('TokenInput', () => {
     });
 
     test('selectAndType', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('Token__root')).first().click();
       const selected = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('a')
-        .pause(300)
-        .move({ x: 0, y: 0 })
-        .perform();
+      await page.keyboard.type('a');
+      await page.waitForTimeout(300);
+      await page.mouse.move(0, 0);
       const typed = await context.takeScreenshot();
       await context.matchImages({ selected, typed });
     });
 
     test('editToken', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      const firstToken = page.locator(tid('Token__root')).first();
+      await firstToken.waitFor();
+      await firstToken.dblclick();
+      await waitForPopup(page);
+      await page.waitForTimeout(500);
       const doubleClickOnToken = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="ComboBoxMenu__item"]' }))
-        .perform();
+
+      const menuItem = page.locator('[data-tid~="ComboBoxMenu__item"]').first();
+      await menuItem.waitFor();
+      await menuItem.click();
+      await page.waitForTimeout(500);
       const clickOnMenuItem = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.ENTER)
-        .perform();
+
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(500);
       const enterOnActiveToken = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('EDITED')
-        .perform();
+
+      await page.keyboard.type('EDITED');
+      await page.waitForTimeout(300);
       const editToken = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.ENTER)
-        .perform();
+
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(500);
       const enterAfterEdit = await context.takeScreenshot();
       await context.matchImages({
         doubleClickOnToken,
@@ -147,13 +117,9 @@ kind('TokenInput', () => {
     });
 
     test('addButton', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .sendKeys('zzz')
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
+      await page.keyboard.type('zzz');
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -169,68 +135,65 @@ kind('TokenInput', () => {
     });
 
     test('token select', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .pause(1000)
-        .sendKeys('aaa')
-        .pause(1000)
-        .move({ x: 0, y: 0 })
-        .click()
-        .pause(1000)
-        .perform();
+      const page = context.webdriver;
+      const tokenInput = page.locator(tid('TokenInput__root'));
+      await tokenInput.click();
+      await waitForPopup(page);
+      await page.waitForTimeout(300);
+      await page.keyboard.type('aaa');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withNotSelectedToken = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys('aaaccc')
-        .move({ x: 0, y: 0 })
-        .click()
-        .perform();
+
+      await tokenInput.click();
+      await waitForPopup(page);
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.waitForTimeout(300);
+      await page.keyboard.type('aaaccc');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withAutoSelectedTokens = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .pause(1000)
-        .sendKeys('clear')
-        .move({ x: 0, y: 0 })
-        .click()
-        .perform();
-      await delay(1000);
+
+      await tokenInput.click();
+      await waitForPopup(page);
+      await page.waitForTimeout(300);
+      await page.keyboard.type('clear');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const clearedOnNullReturn = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .clear();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys('aaa')
-        .sendKeys(Key.ENTER)
-        .pause(1000)
-        .sendKeys('bbb')
-        .sendKeys(Key.ENTER)
-        .move({ x: 0, y: 0 })
-        .click()
-        .perform();
+
+      await tokenInput.click();
+      await waitForPopup(page);
+      await page.waitForTimeout(300);
+      await page.keyboard.type('clear');
+      await page.waitForTimeout(300);
+      await tokenInput.click();
+      await waitForPopup(page);
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.waitForTimeout(300);
+      await page.keyboard.type('aaa');
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(300);
+      await page.keyboard.type('bbb');
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withSelectedTokens = await context.takeScreenshot();
+
       await context.matchImages({
         withNotSelectedToken,
         withAutoSelectedTokens,
@@ -240,81 +203,68 @@ kind('TokenInput', () => {
     });
 
     test('token edit', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .pause(300)
-        .sendKeys('aaa')
-        .pause(300)
-        .sendKeys(Key.ENTER)
-        .pause(300)
-        .sendKeys('bbb')
-        .pause(300)
-        .sendKeys(Key.ENTER)
-        .pause(300)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
-        .pause(1000)
-        .sendKeys('aaa')
-        .pause(300)
-        .move({ x: 0, y: 0 })
-        .click()
-        .pause(300)
-        .perform();
+      const page = context.webdriver;
+      const tokenInput = page.locator(tid('TokenInput__root'));
+      await tokenInput.click();
+      await waitForPopup(page);
+      await page.waitForTimeout(300);
+      await page.keyboard.type('aaa');
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(300);
+      await page.keyboard.type('bbb');
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(500);
+
+      const firstToken = page.locator(tid('Token__root')).first();
+      await firstToken.waitFor();
+      await firstToken.dblclick();
+      await waitForPopup(page);
+      await page.waitForTimeout(500);
+      await page.keyboard.type('aaa');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withSameValue = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
-        .pause(1000)
-        .sendKeys('zzz')
-        .pause(300)
-        .move({ x: 0, y: 0 })
-        .click()
-        .pause(300)
-        .perform();
+
+      await firstToken.dblclick();
+      await waitForPopup(page);
+      await page.waitForTimeout(500);
+      await page.keyboard.type('zzz');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withNotEditedToken = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
-        .pause(1000)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys(Key.BACK_SPACE)
-        .sendKeys('clear')
-        .pause(300)
-        .move({ x: 0, y: 0 })
-        .click()
-        .pause(300)
-        .perform();
+
+      await firstToken.dblclick();
+      await waitForPopup(page);
+      await page.waitForTimeout(500);
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.keyboard.press('Backspace');
+      await page.waitForTimeout(300);
+      await page.keyboard.type('clear');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withRemovedToken = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .doubleClick(context.webdriver.findElement({ css: '[data-tid~="Token__root"]' }))
-        .pause(1000)
-        .sendKeys('EDITED')
-        .pause(300)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ENTER)
-        .pause(300)
-        .move({ x: 0, y: 0 })
-        .click()
-        .pause(300)
-        .perform();
+
+      await firstToken.dblclick();
+      await waitForPopup(page);
+      await page.waitForTimeout(500);
+      await page.keyboard.type('EDITED');
+      await page.waitForTimeout(300);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(300);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
       const withEditedToken = await context.takeScreenshot();
+
       await context.matchImages({ withSameValue, withNotEditedToken, withRemovedToken, withEditedToken });
     });
   });
@@ -330,13 +280,9 @@ kind('TokenInput', () => {
     });
 
     test('selectFirst', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .sendKeys('a')
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
+      await page.keyboard.type('a');
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -352,13 +298,9 @@ kind('TokenInput', () => {
     });
 
     test('renderTotalCount', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -374,23 +316,13 @@ kind('TokenInput', () => {
     });
 
     test('selected', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="TokenInput__root"]' }))
-        .pause(500)
-        .sendKeys('a')
-        .perform();
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-
-        .click(context.webdriver.findElement({ css: '[data-tid~="Menu__root"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('TokenInput__root')).click();
+      await waitForPopup(page);
+      await page.keyboard.type('a');
+      await page.waitForTimeout(1000);
+      await page.locator('[data-tid~="Menu__root"]').click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot());
     });
   });
@@ -401,13 +333,14 @@ kind('TokenInput', () => {
     });
 
     test('MenuItem inherits size', async (context) => {
-      await context.webdriver.actions({ bridge: true }).keyDown(Key.TAB).perform();
+      const page = context.webdriver;
+      await page.keyboard.press('Tab');
       const tab1 = await context.takeScreenshot();
 
-      await context.webdriver.actions({ bridge: true }).keyDown(Key.TAB).perform();
+      await page.keyboard.press('Tab');
       const tab2 = await context.takeScreenshot();
 
-      await context.webdriver.actions({ bridge: true }).keyDown(Key.TAB).perform();
+      await page.keyboard.press('Tab');
       const tab3 = await context.takeScreenshot();
 
       await context.matchImages({ tab1, tab2, tab3 });
@@ -421,11 +354,9 @@ kind('TokenInput', () => {
 
     test('all positions in viewport', async (context) => {
       async function clickOnTokenInput(tid: string): Promise<Buffer> {
-        await context.webdriver
-          .actions({ bridge: true })
-          .click(context.webdriver.findElement({ css: `[data-tid~="${tid}"]` }))
-          .perform();
-        await delay(800);
+        const page = context.webdriver;
+        await page.locator(`[data-tid~="${tid}"]`).click();
+        await page.waitForTimeout(800);
         return await context.takeScreenshot();
       }
 

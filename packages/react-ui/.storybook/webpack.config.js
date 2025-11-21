@@ -52,7 +52,7 @@ module.exports = async ({ config }) => {
       typescript: {
         configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
         configOverwrite: {
-          exclude: ['**/*.docs.stories.tsx'],
+          exclude: ['**/*.docs.stories.tsx', 'build'],
         },
       },
     }),
