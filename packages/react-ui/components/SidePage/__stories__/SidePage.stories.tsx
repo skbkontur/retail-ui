@@ -610,6 +610,7 @@ class WithLongTitle extends React.Component {
 export default {
   title: 'SidePage',
   component: SidePage,
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const SidePageWithBlockBackground: Story = () => <Sample blockBackground />;

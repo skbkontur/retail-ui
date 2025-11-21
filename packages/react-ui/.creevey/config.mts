@@ -2,110 +2,78 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
 import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
-import { SeleniumWebdriver } from 'creevey/selenium';
-import { storybookUrl, resolveStorybookUrl } from './storybook-url';
+import { PlaywrightWebdriver } from 'creevey/playwright';
+import type { LaunchOptions } from 'playwright-core';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv({ path: '../../.env' });
 
 /**
- * Debugging instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157
- * Instructions for Windows nodes: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
+ * Debugging instructions: run 'creevey --debug' for record full trace in report
+ * find in logs broken test, example [chrome2022:36368], and find folder 36368 in reports/traces folder,
+ * and see trace in https://trace.playwright.dev, docs: https://playwright.dev/docs/trace-viewer
  */
 
-const debug = process.env.DEBUG_SCREENSHOTS;
-
-const capabilities = debug
-  ? {
-      enableVNC: true,
-      enableVideo: true,
-    }
-  : {};
+const isCI = Boolean(process.env.CI) || Boolean(process.env.GITLAB_CI);
 const reportFilePath = path.resolve(__dirname, '..', 'reports');
+const browsersLimit = Number(process.env.CREEVEY_BROWSERS_LIMIT) || (isCI ? 1 : 3);
+const playwrightOptions: LaunchOptions = {
+  ignoreDefaultArgs: ['--hide-scrollbars'],
+};
 const config: CreeveyConfig = {
-  storybookUrl,
-  resolveStorybookUrl,
-  webdriver: SeleniumWebdriver,
+  useDocker: !isCI,
+  webdriver: PlaywrightWebdriver,
+  storybookAutorunCmd: 'yarn storybook',
   storiesProvider: hybridStoriesProvider,
   testsRegex: /\.creevey.(m|c)?(t|j)s$/,
   testsDir: path.join(__dirname, '../'),
   reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),
-  reporter: process.env.GITLAB_CI ? 'junit' : process.env.TEAMCITY_VERSION ? 'teamcity' : undefined,
+  maxRetries: 3,
+  reporter: isCI ? 'junit' : undefined,
   reporterOptions: {
-    outputFile: process.env.GITLAB_CI ? path.join(reportFilePath, 'junit.xml') : undefined,
+    outputFile: isCI ? path.join(reportFilePath, 'junit.xml') : undefined,
   },
-  gridUrl: process.env.GRID_URL,
-  maxRetries: process.env.GITLAB_CI || process.env.TEAMCITY_VERSION ? 5 : 0,
-  diffOptions: { threshold: 0, includeAA: false },
+  diffOptions: { threshold: 0.005, includeAA: false },
   browsers: {
     chrome2022: {
-      browserName: 'chrome',
-      seleniumCapabilities: {
-        platformName: 'linux',
-        browserVersion: '127.0',
-        name: 'infrafront/chrome2022',
-        'se:teamname': 'front_infra',
-        ...capabilities,
-      },
-      limit: 4,
+      browserName: 'chromium',
       viewport: { width: 1024, height: 720 },
+      limit: browsersLimit,
       _storybookGlobals: { theme: 'LIGHT_THEME' },
+      playwrightOptions,
     },
     chrome2022Dark: {
-      browserName: 'chrome',
-      seleniumCapabilities: {
-        platformName: 'linux',
-        browserVersion: '127.0',
-        name: 'infrafront/chrome2022Dark',
-        'se:teamname': 'front_infra',
-        ...capabilities,
-      },
-      limit: 4,
+      browserName: 'chromium',
       viewport: { width: 1024, height: 720 },
+      limit: browsersLimit,
       _storybookGlobals: { theme: 'DARK_THEME' },
-      // backgrounds: { default: 'dark' },
+      playwrightOptions,
     },
-    // firefox2022: {
-    //   browserName: 'firefox',
-    //   seleniumCapabilities: {
-    //     platformName: 'linux',
-    //     browserVersion: '128.0',
-    //     name: 'infrafront/firefox2022',
-    //     'se:teamname': 'front_infra',
-    //     ...capabilities,
-    //   },
-    //   limit: 4,
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: { theme: 'LIGHT_THEME' },
-    // },
-    // firefox2022Dark: {
-    //   browserName: 'firefox',
-    //   seleniumCapabilities: {
-    //     platformName: 'linux',
-    //     browserVersion: '128.0',
-    //     name: 'infrafront/firefox2022Dark',
-    //     'se:teamname': 'front_infra',
-    //     ...capabilities,
-    //   },
-    //   limit: 4,
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: { theme: 'DARK_THEME' },
-    //   // backgrounds: { default: 'dark' },
-    // },
+    firefox2022: {
+      browserName: 'firefox',
+      viewport: { width: 1024, height: 720 },
+      limit: browsersLimit,
+      _storybookGlobals: { theme: 'LIGHT_THEME' },
+      playwrightOptions,
+    },
+    firefox2022Dark: {
+      browserName: 'firefox',
+      viewport: { width: 1024, height: 720 },
+      limit: browsersLimit,
+      _storybookGlobals: { theme: 'DARK_THEME' },
+      playwrightOptions,
+    },
     chromeMobile: {
-      browserName: 'chrome',
-      seleniumCapabilities: {
-        platformName: 'linux',
-        browserVersion: '127.0',
-        name: 'infrafront/chromeMobile',
-        'se:teamname': 'front_infra',
-        ...capabilities,
-      },
-      viewport: { width: 400, height: 720 },
+      browserName: 'chromium',
+      viewport: { width: 500, height: 720 },
       _storybookGlobals: { theme: 'LIGHT_THEME_MOBILE' },
     },
+  },
+  experimental: {
+    npmRegistry: process.env.PACKAGE_REGISTRY,
+    reportOnlyFailedTests: isCI,
   },
 };
 

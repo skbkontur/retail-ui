@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-codemod@2.0.0...react-ui-codemod@2.0.1) (2025-11-20)
+
+**Note:** Version bump only for package react-ui-codemod
+
+
+
+
+
 # [2.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-codemod@1.2.1...react-ui-codemod@2.0.0) (2024-10-21)
 
 

@@ -680,7 +680,7 @@ class ComboBoxWithExternalValue extends React.Component {
         Reset
       </Button>
       <div>
-        this.state.value: <code>{JSON.stringify(this.state.value)}</code>
+        this.state.value: <span>{JSON.stringify(this.state.value)}</span>
       </div>
     </div>
   );
@@ -944,7 +944,7 @@ export const WithMenuAlignAndMenuPos: Story = () => {
     <div style={{ padding: '0 50px' }}>
       <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
         {col.map((props, i) => (
-          <code key={i}>portal: {String(!props.disablePortal)}</code>
+          <span key={i}>portal: {String(!props.disablePortal)}</span>
         ))}
       </div>
       {row.map((props1, key) => (

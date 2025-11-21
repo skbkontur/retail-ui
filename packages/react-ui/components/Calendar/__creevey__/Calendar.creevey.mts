@@ -1,6 +1,7 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
+import { tid, waitForPopup } from '../../__creevey__/helpers.mjs';
 
 kind('Calendar', () => {
   story('CalendarWithMinMaxDate', ({ setStoryParameters }) => {
@@ -8,36 +9,28 @@ kind('Calendar', () => {
       skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('DateSelect months', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
-        .pause(1000)
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-          }),
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('Calendar__root')).click();
+      await page.waitForTimeout(1000);
+      await page
+        .locator(
+          tid('MonthView__month') + ':first-child ' + tid('MonthView__headerMonth') + ' ' + tid('DateSelect__caption'),
         )
-        .perform();
+        .click();
       await context.matchImage(await context.takeScreenshot(), 'DateSelect months');
     });
 
     test('DateSelect years', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
-        .pause(1000)
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-          }),
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('Calendar__root')).click();
+      await page.waitForTimeout(1000);
+      await page
+        .locator(
+          tid('MonthView__month') + ':first-child ' + tid('MonthView__headerYear') + ' ' + tid('DateSelect__caption'),
         )
-        .perform();
+        .click();
       await context.matchImage(await context.takeScreenshot(), 'DateSelect years');
     });
   });
@@ -51,13 +44,9 @@ kind('Calendar', () => {
     });
 
     test('scrolls to new date on date change', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="change-date-button"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator('[data-tid="change-date-button"]').click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'scrolls to new date on date change');
     });
   });
@@ -77,36 +66,31 @@ kind('Calendar', () => {
       skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('DateSelect months', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
-        .pause(1000)
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-          }),
-        )
-        .perform();
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('Calendar__root')).click();
+      await page.waitForTimeout(1000);
+      const dateSelectCaption = page.locator(
+        tid('MonthView__month') + ':first-child ' + tid('MonthView__headerMonth') + ' ' + tid('DateSelect__caption'),
+      );
+      await dateSelectCaption.waitFor();
+      await dateSelectCaption.click();
+      await page.waitForTimeout(500);
+      await waitForPopup(page);
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'months');
     });
 
     test('DateSelect years', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Calendar__root"]' }))
-        .pause(1000)
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-          }),
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('Calendar__root')).click();
+      await page.waitForTimeout(1000);
+      await page
+        .locator(
+          tid('MonthView__month') + ':first-child ' + tid('MonthView__headerYear') + ' ' + tid('DateSelect__caption'),
         )
-        .perform();
+        .click();
       await context.matchImage(await context.takeScreenshot(), 'years');
     });
   });

@@ -422,7 +422,7 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     <div style={{ padding: '0 50px' }}>
       <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
         {row.map((props, i) => (
-          <code key={i}>portal: {String(!props.disablePortal)}</code>
+          <span key={i}>portal: {String(!props.disablePortal)}</span>
         ))}
       </div>
       {widths.map((width) => (

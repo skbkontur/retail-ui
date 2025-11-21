@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import FocusLock from 'react-focus-lock';
 
 import { MobilePopupDataTids } from '../../../internal/MobilePopup';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
@@ -1641,6 +1642,19 @@ describe('ComboBox', () => {
 
       await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       expect(queryClearCross()).not.toBeInTheDocument();
+    });
+
+    it('FocusLock allow to blur', async () => {
+      render(
+        <FocusLock autoFocus={false}>
+          <ComboBox value={testValues[0]} getItems={getItems} ref={comboboxRef} />
+        </FocusLock>,
+      );
+
+      await userEvent.click(screen.getByRole('textbox'));
+      await userEvent.click(document.body);
+
+      expect(screen.queryByRole('textbox')).not.toHaveFocus();
     });
   });
 });

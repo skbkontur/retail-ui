@@ -405,7 +405,7 @@ export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
   <>
     <h3>Известная проблема</h3>
     <span>
-      При появлении маски по фокусу ломается неконтролируемый ввод, если <code>defaultValue</code> содержит любую
+      При появлении маски по фокусу ломается неконтролируемый ввод, если <b>defaultValue</b> содержит любую
       фиксированную часть маски.
     </span>
     <br />
@@ -413,7 +413,7 @@ export const IdleFocusBlurAndUncontrolledWithDefaultValue: Story = () => (
     <br />
     <br />
     <span>
-      Когда <code>defaultValue</code> не содержит фиксированных частей, то всё норм.
+      Когда <b>defaultValue</b> не содержит фиксированных частей, то всё норм.
     </span>
     <br />
     <MaskedInput {...DEFAULT_PROPS} defaultValue="123" />

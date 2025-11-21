@@ -1,16 +1,13 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../../components/__creevey__/helpers.mjs';
 
 const textAlignmentTests = () => {
   test('opened', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: `[data-tid~="PopupMenu__caption"]` }))
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('PopupMenu__caption')).click();
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'opened');
   });
 };

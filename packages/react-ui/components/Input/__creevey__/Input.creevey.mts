@@ -1,68 +1,56 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const differentStatesTest = () => {
   test('Plain', async (context) => {
-    const element = await context.webdriver.findElement({ css: '#input' });
-    await context.matchImage(await element.takeScreenshot(), 'Plain');
+    const page = context.webdriver;
+    const element = page.locator('#input');
+    await context.matchImage(await element.screenshot(), 'Plain');
   });
 
   test('Focused', async (context) => {
-    const element = await context.webdriver.findElement({ css: '#input' });
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '#input input' }))
-      .pause(500)
-      .perform();
-    await context.matchImage(await element.takeScreenshot(), 'Focused');
+    const page = context.webdriver;
+    const element = page.locator('#input');
+    await page.locator('#input input').click();
+    await page.waitForTimeout(500);
+    await context.matchImage(await element.screenshot(), 'Focused');
   });
 
   test('With typed text', async (context) => {
-    const element = await context.webdriver.findElement({ css: '#input' });
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '#input input' }))
-      .sendKeys('Test...')
-      .pause(500)
-      .perform();
-    await context.matchImage(await element.takeScreenshot(), 'With typed text');
+    const page = context.webdriver;
+    const element = page.locator('#input');
+    await page.locator('#input input').click();
+    await page.keyboard.type('Test...');
+    await page.waitForTimeout(500);
+    await context.matchImage(await element.screenshot(), 'With typed text');
   });
 
   test('With long typed text', async (context) => {
-    const element = await context.webdriver.findElement({ css: '#input' });
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '#input input' }))
-      .sendKeys('Test...')
-      .sendKeys('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-      .pause(500)
-      .perform();
-    await context.matchImage(await element.takeScreenshot(), 'With long typed text');
+    const page = context.webdriver;
+    const element = page.locator('#input');
+    await page.locator('#input input').click();
+    await page.keyboard.type('Test...');
+    await page.keyboard.type(
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    );
+    await page.waitForTimeout(500);
+    await context.matchImage(await element.screenshot(), 'With long typed text');
   });
 };
 
 const testMaskedInput = () => {
   test('idle, focus, edit, blur', async (context) => {
-    const click = (css: string) => {
-      return context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css }));
-    };
+    const page = context.webdriver;
     const idle = await context.takeScreenshot();
-    await click('input').pause(500).perform();
+    await page.locator('input').click();
+    await page.waitForTimeout(500);
     const focused = await context.takeScreenshot();
-    await click('input').sendKeys('953').perform();
+    await page.locator('input').click();
+    await page.keyboard.type('953');
     const edited = await context.takeScreenshot();
-    await click('body').perform();
+    await page.locator('body').click();
     const blured = await context.takeScreenshot();
     await context.matchImages({ idle, focused, edited, blured });
   });
@@ -102,12 +90,8 @@ kind('Input', () => {
     });
 
     test('Focused', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'label' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('label').click();
       await context.matchImage(await context.takeScreenshot(), 'Focused');
     });
   });
@@ -121,12 +105,8 @@ kind('Input', () => {
     });
 
     test('Selected', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="select-all"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('select-all')).click();
       await context.matchImage(await context.takeScreenshot(), 'Selected');
     });
   });
@@ -149,14 +129,10 @@ kind('Input', () => {
       skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     test('PlainAndTyped', async (context) => {
+      const page = context.webdriver;
       const plain = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .sendKeys('text')
-        .perform();
+      await page.locator('input').click();
+      await page.keyboard.type('text');
       const typed = await context.takeScreenshot();
       await context.matchImages({ plain, typed });
     });
@@ -166,25 +142,16 @@ kind('Input', () => {
     setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
 
     test('PlainAndSelected', async (context) => {
+      const page = context.webdriver;
       const plain = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(500)
-        .perform();
+      await page.locator('input').click();
+      await page.waitForTimeout(500);
       const selectAllHalfFilledInput = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .sendKeys('1111')
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(500)
-        .perform();
+      await page.locator('input').click();
+      await page.keyboard.type('1111');
+      await page.locator('body').click();
+      await page.locator('input').click();
+      await page.waitForTimeout(500);
       const selectAllFilledInput = await context.takeScreenshot();
       await context.matchImages({ plain, selectAllHalfFilledInput, selectAllFilledInput });
     });
@@ -198,13 +165,9 @@ kind('Input', () => {
     });
 
     test('Focused', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'label' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator('label').click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'Focused');
     });
   });
@@ -217,12 +180,8 @@ kind('Input', () => {
     });
 
     test('Focused', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'label' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('label').click();
       await context.matchImage(await context.takeScreenshot(), 'Focused');
     });
   });

@@ -1,4 +1,7 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
+
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('CurrencyInput', () => {
   story('SampleStory', ({ setStoryParameters }) => {
@@ -20,61 +23,36 @@ kind('CurrencyInput', () => {
     });
 
     test('Focus', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid~="CurrencyInput__root"] input',
-          }),
-        )
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('CurrencyInput__root') + ' input').click();
       await context.matchImage(await context.takeScreenshot(), 'Focus');
     });
 
     test('Input value', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid~="CurrencyInput__root"] input',
-          }),
-        )
-        .sendKeys('1')
-        .pause(500)
-        .sendKeys('2')
-        .pause(500)
-        .sendKeys('3')
-        .pause(500)
-        .sendKeys('4')
-        .pause(500)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('CurrencyInput__root') + ' input').click();
+      await page.keyboard.type('1');
+      await page.waitForTimeout(500);
+      await page.keyboard.type('2');
+      await page.waitForTimeout(500);
+      await page.keyboard.type('3');
+      await page.waitForTimeout(500);
+      await page.keyboard.type('4');
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'Input value');
     });
 
     test('External focus and input', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="focus-input"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('1')
-        .pause(500)
-        .sendKeys('2')
-        .pause(500)
-        .sendKeys('3')
-        .pause(500)
-        .sendKeys('4')
-        .pause(500)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('focus-input')).click();
+      await page.keyboard.type('1');
+      await page.waitForTimeout(500);
+      await page.keyboard.type('2');
+      await page.waitForTimeout(500);
+      await page.keyboard.type('3');
+      await page.waitForTimeout(500);
+      await page.keyboard.type('4');
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'External focus and input');
     });
   });

@@ -23,6 +23,12 @@ const TestNotifier = ({ complex, use }: { complex?: boolean; use?: ToastUse }) =
     }
   };
 
+  React.useEffect(() => {
+    return () => {
+      toastRef.current?.close();
+    };
+  }, [toastRef]);
+
   return (
     <div>
       <Toast ref={toastRef} onClose={action('close')} onPush={action('push')} />
@@ -95,6 +101,12 @@ export const ToastWithCross = () => {
       toast.push('Toast throw instance method', { action: null, showTime: 10_000, showCloseIcon: true });
     }
   };
+
+  React.useEffect(() => {
+    return () => {
+      toastRef.current?.close();
+    };
+  }, [toastRef]);
 
   return (
     <Gapped>

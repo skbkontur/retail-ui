@@ -1,53 +1,62 @@
 import { story, kind, test } from 'creevey';
 
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
+import { tid, waitForAnimationFrame } from '../../__creevey__/helpers.mjs';
 
 kind('Sticky', () => {
   story('WideContainer', () => {
     test('fixed', async (context) => {
-      await context.webdriver.executeScript(function () {
-        const stickyContent = window.document.querySelector('[data-tid="stickyContent"]') as HTMLElement;
-        const nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]') as HTMLElement;
-        const scrollXOffset = nonStickyText.getBoundingClientRect().width / 2;
-        const scrollYOffset = stickyContent.getBoundingClientRect().height / 2;
+      const page = context.webdriver;
+      await page.evaluate(() => {
+        const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
+        const nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]');
+
+        const scrollXOffset = (nonStickyText?.getBoundingClientRect()?.width ?? 0) / 2;
+        const scrollYOffset = (stickyContent?.getBoundingClientRect()?.height ?? 0) / 2;
 
         window.scrollTo(scrollXOffset, scrollYOffset);
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'fixed');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'fixed');
     });
   });
 
   story('Top', () => {
     test('top', async (context) => {
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'top');
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'top');
     });
 
     test('fixed', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const stickyStop = window.document.querySelector('[data-tid="stickyStop"]') as HTMLElement;
-        const scrollOffset = stickyStop.getBoundingClientRect().top - window.innerHeight / 2;
+        const scrollOffset = (stickyStop?.getBoundingClientRect()?.y ?? 0) - window.innerHeight / 2;
 
         window.scrollTo(0, scrollOffset);
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'fixed');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'fixed');
     });
 
     test('stoped', async (context) => {
-      await context.webdriver.executeScript(function () {
-        const stickyStop = window.document.querySelector('[data-tid="stickyStop"]') as HTMLElement;
-        stickyStop.scrollIntoView();
-      });
-      await context.webdriver.executeScript(function () {
-        const stickyContent = window.document.querySelector('[data-tid="stickyContent"]') as HTMLElement;
-        const scrollOffset = pageYOffset - stickyContent.getBoundingClientRect().height / 2;
-
+      const page = context.webdriver;
+      const stickyStop = page.locator(tid('stickyStop'));
+      await stickyStop.waitFor();
+      await stickyStop.evaluate((element: HTMLElement) => element.scrollIntoView());
+      await page.waitForTimeout(500);
+      const stickyContent = page.locator(tid('stickyContent'));
+      await stickyContent.waitFor();
+      await stickyContent.evaluate((element: HTMLElement) => {
+        const scrollOffset = window.pageYOffset - element.getBoundingClientRect().height / 2;
         window.scrollTo(0, scrollOffset);
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'stoped');
+      // Ждем завершения скролла и стабилизации позиции
+      await page.waitForTimeout(500);
+      await waitForAnimationFrame(page);
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'stoped');
     });
   });
 
@@ -62,37 +71,74 @@ kind('Sticky', () => {
     });
 
     test('bottom', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         window.scrollTo(0, 9999);
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'bottom');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'bottom');
     });
 
     test('fixed', async (context) => {
-      await context.webdriver.executeScript(function () {
-        const sticky = window.document.querySelector('[data-tid~="Sticky__root"]') as HTMLElement;
-        const scrollOffset = sticky.getBoundingClientRect().top - window.innerHeight;
-
+      const page = context.webdriver;
+      const stickyRoot = page.locator(tid('Sticky__root'));
+      await stickyRoot.waitFor();
+      await stickyRoot.evaluate((element: HTMLElement) => {
+        const scrollOffset = element.getBoundingClientRect().top - window.innerHeight;
         window.scrollTo(0, scrollOffset);
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'fixed');
+      // Ждем завершения скролла и стабилизации позиции
+      // В Firefox может потребоваться больше времени для стабилизации
+      await page.waitForTimeout(1000);
+      await waitForAnimationFrame(page);
+      await page.waitForTimeout(500);
+      // Дополнительная проверка стабильности скролла для Firefox
+      await page.evaluate(() => {
+        return new Promise<void>((resolve) => {
+          let lastScroll = window.pageYOffset;
+          let stableFrames = 0;
+          const checkStable = () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll === lastScroll) {
+              stableFrames++;
+              if (stableFrames >= 3) {
+                resolve();
+              } else {
+                requestAnimationFrame(checkStable);
+              }
+            } else {
+              lastScroll = currentScroll;
+              stableFrames = 0;
+              requestAnimationFrame(checkStable);
+            }
+          };
+          // Ждем несколько кадров после скролла
+          requestAnimationFrame(() => {
+            requestAnimationFrame(checkStable);
+          });
+        });
+      });
+      await page.waitForTimeout(300);
+      await context.matchImage(await context.takeScreenshot(), 'fixed');
     });
 
     test('stoped', async (context) => {
-      await context.webdriver.executeScript(function () {
-        const stickyStop = window.document.querySelector('[data-tid="stickyStop"]') as HTMLElement;
-        stickyStop.scrollIntoView(false);
-      });
-      await context.webdriver.executeScript(function () {
-        const stickyContent = window.document.querySelector('[data-tid="stickyContent"]') as HTMLElement;
-        const scrollOffset = pageYOffset + stickyContent.getBoundingClientRect().height / 2;
-
+      const page = context.webdriver;
+      const stickyStop = page.locator(tid('stickyStop'));
+      await stickyStop.waitFor();
+      await stickyStop.evaluate((element: HTMLElement) => element.scrollIntoView(false));
+      await page.waitForTimeout(500);
+      const stickyContent = page.locator(tid('stickyContent'));
+      await stickyContent.waitFor();
+      await stickyContent.evaluate((element: HTMLElement) => {
+        const scrollOffset = window.pageYOffset + element.getBoundingClientRect().height / 2;
         window.scrollTo(0, scrollOffset);
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'fixed');
+      // Ждем завершения скролла и стабилизации позиции
+      await page.waitForTimeout(500);
+      await waitForAnimationFrame(page);
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'fixed');
     });
   });
 });

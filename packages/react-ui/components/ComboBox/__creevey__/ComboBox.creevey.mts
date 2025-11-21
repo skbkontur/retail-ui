@@ -1,71 +1,36 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const multilineTest = () => {
   test('plain', async (context) => {
+    const page = context.webdriver;
     const plain = await context.takeScreenshot();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="ComboBoxView__root"]' }))
-      .pause(1000)
-      .perform();
+    await page.locator(tid('ComboBoxView__root')).click();
+    await page.waitForTimeout(1000);
     const opened = await context.takeScreenshot();
 
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.ARROW_DOWN)
-      .sendKeys(Key.ARROW_DOWN)
-      .sendKeys(Key.ARROW_DOWN)
-      .sendKeys(Key.ENTER)
-      .pause(1000)
-      .perform();
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(1000);
     const closed = await context.takeScreenshot();
 
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .pause(1000)
-      .perform();
+    await page.locator('body').click();
+    await page.waitForTimeout(1000);
     const blur = await context.takeScreenshot();
 
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: context.webdriver.findElement({ css: '[data-tid~="ComboBoxView__root"]' }) })
-      .pause(1000)
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: context.webdriver.findElement({ css: `[data-tid="Input__clearCross"]` }) })
-      .press()
-      .release()
-      .pause(1000)
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .pause(1000)
-      .perform();
+    await page.locator(tid('ComboBoxView__root')).hover();
+    await page.waitForTimeout(1000);
+    await page.locator(tid('Input__clearCross')).click();
+    await page.waitForTimeout(1000);
+    await page.locator('body').click();
+    await page.waitForTimeout(1000);
     const cleared = await context.takeScreenshot();
 
-    await delay(1000);
+    await page.waitForTimeout(1000);
     await context.matchImages({ plain, opened, closed, blur, cleared });
   });
 };
@@ -90,213 +55,111 @@ kind('ComboBox', () => {
     });
 
     test('opened', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
 
     test('hovered', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
-          }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.locator(tid('ComboBoxMenu__item') + ':nth-of-type(4)').hover();
       await context.matchImage(await context.takeScreenshot(), 'hovered');
     });
 
     test('selected', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
-          }),
-        })
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .press()
-        .release()
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.locator(tid('ComboBoxMenu__item') + ':nth-of-type(4)').hover();
+      await page.locator(tid('ComboBoxMenu__item') + ':nth-of-type(4)').click();
       await context.matchImage(await context.takeScreenshot(), 'selected');
     });
 
     test('search result', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('Second')
-        .perform();
-      await delay(500);
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.keyboard.type('Second');
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'search result');
     });
 
     test('selcted', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('Second')
-        .pause(1000)
-        .sendKeys(Key.ENTER)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.keyboard.type('Second');
+      await page.waitForTimeout(1000);
+      await page.keyboard.press('Enter');
       await context.matchImage(await context.takeScreenshot(), 'selcted');
     });
 
     test('opened again', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('Second')
-        .pause(1000)
-        .sendKeys(Key.ENTER)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Input__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.keyboard.type('Second');
+      await page.waitForTimeout(1000);
+      await page.keyboard.press('Enter');
+      await page.locator(tid('Input__root')).click();
       await context.matchImage(await context.takeScreenshot(), 'opened again');
     });
 
     test('search result_0', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys('Такого точно нету')
-        .perform();
-      await delay(500);
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.keyboard.type('Такого точно нету');
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'search result_0');
     });
 
     test('select', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ARROW_DOWN)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(300);
+      // Ждем появления меню и стабилизации
+      await page.locator(tid('ComboBoxMenu__item')).first().waitFor();
+      await page.waitForTimeout(200);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForTimeout(200);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForTimeout(200);
+      await page.keyboard.press('ArrowDown');
+      // Ждем стабилизации выделения
+      await page.waitForTimeout(300);
       await context.matchImage(await context.takeScreenshot(), 'select');
     });
 
     test('submit', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .pause(1000)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ENTER)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(1000);
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
       await context.matchImage(await context.takeScreenshot(), 'submit');
     });
 
     test('select_1', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .pause(500)
-        .sendKeys('Second')
-        .pause(500)
-        .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-        .pause(1000)
-        .press()
-        .release()
-        .perform();
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(500);
+      await page.keyboard.type('Second');
+      await page.waitForTimeout(500);
+      await page.locator('body').click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'select_1');
     });
 
     test('selected_2', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .pause(1000)
-        .sendKeys('Second')
-        .pause(500)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(1000);
+      await page.keyboard.type('Second');
+      await page.waitForTimeout(500);
+      await page.locator('body').click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('InputLikeText__root')).click();
       await context.matchImage(await context.takeScreenshot(), 'selected_2');
     });
   });
@@ -312,87 +175,40 @@ kind('ComboBox', () => {
     });
 
     test('plain', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '[data-tid="container"]',
-      });
-      await context.matchImage(await element.takeScreenshot(), 'plain');
+      const page = context.webdriver;
+      const element = page.locator('[data-tid="container"]');
+      await context.matchImage(await element.screenshot(), 'plain');
     });
 
     test('opened', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '[data-tid="container"]',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.matchImage(await element.takeScreenshot(), 'opened');
+      const page = context.webdriver;
+      const element = page.locator('[data-tid="container"]');
+      await page.locator(tid('InputLikeText__root')).click();
+      await context.matchImage(await element.screenshot(), 'opened');
     });
 
     test('hovered', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '[data-tid="container"]',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
-          }),
-        })
-        .perform();
-      await context.matchImage(await element.takeScreenshot(), 'hovered');
+      const page = context.webdriver;
+      const element = page.locator('[data-tid="container"]');
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.locator(tid('ComboBoxMenu__item') + ':nth-of-type(4)').hover();
+      await context.matchImage(await element.screenshot(), 'hovered');
     });
 
     test('selected', async (context) => {
-      const element = await context.webdriver.findElement({
-        css: '[data-tid="container"]',
-      });
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({
-            css: '[data-tid~="ComboBoxMenu__item"]:nth-of-type(4)',
-          }),
-        })
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .press()
-        .release()
-        .perform();
-      await context.matchImage(await element.takeScreenshot(), 'selected');
+      const page = context.webdriver;
+      const element = page.locator('[data-tid="container"]');
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.locator(tid('ComboBoxMenu__item') + ':nth-of-type(4)').hover();
+      await page.locator(tid('ComboBoxMenu__item') + ':nth-of-type(4)').click();
+      await context.matchImage(await element.screenshot(), 'selected');
     });
   });
 
   story('AlwaysReject', () => {
     test('opened', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
@@ -408,30 +224,24 @@ kind('ComboBox', () => {
     });
 
     test('plain', async (context) => {
+      const page = context.webdriver;
+      await page.locator("[data-tid~='Toggle__root']").waitFor();
       await context.matchImage(await context.takeScreenshot(), 'plain');
     });
 
     test('with error', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: "[data-tid~='Toggle__root']" }))
-        .perform();
-      await delay(200);
+      const page = context.webdriver;
+      await page.locator("[data-tid~='Toggle__root']").click();
+      await page.waitForTimeout(200);
       await context.matchImage(await context.takeScreenshot(), 'with error');
     });
 
     test('plain again', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: "[data-tid~='Toggle__root']" }))
-        .pause(200)
-        .click(context.webdriver.findElement({ css: "[data-tid~='Toggle__root']" }))
-        .perform();
-      await delay(200);
+      const page = context.webdriver;
+      await page.locator("[data-tid~='Toggle__root']").click();
+      await page.waitForTimeout(200);
+      await page.locator("[data-tid~='Toggle__root']").click();
+      await page.waitForTimeout(200);
       await context.matchImage(await context.takeScreenshot(), 'plain again');
     });
   });
@@ -442,23 +252,15 @@ kind('ComboBox', () => {
     });
 
     test('reset value', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="resetBtn"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('[data-tid="resetBtn"]').click();
       await context.matchImage(await context.takeScreenshot(), 'reset value');
     });
 
     test('set value', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="resetBtn"]' }))
-        .click(context.webdriver.findElement({ css: '[data-tid="setValueBtn"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('[data-tid="resetBtn"]').click();
+      await page.locator('[data-tid="setValueBtn"]').click();
       await context.matchImage(await context.takeScreenshot(), 'set value');
     });
   });
@@ -469,55 +271,41 @@ kind('ComboBox', () => {
     });
 
     test('after Enter on Item', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.ENTER)
-        .perform();
+      const page = context.webdriver;
+      await page.keyboard.press('Enter');
       await context.matchImage(await context.takeScreenshot(), 'after Enter on Item');
     });
 
     test('after tab to the next field', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.ENTER)
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.TAB)
-        .perform();
+      const page = context.webdriver;
+      await page.keyboard.press('Enter');
+      await page.keyboard.press('Tab');
       await context.matchImage(await context.takeScreenshot(), 'after tab to the next field');
     });
   });
 
   story('WithTooltip', () => {
     test('show and hide Tooltip', async (context) => {
-      const body = await context.webdriver.findElement({ css: 'body' });
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="InputLikeText__input"]' }))
-        .perform();
-      await delay(1000);
-      const showTooltip = await body.takeScreenshot();
-      await context.webdriver.actions({ bridge: true }).click(body).pause(1000).perform();
-      const hideTooltip = await body.takeScreenshot();
+      const page = context.webdriver;
+      const body = page.locator('body');
+      await page.locator('[data-tid="InputLikeText__input"]').click();
+      await page.waitForTimeout(1000);
+      const showTooltip = await body.screenshot();
+      await body.click();
+      await page.waitForTimeout(1000);
+      const hideTooltip = await body.screenshot();
       await context.matchImages({ showTooltip, hideTooltip });
     });
   });
 
-  story('MobileSimple', () => {
+  story('MobileSimple', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
+
     test('opened', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="ComboBoxView__root"]` }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'opened');
+      const page = context.webdriver;
+      await page.locator(tid('ComboBoxView__root')).first().click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
 
@@ -527,84 +315,54 @@ kind('ComboBox', () => {
     });
 
     test('opened top with portal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top with portal');
     });
 
     test('opened bottom with portal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('pos')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom with portal');
     });
 
     test('opened top without portal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="portal"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('portal')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened top without portal');
     });
 
     test('opened bottom without portal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="portal"]' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="InputLikeText__root"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('portal')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('pos')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('InputLikeText__root')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened bottom without portal');
     });
   });
 
   story('Size', () => {
     test('clicked all', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="open-all"]' }))
-        .perform();
-      await delay(500);
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator('[data-tid="open-all"]').click();
+      await page.waitForTimeout(500);
+      await page.evaluate(() => {
         const containers = document.querySelectorAll('[data-tid~="ScrollContainer__inner"]');
         for (let i = 0; i < containers.length; i++) {
           containers[i].scrollTop += 300;
         }
       });
-      await delay(1000);
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'ClickedAll');
     });
   });

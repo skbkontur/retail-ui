@@ -121,45 +121,37 @@ export const ThemesList: Story = () => {
       </thead>
       <tbody>
         <tr>
-          <td>
-            <code>LIGHT_THEME</code>
-          </td>
+          <td>LIGHT_THEME</td>
           <td>Текущая светлая тема. Содержит все актуальные визуальные изменения. Включена по умолчанию.</td>
         </tr>
         {Object.keys(REST_LIGHT_THEMES).map((name) => {
           const version = parseVersionFromThemeName(name);
           return (
             <tr>
-              <td>
-                <code>{name}</code>
-              </td>
+              <td>{name}</td>
               <td>
                 Светлая тема на момент версии библиотеки{' '}
-                <code>
+                <span>
                   {version?.major}.{version?.minor}
-                </code>
+                </span>
               </td>
             </tr>
           );
         })}
         <tr>
-          <td>
-            <code>DARK_THEME</code>
-          </td>
+          <td>DARK_THEME</td>
           <td>Текущая темная тема. Содержит все актуальные визуальные изменения.</td>
         </tr>
         {Object.keys(REST_DARK_THEMES).map((name) => {
           const version = parseVersionFromThemeName(name);
           return (
             <tr>
-              <td>
-                <code>{name}</code>
-              </td>
+              <td>{name}</td>
               <td>
                 Темная тема на момент версии библиотеки{' '}
-                <code>
+                <span>
                   {version?.major}.{version?.minor}
-                </code>
+                </span>
               </td>
             </tr>
           );

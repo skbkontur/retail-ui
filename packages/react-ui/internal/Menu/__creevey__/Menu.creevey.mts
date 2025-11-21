@@ -1,9 +1,12 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
+
+import { tid } from '../../../components/__creevey__/helpers.mjs';
 
 kind('Menu', () => {
   story('WithMaxHeight', ({ setStoryParameters }) => {
     setStoryParameters({
-      captureElement: '[data-tid="menu-container"',
+      captureElement: '[data-tid="menu-container"]',
       skip: {
         flacky: { in: ['chrome2022'] },
       },
@@ -14,53 +17,37 @@ kind('Menu', () => {
     });
 
     test('moved up from top to the last Item', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('#move-up').click();
       await context.matchImage(await context.takeScreenshot(), 'moved up from top to the last Item');
     });
 
     test('moved up from bottom to the first Item', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('#move-up').click();
+      await page.locator('#move-up').click();
+      await page.locator('#move-up').click();
       await context.matchImage(await context.takeScreenshot(), 'moved up from bottom to the first Item');
     });
 
     test('moved down from top to the last Item', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-down' }))
-        .click(context.webdriver.findElement({ css: '#move-down' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('#move-up').click();
+      await page.locator('#move-up').click();
+      await page.locator('#move-up').click();
+      await page.locator('#move-down').click();
+      await page.locator('#move-down').click();
       await context.matchImage(await context.takeScreenshot(), 'moved down from top to the last Item');
     });
 
     test('moved down from bottom to the first Item', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-up' }))
-        .click(context.webdriver.findElement({ css: '#move-down' }))
-        .click(context.webdriver.findElement({ css: '#move-down' }))
-        .click(context.webdriver.findElement({ css: '#move-down' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('#move-up').click();
+      await page.locator('#move-up').click();
+      await page.locator('#move-up').click();
+      await page.locator('#move-down').click();
+      await page.locator('#move-down').click();
+      await page.locator('#move-down').click();
       await context.matchImage(await context.takeScreenshot(), 'moved down from bottom to the first Item');
     });
   });
@@ -73,12 +60,8 @@ kind('Menu', () => {
     });
 
     test('mouseenter', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('menuitem-notdisabled')).click();
       await context.matchImage(await context.takeScreenshot(), 'mouseenter');
     });
   });

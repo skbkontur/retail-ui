@@ -1,4 +1,5 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
 kind('Group', () => {
   story('SimpleGroupWithInputAndButton', () => {
@@ -7,12 +8,8 @@ kind('Group', () => {
     });
 
     test('focused input', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('input').click();
       await context.matchImage(await context.takeScreenshot(), 'focused input');
     });
   });

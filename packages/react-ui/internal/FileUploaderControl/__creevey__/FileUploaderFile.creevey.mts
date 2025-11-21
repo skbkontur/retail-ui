@@ -1,4 +1,7 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
+
+import { tid, waitForPopup } from '../../../components/__creevey__/helpers.mjs';
 
 kind('FileUploaderFile', () => {
   story('FileUploaderFileWithValidationError', ({ setStoryParameters }) => {
@@ -11,14 +14,9 @@ kind('FileUploaderFile', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: '[data-tid="FileUploader__fileName"]' }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('FileUploader__fileName')).hover();
+      await waitForPopup(page);
       await context.matchImage(await context.takeScreenshot(), 'hover');
     });
   });

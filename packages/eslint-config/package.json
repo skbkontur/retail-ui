@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/eslint-config",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "license": "MIT",
   "dependencies": {
     "@eslint/compat": "^1.0.3",

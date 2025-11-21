@@ -1,26 +1,21 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid, waitForAnimationFrame } from '../../__creevey__/helpers.mjs';
 
 const testIdleFocusEditBlur = () => {
   test('idle, focus, edit, blur', async (context) => {
-    const click = (css: string) => {
-      return context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css }));
-    };
+    const page = context.webdriver;
     const idle = await context.takeScreenshot();
 
-    await click('input').pause(500).perform();
+    await page.locator('input').click();
+    await page.waitForTimeout(500);
     const focused = await context.takeScreenshot();
 
-    await click('input').sendKeys('953').perform();
+    await page.keyboard.type('953');
     const edited = await context.takeScreenshot();
 
-    await click('body').perform();
+    await page.locator('body').click();
     const blured = await context.takeScreenshot();
 
     await context.matchImages({ idle, focused, edited, blured });
@@ -29,26 +24,24 @@ const testIdleFocusEditBlur = () => {
 
 const testIdleFocusAppendRemoveBlur = () => {
   test('idle, focus, edit, blur', async (context) => {
-    const click = (css: string) => {
-      return context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css }));
-    };
-
+    const page = context.webdriver;
     const idle = await context.takeScreenshot();
 
-    await click('input').pause(500).perform();
+    await page.locator('input').click();
+    await page.waitForTimeout(500);
     const focused = await context.takeScreenshot();
 
-    await click('input').sendKeys('953').perform();
+    await page.keyboard.type('953');
     const appended = await context.takeScreenshot();
 
-    await click('input').sendKeys(Key.BACK_SPACE).sendKeys(Key.BACK_SPACE).sendKeys(Key.BACK_SPACE).perform();
+    await page.keyboard.press('Backspace'); // remove space symbol
+    await page.keyboard.press('Backspace'); // remove 3 symbol
+    await page.keyboard.press('Backspace'); // remove 5 symbol
+    await page.keyboard.press('Backspace'); // remove 9 symbol
     const restored = await context.takeScreenshot();
 
-    await click('body').perform();
+    await page.locator('body').click();
+    await page.waitForTimeout(1000);
     const blured = await context.takeScreenshot();
 
     await context.matchImages({ idle, focused, appended, restored, blured });
@@ -57,20 +50,15 @@ const testIdleFocusAppendRemoveBlur = () => {
 
 const testIdleFocusBlur = () => {
   test('idle, focus, blur', async (context) => {
-    const click = (css: string) => {
-      return context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css }));
-    };
-
+    const page = context.webdriver;
     const idle = await context.takeScreenshot();
 
-    await click('input').pause(500).perform();
+    await page.locator('input').click();
+    await page.waitForTimeout(500);
     const focused = await context.takeScreenshot();
 
-    await click('body').perform();
+    await page.locator('body').click();
+    await page.waitForTimeout(1000);
     const blured = await context.takeScreenshot();
 
     await context.matchImages({ idle, focused, blured });
@@ -79,23 +67,23 @@ const testIdleFocusBlur = () => {
 
 const testRewriteInMiddle = () => {
   test('idle, shift, rewrite', async (context) => {
-    const click = (css: string) => {
-      return context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css }))
-        .pause(500);
-    };
-
+    const page = context.webdriver;
     const idle = await context.takeScreenshot();
 
-    click('input').keyDown(Key.ARROW_LEFT).keyDown(Key.ARROW_LEFT).sendKeys('12').perform();
+    await page.locator('input').click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.type('12');
     const shift = await context.takeScreenshot();
 
-    click('body');
+    await page.locator('body').click();
 
-    click('input').keyDown(Key.ARROW_LEFT).keyDown(Key.ARROW_LEFT).sendKeys('56').perform();
+    await page.locator('input').click();
+    await page.waitForTimeout(500);
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.type('56');
     const rewrite = await context.takeScreenshot();
 
     await context.matchImages({ idle, shift, rewrite });
@@ -168,34 +156,38 @@ kind('MaskedInput', () => {
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
+      skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } },
     });
     test('Plain focused', async (context) => {
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
       const idle = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(1000)
-        .perform();
+
+      const input = page.locator('input');
+      await input.click();
+      // Ждем стабилизации селекта текста (selectAllOnFocus может иметь задержку)
+      await page.waitForTimeout(500);
+      await waitForAnimationFrame(page);
+      await page.waitForTimeout(500);
       const select_half = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(1000)
-        .sendKeys('1')
-        .sendKeys('2')
-        .sendKeys('3')
-        .sendKeys('4')
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: 'body' }))
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .pause(1000)
-        .perform();
+
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
+      await input.click();
+      await page.waitForTimeout(500);
+      await page.keyboard.type('1');
+      await page.keyboard.type('2');
+      await page.keyboard.type('3');
+      await page.keyboard.type('4');
+      await page.waitForTimeout(500);
+      await page.locator('body').click();
+      await page.waitForTimeout(500);
+
+      await input.click();
+      // Ждем стабилизации селекта текста после заполнения
+      await page.waitForTimeout(500);
+      await waitForAnimationFrame(page);
+      await page.waitForTimeout(500);
       const select_all = await context.takeScreenshot();
       await context.matchImages({ idle, select_half, select_all });
     });
@@ -206,14 +198,10 @@ kind('MaskedInput', () => {
       skip: true, // flaky
     });
     test('Plain focused', async (context) => {
+      const page = context.webdriver;
       const plain = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="select-all"]' }))
-        .perform();
-      await delay(500);
+      await page.locator(tid('select-all')).click();
+      await page.waitForTimeout(500);
       const select_all = await context.takeScreenshot();
       await context.matchImages({ plain, select_all });
     });

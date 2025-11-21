@@ -1,62 +1,45 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('DateRangePicker', () => {
   story('MinMax', () => {
     test('opened', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
 
     test('DateSelect month', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-          }),
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(1000);
+      await page
+        .locator(
+          tid('MonthView__month') + ':first-child ' + tid('MonthView__headerMonth') + ' ' + tid('DateSelect__caption'),
         )
-        .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-        .perform();
-      await delay(1000);
+        .click();
+      await page.locator('body').hover();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'DateSelect month');
     });
 
     test('DateSelect year', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(
-          context.webdriver.findElement({
-            css: '[data-tid~="MonthView__month"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-          }),
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(1000);
+      await page
+        .locator(
+          tid('MonthView__month') + ':first-child ' + tid('MonthView__headerYear') + ' ' + tid('DateSelect__caption'),
         )
-        .move({ origin: context.webdriver.findElement({ css: 'body' }) })
-        .perform();
-      await delay(1000);
+        .click();
+      await page.locator('body').hover();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'DateSelect year');
     });
   });
@@ -65,14 +48,10 @@ kind('DateRangePicker', () => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
@@ -81,14 +60,10 @@ kind('DateRangePicker', () => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).first().click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
@@ -97,14 +72,10 @@ kind('DateRangePicker', () => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).first().click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
@@ -113,43 +84,31 @@ kind('DateRangePicker', () => {
     setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ } } });
 
     test('opened position top', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="position-top"] [data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('position-top') + ' ' + tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened position top');
     });
 
     test('opened position bottom', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(
-          context.webdriver.findElement({ css: '[data-tid="position-bottom"] [data-tid="DateRangePicker__start"]' }),
-        )
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator('[data-tid="position-bottom"] [data-tid="DateRangePicker__start"]').click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened position bottom');
     });
   });
 
-  story('MobilePicker', () => {
+  story('MobilePicker', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
+
     test('MobilePicker on iphone opened', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="DateRangePicker__start"]' }))
-        .perform();
-      await delay(2000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'MobilePicker on iphone opened');
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(2000);
+      await context.matchImage(await context.takeScreenshot(), 'MobilePicker on iphone opened');
     });
   });
 });

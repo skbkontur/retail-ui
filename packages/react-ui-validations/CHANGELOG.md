@@ -848,7 +848,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### BREAKING CHANGES
 
 * Upgrades.enableSizeMedium16px is no longer working: redefine fontSizeMedium
-variable via ThemeProvider or by calling ThemeFactory.overrideDefaultTheme()
+  variable via ThemeProvider or by calling ThemeFactory.overrideDefaultTheme()
 
 * refactor(ColorObject): remove require call
 

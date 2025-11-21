@@ -138,13 +138,13 @@ export const ExampleDateFormat: Story = () => {
     <Gapped vertical gap={10}>
       <div>
         <span style={{ width: '300px', display: 'inline-block' }}>
-          Порядок компонентов (<code>DateOrder</code>)
+          Порядок компонентов (<b>DateOrder</b>)
         </span>
         <Select value={order} items={Object.keys(DateOrder)} onValueChange={(order) => setOrder(order)} />
       </div>
       <div>
         <span style={{ width: '300px', display: 'inline-block' }}>
-          Разделитель (<code>DateSeparator</code>)
+          Разделитель (<b>DateSeparator</b>)
         </span>
         <Select
           value={separator}
