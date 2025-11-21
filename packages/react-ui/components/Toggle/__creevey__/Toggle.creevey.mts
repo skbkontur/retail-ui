@@ -1,6 +1,7 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('Toggle', () => {
   story('Plain', ({ setStoryParameters }) => {
@@ -15,43 +16,27 @@ kind('Toggle', () => {
     });
 
     test('pressed', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }),
-        })
-        .press()
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('Toggle__root')).hover();
+      await page.mouse.down();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'pressed');
     });
 
     test('clicked', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }))
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('Toggle__root')).click();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
   });
 
   story('DisabledWithTooltip', () => {
     test('pressed', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }),
-        })
-        .press()
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('Toggle__root')).hover();
+      await page.mouse.down();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'pressed');
     });
   });
@@ -74,17 +59,11 @@ kind('Toggle', () => {
     });
 
     test('clicked', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: `[data-tid="Toggle__root"]` }),
-        })
-        .pause(2000)
-        .click()
-        .perform();
-      await delay(2000);
+      const page = context.webdriver;
+      await page.locator(tid('Toggle__root')).hover();
+      await page.waitForTimeout(2000);
+      await page.locator(tid('Toggle__root')).click();
+      await page.waitForTimeout(2000);
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
   });

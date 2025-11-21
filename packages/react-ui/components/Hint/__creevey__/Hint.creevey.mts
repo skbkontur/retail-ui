@@ -1,16 +1,15 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('Hint', () => {
   story('SetManualAndOpenedPropOnClick', () => {
     test('click on hint', async (context) => {
-      await context.webdriver
-        .actions()
-        .click(context.webdriver.findElement({ css: '#main' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'click on hint');
+      const page = context.webdriver;
+      await page.locator('#main').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'click on hint');
     });
   });
 
@@ -38,14 +37,10 @@ kind('Hint', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions()
-        .move({
-          origin: context.webdriver.findElement({ css: '[data-tid="icon"]' }),
-        })
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open');
+      const page = context.webdriver;
+      await page.locator(tid('icon')).hover();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'open');
     });
   });
   story('top bottom center', ({ setStoryParameters }) => {
@@ -62,7 +57,7 @@ kind('Hint', () => {
 
   story('HintWithoutPortal', () => {
     test('opened', async (context) => {
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open');
+      await context.matchImage(await context.takeScreenshot(), 'open');
     });
   });
 });

@@ -1,12 +1,16 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const kindTests = (testName: string) => {
   test(`use toast ${testName}`, async (context) => {
-    const showToast = context.webdriver.findElement({ css: `[data-tid~="${testName}"]` });
-    await context.webdriver.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
-    await delay(1000);
+    const page = context.webdriver;
+    const showToast = page.locator(tid(testName));
+    await showToast.click();
+    await page.mouse.move(0, 0);
+    await page.mouse.click(0, 0);
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot());
   });
 };

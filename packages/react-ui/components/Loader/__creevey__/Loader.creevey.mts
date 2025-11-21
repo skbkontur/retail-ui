@@ -1,34 +1,35 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
+
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('Loader', () => {
   story('ActiveLoader', () => {
     test('covers children', async (context) => {
-      const element = await context.webdriver.findElement({ css: '[data-tid~="Loader__Veil"]' });
-      const button = await context.webdriver.findElement({ css: '[data-tid~="Button__root"]' });
-      await context.webdriver.actions({ bridge: true }).click(button).perform();
-      await context.matchImage(await element.takeScreenshot(), 'cover children');
+      const page = context.webdriver;
+      await page.locator(tid('Button__root')).click({ force: true });
+      await context.matchImage(await context.takeScreenshot(), 'cover children');
     });
   });
 
   story('InactiveLoader', () => {
     test("doesn't cover children", async (context) => {
-      const element = await context.webdriver.findElement({ css: '[data-tid~="Loader__Idle"]' });
-      const button = await context.webdriver.findElement({ css: '[data-tid~="Button__root"]' });
-      await context.webdriver.actions({ bridge: true }).click(button).perform();
-      await context.matchImage(await element.takeScreenshot(), "doesn't cover children");
+      const page = context.webdriver;
+      await page.locator(tid('Button__root')).click();
+      await context.matchImage(await context.takeScreenshot(), "doesn't cover children");
     });
   });
 
   story('FocusInside', () => {
     test('focus inside', async (context) => {
-      const loader = await context.webdriver.findElement({ css: '[data-tid~="Loader__Idle"]' });
-      const toggle = await context.webdriver.findElement({ css: '[data-tid~="toggle-loader"]' });
-      await context.webdriver.actions().sendKeys(Key.TAB).perform();
-      const enabled = await loader.takeScreenshot();
-      await context.webdriver.actions().click(toggle).move({ x: 0, y: 0 }).click().perform();
-      await context.webdriver.actions().sendKeys(Key.TAB).perform();
-      const disabled = await loader.takeScreenshot();
+      const page = context.webdriver;
+      await page.keyboard.press('Tab');
+      const enabled = await context.takeScreenshot();
+      await page.locator(tid('toggle-loader')).click();
+      await page.locator(tid('Loader__Veil')).waitFor();
+      await page.locator('body').click();
+      await page.keyboard.press('Tab');
+      const disabled = await context.takeScreenshot();
       await context.matchImages({ enabled, disabled });
     });
   });

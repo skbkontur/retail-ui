@@ -1,17 +1,13 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const textAlignmentTests = () => {
   test('opened', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: `[data-tid~="PopupMenu__caption"]` }))
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator(tid('PopupMenu__caption')).click();
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'opened');
   });
 };
@@ -22,56 +18,34 @@ const kebabTests = () => {
   });
 
   test('hovered', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }),
-      })
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Kebab__caption')).hover();
     await context.matchImage(await context.takeScreenshot(), 'hovered');
   });
 
   test('clicked', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Kebab__caption')).click();
     await context.matchImage(await context.takeScreenshot(), 'clicked');
   });
 
   test('clickedOnButton2ndTime', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
-      .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
-      .perform();
+    const page = context.webdriver;
+    await page.locator(tid('Kebab__caption')).click();
+    await page.locator(tid('Kebab__caption')).click();
     await context.matchImage(await context.takeScreenshot(), 'clickedOnButton2ndTime');
   });
 
   test('tabPress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .perform();
+    const page = context.webdriver;
+    await page.keyboard.press('Tab');
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
   });
 
   test('enterPress', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .sendKeys(Key.ENTER)
-      .perform();
+    const page = context.webdriver;
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
     await context.matchImage(await context.takeScreenshot(), 'enterPress');
   });
 };
@@ -120,16 +94,11 @@ kind('Kebab', () => {
     setStoryParameters({ captureElement: null });
 
     test('opened', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Kebab__caption"]' }))
-        .perform();
-      await delay(200);
-      await context.webdriver
-        .actions({ bridge: true })
-        .move({ origin: context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }) })
-        .perform();
-      await delay(1000);
+      const page = context.webdriver;
+      await page.locator(tid('Kebab__caption')).click();
+      await page.waitForTimeout(200);
+      await page.locator(tid('MenuItem__root')).first().hover();
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });

@@ -722,15 +722,18 @@ TooltipNearLoaderStory.storyName = 'Tooltip near Loader';
 
 export const HintAndModalStory: Story = () => <HintAndModal />;
 HintAndModalStory.storyName = 'Hint and modal';
+HintAndModalStory.parameters = { creevey: { captureElement: null } };
 
 export const BigModalWithLoaderStory: Story = () => <BigModalWithLoader />;
 BigModalWithLoaderStory.storyName = 'Big modal with Loader';
+BigModalWithLoaderStory.parameters = { creevey: { captureElement: null } };
 
 export const TooltipAndSelectStory: Story = () => <TooltipAndSelect />;
 TooltipAndSelectStory.storyName = 'Tooltip and Select';
 
 export const LoaderInSidePageBody: Story = () => <LoaderInSidePage />;
 LoaderInSidePageBody.storyName = 'Loader in SidePage.Body';
+LoaderInSidePageBody.parameters = { creevey: { captureElement: null } };
 
 export const SidepageAndSelect: Story = () => <SidePageAndSelect />;
 SidepageAndSelect.storyName = 'Sidepage and Select';
@@ -740,9 +743,11 @@ ToastAndLoaderStory.storyName = 'Toast and Loader';
 
 export const ElementsInLoaderInModalStory: Story = () => <ElementsInLoaderInModal />;
 ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
+ElementsInLoaderInModalStory.parameters = { creevey: { captureElement: null } };
 
 export const LoaderAndSidePageStory: Story = () => <LoaderAndSidePage />;
 LoaderAndSidePageStory.storyName = 'Loader and SidePage';
+LoaderAndSidePageStory.parameters = { creevey: { captureElement: null } };
 
 export const ModalInLoaderAndModalStory: Story = () => <ModalInLoaderAndModal />;
 ModalInLoaderAndModalStory.storyName = 'Modal in Loader and Modal';
@@ -754,6 +759,7 @@ StickyAndLoaderStory.parameters = { creevey: { captureElement: null } };
 
 export const StickyAndTooltipsStory: Story = () => <StickyAndTooltips />;
 StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
+StickyAndTooltipsStory.parameters = { creevey: { captureElement: null } };
 
 export const ModalSidePageStack = () => {
   const [isModalOpen, setModalOpen] = React.useState(false);
@@ -798,6 +804,7 @@ export const ModalAndToast: Story = () => {
     </div>
   );
 };
+ModalAndToast.parameters = { creevey: { captureElement: null } };
 
 export const ToastOverEverything: Story = () => {
   const toast = React.useRef<Toast>(null);
@@ -871,6 +878,7 @@ export const ModalWithDropdown: Story = () => {
     </Modal>
   );
 };
+ModalWithDropdown.parameters = { creevey: { captureElement: null } };
 
 function Root({ children }: React.PropsWithChildren<any>) {
   const rootRef = React.useRef<HTMLDivElement>(null);

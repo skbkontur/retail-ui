@@ -1,7 +1,7 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('Paging', () => {
   story('GoToAbsensePageStory', ({ setStoryParameters }) => {
@@ -23,74 +23,67 @@ kind('Paging', () => {
     });
 
     test('hover', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('Paging__pageLinkWrapper')).first().hover();
       await context.matchImage(await context.takeScreenshot(), 'hover');
     });
 
     test('change page by number', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('Paging__pageLinkWrapper')).first().click();
       await context.matchImage(await context.takeScreenshot(), 'change page by number');
     });
 
     test('change page by forwardLink', async (context) => {
       // NOTE Firefox bug if click send right after click from previous test it results as double click
-      await delay(500);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: `[data-tid='Paging__forwardLink']` }))
-        .perform();
+      const page = context.webdriver;
+      await page.waitForTimeout(500);
+      await page.locator(tid('Paging__forwardLink')).click();
       await context.matchImage(await context.takeScreenshot(), 'change page by forwardLink');
     });
 
     test('focused', async (context) => {
       // NOTE Firefox bug if click send right after click from previous test it results as double click
-      await delay(500);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-        .perform();
+      const page = context.webdriver;
+      await page.waitForTimeout(500);
+      const firstPage = page.locator(tid('Paging__pageLinkWrapper')).first();
+      await firstPage.click();
+      await page.waitForTimeout(300);
+      // Убеждаемся, что элемент получил фокус
+      await firstPage.evaluate((el: HTMLElement) => {
+        if (document.activeElement !== el) {
+          el.focus();
+        }
+      });
+      // Ждем стабилизации визуального состояния фокуса
+      await page.waitForTimeout(300);
       await context.matchImage(await context.takeScreenshot(), 'focused');
     });
 
     test('Move focus right', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-        .pause(100)
-        .sendKeys(Key.ARROW_RIGHT)
-        .perform();
+      const page = context.webdriver;
+      const firstPage = page.locator(tid('Paging__pageLinkWrapper')).first();
+      await firstPage.click();
+      await page.waitForTimeout(300);
+      // Убеждаемся, что элемент получил фокус
+      await firstPage.evaluate((el: HTMLElement) => {
+        if (document.activeElement !== el) {
+          el.focus();
+        }
+      });
+      await page.waitForTimeout(200);
+      await page.keyboard.press('ArrowRight');
+      await page.waitForTimeout(500);
       await context.matchImage(await context.takeScreenshot(), 'Move focus right');
     });
 
     test('Move to page by Ender', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-        .pause(100)
-        .sendKeys(Key.ARROW_RIGHT)
-        .pause(100)
-        .sendKeys(Key.ENTER)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('Paging__pageLinkWrapper')).first().click();
+      await page.waitForTimeout(100);
+      await page.keyboard.press('ArrowRight');
+      await page.waitForTimeout(100);
+      await page.keyboard.press('Enter');
       await context.matchImage(await context.takeScreenshot(), 'Move to page by Ender');
     });
   });

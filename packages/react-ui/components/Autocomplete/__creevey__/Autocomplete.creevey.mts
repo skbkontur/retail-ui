@@ -1,123 +1,90 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
 
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
+import { tid, waitForPopup } from '../../__creevey__/helpers.mjs';
 
 const commonTests = () => {
   test('focus and type text', async (context) => {
-    const screenshotElement = context.webdriver.findElement({
-      css: '#test-element',
-    });
-    const autocompleteElement = context.webdriver.findElement({
-      css: '[data-tid~="Autocomplete__root"]',
-    });
-    await context.webdriver.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
-    await delay(1000);
-    await context.matchImage(await screenshotElement.takeScreenshot());
+    const page = context.webdriver;
+    await page.keyboard.press('Tab'); // focus on input
+    await page.keyboard.type('o');
+    await waitForPopup(page);
+    await context.matchImage(await context.takeScreenshot());
   });
 };
 
 const mobileHintsTests = () => {
   test('noInputValue', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: 'input' }))
-      .perform();
-    await delay(200);
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'noInputValue');
+    const page = context.webdriver;
+    await page.locator('input').click();
+    await context.matchImage(await context.takeScreenshot(), 'noInputValue');
   });
 
   test('nothingWasFound', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: 'input' }))
-      .sendKeys('abc')
-      .perform();
-    await delay(200);
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'nothingWasFound');
+    const page = context.webdriver;
+    await page.locator('input').click();
+    await page.keyboard.type('abc');
+    await context.matchImage(await context.takeScreenshot(), 'nothingWasFound');
   });
 
   test('updateValue', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: 'input' }))
-      .sendKeys('one')
-      .perform();
-    await delay(200);
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="MenuItem__root"]' }))
-      .click(context.webdriver.findElement({ css: 'input' }))
-      .perform();
-    await delay(200);
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'updateValue');
+    const page = context.webdriver;
+    await page.locator('input').click();
+    await page.keyboard.type('one');
+    await page.waitForTimeout(200);
+    await page.locator(tid('MenuItem__root')).click();
+    await page.waitForTimeout(200);
+    await context.matchImage(await context.takeScreenshot(), 'updateValue');
   });
 };
 
 const sizeTests = () => {
   test('focus and type text small', async (context) => {
-    const screenshotElement = context.webdriver.findElement({
-      css: '#test-element',
-    });
-    const autocompleteElements = await context.webdriver.findElements({
-      css: '[data-tid~="Autocomplete__root"]',
-    });
-    await context.webdriver.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
-    await delay(1000);
-    await context.matchImage(await screenshotElement.takeScreenshot());
+    const page = context.webdriver;
+    const autocompleteElements = page.locator(tid('Autocomplete__root'));
+    await autocompleteElements.nth(0).click();
+    await page.keyboard.type('o');
+    await waitForPopup(page);
+    await context.matchImage(await context.takeScreenshot());
   });
 
   test('focus and type text medium', async (context) => {
-    const screenshotElement = context.webdriver.findElement({
-      css: '#test-element',
-    });
-    const autocompleteElements = await context.webdriver.findElements({
-      css: '[data-tid~="Autocomplete__root"]',
-    });
-    await context.webdriver.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
-    await delay(1000);
-    await context.matchImage(await screenshotElement.takeScreenshot());
+    const page = context.webdriver;
+    const autocompleteElements = page.locator(tid('Autocomplete__root'));
+    await autocompleteElements.nth(1).click();
+    await page.keyboard.type('o');
+    await waitForPopup(page);
+    await context.matchImage(await context.takeScreenshot());
   });
 
   test('focus and type text large', async (context) => {
-    const screenshotElement = context.webdriver.findElement({
-      css: '#test-element',
-    });
-    const autocompleteElements = await context.webdriver.findElements({
-      css: '[data-tid~="Autocomplete__root"]',
-    });
-    await context.webdriver.actions({ bridge: true }).click(autocompleteElements[2]).sendKeys('o').perform();
-    await delay(1000);
-    await context.matchImage(await screenshotElement.takeScreenshot());
+    const page = context.webdriver;
+    const autocompleteElements = page.locator(tid('Autocomplete__root'));
+    await autocompleteElements.nth(2).click();
+    await page.keyboard.type('o');
+    await waitForPopup(page);
+    await context.matchImage(await context.takeScreenshot());
   });
 };
 
 const menuPosTests = () => {
   test('focus and type text menu top', async (context) => {
-    const screenshotElement = context.webdriver.findElement({ css: '#test-element' });
-    const autocompleteElements = await context.webdriver.findElements({ css: '[data-tid~="Autocomplete__root"]' });
+    const page = context.webdriver;
+    const autocompleteElements = page.locator(tid('Autocomplete__root'));
 
-    await context.webdriver.actions({ bridge: true }).click(autocompleteElements[0]).sendKeys('o').perform();
-    await delay(1000);
-
-    await context.matchImage(await screenshotElement.takeScreenshot());
+    await autocompleteElements.nth(0).click();
+    await page.keyboard.type('o');
+    await waitForPopup(page);
+    await context.matchImage(await context.takeScreenshot());
   });
   test('focus and type text menu bottom', async (context) => {
-    const screenshotElement = context.webdriver.findElement({ css: '#test-element' });
-    const autocompleteElements = await context.webdriver.findElements({ css: '[data-tid~="Autocomplete__root"]' });
+    const page = context.webdriver;
+    const autocompleteElements = page.locator(tid('Autocomplete__root'));
 
-    await context.webdriver.actions({ bridge: true }).click(autocompleteElements[1]).sendKeys('o').perform();
-    await delay(1000);
-
-    await context.matchImage(await screenshotElement.takeScreenshot());
+    await autocompleteElements.nth(1).click();
+    await page.keyboard.type('o');
+    await waitForPopup(page);
+    await context.matchImage(await context.takeScreenshot());
   });
 };
 
@@ -128,12 +95,10 @@ kind('Autocomplete', () => {
     });
 
     test('focused', async (context) => {
-      const autocompleteElement = context.webdriver.findElement({
-        css: '[data-tid~="Autocomplete__root"]',
-      });
-      await context.webdriver.actions({ bridge: true }).click(autocompleteElement).perform();
-      await delay(1000);
-      await context.matchImage(await autocompleteElement.takeScreenshot());
+      const page = context.webdriver;
+      const autocompleteElement = page.locator(tid('Autocomplete__root'));
+      await autocompleteElement.click();
+      await context.matchImage(await autocompleteElement.screenshot());
     });
 
     commonTests();
@@ -163,24 +128,23 @@ kind('Autocomplete', () => {
     commonTests();
   });
 
-  story('MobileHints', () => {
+  story('MobileHints', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
     mobileHintsTests();
   });
 
-  story('MobileHintsEN', () => {
+  story('MobileHintsEN', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
     mobileHintsTests();
   });
 
-  story('MobileWithTitle', () => {
+  story('MobileWithTitle', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
+
     test('opened', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: 'input' }))
-        .perform();
-      await delay(200);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'opened');
+      const page = context.webdriver;
+      await page.locator('input').click();
+      await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
 
@@ -196,32 +160,22 @@ kind('Autocomplete', () => {
     });
 
     test('opened top with portal', async (context) => {
-      const screenshotElement = context.webdriver.findElement({
-        css: '#test-element',
-      });
-      const autocompleteElement = context.webdriver.findElement({
-        css: '[data-tid~="Autocomplete__root"]',
-      });
-      await context.webdriver.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
-      await delay(1000);
-      await context.matchImage(await screenshotElement.takeScreenshot());
+      const page = context.webdriver;
+      const autocompleteElement = page.locator(tid('Autocomplete__root'));
+      await autocompleteElement.click();
+      await page.keyboard.type('o');
+      await waitForPopup(page);
+      await context.matchImage(await context.takeScreenshot());
     });
 
     test('opened bottom with portal', async (context) => {
-      const screenshotElement = context.webdriver.findElement({
-        css: '#test-element',
-      });
-      const autocompleteElement = context.webdriver.findElement({
-        css: '[data-tid~="Autocomplete__root"]',
-      });
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="pos"]' }))
-        .click(autocompleteElement)
-        .sendKeys('o')
-        .perform();
-      await delay(1000);
-      await context.matchImage(await screenshotElement.takeScreenshot());
+      const page = context.webdriver;
+      const autocompleteElement = page.locator(tid('Autocomplete__root'));
+      await page.locator(tid('pos')).click();
+      await autocompleteElement.click();
+      await page.keyboard.type('o');
+      await waitForPopup(page);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -229,12 +183,14 @@ kind('Autocomplete', () => {
     sizeTests();
   });
 
-  story('WithDisabledPortal', () => {
+  story('WithDisabledPortal', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
     commonTests();
     menuPosTests();
   });
 
-  story('MenuPos', () => {
+  story('MenuPos', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
     menuPosTests();
   });
 
@@ -250,32 +206,22 @@ kind('Autocomplete', () => {
     });
 
     test('search with mask select without input value', async (context) => {
-      const screenshotElement = context.webdriver.findElement({
-        css: '#test-element',
-      });
-      const autocompleteElement = context.webdriver.findElement({
-        css: `[data-tid~="Autocomplete__root"]`,
-      });
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(autocompleteElement)
-        .sendKeys(Key.ARROW_DOWN)
-        .sendKeys(Key.ENTER)
-        .perform();
-      await delay(1000);
-      await context.matchImage(await screenshotElement.takeScreenshot());
+      const page = context.webdriver;
+      const autocompleteElement = page.locator(tid('Autocomplete__root'));
+      await autocompleteElement.click();
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
 
     test('search with mask', async (context) => {
-      const screenshotElement = context.webdriver.findElement({
-        css: '#test-element',
-      });
-      const autocompleteElement = context.webdriver.findElement({
-        css: `[data-tid~="Autocomplete__root"]`,
-      });
-      await context.webdriver.actions({ bridge: true }).click(autocompleteElement).sendKeys('912').perform();
-      await delay(1000);
-      await context.matchImage(await screenshotElement.takeScreenshot());
+      const page = context.webdriver;
+      const autocompleteElement = page.locator(tid('Autocomplete__root'));
+      await autocompleteElement.click();
+      await page.keyboard.type('912');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 });

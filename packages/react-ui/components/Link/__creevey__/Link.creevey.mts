@@ -1,27 +1,14 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
-
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
 
 const focusedLinkTest = () => {
   test('tab press', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .perform();
-    await delay(2000);
+    const page = context.webdriver;
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(2000);
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(2000);
+    await page.locator('a').first().hover();
+    await page.waitForTimeout(2000);
     await context.matchImage(await context.takeScreenshot(), 'tabPressHovered');
   });
 };
@@ -31,45 +18,21 @@ const linkTests = () => {
   });
 
   test('hover', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: 'a' }),
-      })
-      .perform();
+    const page = context.webdriver;
+    await page.locator('a').first().hover();
     await context.matchImage(await context.takeScreenshot(), 'hover');
   });
 };
 
 const focusedStyledLinkTest = () => {
   test('tab press', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(1000);
+    const page = context.webdriver;
+    await page.locator('a').first().hover();
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'hovered');
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(Key.TAB)
-      .perform();
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: context.webdriver.findElement({ css: 'a' }),
-      })
-      .perform();
-    await delay(1000);
+    await page.keyboard.press('Tab');
+    await page.locator('a').first().hover();
+    await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'tabPressHovered');
   });
 };
@@ -160,16 +123,14 @@ kind('Link', () => {
     focusedStyledLinkTest();
   });
 
-  story('HintOnDisabledLink', () => {
+  story('HintOnDisabledLink', ({ setStoryParameters }) => {
+    setStoryParameters({ captureElement: null });
+
     test('hover', async (context) => {
-      await context.webdriver
-        .actions()
-        .move({
-          origin: context.webdriver.findElement({ css: 'a' }),
-        })
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open');
+      const page = context.webdriver;
+      await page.locator('a').hover();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'open');
     });
   });
 });

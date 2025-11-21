@@ -1,26 +1,24 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const simpleTests = () => {
   test('open side-page', async (context) => {
-    await context.webdriver
-      .actions({
-        bridge: true,
-      })
-      .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-      .perform();
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'open side-page');
+    const page = context.webdriver;
+    await page.locator(tid('open-side-page')).click();
+    await context.matchImage(await context.takeScreenshot(), 'open side-page');
   });
 };
 
 const afterScrollingTest = () => {
   test('after scrolling', async (context) => {
-    await context.webdriver.executeScript(function () {
+    const page = context.webdriver;
+    await page.evaluate(() => {
       const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
       sidepageContainer.scrollTop = 300;
     });
+    await page.waitForTimeout(200);
     await context.matchImage(await context.takeScreenshot());
   });
 };
@@ -28,59 +26,34 @@ const afterScrollingTest = () => {
 kind('SidePage', () => {
   story('SidePageOverAnotherSidePageStory', () => {
     test('open internal side-page', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="SidePageBody__root"] button' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open internal side-page');
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.locator(tid('SidePageBody__root') + ' button').click();
+      await context.matchImage(await context.takeScreenshot(), 'open internal side-page');
     });
 
     test('close internal side-page', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="SidePageBody__root"] button' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.react-ui:last-child [data-tid~="SidePageFooter__root"] button' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'close internal side-page');
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.locator(tid('SidePageBody__root') + ' button').click();
+      await page.locator('.react-ui:last-child [data-tid~="SidePageFooter__root"] button').click();
+      await context.matchImage(await context.takeScreenshot(), 'close internal side-page');
     });
   });
 
   story('StickySidePageHeaderWhenAnotherSidePageStory', () => {
     test('sticky header, open and close internal side-page', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="SidePageBody__root"] button' }))
-        .perform();
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.locator(tid('SidePageBody__root') + ' button').click();
+      await page.evaluate(() => {
         const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-
         if (sidepageContainer) {
           sidepageContainer.scrollTop = 3000;
         }
       });
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '.react-ui:last-child [data-tid~="SidePageFooter__root"] button' }))
-        .perform();
-      await context.matchImage(
-        await context.webdriver.takeScreenshot(),
-        'sticky header, open and close internal side-page',
-      );
+      await page.locator('.react-ui:last-child [data-tid~="SidePageFooter__root"] button').click();
+      await context.matchImage(await context.takeScreenshot(), 'sticky header, open and close internal side-page');
     });
   });
 
@@ -94,63 +67,48 @@ kind('SidePage', () => {
 
   story('BodyWithoutFooter', () => {
     test('scroll to bottom', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.evaluate(() => {
         const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
         sidepageContainer.scrollTop = 3000;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'scroll to bottom');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'scroll to bottom');
     });
   });
 
   story('BodyWithoutHeader', () => {
     test('open side-page without header', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open side-page without header');
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.waitForTimeout(100);
+      await context.matchImage(await context.takeScreenshot(), 'open side-page without header');
     });
   });
 
   story('SidePageWithFocusLockWhenBackgroundBlocked', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } } });
+    setStoryParameters({
+      skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } },
+      captureElement: null,
+    });
 
     test('open side-page', async (context) => {
+      const page = context.webdriver;
       const pressTab = async () => {
-        await context.webdriver
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(Key.TAB)
-          .perform();
-        await delay(4000);
+        await page.keyboard.press('Tab');
+        await page.waitForTimeout(4000);
       };
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await delay(1000);
+      await page.locator(tid('open-side-page')).click();
+      await page.waitForTimeout(1000);
       await pressTab();
-      const firstTimeTabPress = await context.webdriver.takeScreenshot();
+      const firstTimeTabPress = await context.takeScreenshot();
       await pressTab();
-      const secondTimeTabPress = await context.webdriver.takeScreenshot();
+      const secondTimeTabPress = await context.takeScreenshot();
       await pressTab();
-      const thirdTimeTabPress = await context.webdriver.takeScreenshot();
+      const thirdTimeTabPress = await context.takeScreenshot();
       await pressTab();
-      const fourthTimeTabPress = await context.webdriver.takeScreenshot();
+      const fourthTimeTabPress = await context.takeScreenshot();
       await context.matchImages({
         firstTimeTabPress,
         secondTimeTabPress,
@@ -162,149 +120,121 @@ kind('SidePage', () => {
 
   story('TestUpdateLayoutMethodStory', () => {
     test('idle', async (context) => {
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'idle');
+      await context.matchImage(await context.takeScreenshot(), 'idle');
     });
 
     test('Body content has been changed', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="toggle-body-content"]' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'Body content has been changed');
+      const page = context.webdriver;
+      await page.locator(tid('toggle-body-content')).click();
+      await context.matchImage(await context.takeScreenshot(), 'Body content has been changed');
     });
 
     test('child component content has been changed', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'child component content has been changed');
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('toggle-child-component-content')).click();
+      await context.matchImage(await context.takeScreenshot(), 'child component content has been changed');
     });
 
     test('update layout', async (context) => {
-      await delay(1000);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="update"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'update layout');
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('toggle-child-component-content')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('update')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'update layout');
     });
   });
 
   story('WithLongTitleStory', () => {
     test('not fixed', async (context) => {
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'not fixed');
+      await context.matchImage(await context.takeScreenshot(), 'not fixed');
     });
 
     test('fixed close element', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
         const sidePageHeader = window.document.querySelector('[data-tid~="SidePageHeader__root"]') as HTMLElement;
         const fixedHeaderHeight = 50;
-
         sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'fixed close element');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'fixed close element');
     });
 
     test('fixed header', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
         const sidePageHeader = window.document.querySelector('[data-tid~="SidePageHeader__root"]') as HTMLElement;
         const fixedHeaderHeight = 50;
-
         sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'fixed header');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'fixed header');
     });
   });
 
   story('SidePageWithChildrenFromOtherComponent', () => {
     test('without header, footer', async (context) => {
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'without header, footer');
+      await context.matchImage(await context.takeScreenshot(), 'without header, footer');
     });
 
     test('scroll to bottom without header, footer', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
         sidepageContainer.scrollTop = 3000;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'scroll to bottom without header, footer');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'scroll to bottom without header, footer');
     });
 
     test('with header, footer', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-        .pause(1000)
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'with header, footer');
+      const page = context.webdriver;
+      await page.locator(tid('SidePage__header-toggle')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('SidePage__footer-toggle')).click();
+      await page.waitForTimeout(1000);
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'with header, footer');
     });
 
     test('scroll to bottom with header, footer', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-        .perform();
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator(tid('SidePage__header-toggle')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('SidePage__footer-toggle')).click();
+      await page.evaluate(() => {
         const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
         sidepageContainer.scrollTop = 3000;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'scroll to bottom with header, footer');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'scroll to bottom with header, footer');
     });
 
     test('with panel', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'with panel');
+      const page = context.webdriver;
+      await page.locator(tid('SidePage__footer-toggle')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('SidePage__panel-toggle')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'with panel');
     });
 
     test('scroll to bottom with panel', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
-        .pause(1000)
-        .click(context.webdriver.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
-        .perform();
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.locator(tid('SidePage__footer-toggle')).click();
+      await page.waitForTimeout(1000);
+      await page.locator(tid('SidePage__panel-toggle')).click();
+      await page.evaluate(() => {
         const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
-
         sidepageContainer.scrollTop = 3000;
       });
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'scroll to bottom with panel');
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'scroll to bottom with panel');
     });
   });
 
@@ -312,14 +242,10 @@ kind('SidePage', () => {
     setStoryParameters({ skip: { 'unstable tests in firefox2022': { in: /^(?!\b(chrome2022)\b)/ } } });
 
     test('open side-page', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -330,28 +256,20 @@ kind('SidePage', () => {
     });
 
     test('change sidepage mode to view to edit to view', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-side-page"]' }))
-        .perform();
-      await delay(100);
+      const page = context.webdriver;
+      await page.locator(tid('open-side-page')).click();
+      await page.waitForTimeout(100);
       const viewModeSidePage = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="SidePageFooter__root"] button` }))
-        .perform();
-      await delay(100);
-      const editModeSidePage = await context.webdriver.takeScreenshot();
+      await page.locator(tid('SidePageFooter__root') + ' button').click();
+      await page.waitForTimeout(100);
+      const editModeSidePage = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="SidePageFooter__root"] button` }))
-        .perform();
-      await delay(100);
+      await page.locator(tid('SidePageFooter__root') + ' button').click();
+      await page.waitForTimeout(100);
       const againViewModeSidePage = await context.takeScreenshot();
 
-      await delay(100);
+      await page.waitForTimeout(100);
       await context.matchImages({ viewModeSidePage, editModeSidePage, againViewModeSidePage });
     });
   });
@@ -363,53 +281,30 @@ kind('SidePage', () => {
     });
 
     test('idle', async (context) => {
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-first-side-page"]' }))
-        .perform();
-      await delay(500);
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-second-side-page"]' }))
-        .perform();
-      await delay(500);
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-third-side-page"]' }))
-        .perform();
-      await delay(500);
+      const page = context.webdriver;
+      await page.locator(tid('open-first-side-page')).click();
+      await page.waitForTimeout(500);
+      await page.locator(tid('open-second-side-page')).click();
+      await page.waitForTimeout(500);
+      await page.locator(tid('open-third-side-page')).click();
+      await page.waitForTimeout(500);
       const thirdOpenedNoVeils = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="veil-first-from-third-side-page"]` }))
-        .perform();
-      await delay(500);
-      const thirdOpenedWithFirstVeil = await context.webdriver.takeScreenshot();
+      await page.locator(tid('veil-first-from-third-side-page')).click();
+      await page.waitForTimeout(500);
+      const thirdOpenedWithFirstVeil = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
-        .perform();
-      await delay(500);
+      await page.locator(tid('veil-second-from-third-side-page') + ' button').click();
+      await page.waitForTimeout(500);
       const thirdOpenedWithFirstAndSecondVeils = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="veil-second-from-third-side-page"] button` }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="veil-third-from-third-side-page"] button` }))
-        .perform();
-      await delay(500);
+      await page.locator(tid('veil-second-from-third-side-page') + ' button').click();
+      await page.locator(tid('veil-third-from-third-side-page') + ' button').click();
+      await page.waitForTimeout(500);
       const thirdOpenedWithFirstAndThirdVeils = await context.takeScreenshot();
 
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="close-third-side-page"] button` }))
-        .perform();
-      await delay(500);
+      await page.locator(tid('close-third-side-page') + ' button').click();
+      await page.waitForTimeout(500);
       const secondOpenedWithFirstVeilAndNoSecondVeil = await context.takeScreenshot();
 
       await context

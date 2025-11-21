@@ -1,141 +1,105 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 const topMiddleBottomModalTests = () => {
   test('top', async (context) => {
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'top');
+    await context.matchImage(await context.takeScreenshot(), 'top');
   });
 
   test('middle', async (context) => {
-    await context.webdriver.executeScript(function () {
+    const page = context.webdriver;
+    await page.evaluate(() => {
       const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
       const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
 
       modalContainer.scrollTop = modalContent.offsetHeight / 2;
     });
-    await delay(100);
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'middle');
+    await page.waitForTimeout(100);
+    await context.matchImage(await context.takeScreenshot(), 'middle');
   });
 
   test('bottom', async (context) => {
-    await context.webdriver.executeScript(function () {
+    const page = context.webdriver;
+    await page.evaluate(() => {
       const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
       const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
 
       modalContainer.scrollTop = modalContent.offsetHeight;
     });
-    await delay(100);
-    await context.matchImage(await context.webdriver.takeScreenshot(), 'bottom');
+    await page.waitForTimeout(100);
+    await context.matchImage(await context.takeScreenshot(), 'bottom');
   });
 };
 
 kind('Modal', () => {
   story('ModalWithFooterPanelStory', () => {
     test('open modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="Button__root"]:nth-of-type(1)' }))
-        .perform();
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
+      const page = context.webdriver;
+      await page.locator(tid('Button__root')).nth(0).click();
+      await page.waitForTimeout(100);
+      await context.matchImage(await context.takeScreenshot(), 'open modal');
     });
   });
 
   story('WithIconInput', () => {
     test('open modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(1000);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'open modal');
     });
   });
 
   story('ModalOverAnotherModalStory', () => {
     test('open first modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-first-modal"]' }))
-        .perform();
-      await delay(200);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open first modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-first-modal')).click();
+      await page.waitForTimeout(200);
+      await context.matchImage(await context.takeScreenshot(), 'open first modal');
     });
 
     test('open second modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-first-modal"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-second-modal"]' }))
-        .perform();
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open second modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-first-modal')).click();
+      await page.locator(tid('open-second-modal')).click();
+      await page.waitForTimeout(100);
+      await context.matchImage(await context.takeScreenshot(), 'open second modal');
     });
   });
 
   story('ModalWithoutFooterPanelStory', () => {
     test('open modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(200);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.waitForTimeout(200);
+      await context.matchImage(await context.takeScreenshot(), 'open modal');
     });
   });
 
   story('ModalWithoutFooterStory', () => {
     test('open modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await context.matchImage(await context.takeScreenshot(), 'open modal');
     });
   });
 
   story('ModalWithVariableHeightOfContent', () => {
     test('open modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.waitForTimeout(100);
+      await context.matchImage(await context.takeScreenshot(), 'open modal');
     });
 
     test('toggle content height', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '#modal-inner [data-tid~="Toggle__root"]' }))
-        .pause(500)
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'toggle content height');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.locator('#modal-inner ' + tid('Toggle__root')).click();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'toggle content height');
     });
   });
 
@@ -145,56 +109,31 @@ kind('Modal', () => {
 
   story('SmallModalOnTheTop', () => {
     test('open modal', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await delay(100);
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'open modal');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.waitForTimeout(100);
+      await context.matchImage(await context.takeScreenshot(), 'open modal');
     });
 
     test('close by click on the cross', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="modal-close"]' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'close by click on the cross');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.locator(tid('modal-close')).click();
+      await context.matchImage(await context.takeScreenshot(), 'close by click on the cross');
     });
 
     test("doesn't close by click on the content", async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="modal-content-button"]' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), "doesn't close by click on the content");
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.locator(tid('modal-content-button')).click();
+      await context.matchImage(await context.takeScreenshot(), "doesn't close by click on the content");
     });
 
     test('closes by click on the background', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-modal"]' }))
-        .perform();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: '[data-tid="modal-container"]' }))
-        .perform();
-      await context.matchImage(await context.webdriver.takeScreenshot(), 'closes by click on the background');
+      const page = context.webdriver;
+      await page.locator(tid('open-modal')).click();
+      await page.locator(tid('modal-container')).click();
+      await context.matchImage(await context.takeScreenshot(), 'closes by click on the background');
     });
   });
 
@@ -205,36 +144,26 @@ kind('Modal', () => {
   story('ChangeAllModalContent', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { 'themes dont affect logic': { in: /^(?!\bchrome2022\b)/ } },
+      captureElement: null,
     });
     test('idle', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="open-first-modal"]' }))
-        .perform();
-      await delay(500);
-      const firstModal = await context.webdriver.takeScreenshot();
-      await context.webdriver
-        .actions({ bridge: true })
-        .click(context.webdriver.findElement({ css: `[data-tid~="open-second-modal"] button` }))
-        .perform();
-      await delay(500);
-      const secondModal = await context.webdriver.takeScreenshot();
+      const page = context.webdriver;
+      await page.locator(tid('open-first-modal')).click();
+      await page.waitForTimeout(500);
+      const firstModal = await context.takeScreenshot();
+      await page.locator(tid('open-second-modal') + ' button').click();
+      await page.waitForTimeout(500);
+      const secondModal = await context.takeScreenshot();
       await context.matchImages({ firstModal, secondModal });
     });
   });
 
   story('CrossFocusedByTab', () => {
     test('idle', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .sendKeys(Key.TAB)
-        .perform();
-      await delay(200);
-      await context.matchImage(await context.webdriver.takeScreenshot());
+      const page = context.webdriver;
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(200);
+      await context.matchImage(await context.takeScreenshot());
     });
   });
 
@@ -244,7 +173,8 @@ kind('Modal', () => {
     });
 
     test('after scrolling', async (context) => {
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
         modalContainer.scrollTop = 300;
       });

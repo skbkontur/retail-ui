@@ -115,6 +115,7 @@ const withThinContainer = (Story: () => JSX.Element) => (
 export default {
   title: 'Sticky',
   component: Sticky,
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const WideContainer: Story = () => <StickyWithWideContainer />;

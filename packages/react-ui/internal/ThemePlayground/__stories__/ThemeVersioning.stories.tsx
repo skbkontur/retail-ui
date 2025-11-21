@@ -63,7 +63,7 @@ const Component = ({ theme }: { theme: TestThemeIn }) => {
   return (
     <div>
       <span style={styles}>Test Component.</span>
-      <pre>{JSON.stringify(styles, null, 2)}</pre>
+      <div style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(styles, null, 2)}</div>
       <div>
         <span>Detected theme versions:&nbsp;{themeVersionList.length === 0 && 'none'}</span>
 

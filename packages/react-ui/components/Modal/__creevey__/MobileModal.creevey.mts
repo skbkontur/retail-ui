@@ -1,26 +1,26 @@
 import { story, kind, test } from 'creevey';
-
-import { delay } from '../../../lib/delay.mjs';
+import 'creevey/playwright';
 
 kind('Modal/Mobile', () => {
   story('MobileModalDefaultWithHeaderAndFooterWithLongContent', () => {
     test('idle', async (context) => {
-      const top = await context.webdriver.takeScreenshot();
+      const top = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const modalContainer = document.querySelector('[data-tid="modal-container"]') as HTMLElement;
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = (modalContent.scrollHeight - modalContainer.offsetHeight) / 2;
       });
-      await delay(500);
-      const scrollToMiddle = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToMiddle = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      await page.evaluate(() => {
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
-      await delay(500);
-      const scrollToBottom = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToBottom = await context.takeScreenshot();
 
       await context.matchImages({ top, scrollToMiddle, scrollToBottom });
     });
@@ -28,22 +28,23 @@ kind('Modal/Mobile', () => {
 
   story('MobileModalDefaultWithStickyHeaderAndStickyFooterWithLongContent', () => {
     test('idle', async (context) => {
-      const top = await context.webdriver.takeScreenshot();
+      const top = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const modalContainer = document.querySelector('[data-tid="modal-container"]') as HTMLElement;
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = (modalContent.scrollHeight - modalContainer.offsetHeight) / 2;
       });
-      await delay(500);
-      const scrollToMiddle = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToMiddle = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      await page.evaluate(() => {
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
-      await delay(500);
-      const scrollToBottom = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToBottom = await context.takeScreenshot();
 
       await context.matchImages({ top, scrollToMiddle, scrollToBottom });
     });
@@ -51,14 +52,15 @@ kind('Modal/Mobile', () => {
 
   story('MobileModalTopWithLongContent', () => {
     test('idle', async (context) => {
-      const top = await context.webdriver.takeScreenshot();
+      const top = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
-      await delay(500);
-      const scrollToBottom = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToBottom = await context.takeScreenshot();
 
       await context.matchImages({ top, scrollToBottom });
     });
@@ -66,22 +68,23 @@ kind('Modal/Mobile', () => {
 
   story('MobileModalFullscreenWithStickyHeaderAndStickyFooterWithLongContent', () => {
     test('idle', async (context) => {
-      const top = await context.webdriver.takeScreenshot();
+      const top = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      const page = context.webdriver;
+      await page.evaluate(() => {
         const modalContainer = document.querySelector('[data-tid="modal-container"]') as HTMLElement;
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = (modalContent.scrollHeight - modalContainer.offsetHeight) / 2;
       });
-      await delay(500);
-      const scrollToMiddle = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToMiddle = await context.takeScreenshot();
 
-      await context.webdriver.executeScript(function () {
+      await page.evaluate(() => {
         const modalContent = document.querySelector('.focus-lock-container') as HTMLElement;
         modalContent.scrollTop = modalContent.scrollHeight;
       });
-      await delay(500);
-      const scrollToBottom = await context.webdriver.takeScreenshot();
+      await page.waitForTimeout(500);
+      const scrollToBottom = await context.takeScreenshot();
 
       await context.matchImages({ top, scrollToMiddle, scrollToBottom });
     });

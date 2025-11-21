@@ -1,20 +1,15 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../../components/__creevey__/helpers.mjs';
 
 kind('ClearCrossIcon', () => {
   story('ClearCrossIconDefaultColors', () => {
     test('idle', async (context) => {
+      const page = context.webdriver;
       const plain = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: `[data-tid='clear-cross-icon']` }),
-        })
-        .perform();
-      await delay(300);
+      await page.locator(tid('clear-cross-icon')).hover();
+      await page.waitForTimeout(300);
       const hover = await context.takeScreenshot();
 
       await context.matchImages({ plain, hover });
@@ -26,16 +21,10 @@ kind('ClearCrossIcon', () => {
       skip: { 'test theme variables': { in: /^(?!\bchrome2022\b)/ } },
     });
     test('idle', async (context) => {
+      const page = context.webdriver;
       const plain = await context.takeScreenshot();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: `[data-tid='clear-cross-icon']` }),
-        })
-        .perform();
-      await delay(300);
+      await page.locator(tid('clear-cross-icon')).hover();
+      await page.waitForTimeout(300);
       const hover = await context.takeScreenshot();
 
       await context.matchImages({ plain, hover });

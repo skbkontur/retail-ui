@@ -1,78 +1,61 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
 import type { CreeveyTestContext } from 'creevey';
 
+import { tid } from '../../components/__creevey__/helpers.mjs';
+
+const optionsWithAnimation = { animations: 'allow' };
+
 const startBlink = async (context: CreeveyTestContext) => {
-  await context.webdriver
-    .actions({
-      bridge: true,
-    })
-    .click(
-      context.webdriver.findElement({
-        css: 'input',
-      }),
-    )
-    .sendKeys('1')
-    .perform();
+  const page = context.webdriver;
+  await page.locator('input').click();
+  await page.keyboard.type('1');
+  await page.waitForTimeout(200);
 };
 const finishBlink = async (context: CreeveyTestContext) => {
-  await context.webdriver
-    .actions({
-      bridge: true,
-    })
-    .click(
-      context.webdriver.findElement({
-        css: 'input',
-      }),
-    )
-    .sendKeys('2')
-    .perform();
+  const page = context.webdriver;
+  await page.locator('input').click();
+  await page.keyboard.type('2');
+  await page.waitForTimeout(200);
 };
 const interruptBlink = async (context: CreeveyTestContext) => {
-  await context.webdriver
-    .actions({
-      bridge: true,
-    })
-    .click(
-      context.webdriver.findElement({
-        css: '[data-tid="update-input"]',
-      }),
-    )
-    .perform();
+  const page = context.webdriver;
+  await page.locator(tid('update-input')).click();
+  await page.waitForTimeout(200);
 };
 
 const pressedTest = () => {
   test('blinking', async (context) => {
     await startBlink(context);
-    const start = await context.takeScreenshot();
-
+    const start = await context.takeScreenshot(optionsWithAnimation);
     await finishBlink(context);
-    const finish = await context.takeScreenshot();
+    const finish = await context.takeScreenshot(optionsWithAnimation);
 
     await context.matchImages({ start, finish });
   });
 
   test('interrupting', async (context) => {
     await startBlink(context);
-    const start = await context.takeScreenshot();
+    const start = await context.takeScreenshot(optionsWithAnimation);
 
     await interruptBlink(context);
-    const interrupt = await context.takeScreenshot();
+    const interrupt = await context.takeScreenshot(optionsWithAnimation);
 
     await context.matchImages({ start, interrupt });
   });
 
   test('blinking after interruption', async (context) => {
     await startBlink(context);
-    const start = await context.takeScreenshot();
+    const start = await context.takeScreenshot(optionsWithAnimation);
 
     await interruptBlink(context);
-    const interrupt = await context.takeScreenshot();
+    const interrupt = await context.takeScreenshot(optionsWithAnimation);
 
     await startBlink(context);
-    const restart = await context.takeScreenshot();
+    const restart = await context.takeScreenshot(optionsWithAnimation);
 
     await finishBlink(context);
-    const finish = await context.takeScreenshot();
+    const finish = await context.takeScreenshot(optionsWithAnimation);
 
     await context.matchImages({ start, interrupt, restart, finish });
   });

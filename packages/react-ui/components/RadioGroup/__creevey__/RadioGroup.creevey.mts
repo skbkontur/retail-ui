@@ -1,7 +1,7 @@
 import { story, kind, test } from 'creevey';
-import { Key } from 'selenium-webdriver';
+import 'creevey/playwright';
 
-import { delay } from '../../../lib/delay.mjs';
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('RadioGroup', () => {
   story('Vertical', ({ setStoryParameters }) => {
@@ -20,66 +20,48 @@ kind('RadioGroup', () => {
     });
 
     test('hovered', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .move({
-          origin: context.webdriver.findElement({ css: '[data-tid~="RadioGroup__root"] > span > label' }),
-        })
-        .perform();
+      const page = context.webdriver;
+      await page
+        .locator(tid('RadioGroup__root') + ' > span > label')
+        .first()
+        .hover();
       await context.matchImage(await context.takeScreenshot(), 'hovered');
     });
 
     test('clicked', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="RadioGroup__root"] > span > label' }))
-        .perform();
+      const page = context.webdriver;
+      await page
+        .locator(tid('RadioGroup__root') + ' > span > label')
+        .first()
+        .click();
       await context.matchImage(await context.takeScreenshot(), 'clicked');
     });
 
     test('mouseLeave', async (context) => {
       // NOTE Firefox bug if click send right after click from previous test it results as double click
-      await delay(500);
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid~="RadioGroup__root"] > span > label' }))
-        .perform();
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="JustButton"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.waitForTimeout(500);
+      await page
+        .locator(tid('RadioGroup__root') + ' > span > label')
+        .first()
+        .click();
+      await page.locator(tid('JustButton')).click();
       await context.matchImage(await context.takeScreenshot(), 'mouseLeave');
     });
 
     test('tabPress', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="JustButton"]' }))
-        .sendKeys(Key.TAB)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('JustButton')).click();
+      await page.keyboard.press('Tab');
       await context.matchImage(await context.takeScreenshot(), 'tabPress');
     });
 
     test('arrow_down', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[data-tid="JustButton"]' }))
-        .sendKeys(Key.TAB)
-        .pause(100)
-        .sendKeys(Key.DOWN)
-        .perform();
+      const page = context.webdriver;
+      await page.locator(tid('JustButton')).click();
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(100);
+      await page.keyboard.press('ArrowDown');
       await context.matchImage(await context.takeScreenshot(), 'arrow_down');
     });
   });

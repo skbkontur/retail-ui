@@ -1,4 +1,7 @@
 import { story, kind, test } from 'creevey';
+import 'creevey/playwright';
+
+import { tid } from '../../__creevey__/helpers.mjs';
 
 kind('PasswordInput', () => {
   story('Plain', ({ setStoryParameters }) => {
@@ -13,25 +16,17 @@ kind('PasswordInput', () => {
     });
 
     test('With typed password', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[type="password"]' }))
-        .sendKeys('Test...')
-        .perform();
+      const page = context.webdriver;
+      await page.locator('[type="password"]').click();
+      await page.keyboard.type('Test...');
       await context.matchImage(await context.takeScreenshot(), 'With typed password');
     });
 
     test('With visible password', async (context) => {
-      await context.webdriver
-        .actions({
-          bridge: true,
-        })
-        .click(context.webdriver.findElement({ css: '[type="password"]' }))
-        .sendKeys('Test...')
-        .click(context.webdriver.findElement({ css: '[data-tid="PasswordInputEyeIcon"]' }))
-        .perform();
+      const page = context.webdriver;
+      await page.locator('[type="password"]').click();
+      await page.keyboard.type('Test...');
+      await page.locator(tid('PasswordInputEyeIcon')).click();
       await context.matchImage(await context.takeScreenshot(), 'With visible password');
     });
   });
