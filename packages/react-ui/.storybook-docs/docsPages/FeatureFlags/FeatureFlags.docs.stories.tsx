@@ -17,6 +17,7 @@ import {
   FxInput,
   TokenInput,
   TokenInputType,
+  Textarea,
 } from '@skbkontur/react-ui';
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
 import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
@@ -401,6 +402,21 @@ export const TokenInputCreateTokenOnBlur: Story = () => {
           selectedItems={selectedItems}
           onValueChange={setSelectedItems}
         />
+      </ReactUIFeatureFlagsContext.Provider>
+    </div>
+  );
+};
+
+export const TextareaBaselineAlign: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ textareaBaselineAlign: isFlagEnabled }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+          <label htmlFor="bat">Baseline align text</label>
+          <Textarea id="bat" value="Textarea baseline align" size="large" />
+        </div>
       </ReactUIFeatureFlagsContext.Provider>
     </div>
   );

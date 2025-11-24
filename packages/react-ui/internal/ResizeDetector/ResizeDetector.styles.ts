@@ -34,4 +34,10 @@ export const styles = memoizeStyle({
       height: 100%;
     `;
   },
+
+  flex() {
+    return css`
+      display: flex;
+    `;
+  },
 });

@@ -13,6 +13,7 @@ export interface ReactUIFeatureFlags {
   sidePageDisableHeaderShrink?: boolean;
   sidePageNotCutTitleOnStuckByDefault?: boolean;
   tokenInputCreateTokenOnBlurInWithoutReferenceMode?: boolean;
+  textareaBaselineAlign?: boolean;
 }
 
 export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
@@ -28,6 +29,7 @@ export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
   sidePageDisableHeaderShrink: false,
   sidePageNotCutTitleOnStuckByDefault: false,
   tokenInputCreateTokenOnBlurInWithoutReferenceMode: false,
+  textareaBaselineAlign: false,
 };
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
