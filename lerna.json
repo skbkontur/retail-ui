@@ -7,7 +7,26 @@
     "version": {
       "conventionalCommits": true,
       "message": "chore(release): publish",
-      "ignoreChanges": ["packages/react-ui-testing/TestPages/**"]
+      "ignoreChanges": [
+        "packages/react-ui/scripts/**",
+        "packages/react-ui-testing/TestPages/**",
+        "packages/react-ui-validations/selenium-tests/**",
+        "packages/react-ui-validations/tests/**",
+        "packages/react-ui-validations/scripts/**",
+        "**/__stories__/**",
+        "**/__tests__/**",
+        "**/__creevey__/**",
+        "**/.creevey/**",
+        "**/.storybook/**",
+        "**/.storybook-docs/**",
+        "**/.gitignore",
+        "**/*.json",
+        "**/*.md",
+        "**/*.mdx",
+        "**/*.config.js",
+        "**/*.config.mjs",
+        "**/*.config.ts"
+      ]
     }
   }
 }
