@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.2...@skbkontur/react-ui@5.4.3) (2025-11-24)
+
+
+### Bug Fixes
+
+* **Textarea:** baseline alignment ([98e4dc0](https://github.com/skbkontur/retail-ui/commit/98e4dc0575e0c3c6315ea0adedad5f85df7b95d1))
+
+
+
+
+
 ## [5.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.1...@skbkontur/react-ui@5.4.2) (2025-11-20)
 
 
