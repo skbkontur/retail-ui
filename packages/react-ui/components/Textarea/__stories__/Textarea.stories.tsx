@@ -4,6 +4,7 @@ import type { Story } from '../../../typings/stories';
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 
 const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
@@ -287,3 +288,29 @@ export const DifferentAlign: Story = () => {
   );
 };
 DifferentAlign.storyName = 'align';
+
+export const BaselineAlign: Story = () => {
+  const content = (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+      <label htmlFor="bat">Baseline align text</label>
+      <Textarea id="bat" size="large" value={'Baseline align text'} />
+    </div>
+  );
+
+  return (
+    <Gapped vertical>
+      <ReactUIFeatureFlagsContext.Provider value={{ textareaBaselineAlign: true }}>
+        {content}
+      </ReactUIFeatureFlagsContext.Provider>
+      {content}
+    </Gapped>
+  );
+};
+BaselineAlign.storyName = 'baseline align';
+BaselineAlign.parameters = {
+  creevey: {
+    skip: {
+      'no themes': { in: /^(?!\b(chrome2022|firefox2022)\b)/ },
+    },
+  },
+};
