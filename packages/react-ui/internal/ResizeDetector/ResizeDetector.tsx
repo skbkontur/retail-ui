@@ -7,6 +7,7 @@ import { styles } from './ResizeDetector.styles';
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
   fullHeight?: boolean;
+  alignBaseline?: boolean;
 }
 
 export class ResizeDetector extends React.Component<React.PropsWithChildren<ResizeDetectorProps>> {
@@ -25,7 +26,13 @@ export class ResizeDetector extends React.Component<React.PropsWithChildren<Resi
     return (
       <div className={styles.root()}>
         <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} />
-        <div className={cx({ [styles.content()]: true, [styles.fullHeight()]: this.props.fullHeight })}>
+        <div
+          className={cx({
+            [styles.content()]: true,
+            [styles.fullHeight()]: this.props.fullHeight,
+            [styles.flex()]: this.props.alignBaseline,
+          })}
+        >
           {this.props.children}
         </div>
       </div>
