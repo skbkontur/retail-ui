@@ -4,7 +4,6 @@ import type { Story } from '../../../typings/stories';
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
 
 const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
@@ -297,14 +296,7 @@ export const BaselineAlign: Story = () => {
     </div>
   );
 
-  return (
-    <Gapped vertical>
-      <ReactUIFeatureFlagsContext.Provider value={{ textareaBaselineAlign: true }}>
-        {content}
-      </ReactUIFeatureFlagsContext.Provider>
-      {content}
-    </Gapped>
-  );
+  return <Gapped vertical>{content}</Gapped>;
 };
 BaselineAlign.storyName = 'baseline align';
 BaselineAlign.parameters = {

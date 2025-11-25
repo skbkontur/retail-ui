@@ -1,12 +1,8 @@
 import React from 'react';
 
-export interface ReactUIFeatureFlags {
-  textareaBaselineAlign?: boolean;
-}
+export interface ReactUIFeatureFlags {}
 
-export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {
-  textareaBaselineAlign: false,
-};
+export const reactUIFeatureFlagsDefault: ReactUIFeatureFlags = {};
 
 export const ReactUIFeatureFlagsContext = React.createContext<ReactUIFeatureFlags>(reactUIFeatureFlagsDefault);
 

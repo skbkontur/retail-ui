@@ -23,11 +23,6 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import type { InputAlign } from '../Input';
 import { withSize } from '../../lib/size/SizeDecorator';
-import {
-  ReactUIFeatureFlagsContext,
-  type ReactUIFeatureFlags,
-} from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext';
-import { getFullReactUIFlagsContext } from '../../lib/featureFlagsContext/FeatureFlagsHelpers';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -184,7 +179,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.counter.reflow();
     }
   };
-  private featureFlags!: ReactUIFeatureFlags;
+
   private theme!: Theme;
   private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
@@ -242,23 +237,16 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     return (
-      <ReactUIFeatureFlagsContext.Consumer>
-        {(flags) => {
-          this.featureFlags = getFullReactUIFlagsContext(flags);
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
           return (
-            <ThemeContext.Consumer>
-              {(theme) => {
-                this.theme = theme;
-                return (
-                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-                    {this.renderMain}
-                  </CommonWrapper>
-                );
-              }}
-            </ThemeContext.Consumer>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
           );
         }}
-      </ReactUIFeatureFlagsContext.Consumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -405,7 +393,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
           })}
         >
           {placeholderPolyfill}
-          <ResizeDetector onResize={this.reflowCounter} alignBaseline={this.featureFlags.textareaBaselineAlign}>
+          <ResizeDetector onResize={this.reflowCounter} alignBaseline>
             <Component
               {...textareaProps}
               className={textareaClassNames}
