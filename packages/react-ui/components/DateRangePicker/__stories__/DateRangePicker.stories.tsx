@@ -6,6 +6,7 @@ import { DateRangePicker } from '../DateRangePicker';
 import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
 import { Group } from '../../Group';
+import { Select } from '../../Select';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { ThemeIn } from '../../../lib/theming/Theme';
@@ -407,3 +408,35 @@ export const Validations: Story = () => {
   );
 };
 Validations.parameters = { creevey: { skip: true } };
+
+export const CustomMenuAnchorElement: Story = () => {
+  const customRef = React.createRef<HTMLDivElement>();
+
+  const [valueStart, setValueStart] = React.useState<string>('10.10.2025');
+  const [valueEnd, setValueEnd] = React.useState<string>('10.11.2025');
+
+  return (
+    <Gapped vertical style={{ width: 800, height: 700, paddingRight: 200 }} gap={100}>
+      <div>
+        menuAnchorElement="focused" меню для выбора даты будет открываться у зафокусированного элемента
+        <DateRangePicker menuAnchorElement="focused">
+          <DateRangePicker.Start data-tid="StartFocused" value={valueStart} onValueChange={setValueStart} />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End data-tid="EndFocused" value={valueEnd} onValueChange={setValueEnd} />
+        </DateRangePicker>
+      </div>
+
+      <Gapped gap={100}>
+        <div>
+          <div>menuAnchorElement="customRef" меню для выбора даты будет открываться у элемента "customRef"</div>
+          <DateRangePicker menuAnchorElement={customRef}>
+            <DateRangePicker.Start data-tid="Custom" value={valueStart} onValueChange={setValueStart} />
+            <DateRangePicker.Separator />
+            <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+          </DateRangePicker>
+        </div>
+        <div ref={customRef}>customRef</div>
+      </Gapped>
+    </Gapped>
+  );
+};

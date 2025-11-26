@@ -3,6 +3,7 @@ import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Input } from '../../Input';
+import { Select } from '../../Select';
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
 import type { CalendarDayProps } from '../../Calendar';
 import { CalendarDataTids, CalendarDay } from '../../Calendar';
@@ -271,6 +272,23 @@ describe('DateRangePicker', () => {
     await userEvent.keyboard('{tab}');
     expect(onFocusEnd).toHaveBeenCalled();
     expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+  });
+
+  it('close menu on click another element', async () => {
+    const SelectRef = React.createRef<Select>();
+    const DateRangePickerStartRef = React.createRef<DateInput>();
+    render(
+      <DateRangePicker>
+        <Select ref={SelectRef} data-tid="TimeSelect" items={['10:00', '11:00']} />
+        <DateRangePicker.Start ref={DateRangePickerStartRef} />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    expect(screen.getByTestId(CalendarDataTids.root)).toBeInTheDocument();
+    await userEvent.click(screen.getByTestId('TimeSelect'));
+    expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
   });
 
   // describe('call focus with param withoutOpenDropdown=true', () => {

@@ -173,3 +173,36 @@ export const ExampleDateFormat: Story = () => {
   );
 };
 ExampleDateFormat.storyName = 'Ручное форматирование даты';
+
+export const ExampleCustomMenuAnchorElement: Story = () => {
+  const customRef = React.createRef<HTMLDivElement>();
+
+  const [valueStart, setValueStart] = React.useState<string>('');
+  const [valueEnd, setValueEnd] = React.useState<string>('');
+
+  return (
+    <Gapped vertical gap={100}>
+      <DateRangePicker menuAnchorElement="focused">
+        <span style={{ width: 300 }}>
+          menuAnchorElement="focused" меню для выбора даты будет открываться у зафокусированного элемента
+        </span>
+        <div style={{ display: 'flex', rowGap: 150, alignItems: 'baseline', justifyContent: 'space-between' }}>
+          <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+        </div>
+      </DateRangePicker>
+
+      <div style={{ display: 'flex', gap: 100 }}>
+        <div ref={customRef}>customRef</div>
+        <DateRangePicker menuAnchorElement={customRef}>
+          <span>menuAnchorElement="customRef" меню для выбора даты будет открываться у элемента "customRef"</span>
+          <DateRangePicker.Start value={valueStart} onValueChange={setValueStart} />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+        </DateRangePicker>
+      </div>
+    </Gapped>
+  );
+};
+ExampleCustomMenuAnchorElement.storyName = 'Настройка позиционирования меню';
