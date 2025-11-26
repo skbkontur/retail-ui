@@ -367,3 +367,50 @@ export const VariousMenuPositions: Story = () => {
 };
 VariousMenuPositions.storyName = 'various menu positions';
 VariousMenuPositions.parameters = { creevey: { captureElement: null } };
+
+export const WithItemToId: Story = () => {
+  interface RefItem {
+    id: string;
+    text: string;
+    description: string;
+  }
+  interface ModelItem {
+    id: string;
+    value: string;
+  }
+
+  const items: RefItem[] = [
+    { id: '0123', text: 'aaa', description: 'aaa description' },
+    { id: '4567', text: 'bbb', description: 'bbb description' },
+    { id: '8901', text: 'aaaccc', description: 'aaaccc description' },
+    { id: '2345', text: 'bbbttt', description: 'bbbttt description' },
+  ];
+  const getItems = async (query: string) => items.filter((item) => item.text.includes(query));
+  const [selectedItems, setSelectedItems] = useState<ModelItem[]>([]);
+
+  return (
+    <TokenInput<RefItem>
+      getItems={getItems}
+      selectedItems={selectedItems.map((item) => ({ id: item.id, text: item.value }) as RefItem)}
+      onValueChange={(items) => {
+        setSelectedItems(items.map((item) => ({ id: item.id, value: item.text })));
+      }}
+      itemToId={(item) => item.id}
+      valueToString={(item) => item.text}
+      renderToken={(item, tokenProps) => (
+        <Token key={item.id} {...tokenProps}>
+          {item.text}
+        </Token>
+      )}
+      valueToItem={(value) => ({ id: Date.now().toString(), text: value, description: '' }) as RefItem}
+      renderValue={(item) => item.text}
+      renderItem={(item) => (
+        <div key={item.id}>
+          {item.text} ({item.description})
+        </div>
+      )}
+    />
+  );
+};
+WithItemToId.storyName = 'with item to id';
+WithItemToId.parameters = { creevey: { skip: true } };
