@@ -6,7 +6,6 @@ import { DateRangePicker } from '../DateRangePicker';
 import { Tooltip } from '../../Tooltip';
 import { Gapped } from '../../Gapped';
 import { Group } from '../../Group';
-import { Select } from '../../Select';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { ThemeIn } from '../../../lib/theming/Theme';

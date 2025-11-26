@@ -31,14 +31,6 @@ ExampleBasic.storyName = 'Базовый пример';
  * - Backless — второстепенная кнопка без заливки, но с обводкой.
  * - Link — ⚠️ устарел. Рекомендуем использовать [Link](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-link--docs) с заданным корневым элементом `component=button`. */
 export const ExampleStyles: Story = () => {
-  const bgStyle = {
-    backgroundImage: `linear-gradient(to right, rgba(130, 130, 130, 0.5) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(130, 130, 130, 0.5) 1px, transparent 1px)`,
-    backgroundSize: `16px 16px`,
-    backgroundPosition: `-8px -8px`,
-    padding: 16,
-  };
-
   return (
     <Gapped>
       <Button use="default">Default</Button>
