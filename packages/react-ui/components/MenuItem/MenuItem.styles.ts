@@ -135,7 +135,7 @@ export const styles = memoizeStyle({
   commentHover(t: Theme) {
     return css`
       color: ${t.menuItemCommentColorHover};
-      opacity: 0.6;
+      opacity: ${t.menuItemCommentOpacityHover};
     `;
   },
   icon() {
