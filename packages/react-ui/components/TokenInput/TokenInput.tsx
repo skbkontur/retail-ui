@@ -9,7 +9,7 @@ import type {
   ReactNode,
 } from 'react';
 import React from 'react';
-import isEqual from 'lodash.isequal';
+import lodashIsEqual from 'lodash.isequal';
 import { globalObject } from '@skbkontur/global-object';
 
 import { PopupIds } from '../../internal/Popup';
@@ -142,10 +142,13 @@ export interface TokenInputProps<T>
   renderNotFound?: () => React.ReactNode;
 
   /** Преобразует значение в элемент списка. */
-  valueToItem?: (item: string) => T;
+  valueToItem?: (value: string) => T;
 
-  /** Определяет уникальный ключ по элементу. */
+  /** @deprecated Используйте `itemToId` вместо `toKey`. */
   toKey?: (item: T) => string | number | undefined;
+
+  /** Задает функцию сравнения полученных результатов с value. */
+  itemToId?: (item: T) => string | number | undefined;
 
   /** Задает текст, который отображается если не введено никакое значение. */
   placeholder?: string;
@@ -235,6 +238,7 @@ type DefaultProps<T> = Required<
     | 'valueToString'
     | 'valueToItem'
     | 'toKey'
+    | 'itemToId'
     | 'onValueChange'
     | 'width'
     | 'onBlur'
@@ -287,6 +291,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     valueToString: identity,
     valueToItem: (item: string) => item,
     toKey: defaultToKey,
+    itemToId: defaultToKey,
     onValueChange: () => void 0,
     width: 250 as string | number,
     onBlur: emptyHandler,
@@ -566,18 +571,23 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'RESET' });
   }
 
-  private hasValueInItems = (items: T[], value: T) => {
+  private isEqual = (itemA: T, itemB: T) => {
+    const { itemToId } = this.getProps();
+    return lodashIsEqual(itemToId(itemA), itemToId(itemB));
+  };
+
+  private hasValueInItems = (items: T[], value: string | T) => {
+    const { valueToString } = this.getProps();
     if (typeof value === 'string') {
-      return items.includes(value);
+      return items.map((item) => valueToString(item)).includes(value);
     }
-    // todo: как то не очень
-    return items.some((item) => isEqual(item, value));
+
+    return items.some((item) => this.isEqual(item, value));
   };
 
   private get showAddItemHint() {
     const items = this.state.autocompleteItems;
     const value = this.getProps().valueToItem(this.state.inputValue);
-
     if (items && this.hasValueInItems(items, value)) {
       return false;
     }
@@ -788,7 +798,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const isSelectedItem = (item: T) => this.hasValueInItems(selectedItems, item);
       const isEditingItem = (item: T) => {
         const editingItem = selectedItems[this.state.editingTokenIndex];
-        return !!editingItem && isEqual(item, editingItem);
+        return !!editingItem && this.isEqual(item, editingItem);
       };
 
       const autocompleteItemsUnique = autocompleteItems.filter((item) => !isSelectedItem(item) || isEditingItem(item));
@@ -796,7 +806,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       if (this.isEditingMode) {
         const editingItem = selectedItems[this.state.editingTokenIndex];
         if (
-          isEqual(editingItem, valueToItem(this.state.inputValue)) &&
+          this.isEqual(editingItem, valueToItem(this.state.inputValue)) &&
           !this.hasValueInItems(autocompleteItemsUnique, editingItem)
         ) {
           autocompleteItemsUnique.unshift(editingItem);
@@ -843,9 +853,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     }
     const isRightmostTokenNotDisabled = !this.isTokenDisabled(this.getProps().selectedItems.length - 1);
+    const canSetValueToInput = this.showAddItemHint || (this.state.autocompleteItems?.length ?? 0) > 0;
+
     switch (true) {
       case isKeyEnter(e):
-        if (this.menuRef) {
+        if (canSetValueToInput && this.menuRef) {
           this.menuRef.enter(e);
         }
         // don't allow textarea
@@ -968,7 +980,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperArrowsWithShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (!isLeftEdge && !isRightEdge) {
       const itemNew = this.getProps().selectedItems[newItemIndex];
-      const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
+      const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !this.isEqual(item, itemNew))];
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
     }
   };
@@ -996,8 +1008,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleRemoveToken = (item: T) => {
-    this.props.onValueChange?.(this.getProps().selectedItems.filter((_) => !isEqual(_, item)));
-    const filteredActiveTokens = this.state.activeTokens.filter((_) => !isEqual(_, item));
+    this.props.onValueChange?.(this.getProps().selectedItems.filter((_) => !this.isEqual(_, item)));
+    const filteredActiveTokens = this.state.activeTokens.filter((_) => !this.isEqual(_, item));
 
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });
     if (filteredActiveTokens.length === 0) {
@@ -1011,7 +1023,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const items = this.state.activeTokens;
     if (event.ctrlKey) {
       const newItems = this.hasValueInItems(this.state.activeTokens, itemNew)
-        ? items.filter((item) => !isEqual(item, itemNew))
+        ? items.filter((item) => !this.isEqual(item, itemNew))
         : [...items, itemNew];
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: newItems });
     } else {
@@ -1037,9 +1049,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private finishTokenEdit = () => {
-    const selectedItems = this.getProps().selectedItems;
-    const { editingTokenIndex, inputValue, reservedInputValue } = this.state;
-    const editedItem = this.getProps().valueToItem(inputValue);
+    const { selectedItems, valueToString } = this.getProps();
+    const { editingTokenIndex, inputValue, reservedInputValue, autocompleteItems } = this.state;
+
+    const editedItem =
+      autocompleteItems?.find((item) => valueToString(item) === inputValue) ?? this.getProps().valueToItem(inputValue);
+
     const newItems = selectedItems.concat([]);
 
     if (!this.hasValueInItems(selectedItems, editedItem)) {

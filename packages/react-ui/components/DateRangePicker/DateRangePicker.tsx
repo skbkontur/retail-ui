@@ -69,6 +69,12 @@ export interface DateRangePickerProps
       | 'onMonthChange'
     > {
   /**
+   * Элемент относительно которого открывается календарь,
+   * Если передать значение `focused` - меню будет открываться у зафокусированного элемента.
+   * Если передать ссылку на DOM элемент или ref - меню откроется относительно переданного элемента.
+   */
+  menuAnchorElement?: 'focused' | Element | React.ReactNode | React.RefObject<any>;
+  /**
    * Элементы DateRangePicker:
    * `<DateRangePicker.Start />`
    * `<DateRangePicker.Separator />`
@@ -302,6 +308,23 @@ export const DateRangePicker = Object.assign(
       </MobilePopup>
     );
 
+    const getAnchorElement = () => {
+      const { menuAnchorElement } = props;
+      if (menuAnchorElement === 'focused') {
+        return getRootNode(focusInput === 'start' ? startRef.current : endRef.current);
+      }
+
+      if (React.isValidElement(menuAnchorElement)) {
+        return menuAnchorElement;
+      }
+
+      if (menuAnchorElement && typeof menuAnchorElement === 'object' && 'current' in menuAnchorElement) {
+        return getRootNode(menuAnchorElement.current);
+      }
+
+      return getRootNode(startRef.current) || getRootNode(endRef.current) || getRootNode(dateRangePickerRef.current);
+    };
+
     const renderDesktopCalendar = (theme: Theme) => (
       <Popup
         opened
@@ -309,7 +332,7 @@ export const DateRangePicker = Object.assign(
         priority={ZIndex.priorities.PopupMenu}
         positions={getMenuPositions(props.menuPos, props.menuAlign)}
         data-tid={DateRangePickerDataTids.root}
-        anchorElement={getRootNode(dateRangePickerRef.current)}
+        anchorElement={getAnchorElement()}
         margin={parseInt(theme.datePickerMenuOffsetY)}
       >
         <div

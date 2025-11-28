@@ -310,6 +310,16 @@ describe('<TokenInput />', () => {
     expect(screen.getByText('bbb')).toBeInTheDocument();
   });
 
+  it('should not add new Token after enter keydown with empty search withReference', async () => {
+    render(<SimpleTokenInput type={TokenInputType.WithReference} />);
+    const input = screen.getByRole('textbox');
+    await userEvent.type(input, 'notvalidtokenvalue');
+    expect(screen.queryByText('Не найдено')).toBeInTheDocument();
+    await userEvent.keyboard('{enter}');
+    await delay(0);
+    expect(screen.queryByText('aaa')).not.toBeInTheDocument();
+  });
+
   it('should not handle whitespace keydown separator', async () => {
     render(<SimpleTokenInput />);
     const tokenInput = screen.getByRole('textbox');
@@ -453,6 +463,190 @@ describe('<TokenInput />', () => {
       expect(actualTokenCount).toBe(expected);
     });
   });
+
+  describe('itemToId', () => {
+    interface TestValue {
+      id: string;
+      text: string;
+    }
+    interface TestItem {
+      id: string;
+      name: string;
+      description: string;
+    }
+
+    const testItems: TestItem[] = [
+      { id: '1', name: 'aaa', description: 'aaa description' },
+      { id: '2', name: 'bbb', description: 'bbb description' },
+      { id: '3', name: 'ccc', description: 'ccc description' },
+    ];
+
+    const getTestItems = async (query: string) => {
+      return Promise.resolve(testItems.filter((item) => item.name.includes(query)));
+    };
+
+    it('should use itemToId to compare items and prevent duplicates', async () => {
+      const onValueChange = vi.fn();
+      const initialItems: TestValue[] = [{ id: '1', text: 'aaa' }];
+
+      render(
+        <TokenInput<TestItem>
+          type={TokenInputType.Combined}
+          getItems={getTestItems}
+          selectedItems={initialItems.map((item) => ({ id: item.id, name: item.text, description: '' }))}
+          onValueChange={onValueChange}
+          itemToId={(item) => item.id}
+          valueToString={(item) => item.name}
+          valueToItem={(value) => ({ id: Date.now().toString(), name: value, description: '' })}
+          renderItem={(item) => item.name}
+          renderToken={(item, tokenProps) => (
+            <Token key={item.id} {...tokenProps}>
+              {item.name}_item
+            </Token>
+          )}
+        />,
+      );
+
+      const input = screen.getByRole('textbox');
+      await userEvent.click(input);
+      await delay(0);
+
+      const menu = screen.getByTestId(TokenInputDataTids.tokenInputMenu);
+      expect(menu).toBeInTheDocument();
+
+      const menuItems = menu.querySelectorAll('[data-tid="MenuItem__content"]');
+      const aaaInMenu = Array.from(menuItems).find((item) => item.textContent?.includes('aaa'));
+      expect(aaaInMenu).toBeUndefined();
+
+      expect(onValueChange).toHaveBeenCalledTimes(0);
+    });
+
+    it('should use itemToId to correctly identify and remove tokens', async () => {
+      const TokenInputWithTestItems = () => {
+        const [selectedItems, setSelectedItems] = useState<TestValue[]>([
+          { id: '1', text: 'aaa' },
+          { id: '2', text: 'bbb' },
+          { id: '3', text: 'ccc' },
+        ]);
+
+        return (
+          <TokenInput<TestItem>
+            type={TokenInputType.Combined}
+            getItems={getTestItems}
+            selectedItems={selectedItems.map((item) => ({ id: item.id, name: item.text, description: '' }))}
+            onValueChange={(items) => setSelectedItems(items.map((item) => ({ id: item.id, text: item.name })))}
+            itemToId={(item) => item.id}
+            valueToString={(item) => item.name}
+            valueToItem={(value) => ({ id: Date.now().toString(), name: value, description: '' })}
+            renderItem={(item) => item.name}
+            renderToken={(item, tokenProps) => (
+              <Token key={item.id} {...tokenProps}>
+                {item.name}
+              </Token>
+            )}
+          />
+        );
+      };
+
+      render(<TokenInputWithTestItems />);
+
+      let tokens = screen.getAllByTestId(TokenDataTids.root);
+      expect(tokens).toHaveLength(3);
+
+      const input = screen.getByRole('textbox');
+      await userEvent.type(input, 'a');
+      await delay(0);
+
+      const menu = screen.getByTestId(TokenInputDataTids.tokenInputMenu);
+      expect(menu).toBeInTheDocument();
+
+      const menuItems = menu.querySelectorAll('[data-tid="MenuItem__content"]');
+      const aaaInMenu = Array.from(menuItems).find((item) => item.textContent === 'aaa');
+      expect(aaaInMenu).toBeUndefined();
+
+      await userEvent.clear(input);
+
+      const bbbToken = tokens.find((token) => token.textContent === 'bbb');
+      expect(bbbToken).toBeInTheDocument();
+
+      const removeIcon = bbbToken?.querySelector(`[data-tid="${TokenDataTids.removeIcon}"]`);
+      if (removeIcon) {
+        await userEvent.click(removeIcon);
+      }
+
+      tokens = screen.getAllByTestId(TokenDataTids.root);
+      expect(tokens).toHaveLength(2);
+      const tokenTexts = tokens.map((token) => token.textContent);
+      expect(tokenTexts).toContain('aaa');
+      expect(tokenTexts).toContain('ccc');
+      expect(tokenTexts).not.toContain('bbb');
+    });
+
+    it('should use itemToId when editing token and preventing duplicate', async () => {
+      const TokenInputWithTestItems = () => {
+        const [selectedItems, setSelectedItems] = useState<TestValue[]>([
+          { id: '1', text: 'aaa' },
+          { id: '2', text: 'bbb' },
+        ]);
+
+        return (
+          <TokenInput<TestItem>
+            type={TokenInputType.Combined}
+            getItems={getTestItems}
+            selectedItems={selectedItems.map((item) => ({ id: item.id, name: item.text, description: '' }))}
+            onValueChange={(items) => setSelectedItems(items.map((item) => ({ id: item.id, text: item.name })))}
+            itemToId={(item) => item.id}
+            valueToString={(item) => item.name}
+            valueToItem={(value) => ({ id: Date.now().toString(), name: value, description: '' })}
+            renderItem={(item) => item.name}
+            renderToken={(item, tokenProps) => (
+              <Token key={item.id} {...tokenProps}>
+                {item.name}
+              </Token>
+            )}
+          />
+        );
+      };
+
+      render(<TokenInputWithTestItems />);
+
+      let tokens = screen.getAllByTestId(TokenDataTids.root);
+      expect(tokens).toHaveLength(2);
+
+      const aaaToken = tokens.find((token) => token.textContent === 'aaa');
+      expect(aaaToken).toBeInTheDocument();
+      if (!aaaToken) {
+        throw new Error('Token not found');
+      }
+
+      await userEvent.dblClick(aaaToken);
+      await delay(0);
+
+      const input = screen.getByRole('textbox');
+      expect(input).toHaveValue('aaa');
+
+      await userEvent.clear(input);
+      await userEvent.type(input, 'bbb');
+      await delay(0);
+
+      const menu = screen.getByTestId(TokenInputDataTids.tokenInputMenu);
+      expect(menu).toBeInTheDocument();
+
+      const menuItems = menu.querySelectorAll('[data-tid="MenuItem__content"]');
+      const aaaInMenu = Array.from(menuItems).find((item) => item.textContent === 'aaa');
+      expect(aaaInMenu).toBeUndefined();
+
+      const allBbbElements = screen.getAllByText('bbb');
+      const menuItem = allBbbElements[allBbbElements.length - 1];
+      await userEvent.click(menuItem);
+
+      tokens = screen.getAllByTestId(TokenDataTids.root);
+      expect(tokens).toHaveLength(1);
+      const tokenTexts = tokens.map((token) => token.textContent);
+      expect(tokenTexts).toContain('bbb');
+      expect(tokenTexts).not.toContain('aaa');
+    });
+  });
 });
 
 function TokenInputWithState({
@@ -478,12 +672,12 @@ function TokenInputWithState({
   );
 }
 
-const SimpleTokenInput = (props: { customDelimiters?: string[] }) => {
+const SimpleTokenInput = (props: { customDelimiters?: string[]; type?: TokenInputType }) => {
   const [selectedItems, setSelectedItems] = useState(['']);
 
   return (
     <TokenInput
-      type={TokenInputType.Combined}
+      type={props.type ?? TokenInputType.Combined}
       getItems={getItems}
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}

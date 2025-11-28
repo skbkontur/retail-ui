@@ -407,3 +407,40 @@ export const Validations: Story = () => {
   );
 };
 Validations.parameters = { creevey: { skip: true } };
+
+export const CustomMenuAnchorElement: Story = () => {
+  const customRef = React.createRef<HTMLDivElement>();
+
+  const [valueStart, setValueStart] = React.useState<string>('');
+  const [valueEnd, setValueEnd] = React.useState<string>('');
+
+  return (
+    <Gapped vertical style={{ width: 800, height: 700, paddingRight: 200 }} gap={100}>
+      <div>
+        menuAnchorElement="focused" меню для выбора даты будет открываться у зафокусированного элемента
+        <DateRangePicker menuAnchorElement="focused">
+          <DateRangePicker.Start data-tid="StartFocused" value={valueStart} onValueChange={setValueStart} />
+          <DateRangePicker.Separator />
+          <DateRangePicker.End
+            data-tid="EndFocused"
+            value={valueEnd}
+            onValueChange={setValueEnd}
+            maxDate="30.10.2025"
+          />
+        </DateRangePicker>
+      </div>
+
+      <Gapped gap={100}>
+        <div>
+          <div>menuAnchorElement="customRef" меню для выбора даты будет открываться у элемента "customRef"</div>
+          <DateRangePicker menuAnchorElement={customRef}>
+            <DateRangePicker.Start data-tid="Custom" value={valueStart} onValueChange={setValueStart} />
+            <DateRangePicker.Separator />
+            <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate="30.10.2025" />
+          </DateRangePicker>
+        </div>
+        <div ref={customRef}>customRef</div>
+      </Gapped>
+    </Gapped>
+  );
+};
