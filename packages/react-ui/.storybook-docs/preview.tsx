@@ -33,6 +33,7 @@ import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import { UiMenuBars3HIcon, UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
+import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon';
 import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light';
 import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light';
 import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular';
@@ -229,6 +230,7 @@ addons.setConfig({
       HandThumbDownIcon,
       HandThumbUpIcon,
       MathFunctionIcon,
+      SearchLoupeIcon,
       SearchLoupeIcon16Light,
       SearchLoupeIcon20Light,
       SearchLoupeIcon24Regular,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FxInput, Group, Button, Gapped } from '@skbkontur/react-ui';
+import { FxInput, Button, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -21,7 +21,7 @@ export const ExampleBasic: Story = () => {
     setValue(value);
   }
 
-  function handleRestore(value: number) {
+  function handleRestore() {
     setAuto(true);
     setValue(FxValue);
   }
@@ -93,7 +93,7 @@ export const ExampleMask: Story = () => {
     setValue(value);
   }
 
-  function handleRestore(value: number) {
+  function handleRestore() {
     setAuto(true);
     setValue('');
   }

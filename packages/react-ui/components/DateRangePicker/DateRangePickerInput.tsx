@@ -127,7 +127,7 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
         <DateInput
           {...commonProps}
           value={props.value || ''}
-          data-tid={DateRangePickerDataTids.start}
+          data-tid={props['data-tid'] || DateRangePickerDataTids.start}
           aria-label={props['aria-label'] || locale.startDateLabel}
           ref={startRef}
         />
@@ -137,7 +137,7 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
         <DateInput
           {...commonProps}
           value={props.value || ''}
-          data-tid={DateRangePickerDataTids.end}
+          data-tid={props['data-tid'] || DateRangePickerDataTids.end}
           aria-label={props['aria-label'] || locale.endDateLabel}
           ref={endRef}
         />

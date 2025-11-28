@@ -1,7 +1,7 @@
 import { story, kind, test } from 'creevey';
 import 'creevey/playwright';
 
-import { tid } from '../../__creevey__/helpers.mjs';
+import { tid, waitForPopup } from '../../__creevey__/helpers.mjs';
 
 kind('DateRangePicker', () => {
   story('MinMax', () => {
@@ -109,6 +109,28 @@ kind('DateRangePicker', () => {
       await page.locator(tid('DateRangePicker__start')).click();
       await page.waitForTimeout(2000);
       await context.matchImage(await context.takeScreenshot(), 'MobilePicker on iphone opened');
+    });
+  });
+
+  story('CustomMenuAnchorElement', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } });
+
+    test('opened in various menuAnchorElement', async (context) => {
+      const page = context.webdriver;
+
+      await page.locator(tid('StartFocused')).click();
+      await waitForPopup(page);
+      const start = await context.takeScreenshot();
+
+      await page.locator(tid('EndFocused')).click();
+      await waitForPopup(page);
+      const end = await context.takeScreenshot();
+
+      await page.locator(tid('Custom')).click();
+      await waitForPopup(page);
+      const custom = await context.takeScreenshot();
+
+      await context.matchImages({ start, end, custom });
     });
   });
 });

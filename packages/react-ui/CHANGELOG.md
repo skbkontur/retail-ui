@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.2...@skbkontur/react-ui@5.4.4) (2025-11-28)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** show picker under input by `menuAnchorElement` on focus ([a0099f3](https://github.com/skbkontur/retail-ui/commit/a0099f30262239f1203e6c9aac910e6a4b304b9f))
+* **Textarea:** baseline alignment ([98e4dc0](https://github.com/skbkontur/retail-ui/commit/98e4dc0575e0c3c6315ea0adedad5f85df7b95d1))
+* **TokenInput:** prevent set hidden items, setting on editing object, fix itemToId prop ([c922996](https://github.com/skbkontur/retail-ui/commit/c922996ed0b27c45e8f3a9876faca6096699b807))
+
+
+
+
+
 ## [5.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.2...@skbkontur/react-ui@5.4.3) (2025-11-24)
 
 
