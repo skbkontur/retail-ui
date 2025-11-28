@@ -411,8 +411,8 @@ Validations.parameters = { creevey: { skip: true } };
 export const CustomMenuAnchorElement: Story = () => {
   const customRef = React.createRef<HTMLDivElement>();
 
-  const [valueStart, setValueStart] = React.useState<string>('10.10.2025');
-  const [valueEnd, setValueEnd] = React.useState<string>('10.11.2025');
+  const [valueStart, setValueStart] = React.useState<string>('');
+  const [valueEnd, setValueEnd] = React.useState<string>('');
 
   return (
     <Gapped vertical style={{ width: 800, height: 700, paddingRight: 200 }} gap={100}>
@@ -421,7 +421,12 @@ export const CustomMenuAnchorElement: Story = () => {
         <DateRangePicker menuAnchorElement="focused">
           <DateRangePicker.Start data-tid="StartFocused" value={valueStart} onValueChange={setValueStart} />
           <DateRangePicker.Separator />
-          <DateRangePicker.End data-tid="EndFocused" value={valueEnd} onValueChange={setValueEnd} />
+          <DateRangePicker.End
+            data-tid="EndFocused"
+            value={valueEnd}
+            onValueChange={setValueEnd}
+            maxDate="30.10.2025"
+          />
         </DateRangePicker>
       </div>
 
@@ -431,7 +436,7 @@ export const CustomMenuAnchorElement: Story = () => {
           <DateRangePicker menuAnchorElement={customRef}>
             <DateRangePicker.Start data-tid="Custom" value={valueStart} onValueChange={setValueStart} />
             <DateRangePicker.Separator />
-            <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} />
+            <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate="30.10.2025" />
           </DateRangePicker>
         </div>
         <div ref={customRef}>customRef</div>
