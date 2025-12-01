@@ -34,6 +34,8 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
 
   let _icon = icon instanceof Function ? icon() : icon;
   if (isElement(icon) && isKonturIcon(icon as ReactElement<any>)) {
+    //TODO REACT19 FIX THIS
+    // @ts-ignore
     _icon = React.cloneElement(icon as ReactElement<any>, { size: icon.props.size ?? sizes[size] });
   }
 

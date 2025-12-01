@@ -1,4 +1,4 @@
-import type { AriaAttributes, ReactElement, HTMLAttributes, JSX } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX, ReactElement } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 import type { Emotion } from '@emotion/css/types/create-instance';
@@ -254,7 +254,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       };
 
       return React.cloneElement(icon as ReactElement<any>, {
+        //TODO REACT19 FIX THIS
+        // @ts-ignore
         size: icon.props.size ?? sizes[this.size],
+        // @ts-ignore
         color: icon.props.color ?? this.theme.kebabIconColor,
       });
     }

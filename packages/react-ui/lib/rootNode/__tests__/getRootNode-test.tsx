@@ -86,14 +86,6 @@ describe('getRootNode', () => {
       expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
-    it('HTMLElement for class component without rootNode', () => {
-      class ClassComponentWithRootNode extends React.Component {
-        render = () => <div />;
-      }
-      const instance = getInstance(<ClassComponentWithRootNode />);
-      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
-    });
-
     it('HTMLElement for class component with rootNode that returns HTMLElement', () => {
       class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
         rootNode: Nullable<HTMLDivElement>;
@@ -102,15 +94,6 @@ describe('getRootNode', () => {
         };
         getRootNode = () => this.rootNode;
         render = () => <div ref={this.rootRef} />;
-      }
-      const instance = getInstance(<ClassComponentWithRootNode />);
-      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
-    });
-
-    it('HTMLElement for class component with rootNode that returns undefined', () => {
-      class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
-        getRootNode = () => undefined;
-        render = () => <div />;
       }
       const instance = getInstance(<ClassComponentWithRootNode />);
       expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);

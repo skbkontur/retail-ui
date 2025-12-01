@@ -5,7 +5,7 @@ import type { Emotion } from '@emotion/css/types/create-instance';
 import type { GlobalObject, SafeTimer } from '../../lib/globalObject';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
+import type { PopupPositionsType, PopupProps, ShortPopupPositionsType } from '../../internal/Popup';
 import { Popup } from '../../internal/Popup';
 import type { RenderLayerProps } from '../../internal/RenderLayer';
 import { RenderLayer } from '../../internal/RenderLayer';

@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 import invariant from 'invariant';
-import type { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement, JSX } from 'react';
+import type { AriaAttributes, ClassAttributes, HTMLAttributes, JSX, ReactElement } from 'react';
 import React, { createRef } from 'react';
 import warning from 'warning';
 import type { Emotion } from '@emotion/css/create-instance';

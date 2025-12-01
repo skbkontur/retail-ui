@@ -71,7 +71,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
     }
 
     //TODO REACT19 тут получаем рефку по старому, не через проп
-    const originalRef = (this.child as React.RefAttributes<any>)?.ref;
+    const originalRef = (this.child as React.ReactElement<any>)?.props.ref;
     if (typeof originalRef === 'function' || (originalRef && typeof originalRef === 'object')) {
       originalRef && callChildRef(originalRef, instance);
     }
