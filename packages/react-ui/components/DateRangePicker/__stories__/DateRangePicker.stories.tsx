@@ -425,7 +425,7 @@ export const CustomMenuAnchorElement: Story = () => {
             data-tid="EndFocused"
             value={valueEnd}
             onValueChange={setValueEnd}
-            maxDate="30.10.2025"
+            maxDate="30.10.2024"
           />
         </DateRangePicker>
       </div>
@@ -436,7 +436,7 @@ export const CustomMenuAnchorElement: Story = () => {
           <DateRangePicker menuAnchorElement={customRef}>
             <DateRangePicker.Start data-tid="Custom" value={valueStart} onValueChange={setValueStart} />
             <DateRangePicker.Separator />
-            <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate="30.10.2025" />
+            <DateRangePicker.End value={valueEnd} onValueChange={setValueEnd} maxDate="30.10.2024" />
           </DateRangePicker>
         </div>
         <div ref={customRef}>customRef</div>
