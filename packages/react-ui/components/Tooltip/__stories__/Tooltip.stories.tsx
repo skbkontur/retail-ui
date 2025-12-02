@@ -1,7 +1,7 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
-import type { CSSProperties, JSX } from 'react';
-import React from 'react';
+
+import type { CSSProperties, ForwardedRef, JSX } from 'react';
+import React, { forwardRef } from 'react';
 import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 
 import type { Nullable } from '../../../typings/utility-types';
@@ -113,11 +113,11 @@ export const TooltipBottom = () => (
 );
 TooltipBottom.storyName = 'tooltip bottom';
 
-export const TooltipWithFunctionalComponentChild = () => {
-  function PureComp() {
-    return <div>Pure Component!</div>;
-  }
+const PureComp = forwardRef((_, ref: ForwardedRef<HTMLDivElement>) => {
+  return <div ref={ref}>Pure Component!</div>;
+});
 
+export const TooltipWithFunctionalComponentChild = () => {
   return (
     <TestTooltip trigger="opened" pos="bottom center">
       <PureComp />
@@ -128,10 +128,6 @@ TooltipWithFunctionalComponentChild.storyName = 'tooltip with functional compone
 TooltipWithFunctionalComponentChild.parameters = { creevey: { skip: true } };
 
 export const TooltipWithFunctionalComponentChildHover = () => {
-  function PureComp() {
-    return <div>Pure Component!</div>;
-  }
-
   return (
     <TestTooltip trigger="hover" pos="bottom center">
       <PureComp />
@@ -142,10 +138,6 @@ TooltipWithFunctionalComponentChildHover.storyName = 'tooltip with functional co
 TooltipWithFunctionalComponentChildHover.parameters = { creevey: { skip: true } };
 
 export const TooltipWithFunctionalComponentClick = () => {
-  function PureComp() {
-    return <div>Pure Component!</div>;
-  }
-
   return (
     <TestTooltip trigger="click" pos="bottom center">
       <PureComp />
