@@ -26,7 +26,7 @@ export interface CurrencyInputProps
   extends Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Override<
-      Omit<InputProps, 'showClearIcon'>,
+      Omit<InputProps, 'showClearIcon' | 'maxLength'>,
       {
         /** Задаёт значение поля. */
         value?: Nullable<number>;
@@ -85,10 +85,6 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     warning(
       isNumeric(props.value) || isNullable(props.value),
       '[CurrencyInput]: Prop `value` is not a valid number. Received value is `' + props.value + '`.',
-    );
-    warning(
-      props.maxLength === undefined,
-      `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
     );
     warning(
       (props.integerDigits || 0) + (props.fractionDigits || 0) <= MAX_SAFE_DIGITS,

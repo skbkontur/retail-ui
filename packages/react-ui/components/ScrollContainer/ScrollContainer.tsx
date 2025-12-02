@@ -27,7 +27,6 @@ import { ScrollBar } from './ScrollBar';
 
 export type ScrollContainerScrollStateX = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
-export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
 type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
@@ -57,10 +56,6 @@ export interface ScrollContainerProps extends CommonProps {
 
   /** Задает функцию, которая вызывается при скроле по вертикали. */
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
-
-  /** Задает функцию, которая вызывается при скроле.
-   * @deprecated use onScroll */
-  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void;
 
   /** Задает функцию, которая вызывается при скроле. */
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
@@ -303,7 +298,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
     const scrollYState = convertScrollbarYScrollState(scrollState);
 
-    this.props.onScrollStateChange?.(scrollYState);
     this.props.onScrollStateChangeY?.(scrollYState);
   };
 

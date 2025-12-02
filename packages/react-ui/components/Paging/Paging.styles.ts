@@ -17,15 +17,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в `6.0` */
-  pagingLegacy(t: Theme) {
-    return css`
-      font-size: ${t.pagingFontSize};
-      line-height: ${t.pagingLineHeight};
-      font-variant-numeric: normal;
-    `;
-  },
-
   pagingSmall(t: Theme) {
     return css`
       font-size: ${t.pagingFontSizeSmall};
@@ -57,13 +48,6 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.pagingDotsColor};
       display: inline-block;
-    `;
-  },
-
-  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в 6.0 */
-  dotsLegacy(t: Theme) {
-    return css`
-      padding: ${t.pagingDotsPadding};
     `;
   },
 
@@ -104,15 +88,6 @@ export const styles = memoizeStyle({
       text-decoration: none;
       user-select: none;
       vertical-align: top;
-    `;
-  },
-
-  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в 6.0 */
-  forwardLinkLegacy(t: Theme) {
-    return css`
-      margin-top: ${t.pagingPageForwardLinkMarginTop};
-      margin-left: ${t.pagingPageForwardLinkMarginLeft};
-      padding-right: ${t.pagingPageForwardLinkPaddingRight};
     `;
   },
 
@@ -183,15 +158,6 @@ export const styles = memoizeStyle({
       &:active {
         background-color: ${t.pagingPageLinkActiveBg};
       }
-    `;
-  },
-
-  /** @deprecated Это стиль старого размера `Paging`. Мы планируем удалить его в 6.0 */
-  pageLinkLegacy(t: Theme) {
-    return css`
-      margin: ${t.pagingPageLinkMargin};
-      min-width: ${t.pagingPageLinkMinWidth};
-      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX};
     `;
   },
 

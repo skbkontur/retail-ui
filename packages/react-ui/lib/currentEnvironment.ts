@@ -16,7 +16,6 @@ const isReactUITestEnv = () => {
       case Boolean(process.env.REACT_UI_TEST): // when NODE_ENV is not usable (e.g., already used for dev/prod)
       case Boolean(process.env.REACT_APP_REACT_UI_TEST): // for usage with CRA
       case Boolean(process.env.STORYBOOK_REACT_UI_TEST): // for usage with storybook
-      case Boolean(process.env.enableReactTesting): // deprecated, legacy variable
         return true;
     }
   }

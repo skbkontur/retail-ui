@@ -1,4 +1,4 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 import React from 'react';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
@@ -11,9 +11,10 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
+import type { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
 const meta: Meta = {
@@ -146,7 +147,7 @@ export const Editors: Story = () => {
 
         <Form.Line title="Телефон">
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.phone).get()}>
-            <Input
+            <MaskedInput
               mask={'+7 999 999-99-99'}
               value={data.phone}
               onValueChange={(value) => handleChange({ phone: value })}

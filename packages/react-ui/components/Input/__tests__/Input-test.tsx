@@ -3,15 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import type { InputType } from '../Input';
-import {
-  Input,
-  inputTypes,
-  maskErrorMessage,
-  maskForbiddenTypes,
-  selectionErrorMessage,
-  selectionAllowedTypes,
-  InputDataTids,
-} from '../Input';
+import { Input, inputTypes, selectionErrorMessage, selectionAllowedTypes, InputDataTids } from '../Input';
 
 describe('<Input />', () => {
   let consoleSpy: ReturnType<typeof vi.spyOn>;
@@ -48,74 +40,11 @@ describe('<Input />', () => {
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
   });
 
-  it('renders MaskedInput on mask prop', () => {
-    render(<Input value="" mask={'(999) 999-9999'} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '7999999999' } });
-    expect(screen.getByRole('textbox')).toHaveValue('(799) 999-9999');
-  });
-
   inputTypes.forEach((type) => {
     it(`passes ${type} type to input`, () => {
       render(<Input value="" type={type} role={'textbox'} />);
       expect(screen.queryByRole('textbox')).toHaveProperty('type', type);
     });
-  });
-
-  inputTypes.forEach((type) => {
-    it(`type ${type} renders correctly with the "mask" prop`, () => {
-      render(<Input value="" type={type} role={'textbox'} mask="999" />);
-      expect(screen.getByRole('textbox')).toBeInTheDocument();
-    });
-  });
-
-  maskForbiddenTypes.forEach((type) => {
-    it(`prints an error when type "${type}" is used with the prop "mask"`, () => {
-      render(<Input type={type} mask="123" />);
-
-      expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(type)}`);
-    });
-  });
-
-  it('type can be changed from allowed for masking to forbidden for masking', async () => {
-    const updatedType = 'date';
-    const Component = () => {
-      const [type, setType] = useState<InputType>('text');
-
-      return (
-        <>
-          <Input type={type} value={'value'} mask="123" />
-          <button onClick={() => setType(updatedType)}>change type to date</button>
-        </>
-      );
-    };
-    render(<Component />);
-
-    await act(async () => {
-      await userEvent.click(screen.getByRole('button'));
-    });
-
-    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
-  });
-
-  it(`prints an error if allowed type changed to forbidden when prop "mask" passed`, async () => {
-    const updatedType = 'number';
-    const Component = () => {
-      const [type, setType] = useState<InputType>('text');
-
-      return (
-        <>
-          <Input type={type} mask="123" />
-          <button onClick={() => setType(updatedType)}>change type to date</button>
-        </>
-      );
-    };
-    render(<Component />);
-
-    await act(async () => {
-      await userEvent.click(screen.getByRole('button'));
-    });
-
-    expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${maskErrorMessage(updatedType)}`);
   });
 
   it('autofocus of element when it renders', () => {
@@ -366,15 +295,6 @@ describe('<Input />', () => {
     expect(consoleSpy.mock.calls[0][0]).toContain(`Warning: ${selectionErrorMessage(updatedType)}`);
   });
 
-  it('MaskedInput props dont pass in HtmlNode', () => {
-    render(<Input value={'foo'} selectAllOnFocus maskChar={'_'} alwaysShowMask mask={''} />);
-    expect(screen.getByRole('textbox')).not.toHaveAttribute('mask');
-    expect(consoleSpy).not.toHaveBeenCalled();
-    if (consoleSpy.mock.calls.length) {
-      expect(consoleSpy.mock.calls[0][0]).not.toContain('Warning: React does not recognize');
-    }
-  });
-
   it('blink method works', async () => {
     const blinkMock = vi.fn();
     const refInput = React.createRef<Input>();
@@ -504,15 +424,6 @@ describe('<Input />', () => {
     render(<Input value="Hello" onMouseLeave={onMouseLeave} />);
     fireEvent.mouseLeave(screen.getByTestId('Input__root'));
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
-  });
-
-  it('maskedInput calls onUnexpectedInput', async () => {
-    const unexpectedInputHandlerMock = vi.fn();
-
-    render(<Input value="" mask={'(999) 999-9999'} onUnexpectedInput={unexpectedInputHandlerMock} />);
-    await userEvent.click(screen.getByRole('textbox'));
-    await userEvent.keyboard('A');
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
   describe('a11y', () => {

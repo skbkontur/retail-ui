@@ -8,7 +8,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
-import type { ScrollContainerScrollState } from '../../components/ScrollContainer';
+import type { ScrollContainerScrollStateY } from '../../components/ScrollContainer';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import type { MenuItem } from '../../components/MenuItem';
 import { MenuItemDataTids } from '../../components/MenuItem';
@@ -61,9 +61,8 @@ export interface MenuProps extends CommonProps, Pick<HTMLAttributes<HTMLDivEleme
 }
 
 export interface MenuState {
-  highlightedIndex: number; // TODO unused variable, remove in next major release
   maxHeight: number | string;
-  scrollState: ScrollContainerScrollState;
+  scrollState: ScrollContainerScrollStateY;
   enableIconPadding: boolean;
 }
 
@@ -103,7 +102,6 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private getProps = createPropsGetter(Menu.defaultProps);
 
   public state: MenuState = {
-    highlightedIndex: -1,
     maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
     enableIconPadding: false,
@@ -237,7 +235,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
             ref={this.refScrollContainer}
             maxHeight={maxHeight}
             preventWindowScroll={preventWindowScroll}
-            onScrollStateChange={this.handleScrollStateChange}
+            onScrollStateChangeY={this.handleScrollStateChange}
             disabled={this.props.disableScrollContainer}
             offsetY={offsetY}
           >
@@ -444,7 +442,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     };
   };
 
-  private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
+  private handleScrollStateChange = (scrollState: ScrollContainerScrollStateY) => {
     if (this.state.scrollState !== scrollState) {
       this.setState({ scrollState });
     }

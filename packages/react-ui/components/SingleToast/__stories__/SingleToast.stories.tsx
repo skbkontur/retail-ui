@@ -78,17 +78,3 @@ export const WithOverrideDefaultColor = () => (
   </>
 );
 WithOverrideDefaultColor.storyName = 'with override default color';
-
-// TODO: после выпиливания старого api для Toast.push удалить историю и скриншотный тест
-export const OldApi = () => (
-  <>
-    <SingleToast />
-    <button
-      data-tid="old-api"
-      onClick={() => SingleToast.push('vasik', { handler: () => {}, label: 'Cancel' }, 10_000, true, 'error')}
-    >
-      Старый api для метода push
-    </button>
-  </>
-);
-OldApi.storyName = 'old api';

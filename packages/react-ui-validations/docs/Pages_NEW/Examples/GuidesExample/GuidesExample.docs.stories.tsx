@@ -1,7 +1,8 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
+import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput';
 
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Form } from '../../../Common/Form';
@@ -203,7 +204,7 @@ export const GuidesExample: Story = () => {
 
         <Form.Line title="Телефон">
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.phone).get()}>
-            <Input
+            <MaskedInput
               mask={'+7 999 999-99-99'}
               value={organization.phone}
               onValueChange={(value) => handleChange({ phone: value })}

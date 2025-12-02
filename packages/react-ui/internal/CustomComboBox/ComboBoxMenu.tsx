@@ -136,7 +136,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           <MenuMessage size={this.props.size} key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuMessage>
-          <MenuItem link onClick={this.getProps().repeatRequest} size={this.props.size} key="retry" isMobile={isMobile}>
+          <MenuItem onClick={this.getProps().repeatRequest} size={this.props.size} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
         </Menu>

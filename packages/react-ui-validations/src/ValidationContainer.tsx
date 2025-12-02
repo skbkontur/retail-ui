@@ -23,7 +23,7 @@ export interface ValidationContainerProps {
   'data-tid'?: string;
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
-  scrollOffset?: number | ScrollOffset;
+  scrollOffset?: ScrollOffset;
   disableSmoothScroll?: boolean;
 }
 
@@ -38,12 +38,6 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   };
 
   private getProps = createPropsGetter(ValidationContainer.defaultProps);
-  private validateProps(scrollOffset: ValidationContainerProps['scrollOffset']): void {
-    warning(
-      typeof scrollOffset !== 'number',
-      `[ValidationContainer]: scrollOffset as a number type has been deprecated, now use object { top?: number; bottom?: number; }`,
-    );
-  }
 
   private childContext: ValidationContextWrapper | null = null;
 
@@ -70,15 +64,6 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       return Promise.resolve(false);
     }
     return this.childContext.validate(withoutFocusOrValidationSettings);
-  }
-
-  public componentDidMount() {
-    this.validateProps(this.getProps().scrollOffset);
-  }
-
-  public componentDidUpdate() {
-    const props = this.getProps();
-    this.validateProps(props.scrollOffset);
   }
 
   public render() {

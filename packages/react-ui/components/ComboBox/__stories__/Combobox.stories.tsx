@@ -623,7 +623,7 @@ function searchWithCustomElements(query: string) {
     ...(_items.slice(0, 3).length ? [<MenuSeparator key={5} />] : []),
     ...(_items.slice(3).length ? _items.slice(3) : [disabled]),
     <MenuSeparator key={3} />,
-    <MenuItem key={4} link onClick={() => alert('Clicked')}>
+    <MenuItem key={4} onClick={() => alert('Clicked')}>
       Ha ha
     </MenuItem>,
   ]);

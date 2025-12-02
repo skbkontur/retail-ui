@@ -99,11 +99,6 @@ export const styles = memoizeStyle({
       cursor: default;
     `;
   },
-  link(t: Theme) {
-    return css`
-      color: ${t.menuItemLinkColor};
-    `;
-  },
   loose() {
     return css`
       padding-left: 15px;

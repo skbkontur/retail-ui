@@ -27,6 +27,6 @@ export class HintPlayground extends React.Component {
   };
 
   private pushToastWithAction = () => {
-    SingleToast.push('Текст сообщения', { label: 'Ссылка', handler: () => null });
+    SingleToast.push('Текст сообщения', { action: { label: 'Ссылка', handler: () => null } });
   };
 }

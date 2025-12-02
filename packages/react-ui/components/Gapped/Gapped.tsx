@@ -59,7 +59,6 @@ export class Gapped extends React.Component<GappedProps> {
   }
 
   private getGapValue() {
-    // DEPRECATED remove in 4.0
     const { gap: propsGap } = this.props;
     if (isNonNullable(propsGap)) {
       return propsGap;

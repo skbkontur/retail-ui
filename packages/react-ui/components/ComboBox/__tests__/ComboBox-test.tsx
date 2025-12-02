@@ -1302,7 +1302,7 @@ describe('ComboBox', () => {
           return null;
         }
         return (
-          <MenuItem link onClick={addItem} data-tid={'addButton'}>
+          <MenuItem onClick={addItem} data-tid={'addButton'}>
             + Добавить {query}
           </MenuItem>
         );

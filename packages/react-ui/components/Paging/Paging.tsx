@@ -65,7 +65,8 @@ export interface PagingProps extends CommonProps {
   pagesCount: number;
 
   /** Задает размер контрола.
-   * @default 'small', начиная с версии темы 5.3. До этого по умолчанию стоит старый размер 'legacy'. */
+   * @default 'small'
+   */
   size?: SizeProp;
 
   /** Делает компонент недоступным. */
@@ -570,6 +571,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     }
 
     const defaultSize = 'small';
-    return this.isMobile && defaultSize === 'small' ? 'medium' : defaultSize;
+    return this.isMobile ? 'medium' : defaultSize;
   };
 }

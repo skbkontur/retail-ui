@@ -148,10 +148,6 @@ export const MaskedInput = forwardRefAndName(
 
     const imaskProps = getCompatibleIMaskProps();
 
-    // TODO: Удалить в следующем мажоре
-    // Селекторы могут ожидать определённый порядок классов
-    const uiFontGlobalClassesRoot = 'react-ui-ui-font-root';
-
     return (
       <Input
         ref={inputRef}
@@ -161,7 +157,7 @@ export const MaskedInput = forwardRefAndName(
         onInput={handleInput}
         onKeyDown={handleKeyDown}
         onPaste={handlePaste}
-        className={cx(globalClasses.root, uiFontGlobalClassesRoot, className, styles.root(theme))}
+        className={cx(globalClasses.root, className, styles.root(theme))}
         element={
           colored ? (
             <ColorableInputElement showOnFocus={false} alwaysShowMask={alwaysShowMask}>

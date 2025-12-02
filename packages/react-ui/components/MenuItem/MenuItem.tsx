@@ -37,11 +37,6 @@ export interface MenuItemProps
 
   /** Добавляет иконку элементу меню. */
   icon?: React.ReactElement<any>;
-  /**
-   * Меняет цвет текста на синий.
-   * @deprecated
-   */
-  link?: boolean;
 
   /** Задает размер контрола. */
   size?: SizeProp;
@@ -233,7 +228,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private renderMain = () => {
     const {
-      link,
       comment,
       icon,
       loose,
@@ -278,7 +272,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.loose()]: !!loose,
       [styles.hover(this.theme)]: this.isHover,
       [styles.selected(this.theme)]: this.isSelected,
-      [styles.link(this.theme)]: !!link,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
       [styles.nonSelectable()]: !!isNotSelectable,
       [styles.disabled(this.theme)]: !!disabled,

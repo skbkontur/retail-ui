@@ -828,7 +828,9 @@ export const ToastOverEverything: Story = () => {
             <SingleToast />
             <button
               data-tid="static-toast"
-              onClick={() => SingleToast.push('Static Toast', { label: 'Close', handler: SingleToast.close })}
+              onClick={() =>
+                SingleToast.push('Static Toast', { action: { label: 'Close', handler: SingleToast.close } })
+              }
             >
               Static Toast
             </button>

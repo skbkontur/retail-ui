@@ -53,14 +53,6 @@ export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonPr
   theme?: ThemeIn;
 }
 
-/** @deprecated выпилить старый подход к api push Toast-а в react-ui 6.0 */
-export type ToastPush = (
-  notification: React.ReactNode,
-  action?: Nullable<Action>,
-  showTime?: number,
-  showCloseIcon?: boolean,
-) => void;
-
 /** Объект с конфигурацией отображения Toast-а */
 export interface ToastPushConfig {
   action?: Nullable<Action>;
@@ -77,8 +69,7 @@ export interface ToastPushConfig {
   use?: ToastUse;
 }
 
-/** TODO: Новый Api для метода push в Toast. Станет api по-умолчанию с версии 6.0. В мажоре нужно будет убрать New из названия */
-export type ToastNewPushApi = (notification: React.ReactNode, config: ToastPushConfig) => void;
+export type ToastPushApi = (notification: React.ReactNode, config?: ToastPushConfig) => void;
 
 export type ToastClose = () => void;
 
@@ -93,12 +84,6 @@ export const ToastDataTids = {
  * `Toast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.
  * Результат может быть положительным, отрицательным или нейтральным.
  *
- * Метод `push` через ref поддерживает два api.
- *
- * 1. Устаревший с последовательной передачей аргументов: `toastRef.current.push('Hi', { label: 'Cancel', handler: () => {} }, 15000)`
- * 2. Новый с передачей объекта конфигурации: `toastRef.current.push('Hi', { action: { label: 'Cancel', handler: () => {} }, showTime: 15000 })`
- *
- * Устаревший подход с передачей аргументов последовательным образом **будет удалён** в следующей мажорной версии.
  */
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {
@@ -155,63 +140,26 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * @public
    * @param {React.ReactNode} notification
    * @param {ToastPushConfig} config объект с конфигурацией отображения компонента Toast
-   *
-   * @description Сейчас есть поддержка старого api метода push с передачей аргументов последовательно, но с версии 6.0 этот функционал будет удалён.
-   * @example
-   * // Будет удален в 6.0
-   * push('notification', { label: "cat meow", handler: () => {} }, 15_000, false, "error")
-   *
-   * @example
-   * // Останется в > 6.0
-   * push('notification', { action: { label: "cat meow", handler: () => {} }, showTime: 15_000, showCloseIcon: false, use: "error" })
    */
-  public push(
-    notification: React.ReactNode,
-    configOrAction?: ToastPushConfig | Nullable<Action>,
-    showTime?: number,
-    showCloseIcon?: boolean,
-    use?: ToastUse,
-  ) {
+  public push: ToastPushApi = (notification: React.ReactNode, config?: ToastPushConfig) => {
     if (this.state.notification) {
       this.close();
     }
 
-    if (isNewToastPushApi(configOrAction)) {
-      const { action, showTime, showCloseIcon, use } = configOrAction;
+    safelyCall(this.props.onPush, notification, config?.action);
 
-      safelyCall(this.props.onPush, notification, action);
-
-      this.setState(
-        ({ id }) => ({
-          notification,
-          action,
-          id: id + 1,
-          showTime,
-          showCloseIcon,
-          currentUse: use ?? 'default',
-        }),
-        this._setTimer,
-      );
-    }
-
-    /** @deprecated выпилить старый подход к api push Toast-а в react-ui 6.0 */
-    if (isOldToastPushApi(configOrAction) || isEmptySecondArg(configOrAction)) {
-      const action = configOrAction;
-      safelyCall(this.props.onPush, notification, action);
-
-      this.setState(
-        ({ id }) => ({
-          notification,
-          action,
-          id: id + 1,
-          showTime,
-          showCloseIcon,
-          currentUse: use ?? 'default',
-        }),
-        this._setTimer,
-      );
-    }
-  }
+    this.setState(
+      ({ id }) => ({
+        notification,
+        action: config?.action,
+        id: id + 1,
+        showTime: config?.showTime,
+        showCloseIcon: config?.showCloseIcon,
+        currentUse: config?.use ?? 'default',
+      }),
+      this._setTimer,
+    );
+  };
 
   /**
    * @public
@@ -293,17 +241,4 @@ function safelyCall(fn: Nullable<(a?: any) => any>, ...args: any[]) {
   if (fn) {
     fn(...args);
   }
-}
-
-export function isNewToastPushApi(value: unknown): value is ToastPushConfig {
-  return Boolean(value && typeof value === 'object' && !('label' in value));
-}
-
-export function isOldToastPushApi(value: unknown): value is Action {
-  return Boolean(value && typeof value === 'object' && 'label' in value);
-}
-
-/** Хелпер для случая, когда передаём только текст */
-export function isEmptySecondArg(value: unknown): value is null | undefined {
-  return !value;
 }

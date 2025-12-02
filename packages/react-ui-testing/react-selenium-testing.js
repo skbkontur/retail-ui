@@ -50,7 +50,7 @@ function injectReactDevToolsHook(injectModule, injectFiberHanlers) {
   injectFiberHanlers(global.__REACT_DEVTOOLS_GLOBAL_HOOK__);
 }
 
-if (process.env.enableReactTesting) {
+if (process.env.REACT_UI_TEST) {
   global.ReactTesting = {
     addRenderContainer: () => {},
     removeRenderContainer: () => {},
@@ -63,7 +63,9 @@ if (process.env.enableReactTesting) {
 // ====================================================
 
 function appendToSet(attrContainer, name, value) {
-  if (value === null) return;
+  if (value === null) {
+    return;
+  }
   const attributeStringValue = attrContainer[name];
   const set = (attributeStringValue || '').split(' ').filter(x => x !== '');
   if (!set.includes(value)) {
@@ -84,13 +86,11 @@ function acceptProp(componentName, propName, propValue) {
   if (attributeWhiteList != null) {
     if (attributeWhiteList[propName] == null) {
       result = false;
-    } else {
-      if (
+    } else if (
         !attributeWhiteList[propName].every(componentNamePattern => acceptPattern(componentNamePattern, componentName))
       ) {
         result = false;
       }
-    }
   }
   if (customAcceptAttribute != null) {
     result = customAcceptAttribute(result, componentName, propName);
@@ -147,7 +147,7 @@ const ReactWorkTypes = {
 };
 
 const WorkTagsByReactVersion = {
-  ['<16.5']: {
+  '<16.5': {
     [ReactWorkTypes.FunctionComponent]: 1,
     [ReactWorkTypes.ClassComponent]: 2,
     [ReactWorkTypes.HostPortal]: 4,
@@ -156,7 +156,7 @@ const WorkTagsByReactVersion = {
     [ReactWorkTypes.ContextConsumer]: 12,
     [ReactWorkTypes.ContextProvider]: 13,
   },
-  ['>=16.5 <16.6']: {
+  '>=16.5 <16.6': {
     [ReactWorkTypes.FunctionComponent]: 0,
     [ReactWorkTypes.ClassComponent]: 2,
     [ReactWorkTypes.HostPortal]: 6,
@@ -165,7 +165,7 @@ const WorkTagsByReactVersion = {
     [ReactWorkTypes.ContextConsumer]: 11,
     [ReactWorkTypes.ContextProvider]: 12,
   },
-  ['>=16.6']: {
+  '>=16.6': {
     [ReactWorkTypes.FunctionComponent]: 0,
     [ReactWorkTypes.ClassComponent]: 1,
     [ReactWorkTypes.HostPortal]: 4,
@@ -177,7 +177,10 @@ const WorkTagsByReactVersion = {
 };
 
 function isFiberNodeOfType(node, type) {
-  if (!node) return false;
+  if (!node) {
+    return false;
+
+  }
   const reactVersion = node.hasOwnProperty('elementType')
     ? '>=16.6'
     : node.hasOwnProperty('firstContextDependency')

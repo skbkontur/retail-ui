@@ -616,10 +616,6 @@ export class BasicThemeClass {
     return this.btnTextHoverBg;
   }
 
-  /** @deprecated use btnWithIconPadding[Small/Medium/Large] instead */
-  public static get btnWithIconPaddingLeftSmall() {
-    return this.btnWithIconPaddingSmall;
-  }
   public static get btnWithIconPaddingLeftMedium() {
     return this.btnWithIconPaddingMedium;
   }
@@ -735,21 +731,13 @@ export class BasicThemeClass {
 
   //#endregion Select
   //#region Tooltip
-  /** @deprecated Эта переменная устарела при появлении размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipPaddingYSmall `tooltipPaddingYSmall`} */
-  public static tooltipPaddingY = '16px';
-  /** @deprecated Эта переменная устарела при появлении размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipPaddingXSmall `tooltipPaddingXSmall`} */
-  public static tooltipPaddingX = '16px';
   public static tooltipPaddingYSmall = '16px';
   public static tooltipPaddingXSmall = '16px';
   public static tooltipPaddingYMedium = '20px';
   public static tooltipPaddingXMedium = '20px';
   public static tooltipPaddingYLarge = '24px';
   public static tooltipPaddingXLarge = '24px';
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipCloseBtnPaddingSmall `tooltipCloseBtnPaddingSmall`} */
-  public static tooltipCloseBtnPadding = '4px';
+
   public static tooltipCloseBtnPaddingSmall = '4px';
   public static tooltipCloseBtnPaddingMedium = '6px';
   public static tooltipCloseBtnPaddingLarge = '8px';
@@ -763,43 +751,26 @@ export class BasicThemeClass {
   public static get tooltipBorder() {
     return this.popupBorder;
   }
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipBorderRadiusSmall `tooltipBorderRadiusSmall`} */
-  public static tooltipBorderRadius = '8px';
   public static tooltipBorderRadiusSmall = '8px';
   public static tooltipBorderRadiusMedium = '10px';
   public static tooltipBorderRadiusLarge = '12px';
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipPinOffsetYSmall `tooltipPinOffsetYSmall`} */
-  public static tooltipPinOffsetY = '18px';
+
   public static tooltipPinOffsetYSmall = '18px';
   public static tooltipPinOffsetYMedium = '21px';
   public static tooltipPinOffsetYLarge = '24px';
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipPinOffsetXSmall `tooltipPinOffsetXSmall` */
-  public static tooltipPinOffsetX = '16px';
+
   public static tooltipPinOffsetXSmall = '16px';
   public static tooltipPinOffsetXMedium = '20px';
   public static tooltipPinOffsetXLarge = '24px';
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipMarginSmall `tooltipMarginSmall`} */
-  public static tooltipMargin = '10px';
+
   public static tooltipMarginSmall = '10px';
   public static tooltipMarginMedium = '12px';
   public static tooltipMarginLarge = '14px';
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipPinSizeSmall `tooltipPinSizeSmall`} */
-  public static get tooltipPinSize() {
-    return this.popupPinSize;
-  }
+
   public static tooltipPinSizeSmall = '8px';
   public static tooltipPinSizeMedium = '10px';
   public static tooltipPinSizeLarge = '12px';
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipFontSizeSmall `tooltipFontSizeSmall`} */
-  public static get tooltipFontSize() {
-    return this.fontSizeSmall;
-  }
+
   public static get tooltipFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -809,11 +780,7 @@ export class BasicThemeClass {
   public static get tooltipFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  /** @deprecated Переменная устарела с появлением размеров у `Tooltip` и будет удалена в `6.0`.
-   * @see {@link tooltipLineHeightSmall `tooltipLineHeightSmall`} */
-  public static get tooltipLineHeight() {
-    return this.controlLineHeightSmall;
-  }
+
   public static get tooltipLineHeightSmall() {
     return this.controlLineHeightSmall;
   }
@@ -826,10 +793,10 @@ export class BasicThemeClass {
   //#endregion Tooltip
   //#region TooltipMenu
   public static get tooltipMenuPinOffsetX() {
-    return this.tooltipPinOffsetX;
+    return this.tooltipPinOffsetXSmall;
   }
   public static get tooltipMenuPinOffsetY() {
-    return this.tooltipPinOffsetY;
+    return this.tooltipPinOffsetYSmall;
   }
   public static get tooltipMenuMargin() {
     return this.popupMargin;
@@ -986,8 +953,7 @@ export class BasicThemeClass {
   public static sidePageHeaderPaddingBottom = '16px';
   public static sidePageHeaderPaddingTop = '24px';
   public static sidePageHeaderStickyOffset = '10px';
-  /** @deprecated use sidePageCloseButtonClickAreaLeft and sidePageCloseButtonClickAreaRight instead */
-  public static sidePageCloseButtonPadding = '32px';
+
   public static get mobileSidePageCloseButtonPadding() {
     return this.mobileSidePageCloseButtonClickArea;
   }
@@ -998,8 +964,7 @@ export class BasicThemeClass {
     return this.sidePageFooterPanelPaddingTop;
   }
   public static sidePageCloseIconSize = '20px';
-  /** @deprecated use sidePageCloseButtonClickArea[Top/Bottom/Left/Right] instead */
-  public static sidePageCloseButtonClickArea = '6px';
+
   public static get sidePageCloseButtonClickAreaTop() {
     return this.modalCloseButtonClickAreaTop;
   }
@@ -1028,8 +993,7 @@ export class BasicThemeClass {
   public static mobileSidePageHeaderLineHeight = '32px';
   public static mobileSidePageHeaderPaddingBottom = '16px';
   public static mobileSidePageHeaderPaddingTop = '16px';
-  /** @deprecated use mobileSidePageCloseButtonPadding instead */
-  public static mobileSidePageCloseButtonRightPadding = '12px';
+
   public static sidePageHeaderFontWeight = 'bold';
   public static sidePageCloseButtonWrapperOffsetTop = '2px';
   public static sidePageCloseButtonWrapperFixedOffsetTop = '4px';
@@ -1160,11 +1124,7 @@ export class BasicThemeClass {
   public static mobileDateSelectLineHeight = '20px';
   //#endregion DateSelect
   //#region Paging
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
-   * @see {@link pagingFontSizeSmall `pagingFontSizeSmall`} */
-  public static get pagingFontSize() {
-    return this.fontSizeMedium;
-  }
+
   public static get pagingFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -1174,9 +1134,7 @@ export class BasicThemeClass {
   public static get pagingFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
-   * @see {@link pagingLineHeightSmall `pagingLineHeightSmall`} */
-  public static pagingLineHeight = '22px';
+
   public static get pagingLineHeightSmall() {
     return this.controlLineHeightSmall;
   }
@@ -1187,22 +1145,14 @@ export class BasicThemeClass {
     return this.controlLineHeightLarge;
   }
   public static pagingPageLinkBoxSizing = 'border-box';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
-  public static pagingPageLinkMinWidth = '0.75em';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
-   * @see {@link pagingPageLinkPaddingYSmall `pagingPageLinkPaddingYSmall`} */
-  public static pagingPageLinkPaddingY = '0.3125em';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
-   * @see {@link pagingPageLinkPaddingXSmall `pagingPageLinkPaddingXSmall`} */
-  public static pagingPageLinkPaddingX = '12px';
+
   public static pagingPageLinkPaddingYSmall = '6px';
   public static pagingPageLinkPaddingXSmall = '11.5px';
   public static pagingPageLinkPaddingYMedium = '9px';
   public static pagingPageLinkPaddingXMedium = '15px';
   public static pagingPageLinkPaddingYLarge = '12px';
   public static pagingPageLinkPaddingXLarge = '18.5px';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
-  public static pagingPageLinkMargin = '0px 1px';
+
   public static pagingPageLinkBorderRadius = '9999px';
   public static get pagingPageLinkColor() {
     return this.textColorDefault;
@@ -1213,32 +1163,20 @@ export class BasicThemeClass {
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
   public static pagingPageLinkDisabledActiveBg = 'rgba(0, 0, 0, 0.04)';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
-  public static pagingPageForwardLinkMarginTop = '';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
-  public static pagingPageForwardLinkMarginLeft = '0px';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
-  public static get pagingPageForwardLinkPaddingRight() {
-    return this.pagingPageLinkPaddingX;
-  }
+
   public static pagingForwardLinkPaddingSmall = '6px 8px 6px 12px';
   public static pagingForwardLinkPaddingMedium = '9px 12px 9px 16px';
   public static pagingForwardLinkPaddingLarge = '12px 16px 12px 20px';
   public static pagingForwardLinkPaddingMediumMobile = '10px';
   public static pagingForwardLinkPaddingLargeMobile = '12px';
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0` */
-  public static get pagingForwardIconSize() {
-    return this.pagingFontSize;
-  }
+
   public static get pagingForwardLinkColor() {
     return this.textColorDefault;
   }
   public static get pagingForwardLinkDisabledColor() {
     return this.linkDisabledColor;
   }
-  /** @deprecated Это переменная старого размера `Paging` и будет удалена в `6.0`
-   * @see {@link pagingDotsPaddingSmall `pagingDotsPaddingSmall`} */
-  public static pagingDotsPadding = '0.375em 0.625em 0';
+
   public static pagingDotsPaddingSmall = '11px 8px 5px 8px';
   public static pagingDotsPaddingMedium = '14px 12px 10px 12px';
   public static pagingDotsPaddingLarge = '19px 16px 13px 16px';
@@ -1465,12 +1403,7 @@ export class BasicThemeClass {
   public static get menuItemHoverColor() {
     return this.menuItemTextColor;
   }
-  /**
-   * @deprecated
-   */
-  public static get menuItemLinkColor() {
-    return this.linkColor;
-  }
+
   public static get menuItemCommentColor() {
     return this.menuItemTextColor;
   }

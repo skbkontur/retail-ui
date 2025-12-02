@@ -6,9 +6,7 @@ import warning from 'warning';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
-import type { Nullable, Override } from '../../typings/utility-types';
-import { InternalMaskedInput } from '../../internal/InternalMaskedInput';
+import type { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -27,7 +25,6 @@ import { withSize } from '../../lib/size/SizeDecorator';
 import type { InputElement, InputElementProps } from './Input.typings';
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
-import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
 
@@ -43,15 +40,6 @@ export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[]
     .join(', ')}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
 };
 
-export const maskForbiddenTypes: InputType[] = ['number', 'date', 'time'];
-export const maskAllowedTypes: InputType[] = inputTypes.filter((type) => {
-  return !maskForbiddenTypes.includes(type);
-});
-export const maskErrorMessage = (type: InputType, allowedTypes: InputType[] = maskAllowedTypes) => {
-  return `<Input />. Prop "mask" does not support type "${type}". Supported types: ${allowedTypes
-    .map((i) => `"${i}"`)
-    .join(', ')}.`;
-};
 export const calculateClearCrossShowedState = ({
   showClearIcon,
   notEmptyValue,
@@ -107,23 +95,6 @@ export interface InputProps
 
         /** Выравнивает контент внутри поля. */
         align?: InputAlign;
-
-        /** Задаёт паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
-        mask?: Nullable<string>;
-
-        /** Устанавливает символ маски.
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
-        maskChar?: Nullable<string>;
-
-        /** Задаёт словарь символов-регулярок для задания маски
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput.
-         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }. */
-        formatChars?: Record<string, string>;
-
-        /** Включает показ символов маски.
-         * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
-        alwaysShowMask?: boolean;
 
         /** Задаёт размер.
          * @default small
@@ -182,7 +153,6 @@ export interface InputProps
 export interface InputState {
   focused: boolean;
   hovered: boolean;
-  needsPolyfillPlaceholder: boolean;
   clearCrossShowed: boolean;
 }
 
@@ -238,7 +208,6 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   public state: InputState = {
-    needsPolyfillPlaceholder,
     focused: false,
     hovered: false,
     clearCrossShowed: this.getClearCrossShowed({
@@ -246,20 +215,6 @@ export class Input extends React.Component<InputProps, InputState> {
       hasInitialValue: Boolean(this.props.value || this.props.defaultValue),
     }),
   };
-
-  private outputMaskError() {
-    warning(!(this.props.mask && this.canBeUsedWithMask), maskErrorMessage(this.getProps().type));
-  }
-
-  public componentDidMount() {
-    this.outputMaskError();
-  }
-
-  public componentDidUpdate(prevProps: Readonly<InputProps>) {
-    if (this.props.type !== prevProps.type || this.props.mask !== prevProps.mask) {
-      this.outputMaskError();
-    }
-  }
 
   public componentWillUnmount() {
     this.cancelDelayedSelectAll();
@@ -318,19 +273,8 @@ export class Input extends React.Component<InputProps, InputState> {
     if (globalObject.document?.activeElement !== this.input) {
       this.focus();
     }
-    if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
-      globalObject.setTimeout(() => {
-        this.input?.setSelectionRange(start, end);
-      }, 150);
-    } else {
-      this.input?.setSelectionRange(start, end);
-    }
-  }
 
-  public get isMaskVisible(): boolean {
-    const { mask, alwaysShowMask } = this.props;
-    const { focused } = this.state;
-    return Boolean(mask && (focused || alwaysShowMask));
+    this.input?.setSelectionRange(start, end);
   }
 
   public render(): JSX.Element {
@@ -346,10 +290,6 @@ export class Input extends React.Component<InputProps, InputState> {
         }}
       </ThemeContext.Consumer>
     );
-  }
-
-  private get canBeUsedWithMask() {
-    return maskForbiddenTypes.includes(this.getProps().type);
   }
 
   /**
@@ -382,9 +322,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return React.cloneElement(this.props.element, inputProps);
     }
 
-    return this.props.mask && !this.canBeUsedWithMask
-      ? this.renderMaskedInput(inputProps, this.props.mask)
-      : React.createElement('input', inputProps);
+    return React.createElement('input', inputProps);
   };
 
   private renderMain = (props: CommonWrapperRestProps<InputProps>) => {
@@ -405,9 +343,6 @@ export class Input extends React.Component<InputProps, InputState> {
       value,
       align,
       type,
-      mask,
-      maskChar,
-      alwaysShowMask,
       size,
       placeholder,
       selectAllOnFocus,
@@ -415,7 +350,6 @@ export class Input extends React.Component<InputProps, InputState> {
       onUnexpectedInput,
       prefix,
       suffix,
-      formatChars,
       corners,
       'aria-describedby': ariaDescribedby,
       'aria-controls': ariaControls,
@@ -460,7 +394,7 @@ export class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type,
-      placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
+      placeholder,
       disabled,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
@@ -487,34 +421,9 @@ export class Input extends React.Component<InputProps, InputState> {
         context={{ disabled: Boolean(disabled), focused, size: this.size }}
       >
         {input}
-        {this.state.needsPolyfillPlaceholder && (
-          <PolyfillPlaceholder
-            isMaskVisible={this.isMaskVisible}
-            value={value}
-            defaultValue={this.props.defaultValue}
-            align={align}
-          >
-            {placeholder}
-          </PolyfillPlaceholder>
-        )}
       </InputLayout>
     );
   };
-
-  private renderMaskedInput(inputProps: React.InputHTMLAttributes<HTMLInputElement>, mask: string) {
-    return (
-      <InternalMaskedInput
-        {...inputProps}
-        mask={mask}
-        maskChar={this.props.maskChar}
-        alwaysShowMask={this.props.alwaysShowMask}
-        formatChars={this.props.formatChars}
-        onChange={this.props.onChange}
-        onValueChange={this.handleMaskedValueChange}
-        onUnexpectedInput={this.handleUnexpectedInput}
-      />
-    );
-  }
 
   private getSizeClassName() {
     switch (this.size) {
@@ -534,8 +443,8 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  private refInput = (element: HTMLInputElement | InternalMaskedInput | InputElement | null) => {
-    if (element instanceof InternalMaskedInput || (element && 'input' in element)) {
+  private refInput = (element: HTMLInputElement | InputElement | null) => {
+    if (element && 'input' in element) {
       this.input = element.input;
     } else {
       this.input = element;
@@ -555,13 +464,6 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (needsPolyfillPlaceholder) {
-      const fieldIsEmpty = event.target.value === '';
-      if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });
-      }
-    }
-
     if (this.props.onValueChange) {
       this.props.onValueChange(event.target.value);
     }
@@ -628,12 +530,6 @@ export class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.maxLength === event.currentTarget.value.length) {
       this.handleUnexpectedInput(event.currentTarget.value);
-    }
-  };
-
-  private handleMaskedValueChange = (value: string) => {
-    if (this.props.onValueChange) {
-      this.props.onValueChange(value);
     }
   };
 

@@ -413,7 +413,6 @@ describe('<Autocomplete />', () => {
     expect(input).toHaveValue('a');
   });
 
-  //TODO: Придумать как перевести на RTL
   it('handle concurrent source requests', async () => {
     const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
     const onValueChange = vi.fn();

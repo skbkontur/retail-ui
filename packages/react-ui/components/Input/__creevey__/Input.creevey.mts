@@ -40,45 +40,12 @@ const differentStatesTest = () => {
   });
 };
 
-const testMaskedInput = () => {
-  test('idle, focus, edit, blur', async (context) => {
-    const page = context.webdriver;
-    const idle = await context.takeScreenshot();
-    await page.locator('input').click();
-    await page.waitForTimeout(500);
-    const focused = await context.takeScreenshot();
-    await page.locator('input').click();
-    await page.keyboard.type('953');
-    const edited = await context.takeScreenshot();
-    await page.locator('body').click();
-    const blured = await context.takeScreenshot();
-    await context.matchImages({ idle, focused, edited, blured });
-  });
-};
-
 kind('Input', () => {
   story('Default', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
     });
     differentStatesTest();
-  });
-
-  story('WithMask', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
-    });
-    testMaskedInput();
-  });
-
-  story('WithMaskAndCustomUnmaskedValue', ({ setStoryParameters }) => {
-    setStoryParameters({
-      skip: {
-        "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ },
-      },
-    });
-
-    testMaskedInput();
   });
 
   story('SelectAllByProp', ({ setStoryParameters }) => {
@@ -135,25 +102,6 @@ kind('Input', () => {
       await page.keyboard.type('text');
       const typed = await context.takeScreenshot();
       await context.matchImages({ plain, typed });
-    });
-  });
-
-  story('WithMaskAndSelectAllProp', ({ setStoryParameters }) => {
-    setStoryParameters({ skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } } });
-
-    test('PlainAndSelected', async (context) => {
-      const page = context.webdriver;
-      const plain = await context.takeScreenshot();
-      await page.locator('input').click();
-      await page.waitForTimeout(500);
-      const selectAllHalfFilledInput = await context.takeScreenshot();
-      await page.locator('input').click();
-      await page.keyboard.type('1111');
-      await page.locator('body').click();
-      await page.locator('input').click();
-      await page.waitForTimeout(500);
-      const selectAllFilledInput = await context.takeScreenshot();
-      await context.matchImages({ plain, selectAllHalfFilledInput, selectAllFilledInput });
     });
   });
 

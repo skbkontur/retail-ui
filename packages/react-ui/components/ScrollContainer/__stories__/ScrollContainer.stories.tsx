@@ -3,11 +3,7 @@
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
 
-import type {
-  ScrollContainerScrollState,
-  ScrollContainerScrollStateX,
-  ScrollContainerScrollStateY,
-} from '../ScrollContainer';
+import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from '../ScrollContainer';
 import { ScrollContainer } from '../ScrollContainer';
 import type { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
@@ -101,11 +97,11 @@ export const WithHorizontalScroll = () => {
 };
 
 interface WrapperState {
-  scrollState: ScrollContainerScrollState;
+  scrollState: ScrollContainerScrollStateY;
 }
 export const WithScrollState = () => {
   class Wrapper extends React.Component {
-    public state: WrapperState = { scrollState: 'top' as ScrollContainerScrollState };
+    public state: WrapperState = { scrollState: 'top' as ScrollContainerScrollStateY };
 
     public render() {
       const commonBlocksStyles: CSSProperties = {
@@ -146,7 +142,7 @@ export const WithScrollState = () => {
               <div style={{ margin: 20, boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 10px' }}>
                 <div style={headerStyles}>header</div>
                 <div style={scrollContainerWrapperStyles}>
-                  <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
+                  <ScrollContainer onScrollStateChangeY={this.handleScrollStateChange}>
                     {getItems(20).map((i) => (
                       <div key={i}>{i}</div>
                     ))}
@@ -162,7 +158,7 @@ export const WithScrollState = () => {
       );
     }
 
-    private handleScrollStateChange = (scrollState: ScrollContainerScrollState) => {
+    private handleScrollStateChange = (scrollState: ScrollContainerScrollStateY) => {
       this.setState({ scrollState });
     };
   }

@@ -450,16 +450,6 @@ describe('CurrencyInput', () => {
       });
     });
 
-    it('should throw error if prop maxLength is used', () => {
-      const props = { value: 1, onValueChange: () => {}, maxLength: 1 };
-      render(<CurrencyInput {...props} />);
-
-      expect(consoleSpy).toHaveBeenCalledTimes(1);
-      expect(consoleSpy.mock.calls[0][0]).toContain(
-        `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
-      );
-    });
-
     it('should throw error if sum of integerDigits and fractionDigits exceeds MAX_SAFE_DIGITS', () => {
       const props = {
         value: 1,

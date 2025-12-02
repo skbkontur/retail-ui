@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
+import React from 'react';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -21,8 +21,6 @@ type InputState = Partial<InputProps>;
 const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
 const inputDefaultState: InputState[] = [{}, { defaultValue: 'Value' }];
-
-const inputWidthStates: InputState[] = [{}, { width: '100px' }, { width: '350px' }];
 
 export const Align: Story = () => (
   <ComponentTable
@@ -47,24 +45,6 @@ const alignDifferentStates: InputState[] = [
   { rightIcon: <SearchLoupeIcon16Regular />, suffix: 'SF' },
   { leftIcon: <SearchLoupeIcon16Regular />, prefix: 'PR', suffix: 'SF' },
   { rightIcon: <SearchLoupeIcon16Regular />, prefix: 'PR', suffix: 'SF' },
-];
-
-export const AlwaysShowMask: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={sizeStates.map((x) => ({ props: x }))}
-    rows={alwaysShowMaskStates.map((x) => ({ props: x }))}
-    presetProps={{ mask: '(***) ***-**-**' }}
-  />
-);
-
-const alwaysShowMaskStates: InputState[] = [
-  {},
-  { defaultValue: '95678901' },
-  { defaultValue: '956789010A' },
-  { alwaysShowMask: true },
-  { alwaysShowMask: true, defaultValue: '95678901' },
-  { alwaysShowMask: true, defaultValue: '956789010A' },
 ];
 
 export const Borderless: Story = () => (
@@ -151,30 +131,6 @@ const iconsRightStates: InputState[] = [
   },
 ];
 
-export const Mask: Story = () => (
-  <ComponentTable
-    Component={Input}
-    cols={inputWidthStates.map((x) => ({ props: x }))}
-    rows={maskStates.map((x) => ({ props: x }))}
-    presetProps={{}}
-  />
-);
-
-const maskStates: InputState[] = [
-  { mask: '**** **********', alwaysShowMask: true },
-  { mask: '**** **********', maskChar: '*', alwaysShowMask: true },
-  { mask: '*** ***', maskChar: '_', defaultValue: 'Value' },
-  { mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'email', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'tel', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'url', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'search', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'date', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'time', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { type: 'number', mask: '*** ***', maskChar: '_', defaultValue: 'Value', alwaysShowMask: true },
-  { mask: '*** ***', placeholder: 'ooo-long-long-long-placeholder' },
-];
-
 export const Placeholder: Story = () => (
   <ComponentTable
     Component={Input}
@@ -257,7 +213,6 @@ export const TextStylesReset: Story = () => (
       <Input placeholder="Placeholder" />
       <Input defaultValue="Value" />
       <Input defaultValue="Disabled" disabled />
-      <Input mask="a9*MASK" alwaysShowMask />
       <Input leftIcon={<SearchLoupeIcon16Regular />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
     </Gapped>
   </div>
@@ -276,9 +231,6 @@ const typeStates: InputState[] = [
   { type: 'text', defaultValue: 'Value' },
   { type: 'password', defaultValue: 'Value' },
   { type: 'password', defaultValue: 'Value', disabled: true },
-  { mask: '***-***', type: 'password', alwaysShowMask: true },
-  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value' },
-  { mask: '***-***', type: 'password', alwaysShowMask: true, defaultValue: 'Value', disabled: true },
   { type: 'number', defaultValue: '15', min: 10, max: 20, step: 5 },
   { type: 'search' },
   { type: 'date' },
@@ -388,26 +340,6 @@ export const Default: Story = () => (
   </div>
 );
 
-export const WithMask: Story = () => (
-  <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
-);
-
-export const WithMaskAndCustomUnmaskedValue: Story = () => {
-  const [value, setValue] = useState('+795');
-
-  return (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-      value={value}
-      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
-    />
-  );
-};
-
 export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
 
 export const SelectAllByButton: Story = () => {
@@ -444,19 +376,6 @@ export const UncontrolledInputWithPlaceholder: Story = () => {
   return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
 };
 UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
-
-export const WithMaskAndSelectAllProp: Story = () => {
-  const inputRef = React.useRef<Input>(null);
-  const [value, setValue] = React.useState('11');
-  const selectAll = React.useCallback(() => {
-    inputRef.current?.selectAll();
-  }, [inputRef.current]);
-  return (
-    <div>
-      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
-    </div>
-  );
-};
 
 export const SearchTypeApi: Story = () => <Input defaultValue="Some value" type="search" selectAllOnFocus />;
 

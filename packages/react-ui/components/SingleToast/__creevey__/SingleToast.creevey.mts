@@ -31,9 +31,4 @@ kind('SingleToast', () => {
   story('StaticDefaultMethodWithAction', () => {
     kindTests('static-default-theme-with-action');
   });
-
-  // TODO: удалить после избавления от старого api метода push
-  story('OldApi', () => {
-    kindTests('old-api');
-  });
 });
