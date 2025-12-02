@@ -3,9 +3,8 @@ import type { RenderResult } from '@testing-library/react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { createFile } from '../../internal/FileUploaderControl/fileUtils';
-import * as ReactUI from '../../index';
 import type { Toast } from '../../index';
+import * as ReactUI from '../../index';
 import { FileUploaderFileStatus, ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
 import type { AnyObject } from '../../lib/utils';
 import { delay } from '../../lib/utils';

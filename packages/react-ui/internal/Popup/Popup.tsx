@@ -27,6 +27,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { mergeRefs } from '../../lib/mergeRefs';
 import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes';
+import { getElementRef } from '../../lib/getElementRef';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { PopupPin } from './PopupPin';
@@ -347,10 +348,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: mergeRefs(
-              (anchor as React.ReactElement<typeof anchor>)?.props.ref as React.RefCallback<any>,
-              this.updateAnchorElement,
-            ),
+            ref: mergeRefs(getElementRef(anchor), this.updateAnchorElement),
           } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
     // we need to get anchor's DOM node

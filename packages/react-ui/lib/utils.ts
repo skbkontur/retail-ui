@@ -75,12 +75,7 @@ export function isIntrinsicElement(element: React.ReactElement<any>): boolean {
 
 //TODO REACT19 Remove any
 export function isRefableElement(element: React.ReactElement<any>): boolean {
-  // const bl = isIntrinsicElement(element);
-  // const cl = isClassComponent(element.type);
-  // const fw = isForwardRef(element);
-  return Boolean(
-    isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element) || element.props.ref,
-  );
+  return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
 export function escapeRegExpSpecChars(s: string): string {

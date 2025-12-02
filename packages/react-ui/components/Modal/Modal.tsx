@@ -21,6 +21,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
+import { rootNode, type TGetRootNode, type TSetRootNode } from '../../lib/rootNode';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { ModalContextProps } from './ModalContext';
@@ -108,6 +109,7 @@ type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role' | 'mob
  * Для отключения прилипания шапки и футера в соответствующий компонент нужно передать проп `sticky` со значением `false` (по-умолчанию прилипание включено).
  */
 @withRenderEnvironment
+@rootNode
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
   public static displayName = 'Modal';
@@ -115,6 +117,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Header = ModalHeader;
   public static Body = ModalBody;
   public static Footer = ModalFooter;
+
+  public getRootNode!: TGetRootNode;
+  private setRootNode!: TSetRootNode;
 
   public static defaultProps: DefaultProps = {
     disableFocusLock: false,
@@ -263,7 +268,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
+        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <ZIndex priority={'Modal'} className={this.styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && (

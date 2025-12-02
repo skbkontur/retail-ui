@@ -917,7 +917,9 @@ describe('ComboBox', () => {
 
       expect(getItems).toHaveBeenCalledWith(query);
 
-      await delay(DELAY_BEFORE_SHOW_LOADER);
+      await act(async () => {
+        await delay(DELAY_BEFORE_SHOW_LOADER);
+      });
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
       expect(screen.getByTestId(`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`));
@@ -1040,25 +1042,19 @@ describe('ComboBox', () => {
     });
 
     it(`twice with delay < ${DELAY_BEFORE_SHOW_LOADER} loader`, async () => {
-      const NEWcomboboxRef = React.createRef<ComboBox>();
-
       const secondQuery = 'Two';
       const getItems = vi.fn(async (searchQuery) => {
-        await act(async () => {
-          await delay(DELAY_BEFORE_SHOW_LOADER - 100);
-        });
+        await delay(DELAY_BEFORE_SHOW_LOADER + 200);
+
         return Promise.resolve(testValues.filter((i) => i.label.includes(searchQuery)));
       });
-      render(<ComboBox getItems={getItems} ref={NEWcomboboxRef} />);
+      render(<ComboBox getItems={getItems} ref={comboboxRef} />);
 
       await act(async () => {
-        NEWcomboboxRef.current?.search(query);
-
+        comboboxRef.current?.search(query);
         await delay(DELAY_BEFORE_SHOW_LOADER - 200);
-      });
 
-      await act(async () => {
-        NEWcomboboxRef.current?.search(secondQuery);
+        comboboxRef.current?.search(secondQuery);
         await delay(DELAY_BEFORE_SHOW_LOADER - 100);
       });
 
@@ -1162,9 +1158,10 @@ describe('ComboBox', () => {
       });
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      await delay(300);
-
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        await delay(300);
+      });
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
     });
 
@@ -1187,8 +1184,10 @@ describe('ComboBox', () => {
 
       expect(screen.queryByTestId(SpinnerDataTids.root)).not.toBeInTheDocument();
 
-      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
-      await delay(300);
+      await act(async () => {
+        await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+        await delay(300);
+      });
 
       expect(screen.getByTestId(SpinnerDataTids.root)).toBeInTheDocument();
     });

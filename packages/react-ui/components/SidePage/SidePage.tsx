@@ -22,6 +22,8 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
+import { rootNode } from '../../lib/rootNode';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { SidePageBody } from './SidePageBody';
@@ -100,9 +102,13 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
  */
 @withRenderEnvironment
+@rootNode
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
   public static displayName = 'SidePage';
+
+  public getRootNode!: TGetRootNode;
+  private setRootNode!: TSetRootNode;
 
   public static Header = SidePageHeader;
   public static Body = SidePageBody;
@@ -184,7 +190,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ResponsiveLayout>
         {({ isMobile }) => (
           <RenderContainer>
-            <CommonWrapper {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <ZIndex
                 priority={'Sidepage'}
                 onScroll={LayoutEvents.emit}

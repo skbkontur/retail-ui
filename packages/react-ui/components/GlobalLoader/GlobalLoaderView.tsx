@@ -31,7 +31,7 @@ export interface GlobalLoaderViewRef {
 export const GlobalLoaderView = forwardRef(
   (
     { expectedResponseTime, delayBeforeHide, status, disableAnimations, ...rest }: GlobalLoaderViewProps,
-    externalRef,
+    externalRef: React.Ref<CommonWrapper<CommonProps>>,
   ) => {
     const ref = useRef<GlobalLoaderViewRef['element']>(null);
     const theme = useContext(ThemeContext);
@@ -73,7 +73,7 @@ export const GlobalLoaderView = forwardRef(
     };
 
     return (
-      <CommonWrapper rootNodeRef={externalRef} {...rest} data-status={status}>
+      <CommonWrapper {...rest} data-status={status} ref={externalRef}>
         <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
           <div ref={ref} className={cx(styles.inner(theme), getAnimationClass(status))} />
         </ZIndex>
