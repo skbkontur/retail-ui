@@ -362,6 +362,27 @@ describe('<TokenInput />', () => {
     expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
   });
 
+  it('should handle e.preventDefault() in onKeyDown', async () => {
+    const input = '112233';
+    const validValue = /[13]+/;
+    const expected = '1133';
+    render(
+      <TokenInput
+        getItems={() => Promise.resolve([])}
+        onKeyDown={(e) => {
+          if (!validValue.test(e.key)) {
+            e.preventDefault();
+          }
+        }}
+      />,
+    );
+    const tokenInput = screen.getByRole('textbox');
+    tokenInput.click();
+    await userEvent.type(tokenInput, input);
+
+    expect(tokenInput).toHaveValue(expected);
+  });
+
   describe('a11y', () => {
     it('prop aria-describedby applied correctly', () => {
       render(

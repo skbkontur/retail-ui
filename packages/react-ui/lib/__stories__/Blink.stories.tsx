@@ -6,6 +6,7 @@ import { Gapped } from '../../components/Gapped';
 import { blink } from '../blink';
 import { isKeyChar } from '../events/keyboard/identifiers';
 import { Input } from '../../components/Input';
+import { TokenInput } from '../../components/TokenInput';
 import { ThemeContext } from '../theming/ThemeContext';
 import type { Theme } from '../theming/Theme';
 
@@ -33,8 +34,9 @@ export const Animate: Story = () => {
           </tr>
         </tbody>
       </table>
-      <Gapped style={{ caretColor: 'transparent' }}>
+      <Gapped style={{ caretColor: 'transparent' }} vertical>
         <Input key={key} onKeyDown={handleBlink(t)} />
+        <TokenInput key={key} onKeyDown={handleBlink(t)} getItems={() => Promise.resolve([])} />
         <button data-tid="update-input" onClick={() => setKey(Math.random().toString())}>
           update Input
         </button>
