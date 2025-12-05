@@ -685,7 +685,7 @@ const anchorStyle: CSSProperties = {
   border: '1px solid #dfdede',
 };
 
-export const AnchorTooltipExample = () => {
+const AnchorTooltipExample = () => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   return (
     <>
