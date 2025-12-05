@@ -1,10 +1,10 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 
 import type { CSSProperties, ForwardedRef, JSX } from 'react';
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
+import { flushSync } from 'react-dom';
 
-import type { Nullable } from '../../../typings/utility-types';
 import type { Story } from '../../../typings/stories';
 import type { TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Tooltip } from '../Tooltip';
@@ -685,44 +685,34 @@ const anchorStyle: CSSProperties = {
   border: '1px solid #dfdede',
 };
 
-interface AnchorTooltipExampleState {
-  anchor: Nullable<HTMLElement>;
-}
-class AnchorTooltipExample extends React.Component {
-  public state: AnchorTooltipExampleState = {
-    anchor: null,
-  };
-
-  render() {
-    return (
-      <>
-        {this.state.anchor ? (
-          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" pos="top center" />
-        ) : null}
-        <div style={{ width: 180, height: 180, position: 'relative' }}>
-          <div
-            data-tid={`tooltip_anchor_0`}
-            style={{
-              ...anchorStyle,
-              top: 60,
-            }}
-            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
-            onMouseLeave={() => this.setState({ anchor: null })}
-          />
-          <div
-            data-tid={`tooltip_anchor_1`}
-            style={{
-              ...anchorStyle,
-              top: 120,
-            }}
-            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
-            onMouseLeave={() => this.setState({ anchor: null })}
-          />
-        </div>
-      </>
-    );
-  }
-}
+export const AnchorTooltipExample = () => {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  return (
+    <>
+      {anchor ? <Tooltip anchorElement={anchor} render={() => 'Hello React'} trigger="hover" pos="top center" /> : null}
+      <div style={{ width: 180, height: 180, position: 'relative' }}>
+        <div
+          data-tid={`tooltip_anchor_0`}
+          style={{
+            ...anchorStyle,
+            top: 60,
+          }}
+          onMouseEnter={(event) => flushSync(() => setAnchor(event.target as HTMLElement))}
+          onMouseLeave={() => setAnchor(null)}
+        />
+        <div
+          data-tid={`tooltip_anchor_1`}
+          style={{
+            ...anchorStyle,
+            top: 120,
+          }}
+          onMouseEnter={(event) => flushSync(() => setAnchor(event.target as HTMLElement))}
+          onMouseLeave={() => setAnchor(null)}
+        />
+      </div>
+    </>
+  );
+};
 
 export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
 TooltipWithAnchor.storyName = 'Tooltip with anchor';
