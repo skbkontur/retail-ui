@@ -667,9 +667,9 @@ export const TooltipWithIconFromPackage = () => (
 );
 TooltipWithIconFromPackage.storyName = 'tooltip with icon';
 
-const FunctionalChild = () => {
-  return <div>FunctionalChild</div>;
-};
+const FunctionalChild = forwardRef<HTMLDivElement>((_, ref) => {
+  return <div ref={ref}>FunctionalChild</div>;
+});
 export const TooltipWithFunctionalChild = () => (
   <TestTooltip trigger="opened" pos="bottom center">
     <FunctionalChild />
