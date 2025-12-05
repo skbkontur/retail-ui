@@ -72,9 +72,10 @@ export class PopupPin extends React.Component<PopupPinProps> {
         return 'left';
       default:
         warning(
-          true,
+          false,
           `Can't get opposite direction: invalid direction ${popupDirection}. Must be one of - 'top', 'bottom', 'left', 'right'.`,
         );
+        return 'bottom';
     }
   }
 
@@ -89,16 +90,18 @@ export class PopupPin extends React.Component<PopupPinProps> {
     const correctedTop = top - 1;
     const correctedSize = this.props.size + 1;
 
+    const defaultPinInlineStyle = {
+      [direction]: -this.props.size + 'px',
+      left: correctedLeft + 'px',
+      width: correctedSize * 2 + 'px',
+      height: correctedSize + 'px',
+      backgroundColor: this.props.backgroundColor,
+    };
+
     switch (direction) {
       case 'top':
       case 'bottom':
-        return {
-          [direction]: -this.props.size + 'px',
-          left: correctedLeft + 'px',
-          width: correctedSize * 2 + 'px',
-          height: correctedSize + 'px',
-          backgroundColor: this.props.backgroundColor,
-        };
+        return defaultPinInlineStyle;
       case 'left':
       case 'right':
         return {
@@ -110,21 +113,25 @@ export class PopupPin extends React.Component<PopupPinProps> {
         };
       default:
         warning(
-          true,
+          false,
           `Can't get inline style: invalid direction '${direction}'. Must be one of - 'top', 'right', 'bottom', 'left'.`,
         );
+        return defaultPinInlineStyle;
     }
   };
 
   private getPinCoordinates = (popupElement: Element) => {
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
     const { direction, align } = this.positionObject;
+
+    const defaultPinCoordinates = {
+      top: popupRect.height,
+      left: this.getPinLeftCoordinate(popupRect, align),
+    };
+
     switch (direction) {
       case 'top':
-        return {
-          top: popupRect.height,
-          left: this.getPinLeftCoordinate(popupRect, align),
-        };
+        return defaultPinCoordinates;
       case 'bottom':
         return {
           top: -2 * this.props.size,
@@ -142,41 +149,46 @@ export class PopupPin extends React.Component<PopupPinProps> {
         };
       default:
         warning(
-          true,
+          false,
           `Can't get coordinates: invalid direction '${direction}'. Must be one of - 'top', 'right', 'bottom', 'left'.`,
         );
+        return defaultPinCoordinates;
     }
   };
 
   private getPinTopCoordinate = (popupRect: Rect, align: string) => {
+    const defaultTopCoordinate = this.props.offset;
     switch (align) {
       case 'top':
-        return this.props.offset;
+        return defaultTopCoordinate;
       case 'middle':
         return popupRect.height / 2 - this.props.size;
       case 'bottom':
         return popupRect.height - this.props.offset - 2 * this.props.size;
       default:
         warning(
-          true,
-          `Can't get top coordinate: invalid align '${align}'. Must be one of - 'top', 'middle', 'bottom'. `,
+          false,
+          `Can't get top coordinate: invalid align '${align}'. Must be one of - 'top', 'middle', 'bottom'.`,
         );
+        return defaultTopCoordinate;
     }
   };
 
   private getPinLeftCoordinate = (popupRect: Rect, align: string) => {
+    const defaultLetfCoordinate = popupRect.width / 2 - this.props.size;
     switch (align) {
       case 'left':
         return this.props.offset;
       case 'center':
-        return popupRect.width / 2 - this.props.size;
+        return defaultLetfCoordinate;
       case 'right':
         return popupRect.width - this.props.offset - 2 * this.props.size;
       default:
         warning(
-          true,
+          false,
           `Can't get left coordinate: invalid align '${align}'. Must be one of - 'left', 'center', 'right'.`,
         );
+        return defaultLetfCoordinate;
     }
   };
 
@@ -192,9 +204,10 @@ export class PopupPin extends React.Component<PopupPinProps> {
         return styles.pinRight();
       default:
         warning(
-          true,
+          false,
           `Can't get directional style: invalid direction '${this.positionObject.direction}'. Must be one of - 'top', 'right', 'bottom', 'left'.`,
         );
+        return styles.pinTop();
     }
   };
 }
