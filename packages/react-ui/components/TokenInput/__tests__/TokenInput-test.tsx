@@ -667,6 +667,52 @@ describe('<TokenInput />', () => {
       expect(tokenTexts).toContain('bbb');
       expect(tokenTexts).not.toContain('aaa');
     });
+
+    it('should correctly compare object type items with default itemToId', async () => {
+      const TokenInputWithObjectItems = () => {
+        const [selectedItems, setSelectedItems] = useState<Array<{ id: number; cap: string }>>([
+          { id: 3, cap: 'Third' },
+        ]);
+        const getItems = (q: string) =>
+          Promise.resolve(
+            [
+              { id: 1, cap: 'First' },
+              { id: 2, cap: 'Second' },
+              { id: 3, cap: 'Third' },
+              { id: 4, cap: 'Fourth' },
+              { id: 5, cap: 'Fifth' },
+            ].filter((x) => x.cap.toLowerCase().includes(q.toLowerCase()) || x.toString() === q),
+          );
+        return (
+          <TokenInput
+            type={TokenInputType.Combined}
+            getItems={getItems}
+            selectedItems={selectedItems}
+            onValueChange={setSelectedItems}
+            valueToString={(item) => item.cap}
+            valueToItem={(value) => ({ id: Date.now(), cap: value })}
+            renderItem={(item) => item.cap}
+            renderToken={(item, tokenProps) => (
+              <Token key={item.id} {...tokenProps}>
+                {item.cap}
+              </Token>
+            )}
+          />
+        );
+      };
+
+      render(<TokenInputWithObjectItems />);
+
+      const tokens = screen.getAllByTestId(TokenDataTids.root);
+      expect(tokens).toHaveLength(1);
+      const input = screen.getByRole('textbox');
+      await userEvent.click(input);
+      await userEvent.type(input, 'F');
+
+      const menu = screen.getByTestId(TokenInputDataTids.tokenInputMenu);
+      expect(menu).toBeInTheDocument();
+      expect(menu).not.toHaveTextContent('Не найдено');
+    });
   });
 });
 

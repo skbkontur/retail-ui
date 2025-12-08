@@ -296,7 +296,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     valueToString: identity,
     valueToItem: (item: string) => item,
     toKey: defaultToKey,
-    itemToId: defaultToKey,
+    itemToId: identity,
     onValueChange: () => void 0,
     width: 250 as string | number,
     onBlur: emptyHandler,
