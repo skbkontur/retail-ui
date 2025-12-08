@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.5...@skbkontur/react-ui@5.4.6) (2025-12-08)
+
+
+### Bug Fixes
+
+* **TokenInput:** restore expected behavior with object type items ([a6ed0b7](https://github.com/skbkontur/retail-ui/commit/a6ed0b740c315f79ed5acdf3a64e5da5be0771a9))
+
+
+
+
+
 ## [5.4.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.4...@skbkontur/react-ui@5.4.5) (2025-12-03)
 
 
