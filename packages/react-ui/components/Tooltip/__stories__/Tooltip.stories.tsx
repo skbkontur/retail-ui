@@ -685,7 +685,7 @@ const anchorStyle: CSSProperties = {
   border: '1px solid #dfdede',
 };
 
-const AnchorTooltipExample = () => {
+export const TooltipWithAnchor = () => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   return (
     <>
@@ -713,8 +713,6 @@ const AnchorTooltipExample = () => {
     </>
   );
 };
-
-export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
 TooltipWithAnchor.storyName = 'Tooltip with anchor';
 
 export const WithSizes: Story = () => {

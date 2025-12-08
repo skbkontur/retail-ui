@@ -1,4 +1,4 @@
-import React, { useRef, type JSX } from 'react';
+import React, { cloneElement, type JSX, useRef } from 'react';
 
 import { createFile, FileUploaderFileStatus } from '../../../internal/FileUploaderControl/fileUtils';
 import { Button } from '../../Button';

@@ -333,6 +333,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderMain() {
+    debugger;
     const { anchorElement } = this.props;
     const useWrapper = this.getProps().useWrapper;
 
