@@ -167,7 +167,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   public render(): React.ReactNode {
-
     this.styles = getStyles(this.emotion);
 
     const props = this.props;

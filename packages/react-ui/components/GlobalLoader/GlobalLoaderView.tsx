@@ -36,9 +36,9 @@ export const GlobalLoaderView = forwardRef(
     const ref = useRef<GlobalLoaderViewRef['element']>(null);
     const theme = useContext(ThemeContext);
     const { cx } = useEmotion();
-  const styles = useStyles(getStyles);
-  const animations = useStyles(getAnimations);
-  const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
+    const styles = useStyles(getStyles);
+    const animations = useStyles(getAnimations);
+    const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
     const { left } = useGlobalLoaderPosition(ref);
 
     const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
