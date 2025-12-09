@@ -19,9 +19,9 @@ import { withRenderEnvironment } from '../../lib/renderEnvironment';
 import { getStyles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
 import {
-  getScrollYOffset,
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
+  getScrollYOffset,
 } from './ScrollContainer.helpers';
 import type { ScrollAxis, ScrollBarScrollState } from './ScrollBar';
 import { ScrollBar } from './ScrollBar';
@@ -166,7 +166,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
   }
 
-  public render() {
+  public render(): React.ReactNode {
+
     this.styles = getStyles(this.emotion);
 
     const props = this.props;
