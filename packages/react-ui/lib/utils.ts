@@ -68,13 +68,11 @@ export function isClassComponent(Component: unknown): Component is React.Compone
   return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
 }
 
-//TODO REACT19 Remove any
-export function isIntrinsicElement(element: React.ReactElement<any>): boolean {
+export function isIntrinsicElement(element: React.ReactElement<unknown>): boolean {
   return typeof element.type === 'string';
 }
 
-//TODO REACT19 Remove any
-export function isRefableElement(element: React.ReactElement<any>): boolean {
+export function isRefableElement(element: React.ReactElement<unknown>): boolean {
   return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
@@ -229,8 +227,7 @@ export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMen
 export const isHint = isReactUIComponent<HintProps>('Hint');
 export const isTooltip = isReactUIComponent<TooltipProps>('Tooltip');
 
-//TODO REACT19 Remove any
-export const isKonturIcon = (icon: React.ReactElement<any>) => {
+export const isKonturIcon = (icon: React.ReactElement<unknown>) => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
 

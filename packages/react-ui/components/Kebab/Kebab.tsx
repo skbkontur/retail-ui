@@ -22,6 +22,7 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
+import { hasIconProps } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { withSize } from '../../lib/size/SizeDecorator';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
@@ -246,19 +247,16 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon() {
     const { icon = <KebabIcon /> } = this.getProps();
 
-    if (isElement(icon) && isKonturIcon(icon as ReactElement<any>)) {
+    if (isElement(icon) && isKonturIcon(icon)) {
       const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),
       };
 
-      return React.cloneElement(icon as ReactElement<any>, {
-        //TODO REACT19 FIX THIS
-        // @ts-ignore
-        size: icon.props.size ?? sizes[this.size],
-        // @ts-ignore
-        color: icon.props.color ?? this.theme.kebabIconColor,
+      return React.cloneElement(icon as ReactElement<{ size: number; color: string }>, {
+        size: hasIconProps(icon) ? icon.props.size : sizes[this.size],
+        color: hasIconProps(icon) ? icon.props.color : this.theme.kebabIconColor,
       });
     }
 

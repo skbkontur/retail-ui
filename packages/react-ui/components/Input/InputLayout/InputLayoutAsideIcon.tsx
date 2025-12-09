@@ -7,9 +7,11 @@ import { isKonturIcon } from '../../../lib/utils';
 import type { InputProps } from '../Input';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { SizeProp } from '../../../lib/types/props';
+import { hasIconProps } from '../../../lib/types/props';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { getStylesLayout } from './InputLayout.styles';
+
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';
@@ -33,10 +35,10 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
   };
 
   let _icon = icon instanceof Function ? icon() : icon;
-  if (isElement(icon) && isKonturIcon(icon as ReactElement<any>)) {
-    //TODO REACT19 FIX THIS
-    // @ts-ignore
-    _icon = React.cloneElement(icon as ReactElement<any>, { size: icon.props.size ?? sizes[size] });
+  if (isElement(icon) && isKonturIcon(icon)) {
+    _icon = React.cloneElement(icon as ReactElement<{ size: number }>, {
+      size: hasIconProps(icon) ? (icon.props.size as number) : sizes[size],
+    });
   }
 
   const style: React.CSSProperties = {};
