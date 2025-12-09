@@ -1,5 +1,4 @@
-import type { SafeTimer } from '@skbkontur/global-object';
-import { globalObject } from '@skbkontur/global-object';
+import type { SafeTimer } from '../lib/globalObject';
 
 export interface TaskWithDelayAndMinimalDurationProps {
   delayBeforeTaskStart: number;
@@ -19,7 +18,7 @@ export class TaskWithDelayAndMinimalDuration {
   }
 
   private setTimeoutBeforeTaskStart = () => {
-    this.timeoutBeforeTaskStart = globalObject.setTimeout(() => {
+    this.timeoutBeforeTaskStart = setTimeout(() => {
       this.isTaskActive && this.taskParams.taskStartCallback();
       this.clearTimeoutBeforeTaskStart();
       this.setTimeoutBeforeTaskStop();
@@ -27,19 +26,19 @@ export class TaskWithDelayAndMinimalDuration {
   };
 
   private setTimeoutBeforeTaskStop = () => {
-    this.timeoutBeforeTaskStop = globalObject.setTimeout(() => {
+    this.timeoutBeforeTaskStop = setTimeout(() => {
       !this.isTaskActive && this.taskParams.taskStopCallback();
       this.clearTimeoutBeforeTaskStop();
     }, this.taskParams.durationOfTask);
   };
 
   private clearTimeoutBeforeTaskStart = () => {
-    this.timeoutBeforeTaskStart && globalObject.clearTimeout(this.timeoutBeforeTaskStart);
+    this.timeoutBeforeTaskStart && clearTimeout(this.timeoutBeforeTaskStart);
     this.timeoutBeforeTaskStart = null;
   };
 
   private clearTimeoutBeforeTaskStop = () => {
-    this.timeoutBeforeTaskStop && globalObject.clearTimeout(this.timeoutBeforeTaskStop);
+    this.timeoutBeforeTaskStop && clearTimeout(this.timeoutBeforeTaskStop);
     this.timeoutBeforeTaskStop = null;
   };
 

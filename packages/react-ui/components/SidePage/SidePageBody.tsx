@@ -1,14 +1,15 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 import type { SidePageContextType } from './SidePageContext';
 import { SidePageContext } from './SidePageContext';
 
@@ -24,6 +25,7 @@ export const SidePageBodyDataTids = {
  *
  * @visibleName SidePage.Body
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class SidePageBody extends React.Component<SidePageBodyProps> {
@@ -35,12 +37,17 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
   private isMobileLayout!: boolean;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
 
   public componentDidUpdate() {
     this.context.updateLayout();
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -48,7 +55,7 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <div
                 data-tid={SidePageBodyDataTids.root}
-                className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}
+                className={this.cx(this.styles.body(theme), { [this.styles.mobileBody()]: this.isMobileLayout })}
               >
                 {this.props.children}
               </div>

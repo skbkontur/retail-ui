@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../../lib/renderEnvironment';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import type { FileUploaderAttachedFile } from '../fileUtils';
-import { cx } from '../../../lib/theming/Emotion';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import type { SizeProp } from '../../../lib/types/props';
 
-import { jsStyles } from './FileUploaderFileList.styles';
+import { getJsStyles } from './FileUploaderFileList.styles';
 
 interface FileUploaderFileListProps {
   renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
@@ -23,6 +23,8 @@ export const FileUploaderFileDataTids = {
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   const { renderFile, size, onRemove } = props;
   const { files } = useContext(FileUploaderControlContext);
+  const { cx } = useEmotion();
+  const jsStyles = useStyles(getJsStyles);
   const theme = useContext(ThemeContext);
 
   const fileWrapperClass = useFileUploaderSize(size, {

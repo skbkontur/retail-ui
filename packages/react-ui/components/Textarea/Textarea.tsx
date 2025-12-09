@@ -1,9 +1,10 @@
 import type { AriaAttributes, ReactNode } from 'react';
 import React from 'react';
 import throttle from 'lodash.throttle';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 import warning from 'warning';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -16,16 +17,16 @@ import { isSafariWithTextareaBug } from '../../lib/client';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import type { InputAlign } from '../Input';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { getTextAreaHeight } from './TextareaHelpers';
-import { styles } from './Textarea.styles';
+import { getStyles } from './Textarea.styles';
 import type { TextareaCounterRef } from './TextareaCounter';
 import { TextareaCounter } from './TextareaCounter';
 import { TextareaWithSafari17Workaround } from './TextareaWithSafari17Workaround';
@@ -119,7 +120,7 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
  * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
  * Пропы **`className` и `style` игнорируются**.
  */
-
+@withRenderEnvironment
 @rootNode
 @withSize
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
@@ -147,24 +148,24 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private getRootSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.rootLarge(this.theme);
+        return this.styles.rootLarge(this.theme);
       case 'medium':
-        return styles.rootMedium(this.theme);
+        return this.styles.rootMedium(this.theme);
       case 'small':
       default:
-        return styles.rootSmall(this.theme);
+        return this.styles.rootSmall(this.theme);
     }
   }
 
   private getTextareaSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.textareaLarge(this.theme);
+        return this.styles.textareaLarge(this.theme);
       case 'medium':
-        return styles.textareaMedium(this.theme);
+        return this.styles.textareaMedium(this.theme);
       case 'small':
       default:
-        return styles.textareaSmall(this.theme);
+        return this.styles.textareaSmall(this.theme);
     }
   }
 
@@ -180,15 +181,17 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private globalObject!: GlobalObject;
   private theme!: Theme;
   private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = globalObject.MutationObserver
-    ? new globalObject.MutationObserver(this.reflowCounter)
-    : null;
+  private textareaObserver: Nullable<MutationObserver>;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
@@ -201,9 +204,12 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public componentDidMount() {
+    this.textareaObserver = this.globalObject.MutationObserver
+      ? new this.globalObject.MutationObserver(this.reflowCounter)
+      : null;
     if (this.props.autoResize) {
       this.autoResize();
-      this.layoutEvents = LayoutEvents.addListener(this.autoResize);
+      this.layoutEvents = LayoutEvents.addListener(this.autoResize, this.globalObject);
     }
 
     if (this.node && this.props.showLengthCounter && this.textareaObserver) {
@@ -236,6 +242,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -279,7 +287,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       return;
     }
 
-    if (globalObject.document?.activeElement !== this.node) {
+    if (this.globalObject.document?.activeElement !== this.node) {
       this.focus();
     }
 
@@ -297,7 +305,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      globalObject.cancelAnimationFrame?.(this.selectAllId);
+      this.globalObject.cancelAnimationFrame?.(this.selectAllId);
       this.selectAllId = null;
     }
   };
@@ -334,13 +342,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       },
     };
 
-    const textareaClassNames = cx(this.getTextareaSizeClassName(), {
-      [styles.textarea(this.theme)]: true,
-      [styles.hovering(this.theme)]: !error && !warning,
-      [styles.disabled(this.theme)]: disabled,
-      [styles.error(this.theme)]: !!error,
-      [styles.warning(this.theme)]: !!warning,
-      [styles.disableAnimations()]: this.isAnimationsDisabled(),
+    const textareaClassNames = this.cx(this.getTextareaSizeClassName(), {
+      [this.styles.textarea(this.theme)]: true,
+      [this.styles.hovering(this.theme)]: !error && !warning,
+      [this.styles.disabled(this.theme)]: disabled,
+      [this.styles.error(this.theme)]: !!error,
+      [this.styles.warning(this.theme)]: !!warning,
+      [this.styles.disableAnimations()]: this.isAnimationsDisabled(),
     });
 
     const textareaStyle = {
@@ -351,7 +359,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     let placeholderPolyfill = null;
 
     if (this.state.needsPolyfillPlaceholder && !textareaProps.value && !textareaProps.defaultValue) {
-      placeholderPolyfill = <span className={styles.placeholder()}>{placeholder}</span>;
+      placeholderPolyfill = <span className={this.styles.placeholder()}>{placeholder}</span>;
     }
 
     let fakeTextarea = null;
@@ -359,7 +367,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: cx(textareaClassNames, styles.fake()),
+        className: this.cx(textareaClassNames, this.styles.fake()),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
@@ -388,8 +396,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         <label
           data-tid={TextareaDataTids.root}
           {...rootProps}
-          className={cx(this.getRootSizeClassName(), {
-            [styles.root()]: true,
+          className={this.cx(this.getRootSizeClassName(), {
+            [this.styles.root()]: true,
           })}
         >
           {placeholderPolyfill}
@@ -489,7 +497,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     const { height, exceededMaxHeight } =
-      getTextAreaHeight({
+      getTextAreaHeight(this.globalObject, {
         node: fakeNode,
         minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
         maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),

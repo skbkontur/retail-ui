@@ -1,12 +1,13 @@
 import React from 'react';
 import warning from 'warning';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { PositionObject, Rect } from './PopupHelper';
 import { PopupHelper } from './PopupHelper';
-import { styles } from './PopupPin.styles';
+import { getStyles } from './PopupPin.styles';
 import { PopupDataTids } from './Popup';
 
 interface PopupPinProps {
@@ -30,13 +31,20 @@ interface PopupPinProps {
   size: number;
 }
 
+@withRenderEnvironment
 export class PopupPin extends React.Component<PopupPinProps> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
   public static displayName = 'PopupPin';
 
   private positionObject!: PositionObject;
 
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+
   public render() {
+    this.styles = getStyles(this.emotion);
+
     if (!this.props.popupElement) {
       return null;
     }
@@ -55,7 +63,11 @@ export class PopupPin extends React.Component<PopupPinProps> {
     }
 
     return (
-      <div data-tid={PopupDataTids.popupPin} className={cx(styles.pin(), directionalStyle)} style={inlineStyle}></div>
+      <div
+        data-tid={PopupDataTids.popupPin}
+        className={this.cx(this.styles.pin(), directionalStyle)}
+        style={inlineStyle}
+      ></div>
     );
   }
 
@@ -195,19 +207,19 @@ export class PopupPin extends React.Component<PopupPinProps> {
   private getPinDirectionalStyle = () => {
     switch (this.positionObject.direction) {
       case 'top':
-        return styles.pinTop();
+        return this.styles.pinTop();
       case 'bottom':
-        return styles.pinBottom();
+        return this.styles.pinBottom();
       case 'left':
-        return styles.pinLeft();
+        return this.styles.pinLeft();
       case 'right':
-        return styles.pinRight();
+        return this.styles.pinRight();
       default:
         warning(
           false,
           `Can't get directional style: invalid direction '${this.positionObject.direction}'. Must be one of - 'top', 'right', 'bottom', 'left'.`,
         );
-        return styles.pinTop();
+        return this.styles.pinTop();
     }
   };
 }

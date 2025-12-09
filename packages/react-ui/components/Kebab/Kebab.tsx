@@ -1,12 +1,13 @@
 import type { AriaAttributes, ReactElement, HTMLAttributes } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isKonturIcon } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { keyListener } from '../../lib/events/keyListener';
+import { KeyListener } from '../../lib/events/keyListener';
 import type { PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu';
 import { PopupMenu } from '../../internal/PopupMenu';
 import type { Nullable } from '../../typings/utility-types';
@@ -17,15 +18,15 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Kebab.styles';
+import { getStyles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
 
 export interface KebabProps
@@ -72,7 +73,7 @@ type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions'
 /**
  * Кебаб-меню `Kebab` содержит действия с объектом.
  */
-
+@withRenderEnvironment
 @rootNode
 @withSize
 export class Kebab extends React.Component<KebabProps, KebabState> {
@@ -93,10 +94,15 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     anchor: null,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private size!: SizeProp;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private keyListener!: KeyListener;
 
   private listener: {
     remove: () => void;
@@ -105,8 +111,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   public componentDidMount() {
+    this.keyListener = new KeyListener(this.globalObject);
     /** addListener'у нужен колбэк в аргумент */
-    this.listener = LayoutEvents.addListener(() => undefined);
+    this.listener = LayoutEvents.addListener(() => undefined, this.globalObject);
   }
 
   public componentWillUnmount() {
@@ -114,6 +121,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -184,14 +193,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cx(
-          styles.kebab(this.theme),
-          size === 'small' && styles.kebabSmall(this.theme),
-          size === 'medium' && styles.kebabMedium(this.theme),
-          size === 'large' && styles.kebabLarge(this.theme),
-          captionProps.opened && styles.opened(this.theme),
-          disabled && styles.disabled(),
-          this.state.focusedByTab && styles.focused(this.theme),
+        className={this.cx(
+          this.styles.kebab(this.theme),
+          size === 'small' && this.styles.kebabSmall(this.theme),
+          size === 'medium' && this.styles.kebabMedium(this.theme),
+          size === 'large' && this.styles.kebabLarge(this.theme),
+          captionProps.opened && this.styles.opened(this.theme),
+          disabled && this.styles.disabled(),
+          this.state.focusedByTab && this.styles.focused(this.theme),
         )}
         aria-describedby={this.props['aria-describedby']}
       >
@@ -220,8 +229,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalObject.requestAnimationFrame?.(() => {
-        if (keyListener.isTabPressed) {
+      this.globalObject.requestAnimationFrame?.(() => {
+        if (this.keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

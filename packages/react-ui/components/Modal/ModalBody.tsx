@@ -1,19 +1,20 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { ModalContext } from './ModalContext';
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { getModalBodyTheme } from './getModalBodyTheme';
 import { ModalZIndexPriority } from './Modal';
 
@@ -27,6 +28,7 @@ export interface ModalBodyProps extends CommonProps {
  *
  * @visibleName Modal.Body
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class ModalBody extends React.Component<ModalBodyProps> {
@@ -34,12 +36,17 @@ export class ModalBody extends React.Component<ModalBodyProps> {
   public static displayName = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private isMobileLayout!: boolean;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -62,14 +69,14 @@ export class ModalBody extends React.Component<ModalBodyProps> {
           <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
               priority={ModalZIndexPriority.Content}
-              className={cx({
-                [styles.body(this.theme)]: true,
-                [styles.mobileBody(this.theme)]: this.isMobileLayout,
-                [styles.bodyWithoutHeader(this.theme)]: !hasHeader,
-                [styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
-                [styles.mobileBodyAddPaddingForPanel(this.theme)]: additionalPadding && this.isMobileLayout,
-                [styles.mobileBodyWithoutHeader(this.theme)]: !hasHeader && this.isMobileLayout,
-                [styles.bodyWithoutPadding()]: noPadding,
+              className={this.cx({
+                [this.styles.body(this.theme)]: true,
+                [this.styles.mobileBody(this.theme)]: this.isMobileLayout,
+                [this.styles.bodyWithoutHeader(this.theme)]: !hasHeader,
+                [this.styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
+                [this.styles.mobileBodyAddPaddingForPanel(this.theme)]: additionalPadding && this.isMobileLayout,
+                [this.styles.mobileBodyWithoutHeader(this.theme)]: !hasHeader && this.isMobileLayout,
+                [this.styles.bodyWithoutPadding()]: noPadding,
               })}
             >
               {this.isMobileLayout ? (

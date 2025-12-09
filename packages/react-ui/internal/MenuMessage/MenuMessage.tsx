@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../CommonWrapper';
 import type { SizeProp } from '../../lib/types/props';
 
-import { styles } from './MenuMessage.styles';
+import { getStyles } from './MenuMessage.styles';
 
 export interface MenuMessageProps extends CommonProps {
   children: React.ReactNode;
@@ -24,6 +24,8 @@ export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>
   ({ children, className, size = 'small', as: Tag = 'p', ...rest }, ref) => {
     const { isMobile } = useResponsiveLayout();
 
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
     const theme = useContext(ThemeContext);
 
     const getMenuMessageSizeClassName = () => {

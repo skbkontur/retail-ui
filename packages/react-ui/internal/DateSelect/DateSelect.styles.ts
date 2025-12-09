@@ -1,11 +1,13 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 export const globalClasses = prefix('select')({
   arrow: 'arrow',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       color: ${t.dateSelectTextColorDefault};
@@ -50,4 +52,4 @@ export const styles = memoizeStyle({
       position: relative;
     `;
   },
-});
+}));

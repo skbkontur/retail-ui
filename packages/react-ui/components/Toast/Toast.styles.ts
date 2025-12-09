@@ -1,6 +1,8 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-export const styles = memoizeStyle({
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   enter() {
     return css`
       transform: translateY(-40px);
@@ -24,4 +26,4 @@ export const styles = memoizeStyle({
       transition: opacity 0.15s ease-out;
     `;
   },
-});
+}));

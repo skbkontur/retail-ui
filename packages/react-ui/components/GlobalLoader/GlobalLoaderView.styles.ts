@@ -1,7 +1,9 @@
-import { css, memoizeStyle, keyframes } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   outer(t: Theme) {
     return css`
       width: ${t.globalLoaderWidth};
@@ -43,9 +45,9 @@ export const styles = memoizeStyle({
       width: 20%;
     `;
   },
-});
+}));
 
-const moveToRightAnimation = keyframes`
+const moveToRightAnimation = ({ keyframes }: Emotion) => keyframes`
   0% {
     left: 0;
     width: 100%;
@@ -59,7 +61,7 @@ const moveToRightAnimation = keyframes`
     width: 1%
   }
 `;
-const spinnerAnimation = keyframes`
+const spinnerAnimation = ({ keyframes }: Emotion) => keyframes`
   0% {
     transform: translateX(50%) scaleX(.005);
     animation-timing-function: cubic-bezier(.895,.03,.685,.22);
@@ -72,18 +74,18 @@ const spinnerAnimation = keyframes`
     transform: translateX(-50%) scaleX(.005);
   }
 `;
-const linearProgressAnimation = keyframes`
+const linearProgressAnimation = ({ keyframes }: Emotion) => keyframes`
   from { width: 0; }
   to { width: 80% }
 `;
-const slowProgressAnimation = keyframes`
+const slowProgressAnimation = ({ keyframes }: Emotion) => keyframes`
   from { width: 80%; }
   to { width: 90% }
 `;
 
-export const animations = {
+export const getAnimations = (emotion: Emotion) => ({
   successAnimation(delayBeforeHide: number, width: number, left: number) {
-    return css`
+    return emotion.css`
       animation: successAnimation;
       animation-duration: ${delayBeforeHide}ms;
       @keyframes successAnimation {
@@ -113,32 +115,32 @@ export const animations = {
     const transitionDuration = parseInt(t.globalLoaderTransitionToSpinnerDuration);
     const spinnerAnimationDuration = parseInt(t.globalLoaderSpinnerAnimationDuration);
 
-    return css`
+    return emotion.css`
       left: 0;
       width: 100%;
       animation:
-        ${moveToRightAnimation} ${transitionDuration}ms linear,
-        ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
+        ${moveToRightAnimation(emotion)} ${transitionDuration}ms linear,
+        ${spinnerAnimationDuration}ms ${spinnerAnimation(emotion)} ${transitionDuration}ms infinite alternate;
     `;
   },
   standardAnimation(t: Theme, expectedTime: number) {
     const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
-    return css`
+    return emotion.css`
       width: 90%;
       animation:
-        ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
-        ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime}ms linear;
+        ${linearProgressAnimation(emotion)} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
+        ${slowProgressAnimationTime}ms ${slowProgressAnimation(emotion)} ${expectedTime}ms linear;
     `;
   },
   acceptAnimation(t: Theme, startWidth: number, expectedTime: number, width: number, left: number) {
     const transitionTime = parseInt(t.globalLoaderTransitionFromSpinnerDuration);
     const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
-    return css`
+    return emotion.css`
       width: 90%;
       animation:
         transitionAnimation ${transitionTime}ms linear,
         ${expectedTime}ms acceptAnimation ${transitionTime}ms cubic-bezier(0, 0.4, 0.4, 1),
-        ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime + transitionTime}ms linear;
+        ${slowProgressAnimationTime}ms ${slowProgressAnimation(emotion)} ${expectedTime + transitionTime}ms linear;
       @keyframes transitionAnimation {
         from {
           width: ${width}px;
@@ -162,7 +164,7 @@ export const animations = {
   slowAcceptAnimation(t: Theme, startWidth: number, width: number, left: number) {
     const transitionTime = parseInt(t.globalLoaderTransitionFromSpinnerDuration);
     const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
-    return css`
+    return emotion.css`
       width: 90%;
       animation:
         transitionAnimation ${transitionTime}ms linear,
@@ -188,8 +190,8 @@ export const animations = {
     `;
   },
   acceptWithoutAnimation(startWidth: number) {
-    return css`
+    return emotion.css`
       width: ${startWidth}px;
     `;
   },
-};
+});

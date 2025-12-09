@@ -1,22 +1,31 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import createEmotion from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
-import { globalObject } from '@skbkontur/global-object';
 
 import { Upgrade } from '../Upgrades';
 import type { AnyObject, FunctionWithParams } from '../utils';
 
 import type { Theme } from './Theme';
 
-const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
+export const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
-export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
+export const getEmotion = ({
+  key = REACT_UI_PREFIX,
+  container,
+  nonce,
+}: {
+  container: HTMLElement;
+  key?: string;
+  nonce?: string;
+}): Emotion =>
   createEmotion({
-    key: REACT_UI_PREFIX,
+    key,
     prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
-    container: globalObject.document?.head,
+    container,
+    nonce,
   });
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
@@ -46,11 +55,26 @@ const memoize = <A extends AnyObject, R>(fn: (() => R) | ((arg: A) => R)): (() =
   };
 };
 
-export const memoizeStyle = <S extends { [className: string]: (() => string) | ((t: Theme) => string) }>(
-  styles: S,
-): S => {
+export interface StylesObject {
+  [className: string]: (() => string) | ((t: Theme) => string);
+}
+
+export type StylesGetter<S> = (emotion: Emotion) => S;
+
+export const memoizeStyle = <S extends StylesObject>(styles: S): S => {
   Object.keys(styles).forEach((className) => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
   return styles;
+};
+
+export const memoizeGetStyles = <S extends StylesObject>(getStyles: StylesGetter<S>): StylesGetter<S> => {
+  const stylesCache = new WeakMap<Emotion, S>();
+  return (emotion: Emotion): S => {
+    if (!stylesCache.has(emotion)) {
+      stylesCache.set(emotion, memoizeStyle(getStyles(emotion)));
+    }
+
+    return stylesCache.get(emotion) as S;
+  };
 };
 
 export const prefix =

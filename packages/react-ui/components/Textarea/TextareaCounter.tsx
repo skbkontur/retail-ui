@@ -1,17 +1,17 @@
 import type { SyntheticEvent } from 'react';
 import React, { useContext, useCallback, useImperativeHandle, useState } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
-import { cx } from '../../lib/theming/Emotion';
 import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid';
 import type { SizeProp } from '../../lib/types/props';
 
 import type { TextareaProps } from './Textarea';
 import { TextareaDataTids } from './Textarea';
-import { styles } from './Textarea.styles';
+import { getStyles } from './Textarea.styles';
 
 export interface TextareaCounterProps {
   value: TextareaProps['value'];
@@ -32,6 +32,8 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
   'TextareaCounter',
   ({ length, value, help, onCloseHelp, textarea, size }, ref) => {
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
     const [width, setWidth] = useState(textarea.clientWidth);
     const [height, setHeight] = useState(textarea.clientHeight);
     const reflow = useCallback(() => {

@@ -1,5 +1,3 @@
-import { css } from '../../lib/theming/Emotion';
-
 export const menuFooterSizeMixin = (
   menuFooterPaddingX: string,
   menuFooterFontSize: string,
@@ -9,7 +7,7 @@ export const menuFooterSizeMixin = (
 ) => {
   const paddingRight = menuFooterPaddingX;
 
-  return css`
+  return `
     font-size: ${menuFooterFontSize};
     line-height: ${menuFooterLineHeight};
     padding: ${menuFooterPaddingTop} ${paddingRight} ${menuFooterPaddingBottom} ${menuFooterPaddingX};
@@ -17,7 +15,7 @@ export const menuFooterSizeMixin = (
 };
 
 export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
-  return css`
+  return `
     padding-left: ${menuItemPaddingForIcon};
   `;
 };

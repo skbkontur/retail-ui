@@ -1,7 +1,9 @@
-import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-export const styles = memoizeStyle({
+import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   centeredIcon() {
     return css`
       display: inline-flex;
@@ -12,4 +14,4 @@ export const styles = memoizeStyle({
       }
     `;
   },
-});
+}));

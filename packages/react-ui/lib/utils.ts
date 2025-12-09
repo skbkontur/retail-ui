@@ -1,8 +1,9 @@
 import type React from 'react';
 import { isValidElement } from 'react';
 import { isForwardRef } from 'react-is';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../lib/globalObject';
+import { isBrowser } from '../lib/globalObject';
 import type { CurrencyInputProps } from '../components/CurrencyInput';
 import type { PasswordInputProps } from '../components/PasswordInput';
 import type { InputProps } from '../components/Input';
@@ -45,7 +46,7 @@ export function taskWithDelay(task: () => void, ms: number) {
 
   new Promise((resolve, reject) => {
     cancelationToken = reject;
-    globalObject.setTimeout(resolve, ms);
+    setTimeout(resolve, ms);
   })
     .then(task)
     .catch(() => null);
@@ -81,7 +82,7 @@ export function escapeRegExpSpecChars(s: string): string {
 
 export const getRandomID = (): string => Math.random().toString(16).slice(2);
 
-export const isExternalLink = (link: string): boolean => {
+export const isExternalLink = (link: string, globalObject: GlobalObject): boolean => {
   return isBrowser(globalObject) && new RegExp(`^(https?:)?//(?!${globalObject.location.host})\\S+`, 'gi').test(link);
 };
 
@@ -238,21 +239,4 @@ export function clickOutside(eventType: 'touchstart' | 'mousedown' | 'pointerup'
 
 export function isElement(el: unknown): el is Element {
   return !!el && typeof el === 'object' && 'nodeType' in el && el.nodeType === Node.ELEMENT_NODE;
-}
-
-export function isDocument(node?: Document | null): node is Document {
-  return !!node && typeof node === 'object' && node.nodeType === Node.DOCUMENT_NODE;
-}
-
-export function isWindow(node?: Window | null): node is Window {
-  return !!node && typeof node === 'object' && node.window === node;
-}
-
-export function tryGetDocument(node?: Node | null): Document | null {
-  return !!node && isDocument(node.ownerDocument) ? node.ownerDocument : null;
-}
-
-export function tryGetWindow(node?: Node | null): Window | null {
-  const doc = tryGetDocument(node);
-  return isDocument(doc) ? doc.defaultView : null;
 }

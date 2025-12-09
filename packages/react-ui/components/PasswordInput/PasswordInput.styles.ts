@@ -1,7 +1,9 @@
-import type { Theme } from '../../lib/theming/Theme';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-export const styles = memoizeStyle({
+import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       position: relative;
@@ -82,4 +84,4 @@ export const styles = memoizeStyle({
       cursor: pointer;
     `;
   },
-});
+}));

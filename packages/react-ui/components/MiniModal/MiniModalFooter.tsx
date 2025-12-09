@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import type { ModalFooterProps } from '../Modal';
 import { Modal } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalFooterProps extends ModalFooterProps {
@@ -24,6 +24,8 @@ export const MiniModalFooter = forwardRefAndName<HTMLDivElement, MiniModalFooter
   'MiniModalFooter',
   ({ direction = 'row', children, ...rest }, ref) => {
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
 
     const childrenCount = React.Children.count(children);
     const _direction = childrenCount > 2 || childrenCount === 1 ? 'column' : direction;

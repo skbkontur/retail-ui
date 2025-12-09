@@ -1,6 +1,8 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-export const styles = memoizeStyle({
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       display: inline-block;
@@ -31,4 +33,4 @@ export const styles = memoizeStyle({
       stroke-width: 0.10714285714285714em;
     `;
   },
-});
+}));

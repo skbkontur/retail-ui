@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import { useStyles } from '../../../lib/renderEnvironment';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFileStatus } from '../fileUtils';
 import { LoadingIcon } from '../../icons2022/LoadingIcon';
@@ -8,7 +9,7 @@ import type { SizeProp } from '../../../lib/types/props';
 import { DeleteIcon } from './DeleteIcon';
 import { ErrorIcon } from './ErrorIcon';
 import { OkIcon } from './OkIcon';
-import { jsStyles } from './FileUploaderFile.styles';
+import { getJsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileStatusIconProps {
   hovered: boolean;
@@ -25,6 +26,7 @@ export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFil
   status,
   size,
 }) => {
+  const jsStyles = useStyles(getJsStyles);
   const theme = useContext(ThemeContext);
 
   const IconDelete = <DeleteIcon size={size} className={jsStyles.deleteIcon(theme)} />;

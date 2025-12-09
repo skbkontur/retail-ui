@@ -1,7 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   popup(t: Theme) {
     return css`
       position: absolute;
@@ -91,4 +93,4 @@ export const styles = memoizeStyle({
       text-align: initial;
     `;
   },
-});
+}));

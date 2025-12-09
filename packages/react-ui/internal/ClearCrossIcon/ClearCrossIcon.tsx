@@ -1,16 +1,15 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
-import { cx } from '../../lib/theming/Emotion';
-import { keyListener } from '../../lib/events/keyListener';
+import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment';
+import { useKeyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 import type { SizeProp } from '../../lib/types/props';
 import type { TokenSize } from '../../components/Token';
 
-import { styles } from './ClearCrossIcon.styles';
+import { getStyles } from './ClearCrossIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
 export interface ClearCrossIconProps
@@ -29,7 +28,11 @@ export const ClearCrossIcon: React.FunctionComponent<ClearCrossIconProps> = ({
   'data-tid': dataTid,
   ...rest
 }) => {
+  const globalObject = useGlobal();
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const theme = React.useContext(ThemeContext);
+  const keyListener = useKeyListener();
   const getSizeClassNames = (size: TokenSize) => {
     switch (size) {
       case 'large':

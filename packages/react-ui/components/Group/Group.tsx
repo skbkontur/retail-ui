@@ -1,8 +1,8 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import {
@@ -18,8 +18,9 @@ import {
   isTooltip,
   isHint,
 } from '../../lib/utils';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Group.styles';
+import { getStyles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
   /** Задает длину компонента Group. */
@@ -104,6 +105,7 @@ export const GroupDataTids = {
  *
  *  Длина контейнера настраивается с помощью пропа `width`.
  */
+@withRenderEnvironment
 @rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
@@ -111,6 +113,9 @@ export class Group extends React.Component<GroupProps> {
 
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
 
   public render() {
     const style: React.CSSProperties = {
@@ -120,10 +125,11 @@ export class Group extends React.Component<GroupProps> {
     const childrenArray = React.Children.toArray(this.props.children);
     const firstChild = getFirstChild(childrenArray);
     const lastChild = getLastChild(childrenArray);
+    this.styles = getStyles(this.emotion);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
+        <span data-tid={GroupDataTids.root} className={this.styles.root()} style={style}>
           {React.Children.map(childrenArray, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;
@@ -150,15 +156,15 @@ export class Group extends React.Component<GroupProps> {
     isWidthInPercent: boolean,
   ) => (
     <div
-      className={cx({
-        [styles.fixed()]: !isWidthInPercent,
-        [styles.stretch()]: isWidthInPercent,
+      className={this.cx({
+        [this.styles.fixed()]: !isWidthInPercent,
+        [this.styles.stretch()]: isWidthInPercent,
       })}
     >
       <div
-        className={cx({
-          [styles.item()]: true,
-          [styles.itemFirst()]: isFirstChild,
+        className={this.cx({
+          [this.styles.item()]: true,
+          [this.styles.itemFirst()]: isFirstChild,
         })}
       >
         {tryPassCorners(child, isFirstChild, isLastChild)}
@@ -189,7 +195,7 @@ export class Group extends React.Component<GroupProps> {
     });
 
     const wrappedChildren = (
-      <div className={cx(styles.wrappedChildren(), { [styles.stretch()]: shouldStretchParent })}>
+      <div className={this.cx(this.styles.wrappedChildren(), { [this.styles.stretch()]: shouldStretchParent })}>
         {modifiedChildren}
       </div>
     );

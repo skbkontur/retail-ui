@@ -1,18 +1,24 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { Select } from '../../../components/Select';
+import { withRenderEnvironment } from '../../../lib/renderEnvironment';
 
-import { styles } from './DataTids.styles';
 import { componentsDataTids } from './componentsDataTids';
+import { getStyles } from './DataTids.styles';
 
 interface DataTidsState {
   selectedValue: string;
 }
 
+@withRenderEnvironment
 export class DataTids extends React.Component {
   public state: DataTidsState = {
     selectedValue: 'все',
   };
+
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
 
   private components = Object.keys(componentsDataTids);
 
@@ -23,6 +29,8 @@ export class DataTids extends React.Component {
   };
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <div>
         Выбрать компонент:
@@ -30,13 +38,13 @@ export class DataTids extends React.Component {
         {Object.entries(componentsDataTids).map(([componentName, dataTids], index) => {
           if (componentName === this.state.selectedValue || this.state.selectedValue === 'все') {
             return (
-              <div key={index} className={styles.wrapper()}>
-                <div className={styles.componentName()}>{componentName}</div>
+              <div key={index} className={this.styles.wrapper()}>
+                <div className={this.styles.componentName()}>{componentName}</div>
                 {Object.values(dataTids).map((value, i) => {
                   return (
-                    <div key={i} className={styles.row()}>
-                      <div className={styles.leftCell()}>{`${componentName}DataTids.${value[0]}`}</div>
-                      <div className={styles.rightCell()}>{`'${value[1]}'`}</div>
+                    <div key={i} className={this.styles.row()}>
+                      <div className={this.styles.leftCell()}>{`${componentName}DataTids.${value[0]}`}</div>
+                      <div className={this.styles.rightCell()}>{`'${value[1]}'`}</div>
                     </div>
                   );
                 })}

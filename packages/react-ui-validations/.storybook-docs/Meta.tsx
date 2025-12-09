@@ -12,21 +12,22 @@ import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
 import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
-import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { linkTo } from '@storybook/addon-links';
+import { memoizeGetStyles } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { validationsFeatureFlagsDefault } from '../src';
-
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
 ];
 const allFeatureFlags = Object.keys(validationsFeatureFlagsDefault);
-const styles = {
-  menuWrap: css`
+const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
+  menuWrap: () => css`
     height: 20px;
   `,
-  menu: css`
+  menu: () => css`
     position: fixed;
     display: flex;
     gap: 8px;
@@ -40,7 +41,7 @@ const styles = {
     z-index: 1;
     font-size: 11px;
   `,
-  menuSelect: css`
+  menuSelect: () => css`
     color: #73818c;
     cursor: pointer;
     padding: 4px 8px;
@@ -55,13 +56,13 @@ const styles = {
     }
   `,
 
-  menuItem: css`
+  menuItem: () => css`
     position: relative;
     width: 100%;
     min-width: 250px !important;
     overflow: hidden;
   `,
-  menuItemLabel: css`
+  menuItemLabel: () => css`
     padding-left: 8px;
 
     &:before {
@@ -74,20 +75,20 @@ const styles = {
       height: 100%;
     }
   `,
-  menuComment: css`
+  menuComment: () => css`
     position: relative;
     font-size: 11px;
     margin-top: -4px;
     text-transform: uppercase;
   `,
-  menuIcon: css`
+  menuIcon: () => css`
     position: absolute;
     top: 50%;
     right: 8px;
     transform: translateY(-50%);
     font-size: 16px;
   `,
-  menuContuer: css`
+  menuContuer: () => css`
     display: inline-block;
     background: #3d3d3d;
     font-size: 10px !important;
@@ -101,10 +102,11 @@ const styles = {
     padding: 2px 4px 1px;
     font-weight: 600;
   `,
-};
+}));
 
 export const Meta = ({ of }: { of?: ModuleExports }) => {
   const context = useContext(DocsContext);
+  const styles = useStyles(getStyles);
 
   if (of && !context.componentStories().some((x) => x.title === of.default.title)) {
     context.referenceMeta(of, true); // todo разобраться почему если делать несколько раз attach -- дублируются истории на странице
@@ -136,11 +138,11 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
   const currentFeatureFlags: string[] = context.store.globals.globals.validationsFeatureFlags;
 
   return (
-    <div className={styles.menuWrap}>
-      <div className={styles.menu}>
+    <div className={styles.menuWrap()}>
+      <div className={styles.menu()}>
         <DropdownMenu
           caption={
-            <div className={styles.menuSelect}>
+            <div className={styles.menuSelect()}>
               <WeatherSunMoonIcon16Light /> {currentTheme ? currentTheme.caption : themes[0].caption}
             </div>
           }
@@ -149,12 +151,12 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           {themes.map(({ icon, caption, value }) => (
             <MenuItem
               key={value}
-              className={styles.menuItem}
-              comment={<div className={styles.menuComment}>{value}</div>}
+              className={styles.menuItem()}
+              comment={<div className={styles.menuComment()}>{value}</div>}
               onClick={() => context.channel.emit('updateGlobals', { globals: { theme: value } })}
             >
               {caption}
-              {icon && <div className={styles.menuIcon}>{icon}</div>}
+              {icon && <div className={styles.menuIcon()}>{icon}</div>}
             </MenuItem>
           ))}
           <MenuSeparator />
@@ -162,16 +164,16 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
         </DropdownMenu>
         <DropdownMenu
           caption={
-            <div className={styles.menuSelect}>
+            <div className={styles.menuSelect()}>
               <FlagAIcon16Light /> Feature flags{' '}
               {currentFeatureFlags.length !== 0 && (
-                <span className={styles.menuContuer}>{currentFeatureFlags.length}</span>
+                <span className={styles.menuContuer()}>{currentFeatureFlags.length}</span>
               )}
             </div>
           }
         >
           {allFeatureFlags.map((flag) => (
-            <MenuItem className={styles.menuItem}>
+            <MenuItem className={styles.menuItem()}>
               <Toggle
                 checked={currentFeatureFlags.includes(flag)}
                 onValueChange={(newValue) => {

@@ -1,8 +1,8 @@
 import type React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
-import { globalObject } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -41,6 +41,7 @@ export type CustomComboBoxEffect<T> = (
   getState: () => CustomComboBoxState<T>,
   getProps: () => CustomComboBoxProps<T>,
   getInstance: () => CustomComboBox<T>,
+  globalObject: GlobalObject,
 ) => void;
 
 type Effect = CustomComboBoxEffect<any>;
@@ -79,9 +80,9 @@ export const Effect: EffectFactory = {
   search: (query) => (dispatch, getState, getProps, getInstance) => {
     getInstance().search(query);
   },
-  debouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
+  debouncedSearch: debounce((dispatch, getState, getProps, getInstance, globalObject) => {
     const searchEffect = Effect.search(getState().textValue);
-    searchEffect(dispatch, getState, getProps, getInstance);
+    searchEffect(dispatch, getState, getProps, getInstance, globalObject);
   }, DEBOUNCE_DELAY),
   cancelRequest: (dispatch, getState, getProps, getInstance) => {
     Effect.debouncedSearch.cancel();
@@ -146,7 +147,7 @@ export const Effect: EffectFactory = {
 
     input.focus();
   },
-  highlightMenuItem: (dispatch, getState, getProps, getInstance) => {
+  highlightMenuItem: (dispatch, getState, getProps, getInstance, globalObject) => {
     const { value, itemToValue, valueToString } = getProps();
     const { items, focused, textValue, requestStatus } = getState();
     const { menu } = getInstance();

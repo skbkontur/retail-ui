@@ -1,10 +1,11 @@
 import type { ReactElement } from 'react';
 import React, { useCallback, useContext } from 'react';
 
+import { useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 
-import { styles } from './DayCellView.styles';
+import { getStyles } from './DayCellView.styles';
 import { CalendarContext } from './CalendarContext';
 import type { DayCellViewModel } from './DayCellViewModel';
 import * as CDS from './CalendarDateShape';
@@ -18,6 +19,7 @@ export interface DayCellViewProps {
 export const DayCellView = (props: DayCellViewProps) => {
   const { date } = props;
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
+  const styles = useStyles(getStyles);
   const theme = useContext(ThemeContext);
 
   const isDisabled = !CDS.isBetween(date, minDate, maxDate);

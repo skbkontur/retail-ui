@@ -1,22 +1,22 @@
 import React from 'react';
 import shallowEqual from 'shallowequal';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 import warning from 'warning';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import type { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Sticky.styles';
+import { getStyles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
@@ -55,6 +55,7 @@ type DefaultProps = Required<Pick<StickyProps, 'offset'>>;
  * `Sticky` позволяет закреплять элемент интерфейса в определенной позиции на экране при прокрутке страницы.
  * Это полезно для создания "прилипающих" элементов, которые остаются видимыми при прокрутке содержимого.
  */
+@withRenderEnvironment
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
@@ -71,18 +72,21 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     relativeTop: 0,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private wrapper: Nullable<HTMLElement>;
   private inner: Nullable<HTMLElement>;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
   private reflowCounter = 0;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
-  public featureFlags!: ReactUIFeatureFlags;
 
   public componentDidMount() {
     this.reflow();
 
-    this.layoutSubscription = LayoutEvents.addListener(this.reflow);
+    this.layoutSubscription = LayoutEvents.addListener(this.reflow, this.globalObject);
   }
 
   public componentWillUnmount() {
@@ -103,6 +107,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
     return this.renderMain();
   }
 
@@ -130,18 +135,18 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={StickyDataTids.root} ref={this.refWrapper} className={styles.wrapper()}>
+        <div data-tid={StickyDataTids.root} ref={this.refWrapper} className={this.styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
-            className={cx(styles.inner(), {
-              [styles.fixed()]: fixed && !stopped,
-              [styles.stopped()]: stopped,
+            className={this.cx(this.styles.inner(), {
+              [this.styles.fixed()]: fixed && !stopped,
+              [this.styles.stopped()]: stopped,
             })}
             style={innerStyle}
             wrapperRef={this.refInner}
           >
-            <div className={styles.container()}>{children}</div>
+            <div className={this.styles.container()}>{children}</div>
           </ZIndex>
           {fixed && !stopped ? <div style={{ width, height }} /> : null}
         </div>
@@ -159,12 +164,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
    * @public
    */
   public reflow = () => {
-    if (!globalObject.document?.documentElement) {
+    if (!this.globalObject.document?.documentElement) {
       warning(false, 'There is no "documentElement" in document');
       return;
     }
 
-    const windowHeight = globalObject.innerHeight || globalObject.document.documentElement.clientHeight;
+    const windowHeight = this.globalObject.innerHeight || this.globalObject.document.documentElement.clientHeight;
     if (!this.wrapper || !this.inner) {
       return;
     }

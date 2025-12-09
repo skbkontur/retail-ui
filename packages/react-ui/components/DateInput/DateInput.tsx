@@ -1,8 +1,9 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateComponentType } from '../../lib/date/types';
@@ -14,17 +15,17 @@ import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { CalendarIcon } from './CalendarIcon';
 import { DateFragmentsView } from './DateFragmentsView';
-import { styles } from './DateInput.styles';
+import { getStyles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
 
@@ -97,6 +98,7 @@ type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate
 /**
  * Компонент поля `DateInput` из DatePicker'а помогает выбирать дату с клавиатуры.
  */
+@withRenderEnvironment
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 @withSize
@@ -122,6 +124,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private ignoringDelimiter = false;
   private locale!: DatePickerLocale;
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
@@ -207,6 +213,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -251,7 +259,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             aria-label={this.props['aria-label']}
             aria-labelledby={this.props['aria-labelledby']}
           >
-            <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+            <span className={this.cx(this.styles.value(), { [this.styles.valueVisible()]: showValue })}>
               <DateFragmentsView
                 ref={this.dateFragmentsViewRef}
                 fragments={this.iDateMediator.getFragments()}
@@ -273,12 +281,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (withIcon) {
       const theme = this.theme;
       const icon = <CalendarIcon size={size} />;
-      const iconStyles = cx({
-        [styles.icon(theme)]: true,
-        [styles.iconSmall(theme)]: size === 'small',
-        [styles.iconMedium(theme)]: size === 'medium',
-        [styles.iconLarge(theme)]: size === 'large',
-        [styles.iconDisabled(theme)]: disabled,
+      const iconStyles = this.cx({
+        [this.styles.icon(theme)]: true,
+        [this.styles.iconSmall(theme)]: size === 'small',
+        [this.styles.iconMedium(theme)]: size === 'medium',
+        [this.styles.iconLarge(theme)]: size === 'large',
+        [this.styles.iconDisabled(theme)]: disabled,
       });
       return (
         <span className={iconStyles} data-tid={DateInputDataTids.icon}>
@@ -338,7 +346,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    const selection = globalObject.getSelection?.();
+    const selection = this.globalObject.getSelection?.();
     if (
       selection &&
       selection.toString().length === LENGTH_FULLDATE &&

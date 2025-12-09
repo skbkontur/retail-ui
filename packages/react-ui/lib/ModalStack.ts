@@ -1,7 +1,7 @@
 import type React from 'react';
 import EventEmitter from 'eventemitter3';
-import { globalObject } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../lib/globalObject';
 import type { SidePageProps } from '../components/SidePage';
 import type { ModalProps } from '../components/Modal';
 
@@ -22,8 +22,9 @@ export class ModalStack {
   public static add(
     component: React.Component,
     onChange: (stack: readonly React.Component[]) => void,
+    globalObject: GlobalObject,
   ): ModalStackSubscription {
-    const { emitter, mounted } = ModalStack.getStackInfo();
+    const { emitter, mounted } = ModalStack.getStackInfo(globalObject);
     mounted.unshift(component);
     const changeHandler = () => onChange([...mounted]);
     const _token = emitter.addListener('change', changeHandler);
@@ -42,24 +43,24 @@ export class ModalStack {
     };
   }
 
-  public static remove(component: React.Component) {
-    const { emitter, mounted } = ModalStack.getStackInfo();
+  public static remove(component: React.Component, globalObject: GlobalObject) {
+    const { emitter, mounted } = ModalStack.getStackInfo(globalObject);
     const index = mounted.indexOf(component);
     if (index !== -1) {
       mounted.splice(index, 1);
     }
     emitter.emit('change');
   }
-  public static rerender() {
-    const { emitter } = ModalStack.getStackInfo();
+  public static rerender(globalObject: GlobalObject) {
+    const { emitter } = ModalStack.getStackInfo(globalObject);
     emitter.emit('change');
   }
 
   /**
    * Determines if stack component is allowed to block background
    */
-  public static isBlocking(component: React.Component): boolean {
-    const { mounted } = ModalStack.getStackInfo();
+  public static isBlocking(component: React.Component, globalObject: GlobalObject): boolean {
+    const { mounted } = ModalStack.getStackInfo(globalObject);
     for (let index = 0; index < mounted.length; index++) {
       if (ModalStack.wantsToBlock(mounted[index])) {
         // only the highest component in stack
@@ -70,7 +71,7 @@ export class ModalStack {
     return false;
   }
 
-  public static getStackInfo(): StackInfo {
+  public static getStackInfo(globalObject: GlobalObject): StackInfo {
     const globalWithStack = globalObject as GlobalWithStackInfo;
     return (
       globalWithStack.__ReactUIStackInfo ||

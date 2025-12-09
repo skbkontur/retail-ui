@@ -1,5 +1,6 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 
+import { useStyles } from '../../lib/renderEnvironment';
 import { Calendar } from '../Calendar';
 import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -10,7 +11,7 @@ import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 
 import type { DatePickerProps } from './DatePicker';
 import { DatePickerLocaleHelper } from './locale';
-import { styles } from './MobilePicker.styles';
+import { getStyles } from './MobilePicker.styles';
 import { getMobilePickerTheme } from './getMobilePickerTheme';
 
 export const MobilePickerDataTids = {
@@ -37,6 +38,7 @@ export interface MobilePickerProps
 
 export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
   const locale = useLocaleForControl('DatePicker', DatePickerLocaleHelper);
+  const styles = useStyles(getStyles);
   const theme = getMobilePickerTheme(useContext(ThemeContext));
 
   const calendarRef = useRef<Calendar>(null);

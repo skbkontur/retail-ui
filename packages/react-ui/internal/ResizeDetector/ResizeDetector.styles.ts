@@ -1,6 +1,8 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       position: relative;
@@ -40,4 +42,4 @@ export const styles = memoizeStyle({
       display: flex;
     `;
   },
-});
+}));

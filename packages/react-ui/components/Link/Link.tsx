@@ -1,24 +1,24 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { ButtonLinkAllowedValues } from '../../lib/types/button-link';
-import { resetButton } from '../../lib/styles/Mixins';
 import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
-import { keyListener } from '../../lib/events/keyListener';
+import { KeyListener } from '../../lib/events/keyListener';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { DefaultizedProps } from '../../lib/createPropsGetter';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Link.styles';
+import { getStyles } from './Link.styles';
 import { LinkIcon } from './LinkIcon';
 
 export interface LinkInnerProps extends CommonProps {
@@ -80,6 +80,7 @@ type DefaultizedLinkProps = DefaultizedProps<LinkProps<ButtonLinkAllowedValues>,
 /**
  * С помощью ссылки пользователь может перейти на другую страницу, раздел приложения или внешний URL.
  */
+@withRenderEnvironment
 @rootNode
 export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPONENT> extends React.Component<
   LinkProps<C>,
@@ -99,11 +100,22 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     focusedByTab: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private keyListener!: KeyListener;
+
+  public componentDidMount() {
+    this.keyListener = new KeyListener(this.globalObject);
+  }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -132,7 +144,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     if (isAnchorProps(this.props)) {
       const { rel, href } = this.props;
       if (!rel && href) {
-        return `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
+        return `noopener${isExternalLink(href, this.globalObject) ? ' noreferrer' : ''}`;
       }
       return rel;
     }
@@ -160,7 +172,7 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
 
     let arrow = null;
     if (_button) {
-      arrow = <span className={styles.arrow()} />;
+      arrow = <span className={this.styles.arrow()} />;
     }
 
     const isFocused = !disabled && (this.state.focusedByTab || focused);
@@ -173,41 +185,41 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     const getUseStyles = () => {
       switch (use) {
         case 'default':
-          return styles.default(this.theme);
+          return this.styles.default(this.theme);
         case 'danger':
-          return styles.danger(this.theme);
+          return this.styles.danger(this.theme);
         case 'success':
-          return styles.success(this.theme);
+          return this.styles.success(this.theme);
         case 'grayed':
-          return styles.grayed(this.theme);
+          return this.styles.grayed(this.theme);
       }
     };
     const getUseLineFocusStyles = () => {
       switch (use) {
         case 'default':
-          return styles.lineFocus(this.theme);
+          return this.styles.lineFocus(this.theme);
         case 'danger':
-          return styles.lineFocusDanger(this.theme);
+          return this.styles.lineFocusDanger(this.theme);
         case 'success':
-          return styles.lineFocusSuccess(this.theme);
+          return this.styles.lineFocusSuccess(this.theme);
         case 'grayed':
-          return styles.lineFocusGrayed(this.theme);
+          return this.styles.lineFocusGrayed(this.theme);
       }
     };
 
     const rootProps = {
       ...rest,
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [resetButton()]: Root === 'button',
-        [styles.focus(this.theme)]: isFocused,
-        [styles.disabled(this.theme)]: disabled || loading,
+      className: this.cx({
+        [this.styles.root(this.theme)]: true,
+        [this.styles.reserButton()]: Root === 'button',
+        [this.styles.focus(this.theme)]: isFocused,
+        [this.styles.disabled(this.theme)]: disabled || loading,
         [getUseStyles()]: true,
-        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        [styles.button(this.theme)]: !!_button,
-        [styles.buttonOpened(this.theme)]: !!_buttonOpened,
-        [styles.warning(this.theme)]: warning,
-        [styles.error(this.theme)]: error,
+        [this.styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
+        [this.styles.button(this.theme)]: !!_button,
+        [this.styles.buttonOpened(this.theme)]: !!_buttonOpened,
+        [this.styles.warning(this.theme)]: warning,
+        [this.styles.error(this.theme)]: error,
         [getUseLineFocusStyles()]: isFocused,
       }),
       onClick: this.handleClick,
@@ -238,8 +250,8 @@ export class Link<C extends ButtonLinkAllowedValues = typeof LINK_DEFAULT_COMPON
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalObject.requestAnimationFrame?.(() => {
-        if (keyListener.isTabPressed) {
+      this.globalObject.requestAnimationFrame?.(() => {
+        if (this.keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

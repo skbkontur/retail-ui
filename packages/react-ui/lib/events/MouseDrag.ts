@@ -1,4 +1,5 @@
-import { globalObject } from '@skbkontur/global-object';
+import type { GlobalObject } from '../../lib/globalObject';
+import { getOwnerGlobalObject } from '../../lib/globalObject';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',
@@ -15,10 +16,9 @@ type On = (handler: Handler) => MouseDrag;
 export type MouseDragEventHandler = (e: MouseDragEvent) => void;
 
 const items: Map<HTMLElement, MouseDrag> = new Map();
+const listenersAttached = new WeakSet<GlobalObject>();
 
 const documentHandleMouseUp: HandlerNative = (e) => items.forEach((mouseDrag) => mouseDrag.handleMouseUp(e));
-
-globalObject.document?.documentElement.addEventListener('mouseup', documentHandleMouseUp);
 
 /**
  * ## Класс для отслеживания эффекта перетаскивания мышкой
@@ -78,13 +78,19 @@ export class MouseDrag {
   private y1?: number;
 
   private elem: HTMLElement | null;
+  private globalObject: GlobalObject;
 
   public constructor(elem: HTMLElement) {
     this.elem = elem;
+    this.globalObject = getOwnerGlobalObject(elem);
     this.elem.addEventListener('mousedown', this.handleMouseDown);
     this.elem.addEventListener('mousemove', this.handleMouseMove);
     this.elem.addEventListener('mouseleave', this.handleMouseLeave);
     items.set(this.elem, this);
+    if (!listenersAttached.has(this.globalObject)) {
+      this.globalObject.document?.documentElement.addEventListener('mouseup', documentHandleMouseUp);
+      listenersAttached.add(this.globalObject);
+    }
   }
 
   public stop = (): void => {
@@ -155,8 +161,8 @@ export class MouseDrag {
   };
 
   private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent | undefined => {
-    if (typeof globalObject.MouseEvent === 'function') {
-      return new globalObject.MouseEvent(type, e);
+    if (typeof this.globalObject.MouseEvent === 'function') {
+      return new this.globalObject.MouseEvent(type, e);
     }
   };
 

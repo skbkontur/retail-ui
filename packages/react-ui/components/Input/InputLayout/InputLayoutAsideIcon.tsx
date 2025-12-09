@@ -2,14 +2,14 @@ import type { ReactElement } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 
+import { useEmotion, useStyles } from '../../../lib/renderEnvironment';
 import { isKonturIcon } from '../../../lib/utils';
 import type { InputProps } from '../Input';
-import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { SizeProp } from '../../../lib/types/props';
 
 import { InputLayoutContext } from './InputLayoutContext';
-import { stylesLayout } from './InputLayout.styles';
+import { getStylesLayout } from './InputLayout.styles';
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';
@@ -17,6 +17,8 @@ export interface InputLayoutAsideIconProps {
 
 export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null, side }) => {
   const theme = React.useContext(ThemeContext);
+  const { cx } = useEmotion();
+  const stylesLayout = useStyles(getStylesLayout);
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
   const sizes: Record<SizeProp, number> = {

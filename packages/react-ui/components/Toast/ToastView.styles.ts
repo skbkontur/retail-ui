@@ -1,4 +1,6 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 const getVerticalPaddings = (theme: Theme) => {
@@ -8,7 +10,7 @@ const getVerticalPaddings = (theme: Theme) => {
   return [`${paddingY}px`, `${paddingY}px`];
 };
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
@@ -65,6 +67,7 @@ export const styles = memoizeStyle({
     return css`
       border: none;
       font: inherit;
+      color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
@@ -72,6 +75,12 @@ export const styles = memoizeStyle({
 
       margin: -${paddingTop} 0 -${paddingBottom} ${t.toastPaddingX};
 
+      padding: ${padding};
+      transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
+      &:hover {
+        background: ${t.toastLinkBgHover};
+        text-decoration: ${t.toastLinkTextDecorationHover};
+      }
       padding: ${padding};
       transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
     `;
@@ -107,4 +116,4 @@ export const styles = memoizeStyle({
       }
     `;
   },
-});
+}));

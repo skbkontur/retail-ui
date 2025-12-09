@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
 
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment';
+import { isBrowser } from '../../lib/globalObject';
 import type { FileUploaderAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
-import { cx } from '../../lib/theming/Emotion';
 import type { InstanceWithRootNode } from '../../lib/rootNode';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
@@ -13,7 +13,7 @@ import { useDrop } from '../../hooks/useDrop';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
-import { keyListener } from '../../lib/events/keyListener';
+import { useKeyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import type { CommonProps } from '../../internal/CommonWrapper';
@@ -26,7 +26,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { UploadIcon } from './UploadIcon';
-import { globalClasses, jsStyles } from './FileUploader.styles';
+import { globalClasses, getStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -89,6 +89,10 @@ const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.React
 
 const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
   const theme = useContext(ThemeContext);
+  const globalObject = useGlobal();
+  const { cx } = useEmotion();
+  const jsStyles = useStyles(getStyles);
+  const keyListener = useKeyListener();
 
   const {
     initialFiles,

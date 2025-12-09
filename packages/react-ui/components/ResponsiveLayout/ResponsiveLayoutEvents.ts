@@ -1,4 +1,4 @@
-import { globalObject } from '@skbkontur/global-object';
+import type { GlobalObject } from '../../lib/globalObject';
 
 interface mediaQueryData {
   mql: MediaQueryList;
@@ -12,13 +12,14 @@ export interface listenerToken {
 export const eventListenersMap = new Map<string, mediaQueryData>();
 
 export function addResponsiveLayoutListener(
+  globalObject: GlobalObject,
   mediaQuery: string,
   callback: (e: MediaQueryListEvent) => void,
 ): listenerToken {
   if (eventListenersMap.has(mediaQuery)) {
     addCallbackToMQListener(mediaQuery, callback);
   } else {
-    createMQListener(mediaQuery, callback);
+    createMQListener(globalObject, mediaQuery, callback);
   }
 
   return {
@@ -39,7 +40,7 @@ function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryLis
   }
 }
 
-function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
+function createMQListener(globalObject: GlobalObject, mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
   const mql = globalObject.matchMedia?.(mediaQuery);
   if (mql) {
     const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
@@ -78,7 +79,7 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
   }
 }
 
-export function checkMatches(mediaQuery: string) {
+export function checkMatches(globalObject: GlobalObject, mediaQuery: string) {
   if (!globalObject.matchMedia) {
     return false;
   }

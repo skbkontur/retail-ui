@@ -1,26 +1,27 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 import warning from 'warning';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import type { Nullable } from '../../typings/utility-types';
-import { keyListener } from '../../lib/events/keyListener';
+import { KeyListener } from '../../lib/events/keyListener';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import type { SizeProp } from '../../lib/types/props';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Paging.styles';
+import { getStyles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
 import { getItems } from './PagingHelper';
 import type { PagingLocale } from './locale';
@@ -113,6 +114,7 @@ interface PagingSizeClassNames {
 /**
  * Постраничная навигация `Paging` (пейджинг или пагинация) — способ представления большого количества однородной информации, когда контент разбивается на страницы.
  */
+@withRenderEnvironment
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
@@ -139,14 +141,20 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     keyboardControl: this.getProps().useGlobalListener,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private readonly locale!: PagingLocale;
   private isMobile!: boolean;
   private sizeClassNames!: PagingSizeClassNames;
   private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
+  private keyListener!: KeyListener;
 
   public componentDidMount() {
+    this.keyListener = new KeyListener(this.globalObject);
     const useGlobalListener = this.getProps().useGlobalListener;
     if (useGlobalListener) {
       this.addGlobalListener();
@@ -178,6 +186,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (this.props.pagesCount < 2) {
       return null;
     }
+    this.styles = getStyles(this.emotion);
 
     return (
       <ThemeContext.Consumer>
@@ -208,9 +217,9 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         <span
           tabIndex={this.props.disabled ? -1 : 0}
           data-tid={PagingDataTids.root}
-          className={cx(styles.paging(), this.sizeClassNames.root, {
-            [styles.pagingMobile()]: this.isMobile,
-            [styles.pagingDisabled()]: this.props.disabled,
+          className={this.cx(this.styles.paging(), this.sizeClassNames.root, {
+            [this.styles.pagingMobile()]: this.isMobile,
+            [this.styles.pagingDisabled()]: this.props.disabled,
           })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
@@ -247,8 +256,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       <span
         data-tid={PagingDataTids.dots}
         key={key}
-        className={cx(styles.dots(this.theme), this.sizeClassNames.dots, {
-          [styles.dotsDisabled(this.theme)]: this.props.disabled,
+        className={this.cx(this.styles.dots(this.theme), this.sizeClassNames.dots, {
+          [this.styles.dotsDisabled(this.theme)]: this.props.disabled,
         })}
       >
         {this.getDotsIcon()}
@@ -257,14 +266,14 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classNames = cx(
-      styles.pageLink(this.theme),
+    const classNames = this.cx(
+      this.styles.pageLink(this.theme),
       this.sizeClassNames.pageLink,
-      styles.forwardLink(this.theme),
+      this.styles.forwardLink(this.theme),
       this.sizeClassNames.forwardLink,
       {
-        [styles.pageLinkFocused(this.theme)]: focused,
-        [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
+        [this.styles.pageLinkFocused(this.theme)]: focused,
+        [this.styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
       },
     );
     const Component = this.getProps().component;
@@ -291,11 +300,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
     const disabled = this.props.disabled;
-    const classNames = cx(styles.pageLink(this.theme), this.sizeClassNames.pageLink, {
-      [styles.pageLinkFocused(this.theme)]: focused,
-      [styles.pageLinkDisabled(this.theme)]: disabled,
-      [styles.pageLinkCurrent(this.theme)]: active,
-      [styles.pageLinkCurrentDisabled(this.theme)]: active && disabled,
+    const classNames = this.cx(this.styles.pageLink(this.theme), this.sizeClassNames.pageLink, {
+      [this.styles.pageLinkFocused(this.theme)]: focused,
+      [this.styles.pageLinkDisabled(this.theme)]: disabled,
+      [this.styles.pageLinkCurrent(this.theme)]: active,
+      [this.styles.pageLinkCurrentDisabled(this.theme)]: active && disabled,
     });
     const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -304,7 +313,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       <span
         data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
-        className={styles.pageLinkWrapper()}
+        className={this.styles.pageLinkWrapper()}
         {...getVisualStateDataAttributes({ active, disabled })}
       >
         <Component
@@ -335,13 +344,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (keyboardControl && (canGoBackward || canGoForward)) {
       hint = (
         <>
-          <span className={canGoBackward ? '' : styles.transparent()}>{'←'}</span>
+          <span className={canGoBackward ? '' : this.styles.transparent()}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
-          <span className={canGoForward ? '' : styles.transparent()}>{'→'}</span>
+          <span className={canGoForward ? '' : this.styles.transparent()}>{'→'}</span>
         </>
       );
     }
-    return <div className={styles.pageLinkHint(this.theme)}>{hint}</div>;
+    return <div className={this.styles.pageLinkHint(this.theme)}>{hint}</div>;
   };
 
   private handleMouseDown = () => {
@@ -359,7 +368,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const isArrowRight = isKeyArrowRight(e);
 
     if (
-      isInstanceOf(target, globalObject.Element) &&
+      isInstanceOf(target, this.globalObject.Element) &&
       (IGNORE_EVENT_TAGS.includes(target.tagName.toLowerCase()) || (target as HTMLElement).isContentEditable)
     ) {
       return;
@@ -399,8 +408,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    globalObject.requestAnimationFrame?.(() => {
-      if (keyListener.isTabPressed) {
+    this.globalObject.requestAnimationFrame?.(() => {
+      if (this.keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
     });
@@ -499,13 +508,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    globalObject.document?.addEventListener('keydown', this.handleKeyDown);
+    this.globalObject.document?.addEventListener('keydown', this.handleKeyDown);
     this.addedGlobalListener = true;
   };
 
   private removeGlobalListener = () => {
     if (this.addedGlobalListener) {
-      globalObject.document?.removeEventListener('keydown', this.handleKeyDown);
+      this.globalObject.document?.removeEventListener('keydown', this.handleKeyDown);
 
       this.addedGlobalListener = false;
     }
@@ -519,10 +528,10 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const size = this.getSize();
 
     const defaultClassNames = {
-      root: styles.pagingSmall(this.theme),
-      dots: styles.dotsSmall(this.theme),
-      forwardLink: styles.forwardLinkSmall(this.theme),
-      pageLink: styles.pageLinkSmall(this.theme),
+      root: this.styles.pagingSmall(this.theme),
+      dots: this.styles.dotsSmall(this.theme),
+      forwardLink: this.styles.forwardLinkSmall(this.theme),
+      pageLink: this.styles.pageLinkSmall(this.theme),
     };
 
     switch (size) {
@@ -530,19 +539,21 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         return defaultClassNames;
       case 'medium':
         return {
-          root: styles.pagingMedium(this.theme),
-          dots: styles.dotsMedium(this.theme),
+          root: this.styles.pagingMedium(this.theme),
+          dots: this.styles.dotsMedium(this.theme),
           forwardLink: this.isMobile
-            ? styles.forwardLinkMediumMobile(this.theme)
-            : styles.forwardLinkMedium(this.theme),
-          pageLink: styles.pageLinkMedium(this.theme),
+            ? this.styles.forwardLinkMediumMobile(this.theme)
+            : this.styles.forwardLinkMedium(this.theme),
+          pageLink: this.styles.pageLinkMedium(this.theme),
         };
       case 'large':
         return {
-          root: styles.pagingLarge(this.theme),
-          dots: styles.dotsLarge(this.theme),
-          forwardLink: this.isMobile ? styles.forwardLinkLargeMobile(this.theme) : styles.forwardLinkLarge(this.theme),
-          pageLink: styles.pageLinkLarge(this.theme),
+          root: this.styles.pagingLarge(this.theme),
+          dots: this.styles.dotsLarge(this.theme),
+          forwardLink: this.isMobile
+            ? this.styles.forwardLinkLargeMobile(this.theme)
+            : this.styles.forwardLinkLarge(this.theme),
+          pageLink: this.styles.pageLinkLarge(this.theme),
         };
       default:
         warning(false, `Invalid size prop: '${this.props.size}'`);

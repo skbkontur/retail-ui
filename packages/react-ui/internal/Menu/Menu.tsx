@@ -1,7 +1,9 @@
 import type { CSSProperties, HTMLAttributes } from 'react';
 import React from 'react';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
+import { isBrowser } from '../../lib/globalObject';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { MenuSeparator } from '../../components/MenuSeparator';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -15,15 +17,15 @@ import { MenuItemDataTids } from '../../components/MenuItem';
 import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Menu.styles';
+import { getStyles } from './Menu.styles';
 import { MenuNavigation } from './MenuNavigation';
 import { MenuContext } from './MenuContext';
 
@@ -83,6 +85,7 @@ type DefaultProps = Required<
   >
 >;
 
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class Menu extends React.PureComponent<MenuProps, MenuState> {
@@ -107,6 +110,10 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     enableIconPadding: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private isMobileLayout!: boolean;
@@ -146,12 +153,14 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+    if (isInstanceOf(rootNode, this.globalObject.HTMLElement)) {
       rootNode?.focus();
     }
   };
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -219,11 +228,11 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
           data-tid={MenuDataTids.root}
-          className={cx(getAlignRightClass(this.props), {
-            [styles.root(this.theme)]: true,
-            [styles.hasMargin(this.theme)]: hasMargin,
-            [styles.mobileRoot(this.theme)]: isMobile,
-            [styles.shadow(this.theme)]: !isMobile,
+          className={this.cx(getAlignRightClass(this.props, this.cx, this.styles), {
+            [this.styles.root(this.theme)]: true,
+            [this.styles.hasMargin(this.theme)]: hasMargin,
+            [this.styles.mobileRoot(this.theme)]: isMobile,
+            [this.styles.shadow(this.theme)]: !isMobile,
           })}
           style={this.getStyle(this.props)}
           id={this.props.id}
@@ -240,9 +249,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
             offsetY={offsetY}
           >
             <div
-              className={cx({
-                [styles.scrollContainer(this.theme)]: true,
-                [styles.scrollContainerMobile(this.theme)]: isMobile,
+              className={this.cx({
+                [this.styles.scrollContainer(this.theme)]: true,
+                [this.styles.scrollContainerMobile(this.theme)]: isMobile,
               })}
               ref={this.contentRef}
             >
@@ -267,14 +276,14 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        className={cx({
-          [styles.wrapper()]: true,
-          [styles.headerWrapper()]: true,
+        className={this.cx({
+          [this.styles.wrapper()]: true,
+          [this.styles.headerWrapper()]: true,
         })}
         ref={(el) => (this.header = el)}
       >
-        <div className={styles.contentWrapper()}>{this.props.header}</div>
-        <div className={styles.menuSeparatorWrapper(this.theme)}>
+        <div className={this.styles.contentWrapper()}>{this.props.header}</div>
+        <div className={this.styles.menuSeparatorWrapper(this.theme)}>
           {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
         </div>
       </div>
@@ -284,16 +293,16 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        className={cx({
-          [styles.wrapper()]: true,
-          [styles.footerWrapper()]: true,
+        className={this.cx({
+          [this.styles.wrapper()]: true,
+          [this.styles.footerWrapper()]: true,
         })}
         ref={(el) => (this.footer = el)}
       >
-        <div className={styles.menuSeparatorWrapper(this.theme)}>
+        <div className={this.styles.menuSeparatorWrapper(this.theme)}>
           {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
         </div>
-        <div className={styles.contentWrapper()}>{this.props.footer}</div>
+        <div className={this.styles.contentWrapper()}>{this.props.footer}</div>
       </div>
     );
   };
@@ -333,8 +342,8 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && isBrowser(globalObject) && rootNode) {
-      const rootElementMaxHeight = globalObject.getComputedStyle?.(rootNode).maxHeight;
+    if (typeof maxHeight === 'string' && isBrowser(this.globalObject) && rootNode) {
+      const rootElementMaxHeight = this.globalObject.getComputedStyle?.(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -362,7 +371,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     if (this.scrollContainer && highlightedItem) {
       const rootNode = getRootNode(highlightedItem);
       // TODO: Remove this check once IF-647 is resolved
-      if (isInstanceOf(rootNode, globalObject.HTMLElement)) {
+      if (isInstanceOf(rootNode, this.globalObject.HTMLElement)) {
         this.scrollContainer.scrollTo(rootNode);
       }
     }
@@ -462,7 +471,7 @@ function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   return ret;
 }
 
-const getAlignRightClass = (props: MenuProps) => {
+const getAlignRightClass = (props: MenuProps, cx: Emotion['cx'], styles: ReturnType<typeof getStyles>) => {
   if (props.align === 'right') {
     return cx(styles.alignRight());
   }

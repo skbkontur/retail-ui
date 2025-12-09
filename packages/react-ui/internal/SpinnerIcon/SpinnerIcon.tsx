@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 
-import { styles } from './SpinnerIcon.styles';
+import { getStyles } from './SpinnerIcon.styles';
 
 interface SpinnerIconSize {
   size: number;
@@ -43,6 +43,9 @@ const isSizeAlias = (size: unknown): size is keyof typeof sizes => {
 export const SpinnerIcon = ({ size, className, inline, width, color }: SpinnerIconProps) => {
   const _size = isSizeAlias(size) ? sizes[size] : size;
   const currentSize = inline ? sizes.mini : _size;
+
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
 
   return (
     <span className={cx(styles.root(), { [styles.rootInline()]: inline })}>

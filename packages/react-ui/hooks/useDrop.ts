@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { SafeTimer } from '@skbkontur/global-object';
-import { globalObject } from '@skbkontur/global-object';
+
+import type { SafeTimer } from '../lib/globalObject';
 
 interface IUseDropProps {
   onDrop?: (event: DragEvent) => void;
@@ -23,7 +23,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
 
   const clearTimer = useCallback(() => {
-    timerId.current && globalObject.clearTimeout(timerId.current);
+    timerId.current && clearTimeout(timerId.current);
   }, []);
 
   const handleDragOver = useCallback(
@@ -32,7 +32,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
       setIsDraggable(true);
 
       clearTimer();
-      timerId.current = globalObject.setTimeout(() => {
+      timerId.current = setTimeout(() => {
         overRef.current = false;
         setIsDraggable(false);
       }, 200);

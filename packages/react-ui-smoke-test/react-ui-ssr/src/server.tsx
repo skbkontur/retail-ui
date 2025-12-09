@@ -3,9 +3,12 @@ import fs from 'fs';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
-import { cache } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { REACT_UI_PREFIX } from "@skbkontur/react-ui/lib/theming/Emotion"
 
+const key = REACT_UI_PREFIX
+const cache = createCache({ key })
 const { extractCritical } = createEmotionServer(cache);
 
 import { App } from './App';

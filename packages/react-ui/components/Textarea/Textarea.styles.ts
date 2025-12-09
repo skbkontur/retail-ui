@@ -1,9 +1,11 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import { counterSizeMixin, rootTextareaSizeMixin, textareaSizeMixin } from './Textarea.mixins';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       display: inline-block;
@@ -214,4 +216,4 @@ export const styles = memoizeStyle({
       transition: none;
     `;
   },
-});
+}));

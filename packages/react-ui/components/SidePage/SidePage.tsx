@@ -2,8 +2,9 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isNonNullable, isReactUIInstance } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -17,11 +18,11 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -29,7 +30,7 @@ import type { SidePageContextType } from './SidePageContext';
 import { SidePageContext } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 
 export interface SidePageProps
   extends CommonProps,
@@ -98,6 +99,7 @@ const TRANSITION_TIMEOUT = 200;
  *
  * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
  */
+@withRenderEnvironment
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
   public static displayName = 'SidePage';
@@ -111,6 +113,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasFooter: false,
     hasPanel: false,
   };
+
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private layout: HTMLElement | null = null;
@@ -119,25 +126,25 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
-    globalObject.addEventListener?.('keydown', this.handleKeyDown);
-    this.stackSubscription = ModalStack.add(this, this.handleStackChange);
+    this.globalObject.addEventListener?.('keydown', this.handleKeyDown);
+    this.stackSubscription = ModalStack.add(this, this.handleStackChange, this.globalObject);
   }
 
   public componentDidUpdate(prevProps: SidePageProps) {
     if (prevProps.blockBackground !== this.props.blockBackground) {
-      ModalStack.rerender();
+      ModalStack.rerender(this.globalObject);
       this.setState({
-        hasBackground: ModalStack.isBlocking(this),
+        hasBackground: ModalStack.isBlocking(this, this.globalObject),
       });
     }
   }
 
   public componentWillUnmount() {
-    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
+    this.globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
-    ModalStack.remove(this);
+    ModalStack.remove(this, this.globalObject);
   }
 
   /**
@@ -158,6 +165,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getProps = createPropsGetter(SidePage.defaultProps);
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -233,8 +242,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         role={role}
         aria-label={ariaLabel}
         data-tid={SidePageDataTids.root}
-        className={cx({
-          [styles.root()]: true,
+        className={this.cx({
+          [this.styles.root()]: true,
         })}
         ref={this.rootRef}
         onScroll={LayoutEvents.emit}
@@ -244,15 +253,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           left: fromLeft ? offset : 'auto',
         }}
       >
-        <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={this.styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid={SidePageDataTids.container}
-              className={cx(styles.wrapper(this.theme), {
-                [styles.wrapperLeft()]: fromLeft,
-                [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,
-                [styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
-                [styles.shadow(this.theme)]: this.state.hasShadow,
+              className={this.cx(this.styles.wrapper(this.theme), {
+                [this.styles.wrapperLeft()]: fromLeft,
+                [this.styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,
+                [this.styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
+                [this.styles.shadow(this.theme)]: this.state.hasShadow,
               })}
               ref={this.layoutRef}
             >
@@ -291,13 +300,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderShadow(): JSX.Element {
     return (
-      <div className={styles.overlay()} onScroll={LayoutEvents.emit}>
+      <div className={this.styles.overlay()} onScroll={LayoutEvents.emit}>
         <HideBodyVerticalScroll key="hbvs" />
         <div
           key="overlay"
-          className={cx({
-            [styles.background()]: true,
-            [styles.backgroundGray(this.theme)]: this.state.hasBackground,
+          className={this.cx({
+            [this.styles.background()]: true,
+            [this.styles.backgroundGray(this.theme)]: this.state.hasBackground,
           })}
         />
       </div>
@@ -305,15 +314,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getTransitionNames(): Record<string, string> {
-    const transition = this.props.fromLeft ? styles.transitionRight : styles.transitionLeft;
+    const transition = this.props.fromLeft ? this.styles.transitionRight : this.styles.transitionLeft;
 
     return {
       enter: transition(),
-      enterActive: styles.transitionActive(),
-      exit: styles.transitionLeave(),
-      exitActive: styles.transitionLeaveActive(),
+      enterActive: this.styles.transitionActive(),
+      exit: this.styles.transitionLeave(),
+      exitActive: this.styles.transitionLeaveActive(),
       appear: transition(),
-      appearActive: styles.transitionActive(),
+      appearActive: this.styles.transitionActive(),
     };
   }
 
@@ -325,7 +334,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
     const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
     const hasShadow = sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
-    const hasBackground = ModalStack.isBlocking(this);
+    const hasBackground = ModalStack.isBlocking(this, this.globalObject);
 
     this.setState({
       stackPosition: stack.indexOf(this),
@@ -339,9 +348,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
       // ignore mousedown on window scrollbar
       if (
-        isInstanceOf(e, globalObject.MouseEvent) &&
-        globalObject.document &&
-        e.clientX > globalObject.document.documentElement.clientWidth
+        isInstanceOf(e, this.globalObject.MouseEvent) &&
+        this.globalObject.document &&
+        e.clientX > this.globalObject.document.documentElement.clientWidth
       ) {
         return;
       }

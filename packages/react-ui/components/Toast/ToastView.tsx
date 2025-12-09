@@ -1,5 +1,6 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import type { Nullable } from '../../typings/utility-types';
@@ -11,9 +12,9 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { cx } from '../../lib/theming/Emotion';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './ToastView.styles';
+import { getStyles } from './ToastView.styles';
 import type { Action, ToastUse } from './Toast';
 import { ToastDataTids } from './Toast';
 import type { ToastLocale } from './locale';
@@ -34,15 +35,21 @@ export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, Comm
   use?: ToastUse;
 }
 
+@withRenderEnvironment
 @rootNode
 @locale('Toast', ToastLocaleHelper)
 export class ToastView extends React.Component<ToastViewProps> {
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: ToastLocale;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -62,8 +69,8 @@ export class ToastView extends React.Component<ToastViewProps> {
         : { hover: this.theme.toastCloseHoverColor, default: this.theme.toastCloseColor };
 
     const toastActionColorsClassName =
-      use === 'error' ? styles.toastActionErrorColor(this.theme) : styles.toastActionDefaultColor(this.theme);
-    const toastActionClassNames = cx(styles.link(this.theme), toastActionColorsClassName);
+      use === 'error' ? this.styles.toastActionErrorColor(this.theme) : this.styles.toastActionDefaultColor(this.theme);
+    const toastActionClassNames = this.cx(this.styles.link(this.theme), toastActionColorsClassName);
 
     const link = action ? (
       <button
@@ -78,7 +85,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     const close =
       action || showCloseIcon ? (
-        <span className={styles.closeWrapper(this.theme)}>
+        <span className={this.styles.closeWrapper(this.theme)}>
           <CloseButtonIcon
             aria-label={this.locale.closeButtonAriaLabel}
             data-tid={ToastDataTids.close}
@@ -92,11 +99,11 @@ export class ToastView extends React.Component<ToastViewProps> {
         </span>
       ) : null;
 
-    const rootClassName = cx(styles.root(this.theme), styles[use ?? 'default'](this.theme));
+    const rootClassName = this.cx(this.styles.root(this.theme), this.styles[use ?? 'default'](this.theme));
 
     return (
       <CommonWrapper {...this.props}>
-        <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
+        <ZIndex priority="Toast" className={this.styles.wrapper(this.theme)}>
           <div
             data-tid={ToastDataTids.toastView}
             className={rootClassName}

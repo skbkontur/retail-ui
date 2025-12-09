@@ -1,16 +1,18 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { DateSelect } from '../../internal/DateSelect';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { MonthViewModel } from './MonthViewModel';
 import type { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
-import { styles } from './MonthView.styles';
-import { styles as cellStyles } from './DayCellView.styles';
+import { getStyles } from './MonthView.styles';
+import { getStyles as getCellStyles } from './DayCellView.styles';
 
 interface MonthProps {
   top: number;
@@ -105,14 +107,21 @@ interface MonthDayGridProps {
   offset: number;
 }
 
+@withRenderEnvironment
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
+  private styles!: ReturnType<typeof getStyles>;
+  private cellStyles!: ReturnType<typeof getCellStyles>;
   private theme!: Theme;
+  private emotion!: Emotion;
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     return this.props.days !== nextProps.days;
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+    this.cellStyles = getCellStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -125,20 +134,20 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public renderMain() {
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
-      <div key={`leading_${i}`} className={cellStyles.cell(this.theme)} />
+      <div key={`leading_${i}`} className={this.cellStyles.cell(this.theme)} />
     ));
     const trailingOffset = DAYS_PER_WEEK - ((this.props.offset + this.props.days.length) % DAYS_PER_WEEK);
     const trailingDays = Array.from({ length: trailingOffset }, (_, i) => (
-      <div key={`trailing_${i}`} className={cellStyles.cell(this.theme)} />
+      <div key={`trailing_${i}`} className={this.cellStyles.cell(this.theme)} />
     ));
     const days = this.props.days.map((day) => {
       return <DayCellView date={day} key={`${day.date}.${day.month}.${day.year}`} />;
     });
     const weeks = divideToWeeks(leadingDays.concat(days, trailingDays));
     return (
-      <div className={styles.monthDayGrid(this.theme)}>
+      <div className={this.styles.monthDayGrid(this.theme)}>
         {weeks.map((week, i) => (
-          <div className={styles.monthDayRow(this.theme)} key={`week_${i}`}>
+          <div className={this.styles.monthDayRow(this.theme)} key={`week_${i}`}>
             {week}
           </div>
         ))}

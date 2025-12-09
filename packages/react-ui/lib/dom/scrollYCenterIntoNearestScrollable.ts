@@ -1,8 +1,9 @@
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import { getOwnerGlobalObject, isBrowser } from '../../lib/globalObject';
 
 import { getParentOrShadowHost } from './getParentOrShadowHost';
 
 export function scrollYCenterIntoNearestScrollable(element: HTMLElement) {
+  const globalObject = getOwnerGlobalObject(element);
   if (!isBrowser(globalObject)) {
     return;
   }
@@ -26,6 +27,7 @@ export function scrollYCenterIntoNearestScrollable(element: HTMLElement) {
 }
 
 export function findNearestScrollableParent(element: HTMLElement) {
+  const globalObject = getOwnerGlobalObject(element);
   if (!isBrowser(globalObject)) {
     return;
   }

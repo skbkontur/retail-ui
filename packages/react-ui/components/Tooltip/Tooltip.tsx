@@ -1,8 +1,8 @@
 import React from 'react';
 import warning from 'warning';
-import type { SafeTimer } from '@skbkontur/global-object';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject, SafeTimer } from '../../lib/globalObject';
 import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { PopupProps, PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
@@ -23,11 +23,11 @@ import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElem
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import { isInstanceOf } from '../../lib/isInstanceOf';
-import { cx } from '../../lib/theming/Emotion';
 import type { SizeProp } from '../../lib/types/props';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Tooltip.styles';
+import { getStyles } from './Tooltip.styles';
 
 export type TooltipTrigger =
   /** Наведение на children и на тултип */
@@ -149,7 +149,7 @@ type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' 
  * Открывается по клику, фокусом на элемент или по наведению. В отличие от `Hint`, `Tooltip` может содержать
  * изображения, кнопки, ссылки и прочие интерактивные элементы.
  */
-
+@withRenderEnvironment
 @rootNode
 @withSize
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
@@ -175,6 +175,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private size!: SizeProp;
   private sizeVariables!: TooltipSizeVariables;
@@ -208,6 +212,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -245,7 +251,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return (
       <div
         ref={this.refContent}
-        className={cx(styles.tooltipContent(this.theme), this.sizeVariables.contentStyle)}
+        className={this.cx(this.styles.tooltipContent(this.theme), this.sizeVariables.contentStyle)}
         data-tid={TooltipDataTids.content}
       >
         {content}
@@ -275,7 +281,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
     return (
       <div
-        className={cx(styles.closeButton(this.theme), this.sizeVariables.closeButtonStyle)}
+        className={this.cx(this.styles.closeButton(this.theme), this.sizeVariables.closeButtonStyle)}
         onClick={this.handleCloseButtonClick}
         data-tid={TooltipDataTids.crossIcon}
       >
@@ -468,7 +474,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private clearHoverTimeout() {
     if (this.hoverTimeout) {
-      globalObject.clearTimeout(this.hoverTimeout);
+      clearTimeout(this.hoverTimeout);
       this.hoverTimeout = null;
     }
   }
@@ -480,7 +486,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     this.clearHoverTimeout();
-    this.hoverTimeout = globalObject.setTimeout(this.open, this.getProps().delayBeforeShow);
+    this.hoverTimeout = setTimeout(this.open, this.getProps().delayBeforeShow);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -497,7 +503,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = globalObject.setTimeout(this.close, Tooltip.delay);
+      this.hoverTimeout = setTimeout(this.close, Tooltip.delay);
     }
   };
 
@@ -516,7 +522,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && isInstanceOf(event.target, globalObject.Element)) {
+    if (this.contentElement && isInstanceOf(event.target, this.globalObject.Element)) {
       return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 
@@ -564,8 +570,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     switch (this.size) {
       case 'small':
         return {
-          closeButtonStyle: styles.closeButtonSmall(this.theme),
-          contentStyle: styles.tooltipContentSmall(this.theme),
+          closeButtonStyle: this.styles.closeButtonSmall(this.theme),
+          contentStyle: this.styles.tooltipContentSmall(this.theme),
           borderRadius: this.theme.tooltipBorderRadiusSmall,
           pinSize: this.theme.tooltipPinSizeSmall,
           pinOffsetX: this.theme.tooltipPinOffsetXSmall,
@@ -574,8 +580,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         };
       case 'medium':
         return {
-          closeButtonStyle: styles.closeButtonMedium(this.theme),
-          contentStyle: styles.tooltipContentMedium(this.theme),
+          closeButtonStyle: this.styles.closeButtonMedium(this.theme),
+          contentStyle: this.styles.tooltipContentMedium(this.theme),
           borderRadius: this.theme.tooltipBorderRadiusMedium,
           pinSize: this.theme.tooltipPinSizeMedium,
           pinOffsetX: this.theme.tooltipPinOffsetXMedium,
@@ -584,8 +590,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         };
       case 'large':
         return {
-          closeButtonStyle: styles.closeButtonLarge(this.theme),
-          contentStyle: styles.tooltipContentLarge(this.theme),
+          closeButtonStyle: this.styles.closeButtonLarge(this.theme),
+          contentStyle: this.styles.tooltipContentLarge(this.theme),
           borderRadius: this.theme.tooltipBorderRadiusLarge,
           pinSize: this.theme.tooltipPinSizeLarge,
           pinOffsetX: this.theme.tooltipPinOffsetXLarge,
@@ -595,8 +601,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       default:
         warning(false, `Can't get size variables: invalid value in size prop '${this.props.size}'. Returning default`);
         return {
-          closeButtonStyle: styles.closeButtonSmall(this.theme),
-          contentStyle: styles.tooltipContentSmall(this.theme),
+          closeButtonStyle: this.styles.closeButtonSmall(this.theme),
+          contentStyle: this.styles.tooltipContentSmall(this.theme),
           borderRadius: this.theme.tooltipBorderRadiusSmall,
           pinSize: this.theme.tooltipPinSizeSmall,
           pinOffsetX: this.theme.tooltipPinOffsetXSmall,

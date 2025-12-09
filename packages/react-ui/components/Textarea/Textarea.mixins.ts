@@ -1,21 +1,19 @@
-import { css } from '../../lib/theming/Emotion';
-
 export const rootTextareaSizeMixin = (fontSize: string, lineHeight: string) => {
-  return css`
+  return `
     font-size: ${fontSize};
     line-height: ${lineHeight};
   `;
 };
 
 export const textareaSizeMixin = (paddingY: string, paddingX: string, minHeight: string) => {
-  return css`
+  return `
     min-height: ${minHeight};
     padding: ${paddingY} ${paddingX};
   `;
 };
 
 export const counterSizeMixin = (paddingX: string, paddingY: string) => {
-  return css`
+  return `
     right: ${paddingY};
     bottom: ${paddingX};
   `;

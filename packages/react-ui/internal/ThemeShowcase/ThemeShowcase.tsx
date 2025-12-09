@@ -1,5 +1,7 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import { useEmotion, useStyles, withRenderEnvironment } from '../../lib/renderEnvironment';
 import { isColor } from '../../lib/styles/ColorHelpers';
 import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme';
@@ -12,7 +14,6 @@ import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../components/Tooltip';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 import type { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import type { ComponentDescriptionType, ComponentRowDescriptionType } from './VariablesCollector';
@@ -23,7 +24,7 @@ import {
   COMPONENT_DESCRIPTIONS_BY_VARIABLE,
   EXECUTION_TIME,
 } from './VariablesCollector';
-import { styles } from './ThemeShowcase.styles';
+import { getStyles } from './ThemeShowcase.styles';
 
 const EMPTY_ARRAY: string[] = [];
 
@@ -36,9 +37,12 @@ interface ShowcaseState {
   selectedVariable?: ComboBoxItem;
 }
 
+@withRenderEnvironment
 export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
   public state: ShowcaseState = {};
 
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private isUnmounting = false;
   private variablesDiff: string[] = [];
 
@@ -55,6 +59,8 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     if (!IS_PROXY_SUPPORTED) {
       return (
         <div>
@@ -83,7 +89,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
             <Gapped wrap gap={30} verticalAlign={'top'}>
               <div>
                 <Sticky side={'top'}>
-                  <div className={styles.searchBar(theme)} data-perf-info={`${executionTime} ${callsCount}`}>
+                  <div className={this.styles.searchBar(theme)} data-perf-info={`${executionTime} ${callsCount}`}>
                     <Gapped gap={15}>
                       <ComboBox
                         getItems={this.getItems}
@@ -159,10 +165,16 @@ interface ComponentShowcaseProps {
   isDebugMode?: boolean;
   onVariableSelect: (item: ComboBoxItem) => void;
 }
+@withRenderEnvironment
 class ComponentShowcase extends React.Component<ComponentShowcaseProps> {
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
+
   public render() {
     const { name, description, onVariableSelect, isDebugMode } = this.props;
     const elements = Object.keys(description);
+    this.styles = getStyles(this.emotion);
 
     return elements.length ? (
       <ThemeContext.Consumer>
@@ -172,28 +184,28 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps> {
               <Sticky side={'top'} offset={40}>
                 {(isSticky) => (
                   <h2
-                    className={cx({
-                      [styles.heading(theme)]: true,
-                      [styles.headingSticky()]: isSticky,
+                    className={this.cx({
+                      [this.styles.heading(theme)]: true,
+                      [this.styles.headingSticky()]: isSticky,
                     })}
                   >
                     {this.props.name}
                   </h2>
                 )}
               </Sticky>
-              <table className={styles.table()}>
+              <table className={this.styles.table()}>
                 <thead>
                   <tr>
-                    <th className={styles.headerCell()} style={{ width: 170 }}>
+                    <th className={this.styles.headerCell()} style={{ width: 170 }}>
                       ClassName
                     </th>
-                    <th className={styles.headerCell()} style={{ width: 210 }}>
+                    <th className={this.styles.headerCell()} style={{ width: 210 }}>
                       Variable Name
                     </th>
-                    <th className={styles.headerCell()} style={{ width: 250 }}>
+                    <th className={this.styles.headerCell()} style={{ width: 250 }}>
                       Default Value
                     </th>
-                    <th className={styles.headerCell()} style={{ width: 250 }}>
+                    <th className={this.styles.headerCell()} style={{ width: 250 }}>
                       Dark Value
                     </th>
                   </tr>
@@ -225,23 +237,33 @@ interface ComponentShowcaseRowProps {
   onVariableSelect: (item: ComboBoxItem) => void;
 }
 
+@withRenderEnvironment
 class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
+
   public render() {
     const { element: el, row, isDebugMode } = this.props;
     const rowSpan = row.variables.length + 1;
+    this.styles = getStyles(this.emotion);
 
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           return (
             <React.Fragment>
-              <tr className={cx(styles.invisibleRow(), { [styles.invisibleDarkRow()]: theme === darkVariables })}>
-                <td className={cx(styles.cell(), styles.majorCell())} rowSpan={rowSpan}>
-                  <span className={styles.elementName()}>.{el}</span>
+              <tr
+                className={this.cx(this.styles.invisibleRow(), {
+                  [this.styles.invisibleDarkRow()]: theme === darkVariables,
+                })}
+              >
+                <td className={this.cx(this.styles.cell(), this.styles.majorCell())} rowSpan={rowSpan}>
+                  <span className={this.styles.elementName()}>.{el}</span>
                 </td>
-                <td className={styles.invisibleCell()} />
-                <td className={styles.invisibleCell()} />
-                <td className={styles.invisibleCell()} />
+                <td className={this.styles.invisibleCell()} />
+                <td className={this.styles.invisibleCell()} />
+                <td className={this.styles.invisibleCell()} />
               </tr>
               {row.variables.map((varName) => {
                 const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
@@ -251,22 +273,22 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
                 return (
                   <tr
                     key={`${el}_${varName}`}
-                    className={cx(styles.row(), {
-                      [styles.suspiciousRow()]: hasNoVariables,
-                      [styles.darkRow()]: theme === darkVariables,
+                    className={this.cx(this.styles.row(), {
+                      [this.styles.suspiciousRow()]: hasNoVariables,
+                      [this.styles.darkRow()]: theme === darkVariables,
                     })}
                   >
-                    <td className={styles.cell()}>
+                    <td className={this.styles.cell()}>
                       <VariableName
                         variableName={varName as string}
                         dependencies={dependencies}
                         onVariableSelect={this.props.onVariableSelect}
                       />
                     </td>
-                    <td className={styles.cell()}>
+                    <td className={this.styles.cell()}>
                       <VariableValue value={variableDefault} />
                     </td>
-                    <td className={styles.cell()}>
+                    <td className={this.styles.cell()}>
                       <VariableValue value={variableDark} />
                     </td>
                   </tr>
@@ -286,11 +308,17 @@ interface VariableNameProps {
   onVariableSelect: (item: ComboBoxItem) => void;
 }
 
+@withRenderEnvironment
 class VariableName extends React.Component<VariableNameProps> {
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
+
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <span>
-        <span className={styles.variableName()} onClick={this.handleVariableSelect}>
+        <span className={this.styles.variableName()} onClick={this.handleVariableSelect}>
           {this.props.variableName}
         </span>
         {this.props.dependencies.length > 0 && this.renderDependencies()}
@@ -328,14 +356,21 @@ interface DependencyNameProps {
   dependencyName: keyof Theme;
   onDependencySelect: (item: ComboBoxItem) => void;
 }
+
+@withRenderEnvironment
 class DependencyName extends React.Component<DependencyNameProps> {
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
+
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <React.Fragment>
         <br />
         &ndash;{' '}
         <Tooltip trigger={'hover'} render={this.getValues} pos={'right middle'}>
-          <span className={styles.variableName()} onClick={this.handleDependencySelect}>
+          <span className={this.styles.variableName()} onClick={this.handleDependencySelect}>
             {this.props.dependencyName}
           </span>
         </Tooltip>
@@ -364,6 +399,8 @@ class DependencyName extends React.Component<DependencyNameProps> {
 }
 
 const VariableValue = (props: { value: string }) => {
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const value = props.value;
   const valueIsColor = isColor(value);
   const valueIsGradient = isGradient(value);
@@ -382,6 +419,7 @@ const VariableValue = (props: { value: string }) => {
 };
 
 const ShowUnusedVariables = (props: { diff: string[] }) => {
+  const styles = getStyles(useEmotion());
   if (props.diff.length === 0) {
     return null;
   }

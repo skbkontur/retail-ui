@@ -1,5 +1,8 @@
 import type { listenerToken } from '../ResponsiveLayoutEvents';
 import { addResponsiveLayoutListener, eventListenersMap } from '../ResponsiveLayoutEvents';
+import { getSafeWindow } from '../../../lib/globalObject';
+
+const safeWindow = getSafeWindow();
 
 describe('ResponsiveLayoutListeners', () => {
   it('test func', () => {
@@ -14,8 +17,8 @@ describe('ResponsiveLayoutListeners', () => {
     // создаем два слушателя по первому медиа-запросу
 
     const firstMQListeners: listenerToken[] = [];
-    firstMQListeners.push(addResponsiveLayoutListener(firstMediaQuery, firstCallback));
-    firstMQListeners.push(addResponsiveLayoutListener(firstMediaQuery, secondCallback));
+    firstMQListeners.push(addResponsiveLayoutListener(safeWindow, firstMediaQuery, firstCallback));
+    firstMQListeners.push(addResponsiveLayoutListener(safeWindow, firstMediaQuery, secondCallback));
 
     expect(firstMQListeners).toHaveLength(2);
     expect(eventListenersMap.size).toBe(1);
@@ -33,7 +36,7 @@ describe('ResponsiveLayoutListeners', () => {
 
     const secondMQListeners: listenerToken[] = [];
 
-    secondMQListeners.push(addResponsiveLayoutListener(secondMediaQuery, secondCallback));
+    secondMQListeners.push(addResponsiveLayoutListener(safeWindow, secondMediaQuery, secondCallback));
 
     expect(secondMQListeners).toHaveLength(1);
     expect(eventListenersMap.size).toBe(2);
@@ -51,9 +54,9 @@ describe('ResponsiveLayoutListeners', () => {
 
     const thirdMQListeners: listenerToken[] = [];
 
-    thirdMQListeners.push(addResponsiveLayoutListener(thirdMediaQuery, firstCallback));
-    thirdMQListeners.push(addResponsiveLayoutListener(thirdMediaQuery, secondCallback));
-    thirdMQListeners.push(addResponsiveLayoutListener(thirdMediaQuery, thirdCallback));
+    thirdMQListeners.push(addResponsiveLayoutListener(safeWindow, thirdMediaQuery, firstCallback));
+    thirdMQListeners.push(addResponsiveLayoutListener(safeWindow, thirdMediaQuery, secondCallback));
+    thirdMQListeners.push(addResponsiveLayoutListener(safeWindow, thirdMediaQuery, thirdCallback));
 
     expect(thirdMQListeners).toHaveLength(3);
     expect(eventListenersMap.size).toBe(3);

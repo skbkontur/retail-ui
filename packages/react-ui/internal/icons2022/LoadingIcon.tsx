@@ -1,14 +1,16 @@
 import React from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { styles } from '../../components/Spinner/Spinner.styles';
-import { cx } from '../../lib/theming/Emotion';
+import { getStyles } from '../../components/Spinner/Spinner.styles';
 import type { SpinnerIconProps } from '../SpinnerIcon/SpinnerIcon';
 import { SpinnerIcon } from '../SpinnerIcon/SpinnerIcon';
 
 import { iconSizer } from './iconSizer';
 
 const Icon = (props: SpinnerIconProps) => {
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const theme = React.useContext(ThemeContext);
   return (
     <SpinnerIcon

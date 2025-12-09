@@ -1,4 +1,4 @@
-import { globalObject } from '@skbkontur/global-object';
+import { getSafeWindow } from '../../lib/globalObject';
 
 interface ApiResponseType {
   ok: boolean;
@@ -44,6 +44,7 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
+  const globalObject = getSafeWindow();
   const globalWithXDomainRequest = globalObject as GlobalWithXDomainRequest;
   if (globalWithXDomainRequest.XDomainRequest) {
     return new globalWithXDomainRequest.XDomainRequest();

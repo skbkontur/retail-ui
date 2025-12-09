@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import {
@@ -19,7 +21,7 @@ export const globalClasses = prefix('toggle')({
   background: 'background',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       display: inline-flex;
@@ -345,4 +347,4 @@ export const styles = memoizeStyle({
       padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },
-});
+}));

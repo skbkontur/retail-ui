@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import type { Theme } from '../../lib/theming/Theme';
 import { isKonturIcon } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { SizeProp } from '../../lib/types/props';
 
 import type { ButtonInnerProps } from './Button';
-import { styles } from './ButtonIcon.styles';
+import { getStyles } from './ButtonIcon.styles';
 import { LoadingButtonIcon } from './LoadingButtonIcon';
 
 export interface ButtonIconProps extends Pick<ButtonInnerProps, 'size' | 'icon' | 'loading' | 'use'> {
@@ -44,6 +44,8 @@ export const ButtonIcon: React.FunctionComponent<ButtonIconProps> = ({
   size = 'small',
 }) => {
   const theme = useContext(ThemeContext);
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const isLink = use === 'link';
 
   const getSizeIconClassName = () => {

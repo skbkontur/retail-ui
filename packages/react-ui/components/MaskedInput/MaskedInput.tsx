@@ -2,14 +2,14 @@ import React, { useImperativeHandle, useRef, useState, useEffect, useContext } f
 import type { IMaskInputProps } from '@skbkontur/react-imask';
 import type { Ref } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { cx } from '../../lib/theming/Emotion';
 import type { InputProps, InputType } from '../Input';
 import { Input } from '../Input';
 import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { globalClasses, styles } from './MaskedInput.styles';
+import { globalClasses, getStyles } from './MaskedInput.styles';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers';
 import { ColorableInputElement } from './ColorableInputElement';
 import { FixedIMaskInput } from './FixedIMaskInput';
@@ -116,6 +116,8 @@ export const MaskedInput = forwardRefAndName(
       ...inputProps
     } = props;
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
 
     const inputRef = useRef<Input>(null);
 

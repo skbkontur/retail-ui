@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -13,9 +14,10 @@ import type { Writeable } from '../../typings/utility-types';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
 import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { ThemeEditor } from './ThemeEditor';
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 import { Playground } from './Playground';
 import { ThemeType } from './constants';
 
@@ -51,6 +53,8 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
 
   return 'lightTheme';
 };
+
+@withRenderEnvironment
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.LightTheme, label: 'Светлая тема' },
@@ -74,8 +78,13 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     };
   }
 
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
+
   public render() {
     const { currentTheme, editorOpened, currentThemeType } = this.state;
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Provider value={currentTheme}>
         {editorOpened && this.renderSidePage()}
@@ -99,7 +108,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
-          <div className={styles.editorHeaderWrapper(currentTheme)}>
+          <div className={this.styles.editorHeaderWrapper(currentTheme)}>
             <Gapped wrap verticalAlign="middle">
               <span>Тема для редактирования:</span>
               <ComboBox
@@ -114,7 +123,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
           </div>
         </SidePage.Header>
         <SidePage.Body>
-          <div className={styles.sidePageBody()}>
+          <div className={this.styles.sidePageBody()}>
             <ThemeEditor
               editingTheme={themes[editingThemeType]}
               currentTheme={currentTheme}

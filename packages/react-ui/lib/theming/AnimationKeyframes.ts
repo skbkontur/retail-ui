@@ -1,7 +1,9 @@
-import { keyframes } from './Emotion';
-import type { Theme } from './Theme';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-export const AnimationKeyframes = {
+import type { Theme } from './Theme';
+import { memoizeGetStyles } from './Emotion';
+
+export const getAnimationKeyframes = memoizeGetStyles(({ keyframes }: Emotion) => ({
   spinnerCircleOffset() {
     return keyframes`
         0% { stroke-dashoffset: 231.25%; }
@@ -28,4 +30,4 @@ export const AnimationKeyframes = {
         80%, 90% { stroke: ${t.brand}; }
       `;
   },
-};
+}));

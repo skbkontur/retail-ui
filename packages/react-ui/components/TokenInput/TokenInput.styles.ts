@@ -1,9 +1,11 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import { labelSizeMixin, inputSizeMixin } from './TokenInput.mixins';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   label(t: Theme) {
     return css`
       background-color: ${t.tokenInputBg};
@@ -158,4 +160,4 @@ export const styles = memoizeStyle({
       word-break: break-all;
     `;
   },
-});
+}));

@@ -1,5 +1,6 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -13,14 +14,14 @@ import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonW
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { withSize } from '../../lib/size/SizeDecorator';
 import type { SizeProp } from '../../lib/types/props';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './PasswordInput.styles';
+import { getStyles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
 import type { PasswordInputLocale } from './locale';
 import { PasswordInputLocaleHelper } from './locale';
@@ -48,7 +49,7 @@ export const PasswordInputDataTids = {
 /**
  * Однострочное поле для ввода пароля, в котором символы заменяются на точки.
  */
-
+@withRenderEnvironment
 @rootNode
 @locale('PasswordInput', PasswordInputLocaleHelper)
 @withSize
@@ -63,6 +64,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
   private size!: SizeProp;
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
 
   private input: Nullable<Input>;
@@ -87,6 +91,8 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -188,12 +194,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   private getEyeWrapperClassname() {
     switch (this.size) {
       case 'large':
-        return styles.eyeWrapperLarge(this.theme);
+        return this.styles.eyeWrapperLarge(this.theme);
       case 'medium':
-        return styles.eyeWrapperMedium(this.theme);
+        return this.styles.eyeWrapperMedium(this.theme);
       case 'small':
       default:
-        return styles.eyeWrapperSmall(this.theme);
+        return this.styles.eyeWrapperSmall(this.theme);
     }
   }
 
@@ -201,17 +207,17 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     const { capsLockEnabled } = this.state;
 
     return (
-      <span className={styles.iconWrapper()}>
+      <span className={this.styles.iconWrapper()}>
         {capsLockEnabled && (
-          <span className={styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
+          <span className={this.styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
         )}
-        <span className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
+        <span className={this.cx(this.styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}>
           {!this.props.disabled && (
             <button
               type="button"
               aria-label={this.state.visible ? this.locale.eyeClosedAriaLabel : this.locale.eyeOpenedAriaLabel}
               onClick={this.handleToggleVisibility}
-              className={styles.icon()}
+              className={this.styles.icon()}
               data-tid={PasswordInputDataTids.eyeIcon}
             >
               <PasswordInputIcon size={this.size} visible={this.state.visible} />
@@ -237,7 +243,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         onFocusOutside={this.handleFocusOutside}
         onClickOutside={this.handleFocusOutside}
       >
-        <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
+        <div data-tid={PasswordInputDataTids.root} className={this.styles.root()}>
           <Input
             ref={this.refInput}
             type={this.state.visible ? 'text' : 'password'}

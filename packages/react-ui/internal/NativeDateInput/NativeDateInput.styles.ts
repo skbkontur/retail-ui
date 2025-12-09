@@ -1,6 +1,8 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-const styles = {
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => ({
   inputTypeDate() {
     return css`
       width: 0px;
@@ -14,6 +16,4 @@ const styles = {
       opacity: 0;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+}));

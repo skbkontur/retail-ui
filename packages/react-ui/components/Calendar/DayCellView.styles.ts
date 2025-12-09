@@ -1,8 +1,10 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   cell(t: Theme) {
     return css`
       flex: 1 1 ${t.calendarCellWidth};
@@ -75,4 +77,4 @@ export const styles = memoizeStyle({
       border-bottom: ${t.calendarCellTodayBorder};
     `;
   },
-});
+}));

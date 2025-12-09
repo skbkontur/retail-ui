@@ -1,5 +1,7 @@
+import type { Emotion } from '@emotion/css/types/create-instance';
+
 import type { Theme } from '../../lib/theming/Theme';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
 import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins';
@@ -14,7 +16,7 @@ export const getMenuItemPaddings = ({
   return { paddingX, paddingY };
 };
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       ${resetButton()};
@@ -160,4 +162,4 @@ export const styles = memoizeStyle({
       margin-left: 8px;
     `;
   },
-});
+}));

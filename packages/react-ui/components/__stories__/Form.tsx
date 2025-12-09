@@ -1,33 +1,35 @@
+import type { Emotion } from '@emotion/css/types/create-instance';
 import React from 'react';
-import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
 
-const line = css`
+import { useEmotion, withRenderEnvironment } from '../../lib/renderEnvironment';
+
+const line = `
   display: flex;
   align-items: baseline;
   margin-bottom: 10px;
 `;
 
-const title = css`
+const title = `
   box-sizing: border-box;
   margin-right: 10px;
   width: 150px;
   text-align: right;
 `;
 
-const content = css`
+const content = `
   display: inline-flex;
 `;
 
-const formLineBreak = css`
+const formLineBreak = `
   height: 20px;
 `;
 
-const actionsBar = css`
+const actionsBar = `
   margin-top: 10px;
   padding-left: 160px;
 `;
 
-const formWrapper = css`
+const formWrapper = `
   display: flex;
   flex-direction: column;
 `;
@@ -35,6 +37,8 @@ const formWrapper = css`
 type ComponentProps = React.PropsWithChildren<React.HTMLAttributes<HTMLElement>>;
 
 const FormLine = ({ children, className, ...rest }: ComponentProps) => {
+  const { css } = useEmotion();
+
   return (
     <div className={css(line, className)} {...rest}>
       {children}
@@ -43,6 +47,8 @@ const FormLine = ({ children, className, ...rest }: ComponentProps) => {
 };
 
 const Line = ({ children, className, ...rest }: ComponentProps) => {
+  const { css } = useEmotion();
+
   return (
     <div className={css(line, className)} {...rest}>
       {children}
@@ -51,6 +57,8 @@ const Line = ({ children, className, ...rest }: ComponentProps) => {
 };
 
 const Title = ({ children, className, ...rest }: ComponentProps) => {
+  const { css } = useEmotion();
+
   return (
     <span className={css(title, className)} {...rest}>
       {children}
@@ -59,6 +67,8 @@ const Title = ({ children, className, ...rest }: ComponentProps) => {
 };
 
 const Content = ({ children, className, ...rest }: ComponentProps) => {
+  const { css } = useEmotion();
+
   return (
     <span className={css(content, className)} {...rest}>
       {children}
@@ -67,6 +77,8 @@ const Content = ({ children, className, ...rest }: ComponentProps) => {
 };
 
 const LineBreak = ({ children, className, ...rest }: ComponentProps) => {
+  const { css } = useEmotion();
+
   return (
     <div className={css(formLineBreak, className)} {...rest}>
       {children}
@@ -75,6 +87,8 @@ const LineBreak = ({ children, className, ...rest }: ComponentProps) => {
 };
 
 const ActionsBar = ({ children, className, ...rest }: ComponentProps) => {
+  const { css } = useEmotion();
+
   return (
     <div className={css(actionsBar, className)} {...rest}>
       {children}
@@ -82,6 +96,7 @@ const ActionsBar = ({ children, className, ...rest }: ComponentProps) => {
   );
 };
 
+@withRenderEnvironment
 export class Form extends React.Component<ComponentProps> {
   public static Line = Line;
   public static LineBreak = LineBreak;
@@ -90,7 +105,9 @@ export class Form extends React.Component<ComponentProps> {
   public static Title = Title;
   public static Content = Content;
 
+  private emotion!: Emotion;
+
   public render() {
-    return <div className={css(formWrapper, this.props.className)}>{this.props.children}</div>;
+    return <div className={this.emotion.css(formWrapper, this.props.className)}>{this.props.children}</div>;
   }
 }

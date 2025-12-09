@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { useStyles } from '../../../lib/renderEnvironment';
 import type { InputProps } from '../Input';
 
-import { stylesLayout } from './InputLayout.styles';
+import { getStylesLayout } from './InputLayout.styles';
 import { InputLayoutAsideIcon } from './InputLayoutAsideIcon';
 import { InputLayoutAsideText } from './InputLayoutAsideText';
 
@@ -13,6 +14,7 @@ export interface InputLayoutAsideProps {
 }
 
 export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = ({ icon, text, side }) => {
+  const stylesLayout = useStyles(getStylesLayout);
   const asideClassName = stylesLayout.aside();
 
   const _icon = <InputLayoutAsideIcon key="icon" icon={icon} side={side} />;

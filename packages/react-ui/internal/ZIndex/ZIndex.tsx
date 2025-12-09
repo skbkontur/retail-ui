@@ -1,8 +1,9 @@
 import React from 'react';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
+import type { GlobalObject } from '../../lib/globalObject';
+import { isBrowser } from '../../lib/globalObject';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
@@ -10,6 +11,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { LoaderDataTids } from '../../components/Loader';
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { LayerComponentName } from './ZIndexStorage';
 import { incrementZIndex, removeZIndex, upperBorder, componentPriorities } from './ZIndexStorage';
@@ -54,6 +56,7 @@ interface ZIndexState {
   DOMZIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null;
 }
 
+@withRenderEnvironment
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   public static priorities = componentPriorities;
@@ -89,10 +92,10 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
 
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private globalObject!: GlobalObject;
   private zIndexContext: { parentLayerZIndex: number; maxZIndex: number } | null = null;
 
-  constructor(props: ZIndexProps) {
-    super(props);
+  public componentDidMount() {
     this.state.zIndex = this.increment();
   }
 
@@ -101,13 +104,13 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
 
     this.validateProps(props.delta);
     if (prevProps.priority !== props.priority || prevProps.delta !== props.delta) {
-      removeZIndex(this.state.zIndex);
+      removeZIndex(this.state.zIndex, this.globalObject);
       this.setState({ zIndex: this.increment() });
     }
   }
 
   public componentWillUnmount() {
-    removeZIndex(this.state.zIndex);
+    removeZIndex(this.state.zIndex, this.globalObject);
   }
 
   public render() {
@@ -149,7 +152,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
             if (createStackingContext) {
-              isBrowser(globalObject) && 'isolation' in globalObject.document.body.style
+              isBrowser(this.globalObject) && 'isolation' in this.globalObject.document.body.style
                 ? (wrapperStyle.isolation = 'isolate')
                 : (wrapperStyle.transform = 'rotate(0)');
             }
@@ -193,7 +196,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   private increment = () => {
     const { priority, delta } = this.getProps();
 
-    return incrementZIndex(priority, delta);
+    return incrementZIndex(priority, delta, this.globalObject);
   };
 
   private tryGetContextByDOM = (element: HTMLDivElement) => {
@@ -205,12 +208,12 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
       let DOMZIndexContext = DEFAULT_ZINDEX_CONTEXT;
       const portal = element.parentElement?.closest(`[${PORTAL_OUTLET_ATTR}]`);
 
-      if (isInstanceOf(portal, globalObject.HTMLElement)) {
+      if (isInstanceOf(portal, this.globalObject.HTMLElement)) {
         const portalID = portal.getAttribute(PORTAL_OUTLET_ATTR);
-        const noscript = globalObject.document?.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
+        const noscript = this.globalObject.document?.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
         const parent = noscript?.parentElement?.closest('[style*=z-index]');
 
-        if (isInstanceOf(parent, globalObject.HTMLElement)) {
+        if (isInstanceOf(parent, this.globalObject.HTMLElement)) {
           const newZIndex = Number(parent.style.zIndex || 0);
 
           let maxZIndex = Infinity;

@@ -1,6 +1,6 @@
-import { globalObject } from '@skbkontur/global-object';
-
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import type { GlobalObject } from '../../lib/globalObject';
+import { getOwnerGlobalObject } from '../../lib/globalObject';
 
 import type { PopupPositionsType } from './Popup';
 
@@ -31,13 +31,14 @@ function getPositionObject(position: string): PositionObject {
 }
 
 function getElementAbsoluteRect(element: Element): Rect {
+  const globalObject = getOwnerGlobalObject(element);
   const rect = _getElementRelativeRect(element);
-  return convertRectToAbsolute(rect);
+  return convertRectToAbsolute(rect, globalObject);
 }
 
-function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boolean {
-  const windowRelativeRect = _getWindowRelativeRect();
-  const windowAbsoluteRect = convertRectToAbsolute(windowRelativeRect);
+function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect, globalObject: GlobalObject): boolean {
+  const windowRelativeRect = _getWindowRelativeRect(globalObject);
+  const windowAbsoluteRect = convertRectToAbsolute(windowRelativeRect, globalObject);
   const absoluteRect = {
     top: coordinates.top,
     left: coordinates.left,
@@ -49,16 +50,16 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boole
 }
 
 // Can become fully visible by scrolling into viewport
-function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset) {
+function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset, globalObject: GlobalObject) {
   const position = getPositionObject(positionName);
 
   if (position.direction === 'top') {
-    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect());
+    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect(globalObject), globalObject);
     return coordinates.top + availableScrollDistances.top >= 0;
   }
 
   if (position.direction === 'left') {
-    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect());
+    const availableScrollDistances = convertRectToAbsolute(_getWindowRelativeRect(globalObject), globalObject);
     return coordinates.left + availableScrollDistances.left >= 0;
   }
 
@@ -77,17 +78,17 @@ function _getElementRelativeRect(element: Element) {
   };
 }
 
-function _getWindowRelativeRect(): Rect {
+function _getWindowRelativeRect(globalObject: GlobalObject): Rect {
   return {
     top: 0,
     left: 0,
-    width: _getViewProperty((x) => x.clientWidth) || globalObject.innerWidth || 0,
-    height: _getViewProperty((x) => x.clientHeight) || globalObject.innerHeight || 0,
+    width: _getViewProperty((x) => x.clientWidth, globalObject) || globalObject.innerWidth || 0,
+    height: _getViewProperty((x) => x.clientHeight, globalObject) || globalObject.innerHeight || 0,
   };
 }
 
-function convertRectToAbsolute(rect: Rect): Rect {
-  const offset = _getAbsoluteOffset();
+function convertRectToAbsolute(rect: Rect, globalObject: GlobalObject): Rect {
+  const offset = _getAbsoluteOffset(globalObject);
 
   return {
     top: rect.top + offset.top,
@@ -97,12 +98,12 @@ function convertRectToAbsolute(rect: Rect): Rect {
   };
 }
 
-function _getAbsoluteOffset(): Offset {
-  const scrollTop = globalObject.pageYOffset || _getViewProperty((x) => x.scrollTop);
-  const scrollLeft = globalObject.pageXOffset || _getViewProperty((x) => x.scrollLeft);
+function _getAbsoluteOffset(globalObject: GlobalObject): Offset {
+  const scrollTop = globalObject.pageYOffset || _getViewProperty((x) => x.scrollTop, globalObject);
+  const scrollLeft = globalObject.pageXOffset || _getViewProperty((x) => x.scrollLeft, globalObject);
 
-  const clientTop = _getViewProperty((x) => x.clientTop);
-  const clientLeft = _getViewProperty((x) => x.clientLeft);
+  const clientTop = _getViewProperty((x) => x.clientTop, globalObject);
+  const clientLeft = _getViewProperty((x) => x.clientLeft, globalObject);
 
   const top = scrollTop - clientTop;
   const left = scrollLeft - clientLeft;
@@ -122,7 +123,7 @@ function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
   );
 }
 
-function _getViewProperty(getProperty: (e: Element) => number): number {
+function _getViewProperty(getProperty: (e: Element) => number, globalObject: GlobalObject): number {
   const views = [globalObject.document?.documentElement, globalObject.document?.body];
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
 }

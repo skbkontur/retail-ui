@@ -1,16 +1,15 @@
 import type { ReactNode } from 'react';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import type { FileUploaderAttachedFile } from '../fileUtils';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { keyListener } from '../../../lib/events/keyListener';
+import { useKeyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import type { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
@@ -19,7 +18,7 @@ import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import type { SizeProp } from '../../../lib/types/props';
 
-import { jsStyles } from './FileUploaderFile.styles';
+import { getJsStyles } from './FileUploaderFile.styles';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
 
 interface FileUploaderFileProps {
@@ -83,7 +82,11 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const fileNameElementRef = useRef<HTMLSpanElement>(null);
 
     const { removeFile, setIsMinLengthReached, isMinLengthReached } = useContext(FileUploaderControlContext);
+    const globalObject = useGlobal();
+    const { cx } = useEmotion();
+    const jsStyles = useStyles(getJsStyles);
     const theme = useContext(ThemeContext);
+    const keyListener = useKeyListener();
 
     const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
 

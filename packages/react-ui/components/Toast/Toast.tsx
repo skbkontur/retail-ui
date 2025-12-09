@@ -1,9 +1,9 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import type { SafeTimer } from '@skbkontur/global-object';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { SafeTimer } from '../../lib/globalObject';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -14,8 +14,9 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Toast.styles';
+import { getStyles } from './Toast.styles';
 import type { ToastViewProps } from './ToastView';
 import { ToastView } from './ToastView';
 
@@ -85,6 +86,7 @@ export const ToastDataTids = {
  * Результат может быть положительным, отрицательным или нейтральным.
  *
  */
+@withRenderEnvironment
 @rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
@@ -92,6 +94,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
   private theme!: Theme;
 
   public _toast: Nullable<ToastView>;
@@ -115,6 +119,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -191,10 +197,10 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       <CSSTransition
         key={id}
         classNames={{
-          enter: styles.enter(),
-          enterActive: styles.enterActive(),
-          exit: styles.exit(),
-          exitActive: styles.exitActive(),
+          enter: this.styles.enter(),
+          enterActive: this.styles.enterActive(),
+          exit: this.styles.exit(),
+          exitActive: this.styles.exitActive(),
         }}
         timeout={{
           enter: 200,
@@ -219,7 +225,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private _clearTimer = () => {
     if (this._timeout) {
-      globalObject.clearTimeout(this._timeout);
+      clearTimeout(this._timeout);
       this._timeout = null;
     }
   };
@@ -229,7 +235,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     let showTime = this.state.action ? 7000 : 3000;
     showTime = this.state.showTime ?? showTime;
-    this._timeout = globalObject.setTimeout(this.close, showTime);
+    this._timeout = setTimeout(this.close, showTime);
   };
 
   private _refToast = (element: ToastView) => {

@@ -1,4 +1,4 @@
-import { globalObject } from '@skbkontur/global-object';
+import type { GlobalObject } from '../../lib/globalObject';
 
 import { stepper } from './stepper';
 
@@ -7,7 +7,7 @@ const noop = (...args: any[]) => {
   /* do nothing */
 };
 
-export const animation = () => {
+export const animation = (globalObject: GlobalObject) => {
   let animating = false;
   let currentPosition = 0;
   let currentVelocity = 0;

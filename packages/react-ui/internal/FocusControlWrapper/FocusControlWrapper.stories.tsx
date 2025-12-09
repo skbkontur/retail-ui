@@ -1,9 +1,9 @@
 import type { CSSProperties, FC, FormEvent, PropsWithChildren } from 'react';
 import React, { useCallback, useState } from 'react';
-import { globalObject } from '@skbkontur/global-object';
 import type { Meta } from '@storybook/react';
 
 import type { Story } from '../../typings/stories';
+import { getSafeWindow } from '../../lib/globalObject';
 
 import { FocusControlWrapper } from './FocusControlWrapper';
 
@@ -37,7 +37,7 @@ const useFormHandlers = () => {
     }
   }, []);
 
-  globalObject.document?.addEventListener('keydown', handleKeyDown);
+  getSafeWindow().document?.addEventListener('keydown', handleKeyDown);
 
   return {
     isDisabled,

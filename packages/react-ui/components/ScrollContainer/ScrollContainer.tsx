@@ -1,21 +1,22 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles, globalClasses } from './ScrollContainer.styles';
+import { getStyles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
 import {
   getScrollYOffset,
@@ -102,6 +103,7 @@ interface ScrollContainerState {
 /**
  * `ScrollContainer` используется для создания контейнера с кастомными полосами прокрутки, который обеспечивает прокрутку содержимого по горизонтали или вертикали.
  */
+@withRenderEnvironment
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -120,6 +122,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private getProps = createPropsGetter(ScrollContainer.defaultProps);
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   public getRootNode!: TGetRootNode;
@@ -160,7 +166,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
   }
 
-  public render = () => {
+  public render() {
+    this.styles = getStyles(this.emotion);
+
     const props = this.props;
 
     if (this.props.disabled) {
@@ -180,7 +188,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
           data-tid={ScrollContainerDataTids.root}
-          className={styles.root()}
+          className={this.styles.root()}
           onMouseMove={this.handleMouseMove}
           onMouseLeave={this.handleMouseLeave}
         >
@@ -189,7 +197,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           <div
             style={innerStyle}
             ref={this.refInner}
-            className={cx(styles.inner(), globalClasses.inner)}
+            className={this.cx(this.styles.inner(), globalClasses.inner)}
             data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
           >
@@ -198,7 +206,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         </div>
       </CommonWrapper>
     );
-  };
+  }
 
   /**
    * @public
@@ -373,7 +381,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }, this.getProps().hideScrollBarDelay);
 
   private handleInnerScrollWheel = (event: Event) => {
-    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent)) {
+    if (!this.inner || !isInstanceOf(event, this.globalObject.WheelEvent)) {
       return;
     }
 

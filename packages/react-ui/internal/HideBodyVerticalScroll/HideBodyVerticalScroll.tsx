@@ -1,8 +1,10 @@
 import React from 'react';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import { RenderEnvironmentContext } from '../../lib/renderEnvironment';
+import { isBrowser } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-import { css } from '../../lib/theming/Emotion';
 
 let disposeDocumentStyle: (() => void) | null = null;
 
@@ -14,6 +16,9 @@ export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
   public static displayName = 'HideBodyVerticalScroll';
 
+  public static globalObject: GlobalObject;
+  private static emotion: Emotion;
+
   private initialScroll = 0;
   private master = false;
 
@@ -21,9 +26,11 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
       this.master = true;
-      this.initialScroll = globalObject.document?.documentElement ? globalObject.document.documentElement.scrollTop : 0;
+      this.initialScroll = HideBodyVerticalScroll.globalObject.document?.documentElement
+        ? HideBodyVerticalScroll.globalObject.document.documentElement.scrollTop
+        : 0;
       HideBodyVerticalScroll.updateScrollVisibility();
-      globalObject.addEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
+      HideBodyVerticalScroll.globalObject.addEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
     }
   }
 
@@ -37,12 +44,24 @@ export class HideBodyVerticalScroll extends React.Component {
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
       this.restoreStyles();
-      globalObject.removeEventListener?.('resize', HideBodyVerticalScroll.updateScrollVisibility);
+      HideBodyVerticalScroll.globalObject.removeEventListener?.(
+        'resize',
+        HideBodyVerticalScroll.updateScrollVisibility,
+      );
     }
   }
 
   public render() {
-    return null;
+    return (
+      <RenderEnvironmentContext.Consumer>
+        {({ globalObject, emotion }) => {
+          HideBodyVerticalScroll.globalObject = globalObject;
+          HideBodyVerticalScroll.emotion = emotion;
+
+          return null;
+        }}
+      </RenderEnvironmentContext.Consumer>
+    );
   }
 
   public static updateScrollVisibility = () => {
@@ -53,16 +72,17 @@ export class HideBodyVerticalScroll extends React.Component {
   };
 
   public static hideScroll = () => {
-    if (!isBrowser(globalObject)) {
+    if (!isBrowser(HideBodyVerticalScroll.globalObject)) {
       return;
     }
-    const { documentElement } = globalObject.document;
+    const { documentElement } = HideBodyVerticalScroll.globalObject.document;
     const { clientHeight, scrollHeight } = documentElement;
-    const documentComputedStyle = globalObject.getComputedStyle(documentElement);
-    const scrollbarConst = globalObject.getComputedStyle(documentElement).overflowY === 'scroll';
-    const scrollWidth = clientHeight < scrollHeight || scrollbarConst ? getScrollWidth() : 0;
+    const documentComputedStyle = HideBodyVerticalScroll.globalObject.getComputedStyle(documentElement);
+    const scrollbarConst = HideBodyVerticalScroll.globalObject.getComputedStyle(documentElement).overflowY === 'scroll';
+    const scrollWidth =
+      clientHeight < scrollHeight || scrollbarConst ? getScrollWidth(HideBodyVerticalScroll.globalObject) : 0;
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
-    const className = generateDocumentStyle(documentMargin + scrollWidth);
+    const className = generateDocumentStyle(documentMargin + scrollWidth, HideBodyVerticalScroll.emotion);
 
     disposeDocumentStyle = HideBodyVerticalScroll.attachStyle(documentElement, className);
   };
@@ -79,8 +99,8 @@ export class HideBodyVerticalScroll extends React.Component {
       disposeDocumentStyle();
       disposeDocumentStyle = null;
 
-      if (globalObject.document) {
-        globalObject.document.documentElement.scrollTop = this.initialScroll;
+      if (HideBodyVerticalScroll.globalObject.document) {
+        HideBodyVerticalScroll.globalObject.document.documentElement.scrollTop = this.initialScroll;
       }
     }
   };
@@ -88,25 +108,28 @@ export class HideBodyVerticalScroll extends React.Component {
 
 class VerticalScrollCounter {
   public static increment = (): number => {
-    const globalWithRetailUIVerticalScrollCounter = globalObject as GlobalWithRetailUIVerticalScrollCounter;
+    const globalWithRetailUIVerticalScrollCounter =
+      HideBodyVerticalScroll.globalObject as GlobalWithRetailUIVerticalScrollCounter;
     const counter = globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter || 0;
     return (globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter = counter + 1);
   };
 
   public static decrement = (): number => {
-    const globalWithRetailUIVerticalScrollCounter = globalObject as GlobalWithRetailUIVerticalScrollCounter;
+    const globalWithRetailUIVerticalScrollCounter =
+      HideBodyVerticalScroll.globalObject as GlobalWithRetailUIVerticalScrollCounter;
     const counter = globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter || 0;
     return (globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter = counter - 1);
   };
 
   public static get = (): number => {
-    const globalWithRetailUIVerticalScrollCounter = globalObject as GlobalWithRetailUIVerticalScrollCounter;
+    const globalWithRetailUIVerticalScrollCounter =
+      HideBodyVerticalScroll.globalObject as GlobalWithRetailUIVerticalScrollCounter;
     return globalWithRetailUIVerticalScrollCounter.RetailUIVerticalScrollCounter || 0;
   };
 }
 
-function generateDocumentStyle(documentMargin: number) {
-  return css`
+function generateDocumentStyle(documentMargin: number, emotion: Emotion) {
+  return emotion.css`
     overflow: hidden !important;
     margin-right: ${documentMargin}px !important;
     height: 100%;

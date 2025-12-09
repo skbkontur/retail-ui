@@ -1,6 +1,7 @@
-import { globalObject } from '@skbkontur/global-object';
+import { getSafeWindow } from '../lib/globalObject';
 
 const needsPolyfillPlaceholderInternal = () => {
+  const globalObject = getSafeWindow();
   if (globalObject.document) {
     const supportsPlaceholder = 'placeholder' in globalObject.document.createElement('input');
     if (!supportsPlaceholder) {

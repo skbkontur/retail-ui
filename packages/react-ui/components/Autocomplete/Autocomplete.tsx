@@ -1,13 +1,12 @@
 import type { AriaAttributes, KeyboardEvent } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { MenuMessage } from '../../internal/MenuMessage';
 import { locale } from '../../lib/locale/decorators';
 import { getRandomID, isNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import type { InputProps } from '../Input';
 import { Input } from '../Input';
@@ -29,8 +28,9 @@ import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
 import { getSafeMaskInputType, MaskedInput, type MaskedProps } from '../MaskedInput';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Autocomplete.styles';
+import { getStyles } from './Autocomplete.styles';
 import type { AutocompleteLocale } from './locale';
 import { AutocompleteLocaleHelper } from './locale';
 import { getAutocompleteTheme } from './getAutocompleteTheme';
@@ -131,6 +131,7 @@ type DefaultProps = Required<
  * Подсказки определяются в пропе `source`.
  * Все свойства передаются во внутренний `Input`.
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 @locale('Autocomplete', AutocompleteLocaleHelper)
@@ -154,6 +155,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     isMobileOpened: false,
   };
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private size!: SizeProp;
   private readonly locale!: AutocompleteLocale;
@@ -202,6 +206,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -256,8 +262,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
           data-tid={AutocompleteDataTids.root}
-          className={cx(styles.root(this.theme), {
-            [styles.noPortal()]: disablePortal,
+          className={this.cx(this.styles.root(this.theme), {
+            [this.styles.noPortal()]: disablePortal,
           })}
           style={{ width }}
           ref={this.refRootSpan}
@@ -506,7 +512,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     // NOTE: этот таймаут - костыль. Проблема в старом ReactInputMask, он сеттит пустой value при потере фокуса.
     // Можно будет убрать после полного перехода на MaskedInput
-    globalObject.setTimeout(() => {
+    setTimeout(() => {
       this.blur();
     }, 0);
   }

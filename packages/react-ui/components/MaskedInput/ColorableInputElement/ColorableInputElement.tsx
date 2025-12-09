@@ -1,15 +1,15 @@
 /* eslint react-hooks/exhaustive-deps: 2 */
 import type { ForwardedRef } from 'react';
-import React, { useEffect, useContext, useImperativeHandle, useRef, useCallback, useState } from 'react';
+import React, { useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import debounce from 'lodash.debounce';
 
+import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment';
+import { isBrowser } from '../../../lib/globalObject';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { InputElement, InputElementProps } from '../../Input';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { cx } from '../../../lib/theming/Emotion';
-import { isDocument, isWindow, tryGetDocument, tryGetWindow } from '../../../lib/utils';
 
-import { globalClasses } from './ColorableInputElement.styles';
+import { globalClasses, getStyles } from './ColorableInputElement.styles';
 
 export type ColorableInputElementProps = InputElementProps & {
   alwaysShowMask?: boolean;
@@ -29,6 +29,10 @@ export const ColorableInputElement = forwardRefAndName(
     const spanRef = useRef<HTMLSpanElement | null>(null);
     const focused = useRef(false);
     const updateActiveTimer = useRef<ReturnType<typeof setTimeout>>();
+    const globalObject = useGlobal();
+    const emotion = useEmotion();
+    const { cx } = emotion;
+    const styles = useStyles(getStyles);
     const theme = useContext(ThemeContext);
     const [active, setActive] = useState(
       Boolean(props.alwaysShowMask || (!props.placeholder && (props.value || props.defaultValue))),
@@ -57,9 +61,7 @@ export const ColorableInputElement = forwardRefAndName(
     }, [stopUpdateActive]);
 
     const paintText = useCallback(() => {
-      const win = tryGetWindow(inputRef.current);
-      const doc = tryGetDocument(inputRef.current);
-      if (!spanRef.current || !inputRef.current || !isWindow(win) || !isDocument(doc) || !active) {
+      if (!isBrowser(globalObject) || !spanRef.current || !inputRef.current || !active) {
         inputRef.current && (inputRef.current.style.backgroundImage = '');
         inputRef.current?.classList.remove(globalClasses.input);
 
@@ -75,8 +77,8 @@ export const ColorableInputElement = forwardRefAndName(
       if (!typedValueElement || !fullValueElement) {
         shadow = spanRef.current.attachShadow({ mode: 'open' });
 
-        typedValueElement = doc.createElement('span');
-        fullValueElement = doc.createElement('span');
+        typedValueElement = globalObject.document.createElement('span');
+        fullValueElement = globalObject.document.createElement('span');
         typedValueElement.setAttribute('id', 'typed-value');
         fullValueElement.setAttribute('id', 'full-value');
 
@@ -131,6 +133,7 @@ export const ColorableInputElement = forwardRefAndName(
       theme.inputTextColor,
       theme.inputPlaceholderColor,
       theme.inputTextColorDisabled,
+      globalObject,
       props.style?.textAlign,
     ]);
 
@@ -191,7 +194,9 @@ export const ColorableInputElement = forwardRefAndName(
           onFocus: handleFocus,
           onBlur: handleBlur,
           inputRef,
-          className: cx(props.className, active && globalClasses.input),
+          className: cx(props.className, styles.root(), {
+            [globalClasses.input]: active,
+          }),
         })}
         {active && <span style={{ visibility: 'hidden', position: 'absolute', whiteSpace: 'pre' }} ref={spanRef} />}
       </>

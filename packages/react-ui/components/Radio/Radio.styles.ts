@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import {
@@ -13,7 +15,7 @@ export const globalClasses = prefix('radio')({
   circle: 'circle',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       cursor: pointer;
@@ -224,4 +226,4 @@ export const styles = memoizeStyle({
       display: inline-block;
     `;
   },
-});
+}));

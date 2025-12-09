@@ -8,13 +8,14 @@ import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/Wea
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
 import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light';
 import { linkTo } from '@storybook/addon-links';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import { useStyles } from '../lib/renderEnvironment';
 import { DropdownMenu } from '../components/DropdownMenu';
 import { MenuItem } from '../components/MenuItem';
 import { Toggle } from '../components/Toggle';
 import { MenuHeader } from '../components/MenuHeader';
 import { MenuSeparator } from '../components/MenuSeparator';
-import { css } from '../lib/theming/Emotion';
 import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
 import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
@@ -45,7 +46,7 @@ const themes = [...Object.keys(ALL_LIGHT_THEMES), ...Object.keys(ALL_DARK_THEMES
 
 const allFeatureFlags = Object.keys(reactUIFeatureFlagsDefault);
 
-const styles = {
+const getStyles = ({ css }: Emotion) => ({
   menuWrap: css`
     height: 20px;
   `,
@@ -124,10 +125,11 @@ const styles = {
     padding: 2px 4px 1px;
     font-weight: 600;
   `,
-};
+});
 
 export const Meta = ({ of }: { of?: ModuleExports }) => {
   const context = useContext(DocsContext);
+  const styles = useStyles(getStyles);
 
   if (of && !context.componentStories().some((x) => x.title === of.default.title)) {
     context.referenceMeta(of, true);

@@ -1,5 +1,6 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import type { InputIconType, InputProps, ShowClearIcon } from '../../components/Input';
@@ -27,15 +28,15 @@ import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../ZIndex';
 import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput';
 import { MaskedInput } from '../../components/MaskedInput';
-import { styles as MaskedInputStyles } from '../../components/MaskedInput/MaskedInput.styles';
-import { cx } from '../../lib/theming/Emotion';
+import { getStyles as getMaskedInputStyles } from '../../components/MaskedInput/MaskedInput.styles';
 import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { styles } from './CustomComboBox.styles';
+import { getStyles } from './CustomComboBox.styles';
 import { CustomComboBoxDataTids } from './CustomComboBox';
 import { getComboBoxTheme } from './getComboBoxTheme';
 
@@ -134,6 +135,7 @@ interface ComboBoxViewState {
   clearCrossShowed: boolean;
 }
 
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 @withSize
@@ -165,6 +167,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<Popup>();
+  private styles!: ReturnType<typeof getStyles>;
+  private maskedInputStyles!: ReturnType<typeof getMaskedInputStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
   private theme!: Theme;
   private size!: SizeProp;
   private menuId = ComboBoxViewIds.menu + getRandomID();
@@ -204,6 +210,9 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+    this.maskedInputStyles = getMaskedInputStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -228,7 +237,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           <span
             data-tid={CustomComboBoxDataTids.comboBoxView}
             style={{ width }}
-            className={styles.root()}
+            className={this.styles.root()}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
@@ -448,7 +457,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         aria-describedby={ariaDescribedby}
         aria-controls={this.menuId}
         showClearIcon={showClearIcon}
-        className={cx(mask && MaskedInputStyles.root(this.theme))}
+        className={this.cx(mask && this.maskedInputStyles.root(this.theme))}
         onClearCrossClick={this.props.onClearCrossClick}
       >
         {isNonNullable(value) && renderValue ? renderValue(value) : null}
@@ -480,7 +489,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderSpinner = () => (
-    <span className={styles.spinnerWrapper()}>
+    <span className={this.styles.spinnerWrapper()}>
       <Spinner type="mini" caption="" dimmed />
     </span>
   );

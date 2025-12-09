@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
@@ -7,7 +9,7 @@ export const modalGlobalClasses = prefix('modal')({
   container: 'container',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       height: 100%;
@@ -478,4 +480,4 @@ export const styles = memoizeStyle({
       margin: ${t.modalSeparatorFixedMargin};
     `;
   },
-});
+}));

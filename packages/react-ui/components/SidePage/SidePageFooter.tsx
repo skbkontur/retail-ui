@@ -1,11 +1,12 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
@@ -14,8 +15,9 @@ import type { GappedProps } from '../Gapped';
 import { Gapped } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 import { ModalSeparator } from '../Modal/ModalSeparator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 import type { SidePageContextType } from './SidePageContext';
 import { SidePageContext } from './SidePageContext';
 
@@ -46,6 +48,7 @@ export const SidePageFooterDataTids = {
  *
  * @visibleName SidePage.Footer
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class SidePageFooter extends React.Component<React.PropsWithChildren<SidePageFooterProps>> {
@@ -60,6 +63,10 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
     fixed: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private content: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
@@ -69,7 +76,7 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
   public componentDidMount() {
     this.context.footerRef(this);
     this.update();
-    this.layoutSub = LayoutEvents.addListener(this.update);
+    this.layoutSub = LayoutEvents.addListener(this.update, this.globalObject);
     this.context.setHasFooter?.();
     this.context.setHasPanel?.(this.props.panel);
   }
@@ -100,6 +107,8 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
   }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -124,13 +133,13 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
         <div
           data-tid={SidePageFooterDataTids.root}
           style={{ height: this.getContentHeight() }}
-          className={styles.footerWrapper()}
+          className={this.styles.footerWrapper()}
         >
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
-                className={cx(styles.footer(this.theme), {
-                  [styles.positionStatic()]: !this.getSticky(),
+                className={this.cx(this.styles.footer(this.theme), {
+                  [this.styles.positionStatic()]: !this.getSticky(),
                 })}
                 style={{
                   width: getWidth(),
@@ -138,11 +147,11 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
               >
                 {separator}
                 <div
-                  className={cx(styles.footerContent(this.theme), {
-                    [styles.footerFixed(this.theme)]: this.state.fixed,
-                    [styles.panel(this.theme)]: !!this.props.panel,
-                    [styles.panelFixed(this.theme)]: !!this.props.panel && this.state.fixed,
-                    [styles.mobileFooterContent(this.theme)]: this.isMobileLayout,
+                  className={this.cx(this.styles.footerContent(this.theme), {
+                    [this.styles.footerFixed(this.theme)]: this.state.fixed,
+                    [this.styles.panel(this.theme)]: !!this.props.panel,
+                    [this.styles.panelFixed(this.theme)]: !!this.props.panel && this.state.fixed,
+                    [this.styles.mobileFooterContent(this.theme)]: this.isMobileLayout,
                   })}
                   ref={this.refContent}
                 >

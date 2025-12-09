@@ -2,8 +2,9 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -17,10 +18,10 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { ModalContextProps } from './ModalContext';
 import { ModalContext } from './ModalContext';
@@ -28,7 +29,7 @@ import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { getModalTheme } from './getModalTheme';
 
 let mountedModalsCount = 0;
@@ -106,6 +107,7 @@ type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role' | 'mob
  *
  * Для отключения прилипания шапки и футера в соответствующий компонент нужно передать проп `sticky` со значением `false` (по-умолчанию прилипание включено).
  */
+@withRenderEnvironment
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
   public static displayName = 'Modal';
@@ -131,6 +133,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     hasPanel: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
@@ -138,14 +144,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   private mouseUpTarget: EventTarget | null = null;
 
   public componentDidMount() {
-    this.stackSubscription = ModalStack.add(this, this.handleStackChange);
+    this.stackSubscription = ModalStack.add(this, this.handleStackChange, this.globalObject);
 
     if (mountedModalsCount === 0) {
-      globalObject.addEventListener?.('resize', this.throttledCheckHorizontalScroll);
+      this.globalObject.addEventListener?.('resize', this.throttledCheckHorizontalScroll);
     }
 
     mountedModalsCount++;
-    globalObject.addEventListener?.('keydown', this.handleKeyDown);
+    this.globalObject.addEventListener?.('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
     if (this.containerNode) {
@@ -155,15 +161,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      globalObject.removeEventListener?.('resize', this.throttledCheckHorizontalScroll);
+      this.globalObject.removeEventListener?.('resize', this.throttledCheckHorizontalScroll);
       LayoutEvents.emit();
     }
 
-    globalObject.removeEventListener?.('keydown', this.handleKeyDown);
+    this.globalObject.removeEventListener?.('keydown', this.handleKeyDown);
     if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
-    ModalStack.remove(this);
+    ModalStack.remove(this, this.globalObject);
 
     if (this.containerNode) {
       this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
@@ -171,6 +177,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -190,15 +198,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         if (this.state.hasFooter) {
           return;
         }
-        return [styles.mobileContainerSmall5_2()];
+        return [this.styles.mobileContainerSmall5_2()];
       case 'fullscreen':
-        return [styles.mobileContainerFullscreen5_2()];
+        return [this.styles.mobileContainerFullscreen5_2()];
       case 'center':
-        return [styles.mobileContainerSmall5_2()];
+        return [this.styles.mobileContainerSmall5_2()];
       case 'bottom':
-        return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallBottom5_2()];
+        return [this.styles.mobileContainerSmall5_2(), this.styles.mobileContainerSmallBottom5_2()];
       case 'top':
-        return [styles.mobileContainerSmall5_2(), styles.mobileContainerSmallTop5_2()];
+        return [this.styles.mobileContainerSmall5_2(), this.styles.mobileContainerSmallTop5_2()];
       default:
         return catchUnreachableWarning(mobileAppearance, false);
     }
@@ -246,24 +254,24 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     const getMobileCenterContainerClassNames = () => {
-      return cx(styles.mobileCenterContainer(this.theme), {
-        [styles.mobileCenterContainerBig(this.theme)]:
+      return this.cx(this.styles.mobileCenterContainer(this.theme), {
+        [this.styles.mobileCenterContainerBig(this.theme)]:
           mobileAppearance === 'fullscreen-spacing' || (mobileAppearance === 'auto' && hasFooter),
-        [styles.mobileCenterContainerFullscreen()]: mobileAppearance === 'fullscreen',
+        [this.styles.mobileCenterContainerFullscreen()]: mobileAppearance === 'fullscreen',
       });
     };
 
     return (
       <RenderContainer>
         <CommonWrapper {...this.props}>
-          <ZIndex priority={'Modal'} className={styles.root()}>
+          <ZIndex priority={'Modal'} className={this.styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && (
               <div
                 onMouseDown={this.handleContainerMouseDown}
                 onMouseUp={this.handleContainerMouseUp}
                 onClick={this.handleContainerClick}
-                className={styles.bg(this.theme)}
+                className={this.styles.bg(this.theme)}
               />
             )}
             <ResponsiveLayout>
@@ -271,9 +279,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 <div
                   aria-labelledby={ariaLabelledby}
                   ref={this.refContainer}
-                  className={cx(
-                    styles.container(),
-                    !isMobile && styles.containerDesktop(),
+                  className={this.cx(
+                    this.styles.container(),
+                    !isMobile && this.styles.containerDesktop(),
                     isMobile && this.getMobileContainerClassName(),
                   )}
                   onMouseDown={this.handleContainerMouseDown}
@@ -285,19 +293,19 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     aria-modal
                     aria-label={ariaLabel}
                     role={role}
-                    className={cx({
-                      [styles.centerContainer()]: true,
+                    className={this.cx({
+                      [this.styles.centerContainer()]: true,
                       [getMobileCenterContainerClassNames()]: isMobile,
-                      [styles.alignTop()]: Boolean(alignTop),
+                      [this.styles.alignTop()]: Boolean(alignTop),
                     })}
                     style={isMobile ? undefined : containerStyle}
                     data-tid={ModalDataTids.content}
                   >
                     <div
-                      className={cx({
-                        [styles.window(this.theme)]: true,
-                        [styles.mobileWindow()]: isMobile,
-                        [styles.mobileWindowFullscreen()]: isMobile && mobileAppearance === 'fullscreen',
+                      className={this.cx({
+                        [this.styles.window(this.theme)]: true,
+                        [this.styles.mobileWindow()]: isMobile,
+                        [this.styles.mobileWindowFullscreen()]: isMobile && mobileAppearance === 'fullscreen',
                       })}
                       style={isMobile ? undefined : style}
                     >
@@ -305,19 +313,19 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         <FocusLock
                           disabled={disableFocusLock}
                           autoFocus={false}
-                          className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
+                          className={this.cx({ [this.styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
                         >
                           {!hasHeader && !noClose && (
                             <ZIndex
                               priority={ModalZIndexPriority.Cross}
-                              className={cx({
-                                [styles.closeWrapper(this.theme)]: true,
-                                [styles.mobileCloseWrapper(this.theme)]: isMobile,
+                              className={this.cx({
+                                [this.styles.closeWrapper(this.theme)]: true,
+                                [this.styles.mobileCloseWrapper(this.theme)]: isMobile,
                               })}
                             >
                               <ModalClose
-                                className={cx({
-                                  [styles.mobileCloseWithoutHeader(this.theme)]: isMobile && !this.state.hasHeader,
+                                className={this.cx({
+                                  [this.styles.mobileCloseWithoutHeader(this.theme)]: isMobile && !this.state.hasHeader,
                                 })}
                                 requestClose={this.requestClose}
                                 disableClose={disableClose}
@@ -352,7 +360,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private handleStackChange = (stack: readonly React.Component[]) => {
-    this.setState({ stackPosition: stack.indexOf(this), hasBackground: ModalStack.isBlocking(this) });
+    this.setState({
+      stackPosition: stack.indexOf(this),
+      hasBackground: ModalStack.isBlocking(this, this.globalObject),
+    });
   };
 
   private handleContainerMouseDown = (event: React.MouseEvent) => {

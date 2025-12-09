@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
 import type { ButtonInnerProps } from './Button';
-import { globalClasses, styles } from './Button.styles';
+import { globalClasses, getStyles } from './Button.styles';
 
 type ButtonArrowProps = Pick<
   ButtonInnerProps,
@@ -18,6 +19,8 @@ type ButtonArrowProps = Pick<
 
 const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({ arrow, size }) => {
   const theme = useContext(ThemeContext);
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
 
   const getArrowIconRootClassName = () => {
     return cx(styles.arrowIconRoot(), globalClasses.arrow, {
@@ -43,7 +46,12 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({ arrow, size })
   return arrowNode;
 };
 
-export function useButtonArrow(props: ButtonArrowProps, theme: Theme): [string, React.ReactNode] {
+export function useButtonArrow(
+  props: ButtonArrowProps,
+  theme: Theme,
+  styles: ReturnType<typeof getStyles>,
+  cx: Emotion['cx'],
+): [string, React.ReactNode] {
   const { arrow, size, use } = props;
 
   const canRender = use !== 'link' && (arrow === true || arrow === 'left');

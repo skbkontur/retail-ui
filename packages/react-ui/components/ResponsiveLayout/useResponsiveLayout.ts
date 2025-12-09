@@ -1,6 +1,7 @@
 import type React from 'react';
 import { createRef, useCallback, useContext, useEffect, useState } from 'react';
 
+import { useGlobal } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
@@ -10,6 +11,7 @@ export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
   customMediaQueries,
 }: ResponsiveLayoutOptions<T> = {}) {
   const theme = useContext(ThemeContext);
+  const globalObject = useGlobal();
 
   const allMediaQueries = Object.entries({
     isMobile: theme.mobileMediaQuery,
@@ -22,7 +24,8 @@ export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
 
   const getLayoutFromGlobal = (): ResponsiveLayoutFlags<T> => {
     return allMediaQueries.reduce(
-      (result, mediaQuery) => Object.assign(result, { [mediaQuery.flag]: checkMatches(mediaQuery.query) }),
+      (result, mediaQuery) =>
+        Object.assign(result, { [mediaQuery.flag]: checkMatches(globalObject, mediaQuery.query) }),
       {},
     ) as ResponsiveLayoutFlags<T>;
   };
@@ -36,7 +39,11 @@ export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
 
     allMediaQueries.forEach(
       (mediaQuery) =>
-        (mediaQuery.ref.current = addResponsiveLayoutListener(mediaQuery.query, checkLayoutsMediaQueries)),
+        (mediaQuery.ref.current = addResponsiveLayoutListener(
+          globalObject,
+          mediaQuery.query,
+          checkLayoutsMediaQueries,
+        )),
     );
 
     // Checking for SSR use case

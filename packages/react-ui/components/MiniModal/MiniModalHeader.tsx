@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react';
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import type { ModalHeaderProps } from '../Modal';
 import { Modal } from '../Modal';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { InfoCircleIcon64Regular } from '../../internal/icons2022/InfoCircleIcon/InfoCircleIcon64Regular';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 interface MiniModalHeaderProps extends ModalHeaderProps {
@@ -26,6 +26,8 @@ export const MiniModalHeader = forwardRefAndName<HTMLDivElement, MiniModalHeader
   'MiniModalHeader',
   ({ icon = <InfoCircleIcon64Regular />, children, ...rest }, ref) => {
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
 
     return (
       <Modal.Header {...rest}>

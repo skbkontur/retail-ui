@@ -1,16 +1,15 @@
 import type { AriaAttributes, CSSProperties } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
-import { cx } from '../../lib/theming/Emotion';
-import { keyListener } from '../../lib/events/keyListener';
+import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment';
+import { useKeyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
 
-import { styles } from './CloseButtonIcon.styles';
+import { getStyles } from './CloseButtonIcon.styles';
 import { CrossIcon } from './CrossIcon';
 
 export interface CloseButtonIconProps
@@ -58,6 +57,9 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
   style,
   ...rest
 }) => {
+  const globalObject = useGlobal();
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const _theme = React.useContext(ThemeContext);
   const theme = ThemeFactory.create(
     {
@@ -66,6 +68,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
     },
     _theme,
   );
+  const keyListener = useKeyListener();
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {

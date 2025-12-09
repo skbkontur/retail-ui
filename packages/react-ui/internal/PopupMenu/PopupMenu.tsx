@@ -1,7 +1,8 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { getRandomID } from '../../lib/utils';
 import type { HTMLProps } from '../../typings/html';
 import {
@@ -25,9 +26,10 @@ import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { MenuProps } from '../Menu';
 import { Menu } from '../Menu';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { isValidPositions } from './validatePositions';
-import { styles } from './PopupMenu.styles';
+import { getStyles } from './PopupMenu.styles';
 import { PopupMenuDataTids } from './tids';
 
 export * from './tids';
@@ -117,12 +119,16 @@ const Positions: PopupPositionsType[] = [
 
 type DefaultProps = Required<Pick<PopupMenuProps, 'positions' | 'type' | 'popupHasPin' | 'disableAnimations'>>;
 
+@withRenderEnvironment
 @rootNode
 @responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
   public static displayName = 'PopupMenu';
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private isMobileLayout!: boolean;
   private rootId = PopupIds.root + getRandomID();
 
@@ -149,6 +155,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -178,7 +186,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div data-tid={PopupMenuDataTids.root} className={styles.container()} style={{ width: this.props.width }}>
+          <div
+            data-tid={PopupMenuDataTids.root}
+            className={this.styles.container()}
+            style={{ width: this.props.width }}
+          >
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -253,7 +265,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       return (
         <span
           data-tid={PopupMenuDataTids.caption}
-          className={styles.caption()}
+          className={this.styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
           {this.passPropsToCaption(caption)}
@@ -267,7 +279,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
         ref={(element) => (this.captionWrapper = element)}
-        className={styles.caption()}
+        className={this.styles.caption()}
       >
         {this.passPropsToCaption(this.props.caption)}
       </span>
@@ -333,8 +345,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   };
 
   private saveFocus = (): void => {
-    if (globalObject.document) {
-      this.savedFocusableElement = globalObject.document.activeElement as HTMLElement;
+    if (this.globalObject.document) {
+      this.savedFocusableElement = this.globalObject.document.activeElement as HTMLElement;
     }
   };
 

@@ -1,18 +1,20 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
   onBlur?: (event: FocusEvent) => void;
 }
 
+@withRenderEnvironment
 @rootNode
 export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
@@ -20,6 +22,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
 
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private globalObject!: GlobalObject;
 
   private focusOutsideListenerToken: {
     remove: () => void;
@@ -33,6 +36,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
 
   public render() {
     const { children, onBlur } = this.props;
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         {React.cloneElement(React.Children.only(children), {
@@ -59,10 +63,10 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   private attachListeners = () => {
     const rootNode = getRootNode(this);
     if (!this.focusOutsideListenerToken && rootNode) {
-      this.focusOutsideListenerToken = listenFocusOutside([rootNode], this.onClickOutside);
+      this.focusOutsideListenerToken = listenFocusOutside([rootNode], this.onClickOutside, this.globalObject);
 
-      globalObject.document?.addEventListener(
-        'ontouchstart' in globalObject.document.documentElement ? 'touchstart' : 'mousedown',
+      this.globalObject.document?.addEventListener(
+        'ontouchstart' in this.globalObject.document.documentElement ? 'touchstart' : 'mousedown',
         this.handleNativeDocClick,
       );
     }
@@ -73,8 +77,8 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
       this.focusOutsideListenerToken.remove();
       this.focusOutsideListenerToken = null;
 
-      globalObject.document?.removeEventListener(
-        'ontouchstart' in globalObject.document.documentElement ? 'touchstart' : 'mousedown',
+      this.globalObject.document?.removeEventListener(
+        'ontouchstart' in this.globalObject.document.documentElement ? 'touchstart' : 'mousedown',
         this.handleNativeDocClick,
       );
     }
@@ -84,7 +88,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     const target = event.target || event.srcElement;
     const node = getRootNode(this);
 
-    if (node && isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node)) {
+    if (node && isInstanceOf(target, this.globalObject.Element) && containsTargetOrRenderContainer(target)(node)) {
       return;
     }
 

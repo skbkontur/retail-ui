@@ -1,9 +1,11 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   wrapper() {
     return css`
       align-items: center;
@@ -242,4 +244,4 @@ export const styles = memoizeStyle({
       caret-color: transparent;
     `;
   },
-});
+}));

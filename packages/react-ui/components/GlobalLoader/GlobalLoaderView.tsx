@@ -1,12 +1,12 @@
 import React, { useContext, useRef } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 
-import { animations, styles } from './GlobalLoaderView.styles';
+import { getAnimations, getStyles } from './GlobalLoaderView.styles';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';
 
 export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
@@ -37,6 +37,9 @@ export const GlobalLoaderView = ({
 }: GlobalLoaderViewProps) => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
   const theme = useContext(ThemeContext);
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
+  const animations = useStyles(getAnimations);
   const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
   const { left } = useGlobalLoaderPosition(ref);
 

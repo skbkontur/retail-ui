@@ -1,12 +1,13 @@
 import React from 'react';
 import type { AriaAttributes, InputHTMLAttributes } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { keyListener } from '../../lib/events/keyListener';
+import type { GlobalObject } from '../../lib/globalObject';
+import { KeyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -14,8 +15,9 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles, globalClasses } from './Toggle.styles';
+import { getStyles, globalClasses } from './Toggle.styles';
 
 export interface ToggleProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
@@ -89,6 +91,7 @@ type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'caption
  *
  * `Toggle` нельзя использовать для выбора элементов в списке. Например, выбрать несколько писем.
  */
+@withRenderEnvironment
 @rootNode
 @withSize
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
@@ -105,10 +108,15 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private getProps = createPropsGetter(Toggle.defaultProps);
 
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private globalObject!: GlobalObject;
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private keyListener!: KeyListener;
 
   constructor(props: ToggleProps) {
     super(props);
@@ -120,8 +128,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   public componentDidMount() {
+    this.keyListener = new KeyListener(this.globalObject);
     if (this.props.autoFocus) {
-      keyListener.isTabPressed = true;
+      this.keyListener.isTabPressed = true;
       this.focus();
     }
   }
@@ -131,12 +140,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
    */
   public focus = () => {
     if (this.input) {
-      keyListener.isTabPressed = true;
+      this.keyListener.isTabPressed = true;
       this.input.focus();
     }
   };
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -150,72 +161,72 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   private getContainerSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.containerLarge(this.theme);
+        return this.styles.containerLarge(this.theme);
       case 'medium':
-        return styles.containerMedium(this.theme);
+        return this.styles.containerMedium(this.theme);
       case 'small':
       default:
-        return styles.containerSmall(this.theme);
+        return this.styles.containerSmall(this.theme);
     }
   }
 
   private getHandleSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.handleLarge(this.theme);
+        return this.styles.handleLarge(this.theme);
       case 'medium':
-        return styles.handleMedium(this.theme);
+        return this.styles.handleMedium(this.theme);
       case 'small':
       default:
-        return styles.handleSmall(this.theme);
+        return this.styles.handleSmall(this.theme);
     }
   }
 
   private getButtonSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.buttonLarge(this.theme);
+        return this.styles.buttonLarge(this.theme);
       case 'medium':
-        return styles.buttonMedium(this.theme);
+        return this.styles.buttonMedium(this.theme);
       case 'small':
       default:
-        return styles.buttonSmall(this.theme);
+        return this.styles.buttonSmall(this.theme);
     }
   }
 
   private getRootSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.rootLarge(this.theme);
+        return this.styles.rootLarge(this.theme);
       case 'medium':
-        return styles.rootMedium(this.theme);
+        return this.styles.rootMedium(this.theme);
       case 'small':
       default:
-        return styles.rootSmall(this.theme);
+        return this.styles.rootSmall(this.theme);
     }
   }
 
   private getInputSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.inputLarge(this.theme);
+        return this.styles.inputLarge(this.theme);
       case 'medium':
-        return styles.inputMedium(this.theme);
+        return this.styles.inputMedium(this.theme);
       case 'small':
       default:
-        return styles.inputSmall(this.theme);
+        return this.styles.inputSmall(this.theme);
     }
   }
 
   private getCaptionSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.captionLarge(this.theme);
+        return this.styles.captionLarge(this.theme);
       case 'medium':
-        return styles.captionMedium(this.theme);
+        return this.styles.captionMedium(this.theme);
       case 'small':
       default:
-        return styles.captionSmall(this.theme);
+        return this.styles.captionSmall(this.theme);
     }
   }
 
@@ -233,28 +244,28 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = cx(this.getContainerSizeClassName(), {
-      [styles.container(this.theme)]: true,
-      [styles.containerDisabled(this.theme)]: !!disabled,
+    const containerClassNames = this.cx(this.getContainerSizeClassName(), {
+      [this.styles.container(this.theme)]: true,
+      [this.styles.containerDisabled(this.theme)]: !!disabled,
       [globalClasses.container]: true,
       [globalClasses.containerDisabled]: !!disabled,
       [globalClasses.containerLoading]: loading,
     });
 
-    const labelClassNames = cx(this.getRootSizeClassName(), {
-      [styles.root(this.theme)]: true,
-      [styles.rootLeft()]: captionPosition === 'left',
-      [styles.disabled()]: !!disabled,
+    const labelClassNames = this.cx(this.getRootSizeClassName(), {
+      [this.styles.root(this.theme)]: true,
+      [this.styles.rootLeft()]: captionPosition === 'left',
+      [this.styles.disabled()]: !!disabled,
       [globalClasses.disabled]: !!disabled,
-      [styles.disableAnimation()]: disableAnimations,
+      [this.styles.disableAnimation()]: disableAnimations,
     });
 
     let caption = null;
     if (children) {
-      const captionClass = cx(this.getCaptionSizeClassName(), {
-        [styles.caption(this.theme)]: true,
-        [styles.captionLeft(this.theme)]: captionPosition === 'left',
-        [styles.disabledCaption(this.theme)]: !!disabled,
+      const captionClass = this.cx(this.getCaptionSizeClassName(), {
+        [this.styles.caption(this.theme)]: true,
+        [this.styles.captionLeft(this.theme)]: captionPosition === 'left',
+        [this.styles.disabledCaption(this.theme)]: !!disabled,
       });
       caption = <span className={captionClass}>{children}</span>;
     }
@@ -263,12 +274,12 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <label data-tid={ToggleDataTids.root} className={labelClassNames}>
           <div
-            className={cx(this.getButtonSizeClassName(), {
-              [styles.button(this.theme)]: true,
-              [styles.buttonRight()]: captionPosition === 'left',
-              [styles.isWarning(this.theme)]: !!warning,
-              [styles.isError(this.theme)]: !!error,
-              [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
+            className={this.cx(this.getButtonSizeClassName(), {
+              [this.styles.button(this.theme)]: true,
+              [this.styles.buttonRight()]: captionPosition === 'left',
+              [this.styles.isWarning(this.theme)]: !!warning,
+              [this.styles.isError(this.theme)]: !!error,
+              [this.styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
             <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
@@ -276,7 +287,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 type="checkbox"
                 checked={checked}
                 onChange={this.handleChange}
-                className={cx(this.getInputSizeClassName(), styles.input(this.theme))}
+                className={this.cx(this.getInputSizeClassName(), this.styles.input(this.theme))}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
                 ref={this.inputRef}
@@ -290,9 +301,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
             </FocusControlWrapper>
             <div className={containerClassNames} />
             <div
-              className={cx(this.getHandleSizeClassName(), globalClasses.handle, {
-                [styles.handle(this.theme)]: true,
-                [styles.handleDisabled(this.theme)]: disabled,
+              className={this.cx(this.getHandleSizeClassName(), globalClasses.handle, {
+                [this.styles.handle(this.theme)]: true,
+                [this.styles.handleDisabled(this.theme)]: disabled,
               })}
             />
           </div>
@@ -327,7 +338,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       this.props.onFocus(event);
     }
 
-    if (keyListener.isTabPressed) {
+    if (this.keyListener.isTabPressed) {
       this.setState({ focusByTab: true });
     }
   };

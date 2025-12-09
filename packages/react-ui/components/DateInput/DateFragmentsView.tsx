@@ -1,15 +1,16 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import type { InternalDateFragment } from '../../lib/date/types';
 import { InternalDateComponentType } from '../../lib/date/types';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './DateFragmentsView.styles';
+import { getStyles } from './DateFragmentsView.styles';
 
 interface DateFragmentViewProps {
   selected: InternalDateComponentType | null;
@@ -18,7 +19,12 @@ interface DateFragmentViewProps {
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
+@withRenderEnvironment
 export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private rootNode: HTMLSpanElement | null = null;
 
@@ -34,6 +40,8 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   public getRootNode = () => this.rootNode;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -48,9 +56,9 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     return (
       <span
         ref={this.rootRef}
-        className={cx({
-          [styles.root()]: true,
-          [styles.selected(this.theme)]: true,
+        className={this.cx({
+          [this.styles.root()]: true,
+          [this.styles.selected(this.theme)]: true,
         })}
       >
         {this.props.fragments.map((fragment, index) =>
@@ -63,9 +71,9 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   }
 
   private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
-    const separatorClassName = cx({
-      [styles.mask(this.theme)]: true,
-      [styles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
+    const separatorClassName = this.cx({
+      [this.styles.mask(this.theme)]: true,
+      [this.styles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
     });
 
     return (
@@ -94,7 +102,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
       : length;
 
     const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
-      if (globalObject.document?.activeElement?.contains(e.currentTarget)) {
+      if (this.globalObject.document?.activeElement?.contains(e.currentTarget)) {
         onSelectDateComponent(type, e);
       }
     };
@@ -102,7 +110,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     return (
       <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
         {valueMask}
-        <span data-tid="DateFragmentsView__placeholder" className={styles.mask(this.theme)}>
+        <span data-tid="DateFragmentsView__placeholder" className={this.styles.mask(this.theme)}>
           {Array(lengthMask)
             .fill('')
             .map((_, i) => (

@@ -1,5 +1,3 @@
-import { css } from '../../lib/theming/Emotion';
-
 import { globalClasses } from './Button.styles';
 
 const getBtnPadding = (paddingY: string, paddingX: string): string => {
@@ -15,7 +13,7 @@ export const buttonUseMixin = (
   borderWidth: string,
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
-  return css`
+  return `
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     color: ${color};
@@ -39,7 +37,7 @@ export const buttonHoverMixin = (
   borderWidth: string,
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
-  return css`
+  return `
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     box-shadow: 0 0 0 ${borderWidth} ${borderColor};
@@ -53,7 +51,7 @@ export const buttonActiveMixin = (
   borderColor: string,
   borderWidth: string,
 ) => {
-  return css`
+  return `
     &,
     &:hover {
       background-image: none !important; // override :hover styles
@@ -68,7 +66,7 @@ export const buttonActiveMixin = (
 };
 
 export const buttonSizeMixin = (fontSize: string, lineHeight: string, paddingX: string, paddingY: string) => {
-  return css`
+  return `
     font-size: ${fontSize};
     box-sizing: border-box;
     padding: ${getBtnPadding(paddingY, paddingX)};

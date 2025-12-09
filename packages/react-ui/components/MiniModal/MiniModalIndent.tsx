@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 
+import { useStyles } from '../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 import { MiniModalDataTids } from './MiniModal';
 
 /**
@@ -14,6 +15,7 @@ import { MiniModalDataTids } from './MiniModal';
 export const MiniModalIndent = forwardRefAndName<HTMLDivElement, React.InputHTMLAttributes<HTMLDivElement>>(
   'MiniModalIndent',
   ({ children, ...rest }, ref) => {
+    const styles = useStyles(getStyles);
     const theme = useContext(ThemeContext);
 
     return <div data-tid={MiniModalDataTids.indent} ref={ref} className={styles.actionsIndent(theme)} {...rest} />;

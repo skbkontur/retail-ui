@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { globalObject } from '@skbkontur/global-object';
 
+import { getSafeWindow } from '../../../lib/globalObject';
 import { ZIndex } from '../ZIndex';
 import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
 
@@ -81,7 +81,7 @@ describe('ZIndex', () => {
   });
 
   it('should store correct zIndexes in `__RetailUiZIndexes`', async () => {
-    const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
+    const globalWithRetailUiZIndexes = getSafeWindow() as GlobalWithRetailUiZIndexes;
     globalWithRetailUiZIndexes.__RetailUiZIndexes = [];
     const DemoUpdatePriority = () => {
       const [delta, setDelta] = useState<number | undefined>();

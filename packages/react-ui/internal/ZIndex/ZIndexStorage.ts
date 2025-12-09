@@ -1,4 +1,4 @@
-import { globalObject } from '@skbkontur/global-object';
+import type { GlobalObject } from '../../lib/globalObject';
 
 export type Priority = number | LayerComponentName;
 const calculatePriority = (priority: Priority) => {
@@ -26,19 +26,20 @@ export const componentPriorities = {
   Popup: 3,
 };
 const priorityStep = 1000;
-const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
-const getZIndexes = (): number[] =>
-  globalWithRetailUiZIndexes.__RetailUiZIndexes || (globalWithRetailUiZIndexes.__RetailUiZIndexes = [0]);
+const getZIndexes = (globalObject: GlobalObject): number[] => {
+  const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
+  return globalWithRetailUiZIndexes.__RetailUiZIndexes || (globalWithRetailUiZIndexes.__RetailUiZIndexes = [0]);
+};
 const getIndexPriority = (zIndex: number) => Math.trunc(zIndex / priorityStep);
 const getMaxAllowedValue = (priority: number): number => (priority + 1) * priorityStep - 1;
 
 export const upperBorder = getMaxAllowedValue(Math.max(...Object.values(componentPriorities)));
 
-export function incrementZIndex(priority: Priority, delta: number): number {
+export function incrementZIndex(priority: Priority, delta: number, globalObject: GlobalObject): number {
   const calculatedPriority = calculatePriority(priority);
 
   const maxAllowedValue = getMaxAllowedValue(calculatedPriority);
-  const zIndexes = getZIndexes();
+  const zIndexes = getZIndexes(globalObject);
 
   let prevIndexId = zIndexes.length - 1;
   while (zIndexes[prevIndexId] > maxAllowedValue && prevIndexId > 0) {
@@ -55,8 +56,8 @@ export function incrementZIndex(priority: Priority, delta: number): number {
   return zIndex;
 }
 
-export function removeZIndex(zIndex: number): void {
-  const zIndexes = getZIndexes();
+export function removeZIndex(zIndex: number, globalObject: GlobalObject): void {
+  const zIndexes = getZIndexes(globalObject);
   const i = zIndexes.indexOf(zIndex);
 
   if (i !== -1) {

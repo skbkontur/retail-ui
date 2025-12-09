@@ -1,10 +1,11 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { CommonWrapper } from '../CommonWrapper';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 export interface IgnoreLayerClickProps {
   children: React.ReactNode;
@@ -23,18 +24,20 @@ interface WrapperProps {
 }
 
 // NOTE Используется только в команде Контур.Бухгалтерия
+@withRenderEnvironment
 @rootNode
 class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   public static __KONTUR_REACT_UI__ = 'IgnoreLayerClick';
   public static displayName = 'IgnoreLayerClick';
 
+  private globalObject!: GlobalObject;
   private element: Element | null = null;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     const element = getRootNode(this);
-    if (isInstanceOf(element, globalObject.Element)) {
+    if (isInstanceOf(element, this.globalObject.Element)) {
       element.addEventListener('mousedown', this.handleMouseDown);
       this.element = element;
     }

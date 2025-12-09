@@ -1,14 +1,14 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { Override } from '../../typings/utility-types';
-import { keyListener } from '../../lib/events/keyListener';
+import { KeyListener } from '../../lib/events/keyListener';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
@@ -16,8 +16,9 @@ import type { SizeProp } from '../../lib/types/props';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 import { withSize } from '../../lib/size/SizeDecorator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles, globalClasses } from './Checkbox.styles';
+import { getStyles, globalClasses } from './Checkbox.styles';
 import { CheckedIcon } from './CheckedIcon';
 import { IndeterminateIcon } from './IndeterminateIcon';
 
@@ -83,6 +84,7 @@ export const CheckboxDataTids = {
  * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
  * Для немедленного включения какого-то режима в интерфейсе лучше подходит Toggle.
  */
+@withRenderEnvironment
 @rootNode
 @withSize
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
@@ -92,24 +94,24 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   private getRootSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.rootLarge(this.theme);
+        return this.styles.rootLarge(this.theme);
       case 'medium':
-        return styles.rootMedium(this.theme);
+        return this.styles.rootMedium(this.theme);
       case 'small':
       default:
-        return styles.rootSmall(this.theme);
+        return this.styles.rootSmall(this.theme);
     }
   }
 
   private getBoxWrapperSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.boxWrapperLarge(this.theme);
+        return this.styles.boxWrapperLarge(this.theme);
       case 'medium':
-        return styles.boxWrapperMedium(this.theme);
+        return this.styles.boxWrapperMedium(this.theme);
       case 'small':
       default:
-        return styles.boxWrapperSmall(this.theme);
+        return this.styles.boxWrapperSmall(this.theme);
     }
   }
 
@@ -132,9 +134,14 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   };
   private size!: SizeProp;
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private input = React.createRef<HTMLInputElement>();
   private getProps = createPropsGetter({});
+  private keyListener!: KeyListener;
 
   private handleShiftPress = (e: KeyboardEvent) => {
     if (e.key === 'Shift') {
@@ -153,17 +160,18 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   };
 
   public componentDidMount = () => {
+    this.keyListener = new KeyListener(this.globalObject);
     if (this.state.indeterminate && this.input.current) {
       this.input.current.indeterminate = true;
     }
 
-    globalObject.document?.addEventListener('keydown', this.handleShiftPress);
-    globalObject.document?.addEventListener('keyup', this.handleShiftRelease);
+    this.globalObject.document?.addEventListener('keydown', this.handleShiftPress);
+    this.globalObject.document?.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    globalObject.document?.removeEventListener('keydown', this.handleShiftPress);
-    globalObject.document?.removeEventListener('keyup', this.handleShiftRelease);
+    this.globalObject.document?.removeEventListener('keydown', this.handleShiftPress);
+    this.globalObject.document?.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   public getRootNode!: TGetRootNode;
@@ -176,6 +184,8 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -195,7 +205,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
    * @public
    */
   public focus() {
-    keyListener.isTabPressed = true;
+    this.keyListener.isTabPressed = true;
     this.input.current?.focus();
   }
 
@@ -251,7 +261,10 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const iconClass = cx(styles.icon(), !this.props.checked && !isIndeterminate && styles.iconUnchecked());
+    const iconClass = this.cx(
+      this.styles.icon(),
+      !this.props.checked && !isIndeterminate && this.styles.iconUnchecked(),
+    );
 
     const iconSize = parseInt(this.getCheckboxBoxSize());
     const IconCheck = (
@@ -265,17 +278,17 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       </span>
     );
 
-    const rootClass = cx(this.getRootSizeClassName(), {
-      [styles.root(this.theme)]: true,
-      [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
-      [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
-      [styles.disabled(this.theme)]: Boolean(this.props.disabled),
+    const rootClass = this.cx(this.getRootSizeClassName(), {
+      [this.styles.root(this.theme)]: true,
+      [this.styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [this.styles.rootDisableTextSelect()]: this.state.isShiftPressed,
+      [this.styles.disabled(this.theme)]: Boolean(this.props.disabled),
     });
 
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: styles.input(),
+      className: this.styles.input(),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -284,26 +297,26 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     let caption = null;
     if (this.props.children) {
-      const captionClass = cx({
-        [styles.caption(this.theme)]: true,
-        [styles.disabled(this.theme)]: Boolean(props.disabled),
+      const captionClass = this.cx({
+        [this.styles.caption(this.theme)]: true,
+        [this.styles.disabled(this.theme)]: Boolean(props.disabled),
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
     const box = (
       <div
-        className={cx(this.getBoxWrapperSizeClassName(), {
-          [styles.boxWrapper(this.theme)]: true,
+        className={this.cx(this.getBoxWrapperSizeClassName(), {
+          [this.styles.boxWrapper(this.theme)]: true,
         })}
       >
         <div
-          className={cx(styles.box(this.theme), globalClasses.box, {
-            [styles.boxChecked(this.theme)]: this.props.checked || isIndeterminate,
-            [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-            [styles.boxError(this.theme)]: this.props.error,
-            [styles.boxWarning(this.theme)]: this.props.warning,
-            [styles.boxDisabled(this.theme)]: this.props.disabled,
+          className={this.cx(this.styles.box(this.theme), globalClasses.box, {
+            [this.styles.boxChecked(this.theme)]: this.props.checked || isIndeterminate,
+            [this.styles.boxFocus(this.theme)]: this.state.focusedByTab,
+            [this.styles.boxError(this.theme)]: this.props.error,
+            [this.styles.boxWarning(this.theme)]: this.props.warning,
+            [this.styles.boxDisabled(this.theme)]: this.props.disabled,
           })}
         >
           {(isIndeterminate && IconSquare) || IconCheck}
@@ -333,8 +346,8 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalObject.requestAnimationFrame?.(() => {
-        if (keyListener.isTabPressed) {
+      this.globalObject.requestAnimationFrame?.(() => {
+        if (this.keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

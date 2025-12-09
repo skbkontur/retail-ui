@@ -1,11 +1,12 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-import { cx } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { TokenView } from '../Token/TokenView';
 import type { TokenSize } from '../Token';
-import { styles } from '../Token/Token.styles';
+import { getStyles } from '../Token/Token.styles';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 // a thin character to preserve some space
 // for the caret visibillity in the input
@@ -25,28 +26,34 @@ export interface TextWidthHelperProps {
  * Херпер позволяет вычислить размеры блока с текстом
  * для последующего выставления размеров input
  */
+@withRenderEnvironment
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
 
   private getSizeClassName(size: TokenSize) {
     switch (size) {
       case 'large':
-        return styles.helperContainerLarge(this.props.theme);
+        return this.styles.helperContainerLarge(this.props.theme);
       case 'medium':
-        return styles.helperContainerMedium(this.props.theme);
+        return this.styles.helperContainerMedium(this.props.theme);
       case 'small':
       default:
-        return styles.helperContainerSmall(this.props.theme);
+        return this.styles.helperContainerSmall(this.props.theme);
     }
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <TokenView
         size={this.props.size}
-        className={cx(styles.helperContainer(), this.getSizeClassName(this.props.size))}
+        className={this.cx(this.styles.helperContainer(), this.getSizeClassName(this.props.size))}
       >
-        <div className={styles.helperText()} ref={this.elementRef}>
+        <div className={this.styles.helperText()} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}
         </div>
       </TokenView>

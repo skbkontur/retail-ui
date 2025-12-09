@@ -1,9 +1,11 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { Nullable } from '../../typings/utility-types';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { getDateForNative, getDateForComponent } from './utils';
-import { jsStyles } from './NativeDateInput.styles';
+import { getJsStyles } from './NativeDateInput.styles';
 
 export interface NativeDateInputProps {
   onValueChange?: (value: string) => void;
@@ -16,13 +18,18 @@ export interface NativeDateInputProps {
 const DEFAULT_MIN_DATE = '1900-01-01';
 const DEFAULT_MAX_DATE = '2099-12-31';
 
+@withRenderEnvironment
 export class NativeDateInput extends React.Component<NativeDateInputProps> {
   public static __KONTUR_REACT_UI__ = 'NativeDatePicker';
   public static displayName = 'NativeDatePicker';
 
+  private emotion!: Emotion;
+  private jsStyles!: ReturnType<typeof getJsStyles>;
   private input: Nullable<HTMLInputElement>;
 
   public render() {
+    this.jsStyles = getJsStyles(this.emotion);
+
     return (
       <input
         type={'date'}
@@ -34,7 +41,7 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
             this.props.onValueChange(getDateForComponent(e.target.value));
           }
         }}
-        className={jsStyles.inputTypeDate()}
+        className={this.jsStyles.inputTypeDate()}
         ref={this.refInput}
         disabled={this.props.disabled}
         tabIndex={-1}

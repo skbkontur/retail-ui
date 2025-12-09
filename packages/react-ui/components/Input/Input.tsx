@@ -3,15 +3,15 @@ import invariant from 'invariant';
 import type { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
 import React, { createRef } from 'react';
 import warning from 'warning';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import type { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -21,9 +21,10 @@ import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
 import { blink } from '../../lib/blink';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { InputElement, InputElementProps } from './Input.typings';
-import { styles } from './Input.styles';
+import { getStyles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;
@@ -166,6 +167,7 @@ type DefaultProps = Required<Pick<InputProps, 'type' | 'showClearIcon'>>;
 /**
  * Поле ввода позволяет ввести или отредактировать значение.
  */
+@withRenderEnvironment
 @rootNode
 @withSize
 export class Input extends React.Component<InputProps, InputState> {
@@ -181,6 +183,10 @@ export class Input extends React.Component<InputProps, InputState> {
   private getProps = createPropsGetter(Input.defaultProps);
 
   private selectAllId: number | null = null;
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   public input: HTMLInputElement | null = null;
   public labelRef = createRef<HTMLLabelElement>();
@@ -270,7 +276,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return;
     }
 
-    if (globalObject.document?.activeElement !== this.input) {
+    if (this.globalObject.document?.activeElement !== this.input) {
       this.focus();
     }
 
@@ -278,6 +284,8 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -301,7 +309,7 @@ export class Input extends React.Component<InputProps, InputState> {
   public selectAll = (): void => this._selectAll();
 
   public delaySelectAll = (): number | null => {
-    return (this.selectAllId = globalObject.requestAnimationFrame?.(this._selectAll) ?? null);
+    return (this.selectAllId = this.globalObject.requestAnimationFrame?.(this._selectAll) ?? null);
   };
 
   private _selectAll = (): void => {
@@ -312,7 +320,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
-      globalObject.cancelAnimationFrame?.(this.selectAllId);
+      this.globalObject.cancelAnimationFrame?.(this.selectAllId);
       this.selectAllId = null;
     }
   };
@@ -362,13 +370,13 @@ export class Input extends React.Component<InputProps, InputState> {
     const { focused } = this.state;
 
     const labelProps = {
-      className: cx(styles.root(this.theme), this.getSizeClassName(), {
-        [styles.focus(this.theme)]: focused && !warning && !error,
-        [styles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
-        [styles.borderless()]: borderless && !focused,
-        [styles.disabled(this.theme)]: disabled,
-        [styles.warning(this.theme)]: warning,
-        [styles.error(this.theme)]: error,
+      className: this.cx(this.styles.root(this.theme), this.getSizeClassName(), {
+        [this.styles.focus(this.theme)]: focused && !warning && !error,
+        [this.styles.hovering(this.theme)]: !focused && !disabled && !warning && !error && !borderless,
+        [this.styles.borderless()]: borderless && !focused,
+        [this.styles.disabled(this.theme)]: disabled,
+        [this.styles.warning(this.theme)]: warning,
+        [this.styles.error(this.theme)]: error,
       }),
       'aria-controls': ariaControls,
       style: { width, ...corners },
@@ -380,9 +388,9 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps: InputElementProps & ClassAttributes<HTMLInputElement> = {
       ...rest,
-      className: cx(styles.input(this.theme), {
-        [styles.inputFocus(this.theme)]: focused,
-        [styles.inputDisabled(this.theme)]: disabled,
+      className: this.cx(this.styles.input(this.theme), {
+        [this.styles.inputFocus(this.theme)]: focused,
+        [this.styles.inputDisabled(this.theme)]: disabled,
       }),
       value,
       role,
@@ -428,17 +436,17 @@ export class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     switch (this.size) {
       case 'large':
-        return cx({
-          [styles.sizeLarge(this.theme)]: true,
+        return this.cx({
+          [this.styles.sizeLarge(this.theme)]: true,
         });
       case 'medium':
-        return cx({
-          [styles.sizeMedium(this.theme)]: true,
+        return this.cx({
+          [this.styles.sizeMedium(this.theme)]: true,
         });
       case 'small':
       default:
-        return cx({
-          [styles.sizeSmall(this.theme)]: true,
+        return this.cx({
+          [this.styles.sizeSmall(this.theme)]: true,
         });
     }
   }

@@ -1,8 +1,10 @@
+import type { Emotion } from '@emotion/css/types/create-instance';
+
 import type { Theme } from '../../lib/theming/Theme';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import { getMenuItemPaddings } from '../../components/MenuItem/MenuItem.styles';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     const { paddingX, paddingY } = getMenuItemPaddings({
       menuItemPaddingX: t.menuMessagePaddingX,
@@ -44,4 +46,4 @@ export const styles = memoizeStyle({
       line-height: ${t.menuMessageLineHeightLarge};
     `;
   },
-});
+}));

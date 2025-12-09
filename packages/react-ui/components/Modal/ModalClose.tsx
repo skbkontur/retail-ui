@@ -1,22 +1,25 @@
 import React, { useContext } from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
-import { keyListener } from '../../lib/events/keyListener';
+import { useKeyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
 
 import type { CloseProps } from './ModalContext';
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { ModalDataTids } from './Modal';
 import { ModalLocaleHelper } from './locale';
 
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
   const locale = useLocaleForControl('Modal', ModalLocaleHelper);
+  const globalObject = useGlobal();
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const theme = useContext(ThemeContext);
+  const keyListener = useKeyListener();
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {

@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import type { Theme } from '../../lib/theming/Theme';
@@ -10,63 +12,81 @@ export const globalClasses = prefix('tab')({
   focus: 'focus',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles((emotion: Emotion) => ({
   rootSmall(t: Theme) {
-    return tabRoot(t, 'small');
+    return emotion.css`
+        ${tabRoot(t, 'small', emotion)}
+      `;
   },
 
   rootMedium(t: Theme) {
-    return tabRoot(t, 'medium');
+    return emotion.css`
+        ${tabRoot(t, 'medium', emotion)}
+      `;
   },
 
   rootLarge(t: Theme) {
-    return tabRoot(t, 'large');
+    return emotion.css`
+        ${tabRoot(t, 'large', emotion)}
+      `;
   },
 
   verticalSmall(t: Theme) {
-    return tabVertical(t, 'small');
+    return emotion.css`
+        ${tabVertical(t, 'small', emotion)}
+      `;
   },
 
   verticalMedium(t: Theme) {
-    return tabVertical(t, 'medium');
+    return emotion.css`
+        ${tabVertical(t, 'medium', emotion)}
+      `;
   },
 
   verticalLarge(t: Theme) {
-    return tabVertical(t, 'large');
+    return emotion.css`
+        ${tabVertical(t, 'large', emotion)}
+      `;
   },
 
   focusSmall(t: Theme) {
-    return tabFocus(t, 'small');
+    return emotion.css`
+        ${tabFocus(t, 'small', emotion)}
+      `;
   },
 
   focusMedium(t: Theme) {
-    return tabFocus(t, 'medium');
+    return emotion.css`
+        ${tabFocus(t, 'medium', emotion)}
+      `;
   },
 
   focusLarge(t: Theme) {
-    return tabFocus(t, 'large');
+    return emotion.css`
+        ${tabFocus(t, 'large', emotion)}
+      `;
   },
 
   disabled(t: Theme) {
-    return css`
-      color: rgba(
-        ${ColorFunctions.red(t.tabTextColorDefault)},
-        ${ColorFunctions.green(t.tabTextColorDefault)},
-        ${ColorFunctions.blue(t.tabTextColorDefault)},
-        0.5
-      );
-      cursor: default;
-    `;
+    return emotion.css`
+        color: rgba(
+          ${ColorFunctions.red(t.tabTextColorDefault)},
+          ${ColorFunctions.green(t.tabTextColorDefault)},
+          ${ColorFunctions.blue(t.tabTextColorDefault)},
+          0.5
+        );
+        cursor: default;
+      `;
   },
 
   active() {
-    return css`
-      cursor: default;
-    `;
+    return emotion.css`
+        cursor: default;
+      `;
   },
-});
+}));
 
-export const horizontalStyles = memoizeStyle({
+export const getHorizontalStyles = memoizeGetStyles(({ css }: Emotion) => ({
   active(t: Theme) {
     return css`
       &:hover {
@@ -114,9 +134,9 @@ export const horizontalStyles = memoizeStyle({
       }
     `;
   },
-});
+}));
 
-export const verticalStyles = memoizeStyle({
+export const getVerticalStyles = memoizeGetStyles(({ css }: Emotion) => ({
   active(t: Theme) {
     return css`
       &:hover {
@@ -164,9 +184,9 @@ export const verticalStyles = memoizeStyle({
       }
     `;
   },
-});
+}));
 
-function tabRoot(t: Theme, size: SizeProp) {
+function tabRoot(t: Theme, size: SizeProp, { css }: Emotion) {
   return css`
     border-bottom: ${t.tabBorderWidth} solid transparent;
     box-sizing: border-box;
@@ -194,7 +214,7 @@ function tabRoot(t: Theme, size: SizeProp) {
   `;
 }
 
-function tabVertical(t: Theme, size: SizeProp) {
+function tabVertical(t: Theme, size: SizeProp, { css }: Emotion) {
   return css`
     border-bottom: none;
     border-left: ${t.tabBorderWidth} solid transparent;
@@ -217,7 +237,7 @@ function tabVertical(t: Theme, size: SizeProp) {
   `;
 }
 
-function tabFocus(t: Theme, size: SizeProp) {
+function tabFocus(t: Theme, size: SizeProp, { css }: Emotion) {
   return css`
     border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
     bottom: -${t.tabBorderWidth};

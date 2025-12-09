@@ -1,6 +1,7 @@
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { GlobalObject } from '../../lib/globalObject';
+import { isBrowser } from '../../lib/globalObject';
 
-export function getTextAreaHeight(params: GetTextAreaHeightParams) {
+export function getTextAreaHeight(globalObject: GlobalObject, params: GetTextAreaHeightParams) {
   if (!isBrowser(globalObject)) {
     return null;
   }

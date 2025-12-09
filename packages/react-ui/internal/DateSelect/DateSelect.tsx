@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { getRandomID, isNonNullable } from '../../lib/utils';
@@ -7,15 +8,15 @@ import { DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { ButtonParams } from '../../components/Select';
 import { Select } from '../../components/Select';
 import { MenuItem } from '../../components/MenuItem';
 import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular';
 import type { PopupPositionsType } from '../../internal/Popup/types';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { globalClasses, styles } from './DateSelect.styles';
+import { globalClasses, getStyles } from './DateSelect.styles';
 
 const defaultMinMonth = 0;
 const defaultMaxMonth = 11;
@@ -57,6 +58,7 @@ const DATE_SELECT_POSITIONS: PopupPositionsType[] = [
   'top right',
 ];
 
+@withRenderEnvironment
 @responsiveLayout
 @locale('Calendar', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps> {
@@ -74,11 +76,16 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
     return this.getProps().type === 'year';
   }
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private readonly locale!: DatePickerLocale;
   private readonly selectRef = createRef<Select<number, number>>();
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -97,7 +104,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
     const isInteractiveElement = !disabled;
     const Tag = isInteractiveElement ? 'button' : 'span';
     const rootProps = {
-      className: cx(styles.root(this.theme), disabled && styles.disabled()),
+      className: this.cx(this.styles.root(this.theme), disabled && this.styles.disabled()),
       style: { width },
       onClick: disabled ? undefined : params.onClick,
       'aria-expanded': isInteractiveElement ? params.opened : undefined,
@@ -111,11 +118,11 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
 
     return (
       <Tag {...rootProps}>
-        <div data-tid={DateSelectDataTids.caption} className={styles.caption()}>
+        <div data-tid={DateSelectDataTids.caption} className={this.styles.caption()}>
           {this.getItem(value)}
         </div>
         {isInteractiveElement && (
-          <ArrowCollapseCVOpenIcon16Regular className={cx(globalClasses.arrow)} color="#ADADAD" />
+          <ArrowCollapseCVOpenIcon16Regular className={this.cx(globalClasses.arrow)} color="#ADADAD" />
         )}
       </Tag>
     );

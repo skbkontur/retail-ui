@@ -1,9 +1,12 @@
-import { globalObject } from '@skbkontur/global-object';
+import { useMemo } from 'react';
 import warning from 'warning';
+
+import type { GlobalObject } from '../../lib/globalObject';
+import { useGlobal } from '../renderEnvironment';
 
 let scrollbarWidth: number | null = null;
 
-export function getScrollWidth() {
+export function getScrollWidth(globalObject: GlobalObject) {
   if (!globalObject.document) {
     return 0;
   }
@@ -26,4 +29,9 @@ export function getScrollWidth() {
   body.removeChild(div);
 
   return scrollbarWidth;
+}
+
+export function useGetScrollWidth() {
+  const globalObject = useGlobal();
+  return useMemo(() => getScrollWidth(globalObject), [globalObject]);
 }

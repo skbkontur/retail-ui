@@ -1,4 +1,5 @@
-import { injectGlobal } from '../../lib/theming/Emotion';
+import { injectGlobal } from '@emotion/css';
+
 import { isChrome, isFirefox } from '../../lib/client';
 
 // This is for screenshot tests

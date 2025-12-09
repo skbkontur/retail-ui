@@ -10,9 +10,10 @@ import type {
 } from 'react';
 import React from 'react';
 import lodashIsEqual from 'lodash.isequal';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 import logWarning from 'warning';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { PopupIds } from '../../internal/Popup';
 import {
   isKeyArrowHorizontal,
@@ -40,7 +41,6 @@ import type { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -48,10 +48,11 @@ import { getUid } from '../../lib/uidUtils';
 import { TokenView } from '../Token/TokenView';
 import { withSize } from '../../lib/size/SizeDecorator';
 import type { SizeProp } from '../../lib/types/props';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { TokenInputLocale } from './locale';
 import { TokenInputLocaleHelper } from './locale';
-import { styles } from './TokenInput.styles';
+import { getStyles } from './TokenInput.styles';
 import type { TokenInputAction } from './TokenInputReducer';
 import { tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
@@ -274,6 +275,7 @@ const defaultRenderToken = <T extends AnyObject>(
  *
  * Поле с токенами используют для выбора нескольких значений из справочника и для добавления своих значений.
  */
+@withRenderEnvironment
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 @withSize
@@ -324,6 +326,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private readonly _textareaId: string = getUid();
   private rootId = PopupIds.root + getRandomID();
   private readonly locale!: TokenInputLocale;
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private size!: SizeProp;
   private input: HTMLTextAreaElement | null = null;
@@ -336,7 +342,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public componentDidMount() {
     this.updateInputTextWidth();
-    globalObject.document?.addEventListener('copy', this.handleCopy);
+    this.globalObject.document?.addEventListener('copy', this.handleCopy);
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -362,7 +368,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public componentWillUnmount() {
-    globalObject.document?.removeEventListener('copy', this.handleCopy);
+    this.globalObject.document?.removeEventListener('copy', this.handleCopy);
   }
 
   /**
@@ -380,6 +386,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -393,24 +401,24 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private getLabelSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.labelLarge(this.theme);
+        return this.styles.labelLarge(this.theme);
       case 'medium':
-        return styles.labelMedium(this.theme);
+        return this.styles.labelMedium(this.theme);
       case 'small':
       default:
-        return styles.labelSmall(this.theme);
+        return this.styles.labelSmall(this.theme);
     }
   }
 
   private getInputSizeClassName() {
     switch (this.size) {
       case 'large':
-        return styles.inputLarge(this.theme);
+        return this.styles.inputLarge(this.theme);
       case 'medium':
-        return styles.inputMedium(this.theme);
+        return this.styles.inputMedium(this.theme);
       case 'small':
       default:
-        return styles.inputSmall(this.theme);
+        return this.styles.inputSmall(this.theme);
     }
   }
 
@@ -462,15 +470,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cx(styles.label(theme), this.getLabelSizeClassName(), {
-      [styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
-      [styles.labelDisabled(theme)]: !!disabled,
-      [styles.labelFocused(theme)]: !!inFocus,
-      [styles.error(theme)]: !!error,
-      [styles.warning(theme)]: !!warning,
+    const labelClassName = this.cx(this.styles.label(theme), this.getLabelSizeClassName(), {
+      [this.styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
+      [this.styles.labelDisabled(theme)]: !!disabled,
+      [this.styles.labelFocused(theme)]: !!inFocus,
+      [this.styles.error(theme)]: !!error,
+      [this.styles.warning(theme)]: !!warning,
     });
-    const inputClassName = cx(styles.input(theme), this.getInputSizeClassName(), {
-      [styles.inputDisabled(theme)]: !!disabled,
+    const inputClassName = this.cx(this.styles.input(theme), this.getInputSizeClassName(), {
+      [this.styles.inputDisabled(theme)]: !!disabled,
     });
 
     const placeholder = selectedItems.length === 0 && !inputValue ? this.props.placeholder : '';
@@ -478,9 +486,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const inputNode = (
       <TokenView
         size={this.size}
-        className={cx({
+        className={this.cx({
           // input растягивается на всю ширину чтобы placeholder не обрезался
-          [styles.inputPlaceholderWrapper()]: Boolean(placeholder),
+          [this.styles.inputPlaceholderWrapper()]: Boolean(placeholder),
         })}
         hideCloseButton={Boolean(placeholder)}
       >
@@ -545,7 +553,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             {this.renderTokensEnd()}
             {this.isEditingMode ? (
               <TokenView size={this.size}>
-                <span className={styles.reservedInput(theme)}>{reservedInputValue}</span>
+                <span className={this.styles.reservedInput(theme)}>{reservedInputValue}</span>
               </TokenView>
             ) : null}
           </label>
@@ -651,7 +659,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input?.focus();
       // в firefox не работает без второго focus
-      globalObject.requestAnimationFrame?.(() => this.input?.focus());
+      this.globalObject.requestAnimationFrame?.(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -718,9 +726,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
-    if (this.menuRef && globalObject.document) {
+    if (this.menuRef && this.globalObject.document) {
       const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
-      const relatedTarget = event.relatedTarget || globalObject.document.activeElement;
+      const relatedTarget = event.relatedTarget || this.globalObject.document.activeElement;
 
       if (menu && menu.contains(relatedTarget)) {
         return true;
@@ -893,7 +901,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    globalObject.requestAnimationFrame?.(() => this.input?.focus());
+    this.globalObject.requestAnimationFrame?.(() => this.input?.focus());
   };
 
   private selectInputText = () => {

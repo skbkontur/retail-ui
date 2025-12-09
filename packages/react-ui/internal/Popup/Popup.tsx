@@ -2,8 +2,9 @@ import type { HTMLAttributes, LegacyRef } from 'react';
 import React from 'react';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import type { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -17,7 +18,6 @@ import type { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
@@ -27,11 +27,12 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { mergeRefs } from '../../lib/mergeRefs';
 import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { PopupPin } from './PopupPin';
 import type { Offset, PositionObject, Rect } from './PopupHelper';
 import { PopupHelper } from './PopupHelper';
-import { styles } from './Popup.styles';
+import { getStyles } from './Popup.styles';
 
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
@@ -204,6 +205,7 @@ type DefaultProps = Required<
   >
 >;
 
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
@@ -228,6 +230,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   public static readonly defaultRootNode = null;
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
@@ -244,7 +250,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public componentDidMount() {
     this.updateLocation();
-    this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
+    this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent, this.globalObject);
 
     if (!this.hasAnchorElementListeners) {
       this.addEventListeners(this.anchorElement);
@@ -300,6 +306,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -328,7 +336,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const useWrapper = this.getProps().useWrapper;
 
     let anchor: Nullable<React.ReactNode> = null;
-    if (isInstanceOf(anchorElement, globalObject.Element)) {
+    if (isInstanceOf(anchorElement, this.globalObject.Element)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -351,7 +359,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
-    const canGetAnchorNode = !!anchorWithRef || isInstanceOf(anchorElement, globalObject.Element);
+    const canGetAnchorNode = !!anchorWithRef || isInstanceOf(anchorElement, this.globalObject.Element);
     const renderRef = canGetAnchorNode ? null : this.updateAnchorElement;
     const renderAnchor = anchorWithRef || anchor;
 
@@ -379,7 +387,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <EmptyWrapper ref={ref}>
         {anchor}
         {location && (
-          <div ref={this.updateAbsoluteElement} className={styles.absoluteParent()}>
+          <div ref={this.updateAbsoluteElement} className={this.styles.absoluteParent()}>
             {this.renderContent(location)}
           </div>
         )}
@@ -403,7 +411,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private addEventListeners(element: Nullable<Element>) {
-    if (element && isInstanceOf(element, globalObject.Element)) {
+    if (element && isInstanceOf(element, this.globalObject.Element)) {
       // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.addEventListener('mouseenter', this.handleMouseEnter);
       // @ts-expect-error: See the comment above
@@ -418,7 +426,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private removeEventListeners(element: Nullable<Element>) {
-    if (element && isInstanceOf(element, globalObject.Element)) {
+    if (element && isInstanceOf(element, this.globalObject.Element)) {
       // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.removeEventListener('mouseenter', this.handleMouseEnter);
       // @ts-expect-error: See the comment above
@@ -477,12 +485,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       <div
-        className={styles.content(this.theme)}
+        className={this.styles.content(this.theme)}
         data-tid={PopupDataTids.content}
         ref={mergeRefs(this.refForTransition, this.refPopupContentElement)}
       >
         <div
-          className={styles.contentInner(this.theme)}
+          className={this.styles.contentInner(this.theme)}
           style={{ backgroundColor, width: this.calculateWidth(width), minWidth: this.calculateWidth(minWidth) }}
           data-tid={PopupDataTids.contentInner}
         >
@@ -523,17 +531,17 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               id={this.props.id ?? this.rootId}
               data-tid={PopupDataTids.root}
               priority={this.props.priority}
-              className={cx({
-                [styles.popup(this.theme)]: true,
-                [styles.shadow(this.theme)]: hasShadow,
-                [styles.popupIgnoreHover()]: ignoreHover,
+              className={this.cx({
+                [this.styles.popup(this.theme)]: true,
+                [this.styles.shadow(this.theme)]: hasShadow,
+                [this.styles.popupIgnoreHover()]: ignoreHover,
                 ...(disableAnimations
                   ? {}
                   : {
-                      [styles[`transition-enter-${direction}` as keyof typeof styles](this.theme)]: true,
-                      [styles.transitionEnter()]: state === 'entering',
-                      [styles.transitionEnterActive()]: state === 'entered',
-                      [styles.transitionExit()]: state === 'exiting',
+                      [this.styles[`transition-enter-${direction}` as keyof typeof this.styles](this.theme)]: true,
+                      [this.styles.transitionEnter()]: state === 'entering',
+                      [this.styles.transitionEnterActive()]: state === 'entered',
+                      [this.styles.transitionExit()]: state === 'exiting',
                     }),
               })}
               style={rootStyle}
@@ -599,12 +607,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private delayUpdateLocation() {
     this.cancelDelayedUpdateLocation();
-    this.locationUpdateId = globalObject.requestAnimationFrame?.(this.updateLocation);
+    this.locationUpdateId = this.globalObject.requestAnimationFrame?.(this.updateLocation);
   }
 
   private cancelDelayedUpdateLocation() {
     if (this.locationUpdateId) {
-      globalObject.cancelAnimationFrame?.(this.locationUpdateId);
+      this.globalObject.cancelAnimationFrame?.(this.locationUpdateId);
       this.locationUpdateId = null;
     }
   }
@@ -663,11 +671,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorElement = this.anchorElement;
 
     warning(
-      anchorElement && isInstanceOf(anchorElement, globalObject.Element),
+      anchorElement && isInstanceOf(anchorElement, this.globalObject.Element),
       'Anchor element is not defined or not instance of Element',
     );
 
-    if (!(anchorElement && isInstanceOf(anchorElement, globalObject.Element))) {
+    if (!(anchorElement && isInstanceOf(anchorElement, this.globalObject.Element))) {
       return location;
     }
 
@@ -681,8 +689,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       position = location.position;
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
 
-      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
-      const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
+      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject);
+      const canBecomeVisible =
+        !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates, this.globalObject);
 
       if (
         // если нужно сохранить первоначальную позицию и Попап целиком
@@ -699,7 +708,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     for (position of positions) {
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
-      if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+      if (PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject)) {
         return { coordinates, position, isFullyVisible: true };
       }
     }

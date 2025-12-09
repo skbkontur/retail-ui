@@ -1,18 +1,18 @@
 import type { ReactNode } from 'react';
 import React, { useContext, useLayoutEffect } from 'react';
 
-import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
+import { useGetScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import type { GappedProps } from '../Gapped';
 import { Gapped } from '../Gapped';
 import { isNonNullable } from '../../lib/utils';
 
-import { styles } from './Modal.styles';
+import { getStyles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
 import { ModalSeparator } from './ModalSeparator';
 
@@ -42,8 +42,11 @@ export const ModalFooterDataTids = {
  */
 function ModalFooter(props: ModalFooterProps) {
   const theme = useContext(ThemeContext);
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
+  const scrollWidth = useGetScrollWidth();
 
   const { sticky = !layout.isMobile, gap, panel, children } = props;
 
@@ -87,7 +90,7 @@ function ModalFooter(props: ModalFooterProps) {
   const getStickyOffset = () => {
     let offset = 0;
     if (modal.horizontalScroll) {
-      offset += getScrollWidth();
+      offset += scrollWidth;
     }
     if (layout.isMobile && !modal.mobileOnFullScreen) {
       offset += parseInt(theme.mobileModalContainerMarginBottom);

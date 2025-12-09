@@ -1,5 +1,6 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { locale } from '../../lib/locale/decorators';
 import { emptyHandler } from '../../lib/utils';
@@ -7,15 +8,15 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
 import type { SizeProp } from '../../lib/types/props';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Token.styles';
+import { getStyles } from './Token.styles';
 import type { TokenLocale } from './locale';
 import { TokenLocaleHelper } from './locale';
 import { TokenView } from './TokenView';
@@ -59,18 +60,24 @@ export const TokenDataTids = {
  *
  * Используется в компоненте поле с токенами TokenInput.
  */
+@withRenderEnvironment
 @rootNode
 @locale('Token', TokenLocaleHelper)
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
   public static displayName = 'Token';
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private readonly locale!: TokenLocale;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -112,16 +119,16 @@ export class Token extends React.Component<TokenProps> {
       />
     );
 
-    const classNames = cx(
-      styles.tokenIdle(theme),
-      !isActive && !warning && !error && !disabled && styles.tokenHover(theme),
-      isActive && styles.tokenActive(theme),
-      warning && styles.tokenWarning(theme),
-      error && styles.tokenError(theme),
-      disabled && styles.tokenDisabled(theme),
+    const classNames = this.cx(
+      this.styles.tokenIdle(theme),
+      !isActive && !warning && !error && !disabled && this.styles.tokenHover(theme),
+      isActive && this.styles.tokenActive(theme),
+      warning && this.styles.tokenWarning(theme),
+      error && this.styles.tokenError(theme),
+      disabled && this.styles.tokenDisabled(theme),
     );
 
-    const textholder = <span className={styles.text()}>{children}</span>;
+    const textholder = <span className={this.styles.text()}>{children}</span>;
 
     const closeButton = (
       <span onClick={this.onRemoveClick} data-tid={TokenDataTids.removeIcon}>

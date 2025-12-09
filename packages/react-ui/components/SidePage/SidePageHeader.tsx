@@ -1,5 +1,6 @@
 import React from 'react';
 import throttle from 'lodash.throttle';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { Sticky } from '../Sticky';
 import { isFunction } from '../../lib/utils';
@@ -7,13 +8,13 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { ModalSeparator } from '../Modal/ModalSeparator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 import type { SidePageContextType } from './SidePageContext';
 import { SidePageContext } from './SidePageContext';
 import { SidePageCloseButton } from './SidePageCloseButton';
@@ -48,6 +49,7 @@ export const SidePageHeaderDataTids = {
  *
  * @visibleName SidePage.Header
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
@@ -69,6 +71,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   private theme!: Theme;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private sticky: Sticky | null = null;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
@@ -98,6 +103,8 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -130,8 +137,8 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
           data-tid={SidePageHeaderDataTids.root}
-          className={cx(styles.headerWrapper(), {
-            [styles.headerNativeStuck(this.theme)]: this.state.isNativeStuck,
+          className={this.cx(this.styles.headerWrapper(), {
+            [this.styles.headerNativeStuck(this.theme)]: this.state.isNativeStuck,
           })}
         >
           {!this.state.isNativeStuck && (isStickyDesktop || isStickyMobile) ? (
@@ -151,16 +158,16 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     return (
       <div>
         <div
-          className={cx(styles.header(this.theme), {
-            [styles.headerFixed(this.theme)]: fixed,
-            [styles.mobileHeader(this.theme)]: this.isMobileLayout,
+          className={this.cx(this.styles.header(this.theme), {
+            [this.styles.headerFixed(this.theme)]: fixed,
+            [this.styles.mobileHeader(this.theme)]: this.isMobileLayout,
           })}
         >
           {this.renderClose(fixed)}
           <div
-            className={cx(styles.title(this.theme), {
-              [styles.mobileTitle(this.theme)]: this.isMobileLayout,
-              [styles.titleCut()]: fixed && this.props.cutTitleOnStuck,
+            className={this.cx(this.styles.title(this.theme), {
+              [this.styles.mobileTitle(this.theme)]: this.isMobileLayout,
+              [this.styles.titleCut()]: fixed && this.props.cutTitleOnStuck,
             })}
           >
             {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
@@ -175,9 +182,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
     return (
       <div
-        className={cx(styles.wrapperClose(this.theme), {
-          [styles.wrapperCloseFixed(this.theme)]: fixed,
-          [styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
+        className={this.cx(this.styles.wrapperClose(this.theme), {
+          [this.styles.wrapperCloseFixed(this.theme)]: fixed,
+          [this.styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
         })}
       >
         {!this.isMobileLayout ? (

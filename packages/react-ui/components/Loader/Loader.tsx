@@ -1,7 +1,9 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import { isBrowser } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject';
 import type { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import type { SpinnerProps } from '../Spinner';
@@ -12,7 +14,6 @@ import type { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
@@ -20,8 +21,9 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Loader.styles';
+import { getStyles } from './Loader.styles';
 
 const types = ['mini', 'normal', 'big'] as const;
 
@@ -78,6 +80,7 @@ type DefaultProps = Required<
  *
  * Если вам нужен только сам спиннер без дополнительного функционала - используйте компонент Spinner.
  */
+@withRenderEnvironment
 @rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
@@ -92,6 +95,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private getProps = createPropsGetter(Loader.defaultProps);
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
@@ -99,7 +106,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private childrenContainerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private spinnerTask: TaskWithDelayAndMinimalDuration;
+  private spinnerTask!: TaskWithDelayAndMinimalDuration;
   private childrenObserver: Nullable<MutationObserver>;
 
   constructor(props: LoaderProps) {
@@ -115,20 +122,19 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       isSpinnerVisible: false,
       isLoaderActive: false,
     };
+  }
 
+  public componentDidMount() {
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
       delayBeforeTaskStart: this.getProps().delayBeforeSpinnerShow,
       durationOfTask: this.getProps().minimalDelayBeforeSpinnerHide,
       taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
       taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
     });
-  }
-
-  public componentDidMount() {
     const active = this.getProps().active;
     this.checkSpinnerPosition();
     active && this.spinnerTask.start();
-    this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
+    this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10), this.globalObject);
 
     if (active) {
       this.disableChildrenFocus();
@@ -191,6 +197,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -209,7 +217,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
-          className={styles.loader()}
+          className={this.styles.loader()}
           data-tid={this.props['data-tid'] || (isLoaderActive ? LoaderDataTids.veil : LoaderDataTids.idle)}
         >
           <ZIndex
@@ -223,8 +231,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           {isLoaderActive && (
             <ZIndex
               wrapperRef={this.spinnerRef}
-              className={cx({
-                [styles.active(this.theme)]: isLoaderActive,
+              className={this.cx({
+                [this.styles.active(this.theme)]: isLoaderActive,
               })}
             >
               {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
@@ -247,11 +255,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     return (
       <span
         data-tid={LoaderDataTids.spinner}
-        className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
+        className={this.cx(this.styles.spinnerContainer(), {
+          [this.styles.spinnerContainerSticky()]: this.state.isStickySpinner,
+        })}
         style={this.state.spinnerStyle}
       >
         <div
-          className={styles.spinnerComponentWrapper()}
+          className={this.styles.spinnerComponentWrapper()}
           ref={(element) => {
             this.spinnerNode = element;
           }}
@@ -263,7 +273,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private checkSpinnerPosition = () => {
-    if (!this.spinnerContainerNode || !isBrowser(globalObject)) {
+    if (!this.spinnerContainerNode || !isBrowser(this.globalObject)) {
       return;
     }
 
@@ -276,8 +286,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       width: containerWidth,
     } = getDOMRect(this.spinnerContainerNode);
 
-    const windowHeight = globalObject.innerHeight;
-    const windowWidth = globalObject.innerWidth;
+    const windowHeight = this.globalObject.innerHeight;
+    const windowWidth = this.globalObject.innerWidth;
 
     // Если контейнер не больше высоты и не шире окна,
     // то просто выравниваем по центру
@@ -358,7 +368,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private enableChildrenFocus = () => {
     this.makeUnobservable();
 
-    globalObject.document?.querySelectorAll('[origin-tabindex]').forEach((el) => {
+    this.globalObject.document?.querySelectorAll('[origin-tabindex]').forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
@@ -366,14 +376,14 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private makeObservable = () => {
     const target = this.childrenContainerNode;
-    if (!target || !globalObject.MutationObserver) {
+    if (!target || !this.globalObject.MutationObserver) {
       return;
     }
     const config = {
       childList: true,
       subtree: true,
     };
-    const observer = new globalObject.MutationObserver(this.disableChildrenFocus);
+    const observer = new this.globalObject.MutationObserver(this.disableChildrenFocus);
     observer.observe(target, config);
     this.childrenObserver = observer;
   };

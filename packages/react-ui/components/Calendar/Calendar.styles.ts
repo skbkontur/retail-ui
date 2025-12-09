@@ -1,7 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     const width = parseInt(t.calendarCellWidth) * 7;
     return css`
@@ -30,4 +32,4 @@ export const styles = memoizeStyle({
       margin: 0 ${t.calendarMonthTitleMarginX};
     `;
   },
-});
+}));

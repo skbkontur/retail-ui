@@ -1,14 +1,15 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { Nullable } from '../../typings/utility-types';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
-import { styles, globalClasses } from './ScrollContainer.styles';
+import { getStyles, globalClasses } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
 import type { ScrollContainerProps } from './ScrollContainer';
 
@@ -47,9 +48,14 @@ export interface ScrollBarProps {
   isVisible: boolean;
 }
 
+@withRenderEnvironment
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   private inner: Nullable<HTMLElement>;
   private containerRef = React.createRef<HTMLDivElement>();
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
 
   public node: Nullable<HTMLElement>;
@@ -66,6 +72,8 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -86,9 +94,9 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     const { customScrollPos, customScrollSize } = scrollSizeParametersNames[this.props.axis];
 
-    const classNames = cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
-      [styles.scrollBarInvert(this.theme)]: props.invert,
-      [styles.visibleScrollBar()]: props.isVisible,
+    const classNames = this.cx(props.className, this.styles.scrollBar(this.theme), this.scrollBarStyles, {
+      [this.styles.scrollBarInvert(this.theme)]: props.invert,
+      [this.styles.visibleScrollBar()]: props.isVisible,
     });
 
     const inlineStyles: React.CSSProperties = {
@@ -163,13 +171,13 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const state = this.state;
 
     if (this.props.axis === 'x') {
-      return cx(styles.scrollBarX(this.theme), globalClasses.scrollbarX, {
-        [styles.scrollBarXHover(this.theme)]: state.hover || state.scrollingByMouseDrag,
+      return this.cx(this.styles.scrollBarX(this.theme), globalClasses.scrollbarX, {
+        [this.styles.scrollBarXHover(this.theme)]: state.hover || state.scrollingByMouseDrag,
       });
     }
 
-    return cx(styles.scrollBarY(this.theme), globalClasses.scrollbarY, {
-      [styles.scrollBarYHover(this.theme)]: state.hover || state.scrollingByMouseDrag,
+    return this.cx(this.styles.scrollBarY(this.theme), globalClasses.scrollbarY, {
+      [this.styles.scrollBarYHover(this.theme)]: state.hover || state.scrollingByMouseDrag,
     });
   }
 
@@ -177,10 +185,10 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { axis } = this.props;
 
     if (axis === 'x') {
-      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme));
+      return this.cx(globalClasses.scrollbarContainerX, this.styles.scrollBarContainerX(this.theme));
     }
 
-    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY());
+    return this.cx(globalClasses.scrollbarContainerY, this.styles.scrollBarContainerY());
   }
 
   private refScroll = (element: HTMLElement | null) => {
@@ -203,7 +211,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { offset, size, pos, coord } = scrollSizeParametersNames[this.props.axis];
 
     const initialCoord = event[coord];
-    const target = globalObject.document;
+    const target = this.globalObject.document;
     const initialScrollPos = this.inner[pos];
     const state = this.state;
 
@@ -247,7 +255,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   };
 
   private handleScrollWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !isInstanceOf(event, globalObject.WheelEvent) || (axis === 'x' && !event.shiftKey)) {
+    if (!this.inner || !isInstanceOf(event, this.globalObject.WheelEvent) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 

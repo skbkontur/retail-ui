@@ -1,5 +1,7 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import { useStyles, withRenderEnvironment } from '../../lib/renderEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { Theme } from '../../lib/theming/Theme';
 import { Gapped } from '../../components/Gapped';
@@ -9,7 +11,7 @@ import { isNonNullable } from '../../lib/utils';
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
 import type { ThemeErrorsType } from './ThemeContextPlayground';
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
@@ -26,17 +28,23 @@ interface Group {
   prefix: string;
   isCommon?: boolean;
 }
+
+@withRenderEnvironment
 export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorState> {
   public state: ThemeEditorState = {
     groups: [],
     isLoading: true,
   };
   private updateTimeout?: number;
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return this.state.isLoading ? (
-      <div className={styles.loaderWrapper()}>
-        <Loader type="big" active className={styles.loader()} />
+      <div className={this.styles.loaderWrapper()}>
+        <Loader type="big" active className={this.styles.loader()} />
       </div>
     ) : (
       this.renderGroups()
@@ -99,6 +107,7 @@ interface GroupProps {
 }
 const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
+  const styles = useStyles(getStyles);
 
   return variables.length > 0 ? (
     <React.Fragment>

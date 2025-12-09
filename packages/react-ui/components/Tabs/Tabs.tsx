@@ -1,22 +1,23 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import type { SizeProp } from '../../lib/types/props';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { Indicator } from './Indicator';
-import { styles } from './Tabs.styles';
+import { getStyles } from './Tabs.styles';
 import type { TabsContextType } from './TabsContext';
 import { TabsContext } from './TabsContext';
 import { Tab } from './Tab';
@@ -66,6 +67,7 @@ type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
  * Не используйте `Tabs` для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
  * Не используйте `Tabs` для переключения состояний — для этого есть RadioGroup, Toggle и Switcher.
  */
+@withRenderEnvironment
 @rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
@@ -80,6 +82,10 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public static Tab = Tab;
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
 
   private tabs: Array<TabType<T>> = [];
@@ -100,6 +106,8 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   public render(): JSX.Element {
     const { value, width, children, indicatorClassName, 'aria-describedby': ariaDescribedby } = this.props;
     const { vertical, size } = this.getProps();
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -108,11 +116,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <div
                 data-tid={TabsDataTids.root}
-                className={cx({
-                  [styles.rootSmall(this.theme)]: size === 'small',
-                  [styles.rootMedium(this.theme)]: size === 'medium',
-                  [styles.rootLarge(this.theme)]: size === 'large',
-                  [styles.vertical()]: vertical,
+                className={this.cx({
+                  [this.styles.rootSmall(this.theme)]: size === 'small',
+                  [this.styles.rootMedium(this.theme)]: size === 'medium',
+                  [this.styles.rootLarge(this.theme)]: size === 'large',
+                  [this.styles.vertical()]: vertical,
                 })}
                 style={{ width }}
                 aria-describedby={ariaDescribedby}
@@ -154,7 +162,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tabNode = tab.getNode();
     const htmlNode = getRootNode(tabNode);
 
-    if (isInstanceOf(htmlNode, globalObject.HTMLElement) && typeof htmlNode.focus === 'function') {
+    if (isInstanceOf(htmlNode, this.globalObject.HTMLElement) && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };

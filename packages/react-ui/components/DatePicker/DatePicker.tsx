@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { Popup } from '../../internal/Popup';
 import { LocaleContext } from '../../lib/locale';
@@ -31,8 +32,9 @@ import type { SizeProp } from '../../lib/types/props';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { ZIndex } from '../../internal/ZIndex';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './DatePicker.styles';
+import { getStyles } from './DatePicker.styles';
 import type { DatePickerLocale } from './locale';
 import { DatePickerLocaleHelper } from './locale';
 import { MobilePicker } from './MobilePicker';
@@ -136,6 +138,7 @@ type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
  *
  * Поле с датой отличается от обычного поля ввода наличием иконки, маски и блока календаря.
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -149,6 +152,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
+  private emotion!: Emotion;
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private readonly locale!: DatePickerLocale;
   private canOpenPopup = true;
@@ -245,6 +250,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -310,7 +317,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
             >
               <div
                 data-tid={DatePickerDataTids.pickerRoot}
-                className={styles.calendarWrapper(this.theme)}
+                className={this.styles.calendarWrapper(this.theme)}
                 onMouseDown={(e) => e.preventDefault()}
               >
                 <Calendar
@@ -331,7 +338,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     }
     return (
       <label
-        className={styles.root()}
+        className={this.styles.root()}
         style={this.getRootStyle()}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}

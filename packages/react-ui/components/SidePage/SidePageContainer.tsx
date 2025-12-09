@@ -1,15 +1,16 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import type { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
 
 export type SidePageContainerProps = CommonProps;
@@ -23,18 +24,24 @@ export const SidePageContainerDataTids = {
  *
  * @visibleName SidePage.Container
  */
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 export class SidePageContainer extends React.Component<SidePageContainerProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageContainer';
   public static displayName = 'SidePageContainer';
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private isMobileLayout!: boolean;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -52,13 +59,13 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
           <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <div
               data-tid={SidePageContainerDataTids.root}
-              className={cx({
-                [styles.container(this.theme)]: true,
-                [styles.containerWithoutHeader(this.theme)]: !hasHeader,
-                [styles.containerWithoutFooter(this.theme)]: !hasFooter,
-                [styles.containerWithPanel(this.theme)]: hasPanel,
-                [styles.mobileContainer(this.theme)]: this.isMobileLayout,
-                [styles.mobileContainerWithoutHeader(this.theme)]: this.isMobileLayout && !hasHeader,
+              className={this.cx({
+                [this.styles.container(this.theme)]: true,
+                [this.styles.containerWithoutHeader(this.theme)]: !hasHeader,
+                [this.styles.containerWithoutFooter(this.theme)]: !hasFooter,
+                [this.styles.containerWithPanel(this.theme)]: hasPanel,
+                [this.styles.mobileContainer(this.theme)]: this.isMobileLayout,
+                [this.styles.mobileContainerWithoutHeader(this.theme)]: this.isMobileLayout && !hasHeader,
               })}
             >
               {this.props.children}

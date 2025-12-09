@@ -1,26 +1,27 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import invariant from 'invariant';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
-import { keyListener } from '../../lib/events/keyListener';
+import { KeyListener } from '../../lib/events/keyListener';
 import type { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { TabsContextType } from './TabsContext';
 import { TabsContext, TabsContextDefaultValue } from './TabsContext';
-import { globalClasses, horizontalStyles, styles, verticalStyles } from './Tab.styles';
+import { globalClasses, getHorizontalStyles, getStyles, getVerticalStyles } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -78,6 +79,7 @@ type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 /**
  * Вложенный элемент компонента Tabs.
  */
+@withRenderEnvironment
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
@@ -97,10 +99,17 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     focusedByKeyboard: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
+  private horizontalStyles!: ReturnType<typeof getHorizontalStyles>;
+  private verticalStyles!: ReturnType<typeof getVerticalStyles>;
   private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private keyListener!: KeyListener;
 
   constructor(props: TabProps<T>) {
     super(props);
@@ -108,6 +117,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   }
 
   public componentDidMount() {
+    this.keyListener = new KeyListener(this.globalObject);
     const id = this.getId();
     if (typeof id === 'string') {
       this.context.addTab(id, this.getTabInstance);
@@ -128,6 +138,10 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+    this.horizontalStyles = getHorizontalStyles(this.emotion);
+    this.verticalStyles = getVerticalStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -171,7 +185,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       isActive = this.context.activeTab === this.getId();
       isVertical = this.context.vertical;
     }
-    const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
+    const orientationStyles = isVertical ? this.verticalStyles : this.horizontalStyles;
 
     return (
       <CommonWrapper
@@ -181,20 +195,20 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       >
         <Component
           data-tid={TabDataTids.root}
-          className={cx({
-            [styles.rootSmall(this.theme)]: this.context.size === 'small',
-            [styles.rootMedium(this.theme)]: this.context.size === 'medium',
-            [styles.rootLarge(this.theme)]: this.context.size === 'large',
-            [styles.verticalSmall(this.theme)]: !!isVertical && this.context.size === 'small',
-            [styles.verticalMedium(this.theme)]: !!isVertical && this.context.size === 'medium',
-            [styles.verticalLarge(this.theme)]: !!isVertical && this.context.size === 'large',
+          className={this.cx({
+            [this.styles.rootSmall(this.theme)]: this.context.size === 'small',
+            [this.styles.rootMedium(this.theme)]: this.context.size === 'medium',
+            [this.styles.rootLarge(this.theme)]: this.context.size === 'large',
+            [this.styles.verticalSmall(this.theme)]: !!isVertical && this.context.size === 'small',
+            [this.styles.verticalMedium(this.theme)]: !!isVertical && this.context.size === 'medium',
+            [this.styles.verticalLarge(this.theme)]: !!isVertical && this.context.size === 'large',
             [orientationStyles.primary(this.theme)]: !!primary,
             [orientationStyles.success(this.theme)]: !!success,
             [orientationStyles.warning(this.theme)]: !!warning,
             [orientationStyles.error(this.theme)]: !!error,
-            [styles.active()]: !!isActive,
+            [this.styles.active()]: !!isActive,
             [orientationStyles.active(this.theme)]: !!isActive,
-            [styles.disabled(this.theme)]: !!disabled,
+            [this.styles.disabled(this.theme)]: !!disabled,
             [orientationStyles.disabled()]: !!disabled,
           })}
           onBlur={this.handleBlur}
@@ -210,10 +224,10 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
           {this.state.focusedByKeyboard && (
             <div
-              className={cx(globalClasses.focus, {
-                [styles.focusSmall(this.theme)]: this.context.size === 'small',
-                [styles.focusMedium(this.theme)]: this.context.size === 'medium',
-                [styles.focusLarge(this.theme)]: this.context.size === 'large',
+              className={this.cx(globalClasses.focus, {
+                [this.styles.focusSmall(this.theme)]: this.context.size === 'small',
+                [this.styles.focusMedium(this.theme)]: this.context.size === 'medium',
+                [this.styles.focusLarge(this.theme)]: this.context.size === 'large',
               })}
             />
           )}
@@ -282,8 +296,8 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
-    globalObject.requestAnimationFrame?.(() => {
-      if (keyListener.isTabPressed || keyListener.isArrowPressed) {
+    this.globalObject.requestAnimationFrame?.(() => {
+      if (this.keyListener.isTabPressed || this.keyListener.isArrowPressed) {
         this.setState({ focusedByKeyboard: true });
       }
     });

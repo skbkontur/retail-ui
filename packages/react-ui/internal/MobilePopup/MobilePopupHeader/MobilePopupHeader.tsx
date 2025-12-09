@@ -1,11 +1,12 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { isNonNullable } from '../../../lib/utils';
 import type { Theme } from '../../../lib/theming/Theme';
-import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { withRenderEnvironment } from '../../../lib/renderEnvironment';
 
-import { jsStyles } from './MobilePopupHeader.styles';
+import { getJsStyles } from './MobilePopupHeader.styles';
 
 interface MobilePopupHeaderProps {
   /**
@@ -14,13 +15,19 @@ interface MobilePopupHeaderProps {
   caption?: string;
 }
 
+@withRenderEnvironment
 export class MobilePopupHeader extends React.Component<React.PropsWithChildren<MobilePopupHeaderProps>> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
   public static displayName = 'MobileMenuHeader';
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private jsStyles!: ReturnType<typeof getJsStyles>;
   private theme!: Theme;
 
   public render() {
+    this.jsStyles = getJsStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -36,17 +43,17 @@ export class MobilePopupHeader extends React.Component<React.PropsWithChildren<M
 
     return (
       <div
-        className={cx({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.rootWithoutContent()]: !caption && !children,
+        className={this.cx({
+          [this.jsStyles.root(this.theme)]: true,
+          [this.jsStyles.rootWithoutContent()]: !caption && !children,
         })}
       >
-        <div className={jsStyles.container()}>
+        <div className={this.jsStyles.container()}>
           {caption && (
             <div
-              className={cx({
-                [jsStyles.caption(this.theme)]: true,
-                [jsStyles.captionWithChildren()]: isNonNullable(children),
+              className={this.cx({
+                [this.jsStyles.caption(this.theme)]: true,
+                [this.jsStyles.captionWithChildren()]: isNonNullable(children),
               })}
             >
               {caption}

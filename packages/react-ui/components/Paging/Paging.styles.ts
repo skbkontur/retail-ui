@@ -1,7 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   paging() {
     return css`
       user-select: none;
@@ -225,4 +227,4 @@ export const styles = memoizeStyle({
       color: ${t.pagingPageLinkHintColor};
     `;
   },
-});
+}));

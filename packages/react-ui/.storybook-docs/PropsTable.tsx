@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { ArgTypes, useOf } from '@storybook/blocks';
 
-import { css } from '../lib/theming/Emotion';
+import { useEmotion } from '../lib/renderEnvironment';
 
 import type { PublicMethod } from './MethodsTable';
 import { PublicMethods } from './MethodsTable';
 
 export const PropsTable = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { css } = useEmotion();
 
   const detailsStyles = css`
     & {

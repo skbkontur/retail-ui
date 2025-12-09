@@ -1,16 +1,16 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { ButtonLinkAllowedValues } from '../../lib/types/button-link';
 import { isKonturIcon } from '../../lib/utils';
 import { isSafari } from '../../lib/client';
-import { keyListener } from '../../lib/events/keyListener';
+import { KeyListener } from '../../lib/events/keyListener';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -19,8 +19,9 @@ import { Link } from '../Link';
 import type { SizeProp } from '../../lib/types/props';
 import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles, activeStyles, globalClasses } from './Button.styles';
+import { getStyles, getActiveStyles, globalClasses } from './Button.styles';
 import type { ButtonIconProps } from './ButtonIcon';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
@@ -141,6 +142,7 @@ const SpanComponent: React.FunctionComponent<HTMLAttributes<HTMLSpanElement>> = 
 };
 
 /** Кнопка запускает действие, сценарий или позволяет перейти на другую страницу. */
+@withRenderEnvironment
 @withSize
 @rootNode
 export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_COMPONENT> extends React.Component<
@@ -166,15 +168,22 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     focusedByTab: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
+  private activeStyles!: ReturnType<typeof getActiveStyles>;
   private theme!: Theme;
   private node: HTMLElement | null = null;
   private size!: SizeProp;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private keyListener!: KeyListener;
 
   public componentDidMount() {
+    this.keyListener = new KeyListener(this.globalObject);
     if (this.props.autoFocus) {
-      keyListener.isTabPressed = true;
+      this.keyListener.isTabPressed = true;
       this.focus();
     }
     // warning(
@@ -205,6 +214,9 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   }
 
   public render(): JSX.Element {
+    this.styles = getStyles(this.emotion);
+    this.activeStyles = getActiveStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -267,34 +279,36 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const [rootClassNameWithArrow, arrowNode] = useButtonArrow(
       { ...this.props, isFocused: Boolean(isFocused), size: this.size },
       this.theme,
+      this.styles,
+      this.cx,
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
 
     const nonInteractive = disabled || loading;
-    const rootClassName = cx(
-      styles.root(this.theme),
-      styles[use](this.theme),
+    const rootClassName = this.cx(
+      this.styles.root(this.theme),
+      this.styles[use](this.theme),
       sizeClass,
-      narrow && styles.narrow(),
-      _noPadding && styles.noPadding(),
-      _noRightPadding && styles.noRightPadding(),
+      narrow && this.styles.narrow(),
+      _noPadding && this.styles.noPadding(),
+      _noRightPadding && this.styles.noRightPadding(),
       rootClassNameWithArrow,
       ...(nonInteractive
         ? [
-            styles.disabled(this.theme),
-            isUseStateWithoutOutlineInDisabledState && styles.disabledWithoutOutline(this.theme),
-            checked && styles.checkedDisabled(this.theme),
-            borderless && styles.borderless(),
-            use === 'backless' && styles.backlessDisabled(this.theme),
-            use === 'text' && styles.textDisabled(),
+            this.styles.disabled(this.theme),
+            isUseStateWithoutOutlineInDisabledState && this.styles.disabledWithoutOutline(this.theme),
+            checked && this.styles.checkedDisabled(this.theme),
+            borderless && this.styles.borderless(),
+            use === 'backless' && this.styles.backlessDisabled(this.theme),
+            use === 'text' && this.styles.textDisabled(),
             globalClasses.disabled,
           ]
         : [
-            active && !checked && activeStyles[use](this.theme),
-            isFocused && styles.focus(this.theme),
-            checked && styles.checked(this.theme),
-            checked && isFocused && styles.checkedFocused(this.theme),
-            borderless && !checked && !isFocused && styles.borderless(),
+            active && !checked && this.activeStyles[use](this.theme),
+            isFocused && this.styles.focus(this.theme),
+            checked && this.styles.checked(this.theme),
+            checked && isFocused && this.styles.checkedFocused(this.theme),
+            borderless && !checked && !isFocused && this.styles.borderless(),
           ]),
     );
 
@@ -311,8 +325,8 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     };
 
     const wrapProps = {
-      className: cx(globalClasses.root, {
-        [styles.wrap(this.theme)]: true,
+      className: this.cx(globalClasses.root, {
+        [this.styles.wrap(this.theme)]: true,
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
@@ -328,12 +342,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     if ((!isFocused || isLink) && !nonInteractive) {
       outlineNode = (
         <div
-          className={cx(styles.outline(), {
-            [styles.outlineWarning(this.theme)]: warning,
-            [styles.outlineError(this.theme)]: error,
-            [styles.outlineLink()]: isLink,
-            [styles.outlineLinkWarning(this.theme)]: isLink && warning,
-            [styles.outlineLinkError(this.theme)]: isLink && error,
+          className={this.cx(this.styles.outline(), {
+            [this.styles.outlineWarning(this.theme)]: warning,
+            [this.styles.outlineError(this.theme)]: error,
+            [this.styles.outlineLink()]: isLink,
+            [this.styles.outlineLinkWarning(this.theme)]: isLink && warning,
+            [this.styles.outlineLinkError(this.theme)]: isLink && error,
           })}
         />
       );
@@ -352,17 +366,17 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
-      rootProps.className = cx({
-        [styles.root(this.theme)]: true,
+      rootProps.className = this.cx({
+        [this.styles.root(this.theme)]: true,
         [sizeClass]: true,
-        [styles.link(this.theme)]: true,
-        [styles.linkLineHeight()]: !isSafari,
-        [styles.linkLineHeightSafariFallback()]: isSafari,
-        [styles.linkFocus(this.theme)]: isFocused,
-        [styles.linkDisabled(this.theme)]: nonInteractive,
+        [this.styles.link(this.theme)]: true,
+        [this.styles.linkLineHeight()]: !isSafari,
+        [this.styles.linkLineHeightSafariFallback()]: isSafari,
+        [this.styles.linkFocus(this.theme)]: isFocused,
+        [this.styles.linkDisabled(this.theme)]: nonInteractive,
       });
       Object.assign(wrapProps, {
-        className: cx(styles.wrap(this.theme), styles.wrapLink()),
+        className: this.cx(this.styles.wrap(this.theme), this.styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
 
@@ -374,16 +388,16 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     let captionNode = (
       <div
-        className={cx(styles.caption(), globalClasses.caption, {
-          [styles.captionLink()]: isLink,
-          [styles.captionDisabled()]: !checked && disabled,
+        className={this.cx(this.styles.caption(), globalClasses.caption, {
+          [this.styles.captionLink()]: isLink,
+          [this.styles.captionDisabled()]: !checked && disabled,
         })}
       >
         {loadingNode}
         {leftIconNode}
         <span
-          className={cx(globalClasses.text, {
-            [styles.visibilityHidden()]: hasLoadingNode,
+          className={this.cx(globalClasses.text, {
+            [this.styles.visibilityHidden()]: hasLoadingNode,
           })}
         >
           {children}
@@ -439,31 +453,31 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     switch (this.size) {
       case 'large': {
         const commonClasses = {
-          [styles.sizeLargeWithIcon(this.theme)]: !!icon,
-          [styles.sizeLargeWithRightIcon(this.theme)]: !!rightIcon,
-          [styles.sizeLargeWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
+          [this.styles.sizeLargeWithIcon(this.theme)]: !!icon,
+          [this.styles.sizeLargeWithRightIcon(this.theme)]: !!rightIcon,
+          [this.styles.sizeLargeWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
         };
 
-        return cx(styles.sizeLarge(this.theme), commonClasses);
+        return this.cx(this.styles.sizeLarge(this.theme), commonClasses);
       }
       case 'medium': {
         const commonClasses = {
-          [styles.sizeMediumWithIcon(this.theme)]: !!icon,
-          [styles.sizeMediumWithRightIcon(this.theme)]: !!rightIcon,
-          [styles.sizeMediumWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
+          [this.styles.sizeMediumWithIcon(this.theme)]: !!icon,
+          [this.styles.sizeMediumWithRightIcon(this.theme)]: !!rightIcon,
+          [this.styles.sizeMediumWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
         };
 
-        return cx(styles.sizeMedium(this.theme), commonClasses);
+        return this.cx(this.styles.sizeMedium(this.theme), commonClasses);
       }
       case 'small':
       default: {
         const commonClasses = {
-          [styles.sizeSmallWithIcon(this.theme)]: !!icon,
-          [styles.sizeSmallWithRightIcon(this.theme)]: !!rightIcon,
-          [styles.sizeSmallWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
+          [this.styles.sizeSmallWithIcon(this.theme)]: !!icon,
+          [this.styles.sizeSmallWithRightIcon(this.theme)]: !!rightIcon,
+          [this.styles.sizeSmallWithIconWithoutText(this.theme)]: (!!icon || !!rightIcon) && !children,
         };
 
-        return cx(styles.sizeSmall(this.theme), commonClasses);
+        return this.cx(this.styles.sizeSmall(this.theme), commonClasses);
       }
     }
   }
@@ -471,12 +485,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   private getSizeWrapClassName() {
     switch (this.size) {
       case 'large':
-        return styles.wrapLarge(this.theme);
+        return this.styles.wrapLarge(this.theme);
       case 'medium':
-        return styles.wrapMedium(this.theme);
+        return this.styles.wrapMedium(this.theme);
       case 'small':
       default:
-        return styles.wrapSmall(this.theme);
+        return this.styles.wrapSmall(this.theme);
     }
   }
 
@@ -484,8 +498,8 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      globalObject.requestAnimationFrame?.(() => {
-        if (keyListener.isTabPressed) {
+      this.globalObject.requestAnimationFrame?.(() => {
+        if (this.keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

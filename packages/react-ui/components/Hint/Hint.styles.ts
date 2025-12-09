@@ -1,7 +1,9 @@
-import type { Theme } from '../../lib/theming/Theme';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
 
-export const styles = memoizeStyle({
+import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   content(t: Theme) {
     return css`
       box-sizing: border-box;
@@ -21,4 +23,4 @@ export const styles = memoizeStyle({
       text-align: ${t.hintTextAlign};
     `;
   },
-});
+}));

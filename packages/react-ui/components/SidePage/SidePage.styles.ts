@@ -1,8 +1,10 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       height: 100%;
@@ -395,4 +397,4 @@ export const styles = memoizeStyle({
       transition: opacity 0.15s ease-out;
     `;
   },
-});
+}));

@@ -1,5 +1,3 @@
-import { css } from '../../lib/theming/Emotion';
-
 import { getMenuItemPaddings } from './MenuItem.styles';
 
 export const menuItemSizeMixin = (
@@ -13,7 +11,7 @@ export const menuItemSizeMixin = (
     menuItemPaddingY,
   });
 
-  return css`
+  return `
     line-height: ${menuItemLineHeight};
     font-size: ${menuItemFontSize};
     padding: ${menuItemPaddingY} ${paddingX} ${paddingY} ${menuItemPaddingX};
@@ -21,14 +19,14 @@ export const menuItemSizeMixin = (
 };
 
 export const iconSizeMixin = (menuItemIconWidth: string, menuItemPaddingX: string) => {
-  return css`
+  return `
     width: ${menuItemIconWidth};
     left: ${parseInt(menuItemPaddingX)}px;
   `;
 };
 
 export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
-  return css`
+  return `
     padding-left: ${menuItemPaddingForIcon};
   `;
 };

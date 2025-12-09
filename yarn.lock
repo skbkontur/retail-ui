@@ -4789,11 +4789,6 @@
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
-"@skbkontur/global-object@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.4.4.tgz#216f2b8370547ccc2bf1af63f68b80207714a777"
-  integrity sha512-GC6UKPxTNDG7jGC7OIIoiI97lMSpq7zIU8F46HpdKuPfJsdToxHYrrez51cgJnL8EDjUfydqf1Hmqpw+tjd9Zw==
-
 "@skbkontur/icons@1.10.0":
   version "1.10.0"
   resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-1.10.0.tgz#895508b8e86cda0cecfcccffe5e01cd7fa83fb0a"

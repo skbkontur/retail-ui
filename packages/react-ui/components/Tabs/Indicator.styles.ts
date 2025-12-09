@@ -1,7 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       background: ${t.tabColorFocus};
@@ -35,4 +37,4 @@ export const styles = memoizeStyle({
       background: ${t.tabColorError};
     `;
   },
-});
+}));

@@ -1,8 +1,10 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { globalClasses as buttonGlobalClasses } from '../Button/Button.styles';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   icon() {
     return css`
       text-align: center;
@@ -70,4 +72,4 @@ export const styles = memoizeStyle({
       }
     `;
   },
-});
+}));

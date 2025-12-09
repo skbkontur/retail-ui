@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
@@ -13,14 +15,16 @@ export const globalClasses = prefix('button')({
   disabled: 'disabled',
 });
 
-export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
-      ${resetButton()};
-      ${resetText()};
+export const getStyles = memoizeGetStyles((emotion: Emotion) => {
+  const activeStyles = getActiveStyles(emotion);
+  return {
+    root(t: Theme) {
+      return emotion.css`
+        ${resetButton()};
+        ${resetText()};
 
-      transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction}
-        ${t.btnBorderColorTransition ? `, ${t.btnBorderColorTransition}` : ''};
+        transition: background-color ${t.transitionDuration} ${t.transitionTimingFunction}
+          ${t.btnBorderColorTransition ? `, ${t.btnBorderColorTransition}` : ''};
 
       background-clip: ${t.btnBackgroundClip};
       background-position: center;
@@ -33,537 +37,537 @@ export const styles = memoizeStyle({
       width: 100%;
       height: 100%;
 
-      .${globalClasses.innerShadow} {
-        content: '';
+        .${globalClasses.innerShadow} {
+          content: '';
+          border-radius: inherit;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+
+        &::-moz-focus-inner {
+          border: 0;
+          padding: 0;
+        }
+        &::after {
+          content: '';
+          display: inline-block;
+          vertical-align: baseline;
+          width: 0;
+        }
+
+        &:hover svg {
+          color: ${t.btnIconHoverColor};
+        }
+        &.${globalClasses.disabled} svg {
+          color: ${t.btnIconDisabledColor};
+        }
+        & svg {
+          color: ${t.btnIconColor};
+        }
+      `;
+    },
+
+    withArrowIconRightSmall(t: Theme) {
+      return emotion.css`
+        padding-right: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingSmall} + ${t.btnWithIconPaddingSmall});
+      `;
+    },
+
+    withArrowIconRightMedium(t: Theme) {
+      return emotion.css`
+        padding-right: calc(${t.btnIconSizeMedium} + ${t.btnWithIconPaddingMedium} + ${t.btnWithIconPaddingMedium});
+      `;
+    },
+
+    withArrowIconRightLarge(t: Theme) {
+      return emotion.css`
+        padding-right: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLarge} + ${t.btnWithIconPaddingLarge});
+      `;
+    },
+
+    withArrowIconLeftSmall(t: Theme) {
+      return emotion.css`
+        padding-left: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingSmall} + ${t.btnWithIconPaddingSmall});
+      `;
+    },
+
+    withArrowIconLeftMedium(t: Theme) {
+      return emotion.css`
+        padding-left: calc(${t.btnIconSizeMedium} + ${t.btnWithIconPaddingMedium} + ${t.btnWithIconPaddingMedium});
+      `;
+    },
+
+    withArrowIconLeftLarge(t: Theme) {
+      return emotion.css`
+        padding-left: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLarge} + ${t.btnWithIconPaddingLarge});
+      `;
+    },
+
+    simulatedPress() {
+      return emotion.css`
+        &:active .${globalClasses.caption} {
+          transform: translateY(1px);
+        }
+      `;
+    },
+
+    outline() {
+      return emotion.css`
         border-radius: inherit;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-      }
+      `;
+    },
 
-      &::-moz-focus-inner {
-        border: 0;
-        padding: 0;
-      }
-      &::after {
-        content: '';
-        display: inline-block;
-        vertical-align: baseline;
-        width: 0;
-      }
+    outlineWarning(t: Theme) {
+      return emotion.css`
+        box-shadow:
+          0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
+          inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+      `;
+    },
 
-      &:hover svg {
-        color: ${t.btnIconHoverColor};
-      }
-      &.${globalClasses.disabled} svg {
-        color: ${t.btnIconDisabledColor};
-      }
-      & svg {
-        color: ${t.btnIconColor};
-      }
-    `;
-  },
+    outlineError(t: Theme) {
+      return emotion.css`
+        box-shadow:
+          0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError},
+          inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+      `;
+    },
 
-  withArrowIconRightSmall(t: Theme) {
-    return css`
-      padding-right: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingSmall} + ${t.btnWithIconPaddingSmall});
-    `;
-  },
+    outlineLink() {
+      return emotion.css`
+        cursor: default;
+        box-shadow: none;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        top: -2px;
+      `;
+    },
 
-  withArrowIconRightMedium(t: Theme) {
-    return css`
-      padding-right: calc(${t.btnIconSizeMedium} + ${t.btnWithIconPaddingMedium} + ${t.btnWithIconPaddingMedium});
-    `;
-  },
+    outlineLinkWarning(t: Theme) {
+      return emotion.css`
+        background-color: ${t.btnWarningSecondary};
+      `;
+    },
 
-  withArrowIconRightLarge(t: Theme) {
-    return css`
-      padding-right: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLarge} + ${t.btnWithIconPaddingLarge});
-    `;
-  },
+    outlineLinkError(t: Theme) {
+      return emotion.css`
+        background-color: ${t.btnErrorSecondary};
+      `;
+    },
 
-  withArrowIconLeftSmall(t: Theme) {
-    return css`
-      padding-left: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingSmall} + ${t.btnWithIconPaddingSmall});
-    `;
-  },
-
-  withArrowIconLeftMedium(t: Theme) {
-    return css`
-      padding-left: calc(${t.btnIconSizeMedium} + ${t.btnWithIconPaddingMedium} + ${t.btnWithIconPaddingMedium});
-    `;
-  },
-
-  withArrowIconLeftLarge(t: Theme) {
-    return css`
-      padding-left: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLarge} + ${t.btnWithIconPaddingLarge});
-    `;
-  },
-
-  simulatedPress() {
-    return css`
-      &:active .${globalClasses.caption} {
-        transform: translateY(1px);
-      }
-    `;
-  },
-
-  outline() {
-    return css`
-      border-radius: inherit;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    `;
-  },
-
-  outlineWarning(t: Theme) {
-    return css`
-      box-shadow:
-        0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
-        inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-    `;
-  },
-
-  outlineError(t: Theme) {
-    return css`
-      box-shadow:
-        0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError},
-        inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-    `;
-  },
-
-  outlineLink() {
-    return css`
-      cursor: default;
-      box-shadow: none;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      top: -2px;
-    `;
-  },
-
-  outlineLinkWarning(t: Theme) {
-    return css`
-      background-color: ${t.btnWarningSecondary};
-    `;
-  },
-
-  outlineLinkError(t: Theme) {
-    return css`
-      background-color: ${t.btnErrorSecondary};
-    `;
-  },
-
-  sizeSmall(t: Theme) {
-    return css`
-      border-radius: ${t.btnBorderRadiusSmall};
+    sizeSmall(t: Theme) {
+      return emotion.css`
+        border-radius: ${t.btnBorderRadiusSmall};
 
       ${buttonSizeMixin(t.btnFontSizeSmall, t.btnLineHeightSmall, t.btnPaddingXSmall, t.btnPaddingYSmall)};
     `;
-  },
+    },
 
-  sizeMedium(t: Theme) {
-    return css`
-      border-radius: ${t.btnBorderRadiusMedium};
+    sizeMedium(t: Theme) {
+      return emotion.css`
+        border-radius: ${t.btnBorderRadiusMedium};
 
       ${buttonSizeMixin(t.btnFontSizeMedium, t.btnLineHeightMedium, t.btnPaddingXMedium, t.btnPaddingYMedium)};
     `;
-  },
+    },
 
-  sizeLarge(t: Theme) {
-    return css`
-      border-radius: ${t.btnBorderRadiusLarge};
+    sizeLarge(t: Theme) {
+      return emotion.css`
+        border-radius: ${t.btnBorderRadiusLarge};
 
       ${buttonSizeMixin(t.btnFontSizeLarge, t.btnLineHeightLarge, t.btnPaddingXLarge, t.btnPaddingYLarge)};
     `;
-  },
+    },
 
-  sizeSmallWithIcon(t: Theme) {
-    return css`
+    sizeSmallWithIcon(t: Theme) {
+      return emotion.css`
+        padding-left: ${t.btnWithIconPaddingSmall};
+      `;
+    },
+
+    sizeMediumWithIcon(t: Theme) {
+      return emotion.css`
+        padding-left: ${t.btnWithIconPaddingMedium};
+      `;
+    },
+
+    sizeLargeWithIcon(t: Theme) {
+      return emotion.css`
+        padding-left: ${t.btnWithIconPaddingLarge};
+      `;
+    },
+
+    sizeSmallWithRightIcon(t: Theme) {
+      return emotion.css`
+        padding-right: ${t.btnWithIconPaddingSmall};
+      `;
+    },
+
+    sizeMediumWithRightIcon(t: Theme) {
+      return emotion.css`
+        padding-right: ${t.btnWithIconPaddingMedium};
+      `;
+    },
+
+    sizeLargeWithRightIcon(t: Theme) {
+      return emotion.css`
+        padding-right: ${t.btnWithIconPaddingLarge};
+      `;
+    },
+
+    sizeSmallWithIconWithoutText(t: Theme) {
+      return emotion.css`
       padding-left: ${t.btnWithIconPaddingSmall};
-    `;
-  },
-
-  sizeMediumWithIcon(t: Theme) {
-    return css`
-      padding-left: ${t.btnWithIconPaddingMedium};
-    `;
-  },
-
-  sizeLargeWithIcon(t: Theme) {
-    return css`
-      padding-left: ${t.btnWithIconPaddingLarge};
-    `;
-  },
-
-  sizeSmallWithRightIcon(t: Theme) {
-    return css`
       padding-right: ${t.btnWithIconPaddingSmall};
     `;
-  },
+    },
 
-  sizeMediumWithRightIcon(t: Theme) {
-    return css`
-      padding-right: ${t.btnWithIconPaddingMedium};
-    `;
-  },
-
-  sizeLargeWithRightIcon(t: Theme) {
-    return css`
-      padding-right: ${t.btnWithIconPaddingLarge};
-    `;
-  },
-
-  sizeSmallWithIconWithoutText(t: Theme) {
-    return css`
-      padding-left: ${t.btnWithIconPaddingSmall};
-      padding-right: ${t.btnWithIconPaddingSmall};
-    `;
-  },
-
-  sizeMediumWithIconWithoutText(t: Theme) {
-    return css`
+    sizeMediumWithIconWithoutText(t: Theme) {
+      return emotion.css`
       padding-left: ${t.btnWithIconPaddingMedium};
       padding-right: ${t.btnWithIconPaddingMedium};
     `;
-  },
+    },
 
-  sizeLargeWithIconWithoutText(t: Theme) {
-    return css`
+    sizeLargeWithIconWithoutText(t: Theme) {
+      return emotion.css`
       padding-left: ${t.btnWithIconPaddingLarge};
       padding-right: ${t.btnWithIconPaddingLarge};
     `;
-  },
+    },
 
-  link(t: Theme) {
-    return css`
-      background: none;
-      border-radius: ${t.btnLinkBorderRadius};
-      border: none;
-      box-shadow: none;
-      white-space: nowrap;
-      color: ${t.btnLinkColor};
-      display: inline;
-      margin: 0;
-      padding: 0 !important; // override size mixin
-      height: auto !important; // override size mixin
-
-      &:hover:enabled,
-      &:active:enabled {
-        color: ${t.btnLinkHoverColor};
-        text-decoration: ${t.btnLinkHoverTextDecoration};
-      }
-
-      &:active:enabled {
-        ${activeStyles.link(t)}
-      }
-    `;
-  },
-
-  linkLineHeight() {
-    return css`
-      line-height: inherit !important; // override size mixin
-    `;
-  },
-
-  linkLineHeightSafariFallback() {
-    return css`
-      /* Safari overrides 'underline' and 'border' if 'line-height' is used */
-      margin: -1px 0 -2px;
-    `;
-  },
-
-  linkFocus(t: Theme) {
-    return css`
-      & {
-        color: ${t.btnLinkColor};
-        text-decoration: ${t.btnLinkHoverTextDecoration};
-      }
-    `;
-  },
-
-  linkDisabled(t: Theme) {
-    return css`
-      cursor: default;
-
-      &,
-      &:hover:enabled,
-      &:active:enabled {
-        color: ${t.btnLinkDisabledColor};
-      }
-    `;
-  },
-
-  focus(t: Theme) {
-    return css`
-      position: relative;
-      z-index: 2;
-
-      &,
-      &:hover:enabled,
-      &:active:enabled,
-      &:active:hover:enabled {
-        box-shadow:
-          inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
-      }
-    `;
-  },
-
-  disabled(t: Theme) {
-    return css`
-      cursor: default;
-      pointer-events: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
-
-      background-image: none;
-      background-color: ${t.btnDisabledBg};
-      color: ${t.btnDisabledTextColor};
-    `;
-  },
-
-  disabledWithoutOutline(t: Theme) {
-    return css`
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
-    `;
-  },
-
-  arrowIconRoot() {
-    return css`
-      position: absolute;
-      height: 100%;
-      top: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: content-box;
-    `;
-  },
-
-  arrowIconRootSmall(t: Theme) {
-    return css`
-      padding: 0 ${t.btnWithIconPaddingSmall} 0 ${t.btnWithIconPaddingSmall};
-      width: ${t.btnIconSizeSmall};
-    `;
-  },
-
-  arrowIconRootMedium(t: Theme) {
-    return css`
-      padding: 0 ${t.btnWithIconPaddingMedium} 0 ${t.btnWithIconPaddingMedium};
-      width: ${t.btnIconSizeMedium};
-    `;
-  },
-
-  arrowIconRootLarge(t: Theme) {
-    return css`
-      padding: 0 ${t.btnWithIconPaddingLarge} 0 ${t.btnWithIconPaddingLarge};
-      width: ${t.btnIconSizeLarge};
-    `;
-  },
-
-  arrowIconLeft() {
-    return css`
-      left: 0;
-    `;
-  },
-
-  default(t: Theme) {
-    return css`
-      ${buttonUseMixin(
-        t.btnDefaultBg,
-        t.btnDefaultBgStart,
-        t.btnDefaultBgEnd,
-        t.btnDefaultTextColor,
-        t.btnDefaultBorderColor,
-        t.btnBorderWidth,
-      )};
-
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnDefaultHoverBg,
-          t.btnDefaultHoverBgStart,
-          t.btnDefaultHoverBgEnd,
-          t.btnDefaultHoverTextColor,
-          t.btnDefaultHoverBorderColor,
-          t.btnBorderWidth,
-        )};
-      }
-
-      &:active {
-        ${activeStyles.default(t)};
-      }
-    `;
-  },
-
-  primary(t: Theme) {
-    return css`
-      ${buttonUseMixin(
-        t.btnPrimaryBg,
-        t.btnPrimaryBgStart,
-        t.btnPrimaryBgEnd,
-        t.btnPrimaryTextColor,
-        t.btnPrimaryBorderColor,
-        t.btnBorderWidth,
-      )};
-
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnPrimaryHoverBg,
-          t.btnPrimaryHoverBgStart,
-          t.btnPrimaryHoverBgEnd,
-          t.btnPrimaryHoverTextColor,
-          t.btnPrimaryHoverBorderColor,
-          t.btnBorderWidth,
-        )};
-      }
-
-      &:active {
-        ${activeStyles.primary(t)}
-      }
-    `;
-  },
-
-  success(t: Theme) {
-    return css`
-      ${buttonUseMixin(
-        t.btnSuccessBg,
-        t.btnSuccessBgStart,
-        t.btnSuccessBgEnd,
-        t.btnSuccessTextColor,
-        t.btnSuccessBorderColor,
-        t.btnBorderWidth,
-      )};
-
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnSuccessHoverBg,
-          t.btnSuccessHoverBgStart,
-          t.btnSuccessHoverBgEnd,
-          t.btnSuccessHoverTextColor,
-          t.btnSuccessHoverBorderColor,
-          t.btnBorderWidth,
-        )};
-      }
-
-      &:active {
-        ${activeStyles.success(t)}
-      }
-    `;
-  },
-
-  danger(t: Theme) {
-    return css`
-      ${buttonUseMixin(
-        t.btnDangerBg,
-        t.btnDangerBgStart,
-        t.btnDangerBgEnd,
-        t.btnDangerTextColor,
-        t.btnDangerBorderColor,
-        t.btnBorderWidth,
-      )};
-
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnDangerHoverBg,
-          t.btnDangerHoverBgStart,
-          t.btnDangerHoverBgEnd,
-          t.btnDangerHoverTextColor,
-          t.btnDangerHoverBorderColor,
-          t.btnBorderWidth,
-        )};
-      }
-
-      &:active {
-        ${activeStyles.danger(t)}
-      }
-    `;
-  },
-
-  pay(t: Theme) {
-    return css`
-      ${buttonUseMixin(
-        t.btnPayBg,
-        t.btnPayBgStart,
-        t.btnPayBgEnd,
-        t.btnPayTextColor,
-        t.btnPayBorderColor,
-        t.btnBorderWidth,
-      )};
-
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnPayHoverBg,
-          t.btnPayHoverBgStart,
-          t.btnPayHoverBgEnd,
-          t.btnPayHoverTextColor,
-          t.btnPayHoverBorderColor,
-          t.btnBorderWidth,
-        )};
-      }
-
-      &:active {
-        ${activeStyles.pay(t)}
-      }
-    `;
-  },
-
-  text(t: Theme) {
-    return css`
-      &,
-      &:enabled,
-      &:hover {
+    link(t: Theme) {
+      return emotion.css`
+        background: none;
+        border-radius: ${t.btnLinkBorderRadius};
+        border: none;
         box-shadow: none;
-      }
+        white-space: nowrap;
+        color: ${t.btnLinkColor};
+        display: inline;
+        margin: 0;
+        padding: 0 !important; // override size mixin
+        height: auto !important; // override size mixin
 
-      ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, t.btnBorderWidth)};
+        &:hover:enabled,
+        &:active:enabled {
+          color: ${t.btnLinkHoverColor};
+          text-decoration: ${t.btnLinkHoverTextDecoration};
+        }
 
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnTextHoverBg,
-          '',
-          '',
-          t.btnTextHoverTextColor,
-          t.btnTextHoverBorderColor,
+        &:active:enabled {
+          ${activeStyles.link(t)}
+        }
+      `;
+    },
+
+    linkLineHeight() {
+      return emotion.css`
+        line-height: inherit !important; // override size mixin
+      `;
+    },
+
+    linkLineHeightSafariFallback() {
+      return emotion.css`
+        /* Safari overrides 'underline' and 'border' if 'line-height' is used */
+        margin: -1px 0 -2px;
+      `;
+    },
+
+    linkFocus(t: Theme) {
+      return emotion.css`
+        & {
+          color: ${t.btnLinkColor};
+          text-decoration: ${t.btnLinkHoverTextDecoration};
+        }
+      `;
+    },
+
+    linkDisabled(t: Theme) {
+      return emotion.css`
+        cursor: default;
+
+        &,
+        &:hover:enabled,
+        &:active:enabled {
+          color: ${t.btnLinkDisabledColor};
+        }
+      `;
+    },
+
+    focus(t: Theme) {
+      return emotion.css`
+        position: relative;
+        z-index: 2;
+
+        &,
+        &:hover:enabled,
+        &:active:enabled,
+        &:active:hover:enabled {
+          box-shadow:
+            inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+            0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
+        }
+      `;
+    },
+
+    disabled(t: Theme) {
+      return emotion.css`
+        cursor: default;
+        pointer-events: none;
+        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
+
+        background-image: none;
+        background-color: ${t.btnDisabledBg};
+        color: ${t.btnDisabledTextColor};
+      `;
+    },
+
+    disabledWithoutOutline(t: Theme) {
+      return emotion.css`
+        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBg};
+      `;
+    },
+
+    arrowIconRoot() {
+      return emotion.css`
+        position: absolute;
+        height: 100%;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: content-box;
+      `;
+    },
+
+    arrowIconRootSmall(t: Theme) {
+      return emotion.css`
+        padding: 0 ${t.btnWithIconPaddingSmall} 0 ${t.btnWithIconPaddingSmall};
+        width: ${t.btnIconSizeSmall};
+      `;
+    },
+
+    arrowIconRootMedium(t: Theme) {
+      return emotion.css`
+        padding: 0 ${t.btnWithIconPaddingMedium} 0 ${t.btnWithIconPaddingMedium};
+        width: ${t.btnIconSizeMedium};
+      `;
+    },
+
+    arrowIconRootLarge(t: Theme) {
+      return emotion.css`
+        padding: 0 ${t.btnWithIconPaddingLarge} 0 ${t.btnWithIconPaddingLarge};
+        width: ${t.btnIconSizeLarge};
+      `;
+    },
+
+    arrowIconLeft() {
+      return emotion.css`
+        left: 0;
+      `;
+    },
+
+    default(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(
+          t.btnDefaultBg,
+          t.btnDefaultBgStart,
+          t.btnDefaultBgEnd,
+          t.btnDefaultTextColor,
+          t.btnDefaultBorderColor,
           t.btnBorderWidth,
         )};
-      }
 
-      &:active {
-        ${activeStyles.text(t)}
-      }
-    `;
-  },
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnDefaultHoverBg,
+            t.btnDefaultHoverBgStart,
+            t.btnDefaultHoverBgEnd,
+            t.btnDefaultHoverTextColor,
+            t.btnDefaultHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
 
-  backless(t: Theme) {
-    return css`
-      ${buttonUseMixin(t.btnBacklessBg, '', '', t.btnBacklessTextColor, t.btnBacklessBorderColor, t.btnBorderWidth)};
+        &:active {
+          ${activeStyles.default(t)};
+        }
+      `;
+    },
 
-      &:hover {
-        ${buttonHoverMixin(
-          t.btnBacklessHoverBg,
-          '',
-          '',
-          t.btnBacklessHoverTextColor,
-          t.btnBacklessHoverBorderColor,
+    primary(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(
+          t.btnPrimaryBg,
+          t.btnPrimaryBgStart,
+          t.btnPrimaryBgEnd,
+          t.btnPrimaryTextColor,
+          t.btnPrimaryBorderColor,
           t.btnBorderWidth,
         )};
-      }
 
-      &:active {
-        ${activeStyles.backless(t)}
-      }
-    `;
-  },
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnPrimaryHoverBg,
+            t.btnPrimaryHoverBgStart,
+            t.btnPrimaryHoverBgEnd,
+            t.btnPrimaryHoverTextColor,
+            t.btnPrimaryHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
 
-  checked(t: Theme) {
-    const checkedStyles = `
+        &:active {
+          ${activeStyles.primary(t)}
+        }
+      `;
+    },
+
+    success(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(
+          t.btnSuccessBg,
+          t.btnSuccessBgStart,
+          t.btnSuccessBgEnd,
+          t.btnSuccessTextColor,
+          t.btnSuccessBorderColor,
+          t.btnBorderWidth,
+        )};
+
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnSuccessHoverBg,
+            t.btnSuccessHoverBgStart,
+            t.btnSuccessHoverBgEnd,
+            t.btnSuccessHoverTextColor,
+            t.btnSuccessHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
+
+        &:active {
+          ${activeStyles.success(t)}
+        }
+      `;
+    },
+
+    danger(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(
+          t.btnDangerBg,
+          t.btnDangerBgStart,
+          t.btnDangerBgEnd,
+          t.btnDangerTextColor,
+          t.btnDangerBorderColor,
+          t.btnBorderWidth,
+        )};
+
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnDangerHoverBg,
+            t.btnDangerHoverBgStart,
+            t.btnDangerHoverBgEnd,
+            t.btnDangerHoverTextColor,
+            t.btnDangerHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
+
+        &:active {
+          ${activeStyles.danger(t)}
+        }
+      `;
+    },
+
+    pay(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(
+          t.btnPayBg,
+          t.btnPayBgStart,
+          t.btnPayBgEnd,
+          t.btnPayTextColor,
+          t.btnPayBorderColor,
+          t.btnBorderWidth,
+        )};
+
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnPayHoverBg,
+            t.btnPayHoverBgStart,
+            t.btnPayHoverBgEnd,
+            t.btnPayHoverTextColor,
+            t.btnPayHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
+
+        &:active {
+          ${activeStyles.pay(t)}
+        }
+      `;
+    },
+
+    text(t: Theme) {
+      return emotion.css`
+        &,
+        &:enabled,
+        &:hover {
+          box-shadow: none;
+        }
+
+        ${buttonUseMixin(t.btnTextBg, '', '', t.btnTextTextColor, t.btnTextBorderColor, t.btnBorderWidth)};
+
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnTextHoverBg,
+            '',
+            '',
+            t.btnTextHoverTextColor,
+            t.btnTextHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
+
+        &:active {
+          ${activeStyles.text(t)}
+        }
+      `;
+    },
+
+    backless(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(t.btnBacklessBg, '', '', t.btnBacklessTextColor, t.btnBacklessBorderColor, t.btnBorderWidth)};
+
+        &:hover {
+          ${buttonHoverMixin(
+            t.btnBacklessHoverBg,
+            '',
+            '',
+            t.btnBacklessHoverTextColor,
+            t.btnBacklessHoverBorderColor,
+            t.btnBorderWidth,
+          )};
+        }
+
+        &:active {
+          ${activeStyles.backless(t)}
+        }
+      `;
+    },
+
+    checked(t: Theme) {
+      const checkedStyles = `
       background-image: none;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
       background-color: ${t.btnCheckedBg} !important;
@@ -581,167 +585,168 @@ export const styles = memoizeStyle({
       }
     `;
 
-    return css`
-      ${checkedStyles}
+      return emotion.css`
+        ${checkedStyles}
 
-      &:hover:enabled,
+        &:hover:enabled,
       &:active:enabled,
       &:hover:active:enabled {
-        ${checkedStyles}
-      }
-    `;
-  },
+          ${checkedStyles}
+        }
+      `;
+    },
 
-  checkedFocused(t: Theme) {
-    return css`
-      &:hover:enabled,
-      &:hover:active:enabled {
-        box-shadow:
-          inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
-        border-color: ${t.btnBorderColorFocus} !important;
-      }
-    `;
-  },
+    checkedFocused(t: Theme) {
+      return emotion.css`
+        &:hover:enabled,
+        &:hover:active:enabled {
+          box-shadow:
+            inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+            0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
+          border-color: ${t.btnBorderColorFocus} !important;
+        }
+      `;
+    },
 
-  checkedDisabled(t: Theme) {
-    return css`
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnCheckedDisabledBorderColor};
-      background-color: ${t.btnCheckedDisabledBg};
-      color: ${t.btnCheckedDisabledColor};
+    checkedDisabled(t: Theme) {
+      return emotion.css`
+        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnCheckedDisabledBorderColor};
+        background-color: ${t.btnCheckedDisabledBg};
+        color: ${t.btnCheckedDisabledColor};
 
-      .${globalClasses.innerShadow} {
-        box-shadow: ${t.btnCheckedDisabledShadow};
-      }
+        .${globalClasses.innerShadow} {
+          box-shadow: ${t.btnCheckedDisabledShadow};
+        }
 
-      svg {
-        color: ${t.btnCheckedDisabledColor} !important;
-      }
-    `;
-  },
+        svg {
+          color: ${t.btnCheckedDisabledColor} !important;
+        }
+      `;
+    },
 
-  caption() {
-    return css`
-      position: relative;
-      white-space: nowrap;
-      display: inline-block;
-      width: 100%;
-      vertical-align: top;
-    `;
-  },
+    caption() {
+      return emotion.css`
+        position: relative;
+        white-space: nowrap;
+        display: inline-block;
+        width: 100%;
+        vertical-align: top;
+      `;
+    },
 
-  captionLink() {
-    return css`
-      display: inline;
-      transform: none !important; // override root:active style
-    `;
-  },
+    captionLink() {
+      return emotion.css`
+        display: inline;
+        transform: none !important; // override root:active style
+      `;
+    },
 
-  captionDisabled() {
-    return css`
-      transform: none !important; // override root:active style
-    `;
-  },
+    captionDisabled() {
+      return emotion.css`
+        transform: none !important; // override root:active style
+      `;
+    },
 
-  wrap(t: Theme) {
-    return css`
-      box-sizing: border-box;
-      display: inline-block;
-      line-height: normal;
-      padding: ${t.btnBorderWidth};
-    `;
-  },
+    wrap(t: Theme) {
+      return emotion.css`
+        box-sizing: border-box;
+        display: inline-block;
+        line-height: normal;
+        padding: ${t.btnBorderWidth};
+      `;
+    },
 
-  wrapSmall(t: Theme) {
-    return css`
-      height: ${t.btnHeightSmall};
-    `;
-  },
+    wrapSmall(t: Theme) {
+      return emotion.css`
+        height: ${t.btnHeightSmall};
+      `;
+    },
 
-  wrapMedium(t: Theme) {
-    return css`
-      height: ${t.btnHeightMedium};
-    `;
-  },
+    wrapMedium(t: Theme) {
+      return emotion.css`
+        height: ${t.btnHeightMedium};
+      `;
+    },
 
-  wrapLarge(t: Theme) {
-    return css`
-      height: ${t.btnHeightLarge};
-    `;
-  },
+    wrapLarge(t: Theme) {
+      return emotion.css`
+        height: ${t.btnHeightLarge};
+      `;
+    },
 
-  narrow() {
-    return css`
-      padding-left: 5px;
-      padding-right: 5px;
-    `;
-  },
+    narrow() {
+      return emotion.css`
+        padding-left: 5px;
+        padding-right: 5px;
+      `;
+    },
 
-  noPadding() {
-    return css`
-      padding-left: 0;
-      padding-right: 0;
-    `;
-  },
+    noPadding() {
+      return emotion.css`
+        padding-left: 0;
+        padding-right: 0;
+      `;
+    },
 
-  noRightPadding() {
-    return css`
-      padding-right: 0;
-    `;
-  },
+    noRightPadding() {
+      return emotion.css`
+        padding-right: 0;
+      `;
+    },
 
-  wrapLink() {
-    return css`
-      padding: 0;
-    `;
-  },
+    wrapLink() {
+      return emotion.css`
+        padding: 0;
+      `;
+    },
 
-  borderless() {
-    return css`
-      &,
-      &:active:hover,
-      &:hover {
-        box-shadow: none !important; // override root:hover style
-      }
-    `;
-  },
+    borderless() {
+      return emotion.css`
+        &,
+        &:active:hover,
+        &:hover {
+          box-shadow: none !important; // override root:hover style
+        }
+      `;
+    },
 
-  backlessDisabled(t: Theme) {
-    return css`
-      box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
-      background-color: transparent;
-    `;
-  },
+    backlessDisabled(t: Theme) {
+      return emotion.css`
+        box-shadow: 0 0 0 1px ${t.btnBacklessDisabledBorderColor};
+        background-color: transparent;
+      `;
+    },
 
-  textDisabled() {
-    return css`
-      background-color: transparent;
-    `;
-  },
+    textDisabled() {
+      return emotion.css`
+        background-color: transparent;
+      `;
+    },
 
-  loading() {
-    return css`
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-radius: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    `;
-  },
+    loading() {
+      return emotion.css`
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      `;
+    },
 
-  visibilityHidden() {
-    return css`
-      visibility: hidden;
-    `;
-  },
+    visibilityHidden() {
+      return emotion.css`
+        visibility: hidden;
+      `;
+    },
+  };
 });
 
-export const activeStyles = memoizeStyle({
+export const getActiveStyles = memoizeGetStyles(({ css }: Emotion) => ({
   default(t: Theme) {
     return css`
       & {
@@ -825,4 +830,4 @@ export const activeStyles = memoizeStyle({
       }
     `;
   },
-});
+}));

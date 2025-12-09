@@ -8,6 +8,7 @@ import { Modal, ModalDataTids } from '../Modal';
 import { componentsLocales as ModalLocalesRu } from '../locale/locales/ru';
 import { componentsLocales as ModalLocalesEn } from '../locale/locales/en';
 import { ModalStack } from '../../../lib/ModalStack';
+import { getSafeWindow } from '../../../lib/globalObject';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -232,7 +233,7 @@ describe('Modal', () => {
 
     expect(add).toHaveBeenCalledTimes(2);
 
-    const { mounted } = ModalStack.getStackInfo();
+    const { mounted } = ModalStack.getStackInfo(getSafeWindow());
 
     expect(mounted[0]).toStrictEqual(modal2Ref.current);
     expect(mounted[1]).toStrictEqual(modal1Ref.current);

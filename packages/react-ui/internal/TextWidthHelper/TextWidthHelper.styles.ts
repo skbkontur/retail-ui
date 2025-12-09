@@ -1,6 +1,8 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-const styles = {
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       display: flex;
@@ -18,6 +20,4 @@ const styles = {
       white-space: nowrap;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+}));

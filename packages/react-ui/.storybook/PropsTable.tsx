@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { ArgTypes } from '@storybook/blocks';
 
-import { css } from '../lib/theming/Emotion';
+import { useEmotion } from '../lib/renderEnvironment';
 
 export const PropsTable = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { css } = useEmotion();
 
   const detailsStyles = css`
     & {

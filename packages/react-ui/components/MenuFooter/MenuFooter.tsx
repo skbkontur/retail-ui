@@ -1,14 +1,14 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { SizeProp } from '../../lib/types/props';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './MenuFooter.styles';
+import { getStyles } from './MenuFooter.styles';
 
 export interface MenuFooterProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Добавляет отступ иконке. */
@@ -40,6 +40,8 @@ const MenuFooter = forwardRefAndName(
     ref: React.Ref<HTMLDivElement>,
   ) {
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
     function getRootSizeClassName() {
       switch (size) {
         case 'large':

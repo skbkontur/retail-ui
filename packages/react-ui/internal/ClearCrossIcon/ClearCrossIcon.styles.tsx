@@ -1,10 +1,13 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeStyle } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const styles = memoizeStyle({
-  root(t: Theme) {
-    return css`
+export const getStyles = (emotion: Emotion) =>
+  memoizeStyle({
+    root(t: Theme) {
+      return emotion.css`
       ${resetButton()}
       color: ${t.clearCrossIconColor};
       cursor: pointer;
@@ -19,51 +22,51 @@ export const styles = memoizeStyle({
       right: -${t.inputBorderWidth};
       top: -${t.inputBorderWidth};
     `;
-  },
+    },
 
-  focus(t: Theme) {
-    return css`
-      color: ${t.clearCrossIconHoverColor};
-    `;
-  },
+    focus(t: Theme) {
+      return emotion.css`
+        color: ${t.clearCrossIconHoverColor};
+      `;
+    },
 
-  clearCrossSmall(t: Theme) {
-    return css`
+    clearCrossSmall(t: Theme) {
+      return emotion.css`
       width: ${t.clearCrossIconWidthSmall};
       height: ${t.clearCrossIconHeightSmall};
       border-radius: ${t.clearCrossIconBorderRadiusSmall};
     `;
-  },
-  clearCrossMedium(t: Theme) {
-    return css`
+    },
+    clearCrossMedium(t: Theme) {
+      return emotion.css`
       width: ${t.clearCrossIconWidthMedium};
       height: ${t.clearCrossIconHeightMedium};
       border-radius: ${t.clearCrossIconBorderRadiusMedium};
     `;
-  },
-  clearCrossLarge(t: Theme) {
-    return css`
+    },
+    clearCrossLarge(t: Theme) {
+      return emotion.css`
       width: ${t.clearCrossIconWidthLarge};
       height: ${t.clearCrossIconHeightLarge};
       border-radius: ${t.clearCrossIconBorderRadiusLarge};
     `;
-  },
-  relativeWidthSmall(t: Theme) {
-    return css`
+    },
+    relativeWidthSmall(t: Theme) {
+      return emotion.css`
       display: inline-block;
       width: ${t.inputIconSizeSmall};
     `;
-  },
-  relativeWidthMedium(t: Theme) {
-    return css`
+    },
+    relativeWidthMedium(t: Theme) {
+      return emotion.css`
       display: inline-block;
       width: ${t.inputIconSizeMedium};
     `;
-  },
-  relativeWidthLarge(t: Theme) {
-    return css`
+    },
+    relativeWidthLarge(t: Theme) {
+      return emotion.css`
       display: inline-block;
       width: ${t.inputIconSizeLarge};
     `;
-  },
-});
+    },
+  });

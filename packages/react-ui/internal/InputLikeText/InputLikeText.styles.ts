@@ -1,6 +1,8 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
-export const styles = memoizeStyle({
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
+
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       padding-right: 10px;
@@ -41,4 +43,4 @@ export const styles = memoizeStyle({
       visibility: visible;
     `;
   },
-});
+}));

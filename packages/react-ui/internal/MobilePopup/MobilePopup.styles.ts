@@ -1,7 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       width: 100%;
@@ -68,6 +70,4 @@ const styles = {
       position: relative;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+}));

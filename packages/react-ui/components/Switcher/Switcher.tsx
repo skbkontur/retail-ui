@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { getButtonCorners, Group } from '../Group';
@@ -10,12 +11,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { SizeProp } from '../../lib/types/props';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Switcher.styles';
+import { getStyles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 import { mod } from './helpers';
 
@@ -78,6 +79,7 @@ interface SwitcherItem {
  *
  * Не используйте переключатель в качестве навигации, для этого лучше подходят Tabs.
  */
+@withRenderEnvironment
 @rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';
@@ -91,11 +93,16 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     focusedIndex: null,
   };
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -112,19 +119,19 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onKeyDown: this.handleKey,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      className: styles.input(),
+      className: this.styles.input(),
     };
     const items = <Group width={'100%'}>{this._renderItems()}</Group>;
 
-    const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
-    const wrapperClassName = cx(styles.wrap(), {
-      [styles.error(this.theme)]: this.props.error,
-      [styles.wrapCustomWidth()]: this.props.width !== undefined,
+    const captionClassName = this.cx(this.styles.caption(this.theme), this.getLabelSizeClassName());
+    const wrapperClassName = this.cx(this.styles.wrap(), {
+      [this.styles.error(this.theme)]: this.props.error,
+      [this.styles.wrapCustomWidth()]: this.props.width !== undefined,
     });
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={SwitcherDataTids.root} className={styles.root()} style={{ width: this.props.width }}>
+        <div data-tid={SwitcherDataTids.root} className={this.styles.root()} style={{ width: this.props.width }}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={wrapperClassName}>
             <input {...inputProps} />
@@ -267,12 +274,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
       case 'large':
-        return styles.captionLarge(this.theme);
+        return this.styles.captionLarge(this.theme);
       case 'medium':
-        return styles.captionMedium(this.theme);
+        return this.styles.captionMedium(this.theme);
       case 'small':
       default:
-        return styles.captionSmall(this.theme);
+        return this.styles.captionSmall(this.theme);
     }
   };
 }

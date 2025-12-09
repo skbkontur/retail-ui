@@ -1,9 +1,11 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import { menuHeaderSizeMixin, withIconSizeMixin } from './MenuHeader.mixins';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       color: ${t.menuHeaderColor};
@@ -60,4 +62,4 @@ export const styles = memoizeStyle({
       ${withIconSizeMixin(t.menuItemPaddingForIconLarge)}
     `;
   },
-});
+}));

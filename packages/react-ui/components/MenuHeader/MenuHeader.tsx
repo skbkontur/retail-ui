@@ -1,15 +1,15 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { SizeProp } from '../../lib/types/props';
 import { MenuContext } from '../../internal/Menu/MenuContext';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './MenuHeader.styles';
+import { getStyles } from './MenuHeader.styles';
 
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Добавляет отступ иконке. */
@@ -41,6 +41,8 @@ const MenuHeader = forwardRefAndName(
     ref: React.Ref<HTMLDivElement>,
   ) {
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
     const menuContext = useContext(MenuContext);
 
     function getRootSizeClassName() {

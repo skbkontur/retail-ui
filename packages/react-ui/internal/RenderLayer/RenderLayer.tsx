@@ -1,6 +1,6 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import type { CommonProps } from '../CommonWrapper';
 import { CommonWrapper } from '../CommonWrapper';
@@ -9,6 +9,7 @@ import { getRootNode, rootNode } from '../../lib/rootNode';
 import type { Nullable } from '../../typings/utility-types';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -20,6 +21,7 @@ export interface RenderLayerProps extends CommonProps {
 
 type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 
+@withRenderEnvironment
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
@@ -29,6 +31,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     active: true,
   };
 
+  private globalObject!: GlobalObject;
   private getProps = createPropsGetter(RenderLayer.defaultProps);
 
   private focusOutsideListenerToken: {
@@ -79,10 +82,11 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       return;
     }
 
-    this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
-    globalObject.addEventListener?.('blur', this.handleFocusOutside);
-    globalObject.document?.addEventListener(
-      'ontouchstart' in globalObject.document.documentElement && 'onpointerup' in globalObject.document.documentElement
+    this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside, this.globalObject);
+    this.globalObject.addEventListener?.('blur', this.handleFocusOutside);
+    this.globalObject.document?.addEventListener(
+      'ontouchstart' in this.globalObject.document.documentElement &&
+        'onpointerup' in this.globalObject.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -95,9 +99,10 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    globalObject.removeEventListener?.('blur', this.handleFocusOutside);
-    globalObject.document?.removeEventListener(
-      'ontouchstart' in globalObject.document.documentElement && 'onpointerup' in globalObject.document.documentElement
+    this.globalObject.removeEventListener?.('blur', this.handleFocusOutside);
+    this.globalObject.document?.removeEventListener(
+      'ontouchstart' in this.globalObject.document.documentElement &&
+        'onpointerup' in this.globalObject.document.documentElement
         ? 'pointerup'
         : 'mousedown',
       this.handleNativeDocClick,
@@ -114,7 +119,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getAnchorNode();
 
-    if (!node || (isInstanceOf(target, globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
+    if (!node || (isInstanceOf(target, this.globalObject.Element) && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 

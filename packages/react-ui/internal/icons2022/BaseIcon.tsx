@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { useStyles } from '../../lib/renderEnvironment';
 import type { ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './BaseIcon.styles';
+import { getStyles } from './BaseIcon.styles';
 
 export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: string;
@@ -28,6 +29,7 @@ export const BaseIcon = forwardRefAndName<SVGSVGElement, IconProps>(
     { color, size, style, 'aria-hidden': ariaHidden = true, viewBoxSize = 16, align = 'center', children, ...rest },
     ref,
   ) => {
+    const styles = useStyles(getStyles);
     const icon = (
       <svg
         ref={ref}

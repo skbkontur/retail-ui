@@ -5,6 +5,7 @@ import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIco
 import { MinusCircleIcon16Regular } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Regular';
 import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular';
 import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { ButtonProps } from '../../components/Button';
 import { Button } from '../../components/Button';
@@ -19,8 +20,8 @@ import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import type { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { cx } from '../../lib/theming/Emotion';
 import { FileUploader } from '../../components/FileUploader';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -35,7 +36,7 @@ import { RadioPlayground } from './RadioPlayground';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 import { SizesGroup } from './SizesGroup';
 
 const useSticky = !isTestEnv;
@@ -46,11 +47,17 @@ export interface PlaygroundProps {
   onEditLinkClick: () => void;
 }
 
+@withRenderEnvironment
 export class Playground extends React.Component<PlaygroundProps> {
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private stopEl = React.createRef<HTMLDivElement>();
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -61,7 +68,7 @@ export class Playground extends React.Component<PlaygroundProps> {
     );
   }
   private renderMain() {
-    const wrapperClassName = cx(styles.playground(), styles.playgroundWrapper(this.theme));
+    const wrapperClassName = this.cx(this.styles.playground(), this.styles.playgroundWrapper(this.theme));
     return (
       <div className={wrapperClassName}>
         <Gapped vertical gap={50}>
@@ -99,16 +106,16 @@ export class Playground extends React.Component<PlaygroundProps> {
   private renderTabs() {
     const { onThemeChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault, marginTop: 36 };
-    const tabsOuterWrapperClass = cx({
-      [styles.tabsWrapper(this.theme)]: true,
-      [styles.stickyTabsWrapper(this.theme)]: useSticky,
+    const tabsOuterWrapperClass = this.cx({
+      [this.styles.tabsWrapper(this.theme)]: true,
+      [this.styles.stickyTabsWrapper(this.theme)]: useSticky,
     });
 
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped gap={40}>
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
-            <div className={styles.tabsInnerWrapper(this.theme)}>
+            <div className={this.styles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.LightTheme} data-tab-id={ThemeType.LightTheme}>
                 Светлая тема
               </Tabs.Tab>
@@ -245,7 +252,7 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderTooltip = () => {
     const tooltipContent = () => (
-      <div className={styles.tooltipContent()}>
+      <div className={this.styles.tooltipContent()}>
         {'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}
       </div>
     );

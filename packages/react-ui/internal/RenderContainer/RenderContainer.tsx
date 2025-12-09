@@ -1,6 +1,7 @@
 import React from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import { RenderEnvironmentContext } from '../../lib/renderEnvironment';
+import type { RenderEnvironmentContextType } from '../../lib/renderEnvironment';
 import type { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
@@ -19,6 +20,9 @@ export const PORTAL_OUTLET_ATTR = 'data-rendered-container-id';
 export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
   public static displayName = 'RenderContainer';
+
+  public static contextType = RenderEnvironmentContext;
+  public context!: RenderEnvironmentContextType;
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
@@ -48,7 +52,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private createContainer() {
-    const domContainer = globalObject.document?.createElement('div');
+    const domContainer = this.context.globalObject.document?.createElement('div');
     if (domContainer) {
       domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute(PORTAL_OUTLET_ATTR, `${this.rootId}`);
@@ -57,13 +61,13 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private mountContainer() {
-    const globalWithReactTesting = globalObject as GlobalWithReactTesting;
+    const globalWithReactTesting = this.context.globalObject as GlobalWithReactTesting;
 
     if (!this.domContainer) {
       this.createContainer();
     }
-    if (this.domContainer && this.domContainer.parentNode !== globalObject.document?.body) {
-      globalObject.document?.body.appendChild(this.domContainer);
+    if (this.domContainer && this.domContainer.parentNode !== this.context.globalObject.document?.body) {
+      this.context.globalObject.document?.body.appendChild(this.domContainer);
 
       if (this.props.containerRef) {
         callChildRef(this.props.containerRef, this.domContainer);
@@ -89,7 +93,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         callChildRef(this.props.containerRef, null);
       }
 
-      const globalWithReactTesting = globalObject as GlobalWithReactTesting;
+      const globalWithReactTesting = this.context.globalObject as GlobalWithReactTesting;
       if (globalWithReactTesting.ReactTesting) {
         globalWithReactTesting.ReactTesting.removeRenderContainer(this.rootId);
       }

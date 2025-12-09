@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import { globalObject } from '@skbkontur/global-object';
 import warning from 'warning';
 
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../internal/RenderContainer';
+import { getOwnerGlobalObject } from '../lib/globalObject';
+import type { GlobalObject } from '../lib/globalObject';
 
 import { isInstanceOf } from './isInstanceOf';
 import { isFirefox } from './client';
@@ -14,8 +15,9 @@ interface FocusOutsideEventHandler {
 }
 
 const handlers: FocusOutsideEventHandler[] = [];
+const listenersAttached = new WeakSet<GlobalObject>();
 
-function addHandleEvent() {
+function addHandleEvent(globalObject: GlobalObject) {
   /**
    * Firefox do not supports 'focusin' event.
    * Focus events bubbles multiple time
@@ -30,11 +32,18 @@ function addHandleEvent() {
     { capture: true },
   );
 }
+function addFocusListener(globalObject: GlobalObject) {
+  if (listenersAttached.has(globalObject)) {
+    return;
+  }
 
-if (globalObject.document?.readyState === 'complete') {
-  addHandleEvent();
-} else {
-  globalObject.addEventListener?.('load', addHandleEvent);
+  if (globalObject.document?.readyState === 'complete') {
+    addHandleEvent(globalObject);
+  } else {
+    globalObject.addEventListener?.('load', () => addHandleEvent(globalObject));
+  }
+
+  listenersAttached.add(globalObject);
 }
 
 function handleNativeFocus(event: UIEvent) {
@@ -72,6 +81,7 @@ export function containsTargetOrRenderContainer(target: Element) {
  */
 export function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
   const currentNode = node.parentNode;
+  const globalObject = getOwnerGlobalObject(node);
   if (
     !currentNode ||
     node === rootNode ||
@@ -98,7 +108,13 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
   return findRenderContainer(currentNode, rootNode, container);
 }
 
-export function listen(elements: Element[] | (() => Element[]), callback: (event: Event) => void) {
+export function listen(
+  elements: Element[] | (() => Element[]),
+  callback: (event: Event) => void,
+  globalObject: GlobalObject,
+) {
+  addFocusListener(globalObject);
+
   const handler = {
     elements,
     callback,

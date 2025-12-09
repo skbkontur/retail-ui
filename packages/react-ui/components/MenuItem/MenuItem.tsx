@@ -1,7 +1,9 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
+import { isBrowser } from '../../lib/globalObject';
 import type { Nullable } from '../../typings/utility-types';
 import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
@@ -9,15 +11,15 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { SizeProp } from '../../lib/types/props';
 import type { MenuContextType } from '../../internal/Menu/MenuContext';
 import { MenuContext } from '../../internal/Menu/MenuContext';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './MenuItem.styles';
+import { getStyles } from './MenuItem.styles';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -95,6 +97,7 @@ export const MenuItemDataTids = {
  *
  * Сущности в которых может быть использован `MenuItem`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
+@withRenderEnvironment
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
@@ -106,6 +109,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
     highlighted: false,
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private mouseEntered = false;
   public getRootNode!: TGetRootNode;
@@ -117,6 +124,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public context!: MenuContextType;
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -131,8 +140,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.props.scrollIntoView && this.rootRef) {
       scrollYCenterIntoNearestScrollable(this.rootRef);
     }
-    if (this.rootRef && isBrowser(globalObject)) {
-      this.setState({ iconOffsetTop: globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
+    if (this.rootRef && isBrowser(this.globalObject)) {
+      this.setState({
+        iconOffsetTop: this.globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top'),
+      });
     }
     if (this.contentRef.current && !this.props.isNotSelectable) {
       this.context.navigation?.add(this.contentRef.current, this);
@@ -184,45 +195,45 @@ export class MenuItem extends React.Component<MenuItemProps> {
       return;
     }
     if (this.props.target) {
-      window.open(this.props.href, this.props.target);
-    } else {
-      location.href = this.props.href;
+      this.globalObject.open?.(this.props.href, this.props.target);
+    } else if (this.globalObject.location) {
+      this.globalObject.location.href = this.props.href;
     }
   };
 
   private getRootSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return styles.rootLarge(this.theme);
+        return this.styles.rootLarge(this.theme);
       case 'medium':
-        return styles.rootMedium(this.theme);
+        return this.styles.rootMedium(this.theme);
       case 'small':
       default:
-        return styles.rootSmall(this.theme);
+        return this.styles.rootSmall(this.theme);
     }
   }
 
   private getIconSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return styles.iconLarge(this.theme);
+        return this.styles.iconLarge(this.theme);
       case 'medium':
-        return styles.iconMedium(this.theme);
+        return this.styles.iconMedium(this.theme);
       case 'small':
       default:
-        return styles.iconSmall(this.theme);
+        return this.styles.iconSmall(this.theme);
     }
   }
 
   private getWithIconSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return styles.withIconLarge(this.theme);
+        return this.styles.withIconLarge(this.theme);
       case 'medium':
-        return styles.withIconMedium(this.theme);
+        return this.styles.withIconMedium(this.theme);
       case 'small':
       default:
-        return styles.withIconSmall(this.theme);
+        return this.styles.withIconSmall(this.theme);
     }
   }
 
@@ -241,7 +252,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       href,
       disabled,
       scrollIntoView,
-      rel = href && isExternalLink(href) ? 'noopener noreferrer' : this.props.rel,
+      rel = href && isExternalLink(href, this.globalObject) ? 'noopener noreferrer' : this.props.rel,
       isNotSelectable,
       children,
       className: unusedClasses,
@@ -255,8 +266,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       iconElement = (
         <div
           style={{ top: this.state.iconOffsetTop }}
-          className={cx({
-            [styles.icon()]: true,
+          className={this.cx({
+            [this.styles.icon()]: true,
             [this.getIconSizeClassName()]: true,
           })}
         >
@@ -265,16 +276,16 @@ export class MenuItem extends React.Component<MenuItemProps> {
       );
     }
 
-    const className = cx({
-      [styles.root(this.theme)]: true,
+    const className = this.cx({
+      [this.styles.root(this.theme)]: true,
       [this.getRootSizeClassName()]: true,
-      [styles.rootMobile(this.theme)]: isMobile,
-      [styles.loose()]: !!loose,
-      [styles.hover(this.theme)]: this.isHover,
-      [styles.selected(this.theme)]: this.isSelected,
+      [this.styles.rootMobile(this.theme)]: isMobile,
+      [this.styles.loose()]: !!loose,
+      [this.styles.hover(this.theme)]: this.isHover,
+      [this.styles.selected(this.theme)]: this.isSelected,
       [this.getWithIconSizeClassName()]: Boolean(iconElement) || !!_enableIconPadding || this.context.enableIconPadding,
-      [styles.nonSelectable()]: !!isNotSelectable,
-      [styles.disabled(this.theme)]: !!disabled,
+      [this.styles.nonSelectable()]: !!isNotSelectable,
+      [this.styles.disabled(this.theme)]: !!disabled,
     });
 
     let content = children;
@@ -309,8 +320,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
         >
           {iconElement}
           <span
-            className={cx({
-              [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
+            className={this.cx({
+              [this.styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
             })}
             ref={this.contentRef}
             data-tid={MenuItemDataTids.content}
@@ -320,9 +331,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
           {comment && (
             <div
               data-tid={MenuItemDataTids.comment}
-              className={cx({
-                [styles.comment(this.theme)]: true,
-                [styles.commentHover(this.theme)]: this.isHover,
+              className={this.cx({
+                [this.styles.comment(this.theme)]: true,
+                [this.styles.commentHover(this.theme)]: this.isHover,
               })}
             >
               {comment}

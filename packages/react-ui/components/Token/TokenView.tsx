@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import React, { useContext } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
 import type { TokenSize } from './Token';
-import { globalClasses, styles } from './Token.styles';
+import { globalClasses, getStyles } from './Token.styles';
 
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Задает размер контрола. */
@@ -19,6 +19,8 @@ export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function TokenView(props: TokenViewProps) {
   const { size = 'small', children, closeButton, hideCloseButton, className, ...rest } = props;
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
   const theme = useContext(ThemeContext);
   const getSizeClassName = (size: TokenSize) => {
     switch (size) {

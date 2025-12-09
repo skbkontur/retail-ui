@@ -1,8 +1,10 @@
+import type { Emotion } from '@emotion/css/create-instance';
+
 import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   icon() {
     const space = `'${ZERO_WIDTH_SPACE_CSS}'`;
     return css`
@@ -86,4 +88,4 @@ export const styles = memoizeStyle({
       margin-left: 0;
     `;
   },
-});
+}));

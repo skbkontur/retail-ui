@@ -1,5 +1,8 @@
 import { Effect } from '../CustomComboBoxReducer';
 import type { CustomComboBoxProps } from '../CustomComboBox';
+import { getSafeWindow } from '../../../lib/globalObject';
+
+const safeWindow = getSafeWindow();
 
 interface ItemType {
   value: number;
@@ -50,7 +53,13 @@ describe('Default combobox reducer', () => {
       const mockedGetState = vi.fn();
       const mockedGetInstance = vi.fn();
 
-      Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+      Effect.unexpectedInput(inputValue, items)(
+        mockedDispatch,
+        mockedGetState,
+        mockedGetProps,
+        mockedGetInstance,
+        safeWindow,
+      );
 
       expect(mockedDispatch).toHaveBeenCalledWith({
         type: 'ValueChange',
@@ -81,7 +90,13 @@ describe('Default combobox reducer', () => {
     const mockedGetState = vi.fn();
     const mockedGetInstance = vi.fn();
 
-    Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+    Effect.unexpectedInput(inputValue, items)(
+      mockedDispatch,
+      mockedGetState,
+      mockedGetProps,
+      mockedGetInstance,
+      safeWindow,
+    );
 
     expect(mockedDispatch).not.toHaveBeenCalled();
   });
@@ -91,7 +106,13 @@ describe('Default combobox reducer', () => {
     const mockedDispatch = vi.fn();
     const mockedGetState = vi.fn();
     const mockedGetInstance = vi.fn();
-    Effect.unexpectedInput('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+    Effect.unexpectedInput('Hello', ['Hello'])(
+      mockedDispatch,
+      mockedGetState,
+      mockedGetProps,
+      mockedGetInstance,
+      safeWindow,
+    );
 
     expect(mockedDispatch).toHaveBeenCalledTimes(1);
   });

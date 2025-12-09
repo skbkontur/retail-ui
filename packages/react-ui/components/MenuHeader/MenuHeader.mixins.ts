@@ -1,5 +1,3 @@
-import { css } from '../../lib/theming/Emotion';
-
 export const menuHeaderSizeMixin = (
   menuHeaderPaddingX: string,
   menuHeaderFontSize: string,
@@ -9,7 +7,7 @@ export const menuHeaderSizeMixin = (
 ) => {
   const paddingRight = menuHeaderPaddingX;
 
-  return css`
+  return `
     font-size: ${menuHeaderFontSize};
     line-height: ${menuHeaderLineHeight};
     padding: ${menuHeaderPaddingTop} ${paddingRight} ${menuHeaderPaddingBottom} ${menuHeaderPaddingX};
@@ -17,7 +15,7 @@ export const menuHeaderSizeMixin = (
 };
 
 export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
-  return css`
+  return `
     padding-left: ${menuItemPaddingForIcon};
   `;
 };

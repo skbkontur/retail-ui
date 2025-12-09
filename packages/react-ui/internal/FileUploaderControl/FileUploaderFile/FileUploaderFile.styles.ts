@@ -1,7 +1,9 @@
-import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles } from '../../../lib/theming/Emotion';
 import type { Theme } from '../../../lib/theming/Theme';
 
-const styles = {
+export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
     return css`
       width: 100%;
@@ -105,6 +107,4 @@ const styles = {
       outline: 1px solid ${t.borderColorFocus};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+}));

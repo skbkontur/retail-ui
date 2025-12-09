@@ -1,22 +1,23 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import type { InputProps } from '../../components/Input';
 import { InputLayout } from '../../components/Input/InputLayout/InputLayout';
 import { DEFAULT_WIDTH, Textarea } from '../../components/Textarea';
 import type { TextareaProps } from '../../components/Textarea';
-import { styles as textareaStyles } from '../../components/Textarea/Textarea.styles';
-import { cx } from '../../lib/theming/Emotion';
+import { getStyles as getTextareaStyles } from '../../components/Textarea/Textarea.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import type { Theme } from '../../lib/theming/Theme';
-import { styles as inputStyles } from '../../components/Input/Input.styles';
+import { getStyles as getInputStyles } from '../../components/Input/Input.styles';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { calculateClearCrossShowedState, InputDataTids } from '../../components/Input';
 import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './InternalTextareaWithLayout.styles';
+import { getStyles } from './InternalTextareaWithLayout.styles';
 
 interface InternalTextareaWithLayoutProps
   extends TextareaProps,
@@ -28,6 +29,7 @@ interface InternalTextareaWithLayoutState {
   clearCrossShowed: boolean;
 }
 
+@withRenderEnvironment
 @rootNode
 export class InternalTextareaWithLayout extends React.Component<
   InternalTextareaWithLayoutProps,
@@ -36,6 +38,11 @@ export class InternalTextareaWithLayout extends React.Component<
   public static __KONTUR_REACT_UI__ = 'InternalTextareaWithLayout';
   private wrappedComponentRef = React.createRef<Textarea>();
   private theme!: Theme;
+  private styles!: ReturnType<typeof getStyles>;
+  private inputStyles!: ReturnType<typeof getInputStyles>;
+  private textareaStyles!: ReturnType<typeof getTextareaStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
   private getProps = createPropsGetter(Textarea.defaultProps);
 
   public componentDidUpdate(prevProps: Readonly<InternalTextareaWithLayoutProps>) {
@@ -77,6 +84,10 @@ export class InternalTextareaWithLayout extends React.Component<
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+    this.inputStyles = getInputStyles(this.emotion);
+    this.textareaStyles = getTextareaStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -90,24 +101,24 @@ export class InternalTextareaWithLayout extends React.Component<
   private getTextareaSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return textareaStyles.textareaLarge(this.theme);
+        return this.textareaStyles.textareaLarge(this.theme);
       case 'medium':
-        return textareaStyles.textareaMedium(this.theme);
+        return this.textareaStyles.textareaMedium(this.theme);
       case 'small':
       default:
-        return textareaStyles.textareaSmall(this.theme);
+        return this.textareaStyles.textareaSmall(this.theme);
     }
   }
 
   private getRootSizeClassName() {
     switch (this.getProps().size) {
       case 'large':
-        return textareaStyles.rootLarge(this.theme);
+        return this.textareaStyles.rootLarge(this.theme);
       case 'medium':
-        return textareaStyles.rootMedium(this.theme);
+        return this.textareaStyles.rootMedium(this.theme);
       case 'small':
       default:
-        return textareaStyles.rootSmall(this.theme);
+        return this.textareaStyles.rootSmall(this.theme);
     }
   }
 
@@ -145,17 +156,17 @@ export class InternalTextareaWithLayout extends React.Component<
 
   private renderLayout = () => {
     const labelProps = {
-      className: cx(
-        styles.contentWrapper(),
-        textareaStyles.textarea(this.theme),
+      className: this.cx(
+        this.styles.contentWrapper(),
+        this.textareaStyles.textarea(this.theme),
         this.getTextareaSizeClassName(),
         this.getRootSizeClassName(),
         {
-          [inputStyles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
-          [inputStyles.borderless()]: this.props.borderless && !this.state.focused,
-          [textareaStyles.disabled(this.theme)]: this.props.disabled,
-          [textareaStyles.warning(this.theme)]: this.props.warning,
-          [textareaStyles.error(this.theme)]: this.props.error,
+          [this.inputStyles.focus(this.theme)]: this.state.focused && !this.props.warning && !this.props.error,
+          [this.inputStyles.borderless()]: this.props.borderless && !this.state.focused,
+          [this.textareaStyles.disabled(this.theme)]: this.props.disabled,
+          [this.textareaStyles.warning(this.theme)]: this.props.warning,
+          [this.textareaStyles.error(this.theme)]: this.props.error,
         },
       ),
       style: { width: this.props.width || DEFAULT_WIDTH, minWidth: '0', position: 'relative' as const },

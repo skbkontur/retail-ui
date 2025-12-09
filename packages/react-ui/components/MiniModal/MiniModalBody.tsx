@@ -1,13 +1,13 @@
 import React from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import type { ModalBodyProps } from '../Modal';
 import { Modal } from '../Modal';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
 import { MiniModalDataTids } from './MiniModal';
-import { styles } from './MiniModal.styles';
+import { getStyles } from './MiniModal.styles';
 
 /**
  * Обёртка над Modal.Body
@@ -17,6 +17,9 @@ import { styles } from './MiniModal.styles';
 export const MiniModalBody = forwardRefAndName<HTMLDivElement, ModalBodyProps>(
   'MiniModalBody',
   ({ children, ...rest }, ref) => {
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
+
     return (
       <Modal.Body {...rest}>
         <ThemeContext.Consumer>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { css } from '../lib/theming/Emotion';
+import { useEmotion } from '../lib/renderEnvironment';
 
 import { checkAccess } from './check-access';
 
@@ -15,6 +15,7 @@ export interface HeaderProps {
 
 export const Header = ({ component, guides, figma }: HeaderProps = {}) => {
   const [hasAccess, setHasAccess] = React.useState(false);
+  const { css } = useEmotion();
 
   useEffect(() => {
     checkAccess().then((status) => {

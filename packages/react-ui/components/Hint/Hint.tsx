@@ -1,7 +1,7 @@
 import React from 'react';
-import type { SafeTimer } from '@skbkontur/global-object';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { SafeTimer } from '../../lib/globalObject';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { Theme } from '../../lib/theming/Theme';
@@ -12,13 +12,13 @@ import type { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Hint.styles';
+import { getStyles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
@@ -73,6 +73,7 @@ type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 
  *
  * Для подсказки, всплывающей по клику используйте Tooltip.
  */
+@withRenderEnvironment
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Hint';
@@ -97,6 +98,9 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
 
   private popupRef = React.createRef<Popup>();
 
@@ -110,7 +114,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return;
     }
     if (this.timer) {
-      globalObject.clearTimeout(this.timer);
+      clearTimeout(this.timer);
       this.timer = null;
     }
     if (opened !== prevProps.opened) {
@@ -120,12 +124,14 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public componentWillUnmount() {
     if (this.timer) {
-      globalObject.clearTimeout(this.timer);
+      clearTimeout(this.timer);
       this.timer = null;
     }
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -187,9 +193,9 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
     const { maxWidth } = this.getProps();
     const centerAlignPositions = ['top', 'top center', 'bottom', 'bottom center'];
-    const className = cx({
-      [styles.content(this.theme)]: true,
-      [styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
+    const className = this.cx({
+      [this.styles.content(this.theme)]: true,
+      [this.styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
     });
     return (
       <div className={className} style={{ maxWidth }}>
@@ -204,7 +210,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseEnter = (e: MouseEventType) => {
     if (!this.getProps().manual && !this.timer) {
-      this.timer = globalObject.setTimeout(this.open, 400);
+      this.timer = setTimeout(this.open, 400);
     }
 
     if (this.props.onMouseEnter) {
@@ -214,7 +220,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private handleMouseLeave = (e: MouseEventType) => {
     if (!this.getProps().manual && this.timer) {
-      globalObject.clearTimeout(this.timer);
+      clearTimeout(this.timer);
       this.timer = null;
       this.setState({ opened: false });
     }

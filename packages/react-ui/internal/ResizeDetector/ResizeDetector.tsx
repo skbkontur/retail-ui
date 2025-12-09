@@ -1,8 +1,9 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { cx } from '../../lib/theming/Emotion';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './ResizeDetector.styles';
+import { getStyles } from './ResizeDetector.styles';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
@@ -10,11 +11,15 @@ export interface ResizeDetectorProps {
   alignBaseline?: boolean;
 }
 
+@withRenderEnvironment
 export class ResizeDetector extends React.Component<React.PropsWithChildren<ResizeDetectorProps>> {
   public static __KONTUR_REACT_UI__ = 'ResizeDetector';
   public static displayName = 'ResizeDetector';
 
   private iframeWindow: Window | null = null;
+  private styles!: ReturnType<typeof getStyles>;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
 
   public componentDidMount() {
     if (this.iframeWindow) {
@@ -23,14 +28,16 @@ export class ResizeDetector extends React.Component<React.PropsWithChildren<Resi
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
-      <div className={styles.root()}>
-        <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} />
+      <div className={this.styles.root()}>
+        <iframe title="resizeDetector" ref={this.iframeRef} className={this.styles.iframe()} tabIndex={-1} />
         <div
-          className={cx({
-            [styles.content()]: true,
-            [styles.fullHeight()]: this.props.fullHeight,
-            [styles.flex()]: this.props.alignBaseline,
+          className={this.cx({
+            [this.styles.content()]: true,
+            [this.styles.fullHeight()]: this.props.fullHeight,
+            [this.styles.flex()]: this.props.alignBaseline,
           })}
         >
           {this.props.children}

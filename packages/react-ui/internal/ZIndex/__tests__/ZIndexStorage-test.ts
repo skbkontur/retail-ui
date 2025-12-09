@@ -1,9 +1,9 @@
-import { globalObject } from '@skbkontur/global-object';
-
+import { getSafeWindow } from '../../../lib/globalObject';
 import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
 import { incrementZIndex, removeZIndex } from '../ZIndexStorage';
 
-const globalWithRetailUiZIndexes = globalObject as GlobalWithRetailUiZIndexes;
+const safeWindow = getSafeWindow();
+const globalWithRetailUiZIndexes = safeWindow as GlobalWithRetailUiZIndexes;
 
 const setZIndexes = (indexes: number[]) => (globalWithRetailUiZIndexes.__RetailUiZIndexes = indexes);
 
@@ -12,27 +12,27 @@ beforeEach(() => setZIndexes([]));
 describe('removeZIndex', () => {
   it('should remove value if value exists', () => {
     setZIndexes([1, 2, 3]);
-    removeZIndex(3);
+    removeZIndex(3, safeWindow);
 
     expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual([1, 2]);
   });
 
   it('should not change array if value does not exist', () => {
     setZIndexes([1, 2, 3]);
-    removeZIndex(4);
+    removeZIndex(4, safeWindow);
 
     expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should removes just first value', () => {
     setZIndexes([1, 2, 2, 3]);
-    removeZIndex(2);
+    removeZIndex(2, safeWindow);
 
     expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should not change empty array', () => {
-    removeZIndex(2);
+    removeZIndex(2, safeWindow);
 
     expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual([]);
   });
@@ -105,7 +105,7 @@ describe('incrementZindex', () => {
 
     it(`should create ZIndex with priority=${priority} in storage=[${storage}]`, () => {
       setZIndexes(storage);
-      const result = incrementZIndex(priority, delta);
+      const result = incrementZIndex(priority, delta, safeWindow);
 
       expect(result).toBe(expected.result);
       expect(globalWithRetailUiZIndexes.__RetailUiZIndexes).toEqual(expected.storage);

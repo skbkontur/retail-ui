@@ -1,9 +1,10 @@
 import type { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import invariant from 'invariant';
-import { globalObject } from '@skbkontur/global-object';
 import debounce from 'lodash.debounce';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import {
   isKeyArrowDown,
   isKeyArrowUp,
@@ -31,24 +32,24 @@ import type { Theme, ThemeIn } from '../../lib/theming/Theme';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
-import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import type { MenuHeaderProps } from '../MenuHeader';
 import type { SizeProp } from '../../lib/types/props';
-import { styles as linkStyles } from '../Link/Link.styles';
+import { getStyles as getLinkStyles } from '../Link/Link.styles';
 import { Popup, type PopupPositionsType } from '../../internal/Popup';
 import { ZIndex } from '../../internal/ZIndex';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import type { SelectLocale } from './locale';
 import { SelectLocaleHelper } from './locale';
-import { styles } from './Select.styles';
+import { getStyles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
 import { SelectDataTids } from './tids';
 
@@ -261,7 +262,7 @@ type DefaultProps<TValue, TItem> = Required<
  *
  * Не используйте `Select` для выбора элементов меню. В таком случае воспользуйтесь компонентом Dropdown.
  */
-
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
@@ -297,6 +298,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     searchPattern: '',
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private linkStyles!: ReturnType<typeof getLinkStyles>;
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private size!: SizeProp;
   private isMobileLayout!: boolean;
@@ -310,14 +316,17 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
-      globalObject.addEventListener?.('popstate', this.close);
+      this.globalObject.addEventListener?.('popstate', this.close);
     }
     if (prevState.opened && !this.state.opened) {
-      globalObject.removeEventListener?.('popstate', this.close);
+      this.globalObject.removeEventListener?.('popstate', this.close);
     }
   }
 
   public render() {
+    this.linkStyles = getLinkStyles(this.emotion);
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -403,7 +412,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const root = (
       <span
         data-tid={dataTid}
-        className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
+        className={this.cx({ [this.styles.root()]: true, [this.styles.rootMobile(this.theme)]: isMobile })}
         style={style}
       >
         {button}
@@ -459,17 +468,17 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getLeftIconClass(size: SizeProp | undefined) {
     if (this.getProps().use === 'link') {
-      return styles.leftIconLink(this.theme);
+      return this.styles.leftIconLink(this.theme);
     }
 
     switch (size) {
       case 'large':
-        return styles.leftIconLarge(this.theme);
+        return this.styles.leftIconLarge(this.theme);
       case 'medium':
-        return styles.leftIconMedium(this.theme);
+        return this.styles.leftIconMedium(this.theme);
       case 'small':
       default:
-        return styles.leftIconSmall(this.theme);
+        return this.styles.leftIconSmall(this.theme);
     }
   }
 
@@ -488,11 +497,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const labelProps = {
       'data-tid': SelectDataTids.label,
-      className: cx({
-        [styles.label()]: use !== 'link',
-        [styles.placeholder(this.theme)]: params.isPlaceholder,
-        [styles.customUsePlaceholder()]: params.isPlaceholder && use !== 'default',
-        [styles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
+      className: this.cx({
+        [this.styles.label()]: use !== 'link',
+        [this.styles.placeholder(this.theme)]: params.isPlaceholder,
+        [this.styles.customUsePlaceholder()]: params.isPlaceholder && use !== 'default',
+        [this.styles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
         paddingRight: this.getSelectIconGap(),
@@ -505,14 +514,18 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <Button {...buttonProps}>
-        <div className={cx(styles.selectButtonContainer(), { [linkStyles.root(this.theme)]: use === 'link' })}>
+        <div
+          className={this.cx(this.styles.selectButtonContainer(), {
+            [this.linkStyles.root(this.theme)]: use === 'link',
+          })}
+        >
           {this.props._icon && <div className={this.getLeftIconClass(this.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
           <div
-            className={cx(styles.arrowWrap(this.theme), {
-              [styles.arrowDisabled(this.theme)]: this.props.disabled,
-              [styles.customUseArrow()]: useIsCustom,
+            className={this.cx(this.styles.arrowWrap(this.theme), {
+              [this.styles.arrowDisabled(this.theme)]: this.props.disabled,
+              [this.styles.customUseArrow()]: useIsCustom,
             })}
           >
             {icon}
@@ -576,7 +589,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSearch = () => {
     return (
-      <div className={styles.search()} onKeyDown={this.handleKey}>
+      <div className={this.styles.search()} onKeyDown={this.handleKey}>
         <Input ref={this.debouncedFocusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );

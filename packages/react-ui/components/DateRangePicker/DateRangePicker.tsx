@@ -1,8 +1,8 @@
 import React, { useImperativeHandle, useRef, useState, useLayoutEffect, type AriaAttributes } from 'react';
 
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { css, cx } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
@@ -26,7 +26,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { LocaleContext } from '../../lib/locale';
 import { isIOS } from '../../lib/client';
 
-import { getFontSize, styles } from './DateRangePicker.styles';
+import { getFontSize, getStyles } from './DateRangePicker.styles';
 import { DateRangePickerSeparator } from './DateRangePickerSeparator';
 import type { DateRangePickerContextProps } from './DateRangePickerContext';
 import { DateRangePickerContext } from './DateRangePickerContext';
@@ -91,6 +91,8 @@ export const DateRangePicker = Object.assign(
     validate: validateDateRangePicker,
   },
   forwardRefAndName('DateRangePicker', (props: DateRangePickerProps, ref) => {
+    const { css, cx } = useEmotion();
+    const styles = useStyles(getStyles);
     const { isMobile } = useResponsiveLayout();
     const locale = useLocaleForControl('DateRangePicker', DateRangePickerLocaleHelper);
 

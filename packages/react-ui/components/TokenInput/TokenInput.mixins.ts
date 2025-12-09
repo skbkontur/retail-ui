@@ -1,13 +1,11 @@
-import { css } from '../../lib/theming/Emotion';
-
 export const labelSizeMixin = (tokenInputPaddingY: string, tokenInputPaddingX: string) => {
-  return css`
+  return `
     padding: ${tokenInputPaddingY} ${tokenInputPaddingX};
   `;
 };
 
 export const inputSizeMixin = (fontSize: string, lineHeight: string) => {
-  return css`
+  return `
     font-size: ${fontSize};
     height: ${lineHeight};
     line-height: ${lineHeight};

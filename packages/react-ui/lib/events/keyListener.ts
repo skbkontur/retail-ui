@@ -1,11 +1,14 @@
-import { globalObject } from '@skbkontur/global-object';
+import { useMemo } from 'react';
+
+import type { GlobalObject } from '../../lib/globalObject';
+import { useGlobal } from '../renderEnvironment';
 
 import { isKeyArrow, isKeyTab } from './keyboard/identifiers';
 
-class KeyListener {
+export class KeyListener {
   public isTabPressed = false;
   public isArrowPressed = false;
-  constructor() {
+  constructor(globalObject: GlobalObject) {
     globalObject.addEventListener?.('keydown', (e) => {
       this.isTabPressed = isKeyTab(e);
       this.isArrowPressed = isKeyArrow(e);
@@ -17,4 +20,7 @@ class KeyListener {
   }
 }
 
-export const keyListener = new KeyListener();
+export function useKeyListener() {
+  const globalObject = useGlobal();
+  return useMemo(() => new KeyListener(globalObject), [globalObject]);
+}

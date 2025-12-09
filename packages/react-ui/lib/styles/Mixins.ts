@@ -1,7 +1,5 @@
-import { css } from '../theming/Emotion';
-
 export const resetButton = () => {
-  return css`
+  return `
     outline: none;
     border: none;
     margin: 0; /* Need for Safari. */
@@ -33,7 +31,7 @@ export const resetButton = () => {
 };
 
 export const resetText = () => {
-  return css`
+  return `
     letter-spacing: normal;
     line-height: normal;
     font-family: inherit;

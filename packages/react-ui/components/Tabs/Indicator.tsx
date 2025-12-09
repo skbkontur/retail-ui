@@ -1,18 +1,19 @@
 import React from 'react';
 import throttle from 'lodash.throttle';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import type { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, rootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Indicator.styles';
+import { getStyles } from './Indicator.styles';
 import type { TabsContextType } from './TabsContext';
 import { TabsContext } from './TabsContext';
 import type { TabIndicators } from './Tab';
@@ -30,6 +31,7 @@ export interface IndicatorState {
   styles: React.CSSProperties;
 }
 
+@withRenderEnvironment
 @rootNode
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public static contextType = TabsContext;
@@ -39,6 +41,10 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     styles: {},
   };
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
 
   private eventListener: Nullable<{
@@ -50,7 +56,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
-    this.eventListener = LayoutEvents.addListener(this.reflow);
+    this.eventListener = LayoutEvents.addListener(this.reflow, this.globalObject);
     this.removeTabUpdatesListener = this.props.tabUpdates.on(this.reflow);
     this.reflow();
   }
@@ -71,6 +77,8 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -94,12 +102,12 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     return (
       <div
         data-tid={TabsDataTids.indicatorRoot}
-        className={cx(
-          styles.root(this.theme),
-          indicators.primary && styles.primary(this.theme),
-          indicators.success && styles.success(this.theme),
-          indicators.warning && styles.warning(this.theme),
-          indicators.error && styles.error(this.theme),
+        className={this.cx(
+          this.styles.root(this.theme),
+          indicators.primary && this.styles.primary(this.theme),
+          indicators.success && this.styles.success(this.theme),
+          indicators.warning && this.styles.warning(this.theme),
+          indicators.error && this.styles.error(this.theme),
           this.props.className,
         )}
         style={this.state.styles}
@@ -123,7 +131,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   private getStyles(node: any): React.CSSProperties {
     const htmlNode = getRootNode(node);
 
-    if (isInstanceOf(htmlNode, globalObject.HTMLElement)) {
+    if (isInstanceOf(htmlNode, this.globalObject.HTMLElement)) {
       const rect = getDOMRect(htmlNode);
       if (this.props.vertical) {
         return {

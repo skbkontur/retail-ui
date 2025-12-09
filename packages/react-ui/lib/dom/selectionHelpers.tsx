@@ -1,9 +1,11 @@
-import { globalObject, isBrowser } from '@skbkontur/global-object';
+import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject';
 
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
   if (!node) {
     return;
   }
+  const globalObject = getOwnerGlobalObject(node);
   if (isBrowser(globalObject) && 'createRange' in globalObject.document) {
     try {
       const selection = globalObject.getSelection();
@@ -36,7 +38,7 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
   }
 };
 
-export const removeAllSelections = () => {
+export const removeAllSelections = (globalObject: GlobalObject) => {
   const selection = globalObject.getSelection?.();
   if (selection) {
     try {

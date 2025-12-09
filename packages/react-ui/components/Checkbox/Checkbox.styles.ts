@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins';
@@ -7,7 +9,7 @@ export const globalClasses = prefix('checkbox')({
   box: 'box',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       display: inline-flex;
@@ -230,4 +232,4 @@ export const styles = memoizeStyle({
       padding-left: ${t.checkboxCaptionGap};
     `;
   },
-});
+}));

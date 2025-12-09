@@ -1,9 +1,9 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
-import { globalObject } from '@skbkontur/global-object';
 
-import { isNonNullable, isNullable } from '../../lib/utils';
+import { getOwnerGlobalObject } from '../../lib/globalObject';
+import { isNonNullable, isNullable, isElement } from '../../lib/utils';
 import type { InputProps } from '../Input';
 import { Input } from '../Input';
 import type { Nullable, Override } from '../../typings/utility-types';
@@ -446,7 +446,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 }
 
 function getInputSelectionFromEvent(input: EventTarget): Selection {
-  if (!isInstanceOf(input, globalObject.HTMLInputElement)) {
+  if (!isElement(input) || !isInstanceOf(input, getOwnerGlobalObject(input).HTMLInputElement)) {
     warning(false, 'input is not HTMLInputElement');
 
     return {

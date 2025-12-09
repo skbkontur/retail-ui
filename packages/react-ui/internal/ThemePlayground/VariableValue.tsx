@@ -2,6 +2,7 @@ import React from 'react';
 import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
 import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
 import EventEmitter from 'eventemitter3';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { isColor } from '../../lib/styles/ColorHelpers';
 import { Input } from '../../components/Input';
@@ -10,10 +11,10 @@ import type { Theme } from '../../lib/theming/Theme';
 import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './Playground.styles';
+import { getStyles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
@@ -34,10 +35,14 @@ export interface VariableValueState {
 
 type DefaultProps = Required<Pick<VariableValueProps, 'deprecated'>>;
 
+@withRenderEnvironment
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
   public static defaultProps: DefaultProps = {
     deprecated: false,
   };
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private getProps = createPropsGetter(VariableValue.defaultProps);
   public state: VariableValueState = {
     value: this.props.value,
@@ -51,10 +56,12 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   public render() {
     const { variable, theme, baseVariables } = this.props;
     const deprecated = this.getProps().deprecated;
+    this.styles = getStyles(this.emotion);
+
     return (
-      <div className={styles.variable(theme)} ref={this.rootRef} tabIndex={0}>
+      <div className={this.styles.variable(theme)} ref={this.rootRef} tabIndex={0}>
         <div
-          className={cx(styles.variableName(theme), { [styles.deprecated()]: deprecated })}
+          className={this.cx(this.styles.variableName(theme), { [this.styles.deprecated()]: deprecated })}
           title={variable}
         >{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
@@ -91,9 +98,9 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderBaseVariableLink = () => {
     const baseVariables = this.props.baseVariables;
     return (
-      <div className={styles.baseVariableRoot()}>
+      <div className={this.styles.baseVariableRoot()}>
         {this.colorIcon()}
-        <div className={styles.baseLinkWrapper()}>
+        <div className={this.styles.baseLinkWrapper()}>
           <Gapped>
             <div style={{ textAlign: 'right' }}>
               <Gapped vertical>
@@ -139,7 +146,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderRollbackIcon() {
     return (
       <Hint text={'Вернуться к базовой переменной'}>
-        <div className={styles.linkRoot()}>
+        <div className={this.styles.linkRoot()}>
           <Link icon={<XIcon16Regular />} onClick={this.rollbackToBaseVariable} />
         </div>
       </Hint>
@@ -151,7 +158,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   };
 
   private colorIcon = () => {
-    return <div className={styles.colorIcon()} style={{ background: this.state.value }} />;
+    return <div className={this.styles.colorIcon()} style={{ background: this.state.value }} />;
   };
 
   private handleEditLinkClick = () => {

@@ -1,8 +1,8 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { globalObject } from '@skbkontur/global-object';
 
+import type { GlobalObject } from '../../lib/globalObject';
 import type { Nullable } from '../../typings/utility-types';
 import type { Input, InputIconType, ShowClearIcon } from '../../components/Input';
 import type { Menu } from '../Menu';
@@ -19,6 +19,7 @@ import type { SizeProp } from '../../lib/types/props';
 import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput';
 import type { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout';
 import { withSize } from '../../lib/size/SizeDecorator';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
@@ -113,6 +114,7 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
+@withRenderEnvironment
 @responsiveLayout
 @rootNode
 @withSize
@@ -126,6 +128,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<void>>;
+  private globalObject!: GlobalObject;
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
   private isMobileLayout!: boolean;
@@ -193,7 +196,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
-          globalObject.setTimeout(resolve, LOADER_SHOW_TIME);
+          setTimeout(resolve, LOADER_SHOW_TIME);
         }, DELAY_BEFORE_SHOW_LOADER);
 
         cancelPromise.catch(() => cancelLoader());
@@ -400,7 +403,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   };
 
   private handleEffect = (effect: CustomComboBoxEffect<T>) => {
-    effect(this.dispatch, this.getState, this.getProps, () => this);
+    effect(this.dispatch, this.getState, this.getProps, () => this, this.globalObject);
   };
 
   private getProps = () => this.props;
@@ -448,7 +451,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // workaround for the similar bug with focusout
     // in Firefox, Chrome and IE
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-    globalObject.setTimeout(() => {
+    setTimeout(() => {
       this.dispatch({ type: 'Blur' });
     }, 0);
   };

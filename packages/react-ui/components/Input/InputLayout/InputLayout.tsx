@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useStyles } from '../../../lib/renderEnvironment';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 import type { InputProps } from '../Input';
 import { InputDataTids } from '../Input';
@@ -9,7 +10,7 @@ import { CommonWrapper } from '../../../internal/CommonWrapper';
 import { InputLayoutAside } from './InputLayoutAside';
 import type { InputLayoutContextProps } from './InputLayoutContext';
 import { InputLayoutContext, InputLayoutContextDefault } from './InputLayoutContext';
-import { stylesLayout } from './InputLayout.styles';
+import { getStylesLayout } from './InputLayout.styles';
 
 type InputLayoutRootFromInputProps = Pick<InputProps, 'leftIcon' | 'rightIcon' | 'prefix' | 'suffix'>;
 
@@ -20,6 +21,7 @@ export interface InputLayoutRootProps extends InputLayoutRootFromInputProps, Com
 }
 
 export const InputLayout = forwardRefAndName<HTMLLabelElement, InputLayoutRootProps>('InputLayout', (props, ref) => {
+  const stylesLayout = useStyles(getStylesLayout);
   const { leftIcon, rightIcon, prefix, suffix, labelProps, context, children, tag = 'label' } = props;
   const _context: InputLayoutContextProps = { ...InputLayoutContextDefault, ...context };
   const Tag = tag;

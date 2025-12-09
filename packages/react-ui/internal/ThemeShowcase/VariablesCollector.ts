@@ -1,5 +1,4 @@
-import { globalObject } from '@skbkontur/global-object';
-
+import { getSafeWindow } from '../../lib/globalObject';
 import type { Theme } from '../../lib/theming/Theme';
 import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
 import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
@@ -127,9 +126,9 @@ function getProxyHandler(accumulator: Set<keyof Theme>, dependencies: VariableDe
       }
 
       accessLevel++;
-      const start = globalObject.performance?.now() || 0;
+      const start = getSafeWindow().performance?.now() || 0;
       const result = Reflect.get(target, prop, receiver);
-      executionTime += (globalObject.performance?.now() || 0) - start;
+      executionTime += (getSafeWindow().performance?.now() || 0) - start;
       callsCount++;
       accessLevel--;
       return result;

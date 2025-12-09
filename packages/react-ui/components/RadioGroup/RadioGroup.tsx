@@ -1,6 +1,7 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import invariant from 'invariant';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
@@ -9,12 +10,12 @@ import type { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { styles } from './RadioGroup.styles';
+import { getStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import type { RadioGroupContextType } from './RadioGroupContext';
 import { RadioGroupContext } from './RadioGroupContext';
@@ -97,6 +98,7 @@ type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
  *
  * Значения активного элемента сравниваются по строгому равенству `===`.
  */
+@withRenderEnvironment
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
@@ -108,6 +110,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
@@ -151,6 +156,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
       onMouseEnter,
       onMouseLeave,
     };
+    this.styles = getStyles(this.emotion);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props} {...getVisualStateDataAttributes({ disabled })}>
@@ -159,8 +165,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
             data-tid={RadioGroupDataTids.root}
             ref={this.ref}
             style={style}
-            className={cx({
-              [styles.root()]: true,
+            className={this.cx({
+              [this.styles.root()]: true,
             })}
             role="radiogroup"
             {...handlers}
@@ -220,10 +226,10 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: this.getKeyByItem(itemValue),
-      className: cx({
-        [styles.item()]: true,
-        [styles.itemFirst()]: index === 0,
-        [styles.itemInline()]: !!this.props.inline,
+      className: this.cx({
+        [this.styles.item()]: true,
+        [this.styles.itemFirst()]: index === 0,
+        [this.styles.itemInline()]: !!this.props.inline,
       }),
     };
 

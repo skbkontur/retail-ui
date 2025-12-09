@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
-import { styles } from './MenuSeparator.styles';
+import { getStyles } from './MenuSeparator.styles';
 
 export type MenuSeparatorProps = CommonProps;
 
@@ -24,6 +24,8 @@ const MenuSeparator = forwardRefAndName(
   'MenuSeparator',
   function MenuSeparator(props: MenuSeparatorProps, ref: React.Ref<HTMLDivElement>) {
     const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
 
     return (
       <CommonWrapper {...props}>

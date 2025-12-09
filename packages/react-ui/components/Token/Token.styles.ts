@@ -1,4 +1,6 @@
-import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import type { Emotion } from '@emotion/css/types/create-instance';
+
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 
 import { tokenSizeMixin } from './Token.mixins';
@@ -7,7 +9,7 @@ export const globalClasses = prefix('token')({
   removeIcon: 'remove-icon',
 });
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   token(t: Theme) {
     return css`
       display: inline-flex;
@@ -179,4 +181,4 @@ export const styles = memoizeStyle({
       right: ${t.tokenInputPaddingXLarge};
     `;
   },
-});
+}));

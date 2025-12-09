@@ -1,9 +1,11 @@
+import type { Emotion } from '@emotion/css/types/create-instance';
+
 import type { SizeProp } from '../../lib/types/props';
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { memoizeGetStyles } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
 import { CalendarDataTids } from '../Calendar';
 
-export const styles = memoizeStyle({
+export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {
     return css`
       display: inline-flex;
@@ -105,7 +107,7 @@ export const styles = memoizeStyle({
       }
     `;
   },
-});
+}));
 
 export function getFontSize(t: Theme, size?: SizeProp) {
   switch (size) {

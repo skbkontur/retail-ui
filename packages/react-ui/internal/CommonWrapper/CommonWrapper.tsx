@@ -1,11 +1,12 @@
 import React from 'react';
+import type { Emotion } from '@emotion/css/types/create-instance';
 
 import { isFunction, isRefableElement } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import type { Nullable } from '../../typings/utility-types';
 import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
 import { extractCommonProps } from './utils/extractCommonProps';
@@ -13,6 +14,7 @@ import { getCommonVisualStateDataAttributes } from './utils/getCommonVisualState
 
 export type CommonPropsWithRootNodeRef = CommonProps & CommonPropsRootNodeRef;
 
+@withRenderEnvironment
 @rootNode
 export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.Component<
   CommonWrapperProps<P> & CommonPropsRootNodeRef
@@ -20,6 +22,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
   public static __KONTUR_REACT_UI__ = 'CommonWrapper';
   public static displayName = 'CommonWrapper';
 
+  private cx!: Emotion['cx'];
   private child: React.ReactNode;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
@@ -37,7 +40,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
 
       isRefableElement(child) && (childProps.ref = this.ref);
 
-      const classNames: string = cx(child.props.className, className);
+      const classNames: string = this.cx(child.props.className, className);
       classNames && (childProps.className = classNames);
 
       const styles: React.CSSProperties = { ...child.props.style, ...style };

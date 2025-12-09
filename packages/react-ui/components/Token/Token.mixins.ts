@@ -1,5 +1,3 @@
-import { css } from '../../lib/theming/Emotion';
-
 export const tokenSizeMixin = (
   tokenPaddingY: string,
   tokenPaddingX: string,
@@ -8,7 +6,7 @@ export const tokenSizeMixin = (
   tokenMarginY: string,
   tokenMarginX: string,
 ) => {
-  return css`
+  return `
     padding: ${tokenPaddingY} ${tokenPaddingX};
     margin: ${tokenMarginY} ${tokenMarginX};
     line-height: ${lineHeight};

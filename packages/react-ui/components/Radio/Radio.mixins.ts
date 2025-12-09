@@ -1,9 +1,8 @@
-import { css } from '../../lib/theming/Emotion';
 import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 import { isChrome, isFirefox } from '../../lib/client';
 
 export const radioSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, radioSize: string) => {
-  return css`
+  return `
     font-size: ${fontSize};
     line-height: ${lineHeight};
     padding: ${paddingY} 0;
@@ -32,7 +31,7 @@ export const circleSizeMixin = (
   const circleSize = `calc(${radioSize} - 2 * ${radioBorderWidthCompensation})`;
   const circleOffsetY = `calc(${radioCircleOffsetY} + ${radioBorderWidthCompensation} + ${baselineCompensation}px)`;
   const circleMarginX = radioBorderWidthCompensation;
-  return css`
+  return `
     height: ${circleSize};
     width: ${circleSize};
     margin: ${circleOffsetY} ${circleMarginX} 0;
@@ -40,7 +39,7 @@ export const circleSizeMixin = (
 };
 
 export const radioCheckedMixin = (bulletSize: string) => {
-  return css`
+  return `
     &::before {
       height: ${bulletSize};
       width: ${bulletSize};
@@ -49,7 +48,7 @@ export const radioCheckedMixin = (bulletSize: string) => {
 };
 
 export const afterOutlineMixin = (radioOutlineWidth: string) => {
-  return css`
+  return `
     content: ' ';
     position: absolute;
     top: -${radioOutlineWidth};
@@ -64,7 +63,7 @@ export const afterOutlineMixin = (radioOutlineWidth: string) => {
 };
 
 export const outlineColorMixin = (shadow: string, borderColor: string) => {
-  return css`
+  return `
     box-shadow: ${shadow};
     border-color: ${borderColor};
   `;

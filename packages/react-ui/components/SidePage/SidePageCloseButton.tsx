@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { globalObject } from '@skbkontur/global-object';
 
+import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular';
-import { cx } from '../../lib/theming/Emotion';
-import { keyListener } from '../../lib/events/keyListener';
+import { useKeyListener } from '../../lib/events/keyListener';
 import type { CommonProps } from '../../internal/CommonWrapper';
 
-import { styles } from './SidePage.styles';
+import { getStyles } from './SidePage.styles';
 import { SidePageLocaleHelper } from './locale';
 import { SidePageHeaderDataTids } from './SidePageHeader';
 import { SidePageContext } from './SidePageContext';
@@ -22,7 +21,11 @@ export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseBu
   const [isFocusedByTab, setIsFocusedByTab] = useState(false);
 
   const locale = useLocaleForControl('SidePage', SidePageLocaleHelper);
+  const globalObject = useGlobal();
   const theme = useContext(ThemeContext);
+  const { cx } = useEmotion();
+  const styles = useStyles(getStyles);
+  const keyListener = useKeyListener();
   const sidePageContext = useContext(SidePageContext);
 
   const handleFocus = () => {

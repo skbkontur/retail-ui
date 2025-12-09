@@ -2,14 +2,13 @@ import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 import shallowEqual from 'shallowequal';
-import type { SafeTimer } from '@skbkontur/global-object';
-import { globalObject } from '@skbkontur/global-object';
+import type { Emotion } from '@emotion/css/create-instance';
 
+import type { GlobalObject, SafeTimer } from '../../lib/globalObject';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { InternalDate } from '../../lib/date/InternalDate';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
-import { cx } from '../../lib/theming/Emotion';
 import type { CommonProps } from '../../internal/CommonWrapper';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
@@ -20,12 +19,13 @@ import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
+import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
-import { styles } from './Calendar.styles';
+import { getStyles } from './Calendar.styles';
 import type { CalendarDateShape } from './CalendarDateShape';
 import { create, isGreater, isLess } from './CalendarDateShape';
 import * as CalendarUtils from './CalendarUtils';
@@ -105,6 +105,7 @@ type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoli
 /**
  * Компонент календаря `Calendar` из DatePicker'а помогает выбирать дату с помощью мыши.
  */
+@withRenderEnvironment
 @rootNode
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
@@ -124,10 +125,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private getProps = createPropsGetter(Calendar.defaultProps);
 
+  private globalObject!: GlobalObject;
+  private emotion!: Emotion;
+  private cx!: Emotion['cx'];
+  private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private wheelEndTimeout: SafeTimer;
   private root: Nullable<HTMLElement>;
-  private animation = animation();
+  private animation!: ReturnType<typeof animation>;
   private touchStartY: Nullable<number> = null;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
@@ -191,6 +196,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   }
 
   public render() {
+    this.styles = getStyles(this.emotion);
+    this.animation = animation(this.globalObject);
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -211,7 +219,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
-      await new Promise((r) => globalObject.setTimeout(r, 0));
+      await new Promise((r) => setTimeout(r, 0));
     }
 
     const minDate = this.getDateInNativeFormat(this.getProps().minDate);
@@ -345,13 +353,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...props}>
-        <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={cx(styles.root(this.theme))}>
-          <div style={wrapperStyle} className={styles.wrapper()}>
+        <div ref={this.refRoot} data-tid={CalendarDataTids.root} className={this.cx(this.styles.root(this.theme))}>
+          <div style={wrapperStyle} className={this.styles.wrapper()}>
             <CalendarContext.Provider value={context}>
               {monthsForRender.map(this.renderMonth, this)}
             </CalendarContext.Provider>
           </div>
-          <div className={styles.separator(this.theme)} />
+          <div className={this.styles.separator(this.theme)} />
         </div>
       </CommonWrapper>
     );
@@ -441,7 +449,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchStart = (event: Event) => {
-    if (!isInstanceOf(event, globalObject.TouchEvent)) {
+    if (!isInstanceOf(event, this.globalObject.TouchEvent)) {
       return;
     }
 
@@ -450,7 +458,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private handleTouchMove = (event: Event) => {
-    if (!isInstanceOf(event, globalObject.TouchEvent)) {
+    if (!isInstanceOf(event, this.globalObject.TouchEvent)) {
       return;
     }
 
@@ -465,7 +473,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
-    if (!isInstanceOf(event, globalObject.WheelEvent)) {
+    if (!isInstanceOf(event, this.globalObject.WheelEvent)) {
       return;
     }
     event.preventDefault();
@@ -476,9 +484,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private handleWheelEnd = () => {
     if (this.wheelEndTimeout) {
-      globalObject.clearTimeout(this.wheelEndTimeout);
+      clearTimeout(this.wheelEndTimeout);
     }
-    this.wheelEndTimeout = globalObject.setTimeout(this.scrollToNearestWeek, 300);
+    this.wheelEndTimeout = setTimeout(this.scrollToNearestWeek, 300);
   };
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;
