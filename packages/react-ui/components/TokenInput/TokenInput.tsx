@@ -50,6 +50,7 @@ import { TokenView } from '../Token/TokenView';
 import { withSize } from '../../lib/size/SizeDecorator';
 import type { SizeProp } from '../../lib/types/props';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { blink } from '../../lib/blink';
 
 import type { TokenInputLocale } from './locale';
 import { TokenInputLocaleHelper } from './locale';
@@ -58,6 +59,7 @@ import type { TokenInputAction } from './TokenInputReducer';
 import { tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
+
 
 const TEMP_FAKE_FLAG = 'TEMP_FAKE_FLAG';
 
