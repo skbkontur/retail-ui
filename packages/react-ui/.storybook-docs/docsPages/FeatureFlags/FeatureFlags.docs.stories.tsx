@@ -14,3 +14,316 @@ export default meta;
 export const Default: Story = () => {
   return <div />;
 };
+
+export const StickyReduceLayoutEvents: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [sticky, setSticky] = React.useState(false);
+  const [stickyOffset, setStickyOffset] = React.useState(8);
+  const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
+  const toggleSticky = () => setSticky(!sticky);
+  const handleOffsetChange = () => setStickyOffset(Math.random() * 200);
+  // Tooltip не должен перерисовываться, чтобы демонстрировать эффект отставания
+  // т.е. его пропсы и children не должны меняться
+  const renderTooltip = React.useCallback(() => 'Tooltip, который отстает при включенном флаге', []);
+
+  const content = (
+    <div ref={setAnchor} style={{ display: 'inline-flex', gap: 8 }}>
+      <Button onClick={toggleSticky}>1. {sticky ? 'Выключить' : 'Включить'} Sticky</Button>
+      <Button onClick={handleOffsetChange}>2. Сместить кнопки</Button>
+      <Button onClick={emit}>3. Поправить Tooltip</Button>
+      <Button onClick={() => setIsFlagEnabled(!isFlagEnabled)}>
+        4. {isFlagEnabled ? 'Выключить' : 'Включить'} флаг
+      </Button>
+    </div>
+  );
+
+  return (
+    <div>
+      {anchor && <Tooltip anchorElement={anchor} render={renderTooltip} trigger="opened" pos="right middle" />}
+      <div style={{ height: sticky ? 500 : 0 }} />
+      <>
+        <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+        <ReactUIFeatureFlagsContext.Provider
+          value={{
+            stickyReduceLayoutEvents: isFlagEnabled,
+          }}
+        >
+          {sticky ? (
+            <Sticky side="bottom" offset={stickyOffset}>
+              {content}
+            </Sticky>
+          ) : (
+            content
+          )}
+        </ReactUIFeatureFlagsContext.Provider>
+      </>
+    </div>
+  );
+};
+
+export const ComboBoxAllowValueChangeInEditingState: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [value, setValue] = React.useState({ value: '', label: '' });
+
+  const handleValueChange = () => {
+    setValue({ value: `Update ${new Date().toLocaleString()}`, label: `Update ${new Date().toLocaleString()}` });
+  };
+
+  const getItems = () =>
+    Promise.resolve([
+      { value: 'Первый', label: 'Первый' },
+      { value: 'Второй', label: 'Второй' },
+    ]);
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ comboBoxAllowValueChangeInEditingState: isFlagEnabled }}>
+        <Gapped>
+          <ComboBox
+            value={value}
+            searchOnFocus={false}
+            getItems={getItems}
+            onValueChange={(value) => setValue(value)}
+          />
+          <Button onClick={handleValueChange}>Обновить</Button>
+        </Gapped>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const GroupAddHintsAndTooltipsSupport: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: isFlagEnabled }}>
+        <Group width={350}>
+          <Hint text="Обрати внимание на скругления">
+            <Button>
+              <MathFunctionIcon />
+            </Button>
+          </Hint>
+          <Tooltip render={() => 'Этот Input должен растянуться'}>
+            <Input width="100%" placeholder="Поиск" />
+          </Tooltip>
+          <Hint text="Обрати внимание на скругления">
+            <Button>
+              <SearchLoupeIcon />
+            </Button>
+          </Hint>
+        </Group>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const PopupFixPinTearing: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ popupFixPinTearing: isFlagEnabled }}>
+        <div style={{ paddingTop: 80 }}>
+          <Tooltip
+            render={() => <div style={{ width: 150 }}>Попробуй оторвать мой клювик</div>}
+            trigger="opened"
+            pos="top left"
+          >
+            <Button>Кнопка</Button>
+          </Tooltip>
+        </div>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const AutocompleteUseMaskedInput: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
+  const [value, setValue] = React.useState<string>('');
+
+  const getOnlyDigits = (value: string) => value.match(/\d+/g)?.join('') || '';
+  const items: string[] = ['+7 912 043-98-27', '+7 912 999-11-22', '+7 912 444-55-99'];
+
+  return (
+    <>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ autocompleteUseMaskedInput: isFlagEnabled }}>
+        <Gapped>
+          <Autocomplete
+            value={value}
+            width="150"
+            mask="+7 999 999-99-99"
+            placeholder="+7"
+            alwaysShowMask
+            source={(pattern) => {
+              const numbers = getOnlyDigits(pattern);
+              return new Promise((resolve) => {
+                resolve(items.filter((item) => getOnlyDigits(item).startsWith(numbers)));
+              });
+            }}
+            onValueChange={setValue}
+          />
+          <label>значение в onValueChange: {value}</label>
+        </Gapped>
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const FxInputUseMaskedInput: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState<boolean>(true);
+  const [value, setValue] = React.useState<string>('');
+
+  return (
+    <>
+      <span>value: {value}</span>
+      <br />
+      <br />
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ fxInputUseMaskedInput: isFlagEnabled }}>
+        <FxInput
+          value={value}
+          width="150px"
+          mask="999 999 999"
+          alwaysShowMask
+          onValueChange={setValue}
+          onRestore={() => setValue('')}
+        />
+      </ReactUIFeatureFlagsContext.Provider>
+    </>
+  );
+};
+
+export const SidePageDisableHeaderShrink: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [opened, setOpened] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <ReactUIFeatureFlagsContext.Provider value={{ sidePageDisableHeaderShrink: isFlagEnabled }}>
+        <SidePage onClose={close} blockBackground>
+          <SidePage.Header>Title</SidePage.Header>
+          <SidePage.Body>
+            <div
+              style={{
+                background: `#d6d6d6`,
+                height: 1600,
+                padding: '20px 0',
+              }}
+            >
+              <SidePage.Container>
+                <p>SidePage Body Content</p>
+              </SidePage.Container>
+            </div>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Button onClick={close}>Close</Button>
+          </SidePage.Footer>
+        </SidePage>
+      </ReactUIFeatureFlagsContext.Provider>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      {opened && renderSidePage()}
+      <Button onClick={open}>Open</Button>
+    </div>
+  );
+};
+
+export const SidePageNotCutTitleOnStuckByDefault: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [opened, setOpened] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <ReactUIFeatureFlagsContext.Provider value={{ sidePageNotCutTitleOnStuckByDefault: isFlagEnabled }}>
+        <SidePage onClose={close} blockBackground>
+          <SidePage.Header>
+            Very very very very very very very very very very very very very very very very very very very very long
+            title
+          </SidePage.Header>
+          <SidePage.Body>
+            <div
+              style={{
+                background: `#d6d6d6`,
+                height: 1600,
+                padding: '20px 0',
+              }}
+            >
+              <SidePage.Container>
+                <p>SidePage Body Content</p>
+              </SidePage.Container>
+            </div>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Button onClick={close}>Close</Button>
+          </SidePage.Footer>
+        </SidePage>
+      </ReactUIFeatureFlagsContext.Provider>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      {opened && renderSidePage()}
+      <Button onClick={open}>Open</Button>
+    </div>
+  );
+};
+
+export const TokenInputCreateTokenOnBlur: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  const [selectedItems, setSelectedItems] = React.useState([]);
+
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ tokenInputCreateTokenOnBlurInWithoutReferenceMode: isFlagEnabled }}>
+        <TokenInput
+          type={TokenInputType.WithoutReference}
+          selectedItems={selectedItems}
+          onValueChange={setSelectedItems}
+        />
+      </ReactUIFeatureFlagsContext.Provider>
+    </div>
+  );
+};
+
+export const TextareaBaselineAlign: Story = () => {
+  const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
+  return (
+    <div>
+      <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
+      <ReactUIFeatureFlagsContext.Provider value={{ textareaBaselineAlign: isFlagEnabled }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+          <label htmlFor="bat">Baseline align text</label>
+          <Textarea id="bat" value="Textarea baseline align" size="large" />
+        </div>
+      </ReactUIFeatureFlagsContext.Provider>
+    </div>
+  );
+};

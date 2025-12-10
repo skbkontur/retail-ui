@@ -5,6 +5,7 @@ import type {
   FocusEventHandler,
   HTMLAttributes,
   KeyboardEvent,
+  KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
 } from 'react';
@@ -93,6 +94,9 @@ export interface TokenInputProps<T>
   /** Задает HTML-событие `onblur`.
    * @ignore */
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
+
+  /** Задает HTML-событие `onkeydown`. */
+  onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
 
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */
   autoFocus?: boolean;
@@ -292,7 +296,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     valueToString: identity,
     valueToItem: (item: string) => item,
     toKey: defaultToKey,
-    itemToId: defaultToKey,
+    itemToId: identity,
     onValueChange: () => void 0,
     width: 250 as string | number,
     onBlur: emptyHandler,
@@ -383,6 +387,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
    */
   public blur() {
     this.input?.blur();
+  }
+
+  /** Кратковременно визуально подсвечивает поле ввода, чтобы привлечь внимание пользователя.
+   * @public
+   */
+  public blink() {
+    blink({ el: this.wrapper, blinkColor: this.theme.inputBlinkColor });
   }
 
   public render() {
@@ -826,6 +837,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    this.props.onKeyDown?.(event);
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
     if (this.isCursorVisible) {
       this.handleInputKeyDown(event);
     } else {

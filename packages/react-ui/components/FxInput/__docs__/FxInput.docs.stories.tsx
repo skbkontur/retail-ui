@@ -83,7 +83,7 @@ export const ExampleCurrency: Story = () => {
 };
 ExampleCurrency.storyName = 'Единица измерения';
 
-/** Маска задаётся пропом `mask`. */
+/** Проп `mask` задаёт маску для поля. */
 export const ExampleMask: Story = () => {
   const [auto, setAuto] = React.useState<boolean>(true);
   const [value, setValue] = React.useState<number>('');

@@ -1408,6 +1408,7 @@ export class BasicThemeClass {
     return this.menuItemTextColor;
   }
   public static menuItemCommentOpacity = '0.6';
+  public static menuItemCommentOpacityHover = '0.6';
   public static get menuItemCommentColorHover() {
     return this.menuItemTextColor;
   }
