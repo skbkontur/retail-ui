@@ -82,7 +82,7 @@ npx react-ui-codemod react-ui-2.0/transformImportsAndExports.ts FILES_PATH
 
 ### react-ui-2.0/transformOnChange.ts
 
-Трансформирует пропы "onChange" в соответствии с изменениями #1859. Смотри таблицу изменений в #1843.
+Трансформирует пропсы "onChange" в соответствии с изменениями #1859. Смотри таблицу изменений в #1843.
 
 ```
 npx react-ui-codemod react-ui-2.0/transformOnChange.ts FILES_PATH

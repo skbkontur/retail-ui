@@ -16,7 +16,7 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Базовый пример';
 
-/** Размер поля задаётся пропом `size`. По умолчанию `"small"`. */
+/** Проп `size` задаёт размер поля. По умолчанию `"small"`. */
 export const ExampleSize: Story = () => {
   const [value, setValue] = React.useState();
   return (
@@ -35,7 +35,7 @@ export const ExampleSize: Story = () => {
 };
 ExampleSize.storyName = 'Размер';
 
-/** Выравнивание текста задаётся пропом `align`. По умолчанию `"right"`. Меняйте правое выравнивание на левое, если значения других полей в колонке выровнены по левому краю.*/
+/** Проп `align` задаёт выравнивание текста. По умолчанию `"right"`. Меняйте правое выравнивание на левое, если значения других полей в колонке выровнены по левому краю.*/
 export const ExampleAlign: Story = () => {
   const [valueLeft, setValueLeft] = React.useState('10');
   const [valueRight, setValueRight] = React.useState('10');
@@ -48,7 +48,7 @@ export const ExampleAlign: Story = () => {
 };
 ExampleAlign.storyName = 'Выравнивание текста';
 
-/** Количество знаков после запятой задаётся пропом `fractionDigits`. По умолчанию `{2}`.
+/** Проп `fractionDigits` задаёт количество знаков после запятой. По умолчанию `{2}`.
  *
  * Если задать максимальное значение `fractionDigits={15}`, то в целой части допускается **0**.
  * Чтобы поле могло принимать только целое число, установите `fractionDigits={0}`. */
@@ -59,7 +59,7 @@ export const ExampleFractionDigits: Story = () => {
 };
 ExampleFractionDigits.storyName = 'Количество знаков после запятой';
 
-/** Количество знаков до запятой задаётся пропом `integerDigits`. По умолчанию `{2}`. Если задать значение `integerDigits=0`, то в целой части допускается только **0**. */
+/** Проп `integerDigits` задаёт количество знаков до запятой. По умолчанию `{2}`. Если задать значение `integerDigits=0`, то в целой части допускается только **0**. */
 export const ExampleIntegerDigits: Story = () => {
   const [value, setValue] = React.useState();
 
@@ -67,7 +67,7 @@ export const ExampleIntegerDigits: Story = () => {
 };
 ExampleIntegerDigits.storyName = 'Количество знаков до запятой';
 
-/** Лишние нули после запятой можно убирать, добавив проп `hideTrailingZeros`. Будет убирать лишние нули после запятой при потере фокуса с поля. */
+/** Проп `hideTrailingZeros` позволяет убрать лишние нули после запятой. Будет убирать лишние нули после запятой при потере фокуса с поля. */
 export const ExampleHideTrailingZeros: Story = () => {
   const [value, setValue] = React.useState();
 
@@ -75,7 +75,7 @@ export const ExampleHideTrailingZeros: Story = () => {
 };
 ExampleHideTrailingZeros.storyName = 'Лишние нули после запятой';
 
-/** Разрешить ввод отрицательного значения можно через проп `signed`. В поле можно ввести символ минуса (−). При вводе дефис (-), короткое тире (–) или тире (—) автоматически заменятся на верный символ минуса.  */
+/** Проп `signed` разрешает ввод отрицательного значения. В поле можно ввести символ минуса (−). При вводе дефис (-), короткое тире (–) или тире (—) автоматически заменятся на верный символ минуса.  */
 export const ExampleSigned: Story = () => {
   const [value, setValue] = React.useState();
 

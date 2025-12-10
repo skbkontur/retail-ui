@@ -211,3 +211,31 @@ export const Example6: Story = () => {
   );
 };
 Example6.storyName = 'Дебаунс функции getItems';
+
+export const Example7: Story = () => {
+  const [value, setValue] = React.useState<string[]>([]);
+  const tokenInputRef = React.useRef<TokenInput>(null);
+
+  const items = ['kon', 'kod', 'kof', 'kor', 'kos'];
+
+  const getItems = (query: string) => {
+    return Promise.resolve(items.filter((item) => item.includes(query)));
+  };
+
+  return (
+    <TokenInput<string>
+      ref={tokenInputRef}
+      selectedItems={value}
+      onValueChange={setValue}
+      getItems={getItems}
+      placeholder="Цифра 2 запрещена"
+      onKeyDown={(e) => {
+        if (e.key === '2') {
+          e.preventDefault();
+          tokenInputRef.current?.blink();
+        }
+      }}
+    />
+  );
+};
+Example7.storyName = 'Запрет ввода определённых символов';

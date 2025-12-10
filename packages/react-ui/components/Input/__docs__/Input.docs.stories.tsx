@@ -22,7 +22,7 @@ export const ExampleLabel: Story = () => {
   return (
     <Gapped>
       <label htmlFor="input-id">Название поля</label>
-      <Input id="input-id" value="" />
+      <Input />
     </Gapped>
   );
 };

@@ -10,7 +10,7 @@ import { linkTo } from '@storybook/addon-links';
 
 Валидации можно использовать с собственными контролами. Или с обёртками над контролами из библиотеки [React UI](https://github.com/skbkontur/retail-ui/).
 
-Для этого в таком контроле/обёртке необходимо обеспечить следующие пропы:
+Для этого в таком контроле/обёртке необходимо обеспечить следующие пропсы:
 
 1. `ref` - DOM элемент нужен для правильной авто-прокрутки страницы до элемента с ошибкой (<Link onClick={linkTo('Displaying/Scroll to validation')}>подробнее</Link>).
 2. `error` - сеттит true, для соответствующего уровня валидации.
@@ -30,7 +30,7 @@ interface CustomControlProps<Elem = HTMLElement> {
 }
 ```
 
-Для контролов `react-ui` также прокидывается проп `onValueChange`. Чтобы избежать предупреждения в консоле (`Unknown event handler property 'onValueChange'`), этот проп можно "вырезать" из пропов (см. пример).
+Для контролов `react-ui` также прокидывается проп `onValueChange`. Чтобы избежать предупреждения в консоле (`Unknown event handler property 'onValueChange'`), этот проп можно "вырезать" из пропсов (см. пример).
 
 ### Пример
 

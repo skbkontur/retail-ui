@@ -21,7 +21,7 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Базовый пример';
 
-/** Задаётся пропом `use`.
+/** Проп `use` задаёт стиль ссылки.
  *  Стиль влияет на внешний вид cсылки. По умолчанию: `'default'`.
  * Доступны стили:
  * - Default — чёрная ссылка.
@@ -69,13 +69,13 @@ export const ExampleExternal: Story = () => {
 };
 ExampleExternal.storyName = 'Открытие ссылок на внешние ресурсы';
 
-/** Задаётся пропом `disabled`. Ссылка меняет цвет на серый и становится недоступна для нажатия. */
+/** Проп `disabled` переводит ссылку в состояние блокировки. Ссылка меняет цвет на серый и становится недоступна для нажатия. */
 export const ExampleDisabled: Story = () => {
   return <Link disabled>Заблокированная ссылка</Link>;
 };
 ExampleDisabled.storyName = 'Состояние блокировки';
 
-/** При загрузке ссылка переходит в состояние блокировки и становится серой.
+/** Проп `loading` переводит ссылку в состояние загрузки. При загрузке ссылка переходит в состояние блокировки и становится серой.
  * Если у ссылки есть иконка, она заменяется на спиннер. */
 export const ExampleSpinner: Story = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -97,7 +97,7 @@ export const ExampleSpinner: Story = () => {
 };
 ExampleSpinner.storyName = 'Состояние загрузки';
 
-/** Состояние ошибки задаётся пропом `error`. */
+/** Проп `error` переводит сслыку в  состояние ошибки. */
 export const ExampleError: Story = () => {
   return (
     <Link error icon={<ToolPencilLineIcon16Light />}>
@@ -107,7 +107,7 @@ export const ExampleError: Story = () => {
 };
 ExampleError.storyName = 'Состояние ошибки';
 
-/** Переопределить корневой элемент можно c помощью пропа `component`.
+/** Проп `component` позволяет переопределить корневой элемент.
  *
  * Примеры:
  *

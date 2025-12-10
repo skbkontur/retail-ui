@@ -8,14 +8,20 @@ const optionsWithAnimation = { animations: 'allow' };
 
 const startBlink = async (context: CreeveyTestContext) => {
   const page = context.webdriver;
-  await page.locator('input').click();
+  await page.locator(tid('Input__root')).click();
   await page.keyboard.type('1');
+  await page.locator(tid('TokenInput__label')).click();
+  await page.keyboard.type('1');
+  await page.locator('body').click();
   await page.waitForTimeout(200);
 };
 const finishBlink = async (context: CreeveyTestContext) => {
   const page = context.webdriver;
-  await page.locator('input').click();
+  await page.locator(tid('Input__root')).click();
   await page.keyboard.type('2');
+  await page.locator(tid('TokenInput__label')).click();
+  await page.keyboard.type('2');
+  await page.locator('body').click();
   await page.waitForTimeout(200);
 };
 const interruptBlink = async (context: CreeveyTestContext) => {

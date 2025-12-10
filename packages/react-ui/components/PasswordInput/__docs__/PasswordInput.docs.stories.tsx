@@ -14,7 +14,7 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Базовый пример';
 
-/** Индикатор включения CapsLock активируется пропом `detectCapsLock`. Визуально покажет пользователю, что у него при вводе пароля активен CapsLock. */
+/** Проп `detectCapsLock` визуально покажет пользователю, что клавиша CapsLock активна. */
 export const ExampleDetectCapsLock: Story = () => {
   return <PasswordInput detectCapsLock />;
 };
