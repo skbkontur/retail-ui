@@ -115,7 +115,7 @@ function transformRelativePaths(filename) {
     const result = babel.transform(code, {
       cwd: process.cwd(),
       filename,
-      plugins: [path.join(__dirname, './babel-plugin-update-relative-paths-after-moving.js')],
+      plugins: [path.join(__dirname, './babel-plugin-update-relative-paths-after-moving.cjs')],
     });
 
     outputFileSync(filename, result.code);

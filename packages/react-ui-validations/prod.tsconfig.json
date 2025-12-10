@@ -1,9 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["./src/**/*", "./typings/**/*"],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "module": "es2015",
-    "declarationDir": "./build/declaration"
-  }
+  "include": ["./index.ts", "./typings"]
 }

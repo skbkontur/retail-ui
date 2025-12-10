@@ -5,7 +5,8 @@
     "isolatedModules": true,
     "importHelpers": false,
     "useUnknownInCatchVariables": false,
-    "stripInternal": true
+    "stripInternal": true,
+    "inlineSources": true
   },
   "exclude": ["**/__docs__/**/*"]
 }

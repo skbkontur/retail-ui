@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 const { eq, gt, gte, valid, diff } = require('semver');
 const { readJsonSync, writeJsonSync } = require('fs-extra');
 
-const { getRevisionID, getRevisionRefs } = require('../git');
+const { getRevisionID, getRevisionRefs } = require('../git/index.cjs');
 
 const log = (message) => {
   if (process.env.NODE_ENV !== 'test') {

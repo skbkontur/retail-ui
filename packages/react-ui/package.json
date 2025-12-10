@@ -11,9 +11,13 @@
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
+  "type": "module",
   "scripts": {
-    "build": "yarn rimraf build && tsc --outDir build -p prod.tsconfig.json && copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build && node ./scripts/exports.ts",
     "clean": "git clean -fdxqe node_modules",
+    "prebuild": "yarn rimraf build",
+    "build": "run-s build:*",
+    "build:tsc": "tsc --outDir build -p prod.tsconfig.json",
+    "build:copy-files": "copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build",
     "prerelease": "yarn build",
     "release": "npm publish ./build --workspaces=false",
     "release:unstable": "yarn release --tag=unstable",

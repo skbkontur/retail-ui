@@ -1,4 +1,4 @@
-const { getPackageInfo, updateConfig } = require('../../package');
+const { getPackageInfo, updateConfig } = require('../../package/index.cjs');
 const { publishVersion, distTag, homepage, config } = getPackageInfo();
 
 config.version = publishVersion;

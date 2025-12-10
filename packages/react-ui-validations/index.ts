@@ -1,35 +1,35 @@
-import { text, tooltip } from './ErrorRenderer';
-import { ValidationContainer } from './ValidationContainer';
+import { text, tooltip } from './src/ErrorRenderer.js';
+import { ValidationContainer } from './src/ValidationContainer.js';
 import type {
   ValidationSettings,
   ValidateArgumentType,
   ValidationContainerProps,
   ScrollOffset,
-} from './ValidationContainer';
-import { ValidationTooltip } from './ValidationTooltip';
-import type { TooltipPosition, ValidationTooltipProps } from './ValidationTooltip';
+} from './src/ValidationContainer.js';
+import { ValidationTooltip } from './src/ValidationTooltip.js';
+import type { TooltipPosition, ValidationTooltipProps } from './src/ValidationTooltip.js';
 import type {
   ValidationLevel,
   TextPosition,
   RenderErrorMessage,
   Validation,
   ValidationBehaviour,
-} from './ValidationWrapperInternal';
-import { ValidationWrapper } from './ValidationWrapper';
-import type { ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
+} from './src/ValidationWrapperInternal.js';
+import { ValidationWrapper } from './src/ValidationWrapper.js';
+import type { ValidationInfo, ValidationWrapperProps } from './src/ValidationWrapper.js';
 import type {
   ValidationContextType,
   ValidationContextWrapperProps,
   ValidationContextSettings,
-} from './ValidationContextWrapper';
-import { ValidationContext, ValidationContextWrapper } from './ValidationContextWrapper';
+} from './src/ValidationContextWrapper.js';
+import { ValidationContext, ValidationContextWrapper } from './src/ValidationContextWrapper.js';
+import { getFullValidationsFlagsContext } from './src/utils/featureFlagsContext/FeatureFlagsHelpers.js';
 import {
   validationsFeatureFlagsDefault,
   ValidationsFeatureFlagsContext,
-  getFullValidationsFlagsContext,
-} from './utils/featureFlagsContext';
-import type { ValidationsFeatureFlags } from './utils/featureFlagsContext';
-import { FocusMode } from './FocusMode';
+} from './src/utils/featureFlagsContext/ValidationsFeatureFlagsContext.js';
+import type { ValidationsFeatureFlags } from './src/utils/featureFlagsContext/ValidationsFeatureFlagsContext.js';
+import { FocusMode } from './src/FocusMode.js';
 
 export type {
   ValidationContainerProps,
@@ -67,4 +67,4 @@ export {
   getFullValidationsFlagsContext,
 };
 
-export * from './Validations';
+export * from './src/Validations/index.js';
