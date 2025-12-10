@@ -1,4 +1,4 @@
-import { getParentOrShadowHost } from '../dom/getParentOrShadowHost';
+import { getParentOrShadowHost } from '../dom/getParentOrShadowHost.js';
 
 const parent = document.createElement('div');
 const child = document.createElement('div');

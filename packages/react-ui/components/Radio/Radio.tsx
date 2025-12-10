@@ -1,26 +1,26 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import type { Override } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { KeyListener } from '../../lib/events/keyListener';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
-import type { RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
-import { RadioGroupContext } from '../RadioGroup/RadioGroupContext';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { SizeProp } from '../../lib/types/props';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
-import { withSize } from '../../lib/size/SizeDecorator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import type { Override } from '../../typings/utility-types.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel.js';
+import type { RadioGroupContextType } from '../RadioGroup/RadioGroupContext.js';
+import { RadioGroupContext } from '../RadioGroup/RadioGroupContext.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles, globalClasses } from './Radio.styles';
+import { getStyles, globalClasses } from './Radio.styles.js';
 
 export interface RadioProps<T>
   extends Pick<AriaAttributes, 'aria-label'>,

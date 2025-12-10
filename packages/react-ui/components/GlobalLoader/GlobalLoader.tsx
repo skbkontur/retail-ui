@@ -1,14 +1,14 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 
-import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
 
-import type { GlobalLoaderViewProps } from './GlobalLoaderView';
-import { GlobalLoaderView } from './GlobalLoaderView';
+import type { GlobalLoaderViewProps } from './GlobalLoaderView.js';
+import { GlobalLoaderView } from './GlobalLoaderView.js';
 
 export interface GlobalLoaderProps {
   /** Устанавливает задержку в миллисекундах до появления лоадера. */

@@ -1,9 +1,9 @@
 import React from 'react';
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
 
-import type { Story } from '../../../typings/stories';
-import { Gapped } from '../../../components/Gapped';
-import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout';
+import type { Story } from '../../../typings/stories.js';
+import { Gapped } from '../../../components/Gapped/index.js';
+import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout.js';
 
 export default { title: 'InternalTextareaWithLayout' };
 export const DifferentSizes: Story = () => {

@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import type { ButtonType } from '../Button';
-import { Button, ButtonDataTids } from '../Button';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
+import type { ButtonType } from '../Button.js';
+import { Button, ButtonDataTids } from '../Button.js';
 
 describe('Button', () => {
   it('has id attribute', () => {

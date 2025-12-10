@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { CurrencyInput } from '../CurrencyInput';
-import type { Nullable } from '../../../typings/utility-types';
-import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants';
+import { CurrencyInput } from '../CurrencyInput.js';
+import type { Nullable } from '../../../typings/utility-types.js';
+import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants.js';
 
 const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
   const handleValueChange = vi.fn();

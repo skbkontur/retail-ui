@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MenuItem } from '../MenuItem';
+import { MenuItem } from '../MenuItem/index.js';
 
 interface ItemProps {
   /** @ignore */

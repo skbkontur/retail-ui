@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Spinner } from '../Spinner';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { Spinner } from '../Spinner/index.js';
 
-import type { LinkProps } from './Link';
-import { getStyles } from './Link.styles';
+import type { LinkProps } from './Link.js';
+import { getStyles } from './Link.styles.js';
 
 export interface LinkIconProps extends Pick<LinkProps, 'icon' | 'loading'> {
   position?: 'left' | 'right';

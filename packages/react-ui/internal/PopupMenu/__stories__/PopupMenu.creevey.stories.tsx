@@ -1,11 +1,11 @@
 import React from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
-import { PopupMenu } from '../PopupMenu';
-import { MenuItem } from '../../../components/MenuItem';
-import { MenuHeader } from '../../../components/MenuHeader';
-import { Button } from '../../../components/Button';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular.js';
+import { PopupMenu } from '../PopupMenu.js';
+import { MenuItem } from '../../../components/MenuItem/index.js';
+import { MenuHeader } from '../../../components/MenuHeader/index.js';
+import { Button } from '../../../components/Button/index.js';
 
 const meta: Meta = {
   title: 'PopupMenu',

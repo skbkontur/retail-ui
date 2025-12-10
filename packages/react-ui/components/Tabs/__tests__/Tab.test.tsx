@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { Tab, TabDataTids } from '../Tab';
-import { Tabs } from '../Tabs';
+import { Tab, TabDataTids } from '../Tab.js';
+import { Tabs } from '../Tabs.js';
 
 describe('Tab', () => {
   it('should pass generic type without type errors', () => {

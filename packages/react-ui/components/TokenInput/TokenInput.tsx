@@ -11,11 +11,11 @@ import type {
 } from 'react';
 import React from 'react';
 import lodashIsEqual from 'lodash.isequal';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 import logWarning from 'warning';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { PopupIds } from '../../internal/Popup';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { PopupIds } from '../../internal/Popup/index.js';
 import {
   isKeyArrowHorizontal,
   isKeyArrowLeft,
@@ -28,37 +28,37 @@ import {
   isKeyEnter,
   isKeyEscape,
   isShortcutSelectAll,
-} from '../../lib/events/keyboard/identifiers';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import type { Menu } from '../../internal/Menu';
-import type { TokenProps, TokenSize } from '../Token';
-import { Token } from '../Token';
-import type { MenuItemState } from '../MenuItem';
-import { MenuItem } from '../MenuItem';
-import type { AnyObject } from '../../lib/utils';
-import { emptyHandler, getRandomID } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import { locale } from '../../lib/locale/decorators';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { getRootNode, rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { getUid } from '../../lib/uidUtils';
-import { TokenView } from '../Token/TokenView';
-import { withSize } from '../../lib/size/SizeDecorator';
-import type { SizeProp } from '../../lib/types/props';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
-import { blink } from '../../lib/blink';
+} from '../../lib/events/keyboard/identifiers.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import type { Menu } from '../../internal/Menu/index.js';
+import type { TokenProps, TokenSize } from '../Token/index.js';
+import { Token } from '../Token/index.js';
+import type { MenuItemState } from '../MenuItem/index.js';
+import { MenuItem } from '../MenuItem/index.js';
+import type { AnyObject } from '../../lib/utils.js';
+import { emptyHandler, getRandomID } from '../../lib/utils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { locale } from '../../lib/locale/decorators.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { getUid } from '../../lib/uidUtils.js';
+import { TokenView } from '../Token/TokenView.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { blink } from '../../lib/blink.js';
 
-import type { TokenInputLocale } from './locale';
-import { TokenInputLocaleHelper } from './locale';
-import { getStyles } from './TokenInput.styles';
-import type { TokenInputAction } from './TokenInputReducer';
-import { tokenInputReducer } from './TokenInputReducer';
-import { TokenInputMenu } from './TokenInputMenu';
-import { TextWidthHelper } from './TextWidthHelper';
+import type { TokenInputLocale } from './locale/index.js';
+import { TokenInputLocaleHelper } from './locale/index.js';
+import { getStyles } from './TokenInput.styles.js';
+import type { TokenInputAction } from './TokenInputReducer.js';
+import { tokenInputReducer } from './TokenInputReducer.js';
+import { TokenInputMenu } from './TokenInputMenu.js';
+import { TextWidthHelper } from './TextWidthHelper.js';
 
 const TEMP_FAKE_FLAG = 'TEMP_FAKE_FLAG';
 

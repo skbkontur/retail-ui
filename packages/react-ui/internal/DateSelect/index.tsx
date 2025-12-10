@@ -1,1 +1,1 @@
-export * from './DateSelect';
+export * from './DateSelect.js';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { Decorator } from '@storybook/react';
 
-import { WidgetWrapper } from './WidgetWrapper';
+import { WidgetWrapper } from './WidgetWrapper.js';
 
 export const WithIframeInIframe: Decorator = (Story) => {
   const outerIframeRef = useRef<HTMLIFrameElement>(null);

@@ -1,4 +1,4 @@
-import { isNonNullable } from '../utils';
+import { isNonNullable } from '../utils.js';
 
 const nullishValues = [null, undefined];
 const falsyValues = [false, 0, -0, '', NaN];

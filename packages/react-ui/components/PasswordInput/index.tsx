@@ -1,1 +1,1 @@
-export * from './PasswordInput';
+export * from './PasswordInput.js';

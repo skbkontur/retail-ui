@@ -1,10 +1,10 @@
 import React from 'react';
 import type { RefObject } from 'react';
 
-import type { DateInput } from '../DateInput';
-import type { SizeProp } from '../../lib/types/props';
+import type { DateInput } from '../DateInput/index.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import type { DateRangePickerInputType } from './DateRangePickerInput';
+import type { DateRangePickerInputType } from './DateRangePickerInput.js';
 
 export interface DateRangePickerContextProps {
   startValue?: string;

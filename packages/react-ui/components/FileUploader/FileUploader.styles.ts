@@ -1,10 +1,10 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
 
-import { fileUploaderSizeMixin } from './FileUploader.mixins';
+import { fileUploaderSizeMixin } from './FileUploader.mixins.js';
 
 export const globalClasses = prefix('file-uploader')({
   afterLinkText: 'after-link-text',

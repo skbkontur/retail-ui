@@ -1,2 +1,2 @@
-export * from './RenderEnvironmentContext';
-export * from './RenderEnvironmentDecorator';
+export * from './RenderEnvironmentContext.js';
+export * from './RenderEnvironmentDecorator.js';

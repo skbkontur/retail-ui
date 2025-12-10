@@ -1,6 +1,6 @@
 import { injectGlobal } from '@emotion/css';
 
-import { isChrome, isFirefox } from '../../lib/client';
+import { isChrome, isFirefox } from '../../lib/client.js';
 
 // This is for screenshot tests
 const Highlight = isChrome ? '#3390ff' : '#3399ff';

@@ -1,1 +1,1 @@
-export * from './Gapped';
+export * from './Gapped.js';

@@ -1,1 +1,1 @@
-export * from './Kebab';
+export * from './Kebab.js';

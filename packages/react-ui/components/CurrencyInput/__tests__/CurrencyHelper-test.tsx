@@ -1,4 +1,4 @@
-import { CurrencyHelper } from '../CurrencyHelper';
+import { CurrencyHelper } from '../CurrencyHelper.js';
 
 describe('CurrencyHelper', () => {
   describe('unformatString', () => {

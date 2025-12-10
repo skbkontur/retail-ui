@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import warning from 'warning';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { useGlobal } from '../renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { useGlobal } from '../renderEnvironment/index.js';
 
 let scrollbarWidth: number | null = null;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ValidationText } from './ValidationText';
-import type { TooltipPosition } from './ValidationTooltip';
-import { ValidationTooltip } from './ValidationTooltip';
-import type { RenderErrorMessage, TextPosition } from './ValidationWrapperInternal';
+import { ValidationText } from './ValidationText.js';
+import type { TooltipPosition } from './ValidationTooltip.js';
+import { ValidationTooltip } from './ValidationTooltip.js';
+import type { RenderErrorMessage, TextPosition } from './ValidationWrapperInternal.js';
 
 export function tooltip(pos: TooltipPosition): RenderErrorMessage {
   return (control, hasError, validation) => {

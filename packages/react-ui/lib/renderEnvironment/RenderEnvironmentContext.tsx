@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { getOwnerGlobalObject, getSafeWindow } from '../globalObject';
-import type { GlobalObject } from '../globalObject';
-import { getEmotion } from '../theming/Emotion';
+import { getOwnerGlobalObject, getSafeWindow } from '../globalObject.js';
+import type { GlobalObject } from '../globalObject.js';
+import { getEmotion } from '../theming/Emotion.js';
 
 export interface RenderEnvironmentContextType {
   globalObject: GlobalObject;

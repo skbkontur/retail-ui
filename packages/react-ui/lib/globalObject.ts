@@ -1,6 +1,6 @@
 import warning from 'warning';
 
-import type { Nullable } from '../typings/utility-types';
+import type { Nullable } from '../typings/utility-types.js';
 
 type SafeTimeout = ReturnType<typeof setTimeout>;
 type SafeInterval = ReturnType<typeof setInterval>;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 
 /**
  * React textarea behaves incorrectly on first rendered in Safari version 17.*

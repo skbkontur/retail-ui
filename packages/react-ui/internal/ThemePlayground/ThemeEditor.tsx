@@ -1,17 +1,17 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { useStyles, withRenderEnvironment } from '../../lib/renderEnvironment';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { Theme } from '../../lib/theming/Theme';
-import { Gapped } from '../../components/Gapped';
-import { Loader } from '../../components/Loader';
-import { isNonNullable } from '../../lib/utils';
+import { useStyles, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { Gapped } from '../../components/Gapped/index.js';
+import { Loader } from '../../components/Loader/index.js';
+import { isNonNullable } from '../../lib/utils.js';
 
-import { VariableValue } from './VariableValue';
-import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
-import type { ThemeErrorsType } from './ThemeContextPlayground';
-import { getStyles } from './Playground.styles';
+import { VariableValue } from './VariableValue.js';
+import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants.js';
+import type { ThemeErrorsType } from './ThemeContextPlayground.js';
+import { getStyles } from './Playground.styles.js';
 
 interface ThemeEditorProps {
   editingTheme: Theme;

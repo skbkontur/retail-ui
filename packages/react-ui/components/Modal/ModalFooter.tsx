@@ -1,20 +1,20 @@
 import type { ReactNode } from 'react';
 import React, { useContext, useLayoutEffect } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { useGetScrollWidth } from '../../lib/dom/getScrollWidth';
-import { Sticky } from '../Sticky';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { useResponsiveLayout } from '../ResponsiveLayout';
-import type { GappedProps } from '../Gapped';
-import { Gapped } from '../Gapped';
-import { isNonNullable } from '../../lib/utils';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { useGetScrollWidth } from '../../lib/dom/getScrollWidth.js';
+import { Sticky } from '../Sticky/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
+import type { GappedProps } from '../Gapped/index.js';
+import { Gapped } from '../Gapped/index.js';
+import { isNonNullable } from '../../lib/utils.js';
 
-import { getStyles } from './Modal.styles';
-import { ModalContext } from './ModalContext';
-import { ModalSeparator } from './ModalSeparator';
+import { getStyles } from './Modal.styles.js';
+import { ModalContext } from './ModalContext.js';
+import { ModalSeparator } from './ModalSeparator.js';
 
 export interface ModalFooterProps extends CommonProps {
   /** Включает серый цвет в футере. */

@@ -1,7 +1,7 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 import React from 'react';
 
-import { useEmotion, withRenderEnvironment } from '../../lib/renderEnvironment';
+import { useEmotion, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
 const line = `
   display: flex;

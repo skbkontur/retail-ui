@@ -10,8 +10,8 @@ import {
   RE_ORDER_DMY,
   RE_ORDER_MDY,
   RE_ORDER_YMD,
-} from './constants';
-import { InternalDateValidator } from './InternalDateValidator';
+} from './constants.js';
+import { InternalDateValidator } from './InternalDateValidator.js';
 import type {
   InternalDateComponentRaw,
   InternalDateComponents,
@@ -19,8 +19,8 @@ import type {
   InternalDateComponentsRaw,
   InternalDateFragment,
   InternalDateToFragmentsSettings,
-} from './types';
-import { InternalDateComponentType, InternalDateOrder, InternalDateSeparator } from './types';
+} from './types.js';
+import { InternalDateComponentType, InternalDateOrder, InternalDateSeparator } from './types.js';
 
 export class InternalDateTransformer {
   public static padStart = (value: InternalDateComponentRaw, length: number, pad: string = CHAR_PAD): string =>

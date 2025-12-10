@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { DefaultizeProps } from '../lib/utils';
-import { createPropsGetter } from '../lib/createPropsGetter';
+import type { DefaultizeProps } from '../lib/utils.js';
+import { createPropsGetter } from '../lib/createPropsGetter.js';
 
-import type { StatePropsCombinations, StateType } from './ComponentTable';
-import { ComponentTable } from './ComponentTable';
+import type { StatePropsCombinations, StateType } from './ComponentTable.js';
+import { ComponentTable } from './ComponentTable.js';
 
 export interface ComponentCombinatorProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;

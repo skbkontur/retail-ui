@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { reactGetTextContent } from '../reactGetTextContent';
+import { reactGetTextContent } from '../reactGetTextContent.js';
 
 class SimpleComponent extends React.Component<React.PropsWithChildren> {
   public render() {

@@ -3,13 +3,13 @@ import type { RenderResult } from '@testing-library/react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import * as ReactUI from '../../index';
-import type { Toast } from '../../index';
-import { ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
-import type { AnyObject } from '../../lib/utils';
-import { delay } from '../../lib/utils';
-import { InputLikeTextDataTids } from '../../internal/InputLikeText';
-import { getRootNode } from '../../lib/rootNode';
+import * as ReactUI from '../../index.js';
+import type { Toast } from '../../index.js';
+import { ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index.js';
+import type { AnyObject } from '../../lib/utils.js';
+import { delay } from '../../lib/utils.js';
+import { InputLikeTextDataTids } from '../../internal/InputLikeText/index.js';
+import { getRootNode } from '../../lib/rootNode/index.js';
 
 function isPublicComponent(component: any, name: string) {
   //skip contexts

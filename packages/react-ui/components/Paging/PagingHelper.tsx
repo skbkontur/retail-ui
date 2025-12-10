@@ -1,4 +1,4 @@
-import type { ItemType } from './Paging';
+import type { ItemType } from './Paging.js';
 
 const NEIGHBOR_ITEM_COUNT_DESKTOP = 2;
 const NEIGHBOR_ITEM_COUNT_MOBILE = 1;

@@ -1,10 +1,10 @@
 import React from 'react';
-import { QuestionCircleIcon20Light } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon20Light';
-import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon/SecurityLockClosedIcon20Light';
-import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light';
+import { QuestionCircleIcon20Light } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon20Light.js';
+import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon/SecurityLockClosedIcon20Light.js';
+import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
 import { Tooltip, Button, Gapped, Input, Link, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
-import type { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories.js';
 
 export default {
   title: 'Overlay/Tooltip',

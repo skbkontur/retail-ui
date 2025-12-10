@@ -1,4 +1,4 @@
-import { getItems } from '../PagingHelper';
+import { getItems } from '../PagingHelper.js';
 
 type NumberTuple = [number, number];
 type ExpectingArray = string | number;

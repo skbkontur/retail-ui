@@ -1,1 +1,1 @@
-export * from './HideBodyVerticalScroll';
+export * from './HideBodyVerticalScroll.js';

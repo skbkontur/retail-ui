@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { PopupIds } from '../../../internal/Popup';
-import { defaultLangCode } from '../../../lib/locale/constants';
-import type { LocaleContextProps } from '../../../lib/locale';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { delay } from '../../../lib/utils';
-import { TokenInputLocaleHelper } from '../locale';
-import type { TokenInputProps } from '../TokenInput';
-import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput';
-import { Token, TokenDataTids } from '../../Token';
-import { MenuItemDataTids } from '../../MenuItem';
+import { PopupIds } from '../../../internal/Popup/index.js';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import type { LocaleContextProps } from '../../../lib/locale/index.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { delay } from '../../../lib/utils.js';
+import { TokenInputLocaleHelper } from '../locale/index.js';
+import type { TokenInputProps } from '../TokenInput.js';
+import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput.js';
+import { Token, TokenDataTids } from '../../Token/index.js';
+import { MenuItemDataTids } from '../../MenuItem/index.js';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));

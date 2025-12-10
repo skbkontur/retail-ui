@@ -1,4 +1,4 @@
-import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../comparison';
+import { isBetween, isEqual, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../comparison.js';
 
 test('isEqual returns true on same dates', () => {
   expect(isEqual('10.03.2017', '10.03.2017')).toBe(true);

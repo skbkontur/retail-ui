@@ -1,11 +1,11 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from '../../../lib/theming/Theme';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { withRenderEnvironment } from '../../../lib/renderEnvironment';
+import type { Theme } from '../../../lib/theming/Theme.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
 
-import { getJsStyles } from './MobilePopupFooter.styles';
+import { getJsStyles } from './MobilePopupFooter.styles.js';
 
 @withRenderEnvironment
 export class MobilePopupFooter extends React.Component<React.PropsWithChildren> {

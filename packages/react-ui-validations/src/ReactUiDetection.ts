@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react';
-import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/Tooltip.js';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext.js';
 
-import { isNonNullable } from '../src/utils/isNonNullable';
+import { isNonNullable } from '../src/utils/isNonNullable/isNonNullable.js';
 
 export { Tooltip, ThemeContext };
 

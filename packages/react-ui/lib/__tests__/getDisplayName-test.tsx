@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getDisplayName } from '../getDisplayName';
+import { getDisplayName } from '../getDisplayName.js';
 
 const FunctionalComponent = () => <div />;
 class ClassComponentDisplay extends React.Component {

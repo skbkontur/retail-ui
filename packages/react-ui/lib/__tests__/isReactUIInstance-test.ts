@@ -1,5 +1,5 @@
-import { isReactUIInstance } from '../utils';
-import { Button } from '../../components/Button';
+import { isReactUIInstance } from '../utils.js';
+import { Button } from '../../components/Button/index.js';
 
 describe('isReactUIInstance', () => {
   const button = new Button({});

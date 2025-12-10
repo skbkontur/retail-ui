@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import { MenuItemDataTids } from '../../MenuItem';
-import { MenuDataTids } from '../../../internal/Menu';
-import { defaultLangCode } from '../../../lib/locale/constants';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { SelectLocaleHelper } from '../locale';
-import { Select, SelectDataTids, SelectIds } from '../Select';
+import { MenuItemDataTids } from '../../MenuItem/index.js';
+import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { SelectLocaleHelper } from '../locale/index.js';
+import { Select, SelectDataTids, SelectIds } from '../Select.js';
 
 const itemsObject = {
   first: 'One',

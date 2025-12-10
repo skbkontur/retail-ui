@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { ResponsiveLayout } from '../ResponsiveLayout';
+import type { Meta } from '../../../typings/stories.js';
+import { ResponsiveLayout } from '../ResponsiveLayout.js';
 
 const meta: Meta = {
   title: 'ResponsiveLayout',

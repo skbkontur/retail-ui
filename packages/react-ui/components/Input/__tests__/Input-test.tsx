@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import type { InputType } from '../Input';
-import { Input, inputTypes, selectionErrorMessage, selectionAllowedTypes, InputDataTids } from '../Input';
+import type { InputType } from '../Input.js';
+import { Input, inputTypes, selectionErrorMessage, selectionAllowedTypes, InputDataTids } from '../Input.js';
 
 describe('<Input />', () => {
   let consoleSpy: ReturnType<typeof vi.spyOn>;

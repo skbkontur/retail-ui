@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { MenuSeparator } from '../MenuSeparator';
+import type { Meta } from '../../../typings/stories.js';
+import { MenuSeparator } from '../MenuSeparator.js';
 
 const meta: Meta = {
   title: 'MenuSeparator',

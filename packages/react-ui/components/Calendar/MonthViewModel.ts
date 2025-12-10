@@ -1,9 +1,9 @@
-import { memo } from '../../lib/memo';
-import type { Theme } from '../../lib/theming/Theme';
+import { memo } from '../../lib/memo.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
-import { getMonthInHumanFormat } from './CalendarUtils';
-import { themeConfig } from './config';
-import { DayCellViewModel } from './DayCellViewModel';
+import { getMonthInHumanFormat } from './CalendarUtils.js';
+import { themeConfig } from './config.js';
+import { DayCellViewModel } from './DayCellViewModel.js';
 
 const getCurrentYear = (month: number, year: number) => {
   if (month < 0) {

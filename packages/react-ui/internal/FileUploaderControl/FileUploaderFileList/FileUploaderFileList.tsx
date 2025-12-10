@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../../lib/renderEnvironment';
-import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
-import type { FileUploaderAttachedFile } from '../fileUtils';
-import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import type { SizeProp } from '../../../lib/types/props';
+import { useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
+import { FileUploaderControlContext } from '../FileUploaderControlContext.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile.js';
+import type { FileUploaderAttachedFile } from '../fileUtils.js';
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 
-import { getJsStyles } from './FileUploaderFileList.styles';
+import { getJsStyles } from './FileUploaderFileList.styles.js';
 
 interface FileUploaderFileListProps {
   renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;

@@ -1,9 +1,9 @@
 import type React from 'react';
 
-import { defaultLangCode } from './constants';
-import { LocaleContext } from './LocaleContext';
-import type { LocaleHelper } from './LocaleHelper';
-import type { LangCodes, LocaleControls } from './types';
+import { defaultLangCode } from './constants.js';
+import { LocaleContext } from './LocaleContext.js';
+import type { LocaleHelper } from './LocaleHelper.js';
+import type { LangCodes, LocaleControls } from './types.js';
 
 export function locale<C>(controlName: keyof LocaleControls, localeHelper: LocaleHelper<C>) {
   return <T extends new (...args: any[]) => React.Component>(constructor: T) => {

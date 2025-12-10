@@ -1,26 +1,26 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import type { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { getRootNode } from '../../lib/rootNode/getRootNode';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { SizeProp } from '../../lib/types/props';
-import { isInstanceOf } from '../../lib/isInstanceOf';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import type { emptyHandler } from '../../lib/utils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { getRootNode } from '../../lib/rootNode/getRootNode.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { Indicator } from './Indicator';
-import { getStyles } from './Tabs.styles';
-import type { TabsContextType } from './TabsContext';
-import { TabsContext } from './TabsContext';
-import { Tab } from './Tab';
+import { Indicator } from './Indicator.js';
+import { getStyles } from './Tabs.styles.js';
+import type { TabsContextType } from './TabsContext.js';
+import { TabsContext } from './TabsContext.js';
+import { Tab } from './Tab.js';
 
 type ValueBaseType = string;
 interface TabType<T extends ValueBaseType> {

@@ -1,4 +1,4 @@
-import { getSafeWindow } from '../lib/globalObject';
+import { getSafeWindow } from '../lib/globalObject.js';
 
 const needsPolyfillPlaceholderInternal = () => {
   const globalObject = getSafeWindow();

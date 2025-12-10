@@ -1,18 +1,18 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment';
-import { Calendar } from '../Calendar';
-import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { MobilePopup } from '../../internal/MobilePopup';
-import { DateInput } from '../DateInput';
-import { Button } from '../Button';
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
+import { Calendar } from '../Calendar/index.js';
+import { getMonthInHumanFormat, getTodayDate } from '../Calendar/CalendarUtils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { MobilePopup } from '../../internal/MobilePopup/index.js';
+import { DateInput } from '../DateInput/index.js';
+import { Button } from '../Button/index.js';
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
 
-import type { DatePickerProps } from './DatePicker';
-import { DatePickerLocaleHelper } from './locale';
-import { getStyles } from './MobilePicker.styles';
-import { getMobilePickerTheme } from './getMobilePickerTheme';
+import type { DatePickerProps } from './DatePicker.js';
+import { DatePickerLocaleHelper } from './locale/index.js';
+import { getStyles } from './MobilePicker.styles.js';
+import { getMobilePickerTheme } from './getMobilePickerTheme.js';
 
 export const MobilePickerDataTids = {
   input: 'MobilePicker__input',

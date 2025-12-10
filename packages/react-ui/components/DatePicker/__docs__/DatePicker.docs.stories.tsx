@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks.js';
 import {
   DatePicker,
   Gapped,
@@ -13,8 +13,8 @@ import {
 } from '@skbkontur/react-ui';
 import type { CalendarDayProps } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
-import * as DatePickerHelpers from '../DatePickerHelpers';
+import type { Meta, Story } from '../../../typings/stories.js';
+import * as DatePickerHelpers from '../DatePickerHelpers.js';
 
 const meta: Meta = {
   title: 'Date Components/DatePicker',

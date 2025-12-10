@@ -1,13 +1,13 @@
 import React from 'react';
-import { IdCardIcon16Regular } from '@skbkontur/icons/icons/IdCardIcon/IdCardIcon16Regular';
-import { AttachLinkIcon16Regular } from '@skbkontur/icons/icons/AttachLinkIcon/AttachLinkIcon16Regular';
+import { IdCardIcon16Regular } from '@skbkontur/icons/icons/IdCardIcon/IdCardIcon16Regular.js';
+import { AttachLinkIcon16Regular } from '@skbkontur/icons/icons/AttachLinkIcon/AttachLinkIcon16Regular.js';
 
-import { Input } from '../../components/Input';
-import { Gapped } from '../../components/Gapped';
-import { Button } from '../../components/Button';
-import type { SizeProp } from '../../lib/types/props';
+import { Input } from '../../components/Input/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
+import { Button } from '../../components/Button/index.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import { SelectPlayground } from './SelectPlayground';
+import { SelectPlayground } from './SelectPlayground.js';
 
 export interface SizesGroupProps {
   size: SizeProp;

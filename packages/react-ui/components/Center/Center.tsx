@@ -1,16 +1,16 @@
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Override } from '../../typings/utility-types';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import type { DefaultizedProps } from '../../lib/createPropsGetter';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { Override } from '../../typings/utility-types.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { DefaultizedProps } from '../../lib/createPropsGetter.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Center.styles';
+import { getStyles } from './Center.styles.js';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 

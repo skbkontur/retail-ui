@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { CheckboxProps } from '../../components/Checkbox';
-import { Checkbox } from '../../components/Checkbox';
-import { Radio } from '../../components/Radio';
-import { FileUploader } from '../../components/FileUploader';
-import { Paging } from '../../components/Paging';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { CheckboxProps } from '../../components/Checkbox/index.js';
+import { Checkbox } from '../../components/Checkbox/index.js';
+import { Radio } from '../../components/Radio/index.js';
+import { FileUploader } from '../../components/FileUploader/index.js';
+import { Paging } from '../../components/Paging/index.js';
 
-import { getComponentsFromPropsList } from './helpers';
+import { getComponentsFromPropsList } from './helpers.js';
 
 type CheckboxProp = CheckboxProps & { focused?: boolean };
 const propsList: CheckboxProp[] = [

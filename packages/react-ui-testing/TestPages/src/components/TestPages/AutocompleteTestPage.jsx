@@ -1,5 +1,5 @@
 import React from 'react';
-import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete';
+import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete/index.js';
 
 import { Case, CaseSuite } from '../Case';
 

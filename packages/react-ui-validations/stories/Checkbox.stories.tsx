@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox.js';
 
-import type { ValidationInfo } from '../src';
-import { ValidationContainer, ValidationWrapper } from '../src';
-import type { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../index.js';
+import { ValidationContainer, ValidationWrapper } from '../index.js';
+import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {
   title: 'Checkbox',

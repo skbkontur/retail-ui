@@ -1,4 +1,4 @@
-import { isNullable } from '../utils';
+import { isNullable } from '../utils.js';
 
 describe('isNullable', () => {
   describe('nullish values return true', () => {

@@ -1,10 +1,10 @@
 import React from 'react';
-import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light';
-import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light';
-import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular';
-import { Input, Button, Gapped } from '@skbkontur/react-ui';
+import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light.js';
+import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light.js';
+import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular.js';
+import { Input, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Input data/Input',

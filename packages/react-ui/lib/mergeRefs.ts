@@ -1,8 +1,8 @@
 import type React from 'react';
 
-import type { Nullable } from '../typings/utility-types';
+import type { Nullable } from '../typings/utility-types.js';
 
-import { isNonNullable, isNullable } from './utils';
+import { isNonNullable, isNullable } from './utils.js';
 
 type RefVariants<T> = Nullable<React.RefObject<T> | React.RefCallback<T>>;
 type RefCallback<T> = ReturnType<typeof createRefCallback<T>>;

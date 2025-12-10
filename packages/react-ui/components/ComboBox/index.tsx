@@ -1,1 +1,1 @@
-export * from './ComboBox';
+export * from './ComboBox.js';

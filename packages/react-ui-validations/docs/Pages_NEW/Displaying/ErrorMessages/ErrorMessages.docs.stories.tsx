@@ -1,10 +1,11 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import { ValidationContainer, ValidationWrapper, ValidationInfo, text, tooltip } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
+import type { ValidationInfo } from '../../../../index.js';
+import { ValidationContainer, ValidationWrapper, text, tooltip } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Displaying/Error messages',

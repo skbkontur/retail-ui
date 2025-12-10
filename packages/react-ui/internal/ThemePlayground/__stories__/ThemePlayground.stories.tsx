@@ -1,8 +1,8 @@
 import React from 'react';
 
-import type { Story } from '../../../typings/stories';
-import { ThemeContextPlayground } from '../ThemeContextPlayground';
-import { UnlinkVarsPlayground } from '../UnlinkVarsPlayground';
+import type { Story } from '../../../typings/stories.js';
+import { ThemeContextPlayground } from '../ThemeContextPlayground.js';
+import { UnlinkVarsPlayground } from '../UnlinkVarsPlayground.js';
 
 export default { title: 'ThemeProvider' };
 

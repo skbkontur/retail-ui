@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped';
-import type { RadioProps } from '../../components/Radio';
-import { Radio } from '../../components/Radio';
+import { Gapped } from '../../components/Gapped/index.js';
+import type { RadioProps } from '../../components/Radio/index.js';
+import { Radio } from '../../components/Radio/index.js';
 
-import { getComponentsFromPropsList } from './helpers';
+import { getComponentsFromPropsList } from './helpers.js';
 
 const propsList: Array<RadioProps<string>> = [
   { value: '', children: 'Default', checked: false },

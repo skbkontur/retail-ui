@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { getSafeWindow } from '../../../lib/globalObject';
-import { ZIndex } from '../ZIndex';
-import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage';
+import { getSafeWindow } from '../../../lib/globalObject.js';
+import { ZIndex } from '../ZIndex.js';
+import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage.js';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {

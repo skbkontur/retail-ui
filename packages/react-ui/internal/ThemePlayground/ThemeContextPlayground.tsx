@@ -1,25 +1,25 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { SidePage } from '../../components/SidePage';
-import { Gapped } from '../../components/Gapped';
-import { ComboBox } from '../../components/ComboBox';
-import { Link } from '../../components/Link';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import type { Writeable } from '../../typings/utility-types';
-import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
-import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
-import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { SidePage } from '../../components/SidePage/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
+import { ComboBox } from '../../components/ComboBox/index.js';
+import { Link } from '../../components/Link/index.js';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
+import type { Writeable } from '../../typings/utility-types.js';
+import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers.js';
+import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme.js';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { ThemeEditor } from './ThemeEditor';
-import { getStyles } from './Playground.styles';
-import { Playground } from './Playground';
-import { ThemeType } from './constants';
+import { ThemeEditor } from './ThemeEditor.js';
+import { getStyles } from './Playground.styles.js';
+import { Playground } from './Playground.js';
+import { ThemeType } from './constants.js';
 
 interface PlaygroundState {
   editorOpened: boolean;

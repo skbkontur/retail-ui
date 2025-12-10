@@ -1,22 +1,22 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import { ZIndex } from '../../internal/ZIndex';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ResizeDetector } from '../../internal/ResizeDetector';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { ResizeDetector } from '../../internal/ResizeDetector/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { ModalContext } from './ModalContext';
-import { getStyles } from './Modal.styles';
-import { getModalBodyTheme } from './getModalBodyTheme';
-import { ModalZIndexPriority } from './Modal';
+import { ModalContext } from './ModalContext.js';
+import { getStyles } from './Modal.styles.js';
+import { getModalBodyTheme } from './getModalBodyTheme.js';
+import { ModalZIndexPriority } from './Modal.js';
 
 export interface ModalBodyProps extends CommonProps {
   /** Убирает отступы. */

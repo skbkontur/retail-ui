@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input/index.js';
 
 import { CaseSuite, Case } from '../Case';
 

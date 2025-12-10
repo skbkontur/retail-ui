@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { fireEvent, render, screen, within, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { defaultLangCode } from '../../../lib/locale/constants';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { FileUploaderLocaleHelper } from '../locale';
-import type { FileUploaderProps, FileUploaderRef } from '../FileUploader';
-import { FileUploader, FileUploaderDataTids } from '../FileUploader';
-import { delay } from '../../../lib/utils';
-import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
-import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
-import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { FileUploaderLocaleHelper } from '../locale/index.js';
+import type { FileUploaderProps, FileUploaderRef } from '../FileUploader.js';
+import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
+import { delay } from '../../../lib/utils.js';
+import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils.js';
+import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile.js';
+import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList.js';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   render(

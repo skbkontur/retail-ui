@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../internal/icons2022/iconSizer';
-import { ArrowShapeDRadiusUpLeftIcon16Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon/ArrowShapeDRadiusUpLeftIcon16Light';
-import { ArrowShapeDRadiusUpLeftIcon24Regular } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon/ArrowShapeDRadiusUpLeftIcon24Regular';
-import { ArrowShapeDRadiusUpLeftIcon20Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon/ArrowShapeDRadiusUpLeftIcon20Light';
+import { iconSizer } from '../../internal/icons2022/iconSizer.js';
+import { ArrowShapeDRadiusUpLeftIcon16Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon/ArrowShapeDRadiusUpLeftIcon16Light.js';
+import { ArrowShapeDRadiusUpLeftIcon24Regular } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon/ArrowShapeDRadiusUpLeftIcon24Regular.js';
+import { ArrowShapeDRadiusUpLeftIcon20Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon/ArrowShapeDRadiusUpLeftIcon20Light.js';
 
 export const UndoIcon = iconSizer(
   {

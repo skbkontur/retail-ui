@@ -1,4 +1,4 @@
-import { convertScrollbarXScrollState, convertScrollbarYScrollState } from '../ScrollContainer.helpers';
+import { convertScrollbarXScrollState, convertScrollbarYScrollState } from '../ScrollContainer.helpers.js';
 
 describe('convertScrollbarXScrollState', () => {
   test('begin position left', () => {

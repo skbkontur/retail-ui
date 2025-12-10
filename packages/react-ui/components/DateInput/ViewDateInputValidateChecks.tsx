@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
-import { InternalDate } from '../../lib/date/InternalDate';
-import { InternalDateValidateCheck } from '../../lib/date/types';
-import { Checkbox } from '../Checkbox';
-import { Gapped } from '../Gapped';
+import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants.js';
+import { InternalDate } from '../../lib/date/InternalDate.js';
+import { InternalDateValidateCheck } from '../../lib/date/types.js';
+import { Checkbox } from '../Checkbox/index.js';
+import { Gapped } from '../Gapped/index.js';
 
 interface DateInputValidateChecksProps {
   value: string;

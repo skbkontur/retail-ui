@@ -1,5 +1,5 @@
-import { createTheme } from '../../lib/theming/ThemeHelpers';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { createTheme } from '../../lib/theming/ThemeHelpers.js';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
 
 export class BasicThemeClass {
   //#region Common variables

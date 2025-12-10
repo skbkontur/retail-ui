@@ -1,4 +1,4 @@
-import type { PopupPositionsType } from '../internal/Popup';
+import type { PopupPositionsType } from '../internal/Popup/index.js';
 
 const MENU_POSITIONS = {
   TOP: 'top',

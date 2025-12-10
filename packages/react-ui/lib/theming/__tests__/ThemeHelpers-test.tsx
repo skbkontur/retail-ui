@@ -1,4 +1,4 @@
-import type { Marker } from '../ThemeHelpers';
+import type { Marker } from '../ThemeHelpers.js';
 import {
   applyMarkers,
   createTheme,
@@ -8,11 +8,11 @@ import {
   markAsDarkTheme,
   markThemeVersion,
   REACT_UI_THEME_MARKERS,
-} from '../ThemeHelpers';
-import type { ThemeVersions } from '../ThemeVersions';
-import { ThemeFactory } from '../ThemeFactory';
-import type { AnyObject } from '../../utils';
-import { BasicTheme, BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
+} from '../ThemeHelpers.js';
+import type { ThemeVersions } from '../ThemeVersions.js';
+import { ThemeFactory } from '../ThemeFactory.js';
+import type { AnyObject } from '../../utils.js';
+import { BasicTheme, BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme.js';
 
 const TestTheme = createTheme({
   themeClass: class extends BasicThemeClassForExtension {

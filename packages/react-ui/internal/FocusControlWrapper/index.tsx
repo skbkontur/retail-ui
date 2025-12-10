@@ -1,1 +1,1 @@
-export * from './FocusControlWrapper';
+export * from './FocusControlWrapper.js';

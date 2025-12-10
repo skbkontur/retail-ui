@@ -1,5 +1,5 @@
-export { InternalDateOrder as DateOrder, InternalDateSeparator as DateSeparator } from '../date/types';
+export { InternalDateOrder as DateOrder, InternalDateSeparator as DateSeparator } from '../date/types.js';
 
-export * from './LocaleContext';
+export * from './LocaleContext.js';
 
-export * from './types';
+export * from './types.js';

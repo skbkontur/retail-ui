@@ -2,14 +2,14 @@ import type { ReactElement } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 
-import { useEmotion, useStyles } from '../../../lib/renderEnvironment';
-import { isKonturIcon } from '../../../lib/utils';
-import type { InputProps } from '../Input';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import type { SizeProp } from '../../../lib/types/props';
+import { useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
+import { isKonturIcon } from '../../../lib/utils.js';
+import type { InputProps } from '../Input.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 
-import { InputLayoutContext } from './InputLayoutContext';
-import { getStylesLayout } from './InputLayout.styles';
+import { InputLayoutContext } from './InputLayoutContext.js';
+import { getStylesLayout } from './InputLayout.styles.js';
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';

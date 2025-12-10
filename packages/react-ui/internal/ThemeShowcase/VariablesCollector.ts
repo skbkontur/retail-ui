@@ -1,8 +1,8 @@
-import { getSafeWindow } from '../../lib/globalObject';
-import type { Theme } from '../../lib/theming/Theme';
-import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme';
-import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
-import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
+import { getSafeWindow } from '../../lib/globalObject.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { LIGHT_THEME } from '../../lib/theming/themes/LightTheme.js';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme.js';
+import { IS_PROXY_SUPPORTED } from '../../lib/Supports.js';
 
 export interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;

@@ -1,7 +1,7 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 import {
   buttonSizeMixin,
@@ -10,7 +10,7 @@ import {
   handleMixin,
   inputSizeMixin,
   toggleSizeMixin,
-} from './Toggle.mixins';
+} from './Toggle.mixins.js';
 
 export const globalClasses = prefix('toggle')({
   handle: 'handle',

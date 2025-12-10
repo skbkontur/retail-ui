@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tab, ThemeContext, ThemeFactory, Button, Tabs } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Display data/Tabs/Tab',

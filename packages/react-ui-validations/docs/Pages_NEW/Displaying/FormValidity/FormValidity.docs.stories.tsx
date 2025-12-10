@@ -1,12 +1,13 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
 
-import { ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
+import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Displaying/Form validity',

@@ -1,3 +1,3 @@
-export * from './ValidationsFeatureFlagsContext';
+export * from './ValidationsFeatureFlagsContext.js';
 
-export * from './FeatureFlagsHelpers';
+export * from './FeatureFlagsHelpers.js';

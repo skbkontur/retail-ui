@@ -1,9 +1,9 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
+import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Displaying/Getting started',

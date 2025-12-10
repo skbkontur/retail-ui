@@ -1,1 +1,1 @@
-export * from './Paging';
+export * from './Paging.js';

@@ -1,14 +1,14 @@
 import React from 'react';
 import warning from 'warning';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Nullable } from '../../typings/utility-types';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { Nullable } from '../../typings/utility-types.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import type { PositionObject, Rect } from './PopupHelper';
-import { PopupHelper } from './PopupHelper';
-import { getStyles } from './PopupPin.styles';
-import { PopupDataTids } from './Popup';
+import type { PositionObject, Rect } from './PopupHelper.js';
+import { PopupHelper } from './PopupHelper.js';
+import { getStyles } from './PopupPin.styles.js';
+import { PopupDataTids } from './Popup.js';
 
 interface PopupPinProps {
   /** Цвет фона пина */

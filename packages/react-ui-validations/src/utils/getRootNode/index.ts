@@ -1,1 +1,1 @@
-export * from './getRootNode';
+export * from './getRootNode.js';

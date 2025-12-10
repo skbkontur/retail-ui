@@ -1,1 +1,1 @@
-export * from './MenuHeader';
+export * from './MenuHeader.js';

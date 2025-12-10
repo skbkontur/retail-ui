@@ -1,24 +1,24 @@
 import type { ReactElement } from 'react';
 import React from 'react';
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
-import { ArchiveBoxIcon16Regular } from '@skbkontur/icons/icons/ArchiveBoxIcon/ArchiveBoxIcon16Regular';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import { XIcon16Light } from '@skbkontur/icons/icons/XIcon/XIcon16Light';
-import { XIcon20Light } from '@skbkontur/icons/icons/XIcon/XIcon20Light';
-import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
-import { CheckAIcon20Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon20Light';
-import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { ArchiveBoxIcon16Regular } from '@skbkontur/icons/icons/ArchiveBoxIcon/ArchiveBoxIcon16Regular.js';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { XIcon16Light } from '@skbkontur/icons/icons/XIcon/XIcon16Light.js';
+import { XIcon20Light } from '@skbkontur/icons/icons/XIcon/XIcon20Light.js';
+import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular.js';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
+import { CheckAIcon20Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon20Light.js';
+import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular.js';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Gapped } from '../../Gapped';
-import { ComponentTable } from '../../../internal/ComponentTable';
-import type { ButtonProps } from '../Button';
-import { Button } from '../Button';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import { Gapped } from '../../Gapped/index.js';
+import { ComponentTable } from '../../../internal/ComponentTable.js';
+import type { ButtonProps } from '../Button.js';
+import { Button } from '../Button.js';
 
 const meta: Meta = {
   title: 'Button',

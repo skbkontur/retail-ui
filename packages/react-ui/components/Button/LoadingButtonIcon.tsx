@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment';
-import type { IconSizeAliases } from '../../internal/icons2022/iconConstants';
-import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
+import type { IconSizeAliases } from '../../internal/icons2022/iconConstants.js';
+import { LoadingIcon } from '../../internal/icons2022/LoadingIcon.js';
 
-import { ButtonDataTids } from './Button';
-import { getStyles } from './Button.styles';
+import { ButtonDataTids } from './Button.js';
+import { getStyles } from './Button.styles.js';
 
 interface LoadingButtonIconProps {
   size: IconSizeAliases;

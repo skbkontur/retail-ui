@@ -1,7 +1,7 @@
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { Theme } from '../../lib/theming/Theme';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
-import type { SelectProps } from './Select';
+import type { SelectProps } from './Select.js';
 
 export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Theme => {
   const baseTheme = ThemeFactory.create(

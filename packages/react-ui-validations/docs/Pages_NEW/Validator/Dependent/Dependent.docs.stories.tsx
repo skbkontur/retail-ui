@@ -1,10 +1,10 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle.js';
 
-import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
-import { Form } from '../../../Common/Form';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Validator/Dependent',

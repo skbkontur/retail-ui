@@ -1,12 +1,12 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import { tooltip, text } from '../src/ErrorRenderer';
-import type { ValidationInfo } from '../src/ValidationWrapper';
-import { ValidationWrapper } from '../src/ValidationWrapper';
-import type { Nullable } from '../typings/Types';
+import { tooltip, text } from '../src/ErrorRenderer.js';
+import type { ValidationInfo } from '../src/ValidationWrapper.js';
+import { ValidationWrapper } from '../src/ValidationWrapper.js';
+import type { Nullable } from '../typings/Types.js';
 
 const validate = (): Nullable<ValidationInfo> => {
   return { message: 'Только цифры', type: 'immediate' };

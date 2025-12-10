@@ -1,11 +1,11 @@
 import React from 'react';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { getRootNode, rootNode } from '../../lib/rootNode';
-import { isInstanceOf } from '../../lib/isInstanceOf';
-import { CommonWrapper } from '../CommonWrapper';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
 export interface IgnoreLayerClickProps {
   children: React.ReactNode;

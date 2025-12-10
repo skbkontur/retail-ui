@@ -1,9 +1,9 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Story } from '../../../typings/stories';
-import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
-import { FileUploaderFileStatus } from '../fileUtils';
+import type { Story } from '../../../typings/stories.js';
+import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile.js';
+import { FileUploaderFileStatus } from '../fileUtils.js';
 
 export default {
   title: 'FileUploaderFile',

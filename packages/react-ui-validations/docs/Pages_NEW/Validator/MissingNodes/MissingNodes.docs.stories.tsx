@@ -1,12 +1,12 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle.js';
 
-import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Validator/Missing nodes',

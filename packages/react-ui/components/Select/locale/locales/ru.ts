@@ -1,4 +1,4 @@
-import type { SelectLocale } from '../types';
+import type { SelectLocale } from '../types.js';
 
 export const componentsLocales: SelectLocale = {
   placeholder: 'Ничего не выбрано',

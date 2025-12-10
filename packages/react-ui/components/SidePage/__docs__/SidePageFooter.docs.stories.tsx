@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { SidePageFooter } from '../SidePageFooter';
+import type { Meta } from '../../../typings/stories.js';
+import { SidePageFooter } from '../SidePageFooter.js';
 
 const meta: Meta = {
   title: 'Overlay/SidePage/SidePageFooter',

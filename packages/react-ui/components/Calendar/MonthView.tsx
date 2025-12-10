@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { useResponsiveLayout } from '../../components/ResponsiveLayout';
-import type { Nullable } from '../..//typings/utility-types';
-import { DateSelect } from '../../internal/DateSelect';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
+import { useResponsiveLayout } from '../../components/ResponsiveLayout/index.js';
+import type { Nullable } from '../..//typings/utility-types.js';
+import { DateSelect } from '../../internal/DateSelect/index.js';
 
-import { getStyles } from './MonthView.styles';
-import { themeConfig } from './config';
-import * as CDS from './CalendarDateShape';
-import { CalendarDataTids } from './Calendar';
-import { CalendarContext } from './CalendarContext';
+import { getStyles } from './MonthView.styles.js';
+import { themeConfig } from './config.js';
+import * as CDS from './CalendarDateShape.js';
+import { CalendarDataTids } from './Calendar.js';
+import { CalendarContext } from './CalendarContext.js';
 
 export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShape>) => {
   let min = 0;

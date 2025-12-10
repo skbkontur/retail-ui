@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, GlobalLoader, Select, SingleToast } from '@skbkontur/react-ui';
 
-import type { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories.js';
 
 function GlobalLoaderWithProps() {
   const [error, setError] = React.useState(false);

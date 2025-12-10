@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from '@skbkontur/react-ui/components/Link';
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
-import { TechStorageUsbIcon16Regular } from '@skbkontur/icons/icons/TechStorageUsbIcon/TechStorageUsbIcon16Regular';
+import { Link } from '@skbkontur/react-ui/components/Link/index.js';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import { TechStorageUsbIcon16Regular } from '@skbkontur/icons/icons/TechStorageUsbIcon/TechStorageUsbIcon16Regular.js';
 
 import { CaseSuite, Case } from '../Case';
 

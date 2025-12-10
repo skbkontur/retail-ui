@@ -1,14 +1,14 @@
 import type { PropsWithChildren } from 'react';
 import React, { useCallback, useState } from 'react';
 
-import { useMemoObject } from '../../hooks/useMemoObject';
-import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
+import { useMemoObject } from '../../hooks/useMemoObject.js';
+import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall.js';
 
-import type { FileUploaderAttachedFile } from './fileUtils';
-import { FileUploaderFileStatus, getAttachedFile } from './fileUtils';
-import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { useControlLocale } from './hooks/useControlLocale';
-import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
+import type { FileUploaderAttachedFile } from './fileUtils.js';
+import { FileUploaderFileStatus, getAttachedFile } from './fileUtils.js';
+import { FileUploaderControlContext } from './FileUploaderControlContext.js';
+import { useControlLocale } from './hooks/useControlLocale.js';
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
 
 export interface FileUploaderControlProviderProps {
   /** Срабатывает при выборе файлов */

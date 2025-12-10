@@ -1,6 +1,6 @@
-import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants';
-import type { ScrollBarScrollState } from './ScrollBar';
-import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer';
+import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants.js';
+import type { ScrollBarScrollState } from './ScrollBar.js';
+import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer.js';
 
 export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   const { offset, size, pos } = scrollSizeParametersNames[axis];

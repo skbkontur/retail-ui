@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type { Story } from '../../../typings/stories';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { ClearCrossIcon } from '../ClearCrossIcon';
+import type { Story } from '../../../typings/stories.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import { ClearCrossIcon } from '../ClearCrossIcon.js';
 
 export default {
   title: 'ClearCrossIcon',

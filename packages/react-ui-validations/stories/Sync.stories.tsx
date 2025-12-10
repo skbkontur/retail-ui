@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
 
-import { LostfocusDependentValidation as LostfocusDependentValidationStory } from './SyncStories/LostfocusDependentValidation';
-import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from './SyncStories/LostfocusDynamicValidation';
-import { LostfocusIndependentValidation as LostfocusIndependentValidationStory } from './SyncStories/LostfocusIndependentValidation';
-import { SingleInputPage } from './SyncStories/SingleInputPage';
+import { LostfocusDependentValidation as LostfocusDependentValidationStory } from './SyncStories/LostfocusDependentValidation.js';
+import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from './SyncStories/LostfocusDynamicValidation.js';
+import { LostfocusIndependentValidation as LostfocusIndependentValidationStory } from './SyncStories/LostfocusIndependentValidation.js';
+import { SingleInputPage } from './SyncStories/SingleInputPage.js';
 
 const meta: Meta = {
   title: 'Sync',

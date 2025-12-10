@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { Select } from '../../../components/Select';
-import { withRenderEnvironment } from '../../../lib/renderEnvironment';
+import { Select } from '../../../components/Select/index.js';
+import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
 
-import { componentsDataTids } from './componentsDataTids';
-import { getStyles } from './DataTids.styles';
+import { componentsDataTids } from './componentsDataTids.js';
+import { getStyles } from './DataTids.styles.js';
 
 interface DataTidsState {
   selectedValue: string;

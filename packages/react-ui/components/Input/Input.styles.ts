@@ -1,9 +1,9 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
-import { shift } from '../../lib/styles/DimensionFunctions';
-import { resetText } from '../../lib/styles/Mixins';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { shift } from '../../lib/styles/DimensionFunctions.js';
+import { resetText } from '../../lib/styles/Mixins.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   wrapper() {

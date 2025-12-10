@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toast, Button, Gapped, SingleToast } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Overlay/Toast',

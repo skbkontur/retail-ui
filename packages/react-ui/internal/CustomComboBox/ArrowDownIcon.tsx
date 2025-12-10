@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular';
-import { ArrowCDownIcon20Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon20Regular';
-import { ArrowCDownIcon24Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon24Regular';
-import { iconSizer } from '../icons2022/iconSizer';
+import { ArrowCDownIcon16Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon16Regular.js';
+import { ArrowCDownIcon20Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon20Regular.js';
+import { ArrowCDownIcon24Regular } from '../icons2022/ArrowCDownIcon/ArrowCDownIcon24Regular.js';
+import { iconSizer } from '../icons2022/iconSizer.js';
 
 export const ArrowDownIcon = iconSizer(
   {

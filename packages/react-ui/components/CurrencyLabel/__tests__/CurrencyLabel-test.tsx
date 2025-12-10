@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { CurrencyLabel, CurrencyLabelDataTids } from '../CurrencyLabel';
-import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants';
+import { CurrencyLabel, CurrencyLabelDataTids } from '../CurrencyLabel.js';
+import { MAX_SAFE_DIGITS } from '../../CurrencyInput/constants.js';
 
 describe('CurrencyLabel', () => {
   it('has id attribute', () => {

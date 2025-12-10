@@ -1,1 +1,1 @@
-export * from './IgnoreLayerClick';
+export * from './IgnoreLayerClick.js';

@@ -1,6 +1,6 @@
-import { getUid } from '../../lib/uidUtils';
+import { getUid } from '../../lib/uidUtils.js';
 
-import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
 
 export enum FileUploaderFileStatus {
   Attached = 'Attached',

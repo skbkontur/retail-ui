@@ -1,10 +1,10 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from '../../lib/theming/Theme';
-import { memoizeGetStyles } from '../../lib/theming/Emotion';
-import { resetButton } from '../../lib/styles/Mixins';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import { resetButton } from '../../lib/styles/Mixins.js';
 
-import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins';
+import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins.js';
 
 export const getMenuItemPaddings = ({
   menuItemPaddingX,

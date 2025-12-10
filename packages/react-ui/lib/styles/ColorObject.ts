@@ -1,7 +1,7 @@
 import warning from 'warning';
 
-import { clamp, roundToPrecision } from './ColorHelpers';
-import type { ColorKeywords } from './ColorKeywords';
+import { clamp, roundToPrecision } from './ColorHelpers.js';
+import type { ColorKeywords } from './ColorKeywords.js';
 
 export type RGBTuple = [number, number, number];
 export type ColorKeywordsType = keyof typeof ColorKeywords;

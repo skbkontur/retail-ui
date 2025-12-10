@@ -1,9 +1,9 @@
 import type { PropsWithChildren, ReactElement } from 'react';
 import React, { isValidElement, cloneElement } from 'react';
 
-import { CommonWrapper } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper/index.js';
 
-import { useFocusControl } from './useFocusControl';
+import { useFocusControl } from './useFocusControl.js';
 
 interface Props {
   /**

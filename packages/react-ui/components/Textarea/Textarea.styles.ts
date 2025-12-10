@@ -1,9 +1,9 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
-import { counterSizeMixin, rootTextareaSizeMixin, textareaSizeMixin } from './Textarea.mixins';
+import { counterSizeMixin, rootTextareaSizeMixin, textareaSizeMixin } from './Textarea.mixins.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {

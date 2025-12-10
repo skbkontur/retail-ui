@@ -1,29 +1,29 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { isBrowser } from '../../lib/globalObject';
-import type { GlobalObject } from '../../lib/globalObject';
-import type { AnyObject } from '../../lib/utils';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import type { SpinnerProps } from '../Spinner';
-import { Spinner } from '../Spinner';
-import type { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import { ZIndex } from '../../internal/ZIndex';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
-import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { isBrowser } from '../../lib/globalObject.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import type { AnyObject } from '../../lib/utils.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import type { SpinnerProps } from '../Spinner/index.js';
+import { Spinner } from '../Spinner/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration.js';
+import { getTabbableElements } from '../../lib/dom/tabbableHelpers.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Loader.styles';
+import { getStyles } from './Loader.styles.js';
 
 const types = ['mini', 'normal', 'big'] as const;
 

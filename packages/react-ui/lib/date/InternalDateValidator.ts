@@ -1,8 +1,8 @@
-import type { InternalDate } from './InternalDate';
-import { InternalDateGetter } from './InternalDateGetter';
-import type { InternalDateComponentRaw, InternalDateComponentsNumber, InternalDateComponentsRaw } from './types';
-import { InternalDateComponentType } from './types';
-import { InternalDateTransformer } from './InternalDateTransformer';
+import type { InternalDate } from './InternalDate.js';
+import { InternalDateGetter } from './InternalDateGetter.js';
+import type { InternalDateComponentRaw, InternalDateComponentsNumber, InternalDateComponentsRaw } from './types.js';
+import { InternalDateComponentType } from './types.js';
+import { InternalDateTransformer } from './InternalDateTransformer.js';
 
 const calculateStartDate = (startDate: number | null) => {
   if (startDate) {

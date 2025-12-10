@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { FxInputRestoreBtn } from '../FxInputRestoreBtn';
+import { FxInputRestoreBtn } from '../FxInputRestoreBtn.js';
 
 describe('FxInputRestoreBtn', () => {
   describe('a11y', () => {

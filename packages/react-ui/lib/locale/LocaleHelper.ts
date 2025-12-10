@@ -1,5 +1,5 @@
-import { defaultLangCode } from './constants';
-import type { LangCodes } from './types';
+import { defaultLangCode } from './constants.js';
+import type { LangCodes } from './types.js';
 
 export class LocaleHelper<C> {
   private readonly locales: { [key in LangCodes]?: C };

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import type { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types.js';
 
-import type { PortalProps, RenderContainerProps } from './RenderContainerTypes';
-import { PORTAL_INLET_ATTR } from './RenderContainer';
+import type { PortalProps, RenderContainerProps } from './RenderContainerTypes.js';
+import { PORTAL_INLET_ATTR } from './RenderContainer.js';
 
 interface RenderInnerContainerProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;

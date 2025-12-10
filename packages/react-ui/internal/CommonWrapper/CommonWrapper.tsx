@@ -1,16 +1,16 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { isFunction, isRefableElement } from '../../lib/utils';
-import type { Nullable } from '../../typings/utility-types';
-import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
-import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { isFunction, isRefableElement } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
-import { extractCommonProps } from './utils/extractCommonProps';
-import { getCommonVisualStateDataAttributes } from './utils/getCommonVisualStateDataAttributes';
+import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types.js';
+import { extractCommonProps } from './utils/extractCommonProps.js';
+import { getCommonVisualStateDataAttributes } from './utils/getCommonVisualStateDataAttributes.js';
 
 export type CommonPropsWithRootNodeRef = CommonProps & CommonPropsRootNodeRef;
 

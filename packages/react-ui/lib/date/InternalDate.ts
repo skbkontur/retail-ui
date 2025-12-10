@@ -1,12 +1,12 @@
-import { defaultLangCode, langCodesToCanonicalLocale } from '../locale/constants';
+import { defaultLangCode, langCodesToCanonicalLocale } from '../locale/constants.js';
 
-import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants';
-import { InternalDateCalculator } from './InternalDateCalculator';
-import { InternalDateGetter } from './InternalDateGetter';
-import { InternalDateSetter } from './InternalDateSetter';
-import { InternalDateTransformer } from './InternalDateTransformer';
-import { InternalDateValidator } from './InternalDateValidator';
-import { internalDateLocale } from './localeSets';
+import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants.js';
+import { InternalDateCalculator } from './InternalDateCalculator.js';
+import { InternalDateGetter } from './InternalDateGetter.js';
+import { InternalDateSetter } from './InternalDateSetter.js';
+import { InternalDateTransformer } from './InternalDateTransformer.js';
+import { InternalDateValidator } from './InternalDateValidator.js';
+import { internalDateLocale } from './localeSets.js';
 import type {
   InternalDateChangeSettings,
   InternalDateComponentRaw,
@@ -16,13 +16,13 @@ import type {
   InternalDateFragment,
   InternalDateSeparator,
   InternalDateToFragmentsSettings,
-} from './types';
+} from './types.js';
 import {
   InternalDateComponentType,
   InternalDateOrder,
   InternalDateValidateCheck,
   isInternalDateValidateCheck,
-} from './types';
+} from './types.js';
 
 const getRestoreYear = (
   prev: InternalDateComponentsRaw,

@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
 
-import type { Story } from '../../../typings/stories';
-import { ComponentTable } from '../../../internal/ComponentTable';
-import { Tabs } from '../Tabs';
-import type { TabProps } from '../Tab';
-import { Modal } from '../../Modal';
-import { Button } from '../../Button';
-import type { TabsProps } from '..';
-import type { SizeProp } from '../../../lib/types/props';
+import type { Story } from '../../../typings/stories.js';
+import { ComponentTable } from '../../../internal/ComponentTable.js';
+import { Tabs } from '../Tabs.js';
+import type { TabProps } from '../Tab.js';
+import { Modal } from '../../Modal/index.js';
+import { Button } from '../../Button/index.js';
+import type { TabsProps } from '../index.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (

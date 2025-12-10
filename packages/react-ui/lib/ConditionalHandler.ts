@@ -1,4 +1,4 @@
-import { isFunction } from './utils';
+import { isFunction } from './utils.js';
 
 type ArgsBaseType = any[];
 type Handler<K extends ArgsBaseType> = (...args: K) => void;

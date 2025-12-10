@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CurrencyLabel } from '../CurrencyLabel';
+import { CurrencyLabel } from '../CurrencyLabel.js';
 
 export default {
   title: 'CurrencyLabel',

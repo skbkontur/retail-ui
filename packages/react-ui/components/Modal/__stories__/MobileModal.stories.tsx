@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import type { Story } from '../../../typings/stories';
-import type { MobileModalAppearance } from '../Modal';
-import { Modal } from '../Modal';
-import { Button } from '../../Button';
-import { ResponsiveLayout } from '../../ResponsiveLayout';
-import { Checkbox } from '../../Checkbox';
-import { MiniModal } from '../../MiniModal';
-import { RadioGroup } from '../../RadioGroup';
-import { Gapped } from '../../Gapped';
+import type { Story } from '../../../typings/stories.js';
+import type { MobileModalAppearance } from '../Modal.js';
+import { Modal } from '../Modal.js';
+import { Button } from '../../Button/index.js';
+import { ResponsiveLayout } from '../../ResponsiveLayout/index.js';
+import { Checkbox } from '../../Checkbox/index.js';
+import { MiniModal } from '../../MiniModal/index.js';
+import { RadioGroup } from '../../RadioGroup/index.js';
+import { Gapped } from '../../Gapped/index.js';
 
 interface SuperModalProps {
   isOpened?: boolean;

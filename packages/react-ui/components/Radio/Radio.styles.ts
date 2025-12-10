@@ -1,7 +1,7 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 import {
   afterOutlineMixin,
@@ -9,7 +9,7 @@ import {
   outlineColorMixin,
   radioCheckedMixin,
   radioSizeMixin,
-} from './Radio.mixins';
+} from './Radio.mixins.js';
 
 export const globalClasses = prefix('radio')({
   circle: 'circle',

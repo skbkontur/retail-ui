@@ -1,11 +1,11 @@
 import React from 'react';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
-import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon';
-import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon';
+import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
+import { HandThumbDownIcon } from '@skbkontur/icons/HandThumbDownIcon.js';
+import { TechPhoneSmartIcon } from '@skbkontur/icons/TechPhoneSmartIcon.js';
+import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/ArrowUiCornerOutUpRightIcon.js';
 import { MenuItem, Button, DropdownMenu, Gapped, MenuSeparator } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Menu/MenuItem',

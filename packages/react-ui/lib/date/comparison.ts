@@ -1,6 +1,6 @@
-import * as CDS from '../../components/Calendar/CalendarDateShape';
+import * as CDS from '../../components/Calendar/CalendarDateShape.js';
 
-import { InternalDate } from './InternalDate';
+import { InternalDate } from './InternalDate.js';
 
 const stringToDate = (date: string): CDS.CalendarDateShape => {
   return new InternalDate({ value: date }).getComponentsLikeNumber();

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { isNullable } from '../../../lib/utils';
-import type { Story } from '../../../typings/stories';
-import type { CurrencyInputProps } from '../CurrencyInput';
-import { CurrencyInput } from '../CurrencyInput';
-import { Gapped } from '../../Gapped';
-import { Button } from '../../Button';
-import { Toggle } from '../../Toggle';
-import type { Nullable } from '../../../typings/utility-types';
+import { isNullable } from '../../../lib/utils.js';
+import type { Story } from '../../../typings/stories.js';
+import type { CurrencyInputProps } from '../CurrencyInput.js';
+import { CurrencyInput } from '../CurrencyInput.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Button } from '../../Button/index.js';
+import { Toggle } from '../../Toggle/index.js';
+import type { Nullable } from '../../../typings/utility-types.js';
 
 export default {
   title: 'CurrencyInput',

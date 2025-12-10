@@ -1,12 +1,12 @@
 import type { ComponentType } from 'react';
 import React from 'react';
-import type { DatePickerProps } from '@skbkontur/react-ui/components/DatePicker';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import type { DatePickerProps } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import type { RenderErrorMessage, ValidationInfo } from '../../../../src';
-import { ValidationWrapper } from '../../../../src';
-import type { Nullable } from '../../../../typings/Types';
+import type { RenderErrorMessage, ValidationInfo } from '../../../../index.js';
+import { ValidationWrapper } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
 
 type ValidationFunc<T> = (value: Nullable<T>) => Nullable<ValidationInfo>;
 interface ValidationProps<TValue> {

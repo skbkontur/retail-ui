@@ -1,7 +1,7 @@
 import React from 'react';
 import { CurrencyLabel } from '@skbkontur/react-ui';
 
-import type { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories.js';
 
 export default {
   title: 'Display data/CurrencyLabel',

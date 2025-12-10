@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 
-import { useStyles } from '../../../lib/renderEnvironment';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { FileUploaderFileStatus } from '../fileUtils';
-import { LoadingIcon } from '../../icons2022/LoadingIcon';
-import type { SizeProp } from '../../../lib/types/props';
+import { useStyles } from '../../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { FileUploaderFileStatus } from '../fileUtils.js';
+import { LoadingIcon } from '../../icons2022/LoadingIcon.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 
-import { DeleteIcon } from './DeleteIcon';
-import { ErrorIcon } from './ErrorIcon';
-import { OkIcon } from './OkIcon';
-import { getJsStyles } from './FileUploaderFile.styles';
+import { DeleteIcon } from './DeleteIcon.js';
+import { ErrorIcon } from './ErrorIcon.js';
+import { OkIcon } from './OkIcon.js';
+import { getJsStyles } from './FileUploaderFile.styles.js';
 
 interface FileUploaderFileStatusIconProps {
   hovered: boolean;

@@ -1,4 +1,4 @@
-import * as CDS from '../CalendarDateShape';
+import * as CDS from '../CalendarDateShape.js';
 
 type Date = [number, number, number];
 type NullableDate = Date | null;

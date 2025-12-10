@@ -1,7 +1,7 @@
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import { unstable_batchedUpdates } from 'react-dom';
 
-import type { GlobalObject } from '../lib/globalObject';
+import type { GlobalObject } from '../lib/globalObject.js';
 
 let emitterCache: EventEmitter;
 function getEmitter() {

@@ -1,3 +1,3 @@
-export * from './CommonWrapper';
-export type { CommonWrapperRestProps } from './types';
-export type { CommonProps } from './types';
+export * from './CommonWrapper.js';
+export type { CommonWrapperRestProps } from './types.js';
+export type { CommonProps } from './types.js';

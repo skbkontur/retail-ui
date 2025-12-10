@@ -1,10 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { render } from '@testing-library/react';
-import { callChildRef } from '@skbkontur/react-ui/lib/callChildRef/callChildRef';
+import { callChildRef } from '@skbkontur/react-ui/lib/callChildRef/callChildRef.js';
 
-import type { Nullable } from '../typings/Types';
-import { type InstanceWithRootNode, getRootNode } from '../src/utils/getRootNode/getRootNode';
+import type { Nullable } from '../typings/Types.js';
+import { type InstanceWithRootNode, getRootNode } from '../src/utils/getRootNode/getRootNode.js';
 
 const getInstance = (element: React.ReactElement): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;

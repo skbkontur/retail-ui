@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 
-import { Toast, ToastDataTids } from '../Toast';
+import { Toast, ToastDataTids } from '../Toast.js';
 
 vi.useFakeTimers();
 

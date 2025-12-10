@@ -1,1 +1,1 @@
-export * from './MaskedInput';
+export * from './MaskedInput.js';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { Checkbox, CheckboxDataTids } from '../Checkbox';
+import { Checkbox, CheckboxDataTids } from '../Checkbox.js';
 
 describe('Checkbox', () => {
   it('should call onBlur after radio click', () => {

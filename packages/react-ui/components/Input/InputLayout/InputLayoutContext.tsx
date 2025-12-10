@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { SizeProp } from '../../../lib/types/props';
+import type { SizeProp } from '../../../lib/types/props.js';
 
 export interface InputLayoutContextProps {
   focused: boolean;

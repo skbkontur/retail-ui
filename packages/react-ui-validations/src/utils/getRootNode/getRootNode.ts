@@ -2,8 +2,8 @@ import { findDOMNode } from 'react-dom';
 import type React from 'react';
 import warning from 'warning';
 
-import type { Nullable } from '../../../typings/Types';
-import { isElement } from '../utils';
+import type { Nullable } from '../../../typings/Types.js';
+import { isElement } from '../utils.js';
 
 export interface InstanceWithRootNode {
   getRootNode: () => Nullable<HTMLElement>;

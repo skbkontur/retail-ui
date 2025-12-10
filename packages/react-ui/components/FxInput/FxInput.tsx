@@ -2,27 +2,27 @@ import type { AriaAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
 
-import { Group } from '../Group';
-import type { InputProps } from '../Input';
-import { Input } from '../Input';
-import type { CurrencyInputProps } from '../CurrencyInput';
-import { CurrencyInput } from '../CurrencyInput';
-import type { DefaultizedProps } from '../../lib/createPropsGetter';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { Override } from '../../typings/utility-types';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { SizeProp } from '../../lib/types/props';
-import type { MaskedInputProps } from '../MaskedInput';
-import { MaskedInput } from '../MaskedInput';
-import { withSize } from '../../lib/size/SizeDecorator';
+import { Group } from '../Group/index.js';
+import type { InputProps } from '../Input/Input.js';
+import { Input } from '../Input/index.js';
+import type { CurrencyInputProps } from '../CurrencyInput/index.js';
+import { CurrencyInput } from '../CurrencyInput/index.js';
+import type { DefaultizedProps } from '../../lib/createPropsGetter.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { Override } from '../../typings/utility-types.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/types.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import type { MaskedInputProps } from '../MaskedInput/index.js';
+import { MaskedInput } from '../MaskedInput/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
 
-import { MathFunctionIcon } from './MathFunctionIcon';
-import { FxInputRestoreBtn } from './FxInputRestoreBtn';
+import { MathFunctionIcon } from './MathFunctionIcon.js';
+import { FxInputRestoreBtn } from './FxInputRestoreBtn.js';
 
 export interface FxInputProps
   extends Pick<AriaAttributes, 'aria-label'>,

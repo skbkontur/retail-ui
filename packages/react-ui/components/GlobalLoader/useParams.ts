@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 
-import type { GlobalLoaderViewProps, GlobalLoaderViewRef } from './GlobalLoaderView';
+import type { GlobalLoaderViewProps, GlobalLoaderViewRef } from './GlobalLoaderView.js';
 
 /**
  * Вычисляет положение `GlobalLoader`

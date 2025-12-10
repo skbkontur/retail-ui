@@ -1,12 +1,12 @@
 import React from 'react';
-import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light';
-import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular';
-import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light';
-import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light';
-import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light';
+import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light.js';
+import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular.js';
+import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light.js';
+import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light.js';
+import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light.js';
 import { Button, Gapped } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Button/Button',

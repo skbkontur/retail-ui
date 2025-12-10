@@ -2,35 +2,35 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { isNonNullable, isReactUIInstance } from '../../lib/utils';
-import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
-import type { ModalStackSubscription } from '../../lib/ModalStack';
-import { ModalStack } from '../../lib/ModalStack';
-import { RenderContainer } from '../../internal/RenderContainer';
-import { RenderLayer } from '../../internal/RenderLayer';
-import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import { ResponsiveLayout } from '../ResponsiveLayout';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOf } from '../../lib/isInstanceOf';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isNonNullable, isReactUIInstance } from '../../lib/utils.js';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll/index.js';
+import type { ModalStackSubscription } from '../../lib/ModalStack.js';
+import { ModalStack } from '../../lib/ModalStack.js';
+import { RenderContainer } from '../../internal/RenderContainer/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { SidePageBody } from './SidePageBody';
-import { SidePageContainer } from './SidePageContainer';
-import type { SidePageContextType } from './SidePageContext';
-import { SidePageContext } from './SidePageContext';
-import { SidePageFooter } from './SidePageFooter';
-import { SidePageHeader } from './SidePageHeader';
-import { getStyles } from './SidePage.styles';
+import { SidePageBody } from './SidePageBody.js';
+import { SidePageContainer } from './SidePageContainer.js';
+import type { SidePageContextType } from './SidePageContext.js';
+import { SidePageContext } from './SidePageContext.js';
+import { SidePageFooter } from './SidePageFooter.js';
+import { SidePageHeader } from './SidePageHeader.js';
+import { getStyles } from './SidePage.styles.js';
 
 export interface SidePageProps
   extends CommonProps,
@@ -253,6 +253,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           left: fromLeft ? offset : 'auto',
         }}
       >
+        {/* @ts-expect-error: bad cjs-package types */}
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={this.styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div

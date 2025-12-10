@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { Radio } from '../Radio';
+import { Radio } from '../Radio.js';
 
 describe('Radio', () => {
   it('sets value for aria-label attribute', () => {

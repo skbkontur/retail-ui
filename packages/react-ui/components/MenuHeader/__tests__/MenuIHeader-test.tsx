@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { MenuHeader } from '../MenuHeader';
+import { MenuHeader } from '../MenuHeader.js';
 
 describe('MenuHeader', () => {
   it('has id attribute', () => {

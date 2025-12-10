@@ -1,12 +1,12 @@
 import React from 'react';
 import warning from 'warning';
 
-import type { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types.js';
 
-import { createPropsGetter } from './utils/createPropsGetter';
-import { isTestEnv } from './utils/utils';
-import { ValidationContextWrapper } from './ValidationContextWrapper';
-import { FocusMode } from './FocusMode';
+import { createPropsGetter } from './utils/createPropsGetter.js';
+import { isTestEnv } from './utils/utils.js';
+import { ValidationContextWrapper } from './ValidationContextWrapper.js';
+import { FocusMode } from './FocusMode.js';
 
 export interface ScrollOffset {
   top?: number;

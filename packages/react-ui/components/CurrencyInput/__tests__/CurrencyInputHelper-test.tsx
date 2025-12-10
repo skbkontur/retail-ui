@@ -1,4 +1,4 @@
-import { CurrencyInputHelper } from '../CurrencyInputHelper';
+import { CurrencyInputHelper } from '../CurrencyInputHelper.js';
 
 describe('CurrencyInputHelper', () => {
   describe('insert', () => {

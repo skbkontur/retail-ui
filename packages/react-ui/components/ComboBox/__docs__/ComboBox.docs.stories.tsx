@@ -1,11 +1,10 @@
 import React from 'react';
-import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
-import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuItem } from '@skbkontur/react-ui';
+import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities.js';
+import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
+import { ComboBox, Tooltip, Group, Button, Gapped, MenuSeparator, MenuFooter, MenuItem } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
-import type { Nullable } from '../../../typings/utility-types';
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { Nullable } from '../../../typings/utility-types.js';
 
 const meta: Meta = {
   title: 'Input data/ComboBox',
@@ -485,11 +484,7 @@ export const Example6: Story = () => {
       if (!this.state.shouldRenderAddButton) {
         return null;
       }
-      return (
-        <MenuItem link onClick={this.addItem}>
-          + Добавить "{this.state.query}"
-        </MenuItem>
-      );
+      return <MenuItem onClick={this.addItem}>+ Добавить "{this.state.query}"</MenuItem>;
     }
 
     refComboBox(element: ComboBox<Nullable<Selected>> | null) {

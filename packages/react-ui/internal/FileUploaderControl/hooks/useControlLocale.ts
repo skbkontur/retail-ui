@@ -1,4 +1,4 @@
-import { useLocaleForControl } from '../../../lib/locale/useLocaleForControl';
-import { FileUploaderLocaleHelper } from '../../../components/FileUploader/locale';
+import { useLocaleForControl } from '../../../lib/locale/useLocaleForControl.js';
+import { FileUploaderLocaleHelper } from '../../../components/FileUploader/locale/index.js';
 
 export const useControlLocale = () => useLocaleForControl('FileUploader', FileUploaderLocaleHelper);

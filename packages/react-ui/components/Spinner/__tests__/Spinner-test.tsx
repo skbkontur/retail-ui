@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { Spinner, SpinnerDataTids } from '../Spinner';
+import { Spinner, SpinnerDataTids } from '../Spinner.js';
 
 describe('Spinner', () => {
   it('renders default Spinner', () => {

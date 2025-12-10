@@ -1,3 +1,3 @@
-export * from './ReactUIFeatureFlagsContext';
+export * from './ReactUIFeatureFlagsContext.js';
 
-export * from './FeatureFlagsHelpers';
+export * from './FeatureFlagsHelpers.js';

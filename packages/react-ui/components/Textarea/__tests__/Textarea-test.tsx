@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { Textarea, TextareaDataTids } from '../Textarea';
+import { Textarea, TextareaDataTids } from '../Textarea.js';
 
 describe('Textarea', () => {
   it('render without crash', () => {

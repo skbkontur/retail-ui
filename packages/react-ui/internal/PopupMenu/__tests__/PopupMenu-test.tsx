@@ -1,11 +1,11 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
-import { PopupDataTids, PopupIds } from '../../Popup';
-import type { PopupMenuCaptionProps } from '../PopupMenu';
-import { PopupMenu } from '../PopupMenu';
-import { MenuItem } from '../../../components/MenuItem';
+import { PopupDataTids, PopupIds } from '../../Popup/index.js';
+import type { PopupMenuCaptionProps } from '../PopupMenu.js';
+import { PopupMenu } from '../PopupMenu.js';
+import { MenuItem } from '../../../components/MenuItem/index.js';
 
 describe('PopupMenu', () => {
   it('should open menu on caption click', async () => {

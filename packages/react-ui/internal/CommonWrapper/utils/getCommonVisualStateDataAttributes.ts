@@ -1,6 +1,6 @@
-import type { VisualStateDataAttributesResultType } from './getVisualStateDataAttributes';
-import { getVisualStateDataAttributes } from './getVisualStateDataAttributes';
-import { tryGetBoolean } from './tryGetBoolean';
+import type { VisualStateDataAttributesResultType } from './getVisualStateDataAttributes.js';
+import { getVisualStateDataAttributes } from './getVisualStateDataAttributes.js';
+import { tryGetBoolean } from './tryGetBoolean.js';
 
 export function getCommonVisualStateDataAttributes(
   componentProps: Record<string, unknown>,

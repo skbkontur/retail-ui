@@ -2,19 +2,19 @@ import type { AriaAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
 
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { PopupMenuProps } from '../../internal/PopupMenu';
-import { PopupMenu } from '../../internal/PopupMenu';
-import type { MenuItemProps } from '../MenuItem';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import type { MenuHeaderProps } from '../MenuHeader';
-import type { PopupPositionsType } from '../../internal/Popup';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { PopupMenuProps } from '../../internal/PopupMenu/index.js';
+import { PopupMenu } from '../../internal/PopupMenu/index.js';
+import type { MenuItemProps } from '../MenuItem/index.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { MenuHeaderProps } from '../MenuHeader/index.js';
+import type { PopupPositionsType } from '../../internal/Popup/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/types.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 

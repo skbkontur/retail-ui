@@ -3,11 +3,11 @@
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
 
-import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from '../ScrollContainer';
-import { ScrollContainer } from '../ScrollContainer';
-import type { Story } from '../../../typings/stories';
-import { Gapped } from '../../Gapped';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from '../ScrollContainer.js';
+import { ScrollContainer } from '../ScrollContainer.js';
+import type { Story } from '../../../typings/stories.js';
+import { Gapped } from '../../Gapped/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 
 function getItems(count: number) {
   const items = [];

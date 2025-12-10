@@ -1,1 +1,1 @@
-export * from './NativeDateInput';
+export * from './NativeDateInput.js';

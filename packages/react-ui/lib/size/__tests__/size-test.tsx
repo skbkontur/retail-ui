@@ -1,16 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { SizeControlContext } from '../SizeControlContext';
-import { Button } from '../../../components/Button/Button';
-import { Input } from '../../../components/Input/Input';
-import { Checkbox } from '../../../components/Checkbox/Checkbox';
-import { Radio } from '../../../components/Radio/Radio';
-import { Textarea } from '../../../components/Textarea/Textarea';
-import { Toggle } from '../../../components/Toggle/Toggle';
-import { PasswordInput } from '../../../components/PasswordInput/PasswordInput';
-import { DateInput } from '../../../components/DateInput/DateInput';
-import type { SizeProp } from '../../types/props';
+import { SizeControlContext } from '../SizeControlContext.js';
+import { Button } from '../../../components/Button/Button.js';
+import { Input } from '../../../components/Input/Input.js';
+import { Checkbox } from '../../../components/Checkbox/Checkbox.js';
+import { Radio } from '../../../components/Radio/Radio.js';
+import { Textarea } from '../../../components/Textarea/Textarea.js';
+import { Toggle } from '../../../components/Toggle/Toggle.js';
+import { PasswordInput } from '../../../components/PasswordInput/PasswordInput.js';
+import { DateInput } from '../../../components/DateInput/DateInput.js';
+import type { SizeProp } from '../../types/props.js';
 
 const sizes: SizeProp[] = ['small', 'medium', 'large'];
 

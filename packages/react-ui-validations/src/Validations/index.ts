@@ -1,8 +1,8 @@
-import { ValidationBuilder } from './ValidationBuilder';
-import { ValidationWriter } from './ValidationWriter';
-import { RootValidationRule, ValidationRule, ItemValidationRule } from './Types';
-import { ValidationReader } from './ValidationReader';
-import { PathTokensCache } from './PathHelper';
+import { ValidationBuilder } from './ValidationBuilder.js';
+import { ValidationWriter } from './ValidationWriter.js';
+import type { RootValidationRule, ValidationRule, ItemValidationRule } from './Types.js';
+import { ValidationReader } from './ValidationReader.js';
+import { PathTokensCache } from './PathHelper.js';
 
 function validate<T>(data: T, validationRule: RootValidationRule<T>, tokens: PathTokensCache): ValidationReader<T> {
   const validationWriter = new ValidationWriter<T>();
@@ -20,4 +20,6 @@ export function createValidator<T>(rule: RootValidationRule<T>): Validator<T> {
   };
 }
 
-export { ValidationReader, ValidationBuilder, RootValidationRule, ValidationRule, ItemValidationRule };
+export { ValidationReader, ValidationBuilder };
+
+export type { RootValidationRule, ValidationRule, ItemValidationRule };

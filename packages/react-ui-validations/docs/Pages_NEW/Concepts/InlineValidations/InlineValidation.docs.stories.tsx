@@ -1,9 +1,11 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { ValidationContainer } from '../../../../src';
-import { Form } from '../../../Common/Form';
-import { WrappedInput, WrappedDatePicker, lessThanDate } from './ControlsWithValidations';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+
+import { ValidationContainer } from '../../../../index.js';
+import { Form } from '../../../Common/Form.js';
+
+import { WrappedInput, WrappedDatePicker, lessThanDate } from './ControlsWithValidations.js';
 
 const meta: Meta = {
   title: 'Concepts/Inline validations',

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { FileUploader } from '@skbkontur/react-ui/components/FileUploader';
-import type { FileUploaderAttachedFile } from '@skbkontur/react-ui/internal/FileUploaderControl/fileUtils';
+import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader.js';
+import type { FileUploaderAttachedFile } from '@skbkontur/react-ui/internal/FileUploaderControl/fileUtils.js';
 
-import type { ValidationInfo } from '../src';
-import { ValidationContainer, ValidationWrapper } from '../src';
-import type { Nullable } from '../typings/Types';
+import type { ValidationInfo } from '../index.js';
+import { ValidationContainer, ValidationWrapper } from '../index.js';
+import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {
   title: 'FileUploader',

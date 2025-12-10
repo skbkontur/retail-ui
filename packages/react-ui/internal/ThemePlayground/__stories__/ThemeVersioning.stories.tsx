@@ -1,10 +1,10 @@
 import type { CSSProperties } from 'react';
 import React from 'react';
 
-import type { Story, Meta } from '../../../typings/stories';
-import { createTheme, isThemeGTE, markThemeVersion } from '../../../lib/theming/ThemeHelpers';
-import { BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme';
-import type { ThemeVersions } from '../../../lib/theming/ThemeVersions';
+import type { Story, Meta } from '../../../typings/stories.js';
+import { createTheme, isThemeGTE, markThemeVersion } from '../../../lib/theming/ThemeHelpers.js';
+import { BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme.js';
+import type { ThemeVersions } from '../../../lib/theming/ThemeVersions.js';
 
 const meta: Meta = {
   title: 'ThemeVersions/Test',

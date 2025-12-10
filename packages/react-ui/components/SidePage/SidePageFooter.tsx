@@ -1,25 +1,25 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { getRootNode, rootNode } from '../../lib/rootNode';
-import { getDOMRect } from '../../lib/dom/getDOMRect';
-import type { GappedProps } from '../Gapped';
-import { Gapped } from '../Gapped';
-import { isNonNullable } from '../../lib/utils';
-import { ModalSeparator } from '../Modal/ModalSeparator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import type { GappedProps } from '../Gapped/index.js';
+import { Gapped } from '../Gapped/index.js';
+import { isNonNullable } from '../../lib/utils.js';
+import { ModalSeparator } from '../Modal/ModalSeparator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './SidePage.styles';
-import type { SidePageContextType } from './SidePageContext';
-import { SidePageContext } from './SidePageContext';
+import { getStyles } from './SidePage.styles.js';
+import type { SidePageContextType } from './SidePageContext.js';
+import { SidePageContext } from './SidePageContext.js';
 
 export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
   /** @ignore */

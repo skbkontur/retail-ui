@@ -1,15 +1,15 @@
 import React from 'react';
 import type { Story } from '@storybook/react';
 
-import type { Meta } from '../../../typings/stories';
-import { DateRangePicker } from '../DateRangePicker';
-import { Tooltip } from '../../Tooltip';
-import { Gapped } from '../../Gapped';
-import { Group } from '../../Group';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import type { ThemeIn } from '../../../lib/theming/Theme';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import type { Meta } from '../../../typings/stories.js';
+import { DateRangePicker } from '../DateRangePicker.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Group } from '../../Group/index.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import type { ThemeIn } from '../../../lib/theming/Theme.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 
 const meta: Meta = {
   title: 'DateRangePicker',

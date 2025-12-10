@@ -1,9 +1,9 @@
 import React, { cloneElement, useRef } from 'react';
 
-import { Button } from '../../Button';
-import { Gapped } from '../../Gapped';
-import type { FileUploaderRef } from '../FileUploader';
-import { FileUploader } from '../FileUploader';
+import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import type { FileUploaderRef } from '../FileUploader.js';
+import { FileUploader } from '../FileUploader.js';
 
 export default {
   title: 'FileUploader',

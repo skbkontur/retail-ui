@@ -1,1 +1,1 @@
-export * from './RenderLayer';
+export * from './RenderLayer.js';

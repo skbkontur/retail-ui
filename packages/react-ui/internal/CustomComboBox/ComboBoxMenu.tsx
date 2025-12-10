@@ -1,24 +1,24 @@
 import React from 'react';
 
-import { isFunction, isNullable } from '../../lib/utils';
-import { locale } from '../../lib/locale/decorators';
-import { Menu, MenuDataTids } from '../Menu';
-import type { MenuItemState } from '../../components/MenuItem';
-import { isMenuItem, MenuItem } from '../../components/MenuItem';
-import { Spinner } from '../../components/Spinner';
-import type { Nullable } from '../../typings/utility-types';
-import { MenuSeparator } from '../../components/MenuSeparator';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { MenuMessage } from '../MenuMessage';
-import type { ComboBoxExtendedItem } from '../../components/ComboBox';
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { MenuFooter } from '../../components/MenuFooter';
-import type { SizeProp } from '../../lib/types/props';
+import { isFunction, isNullable } from '../../lib/utils.js';
+import { locale } from '../../lib/locale/decorators.js';
+import { Menu, MenuDataTids } from '../Menu/index.js';
+import type { MenuItemState } from '../../components/MenuItem/index.js';
+import { isMenuItem, MenuItem } from '../../components/MenuItem/index.js';
+import { Spinner } from '../../components/Spinner/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { MenuSeparator } from '../../components/MenuSeparator/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { MenuMessage } from '../MenuMessage/index.js';
+import type { ComboBoxExtendedItem } from '../../components/ComboBox/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { MenuFooter } from '../../components/MenuFooter/index.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import type { ComboBoxLocale } from './locale';
-import { CustomComboBoxLocaleHelper } from './locale';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';
+import type { ComboBoxLocale } from './locale/index.js';
+import { CustomComboBoxLocaleHelper } from './locale/index.js';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;

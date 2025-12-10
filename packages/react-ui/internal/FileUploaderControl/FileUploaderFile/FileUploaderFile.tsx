@@ -1,25 +1,25 @@
 import type { ReactNode } from 'react';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment';
-import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import type { FileUploaderAttachedFile } from '../fileUtils';
-import { formatBytes } from '../../../lib/utils';
-import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper';
-import { truncate } from '../../../lib/stringUtils';
-import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { useKeyListener } from '../../../lib/events/keyListener';
-import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
-import type { Nullable } from '../../../typings/utility-types';
-import { Hint } from '../../../components/Hint';
-import { Tooltip } from '../../../components/Tooltip';
-import { getDOMRect } from '../../../lib/dom/getDOMRect';
-import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
-import type { SizeProp } from '../../../lib/types/props';
+import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
+import { forwardRefAndName } from '../../../lib/forwardRefAndName.js';
+import type { FileUploaderAttachedFile } from '../fileUtils.js';
+import { formatBytes } from '../../../lib/utils.js';
+import { TextWidthHelper } from '../../TextWidthHelper/TextWidthHelper.js';
+import { truncate } from '../../../lib/stringUtils.js';
+import { FileUploaderControlContext } from '../FileUploaderControlContext.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { useKeyListener } from '../../../lib/events/keyListener.js';
+import { isKeyEnter } from '../../../lib/events/keyboard/identifiers.js';
+import type { Nullable } from '../../../typings/utility-types.js';
+import { Hint } from '../../../components/Hint/index.js';
+import { Tooltip } from '../../../components/Tooltip/index.js';
+import { getDOMRect } from '../../../lib/dom/getDOMRect.js';
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 
-import { getJsStyles } from './FileUploaderFile.styles';
-import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon';
+import { getJsStyles } from './FileUploaderFile.styles.js';
+import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon.js';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;

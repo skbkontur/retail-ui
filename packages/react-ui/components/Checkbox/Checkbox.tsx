@@ -2,25 +2,25 @@ import type { AriaAttributes } from 'react';
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import type { Override } from '../../typings/utility-types';
-import { KeyListener } from '../../lib/events/keyListener';
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
-import type { SizeProp } from '../../lib/types/props';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
-import { withSize } from '../../lib/size/SizeDecorator';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import type { Override } from '../../typings/utility-types.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles, globalClasses } from './Checkbox.styles';
-import { CheckedIcon } from './CheckedIcon';
-import { IndeterminateIcon } from './IndeterminateIcon';
+import { getStyles, globalClasses } from './Checkbox.styles.js';
+import { CheckedIcon } from './CheckedIcon.js';
+import { IndeterminateIcon } from './IndeterminateIcon.js';
 
 export interface CheckboxProps
   extends CommonProps,

@@ -1,6 +1,6 @@
-import { validateDateRangePicker as validate } from '../helpers/validateDateRangePicker';
-import { InternalDate } from '../../../lib/date/InternalDate';
-import { MIN_FULLDATE, MAX_FULLDATE } from '../../../lib/date/constants';
+import { validateDateRangePicker as validate } from '../helpers/validateDateRangePicker.js';
+import { InternalDate } from '../../../lib/date/InternalDate.js';
+import { MIN_FULLDATE, MAX_FULLDATE } from '../../../lib/date/constants.js';
 
 describe('validate', () => {
   it(`should validate by default range ${MIN_FULLDATE} - ${MAX_FULLDATE}`, () => {

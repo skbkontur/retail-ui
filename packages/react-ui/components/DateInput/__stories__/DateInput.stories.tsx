@@ -1,15 +1,15 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
-import { Gapped } from '../../Gapped';
-import { Select } from '../../Select';
-import type { DateInputProps } from '../DateInput';
-import { DateInput } from '../DateInput';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { defaultLangCode } from '../../../lib/locale/constants';
-import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Select } from '../../Select/index.js';
+import type { DateInputProps } from '../DateInput.js';
+import { DateInput } from '../DateInput.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { InternalDateGetter } from '../../../lib/date/InternalDateGetter.js';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;

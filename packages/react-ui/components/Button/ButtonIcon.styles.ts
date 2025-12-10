@@ -1,8 +1,8 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars';
-import { memoizeGetStyles } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
+import { ZERO_WIDTH_SPACE_CSS } from '../../lib/chars.js';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   icon() {

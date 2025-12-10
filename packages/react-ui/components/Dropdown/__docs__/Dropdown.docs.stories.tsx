@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Menu/Dropdown',

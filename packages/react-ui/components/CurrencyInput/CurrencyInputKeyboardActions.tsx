@@ -1,5 +1,5 @@
-import * as Keyboard from '../../lib/events/keyboard/identifiers';
-import { KeyboardActionExctracterBuilder } from '../../lib/extractKeyboardAction';
+import * as Keyboard from '../../lib/events/keyboard/identifiers.js';
+import { KeyboardActionExctracterBuilder } from '../../lib/extractKeyboardAction.js';
 
 export const commaAliases = [
   Keyboard.isCodeComma,

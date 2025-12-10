@@ -1,5 +1,5 @@
 import React from 'react';
-import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea/index.js';
 
 import { CaseSuite, Case } from '../Case';
 

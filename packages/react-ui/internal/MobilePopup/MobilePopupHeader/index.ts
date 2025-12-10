@@ -1,1 +1,1 @@
-export * from './MobilePopupHeader';
+export * from './MobilePopupHeader.js';

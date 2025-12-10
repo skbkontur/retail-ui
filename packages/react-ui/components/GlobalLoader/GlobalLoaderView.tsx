@@ -1,13 +1,13 @@
 import React, { useContext, useRef } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 
-import { getAnimations, getStyles } from './GlobalLoaderView.styles';
-import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';
+import { getAnimations, getStyles } from './GlobalLoaderView.styles.js';
+import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams.js';
 
 export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
   /** Устанавливает ожидаемое время(ms) ответа сервера. */

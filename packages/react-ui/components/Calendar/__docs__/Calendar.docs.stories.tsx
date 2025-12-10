@@ -1,11 +1,9 @@
 import React from 'react';
-import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
-import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
-import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped } from '@skbkontur/react-ui';
-import type { CalendarDayProps } from '@skbkontur/react-ui/components/Calendar';
+import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers.js';
+import { Calendar, Tooltip, Hint, CalendarDay, Button, Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import type { CalendarDayProps } from '@skbkontur/react-ui/components/Calendar/index.js';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Date Components/Calendar',

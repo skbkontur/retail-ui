@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { Checkbox } from '../Checkbox';
-import { Gapped } from '../../Gapped';
-import type { Nullable } from '../../../typings/utility-types';
-import type { SizeProp } from '../../../lib/types/props';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Checkbox } from '../Checkbox.js';
+import { Gapped } from '../../Gapped/index.js';
+import type { Nullable } from '../../../typings/utility-types.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 
 interface PlainCheckboxState {
   checked: false;

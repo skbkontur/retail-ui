@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { ModalSeparator } from '../ModalSeparator';
+import type { Meta } from '../../../typings/stories.js';
+import { ModalSeparator } from '../ModalSeparator.js';
 
 const meta: Meta = {
   title: 'Overlay/Modal/ModalSeparator',

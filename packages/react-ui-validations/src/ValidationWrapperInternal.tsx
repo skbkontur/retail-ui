@@ -2,15 +2,15 @@ import type { ReactInstance } from 'react';
 import React from 'react';
 import warning from 'warning';
 
-import type { Nullable } from '../typings/Types';
+import type { Nullable } from '../typings/Types.js';
 
-import { getRootNode } from './utils/getRootNode';
-import { isElement } from './utils/utils';
-import { smoothScrollIntoView } from './smoothScrollIntoView';
-import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
-import { ReactUiDetection } from './ReactUiDetection';
-import type { ValidationContextType } from './ValidationContextWrapper';
-import { ValidationContext } from './ValidationContextWrapper';
+import { getRootNode } from './utils/getRootNode/getRootNode.js';
+import { isElement } from './utils/utils.js';
+import { smoothScrollIntoView } from './smoothScrollIntoView.js';
+import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper.js';
+import { ReactUiDetection } from './ReactUiDetection.js';
+import type { ValidationContextType } from './ValidationContextWrapper.js';
+import { ValidationContext } from './ValidationContextWrapper.js';
 
 export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
 

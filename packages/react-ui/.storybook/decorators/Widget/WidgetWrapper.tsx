@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { RenderEnvironmentProvider } from '../../../lib/renderEnvironment';
+import { RenderEnvironmentProvider } from '../../../lib/renderEnvironment/index.js';
 
 export const WidgetWrapper = ({ children, containerNode = null }: any) => {
   const [widgetRoot, setWidgetRoot] = useState<HTMLElement | null>(null);

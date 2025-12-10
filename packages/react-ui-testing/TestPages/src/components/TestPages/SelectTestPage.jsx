@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from '@skbkontur/react-ui/components/Select';
+import { Select } from '@skbkontur/react-ui/components/Select/index.js';
 
 import { CaseSuite, Case } from '../Case';
 

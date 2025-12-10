@@ -2,9 +2,9 @@ import type { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'rea
 import React from 'react';
 import invariant from 'invariant';
 import debounce from 'lodash.debounce';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject.js';
 import {
   isKeyArrowDown,
   isKeyArrowUp,
@@ -12,48 +12,48 @@ import {
   isKeyEnter,
   isKeyEscape,
   isKeySpace,
-} from '../../lib/events/keyboard/identifiers';
-import { locale } from '../../lib/locale/decorators';
-import { reactGetTextContent } from '../../lib/reactGetTextContent';
-import type { ButtonProps, ButtonUse } from '../Button';
-import { Button } from '../Button';
-import { filterProps } from '../../lib/filterProps';
-import { Input } from '../Input';
-import { Menu } from '../../internal/Menu';
-import type { MenuItemProps } from '../MenuItem';
-import { MenuItem } from '../MenuItem';
-import { MenuSeparator } from '../MenuSeparator';
-import { RenderLayer } from '../../internal/RenderLayer';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { Nullable } from '../../typings/utility-types';
-import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { MobilePopup } from '../../internal/MobilePopup';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { getRootNode, rootNode } from '../../lib/rootNode';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { MenuHeaderProps } from '../MenuHeader';
-import type { SizeProp } from '../../lib/types/props';
-import { getStyles as getLinkStyles } from '../Link/Link.styles';
-import { Popup, type PopupPositionsType } from '../../internal/Popup';
-import { ZIndex } from '../../internal/ZIndex';
-import { getMenuPositions } from '../../lib/getMenuPositions';
-import { withSize } from '../../lib/size/SizeDecorator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+} from '../../lib/events/keyboard/identifiers.js';
+import { locale } from '../../lib/locale/decorators.js';
+import { reactGetTextContent } from '../../lib/reactGetTextContent.js';
+import type { ButtonProps, ButtonUse } from '../Button/index.js';
+import { Button } from '../Button/index.js';
+import { filterProps } from '../../lib/filterProps.js';
+import { Input } from '../Input/index.js';
+import { Menu } from '../../internal/Menu/index.js';
+import type { MenuItemProps } from '../MenuItem/index.js';
+import { MenuItem } from '../MenuItem/index.js';
+import { MenuSeparator } from '../MenuSeparator/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { MobilePopup } from '../../internal/MobilePopup/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { MenuHeaderProps } from '../MenuHeader/index.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { getStyles as getLinkStyles } from '../Link/Link.styles.js';
+import { Popup, type PopupPositionsType } from '../../internal/Popup/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { getMenuPositions } from '../../lib/getMenuPositions.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { ArrowDownIcon } from './ArrowDownIcon';
-import { Item } from './Item';
-import type { SelectLocale } from './locale';
-import { SelectLocaleHelper } from './locale';
-import { getStyles } from './Select.styles';
-import { getSelectTheme } from './selectTheme';
-import { SelectDataTids } from './tids';
+import { ArrowDownIcon } from './ArrowDownIcon.js';
+import { Item } from './Item.js';
+import type { SelectLocale } from './locale/index.js';
+import { SelectLocaleHelper } from './locale/index.js';
+import { getStyles } from './Select.styles.js';
+import { getSelectTheme } from './selectTheme.js';
+import { SelectDataTids } from './tids.js';
 
-export * from './tids';
+export * from './tids.js';
 
 export interface ButtonParams
   extends Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'> {

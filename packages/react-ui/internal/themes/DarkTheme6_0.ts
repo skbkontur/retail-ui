@@ -1,6 +1,6 @@
-import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers';
+import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers.js';
 
-import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme';
+import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme.js';
 
 export const DarkTheme6_0 = createTheme({
   themeClass: class DarkTheme6_0 extends BasicThemeClassForExtension {

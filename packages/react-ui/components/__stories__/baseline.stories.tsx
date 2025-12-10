@@ -1,22 +1,22 @@
 import React from 'react';
-import { UiLoadSpinnerIcon16Regular } from '@skbkontur/icons/icons/UiLoadSpinnerIcon/UiLoadSpinnerIcon16Regular';
-import { JewelCrownIcon16Regular } from '@skbkontur/icons/icons/JewelCrownIcon/JewelCrownIcon16Regular';
+import { UiLoadSpinnerIcon16Regular } from '@skbkontur/icons/icons/UiLoadSpinnerIcon/UiLoadSpinnerIcon16Regular.js';
+import { JewelCrownIcon16Regular } from '@skbkontur/icons/icons/JewelCrownIcon/JewelCrownIcon16Regular.js';
 
-import { Button } from '../Button';
-import { Link } from '../Link';
-import { Input } from '../Input';
-import { ComboBox } from '../ComboBox';
-import { Spinner } from '../Spinner';
-import { Checkbox } from '../Checkbox';
-import { Kebab } from '../Kebab';
-import { Radio } from '../Radio';
-import { Toggle } from '../Toggle';
-import { MenuItem } from '../MenuItem';
-import { Gapped } from '../Gapped';
-import { Group } from '../Group';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { SizeProp } from '../../lib/types/props';
+import { Button } from '../Button/index.js';
+import { Link } from '../Link/index.js';
+import { Input } from '../Input/index.js';
+import { ComboBox } from '../ComboBox/index.js';
+import { Spinner } from '../Spinner/index.js';
+import { Checkbox } from '../Checkbox/index.js';
+import { Kebab } from '../Kebab/index.js';
+import { Radio } from '../Radio/index.js';
+import { Toggle } from '../Toggle/index.js';
+import { MenuItem } from '../MenuItem/index.js';
+import { Gapped } from '../Gapped/index.js';
+import { Group } from '../Group/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
 export default { title: 'Baseline' };
 

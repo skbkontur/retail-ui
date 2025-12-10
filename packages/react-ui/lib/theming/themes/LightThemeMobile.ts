@@ -1,6 +1,6 @@
-import { ThemeFactory } from '../ThemeFactory';
+import { ThemeFactory } from '../ThemeFactory.js';
 
-import { LIGHT_THEME } from './LightTheme';
+import { LIGHT_THEME } from './LightTheme.js';
 
 export const LIGHT_THEME_MOBILE = ThemeFactory.create(
   {

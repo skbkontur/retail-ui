@@ -1,4 +1,4 @@
-import { InternalDateFirstDayWeek, InternalDateOrder, InternalDateSeparator } from './types';
+import { InternalDateFirstDayWeek, InternalDateOrder, InternalDateSeparator } from './types.js';
 
 export const MIN_YEAR = 0;
 export const MAX_YEAR = 9999;

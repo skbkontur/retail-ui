@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { emptyHandler } from '../../lib/utils';
-import type { SizeProp } from '../../lib/types/props';
+import { emptyHandler } from '../../lib/utils.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import type { Tab } from './Tab';
+import type { Tab } from './Tab.js';
 
 export interface TabsContextType<T extends string = any> {
   vertical: boolean;

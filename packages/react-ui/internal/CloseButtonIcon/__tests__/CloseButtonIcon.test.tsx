@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { CloseButtonIcon } from '../CloseButtonIcon';
+import { CloseButtonIcon } from '../CloseButtonIcon.js';
 
 describe('CloseButtonIcon', () => {
   it('sets value for aria-label attribute', () => {

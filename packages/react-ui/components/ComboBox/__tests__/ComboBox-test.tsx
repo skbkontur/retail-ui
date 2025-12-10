@@ -2,27 +2,31 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import FocusLock from 'react-focus-lock';
 
-import { MobilePopupDataTids } from '../../../internal/MobilePopup';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import type { HTMLProps } from '../../../typings/html';
-import { Input, InputDataTids } from '../../Input';
-import { MenuMessageDataTids } from '../../../internal/MenuMessage';
-import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
-import type { LocaleContextProps } from '../../../lib/locale';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { defaultLangCode } from '../../../lib/locale/constants';
-import { ComboBox } from '../ComboBox';
-import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
-import { MenuItem, MenuItemDataTids } from '../../MenuItem';
-import { MenuDataTids } from '../../../internal/Menu';
-import { clickOutside, delay } from '../../../lib/utils';
-import { ComboBoxMenuDataTids, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
-import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView';
-import { SpinnerDataTids } from '../../Spinner';
-import type { ComboBoxItem } from '..';
+import { MobilePopupDataTids } from '../../../internal/MobilePopup/index.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
+import type { HTMLProps } from '../../../typings/html.js';
+import { Input, InputDataTids } from '../../Input/index.js';
+import { MenuMessageDataTids } from '../../../internal/MenuMessage/index.js';
+import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale/index.js';
+import type { LocaleContextProps } from '../../../lib/locale/index.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { ComboBox } from '../ComboBox.js';
+import { InputLikeTextDataTids } from '../../../internal/InputLikeText/index.js';
+import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
+import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { clickOutside, delay } from '../../../lib/utils.js';
+import {
+  ComboBoxMenuDataTids,
+  DELAY_BEFORE_SHOW_LOADER,
+  LOADER_SHOW_TIME,
+} from '../../../internal/CustomComboBox/index.js';
+import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView.js';
+import { SpinnerDataTids } from '../../Spinner/index.js';
+import type { ComboBoxItem } from '../index.js';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [ReturnType<typeof vi.fn>, Promise<void>] {
   let searchCalled: () => Promise<void>;
@@ -1621,6 +1625,7 @@ describe('ComboBox', () => {
 
     it('FocusLock allow to blur', async () => {
       render(
+        // @ts-expect-error: bad cjs-package types
         <FocusLock autoFocus={false}>
           <ComboBox value={testValues[0]} getItems={getItems} ref={comboboxRef} />
         </FocusLock>,

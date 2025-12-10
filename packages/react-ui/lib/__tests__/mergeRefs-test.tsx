@@ -1,7 +1,7 @@
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { render } from '@testing-library/react';
 
-import { mergeRefs } from '../mergeRefs';
+import { mergeRefs } from '../mergeRefs.js';
 
 describe('mergeRefs', () => {
   it('correctly merges refs', () => {

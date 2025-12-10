@@ -1,10 +1,10 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
-import { resetButton, resetText } from '../../lib/styles/Mixins';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { resetButton, resetText } from '../../lib/styles/Mixins.js';
 
-import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
+import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins.js';
 
 export const globalClasses = prefix('button')({
   root: 'root',

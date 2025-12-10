@@ -2,25 +2,25 @@ import type { AriaAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
 
-import { getOwnerGlobalObject } from '../../lib/globalObject';
-import { isNonNullable, isNullable, isElement } from '../../lib/utils';
-import type { InputProps } from '../Input';
-import { Input } from '../Input';
-import type { Nullable, Override } from '../../typings/utility-types';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOf } from '../../lib/isInstanceOf';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
+import { getOwnerGlobalObject } from '../../lib/globalObject.js';
+import { isNonNullable, isNullable, isElement } from '../../lib/utils.js';
+import type { InputProps } from '../Input/index.js';
+import { Input } from '../Input/index.js';
+import type { Nullable, Override } from '../../typings/utility-types.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
 
-import { MAX_SAFE_DIGITS } from './constants';
-import type { Selection, SelectionDirection } from './SelectionHelper';
-import { SelectionHelper } from './SelectionHelper';
-import { CurrencyHelper } from './CurrencyHelper';
-import { CurrencyInputHelper } from './CurrencyInputHelper';
-import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
+import { MAX_SAFE_DIGITS } from './constants.js';
+import type { Selection, SelectionDirection } from './SelectionHelper.js';
+import { SelectionHelper } from './SelectionHelper.js';
+import { CurrencyHelper } from './CurrencyHelper.js';
+import { CurrencyInputHelper } from './CurrencyInputHelper.js';
+import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions.js';
 
 export interface CurrencyInputProps
   extends Pick<AriaAttributes, 'aria-label'>,

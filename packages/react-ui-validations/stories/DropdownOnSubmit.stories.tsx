@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox.js';
 import { Button } from '@skbkontur/react-ui';
-import { DatePicker as BaseDatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { DatePicker as BaseDatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
 
-import { ValidationContainer, ValidationWrapper } from '../src';
+import { ValidationContainer, ValidationWrapper } from '../index.js';
 
 const meta: Meta = {
   title: 'DropdownOnSubmit',

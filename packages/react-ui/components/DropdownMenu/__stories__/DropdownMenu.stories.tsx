@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
-import { ArrowADownRightIcon16Regular } from '@skbkontur/icons/icons/ArrowADownRightIcon/ArrowADownRightIcon16Regular';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
+import { ArrowADownRightIcon16Regular } from '@skbkontur/icons/icons/ArrowADownRightIcon/ArrowADownRightIcon16Regular.js';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { MenuItem } from '../../MenuItem';
-import { MenuHeader } from '../../MenuHeader';
-import { MenuSeparator } from '../../MenuSeparator';
-import type { DropdownMenuProps } from '../DropdownMenu';
-import { DropdownMenu } from '../DropdownMenu';
-import { Button } from '../../Button';
-import { Input } from '../../Input';
-import { Gapped } from '../../Gapped';
-import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
-import { SingleToast } from '../../SingleToast';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
+import type { DropdownMenuProps } from '../DropdownMenu.js';
+import { DropdownMenu } from '../DropdownMenu.js';
+import { Button } from '../../Button/index.js';
+import { Input } from '../../Input/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular.js';
+import { SingleToast } from '../../SingleToast/index.js';
 
 const meta: Meta = {
   title: 'DropdownMenu',

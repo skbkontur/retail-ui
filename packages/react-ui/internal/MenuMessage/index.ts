@@ -1,1 +1,1 @@
-export * from './MenuMessage';
+export * from './MenuMessage.js';

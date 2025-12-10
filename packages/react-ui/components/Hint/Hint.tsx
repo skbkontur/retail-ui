@@ -1,24 +1,24 @@
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { SafeTimer } from '../../lib/globalObject';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { Theme } from '../../lib/theming/Theme';
-import type { PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup';
-import { DUMMY_LOCATION, Popup } from '../../internal/Popup';
-import type { Nullable } from '../../typings/utility-types';
-import type { MouseEventType } from '../../typings/event-types';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { SafeTimer } from '../../lib/globalObject.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
+import { DUMMY_LOCATION, Popup } from '../../internal/Popup/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { MouseEventType } from '../../typings/event-types.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Hint.styles';
+import { getStyles } from './Hint.styles.js';
 
 const HINT_BORDER_COLOR = 'transparent';
 

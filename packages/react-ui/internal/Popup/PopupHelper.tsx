@@ -1,8 +1,8 @@
-import { getDOMRect } from '../../lib/dom/getDOMRect';
-import type { GlobalObject } from '../../lib/globalObject';
-import { getOwnerGlobalObject } from '../../lib/globalObject';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { getOwnerGlobalObject } from '../../lib/globalObject.js';
 
-import type { PopupPositionsType } from './Popup';
+import type { PopupPositionsType } from './Popup.js';
 
 export interface Rect {
   top: number;

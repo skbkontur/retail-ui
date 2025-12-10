@@ -1,12 +1,12 @@
 import React from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { WithIframeInIframe } from '../../../.storybook/decorators/Widget/withIframe';
-import { Hint } from '../../../components/Hint';
-import { Modal } from '../../../components/Modal';
-import { Toggle } from '../../../components/Toggle';
-import { Button } from '../../../components/Button';
-import { HideBodyVerticalScroll } from '../../../internal/HideBodyVerticalScroll';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { WithIframeInIframe } from '../../../.storybook/decorators/Widget/withIframe.js';
+import { Hint } from '../../../components/Hint/index.js';
+import { Modal } from '../../../components/Modal/index.js';
+import { Toggle } from '../../../components/Toggle/index.js';
+import { Button } from '../../../components/Button/index.js';
+import { HideBodyVerticalScroll } from '../../../internal/HideBodyVerticalScroll/index.js';
 
 export default {
   title: 'widgetToIframe',

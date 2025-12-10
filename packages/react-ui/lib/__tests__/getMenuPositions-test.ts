@@ -1,4 +1,4 @@
-import { getMenuPositions } from '../getMenuPositions';
+import { getMenuPositions } from '../getMenuPositions.js';
 
 describe('getMenuPositions', () => {
   it('correctly transforms menuPos & menuAlign to popup positions', () => {

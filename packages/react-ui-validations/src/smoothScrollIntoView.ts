@@ -1,10 +1,10 @@
 import warning from 'warning';
 
-import type { Nullable, Omit } from '../typings/Types';
+import type { Nullable, Omit } from '../typings/Types.js';
 
-import type { ScrollOffset } from './ValidationContainer';
-import { getDoc, getWin, isBrowser, isElement } from './utils/utils';
-import { isNullable } from './utils/isNullable';
+import type { ScrollOffset } from './ValidationContainer.js';
+import { getDoc, getWin, isBrowser, isElement } from './utils/utils.js';
+import { isNullable } from './utils/isNullable/isNullable.js';
 
 export async function smoothScrollIntoView(element: Element, scrollOffset: ScrollOffset): Promise<void> {
   const activeDocument = getDoc(element);

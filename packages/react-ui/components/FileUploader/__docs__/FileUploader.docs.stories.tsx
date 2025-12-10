@@ -2,8 +2,8 @@ import React from 'react';
 import type { FileUploaderRef } from '@skbkontur/react-ui';
 import { FileUploader, Button, Toggle, Gapped } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
-import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils.js';
 
 const meta: Meta = {
   title: 'Input data/FileUploader',

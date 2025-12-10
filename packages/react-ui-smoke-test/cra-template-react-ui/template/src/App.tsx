@@ -44,7 +44,7 @@ import {
   Tooltip,
   TooltipMenu,
 } from '@skbkontur/react-ui';
-import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
 
 export const App = () => {
   return (

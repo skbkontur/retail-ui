@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
-import { useEmotion } from '../lib/renderEnvironment';
+import { useEmotion } from '../lib/renderEnvironment/index.js';
 
-import { checkAccess } from './check-access';
+import { checkAccess } from './check-access.js';
 
 const COMPONENT_PATH = 'packages/react-ui/components';
 

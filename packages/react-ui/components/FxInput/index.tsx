@@ -1,1 +1,1 @@
-export * from './FxInput';
+export * from './FxInput.js';

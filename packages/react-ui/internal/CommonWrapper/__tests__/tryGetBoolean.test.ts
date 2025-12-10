@@ -1,4 +1,4 @@
-import { tryGetBoolean } from '../utils/tryGetBoolean';
+import { tryGetBoolean } from '../utils/tryGetBoolean.js';
 
 describe('tryGetBoolean', () => {
   it('should return true when passed true', () => {

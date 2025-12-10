@@ -1,1 +1,1 @@
-export * from './CurrencyLabel';
+export * from './CurrencyLabel.js';

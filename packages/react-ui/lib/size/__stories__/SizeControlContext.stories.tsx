@@ -1,23 +1,23 @@
 import React, { type ReactElement } from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { Gapped } from '../../../components/Gapped';
-import { Select } from '../../../components/Select';
-import { SizeControlContext } from '../index';
-import { ComboBox } from '../../../components/ComboBox';
-import { TokenInput, TokenInputType } from '../../../components/TokenInput';
-import { Autocomplete } from '../../../components/Autocomplete';
-import { Button } from '../../../components/Button';
-import { Checkbox } from '../../../components/Checkbox';
-import { DateInput } from '../../../components/DateInput';
-import { FxInput } from '../../../components/FxInput';
-import { Input } from '../../../components/Input';
-import { Kebab } from '../../../components/Kebab';
-import { PasswordInput } from '../../../components/PasswordInput';
-import { Radio } from '../../../components/Radio';
-import { Textarea } from '../../../components/Textarea';
-import { Toggle } from '../../../components/Toggle';
-import { Tooltip } from '../../../components/Tooltip';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Gapped } from '../../../components/Gapped/index.js';
+import { Select } from '../../../components/Select/index.js';
+import { SizeControlContext } from '../index.js';
+import { ComboBox } from '../../../components/ComboBox/index.js';
+import { TokenInput, TokenInputType } from '../../../components/TokenInput/index.js';
+import { Autocomplete } from '../../../components/Autocomplete/index.js';
+import { Button } from '../../../components/Button/index.js';
+import { Checkbox } from '../../../components/Checkbox/index.js';
+import { DateInput } from '../../../components/DateInput/index.js';
+import { FxInput } from '../../../components/FxInput/index.js';
+import { Input } from '../../../components/Input/index.js';
+import { Kebab } from '../../../components/Kebab/index.js';
+import { PasswordInput } from '../../../components/PasswordInput/index.js';
+import { Radio } from '../../../components/Radio/index.js';
+import { Textarea } from '../../../components/Textarea/index.js';
+import { Toggle } from '../../../components/Toggle/index.js';
+import { Tooltip } from '../../../components/Tooltip/index.js';
 
 export default {
   title: 'SizeControlContext',

@@ -2,35 +2,35 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { isNonNullable } from '../../lib/utils';
-import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import { RenderContainer } from '../../internal/RenderContainer';
-import { ZIndex } from '../../internal/ZIndex';
-import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
-import type { ModalStackSubscription } from '../../lib/ModalStack';
-import { ModalStack } from '../../lib/ModalStack';
-import { ResizeDetector } from '../../internal/ResizeDetector';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { ResponsiveLayout } from '../ResponsiveLayout';
-import { catchUnreachableWarning } from '../../lib/typeGuards';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isNonNullable } from '../../lib/utils.js';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { RenderContainer } from '../../internal/RenderContainer/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll/index.js';
+import type { ModalStackSubscription } from '../../lib/ModalStack.js';
+import { ModalStack } from '../../lib/ModalStack.js';
+import { ResizeDetector } from '../../internal/ResizeDetector/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { catchUnreachableWarning } from '../../lib/typeGuards.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import type { ModalContextProps } from './ModalContext';
-import { ModalContext } from './ModalContext';
-import { ModalFooter } from './ModalFooter';
-import { ModalHeader } from './ModalHeader';
-import { ModalBody } from './ModalBody';
-import { ModalClose } from './ModalClose';
-import { getStyles } from './Modal.styles';
-import { getModalTheme } from './getModalTheme';
+import type { ModalContextProps } from './ModalContext.js';
+import { ModalContext } from './ModalContext.js';
+import { ModalFooter } from './ModalFooter.js';
+import { ModalHeader } from './ModalHeader.js';
+import { ModalBody } from './ModalBody.js';
+import { ModalClose } from './ModalClose.js';
+import { getStyles } from './Modal.styles.js';
+import { getModalTheme } from './getModalTheme.js';
 
 let mountedModalsCount = 0;
 
@@ -310,6 +310,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       style={isMobile ? undefined : style}
                     >
                       <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
+                        {/* @ts-expect-error: bad cjs-package types */}
                         <FocusLock
                           disabled={disableFocusLock}
                           autoFocus={false}

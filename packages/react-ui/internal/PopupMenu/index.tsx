@@ -1,1 +1,1 @@
-export * from './PopupMenu';
+export * from './PopupMenu.js';

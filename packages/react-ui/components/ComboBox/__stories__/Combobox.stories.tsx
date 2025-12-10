@@ -2,26 +2,25 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
 
-import type { Meta, Story } from '../../../typings/stories';
-import type { ComboBoxItem, ComboBoxProps } from '../ComboBox';
-import { ComboBox } from '../ComboBox';
-import type { MenuItemState } from '../../MenuItem';
-import { MenuItem } from '../../MenuItem';
-import { MenuSeparator } from '../../MenuSeparator';
-import type { Nullable } from '../../../typings/utility-types';
-import { Toggle } from '../../Toggle';
-import { Button } from '../../Button';
-import { Gapped } from '../../Gapped';
-import { MenuHeader } from '../../MenuHeader';
-import { mergeRefs } from '../../../lib/mergeRefs';
-import { Tooltip } from '../../Tooltip';
-import type { TSetRootNode } from '../../../lib/rootNode';
-import { rootNode } from '../../../lib/rootNode';
-
-const { getCities } = require('../__mocks__/getCities.ts');
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { ComboBoxItem, ComboBoxProps } from '../ComboBox.js';
+import { ComboBox } from '../ComboBox.js';
+import type { MenuItemState } from '../../MenuItem/index.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
+import type { Nullable } from '../../../typings/utility-types.js';
+import { Toggle } from '../../Toggle/index.js';
+import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
+import { mergeRefs } from '../../../lib/mergeRefs.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import type { TSetRootNode } from '../../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../../lib/rootNode/index.js';
+import { getCities } from '../__mocks__/getCities.js';
 
 const meta: Meta = {
   title: 'ComboBox',
@@ -492,8 +491,8 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps> {
 
   private handleChange = (value: ComplexComboboxItem) => this.setState({ value });
 
-  private getItems = (query: string) => {
-    return getCities(query)
+  private getItems = (query: string): any => {
+    return (getCities(query) as Promise<ComboboxSearchResult>)
       .then(({ foundItems, totalCount }: ComboboxSearchResult) => ({
         foundItems: foundItems.map(this.mapCity),
         totalCount,

@@ -1,3 +1,3 @@
-export * from './Calendar';
-export * from './CalendarDateShape';
-export * from './CalendarDay';
+export * from './Calendar.js';
+export * from './CalendarDateShape.js';
+export * from './CalendarDay.js';

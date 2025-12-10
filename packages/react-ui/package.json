@@ -2,8 +2,6 @@
   "name": "@skbkontur/react-ui",
   "version": "5.4.6",
   "description": "UI Components",
-  "main": "cjs/index.js",
-  "module": "index.js",
   "sideEffects": false,
   "homepage": "https://tech.skbkontur.ru/kontur-ui",
   "repository": {
@@ -14,11 +12,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "prebuild": "run-s clean \"build:types\"",
-    "build:types": "tsc -p ./prod.tsconfig.json --emitDeclarationOnly --diagnostics --outDir build",
-    "build:cjs": "cross-env BABEL_ENV=cjs node scripts/build",
-    "build:esm": "node scripts/build",
-    "build": "run-p build:esm build:cjs && node scripts/build/postbuild",
+    "build": "yarn rimraf build && tsc --outDir build -p prod.tsconfig.json && copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build && node ./scripts/exports.ts",
     "clean": "git clean -fdxqe node_modules",
     "prerelease": "yarn build",
     "release": "npm publish ./build --workspaces=false",

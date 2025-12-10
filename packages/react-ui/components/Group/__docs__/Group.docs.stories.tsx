@@ -1,9 +1,9 @@
 import React from 'react';
-import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon';
-import { SearchLoupeIcon } from '@skbkontur/icons/icons/SearchLoupeIcon';
+import { MathFunctionIcon } from '@skbkontur/icons/MathFunctionIcon.js';
+import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon.js';
 import { Group, Button, Input, Hint, DateRangePicker, Tooltip } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Layout/Group',

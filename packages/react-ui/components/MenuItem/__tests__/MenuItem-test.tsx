@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { Menu } from '../../../internal/Menu';
-import type { MenuItemState } from '../MenuItem';
-import { MenuItem, MenuItemDataTids } from '../MenuItem';
+import { Menu } from '../../../internal/Menu/index.js';
+import type { MenuItemState } from '../MenuItem.js';
+import { MenuItem, MenuItemDataTids } from '../MenuItem.js';
 
 describe('MenuItem', () => {
   it('renders multiple children', () => {

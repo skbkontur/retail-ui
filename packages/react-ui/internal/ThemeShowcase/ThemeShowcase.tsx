@@ -1,30 +1,30 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { useEmotion, useStyles, withRenderEnvironment } from '../../lib/renderEnvironment';
-import { isColor } from '../../lib/styles/ColorHelpers';
-import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme';
-import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme';
-import type { ComboBoxItem } from '../../components/ComboBox';
-import { ComboBox } from '../../components/ComboBox';
-import { Gapped } from '../../components/Gapped';
-import { Link } from '../../components/Link';
-import { Sticky } from '../../components/Sticky';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { Tooltip } from '../../components/Tooltip';
-import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { useEmotion, useStyles, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { isColor } from '../../lib/styles/ColorHelpers.js';
+import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme.js';
+import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme.js';
+import type { ComboBoxItem } from '../../components/ComboBox/index.js';
+import { ComboBox } from '../../components/ComboBox/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
+import { Link } from '../../components/Link/index.js';
+import { Sticky } from '../../components/Sticky/index.js';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
+import { Tooltip } from '../../components/Tooltip/index.js';
+import { IS_PROXY_SUPPORTED } from '../../lib/Supports.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 
-import type { ComponentDescriptionType, ComponentRowDescriptionType } from './VariablesCollector';
+import type { ComponentDescriptionType, ComponentRowDescriptionType } from './VariablesCollector.js';
 import {
   ALL_USED_VARIABLES,
   CALLS_COUNT,
   COMPONENT_DESCRIPTIONS,
   COMPONENT_DESCRIPTIONS_BY_VARIABLE,
   EXECUTION_TIME,
-} from './VariablesCollector';
-import { getStyles } from './ThemeShowcase.styles';
+} from './VariablesCollector.js';
+import { getStyles } from './ThemeShowcase.styles.js';
 
 const EMPTY_ARRAY: string[] = [];
 

@@ -1,10 +1,10 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
-import type { SizeProp } from '../../lib/types/props';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import { paddingX } from './helpers';
+import { paddingX } from './helpers.js';
 
 export const getStyles = memoizeGetStyles((emotion: Emotion) => ({
   rootSmall(t: Theme) {

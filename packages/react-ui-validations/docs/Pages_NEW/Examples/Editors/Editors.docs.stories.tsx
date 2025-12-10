@@ -1,21 +1,21 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
-import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Link } from '@skbkontur/react-ui/components/Link';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput';
+import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon.js';
+import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon/HandThumbUpIcon.js';
+import { Button } from '@skbkontur/react-ui/components/Button/index.js';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox.js';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index.js';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index.js';
+import { Input } from '@skbkontur/react-ui/components/Input/index.js';
+import { Link } from '@skbkontur/react-ui/components/Link/index.js';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup.js';
+import { Select } from '@skbkontur/react-ui/components/Select/index.js';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea/index.js';
+import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput.js';
 
-import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
-import type { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Examples/Editors',
