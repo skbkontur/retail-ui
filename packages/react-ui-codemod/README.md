@@ -27,6 +27,14 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Список кодмодов
 
+### react-ui-6.0/renameThemeVars
+
+Переименовывает переменные темы в соответствии с изменениями в [161](https://git.skbkontur.ru/ui/react-ui/-/merge_requests/161#%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B5%D0%BD%D0%B8%D0%B9-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D1%85-%D1%82%D0%B5%D0%BC%D1%8B)
+
+```
+npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH 
+```
+
 ### react-ui-5.0/renameThemeVars
 
 Переименовывает переменные темы в соответствии с изменениями в [3459](https://github.com/skbkontur/retail-ui/pull/3459)
