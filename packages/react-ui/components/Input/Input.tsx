@@ -175,7 +175,7 @@ export interface InputProps
           >
         >;
 
-        /** Устанавливает элемент, заменяющий нативный input. Должен иметь пропы `InputElementProps` и тип `InputElement`. */
+        /** Устанавливает элемент, заменяющий нативный input. Должен иметь пропсы `InputElementProps` и тип `InputElement`. */
         element?: ReactElement<InputElementProps>;
       }
     > {}

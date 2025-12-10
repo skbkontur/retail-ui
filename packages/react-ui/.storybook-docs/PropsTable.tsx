@@ -100,7 +100,7 @@ export const PropsTable = () => {
 
   return (
     <details className={detailsStyles} onToggle={(e) => setIsOpen(e.currentTarget.open)}>
-      <summary>{isOpen ? 'Скрыть список пропов и методов' : 'Показать список пропов и методов'}</summary>
+      <summary>{isOpen ? 'Скрыть список пропсов и методов' : 'Показать список пропсов и методов'}</summary>
       <div ref={tableContainerRef}>
         <ArgTypes />
       </div>

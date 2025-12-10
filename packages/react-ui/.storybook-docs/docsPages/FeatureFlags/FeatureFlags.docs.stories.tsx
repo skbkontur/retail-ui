@@ -117,7 +117,7 @@ export const StickyReduceLayoutEvents: Story = () => {
   const toggleSticky = () => setSticky(!sticky);
   const handleOffsetChange = () => setStickyOffset(Math.random() * 200);
   // Tooltip не должен перерисовываться, чтобы демонстрировать эффект отставания
-  // т.е. его пропы и children не должны меняться
+  // т.е. его пропсы и children не должны меняться
   const renderTooltip = React.useCallback(() => 'Tooltip, который отстает при включенном флаге', []);
 
   const content = (

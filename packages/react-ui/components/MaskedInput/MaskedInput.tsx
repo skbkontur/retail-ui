@@ -63,7 +63,7 @@ export interface MaskedProps {
    * @ignore */
   colored?: boolean;
 
-  /** Задает пропы для компонента `IMaskInput`. Необходимы для юнит-тестов
+  /** Задает пропсы для компонента `IMaskInput`. Необходимы для юнит-тестов
    * @ignore */
   imaskProps?: IMaskInputProps<HTMLInputElement>;
 }
@@ -235,7 +235,7 @@ export const MaskedInput = forwardRefAndName(
       setFocused(true);
       props.onFocus?.(e);
 
-      // Если value из пропов отличается от value, которое получит input после обработки,
+      // Если value из пропсов отличается от value, которое получит input после обработки,
       // то imask будет ставить каретку за последним валидным символом.
       props.selectAllOnFocus && inputRef.current?.delaySelectAll();
     }

@@ -49,7 +49,7 @@ export const Example2: Story = () => {
   return (
     <Gapped vertical>
       <Toggle checked={manually} onValueChange={reset}>
-        Управление пропами
+        Управление пропсами
       </Toggle>
       <Toggle checked={active} onValueChange={setActive} disabled={!manually}>
         <code>active</code>

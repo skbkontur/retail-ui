@@ -19,7 +19,7 @@ export const Example1: Story = () => {
 };
 Example1.storyName = 'Календарь с заданной датой';
 
-/** Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропов `initialMonth` и `initialYear` */
+/** Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропсов `initialMonth` и `initialYear` */
 export const Example2: Story = () => {
   const [date, setDate] = React.useState('11.12.2021');
   const initialMonth = 7;
@@ -89,7 +89,7 @@ export const Example4: Story = () => {
 };
 Example4.storyName = 'Высота';
 
-/** Для кастомнизации дней в календаре используется проп `renderDay`. Корректная работа подразумевает обязательное использование компонента `<CalendarDay />` и передачу в него всех приходящих в функцию пропов: `<Calendar renderDay={(props) => <CalendarDay {...props} />} />`. */
+/** Для кастомнизации дней в календаре используется проп `renderDay`. Корректная работа подразумевает обязательное использование компонента `<CalendarDay />` и передачу в него всех приходящих в функцию пропсов: `<Calendar renderDay={(props) => <CalendarDay {...props} />} />`. */
 export const Example5: Story = () => {
   const initialValue = '02.09.2023';
 

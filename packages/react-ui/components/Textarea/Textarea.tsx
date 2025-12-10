@@ -121,7 +121,7 @@ type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow'
  * Многострочное поле `Textarea` — это поле ввода, которое позволяет работать с несколькими строками текста.
  *
  * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
- * Пропы **`className` и `style` игнорируются**.
+ * Пропсы **`className` и `style` игнорируются**.
  */
 
 @rootNode
