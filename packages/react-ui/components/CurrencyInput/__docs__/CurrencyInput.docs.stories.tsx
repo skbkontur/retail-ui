@@ -2,7 +2,6 @@ import React from 'react';
 import { CurrencyInput, Button } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
-import type { Nullable } from '../../../typings/utility-types';
 
 export default {
   title: 'Input data/CurrencyInput',

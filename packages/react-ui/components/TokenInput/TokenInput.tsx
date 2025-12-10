@@ -60,7 +60,6 @@ import { tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
 
-
 const TEMP_FAKE_FLAG = 'TEMP_FAKE_FLAG';
 
 export enum TokenInputType {
