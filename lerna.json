@@ -25,7 +25,8 @@
         "**/*.mdx",
         "**/*.config.js",
         "**/*.config.mjs",
-        "**/*.config.ts"
+        "**/*.config.ts",
+        "**/*.config.mts"
       ]
     }
   }

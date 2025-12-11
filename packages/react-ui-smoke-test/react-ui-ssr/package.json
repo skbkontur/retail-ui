@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "server": "run-s clean server:*",
-    "server:build": "cross-env NODE_ENV=development webpack --config webpack.server.js",
+    "server:build": "cross-env NODE_ENV=development webpack --config webpack.server.mts",
     "server:render": "node dist/SSR.js",
-    "client": "cross-env NODE_ENV=development webpack-dev-server --config webpack.client.js",
+    "client": "cross-env NODE_ENV=development webpack-dev-server --config webpack.client.mts",
     "clean": "git clean -fdxqe node_modules"
   },
   "peerDependencies": {

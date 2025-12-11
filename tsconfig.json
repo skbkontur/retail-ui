@@ -8,11 +8,7 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "target": "es5",
-    "lib": [
-      "es2017",
-      "es2015",
-      "dom"
-    ],
+    "lib": ["es2017", "es2015", "dom"],
     "importHelpers": true,
     "declaration": true,
     "esModuleInterop": true,
@@ -24,6 +20,16 @@
     "**/node_modules/*",
     "**/build",
     "**/cra-template-react-ui",
-    "**/test-app"
+    "**/test-app",
+    "scripts/*.mts",
+    "**/scripts/*.mts",
+    "**/*.config.mts",
+    "**/.creevey/*.mts",
+    "**/.storybook/*.config.mts",
+    "**/.storybook-docs/*.config.mts",
+    "**/webpack.*",
+    "**/react-ui-testing/**/install.mts",
+    "**/react-ui-testing/**/versions.mts",
+    "**/react-ui-testing/**/print-versions.mts"
   ]
 }

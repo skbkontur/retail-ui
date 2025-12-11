@@ -1,9 +1,7 @@
-const shell = require('shelljs');
-const semver = require('semver');
 const reactUiLocalVersionStub = '9.9.9';
 const reactVersion = process.env.REACT_VERSION ?? '17.0.2';
 
-const versionsInfo = [
+const versionsInfo: Array< { react: string, '@skbkontur/react-ui': [string], dependencies: { [key: string]: string, 'react-dom': string }}> = [
   {
     react: reactVersion,
     '@skbkontur/react-ui': [reactUiLocalVersionStub],
@@ -38,4 +36,4 @@ const versions = versionSource
   )
   .reduce((x, y) => x.concat(y), []);
 
-module.exports = { versions, reactUiLocalVersionStub };
+export  { versions, reactUiLocalVersionStub };

@@ -3,7 +3,6 @@
   "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
   "compilerOptions": {
     "types": ["node", "vitest/globals", "@testing-library/jest-dom", "creevey/playwright"],
-    "useUnknownInCatchVariables": false,
-    "moduleResolution": "Node"
+    "useUnknownInCatchVariables": false
   }
 }

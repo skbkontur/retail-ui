@@ -1,8 +1,8 @@
-const path = require('path');
+import { join } from 'path';
 
-const config = require('./webpack.config');
+import config from './webpack.config.mts';
 
-module.exports = {
+export default {
   ...config,
 
   entry: ['core-js/stable', './src/client.tsx'],
@@ -31,7 +31,7 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, './dist'),
+    contentBase: join(__dirname, './dist'),
     hot: true,
     port: 8080,
   },

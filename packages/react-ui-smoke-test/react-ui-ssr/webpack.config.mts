@@ -1,8 +1,10 @@
-const path = require('path');
+import path from 'path'
+import { fileURLToPath } from 'url';
 
 const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-module.exports = {
+export default {
   context: __dirname,
   module: {
     rules: [

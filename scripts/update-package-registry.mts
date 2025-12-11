@@ -1,19 +1,22 @@
-const path = require('path');
-const { existsSync, readFileSync, writeFileSync } = require('fs');
+import { join, dirname } from 'path';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const LOCK_FILES_PATHS = [
-  path.join(__dirname, '../yarn.lock'),
-  path.join(__dirname, '../packages/react-ui-testing/TestPages/yarn.lock'),
-  path.join(__dirname, '../packages/react-ui-smoke-test/react-ui-ssr/yarn.lock'),
+  join(__dirname, '../yarn.lock'),
+  join(__dirname, '../packages/react-ui-testing/TestPages/yarn.lock'),
+  join(__dirname, '../packages/react-ui-smoke-test/react-ui-ssr/yarn.lock'),
 ];
 
-const YARNRC_FILE_PATH = path.join(__dirname, '../.yarnrc');
-const NPMRC_FILE_PATH = path.join(__dirname, '../.npmrc');
-const ENV_FILE_PATH = path.join(__dirname, '../.env');
+const YARNRC_FILE_PATH = join(__dirname, '../.yarnrc');
+const NPMRC_FILE_PATH = join(__dirname, '../.npmrc');
+const ENV_FILE_PATH = join(__dirname, '../.env');
 const NEXUS_PACKAGE_REGISTRY = getValueFromFile(ENV_FILE_PATH, 'PACKAGE_REGISTRY');
 const NPM_PACKAGE_REGISTRY = getValueFromFile(NPMRC_FILE_PATH, 'registry');
 
-if (NEXUS_PACKAGE_REGISTRY) {
+if (NEXUS_PACKAGE_REGISTRY && NPM_PACKAGE_REGISTRY) {
   const yarnrcFile = readFileSync(YARNRC_FILE_PATH, 'utf-8');
 
   if (process.argv.includes('back')) {
@@ -33,7 +36,7 @@ if (NEXUS_PACKAGE_REGISTRY) {
   });
 }
 
-function getValueFromFile(filePath, valueName) {
+function getValueFromFile(filePath: string, valueName: string): string | undefined {
   if (!existsSync(filePath)) {
     return undefined;
   }

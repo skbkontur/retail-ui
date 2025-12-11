@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "downlevelIteration": true,
+    "diagnostics": true,
+    "module": "node16",
+    "moduleResolution": "node16",
+    "lib": ["es2017", "es2015", "ES2021", "dom"]
+  },
+  "include": [
+    "scripts/*.mts",
+    "**/scripts/*.mts",
+    "**/*.config.mts",
+    "**/.creevey/*.mts",
+    "**/.storybook/*.config.mts",
+    "**/.storybook-docs/*.config.mts",
+    "**/webpack.*",
+    "**/react-ui-testing/**/install.mts",
+    "**/react-ui-testing/**/versions.mts",
+    "**/react-ui-testing/**/print-versions.mts"
+  ],
+  "exclude": ["node_modules", "**/node_modules/*", "**/build", "**/cra-template-react-ui", "**/test-app"]
+}

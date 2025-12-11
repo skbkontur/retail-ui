@@ -1,21 +1,25 @@
-const path = require('path');
+import { resolve, join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const semver = require('semver');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import { satisfies } from 'semver';
+import { DefinePlugin } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const reactUiPath = path.resolve(__dirname, '../../react-ui/build');
-const { versions, reactUiLocalVersionStub } = require('./versions');
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const reactUiPath = resolve(__dirname, '../../react-ui/build');
+import { versions, reactUiLocalVersionStub } from './versions.mts';
+
 
 const versionsDependencies = versions.map((x) => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
 
 const dependencies = ['react', '@skbkontur/react-ui', ...new Set(versionsDependencies)];
 
-function createConfig(reactVersion, reactUIVersion) {
+function createConfig(reactVersion: string, reactUIVersion: string) {
   const targetDir = `${reactVersion}_${reactUIVersion}`;
-  const alias = {};
+  const alias: { [key: string]: string} = {};
   for (const dependency of dependencies) {
-    alias[dependency] = path.resolve(`${targetDir}/node_modules/${dependency}`);
+    alias[dependency] = resolve(`${targetDir}/node_modules/${dependency}`);
   }
   if (reactUIVersion === reactUiLocalVersionStub) {
     alias['@skbkontur/react-ui'] = reactUiPath;
@@ -29,7 +33,7 @@ function createConfig(reactVersion, reactUIVersion) {
       ],
     },
     output: {
-      path: path.resolve(__dirname, './dist'),
+      path: resolve(__dirname, './dist'),
       publicPath: '/',
       filename: '[name].js',
     },
@@ -74,13 +78,13 @@ function createConfig(reactVersion, reactUIVersion) {
       alias: { ...alias },
     },
     plugins: [
-      new webpack.DefinePlugin({
+      new DefinePlugin({
         'process.env.retailUIVersion': JSON.stringify(process.env.RETAIL_UI_VERSION),
         'process.env.REACT_UI_TEST': JSON.stringify(true),
-        'process.env.hasKebab': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.9.0')),
-        'process.env.hasPaging': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.9.0')),
-        'process.env.hasSidePage': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.11.0')),
-        'process.env.newCombobox': JSON.stringify(semver.satisfies(reactUIVersion, '>=0.7.0')),
+        'process.env.hasKebab': JSON.stringify(satisfies(reactUIVersion, '>=0.9.0')),
+        'process.env.hasPaging': JSON.stringify(satisfies(reactUIVersion, '>=0.9.0')),
+        'process.env.hasSidePage': JSON.stringify(satisfies(reactUIVersion, '>=0.11.0')),
+        'process.env.newCombobox': JSON.stringify(satisfies(reactUIVersion, '>=0.7.0')),
         'process.env.reactUIVersion': JSON.stringify(reactUIVersion),
         'process.env.baseUrl': JSON.stringify(`/${reactVersion}/${reactUIVersion}`),
         'process.env.strictMode': process.env.STRICT_MODE,
@@ -92,7 +96,7 @@ function createConfig(reactVersion, reactUIVersion) {
     ],
     devServer: {
       static: {
-        directory: path.join(__dirname, 'dist'),
+        directory: join(__dirname, 'dist'),
       },
       host: '0.0.0.0',
       port: 8083,
@@ -107,4 +111,4 @@ function createConfig(reactVersion, reactUIVersion) {
   };
 }
 
-module.exports = versions.map((version) => createConfig(version['react'], version['@skbkontur/react-ui']));
+export default versions.map((version) => createConfig(version['react'], version['@skbkontur/react-ui']));

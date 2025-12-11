@@ -1,5 +1,5 @@
 import React from 'react';
-import { CurrencyInput, Button } from '@skbkontur/react-ui';
+import { CurrencyInput, Button, Gapped } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
 

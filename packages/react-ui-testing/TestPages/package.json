@@ -4,10 +4,10 @@
   "description": "Test pages for @skbkontur/react-ui controls",
   "private": true,
   "scripts": {
-    "postinstall": "node install.js",
+    "postinstall": "node install.mts",
     "start": "webpack serve --watch --mode development",
     "test": "dotnet test ../Tests/Tests.csproj --configuration Release --framework netcoreapp3.1",
-    "print-versions": "node print-versions.js",
+    "print-versions": "node print-versions.mts",
     "ci": "start-server-and-test http://localhost:8083/17.0.2/9.9.9/"
   },
   "dependencies": {
