@@ -20,6 +20,7 @@
     "build:copy-files": "copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build",
     "build:lint:publint": "publint --pack npm ./build",
     "build:lint:attw": "attw --ignore-rules cjs-resolves-to-esm --quiet --pack ./build",
+    "build:exports": "node ./scripts/exports.ts",
     "prerelease": "yarn build",
     "release": "npm publish ./build --workspaces=false",
     "release:unstable": "yarn release --tag=unstable",

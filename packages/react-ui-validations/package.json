@@ -14,6 +14,7 @@
     "build:copy-files": "copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build",
     "build:lint:publint": "publint --pack npm ./build",
     "build:lint:attw": "attw --ignore-rules cjs-resolves-to-esm --quiet --pack ./build",
+    "build:exports": "node ./scripts/exports.ts",
     "predeploy": "yarn bundle-dts && yarn prepare-packages && yarn test:pack",
     "bundle-dts": "node scripts/bundle-dts.js",
     "prepare-packages": "node scripts/prepare-packages.js",
