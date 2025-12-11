@@ -10,6 +10,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@skbkontur/eslint-config": "*",
@@ -21,7 +22,8 @@
     "husky": "^9.0.11",
     "lerna": "^4.0.0",
     "typescript": "5.9.3",
-    "prettier": "3.2.5"
+    "prettier": "3.2.5",
+    "publint": "^0.3.15"
   },
   "scripts": {
     "commit": "git-cz",

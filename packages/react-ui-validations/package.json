@@ -9,9 +9,11 @@
     "release:unstable": "yarn release --tag=unstable",
     "clean": "rimraf dist build",
     "prebuild": "yarn clean",
-    "build": "run-s build:*",
+    "build": "run-s build:* build:lint:*",
     "build:tsc": "tsc --outDir build -p prod.tsconfig.json",
     "build:copy-files": "copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build",
+    "build:lint:publint": "publint --pack npm ./build",
+    "build:lint:attw": "attw --ignore-rules cjs-resolves-to-esm --quiet --pack ./build",
     "predeploy": "yarn bundle-dts && yarn prepare-packages && yarn test:pack",
     "bundle-dts": "node scripts/bundle-dts.js",
     "prepare-packages": "node scripts/prepare-packages.js",
@@ -43,7 +45,10 @@
   "types": "./index.d.ts",
   "author": "exactlynosense <whois.ard@gmail.com>",
   "license": "ISC",
-  "repository": "https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/skbkontur/retail-ui.git"
+  },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },

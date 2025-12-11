@@ -6,7 +6,7 @@
   "homepage": "https://tech.skbkontur.ru/kontur-ui",
   "repository": {
     "type": "git",
-    "url": "git@github.com:skbkontur/retail-ui.git"
+    "url": "git+ssh://git@github.com/skbkontur/retail-ui.git"
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
@@ -15,9 +15,11 @@
   "scripts": {
     "clean": "git clean -fdxqe node_modules",
     "prebuild": "yarn rimraf build",
-    "build": "run-s build:*",
+    "build": "run-s build:* build:lint:*",
     "build:tsc": "tsc --outDir build -p prod.tsconfig.json",
     "build:copy-files": "copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build",
+    "build:lint:publint": "publint --pack npm ./build",
+    "build:lint:attw": "attw --ignore-rules cjs-resolves-to-esm --quiet --pack ./build",
     "prerelease": "yarn build",
     "release": "npm publish ./build --workspaces=false",
     "release:unstable": "yarn release --tag=unstable",
