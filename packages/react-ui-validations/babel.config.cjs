@@ -9,17 +9,5 @@ module.exports = {
     '@babel/plugin-transform-runtime',
     'react-hot-loader/babel',
     ['@babel/plugin-proposal-decorators', { legacy: true }],
-    [
-      'search-and-replace',
-      {
-        rules: [
-          {
-            // @see ReactUIDetection.ts
-            search: /__REACT_UI_PACKAGE__/,
-            replace: '@skbkontur/react-ui',
-          },
-        ],
-      },
-    ],
   ],
 };
