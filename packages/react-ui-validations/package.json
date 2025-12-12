@@ -5,6 +5,7 @@
   "scripts": {
     "prerelease": "yarn build && yarn predeploy",
     "release": "npm publish ./build/react-ui-dist --workspaces=false",
+    "release:unstable": "yarn release --tag=unstable",
     "prebuild": "yarn clean",
     "clean": "rimraf dist build",
     "build": "npm-run-all --continue-on-error build:*",
