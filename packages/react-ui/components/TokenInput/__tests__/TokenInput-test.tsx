@@ -714,6 +714,46 @@ describe('<TokenInput />', () => {
       expect(menu).not.toHaveTextContent('Не найдено');
     });
   });
+
+  it('should pass arguments to renderToken prop', async () => {
+    type Arguments = Parameters<NonNullable<TokenInputProps<string>['renderToken']>>;
+    const params = new Map<string, Arguments>();
+    const items = ['111', '222', '333'];
+    const TokenInputWithObjectItems = () => {
+      return (
+        <TokenInput
+          selectedItems={items}
+          getItems={async () => items}
+          renderToken={(..._params) => {
+            const [item, props] = _params;
+            params.set(item, _params);
+            return <Token {...props}>{item}</Token>;
+          }}
+        />
+      );
+    };
+
+    render(<TokenInputWithObjectItems />);
+
+    const propsStub = {
+      disabled: undefined,
+      isActive: false,
+      size: 'small',
+      onClick: function handleTokenClick() {},
+      onDoubleClick: function handleTokenDoubleClick() {},
+      onRemove: function handleIconClick() {},
+    };
+
+    items
+      .map((item, i) => [item, propsStub, i] as Arguments)
+      .forEach(([_item, _props, _index]) => {
+        const [item, props = {}, index] = params.get(_item) || [];
+
+        expect(item).toBe(_item);
+        expect(Object.keys(props).sort()).toEqual(Object.keys(_props).sort());
+        expect(index).toBe(_index);
+      });
+  });
 });
 
 function TokenInputWithState({

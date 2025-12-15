@@ -177,7 +177,7 @@ export interface TokenInputProps<T>
   maxMenuHeight?: number | string;
 
   /** Задает функцию, которая отображает токен и предоставляет возможность кастомизации внешнего вида и поведения токена. */
-  renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
+  renderToken?: (item: T, props: Partial<TokenProps>, index: number) => ReactNode;
 
   /** Задает функцию, вызывающуюся при изменении текста в поле ввода. */
   onInputValueChange?: (value: string) => void;
@@ -261,6 +261,7 @@ const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled, size }: Partial<TokenProps>,
+  index: number,
 ) => (
   <Token
     key={item.toString()}
@@ -1171,7 +1172,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private renderToken = (item: T) => {
+  private renderToken = (item: T, index: number) => {
     const { renderToken = defaultRenderToken, disabled } = this.props;
 
     const isActive = this.state.activeTokens.includes(item);
@@ -1199,14 +1200,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    const renderedToken = renderToken(item as T & AnyObject, {
-      size: this.size,
-      isActive,
-      onClick: handleTokenClick,
-      onDoubleClick: handleTokenDoubleClick,
-      onRemove: handleIconClick,
-      disabled,
-    });
+    const renderedToken = renderToken(
+      item as T & AnyObject,
+      {
+        size: this.size,
+        isActive,
+        onClick: handleTokenClick,
+        onDoubleClick: handleTokenDoubleClick,
+        onRemove: handleIconClick,
+        disabled,
+      },
+      index,
+    );
 
     this.memoizedTokens.set(this.props.selectedItems?.indexOf(item), renderedToken);
     return renderedToken;
@@ -1237,7 +1242,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else if (itemIndex < 0 || itemIndex > this.getProps().selectedItems.length - 1) {
       return false;
     } else {
-      renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
+      renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex], itemIndex) as React.ReactElement<
         TokenInputProps<unknown>
       >;
     }
