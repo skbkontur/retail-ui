@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState, useLayoutEffect, type AriaAttributes } from 'react';
+import React, { type AriaAttributes, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment';
 import { MobilePopup } from '../../internal/MobilePopup';
@@ -467,7 +467,7 @@ export const DateRangePicker = Object.assign(
     function renderCalendarRange(
       props: CalendarDayProps,
       t: Theme,
-      renderDayFn: ((props: CalendarDayProps) => React.ReactElement<any>) | undefined,
+      renderDayFn: ((props: CalendarDayProps) => React.ReactElement<CalendarDayProps>) | undefined,
     ) {
       const day = props.date;
 

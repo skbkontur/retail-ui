@@ -26,10 +26,10 @@ export interface LinkInnerProps extends CommonProps {
   disabled?: boolean;
 
   /** Добавляет иконку слева от ссылки. */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /** Добавляет иконку справа от ссылки. */
-  rightIcon?: React.ReactElement<any>;
+  rightIcon?: React.ReactElement;
 
   /** Задаёт стиль ссылки. */
   use?: 'default' | 'success' | 'danger' | 'grayed';

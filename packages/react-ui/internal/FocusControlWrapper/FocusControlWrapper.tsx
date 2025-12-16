@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement, Ref } from 'react';
-import React, { isValidElement, cloneElement, forwardRef } from 'react';
+import React, { cloneElement, forwardRef, isValidElement } from 'react';
 
 import { CommonWrapper } from '../CommonWrapper';
 
@@ -15,6 +15,9 @@ interface Props {
    * Событие вызывается когда элемент потеряет фокус, и при этом он задисэйблен
    */
   onBlurWhenDisabled(): void | undefined;
+
+  onFocus?: (e: React.FocusEvent) => void;
+  onBlur?: (e: React.FocusEvent) => void;
 }
 
 export const FocusControlWrapper = forwardRef(
@@ -22,9 +25,9 @@ export const FocusControlWrapper = forwardRef(
     const isValidChildren = children && isValidElement(children);
 
     const { handleFocus, handleBlur } = useFocusControl({
-      disabled: disabled ?? (isValidChildren ? (children as ReactElement<any>).props.disabled : undefined),
-      onFocus: isValidChildren ? (children as ReactElement<any>).props.onFocus : undefined,
-      onBlur: isValidChildren ? (children as ReactElement<any>).props.onBlur : undefined,
+      disabled: disabled ?? (isValidChildren ? (children as ReactElement<Props>).props.disabled : undefined),
+      onFocus: isValidChildren ? (children as ReactElement<Props>).props.onFocus : undefined,
+      onBlur: isValidChildren ? (children as ReactElement<Props>).props.onBlur : undefined,
       onBlurWhenDisabled,
     });
 
@@ -35,7 +38,7 @@ export const FocusControlWrapper = forwardRef(
     return (
       <CommonWrapper {...rest} ref={ref}>
         {React.Children.only(
-          cloneElement(children as ReactElement<any>, {
+          cloneElement(children as ReactElement<Props>, {
             onFocus: handleFocus,
             onBlur: handleBlur,
           }),

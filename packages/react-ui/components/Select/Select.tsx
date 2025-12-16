@@ -1,4 +1,4 @@
-import type { ReactNode, ReactPortal, AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, ReactNode, ReactPortal } from 'react';
 import React from 'react';
 import invariant from 'invariant';
 import debounce from 'lodash.debounce';
@@ -101,8 +101,8 @@ type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
   | TValue
-  | React.ReactElement<any>
-  | (() => React.ReactElement<any>);
+  | React.ReactElement
+  | (() => React.ReactElement);
 
 export interface SelectProps<TValue, TItem>
   extends CommonProps,
@@ -284,7 +284,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static staticElement = (element: React.ReactElement<any> | (() => React.ReactElement<any>)) => {
+  public static staticElement = (element: React.ReactElement | (() => React.ReactElement)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.staticElement(element) expects element to be a valid react element.',

@@ -1,6 +1,8 @@
 import React from 'react';
 
-// Access the element's ref
+/**
+ * Получает ссылку на элемент, учитывая разные версии React
+ */
 export function getElementRef(element: React.ReactElement) {
   if (
     parseInt(React.version, 10) >= 19 &&

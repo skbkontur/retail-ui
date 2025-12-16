@@ -6,7 +6,7 @@ import type { IconProps as BaseIconProps } from './BaseIcon';
 import type { IconSizeAliases } from './iconConstants';
 import { ALIASES_TO_SIZES, DEFAULT_ICON_ALIAS } from './iconConstants';
 
-type Sizes = Record<IconSizeAliases, () => React.ReactElement<any>>;
+type Sizes = Record<IconSizeAliases, () => React.ReactElement>;
 
 type IconSizingProps = Omit<BaseIconProps, 'size'> & {
   size?: BaseIconProps['size'] | IconSizeAliases;
