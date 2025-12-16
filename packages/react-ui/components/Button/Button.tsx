@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from 'react';
 import React from 'react';
+import warning from 'warning';
 import type { Emotion } from '@emotion/css/create-instance';
 
 import type { GlobalObject } from '../../lib/globalObject';
@@ -52,8 +53,10 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Убирает обводку у кнопки.
    *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.**
-   */
+   * **Не рекомендуем использовать, противоречит дизайн-требованиям.
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии.
+   *
+   * Альтернативный вариант использования — через переменную темы `btnBorderWidth` */
   borderless?: boolean;
 
   /** @ignore */
@@ -73,7 +76,7 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Переводит кнопку в состояние валидации "Ошибка".
    *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.** */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии. */
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
@@ -87,7 +90,9 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Сужает кнопку.
    *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.** */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии.
+   *
+   * Альтернативный вариант использования — через переменные темы `btnPaddingXSmall`, `btnPaddingXMedium`, `btnPaddingXLarge` */
   narrow?: boolean;
 
   /** Задаёт размер кнопки. */
@@ -108,9 +113,7 @@ export interface ButtonInnerProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /** Переводит кнопку в состояние валидации "Предупреждение".
-   *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.**
-   */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии. */
   warning?: boolean;
 
   /** Задаёт ширину кнопки. */
@@ -186,10 +189,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       this.keyListener.isTabPressed = true;
       this.focus();
     }
-    // warning(
-    //   this.props.use !== 'link',
-    //   `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
-    // );
+    warning(
+      this.props.use !== 'link',
+      '[Button]: `use="link"` has been deprecated. Please, use `<Link component="button" />` instead.',
+    );
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
