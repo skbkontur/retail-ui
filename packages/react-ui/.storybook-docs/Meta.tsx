@@ -1,4 +1,4 @@
-import { DocsContext } from '@storybook/blocks';
+import { DocsContext } from '@storybook/addon-docs';
 import type { ModuleExports } from '@storybook/types';
 import React, { useContext, useEffect } from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
@@ -155,11 +155,11 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
   });
 
   //@ts-expect-error: store is not public
-  const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
+  const currentTheme = themes.find((theme) => theme.value === context.store.userGlobals.globals.theme);
   //@ts-expect-error: store is not public
-  const currentLocale = languages.find((language) => language.value === context.store.globals.globals.locale);
+  const currentLocale = languages.find((language) => language.value === context.store.userGlobals.globals.locale);
   //@ts-expect-error: store is not public
-  const currentFeatureFlags: string[] = context.store.globals.globals.featureFlags;
+  const currentFeatureFlags: string[] = context.store.userGlobals.globals.featureFlags;
 
   const renderMenuItem = (props: { caption: string; value: string; icon?: React.ReactNode; onClick: () => void }) => (
     <MenuItem

@@ -9,20 +9,12 @@ module.exports = async ({ config }) => {
   config.module.rules = [
     ...filteredStorybooksWebpackRules,
     {
-      test: /\.(ts|tsx)$/,
+      test: /\.(j|t)sx?$/,
+      loader: 'babel-loader',
       exclude: /node_modules/,
-      use: [
-        {
-          loader: 'string-replace-loader',
-          options: {
-            search: /__REACT_UI_PACKAGE__/g,
-            replace: '@skbkontur/react-ui',
-          },
-        },
-      ],
     },
     {
-      test: /\.(css|less)$/,
+      test: /\.css$/,
       use: [
         'style-loader',
         {
@@ -37,29 +29,13 @@ module.exports = async ({ config }) => {
         },
       ],
     },
-    {
-      test: /\.(png|woff|woff2|eot)$/,
-      loader: 'file-loader',
-    },
-    {
-      // remove after upgrading to storybook@8
-      // fixes stories's cyrillic headings anchors in docs
-      // turns this: https://github.com/storybookjs/storybook/blob/v7.6.19/code/ui/blocks/src/blocks/Subheading.tsx#L11
-      // into this: https://github.com/storybookjs/storybook/blob/v8.0.0/code/ui/blocks/src/blocks/Subheading.tsx#L11
-      test: /@storybook(\/|\\)blocks(\/|\\)/,
-      loader: 'string-replace-loader',
-      options: {
-        // prettier-ignore
-        // eslint-disable-next-line no-useless-escape
-        search: 'tagID=children.toLowerCase().replace(/[^a-z0-9]/gi,\"-\")',
-        replace: 'tagID=globalThis.encodeURIComponent(children.toLowerCase())',
-      },
-    },
+    { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
+    { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
     {
       // fixes storybooks default font that doesn't get changed by the theme for some reason
       // turns this: https://github.com/storybookjs/storybook/blob/v7.6.18/code/lib/theming/src/base.ts#L64
       // into: "Lab Grotesque", ...
-      test: /@storybook(\/|\\)theming(\/|\\)/,
+      test: /@storybook(\/|\\)core(\/|\\)/,
       loader: 'string-replace-loader',
       options: {
         // prettier-ignore

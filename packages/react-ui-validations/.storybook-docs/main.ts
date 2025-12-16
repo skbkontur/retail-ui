@@ -14,15 +14,15 @@ const config: StorybookConfig = {
     },
     '@skbkontur/storybook-addon-live-examples',
   ],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      legacyRootApi: false,
-    },
-  },
+  framework: '@storybook/react-webpack5',
+
   core: {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,
+  },
+
+  typescript: {
+    reactDocgen: false,
   },
 };
 export default config;

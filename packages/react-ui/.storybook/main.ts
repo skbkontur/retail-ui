@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   docs: {
     docsMode: false,
   },
+
   addons: [
     'creevey',
     '@storybook/addon-links',
@@ -16,6 +17,7 @@ const config: StorybookConfig = {
       },
     },
   ],
+
   framework: {
     name: '@storybook/react-webpack5',
     options: {
@@ -26,9 +28,14 @@ const config: StorybookConfig = {
       ...(process?.env?.REACT_VERSION ? {} : { legacyRootApi: true }),
     },
   },
+
   core: {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,
+  },
+
+  typescript: {
+    reactDocgen: false,
   },
 };
 

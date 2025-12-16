@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import type { ComponentStory } from '@storybook/react';
+import type { StoryFn } from '@storybook/react';
 
 import type { Meta, Story } from '../../../typings/stories';
 import type { ItemComponentProps } from '../Paging';
@@ -169,7 +169,7 @@ export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener
 PagingWithGlobalListener.storyName = 'Paging with global listener';
 PagingWithGlobalListener.parameters = { creevey: { skip: true } };
 
-const Template: ComponentStory<typeof Paging> = (args) => {
+const Template: StoryFn<typeof Paging> = (args) => {
   return <Paging {...args} />;
 };
 

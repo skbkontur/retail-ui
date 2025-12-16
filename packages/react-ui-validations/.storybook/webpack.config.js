@@ -8,6 +8,14 @@ module.exports = async ({ config }) => {
   config.module.rules = [
     ...filteredStorybooksWebpackRules,
     {
+      test: /\.(j|t)sx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      options: {
+        babelrc: false,
+      },
+    },
+    {
       test: /\.(ts|tsx)$/,
       exclude: /node_modules/,
       use: [
