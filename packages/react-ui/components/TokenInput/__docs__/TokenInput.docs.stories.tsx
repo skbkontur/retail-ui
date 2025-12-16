@@ -239,3 +239,34 @@ export const Example7: Story = () => {
   );
 };
 Example7.storyName = 'Запрет ввода определённых символов';
+
+/** Пропом `maxHeight` можно ограничить высоту компонента, и при её достижении будет появляться скроллбар. */
+export const Example8: Story = () => {
+  const items = Array(30)
+    .fill('')
+    .map(
+      (t, i1) =>
+        i1 +
+        Array(5 + (i1 % 10))
+          .fill('')
+          .map((_, i2) => i2)
+          .join(''),
+    );
+  const [value, setValue] = React.useState<string[]>(items);
+
+  const getItems = (query: string) => {
+    return Promise.resolve(items.filter((item) => item.includes(query)));
+  };
+
+  return (
+    <TokenInput<string>
+      maxHeight={200}
+      width={350}
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={value}
+      onValueChange={setValue}
+    />
+  );
+};
+Example8.storyName = 'Ограничение высоты';
