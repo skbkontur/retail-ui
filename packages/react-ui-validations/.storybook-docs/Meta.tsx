@@ -131,9 +131,9 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
   });
 
   //@ts-expect-error: store is not public
-  const currentTheme = themes.find((theme) => theme.value === context.store.globals.globals.theme);
+  const currentTheme = themes.find((theme) => theme.value === context.store.userGlobals.globals.theme);
   //@ts-expect-error: store is not public
-  const currentFeatureFlags: string[] = context.store.globals.globals.validationsFeatureFlags;
+  const currentFeatureFlags: string[] = context.store.userGlobals.globals.validationsFeatureFlags;
 
   return (
     <div className={styles.menuWrap}>

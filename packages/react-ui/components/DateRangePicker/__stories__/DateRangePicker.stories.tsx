@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Story } from '@storybook/react';
+import type { StoryFn } from '@storybook/react';
 
 import type { Meta } from '../../../typings/stories';
 import { DateRangePicker } from '../DateRangePicker';
@@ -57,7 +57,7 @@ export const Default = () => {
 };
 Default.parameters = { creevey: { skip: true }, customSpacing: 'bottom' };
 
-export const MobilePicker: Story = () => {
+export const MobilePicker: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -74,7 +74,7 @@ export const MobilePicker: Story = () => {
 };
 MobilePicker.parameters = { viewport: { defaultViewport: 'iphone' } };
 
-export const Sizes: Story = () => {
+export const Sizes: StoryFn = () => {
   const [valueStartS, setValueStartS] = React.useState('');
   const [valueEndS, setValueEndS] = React.useState('');
 
@@ -115,7 +115,7 @@ export const Sizes: Story = () => {
 };
 Sizes.parameters = {};
 
-export const WrapperWidth: Story = () => {
+export const WrapperWidth: StoryFn = () => {
   return (
     <>
       {renderPicker('400px')}
@@ -139,7 +139,7 @@ export const WrapperWidth: Story = () => {
 };
 WrapperWidth.parameters = {};
 
-export const MinMax: Story = () => {
+export const MinMax: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -156,7 +156,7 @@ export const MinMax: Story = () => {
 };
 MinMax.parameters = { customSpacing: 'bottom' };
 
-export const Autofocus: Story = () => {
+export const Autofocus: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -170,7 +170,7 @@ export const Autofocus: Story = () => {
 };
 Autofocus.parameters = { creevey: { skip: true } };
 
-export const MenuPos: Story = () => {
+export const MenuPos: StoryFn = () => {
   const [valueStartTop, setValueStartTop] = React.useState('');
   const [valueEndTop, setValueEndTop] = React.useState('');
 
@@ -223,7 +223,7 @@ export const DateRangePickerLocaleProvider = () => {
 };
 DateRangePickerLocaleProvider.parameters = { creevey: { skip: true } };
 
-export const Disabled: Story = () => {
+export const Disabled: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -237,7 +237,7 @@ export const Disabled: Story = () => {
 };
 Disabled.parameters = {};
 
-export const TodayButton: Story = () => {
+export const TodayButton: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -254,7 +254,7 @@ export const TodayButton: Story = () => {
 };
 TodayButton.parameters = { creevey: { skip: true }, customSpacing: 'bottom' };
 
-export const OptionalRange: Story = () => {
+export const OptionalRange: StoryFn = () => {
   const [valueStartOptionalHalf, setValueStartOptionalHalf] = React.useState('');
   const [valueEndOptionalHalf, setValueEndOptionalHalf] = React.useState('');
 
@@ -297,7 +297,7 @@ export const OptionalRange: Story = () => {
 };
 OptionalRange.parameters = { customSpacing: 'bottom' };
 
-export const OptionalRangeWithTodayButton: Story = () => {
+export const OptionalRangeWithTodayButton: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -314,7 +314,7 @@ export const OptionalRangeWithTodayButton: Story = () => {
 };
 OptionalRangeWithTodayButton.parameters = { customSpacing: 'bottom' };
 
-export const CustomChildrenWithoutDash: Story = () => {
+export const CustomChildrenWithoutDash: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -329,7 +329,7 @@ export const CustomChildrenWithoutDash: Story = () => {
 };
 CustomChildrenWithoutDash.parameters = {};
 
-export const CustomChildrenVertical: Story = () => {
+export const CustomChildrenVertical: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -344,7 +344,7 @@ export const CustomChildrenVertical: Story = () => {
 };
 CustomChildrenVertical.parameters = {};
 
-export const Validations: Story = () => {
+export const Validations: StoryFn = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
   const [errorStart, setErrorStart] = React.useState(false);
@@ -408,7 +408,7 @@ export const Validations: Story = () => {
 };
 Validations.parameters = { creevey: { skip: true } };
 
-export const CustomMenuAnchorElement: Story = () => {
+export const CustomMenuAnchorElement: StoryFn = () => {
   const customRef = React.createRef<HTMLDivElement>();
 
   const [valueStart, setValueStart] = React.useState<string>('');

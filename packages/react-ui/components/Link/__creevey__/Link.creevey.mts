@@ -7,7 +7,7 @@ const focusedLinkTest = () => {
     await page.keyboard.press('Tab');
     await page.waitForTimeout(2000);
     await context.matchImage(await context.takeScreenshot(), 'tabPress');
-    await page.locator('a').first().hover();
+    await page.locator('[data-tid="Link__root"]').first().hover();
     await page.waitForTimeout(2000);
     await context.matchImage(await context.takeScreenshot(), 'tabPressHovered');
   });
@@ -19,7 +19,7 @@ const linkTests = () => {
 
   test('hover', async (context) => {
     const page = context.webdriver;
-    await page.locator('a').first().hover();
+    await page.locator('[data-tid="Link__root"]').first().hover();
     await context.matchImage(await context.takeScreenshot(), 'hover');
   });
 };
@@ -27,11 +27,11 @@ const linkTests = () => {
 const focusedStyledLinkTest = () => {
   test('tab press', async (context) => {
     const page = context.webdriver;
-    await page.locator('a').first().hover();
+    await page.locator('[data-tid="Link__root"]').first().hover();
     await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'hovered');
     await page.keyboard.press('Tab');
-    await page.locator('a').first().hover();
+    await page.locator('[data-tid="Link__root"]').first().hover();
     await page.waitForTimeout(1000);
     await context.matchImage(await context.takeScreenshot(), 'tabPressHovered');
   });
@@ -128,7 +128,7 @@ kind('Link', () => {
 
     test('hover', async (context) => {
       const page = context.webdriver;
-      await page.locator('a').hover();
+      await page.locator('[data-tid="Link__root"]').hover();
       await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'open');
     });
