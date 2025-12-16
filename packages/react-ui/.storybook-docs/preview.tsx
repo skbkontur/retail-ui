@@ -69,6 +69,7 @@ import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup';
 import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
 import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions';
+import { createFile } from '../internal/FileUploaderControl/fileUtils';
 import { emit } from '../lib/LayoutEvents';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
@@ -195,6 +196,7 @@ addons.setConfig({
     scope: {
       ...ReactUi,
       ...ReactUiValidations,
+      createFile,
       DatePickerHelpers,
       cities,
       getCities,

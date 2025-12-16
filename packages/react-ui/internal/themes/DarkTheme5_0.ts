@@ -532,6 +532,7 @@ export const DarkTheme5_0 = createTheme({
     public static fileUploaderLinkColor = 'rgba(255, 255, 255, 0.87)';
     public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.87)';
     public static fileUploaderIconHoverColor = 'rgba(255, 255, 255, 0.80)';
+
     public static get fileUploaderBorderColorError() {
       return this.borderColorError;
     }
@@ -552,6 +553,7 @@ export const DarkTheme5_0 = createTheme({
 
     public static fileUploaderUploadButtonBg = 'rgba(255, 255, 255, 0.1)';
     public static fileUploaderHoveredBg = 'rgba(255, 255, 255, 0.16)';
+    public static fileUploaderActiveBg = 'rgba(255, 255, 255, 0.1)';
 
     public static fileUploaderAfterLinkColor = 'rgba(255, 255, 255, 0.54)';
     public static fileUploaderDragOverShadow = '0px 0px 0px 4px #EBEBEB';

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { fireEvent, render, screen, within, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { LIGHT_THEME_5_4 } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -8,8 +9,14 @@ import { FileUploaderLocaleHelper } from '../locale';
 import type { FileUploaderProps, FileUploaderRef } from '../FileUploader';
 import { FileUploader, FileUploaderDataTids } from '../FileUploader';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { LightTheme5_2 } from '../../../internal/themes/LightTheme5_2';
 import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
-import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
+import { createFile } from '../../../internal/FileUploaderControl/fileUtils';
+import {
+  FileUploaderFile,
+  FileUploaderFileDataTids,
+} from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
@@ -54,10 +61,6 @@ const removeFile = async (filename?: string) => {
 };
 
 const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File;
-
-function createFile(filename: string, content = 'content'): File {
-  return new File([content], filename, { type: 'text/plain' });
-}
 
 const fastItemValueLookup = Symbol('item-value');
 
@@ -143,21 +146,32 @@ describe('FileUploader', () => {
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       render(<FileUploader />);
-      const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
+      const expectedText = new FileUploaderLocaleHelper().get(defaultLangCode).chooseFile;
 
       expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
 
     it('render default locale', () => {
       renderComponent();
-      const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
+      const expectedText = new FileUploaderLocaleHelper().get(defaultLangCode).chooseFile;
+
+      expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
+    });
+
+    it('render default locale for theme 5.2', () => {
+      render(
+        <ThemeContext.Provider value={LightTheme5_2}>
+          <FileUploader />
+        </ThemeContext.Provider>,
+      );
+      const expectedText = new FileUploaderLocaleHelper(false).get(defaultLangCode).chooseFile;
 
       expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
       renderComponent({ langCode: LangCodes.en_GB });
-      const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
+      const expectedText = new FileUploaderLocaleHelper().get(LangCodes.en_GB).chooseFile;
 
       expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
@@ -169,8 +183,6 @@ describe('FileUploader', () => {
           FileUploader: {
             chooseFile: customText,
             requestErrorText: customText,
-            choosedFile: customText,
-            orDragHere: customText,
           },
         },
       });
@@ -179,7 +191,7 @@ describe('FileUploader', () => {
     });
 
     it('updates when langCode changes', () => {
-      const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
+      const expectedText = new FileUploaderLocaleHelper().get(LangCodes.en_GB).chooseFile;
 
       const { rerender } = render(
         <LocaleContext.Provider value={{}}>
@@ -543,9 +555,9 @@ describe('FileUploader', () => {
 
   describe('hideFiles', () => {
     const expectation = async () => {
-      const locale = FileUploaderLocaleHelper.get(defaultLangCode);
-      const { chooseFile, orDragHere } = locale;
-      const expectedText = `${chooseFile} ${orDragHere} `;
+      const locale = new FileUploaderLocaleHelper().get(defaultLangCode);
+      const { chooseFile } = locale;
+      const expectedText = `${chooseFile} `;
 
       expect(getBaseButtonContent()).toBe(expectedText);
 
@@ -567,12 +579,31 @@ describe('FileUploader', () => {
   });
 
   describe('renderFile', () => {
+    const fileItem = 'fileItem';
+    const fileSize = '7 Bytes';
+    const renderFile = () => fileItem;
+    const renderFileWithProps: FileUploaderProps['renderFile'] = (file, fileNode, props) => {
+      return <FileUploaderFile {...props} showSize />;
+    };
+
     it('should render custom file item control', async () => {
-      render(<FileUploader multiple renderFile={() => 'Custom file item'} />);
+      render(<FileUploader multiple renderFile={renderFile} />);
 
       await addFiles([getFile()]);
 
-      expect(getFilesList()).toHaveTextContent('Custom file item');
+      expect(getFilesList()).toHaveTextContent(fileItem);
+    });
+
+    it('should render correctly when props argument is used', async () => {
+      const { rerender } = render(<FileUploader renderFile={renderFileWithProps} />);
+
+      await addFiles([createFile(''), createFile('')]);
+
+      expect(screen.getByTestId(FileUploaderDataTids.content)).toHaveTextContent(fileSize);
+
+      rerender(<FileUploader multiple renderFile={renderFileWithProps} />);
+
+      expect(getFilesList()).toHaveTextContent(fileSize);
     });
   });
 
@@ -675,6 +706,26 @@ describe('FileUploader', () => {
 
       await addFiles(files);
       expect(screen.queryByText('bar')).toBeInTheDocument();
+    });
+  });
+
+  describe('drag-and-drop', () => {
+    it('should not accept multiple files in single mode', async () => {
+      renderComponent();
+      await addFiles([createFile('1', '1'), createFile('2', '2'), createFile('3', '3')]);
+      expect(getFilesList()).toBeNull();
+    });
+  });
+
+  describe('theme versions', () => {
+    it('should render fileChosen locale in themes < 5.5', () => {
+      render(
+        <ThemeContext.Provider value={LIGHT_THEME_5_4}>
+          <FileUploader initialFiles={[createFile('foo')]} />
+        </ThemeContext.Provider>,
+      );
+
+      expect(screen.getByTestId(FileUploaderDataTids.root)).toHaveTextContent('Выбран файл');
     });
   });
 });
