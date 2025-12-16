@@ -1,5 +1,6 @@
 import * as ComboBoxStories from './ComboBox.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as ComboBoxExamples from './ComboBoxValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -7,10 +8,14 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 <Meta of={ComboBoxStories} />
 
 <Header
-  component="Combobox"
+  component="ComboBox"
   guides="https://guides.kontur.ru/components/input-fields/combobox/"
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=476-60638&t=LhpicPI1NxqnkQAe-11"
 />
+
+```jsx
+import { ComboBox } from '@skbkontur/react-ui';
+```
 
 <Description />
 
@@ -20,6 +25,34 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+В комбобоксе пользователь может сразу раскрыть весь список значений из справочника и выбрать нужное. Когда пользователь начинает вводить значение, список динамически фильтруется. Можно также разрешить пользователям добавлять свои значения в справочник, если их ещё там нет.
+
+Значения определяются в пропе `getItems` — задаёт функцию поиска элементов, которая должна возвращать `Promise` с массивом значений. По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
+
+**Альтернативы и дополнения**
+
+- [Autocomplete](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-autocomplete--docs) — поле ввода со списком подсказок. Отличается от комбобокса тем, что в нём выпадающий список появляется только после ввода первого символа или изменении уже введенного значения, а в поле нет стрелки для раскрытия списка.
+- [Select](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-select--docs) — используйте раскрывающийся список, если среди значений не больше 25 вариантов.
+- [RadioGroup](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs) — используйте группу радиокнопок, если значений не больше 5.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+<Story of={ComboBoxExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+## Адаптивность
+
+Комбобокс адаптивен: на мобильных устройствах поле с выпадающим списком открывается на весь экран устройства и становится фокусным активным элементом, что упрощает работу с ним. Мобильный режим активируется при ширине вьюпорта `(max-width: 576px)` и наличии сенсорного экрана `(pointer: coarse)`. Вы можете передавать свои медиазапросы, больше о настройке адаптивности читайте в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs).
