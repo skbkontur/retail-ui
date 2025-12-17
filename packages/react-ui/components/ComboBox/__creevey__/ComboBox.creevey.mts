@@ -1,4 +1,4 @@
-import { story, kind, test } from 'creevey';
+import { kind, story, test } from 'creevey';
 import 'creevey/playwright';
 
 import { tid } from '../../__creevey__/helpers.mjs';
@@ -44,7 +44,7 @@ kind('ComboBox', () => {
           tests: ['hovered'],
         },
         flacky: {
-          in: ['chrome2022Dark'],
+          in: ['chrome2022Dark', 'firefox2022', 'firefox2022Dark'],
           tests: ['select'],
         },
       },

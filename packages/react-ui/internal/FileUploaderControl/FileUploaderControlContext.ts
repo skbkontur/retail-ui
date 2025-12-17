@@ -9,10 +9,20 @@ export interface FileUploaderControlContextProps {
   setFiles: (files: FileUploaderAttachedFile[]) => void;
   removeFile: (fileId: string) => void;
   reset: () => void;
+  /**
+   * @deprecated Не используется в коде. Будет удалена в следующем мажоре.
+   */
   isMinLengthReached: boolean;
+  /**
+   * @deprecated Не используется в коде. Будет удалена в следующем мажоре.
+   */
   setIsMinLengthReached: (value: boolean) => void;
 
-  setFileValidationResult: (fileId: string, validationResult: FileUploaderFileValidationResult) => void;
+  setFileValidationResult: (
+    fileId: string,
+    validationResult: FileUploaderFileValidationResult,
+    status?: FileUploaderFileStatus,
+  ) => void;
 }
 
 export const FileUploaderControlContext = React.createContext({} as FileUploaderControlContextProps);

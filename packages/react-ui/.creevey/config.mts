@@ -1,7 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { config as dotenv } from 'dotenv';
-import { hybridStoriesProvider, CreeveyConfig } from 'creevey';
+import { CreeveyConfig, hybridStoriesProvider } from 'creevey';
 import { PlaywrightWebdriver } from 'creevey/playwright';
 import type { LaunchOptions } from 'playwright-core';
 
@@ -30,7 +30,7 @@ const config: CreeveyConfig = {
   testsDir: path.join(__dirname, '../'),
   reportDir: reportFilePath,
   screenDir: path.join(__dirname, 'images'),
-  maxRetries: 3,
+  maxRetries: isCI ? 3 : 0,
   reporter: isCI ? 'junit' : undefined,
   reporterOptions: {
     outputFile: isCI ? path.join(reportFilePath, 'junit.xml') : undefined,

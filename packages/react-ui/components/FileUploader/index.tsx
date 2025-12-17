@@ -3,3 +3,4 @@ export { FileUploaderFileStatus } from '../../internal/FileUploaderControl/fileU
 export type FileUploaderAttachedFile = Type;
 export { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 export * from './FileUploader';
+export * from './FileUploaderFile';

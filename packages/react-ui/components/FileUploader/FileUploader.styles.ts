@@ -9,8 +9,8 @@ import { fileUploaderSizeMixin } from './FileUploader.mixins';
 export const globalClasses = prefix('file-uploader')({
   afterLinkText: 'after-link-text',
 });
-export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
-  const style = {
+export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
+  return {
     calcPulse(t: Theme) {
       return keyframes`
       0% {
@@ -27,7 +27,8 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
 
     root(t: Theme) {
       return css`
-        display: inline-block;
+        display: inline-flex;
+        flex-wrap: wrap;
         position: relative;
         line-height: ${t.fileUploaderLineHeightSmall};
         font-size: ${t.fileUploaderFontSizeSmall};
@@ -39,15 +40,14 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     uploadButton(t: Theme) {
       return css`
         width: 100%;
+        position: relative;
         display: inline-flex;
         align-items: center;
-        justify-content: space-between;
         border: ${t.fileUploaderBorderWidth} ${t.fileUploaderBorderStyle} ${t.fileUploaderBorderColor};
         box-sizing: border-box;
         border-radius: ${t.fileUploaderBorderRadius};
         outline: none;
         cursor: pointer;
-        padding: ${t.fileUploaderPaddingYSmall} ${t.fileUploaderPaddingXSmall};
         transition:
           background-color ${t.transitionDuration} ${t.transitionTimingFunction},
           border-color ${t.transitionDuration} ${t.transitionTimingFunction};
@@ -62,6 +62,31 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       `;
     },
 
+    uploadButtonWithFile(t: Theme) {
+      return css`
+        border: ${t.fileUploaderBorderWidth} solid transparent;
+        background: none;
+      `;
+    },
+
+    uploadButtonIconGapSmall(t: Theme) {
+      return css`
+        margin-right: ${t.inputIconGapSmall};
+      `;
+    },
+
+    uploadButtonIconGapMedium(t: Theme) {
+      return css`
+        margin-right: ${t.inputIconGapMedium};
+      `;
+    },
+
+    uploadButtonIconGapLarge(t: Theme) {
+      return css`
+        margin-right: ${t.inputIconGapLarge};
+      `;
+    },
+
     dragOver(t: Theme) {
       return css`
         border: 1px solid ${t.fileUploaderDragOverBorderColor};
@@ -73,25 +98,7 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     windowDragOver(t: Theme) {
       return css`
         border-radius: ${t.fileUploaderBorderRadius};
-        animation: ${style.calcPulse(t)} 1.5s infinite;
-      `;
-    },
-
-    content() {
-      return css`
-        display: block;
-        width: 100%;
-        height: 100%;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-      `;
-    },
-
-    contentWithFiles() {
-      return css`
-        display: flex;
-        align-items: center;
+        animation: ${this.calcPulse(t)} 1.5s infinite;
       `;
     },
 
@@ -128,40 +135,58 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       `;
     },
 
-    afterLinkText(t: Theme) {
+    afterLinkText() {
       return css`
         display: inline;
-        color: ${t.fileUploaderAfterLinkColor};
       `;
     },
 
-    afterLinkText_HasFiles(t: Theme) {
+    afterLinkText_HasFiles() {
       return css`
         display: flex;
         justify-content: space-between;
         flex: 1 1 auto;
-        color: ${t.fileUploaderAfterLinkColor};
+        height: 100%;
       `;
     },
 
-    warning(t: Theme) {
+    warningButton(t: Theme) {
       return css`
         border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorWarning};
         box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorWarning};
       `;
     },
 
-    error(t: Theme) {
+    warningFile(t: Theme) {
+      return css`
+        background: ${t.fileUploaderWarningBgColor};
+        color: ${t.fileUploaderValidationTextColor};
+        &:hover {
+          background: ${t.fileUploaderWarningBgHoverColor};
+        }
+      `;
+    },
+
+    errorButton(t: Theme) {
       return css`
         border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorError};
         box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorError};
       `;
     },
 
+    errorFile(t: Theme) {
+      return css`
+        background: ${t.fileUploaderErrorBgColor};
+        color: ${t.fileUploaderValidationTextColor};
+        &:hover {
+          background: ${t.fileUploaderErrorBgHoverColor};
+        }
+      `;
+    },
+
     hovered(t: Theme) {
       return css`
         background: ${t.fileUploaderHoveredBg};
-        border-color: ${t.fileUploaderHoveredBorderColor};
       `;
     },
 
@@ -174,8 +199,6 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     disabled(t: Theme) {
       return css`
         cursor: default;
-        background: ${t.fileUploaderDisabledBg};
-        border: ${t.fileUploaderDisabledBorder};
         color: ${t.fileUploaderDisabledTextColor};
         box-shadow: none;
         background-clip: ${t.fileUploaderDisabledBgClip};
@@ -186,12 +209,17 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       `;
     },
 
+    disabledBackground(t: Theme) {
+      return css`
+        background: ${t.fileUploaderDisabledBg};
+        border: ${t.fileUploaderDisabledBorder};
+      `;
+    },
+
     icon(t: Theme) {
       return css`
         display: inline-block;
-        position: absolute;
         color: ${t.fileUploaderIconColor};
-        text-align: right;
       `;
     },
 
@@ -221,6 +249,85 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     singleFile() {
       return css`
         width: 100%;
+        height: inherit;
+      `;
+    },
+
+    iconSmall(t: Theme) {
+      return css`
+        font-size: ${t.fileUploaderFontSizeSmall};
+        line-height: ${t.fileUploaderLineHeightSmall};
+        width: ${t.inputIconSizeSmall};
+        bottom: ${t.fileUploaderPaddingYSmall};
+        right: ${t.fileUploaderPaddingXSmall};
+      `;
+    },
+
+    iconMedium(t: Theme) {
+      return css`
+        font-size: ${t.fileUploaderFontSizeMedium};
+        line-height: ${t.fileUploaderLineHeightMedium};
+        width: ${t.inputIconSizeMedium};
+        bottom: ${t.fileUploaderPaddingYMedium};
+        right: ${t.fileUploaderPaddingXMedium};
+      `;
+    },
+
+    iconLarge(t: Theme) {
+      return css`
+        font-size: ${t.fileUploaderFontSizeLarge};
+        line-height: ${t.fileUploaderLineHeightLarge};
+        width: ${t.inputIconSizeLarge};
+        bottom: ${t.fileUploaderPaddingYLarge};
+        right: ${t.fileUploaderPaddingXLarge};
+      `;
+    },
+  };
+});
+
+export const getJsRowStyles = memoizeGetStyles(({ css }: Emotion) => {
+  return {
+    root() {
+      return css`
+        width: 100%;
+      `;
+    },
+
+    uploadButtonWithFile(t: Theme) {
+      return css`
+        border: ${t.fileUploaderBorderWidth} solid transparent;
+        background: none;
+      `;
+    },
+
+    uploadButton() {
+      return css`
+        justify-content: space-between;
+      `;
+    },
+
+    uploadButtonWrapper() {
+      return css`
+        height: inherit;
+        width: 100%;
+      `;
+    },
+
+    uploadButtonIconGapSmall(t: Theme) {
+      return css`
+        margin-right: ${t.inputIconGapSmall};
+      `;
+    },
+
+    uploadButtonIconGapMedium(t: Theme) {
+      return css`
+        margin-right: ${t.inputIconGapMedium};
+      `;
+    },
+
+    uploadButtonIconGapLarge(t: Theme) {
+      return css`
+        margin-right: ${t.inputIconGapLarge};
       `;
     },
 
@@ -257,33 +364,182 @@ export const getStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       `;
     },
 
-    iconSmall(t: Theme) {
+    content() {
       return css`
-        font-size: ${t.fileUploaderFontSizeSmall};
-        line-height: ${t.fileUploaderLineHeightSmall};
-        width: ${t.inputIconSizeSmall};
-        bottom: ${t.fileUploaderPaddingYSmall};
-        right: ${t.fileUploaderPaddingXSmall};
+        display: block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       `;
     },
-    iconMedium(t: Theme) {
+
+    contentWithFiles() {
       return css`
-        font-size: ${t.fileUploaderFontSizeMedium};
-        line-height: ${t.fileUploaderLineHeightMedium};
-        width: ${t.inputIconSizeMedium};
-        bottom: ${t.fileUploaderPaddingYMedium};
-        right: ${t.fileUploaderPaddingXMedium};
-      `;
-    },
-    iconLarge(t: Theme) {
-      return css`
-        font-size: ${t.fileUploaderFontSizeLarge};
-        line-height: ${t.fileUploaderLineHeightLarge};
-        width: ${t.inputIconSizeLarge};
-        bottom: ${t.fileUploaderPaddingYLarge};
-        right: ${t.fileUploaderPaddingXLarge};
+        display: flex;
+        align-items: center;
       `;
     },
   };
-  return style;
+});
+
+export const getJsTileStyles = memoizeGetStyles(({ css }: Emotion) => {
+  return {
+    uploadButton() {
+      return css`
+        height: 100%;
+        justify-content: center;
+        flex-direction: column;
+      `;
+    },
+
+    uploadButtonWrapper() {
+      return css`
+        box-sizing: border-box;
+      `;
+    },
+
+    uploadButtonWrapperSmall(t: Theme) {
+      return css`
+        width: ${t.fileUploaderTileWidthSmall};
+        min-height: ${t.fileUploaderTileMinHeightSmall};
+        height: auto;
+      `;
+    },
+
+    uploadButtonWrapperMedium(t: Theme) {
+      return css`
+        width: ${t.fileUploaderTileWidthMedium};
+        min-height: ${t.fileUploaderTileMinHeightMedium};
+        height: auto;
+      `;
+    },
+
+    uploadButtonWrapperLarge(t: Theme) {
+      return css`
+        width: ${t.fileUploaderTileWidthLarge};
+        min-height: ${t.fileUploaderTileMinHeightLarge};
+        height: auto;
+      `;
+    },
+
+    uploadButtonWrapperEmptyFileSmall(t: Theme) {
+      return css`
+        padding: ${t.fileUploaderTileFilePaddingSmall};
+        height: ${t.fileUploaderTileMinHeightSmall};
+      `;
+    },
+
+    uploadButtonWrapperEmptyFileMedium(t: Theme) {
+      return css`
+        padding: ${t.fileUploaderTileFilePaddingMedium};
+        height: ${t.fileUploaderTileMinHeightMedium};
+      `;
+    },
+
+    uploadButtonWrapperEmptyFileLarge(t: Theme) {
+      return css`
+        padding: ${t.fileUploaderTileFilePaddingLarge};
+        height: ${t.fileUploaderTileMinHeightLarge};
+      `;
+    },
+
+    uploadButtonWithFile(t: Theme) {
+      return css`
+        border: ${t.fileUploaderBorderWidth} solid transparent;
+        background: none;
+        justify-content: start;
+      `;
+    },
+
+    uploadButtonIconGapSmall(t: Theme) {
+      return css`
+        margin-bottom: ${t.inputIconGapSmall};
+      `;
+    },
+
+    uploadButtonIconGapMedium(t: Theme) {
+      return css`
+        margin-bottom: ${t.inputIconGapMedium};
+      `;
+    },
+
+    uploadButtonIconGapLarge(t: Theme) {
+      return css`
+        margin-bottom: ${t.inputIconGapLarge};
+      `;
+    },
+
+    uploadButtonTileWithFileSmall(t: Theme) {
+      return css`
+        padding: ${t.fileUploaderTileFilePaddingSmall};
+      `;
+    },
+
+    uploadButtonTileWithFileMedium(t: Theme) {
+      return css`
+        padding: ${t.fileUploaderTileFilePaddingMedium};
+      `;
+    },
+
+    uploadButtonTileWithFileLarge(t: Theme) {
+      return css`
+        padding: ${t.fileUploaderTileFilePaddingLarge};
+      `;
+    },
+
+    sizeSmall(t: Theme) {
+      return css`
+        ${fileUploaderSizeMixin(
+          t.fileUploaderFontSizeSmall,
+          t.fileUploaderLineHeightSmall,
+          t.fileUploaderTilePaddingSmall,
+          t.fileUploaderTilePaddingSmall,
+        )};
+      `;
+    },
+
+    sizeMedium(t: Theme) {
+      return css`
+        ${fileUploaderSizeMixin(
+          t.fileUploaderFontSizeMedium,
+          t.fileUploaderLineHeightMedium,
+          t.fileUploaderTilePaddingMedium,
+          t.fileUploaderTilePaddingMedium,
+        )};
+      `;
+    },
+
+    sizeLarge(t: Theme) {
+      return css`
+        ${fileUploaderSizeMixin(
+          t.fileUploaderFontSizeLarge,
+          t.fileUploaderLineHeightLarge,
+          t.fileUploaderTilePaddingLarge,
+          t.fileUploaderTilePaddingLarge,
+        )};
+      `;
+    },
+
+    content() {
+      return css`
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        text-align: center;
+      `;
+    },
+
+    contentWithFiles() {
+      return css`
+        display: flex;
+        align-items: flex-start;
+        height: 100%;
+      `;
+    },
+  };
 });

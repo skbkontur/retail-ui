@@ -51,6 +51,7 @@ import { withSize } from '../../lib/size/SizeDecorator';
 import type { SizeProp } from '../../lib/types/props';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 import { blink } from '../../lib/blink';
+import { ScrollContainer } from '../ScrollContainer';
 
 import type { TokenInputLocale } from './locale';
 import { TokenInputLocaleHelper } from './locale';
@@ -177,7 +178,7 @@ export interface TokenInputProps<T>
   maxMenuHeight?: number | string;
 
   /** Задает функцию, которая отображает токен и предоставляет возможность кастомизации внешнего вида и поведения токена. */
-  renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
+  renderToken?: (item: T, props: Partial<TokenProps>, index: number) => ReactNode;
 
   /** Задает функцию, вызывающуюся при изменении текста в поле ввода. */
   onInputValueChange?: (value: string) => void;
@@ -197,6 +198,11 @@ export interface TokenInputProps<T>
 
   /** Задает типы вводимых данных. */
   inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
+
+  /**
+   * Максимальная высота компонента. При её достижении появится скроллбар
+   */
+  maxHeight?: number;
 }
 
 export interface TokenInputState<T> {
@@ -261,6 +267,7 @@ const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled, size }: Partial<TokenProps>,
+  index: number,
 ) => (
   <Token
     key={item.toString()}
@@ -341,6 +348,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
+  private scrollContainerRef = React.createRef<HTMLDivElement>();
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private memoizedTokens = new Map();
@@ -451,6 +459,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       totalCount,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
+      maxHeight,
     } = this.props;
 
     const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
@@ -525,6 +534,48 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       </TokenView>
     );
 
+    const inner = (
+      <>
+        <TextWidthHelper ref={this.textHelperRef} text={inputValue} theme={this.theme} size={this.size} />
+        {this.renderTokensStart()}
+        {inputNode}
+        {showMenu && (
+          <TokenInputMenu
+            popupMenuId={this.rootId}
+            ref={this.tokensInputMenuRef}
+            items={autocompleteItems}
+            loading={loading}
+            opened={showMenu}
+            maxMenuHeight={maxMenuHeight}
+            anchorElementForCursor={this.input}
+            anchorElementRoot={this.wrapper}
+            renderNotFound={renderNotFound}
+            renderItem={renderItem}
+            onValueChange={this.selectItem}
+            renderAddButton={this.renderAddButton}
+            menuWidth={menuWidth}
+            menuAlign={menuAlign}
+            renderTotalCount={renderTotalCount}
+            totalCount={totalCount}
+            size={this.size}
+          />
+        )}
+        {this.renderTokensEnd()}
+        {this.isEditingMode ? (
+          <TokenView size={this.size}>
+            <span className={this.styles.reservedInput(theme)}>{reservedInputValue}</span>
+          </TokenView>
+        ) : null}
+      </>
+    );
+    const container = maxHeight ? (
+      <ScrollContainer scrollRef={this.scrollContainerRef} maxHeight={maxHeight} showScrollBar="always">
+        {inner}
+      </ScrollContainer>
+    ) : (
+      inner
+    );
+
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -534,40 +585,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             className={labelClassName}
             onMouseDown={this.handleWrapperMouseDown}
             onMouseUp={this.handleWrapperMouseUp}
-            htmlFor={this.textareaId}
+            // Для корректной работы скролла приходится ломать связь label с полем ввода
+            // Иначе любой клик внутри label вызывает фокус и автоскроллинг к полю ввода
+            htmlFor={maxHeight ? 'fake-id' : this.textareaId}
             aria-controls={this.rootId}
             data-tid={TokenInputDataTids.label}
           >
-            <TextWidthHelper ref={this.textHelperRef} text={inputValue} theme={this.theme} size={this.size} />
-            {this.renderTokensStart()}
-            {inputNode}
-            {showMenu && (
-              <TokenInputMenu
-                popupMenuId={this.rootId}
-                ref={this.tokensInputMenuRef}
-                items={autocompleteItems}
-                loading={loading}
-                opened={showMenu}
-                maxMenuHeight={maxMenuHeight}
-                anchorElementForCursor={this.input}
-                anchorElementRoot={this.wrapper}
-                renderNotFound={renderNotFound}
-                renderItem={renderItem}
-                onValueChange={this.selectItem}
-                renderAddButton={this.renderAddButton}
-                menuWidth={menuWidth}
-                menuAlign={menuAlign}
-                renderTotalCount={renderTotalCount}
-                totalCount={totalCount}
-                size={this.size}
-              />
-            )}
-            {this.renderTokensEnd()}
-            {this.isEditingMode ? (
-              <TokenView size={this.size}>
-                <span className={this.styles.reservedInput(theme)}>{reservedInputValue}</span>
-              </TokenView>
-            ) : null}
+            {container}
           </label>
         </div>
       </CommonWrapper>
@@ -669,9 +693,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (isBlurToMenu || this.state.preventBlur) {
       event.preventDefault();
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
-      this.input?.focus();
+      this.input?.focus({ preventScroll: true });
       // в firefox не работает без второго focus
-      this.globalObject.requestAnimationFrame?.(() => this.input?.focus());
+      this.globalObject.requestAnimationFrame?.(() => this.input?.focus({ preventScroll: true }));
+
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -758,7 +783,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private handleWrapperMouseUp = () => {
+  private handleWrapperMouseUp = (e: React.MouseEvent<HTMLElement>) => {
+    // Имитируем поведение label, когда задан maxHeight.
+    if (
+      this.props.maxHeight &&
+      e.target === this.scrollContainerRef.current &&
+      (this.state.activeTokens.length !== 0 || !this.state.inFocus)
+    ) {
+      this.dispatch({ type: 'BLUR' });
+      this.dispatch({ type: 'SET_FOCUS_IN' });
+      this.focusInput();
+      this.input?.scrollIntoView({ behavior: 'auto', block: 'center' });
+    }
     this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
   };
 
@@ -918,8 +954,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   }
 
-  private focusInput = () => {
-    this.globalObject.requestAnimationFrame?.(() => this.input?.focus());
+  private focusInput = (options?: FocusOptions) => {
+    this.globalObject.requestAnimationFrame?.(() => this.input?.focus(options));
   };
 
   private selectInputText = () => {
@@ -1030,7 +1066,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });
     if (filteredActiveTokens.length === 0) {
-      this.focusInput();
+      this.focusInput({ preventScroll: true });
     }
 
     this.tryGetItems();
@@ -1046,7 +1082,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
     }
-    this.focusInput();
+    this.focusInput({ preventScroll: true });
   };
 
   private handleTokenEdit = (itemNew: T) => {
@@ -1167,7 +1203,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private renderToken = (item: T) => {
+  private renderToken = (item: T, index: number) => {
     const { renderToken = defaultRenderToken, disabled } = this.props;
 
     const isActive = this.state.activeTokens.includes(item);
@@ -1195,14 +1231,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    const renderedToken = renderToken(item as T & AnyObject, {
-      size: this.size,
-      isActive,
-      onClick: handleTokenClick,
-      onDoubleClick: handleTokenDoubleClick,
-      onRemove: handleIconClick,
-      disabled,
-    });
+    const renderedToken = renderToken(
+      item as T & AnyObject,
+      {
+        size: this.size,
+        isActive,
+        onClick: handleTokenClick,
+        onDoubleClick: handleTokenDoubleClick,
+        onRemove: handleIconClick,
+        disabled,
+      },
+      index,
+    );
 
     this.memoizedTokens.set(this.props.selectedItems?.indexOf(item), renderedToken);
     return renderedToken;
@@ -1233,7 +1273,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else if (itemIndex < 0 || itemIndex > this.getProps().selectedItems.length - 1) {
       return false;
     } else {
-      renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
+      renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex], itemIndex) as React.ReactElement<
         TokenInputProps<unknown>
       >;
     }

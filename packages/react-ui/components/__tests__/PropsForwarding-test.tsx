@@ -3,9 +3,10 @@ import type { RenderResult } from '@testing-library/react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
+import { createFile } from '../../internal/FileUploaderControl/fileUtils';
 import * as ReactUI from '../../index';
 import type { Toast } from '../../index';
-import { ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
+import { FileUploaderFileStatus, ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
 import type { AnyObject } from '../../lib/utils';
 import { delay } from '../../lib/utils';
 import { InputLikeTextDataTids } from '../../internal/InputLikeText';
@@ -62,6 +63,14 @@ const DEFAULT_PROPS = {
   Tab: { id: 'tab' },
   GlobalLoader: { active: true },
   MaskedInput: { mask: '99:99' },
+  FileUploaderFile: {
+    file: {
+      id: '1',
+      originalFile: createFile('test.txt', 'content'),
+      status: FileUploaderFileStatus.Attached,
+      validationResult: { isValid: true },
+    },
+  },
 };
 
 // allows rendering Tab not only inside Tabs
