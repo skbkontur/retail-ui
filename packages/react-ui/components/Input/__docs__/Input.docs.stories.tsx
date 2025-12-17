@@ -38,9 +38,9 @@ export const ExampleSize: Story = () => {
         gap: '10px',
       }}
     >
-      <Input size="small" placeholder="Small" />
-      <Input size="medium" placeholder="Medium" />
-      <Input size="large" placeholder="Large" />
+      <Input size="small" placeholder="Маленький" />
+      <Input size="medium" placeholder="Средний" />
+      <Input size="large" placeholder="Большой" />
     </div>
   );
 };
@@ -49,19 +49,13 @@ ExampleSize.storyName = 'Размер';
 /** Ширину поля можно задать с помощью пропа `width`. Может принимать как абсолютные значения — например, 150, так и относительные — например, 50%. */
 export const ExampleWidth: Story = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'end',
-        gap: '10px',
-      }}
-    >
-      <Input width={300} />
-      <Input width="60%" />
-    </div>
+    <Gapped vertical>
+      <Input width={'150px'} />
+      <Input width={'50%'} />
+    </Gapped>
   );
 };
-ExampleWidth.storyName = 'Увеличение ширины';
+ExampleWidth.storyName = 'Ширина';
 
 /** Добавить плейсхолдер можно через `placeholder`. Добавляет подсказку, которая отображается внутри поля, пока оно не заполнено. */
 export const ExamplePlaceholder: Story = () => {
@@ -105,9 +99,9 @@ ExampleClear.storyName = 'Очистка поля';
 /** В поле ввода можно передать иконку.
  * Иконка может находиться в начале поля — проп `leftIcon`, в конце — проп `rightIcon`.
  * Под разный размер полей используйте подходящие начертания и размер иконок:
- * - Small — 16Light
- * - Medium — 20Light
- * - Large — 24Regular */
+ * - Small — Light 16
+ * - Medium — Light 20
+ * - Large — Regular 24 */
 export const ExampleIcon: Story = () => {
   return (
     <Gapped vertical>
@@ -135,7 +129,7 @@ ExampleIcon.storyName = 'Иконка';
  * Может отображаться в разных вариантах:
  * - `"always"` — всегда показывает иконку очистки в заполненном поле;
  * - `"auto"` — показывает иконку в заполненном поле, когда поле ввода в состоянии hover или focus;
- * - `"never"` — не показывает.
+ * - `"never"` (по умолчанию) — не показывает.
  *
  * При одновременной настройке `rightIcon` и `showClearIcon` иконка очистки заменит иконку справа. В таких ситуациях не используйте для `rightIcon` интерактивную иконку, а значение для `showClearIcon` выбирайте `"auto"`.
  */
@@ -160,7 +154,7 @@ export const ExampleShowClearIcon: Story = () => {
     </Gapped>
   );
 };
-ExampleShowClearIcon.storyName = 'Иконка очистки поля';
+ExampleShowClearIcon.storyName = 'Иконка очистки';
 
 /** Чтобы значение внутри поля выделялось при фокусе на нем, добавьте проп `selectAllOnFocus`. Может быть полезно для полей, в которых пользователи могут часто копировать значение, или для полей только для чтения. */
 export const ExampleSelectAllOnFocus: Story = () => {

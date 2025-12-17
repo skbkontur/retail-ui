@@ -23,29 +23,29 @@ import { TokenView } from './TokenView';
 export type TokenSize = SizeProp;
 
 export interface TokenProps extends Pick<AriaAttributes, 'aria-describedby'>, CommonProps {
-  /** Устанавливает, является ли токен активным. */
+  /** Делает токен активным. */
   isActive?: boolean;
-  /** Переводит контрол в состояние валидации "ошибка" */
+  /** Меняет визуальное отображение токена на состояние «ошибка». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
   error?: boolean;
-  /** Переводит контрол в состояние валидации "предупреждение". */
+  /** Меняет визуальное отображение токена на состояние «предупреждение». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
   warning?: boolean;
-  /** Делает компонент недоступным. */
+  /** Блокирует токен. */
   disabled?: boolean;
-  /** Задает размер контрола. */
+  /** Размер токена. */
   size?: TokenSize;
-  /** Задает функцию, которая вызывается, когда на токен кликнули. */
+  /** Задаёт функцию, которая вызывается при клике на токен. */
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-  /** Задает функцию, которая вызывается, когда на токен кликнули дважды. */
+  /** Задаёт функцию, которая вызывается при двойном клике на токен. */
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
-  /** Задает функцию, которая вызывается, когда токен удаляется. */
+  /** Задаёт функцию, которая вызывается, когда токен удаляется. */
   onRemove?: React.MouseEventHandler<HTMLElement>;
-  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
+  /** Задаёт функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
-  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
+  /** Задаёт функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
-  /** Задает функцию, которая вызывается, когда токен получает фокус. */
+  /** Задаёт функцию, которая вызывается, когда токен получает фокус. */
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
-  /** Задает функцию, которая вызывается, когда токен теряет фокус. */
+  /** Задаёт функцию, которая вызывается, когда токен теряет фокус. */
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
@@ -54,10 +54,9 @@ export const TokenDataTids = {
   removeIcon: 'Token__removeIcon',
 } as const;
 
-/**
- * Однородный элемент — `Token`.
+/** Токены — это значение заданного формата внутри поля ввода. Например, номера телефонов, почты, ИНН, СНИЛС, статусы, группы и другие.
  *
- * Используется в компоненте поле с токенами TokenInput.
+ * Используется ак значение внутри [TokenInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-tokeninput--docs).
  */
 @rootNode
 @locale('Token', TokenLocaleHelper)

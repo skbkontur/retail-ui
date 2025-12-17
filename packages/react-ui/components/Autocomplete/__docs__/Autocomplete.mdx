@@ -1,5 +1,6 @@
 import * as AutocompleteStories from './Autocomplete.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as AutocompleteExamples from './AutocompleteValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -11,6 +12,10 @@ import { Button, Group, Gapped } from '@skbkontur/react-ui';
 
 <Header component="Autocomplete" />
 
+```jsx
+import { Autocomplete } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -19,6 +24,28 @@ import { Button, Group, Gapped } from '@skbkontur/react-ui';
 
 <PropsTable />
 
+## Использование
+
+В отличие от [комбобокса](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-combobox--docs) у поля нет стрелки и список со значениями нельзя открыть вручную. Подробнее об отличиях читайте в [Гайде](https://guides.kontur.ru/components/input-fields/combobox).
+
+Подсказки определяются в пропе `source` — задаёт функцию поиска элементов, которая должна возвращать `Promise` с массивом значений.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+<Story of={AutocompleteExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+## Адаптивность
+
+Автокомплит адаптивен: на мобильных устройствах поле с выпадающим список открывается на весь экран устройства и становится фокусным активным элементом, что упрощает работу с ним. Мобильный режим активируется при ширине вьюпорта `(max-width: 576px)` и наличии сенсорного экрана `(pointer: coarse)`. Вы можете передавать свои медиазапросы, больше о настройке адаптивности читайте в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs).

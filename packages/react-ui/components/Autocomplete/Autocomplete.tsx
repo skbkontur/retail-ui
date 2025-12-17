@@ -63,49 +63,47 @@ export interface AutocompleteProps
     Override<
       Omit<InputProps, 'alwaysShowMask' | 'mask' | 'maskChar'>,
       {
-        /** Задает функцию, которая отрисовывает элементы меню. */
+        /** Задаёт функцию отрисовки элементов результата поиска. */
         renderItem?: (item: string) => React.ReactNode;
 
-        /** Задает промис, который резолвит элементы меню. */
+        /** Задаёт функцию поиска элементов, которая должна возвращать Promise с массивом значений. */
         source?: string[] | ((patter: string) => Promise<string[]>);
 
-        /** Отключает использование портала. */
+        /**  По умолчанию выпадающий список рендерится через [паттерн Portal](https://react.dev/reference/react-dom/createPortal). Проп отключает использование Portal и список рендерится как обычный блок с абсолютным позиционированием внутри компонента. */
         disablePortal?: boolean;
 
-        /** Определяет, нужно ли показывать тень у выпадающего меню. */
+        /** Определяет, нужно ли показывать тень у выпадающего списка. */
         hasShadow?: boolean;
 
-        /** Задает выравнивание выпадающего меню. */
+        /** Выравнивание выпадающего списка. */
         menuAlign?: 'left' | 'right';
 
-        /** Задает максимальную высоту выпадающего меню. */
+        /** Максимальная высота выпадающего списка. */
         menuMaxHeight?: number | string;
 
-        /** Задает ширину выпадающего меню. */
+        /** Ширина выпадающего списка. */
         menuWidth?: number | string;
 
-        /** Отключает скролл окна, когда меню открыто. */
+        /** Отключает скролл окна, когда выпадающий список раскрыт. */
         preventWindowScroll?: boolean;
 
-        /** Задает функцию, которая вызывается при изменении value. */
+        /** Задаёт функцию, которая вызывается при изменении `value`. */
         onValueChange: (value: string) => void;
 
-        /** Задает функцию, которая вызывается при потере автокомплитом фокуса. */
+        /** Задаёт функцию, которая вызывается при потере автокомплитом фокуса. */
         onBlur?: () => void;
 
-        /** Задаёт размер инпута. */
+        /** Размер автокомплита. */
         size?: SizeProp;
 
-        /** Задает значение автокомплита. */
+        /** Значение автокомплита. */
         value: string;
 
-        /** Задает текст заголовка выпадающего меню в мобильной версии. */
+        /** Текст заголовка выпадающего списка в мобильной версии. */
         mobileMenuHeaderText?: string;
       }
     > {
-  /**
-   * Позволяет вручную задать текущую позицию выпадающего окна
-   */
+  /** Расположение выпадающего списка — над или под полем. */
   menuPos?: 'top' | 'bottom';
 }
 
@@ -130,11 +128,7 @@ type DefaultProps = Required<
 >;
 
 /**
- * `Autocomplete` — стандартный инпут с подсказками.
- *
- * Подсказки определяются в пропе `source`.
- * Все свойства передаются во внутренний `Input`.
- */
+ * Автокомплит — поле ввода с выпадающим списком подсказок. Подсказки отображаются пользователю, когда он начинает вводить значение в поле. */
 @responsiveLayout
 @rootNode
 @locale('Autocomplete', AutocompleteLocaleHelper)
@@ -176,9 +170,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
-  /**
-   * @public focus method
-   * @description Focuses the input.
+  /** Программно устанавливает фокус на автокомплит.
+   * @public
    * @example
    * <Autocomplete ref={autocompleteRef} />
    * <button onClick={() => autocompleteRef.current?.focus()}>Focus</button>
@@ -189,9 +182,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
   }
 
-  /**
-   * @public blur method
-   * @description Blurs the input.
+  /** Программно снимает фокус с автокомплита.
+   * @public
    * @example
    * <Autocomplete ref={autocompleteRef} />
    * <button onClick={() => autocompleteRef.current?.blur()}>Blur</button>

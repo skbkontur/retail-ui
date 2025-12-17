@@ -9,34 +9,12 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
-  return <Token>Example</Token>;
+export const ExampleBasic: Story = () => {
+  return <Token>mail@example.ru</Token>;
 };
-Example1.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
-  return (
-    <Gapped gap={20} vertical>
-      <Gapped gap={10}>
-        <Token>Correct</Token>
-        <Token warning>Warned</Token>
-        <Token error>Errored</Token>
-      </Gapped>
-      <Gapped gap={10}>
-        <Token isActive>Correct</Token>
-        <Token isActive warning>
-          Warned
-        </Token>
-        <Token isActive error>
-          Errored
-        </Token>
-      </Gapped>
-    </Gapped>
-  );
-};
-Example2.storyName = 'Состояние валидации';
-
-export const Example3: Story = () => {
+/** Проп `size` задаёт размер токена. По умолчанию `"small"`. */
+export const ExampleSize: Story = () => {
   return (
     <Gapped vertical>
       <Token size="small">Маленький</Token>
@@ -45,4 +23,33 @@ export const Example3: Story = () => {
     </Gapped>
   );
 };
-Example3.storyName = 'Размер';
+ExampleSize.storyName = 'Размер';
+
+/** Проп `isActive` переводит токен в активное состояние. По умолчанию, это происходит, когда токен находится в фокусе. */
+export const ExampleIsActive: Story = () => {
+  return (
+    <Gapped vertical>
+      <Token>Обычный</Token>
+      <Token isActive>Активный</Token>
+    </Gapped>
+  );
+};
+ExampleIsActive.storyName = 'Активный токен';
+
+/** Проп `disabled` блокирует токен. */
+export const ExampleDisabled: Story = () => {
+  return <Token disabled>mail@example.ru</Token>;
+};
+ExampleDisabled.storyName = 'Состояние блокировки';
+
+/** Проп `error` меняет визуальное отображение поля на состояние ошибки, а `warning` — на предупреждение. */
+export const ExampleErrorWarning: Story = () => {
+  return (
+    <Gapped gap={10}>
+      <Token>Обычный</Token>
+      <Token error>С ошибкой</Token>
+      <Token warning>Предупреждающий</Token>
+    </Gapped>
+  );
+};
+ExampleErrorWarning.storyName = 'Состояния ошибки и предупреждения';
