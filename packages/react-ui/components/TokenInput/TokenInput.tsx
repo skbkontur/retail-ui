@@ -267,7 +267,6 @@ const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled, size }: Partial<TokenProps>,
-  index: number,
 ) => (
   <Token
     key={item.toString()}

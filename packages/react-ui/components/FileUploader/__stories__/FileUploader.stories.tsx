@@ -1,9 +1,9 @@
-import React, { cloneElement, type JSX, useRef } from 'react';
+import React, { type JSX, useRef } from 'react';
 
+import type { FileUploaderAttachedFile, FileUploaderView } from '../../../internal/FileUploaderControl/fileUtils';
 import { createFile, FileUploaderFileStatus } from '../../../internal/FileUploaderControl/fileUtils';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import type { FileUploaderAttachedFile, FileUploaderView } from '../../../internal/FileUploaderControl/fileUtils';
 import { DeleteIcon } from '../../../internal/FileUploaderControl/FileUploaderFile/icons/DeleteIcon';
 import type { FileUploaderRef } from '../FileUploader';
 import { FileUploader } from '../FileUploader';

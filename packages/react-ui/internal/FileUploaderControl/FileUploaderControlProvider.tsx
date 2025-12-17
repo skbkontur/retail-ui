@@ -48,7 +48,6 @@ export const FileUploaderControlProvider = React.memo(
   (
     props: PropsWithChildren<
       FileUploaderControlProviderProps & {
-
         multiple?: boolean;
       }
     >,

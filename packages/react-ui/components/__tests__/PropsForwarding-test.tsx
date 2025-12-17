@@ -10,6 +10,7 @@ import type { AnyObject } from '../../lib/utils';
 import { delay } from '../../lib/utils';
 import { InputLikeTextDataTids } from '../../internal/InputLikeText';
 import { getRootNode } from '../../lib/rootNode';
+import { createFile } from '../../internal/FileUploaderControl/fileUtils';
 
 function isPublicComponent(component: any, name: string) {
   //skip contexts

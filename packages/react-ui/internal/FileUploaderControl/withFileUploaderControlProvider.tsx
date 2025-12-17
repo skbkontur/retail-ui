@@ -6,7 +6,10 @@ import { FileUploaderControlProvider } from './FileUploaderControlProvider';
 
 export const withFileUploaderControlProvider = <TProps extends Record<string, any>, TRef extends Record<string, any>>(
   Component: ComponentType<
-    Omit<React.PropsWithoutRef<TProps & FileUploaderControlProviderProps>, 'onAttach' | 'onRemove' | 'onValueChange'>
+    Omit<
+      React.PropsWithoutRef<TProps & FileUploaderControlProviderProps>,
+      'onAttach' | 'onRemove' | 'onValueChange' | 'initialFiles'
+    >
   >,
 ) => {
   return React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>((props, ref) => {
