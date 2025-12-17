@@ -1,0 +1,18 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableHeaderCellStories from './Table.HeaderCell.docs.stories';
+
+<Meta of={TableHeaderCellStories} />
+
+# Table.HeaderCell
+
+Ячейка заголовка с шириной, выравниванием и nowrap.
+
+## Пример
+
+<Story of={TableHeaderCellStories.Basic} />
+
+## Пропсы
+
+<ArgTypes of={Table.HeaderCell} />

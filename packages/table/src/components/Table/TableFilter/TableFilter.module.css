@@ -1,0 +1,13 @@
+.ClickableHeaderWrapper {
+  margin-bottom: 0px;
+  display: inline-block;
+  line-height: normal; /* Use react-ui DropdownMenu caption container wrapper styles */
+}
+
+.FilterSearch {
+  width: 100%;
+}
+
+.FilterItem {
+  padding: 4px 8px;
+}

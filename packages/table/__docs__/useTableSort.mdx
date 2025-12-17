@@ -1,0 +1,52 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as UseTableSortStories from './useTableSort.docs.stories';
+
+<Meta of={UseTableSortStories} />
+
+# useTableSort
+
+Хук для сортировки данных таблицы. Работает поверх уже отфильтрованных строк, поддерживает начальную конфигурацию и сортировку по строковым/числовым и вложенным полям.
+
+## Сигнатура
+
+```ts
+const { sortedRows, sortConfig, handleSort } = useTableSort(rows, initialConfig?);
+```
+
+### Принимает
+
+- `rows: T[]` — данные для сортировки (чаще всего результат `useTableFilters`).
+- `initialConfig?: { key?: string | null; direction?: 'asc' | 'desc' }` — стартовое состояние сортировки.
+
+### Возвращает
+
+- `sortedRows: T[]` — отсортированный массив.
+- `sortConfig: { key: string | null; direction: 'asc' | 'desc' }` — текущее состояние.
+- `handleSort(columnKey, direction)` — применить сортировку для колонки.
+
+## Базовое использование
+
+```tsx
+const { sortedRows, sortConfig, handleSort } = useTableSort(filteredRows, { key: 'name', direction: 'asc' });
+
+<Table.DropdownSortableFilter
+  options={uniqueValues.name}
+  selectedOptions={filters.get('name') ?? []}
+  onSelect={(selected) => setFilter('name', selected)}
+  onSort={(direction) => handleSort('name', direction)}
+  sorted={sortConfig.key === 'name' ? sortConfig.direction : undefined}
+>
+  Имя
+</Table.DropdownSortableFilter>;
+```
+
+## Советы
+
+- Всегда вызывайте сортировку после фильтров: `useTableFilters` → `useTableSort` → `useTableRowSelection`.
+- Если сортируете по вложенным полям, используйте единый ключ (например `responsible`) и обеспечьте корректный `accessor` в колонке.
+- Храните `rows` в `React.useMemo` для больших таблиц, чтобы не пересортировывать на каждый ререндер.
+
+## История
+
+<Story of={UseTableSortStories.SimpleSortExample} />

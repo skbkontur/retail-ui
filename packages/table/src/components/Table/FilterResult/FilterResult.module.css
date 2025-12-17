@@ -1,0 +1,15 @@
+.AppliedFilters {
+  padding: 8px;
+}
+
+.AppliedFiltersWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+
+.AppliedFiltersWrapper > * {
+  margin: 4px;
+}

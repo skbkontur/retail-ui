@@ -1,0 +1,62 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as UseTableRowSelectionStories from './useTableRowSelection.docs.stories';
+
+<Meta of={UseTableRowSelectionStories} />
+
+# useTableRowSelection
+
+Хук для выбора строк таблицы. Поддерживает одиночный и массовый выбор, indeterminate состояние чекбокса «выбрать всё» и работает поверх отсортированных данных.
+
+## Сигнатура
+
+```ts
+const { checkedRows, setCheckedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
+  useTableRowSelection(rows);
+```
+
+### Принимает
+
+- `rows: T[]` — массив строк. Каждая строка должна иметь уникальный `id: number`.
+
+### Возвращает
+
+- `checkedRows: Set<number>` — выбранные ID.
+- `setCheckedRows(Set)` — установить выбранные строки вручную.
+- `isCheckedAll: boolean` — все строки выбраны.
+- `hasChecked: boolean` — есть выбранные строки (для indeterminate).
+- `checkboxRef: RefObject<HTMLInputElement>` — ref для HeaderCheckboxCell (indeterminate).
+- `selectAll()` — выбрать/снять все.
+- `toggleRow(event, rowId)` — переключить выбор строки (не забудьте `event.stopPropagation()` если строка кликабельна).
+- `isRowChecked(rowId)` — проверка выбранности строки.
+
+## Базовый пример
+
+```tsx
+const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
+  useTableRowSelection(sortedRows);
+
+<Table.HeaderCheckboxCell
+  checkboxRef={checkboxRef}
+  checked={isCheckedAll}
+  onClick={selectAll}
+  initialIndeterminate={hasChecked}
+  aria-label="Выбрать все строки"
+/>;
+
+<Table.CheckboxCell
+  checked={isRowChecked(row.id)}
+  onCheckboxClick={(e) => toggleRow(e, row.id)}
+  aria-label={`Выбрать строку ${row.name}`}
+/>;
+```
+
+## Советы
+
+- Применяйте после сортировки: `useTableFilters` → `useTableSort` → `useTableRowSelection`.
+- Для интерактивных строк добавьте `event.stopPropagation()` в чекбокс, чтобы клик не срабатывал на саму строку.
+- Если данные перезаписываются, убедитесь, что `id` остаются стабильными — иначе выбранные строки собьются.
+
+## История
+
+<Story of={UseTableRowSelectionStories.SimpleSelectionExample} />

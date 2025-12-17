@@ -1,0 +1,90 @@
+import React from 'react';
+import { Table } from '../src/components/Table/Table';
+import { IconSendPaperplaneRegular16 } from '@skbkontur/icons/IconSendPaperplaneRegular16';
+import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
+import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
+import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
+import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
+import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+
+export default {
+  title: 'Components/Table.ActionBar',
+  component: Table.ActionBar,
+  parameters: {
+    creevey: { skip: true },
+  },
+};
+
+export const Basic = () => {
+  const actionItems = [
+    {
+      icon: <IconSendPaperplaneRegular16 />,
+      text: 'Отправить',
+      onClick: () => console.log('send'),
+    },
+    {
+      icon: <IconTechPrinterRegular16 />,
+      text: 'Напечатать',
+      onClick: () => console.log('print'),
+      danger: true,
+    },
+    {
+      icon: <IconDocsPlusRegular16 />,
+      text: 'Скопировать',
+      onClick: () => console.log('copy'),
+    },
+    {
+      icon: <IconMoneyTypeCoinsRegular16 />,
+      text: 'Уплатить',
+      onClick: () => console.log('pay'),
+    },
+    {
+      icon: <IconNetDownloadRegular16 />,
+      text: 'Скачать',
+      onClick: () => console.log('download'),
+    },
+    {
+      icon: <IconTrashCanRegular16 />,
+      text: 'Удалить',
+      onClick: () => console.log('delete'),
+      danger: true,
+    },
+  ];
+
+  return (
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Имя</Table.HeaderCell>
+          <Table.HeaderCell width="240px">Экшены</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>Пример документа</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar items={actionItems} />
+          </Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Пример с popup</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar items={actionItems.slice(0, 3)} popup />
+          </Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Пример popup</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar items={actionItems} popup />
+          </Table.Cell>
+        </Table.Row>
+        <Table.Row onClick={() => console.log(12)}>
+          <Table.Cell>Пример popup</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar items={actionItems} popup itemsVisible={1} />
+          </Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
+  );
+};

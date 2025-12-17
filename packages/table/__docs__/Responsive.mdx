@@ -1,0 +1,31 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as ResponsiveStories from './Responsive.docs.stories';
+
+<Meta of={ResponsiveStories} />
+
+# Адаптивный пример таблицы
+
+Пример показывает ту же таблицу, что и в `SizeTable`, но помещает её в контейнер фиксированной ширины с горизонтальной прокруткой. Так таблицей удобно пользоваться на телефоне: заголовок остаётся на месте, а контент можно листать вправо и влево.
+
+<Story of={ResponsiveStories.ResponsiveExampleStory} />
+
+## Как сделать таблицу удобной на узком экране
+
+- ограничьте ширину внешнего контейнера (`maxWidth: 420`, `width: '100%'`) и включите `overflowX: 'auto'`;
+- добавьте внутренний блок с `minWidth: 920` и паддингами, чтобы столбцы не схлопывались и появился горизонтальный скролл;
+- оставьте стики-заголовок и футер, чтобы управление оставалось доступным при прокрутке.
+
+```tsx
+const containerStyle = {
+  width: '100%',
+  maxWidth: 420,
+  overflowX: 'auto',
+};
+
+<div style={containerStyle}>
+  <Table size="small" minWidth="920px">
+    {/* ...столбцы и строки... */}
+  </Table>
+</div>;
+```

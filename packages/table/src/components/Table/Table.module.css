@@ -1,0 +1,395 @@
+.Table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  --base-size: 8px;
+}
+
+.TableLayoutAuto {
+  table-layout: auto;
+}
+
+.TableHeader {
+  position: relative;
+}
+
+.TableHeader:not(
+    :has(
+        + .TableBody > .ClickableTableRow:hover:first-child,
+        + .TableBody > .CheckedRow:first-child,
+        + .TableBody > .ClickableTableRow:focus-within:first-child,
+        + .TableBody > .TableRow > .FilterResultCell
+      )
+  )::after {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: ' ';
+  bottom: 1px;
+  z-index: 3;
+  box-shadow: 0 13px 0 -12px var(--table-border);
+}
+
+.StickyTableHeader {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--table-sticky-background);
+}
+
+.TableHeaderCell {
+  border: none;
+  font-weight: normal;
+  text-align: left;
+  vertical-align: baseline;
+  padding: 8px 0 8px 0;
+}
+
+.TableHeaderCell.CheckboxCell label {
+  opacity: 1;
+}
+
+.PaddingForHeaderSmall {
+  padding: 4px 0 4px 0;
+}
+
+.PaddingForHeaderMedium {
+  padding: 8px 0 8px 0;
+}
+
+.PaddingForHeaderLarge {
+  padding: 16px 0 16px 0;
+}
+
+.PaddingForSimpleHeader {
+  color: var(--table-secondary-text);
+}
+
+.PaddingForSimpleHeaderSmall {
+  padding: 10px 13px 10px 13px;
+}
+
+.PaddingForSimpleHeaderMedium {
+  padding: 17px 17px 17px 17px;
+}
+
+.PaddingForSimpleHeaderLarge {
+  padding: 28px 21px 28px 21px;
+}
+
+.CheckboxHeaderCell {
+  padding: 4px 16px 4px 16px;
+}
+
+.TableHeaderCell.NoWrapCell {
+  text-wrap: nowrap;
+}
+
+.TableHeaderCell.Currency {
+  text-align: right;
+}
+
+.TableHeaderCell[scope='col'] {
+  color: var(--table-secondary-text);
+  font-weight: 400;
+}
+
+.TableRow {
+  border: none;
+  padding: 0;
+  position: relative;
+}
+
+.ClickableTableRow {
+  cursor: pointer;
+}
+
+.BottomBorder {
+  box-shadow: 0 13px 0 -12px var(--table-border);
+}
+
+.BottomBorderInset {
+  box-shadow: inset 0px -1px 0 0px var(--table-border);
+}
+
+.ClickableTableRow:focus-within.BottomBorder,
+.ClickableTableRow:hover.BottomBorder,
+.ClickableTableRow.CheckedRow.BottomBorder {
+  box-shadow: none;
+}
+
+.ClickableTableRow:hover .TableCell,
+.ClickableTableRow:focus-within .TableCell,
+.CheckedRow .TableCell {
+  background: var(--table-row-hover);
+}
+
+.ClickableTableRow.CheckedRow:hover .TableCell,
+.ClickableTableRow.CheckedRow:focus-within .TableCell {
+  background: var(--table-row-checked-hover);
+}
+@supports (selector(:has(*))) {
+  .ClickableTableRow:active:not(:has(.TableCell *:focus-within)) .TableCell {
+    background: var(--table-row-checked-hover);
+  }
+  .ClickableTableRow.CheckedRow:active:not(:has(.TableCell *:focus-within)) .TableCell {
+    background: var(--table-row-checked-active);
+  }
+}
+
+@supports (selector(:has(*))) {
+  .CheckedRow:has(+ .CheckedRow) .TableCell,
+  .CheckedRow:has(+ .ClickableTableRow:hover) .TableCell,
+  .CheckedRow:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .CheckedRow) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:hover) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .ClickableTableRow:hover:has(+ .CheckedRow) .TableCell,
+  .ClickableTableRow:hover:has(+ .ClickableTableRow:hover) .TableCell,
+  .ClickableTableRow:hover:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .FilterResultRow:has(+ .CheckedRow) .TableCell,
+  .FilterResultRow:has(+ .ClickableTableRow:hover) .TableCell,
+  .FilterResultRow:has(+ .ClickableTableRow:focus-within) .TableCell {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .CheckedRow + .CheckedRow .TableCell,
+  .CheckedRow + .ClickableTableRow:hover .TableCell,
+  .CheckedRow + .ClickableTableRow:focus-within .TableCell,
+  .ClickableTableRow:focus-within + .CheckedRow .TableCell,
+  .ClickableTableRow:focus-within + .ClickableTableRow:hover .TableCell,
+  .ClickableTableRow:focus-within + .ClickableTableRow:focus-within .TableCell,
+  .ClickableTableRow:hover + .CheckedRow .TableCell,
+  .ClickableTableRow:hover + .ClickableTableRow:hover .TableCell,
+  .ClickableTableRow:hover + .ClickableTableRow:focus-within .TableCell,
+  .FilterResultRow + .CheckedRow .TableCell,
+  .FilterResultRow + .ClickableTableRow:hover .TableCell,
+  .FilterResultRow + .ClickableTableRow:focus-within .TableCell {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.TableRow:focus-visible {
+  outline: var(--table-outline-width) solid var(--table-outline);
+  border-radius: var(--base-size);
+  outline-offset: 2px;
+  z-index: 3;
+}
+
+.TableCell {
+  border: none;
+  padding: 0;
+  text-align: left;
+  vertical-align: baseline;
+  word-wrap: break-word;
+  transition: border-radius ease 0.15s;
+}
+
+.TableCell:first-child {
+  border-top-left-radius: var(--base-size);
+  border-bottom-left-radius: var(--base-size);
+}
+
+.TableCell:last-child {
+  position: relative;
+  border-top-right-radius: var(--base-size);
+  border-bottom-right-radius: var(--base-size);
+}
+
+.TableCellSmall {
+  padding: 4px 8px 4px 13px;
+}
+
+.TableCellMedium {
+  padding: 8px 10px 8px 17px;
+}
+
+.TableCellLarge {
+  padding: 16px 12px 16px 21px;
+}
+
+.TableCellTextSmall {
+  padding: 10px 8px 10px 13px;
+}
+
+.TableCellTextMedium {
+  padding: 17px 10px 17px 17px;
+}
+
+.TableCellTextLarge {
+  padding: 28px 12px 28px 21px;
+}
+
+.CheckboxCell {
+  padding: 0px 16px 0px 16px;
+}
+
+.TableCell.NoWrapCell {
+  text-wrap: nowrap;
+}
+
+.TableCellSmall.Currency {
+  padding-right: 13px;
+  padding-left: 8px;
+}
+
+.TableCellMedium.Currency {
+  padding-right: 17px;
+  padding-left: 10px;
+}
+
+.TableCellLarge.Currency {
+  padding-right: 21px;
+  padding-left: 12px;
+}
+.TableCell.Currency {
+  text-align: right;
+}
+
+.FilterResultCell {
+  background: var(--table-row-hover);
+  padding: 0;
+}
+
+.TableCell[scope='col'] {
+  color: var(--table-secondary-text);
+  font-weight: 400;
+}
+
+.CheckboxCell label {
+  opacity: 0;
+}
+
+.HasChecked .CheckboxCell label {
+  opacity: 1;
+}
+
+@supports (selector(:has(*))) {
+  .TableRow .CheckboxCell label:has(> input[type='checkbox']:focus-visible) {
+    opacity: 1;
+  }
+}
+
+@supports (selector(:focus-within)) {
+  .TableRow:focus-within .CheckboxCell label {
+    opacity: 1;
+  }
+}
+
+.TableRow:hover .CheckboxCell label,
+.CheckedRow .CheckboxCell label {
+  opacity: 1;
+}
+
+.TableFooter {
+  border: none;
+  padding: 8px;
+  box-shadow: 0px -13px 0px -12px var(--table-border);
+}
+
+.StickyTableFooter {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  text-align: center;
+  background: var(--table-sticky-background);
+}
+
+@supports (selector(:has(*))) {
+  .TableBody:has(.ClickableTableRow:hover:last-child) + .TableFooter,
+  .TableBody:has(.CheckedRow:last-child) + .TableFooter,
+  .TableBody:has(.ClickableTableRow:focus-within:last-child) + .TableFooter {
+    box-shadow: none;
+  }
+}
+
+.PopupActionBar {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  height: calc(100% - 8px);
+
+  --shadow-xoffset: -16px;
+  --shadow-yoffset: 0;
+  --shadow-blur: 16px;
+  --shadow-spread: 0;
+}
+
+@supports not (selector(:has(*))) {
+  .PopupActionBar .RoundButton {
+    opacity: 0;
+  }
+
+  .PopupActionBar:focus-within .RoundButton,
+  .ClickableTableRow:hover .PopupActionBar .RoundButton {
+    opacity: 1;
+    box-shadow: var(--shadow-xoffset) var(--shadow-yoffset) var(--shadow-blur) var(--shadow-spread)
+      var(--table-shadow-light);
+    background: var(--table-row-hover);
+  }
+
+  .PopupActionBar .Hover {
+    opacity: 1;
+    background: var(--table-row-hover);
+  }
+
+  .ClickableTableRow.CheckedRow:hover .PopupActionBar .RoundButton,
+  .ClickableTableRow.CheckedRow:focus-within .PopupActionBar .RoundButton {
+    opacity: 1;
+    box-shadow: var(--shadow-xoffset) var(--shadow-yoffset) var(--shadow-blur) var(--shadow-spread)
+      var(--table-shadow-medium);
+    background: var(--table-row-checked-hover);
+  }
+}
+
+@supports (selector(:has(*))) {
+  .PopupActionBar {
+    opacity: 0;
+  }
+
+  .TableRow:focus-within .PopupActionBar,
+  .TableRow:hover .PopupActionBar {
+    opacity: 1;
+  }
+
+  .ClickableTableRow:focus-within .PopupActionBar,
+  .ClickableTableRow .PopupActionBar:focus-within,
+  .ClickableTableRow.CheckedRow .PopupActionBar:has(.Hover),
+  .ClickableTableRow:hover .PopupActionBar {
+    box-shadow: var(--shadow-xoffset) var(--shadow-yoffset) var(--shadow-blur) var(--shadow-spread)
+      var(--table-shadow-light);
+    background: var(--table-row-hover);
+  }
+
+  .PopupActionBar:has(.Hover) {
+    opacity: 1;
+    background: var(--table-sticky-background);
+  }
+
+  .ClickableTableRow:active:not(:has(.TableCell *:focus-within)) .PopupActionBar,
+  .ClickableTableRow.CheckedRow:hover .PopupActionBar,
+  .ClickableTableRow.CheckedRow:focus-within .PopupActionBar {
+    box-shadow: var(--shadow-xoffset) var(--shadow-yoffset) var(--shadow-blur) var(--shadow-spread)
+      var(--table-shadow-medium);
+    background: var(--table-row-checked-hover);
+  }
+
+  .ClickableTableRow.CheckedRow:active:not(:has(.TableCell *:focus-within)) .PopupActionBar {
+    box-shadow: var(--shadow-xoffset) var(--shadow-yoffset) var(--shadow-blur) var(--shadow-spread)
+      var(--table-row-checked-active);
+    background: var(--table-row-checked-active);
+  }
+}
+
+.ActionsDropdownItem {
+  padding: 4px 8px;
+}
+
+.Danger:active * {
+  color: var(--table-danger-active-color, #fff);
+}

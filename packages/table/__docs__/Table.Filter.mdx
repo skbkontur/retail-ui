@@ -1,0 +1,18 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableFilterStories from './Table.Filter.docs.stories';
+
+<Meta of={TableFilterStories} />
+
+# Table.Filter
+
+Кнопка фильтра с выпадающим меню.
+
+## Пример
+
+<Story of={TableFilterStories.Basic} />
+
+## Пропсы
+
+<ArgTypes of={Table.Filter} />

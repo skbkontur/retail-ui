@@ -1,0 +1,111 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as AccessibilityStories from './Accessibility.docs.stories';
+
+<Meta of={AccessibilityStories} />
+
+# Демонстрация доступности таблицы
+
+Этот пример демонстрирует различные интерактивные элементы в таблице: чекбоксы для выбора строк, кликабельные строки, ссылки, кнопки и действия.
+
+## Интерактивные элементы
+
+Таблица поддерживает следующие интерактивные элементы:
+
+- **Чекбоксы** - для выбора одной или нескольких строк
+- **Кликабельные строки** - обработка клика по всей строке
+- **Ссылки** - навигация внутри ячеек таблицы
+- **Кнопки** - действия внутри ячеек
+- **Действия** - меню действий с кнопками и выпадающими опциями
+
+Используйте `e.stopPropagation()` для интерактивных эелментов внутри интерактивной строки. В особых случаях можно пребегать к обработке через `closeset`
+
+## Пример использования
+
+<Story of={AccessibilityStories.AccessibilityExampleStory} />
+
+## Чекбоксы
+
+Чекбоксы позволяют выбирать строки таблицы. Используйте хук `useTableRowSelection` для управления состоянием выбора:
+Обязательно указывать `aria-label`
+
+```tsx
+const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
+  useTableRowSelection(rows);
+
+<Table.HeaderCheckboxCell
+  checkboxRef={checkboxRef}
+  onClick={() => selectAll()}
+  checked={isCheckedAll}
+  initialIndeterminate={hasChecked}
+  aria-label="Выбрать все строки"
+/>
+
+<Table.CheckboxCell
+  checked={isRowChecked(row.id)}
+  onCheckboxClick={(e) => toggleRow(e, row.id)}
+  aria-label={`Выбрать строку ${row.client}`}
+/>
+```
+
+## Кликабельные строки
+
+Для обработки клика по строке используйте проп `onClick` на `Table.Row`:
+
+```tsx
+<Table.Row onClick={() => handleRowClick(row.id)}>{/* содержимое строки */}</Table.Row>
+```
+
+## Ссылки
+
+Ссылки можно размещать внутри ячеек таблицы:
+
+```tsx
+import { Link } from '@skbkontur/react-ui/components/Link';
+
+<Table.Cell>
+  <Link href={`/clients/${row.id}`}>{row.client}</Link>
+</Table.Cell>;
+```
+
+## Кнопки
+
+Кнопки можно использовать для действий внутри ячеек:
+
+```tsx
+import { Button } from '@skbkontur/react-ui/components/Button';
+
+<Table.Cell>
+  <Button onClick={(e) => {
+      e.stopPropagation()
+      handleAction(row.id)
+    }>Выполнить</Button>
+</Table.Cell>;
+```
+
+## Действия
+
+Для группировки действий используйте `Table.ActionBar`:
+
+```tsx
+<Table.ActionBar
+  popup/ Используйте для абсолютного позиционирования
+  items={[
+    {
+      icon: <SendPaperplaneIcon20Regular />,
+      text: 'Отправить',
+      onClick: () => console.log('send'),
+    },
+    {
+      icon: <TechPrinterIcon20Regular />,
+      text: 'Напечатать',
+      onClick: () => console.log('print'),
+    },
+    {
+      icon: <TrashCanIcon20Regular />,
+      text: 'Удалить',
+      onClick: () => console.log('delete'),
+    },
+  ]}
+/>
+```

@@ -1,0 +1,9 @@
+__tests__/
+__stories__/
+__docs__/
+yarn.lock
+tsconfig.json
+**/*.tsx
+**/*.ts
+**/*.mdx
+!**/*.d.ts
