@@ -1,6 +1,6 @@
 import React from 'react';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
-import { TokenInput, Token, Gapped } from '@skbkontur/react-ui';
+import { TokenInput, Token, Gapped, MenuHeader, MenuSeparator, MenuFooter } from '@skbkontur/react-ui';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 
 import { LocaleContext } from '../../../lib/locale';
@@ -563,6 +563,35 @@ export const ExampleCustomItems: Story = () => {
   );
 };
 ExampleCustomItems.storyName = 'Кастомный тип элементов списка';
+
+/**
+ * В массиве возвращаемом getItems могут быть реакт-компоненты:
+ * `<MenuHeader>`, `<MenuFooter>`, `<MenuSeparator />` и любые другие.
+ *
+ * В таких случаях поиск неоходимо контролировать дополнительно.
+ * */
+export const ExampleExtendedItems: Story = () => {
+  const [selectedItems, setSelectedItems] = React.useState<string[]>();
+
+  return (
+    <TokenInput
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      getItems={async (q: string) =>
+        [
+          <MenuHeader>MenuHeader</MenuHeader>,
+          'First',
+          'Second',
+          <MenuSeparator />,
+          'Third',
+          'Fourth',
+          <MenuFooter>MenuFooter</MenuFooter>,
+        ].filter((i) => (typeof i === 'string' ? i.toLowerCase().includes(q.toLowerCase()) : q === ''))
+      }
+    />
+  );
+};
+ExampleExtendedItems.storyName = 'Компоненты в меню';
 
 /** Функция `debounce` из lodash некорректно работает с `async/promise`, поэтому лучше использовать кастомную функцию, как в примере ниже. */
 export const ExampleFuncDebounceAsync: Story = () => {

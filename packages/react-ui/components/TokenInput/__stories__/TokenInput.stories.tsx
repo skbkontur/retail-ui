@@ -10,6 +10,9 @@ import { Token } from '../../Token';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
 import { isTestEnv } from '../../../lib/currentEnvironment';
+import { MenuHeader } from '../../MenuHeader';
+import { MenuSeparator } from '../../MenuSeparator';
+import { MenuFooter } from '../../MenuFooter';
 
 async function getItems(query: string) {
   if (!isTestEnv) {
@@ -414,3 +417,19 @@ export const WithItemToId: Story = () => {
 };
 WithItemToId.storyName = 'with item to id';
 WithItemToId.parameters = { creevey: { skip: true } };
+
+export const WithExtendedItem: Story = () => (
+  <TokenInput
+    autoFocus
+    getItems={async () => [
+      <MenuHeader>MenuHeader</MenuHeader>,
+      'First',
+      'Second',
+      <MenuSeparator />,
+      'Third',
+      'Fourth',
+      <MenuFooter>MenuFooter</MenuFooter>,
+    ]}
+  />
+);
+WithExtendedItem.storyName = 'with extended item';

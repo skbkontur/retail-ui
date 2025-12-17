@@ -34,7 +34,7 @@ import { Token } from '../Token';
 import type { MenuItemState } from '../MenuItem';
 import { MenuItem } from '../MenuItem';
 import type { AnyObject } from '../../lib/utils';
-import { emptyHandler, getRandomID } from '../../lib/utils';
+import { isFunction, emptyHandler, getRandomID } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
@@ -120,7 +120,7 @@ export interface TokenInputProps<T>
 
   /** Задаёт функцию поиска значений, которая должна возвращать Promise с массивом значений. По умолчанию ожидаются строки.
    * Элементы могут быть любого типа. В этом случае необходимо определить свойства `renderItem`, `valueToString`. */
-  getItems?: (query: string) => Promise<T[]>;
+  getItems?: (query: string) => Promise<Array<TokenInputExtendedItem<T>>>;
 
   /** Ограничивает отображение выпадающего списка при фокусе на пустом поле: выпадающий список появится, только когда будет введён хотя бы один символ токена. */
   hideMenuIfEmptyInputValue?: boolean;
@@ -196,7 +196,7 @@ export interface TokenInputProps<T>
 }
 
 export interface TokenInputState<T> {
-  autocompleteItems?: T[];
+  autocompleteItems?: Array<TokenInputExtendedItem<T>>;
   activeTokens: T[];
   editingTokenIndex: number;
   clickedToken?: T;
@@ -209,6 +209,8 @@ export interface TokenInputState<T> {
   preventBlur?: boolean;
   loading?: boolean;
 }
+
+export type TokenInputExtendedItem<T> = T | (() => React.ReactElement<T>) | React.ReactElement<T>;
 
 export const DefaultState = {
   inputValue: '',
@@ -594,7 +596,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private get showAddItemHint() {
-    const items = this.state.autocompleteItems;
+    const items = this.state.autocompleteItems?.filter(isSimpleItem);
     const value = this.getProps().valueToItem(this.state.inputValue);
     if (items && this.hasValueInItems(items, value)) {
       return false;
@@ -677,7 +679,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleOutsideBlur = () => {
-    const { inputValue, autocompleteItems } = this.state;
+    const { inputValue, autocompleteItems: allItems } = this.state;
+    const autocompleteItems = allItems?.filter(isSimpleItem);
 
     if (inputValue === '') {
       // если стерли содержимое токена в режиме редактирования, то удаляем токен
@@ -809,13 +812,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         return !!editingItem && this.isEqual(item, editingItem);
       };
 
-      const autocompleteItemsUnique = autocompleteItems.filter((item) => !isSelectedItem(item) || isEditingItem(item));
+      const autocompleteItemsUnique = autocompleteItems.filter((item) =>
+        isSimpleItem(item) ? !isSelectedItem(item) || isEditingItem(item) : true,
+      );
+      const autocompleteItemsUniqueSimple = autocompleteItemsUnique.filter(isSimpleItem);
 
       if (this.isEditingMode) {
         const editingItem = selectedItems[this.state.editingTokenIndex];
         if (
           this.isEqual(editingItem, valueToItem(this.state.inputValue)) &&
-          !this.hasValueInItems(autocompleteItemsUnique, editingItem)
+          !this.hasValueInItems(autocompleteItemsUniqueSimple, editingItem)
         ) {
           autocompleteItemsUnique.unshift(editingItem);
         }
@@ -827,7 +833,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           this.highlightMenuItem();
         });
       }
-      const selectItemIndex = autocompleteItemsUnique.findIndex(
+      const selectItemIndex = autocompleteItemsUniqueSimple.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
       setTimeout(() => this.menuRef?.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex), 0);
@@ -1011,7 +1017,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private selectItem = (item: T) => {
-    const { selectedItems, valueToString } = this.getProps();
+    const { selectedItems: allItems, valueToString } = this.getProps();
+    const selectedItems = allItems.filter(isSimpleItem);
     if (this.isEditingMode) {
       this.dispatch({ type: 'UPDATE_QUERY', payload: valueToString(item) }, this.finishTokenEdit);
     } else if (!this.hasValueInItems(selectedItems, item)) {
@@ -1260,4 +1267,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     return availableIndex;
   };
+}
+
+function isSimpleItem<T>(item: TokenInputExtendedItem<T>): item is T {
+  return !isFunction(item) && !React.isValidElement(item);
 }
