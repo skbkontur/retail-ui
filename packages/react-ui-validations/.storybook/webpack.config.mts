@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 import type { Configuration } from 'webpack';
 
 import { hasTestInRule } from '../../../scripts/webpack-type-guards/index.ts';
@@ -19,6 +21,15 @@ export default async ({ config }: { config: Configuration }) => {
   if (config.module?.rules) {
     config.module.rules = [
       ...filteredStorybooksWebpackRules,
+      {
+        test: /\.(j|t)sx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          babelrc: false,
+          extends: join(__dirname, '../babel.config.js'),
+        },
+      },
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
