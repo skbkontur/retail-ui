@@ -2477,15 +2477,9 @@ export class BasicThemeClass {
     return this.controlPaddingYLarge;
   }
 
-  public static get fileUploaderPaddingXSmall() {
-    return this.inputPaddingXSmall;
-  }
-  public static get fileUploaderPaddingXMedium() {
-    return this.inputPaddingXMedium;
-  }
-  public static get fileUploaderPaddingXLarge() {
-    return this.inputPaddingXLarge;
-  }
+  public static fileUploaderPaddingXSmall = '7px';
+  public static fileUploaderPaddingXMedium = '9px';
+  public static fileUploaderPaddingXLarge = '11px';
 
   public static fileUploaderTilePaddingSmall = '3px';
   public static fileUploaderTilePaddingMedium = '5px';
@@ -2532,7 +2526,9 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   public static fileUploaderBorderRadius = '8px';
-  public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';
+  public static get fileUploaderBorderColor() {
+    return this.borderColorGrayLight;
+  }
   public static get fileUploaderBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -2569,14 +2565,12 @@ export class BasicThemeClass {
   public static fileUploaderDisabledBgClip = 'padding-box';
   public static fileUploaderDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get fileUploaderDisabledTextColor() {
-    return this.textColorDisabled;
+    return this.fileUploaderDisabledColor;
   }
   public static get fileUploaderDisabledLinkColor() {
     return this.textColorDisabled;
   }
-  public static get fileUploaderDisabledIconColor() {
-    return this.textColorDisabled;
-  }
+  public static fileUploaderDisabledIconColor = 'rgba(0, 0, 0, 0.32)';
   public static get fileUploaderErrorColor() {
     return this.closeGrayColor;
   }
@@ -2636,7 +2630,7 @@ export class BasicThemeClass {
   public static fileUploaderFileTypeFolderIconColor = '#FECA42';
   public static fileUploaderFileTypeUnknownIconColor = '#ADADAD';
   public static get fileUploaderDisabledFileTypeIcon() {
-    return this.closeGrayColor;
+    return this.fileUploaderDisabledIconColor;
   }
   public static fileUploaderDisabledColor = 'rgba(0, 0, 0, 0.54)';
 

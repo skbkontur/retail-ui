@@ -257,9 +257,6 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       return css`
         font-size: ${t.fileUploaderFontSizeSmall};
         line-height: ${t.fileUploaderLineHeightSmall};
-        width: ${t.inputIconSizeSmall};
-        bottom: ${t.fileUploaderPaddingYSmall};
-        right: ${t.fileUploaderPaddingXSmall};
       `;
     },
 
@@ -267,9 +264,6 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       return css`
         font-size: ${t.fileUploaderFontSizeMedium};
         line-height: ${t.fileUploaderLineHeightMedium};
-        width: ${t.inputIconSizeMedium};
-        bottom: ${t.fileUploaderPaddingYMedium};
-        right: ${t.fileUploaderPaddingXMedium};
       `;
     },
 
@@ -277,9 +271,6 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
       return css`
         font-size: ${t.fileUploaderFontSizeLarge};
         line-height: ${t.fileUploaderLineHeightLarge};
-        width: ${t.inputIconSizeLarge};
-        bottom: ${t.fileUploaderPaddingYLarge};
-        right: ${t.fileUploaderPaddingXLarge};
       `;
     },
   };
