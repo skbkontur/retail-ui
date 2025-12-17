@@ -5,4 +5,6 @@ export const componentsLocales: FileUploaderLocale = {
   choosedFile: 'Выбран файл',
   orDragHere: 'или перетащите сюда',
   requestErrorText: 'Файл не удалось загрузить на сервер, повторите попытку позже',
+  errors: ['ошибка', 'ошибки', 'ошибок'],
+  warnings: ['предупреждение', 'предупреждения', 'предупреждений'],
 };

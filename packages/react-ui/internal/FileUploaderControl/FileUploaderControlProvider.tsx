@@ -11,6 +11,8 @@ import { useControlLocale } from './hooks/useControlLocale';
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 
 export interface FileUploaderControlProviderProps {
+  /** Начальное состояние загруженных файлов */
+  initialFiles?: File[];
   /** Срабатывает при выборе файлов */
   onAttach?: (files: FileUploaderAttachedFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
@@ -45,7 +47,6 @@ const updateFile = (
 export const FileUploaderControlProvider = (
   props: PropsWithChildren<
     FileUploaderControlProviderProps & {
-      initialFiles?: File[];
       multiple?: boolean;
     }
   >,
@@ -54,7 +55,8 @@ export const FileUploaderControlProvider = (
 
   const [files, setFiles] = useState<FileUploaderAttachedFile[]>(() => {
     if (initialFiles && initialFiles.length > 0) {
-      const attachedFiles = initialFiles.map(getAttachedFile);
+      const attachedFiles = initialFiles.map((item: File) => getAttachedFile(item));
+
       return multiple ? attachedFiles : [attachedFiles[0]];
     }
     return [];
@@ -72,7 +74,7 @@ export const FileUploaderControlProvider = (
         updateFile(files, fileId, (file) => ({
           status,
           validationResult:
-            status === FileUploaderFileStatus.Error
+            status === FileUploaderFileStatus.Error || status === FileUploaderFileStatus.Warning
               ? FileUploaderFileValidationResult.error(locale.requestErrorText)
               : file.validationResult,
         })),
@@ -97,9 +99,12 @@ export const FileUploaderControlProvider = (
     [onRemove],
   );
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
-    setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
-  }, []);
+  const setFileValidationResult = useCallback(
+    (fileId: string, validationResult: FileUploaderFileValidationResult, status?: FileUploaderFileStatus) => {
+      setFiles((files) => updateFile(files, fileId, () => ({ validationResult, status })));
+    },
+    [],
+  );
 
   const reset = React.useCallback(() => {
     setFiles(() => [] as FileUploaderAttachedFile[]);

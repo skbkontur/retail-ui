@@ -3,4 +3,6 @@ export interface FileUploaderLocale {
   choosedFile: string;
   orDragHere: string;
   requestErrorText: string;
+  errors: string[];
+  warnings: string[];
 }

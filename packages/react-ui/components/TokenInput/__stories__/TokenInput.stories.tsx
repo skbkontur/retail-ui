@@ -433,3 +433,25 @@ export const WithExtendedItem: Story = () => (
   />
 );
 WithExtendedItem.storyName = 'with extended item';
+
+export const LotOfTokens: Story = () => {
+  return (
+    <Wrapper
+      onBlur={() => console.log('blur')}
+      maxHeight={200}
+      width={350}
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={Array(30)
+        .fill('')
+        .map(
+          (t, i1) =>
+            i1 +
+            Array(5 + (i1 % 10))
+              .fill('')
+              .map((_, i2) => i2)
+              .join(''),
+        )}
+    />
+  );
+};

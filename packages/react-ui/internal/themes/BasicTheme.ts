@@ -45,6 +45,7 @@ export class BasicThemeClass {
   public static warningMain = '#fcb73e';
   public static warningSecondary = '#fff0bc';
   public static warningText = '#d97e00';
+  public static closeGrayColor = 'rgba(0, 0, 0, 0.32)';
   public static borderColorFocusLight = '#cdedff';
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.16)';
@@ -754,7 +755,9 @@ export class BasicThemeClass {
   public static tooltipCloseBtnPaddingMedium = '6px';
   public static tooltipCloseBtnPaddingLarge = '8px';
   public static tooltipCloseBtnSide = '16px';
-  public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.32)';
+  public static get tooltipCloseBtnColor() {
+    return this.closeGrayColor;
+  }
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static get tooltipTextColor() {
     return this.textColorDefault;
@@ -862,7 +865,9 @@ export class BasicThemeClass {
     return this.bgSecondary;
   }
   public static modalBackOpacity = '0.16';
-  public static modalCloseButtonColor = 'rgba(0, 0, 0, 0.32)';
+  public static get modalCloseButtonColor() {
+    return this.closeGrayColor;
+  }
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static modalCloseButtonPadding = '32px';
@@ -1900,7 +1905,9 @@ export class BasicThemeClass {
   public static inputDisabledBackgroundClip = 'padding-box';
   public static inputBorderColor = 'rgba(0, 0, 0, 0.16)';
 
-  public static inputBorderColorHover = 'rgba(0, 0, 0, 0.32)';
+  public static get inputBorderColorHover() {
+    return this.closeGrayColor;
+  }
   public static get inputBorderColorFocus() {
     return this.borderColorFocus;
   }
@@ -2513,8 +2520,20 @@ export class BasicThemeClass {
   //#endregion
   //#region FileUploader
   public static fileUploaderWidth = '362px';
+  public static fileUploaderTileWidth = 'auto';
   public static fileUploaderBg = '';
   public static fileUploaderUploadButtonBg = '#fff';
+
+  public static get fileUploaderPaddingYSmall() {
+    return this.controlPaddingYSmall;
+  }
+  public static get fileUploaderPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get fileUploaderPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
+
   public static get fileUploaderPaddingXSmall() {
     return this.inputPaddingXSmall;
   }
@@ -2524,6 +2543,29 @@ export class BasicThemeClass {
   public static get fileUploaderPaddingXLarge() {
     return this.inputPaddingXLarge;
   }
+
+  public static fileUploaderTilePaddingSmall = '3px';
+  public static fileUploaderTilePaddingMedium = '5px';
+  public static fileUploaderTilePaddingLarge = '7px';
+
+  public static get fileUploaderTileIconActionPositionSmall() {
+    return `${parseInt(this.fileUploaderTilePaddingSmall) + 1}px`;
+  }
+  public static get fileUploaderTileIconActionPositionMedium() {
+    return `${parseInt(this.fileUploaderTilePaddingMedium) + 1}px`;
+  }
+  public static get fileUploaderTileIconActionPositionLarge() {
+    return `${parseInt(this.fileUploaderTilePaddingLarge) + 1}px`;
+  }
+
+  public static fileUploaderTileFilePaddingSmall = '7px';
+  public static fileUploaderTileFilePaddingMedium = '11px';
+  public static fileUploaderTileFilePaddingLarge = '15px';
+
+  public static fileUploaderTileIconActionPaddingSmall = '8px';
+  public static fileUploaderTileIconActionPaddingMedium = '6px';
+  public static fileUploaderTileIconActionPaddingLarge = '8px';
+
   public static get fileUploaderFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -2542,15 +2584,7 @@ export class BasicThemeClass {
   public static get fileUploaderLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
-  public static get fileUploaderPaddingYSmall() {
-    return this.controlPaddingYSmall;
-  }
-  public static get fileUploaderPaddingYMedium() {
-    return this.controlPaddingYMedium;
-  }
-  public static get fileUploaderPaddingYLarge() {
-    return this.controlPaddingYLarge;
-  }
+
   public static get fileUploaderTextColorDefault() {
     return this.textColorDefault;
   }
@@ -2573,6 +2607,14 @@ export class BasicThemeClass {
   public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#222222';
   public static fileUploaderIconHoverColor = '#333';
+
+  public static fileUploaderTileIconColorBg = 'rgba(0, 0, 0, 0.4)';
+  public static fileUploaderTileIconHoverColorBg = 'rgba(0, 0, 0, 0.48)';
+  public static fileUploaderTileIconActiveColorBg = 'rgba(0, 0, 0, 0.24)';
+
+  public static fileUploaderTileIconColor = '#ffffff';
+  public static fileUploaderTileIconHoverColor = '#ffffff';
+
   public static get fileUploaderBorderColorError() {
     return this.borderColorError;
   }
@@ -2593,8 +2635,26 @@ export class BasicThemeClass {
   public static get fileUploaderDisabledIconColor() {
     return this.textColorDisabled;
   }
+  public static get fileUploaderErrorColor() {
+    return this.closeGrayColor;
+  }
+
+  public static fileUploaderErrorBgColor = '#FFECEF';
+  public static fileUploaderErrorBgHoverColor = '#FFDADD';
+  public static get fileUploaderErrorTextColor() {
+    return this.redDark;
+  }
+
+  public static fileUploaderWarningBgColor = '#FFF1CA';
+  public static fileUploaderWarningBgHoverColor = '#FAE2AB';
+  public static get fileUploaderWarningTextColor() {
+    return this.yellowDark;
+  }
+
+  public static fileUploaderValidationTextColor = 'rgba(0, 0, 0, 0.87)';
   public static fileUploaderLinkHoverTextDecoration = 'none';
   public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.06)';
+  public static fileUploaderActiveBg = 'rgba(0, 0, 0, 0.1)';
   public static fileUploaderHoveredBorderColor = 'transparent';
   public static fileUploaderIconGapSmall = '4px';
   public static fileUploaderIconGapMedium = '6px';
@@ -2605,6 +2665,79 @@ export class BasicThemeClass {
   }
   public static fileUploaderDragOverShadow =
     '0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2)';
+
+  public static get fileUploaderIconSizeSmall() {
+    return this.btnIconSizeSmall;
+  }
+  public static get fileUploaderIconSizeMedium() {
+    return this.btnIconSizeMedium;
+  }
+  public static get fileUploaderIconSizeLarge() {
+    return this.btnIconSizeLarge;
+  }
+
+  public static get fileUploaderFileTypeErrorIconColor() {
+    return this.red;
+  }
+  public static get fileUploaderFileTypeWarningIconColor() {
+    return this.yellow;
+  }
+  public static get fileUploaderFileTypePdfIconColor() {
+    return this.red;
+  }
+  public static fileUploaderFileTypeCodeIconColor = '#B750D1';
+  public static fileUploaderFileTypePictureIconColor = '#51ADFF';
+  public static fileUploaderFileTypePresentationIconColor = '#FC7630';
+  public static fileUploaderFileTypeTableIconColor = '#26AD50';
+  public static fileUploaderFileTypeTextIconColor = '#2291FF';
+  public static fileUploaderFileTypeArchiveIconColor = '#D46421';
+  public static fileUploaderFileTypeFolderIconColor = '#FECA42';
+  public static fileUploaderFileTypeUnknownIconColor = '#ADADAD';
+  public static get fileUploaderDisabledFileTypeIcon() {
+    return this.closeGrayColor;
+  }
+  public static fileUploaderDisabledColor = 'rgba(0, 0, 0, 0.54)';
+
+  public static fileUploaderFileHeightSmall = '32px';
+  public static fileUploaderFileHeightMedium = '40px';
+  public static fileUploaderFileHeightLarge = '48px';
+
+  public static fileUploaderTileWidthSmall = '104px';
+  public static fileUploaderTileWidthMedium = '120px';
+  public static fileUploaderTileWidthLarge = '144px';
+
+  public static fileUploaderTileMinHeightSmall = '132px';
+  public static fileUploaderTileMinHeightMedium = '150px';
+  public static fileUploaderTileMinHeightLarge = '184px';
+
+  public static fileUploaderTileHeightSmall = '180px';
+  public static fileUploaderTileHeightMedium = '206px';
+  public static fileUploaderTileHeightLarge = '248px';
+
+  public static fileUploaderFileSizeWidthSmall = '80px';
+  public static fileUploaderFileSizeWidthMedium = '88px';
+  public static fileUploaderFileSizeWidthLarge = '104px';
+
+  public static fileUploaderFileSizeMarginLeft = '28px';
+  public static fileUploaderFileSizeMarginSmall = '32px';
+  public static fileUploaderFileSizeMarginMedium = '34px';
+  public static fileUploaderFileSizeMarginLarge = '36px';
+
+  public static fileUploaderFileIconSizeSmall = '24px';
+  public static fileUploaderFileIconSizeMedium = '32px';
+  public static fileUploaderFileIconSizeLarge = '40px';
+
+  public static fileUploaderTileIconSizeSmall = '20px';
+  public static fileUploaderTileIconSizeMedium = '24px';
+  public static fileUploaderTileIconSizeLarge = '32px';
+
+  public static fileUploaderTileTypeIconHeightSmall = '116px';
+  public static fileUploaderTileTypeIconHeightMedium = '126px';
+  public static fileUploaderTileTypeIconHeightLarge = '152px';
+
+  public static fileUploaderListGap = '8px';
+  public static fileUploaderListSummaryTextGap = '12px';
+
   //#endregion FileUploader
 
   //#region ClearCrossIcon
@@ -2661,7 +2794,9 @@ export class BasicThemeClass {
   //#endregion ClearCrossIcon
 
   //#region CloseIcon
-  public static closeBtnIconColor = 'rgba(0, 0, 0, 0.32)';
+  public static get closeBtnIconColor() {
+    return this.closeGrayColor;
+  }
   public static closeBtnIconDisabledColor = '#8b8b8b';
   public static closeBtnIconHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static closeBtnIconBorderRadius = '4px';

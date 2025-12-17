@@ -23,3 +23,36 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Локали по умолчанию (см. [LocaleContext](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-locale--localecontext))
+
+Любой текст в контроле можно поменять через `LocaleContext`.
+
+```typescript static
+interface FileUploaderLocale {
+  chooseFile: string;
+  choosedFile: string;
+  orDragHere: string;
+  requestErrorText: string;
+  errors: string[];
+  warnings: string[];
+}
+
+const ru_RU = {
+  chooseFile: 'Выберите файл',
+  choosedFile: 'Выбран файл',
+  orDragHere: 'или перетащите сюда',
+  requestErrorText: 'Файл не удалось загрузить на сервер, повторите попытку позже',
+  errors: ['ошибка', 'ошибки', 'ошибок'],
+  warnings: ['предупреждение', 'предупреждения', 'предупреждений'],
+};
+
+const en_GB = {
+  chooseFile: 'Select a file',
+  choosedFile: 'File selected',
+  orDragHere: 'or drag here',
+  requestErrorText: 'The file could not be uploaded to the server, please try again later',
+  errors: ['error', 'errors', 'errors'],
+  warnings: ['warning', 'warnings', 'warnings'],
+};
+```
