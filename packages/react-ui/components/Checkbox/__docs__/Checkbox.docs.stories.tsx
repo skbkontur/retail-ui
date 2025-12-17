@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Gapped, Button } from '@skbkontur/react-ui';
+import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -68,8 +68,8 @@ export const Example4: Story = () => {
   return (
     <Gapped vertical>
       <Checkbox
-        ref={(el: any) => {
-          checkboxInstance = el;
+        ref={(el) => {
+          checkboxInstance.current = el;
         }}
         checked={checked}
         onValueChange={setChecked}
@@ -110,8 +110,8 @@ export const Example5: Story = () => {
         initialIndeterminate
         checked={checked}
         onValueChange={setChecked}
-        ref={(el: any) => {
-          checkboxInstance = el;
+        ref={(el) => {
+          checkboxInstance.current = el;
         }}
       >
         Неопределённый чекбокс
@@ -147,8 +147,8 @@ export const Example6: Story = () => {
     <>
       <Checkbox
         checked={checkedSiblings.length === siblingCheckboxes.length}
-        ref={(el: any) => {
-          parentCheckboxRef = el;
+        ref={(el) => {
+          parentCheckboxRef.current = el;
         }}
         onValueChange={() => {
           if (checkedSiblings.length === siblingCheckboxes.length) {

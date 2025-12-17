@@ -50,7 +50,7 @@ export interface DropdownProps
   caption: React.ReactNode;
 
   /** Добавляет иконку слева от текста кнопки. */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /** Задает ширину выпадающего меню. */
   width?: React.CSSProperties['width'];

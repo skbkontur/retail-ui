@@ -15,6 +15,7 @@ import type { DropdownMenuProps } from '../components/DropdownMenu';
 import type { ButtonProps } from '../components/Button';
 import type { TooltipProps } from '../components/Tooltip';
 import type { HintProps } from '../components/Hint';
+import type { IconProps } from '../internal/icons2022/BaseIcon';
 
 export { delay } from './delay';
 
@@ -227,9 +228,9 @@ export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMen
 export const isHint = isReactUIComponent<HintProps>('Hint');
 export const isTooltip = isReactUIComponent<TooltipProps>('Tooltip');
 
-export const isKonturIcon = (icon: React.ReactElement<unknown>) => {
+export function isKonturIcon(icon: React.ReactElement<unknown>): icon is React.ReactElement<IconProps> {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
-};
+}
 
 export function clickOutside(eventType: 'touchstart' | 'mousedown' | 'pointerup' = 'mousedown') {
   const event = document.createEvent('HTMLEvents');

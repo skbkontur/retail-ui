@@ -1,4 +1,3 @@
-import type { ReactElement } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 
@@ -7,7 +6,6 @@ import { isKonturIcon } from '../../../lib/utils';
 import type { InputProps } from '../Input';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { SizeProp } from '../../../lib/types/props';
-import { hasIconProps } from '../../../lib/types/props';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { getStylesLayout } from './InputLayout.styles';
@@ -36,8 +34,8 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
 
   let _icon = icon instanceof Function ? icon() : icon;
   if (isElement(icon) && isKonturIcon(icon)) {
-    _icon = React.cloneElement(icon as ReactElement<{ size: number }>, {
-      size: hasIconProps(icon) ? (icon.props.size as number) : sizes[size],
+    _icon = React.cloneElement(icon, {
+      size: (icon.props.size as number) ?? sizes[size],
     });
   }
 

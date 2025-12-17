@@ -38,11 +38,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "resolutions": {
-    "react": "19.2.1",
-    "react-dom": "19.2.1",
-    "@types/react": "19.2.7",
-    "@types/react-dom": "19.2.3"
   }
 }

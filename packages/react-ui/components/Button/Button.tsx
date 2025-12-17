@@ -22,7 +22,7 @@ import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-com
 import { withSize } from '../../lib/size/SizeDecorator';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { getStyles, getActiveStyles, globalClasses } from './Button.styles';
+import { getActiveStyles, getStyles, globalClasses } from './Button.styles';
 import type { ButtonIconProps } from './ButtonIcon';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';
@@ -80,10 +80,10 @@ export interface ButtonInnerProps extends CommonProps {
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /** Добавляет иконку справа от текста кнопки. */
-  rightIcon?: React.ReactElement<any>;
+  rightIcon?: React.ReactElement;
 
   /** Переводит кнопку в состояние загрузки. */
   loading?: boolean;
@@ -441,7 +441,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     );
   };
 
-  private renderIcon2022(icon: React.ReactElement<any> | undefined) {
+  private renderIcon2022(icon: React.ReactElement | undefined) {
     if (icon && isKonturIcon(icon)) {
       const sizes = getButtonIconSizes(this.theme);
       return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.size] });
