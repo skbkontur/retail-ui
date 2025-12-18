@@ -254,6 +254,30 @@ describe('DateRangePicker', () => {
     expect(onFocus).toHaveBeenCalled();
   });
 
+  it('handle onClick event by input-start click', async () => {
+    const onClick = vi.fn();
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start onClick={onClick} />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
+    expect(onClick).toHaveBeenCalled();
+  });
+
+  it('handle onClick event by input-end click', async () => {
+    const onClick = vi.fn();
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End onClick={onClick} />
+      </DateRangePicker>,
+    );
+    await userEvent.click(screen.getByTestId(DateRangePickerDataTids.end));
+    expect(onClick).toHaveBeenCalled();
+  });
+
   it('navigation from Tab open calendar', async () => {
     const onFocusStart = vi.fn();
     const onFocusEnd = vi.fn();
@@ -290,42 +314,6 @@ describe('DateRangePicker', () => {
     await userEvent.click(screen.getByTestId('TimeSelect'));
     expect(screen.queryByTestId(CalendarDataTids.root)).not.toBeInTheDocument();
   });
-
-  // describe('call focus with param withoutOpenDropdown=true', () => {
-  //   beforeEach(() => {
-  //     const DateRangePickerRef = React.createRef<DateRangePicker>();
-  //     render(
-  //       <>
-  //         <DateRangePicker value="02.07.2017" ref={DateRangePickerRef} />
-  //       </>,
-  //     );
-  //     DateRangePickerRef.current?.focus({ withoutOpenDropdown: true });
-  //   });
-
-  //   it('do not open Calendar', async () => {
-  //     expect(screen.queryByTestId(DateRangePickerDataTids.root)).not.toBeInTheDocument();
-  //   });
-
-  //   it('click on input should open Calendar', async () => {
-  //     await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
-  //     expect(screen.queryByTestId(DateRangePickerDataTids.root)).toBeInTheDocument();
-  //   });
-
-  //   it('arrow down should open Calendar', async () => {
-  //     await userEvent.keyboard('{arrowdown}');
-  //     expect(screen.queryByTestId(DateRangePickerDataTids.root)).toBeInTheDocument();
-  //   });
-
-  //   it('arrow up should open Calendar', async () => {
-  //     await userEvent.keyboard('{arrowup}');
-  //     expect(screen.queryByTestId(DateRangePickerDataTids.root)).toBeInTheDocument();
-  //   });
-
-  //   it('edit value should open Calendar', async () => {
-  //     await userEvent.keyboard('01');
-  //     expect(screen.queryByTestId(DateRangePickerDataTids.root)).toBeInTheDocument();
-  //   });
-  // });
 
   it('renders day cells with renderDay prop', async () => {
     const CustomDayItem: React.FC<CalendarDayProps> = (props) => {
