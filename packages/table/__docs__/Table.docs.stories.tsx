@@ -163,22 +163,10 @@ export const CheckeredExampleStory = () => {
                     />
                     <Table.Cell>{row.client}</Table.Cell>
                     <Table.Cell>
-                      11{row.region}
-                      <br />
-                      {row.region}12312
+                      {row.region}
                     </Table.Cell>
                     <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                     <Table.Cell>
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
-                      {row.responsible.name}
                       {row.responsible.name}
                       <Table.ActionBar
                         popup
@@ -1324,23 +1312,11 @@ export const SizeExampleStory = () => {
                             ></Table.CheckboxCell>
                             <Table.Cell>{row.client}</Table.Cell>
                             <Table.Cell>
-                              11{row.region}
-                              <br />
-                              {row.region}12312
+                              {row.region}
                             </Table.Cell>
                             <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                             <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                             <Table.Cell>
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
-                              {row.responsible.name}
                               {row.responsible.name}
                               <Table.ActionBar
                                 popup

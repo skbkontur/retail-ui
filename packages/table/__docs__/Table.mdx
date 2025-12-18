@@ -11,9 +11,9 @@ import { Header } from '../../../.storybook-docs/Header';
   figma="https://www.figma.com/design/LNCW4RmCxXYpYrN2nXLWot/Гайды?node-id=1900-20237&t=rep2sxAq6UY05wAU-11"
 />
 
-## Пакет с компонентами для вёрстки таблиц
+Пакет с компонентами для вёрстки таблиц
 
-Возможности
+**Возможности**
 
 - Компоненты &lt;Table.\* /&gt; с частями HTML-таблиц
 - Фильтры и сортировки
@@ -41,7 +41,7 @@ const container = { maxWidth: 420, width: '100%', overflowX: 'auto' };
 </div>;
 ```
 
-# Наполненая таблица
+# Пример таблицы
 
 <Story of={Table.CheckeredExampleStory} />
 
@@ -49,10 +49,10 @@ const container = { maxWidth: 420, width: '100%', overflowX: 'auto' };
 
 <Story of={Table.AwsomeExample} />
 
-# Table Layout AUTO
+# table-layout: auto
 
-[table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/table-layout) =
-auto позволяют автоматически высчитывать ширин колонок, полезен, но при разных данных и фильтрациях таблица может "прыгать"
+CSS свойство [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/table-layout) со значением
+auto позволяет автоматически высчитывать ширин колонок. Полезен, но при разных данных и фильтрациях таблица может "прыгать"
 
 <Story of={Table.AwsomeExampleAutoResizing} />
 
@@ -64,7 +64,7 @@ auto позволяют автоматически высчитывать шир
 
 <Story of={Table.BasicTableExample} />
 
-# Липкий футер и заголовок
+# Залипающий заголовок и подвал
 
 <Story of={Table.StickyHeaderFooterExample} />
 
@@ -84,7 +84,7 @@ auto позволяют автоматически высчитывать шир
 
 <Story of={Table.EmptyErrorStateExample} />
 
-# Подвал (Footer) с итоговой строкой
+# Подвал с итоговой строкой
 
 Пример таблицы с иконками в строках и итоговой строкой в футере. Используйте `Table.Footer` для создания итоговой строки:
 
@@ -104,7 +104,7 @@ auto позволяют автоматически высчитывать шир
 
 <Story of={Table.FooterExample} />
 
-# Группировка заголовков (colSpan/rowSpan)
+# Группировка заголовков colSpan и rowSpan
 
 Пример таблицы с многоуровневыми заголовками. Используйте `colSpan` для объединения ячеек по горизонтали и `rowSpan` для объединения по вертикали:
 
@@ -151,7 +151,7 @@ const getIcon = (Icon16, Icon20, Icon24) => {
 };
 ```
 
-Можно просто передать size в иконки посмотреть и скопировать можно [тут](https://guides.kontur.ru/re/sources/icons/#bag-briefcase)
+Можно передать проп `size`, полный список находится [в Контур.Гайдах](https://guides.kontur.ru/re/sources/icons/#bag-briefcase)
 
 ```tsx
 <CdnIcon icon="bag-briefcase" size={24} weight="regular" />
