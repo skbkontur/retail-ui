@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.0...@skbkontur/react-ui@5.5.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* **Checkbox:** add paddingX variable ([8fcdd01](https://github.com/skbkontur/retail-ui/commit/8fcdd0174c3b93d596ac92254ee48ffd32740dbc))
+* **DateRangePicker:** add onClick to DateRangePickerInput ([7022e3a](https://github.com/skbkontur/retail-ui/commit/7022e3a7ef65fa0ad990e1aad1b953d14ae5993c))
+* **DateRangePicker:** add types `useRef<DateRangePicker>`, show api in docs ([27dc117](https://github.com/skbkontur/retail-ui/commit/27dc11713b73e59d8e61f85ad3b3140754963ed6))
+* **FileUploader:** rename `useRef<FileUploaderRef>` → `useRef<FileUploader>` ([5c673d9](https://github.com/skbkontur/retail-ui/commit/5c673d9f8cc7af719633e9e3c9673207c70340ee))
+
+
+
+
+
 # [5.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.6...@skbkontur/react-ui@5.5.0) (2025-12-17)
 
 
