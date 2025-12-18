@@ -1973,6 +1973,11 @@ export class BasicThemeClass {
     const lineHeight = parseInt(this.checkboxLineHeightLarge, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
+
+  public static checkboxPaddingXSmall = '0';
+  public static checkboxPaddingXMedium = '0';
+  public static checkboxPaddingXLarge = '0';
+
   public static checkboxBoxOffsetY = '1px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
