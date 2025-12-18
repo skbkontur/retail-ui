@@ -14,6 +14,7 @@ import { DateInput } from '../DateInput';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison';
 import type { DatePickerProps } from '../DatePicker';
 import { ZIndex } from '../../internal/ZIndex';
+import type { InstanceWithRootNode } from '../../lib/rootNode';
 import { getRootNode } from '../../lib/rootNode';
 import { getMenuPositions } from '../../lib/getMenuPositions';
 import { Button } from '../Button';
@@ -83,6 +84,14 @@ export interface DateRangePickerProps
   children: React.ReactNode;
 }
 
+export interface DateRangePickerRef extends InstanceWithRootNode {
+  open: (inputType?: DateRangePickerInputType) => void;
+  close: () => void;
+  scrollToMonth: (month: number, year: number) => void;
+}
+
+export type DateRangePicker = DateRangePickerRef;
+
 export const DateRangePicker = Object.assign(
   {
     Start: DateRangePickerStart,
@@ -90,7 +99,7 @@ export const DateRangePicker = Object.assign(
     Separator: DateRangePickerSeparator,
     validate: validateDateRangePicker,
   },
-  forwardRefAndName('DateRangePicker', (props: DateRangePickerProps, ref) => {
+  forwardRefAndName<DateRangePickerRef, DateRangePickerProps>('DateRangePicker', (props: DateRangePickerProps, ref) => {
     const { isMobile } = useResponsiveLayout();
     const locale = useLocaleForControl('DateRangePicker', DateRangePickerLocaleHelper);
 
@@ -173,7 +182,9 @@ export const DateRangePicker = Object.assign(
       () => ({
         open,
         close,
-        scrollToMonth: calendarRef.current?.scrollToMonth,
+        scrollToMonth: (month, year) => {
+          calendarRef.current?.scrollToMonth?.(month, year);
+        },
         getRootNode: () => dateRangePickerRef.current,
       }),
       [],
