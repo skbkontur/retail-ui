@@ -162,9 +162,7 @@ export const CheckeredExampleStory = () => {
                       aria-label={`Выбрать строку ${row.client}`}
                     />
                     <Table.Cell>{row.client}</Table.Cell>
-                    <Table.Cell>
-                      {row.region}
-                    </Table.Cell>
+                    <Table.Cell>{row.region}</Table.Cell>
                     <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                     <Table.Cell>
                       {row.responsible.name}
@@ -1311,9 +1309,7 @@ export const SizeExampleStory = () => {
                               aria-label={`Выбрать строку ${row.client}`}
                             ></Table.CheckboxCell>
                             <Table.Cell>{row.client}</Table.Cell>
-                            <Table.Cell>
-                              {row.region}
-                            </Table.Cell>
+                            <Table.Cell>{row.region}</Table.Cell>
                             <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                             <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                             <Table.Cell>
