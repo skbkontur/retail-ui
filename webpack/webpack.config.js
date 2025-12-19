@@ -32,7 +32,21 @@ export default {
         ],
       },
       {
+        test: /\.module\.css$/i,
+        use: [
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                namedExport: false,
+              },
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/i,
+        exclude: /\.module\.css$/i,
         use: ["style-loader", "css-loader"],
       },
       {

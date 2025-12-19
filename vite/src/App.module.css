@@ -4,6 +4,10 @@
   height: 100vh;
 }
 
+.sideMenu {
+  height: 100%;
+}
+
 .container {
   overflow-y: auto;
   display: flex;
