@@ -1,10 +1,11 @@
 import type { ReactElement } from 'react';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { getRootNode } from '@skbkontur/react-ui/lib/rootNode/getRootNode';
 
 import { isNonNullable } from '../src/utils/isNonNullable';
 
-export { Tooltip, ThemeContext };
+export { Tooltip, ThemeContext, getRootNode };
 
 export class ReactUiDetection {
   public static checkType(element: any, type: string) {

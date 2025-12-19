@@ -67,13 +67,7 @@ export const Example4: Story = () => {
 
   return (
     <Gapped vertical>
-      <Checkbox
-        ref={(el) => {
-          checkboxInstance.current = el;
-        }}
-        checked={checked}
-        onValueChange={setChecked}
-      >
+      <Checkbox ref={checkboxInstance} checked={checked} onValueChange={setChecked}>
         Пример чекбокса с программным фокусом
       </Checkbox>
       <Gapped gap={12}>
@@ -147,9 +141,7 @@ export const Example6: Story = () => {
     <>
       <Checkbox
         checked={checkedSiblings.length === siblingCheckboxes.length}
-        ref={(el) => {
-          parentCheckboxRef.current = el;
-        }}
+        ref={parentCheckboxRef}
         onValueChange={() => {
           if (checkedSiblings.length === siblingCheckboxes.length) {
             setCheckedSiblings(() => []);

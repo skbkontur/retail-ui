@@ -71,7 +71,7 @@ export interface CalendarProps extends CommonProps {
    * @default (props: CalendarDayProps) => <CalendarDay {...props} />
    * @param {CalendarDayProps} props - параметры дня.
    * @returns {ReactElement} элемент, который отрисовывает контент числа месяца. */
-  renderDay?: (props: CalendarDayProps) => React.ReactElement<any>;
+  renderDay?: (props: CalendarDayProps) => React.ReactElement<unknown>;
 
   /** Задает функцию, которая вызывается при каждом изменении месяца.
    * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
