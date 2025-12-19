@@ -1,16 +1,5 @@
 import React from 'react';
-import type { MobileModalAppearance } from '@skbkontur/react-ui';
-import {
-  Modal,
-  Button,
-  Toggle,
-  Gapped,
-  Checkbox,
-  ResponsiveLayout,
-  RadioGroup,
-  ThemeContext,
-  ThemeFactory,
-} from '@skbkontur/react-ui';
+import { Modal, Button, Toggle, Gapped } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
 
@@ -20,23 +9,18 @@ export default {
   parameters: { creevey: { skip: true } },
 };
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   const [opened, setOpened] = React.useState(false);
-  const [panel, setPanel] = React.useState(false);
 
   function renderModal() {
     return (
       <Modal onClose={close}>
-        <Modal.Header>Title</Modal.Header>
+        <Modal.Header>Заголовок</Modal.Header>
         <Modal.Body>
-          <p>Use rxjs operators with react hooks</p>
-
-          <div>
-            <Toggle checked={panel} onValueChange={setPanel} /> Panel {panel ? 'enabled' : 'disabled'}
-          </div>
+          <p>Контент-зона модального окна</p>
         </Modal.Body>
-        <Modal.Footer panel={panel}>
-          <Button onClick={close}>Close</Button>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -53,30 +37,275 @@ export const Example1: Story = () => {
   return (
     <div>
       {opened && renderModal()}
-      <Button onClick={open}>Открыть</Button>
+      <Button onClick={open}>Открыть модальное окно</Button>
     </div>
   );
 };
-Example1.storyName = 'Базовый пример';
 
-/** `alignTop` —  выравнивание модалки в верхней части страницы */
-export const Example2: Story = () => {
+/** Проп `width` задаёт ширину модального окна. */
+export const ExampleWidth: Story = () => {
   const [opened, setOpened] = React.useState(false);
-  const [panel, setPanel] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal width={'400px'} onClose={close}>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleWidth.storyName = 'Ширина';
+
+/** Проп `panel` для [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs) визуально отделяет футер от остальной части модального окна с помощью разделителя. */
+export const ExamplePanel: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+  const [panel, setPanel] = React.useState(true);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close}>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+
+          <div>
+            <Toggle checked={panel} onValueChange={setPanel} /> "panel" {panel ? 'enabled' : 'disabled'}
+          </div>
+        </Modal.Body>
+        <Modal.Footer panel={panel}>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExamplePanel.storyName = 'Разделитель перед футером';
+
+/** Проп `sticky` для [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs) закрепляет заголовок вверху модального окна. */
+export const ExampleStickyHeader: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+  const [sticky, setSticky] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close}>
+        <Modal.Header sticky={sticky}>Заголовок</Modal.Header>
+        <Modal.Body>
+          <Gapped vertical>
+            <div>
+              <Toggle checked={sticky} onValueChange={setSticky} /> "sticky" {sticky ? 'true' : 'false'}
+            </div>
+            <div
+              style={{
+                width: 300,
+                height: 1700,
+                backgroundColor: '#eee',
+                background: 'repeating-linear-gradient(-45deg, #ccc, #ccc 25px, #eee 25px, #eee 225px)',
+              }}
+            />
+          </Gapped>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleStickyHeader.storyName = 'Закрепление заголовка';
+
+/** Проп `cutTitleOnStuck` для [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs) обрезает часть длинного заголовка, если включен проп закрепления — `sticky`  */
+export const ExampleCutHeader: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close} width={'400px'}>
+        <Modal.Header sticky cutTitleOnStuck>
+          Очень длинный заголовок в несколько строк
+        </Modal.Header>
+        <Modal.Body>
+          <Gapped vertical>
+            <div
+              style={{
+                width: 300,
+                height: 1700,
+                backgroundColor: '#eee',
+                background: 'repeating-linear-gradient(-45deg, #ccc, #ccc 25px, #eee 25px, #eee 225px)',
+              }}
+            />
+          </Gapped>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleCutHeader.storyName = 'Транкейт заголовка при закреплении через sticky';
+
+/** Проп `sticky` для [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs) закрепляет футер снизу модального окна. На десктопе — `true`, на мобильных — `false`. */
+export const ExampleStickyFooter: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close}>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <Gapped vertical>
+            <div
+              style={{
+                width: 300,
+                height: 1700,
+                backgroundColor: '#eee',
+                background: 'repeating-linear-gradient(-45deg, #ccc, #ccc 25px, #eee 25px, #eee 225px)',
+              }}
+            />
+          </Gapped>
+        </Modal.Body>
+        <Modal.Footer sticky>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleStickyFooter.storyName = 'Закрепление футера';
+
+/** Проп `gap` задаёт расстояние между элементами футера в пикселях. */
+export const ExampleGap: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close}>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+        </Modal.Body>
+        <Modal.Footer gap={15}>
+          <Button use="primary" onClick={close}>
+            Отправить
+          </Button>
+          <Button onClick={close}>Отменить</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleGap.storyName = 'Расстояние между элементами в футере';
+
+/** Проп `alignTop` перемещает модальное окно в верхнюю часть страницы. */
+export const ExampleAlignTop: Story = () => {
+  const [opened, setOpened] = React.useState(false);
 
   function renderModal() {
     return (
       <Modal alignTop onClose={close}>
-        <Modal.Header>Title</Modal.Header>
+        <Modal.Header>Заголовок</Modal.Header>
         <Modal.Body>
-          <p>Use rxjs operators with react hooks</p>
-
-          <div>
-            <Toggle checked={panel} onValueChange={setPanel} /> Panel {panel ? 'enabled' : 'disabled'}
-          </div>
+          <p>Контент-зона модального окна</p>
         </Modal.Body>
-        <Modal.Footer panel={panel}>
-          <Button onClick={close}>Открыть наверху</Button>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -93,111 +322,148 @@ export const Example2: Story = () => {
   return (
     <div>
       {opened && renderModal()}
-      <Button onClick={open}>Открыть наверху</Button>
+      <Button onClick={open}>Открыть модальное окно</Button>
     </div>
   );
 };
-Example2.storyName = 'Модалка наверху страницы';
+ExampleAlignTop.storyName = 'Расположение в верхней части страницы';
 
-/** По умолчанию мобильная версия доступна на экранах меньше 576 px по ширине */
-export const Example3: Story = () => {
+/** Cобытие `onClose` задаёт функцию, которая вызывается, когда пользователь запросил закрытие окна — нажал на фон, Escape или крестик. */
+export const ExampleOnClose: Story = () => {
   const [opened, setOpened] = React.useState(false);
-  const [position, setPosition] = React.useState<MobileModalAppearance | undefined>('auto');
-  const [hasHeader, setHasHeader] = React.useState(false);
-  const [stickyHeader, setStickyHeader] = React.useState(false);
-  const header = <Modal.Header sticky={stickyHeader}>Title</Modal.Header>;
-  const [hasFooter, setHasFooter] = React.useState(false);
-  const [stickyFooter, setStickyFooter] = React.useState(false);
-  const [showSecondButton, setShowSecondButton] = React.useState(false);
-  const footer = (
-    <ResponsiveLayout>
-      {({ isMobile }) => {
-        return (
-          <Modal.Footer sticky={stickyFooter}>
-            <Button
-              style={isMobile ? { width: '100%' } : undefined}
-              onClick={() => setShowSecondButton(!showSecondButton)}
-            >
-              show/hide second button
-            </Button>
-            {showSecondButton && <Button style={isMobile ? { width: '100%' } : undefined}>i'm second button</Button>}
-          </Modal.Footer>
-        );
-      }}
-    </ResponsiveLayout>
-  );
-
-  const [isLongContent, setIsLongContent] = React.useState(false);
-  const body = isLongContent ? (
-    <Modal.Body>
-      <div>
-        * Навигация – используйте верхнее меню для быстрого перехода к основным разделам.
-        <br />
-        * Фильтрация и поиск – применяйте фильтры и строку поиска, чтобы быстрее находить нужные данные. <br />
-        * Настройки – персонализируйте интерфейс под свои нужды, изменяя темы, уведомления и другие параметры. <br />
-        ❓ Часто задаваемые вопросы: <br />
-        🔹 Как сохранить изменения? – После внесения правок нажмите кнопку «Сохранить». Все данные обновятся
-        автоматически. <br />
-        🔹 Можно ли отменить действие? – Да! Используйте кнопку «Отмена» или сочетание клавиш Ctrl + Z (для ПК). <br />
-        🔗 Дополнительные ресурсы: Если у вас возникли вопросы или сложности, вы можете: <br />
-        * Ознакомиться с подробной документацией (доступна в разделе «Помощь»). <br />
-        * Обратиться в техническую поддержку через чат или по email. <br />* Посетить форум сообщества, где пользователи
-        делятся советами и решениями. Спасибо, что пользуетесь нашим сервисом! 🚀
-        <div style={{ height: '700px', backgroundColor: 'aquamarine' }}></div>
-      </div>
-    </Modal.Body>
-  ) : (
-    <Modal.Body>
-      Текст сообщения в лайтбоксе, достаточно длинный, чтобы занять несколько строк. Если в лайтбоксе только это
-      сообщение и нет других контролов, то лайтбокс не нуждается в терминальной плашке и может даже не содержать кнопок.
-    </Modal.Body>
-  );
 
   function renderModal() {
     return (
-      <ThemeContext.Provider
-        value={ThemeFactory.create({
-          mobileMediaQuery: '(max-width: 576px)',
-        })}
-      >
-        <Modal mobileAppearance={position} onClose={() => setOpened(false)}>
-          {hasHeader && header}
-          {body}
-          {hasFooter && footer}
-        </Modal>
-      </ThemeContext.Provider>
+      <Modal onClose={close}>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
   return (
-    <Gapped gap={16} vertical>
+    <div>
       {opened && renderModal()}
-      <div>
-        <b>Отображение mobileAppearance</b>
-        <br />
-        <br />
-        <RadioGroup
-          items={['auto', 'top', 'center', 'bottom', 'fullscreen-spacing', 'fullscreen']}
-          onValueChange={setPosition}
-        />
-      </div>
-      <div>
-        <b>Настройки</b>
-        <br />
-        <br />
-        <Gapped vertical gap={0}>
-          <Checkbox checked={hasHeader} onValueChange={setHasHeader} children={'Шапка'} />
-          <Checkbox checked={hasFooter} onValueChange={setHasFooter} children={'Подвал'} />
-          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader} children={'Залипаюшая шапка'} />
-          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter} children={'Залипающий подвал'} />
-          <Checkbox
-            checked={isLongContent}
-            onValueChange={setIsLongContent}
-            children={'Длинный текст для появления скролла'}
-          />
-        </Gapped>
-      </div>
-      <Button onClick={() => setOpened(true)}>Открыть</Button>
-    </Gapped>
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
   );
 };
-Example3.storyName = 'Мобильная версия модалки';
+ExampleOnClose.storyName = 'Закрытие модального окна';
+
+/** Отключает событие `onClose` и блокирует кнопку закрытия модального окна. */
+export const ExampleDisableClose: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close} disableClose>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleDisableClose.storyName = 'Блокировка крестика и отключение события onClose';
+
+/** Проп `ignoreBackgroundClick` оставляет модальное окно открытым, когда пользователь кликнул на фон. */
+export const ExampleIgnoreBackgroundClick: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close} ignoreBackgroundClick>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleIgnoreBackgroundClick.storyName = 'Блокировка закрытия при клике вне модального окна';
+
+/** Проп `noClose` скрывает крестик закрытия. */
+export const ExampleNoClose: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close} noClose>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExampleNoClose.storyName = 'Скрытие крестика закрытия';
