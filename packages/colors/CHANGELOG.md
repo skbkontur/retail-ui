@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.1.1...@skbkontur/colors@2.0.0) (2025-12-22)
+
+
+### Features
+
+* **Colors:** add new semantic tokens with color shemes & dark themes (v2) ([6214338](https://git.skbkontur.ru/ui/ui-parking-2/commits/62143381754449459234e0508e5fd414f9d90f07))
+
+- Color Schemes: Includes specific palettes for every brand color.
+- Semantic Tokens: Built using a semantic logic for easier naming and use.
+- Dark Mode: Full support for dark themes.
+- Accessibility: Color contrast follows APCA W3 standards.
+- Figma Sync: Completely synchronized with Figma Variables.
+- Framework Agnostic: Compatible with any web framework.
+
+**API**
+
+- CSS Variables: Powered by standard variables like `var(--k-color-token-name)`, accessible via JS/TS, SCSS/Less.
+- Multi-Scheme Config: Configure multiple schemes simultaneously using HTML attributes: `data-k-brand`, `data-k-accent`, and `data-k-theme`.
+- Advanced JS API `getColors`: Generate custom palettes for any shade and create your own tokens via JS.
+
+**Core Settings**
+
+Both Figma and the code package rely on three main settings:
+- brand: primary brand color (red, orange, green, mint, blue, blueDeep, violet, purple, or any #custom-hex).
+- accent: UI accent color (gray, brand, or #custom-hex). Default is gray.
+- theme: mode light or dark. Default is light.
+
+
 ## [1.1.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.1.0...@skbkontur/colors@1.1.1) (2025-05-06)
 
 **Note:** Version bump only for package @skbkontur/colors
