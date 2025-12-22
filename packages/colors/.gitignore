@@ -1,4 +1,10 @@
+**/tokens
+**/tokens-mobile
+**/*.js
 **/*.js.map
 **/*.d.ts
-colors.*
-
+**/*.less
+**/*.scss
+colors.ts
+colors-dark-default.ts
+colors-light-default.ts

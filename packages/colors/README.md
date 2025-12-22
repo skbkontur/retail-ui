@@ -1,6 +1,20 @@
 # Библиотека цветов
 
-NPM-пакет для доступа к цветам из общей Figma-библиотеки [Kontur.Colors](https://www.figma.com/file/XuiIin3JAOEcHHPihtthOJ/%E2%9A%A1%EF%B8%8F-Kontur-Colors?node-id=0%3A1&t=pL38Ju5ZOo3VC6vt-0)
+Kontur Colors — библиотека цветов для продуктов Контура
+
+**Возможности**
+
+- Содержит цветовые схемы для каждого брендового цвета
+- Построена на семантических токенах
+- Поддерживает тёмные темы
+- Доступность. Контрастность цветов по APCA W3
+- Полностью синхронизирована с переменными Figma
+
+**Совместимость с любыми веб-фреймворками**
+
+- Работает на CSS-переменных `var(--k-color-token-name)` доступных через JS/SCSS/Less
+- Конфигурация сразу нескольких схем через HTML-атрибуты `data-k-brand`, `data-k-accent`, `data-k-theme`
+- [Расширеный JS API](./?path=/docs/colors-colors-api--docs) для генерации палитр любых оттенков и создания кастомных токенов
 
 ## Установка
 
@@ -8,203 +22,122 @@ NPM-пакет для доступа к цветам из общей Figma-би�
 npm i @skbkontur/colors
 ```
 
-## Использование
+## Подключение
 
-- JS/TS токены содержатся в объекте `KonturColors.colorName`
-- В CSS в виде глобальных переменных`--kontur-color-name` в `:root { ... }`
-- В препроцессорах Less `@color-name` и SCSS `$color-name`
+<br />
 
-#### JS/TS
+### 1. Подключение CSS
 
-```js static
-import { KonturColors } from '@skbkontur/colors';
-
-const text = `<div style="color: ${KonturColors.blueDark90}">Цвет blueDark90</div>`;
-```
-
-#### React
-
-```jsx static
-import { KonturColors } from '@skbkontur/colors';
-
-const Component = () => {
-  return <div style={{ color: KonturColors.blueDark90 }}>Цвет blueDark90</div>;
-};
-```
-
-#### CSS
+Подключить CSS-файл с одной или несколькими цветовыми схемами продукта: `brand-[цвет]_accent-[gray|brand].css`
 
 ```css
-@import '@skbkontur/colors/colors.css';
+/* Список всех цветовых схем. Выберите одну или несколько */
+@import '@skbkontur/colors/tokens/brand-red_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-orange_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-mint_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-mint_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-blue_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-blue_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-blue-deep_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-blue-deep_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-green_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-green_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-violet_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-violet_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-purple_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-purple_accent-gray.css';
+```
 
-.class {
-  color: var(--blue-dark-90);
+### 2. Конфигурация в HTML
+
+Настройка контекста через 3 data-атрибута:
+
+- **data-k-brand** — брендовый цвет `red | orange | green | mint | blue | blueDeep | violet | purple`
+- **data-k-accent** — акцентный цвет `gray | brand`
+- **data-k-theme** — тема `light | dark` (по умолчанию light)
+
+```html
+<div data-k-brand="orange" data-k-accent="gray" data-k-theme="light">
+  <div class="block">Блок Контур.Экстерна</div>
+
+  <div data-k-brand="blue" data-k-accent="brand" data-k-theme="light">
+    <div class="banner">Рекламный баннер Контур.Эльбы</div>
+  </div>
+</div>
+```
+
+## Использование
+
+### CSS
+
+Токены доступны в виде CSS-переменных `var(--k-color-token-name)`
+
+```css
+.block {
+  color: var(--k-color-text-on-accent-default-primary);
+  background: var(--k-color-shape-default-accent-faint);
 }
 ```
 
-#### SCSS
+### JS/TS
 
-```scss
-@import '@skbkontur/colors/colors.scss';
+Переменные `colors.tokenName` содержат ссылки на `var(--k-color-token-name)`
+
+```js
+import * as colors from '@skbkontur/colors';
+
+const text = `
+  <div style="color: ${colors.textNeutralHeavy}">
+    Блок с текстом
+  </div>
+`;
+```
+
+### SCSS
+
+Переменные `colors.$token-name` содержат ссылки на `var(--k-color-token-name)`
+
+```css
+@use '@skbkontur/colors/colors.scss' as *;
 
 .class {
-  color: $blue-dark-90;
+  color: $color-text-neutral-heavy;
 }
 ```
 
-#### Less
+### Less
 
-```less
+Переменные `$token-name` содержат ссылки на `var(--k-color-token-name)`
+
+```css
 @import '@skbkontur/colors/colors.less';
 
 .class {
-  color: @blue-dark-90;
+  color: $color-text-neutral-heavy;
 }
 ```
 
-## Палитра
+<br />
 
-```jsx harmony
-import { KonturColors } from '@skbkontur/colors';
-import {
-  Toast,
-  DropdownMenu,
-  MenuHeader,
-  MenuItem,
-  ThemeContext,
-  ThemeFactory,
-  THEME_2022_UPDATE_2024,
-} from '@skbkontur/react-ui';
+## Colors API: генерация палитр и кастомные токены
 
-import { css } from '@skbkontur/react-ui/lib/theming/Emotion';
+Библиотека Colors содержит JS API для продвинутых сценариев:
 
-const styles = {
-  colors: css`
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
-  `,
-  colorGroup: css`
-    break-inside: avoid;
-    margin-bottom: 64px;
-  `,
-  colorBlock: css`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    background: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: 0.1s ease;
+- Генерация палитр для произвольных HEX-цветов, а не только брендовых
+- Создание/расширение цветовых палитр с собственными семантическими токенами
+- Генерация цветов в форматах для разных платформ (oklch, hex, rgba и др.)
+- Перекраска интерфейсов в любой цвет на лету
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.06);
-    }
+Функция `getColors` позволяет получать цвета для произвольных `brand`, `accent` и `theme`. Настраивать образцы оттенков `warning`, `error`. Указывать формат цвета, задавать кастомные токены со ссылками на сгенерированные палитры и другие параметры.
 
-    &:active {
-      background: rgba(0, 0, 0, 0.1);
-    }
-  `,
-  colorTile: css`
-    display: block;
-    height: 32px;
-    width: 32px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-    flex-shrink: 0;
-  `,
-  groupTitle: css`
-    display: block;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 8px 12px;
-  `,
-  title: css`
-    display: block;
-    padding: 1px 0 0 8px;
-  `,
-  colorName: css`
-    display: block;
-    font-size: 14px;
-    line-height: 1.2;
-  `,
-  colorValue: css`
-    display: block;
-    fontSize: 12px;
-    color: #8b8b8b;
-  }`,
-};
+```js static
+import { getColors } from '@skbkontur/colors';
 
-const colorGroups = Object.entries(KonturColors).reduce((acc, [colorKey, colorValue]) => {
-  const firstWord = ['greenMint', 'blueDark'].find((color) => colorKey.match(color)) || colorKey.match(/^[a-z]+/)[0];
+const colors = getColors({ brand: 'orange', accent: 'gray', theme: 'light' });
 
-  acc[firstWord] = { ...acc[firstWord], [colorKey]: colorValue };
-
-  return acc;
-}, {});
-
-const getColors = (color) => {
-  const colorDashCase = color
-    .replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())
-    .replace(/\d/, (m) => `-${m}`)
-    .replace('f-f-f', 'fff');
-
-  return {
-    'JavaScript / TypeScript': `KonturColors.${color}`,
-    CSS: `var(--kontur-${colorDashCase})`,
-    SCSS: `$${colorDashCase}`,
-    Less: `@${colorDashCase}`,
-  };
-};
-
-const copyColor = (color) => {
-  navigator.clipboard.writeText(color);
-  Toast.push('Цвет скопирован', null, 1000);
-};
-
-<div className={styles.colors}>
-  <ThemeContext.Provider value={THEME_2022_UPDATE_2024}>
-    {Object.entries(colorGroups).map(([group, colors]) => {
-      return (
-        <div className={styles.colorGroup}>
-          <div className={styles.groupTitle}>{group}</div>
-          {Object.keys(colors).map((colorName) => {
-            const colorValue = KonturColors[colorName];
-            const colorTile = (
-              <div className={styles.colorBlock}>
-                <span className={styles.colorTile} style={{ backgroundColor: colorValue }} />
-                <span>
-                  <span className={styles.colorName}>{colorName}</span>
-                  <span className={styles.colorValue}>{colorValue}</span>
-                </span>
-              </div>
-            );
-            return (
-              <div>
-                <DropdownMenu caption={colorTile} width="300">
-                  <MenuHeader>Скопировать переменную</MenuHeader>
-                  {Object.entries(getColors(colorName)).map(([lang, color]) => (
-                    <MenuItem onClick={() => copyColor(color)} comment={lang}>
-                      <div style={{ minWidth: 270 }}>{color}</div>
-                    </MenuItem>
-                  ))}
-                </DropdownMenu>
-              </div>
-            );
-          })}
-        </div>
-      );
-    })}
-  </ThemeContext.Provider>
-</div>;
+const text = `
+  <div style="color: ${colors.textNeutralHeavy}">
+    Блок с текстом
+  </div>
+`;
 ```
-
-## Разработка
-
-- Токены выгружаются в формате `camelCase`
-- `src/colors.ts` — файл с токенами
-- `npm run build` — сборка пакета в `/dist`

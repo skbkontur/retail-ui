@@ -1,0 +1,133 @@
+import * as ColorsCustomAPI from './ColorsAPI.docs.stories';
+import { Stories } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+
+<Meta of={ColorsCustomAPI} />
+
+# Kontur Colors API
+
+<style>{`
+    .docs-link {
+        position: relative;
+        display: inline-flex;
+        gap: 6px;
+        padding: 4px 8px;
+        align-items: center;
+        transition: 0.15s;
+        border-radius: 8px;
+        font-size: 16px;
+        text-decoration: none !important;
+        margin-top: 12px;
+        margin-bottom: 12px;
+        margin-left: -8px;
+        margin-right: 8px;
+    }
+    .docs-link img {
+        width: 16px;
+        height: 16px;
+    }
+    .docs-link:hover {
+        background: rgba(0, 0, 0, 0.06);
+    }
+    .docs-link:active {
+        background: rgba(0, 0, 0, 0.1);
+    }
+    .ep__pageLayout {
+        min-height: 720px;
+    }
+`}</style>
+
+<a
+  className="docs-link"
+  href="https://guides.kontur.ru/principles/base/color/"
+  target="_blank"
+  children={
+    <>
+      <img src="https://tech.skbkontur.ru/kontur-ui/favicon.svg" alt="" /> Гайд
+    </>
+  }
+/>
+<a
+  className="docs-link"
+  href="https://www.figma.com/design/XVgPCAAFhEbIiQDDznkdat/%F0%9F%9A%A7-Kontur-Colors?m=auto&t=cg9j7F8DpdELh2px-6"
+  target="_blank"
+  children={
+    <>
+      <img src="https://static.figma.com/app/icon/1/favicon.svg" alt="" /> Figma
+    </>
+  }
+/>
+<a
+  className="docs-link"
+  target="_blank"
+  href="https://git.skbkontur.ru/ui/ui-parking-2/-/tree/master/packages/colors"
+  children={
+    <>
+      <img
+        src="https://git.skbkontur.ru/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png"
+        alt=""
+      />{' '}
+      GitLab
+    </>
+  }
+/>
+
+Библиотека Colors содержит JS API для продвинутых сценариев:
+
+- Генерация палитр для произвольных HEX-цветов, а не только брендовых
+- Создание/расширение цветовых палитр с собственными семантическими токенами
+- Генерация цветов в форматах для разных платформ (oklch, hex, rgba и др.)
+- Перекраска интерфейсов в любой цвет на лету
+
+<br />
+
+## Генерация палитр
+
+С помощью функции `getColors` можно переопределять настройки генератора цветов:
+
+- **brand** — брендовый цвет `red | orange | green | mint | blue | blueDeep | violet | purple | #custom-hex`
+- **accent** — акцентный цвет `gray | brand | #custom-hex` (по умолчанию gray)
+- **theme** — тема `light | dark` (по умолчанию light)
+- **system** — настройка образцов цветов состояний warning/error/success
+- **overrides** — переопределение/добавление токенов со ссылкой на базовые палитры
+- **format** — формат цвета `'hex/rgba' | 'oklch' | 'hex-aarrggbb'` (по умолчанию hex/rgba)
+
+```ts
+getColors({
+  brand: 'red' | 'orange' | 'green' | 'mint' | 'blue' | 'blueDeep' | 'violet' | 'purple' | string,
+  accent: 'gray' | 'brand' | string
+  theme: 'light' | 'dark',
+  system?: {
+    warning?: string,
+    error?: string,
+    success?: string,
+  },
+  overrides?: (base, defaults, params) => {
+    light: {
+      ...defaults.light,
+      // Кастомные токены светлой темы
+    };
+    dark: {
+      ...defaults.dark,
+      // Кастомные токены тёмной темы
+    }
+  },
+  format?: 'hex/rgba' | 'oklch' | 'hex-aarrggbb'
+});
+```
+
+Функция `getColors` возвращает JS-объект с токенами `colors`:
+
+```js
+getColors({ brand: '#FE4C4C', accent: 'brand', theme: 'dark', format: 'oklch' });
+
+// ->
+{
+  textNeutralHeavy: 'oklch(100% 0 0 / 0.96)',
+  shapePaleBrand: 'oklch(36% 0.079 25)',
+  shapePaleBrandHover: 'oklch(40% 0.091 25)',
+  ...
+}
+```
+
+<Stories title="" includePrimary={true} />

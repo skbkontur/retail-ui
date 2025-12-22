@@ -4,9 +4,92 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 <Meta of={ColorsStories} />
 
-# Библиотека цветов
+# Kontur Colors
 
-NPM-пакет для доступа к цветам из общей Figma-библиотеки [Kontur.Colors](https://www.figma.com/file/XuiIin3JAOEcHHPihtthOJ/%E2%9A%A1%EF%B8%8F-Kontur-Colors?node-id=0%3A1&t=pL38Ju5ZOo3VC6vt-0)
+<style>{`
+    .docs-link {
+        position: relative;
+        display: inline-flex;
+        gap: 6px;
+        padding: 4px 8px;
+        align-items: center;
+        transition: 0.15s;
+        border-radius: 8px;
+        font-size: 16px;
+        text-decoration: none !important;
+        margin-top: 12px;
+        margin-bottom: 12px;
+        margin-left: -8px;
+        margin-right: 8px;
+    }
+    .docs-link img {
+        width: 16px;
+        height: 16px;
+    }
+    .docs-link:hover {
+        background: rgba(0, 0, 0, 0.06);
+    }
+    .docs-link:active {
+        background: rgba(0, 0, 0, 0.1);
+    }
+    .ep__pageLayout {
+        min-height: 720px;
+    }
+`}</style>
+
+<a
+  className="docs-link"
+  href="https://guides.kontur.ru/principles/base/color/"
+  target="_blank"
+  children={
+    <>
+      <img src="https://tech.skbkontur.ru/kontur-ui/favicon.svg" alt="" /> Гайд
+    </>
+  }
+/>
+<a
+  className="docs-link"
+  href="https://www.figma.com/design/XVgPCAAFhEbIiQDDznkdat/%F0%9F%9A%A7-Kontur-Colors?m=auto&t=cg9j7F8DpdELh2px-6"
+  target="_blank"
+  children={
+    <>
+      <img src="https://static.figma.com/app/icon/1/favicon.svg" alt="" /> Figma
+    </>
+  }
+/>
+<a
+  className="docs-link"
+  target="_blank"
+  href="https://git.skbkontur.ru/ui/ui-parking-2/-/tree/master/packages/colors"
+  children={
+    <>
+      <img
+        src="https://git.skbkontur.ru/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png"
+        alt=""
+      />{' '}
+      GitLab
+    </>
+  }
+/>
+
+Kontur Colors — библиотека цветов для продуктов Контура.
+
+**Возможности**
+
+- Содержит цветовые схемы для каждого брендового цвета
+- Построена на семантических токенах
+- Поддерживает тёмные темы
+- Доступность. Контрастность цветов по APCA W3
+- Полностью синхронизирована с переменными Figma
+
+**Совместимость с любыми веб-фреймворками**
+
+- Работает на CSS-переменных `var(--k-color-token-name)` доступных через JS/SCSS/Less
+- Конфигурация сразу нескольких схем через HTML-атрибуты `data-k-brand`, `data-k-accent`, `data-k-theme`
+- [Расширеный JS API](./?path=/docs/colors-colors-api--docs) для генерации палитр любых оттенков и создания кастомных токенов
+
+<br />
+<br />
 
 ## Установка
 
@@ -14,64 +97,132 @@ NPM-пакет для доступа к цветам из общей Figma-би�
 npm i @skbkontur/colors
 ```
 
+Доступны [выгрузки из 14 цветовых схем в виде JSON](https://app.unpkg.com/@skbkontur/colors/files/tokens-mobile) для приложений iOS/Android, языков C#/Java/Python и других платформ.
+
+<br />
+
+---
+
 <Stories title="" includePrimary={true} />
+
+## Подключение
+
+<br />
+
+### 1. Подключение CSS
+
+Подключить CSS-файл с одной или несколькими цветовыми схемами продукта: `brand-[цвет]_accent-[gray|brand].css`
+
+```css
+/* Список всех цветовых схем. Выберите одну или несколько */
+@import '@skbkontur/colors/tokens/brand-red_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-orange_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-mint_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-mint_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-blue_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-blue_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-blue-deep_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-blue-deep_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-green_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-green_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-violet_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-violet_accent-gray.css';
+@import '@skbkontur/colors/tokens/brand-purple_accent-brand.css';
+@import '@skbkontur/colors/tokens/brand-purple_accent-gray.css';
+```
+
+### 2. Конфигурация в HTML
+
+Настройка контекста через 3 data-атрибута:
+
+- **data-k-brand** — брендовый цвет `red | orange | green | mint | blue | blueDeep | violet | purple`
+- **data-k-accent** — акцентный цвет `gray | brand`
+- **data-k-theme** — тема `light | dark` (по умолчанию light)
+
+```html
+<div data-k-brand="orange" data-k-accent="gray" data-k-theme="light">
+  <div class="block">Блок Контур.Экстерна</div>
+
+  <div data-k-brand="blue" data-k-accent="brand" data-k-theme="light">
+    <div class="banner">Рекламный баннер Контур.Эльбы</div>
+  </div>
+</div>
+```
 
 ## Использование
 
-- JS/TS токены содержатся в объекте `KonturColors.colorName`
-- В CSS в виде глобальных переменных`--kontur-color-name` в `:root { ... }`
-- В препроцессорах Less `@color-name` и SCSS `$color-name`
+### CSS
 
-#### JS/TS
-
-```js static
-import { KonturColors } from '@skbkontur/colors';
-
-const text = `<div style="color: ${KonturColors.blueDark90}">Цвет blueDark90</div>`;
-```
-
-#### React
-
-```jsx static
-import { KonturColors } from '@skbkontur/colors';
-
-const Component = () => {
-  return <div style={{ color: KonturColors.blueDark90 }}>Цвет blueDark90</div>;
-};
-```
-
-#### CSS
+Токены доступны в виде CSS-переменных `var(--k-color-token-name)`
 
 ```css
-@import '@skbkontur/colors/colors.css';
-
-.class {
-  color: var(--blue-dark-90);
+.block {
+  color: var(--k-color-text-on-accent-default-primary);
+  background: var(--k-color-shape-default-accent-faint);
 }
 ```
 
-#### SCSS
+### JS/TS
+
+Переменные `colors.tokenName` содержат ссылки на `var(--k-color-token-name)`
+
+```js
+import * as colors from '@skbkontur/colors';
+
+const text = `
+  <div style="color: ${colors.textNeutralHeavy}">
+    Блок с текстом
+  </div>
+`;
+```
+
+### SCSS
+
+Переменные `colors.$token-name` содержат ссылки на `var(--k-color-token-name)`
 
 ```css
-@import '@skbkontur/colors/colors.scss';
+@use '@skbkontur/colors/colors.scss';
 
 .class {
-  color: $blue-dark-90;
+  color: $color-text-neutral-heavy;
 }
 ```
 
-#### Less
+### Less
+
+Переменные `$token-name` содержат ссылки на `var(--k-color-token-name)`
 
 ```css
 @import '@skbkontur/colors/colors.less';
 
 .class {
-  color: @blue-dark-90;
+  color: $color-text-neutral-heavy;
 }
 ```
 
-## Разработка
+<br />
 
-- Токены выгружаются в формате `camelCase`
-- `src/colors.ts` — файл с токенами
-- `npm run build` — сборка пакета в `/dist`
+## Colors API: генерация палитр и кастомные токены
+
+Библиотека Colors содержит JS API для продвинутых сценариев:
+
+- Генерация палитр для произвольных HEX-цветов, а не только брендовых
+- Создание/расширение цветовых палитр с собственными семантическими токенами
+- Генерация цветов в форматах для разных платформ (oklch, hex, rgba и др.)
+- Перекраска интерфейсов в любой цвет на лету
+
+Функция `getColors` позволяет получать цвета для произвольных `brand`, `accent` и `theme`. Настраивать образцы оттенков `warning`, `error`. Указывать формат цвета, задавать кастомные токены со ссылками на сгенерированные палитры и другие параметры.
+
+```js static
+import { getColors } from '@skbkontur/colors';
+
+const colors = getColors({ brand: 'orange', accent: 'gray', theme: 'light' });
+
+const text = `
+  <div style="color: ${colors.textNeutralHeavy}">
+    Блок с текстом
+  </div>
+`;
+```
+
+[Более подробно в разделе Colors API →](./?path=/docs/colors-colors-api--docs)
