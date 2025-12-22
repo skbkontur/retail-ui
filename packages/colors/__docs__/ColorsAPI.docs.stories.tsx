@@ -35,7 +35,7 @@ injectGlobal(`
 `);
 
 export default {
-  title: 'Colors/Colors API',
+  title: 'Colors API',
   parameters: {
     creevey: {
       skip: true,
