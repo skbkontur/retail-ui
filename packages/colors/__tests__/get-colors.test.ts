@@ -9,7 +9,6 @@ test('should return both themes with HEX values by default', () => {
 
 test('should return flat object when theme is "light"', () => {
   const res = getColors({ brand: 'blue', accent: 'brand', theme: 'light' });
-  expect(res).toBeUndefined();
   const firstToken = Object.values(res)[0] as string;
   expect(firstToken).toMatch(/^#[0-9a-f]{6}$/i);
 });

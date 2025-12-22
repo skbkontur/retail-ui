@@ -141,7 +141,7 @@ saveTokens({
   fileFormat: 'js-css-vars-fallback',
   tokensIsFlat: true,
   tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-light-default.ts'),
+  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-default-light.ts'),
 });
 
 saveTokens({
@@ -152,7 +152,7 @@ saveTokens({
   fileFormat: 'js-css-vars-fallback',
   tokensIsFlat: true,
   tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-dark-default.ts'),
+  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-default-dark.ts'),
 });
 
 function saveTokens({
