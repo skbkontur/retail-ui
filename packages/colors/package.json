@@ -31,7 +31,7 @@
     },
     "./default-dark": {
       "types": "./colors-default-dark.d.ts",
-      "default": "./colors-dark-default.js"
+      "default": "./colors-default-dark.js"
     },
     "./colors.scss": "./colors.scss",
     "./colors.less": "./colors.less",
