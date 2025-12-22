@@ -36,7 +36,6 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@skbkontur/colors": "1.1.1",
     "@skbkontur/global-object": "0.4.5",
     "@skbkontur/icons": "2.0.1",
     "@skbkontur/react-ui": "^5.0.0",
