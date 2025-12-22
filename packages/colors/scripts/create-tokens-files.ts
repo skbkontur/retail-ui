@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -252,7 +251,7 @@ function saveTokens({
             .map(([key, value]) => `  --${cssPrefix}-${camelCaseToKebabCase(key)}: ${value};`)
             .join('\n');
 
-          const darkSelector = `${baseSelector}[data-${cssPrefix}-theme="dark"]`;
+          const darkSelector = `${baseSelector}[data-k-theme="dark"]`;
           cssContent += `${darkSelector} {\n${darkVars}\n}\n\n`;
         }
       }
