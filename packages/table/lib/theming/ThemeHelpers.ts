@@ -1,4 +1,5 @@
 import type { Theme as ReactUITheme } from '@skbkontur/react-ui/lib/theming/Theme';
+import type { AnyObject, FunctionWithParams } from '@skbkontur/react-ui/lib/utils';
 import { isFunction } from '@skbkontur/react-ui/lib/utils';
 
 import { memo } from '../utils/memo.js';
@@ -40,8 +41,6 @@ export const createTableTheme = (theme: ReactUITheme | TableTheme): TableTheme =
   return markAsTableTheme(TableTheme);
 };
 
-type FunctionWithParams<R = any> = (...args: any[]) => R;
-
 export const getTableTheme = memo((theme: ReactUITheme | TableTheme): TableTheme => {
   return createTableTheme(theme);
 });
@@ -50,7 +49,7 @@ function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | FunctionWithPara
   return fn.length === 0;
 }
 
-const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
+const memoize = <A extends AnyObject, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
   if (isZeroArgs(fn)) {
     let isCalled = false;
     let result: R;
