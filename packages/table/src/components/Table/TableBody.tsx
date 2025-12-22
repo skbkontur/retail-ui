@@ -5,6 +5,7 @@ import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import styles from './Table.module.css';
 import { TableDataTids } from './TableDataTids.js';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface TableBodyProps extends CommonProps {}
 
 export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(

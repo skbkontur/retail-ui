@@ -40,12 +40,13 @@ export const createTableTheme = (theme: ReactUITheme | TableTheme): TableTheme =
   return markAsTableTheme(TableTheme);
 };
 
+type FunctionWithParams<R = any> = (...args: any[]) => R;
+
 export const getTableTheme = memo((theme: ReactUITheme | TableTheme): TableTheme => {
   return createTableTheme(theme);
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
+function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | FunctionWithParams<R>): fn is () => R {
   return fn.length === 0;
 }
 
