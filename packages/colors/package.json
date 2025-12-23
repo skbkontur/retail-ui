@@ -13,7 +13,7 @@
     "/lib",
     "/tokens",
     "/tokens-mobile",
-    "/*.{js,d.ts}"
+    "/*.{js,d.ts,less,scss}"
   ],
   "exports": {
     "./package.json": "./package.json",
