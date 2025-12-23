@@ -155,7 +155,7 @@ saveTokens({
   fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-default-dark.ts'),
 });
 
-function saveTokens({
+export function saveTokens({
   tokens,
   colorBrand,
   colorAccent,
@@ -262,7 +262,7 @@ function saveTokens({
 
     case 'less':
     case 'scss': {
-      const varPrefix = format === 'less' ? '@color' : '$color';
+      const varPrefix = format === 'less' ? '@color-' : '$color-';
 
       const lessScssVars: string[] = [];
       const hasThemes = tokens.light || tokens.dark;
