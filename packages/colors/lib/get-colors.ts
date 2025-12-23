@@ -40,7 +40,15 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
  * @returns {DefaultTokensFull | Themed<T>} Список токенов для light, dark или вместе
  */
 export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens {
-  const base = getColorsBase(params);
+  let base;
+
+  // Convert hex-aarrggbb via hex/rgba
+  if (params.format === 'hex-aarrggbb') {
+    base = getColorsBase({ ...params, format: 'hex/rgba' });
+  } else {
+    base = getColorsBase(params);
+  }
+
   const defaults = getColorsDefaultTokens(base);
 
   let result: any;

@@ -73,3 +73,62 @@ test('should process themed values in overrides', () => {
   }) as any;
   expect(res.testToken).toBe('#ffffff');
 });
+
+test('should correctly convert to "hex-aarrggbb" format (Android style)', () => {
+  const res = getColors({
+    brand: 'blue',
+    accent: 'brand',
+    theme: 'light',
+    format: 'hex-aarrggbb',
+    overrides: () => ({
+      light: {
+        blackWithAlpha: '#00000052',
+        whiteWithAlpha: '#FFFFFF52',
+        solidRed: '#FF0000',
+      },
+      dark: {},
+    }),
+  }) as any;
+
+  expect(res.blackWithAlpha).toBe('#52000000');
+  expect(res.whiteWithAlpha).toBe('#52FFFFFF');
+  expect(res.solidRed).toBe('#FF0000');
+});
+
+test('should correctly convert to "oklch" format', () => {
+  const res = getColors({
+    brand: 'blue',
+    accent: 'brand',
+    theme: 'light',
+    format: 'oklch',
+    overrides: () => ({
+      light: {
+        white: '#FECA42',
+        black: '#FC762D',
+      },
+      dark: {},
+    }),
+  }) as any;
+
+  expect(res.white).toBe('oklch(86.260% 0.156 87)');
+  expect(res.black).toBe('oklch(71.459% 0.183 45)');
+});
+
+test('should correctly convert to "hex/rgba" format (default)', () => {
+  const res = getColors({
+    brand: 'blue',
+    accent: 'brand',
+    theme: 'light',
+    format: 'hex/rgba',
+    overrides: () => ({
+      light: {
+        solid: '#FF5500',
+        withAlpha: 'oklch(50% 0.1 200 / 0.5)',
+      },
+      dark: {},
+    }),
+  }) as any;
+
+  expect(res.solid).toBe('#FF5500');
+  expect(res.withAlpha).toMatch('rgba(-39, 116, 122, 0.5)');
+});
