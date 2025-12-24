@@ -49,12 +49,7 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      color: rgba(
-        ${ColorFunctions.red(t.tabTextColorDefault)},
-        ${ColorFunctions.green(t.tabTextColorDefault)},
-        ${ColorFunctions.blue(t.tabTextColorDefault)},
-        0.5
-      );
+      color: color-mix(in srgb, ${t.tabTextColorDefault}, transparent 50%);
       cursor: default;
     `;
   },

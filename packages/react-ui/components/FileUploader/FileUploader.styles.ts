@@ -1,6 +1,5 @@
 import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { fileUploaderSizeMixin } from './FileUploader.mixins';
 
@@ -12,13 +11,13 @@ const styles = {
   calcPulse(t: Theme) {
     return keyframes`
       0% {
-        box-shadow: 0 0 0 1px ${ColorFunctions.fade(t.inputBlinkColor, 0.6)};
+        box-shadow: 0 0 0 1px ${t.inputBlinkColor};
       }
       95% {
-        box-shadow: 0 0 0 10px ${ColorFunctions.fade(t.inputBlinkColor, 0.1)};
+        box-shadow: 0 0 0 10px ${t.inputBlinkColor};
       }
       100% {
-        box-shadow: 0 0 0 1px ${ColorFunctions.fade(t.inputBlinkColor, 0.0)};
+        box-shadow: 0 0 0 1px ${t.inputBlinkColor};
       }
     `;
   },
