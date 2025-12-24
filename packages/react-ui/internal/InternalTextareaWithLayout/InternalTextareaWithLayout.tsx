@@ -75,6 +75,9 @@ export class InternalTextareaWithLayout extends React.Component<
   public selectAll() {
     this.wrappedComponentRef.current?.selectAll();
   }
+  public getNode() {
+    return this.wrappedComponentRef.current?.getNode();
+  }
 
   public render() {
     return (

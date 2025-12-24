@@ -281,6 +281,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   /**
    * @public
+   */
+  public getNode() {
+    return this.node;
+  }
+
+  /**
+   * @public
    * @param {number} start
    * @param {number} end
    */
