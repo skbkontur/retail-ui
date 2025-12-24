@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.0...@skbkontur/react-ui@5.5.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* **Checkbox:** add paddingX variable ([8fcdd01](https://github.com/skbkontur/retail-ui/commit/8fcdd0174c3b93d596ac92254ee48ffd32740dbc))
+* **DateRangePicker:** add onClick to DateRangePickerInput ([7022e3a](https://github.com/skbkontur/retail-ui/commit/7022e3a7ef65fa0ad990e1aad1b953d14ae5993c))
+* **DateRangePicker:** add types `useRef<DateRangePicker>`, show api in docs ([27dc117](https://github.com/skbkontur/retail-ui/commit/27dc11713b73e59d8e61f85ad3b3140754963ed6))
+* **FileUploader:** rename `useRef<FileUploaderRef>` → `useRef<FileUploader>` ([5c673d9](https://github.com/skbkontur/retail-ui/commit/5c673d9f8cc7af719633e9e3c9673207c70340ee))
+
+
+
+
+
+# [5.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.6...@skbkontur/react-ui@5.5.0) (2025-12-17)
+
+
+### Bug Fixes
+
+* **TokenInput:** add index argument to renderToken prop ([06ec9b4](https://github.com/skbkontur/retail-ui/commit/06ec9b47119d8f923837d694ae78607ac6434baa))
+* **TokenInput:** extend type of item ([44b9ab0](https://github.com/skbkontur/retail-ui/commit/44b9ab0989b37099157517f88d639304a3e365af))
+* **FileUploader:**: show fileChosen label for short filenames
+* **FileUploader**: forbid from dropping multiple files in single mode
+
+
+### Features
+
+* **FileUploader:** new design ([0adf523](https://github.com/skbkontur/retail-ui/commit/0adf523f49fcdac913f8ff5bb850d28d10310f45))
+* **FileUploader:** add `size` prop
+* **FileUploader:** add file extensions icons
+* **FileUploader:** add tile files view
+* **FileUploader:** add error/warning summary
+* **FileUploader:** update dark theme colors
+* **FileUploader:** remove check icon after upload
+* **FileUploader:** make `FileUploaderFile` component public
+* **FileUploader:** add showFilenameHint prop to `FileUploaderFile`
+* **TokenInput:** add `maxHeight` prop ([d39093f](https://github.com/skbkontur/retail-ui/commit/d39093f6b85034a2ac5fdb52b67608b5306921de))
+
+
+
+
+
 ## [5.4.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.4.5...@skbkontur/react-ui@5.4.6) (2025-12-08)
 
 

@@ -9,47 +9,86 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
-  const items = ['One', 'Two', 'Three', 'Four'];
+export const ExampleBasic: Story = () => {
+  const [chosen, setChosen] = React.useState(null);
 
-  const simpleRadioGroup = (
-    <div>
-      <h5>Numbers</h5>
-      <RadioGroup name="number-simple" items={items} defaultValue="One" />
-    </div>
+  return (
+    <RadioGroup value={chosen} onValueChange={setChosen}>
+      <Gapped gap={3} vertical>
+        <Radio value={1}>Первый вариант</Radio>
+        <Radio value={2}>Второй вариант</Radio>
+        <Radio value={3}>Третий вариант</Radio>
+        <Radio value={4}>Четвёртый вариант</Radio>
+      </Gapped>
+    </RadioGroup>
+  );
+};
+
+/** Проп `width` задаёт максимальную ширину элементов группы. Работает только со значениями, переданными через `items`, не работает с `children`. */
+export const ExampleWidth: Story = () => {
+  const items = [
+    'Уведомлять обо всех изменениях',
+    'Уведомлять только о самых важных изменения',
+    'Никогда не уведомлять',
+    'Настроить свой вариант',
+  ];
+
+  return <RadioGroup items={items} width={'150px'} />;
+};
+ExampleWidth.storyName = 'Ширина';
+
+/** У группы радиокнопок есть несколько пропсов состояний:
+ * - `disabled` — блокирует все радиокнопки.
+ * - `error` — задаёт состояние «Ошибка» всем радиокнопкам.
+ * - `warning` — задаёт состояние «Предупреждение» всем радиокнопкам. */
+export const ExampleMode: Story = () => {
+  const itemsDisabled = ['Первый вариант', 'Второй вариант', 'Третий вариант', 'Четвёртый вариант'];
+  const itemsError = ['Первый вариант', 'Второй вариант', 'Третий вариант', 'Четвёртый вариант'];
+  const itemsWarning = ['Первый вариант', 'Второй вариант', 'Третий вариант', 'Четвёртый вариант'];
+
+  const disabledRadioGroup = (
+    <Gapped vertical>
+      <b>Заблокированная группа</b>
+      <RadioGroup items={itemsDisabled} disabled />
+    </Gapped>
   );
 
-  const complexRadioGroup = (
-    <div>
-      <h5>Numbers</h5>
-      <RadioGroup name="number-complex" defaultValue="3">
-        <Gapped gap={40}>
-          <Gapped vertical gap={0}>
-            <b>Odd</b>
-            <Radio value="1">One</Radio>
-            <Radio value="3">Three</Radio>
-            <Radio value="5" disabled>
-              Five
-            </Radio>
-            <Radio value="7">Seven</Radio>
-          </Gapped>
-          <Gapped vertical gap={0}>
-            <b>Even</b>
-            <Radio value="2">Two</Radio>
-            <Radio value="4">Four</Radio>
-            <Radio value="6">Six</Radio>
-            <Radio value="8">Eight</Radio>
-          </Gapped>
-        </Gapped>
-      </RadioGroup>
-    </div>
+  const errorRadioGroup = (
+    <Gapped vertical>
+      <b>В состоянии «Ошибка»</b>
+      <RadioGroup items={itemsError} error />
+    </Gapped>
+  );
+
+  const warningRadioGroup = (
+    <Gapped vertical>
+      <b>В состоянии «Предупреждение»</b>
+      <RadioGroup items={itemsWarning} warning />
+    </Gapped>
   );
 
   return (
-    <div>
-      {simpleRadioGroup}
-      {complexRadioGroup}
-    </div>
+    <Gapped vertical>
+      {disabledRadioGroup}
+      {errorRadioGroup}
+      {warningRadioGroup}
+    </Gapped>
   );
 };
-Example1.storyName = 'Базовый пример';
+ExampleMode.storyName = 'Состояния';
+
+/** Проп `defaultValue` задаёт значение по умолчанию. Должно быть одним из значений дочерних радиокнопок или значений из `items`. */
+export const ExampleDefault: Story = () => {
+  const items = ['Первый вариант', 'Второй вариант', 'Третий вариант', 'Четвёртый вариант'];
+
+  return <RadioGroup items={items} defaultValue="Второй вариант" />;
+};
+ExampleDefault.storyName = 'Значение по умолчанию';
+
+/** Проп `inline` размещает радиокнопки в строку. Работает только со значениями, переданными через `items`, не работает с `children`. */
+export const ExampleInline: Story = () => {
+  const items = ['Первый вариант', 'Второй вариант', 'Третий вариант', 'Четвёртый вариант'];
+
+  return <RadioGroup items={items} inline />;
+};
+ExampleInline.storyName = 'Расположение в строку';

@@ -24,7 +24,7 @@ export interface ModalBodyProps extends CommonProps {
 }
 
 /**
- * ModalBody - контейнер с отступами от края модалки.
+ * Контейнер с отступами для содержимого модального окна.
  *
  * @visibleName Modal.Body
  */

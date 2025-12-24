@@ -1,5 +1,4 @@
 import React from 'react';
-import type { FileUploaderRef } from '@skbkontur/react-ui';
 import {
   ThemeContext,
   ThemeFactory,
@@ -140,7 +139,7 @@ Example10.storyName = 'Валидация контрола';
  * При его вызове автоматически вызываются колбэки `onValueChange` и `onRemove`.
  */
 export const Example11: Story = () => {
-  const fileUploaderRef = React.useRef<FileUploaderRef>(null);
+  const fileUploaderRef = React.useRef<FileUploader>(null);
   const [fileList, setFileList] = React.useState<FileUploaderAttachedFile[]>([]);
   return (
     <div style={{ display: 'inline-grid', gap: '10px' }}>

@@ -13,6 +13,7 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'DateRangePicker',
+  component: DateRangePicker,
   decorators: [
     (Story, { parameters }) => {
       switch (parameters.customSpacing) {

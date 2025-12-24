@@ -5,6 +5,8 @@ import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import type { Nullable } from '../../../typings/utility-types';
 import type { SizeProp } from '../../../lib/types/props';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 interface PlainCheckboxState {
   checked: false;
@@ -246,3 +248,21 @@ export const Size: Story = () => {
   );
 };
 Size.storyName = 'size';
+
+export const CustomHoverSize: Story = () => {
+  return (
+    <Gapped vertical>
+      <Checkbox size="small" style={{ padding: 24, outline: '1px solid black' }} />
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxPaddingXSmall: '24px' })}>
+        <Checkbox size="small" style={{ outline: '1px solid black' }} />
+      </ThemeContext.Provider>
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxPaddingXMedium: '24px' })}>
+        <Checkbox size="medium" style={{ outline: '1px solid black' }} />
+      </ThemeContext.Provider>
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxPaddingXLarge: '24px' })}>
+        <Checkbox size="large" style={{ outline: '1px solid black' }} />
+      </ThemeContext.Provider>
+    </Gapped>
+  );
+};
+CustomHoverSize.storyName = 'custom hover size';

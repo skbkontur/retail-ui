@@ -97,11 +97,12 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
         setEndValue(value || '');
       }
     },
-    onClick: () => {
+    onClick: (e) => {
       if (props.disabled) {
         return;
       }
       open(props.type);
+      props.onClick?.(e);
     },
     onFocus: (e) => {
       open(props.type);

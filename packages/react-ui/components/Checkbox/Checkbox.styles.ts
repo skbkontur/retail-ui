@@ -49,6 +49,7 @@ export const styles = memoizeStyle({
         t.checkboxLineHeightSmall,
         t.checkboxPaddingYSmall,
         t.checkboxBoxSizeSmall,
+        t.checkboxPaddingXSmall,
       )};
     `;
   },
@@ -60,6 +61,7 @@ export const styles = memoizeStyle({
         t.checkboxLineHeightMedium,
         t.checkboxPaddingYMedium,
         t.checkboxBoxSizeMedium,
+        t.checkboxPaddingXMedium,
       )};
     `;
   },
@@ -71,6 +73,7 @@ export const styles = memoizeStyle({
         t.checkboxLineHeightLarge,
         t.checkboxPaddingYLarge,
         t.checkboxBoxSizeLarge,
+        t.checkboxPaddingXLarge,
       )};
     `;
   },
@@ -119,8 +122,7 @@ export const styles = memoizeStyle({
       padding: ${t.checkboxBorderWidth};
 
       // fix position in ie11
-      display: inline-block;
-      left: 0;
+      display: inline-block;        
     )};
     `;
   },
@@ -132,6 +134,7 @@ export const styles = memoizeStyle({
         t.checkboxFontSizeSmall,
         t.checkboxBoxSizeSmall,
         t.checkboxBoxOffsetY,
+        t.checkboxPaddingXSmall,
       )};
     `;
   },
@@ -143,6 +146,7 @@ export const styles = memoizeStyle({
         t.checkboxFontSizeMedium,
         t.checkboxBoxSizeMedium,
         t.checkboxBoxOffsetY,
+        t.checkboxPaddingXMedium,
       )};
     `;
   },
@@ -154,6 +158,7 @@ export const styles = memoizeStyle({
         t.checkboxFontSizeLarge,
         t.checkboxBoxSizeLarge,
         t.checkboxBoxOffsetY,
+        t.checkboxPaddingXLarge,
       )};
     `;
   },

@@ -2,11 +2,17 @@ import { css } from '../../lib/theming/Emotion';
 import { isChrome, isFirefox } from '../../lib/client';
 import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 
-export const checkboxSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, checkboxBoxSize: string) => {
+export const checkboxSizeMixin = (
+  fontSize: string,
+  lineHeight: string,
+  paddingY: string,
+  checkboxBoxSize: string,
+  paddingX: string,
+) => {
   return css`
     line-height: ${lineHeight};
     font-size: ${fontSize};
-    padding: ${paddingY} 0;
+    padding: ${paddingY} ${paddingX};
 
     &::before {
       width: ${checkboxBoxSize};
@@ -19,6 +25,7 @@ export const boxWrapperSizeMixin = (
   fontSize: string,
   checkboxBoxSize: string,
   checkboxBoxOffsetY: string,
+  checkboxPaddingX: string,
 ) => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const boxFontSize = parseInt(fontSize);
@@ -33,5 +40,6 @@ export const boxWrapperSizeMixin = (
     width: ${checkboxBoxSize};
     height: ${checkboxBoxSize};
     margin-top: calc(${checkboxBoxOffsetY} + ${baselineCompensation}px);
+    left: ${checkboxPaddingX};
   `;
 };

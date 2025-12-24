@@ -71,6 +71,7 @@ import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
 import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions';
 import { createFile } from '../internal/FileUploaderControl/fileUtils';
 import { emit } from '../lib/LayoutEvents';
+import { isNullable } from '../lib/utils';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -206,6 +207,7 @@ addons.setConfig({
       isGreaterOrEqual,
       isLess,
       isLessOrEqual,
+      isNullable,
       ViewDateInputValidateChecks,
       ArrowUiCornerOutUpRightIcon,
       UiMenuBars3HIcon16Regular,
