@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.1...@skbkontur/react-ui@5.5.2) (2025-12-25)
+
+
+### Bug Fixes
+
+* **Combobox:** fix input scroll when select via keyboard ([294a35d](https://github.com/skbkontur/retail-ui/commit/294a35da9c948cbba0ea33ab8b035c7c0a4caafc))
+
+
+
+
+
 ## [5.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.0...@skbkontur/react-ui@5.5.1) (2025-12-18)
 
 
