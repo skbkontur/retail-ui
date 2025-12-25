@@ -1,6 +1,5 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import type { Theme } from '../../lib/theming/Theme';
 import type { SizeProp } from '../../lib/types/props';
 
