@@ -15,24 +15,29 @@ export const themes = {
 
 export const ThemeDecorator: Decorator = (Story, context) => {
   const storybookTheme = themes[context.globals.theme] || LIGHT_THEME;
+  const themeAttribute = context.userGlobals.theme === 'LIGHT_THEME' ? 'light' : 'dark';
 
   if (isDarkTheme(storybookTheme)) {
     document.body.classList.add('dark');
   } else {
     document.body.classList.remove('dark');
   }
-  if (storybookTheme !== LIGHT_THEME) {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          return (
-            <ThemeContext.Provider value={ThemeFactory.create(theme, storybookTheme)}>
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider value={ThemeFactory.create(theme, storybookTheme)}>
+            <div
+              data-k-brand={context.userGlobals.brand}
+              data-k-accent={context.userGlobals.accent}
+              data-k-theme={themeAttribute}
+            >
               <Story />
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-  return <Story />;
+            </div>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
 };

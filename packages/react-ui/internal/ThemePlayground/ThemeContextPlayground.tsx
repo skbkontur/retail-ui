@@ -97,7 +97,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     const themeErrors = themesErrors[editingThemeType];
 
     return (
-      <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
+      <SidePage disableAnimations ignoreBackgroundClick width={600} onClose={this.handleClose}>
         <SidePage.Header>
           <div className={styles.editorHeaderWrapper(currentTheme)}>
             <Gapped wrap verticalAlign="middle">

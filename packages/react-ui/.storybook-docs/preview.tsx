@@ -14,6 +14,7 @@ import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regu
 import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light';
 import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light';
 import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light';
+import { SettingsGearIcon20Regular } from '@skbkontur/icons/SettingsGearIcon20Regular';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities';
@@ -71,6 +72,7 @@ import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
 import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions';
 import { createFile } from '../internal/FileUploaderControl/fileUtils';
 import { emit } from '../lib/LayoutEvents';
+import { ThemeContextPlayground } from '../internal/ThemePlayground/ThemeContextPlayground';
 import { isNullable } from '../lib/utils';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
@@ -190,6 +192,16 @@ export const globalTypes = {
     description: 'React UI Feature flags',
     defaultValue: [],
   },
+  brand: {
+    name: 'Brand',
+    description: 'Brand color',
+    defaultValue: 'red',
+  },
+  accent: {
+    name: 'Accent',
+    description: 'Accent',
+    defaultValue: 'gray',
+  },
 };
 
 addons.setConfig({
@@ -252,9 +264,11 @@ addons.setConfig({
       WeatherMoonIcon16Light,
       WeatherSunIcon16Light,
       SecurityLockClosedIcon20Light,
+      SettingsGearIcon20Regular,
       DocPlusIcon16Light,
       ShowcaseGroup,
       ThemeContext,
+      ThemeContextPlayground,
       ThemeFactory,
       ALL_LIGHT_THEMES,
       ALL_DARK_THEMES,
