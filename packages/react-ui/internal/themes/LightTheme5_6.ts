@@ -27,7 +27,6 @@ export const LightTheme5_6 = createTheme({
     public static placeholderColorLight = `color-mix(in srgb, ${colors.textNeutralFaint}, transparent 40%)`;
     public static textColorDefault = colors.textNeutralHeavy;
     public static textColorDisabled = colors.textNeutralFaint;
-    public static fixedPanelShadow = 'none';
     public static borderColorFocus = colors.lineAccentBold;
     public static borderColorError = colors.lineErrorBold;
     public static borderColorWarning = colors.lineWarningBold;
@@ -430,7 +429,6 @@ export const LightTheme5_6 = createTheme({
     public static get toggleBorderColorDisabled() {
       return this.toggleBorderColor;
     }
-    public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
     public static toggleShadowColorError = colors.lineErrorBold;
     public static toggleShadowColorWarning = colors.lineWarningBold;
     public static toggleFocusShadowColor = colors.lineAccentBold;
@@ -694,10 +692,15 @@ export const LightTheme5_6 = createTheme({
     public static get fileUploaderDisabledBorder() {
       return `${this.fileUploaderBorderWidth} ${this.fileUploaderBorderStyle} ${this.fileUploaderDisabledBorderColor}`;
     }
-    public static fileUploaderBorderStyle = 'dashed';
     public static get fileUploaderBorderColorFocus() {
       return this.borderColorFocus;
     }
+    public static fileUploaderErrorBgColor = colors.shapeFaintError;
+    public static fileUploaderErrorBgHoverColor = colors.shapeFaintErrorHover;
+    public static fileUploaderWarningBgColor = colors.shapeFaintWarning;
+    public static fileUploaderWarningBgHoverColor = colors.shapeFaintWarningHover;
+    public static fileUploaderWarningTextColor = colors.textWarningHeavy;
+    public static fileUploaderDisabledColor = colors.textNeutralFaint;
     public static get fileUploaderLinkColor() {
       return this.textColorDefault;
     }
