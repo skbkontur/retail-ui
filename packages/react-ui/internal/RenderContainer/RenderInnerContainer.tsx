@@ -6,6 +6,8 @@ import type { Nullable } from '../../typings/utility-types';
 import type { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 import { PORTAL_INLET_ATTR } from './RenderContainer';
 
+const KONTUR_COLORS_ATTRIBUTES = ['data-k-brand', 'data-k-accent', 'data-k-theme'];
+
 interface RenderInnerContainerProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
   rootId: string;
@@ -45,6 +47,30 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
   public static displayName = 'RenderInnerContainer';
 
+  private kColorsCheckerRef = React.createRef<HTMLSpanElement>();
+
+  public componentDidMount() {
+    this.applyKonturColorsAttributes();
+  }
+
+  public componentDidUpdate() {
+    this.applyKonturColorsAttributes();
+  }
+
+  private applyKonturColorsAttributes() {
+    const { domContainer } = this.props;
+    const source = this.kColorsCheckerRef.current?.closest<HTMLElement>(
+      KONTUR_COLORS_ATTRIBUTES.map((x) => `[${x}]`).join(','),
+    );
+
+    for (const attribute of KONTUR_COLORS_ATTRIBUTES) {
+      const value = source?.getAttribute(attribute);
+      if (value) {
+        domContainer?.setAttribute(attribute, value);
+      }
+    }
+  }
+
   public render() {
     const { anchor, children, domContainer, rootId } = this.props;
     let inner = anchor;
@@ -56,6 +82,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
           <Portal key="portal-ref" rt_rootID={rootId} container={domContainer}>
             {children}
           </Portal>
+          <span ref={this.kColorsCheckerRef} style={{ display: 'none' }} />
         </React.Fragment>
       );
     }
