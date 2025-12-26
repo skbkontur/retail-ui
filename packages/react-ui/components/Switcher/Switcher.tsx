@@ -100,7 +100,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

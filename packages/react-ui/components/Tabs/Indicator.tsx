@@ -76,7 +76,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     this.reflow();
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

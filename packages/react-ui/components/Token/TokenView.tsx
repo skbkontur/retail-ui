@@ -17,7 +17,7 @@ export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   hideCloseButton?: boolean;
 }
 
-export function TokenView(props: TokenViewProps) {
+export function TokenView(props: TokenViewProps): React.JSX.Element {
   const { size = 'small', children, closeButton, hideCloseButton, className, ...rest } = props;
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

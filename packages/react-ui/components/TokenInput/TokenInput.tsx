@@ -387,25 +387,25 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   /**
    * @public
    */
-  public focus() {
+  public focus(): void {
     this.input?.focus();
   }
 
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     this.input?.blur();
   }
 
   /** Кратковременно визуально подсвечивает поле ввода, чтобы привлечь внимание пользователя.
    * @public
    */
-  public blink() {
+  public blink(): void {
     blink({ el: this.wrapper, blinkColor: this.theme.inputBlinkColor });
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -602,7 +602,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
    * Сбрасывает введенное пользователем значение
    * @public
    */
-  public reset() {
+  public reset(): void {
     this.dispatch({ type: 'RESET' });
   }
 

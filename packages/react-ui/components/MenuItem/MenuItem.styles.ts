@@ -9,7 +9,7 @@ import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.
 export const getMenuItemPaddings = ({
   menuItemPaddingX,
   menuItemPaddingY,
-}: Record<'menuItemPaddingX' | 'menuItemPaddingY', string>) => {
+}: Record<'menuItemPaddingX' | 'menuItemPaddingY', string>): Record<'paddingX' | 'paddingY', string> => {
   const paddingX = menuItemPaddingX;
   const paddingY = menuItemPaddingY;
 

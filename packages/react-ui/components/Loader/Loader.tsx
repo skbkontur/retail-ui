@@ -196,7 +196,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     return state;
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

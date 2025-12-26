@@ -14,7 +14,7 @@ const uiFontWoff2 =
   'OGevBSTY4ETLtAxRkA1+WD0mg1AHCEIoDhEJHqQiMkqg5jKtRxTo6LesomUfNP1jDP2SljAv944saTKsxwF9qtLkKpVVq96UW3Q0xgCOHAtWMIxYiB' +
   'HqxBI7OpBSCWUQhm52JqMxLGRwwwl9nBSD9eoApB6rAhMqLNTYSkMdMgw+qyIwAAAAAA==';
 
-export const injectGlobalFont = (emotion: Emotion) => emotion.injectGlobal`
+export const injectGlobalFont = (emotion: Emotion): void => emotion.injectGlobal`
   @font-face {
     font-family: ${UI_FONT_NAME};
     src: url(data:font/woff2;base64,${uiFontWoff2}) format('woff2');

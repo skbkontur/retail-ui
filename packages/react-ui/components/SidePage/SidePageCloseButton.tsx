@@ -17,7 +17,7 @@ export interface SidePageCloseButtonProps extends CommonProps {
   isMobile?: boolean;
 }
 
-export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseButtonProps) => {
+export const SidePageCloseButton = ({ isHeaderFixed, isMobile }: SidePageCloseButtonProps): React.JSX.Element => {
   const [isFocusedByTab, setIsFocusedByTab] = useState(false);
 
   const locale = useLocaleForControl('SidePage', SidePageLocaleHelper);

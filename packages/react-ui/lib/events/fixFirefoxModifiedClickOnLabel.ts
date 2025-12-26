@@ -7,7 +7,8 @@ import { isFirefox } from '../client';
 // shift+click, ctrl+click on Win and cmd+click on Mac
 // https://bugzilla.mozilla.org/show_bug.cgi?id=559506
 export const fixFirefoxModifiedClickOnLabel =
-  (ref: React.RefObject<HTMLInputElement>) => (e: React.MouseEvent<HTMLLabelElement>) => {
+  (ref: React.RefObject<HTMLInputElement>) =>
+  (e: React.MouseEvent<HTMLLabelElement>): void => {
     const input = ref.current;
     if (!input) {
       return;

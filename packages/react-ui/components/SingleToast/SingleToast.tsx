@@ -42,5 +42,5 @@ export class SingleToast extends React.Component<ToastProps> {
     SingleToast.ref.current?.push(notification, config);
   };
 
-  render = () => <Toast ref={SingleToast.ref} {...this.props} />;
+  render = (): React.JSX.Element => <Toast ref={SingleToast.ref} {...this.props} />;
 }

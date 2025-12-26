@@ -1,7 +1,12 @@
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import type { InputKeyResult, InternalDateTypesOrder } from '../../../lib/date/types';
+import type {
+  InputKeyResult,
+  InternalDateComponentRaw,
+  InternalDateFragment,
+  InternalDateTypesOrder,
+} from '../../../lib/date/types';
 import { InternalDateComponentType, InternalDateValidateCheck } from '../../../lib/date/types';
 import type { DatePickerLocale } from '../../DatePicker/locale';
 import type { DateInputProps } from '../DateInput';
@@ -126,13 +131,13 @@ export class InternalDateMediator {
     return typeof shiftedType === 'number' ? shiftedType : type;
   }
 
-  public getFragments = () =>
+  public getFragments = (): InternalDateFragment[] =>
     this.iDate.toFragments({
       withSeparator: true,
       withPad: true,
     });
 
-  public deleteOneCharRight = (type: InternalDateComponentType, inputMode: boolean) => {
+  public deleteOneCharRight = (type: InternalDateComponentType, inputMode: boolean): void => {
     let prev = this.iDate.get(type);
     prev = String(inputMode ? prev : InternalDateTransformer.padDateComponent(type, prev));
     const next = prev.replace(/.$/, '') || null;
@@ -146,7 +151,7 @@ export class InternalDateMediator {
 
   public isEmpty = (): boolean => this.iDate.isEmpty();
 
-  public get = (type: InternalDateComponentType | null) => this.iDate.get(type);
+  public get = (type: InternalDateComponentType | null): InternalDateComponentRaw => this.iDate.get(type);
 
   public clear = (type: InternalDateComponentType | null): InternalDate => this.iDate.set(type, null);
 
@@ -157,7 +162,8 @@ export class InternalDateMediator {
 
   public getInternalString = (): string => (this.iDate.isEmpty() ? '' : this.iDate.toInternalString());
 
-  public getTypesOrder = () => this.iDate.toFragments().map(({ type }) => type) as InternalDateTypesOrder;
+  public getTypesOrder = (): InternalDateTypesOrder =>
+    this.iDate.toFragments().map(({ type }) => type) as InternalDateTypesOrder;
 
   public getLeftmostType = (): InternalDateComponentType => this.getTypesOrder()[0];
 

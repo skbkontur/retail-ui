@@ -6,7 +6,7 @@ import { OpenedIcon } from './OpenedIcon';
 
 export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'> & Pick<PasswordInputProps, 'size'>;
 
-export const PasswordInputIcon = ({ visible, size }: PasswordInputIconProps) => {
+export const PasswordInputIcon = ({ visible, size }: PasswordInputIconProps): React.JSX.Element => {
   if (visible) {
     return <ClosedIcon size={size} />;
   }

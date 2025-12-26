@@ -104,7 +104,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private popupRef = React.createRef<Popup>();
 
-  public getAllowedPositions() {
+  public getAllowedPositions(): string[] | undefined {
     return this.props.allowedPositions;
   }
 
@@ -129,7 +129,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -155,7 +155,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  public renderMain() {
+  public renderMain(): React.JSX.Element {
     const { disableAnimations, useWrapper } = this.getProps();
 
     return (

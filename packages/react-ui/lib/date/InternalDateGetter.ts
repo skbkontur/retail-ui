@@ -86,7 +86,7 @@ export class InternalDateGetter {
     return MAX_DATE;
   }
 
-  public static getTodayComponents() {
+  public static getTodayComponents(): { date: number; month: number; year: number } {
     const date = new Date();
     return {
       date: date.getDate(),

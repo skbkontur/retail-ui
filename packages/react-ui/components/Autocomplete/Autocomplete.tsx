@@ -182,7 +182,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
    * <Autocomplete ref={autocompleteRef} />
    * <button onClick={() => autocompleteRef.current?.focus()}>Focus</button>
    */
-  public focus() {
+  public focus(): void {
     if (this.input) {
       this.input.focus();
     }
@@ -195,7 +195,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
    * <Autocomplete ref={autocompleteRef} />
    * <button onClick={() => autocompleteRef.current?.blur()}>Blur</button>
    */
-  public blur() {
+  public blur(): void {
     this.handleBlur();
   }
 
@@ -205,7 +205,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -223,7 +223,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       </ThemeContext.Consumer>
     );
   }
-  public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
+  public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>): React.JSX.Element => {
     const { focused } = this.state;
 
     const isMobile = this.isMobileLayout;

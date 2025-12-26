@@ -13,7 +13,12 @@ interface PagingDefaultComponentInterface {
 
 export type PagingDefaultComponentProps = PagingDefaultComponentInterface & Pick<CommonProps, 'className'>;
 
-export const PagingDefaultComponent = ({ onClick, className, children, ...rest }: PagingDefaultComponentProps) => {
+export const PagingDefaultComponent = ({
+  onClick,
+  className,
+  children,
+  ...rest
+}: PagingDefaultComponentProps): React.JSX.Element => {
   const { dataProps } = extractDataProps(rest);
 
   return (

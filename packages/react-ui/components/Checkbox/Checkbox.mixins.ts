@@ -1,7 +1,12 @@
 import { isChrome, isFirefox } from '../../lib/client';
 import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 
-export const checkboxSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, checkboxBoxSize: string) => {
+export const checkboxSizeMixin = (
+  fontSize: string,
+  lineHeight: string,
+  paddingY: string,
+  checkboxBoxSize: string,
+): string => {
   return `
     line-height: ${lineHeight};
     font-size: ${fontSize};
@@ -18,7 +23,7 @@ export const boxWrapperSizeMixin = (
   fontSize: string,
   checkboxBoxSize: string,
   checkboxBoxOffsetY: string,
-) => {
+): string => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const boxFontSize = parseInt(fontSize);
   const baselineCompensation = getLabGrotesqueBaselineCompensation(

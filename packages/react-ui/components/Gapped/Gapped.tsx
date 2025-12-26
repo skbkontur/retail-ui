@@ -50,7 +50,7 @@ export class Gapped extends React.Component<GappedProps> {
 
   private getProps = createPropsGetter(Gapped.defaultProps);
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         {this.getProps().vertical ? this.renderVertical() : this.renderHorizontal()}

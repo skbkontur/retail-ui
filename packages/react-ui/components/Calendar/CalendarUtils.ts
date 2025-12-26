@@ -12,7 +12,7 @@ export const calculateScrollPosition = (
   scrollPosition: number,
   deltaY: number,
   theme: Theme,
-) => {
+): { scrollPosition: number; months: MonthViewModel[]; scrollDirection: number } => {
   const scrollDirection = deltaY > 0 ? 1 : -1;
 
   let nextScrollPosition = scrollPosition - deltaY;
@@ -45,7 +45,7 @@ export const applyDelta = (deltaY: number, theme: Theme) => {
   return (
     { scrollPosition, months }: Readonly<CalendarState>,
     { minDate, maxDate }: { minDate: CalendarDateShape; maxDate: CalendarDateShape },
-  ) => {
+  ): { scrollPosition: number; scrollDirection: number } => {
     const scrollDirection = deltaY > 0 ? 1 : -1;
     const isMinDateExceeded =
       minDate && scrollDirection < 0 && minDate.year * 12 + minDate.month > months[0].year * 12 + months[0].month;
@@ -65,20 +65,20 @@ export const applyDelta = (deltaY: number, theme: Theme) => {
   };
 };
 
-export const isMonthVisible = (top: number, month: MonthViewModel, theme: Theme) => {
+export const isMonthVisible = (top: number, month: MonthViewModel, theme: Theme): boolean => {
   return top < themeConfig(theme).WRAPPER_HEIGHT && top > -month.getHeight(theme);
 };
 
-export const getMonthsHeight = (months: MonthViewModel[], theme: Theme) =>
+export const getMonthsHeight = (months: MonthViewModel[], theme: Theme): number =>
   months.reduce((a, b) => a + b.getHeight(theme), 0);
 
 export const getMonths = (month: number, year: number): MonthViewModel[] => {
   return [-1, 0, 1].map((x) => MonthViewModel.create(month + x, year));
 };
 
-export const getMonthInNativeFormat = (month: number) => month - 1;
+export const getMonthInNativeFormat = (month: number): number => month - 1;
 
-export const getMonthInHumanFormat = (month: number) => month + 1;
+export const getMonthInHumanFormat = (month: number): number => month + 1;
 
 export const getInitialDate = ({
   today,
@@ -90,7 +90,7 @@ export const getInitialDate = ({
   date?: Nullable<CalendarDateShape>;
   minDate?: Nullable<CalendarDateShape>;
   maxDate?: Nullable<CalendarDateShape>;
-}) => {
+}): CalendarDateShape => {
   if (date) {
     return date;
   }
@@ -106,7 +106,7 @@ export const getInitialDate = ({
   return today;
 };
 
-export const getTodayDate = () => {
+export const getTodayDate = (): CalendarDateShape => {
   const date = new Date();
   return {
     date: date.getDate(),

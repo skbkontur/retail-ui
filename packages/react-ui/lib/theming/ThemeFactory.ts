@@ -24,7 +24,7 @@ export class ThemeFactory {
     return this.constructTheme(base, theme);
   }
 
-  public static overrideBaseTheme(theme: Theme) {
+  public static overrideBaseTheme(theme: Theme): void {
     // copying theme variables
     ThemeFactory.getKeys(this.defaultTheme).forEach((variableName) => {
       const descriptor = findPropertyDescriptor(theme, variableName);
@@ -38,7 +38,7 @@ export class ThemeFactory {
     });
   }
 
-  public static getKeys<T extends Theme>(theme: T) {
+  public static getKeys<T extends Theme>(theme: T): Array<keyof T> {
     const keys: Array<keyof T> = [];
     while (isNonNullable(theme)) {
       (Object.keys(theme) as typeof keys).forEach((key) => {

@@ -138,7 +138,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
   };
 
-  public render() {
+  public render(): React.JSX.Element {
     const {
       width,
       onMouseLeave,
@@ -184,7 +184,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   /**
    * @public
    */
-  public focus() {
+  public focus(): void {
     const node = this.node;
     if (!node) {
       return;

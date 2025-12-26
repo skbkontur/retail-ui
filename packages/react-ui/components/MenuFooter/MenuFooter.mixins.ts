@@ -4,7 +4,7 @@ export const menuFooterSizeMixin = (
   menuFooterLineHeight: string,
   menuFooterPaddingTop: string,
   menuFooterPaddingBottom: string,
-) => {
+): string => {
   const paddingRight = menuFooterPaddingX;
 
   return `
@@ -14,7 +14,7 @@ export const menuFooterSizeMixin = (
   `;
 };
 
-export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
+export const withIconSizeMixin = (menuItemPaddingForIcon: string): string => {
   return `
     padding-left: ${menuItemPaddingForIcon};
   `;

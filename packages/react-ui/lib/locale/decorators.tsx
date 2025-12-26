@@ -6,7 +6,7 @@ import type { LocaleHelper } from './LocaleHelper';
 import type { LangCodes, LocaleControls } from './types';
 
 export function locale<C>(controlName: keyof LocaleControls, localeHelper: LocaleHelper<C>) {
-  return <T extends new (...args: any[]) => React.Component>(constructor: T) => {
+  return <T extends new (...args: any[]) => React.Component>(constructor: T): T => {
     const LocaleDecorator = class extends constructor {
       public static contextType = LocaleContext;
       public context!: React.ContextType<typeof LocaleContext>;

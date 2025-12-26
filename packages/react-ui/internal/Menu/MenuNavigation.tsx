@@ -98,7 +98,7 @@ export class MenuNavigation<T extends Highlightable> {
     return false;
   }
 
-  public reset() {
+  public reset(): void {
     this.highlight(null);
     this.highlightedItem = null;
   }

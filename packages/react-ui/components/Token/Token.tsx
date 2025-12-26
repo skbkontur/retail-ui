@@ -75,7 +75,7 @@ export class Token extends React.Component<TokenProps> {
   private setRootNode!: TSetRootNode;
   private readonly locale!: TokenLocale;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

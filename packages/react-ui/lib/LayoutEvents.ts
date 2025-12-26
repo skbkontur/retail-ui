@@ -21,7 +21,7 @@ function unlistenBrowserEvents(globalObject: GlobalObject) {
   globalObject.removeEventListener?.('resize', emit, { capture: true });
 }
 
-export function addListener(callback: () => void, globalObject: GlobalObject) {
+export function addListener(callback: () => void, globalObject: GlobalObject): { remove(): void } {
   const emitter = getEmitter();
   if (emitter.listeners('layout').length === 0) {
     listenBrowserEvents(globalObject);
@@ -37,7 +37,7 @@ export function addListener(callback: () => void, globalObject: GlobalObject) {
   };
 }
 
-export function emit() {
+export function emit(): void {
   unstable_batchedUpdates(() => {
     getEmitter().emit('layout');
   });

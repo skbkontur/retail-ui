@@ -34,7 +34,7 @@ export const GlobalLoaderView = ({
   status,
   disableAnimations,
   ...rest
-}: GlobalLoaderViewProps) => {
+}: GlobalLoaderViewProps): React.JSX.Element => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();

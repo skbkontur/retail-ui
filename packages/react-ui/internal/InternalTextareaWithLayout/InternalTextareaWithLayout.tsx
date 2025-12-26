@@ -70,10 +70,10 @@ export class InternalTextareaWithLayout extends React.Component<
     clearCrossShowed: this.getClearCrossShowed({ focused: false }),
   };
 
-  public focus() {
+  public focus(): void {
     this.wrappedComponentRef.current?.focus();
   }
-  public blur() {
+  public blur(): void {
     this.wrappedComponentRef.current?.blur();
   }
   public setSelectionRange(start: number, end: number) {

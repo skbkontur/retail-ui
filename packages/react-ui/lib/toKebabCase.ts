@@ -1,4 +1,4 @@
-export const toKebabCase = (value: string) => {
+export const toKebabCase = (value: string): string => {
   if (!value) {
     return '';
   }

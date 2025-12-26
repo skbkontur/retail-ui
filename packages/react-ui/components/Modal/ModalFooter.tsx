@@ -40,7 +40,7 @@ export const ModalFooterDataTids = {
  *
  * @visibleName Modal.Footer
  */
-function ModalFooter(props: ModalFooterProps) {
+function ModalFooter(props: ModalFooterProps): React.JSX.Element {
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

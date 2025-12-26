@@ -74,7 +74,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

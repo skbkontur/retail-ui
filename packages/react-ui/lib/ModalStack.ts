@@ -43,7 +43,7 @@ export class ModalStack {
     };
   }
 
-  public static remove(component: React.Component, globalObject: GlobalObject) {
+  public static remove(component: React.Component, globalObject: GlobalObject): void {
     const { emitter, mounted } = ModalStack.getStackInfo(globalObject);
     const index = mounted.indexOf(component);
     if (index !== -1) {
@@ -51,7 +51,7 @@ export class ModalStack {
     }
     emitter.emit('change');
   }
-  public static rerender(globalObject: GlobalObject) {
+  public static rerender(globalObject: GlobalObject): void {
     const { emitter } = ModalStack.getStackInfo(globalObject);
     emitter.emit('change');
   }

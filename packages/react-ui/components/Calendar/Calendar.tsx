@@ -195,7 +195,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
     this.animation = animation(this.globalObject);
 
@@ -213,7 +213,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
    * Прокручивает календарь до переданной даты
    * @public
    */
-  public scrollToMonth = async (month: number, year: number) => {
+  public scrollToMonth = async (month: number, year: number): Promise<void> => {
     const monthNative = CalendarUtils.getMonthInNativeFormat(month);
 
     if (this.animation.inProgress()) {

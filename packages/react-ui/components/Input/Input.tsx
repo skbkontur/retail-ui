@@ -35,7 +35,7 @@ export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[] = selectionAllowedTypes) => {
+export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[] = selectionAllowedTypes): string => {
   return `<Input />. Selection is not supported by the type "${type}". Types that support selection: ${allowedTypes
     .map((i) => `"${i}"`)
     .join(', ')}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
@@ -230,7 +230,7 @@ export class Input extends React.Component<InputProps, InputState> {
    * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus() {
+  public focus(): void {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
     this.input.focus();
   }
@@ -238,7 +238,7 @@ export class Input extends React.Component<InputProps, InputState> {
   /** Программно снимает фокус с кнопки.
    * @public
    */
-  public blur() {
+  public blur(): void {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input.blur();
   }
@@ -246,14 +246,14 @@ export class Input extends React.Component<InputProps, InputState> {
   /** Возвращает DOM-узел поля ввода.
    * @public
    */
-  public getNode() {
+  public getNode(): HTMLInputElement | null {
     return this.input;
   }
 
   /** Кратковременно визуально подсвечивает поле ввода, чтобы привлечь внимание пользователя.
    * @public
    */
-  public blink() {
+  public blink(): void {
     blink({ el: this.labelRef.current, blinkColor: this.theme.inputBlinkColor });
   }
 
@@ -262,7 +262,7 @@ export class Input extends React.Component<InputProps, InputState> {
    * @param {number} start
    * @param {number} end
    */
-  public setSelectionRange(start: number, end: number) {
+  public setSelectionRange(start: number, end: number): void {
     // https://github.com/facebook/react/issues/7769
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
     if (!selectionAllowedTypes.includes(this.getProps().type)) {

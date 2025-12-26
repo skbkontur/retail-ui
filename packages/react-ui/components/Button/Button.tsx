@@ -205,14 +205,14 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   /** Программно устанавливает фокус на кнопке. Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus() {
+  public focus(): void {
     this.node?.focus();
   }
 
   /** Программно снимает фокус с кнопки.
    * @public
    */
-  public blur() {
+  public blur(): void {
     this.node?.blur();
   }
 

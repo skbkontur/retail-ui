@@ -13,7 +13,7 @@ export class Item extends React.Component<ItemProps> {
   public static __KONTUR_REACT_UI__ = 'SelectItem';
   public static displayName = 'SelectItem';
 
-  public render() {
+  public render(): React.JSX.Element {
     return <MenuItem isNotSelectable={this.props.isNotSelectable}>{this.props.children}</MenuItem>;
   }
 }

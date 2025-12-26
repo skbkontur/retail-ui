@@ -38,7 +38,7 @@ export class Month extends React.Component<MonthProps> {
     CalendarScrollEvents.addListener(this.closeSelects);
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -49,7 +49,7 @@ export class Month extends React.Component<MonthProps> {
     );
   }
 
-  public renderMain() {
+  public renderMain(): JSX.Element {
     const { month, top } = this.props;
     return (
       <MonthView
@@ -70,11 +70,11 @@ export class Month extends React.Component<MonthProps> {
     );
   }
 
-  private renderCells() {
+  private renderCells(): JSX.Element {
     return <MonthDayGrid days={this.props.month.days} offset={this.props.month.offset} />;
   }
 
-  private closeSelects = () => {
+  private closeSelects = (): void => {
     if (this.monthSelect) {
       this.monthSelect.close();
     }
@@ -83,19 +83,19 @@ export class Month extends React.Component<MonthProps> {
     }
   };
 
-  private monthRef = (monthSelect: DateSelect | null) => {
+  private monthRef = (monthSelect: DateSelect | null): void => {
     this.monthSelect = monthSelect;
   };
 
-  private yearRef = (yearSelect: DateSelect | null) => {
+  private yearRef = (yearSelect: DateSelect | null): void => {
     this.yearSelect = yearSelect;
   };
 
-  private handleMonthSelect = (month: number) => {
+  private handleMonthSelect = (month: number): void => {
     this.props.onMonthYearChange(month, this.props.month.year);
   };
 
-  private handleYearSelect = (year: number) => {
+  private handleYearSelect = (year: number): void => {
     this.props.onMonthYearChange(this.props.month.month, year);
   };
 }
@@ -118,7 +118,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
     return this.props.days !== nextProps.days;
   }
 
-  public render() {
+  public render(): JSX.Element {
     this.styles = getStyles(this.emotion);
     this.cellStyles = getCellStyles(this.emotion);
 
@@ -132,7 +132,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
     );
   }
 
-  public renderMain() {
+  public renderMain(): JSX.Element {
     const leadingDays = Array.from({ length: this.props.offset }, (_, i) => (
       <div key={`leading_${i}`} className={this.cellStyles.cell(this.theme)} />
     ));

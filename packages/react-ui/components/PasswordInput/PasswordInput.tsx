@@ -111,7 +111,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
    * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus = () => {
+  public focus = (): void => {
     if (this.input) {
       this.input.focus();
     }
@@ -120,7 +120,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   /** Программно снимает фокус с кнопки.
    * @public
    */
-  public blur = () => {
+  public blur = (): void => {
     if (this.input) {
       this.input.blur();
     }

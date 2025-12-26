@@ -12,7 +12,7 @@ interface LoadingButtonIconProps {
   isCentered?: boolean;
 }
 
-export const LoadingButtonIcon = ({ size, isCentered = true }: LoadingButtonIconProps) => {
+export const LoadingButtonIcon = ({ size, isCentered = true }: LoadingButtonIconProps): JSX.Element => {
   const styles = useStyles(getStyles);
   return (
     <div data-tid={ButtonDataTids.spinner} className={isCentered ? styles.loading() : undefined}>

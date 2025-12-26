@@ -250,7 +250,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   /**
    * @public
    */
-  public focus(opts?: { withoutOpenDropdown?: boolean }) {
+  public focus(opts?: { withoutOpenDropdown?: boolean }): void {
     if (this.comboboxElement) {
       this.comboboxElement.focus(opts);
     }
@@ -259,7 +259,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     if (this.comboboxElement) {
       this.comboboxElement.blur();
     }
@@ -272,7 +272,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * @param {string} [query] Текст поиска. По умолчанию берется
    * текст из инпута или результат `valueToString(value)`
    */
-  public search(query?: string) {
+  public search(query?: string): void {
     if (this.comboboxElement) {
       this.comboboxElement.search(query);
     }
@@ -281,7 +281,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   /**
    * @public
    */
-  public cancelSearch() {
+  public cancelSearch(): void {
     if (this.comboboxElement) {
       this.comboboxElement.cancelSearch();
     }
@@ -290,7 +290,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   /**
    * @public Открывает выпадающий список
    */
-  public open() {
+  public open(): void {
     if (this.comboboxElement) {
       this.comboboxElement.open();
     }
@@ -299,7 +299,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   /**
    * @public Закрывает выпадающий список
    */
-  public close() {
+  public close(): void {
     if (this.comboboxElement) {
       this.comboboxElement.close();
     }
@@ -309,7 +309,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * Выделяет текст внутри input
    * @public
    */
-  public selectInputText() {
+  public selectInputText(): void {
     if (this.comboboxElement) {
       this.comboboxElement.selectInputText();
     }
@@ -319,13 +319,13 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * Сбрасывает введенное пользователем значение
    * @public
    */
-  public reset() {
+  public reset(): void {
     if (this.comboboxElement) {
       this.comboboxElement.reset();
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return <CustomComboBox {...this.getProps()} size={this.props.size} ref={this.customComboBoxRef} />;
   }
 

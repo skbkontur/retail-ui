@@ -66,7 +66,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
     return this.childContext.validate(withoutFocusOrValidationSettings);
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ValidationContextWrapper
         data-tid={this.props['data-tid']}

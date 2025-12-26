@@ -11,7 +11,7 @@ interface UploadIconProps {
   view?: FileUploaderView;
 }
 
-export const UploadIcon = (props: UploadIconProps) => {
+export const UploadIcon = (props: UploadIconProps): React.JSX.Element => {
   const { size, view = 'row' } = props;
 
   return view === 'row' ? <RowUploadIcon size={size} /> : <TileUploadIcon size={size} />;

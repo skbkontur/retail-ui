@@ -47,7 +47,7 @@ export class ToastView extends React.Component<ToastViewProps> {
   private setRootNode!: TSetRootNode;
   private readonly locale!: ToastLocale;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

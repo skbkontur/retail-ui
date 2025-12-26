@@ -99,7 +99,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   /**
    * @public
    */
-  public focus() {
+  public focus(): void {
     if (this.node) {
       this.node.focus();
     }
@@ -108,7 +108,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     if (this.node) {
       this.node.blur();
     }

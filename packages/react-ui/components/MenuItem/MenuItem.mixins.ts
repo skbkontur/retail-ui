@@ -5,7 +5,7 @@ export const menuItemSizeMixin = (
   menuItemPaddingY: string,
   menuItemLineHeight: string,
   menuItemFontSize: string,
-) => {
+): string => {
   const { paddingX, paddingY } = getMenuItemPaddings({
     menuItemPaddingX,
     menuItemPaddingY,
@@ -18,14 +18,14 @@ export const menuItemSizeMixin = (
   `;
 };
 
-export const iconSizeMixin = (menuItemIconWidth: string, menuItemPaddingX: string) => {
+export const iconSizeMixin = (menuItemIconWidth: string, menuItemPaddingX: string): string => {
   return `
     width: ${menuItemIconWidth};
     left: ${parseInt(menuItemPaddingX)}px;
   `;
 };
 
-export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
+export const withIconSizeMixin = (menuItemPaddingForIcon: string): string => {
   return `
     padding-left: ${menuItemPaddingForIcon};
   `;

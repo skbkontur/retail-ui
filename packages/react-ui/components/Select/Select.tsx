@@ -282,9 +282,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   public static Item = Item;
-  public static SEP = () => <MenuSeparator />;
+  public static SEP = (): React.JSX.Element => <MenuSeparator />;
 
-  public static staticElement = (element: React.ReactElement | (() => React.ReactElement)) => {
+  public static staticElement = (
+    element: React.ReactElement | (() => React.ReactElement),
+  ): React.ReactElement | (() => React.ReactElement) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.staticElement(element) expects element to be a valid react element.',
@@ -323,7 +325,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.linkStyles = getLinkStyles(this.emotion);
     this.styles = getStyles(this.emotion);
 
@@ -345,7 +347,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   /**
    * @public
    */
-  public open = () => {
+  public open = (): void => {
     if (!this.state.opened) {
       this.setState({ opened: true });
 
@@ -358,7 +360,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   /**
    * @public
    */
-  public close = () => {
+  public close = (): void => {
     if (this.state.opened) {
       this.setState({ opened: false, searchPattern: '' });
 
@@ -371,7 +373,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   /**
    * @public
    */
-  public focus = () => {
+  public focus = (): void => {
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }

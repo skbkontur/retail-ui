@@ -183,7 +183,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -204,7 +204,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
    * Программная установка фокуса чекбоксу.
    * @public
    */
-  public focus() {
+  public focus(): void {
     this.keyListener.isTabPressed = true;
     this.input.current?.focus();
   }
@@ -213,7 +213,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
    * Программное снятие фокуса с чекбокса.
    * @public
    */
-  public blur() {
+  public blur(): void {
     this.input.current?.blur();
   }
 
@@ -221,7 +221,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
    * Устанавливает чекбокс в HTML-состояние `indeterminate`.
    * @public
    */
-  public setIndeterminate = () => {
+  public setIndeterminate = (): void => {
     this.setState({
       indeterminate: true,
     });
@@ -234,7 +234,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
    * Снимает с чекбокса HTML-состояние `indeterminate`.
    * @public
    */
-  public resetIndeterminate = () => {
+  public resetIndeterminate = (): void => {
     this.setState({
       indeterminate: false,
     });

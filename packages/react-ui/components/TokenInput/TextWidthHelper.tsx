@@ -45,7 +45,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

@@ -36,7 +36,7 @@ export const ModalHeaderDataTids = {
  *
  * @visibleName Modal.Header
  */
-function ModalHeader(props: ModalHeaderProps) {
+function ModalHeader(props: ModalHeaderProps): React.JSX.Element {
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

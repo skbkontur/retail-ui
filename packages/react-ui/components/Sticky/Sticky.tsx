@@ -106,7 +106,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     this.reflowCounter = 0;
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
     return this.renderMain();
   }
@@ -163,7 +163,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
    *
    * @public
    */
-  public reflow = () => {
+  public reflow = (): void => {
     if (!this.globalObject.document?.documentElement) {
       warning(false, 'There is no "documentElement" in document');
       return;

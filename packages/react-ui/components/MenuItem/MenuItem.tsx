@@ -123,7 +123,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public context!: MenuContextType;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -174,23 +174,23 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   }
 
-  public highlight = () => {
+  public highlight = (): void => {
     this.setState({ highlighted: true });
   };
 
-  public unhighlight = () => {
+  public unhighlight = (): void => {
     this.setState({ highlighted: false });
   };
 
-  public select = (event: React.SyntheticEvent<HTMLElement>) => {
+  public select = (event: React.SyntheticEvent<HTMLElement>): void => {
     this.handleClick(event as React.MouseEvent<HTMLElement>);
   };
 
-  public isEnabled = () => {
+  public isEnabled = (): boolean => {
     return !this.props.disabled;
   };
 
-  public navigate = () => {
+  public navigate = (): void => {
     if (!this.props.href) {
       return;
     }

@@ -13,7 +13,7 @@ import * as CDS from './CalendarDateShape';
 import { CalendarDataTids } from './Calendar';
 import { CalendarContext } from './CalendarContext';
 
-export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShape>) => {
+export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShape>): number => {
   let min = 0;
   for (let i = 0; i < 12; ++i) {
     if (minDate && CDS.isGreaterOrEqual({ date: 31, month: i, year }, minDate)) {
@@ -24,7 +24,7 @@ export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShap
   return min;
 };
 
-export const getMaxMonth = (year: number, maxDate: Nullable<CDS.CalendarDateShape>) => {
+export const getMaxMonth = (year: number, maxDate: Nullable<CDS.CalendarDateShape>): number => {
   let max = 11;
   for (let i = 11; i >= 0; --i) {
     if (maxDate && CDS.isLessOrEqual({ date: 1, month: i, year }, maxDate)) {
@@ -50,7 +50,7 @@ interface MonthViewProps {
   yearSelectRef: (select: DateSelect | null) => void;
 }
 
-export function MonthView(props: MonthViewProps) {
+export function MonthView(props: MonthViewProps): React.JSX.Element {
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

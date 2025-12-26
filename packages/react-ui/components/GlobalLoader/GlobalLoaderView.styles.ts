@@ -83,7 +83,16 @@ const slowProgressAnimation = ({ keyframes }: Emotion) => keyframes`
   to { width: 90% }
 `;
 
-export const getAnimations = (emotion: Emotion) => ({
+export const getAnimations = (
+  emotion: Emotion,
+): {
+  successAnimation(delayBeforeHide: number, width: number, left: number): string;
+  errorAnimation(t: Theme): string;
+  standardAnimation(t: Theme, expectedTime: number): string;
+  acceptAnimation(t: Theme, startWidth: number, expectedTime: number, width: number, left: number): string;
+  slowAcceptAnimation(t: Theme, startWidth: number, width: number, left: number): string;
+  acceptWithoutAnimation(startWidth: number): string;
+} => ({
   successAnimation(delayBeforeHide: number, width: number, left: number) {
     return emotion.css`
       animation: successAnimation;

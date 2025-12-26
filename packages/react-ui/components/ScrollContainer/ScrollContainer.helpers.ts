@@ -2,7 +2,13 @@ import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.co
 import type { ScrollBarScrollState } from './ScrollBar';
 import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer';
 
-export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
+export interface ScrollSizeParams {
+  scrollActive: boolean;
+  scrollSize: number;
+  scrollPos: number;
+}
+
+export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y'): ScrollSizeParams => {
   const { offset, size, pos } = scrollSizeParametersNames[axis];
 
   const contentSize = inner[size];
@@ -30,7 +36,7 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   };
 };
 
-export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) => {
+export const getScrollYOffset = (element: HTMLElement, container: HTMLElement): number => {
   const elementTopOffset = element.offsetTop;
 
   if (container.scrollTop > elementTopOffset) {

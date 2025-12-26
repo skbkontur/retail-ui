@@ -83,7 +83,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -107,7 +107,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     );
   }
 
-  public renderMain() {
+  public renderMain(): React.JSX.Element | null {
     if (!this.props.caption) {
       return null;
     }

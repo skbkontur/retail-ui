@@ -25,7 +25,7 @@ export class CursorHelper {
     return map[Math.min(Math.max(0, position), map.length - 1)];
   }
 
-  public static calculatePosition(map: CursorMap, position: number, step: number) {
+  public static calculatePosition(map: CursorMap, position: number, step: number): number {
     if (position < 0 || map.length <= position) {
       warning(false, `position out of range [${0} .. ${map.length - 1}], actual value: ${position}`);
       return position < 0 ? 0 : map.length - 1;
@@ -34,7 +34,7 @@ export class CursorHelper {
     return CursorHelper.toFormattedPosition(map, raw + step);
   }
 
-  public static extendSelection(map: CursorMap, selection: Selection, step: number) {
+  public static extendSelection(map: CursorMap, selection: Selection, step: number): Selection {
     const normalizedSelection = CursorHelper.normalizeSelection(map, selection);
 
     return CursorHelper.normalizeSelection(map, calculateExtendedSelection(map, normalizedSelection, step));
@@ -67,12 +67,12 @@ export class CursorHelper {
     };
   }
 
-  public static toRawPosition(map: CursorMap, formattedPosition: number) {
+  public static toRawPosition(map: CursorMap, formattedPosition: number): number {
     const count = Math.min(Math.max(0, formattedPosition), map.length - 1);
     return new Set(map.slice(0, count + 1)).size - 1;
   }
 
-  public static toFormattedPosition(map: CursorMap, rawPosition: number) {
+  public static toFormattedPosition(map: CursorMap, rawPosition: number): number {
     const count = Math.max(0, rawPosition) + 1;
     const unique = new Set();
 

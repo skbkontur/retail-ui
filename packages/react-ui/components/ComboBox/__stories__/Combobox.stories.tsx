@@ -424,7 +424,7 @@ class SimpleCombobox extends React.Component<
     );
   }
 
-  public open() {
+  public open(): void {
     if (this.comboBoxRef.current) {
       this.comboBoxRef.current.open();
     }

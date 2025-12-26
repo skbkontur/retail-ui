@@ -6,7 +6,7 @@ import { useGlobal } from '../renderEnvironment';
 
 let scrollbarWidth: number | null = null;
 
-export function getScrollWidth(globalObject: GlobalObject) {
+export function getScrollWidth(globalObject: GlobalObject): number {
   if (!globalObject.document) {
     return 0;
   }
@@ -31,7 +31,7 @@ export function getScrollWidth(globalObject: GlobalObject) {
   return scrollbarWidth;
 }
 
-export function useGetScrollWidth() {
+export function useGetScrollWidth(): number {
   const globalObject = useGlobal();
   return useMemo(() => getScrollWidth(globalObject), [globalObject]);
 }

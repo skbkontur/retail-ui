@@ -64,7 +64,7 @@ function handleNativeFocus(event: UIEvent) {
 }
 
 export function containsTargetOrRenderContainer(target: Element) {
-  return (element: Element) => {
+  return (element: Element): boolean => {
     if (!element) {
       return false;
     }
@@ -112,7 +112,7 @@ export function listen(
   elements: Element[] | (() => Element[]),
   callback: (event: Event) => void,
   globalObject: GlobalObject,
-) {
+): { remove(): void } {
   addFocusListener(globalObject);
 
   const handler = {

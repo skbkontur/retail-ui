@@ -44,7 +44,7 @@ export class ColorObject implements ColorObjectType {
     this.type = type;
   }
 
-  public luma() {
+  public luma(): number {
     let r = this.rgb[0] / 255;
     let g = this.rgb[1] / 255;
     let b = this.rgb[2] / 255;
@@ -56,7 +56,7 @@ export class ColorObject implements ColorObjectType {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   }
 
-  public toHEXString() {
+  public toHEXString(): string {
     warning(this.alpha === 1, `There is an alpha channel=${this.alpha}, converting to HEX will discard opacity`);
 
     return (
@@ -71,17 +71,17 @@ export class ColorObject implements ColorObjectType {
     );
   }
 
-  public toRGB() {
+  public toRGB(): { r: number; g: number; b: number; a: number } {
     return { r: this.rgb[0], g: this.rgb[1], b: this.rgb[2], a: this.alpha };
   }
 
-  public toRGBString() {
+  public toRGBString(): string {
     return this.alpha < 1
       ? `rgba(${this.rgb[0]}, ${this.rgb[1]}, ${this.rgb[2]}, ${this.alpha})`
       : `rgb(${this.rgb[0]}, ${this.rgb[1]}, ${this.rgb[2]})`;
   }
 
-  public toHSL() {
+  public toHSL(): { h: number; s: number; l: number; a: number } {
     const r = this.rgb[0] / 255;
     const g = this.rgb[1] / 255;
     const b = this.rgb[2] / 255;
@@ -117,14 +117,14 @@ export class ColorObject implements ColorObjectType {
     };
   }
 
-  public toHSLString() {
+  public toHSLString(): string {
     const hsl = this.toHSL();
     return hsl.a < 1
       ? `hsla(${hsl.h}, ${hsl.s * 100}%, ${hsl.l * 100}%, ${hsl.a})`
       : `hsl(${hsl.h}, ${hsl.s * 100}%, ${hsl.l * 100}%)`;
   }
 
-  public toColorString(type: ColorType = this.type) {
+  public toColorString(type: ColorType = this.type): string {
     switch (type) {
       case 'rgb':
       case 'rgba': {
@@ -142,7 +142,7 @@ export class ColorObject implements ColorObjectType {
     }
   }
 
-  public clone() {
+  public clone(): ColorObject {
     const { rgb, alpha, type } = this;
     return new ColorObject(rgb, alpha, type);
   }

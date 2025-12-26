@@ -16,7 +16,7 @@ export const DarkTheme6_0 = createTheme({
     public static yellow = '#ffa236';
     public static yellowDark = '#ea7324';
     public static warningMain = '#ffa236';
-    public static get errorMain() {
+    public static get errorMain(): string {
       return this.red;
     }
     public static errorText = '#FE6C6C';
@@ -36,7 +36,7 @@ export const DarkTheme6_0 = createTheme({
     public static bgChecked = '#EBEBEB';
     public static outlineColorFocus = '#EBEBEB';
     public static borderColorFocus = '#EBEBEB';
-    public static get borderColorError() {
+    public static get borderColorError(): string {
       return this.errorMain;
     }
     public static fixedPanelShadow = 'none';
@@ -61,22 +61,22 @@ export const DarkTheme6_0 = createTheme({
 
     public static linkSuccessColor = '#46CD68';
     public static linkSuccessHoverColor = '#67D881';
-    public static get linkSuccessActiveColor() {
+    public static get linkSuccessActiveColor(): string {
       return this.green;
     }
 
-    public static get linkDangerColor() {
+    public static get linkDangerColor(): string {
       return this.errorText;
     }
     public static linkDangerHoverColor = '#FE8C8C';
-    public static get linkDangerActiveColor() {
+    public static get linkDangerActiveColor(): string {
       return '#ED3F3F';
     }
 
     public static linkFocusOutlineColor = '#EBEBEB';
     public static linkHoverTextDecoration = 'none';
 
-    public static get linkDisabledColor() {
+    public static get linkDisabledColor(): string {
       return this.textColorDisabled;
     }
     //#endregion Link
@@ -91,35 +91,35 @@ export const DarkTheme6_0 = createTheme({
     public static btnDefaultActiveBg = 'rgba(255, 255, 255, 0.1)';
     public static btnDefaultHoverBgStart = 'none';
     public static btnDefaultHoverBgEnd = 'none';
-    public static get btnDefaultHoverBorderColor() {
+    public static get btnDefaultHoverBorderColor(): string {
       return this.borderColorGrayLight;
     }
-    public static get btnDefaultActiveBorderColor() {
+    public static get btnDefaultActiveBorderColor(): string {
       return this.borderColorGrayLight;
     }
     public static btnDefaultBorderColor = 'rgba(255, 255, 255, 0.16)';
     public static btnDefaultTextColor = 'rgba(255, 255, 255, 0.87)';
 
     // success
-    public static get btnSuccessBg() {
+    public static get btnSuccessBg(): string {
       return this.green;
     }
-    public static get btnSuccessBorderColor() {
+    public static get btnSuccessBorderColor(): string {
       return this.btnSuccessBg;
     }
-    public static get btnSuccessTextColor() {
+    public static get btnSuccessTextColor(): string {
       return this.textColorDefault;
     }
 
     public static btnSuccessHoverBg = '#26AD50';
-    public static get btnSuccessHoverBorderColor() {
+    public static get btnSuccessHoverBorderColor(): string {
       return this.btnSuccessHoverBg;
     }
 
-    public static get btnSuccessActiveBg() {
+    public static get btnSuccessActiveBg(): string {
       return this.greenDark;
     }
-    public static get btnSuccessActiveBorderColor() {
+    public static get btnSuccessActiveBorderColor(): string {
       return this.btnSuccessActiveBg;
     }
 
@@ -134,37 +134,37 @@ export const DarkTheme6_0 = createTheme({
     public static btnPrimaryTextColor = 'rgba(0, 0, 0, 0.865)';
 
     // danger
-    public static get btnDangerBg() {
+    public static get btnDangerBg(): string {
       return this.errorMain;
     }
-    public static get btnDangerBorderColor() {
+    public static get btnDangerBorderColor(): string {
       return this.btnDangerBg;
     }
 
     public static btnDangerHoverBg = '#ED3F3F';
-    public static get btnDangerHoverBorderColor() {
+    public static get btnDangerHoverBorderColor(): string {
       return this.btnDangerHoverBg;
     }
-    public static get btnDangerTextColor() {
+    public static get btnDangerTextColor(): string {
       return this.textColorDefault;
     }
     public static btnDangerActiveBg = '#DD3333';
-    public static get btnDangerActiveBorderColor() {
+    public static get btnDangerActiveBorderColor(): string {
       return this.btnDangerActiveBg;
     }
 
     // pay
     public static btnPayBg = '#FCB73E';
-    public static get btnPayBorderColor() {
+    public static get btnPayBorderColor(): string {
       return this.btnPayBg;
     }
     public static btnPayHoverBg = '#FCC660';
-    public static get btnPayHoverBorderColor() {
+    public static get btnPayHoverBorderColor(): string {
       return this.btnPayHoverBg;
     }
     public static btnPayTextColor = '#222222';
     public static btnPayActiveBg = '#F69912';
-    public static get btnPayActiveBorderColor() {
+    public static get btnPayActiveBorderColor(): string {
       return this.btnPayActiveBg;
     }
 
@@ -186,13 +186,13 @@ export const DarkTheme6_0 = createTheme({
 
     // warning, error
     public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
-    public static get btnErrorSecondary() {
+    public static get btnErrorSecondary(): string {
       return this.errorSecondary;
     }
 
     // disabled
     public static btnDisabledBg = 'rgba(255, 255, 255, 0.04)';
-    public static get btnDisabledTextColor() {
+    public static get btnDisabledTextColor(): string {
       return this.textColorDisabled;
     }
     public static btnDisabledBorderColor = 'transparent';
@@ -217,16 +217,16 @@ export const DarkTheme6_0 = createTheme({
     public static modalCloseButtonHoverColor = 'rgba(255, 255, 255, 0.865)';
 
     public static modalFooterBg = '#222222';
-    public static get modalFooterTextColor() {
+    public static get modalFooterTextColor(): string {
       return this.textColorDefault;
     }
-    public static get modalBodyTextColor() {
+    public static get modalBodyTextColor(): string {
       return this.textColorDefault;
     }
-    public static get modalFixedPanelShadow() {
+    public static get modalFixedPanelShadow(): string {
       return this.fixedPanelShadow;
     }
-    public static get modalFixedHeaderBg() {
+    public static get modalFixedHeaderBg(): string {
       return this.modalBg;
     }
     public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.1)';
@@ -238,28 +238,28 @@ export const DarkTheme6_0 = createTheme({
     public static sidePageBackingBgOpacity = '0.7';
     public static sidePageCloseButtonColor = 'rgba(255, 255, 255, 0.32)';
     public static sidePageCloseButtonHoverColor = 'rgba(255, 255, 255, 0.865)';
-    public static get sidePageBodyTextColor() {
+    public static get sidePageBodyTextColor(): string {
       return this.textColorDefault;
     }
-    public static get sidePageFooterTextColor() {
+    public static get sidePageFooterTextColor(): string {
       return this.textColorDefault;
     }
-    public static get sidePageFixedPanelShadow() {
+    public static get sidePageFixedPanelShadow(): string {
       return this.fixedPanelShadow;
     }
     //#endregion SidePage
 
     //#region Select
     public static selectMenuArrowColor = 'rgba(255, 255, 255, 0.54)';
-    public static get selectPlaceholderColorDisabled() {
+    public static get selectPlaceholderColorDisabled(): string {
       return this.textColorDisabled;
     }
-    public static get selectMenuArrowColorDisabled() {
+    public static get selectMenuArrowColorDisabled(): string {
       return this.textColorDisabled;
     }
     //#endregion Select
     //#region Calendar
-    public static get calendarCellWeekendColor() {
+    public static get calendarCellWeekendColor(): string {
       return this.errorText;
     }
     public static calendarCellTodayBorder = '1px solid rgba(255, 255, 255, 0.48)';
@@ -283,7 +283,7 @@ export const DarkTheme6_0 = createTheme({
     public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
     public static pagingPageLinkDisabledActiveBg = 'rgba(255, 255, 255, 0.08)';
     public static pagingForwardLinkColor = 'rgba(255, 255, 255, 0.87)';
-    public static get pagingForwardLinkDisabledColor() {
+    public static get pagingForwardLinkDisabledColor(): string {
       return this.linkDisabledColor;
     }
     //#endregion Paging
@@ -302,7 +302,7 @@ export const DarkTheme6_0 = createTheme({
     public static tabColorHover = 'rgba(255, 255, 255, 0.16)';
     //#endregion Tab, Tabs
     //#region Menu
-    public static get menuBgDefault() {
+    public static get menuBgDefault(): string {
       return this.bgSecondary;
     }
     // menuItem
@@ -312,15 +312,15 @@ export const DarkTheme6_0 = createTheme({
 
     public static menuItemCommentColor = 'rgba(255, 255, 255, 0.54)';
     public static menuItemCommentOpacity = '1';
-    public static get menuItemDisabledColor() {
+    public static get menuItemDisabledColor(): string {
       return this.textColorDisabled;
     }
     // menuHeader
-    public static get menuHeaderColor() {
+    public static get menuHeaderColor(): string {
       return this.gray;
     }
     // menuFooter
-    public static get menuFooterColor() {
+    public static get menuFooterColor(): string {
       return this.menuHeaderColor;
     }
     //menuSeparator
@@ -351,7 +351,7 @@ export const DarkTheme6_0 = createTheme({
     public static toggleHandleBoxShadowChecked = 'none';
 
     // checked :hover
-    public static get toggleContainerBgCheckedHover() {
+    public static get toggleContainerBgCheckedHover(): string {
       return this.toggleContainerBgHover;
     }
     public static toggleContainerBoxShadowCheckedHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
@@ -359,7 +359,7 @@ export const DarkTheme6_0 = createTheme({
     public static toggleHandleBoxShadowCheckedHover = 'none';
 
     // disabled
-    public static get toggleBgDisabled() {
+    public static get toggleBgDisabled(): string {
       return this.bgDisabled;
     }
     public static toggleDisabledHandleBg = '#525252';
@@ -380,7 +380,7 @@ export const DarkTheme6_0 = createTheme({
     //#region Token
     public static tokenShadowDisabled = '';
     public static tokenBorderColorDisabled = 'transparent';
-    public static get tokenTextColorDisabled() {
+    public static get tokenTextColorDisabled(): string {
       return this.textColorDisabled;
     }
 
@@ -396,7 +396,7 @@ export const DarkTheme6_0 = createTheme({
     //#endregion Token
     //#region Input
     public static inputBg = 'rgba(255, 255, 255, 0.1)';
-    public static get inputBorderTopColor() {
+    public static get inputBorderTopColor(): string {
       return this.inputBorderColor;
     }
     public static inputColorScheme = 'dark';
@@ -406,23 +406,23 @@ export const DarkTheme6_0 = createTheme({
     public static inputBackgroundClip = 'border-box';
     public static inputBorderColorHover = 'rgba(255, 255, 255, 0.16)';
     public static inputBorderColorFocus = 'rgba(235, 235, 235, 1)';
-    public static get inputFocusShadow() {
+    public static get inputFocusShadow(): string {
       return `0 0 0 1px ${this.inputBorderColorFocus}`;
     }
 
     public static inputBorderColorWarning = 'rgba(252, 183, 62, 1)';
-    public static get inputBorderColorError() {
+    public static get inputBorderColorError(): string {
       return this.borderColorError;
     }
     public static inputOutlineWidth = '1px';
 
-    public static get inputTextColorDisabled() {
+    public static get inputTextColorDisabled(): string {
       return this.textColorDisabled;
     }
-    public static get inputIconColorDisabled() {
+    public static get inputIconColorDisabled(): string {
       return this.textColorDisabled;
     }
-    public static get inputPlaceholderColorDisabled() {
+    public static get inputPlaceholderColorDisabled(): string {
       return this.textColorDisabled;
     }
     public static inputDisabledBg = 'rgba(255, 255, 255, 0.04)';
@@ -447,34 +447,34 @@ export const DarkTheme6_0 = createTheme({
     public static globalLoaderColor = 'rgba(238, 80, 66, 1)';
     //#endregion GlobalLoader
     //#region TextArea
-    public static get textareaBg() {
+    public static get textareaBg(): string {
       return this.inputBg;
     }
-    public static get textareaBorderColor() {
+    public static get textareaBorderColor(): string {
       return this.inputBorderColor;
     }
-    public static get textareaTextColorDisabled() {
+    public static get textareaTextColorDisabled(): string {
       return this.inputTextColorDisabled;
     }
-    public static get textareaPlaceholderColorDisabled() {
+    public static get textareaPlaceholderColorDisabled(): string {
       return this.textColorDisabled;
     }
-    public static get textareaBorderTopColor() {
+    public static get textareaBorderTopColor(): string {
       return this.textareaBorderColor;
     }
-    public static get textareaDisabledBorderColor() {
+    public static get textareaDisabledBorderColor(): string {
       return this.inputDisabledBorderColor;
     }
-    public static get textareaBorderColorFocus() {
+    public static get textareaBorderColorFocus(): string {
       return this.inputBorderColorFocus;
     }
     //#endregion TextArea
     //#region PasswordInput
-    public static get passwordInputVisibilityIconColor() {
+    public static get passwordInputVisibilityIconColor(): string {
       return this.gray;
     }
     public static passwordInputVisibilityIconOpacity = '1';
-    public static get passwordInputVisibilityIconHoverColor() {
+    public static get passwordInputVisibilityIconHoverColor(): string {
       return this.textColorDefault;
     }
     //#endregion PasswordInput
@@ -494,19 +494,19 @@ export const DarkTheme6_0 = createTheme({
     //#endregion Radio
     //#region Checkbox
     public static checkboxBg = 'rgba(255, 255, 255, 0.04)';
-    public static get checkboxShadow() {
+    public static get checkboxShadow(): string {
       return `0 0 0 ${this.checkboxBorderWidth} rgba(255, 255, 255, 0.32)`;
     }
-    public static get checkboxShadowHover() {
+    public static get checkboxShadowHover(): string {
       return this.checkboxShadow;
     }
 
-    public static get checkboxCheckedBg() {
+    public static get checkboxCheckedBg(): string {
       return this.bgChecked;
     }
     public static checkboxCheckedColor = 'rgba(0, 0, 0, 0.87)';
     public static checkboxHoverBg = 'rgba(255, 255, 255, 0.16)';
-    public static get checkboxCheckedHoverBg() {
+    public static get checkboxCheckedHoverBg(): string {
       return this.checkboxCheckedBg;
     }
     public static checkboxOutlineColorFocus = 'rgba(0, 0, 0, 0.87)';
@@ -517,7 +517,7 @@ export const DarkTheme6_0 = createTheme({
     public static inputDisabledBackgroundClip = 'border-box';
     //#endregion TokenInput
     //#region Switcher
-    public static get switcherButtonDisabledBorderColor() {
+    public static get switcherButtonDisabledBorderColor(): string {
       return this.borderColorDisabled;
     }
     public static switcherButtonCheckedDisabledShadow = 'none';
@@ -525,28 +525,28 @@ export const DarkTheme6_0 = createTheme({
     //#region FileUploader
     public static fileUploaderBg = 'none';
     public static fileUploaderTextColorDefault = '#fff';
-    public static get fileUploaderBorderColor() {
+    public static get fileUploaderBorderColor(): string {
       return this.borderColorGrayLight;
     }
-    public static get fileUploaderBorderColorFocus() {
+    public static get fileUploaderBorderColorFocus(): string {
       return this.btnBorderColorFocus;
     }
     public static fileUploaderLinkColor = 'rgba(255, 255, 255, 0.87)';
     public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.87)';
     public static fileUploaderIconHoverColor = 'rgba(255, 255, 255, 0.80)';
 
-    public static get fileUploaderBorderColorError() {
+    public static get fileUploaderBorderColorError(): string {
       return this.borderColorError;
     }
     public static fileUploaderBorderColorWarning = '#ffa236';
-    public static get fileUploaderDisabledBg() {
+    public static get fileUploaderDisabledBg(): string {
       return this.btnDisabledBg;
     }
     public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.1)';
-    public static get fileUploaderDisabledTextColor() {
+    public static get fileUploaderDisabledTextColor(): string {
       return this.fileUploaderDisabledColor;
     }
-    public static get fileUploaderDisabledLinkColor() {
+    public static get fileUploaderDisabledLinkColor(): string {
       return this.textColorDisabled;
     }
     public static fileUploaderDisabledIconColor = 'rgba(255, 255, 255, 0.32)';
@@ -555,17 +555,17 @@ export const DarkTheme6_0 = createTheme({
     public static fileUploaderHoveredBg = 'rgba(255, 255, 255, 0.16)';
     public static fileUploaderActiveBg = 'rgba(255, 255, 255, 0.1)';
 
-    public static get fileUploaderAfterLinkColor() {
+    public static get fileUploaderAfterLinkColor(): string {
       return this.gray;
     }
     public static fileUploaderDragOverShadow = '0px 0px 0px 4px #EBEBEB';
 
     public static fileUploaderIconColorForValidation = '#222222';
-    public static get fileUploaderIconHoverColorForValidation() {
+    public static get fileUploaderIconHoverColorForValidation(): string {
       return this.bgSecondary;
     }
 
-    public static get fileUploaderErrorColor() {
+    public static get fileUploaderErrorColor(): string {
       return this.textColorDisabled;
     }
 
@@ -576,19 +576,19 @@ export const DarkTheme6_0 = createTheme({
 
     public static fileUploaderErrorBgColor = '#4F2421';
     public static fileUploaderErrorBgHoverColor = '#612A29';
-    public static get fileUploaderErrorTextColor() {
+    public static get fileUploaderErrorTextColor(): string {
       return this.errorText;
     }
     public static fileUploaderWarningBgColor = '#3F2F1E';
     public static fileUploaderWarningBgHoverColor = '#4C3923';
     public static fileUploaderWarningTextColor = '#FDD481';
 
-    public static get fileUploaderValidationTextColor() {
+    public static get fileUploaderValidationTextColor(): string {
       return this.fileUploaderTextColorDefault;
     }
 
     public static fileUploaderDisabledColor = 'rgba(255, 255, 255, 0.54)';
-    public static get fileUploaderDisabledFileTypeIcon() {
+    public static get fileUploaderDisabledFileTypeIcon(): string {
       return this.fileUploaderDisabledIconColor;
     }
 
@@ -600,7 +600,7 @@ export const DarkTheme6_0 = createTheme({
     //#endregion Kebab
 
     //#region react-ui-validations
-    public static get validationsTextColorError() {
+    public static get validationsTextColorError(): string {
       return this.errorText;
     }
     public static validationsTextColorWarning = '#fdd481';

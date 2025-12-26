@@ -33,7 +33,10 @@ const getValue = (type: InternalDateComponentType, { year, month, date }: Intern
 };
 
 export class InternalDateValidator {
-  public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
+  public static checkForNull(
+    { year, month, date }: InternalDateComponentsRaw,
+    type?: InternalDateComponentType,
+  ): boolean {
     if (type !== undefined) {
       if (type === InternalDateComponentType.Year) {
         return year !== null;

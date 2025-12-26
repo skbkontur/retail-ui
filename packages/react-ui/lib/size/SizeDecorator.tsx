@@ -11,7 +11,7 @@ interface WithSizeProps {
   size?: SizeProp;
 }
 
-export function withSize<T extends Constructor<React.Component<WithSizeProps>>>(constructor: T) {
+export function withSize<T extends Constructor<React.Component<WithSizeProps>>>(constructor: T): WithSizeProps & T {
   const SizeDecorator = class extends constructor {
     public size: SizeProp = defaultSizeValue;
 

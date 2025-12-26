@@ -114,7 +114,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
     return <RenderContainer>{content}</RenderContainer>;
   }
 
-  public close = () => {
+  public close = (): void => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }

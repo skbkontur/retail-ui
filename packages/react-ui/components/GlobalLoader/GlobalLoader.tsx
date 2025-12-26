@@ -156,7 +156,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element | false {
     let status: GlobalLoaderViewProps['status'] = 'standard';
 
     if (this.state.done) {
@@ -189,7 +189,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    *
    * @public
    */
-  public static start = (expectedResponseTime?: number) => {
+  public static start = (expectedResponseTime?: number): void => {
     currentGlobalLoader?.setActive();
     if (typeof expectedResponseTime === 'number') {
       currentGlobalLoader?.updateExpectedResponseTime(expectedResponseTime);
@@ -202,7 +202,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    *
    * @public
    */
-  public static done = () => {
+  public static done = (): void => {
     currentGlobalLoader?.setDone();
   };
 
@@ -212,7 +212,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    *
    * @public
    */
-  public static reject = () => {
+  public static reject = (): void => {
     currentGlobalLoader?.setReject(true);
   };
 
@@ -222,11 +222,11 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    *
    * @public
    */
-  public static accept = () => {
+  public static accept = (): void => {
     currentGlobalLoader?.setReject(false);
   };
 
-  public setActive = () => {
+  public setActive = (): void => {
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
       this.resumeTaskAfterSuccessAnimation();
@@ -241,7 +241,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
   };
 
-  public setDone = () => {
+  public setDone = (): void => {
     if (!this.state.started) {
       return;
     }
@@ -251,7 +251,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.stopTask();
   };
 
-  public setReject = (reject: boolean) => {
+  public setReject = (reject: boolean): void => {
     if (!this.state.visible && (this.state.started || this.getProps().active)) {
       this.setState({ visible: true });
     }
@@ -266,11 +266,11 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.setState({ rejected: reject });
   };
 
-  public updateExpectedResponseTime(expectedResponseTime: number) {
+  public updateExpectedResponseTime(expectedResponseTime: number): void {
     this.setState({ expectedResponseTime });
   }
 
-  public kill = () => {
+  public kill = (): void => {
     this.stopTask.cancel();
     this.startTask.cancel();
     this.resumeTaskAfterSuccessAnimation.cancel();

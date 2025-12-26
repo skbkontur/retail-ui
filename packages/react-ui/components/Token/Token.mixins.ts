@@ -5,7 +5,7 @@ export const tokenSizeMixin = (
   fontSize: string,
   tokenMarginY: string,
   tokenMarginX: string,
-) => {
+): string => {
   return `
     padding: ${tokenPaddingY} ${tokenPaddingX};
     margin: ${tokenMarginY} ${tokenMarginX};

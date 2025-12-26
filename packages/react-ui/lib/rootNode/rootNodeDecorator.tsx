@@ -29,7 +29,7 @@ interface DecoratableClassComponent extends ComponentWithDefaultRootNode, Compon
   new (...args: any[]): React.Component;
 }
 
-export function rootNode<T extends DecoratableClassComponent>(Component: T) {
+export function rootNode<T extends DecoratableClassComponent>(Component: T): T {
   const rootNode = class extends Component implements InstanceWithRootNode {
     public static __KONTUR_REACT_UI__ = Component.__KONTUR_REACT_UI__;
     public static displayName = Component.displayName;

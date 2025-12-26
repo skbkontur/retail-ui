@@ -134,7 +134,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     disableAnimations: isTestEnv,
   };
 
-  public clear = () => {
+  public clear = (): void => {
     if (this.node) {
       this.node.value = '';
     }
@@ -241,7 +241,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -261,7 +261,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   /**
    * @public
    */
-  public focus() {
+  public focus(): void {
     if (this.node) {
       this.node.focus();
     }
@@ -270,7 +270,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     if (this.node) {
       this.node.blur();
     }
@@ -281,7 +281,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
    * @param {number} start
    * @param {number} end
    */
-  public setSelectionRange = (start: number, end: number) => {
+  public setSelectionRange = (start: number, end: number): void => {
     if (!this.node) {
       warning(false, 'Cannot call "setSelectionRange" on unmounted Input');
       return;
@@ -297,7 +297,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   /**
    * @public
    */
-  public selectAll = () => {
+  public selectAll = (): void => {
     if (this.node) {
       this.setSelectionRange(0, this.node.value.length);
     }

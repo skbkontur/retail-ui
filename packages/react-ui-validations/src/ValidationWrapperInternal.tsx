@@ -100,7 +100,7 @@ export class ValidationWrapperInternal extends React.Component<
     this.isChanging = false;
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     const { children, 'data-tid': dataTid } = this.props;
     const { validation } = this.state;
 
@@ -176,7 +176,7 @@ export class ValidationWrapperInternal extends React.Component<
     this.rootNode = getRootNode(element);
   };
 
-  public getRootNode = () => {
+  public getRootNode = (): Nullable<Element> => {
     return this.rootNode;
   };
 
@@ -189,7 +189,7 @@ export class ValidationWrapperInternal extends React.Component<
     return null;
   }
 
-  public processBlur() {
+  public processBlur(): Promise<void> {
     const touched = this.isChanging;
     this.isChanging = false;
     const validation = this.getOnBlurValidation(touched);

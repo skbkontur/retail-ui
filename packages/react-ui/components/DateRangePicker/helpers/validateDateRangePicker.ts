@@ -22,7 +22,7 @@ export function validateDateRangePicker(
   startValue: Nullable<string>,
   endValue: Nullable<string>,
   options: ValidationOptions = defaultOptions,
-) {
+): boolean[] {
   const { startOptional, endOptional, minDate, maxDate } = { ...defaultOptions, ...options };
   const isStartEmpty = !startValue;
   const isStartRequired = !startOptional;

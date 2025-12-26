@@ -7,7 +7,14 @@ const noop = (...args: any[]) => {
   /* do nothing */
 };
 
-export const animation = (globalObject: GlobalObject) => {
+export const animation = (
+  globalObject: GlobalObject,
+): {
+  animate: (amount: number, onDelta: (x0: number) => void, onEnd?: () => void) => void;
+  inProgress: () => boolean;
+  cancel: () => void;
+  finish: () => void;
+} => {
   let animating = false;
   let currentPosition = 0;
   let currentVelocity = 0;

@@ -190,7 +190,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private popupRef = React.createRef<Popup>();
 
-  public getAllowedPositions() {
+  public getAllowedPositions(): string[] {
     return this.props.allowedPositions ? this.props.allowedPositions : DefaultPositions;
   }
 
@@ -211,7 +211,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     this.clearHoverTimeout();
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -242,7 +242,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  public renderContent = () => {
+  public renderContent = (): React.JSX.Element | null => {
     const content = this.props.render ? this.props.render() : null;
     if (isNullable(content)) {
       return null;
@@ -260,7 +260,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   };
 
-  public renderCloseButton() {
+  public renderCloseButton(): React.JSX.Element | null {
     const hasCross =
       this.props.closeButton === undefined
         ? !Tooltip.triggersWithoutCloseButton.includes(this.getProps().trigger)
@@ -299,7 +299,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
    * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
    * @public
    */
-  public show() {
+  public show(): void {
     if (this.state.opened) {
       return;
     }
@@ -316,7 +316,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
    * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
    * @public
    */
-  public hide() {
+  public hide(): void {
     const trigger = this.getProps().trigger;
     if (trigger === 'opened' || trigger === 'closed') {
       warning(false, `Function 'hide' is not supported with trigger specified '${trigger}'`);

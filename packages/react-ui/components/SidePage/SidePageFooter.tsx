@@ -94,7 +94,7 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
     this.context.setHasPanel?.(false);
   }
 
-  public getSticky() {
+  public getSticky(): boolean {
     if (typeof this.props.sticky !== 'undefined') {
       return this.props.sticky;
     }
@@ -119,7 +119,7 @@ export class SidePageFooter extends React.Component<React.PropsWithChildren<Side
     );
   }
 
-  public update = () => {
+  public update = (): void => {
     this.setProperStyles();
   };
 

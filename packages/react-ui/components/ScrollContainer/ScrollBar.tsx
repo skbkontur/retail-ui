@@ -71,7 +71,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     this.reflow();
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -117,7 +117,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     );
   };
 
-  public reflow = () => {
+  public reflow = (): void => {
     if (!this.inner) {
       return;
     }
@@ -148,22 +148,22 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     }
   };
 
-  public setInnerElement = (inner: Nullable<HTMLElement>) => {
+  public setInnerElement = (inner: Nullable<HTMLElement>): void => {
     this.inner = inner;
     this.reflow();
   };
 
-  public setHover(hover: boolean) {
+  public setHover(hover: boolean): void {
     if (this.state.active && this.state.hover !== hover) {
       this.setState({ ...this.state, hover });
     }
   }
 
-  public getHover() {
+  public getHover(): boolean {
     return this.state.hover;
   }
 
-  public get scrollBarState() {
+  public get scrollBarState(): ScrollBarScrollState {
     return this.state.scrollState;
   }
 

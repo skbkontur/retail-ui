@@ -1,22 +1,22 @@
 import { startsWithOneOf } from '../utils';
 
-export function clamp(val: number, max = 1) {
+export function clamp(val: number, max = 1): number {
   return Math.min(max, Math.max(0, val));
 }
 
-export function integerFromPercent(n: string, size: number) {
+export function integerFromPercent(n: string, size: number): number {
   return Math.round((parseFloat(n) * size) / 100);
 }
 
-export function floatFromPercent(n: string) {
+export function floatFromPercent(n: string): number {
   return parseFloat((parseFloat(n) / 100).toFixed(5));
 }
 
-export function roundToPrecision(n: number, precision = 2) {
+export function roundToPrecision(n: number, precision = 2): number {
   return parseFloat(n.toFixed(precision));
 }
 
-export function extractColorParts(input: string, regex: RegExp) {
+export function extractColorParts(input: string, regex: RegExp): RegExpExecArray {
   const parts = regex.exec(input);
 
   if (!parts) {
@@ -28,7 +28,7 @@ export function extractColorParts(input: string, regex: RegExp) {
   return parts;
 }
 
-export function parseRGBParts(parts: string[]) {
+export function parseRGBParts(parts: string[]): { r: number; g: number; b: number; a: number } {
   const r = parseToInteger(parts[1], 255);
   const g = parseToInteger(parts[2], 255);
   const b = parseToInteger(parts[3], 255);
@@ -49,7 +49,7 @@ export function parseRGBParts(parts: string[]) {
   return { r, g, b, a };
 }
 
-export function parseHSLParts(parts: string[]) {
+export function parseHSLParts(parts: string[]): { h: number; s: number; l: number; a: number } {
   const h = parseInt(parts[1], 10);
   const s = parseToFloat(parts[2]);
   const l = parseToFloat(parts[3]);
@@ -68,11 +68,11 @@ export function parseHSLParts(parts: string[]) {
   return { h, s, l, a };
 }
 
-export function parseToInteger(part: string, size: number) {
+export function parseToInteger(part: string, size: number): number {
   return part.endsWith('%') ? integerFromPercent(part, size) : parseInt(part, 10);
 }
 
-export function parseToFloat(part: string) {
+export function parseToFloat(part: string): number {
   return part.endsWith('%') ? floatFromPercent(part) : parseFloat(part);
 }
 
@@ -88,7 +88,7 @@ const calculateHue = (hue: number) => {
   return hue;
 };
 
-export function hue2rgb(hue: number, t1: number, t2: number) {
+export function hue2rgb(hue: number, t1: number, t2: number): number {
   const calculatedHue = calculateHue(hue);
 
   if (calculatedHue < 1 / 6) {
@@ -106,7 +106,7 @@ export function hue2rgb(hue: number, t1: number, t2: number) {
   return t2;
 }
 
-export const isColor = (input: string) => {
+export const isColor = (input: string): boolean => {
   const colorStarters = ['#', 'rgb', 'hsl'];
 
   if (input) {

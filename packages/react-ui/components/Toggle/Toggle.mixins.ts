@@ -2,7 +2,7 @@ import { isChrome } from '../../lib/client';
 
 import { globalClasses } from './Toggle.styles';
 
-export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWidth: string) => {
+export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWidth: string): string => {
   return `
     line-height: ${toggleHeight};
     font-size: ${fontSize};
@@ -20,7 +20,7 @@ export const buttonSizeMixin = (
   toggleWidth: string,
   toggleBorderRadius: string,
   toggleButtonOffsetY: string,
-) => {
+): string => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const buttonFontSize = parseInt(fontSize);
   const baselineCompensation = buttonFontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
@@ -36,14 +36,14 @@ export const buttonSizeMixin = (
   `;
 };
 
-export const captionSizeMixin = (fontSize: string, toggleHeight: string) => {
+export const captionSizeMixin = (fontSize: string, toggleHeight: string): string => {
   return `
     line-height: ${toggleHeight};
     font-size: ${fontSize};
   `;
 };
 
-export const handleMixin = (toggleHandleSize: string, toggleHandleBorderRadius: string) => {
+export const handleMixin = (toggleHandleSize: string, toggleHandleBorderRadius: string): string => {
   return `
     border-radius: ${toggleHandleBorderRadius};
     height: ${toggleHandleSize};
@@ -51,13 +51,13 @@ export const handleMixin = (toggleHandleSize: string, toggleHandleBorderRadius: 
   `;
 };
 
-export const containerSizeMixin = (toggleBorderRadius: string) => {
+export const containerSizeMixin = (toggleBorderRadius: string): string => {
   return `
     border-radius: ${toggleBorderRadius};
   `;
 };
 
-export const inputSizeMixin = (toggleHeight: string, toggleWidth: string) => {
+export const inputSizeMixin = (toggleHeight: string, toggleWidth: string): string => {
   const handleWidthWithBorders = toggleHeight;
   const height = parseInt(toggleHeight);
   return `

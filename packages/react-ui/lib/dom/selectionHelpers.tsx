@@ -1,7 +1,7 @@
 import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject';
 import type { GlobalObject } from '../../lib/globalObject';
 
-export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
+export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number): void => {
   if (!node) {
     return;
   }
@@ -38,7 +38,7 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
   }
 };
 
-export const removeAllSelections = (globalObject: GlobalObject) => {
+export const removeAllSelections = (globalObject: GlobalObject): void => {
   const selection = globalObject.getSelection?.();
   if (selection) {
     try {

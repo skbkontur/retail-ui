@@ -1,4 +1,4 @@
-export const resetButton = () => {
+export const resetButton = (): string => {
   return `
     outline: none;
     border: none;
@@ -30,7 +30,7 @@ export const resetButton = () => {
   `;
 };
 
-export const resetText = () => {
+export const resetText = (): string => {
   return `
     letter-spacing: normal;
     line-height: normal;

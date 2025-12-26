@@ -144,7 +144,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     this.keyListener = new KeyListener(this.globalObject);
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -164,7 +164,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   /**
    * @public
    */
-  public focus() {
+  public focus(): void {
     this.keyListener.isTabPressed = true;
     this.inputEl.current?.focus();
   }
@@ -172,11 +172,11 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     this.inputEl.current?.blur();
   }
 
-  public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>) => {
+  public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>): React.JSX.Element => {
     const {
       disabled = this.context.disabled,
       warning = this.context.warning,

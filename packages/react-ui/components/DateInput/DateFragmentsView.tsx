@@ -37,9 +37,9 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     return false;
   };
 
-  public getRootNode = () => this.rootNode;
+  public getRootNode = (): HTMLSpanElement | null => this.rootNode;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

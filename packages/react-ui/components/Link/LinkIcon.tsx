@@ -12,7 +12,7 @@ export interface LinkIconProps extends Pick<LinkProps, 'icon' | 'loading'> {
   hasBothIcons?: boolean;
 }
 
-export const LinkIcon = ({ icon, loading, hasBothIcons, position }: LinkIconProps) => {
+export const LinkIcon = ({ icon, loading, hasBothIcons, position }: LinkIconProps): React.JSX.Element => {
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

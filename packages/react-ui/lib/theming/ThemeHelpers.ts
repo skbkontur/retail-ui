@@ -112,7 +112,7 @@ export const isThemeGTE = (theme: Theme | ThemeIn, version: ThemeVersions): bool
  * @param propName The property name
  * @returns The found descriptor or an empty object
  */
-export function findPropertyDescriptor(theme: Theme, propName: string) {
+export function findPropertyDescriptor(theme: Theme, propName: string): PropertyDescriptor {
   // TODO: Rewrite for loop.
   // TODO: Enable `no-param-reassign` rule.
   // eslint-disable-next-line no-param-reassign
