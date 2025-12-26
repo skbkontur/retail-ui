@@ -38,5 +38,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "engines": {
+    "node": ">=22.18"
+  },
+  "engineStrict": true
 }
