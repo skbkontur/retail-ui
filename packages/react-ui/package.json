@@ -49,6 +49,7 @@
     "@babel/runtime": "^7.24.6",
     "@emotion/css": "^11.11.2",
     "@skbkontur/global-object": "^0.4.4",
+    "@skbkontur/colors": "^2.0.4",
     "@skbkontur/react-imask": "^7.6.5",
     "eventemitter3": "^5.0.1",
     "invariant": "^2.2.4",

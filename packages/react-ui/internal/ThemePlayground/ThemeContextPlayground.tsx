@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import React from 'react';
+import React, { useContext } from 'react';
+import { DocsContext } from '@storybook/addon-docs';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme';
@@ -42,6 +43,12 @@ interface EditingThemeItem {
 interface PlaygroundProps {
   children?: ReactNode;
 }
+
+interface PlaygroundWrapperProps {
+  globalBrand: string;
+  globalAccent: string;
+}
+
 export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 
 const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem']) => {
@@ -51,13 +58,17 @@ const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem
 
   return 'lightTheme';
 };
-export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
+
+class ThemeContextPlaygroundInternal extends React.Component<
+  PlaygroundProps & PlaygroundWrapperProps,
+  PlaygroundState
+> {
   private readonly editableThemesItems = [
     { value: ThemeType.LightTheme, label: 'Светлая тема' },
     { value: ThemeType.DarkTheme, label: 'Тёмная тема' },
   ];
 
-  constructor(props: PlaygroundProps) {
+  constructor(props: PlaygroundProps & PlaygroundWrapperProps) {
     super(props);
     this.state = {
       currentTheme: LIGHT_THEME,
@@ -76,16 +87,22 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
   public render() {
     const { currentTheme, editorOpened, currentThemeType } = this.state;
+    const { globalBrand, globalAccent } = this.props;
+
+    const themeAttribute = currentThemeType === ThemeType.DarkTheme ? 'dark' : 'light';
+
     return (
       <ThemeContext.Provider value={currentTheme}>
-        {editorOpened && this.renderSidePage()}
-        {
-          <Playground
-            onThemeChange={this.handleThemeChange}
-            currentThemeType={currentThemeType}
-            onEditLinkClick={this.handleOpen}
-          />
-        }
+        <div data-k-brand={globalBrand} data-k-accent={globalAccent} data-k-theme={themeAttribute}>
+          {editorOpened && this.renderSidePage()}
+          {
+            <Playground
+              onThemeChange={this.handleThemeChange}
+              currentThemeType={currentThemeType}
+              onEditLinkClick={this.handleOpen}
+            />
+          }
+        </div>
       </ThemeContext.Provider>
     );
   }
@@ -97,7 +114,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     const themeErrors = themesErrors[editingThemeType];
 
     return (
-      <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
+      <SidePage disableAnimations ignoreBackgroundClick width={600} onClose={this.handleClose}>
         <SidePage.Header>
           <div className={styles.editorHeaderWrapper(currentTheme)}>
             <Gapped wrap verticalAlign="middle">
@@ -214,3 +231,12 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     return ThemeFactory.create<ThemeIn>(result);
   };
 }
+
+export const ThemeContextPlayground = (props: PlaygroundProps) => {
+  const context = useContext(DocsContext) as any;
+  const globals = context?.store.userGlobals?.globals || {};
+  const brand = globals.brand || 'red';
+  const accent = globals.accent || 'gray';
+
+  return <ThemeContextPlaygroundInternal {...props} globalBrand={brand} globalAccent={accent} />;
+};

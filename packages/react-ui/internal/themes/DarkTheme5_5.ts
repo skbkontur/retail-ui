@@ -6,11 +6,6 @@ import { DarkTheme5_4 } from './DarkTheme5_4';
 export const DarkTheme5_5 = createTheme({
   themeClass: class DarkTheme5_5 extends BasicThemeClassForExtension {
     //#region FileUploader
-    public static fileUploaderIconColorForValidation = '#222222';
-    public static get fileUploaderIconHoverColorForValidation() {
-      return this.bgSecondary;
-    }
-
     public static get fileUploaderErrorColor() {
       return this.textColorDisabled;
     }
