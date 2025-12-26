@@ -107,6 +107,37 @@ export const ExampleWidth: Story = () => {
 };
 ExampleWidth.storyName = 'Ширина поля с токенами';
 
+/** Проп `maxHeight` ограничивает высоту поля с токенами. При достижении этой высоты будет появляться скроллбар. */
+export const ExampleMaxHeight: Story = () => {
+  const items = Array(30)
+    .fill('')
+    .map(
+      (t, i1) =>
+        i1 +
+        Array(5 + (i1 % 10))
+          .fill('')
+          .map((_, i2) => i2)
+          .join(''),
+    );
+  const [value, setValue] = React.useState<string[]>(items);
+
+  const getItems = (query: string) => {
+    return Promise.resolve(items.filter((item) => item.includes(query)));
+  };
+
+  return (
+    <TokenInput<string>
+      maxHeight={200}
+      width={350}
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={value}
+      onValueChange={setValue}
+    />
+  );
+};
+ExampleMaxHeight.storyName = 'Высота поля с токенами';
+
 /** Проп `menuWidth` задаёт максимальную ширину выпадающего списка. Может быть `auto` — по ширине текста, в пикселях, процентах от ширины поля и других конкретных единицах.
  *
  * Проп зависит от другого пропа `menuAlign`. Ширина выпадающего списка всегда будет равна `"auto"`, когда  'menuAlign'='cursor' — для поля с токенами является значением по умолчанию. */
@@ -420,14 +451,14 @@ export const ExampleError: Story = () => {
     />
   );
 };
-ExampleError.storyName = 'Состояния ошибки';
+ExampleError.storyName = 'Состояние ошибки';
 
 /** Проп `renderToken` задаёт функцию, которая отображает токен и даёт возможность кастомизировать внешний вид и поведение токена. */
 export const ExampleRenderToken: Story = () => {
-  const [selectedItems, setSelectedItems] = React.useState(['aaa', 'bbb', 'ccc']);
+  const [selectedItems, setSelectedItems] = React.useState(['Красный', 'Синий', 'Зелёный']);
 
   async function getItems(query) {
-    return ['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query));
+    return ['Красный', 'Синий', 'Зелёный'].filter((s) => s.includes(query));
   }
 
   return (
@@ -437,7 +468,7 @@ export const ExampleRenderToken: Story = () => {
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}
       renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={item === 'bbb' || tokenProps.disabled}>
+        <Token key={item.toString()} {...tokenProps} disabled={item === 'Синий' || tokenProps.disabled}>
           {item}
         </Token>
       )}
@@ -565,10 +596,10 @@ export const ExampleCustomItems: Story = () => {
 ExampleCustomItems.storyName = 'Кастомный тип элементов списка';
 
 /**
- * В массиве возвращаемом getItems могут быть реакт-компоненты:
+ * В массиве, возвращаемом `getItems`, могут быть переданы React-компоненты:
  * `<MenuHeader>`, `<MenuFooter>`, `<MenuSeparator />` и любые другие.
  *
- * В таких случаях поиск неоходимо контролировать дополнительно.
+ * В таких случаях поиск необходимо контролировать дополнительно.
  * */
 export const ExampleExtendedItems: Story = () => {
   const [selectedItems, setSelectedItems] = React.useState<string[]>();
@@ -580,18 +611,18 @@ export const ExampleExtendedItems: Story = () => {
       getItems={async (q: string) =>
         [
           <MenuHeader>MenuHeader</MenuHeader>,
-          'First',
-          'Second',
+          'Красный',
+          'Синий',
           <MenuSeparator />,
-          'Third',
-          'Fourth',
+          'Жёлтый',
+          'Зелёный',
           <MenuFooter>MenuFooter</MenuFooter>,
         ].filter((i) => (typeof i === 'string' ? i.toLowerCase().includes(q.toLowerCase()) : q === ''))
       }
     />
   );
 };
-ExampleExtendedItems.storyName = 'Компоненты в меню';
+ExampleExtendedItems.storyName = 'Шапка, разделитель и футер в списке';
 
 /** Функция `debounce` из lodash некорректно работает с `async/promise`, поэтому лучше использовать кастомную функцию, как в примере ниже. */
 export const ExampleFuncDebounceAsync: Story = () => {
@@ -635,62 +666,3 @@ export const ExampleFuncDebounceAsync: Story = () => {
   );
 };
 ExampleFuncDebounceAsync.storyName = 'Кастомизация debounce-функции getItems()';
-
-export const Example7: Story = () => {
-  const [value, setValue] = React.useState<string[]>([]);
-  const tokenInputRef = React.useRef<TokenInput>(null);
-
-  const items = ['kon', 'kod', 'kof', 'kor', 'kos'];
-
-  const getItems = (query: string) => {
-    return Promise.resolve(items.filter((item) => item.includes(query)));
-  };
-
-  return (
-    <TokenInput<string>
-      ref={tokenInputRef}
-      selectedItems={value}
-      onValueChange={setValue}
-      getItems={getItems}
-      placeholder="Цифра 2 запрещена"
-      onKeyDown={(e) => {
-        if (e.key === '2') {
-          e.preventDefault();
-          tokenInputRef.current?.blink();
-        }
-      }}
-    />
-  );
-};
-Example7.storyName = 'Запрет ввода определённых символов';
-
-/** Пропом `maxHeight` можно ограничить высоту компонента, и при её достижении будет появляться скроллбар. */
-export const Example8: Story = () => {
-  const items = Array(30)
-    .fill('')
-    .map(
-      (t, i1) =>
-        i1 +
-        Array(5 + (i1 % 10))
-          .fill('')
-          .map((_, i2) => i2)
-          .join(''),
-    );
-  const [value, setValue] = React.useState<string[]>(items);
-
-  const getItems = (query: string) => {
-    return Promise.resolve(items.filter((item) => item.includes(query)));
-  };
-
-  return (
-    <TokenInput<string>
-      maxHeight={200}
-      width={350}
-      type={TokenInputType.Combined}
-      getItems={getItems}
-      selectedItems={value}
-      onValueChange={setValue}
-    />
-  );
-};
-Example8.storyName = 'Ограничение высоты';
