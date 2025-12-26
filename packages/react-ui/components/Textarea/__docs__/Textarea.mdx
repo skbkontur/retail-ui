@@ -1,5 +1,6 @@
 import * as TextareaStories from './Textarea.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as TextareaExamples from './TextareaValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -20,6 +21,31 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
+Пропсы `className` и `style` игнорируются.
+
+Используйте многострочное поле, если пользователю нужно ввести много слов. Если значение чаще всего состоит из 1–3 слов, следует использовать обычное поле ввода [Input](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-input--docs).
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+<Story of={TextareaExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Адаптивность
+
+По умолчанию многострочное поле не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ Полезно: [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)
+
+## Доступность
+
+Компонент поддерживает стандартные aria-атрибуты, если вам необходимо переопределить его поведение.
