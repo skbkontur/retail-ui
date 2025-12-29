@@ -3,6 +3,30 @@ import 'creevey/playwright';
 
 import { tid } from '../../__creevey__/helpers.mjs';
 
+const keyboardSelectionTest = () => {
+  test('selects long value with keyboard and scrolls to end', async (context) => {
+    const page = context.webdriver;
+    await page.locator(tid('ComboBoxView__root')).click();
+    await page.locator(tid('ComboBoxMenu__item')).first().waitFor();
+
+    await page.keyboard.press('ArrowDown');
+    await page.keyboard.press('Enter');
+
+    await page.locator(tid('ComboBoxMenu__item')).waitFor({ state: 'hidden' });
+
+    await context.matchImage(await context.takeScreenshot());
+  });
+
+  test('selects long value with mouse and scrolls to end', async (context) => {
+    const page = context.webdriver;
+
+    await page.locator(tid('ComboBoxView__root')).click();
+    await page.locator(tid('ComboBoxMenu__item')).first().click();
+    await page.locator(tid('ComboBoxMenu__item')).waitFor({ state: 'hidden' });
+    await context.matchImage(await context.takeScreenshot());
+  });
+};
+
 const multilineTest = () => {
   test('plain', async (context) => {
     const page = context.webdriver;
@@ -373,5 +397,27 @@ kind('ComboBox', () => {
 
   story('MultilineEditingComboboxStory', () => {
     multilineTest();
+  });
+
+  story('LongValueKeyboardSelection', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'No scrollbar in firefox': {
+          in: ['firefox2022', 'firefox2022Dark'],
+        },
+      },
+    });
+    keyboardSelectionTest();
+  });
+
+  story('MultilineLongValueKeyboardSelection', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'No scrollbar in firefox': {
+          in: ['firefox2022', 'firefox2022Dark'],
+        },
+      },
+    });
+    keyboardSelectionTest();
   });
 });

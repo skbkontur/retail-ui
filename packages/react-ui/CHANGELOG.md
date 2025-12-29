@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.2...@skbkontur/react-ui@5.6.0) (2025-12-26)
+
+
+### Features
+
+* **react-ui:** add new Kontur Colors with 10 schemes, dark/light themes ([130933e](https://github.com/skbkontur/retail-ui/commit/130933e24f7c3c1921eeca33408a84bac079b860))
+
+
+
+
+
+## [5.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.1...@skbkontur/react-ui@5.5.2) (2025-12-25)
+
+
+### Bug Fixes
+
+* **Combobox:** fix input scroll when select via keyboard ([294a35d](https://github.com/skbkontur/retail-ui/commit/294a35da9c948cbba0ea33ab8b035c7c0a4caafc))
+
+
+
+
+
 ## [5.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.5.0...@skbkontur/react-ui@5.5.1) (2025-12-18)
 
 
