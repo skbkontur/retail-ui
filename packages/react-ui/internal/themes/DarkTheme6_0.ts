@@ -1,3 +1,5 @@
+import * as colors from '@skbkontur/colors/default-dark';
+
 import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers';
 
 import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme';
@@ -19,48 +21,52 @@ export const DarkTheme6_0 = createTheme({
     public static get errorMain(): string {
       return this.red;
     }
-    public static errorText = '#FE6C6C';
-    public static errorSecondary = '#AB0D0D';
+    public static errorText = colors.textErrorHeavy;
+    public static get errorSecondary() {
+      return this.redXxLight;
+    }
     public static borderColorFocusLight = '#1260ae';
     public static borderColorGrayLight = 'rgba(255, 255, 255, 0.16)';
-    public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
-    public static placeholderColor = 'rgba(255, 255, 255, 0.32)';
-    public static placeholderColorLight = 'rgba(255, 255, 255, 0.16)';
-    public static textColorDefault = 'rgba(255, 255, 255, 0.865)';
-    public static textColorDisabled = 'rgba(255, 255, 255, 0.32)';
+    public static borderColorDisabled = colors.lineNeutralFaint;
+    public static placeholderColor = colors.textNeutralFaint;
+    public static placeholderColorLight = `color-mix(in srgb, ${colors.textNeutralFaint}, transparent 40%)`;
+    public static textColorDefault = colors.textNeutralHeavy;
+    public static textColorDisabled = colors.textNeutralFaint;
     public static textColorDisabledContrast = 'rgba(255, 255, 255, 0.48)';
     public static textColorInvert = 'rgba(255, 255, 255, 0.865)';
-    public static bgDisabled = '#434343';
-    public static bgDefault = '#1f1f1f';
-    public static bgSecondary = '#333333';
+    public static bgDisabled = colors.shapeOtherDisabled;
+    public static bgDefault = colors.surfaceHigh;
+    public static get bgSecondary() {
+      return this.bgDefault;
+    }
     public static bgChecked = '#EBEBEB';
-    public static outlineColorFocus = '#EBEBEB';
-    public static borderColorFocus = '#EBEBEB';
+    public static outlineColorFocus = colors.surfaceBase;
+    public static borderColorFocus = colors.lineAccentBold;
     public static get borderColorError(): string {
       return this.errorMain;
     }
     public static fixedPanelShadow = 'none';
     //#endregion Common variables
     //#region CloseIcon, CloseButtonIcon
-    public static closeBtnIconColor = 'rgba(255, 255, 255, 0.32)';
+    public static closeBtnIconColor = colors.textNeutralPale;
     //#endregion CloseIcon, CloseButtonIcon
 
     //#region ClearCrossIcon
-    public static clearCrossIconColor = 'rgba(255, 255, 255, 0.54)';
-    public static clearCrossIconHoverColor = 'rgba(255, 255, 255, 0.865)';
+    public static clearCrossIconColor = colors.textNeutralSoft;
+    public static clearCrossIconHoverColor = colors.textNeutralHeavy;
     //#endregion ClearCrossIcon
 
     //#region Link
-    public static linkColor = 'rgba(255, 255, 255, 0.87)';
-    public static linkHoverColor = '#ffffff';
-    public static linkActiveColor = '#c2c2c2';
+    public static linkColor = colors.textAccentHeavy;
+    public static linkHoverColor = colors.textAccentHeavyHover;
+    public static linkActiveColor = colors.textAccentHeavyPressed;
 
-    public static linkGrayedColor = 'rgba(255, 255, 255, 0.54)';
-    public static linkGrayedHoverColor = '#FFFFFF';
-    public static linkGrayedActiveColor = '#C2C2C2';
+    public static linkGrayedColor = colors.textNeutralSoft;
+    public static linkGrayedHoverColor = colors.textNeutralHeavy;
+    public static linkGrayedActiveColor = colors.textNeutralHeavy;
 
-    public static linkSuccessColor = '#46CD68';
-    public static linkSuccessHoverColor = '#67D881';
+    public static linkSuccessColor = colors.textSuccessHeavy;
+    public static linkSuccessHoverColor = colors.textSuccessHeavyHover;
     public static get linkSuccessActiveColor(): string {
       return this.green;
     }
@@ -68,12 +74,12 @@ export const DarkTheme6_0 = createTheme({
     public static get linkDangerColor(): string {
       return this.errorText;
     }
-    public static linkDangerHoverColor = '#FE8C8C';
+    public static linkDangerHoverColor = colors.textErrorHeavyHover;
     public static get linkDangerActiveColor(): string {
       return '#ED3F3F';
     }
 
-    public static linkFocusOutlineColor = '#EBEBEB';
+    public static linkFocusOutlineColor = colors.lineAccentBold;
     public static linkHoverTextDecoration = 'none';
 
     public static get linkDisabledColor(): string {
@@ -83,12 +89,12 @@ export const DarkTheme6_0 = createTheme({
     //#region Button
     public static btnFocusShadowWidth = '2px';
     public static btnOutlineColorFocus = '#1f1f1f';
-    public static btnInsetColor = '#1f1f1f';
+    public static btnInsetColor = colors.surfaceBase;
 
     // default
-    public static btnDefaultBg = 'rgba(255, 255, 255, 0.1)';
-    public static btnDefaultHoverBg = 'rgba(255, 255, 255, 0.16)';
-    public static btnDefaultActiveBg = 'rgba(255, 255, 255, 0.1)';
+    public static btnDefaultBg = colors.shapeOtherBase;
+    public static btnDefaultHoverBg = colors.shapeOtherBaseHover;
+    public static btnDefaultActiveBg = colors.shapeOtherBasePressed;
     public static btnDefaultHoverBgStart = 'none';
     public static btnDefaultHoverBgEnd = 'none';
     public static get btnDefaultHoverBorderColor(): string {
@@ -97,7 +103,7 @@ export const DarkTheme6_0 = createTheme({
     public static get btnDefaultActiveBorderColor(): string {
       return this.borderColorGrayLight;
     }
-    public static btnDefaultBorderColor = 'rgba(255, 255, 255, 0.16)';
+    public static btnDefaultBorderColor = colors.lineNeutralPale;
     public static btnDefaultTextColor = 'rgba(255, 255, 255, 0.87)';
 
     // success
@@ -111,7 +117,7 @@ export const DarkTheme6_0 = createTheme({
       return this.textColorDefault;
     }
 
-    public static btnSuccessHoverBg = '#26AD50';
+    public static btnSuccessHoverBg = colors.shapeBoldSuccessHover;
     public static get btnSuccessHoverBorderColor(): string {
       return this.btnSuccessHoverBg;
     }
@@ -124,14 +130,18 @@ export const DarkTheme6_0 = createTheme({
     }
 
     // primary
-    public static btnPrimaryBg = '#EBEBEB';
-    public static btnPrimaryBorderColor = '#3D3D3D';
+    public static btnPrimaryBg = colors.shapeBoldAccent;
+    public static get btnPrimaryBorderColor() {
+      return this.btnPrimaryBg;
+    }
 
-    public static btnPrimaryHoverBg = '#FFFFFF';
-    public static btnPrimaryActiveBg = '#C2C2C2';
-    public static btnPrimaryActiveBorderColor = '#1261ae';
+    public static btnPrimaryHoverBg = colors.shapeBoldAccentHover;
+    public static btnPrimaryActiveBg = colors.shapeBoldAccentPressed;
+    public static get btnPrimaryActiveBorderColor() {
+      return this.btnPrimaryActiveBg;
+    }
 
-    public static btnPrimaryTextColor = 'rgba(0, 0, 0, 0.865)';
+    public static btnPrimaryTextColor = colors.textOnAccentBoldHeavy;
 
     // danger
     public static get btnDangerBg(): string {
@@ -141,82 +151,94 @@ export const DarkTheme6_0 = createTheme({
       return this.btnDangerBg;
     }
 
-    public static btnDangerHoverBg = '#ED3F3F';
+    public static btnDangerHoverBg = colors.shapeBoldErrorHover;
     public static get btnDangerHoverBorderColor(): string {
       return this.btnDangerHoverBg;
     }
     public static get btnDangerTextColor(): string {
       return this.textColorDefault;
     }
-    public static btnDangerActiveBg = '#DD3333';
+    public static btnDangerActiveBg = colors.shapeBoldErrorPressed;
     public static get btnDangerActiveBorderColor(): string {
       return this.btnDangerActiveBg;
     }
 
     // pay
-    public static btnPayBg = '#FCB73E';
+    public static btnPayBg = colors.shapeBoldWarning;
     public static get btnPayBorderColor(): string {
       return this.btnPayBg;
     }
-    public static btnPayHoverBg = '#FCC660';
+    public static btnPayHoverBg = colors.shapeBoldWarningHover;
     public static get btnPayHoverBorderColor(): string {
       return this.btnPayHoverBg;
     }
-    public static btnPayTextColor = '#222222';
-    public static btnPayActiveBg = '#F69912';
+    public static btnPayTextColor = colors.textConstHeavyBlack;
+    public static btnPayActiveBg = colors.shapeBoldWarningPressed;
     public static get btnPayActiveBorderColor(): string {
       return this.btnPayActiveBg;
     }
 
     // backless
     public static btnBacklessBg = 'transparent';
-    public static btnBacklessHoverBg = 'rgba(255, 255, 255, 0.1)';
-    public static btnBacklessActiveBg = 'rgba(255, 255, 255, 0.06)';
-    public static btnBacklessBorderColor = 'rgba(255, 255, 255, 0.16)';
-    public static btnBacklessDisabledBorderColor = 'rgba(255, 255, 255, 0.06)';
-    public static btnBacklessHoverBorderColor = 'rgba(255, 255, 255, 0.1)';
-    public static btnBacklessTextColor = 'rgba(255, 255, 255, 0.87)';
-    public static btnBacklessActiveBorderColor = 'rgba(255, 255, 255, 0.1)';
+    public static btnBacklessHoverBg = colors.shapeOtherBacklessHover;
+    public static btnBacklessActiveBg = colors.shapeOtherBacklessPressed;
+    public static get btnBacklessBorderColor() {
+      return this.btnDefaultBorderColor;
+    }
+    public static get btnBacklessDisabledBorderColor() {
+      return this.btnDisabledBorderColor;
+    }
+    public static get btnBacklessHoverBorderColor() {
+      return this.btnBacklessBorderColor;
+    }
+    public static get btnBacklessTextColor() {
+      return this.btnDefaultTextColor;
+    }
+    public static get btnBacklessActiveBorderColor() {
+      return this.btnBacklessBorderColor;
+    }
 
     // text
     public static btnTextBg = 'transparent';
-    public static btnTextHoverBg = 'rgba(255, 255, 255, 0.1)';
-    public static btnTextActiveBg = 'rgba(255, 255, 255, 0.06)';
+    public static btnTextHoverBg = colors.shapeOtherBacklessHover;
+    public static btnTextActiveBg = colors.shapeOtherBacklessPressed;
     public static btnTextBorderColor = 'transparent';
 
     // warning, error
-    public static btnWarningSecondary = 'rgba(212, 100, 33, 1)';
+    public static btnWarningSecondary = colors.shapeFaintWarning;
     public static get btnErrorSecondary(): string {
       return this.errorSecondary;
     }
 
     // disabled
-    public static btnDisabledBg = 'rgba(255, 255, 255, 0.04)';
+    public static btnDisabledBg = colors.shapeOtherDisabled;
     public static get btnDisabledTextColor(): string {
       return this.textColorDisabled;
     }
-    public static btnDisabledBorderColor = 'transparent';
+    public static btnDisabledBorderColor = colors.lineNeutralFaint;
 
     // checked
-    public static btnCheckedBg = '#EBEBEB';
-    public static btnCheckedTextColor = 'rgba(0, 0, 0, 0.865)';
-    public static btnCheckedDisabledBg = 'rgba(255, 255, 255, 0.32) !important';
-    public static btnCheckedDisabledColor = 'rgba(0, 0, 0, 0.48)';
+    public static btnCheckedBg = colors.shapeBoldAccent;
+    public static btnCheckedTextColor = colors.textOnAccentBoldHeavy;
+    public static btnCheckedDisabledBg = colors.shapeOtherAccentBoldDisabled;
+    public static btnCheckedDisabledColor = colors.textInvertedNeutralSoft;
     //#endregion Button
     //#region Tooltip
-    public static tooltipCloseBtnColor = 'rgba(255, 255, 255, 0.32)';
-    public static tooltipCloseBtnHoverColor = 'rgba(255, 255, 255, 0.865)';
-    public static tooltipBg = '#333333';
+    public static tooltipCloseBtnColor = colors.textNeutralPale;
+    public static tooltipCloseBtnHoverColor = colors.textNeutralHeavy;
+    public static tooltipBg = colors.surfaceHigh;
     //#endregion Tooltip
     //#region Modal
-    public static modalBg = '#222';
-    public static modalBackBg = '#000';
-    public static modalBackOpacity = '0.7';
+    public static modalBg = colors.surfaceHigh;
+    public static modalBackBg = colors.surfaceModalBackdrop;
+    public static modalBackOpacity = '1';
 
-    public static modalCloseButtonColor = 'rgba(255, 255, 255, 0.32)';
-    public static modalCloseButtonHoverColor = 'rgba(255, 255, 255, 0.865)';
+    public static modalCloseButtonColor = colors.textNeutralPale;
+    public static modalCloseButtonHoverColor = colors.textNeutralHeavy;
 
-    public static modalFooterBg = '#222222';
+    public static get modalFooterBg() {
+      return this.modalBg;
+    }
     public static get modalFooterTextColor(): string {
       return this.textColorDefault;
     }
@@ -229,15 +251,17 @@ export const DarkTheme6_0 = createTheme({
     public static get modalFixedHeaderBg(): string {
       return this.modalBg;
     }
-    public static modalSeparatorBorderBottom = 'solid 1px rgba(255, 255, 255, 0.1)';
+    public static modalSeparatorBorderBottom = `1px solid ${colors.lineNeutralFaint}`;
     //#endregion Modal
     //#region SidePage
-    public static sidePageFooterPanelBg = ' #222222';
-    public static sidePageBackingBg = '#000';
-    public static sidePageBgDefault = '#222';
-    public static sidePageBackingBgOpacity = '0.7';
-    public static sidePageCloseButtonColor = 'rgba(255, 255, 255, 0.32)';
-    public static sidePageCloseButtonHoverColor = 'rgba(255, 255, 255, 0.865)';
+    public static get sidePageFooterPanelBg() {
+      return this.sidePageBgDefault;
+    }
+    public static sidePageBackingBg = colors.surfaceModalBackdrop;
+    public static sidePageBgDefault = colors.surfaceHigh;
+    public static sidePageBackingBgOpacity = '1';
+    public static sidePageCloseButtonColor = colors.textNeutralPale;
+    public static sidePageCloseButtonHoverColor = colors.textNeutralHeavy;
     public static get sidePageBodyTextColor(): string {
       return this.textColorDefault;
     }
@@ -262,44 +286,44 @@ export const DarkTheme6_0 = createTheme({
     public static get calendarCellWeekendColor(): string {
       return this.errorText;
     }
-    public static calendarCellTodayBorder = '1px solid rgba(255, 255, 255, 0.48)';
-    public static calendarCellSelectedBgColor = 'rgba(255, 255, 255, 0.1)';
-    public static calendarMonthTitleBorderBottomColor = 'rgba(255, 255, 255, 0.08)';
-    public static calendarCellHoverBgColor = 'rgba(255, 255, 255, 0.06)';
-    public static calendarCellHoverColor = 'rgba(255, 255, 255, 0.87)';
-    public static calendarCellSelectedFontColor = 'rgba(255, 255, 255, 0.87)';
+    public static calendarCellTodayBorder = '1px solid';
+    public static calendarCellSelectedBgColor = colors.shapeBoldAccent;
+    public static calendarMonthTitleBorderBottomColor = colors.lineNeutralFaint;
+    public static calendarCellHoverBgColor = colors.shapeOtherBacklessHover;
+    public static calendarCellHoverColor = '';
+    public static calendarCellSelectedFontColor = colors.textOnAccentBoldHeavy;
     //#endregion Calendar
 
     //#region DateRangePicker
-    public static rangeCalendarCellBg = 'rgba(255, 255, 255, 0.06)';
-    public static rangeCalendarCellHoverBg = 'rgba(255, 255, 255, 0.1)';
-    public static rangeCalendarCellEndBg = '#EBEBEB';
-    public static rangeCalendarCellEndColor = '#222222';
+    public static rangeCalendarCellBg = colors.shapeFaintNeutralAlpha;
+    public static rangeCalendarCellHoverBg = colors.shapeOtherBacklessHover;
+    public static rangeCalendarCellEndBg = colors.shapeBoldAccent;
+    public static rangeCalendarCellEndColor = colors.textOnAccentBoldHeavy;
     //#endregion
 
     //#region Paging
     public static pagingPageLinkColor = 'rgba(255, 255, 255, 0.87)';
-    public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.06)';
-    public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.1)';
-    public static pagingPageLinkDisabledActiveBg = 'rgba(255, 255, 255, 0.08)';
+    public static pagingPageLinkHoverBg = colors.shapeOtherBacklessHover;
+    public static pagingPageLinkActiveBg = colors.shapeOtherBacklessPressed;
+    public static pagingPageLinkDisabledActiveBg = colors.shapeOtherDisabled;
     public static pagingForwardLinkColor = 'rgba(255, 255, 255, 0.87)';
     public static get pagingForwardLinkDisabledColor(): string {
       return this.linkDisabledColor;
     }
     //#endregion Paging
     //#region Toast
-    public static toastLinkColor = 'rgba(44, 44, 44, 1.0)';
-    public static toastCloseColor = 'rgba(0, 0, 0, 0.32)';
+    public static toastLinkColor = colors.textInvertedNeutralHeavy;
+    public static toastCloseColor = colors.textInvertedNeutralSoft;
 
-    public static toastColor = 'rgba(44, 44, 44, 1.0)';
-    public static toastBg = 'rgba(255, 255, 255, 0.8)';
-    public static toastLinkBgHover = 'rgba(255, 255, 255, 0.87)';
-    public static toastLinkBgActive = 'rgba(0, 0, 0, 0.16)';
-    public static toastCloseHoverColor = 'rgba(0, 0, 0, 0.87)';
+    public static toastColor = colors.textInvertedNeutralHeavy;
+    public static toastBg = colors.shapeHeavyNeutral;
+    public static toastLinkBgHover = colors.shapeInvertedBacklessHover;
+    public static toastLinkBgActive = colors.shapeInvertedBacklessPressed;
+    public static toastCloseHoverColor = colors.textInvertedNeutralHeavy;
     //#endregion Toast
 
     //#region Tab, Tabs
-    public static tabColorHover = 'rgba(255, 255, 255, 0.16)';
+    public static tabColorHover = colors.lineNeutralPale;
     //#endregion Tab, Tabs
     //#region Menu
     public static get menuBgDefault(): string {
@@ -307,10 +331,10 @@ export const DarkTheme6_0 = createTheme({
     }
     // menuItem
     public static menuItemTextColor = 'rgba(255, 255, 255, 0.87)';
-    public static menuItemHoverBg = 'rgba(255, 255, 255, 0.1)';
-    public static menuItemSelectedBg = 'rgba(255, 255, 255, 0.16)';
+    public static menuItemHoverBg = colors.shapeOtherBacklessHover;
+    public static menuItemSelectedBg = colors.shapeOtherBacklessPressed;
 
-    public static menuItemCommentColor = 'rgba(255, 255, 255, 0.54)';
+    public static menuItemCommentColor = colors.textNeutralSoft;
     public static menuItemCommentOpacity = '1';
     public static get menuItemDisabledColor(): string {
       return this.textColorDisabled;
@@ -324,55 +348,55 @@ export const DarkTheme6_0 = createTheme({
       return this.menuHeaderColor;
     }
     //menuSeparator
-    public static menuSeparatorBorderColor = 'rgba(255, 255, 255, 0.1)';
+    public static menuSeparatorBorderColor = colors.lineNeutralFaint;
     //#endregion Menu
     //#region Toggle
-    public static toggleBorderColor = 'rgba(255, 255, 255, 0.32)';
-    public static toggleBaseBg = 'none';
+    public static toggleBorderColor = colors.lineNeutralPale;
+    public static toggleBaseBg = 'transparent';
 
     public static toggleOutlineColorFocus = '#1F1F1F';
 
     // idle
-    public static toggleContainerBg = 'rgba(255, 255, 255, 0.1)';
-    public static toggleContainerBoxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
-    public static toggleHandleBg = 'rgba(255, 255, 255, 0.32)';
-    public static toggleHandleBoxShadow = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+    public static toggleContainerBg = colors.shapeOtherField;
+    public static toggleContainerBoxShadow = `inset 0 0 0 1px ${colors.lineNeutralPale}`;
+    public static toggleHandleBg = colors.shapeOtherBase;
+    public static toggleHandleBoxShadow = `0 0 0 1px ${colors.lineNeutralPale}`;
 
     // idle :hover
-    public static toggleBgHover = 'rgba(255, 255, 255, 0.16)';
-    public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
-    public static toggleHandleBgHover = 'rgba(255, 255, 255, 0.32)';
-    public static toggleHandleBoxShadowHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
+    public static toggleBgHover = colors.shapeOtherFieldHover;
+    public static toggleContainerBoxShadowHover = `inset 0 0 0 1px ${colors.lineNeutralPaleHover}`;
+    public static toggleHandleBgHover = colors.shapeOtherBase;
+    public static toggleHandleBoxShadowHover = `0 0 0 1px ${colors.lineNeutralPale}`;
 
     // checked
-    public static toggleBgChecked = 'rgba(255, 255, 255, 0.1)';
-    public static toggleContainerBoxShadowChecked = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
-    public static toggleHandleBgChecked = '#EBEBEB';
+    public static toggleBgChecked = colors.shapeBoldAccent;
+    public static toggleContainerBoxShadowChecked = 'none';
+    public static toggleHandleBgChecked = colors.shapeInvertedNeutralHeavy;
     public static toggleHandleBoxShadowChecked = 'none';
 
     // checked :hover
     public static get toggleContainerBgCheckedHover(): string {
       return this.toggleContainerBgHover;
     }
-    public static toggleContainerBoxShadowCheckedHover = 'inset 0 0 0 1px rgba(255, 255, 255, 0.06)';
-    public static toggleHandleBgCheckedHover = '#FFFFFF';
+    public static toggleContainerBoxShadowCheckedHover = 'none';
+    public static toggleHandleBgCheckedHover = colors.shapeInvertedNeutralHeavyHover;
     public static toggleHandleBoxShadowCheckedHover = 'none';
 
     // disabled
     public static get toggleBgDisabled(): string {
       return this.bgDisabled;
     }
-    public static toggleDisabledHandleBg = '#525252';
+    public static toggleDisabledHandleBg = 'transparent';
 
-    public static toggleContainerBgDisabled = 'rgba(255, 255, 255, 0.04)';
-    public static toggleContainerBoxShadowDisabled = 'none';
-    public static toggleHandleBgDisabled = 'rgba(0, 0, 0, 0.16)';
-    public static toggleHandleBoxShadowDisabled = 'none';
+    public static toggleContainerBgDisabled = colors.shapeOtherDisabled;
+    public static toggleContainerBoxShadowDisabled = `inset 0 0 0 1px ${colors.lineNeutralFaint}`;
+    public static toggleHandleBgDisabled = 'transparent';
+    public static toggleHandleBoxShadowDisabled = `0 0 0 1px ${colors.lineNeutralFaint}`;
 
     // disabled checked
-    public static toggleContainerBgDisabledChecked = 'rgba(255, 255, 255, 0.06)';
+    public static toggleContainerBgDisabledChecked = colors.shapeOtherAccentBoldDisabled;
     public static toggleContainerBoxShadowDisabledChecked = 'none';
-    public static toggleHandleBgDisabledChecked = 'rgba(0, 0, 0, 0.16)';
+    public static toggleHandleBgDisabledChecked = colors.shapeInvertedNeutralHeavy;
     public static toggleHandleBoxShadowDisabledChecked = 'none';
     public static toggleBgDisabledChecked = 'rgba(255, 255, 255, 0.48)';
 
@@ -384,27 +408,29 @@ export const DarkTheme6_0 = createTheme({
       return this.textColorDisabled;
     }
 
-    public static tokenColor = 'rgba(255, 255, 255, 0.865)';
-    public static tokenBg = 'rgba(255, 255, 255, 0.1)';
-    public static tokenBorderColor = 'rgba(255, 255, 255, 0.06)';
-    public static tokenColorHover = 'rgba(255, 255, 255, 0.87)';
-    public static tokenBgHover = 'rgba(255, 255, 255, 0.16)';
+    public static tokenColor = colors.textNeutralHeavy;
+    public static tokenBg = colors.shapeFaintNeutralAlpha;
+    public static tokenBorderColor = colors.lineNeutralPale;
+    public static get tokenColorHover() {
+      return this.tokenColor;
+    }
+    public static tokenBgHover = colors.shapeFaintNeutralAlphaHover;
     public static tokenBorderColorHover = 'rgba(255, 255, 255, 0.06)';
-    public static tokenColorActive = 'rgba(0, 0, 0, 0.87)';
-    public static tokenBgActive = '#EBEBEB';
+    public static tokenColorActive = colors.textOnAccentBoldHeavy;
+    public static tokenBgActive = colors.shapeBoldAccent;
     public static tokenBorderColorActive = 'transparent';
     //#endregion Token
     //#region Input
-    public static inputBg = 'rgba(255, 255, 255, 0.1)';
+    public static inputBg = colors.shapeOtherField;
     public static get inputBorderTopColor(): string {
       return this.inputBorderColor;
     }
     public static inputColorScheme = 'dark';
-    public static inputBlinkColor = '#EBEBEB';
+    public static inputBlinkColor = colors.shapeFaintNeutralAlpha;
     public static inputTextColor = 'rgba(255, 255, 255, 0.865)';
-    public static inputBorderColor = 'rgba(255, 255, 255, 0.06)';
+    public static inputBorderColor = colors.lineNeutralPale;
     public static inputBackgroundClip = 'border-box';
-    public static inputBorderColorHover = 'rgba(255, 255, 255, 0.16)';
+    public static inputBorderColorHover = colors.lineNeutralPaleHover;
     public static inputBorderColorFocus = 'rgba(235, 235, 235, 1)';
     public static get inputFocusShadow(): string {
       return `0 0 0 1px ${this.inputBorderColorFocus}`;
@@ -425,7 +451,9 @@ export const DarkTheme6_0 = createTheme({
     public static get inputPlaceholderColorDisabled(): string {
       return this.textColorDisabled;
     }
-    public static inputDisabledBg = 'rgba(255, 255, 255, 0.04)';
+    public static get inputDisabledBg() {
+      return this.bgDisabled;
+    }
     public static inputDisabledBorderColor = 'rgba(255, 255, 255, 0.04)';
     //#endregion Input
     //#region DateSelect
@@ -437,14 +465,14 @@ export const DarkTheme6_0 = createTheme({
     public static dateInputComponentSelectedTextColor = '';
     //#endregion DateInput
     //#region Hint
-    public static hintColor = 'rgba(44, 44, 44, 1.0)';
-    public static hintBgColor = 'rgba(255, 255, 255, 0.8)';
+    public static hintColor = colors.textInvertedNeutralHeavy;
+    public static hintBgColor = colors.shapeHeavyNeutral;
     //#endregion Hint
     //#region Loader
-    public static loaderBg = 'rgba(51, 51, 51, 0.8)';
+    public static loaderBg = colors.shapeInvertedNeutralHeavy;
     //#endregion
     //#region GlobalLoader
-    public static globalLoaderColor = 'rgba(238, 80, 66, 1)';
+    public static globalLoaderColor = colors.shapeBoldBrandOriginal;
     //#endregion GlobalLoader
     //#region TextArea
     public static get textareaBg(): string {
@@ -473,27 +501,38 @@ export const DarkTheme6_0 = createTheme({
     public static get passwordInputVisibilityIconColor(): string {
       return this.gray;
     }
-    public static passwordInputVisibilityIconOpacity = '1';
+    public static passwordInputVisibilityIconOpacity = '0.64';
     public static get passwordInputVisibilityIconHoverColor(): string {
       return this.textColorDefault;
     }
     //#endregion PasswordInput
     //#region Radio
-    public static radioBgColor = 'rgba(255, 255, 255, 0.04)';
-    public static radioBorderColor = 'rgba(255, 255, 255, 0.32)';
+    public static radioBgColor = colors.shapeOtherField;
+    public static get radioBorderColor() {
+      return colors.lineNeutralPale;
+    }
 
     public static radioFocusShadow = 'inset 0 0 0 1px rgba(0, 0, 0, 0.87)';
 
-    public static radioDisabledBg = 'rgba(255, 255, 255, 0.04)';
-    public static radioDisabledShadow = 'none';
-    public static radioCheckedDisabledBulletBg = 'rgba(255, 255, 255, 0.16)';
+    public static get radioDisabledBg() {
+      return this.checkboxBgDisabled;
+    }
+    public static radioDisabledShadow = `0 0 0 ${this.radioBorderWidth} ${colors.lineNeutralFaint}`;
 
-    public static radioCheckedBgColor = '#FFFFFF';
-    public static radioCheckedBulletColor = 'rgba(0, 0, 0, 0.87)';
+    public static get radioCheckedDisabledBulletBg() {
+      return this.checkboxTextColorDisabled;
+    }
+
+    public static get radioCheckedBgColor() {
+      return this.checkboxCheckedBg;
+    }
+    public static get radioCheckedBulletColor() {
+      return this.checkboxCheckedColor;
+    }
     public static radioCheckedBorderColor = 'transparent';
     //#endregion Radio
     //#region Checkbox
-    public static checkboxBg = 'rgba(255, 255, 255, 0.04)';
+    public static checkboxBg = colors.shapeOtherField;
     public static get checkboxShadow(): string {
       return `0 0 0 ${this.checkboxBorderWidth} rgba(255, 255, 255, 0.32)`;
     }
@@ -504,14 +543,16 @@ export const DarkTheme6_0 = createTheme({
     public static get checkboxCheckedBg(): string {
       return this.bgChecked;
     }
-    public static checkboxCheckedColor = 'rgba(0, 0, 0, 0.87)';
-    public static checkboxHoverBg = 'rgba(255, 255, 255, 0.16)';
+    public static checkboxCheckedColor = colors.shapeInvertedNeutralHeavy;
+    public static checkboxHoverBg = colors.shapeOtherFieldHover;
     public static get checkboxCheckedHoverBg(): string {
       return this.checkboxCheckedBg;
     }
     public static checkboxOutlineColorFocus = 'rgba(0, 0, 0, 0.87)';
-    public static checkboxBgDisabled = 'rgba(255, 255, 255, 0.04)';
-    public static checkboxShadowDisabled = 'none';
+    public static checkboxBgDisabled = colors.shapeOtherDisabled;
+    public static get checkboxShadowDisabled() {
+      return `0 0 0 ${this.checkboxBorderWidth} ${colors.lineNeutralFaint}`;
+    }
     //#endregion Checkbox
     //#region TokenInput
     public static inputDisabledBackgroundClip = 'border-box';
@@ -520,39 +561,49 @@ export const DarkTheme6_0 = createTheme({
     public static get switcherButtonDisabledBorderColor(): string {
       return this.borderColorDisabled;
     }
-    public static switcherButtonCheckedDisabledShadow = 'none';
+    public static get switcherButtonCheckedDisabledShadow() {
+      return this.btnCheckedDisabledShadow;
+    }
     //#endregion Switcher
     //#region FileUploader
-    public static fileUploaderBg = 'none';
-    public static fileUploaderTextColorDefault = '#fff';
+    public static fileUploaderBg = '';
+    public static get fileUploaderTextColorDefault() {
+      return this.textColorDefault;
+    }
     public static get fileUploaderBorderColor(): string {
       return this.borderColorGrayLight;
     }
     public static get fileUploaderBorderColorFocus(): string {
       return this.btnBorderColorFocus;
     }
-    public static fileUploaderLinkColor = 'rgba(255, 255, 255, 0.87)';
-    public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.87)';
-    public static fileUploaderIconHoverColor = 'rgba(255, 255, 255, 0.80)';
+    public static get fileUploaderLinkColor() {
+      return this.textColorDefault;
+    }
+    public static fileUploaderIconColor = colors.textNeutralPale;
+    public static fileUploaderIconHoverColor = colors.textNeutralHeavy;
 
     public static get fileUploaderBorderColorError(): string {
       return this.borderColorError;
     }
-    public static fileUploaderBorderColorWarning = '#ffa236';
+    public static get fileUploaderBorderColorWarning() {
+      return this.borderColorWarning;
+    }
     public static get fileUploaderDisabledBg(): string {
       return this.btnDisabledBg;
     }
-    public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.1)';
+    public static fileUploaderDisabledBorderColor = colors.lineNeutralFaint;
     public static get fileUploaderDisabledTextColor(): string {
       return this.fileUploaderDisabledColor;
     }
     public static get fileUploaderDisabledLinkColor(): string {
       return this.textColorDisabled;
     }
-    public static fileUploaderDisabledIconColor = 'rgba(255, 255, 255, 0.32)';
+    public static get fileUploaderDisabledIconColor() {
+      return this.textColorDisabled;
+    }
 
-    public static fileUploaderUploadButtonBg = 'rgba(255, 255, 255, 0.1)';
-    public static fileUploaderHoveredBg = 'rgba(255, 255, 255, 0.16)';
+    public static fileUploaderUploadButtonBg = 'transparent';
+    public static fileUploaderHoveredBg = colors.shapeOtherBacklessHover;
     public static fileUploaderActiveBg = 'rgba(255, 255, 255, 0.1)';
 
     public static get fileUploaderAfterLinkColor(): string {
@@ -574,20 +625,20 @@ export const DarkTheme6_0 = createTheme({
     public static fileUploaderPaddingXMedium = '9px';
     public static fileUploaderPaddingXLarge = '11px';
 
-    public static fileUploaderErrorBgColor = '#4F2421';
-    public static fileUploaderErrorBgHoverColor = '#612A29';
+    public static fileUploaderErrorBgColor = colors.shapeFaintError;
+    public static fileUploaderErrorBgHoverColor = colors.shapeFaintErrorHover;
     public static get fileUploaderErrorTextColor(): string {
       return this.errorText;
     }
-    public static fileUploaderWarningBgColor = '#3F2F1E';
-    public static fileUploaderWarningBgHoverColor = '#4C3923';
-    public static fileUploaderWarningTextColor = '#FDD481';
+    public static fileUploaderWarningBgColor = colors.shapeFaintWarning;
+    public static fileUploaderWarningBgHoverColor = colors.shapeFaintWarningHover;
+    public static fileUploaderWarningTextColor = colors.textWarningHeavy;
 
     public static get fileUploaderValidationTextColor(): string {
       return this.fileUploaderTextColorDefault;
     }
 
-    public static fileUploaderDisabledColor = 'rgba(255, 255, 255, 0.54)';
+    public static fileUploaderDisabledColor = colors.textNeutralFaint;
     public static get fileUploaderDisabledFileTypeIcon(): string {
       return this.fileUploaderDisabledIconColor;
     }
@@ -595,15 +646,15 @@ export const DarkTheme6_0 = createTheme({
     //#endregion FileUploader
 
     //#region Kebab
-    public static kebabBackgroundHover = 'rgba(255, 255, 255, 0.1)';
-    public static kebabBackgroundActive = 'rgba(255, 255, 255, 0.06)';
+    public static kebabBackgroundHover = colors.shapeOtherBacklessHover;
+    public static kebabBackgroundActive = colors.shapeOtherBacklessPressed;
     //#endregion Kebab
 
     //#region react-ui-validations
     public static get validationsTextColorError(): string {
       return this.errorText;
     }
-    public static validationsTextColorWarning = '#fdd481';
+    public static validationsTextColorWarning = colors.textWarningHeavy;
     //#endregion
   },
   prototypeTheme: BasicTheme,

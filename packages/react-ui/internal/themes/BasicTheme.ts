@@ -1,3 +1,5 @@
+import * as colors from '@skbkontur/colors/default-light';
+
 import { createTheme } from '../../lib/theming/ThemeHelpers';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
@@ -5,7 +7,7 @@ export class BasicThemeClass {
   //#region Common variables
   public static baseFontFamily = '"Lab Grotesque", "Lab Grotesque K", Arial, sans-serif';
   public static labGrotesqueBaselineCompensation = '1';
-  public static brand = '#2291ff';
+  public static brand = colors.shapeBoldBrandOriginal;
   public static white = '#fff';
   public static grayXLight = '#ebebeb';
   public static gray = '#858585';
@@ -28,11 +30,11 @@ export class BasicThemeClass {
   public static yellow = '#fcb73e';
   public static yellowDark = '#ef8b17';
 
-  public static bgDefault = '#fff';
+  public static bgDefault = colors.surfaceHigh;
   public static get bgSecondary(): string {
     return this.bgDefault;
   }
-  public static bgDisabled = '#F0F0F0';
+  public static bgDisabled = colors.shapeOtherDisabled;
   public static get errorMain(): string {
     return this.red;
   }
@@ -49,10 +51,10 @@ export class BasicThemeClass {
   public static borderColorFocusLight = '#cdedff';
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.16)';
-  public static borderColorDisabled = 'rgba(0, 0, 0, 0.10)';
-  public static placeholderColor = '#adadad';
-  public static outlineColorFocus = '#fff';
-  public static placeholderColorLight = '#cdcdcd';
+  public static borderColorDisabled = colors.lineNeutralFaint;
+  public static placeholderColor = colors.textNeutralFaint;
+  public static outlineColorFocus = colors.surfaceBase;
+  public static placeholderColorLight = `color-mix(in srgb, ${colors.textNeutralFaint}, transparent 40%)`;
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
   public static controlOutlineWidth = '2px';
@@ -62,9 +64,9 @@ export class BasicThemeClass {
   public static controlPaddingYSmall = '5px';
   public static controlPaddingYMedium = '8px';
   public static controlPaddingYLarge = '11px';
-  public static textColorDefault = '#222222';
+  public static textColorDefault = colors.textNeutralHeavy;
   public static textColorInvert = '#fff';
-  public static textColorDisabled = '#adadad';
+  public static textColorDisabled = colors.textNeutralFaint;
   public static textColorDisabledContrast = '#858585';
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '16px';
@@ -75,7 +77,7 @@ export class BasicThemeClass {
   public static fixedPanelShadow = 'none';
   public static bgActive = '#141414';
   public static bgChecked = '#3D3D3D';
-  public static borderColorFocus = '#3D3D3D';
+  public static borderColorFocus = colors.lineAccentBold;
   public static get borderColorError(): string {
     return this.errorMain;
   }
@@ -91,13 +93,13 @@ export class BasicThemeClass {
   public static transitionTimingFunction = 'cubic-bezier(0.5, 1, 0.89, 1)';
   //#endregion Common variables
   //#region Link
-  public static linkColor = '#222222';
+  public static linkColor = colors.textAccentHeavy;
   public static linkTextDecoration = 'underline';
 
   public static get linkHoverColor(): string {
     return this.linkColor;
   }
-  public static linkActiveColor = '#141414';
+  public static linkActiveColor = colors.textAccentHeavyPressed;
   public static linkHoverTextDecoration = 'none';
 
   public static get linkSuccessColor(): string {
@@ -106,13 +108,13 @@ export class BasicThemeClass {
   public static get linkSuccessHoverColor(): string {
     return this.greenDark;
   }
-  public static linkSuccessActiveColor = '#167333';
+  public static linkSuccessActiveColor = colors.textSuccessHeavyPressed;
 
   public static get linkDangerColor(): string {
     return this.errorText;
   }
-  public static linkDangerHoverColor = '#BB1919';
-  public static linkDangerActiveColor = '#AB0D0D';
+  public static linkDangerHoverColor = colors.textErrorHeavyHover;
+  public static linkDangerActiveColor = colors.textErrorHeavyPressed;
 
   public static linkIconMarginRight = '4px';
   public static linkIconMarginLeft = '4px';
@@ -120,9 +122,9 @@ export class BasicThemeClass {
   public static get linkDisabledColor(): string {
     return this.textColorDisabled;
   }
-  public static linkGrayedColor = '#858585';
-  public static linkGrayedHoverColor = '#292929';
-  public static linkGrayedActiveColor = '#141414';
+  public static linkGrayedColor = colors.textNeutralSoft;
+  public static linkGrayedHoverColor = colors.textNeutralHeavy;
+  public static linkGrayedActiveColor = colors.textNeutralHeavy;
 
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
@@ -147,7 +149,7 @@ export class BasicThemeClass {
     parseFloat(this.linkLineBorderBottomOpacity) * 100
   }%, transparent)`;
 
-  public static linkFocusOutlineColor = '#3D3D3D';
+  public static linkFocusOutlineColor = colors.lineAccentBold;
   public static get linkFocusOutlineWidth(): string {
     return this.controlOutlineWidth;
   }
@@ -157,7 +159,7 @@ export class BasicThemeClass {
 
   //#endregion Link
   //#region Token
-  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
+  public static tokenDisabledBg = colors.shapeOtherDisabled;
   public static get tokenTextColorDisabled(): string {
     return this.textColorDisabled;
   }
@@ -228,14 +230,16 @@ export class BasicThemeClass {
 
   public static tokenShadowDisabled = '';
 
-  public static tokenBg = 'rgba(0, 0, 0, 0.1)';
-  public static tokenColor = '#222222';
-  public static tokenBorderColor = 'rgba(0, 0, 0, 0.16)';
-  public static tokenBgHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenColorHover = '#222222';
+  public static tokenBg = colors.shapeFaintNeutralAlpha;
+  public static tokenColor = colors.textNeutralHeavy;
+  public static tokenBorderColor = colors.lineNeutralPale;
+  public static tokenBgHover = colors.shapeFaintNeutralAlphaHover;
+  public static get tokenColorHover() {
+    return this.tokenColor;
+  }
   public static tokenBorderColorHover = 'rgba(0, 0, 0, 0.16)';
-  public static tokenBgActive = '#3D3D3D';
-  public static tokenColorActive = '#FFFFFF';
+  public static tokenBgActive = colors.shapeBoldAccent;
+  public static tokenColorActive = colors.textOnAccentBoldHeavy;
   public static tokenBorderColorActive = 'transparent';
 
   //#endregion Token
@@ -320,7 +324,7 @@ export class BasicThemeClass {
 
   //#endregion TokenInput
   //#region Loader
-  public static loaderBg = 'rgba(255, 255, 255, 0.8)';
+  public static loaderBg = colors.shapeInvertedNeutralHeavy;
   public static loaderOpacity = '0.8';
   public static loaderBorderRadius = '0px';
   //#endregion
@@ -329,11 +333,11 @@ export class BasicThemeClass {
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
   public static btnBorderColorTransition = '';
-  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.10)';
-  public static btnCheckedBg = '#3D3D3D';
-  public static btnCheckedDisabledBg = '#ADADAD';
-  public static btnCheckedDisabledColor = '#E6E6E6';
-  public static btnCheckedTextColor = '#fff';
+  public static btnDisabledBorderColor = colors.lineNeutralFaint;
+  public static btnCheckedBg = colors.shapeBoldAccent;
+  public static btnCheckedDisabledBg = colors.shapeOtherAccentBoldDisabled;
+  public static btnCheckedDisabledColor = colors.textInvertedNeutralSoft;
+  public static btnCheckedTextColor = colors.textOnAccentBoldHeavy;
   public static get btnCheckedDisabledBorderColor(): string {
     return this.btnCheckedDisabledBg;
   }
@@ -373,7 +377,7 @@ export class BasicThemeClass {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
-  public static btnDefaultBg = '#fff';
+  public static btnDefaultBg = colors.shapeOtherBase;
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
   public static get btnDefaultCheckedBorderColor(): string {
@@ -382,45 +386,57 @@ export class BasicThemeClass {
   public static get btnDefaultTextColor(): string {
     return this.textColorDefault;
   }
-  public static btnDefaultHoverBg = '#F0F0F0';
+  public static btnDefaultHoverBg = colors.shapeOtherBaseHover;
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
-  public static btnDefaultActiveBg = '#E6E6E6';
+  public static btnDefaultActiveBg = colors.shapeOtherBasePressed;
   public static get btnDefaultHoverBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
-  public static btnDefaultHoverTextColor = '';
+  public static btnDefaultHoverTextColor = colors.textNeutralHeavy;
   public static get btnDefaultActiveBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
-  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static btnDefaultBorderColor = colors.lineNeutralPale;
   public static btnDefaultActiveShadow = 'none';
-  public static btnSuccessBg = '#26AD50';
-  public static btnSuccessBorderColor = '#26AD50';
-  public static btnSuccessHoverBg = '#23A14A';
-  public static btnSuccessHoverBorderColor = '#23A14A';
-  public static btnSuccessHoverTextColor = '';
+  public static btnSuccessBg = colors.shapeBoldSuccess;
+  public static get btnSuccessBorderColor() {
+    return this.btnSuccessBg;
+  }
+  public static btnSuccessHoverBg = colors.shapeBoldSuccessHover;
+  public static get btnSuccessHoverBorderColor() {
+    return this.btnSuccessHoverBg;
+  }
+  public static btnSuccessHoverTextColor = colors.textConstHeavyWhite;
   public static btnSuccessBgStart = 'none';
   public static btnSuccessBgEnd = 'none';
-  public static btnSuccessTextColor = '#fff';
+  public static btnSuccessTextColor = colors.textConstHeavyWhite;
   public static btnSuccessHoverBgStart = 'none';
   public static btnSuccessHoverBgEnd = 'none';
-  public static btnSuccessActiveBg = '#209644';
-  public static btnSuccessActiveBorderColor = '#209644';
+  public static btnSuccessActiveBg = colors.shapeBoldSuccessPressed;
+  public static get btnSuccessActiveBorderColor() {
+    return this.btnSuccessActiveBg;
+  }
   public static btnSuccessActiveShadow = 'none';
 
-  public static btnPrimaryBg = '#3D3D3D';
-  public static btnPrimaryHoverBg = '#292929';
-  public static btnPrimaryActiveBg = '#141414';
+  public static btnPrimaryBg = colors.shapeBoldAccent;
+  public static btnPrimaryHoverBg = colors.shapeBoldAccentHover;
+  public static btnPrimaryActiveBg = colors.shapeBoldAccentPressed;
 
   public static btnPrimaryHoverTextColor = '';
-  public static btnPrimaryBorderColor = '#3D3D3D';
-  public static btnPrimaryHoverBorderColor = '#292929';
-  public static btnPrimaryActiveBorderColor = '#141414';
+  public static get btnPrimaryBorderColor() {
+    return this.btnPrimaryBg;
+  }
+  public static get btnPrimaryHoverBorderColor() {
+    return this.btnPrimaryHoverBg;
+  }
+  public static get btnPrimaryActiveBorderColor() {
+    return this.btnPrimaryActiveBg;
+  }
 
   public static btnPrimaryBgStart = 'none';
   public static btnPrimaryBgEnd = 'none';
-  public static btnPrimaryTextColor = '#fff';
+  public static btnPrimaryTextColor = colors.textOnAccentBoldHeavy;
   public static btnPrimaryHoverBgStart = 'none';
   public static btnPrimaryHoverBgEnd = 'none';
   public static btnPrimaryActiveShadow = 'none';
@@ -431,26 +447,32 @@ export class BasicThemeClass {
     return this.btnDangerBg;
   }
 
-  public static btnDangerHoverBg = '#ED3F3F';
-  public static btnDangerHoverBorderColor = '#ED3F3F';
+  public static btnDangerHoverBg = colors.shapeBoldErrorHover;
+  public static get btnDangerHoverBorderColor() {
+    return this.btnDangerHoverBg;
+  }
 
   public static btnDangerHoverTextColor = '';
   public static btnDangerBgStart = 'none';
   public static btnDangerBgEnd = 'none';
-  public static btnDangerTextColor = '#fff';
+  public static btnDangerTextColor = colors.textConstHeavyWhite;
   public static btnDangerHoverBgStart = 'none';
   public static btnDangerHoverBgEnd = 'none';
-  public static btnDangerActiveBg = '#DD3333';
+  public static btnDangerActiveBg = colors.shapeBoldErrorPressed;
   public static get btnDangerActiveBorderColor(): string {
     return this.btnDangerActiveBg;
   }
 
   public static btnDangerActiveShadow = 'none';
-  public static btnPayBg = '#fcb73e';
-  public static btnPayHoverBg = '#fda70c';
-  public static btnPayHoverBorderColor = '#fda70c';
+  public static btnPayBg = colors.shapeBoldWarning;
+  public static btnPayHoverBg = colors.shapeBoldWarningHover;
+  public static get btnPayHoverBorderColor() {
+    return this.btnPayHoverBg;
+  }
   public static btnPayHoverTextColor = '';
-  public static btnPayBorderColor = '#fcb73e';
+  public static get btnPayBorderColor() {
+    return this.btnPayBg;
+  }
   public static btnPayBgStart = 'none';
   public static btnPayBgEnd = 'none';
   public static get btnPayTextColor(): string {
@@ -458,10 +480,12 @@ export class BasicThemeClass {
   }
   public static btnPayHoverBgStart = 'none';
   public static btnPayHoverBgEnd = 'none';
-  public static btnPayActiveBg = '#f69912';
-  public static btnPayActiveBorderColor = '#f69912';
+  public static btnPayActiveBg = colors.shapeBoldWarningPressed;
+  public static get btnPayActiveBorderColor() {
+    return this.btnPayActiveBg;
+  }
   public static btnPayActiveShadow = 'none';
-  public static btnMenuArrowColor = '#a6a6a6';
+  public static btnMenuArrowColor = colors.textNeutralSoft;
   public static get btnFontSizeSmall(): string {
     return this.fontSizeSmall;
   }
@@ -489,7 +513,7 @@ export class BasicThemeClass {
   public static get btnPaddingYLarge(): string {
     return this.controlPaddingYLarge;
   }
-  public static btnDisabledBg = 'rgba(0, 0, 0, 0.06)';
+  public static btnDisabledBg = colors.shapeOtherDisabled;
 
   public static get btnBorderColorWarning(): string {
     return this.borderColorWarning;
@@ -573,7 +597,7 @@ export class BasicThemeClass {
   public static get btnOutlineColorFocus(): string {
     return this.outlineColorFocus;
   }
-  public static btnInsetColor = '#fff';
+  public static btnInsetColor = colors.surfaceBase;
   public static get btnBorderColorFocus(): string {
     return this.borderColorFocus;
   }
@@ -584,8 +608,8 @@ export class BasicThemeClass {
     return this.textColorDisabled;
   }
   public static btnBacklessBg = 'transparent';
-  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.06)';
-  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static btnBacklessHoverBg = colors.shapeOtherBacklessHover;
+  public static btnBacklessActiveBg = colors.shapeOtherBacklessPressed;
   public static get btnBacklessActiveBorderColor(): string {
     return this.btnBacklessBorderColor;
   }
@@ -604,8 +628,8 @@ export class BasicThemeClass {
   }
 
   public static btnTextBg = 'transparent';
-  public static btnTextHoverBg = 'rgba(0, 0, 0, 0.06)';
-  public static btnTextActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static btnTextHoverBg = colors.shapeOtherBacklessHover;
+  public static btnTextActiveBg = colors.shapeOtherBacklessPressed;
   public static get btnTextBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
@@ -637,7 +661,7 @@ export class BasicThemeClass {
   public static get selectDefaultBg(): string {
     return this.inputBg;
   }
-  public static selectPlaceholderColor = '#adadad';
+  public static selectPlaceholderColor = this.placeholderColor;
   public static get selectBorderWidth(): string {
     return this.controlBorderWidth;
   }
@@ -746,11 +770,11 @@ export class BasicThemeClass {
   public static get tooltipCloseBtnColor(): string {
     return this.closeGrayColor;
   }
-  public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
+  public static tooltipCloseBtnHoverColor = colors.textNeutralHeavy;
   public static get tooltipTextColor(): string {
     return this.textColorDefault;
   }
-  public static tooltipBg = '#fff';
+  public static tooltipBg = colors.surfaceHigh;
   public static get tooltipBorder(): string {
     return this.popupBorder;
   }
@@ -812,8 +836,8 @@ export class BasicThemeClass {
   //#region Kebab
   public static kebabMargin = '4px';
   public static kebabBackground = 'transparent';
-  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.06)';
-  public static kebabBackgroundActive = 'rgba(0, 0, 0, 0.10)';
+  public static kebabBackgroundHover = colors.shapeOtherBacklessHover;
+  public static kebabBackgroundActive = colors.shapeOtherBacklessPressed;
   public static kebabBorderRadius = '50%';
   public static kebabBorder = '2px solid transparent';
   public static kebabSizeSmall = '24px';
@@ -822,21 +846,21 @@ export class BasicThemeClass {
   public static kebabIconSizeSmall = '16px';
   public static kebabIconSizeMedium = '20px';
   public static kebabIconSizeLarge = '24px';
-  public static kebabIconColor = '#757575';
+  public static kebabIconColor = colors.textNeutralSoft;
 
   //#endregion
   //#region Modal
   public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.06)';
-  public static modalBackBg = '#000';
+  public static modalBackBg = colors.surfaceModalBackdrop;
   public static get modalBg(): string {
     return this.bgSecondary;
   }
-  public static modalBackOpacity = '0.16';
+  public static modalBackOpacity = '1';
   public static get modalCloseButtonColor(): string {
     return this.closeGrayColor;
   }
-  public static modalCloseButtonDisabledColor = '#8b8b8b';
-  public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
+  public static modalCloseButtonDisabledColor = colors.textNeutralFaint;
+  public static modalCloseButtonHoverColor = colors.textNeutralHeavy;
   public static modalCloseButtonPadding = '32px';
   public static modalCloseButtonBottomPadding = '20px';
 
@@ -885,7 +909,7 @@ export class BasicThemeClass {
   }
   public static modalFixedFooterMarginTop = '0px';
 
-  public static modalSeparatorBorderBottom = '1px solid #E6E6E6';
+  public static modalSeparatorBorderBottom = `1px solid ${colors.lineNeutralFaint}`;
   public static modalSeparatorMargin = '0 32px';
   public static modalSeparatorFixedMargin = '0 16px';
   public static modalBodyTextColor = 'inherit';
@@ -931,10 +955,10 @@ export class BasicThemeClass {
   public static get sidePageFooterPanelBg(): string {
     return this.sidePageBgDefault;
   }
-  public static sidePageBackingBg = '#000';
-  public static sidePageBackingBgOpacity = '0.16';
-  public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
-  public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
+  public static sidePageBackingBg = colors.surfaceModalBackdrop;
+  public static sidePageBackingBgOpacity = '1';
+  public static sidePageCloseButtonColor = colors.textNeutralPale;
+  public static sidePageCloseButtonHoverColor = colors.textNeutralHeavy;
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
   public static mobileSidePagePaddingLeft = '16px';
   public static mobileSidePagePaddingRight = '16px';
@@ -947,7 +971,7 @@ export class BasicThemeClass {
   public static sidePagePaddingBottom = '40px';
   public static sidePageFooterPaddingTop = '20px';
   public static sidePageFooterPaddingBottom = '20px';
-  public static sidePageBgDefault = '#fff';
+  public static sidePageBgDefault = colors.surfaceHigh;
   public static get sidePageHeaderTextColor(): string {
     return this.textColorDefault;
   }
@@ -1007,7 +1031,7 @@ export class BasicThemeClass {
   public static get dateInputIconColor(): string {
     return this.textColorDefault;
   }
-  public static dateInputMaskColor = '#b8b8b8';
+  public static dateInputMaskColor = colors.textNeutralFaint;
   public static dateInputComponentSelectedBgColor = '';
   public static dateInputComponentSelectedTextColor = '';
   //#endregion DateInput
@@ -1035,8 +1059,8 @@ export class BasicThemeClass {
   }
   public static calendarCellTodayBorder = '1px solid';
   public static calendarCellBorderRadius = '9999px';
-  public static calendarCellSelectedBgColor = '#E6E6E6';
-  public static calendarCellSelectedFontColor = 'inherit';
+  public static calendarCellSelectedBgColor = colors.shapeBoldAccent;
+  public static calendarCellSelectedFontColor = colors.textOnAccentBoldHeavy;
   public static calendarCellHeight = '32px';
   public static get calendarCellWidth(): string {
     return this.calendarCellHeight;
@@ -1048,8 +1072,8 @@ export class BasicThemeClass {
   public static get calendarMonthHeaderStickedBgColor(): string {
     return this.bgSecondary;
   }
-  public static calendarMonthTitleBorderBottomColor = '#dfdede';
-  public static calendarCellHoverBgColor = '#F0F0F0';
+  public static calendarMonthTitleBorderBottomColor = colors.lineNeutralFaint;
+  public static calendarCellHoverBgColor = colors.shapeOtherBacklessHover;
   public static calendarPaddingX = '18px';
   public static calendarMonthTitleLineHeight = '20px';
   public static calendarMonthTitlePaddingTop = '12px';
@@ -1081,10 +1105,10 @@ export class BasicThemeClass {
   //#endregion DatePicker
 
   //#region DateRangePicker
-  public static rangeCalendarCellBg = '#f0f0f0';
-  public static rangeCalendarCellEndBg = '#1e1e1e';
-  public static rangeCalendarCellEndColor = 'white';
-  public static rangeCalendarCellHoverBg = 'rgba(0, 0, 0, 0.1)';
+  public static rangeCalendarCellBg = colors.shapeFaintNeutralAlpha;
+  public static rangeCalendarCellEndBg = colors.shapeBoldAccent;
+  public static rangeCalendarCellEndColor = colors.textOnAccentBoldHeavy;
+  public static rangeCalendarCellHoverBg = colors.shapeOtherBacklessHover;
   public static rangeCalendarWrapperHeight = '450px';
 
   public static mobileRangeCalendarCellHeight = '42px';
@@ -1165,9 +1189,9 @@ export class BasicThemeClass {
   public static get pagingPageLinkActiveColor(): string {
     return this.textColorDefault;
   }
-  public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.1)';
-  public static pagingPageLinkDisabledActiveBg = 'rgba(0, 0, 0, 0.04)';
-  public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.06)';
+  public static pagingPageLinkActiveBg = colors.shapeOtherBacklessPressed;
+  public static pagingPageLinkDisabledActiveBg = colors.shapeOtherDisabled;
+  public static pagingPageLinkHoverBg = colors.shapeOtherBacklessHover;
 
   public static pagingForwardLinkPaddingSmall = '6px 8px 6px 12px';
   public static pagingForwardLinkPaddingMedium = '9px 12px 9px 16px';
@@ -1185,7 +1209,7 @@ export class BasicThemeClass {
   public static pagingDotsPaddingSmall = '11px 8px 5px 8px';
   public static pagingDotsPaddingMedium = '14px 12px 10px 12px';
   public static pagingDotsPaddingLarge = '19px 16px 13px 16px';
-  public static pagingDotsColor = '#ADADAD';
+  public static pagingDotsColor = colors.textNeutralFaint;
   public static get pagingDotsDisabledColor(): string {
     return this.textColorDisabled;
   }
@@ -1213,7 +1237,7 @@ export class BasicThemeClass {
   public static hintPaddingY = '4px';
   public static hintPaddingX = '8px';
   public static hintTextAlign = 'center';
-  public static hintBgColor = 'rgba(0, 0, 0, 0.76)';
+  public static hintBgColor = colors.shapeHeavyNeutral;
   public static hintBorder = 'none';
   public static hintBorderRadius = '6px';
   public static hintMargin = '8px';
@@ -1231,24 +1255,24 @@ export class BasicThemeClass {
   public static toastBorderRadius = '8px';
   public static toastBorder = 'none';
   public static toastTop = '24px';
-  public static toastBg = 'rgba(0, 0, 0, 0.76)';
-  public static toastErrorBg = '#F63B3F';
-  public static toastColor = 'white';
-  public static toastColorError = '#fff';
-  public static toastLinkColor = '#fff';
-  public static toastLinkColorError = '#fff';
+  public static toastBg = colors.shapeHeavyNeutral;
+  public static toastErrorBg = colors.shapeBoldError;
+  public static toastColor = colors.textInvertedNeutralHeavy;
+  public static toastColorError = colors.textConstHeavyWhite;
+  public static toastLinkColor = colors.textInvertedNeutralHeavy;
+  public static toastLinkColorError = colors.textConstHeavyWhite;
   public static toastLinkTextDecorationHover = '';
-  public static toastLinkBgHover = 'rgba(255, 255, 255, 0.12)';
-  public static toastLinkBgHoverError = 'rgba(255, 255, 255, 0.08)';
-  public static toastLinkBgActive = 'rgba(0, 0, 0, 0.87)';
-  public static toastLinkBgActiveError = 'rgba(255, 255, 255, 0.04)';
-  public static toastLinkColorActiveError = 'rgba(255, 255, 255, 0.64)';
+  public static toastLinkBgHover = colors.shapeInvertedBacklessHover;
+  public static toastLinkBgHoverError = colors.shapeConstBacklessWhiteHover;
+  public static toastLinkBgActive = colors.shapeInvertedBacklessPressed;
+  public static toastLinkBgActiveError = colors.shapeConstBacklessWhiteHover;
+  public static toastLinkColorActiveError = colors.textConstHeavyWhite;
   public static toastLinkPadding = '12px';
   public static toastClosePadding = '16px';
-  public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
-  public static toastCloseColorError = 'rgba(255, 255, 255, 0.6)';
-  public static toastCloseHoverColor = 'white';
-  public static toastCloseHoverColorError = 'white';
+  public static toastCloseColor = colors.textInvertedNeutralSoft;
+  public static toastCloseColorError = colors.textConstSoftWhite;
+  public static toastCloseHoverColor = colors.textInvertedNeutralHeavy;
+  public static toastCloseHoverColorError = colors.textConstHeavyWhite;
   public static toastCloseSize = '16px';
 
   //#endregion Toast
@@ -1351,8 +1375,8 @@ export class BasicThemeClass {
   public static get menuItemTextColor(): string {
     return this.textColorDefault;
   }
-  public static menuItemSelectedBg = '#E6E6E6';
-  public static menuItemHoverBg = '#F0F0F0';
+  public static menuItemSelectedBg = colors.shapeOtherBacklessPressed;
+  public static menuItemHoverBg = colors.shapeOtherBacklessHover;
 
   public static menuItemIconWidthSmall = '16px';
   public static menuItemIconWidthMedium = '20px';
@@ -1412,7 +1436,7 @@ export class BasicThemeClass {
   public static get menuItemCommentColor(): string {
     return this.menuItemTextColor;
   }
-  public static menuItemCommentOpacity = '0.6';
+  public static menuItemCommentOpacity = '1';
   public static menuItemCommentOpacityHover = '0.6';
   public static get menuItemCommentColorHover(): string {
     return this.menuItemTextColor;
@@ -1478,7 +1502,7 @@ export class BasicThemeClass {
   public static menuItemGap = '1px';
 
   //menuHeader
-  public static menuHeaderColor = '#757575';
+  public static menuHeaderColor = colors.textNeutralSoft;
 
   public static menuHeaderLineHeightSmall = '16px';
   public static menuHeaderLineHeightMedium = '20px';
@@ -1563,7 +1587,7 @@ export class BasicThemeClass {
   }
 
   //menuSeparator
-  public static menuSeparatorBorderColor = '#ebebeb';
+  public static menuSeparatorBorderColor = colors.lineNeutralFaint;
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorMarginX = '8px';
   public static menuSeparatorBorderWidth = '1px';
@@ -1632,8 +1656,8 @@ export class BasicThemeClass {
     return `calc(${this.toggleHeightLarge} * 0.5)`;
   }
 
-  public static toggleBaseBg = '#fff';
-  public static toggleBgHover = '#F0F0F0';
+  public static toggleBaseBg = 'transparent';
+  public static toggleBgHover = colors.shapeOtherFieldHover;
 
   public static get toggleBorderWidth(): string {
     return this.controlBorderWidth;
@@ -1643,7 +1667,7 @@ export class BasicThemeClass {
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${outlineWidth + borderWidth}px`;
   }
-  public static toggleBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static toggleBorderColor = colors.lineNeutralPale;
   public static get toggleBorderColorDisabled(): string {
     return this.toggleBorderColor;
   }
@@ -1672,15 +1696,15 @@ export class BasicThemeClass {
     return this.outlineColorFocus;
   }
 
-  public static toggleContainerBg = '#FFFFFF';
-  public static toggleHandleBg = '#FFFFFF';
-  public static toggleHandleBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.16)';
-  public static toggleContainerBoxShadow = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
+  public static toggleContainerBg = colors.shapeOtherField;
+  public static toggleHandleBg = colors.shapeOtherBase;
+  public static toggleHandleBoxShadow = `0 0 0 1px ${colors.lineNeutralPale}`;
+  public static toggleContainerBoxShadow = `inset 0 0 0 1px ${colors.lineNeutralPale}`;
 
   // idle :hover
-  public static toggleContainerBoxShadowHover = 'inset 0 0 0 1px rgba(0, 0, 0, 0.16)';
-  public static toggleHandleBgHover = '#FFFFFF';
-  public static toggleHandleBoxShadowHover = '0 0 0 1px rgba(0, 0, 0, 0.16)';
+  public static toggleContainerBoxShadowHover = `inset 0 0 0 1px ${colors.lineNeutralPaleHover}`;
+  public static toggleHandleBgHover = colors.shapeOtherBase;
+  public static toggleHandleBoxShadowHover = `0 0 0 1px ${colors.lineNeutralPale}`;
   public static get toggleContainerBgHover(): string {
     return this.toggleBgHover;
   }
@@ -1688,8 +1712,8 @@ export class BasicThemeClass {
   // checked
   public static toggleContainerBoxShadowChecked = 'none';
   public static toggleHandleBoxShadowChecked = 'none';
-  public static toggleHandleBgChecked = '#FFFFFF';
-  public static toggleBgChecked = '#3D3D3D';
+  public static toggleHandleBgChecked = colors.shapeInvertedNeutralHeavy;
+  public static toggleBgChecked = colors.shapeBoldAccent;
   public static get toggleContainerBgChecked(): string {
     return this.toggleBgChecked;
   }
@@ -1698,23 +1722,23 @@ export class BasicThemeClass {
 
   // checked :hover
   public static toggleContainerBoxShadowCheckedHover = 'none';
-  public static toggleContainerBgCheckedHover = '#292929';
+  public static toggleContainerBgCheckedHover = colors.shapeBoldAccentHover;
   public static toggleHandleBoxShadowCheckedHover = 'none';
-  public static toggleHandleBgCheckedHover = '#F0F0F0';
+  public static toggleHandleBgCheckedHover = colors.shapeInvertedNeutralHeavyHover;
 
   // disabled
-  public static toggleContainerBgDisabled = '#F0F0F0';
+  public static toggleContainerBgDisabled = colors.shapeOtherDisabled;
   public static toggleHandleBgDisabled = 'transparent';
-  public static toggleContainerBoxShadowDisabled = 'inset 0 0 0 1px rgba(0, 0, 0, 0.1)';
-  public static toggleHandleBoxShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.1)';
-  public static toggleDisabledHandleBg = '#fff';
+  public static toggleContainerBoxShadowDisabled = `inset 0 0 0 1px ${colors.lineNeutralFaint}`;
+  public static toggleHandleBoxShadowDisabled = `0 0 0 1px ${colors.lineNeutralFaint}`;
+  public static toggleDisabledHandleBg = 'transparent';
   public static get toggleBgDisabled(): string {
     return this.bgDisabled;
   }
 
   // disabled checked
-  public static toggleContainerBgDisabledChecked = '#D6D6D6';
-  public static toggleHandleBgDisabledChecked = '#F0F0F0';
+  public static toggleContainerBgDisabledChecked = colors.shapeOtherAccentBoldDisabled;
+  public static toggleHandleBgDisabledChecked = colors.shapeInvertedNeutralHeavy;
   public static toggleContainerBoxShadowDisabledChecked = 'none';
   public static toggleHandleBoxShadowDisabledChecked = 'none';
   public static get toggleBorderColorDisabledChecked(): string {
@@ -1747,8 +1771,8 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   public static inputShadow = 'none';
-  public static inputBg = 'white';
-  public static inputIconColor = '#858585';
+  public static inputBg = colors.shapeOtherField;
+  public static inputIconColor = colors.textNeutralSoft;
   public static get inputIconColorDisabled(): string {
     return this.textColorDisabled;
   }
@@ -1846,7 +1870,7 @@ export class BasicThemeClass {
   public static inputBorderRadiusMedium = '2px';
   public static inputBorderRadiusLarge = '2px';
   public static inputDisabledBackgroundClip = 'padding-box';
-  public static inputBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static inputBorderColor = colors.lineNeutralPale;
 
   public static get inputBorderColorHover(): string {
     return this.closeGrayColor;
@@ -1870,7 +1894,7 @@ export class BasicThemeClass {
   public static get inputPlaceholderColorLight(): string {
     return this.placeholderColorLight;
   }
-  public static inputBlinkColor = 'rgba(61, 61, 61, 0.2)';
+  public static inputBlinkColor = colors.shapeFaintNeutralAlpha;
   public static inputColorScheme = 'light';
 
   //#endregion Input
@@ -1943,7 +1967,7 @@ export class BasicThemeClass {
   public static get checkboxShadowHover(): string {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
-  public static checkboxCheckedColor = '#fff';
+  public static checkboxCheckedColor = colors.shapeInvertedNeutralHeavy;
   public static get checkboxOutlineColorFocus(): string {
     return this.outlineColorFocus;
   }
@@ -1969,7 +1993,7 @@ export class BasicThemeClass {
   public static get checkboxBorderColorFocus(): string {
     return this.borderColorFocus;
   }
-  public static checkboxBg = '#fff';
+  public static checkboxBg = colors.shapeOtherField;
   public static get checkboxHoverBg(): string {
     return this.btnDefaultHoverBg;
   }
@@ -1982,7 +2006,7 @@ export class BasicThemeClass {
   public static get checkboxBgDisabled(): string {
     return this.bgDisabled;
   }
-  public static checkboxCheckedHoverBg = '#292929';
+  public static checkboxCheckedHoverBg = colors.shapeBoldAccentHover;
   public static get checkboxCheckedActiveBg(): string {
     return ColorFunctions.darken(this.checkboxCheckedBg, '15%');
   }
@@ -1991,7 +2015,7 @@ export class BasicThemeClass {
   }
   //#endregion Checkbox
   //#region TextArea
-  public static textareaBg = '#fff';
+  public static textareaBg = colors.shapeOtherField;
   public static get textareaColor(): string {
     return this.textColorDefault;
   }
@@ -2170,7 +2194,7 @@ export class BasicThemeClass {
 
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
-  public static radioBgColor = '#fff';
+  public static radioBgColor = colors.shapeOtherField;
   public static get radioHoverBg(): string {
     return this.checkboxHoverBg;
   }
@@ -2205,11 +2229,15 @@ export class BasicThemeClass {
     return this.checkboxCheckedBg;
   }
   public static radioCheckedBorderColor = 'transparent';
-  public static radioCheckedBulletColor = '#fff';
+  public static get radioCheckedBulletColor() {
+    return this.checkboxCheckedColor;
+  }
   public static get radioCheckedHoverBgColor(): string {
     return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
-  public static radioDisabledBg = '#F0F0F0';
+  public static get radioDisabledBg() {
+    return this.checkboxBgDisabled;
+  }
   public static get radioDisabledShadow(): string {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.1)`;
   }
@@ -2281,7 +2309,7 @@ export class BasicThemeClass {
   public static get tabColorPrimary(): string {
     return this.btnPrimaryBg;
   }
-  public static tabColorHover = '#D6D6D6';
+  public static tabColorHover = colors.lineNeutralPale;
   public static get tabColorHoverError(): string {
     return ColorFunctions.lighten(this.tabColorError, '25%');
   }
@@ -2411,7 +2439,7 @@ export class BasicThemeClass {
   public static get switcherButtonBorderWidth(): string {
     return this.btnBorderWidth;
   }
-  public static switcherBtnDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static switcherBtnDisabledBorderColor = colors.lineNeutralPale;
   public static get switcherButtonDisabledBorderColor(): string {
     return this.switcherBtnDisabledBorderColor;
   }
@@ -2438,15 +2466,15 @@ export class BasicThemeClass {
   //#region ScrollContainer
   public static scrollContainerScrollBarSize = '4px';
   public static scrollContainerScrollBarHoverSize = '10px';
-  public static scrollContainerScrollBarColor = 'rgba(183, 183, 183, 0.7)';
-  public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
+  public static scrollContainerScrollBarColor = colors.shapeSoftNeutralAlpha;
+  public static scrollContainerScrollBarInvertColor = colors.shapeInvertedNeutralSoftAlpha;
   public static scrollContainerScrollBarOffsetY = '4px';
   public static dropdownMenuScrollContainerScrollBarOffsetY = '0px';
   //#endregion
   //#region PasswordInput
-  public static passwordInputVisibilityIconColor = '#000';
-  public static passwordInputVisibilityIconOpacity = '0.6';
-  public static passwordInputVisibilityIconHoverColor = '#000';
+  public static passwordInputVisibilityIconColor = colors.textNeutralHeavy;
+  public static passwordInputVisibilityIconOpacity = '0.64';
+  public static passwordInputVisibilityIconHoverColor = colors.textNeutralHeavy;
   public static passwordInputVisibilityIconHoverOpacity = '1';
   //#endregion
   //#region GlobalLoader
@@ -2470,7 +2498,7 @@ export class BasicThemeClass {
   public static fileUploaderWidth = '362px';
   public static fileUploaderTileWidth = 'auto';
   public static fileUploaderBg = '';
-  public static fileUploaderUploadButtonBg = '#fff';
+  public static fileUploaderUploadButtonBg = 'transparent';
 
   public static get fileUploaderPaddingYSmall(): string {
     return this.controlPaddingYSmall;
@@ -2548,8 +2576,8 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   public static fileUploaderIconSize = '14px';
-  public static fileUploaderIconColor = '#222222';
-  public static fileUploaderIconHoverColor = '#333';
+  public static fileUploaderIconColor = colors.textNeutralPale;
+  public static fileUploaderIconHoverColor = colors.textNeutralHeavy;
 
   public static fileUploaderTileIconColorBg = 'rgba(0, 0, 0, 0.4)';
   public static fileUploaderTileIconHoverColorBg = 'rgba(0, 0, 0, 0.48)';
@@ -2568,33 +2596,35 @@ export class BasicThemeClass {
     return this.btnDisabledBg;
   }
   public static fileUploaderDisabledBgClip = 'padding-box';
-  public static fileUploaderDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static fileUploaderDisabledBorderColor = colors.lineNeutralFaint;
   public static get fileUploaderDisabledTextColor(): string {
     return this.fileUploaderDisabledColor;
   }
   public static get fileUploaderDisabledLinkColor(): string {
     return this.textColorDisabled;
   }
-  public static fileUploaderDisabledIconColor = 'rgba(0, 0, 0, 0.32)';
+  public static get fileUploaderDisabledIconColor() {
+    return this.textColorDisabled;
+  }
   public static get fileUploaderErrorColor(): string {
     return this.closeGrayColor;
   }
 
-  public static fileUploaderErrorBgColor = '#FFECEF';
-  public static fileUploaderErrorBgHoverColor = '#FFDADD';
+  public static fileUploaderErrorBgColor = colors.shapeFaintError;
+  public static fileUploaderErrorBgHoverColor = colors.shapeFaintErrorHover;
   public static get fileUploaderErrorTextColor(): string {
     return this.redDark;
   }
 
-  public static fileUploaderWarningBgColor = '#FFF1CA';
-  public static fileUploaderWarningBgHoverColor = '#FAE2AB';
+  public static fileUploaderWarningBgColor = colors.shapeFaintWarning;
+  public static fileUploaderWarningBgHoverColor = colors.shapeFaintWarningHover;
   public static get fileUploaderWarningTextColor(): string {
     return this.yellowDark;
   }
 
   public static fileUploaderValidationTextColor = 'rgba(0, 0, 0, 0.87)';
   public static fileUploaderLinkHoverTextDecoration = 'none';
-  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.06)';
+  public static fileUploaderHoveredBg = colors.shapeOtherBacklessHover;
   public static fileUploaderActiveBg = 'rgba(0, 0, 0, 0.1)';
   public static fileUploaderHoveredBorderColor = 'transparent';
   public static fileUploaderIconGapSmall = '4px';
@@ -2637,7 +2667,7 @@ export class BasicThemeClass {
   public static get fileUploaderDisabledFileTypeIcon(): string {
     return this.fileUploaderDisabledIconColor;
   }
-  public static fileUploaderDisabledColor = 'rgba(0, 0, 0, 0.54)';
+  public static fileUploaderDisabledColor = colors.textNeutralFaint;
 
   public static fileUploaderFileHeightSmall = '32px';
   public static fileUploaderFileHeightMedium = '40px';
@@ -2721,8 +2751,8 @@ export class BasicThemeClass {
     return this.inputBorderRadiusLarge;
   }
 
-  public static clearCrossIconColor = 'rgba(0, 0, 0, 0.54)';
-  public static clearCrossIconHoverColor = 'rgba(0, 0, 0, 0.87)';
+  public static clearCrossIconColor = colors.textNeutralSoft;
+  public static clearCrossIconHoverColor = colors.textNeutralHeavy;
 
   public static clearCrossIconAlign = 'flex-start';
 
@@ -2732,8 +2762,8 @@ export class BasicThemeClass {
   public static get closeBtnIconColor(): string {
     return this.closeGrayColor;
   }
-  public static closeBtnIconDisabledColor = '#8b8b8b';
-  public static closeBtnIconHoverColor = 'rgba(0, 0, 0, 0.865)';
+  public static closeBtnIconDisabledColor = colors.textNeutralFaint;
+  public static closeBtnIconHoverColor = colors.textNeutralHeavy;
   public static closeBtnIconBorderRadius = '4px';
   public static get closeBtnIconFocusShadow(): string {
     return `inset 0 0 0 1px ${this.borderColorFocus}, inset 0 0 0 2px ${this.outlineColorFocus}`;
@@ -2777,7 +2807,7 @@ export class BasicThemeClass {
   public static get validationsTextColorError(): string {
     return this.errorText;
   }
-  public static validationsTextColorWarning = '#ef8b17';
+  public static validationsTextColorWarning = colors.textWarningHeavy;
   //#endregion
 }
 
