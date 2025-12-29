@@ -21,7 +21,7 @@ export const Basic = () => {
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Клиент</Table.HeaderCell>
-          <Table.Sort sorted={sorted} onSort={setSorted}>
+          <Table.Sort sortDirection={sorted} onSort={setSorted}>
             Сумма
           </Table.Sort>
         </Table.Row>

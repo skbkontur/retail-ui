@@ -91,7 +91,7 @@ export const MyTable = () => {
               selectedOptions={selectedNames}
               onSelect={(selected) => setFilter('name', selected)}
               onSort={(direction) => handleSort('name', direction)}
-              sorted={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
+              sortDirection={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
             >
               Имя
               {selectedNames.length > 0 && ` (${selectedNames.length})`}

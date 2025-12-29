@@ -26,7 +26,7 @@ export const Basic = () => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        <Table.FilterResultRow colspan={2} tokens={tokens} onResetAll={() => console.log('reset filters')}>
+        <Table.FilterResultRow colSpan={2} tokens={tokens} onResetAll={() => console.log('reset filters')}>
           Применены фильтры
         </Table.FilterResultRow>
         {rows.map((row) => (

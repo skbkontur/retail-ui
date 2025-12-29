@@ -32,7 +32,7 @@ export const Basic = () => {
             options={options}
             selectedOptions={selectedOptions}
             onSelect={setSelectedOptions}
-            sorted={sorted}
+            sortDirection={sorted}
             onSort={setSorted}
             sortAscLabel="Сумма по возрастанию"
             sortDescLabel="Сумма по убыванию"

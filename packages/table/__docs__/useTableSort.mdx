@@ -35,7 +35,7 @@ const { sortedRows, sortConfig, handleSort } = useTableSort(filteredRows, { key:
   selectedOptions={filters.get('name') ?? []}
   onSelect={(selected) => setFilter('name', selected)}
   onSort={(direction) => handleSort('name', direction)}
-  sorted={sortConfig.key === 'name' ? sortConfig.direction : undefined}
+  sortDirection={sortConfig.key === 'name' ? sortConfig.direction : undefined}
 >
   Имя
 </Table.DropdownSortableFilter>;

@@ -53,7 +53,7 @@ export const FiltersBasic = () => {
               selectedOptions={filters.get('city') ?? []}
               onSelect={(selected: string[]) => setFilter('city', selected)}
               onSort={(direction) => handleSort('city', direction)}
-              sorted={sortConfig.key === 'city' ? sortConfig.direction : undefined}
+              sortDirection={sortConfig.key === 'city' ? sortConfig.direction : undefined}
             >
               Город
             </Table.DropdownSortableFilter>

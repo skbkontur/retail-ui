@@ -11,3 +11,27 @@
 .FilterItem {
   padding: 4px 8px;
 }
+
+.IconSpacingSmall {
+  margin-left: 4px;
+}
+
+.IconSpacingMedium {
+  margin-left: 6px;
+}
+
+.IconSpacingLarge {
+  margin-left: 8px;
+}
+
+.DoubleIconGapSmall {
+  margin-right: 2px;
+}
+
+.DoubleIconGapMedium {
+  margin-right: 4px;
+}
+
+.DoubleIconGapLarge {
+  margin-right: 6px;
+}

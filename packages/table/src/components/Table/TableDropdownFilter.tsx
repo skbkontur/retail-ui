@@ -1,18 +1,10 @@
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
-import React, {
-  useState,
-  useMemo,
-  useCallback,
-  useContext,
-  useEffect,
-  forwardRef,
-  useRef,
-  type ComponentRef,
-} from 'react';
+import React, { useState, useMemo, useCallback, useContext, useEffect, forwardRef, useRef } from 'react';
 import { Loader } from '@skbkontur/react-ui/components/Loader';
 import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import type { ReactElement, ComponentRef } from 'react';
 import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
 import type { Input } from '@skbkontur/react-ui/components/Input';
 
@@ -30,10 +22,29 @@ export interface TableDropdownFilterProps extends CommonProps {
   searchPlaceholder?: string;
   onSelect: (options: string[]) => void;
   loaderActive?: boolean;
+  withoutDefaultIcon?: boolean;
+  defaultIcon?: ReactElement;
+  iconDefaultColor?: string;
+  iconActiveColor?: string;
 }
 
 export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, TableDropdownFilterProps>(
-  ({ children, options, selectedOptions, onSelect, searchPlaceholder, loaderActive }, ref) => {
+  (
+    {
+      children,
+      options,
+      selectedOptions,
+      onSelect,
+      searchPlaceholder,
+      loaderActive,
+      withoutDefaultIcon,
+      defaultIcon,
+      iconDefaultColor,
+      iconActiveColor,
+      ...rest
+    },
+    ref
+  ) => {
     const { size } = useContext(SizeTableContext);
     const locale = useLocaleForControl('Table', TableLocaleHelper);
     const searchPlaceholderValue = searchPlaceholder ?? locale.searchPlaceholder;
@@ -77,6 +88,11 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
         filtered={currentSelected.length > 0}
         data-tid={TableDataTids.dropdownFilter}
         onOpen={handleOpen}
+        withoutDefaultIcon={withoutDefaultIcon}
+        defaultIcon={defaultIcon}
+        iconDefaultColor={iconDefaultColor}
+        iconActiveColor={iconActiveColor}
+        {...rest}
         popup={
           <>
             <TableFilterSearch

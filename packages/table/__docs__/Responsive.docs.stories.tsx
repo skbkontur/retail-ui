@@ -191,7 +191,7 @@ export const ResponsiveExampleStory = () => {
                   selectedOptions={columnFilters.get('client') ?? []}
                   onSelect={(selected: string[]) => setFilter('client', selected)}
                   onSort={(direction) => handleSort('client', direction)}
-                  sorted={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
+                  sortDirection={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
                 >
                   Клиент
                 </Table.DropdownSortableFilter>
@@ -200,7 +200,7 @@ export const ResponsiveExampleStory = () => {
               <Table.HeaderCell width={'33.33%'}>
                 <Table.Sort
                   onSort={(direction) => handleSort('region', direction)}
-                  sorted={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
+                  sortDirection={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
                   filtered={(columnFilters.get('region')?.length ?? 0) > 0}
                 >
                   Регион

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { configure } from '@testing-library/dom';
+import { vi } from 'vitest';
 
 import { Table } from '../src/components/Table/Table';
 
@@ -306,7 +307,7 @@ describe('Props Forwarding', () => {
       render(
         <Table>
           <Table.Body>
-            <Table.FilterResultRow data-tid="test-filter-row">
+            <Table.FilterResultRow data-tid="test-filter-row" tokens={[]} onResetAll={vi.fn()}>
               <Table.Cell>Filter Result</Table.Cell>
             </Table.FilterResultRow>
           </Table.Body>
@@ -320,7 +321,7 @@ describe('Props Forwarding', () => {
       const { container } = render(
         <Table>
           <Table.Body>
-            <Table.FilterResultRow className="custom-filter-row-class">
+            <Table.FilterResultRow className="custom-filter-row-class" tokens={[]} onResetAll={vi.fn()}>
               <Table.Cell>Filter Result</Table.Cell>
             </Table.FilterResultRow>
           </Table.Body>

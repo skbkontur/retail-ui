@@ -59,7 +59,7 @@ describe('Localization', () => {
           selectedOptions={[]}
           onSelect={() => {}}
           onSort={() => {}}
-          sorted="asc"
+          sortDirection="asc"
         >
           Locale
         </TableDropdownSortableFilter>

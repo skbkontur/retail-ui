@@ -1,4 +1,5 @@
 import React, { useContext, forwardRef, type ComponentRef, type MouseEventHandler, type ReactElement } from 'react';
+import cx from 'classnames';
 import { IconUiFilterFunnelLight16 } from '@skbkontur/icons/IconUiFilterFunnelLight16';
 import { IconUiFilterFunnelRegular20 } from '@skbkontur/icons/IconUiFilterFunnelRegular20';
 import { IconUiFilterFunnelRegular24 } from '@skbkontur/icons/IconUiFilterFunnelRegular24';
@@ -15,22 +16,26 @@ import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/in
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
-import cx from 'classnames';
 
+import { getTableTheme } from '../../../../lib/theming/ThemeHelpers.js';
 import type { SortDirection } from '../../../hooks/useTableSort.js';
 import type { SizeProp } from '../../../reactUiCompat/useSizeContext.js';
 import { SizeTableContext } from '../TableContext.js';
 import { getIconSize } from '../../../utils/getIconSize.js';
+import { getSizeModifier } from '../../../utils/getSizeModifier.js';
 import { TableDataTids } from '../TableDataTids.js';
 
 import styles from './TableFilter.module.css';
 
 export interface TableHeaderButtonProps extends CommonProps {
   filtered?: boolean;
-  sorted?: SortDirection;
+  sortDirection?: SortDirection;
   withoutDefaultIcon?: boolean;
+  defaultIcon?: ReactElement;
   onClick?: MouseEventHandler<HTMLElement>;
   hovered?: boolean;
+  iconDefaultColor?: string;
+  iconActiveColor?: string;
 }
 
 const FILTER_ICONS = {
@@ -61,26 +66,31 @@ const getFilterIcon = (iconSize: 16 | 20 | 24) => {
   return FILTER_ICONS[iconSize];
 };
 
-const getSortIcon = (sorted: SortDirection, iconSize: 16 | 20 | 24) => {
-  return SORT_ICONS[sorted][iconSize];
+const getSortIcon = (sortDirection: SortDirection, iconSize: 16 | 20 | 24) => {
+  return SORT_ICONS[sortDirection][iconSize];
 };
 
 const getHeaderIcon = (
-  sorted?: SortDirection,
+  sortDirection?: SortDirection,
   filtered?: boolean,
   withoutDefaultIcon?: boolean,
+  defaultIcon?: ReactElement,
+  iconDefaultColor?: string,
+  iconActiveColor?: string,
   size: SizeProp = 'small'
 ): ReactElement | undefined => {
   const iconSize = getIconSize(size);
-  const iconColor = '#1874CF';
+  const isActive = filtered || sortDirection;
+  const iconColor = isActive ? iconActiveColor : iconDefaultColor;
+  const doubleIconGapClass = styles[getSizeModifier('DoubleIconGap', size)];
 
-  if (filtered && sorted) {
+  if (filtered && sortDirection) {
     const FilterIcon = getFilterIcon(iconSize);
-    const SortIcon = getSortIcon(sorted, iconSize);
+    const SortIcon = getSortIcon(sortDirection, iconSize);
 
     return (
       <>
-        <FilterIcon color={iconColor} />
+        <FilterIcon color={iconColor} className={doubleIconGapClass} />
         <SortIcon color={iconColor} />
       </>
     );
@@ -91,13 +101,17 @@ const getHeaderIcon = (
     return <FilterIcon color={iconColor} />;
   }
 
-  if (sorted) {
-    const SortIcon = getSortIcon(sorted, iconSize);
+  if (sortDirection) {
+    const SortIcon = getSortIcon(sortDirection, iconSize);
     return <SortIcon color={iconColor} />;
   }
 
   if (withoutDefaultIcon) {
     return undefined;
+  }
+
+  if (defaultIcon) {
+    return defaultIcon;
   }
 
   const DefaultIcon = DEFAULT_ICONS[iconSize === 24 ? 20 : iconSize];
@@ -107,12 +121,31 @@ const getHeaderIcon = (
 export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHeaderButtonProps>(
   ({ children, ...rest }, ref) => {
     const { size } = useContext(SizeTableContext);
+    const tableTheme = getTableTheme(useContext(ThemeContext));
 
     return (
       <CommonWrapper {...rest}>
         {(wrapperRest: CommonWrapperRestProps<TableHeaderButtonProps>) => {
-          const { sorted, filtered, withoutDefaultIcon, hovered, ...buttonProps } = wrapperRest;
-          const icon = getHeaderIcon(sorted, filtered, withoutDefaultIcon, size);
+          const {
+            sortDirection,
+            filtered,
+            withoutDefaultIcon,
+            defaultIcon,
+            hovered,
+            iconDefaultColor = tableTheme.tableDefaultIconColor,
+            iconActiveColor = tableTheme.tableActiveIconColor,
+            ...buttonProps
+          } = wrapperRest;
+          const icon = getHeaderIcon(
+            sortDirection,
+            filtered,
+            withoutDefaultIcon,
+            defaultIcon,
+            iconDefaultColor,
+            iconActiveColor,
+            size
+          );
+          const iconSpacingClass = icon ? styles[getSizeModifier('IconSpacing', size ?? 'small')] : undefined;
 
           return (
             <ThemeContext.Consumer>
@@ -122,7 +155,7 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
                     {
                       btnTextHoverTextColor: theme.btnDefaultTextColor,
                       btnDefaultTextColor:
-                        filtered || sorted || hovered ? theme.btnDefaultTextColor : theme.menuHeaderColor,
+                        filtered || sortDirection || hovered ? theme.btnDefaultTextColor : theme.menuHeaderColor,
                       btnTextBg: hovered ? theme.btnTextHoverBg : theme.btnTextBg,
                     },
                     theme
@@ -130,7 +163,8 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
                 >
                   <div className={cx(styles.ClickableHeaderWrapper)}>
                     <Button ref={ref} use="text" size={size} data-tid={TableDataTids.clickableHeader} {...buttonProps}>
-                      {children} {icon}
+                      {children}
+                      {icon && <span className={iconSpacingClass}>{icon}</span>}
                     </Button>
                   </div>
                 </ThemeContext.Provider>

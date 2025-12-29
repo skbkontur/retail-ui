@@ -48,7 +48,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
     const typographyClass = getTypographyClass(size);
     const paddingForSimpleHeaderSizeClass = styles[getSizeModifier('PaddingForSimpleHeader', size)];
     const paddingForHeaderSizeClass = styles[getSizeModifier('PaddingForHeader', size)];
-
+    const checkboxCellSizeClass = styles[getSizeModifier('CheckboxCell', size)];
     return (
       <th
         ref={ref}
@@ -68,6 +68,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
           className,
           {
             [styles.CheckboxHeaderCell]: checkboxCell,
+            [checkboxCellSizeClass]: checkboxCell,
             [styles.PaddingForSimpleHeader]: isString,
             [paddingForSimpleHeaderSizeClass]: isString,
             [styles.BottomBorderInset]: bottomBorder,
