@@ -102,7 +102,7 @@ export interface InputProps
          */
         size?: SizeProp;
 
-        /** Задаёт функцию, которая вызывается при изменении значения в поле ввода. */
+        /** Задаёт функцию, которая вызывается при изменении значения `value` в поле. */
         onValueChange?: (value: string) => void;
 
         /** @ignore */
@@ -235,7 +235,7 @@ export class Input extends React.Component<InputProps, InputState> {
     this.input.focus();
   }
 
-  /** Программно снимает фокус с кнопки.
+  /** Программно снимает фокус с поля.
    * @public
    */
   public blur(): void {
@@ -301,7 +301,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст.
+   * Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст в нём.
    * Работает с типами `text`, `password`, `tel`, `search`, `url`
    * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public

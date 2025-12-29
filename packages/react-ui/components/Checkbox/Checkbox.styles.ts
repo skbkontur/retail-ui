@@ -51,6 +51,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         t.checkboxLineHeightSmall,
         t.checkboxPaddingYSmall,
         t.checkboxBoxSizeSmall,
+        t.checkboxPaddingXSmall,
       )};
     `;
   },
@@ -62,6 +63,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         t.checkboxLineHeightMedium,
         t.checkboxPaddingYMedium,
         t.checkboxBoxSizeMedium,
+        t.checkboxPaddingXMedium,
       )};
     `;
   },
@@ -73,6 +75,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         t.checkboxLineHeightLarge,
         t.checkboxPaddingYLarge,
         t.checkboxBoxSizeLarge,
+        t.checkboxPaddingXLarge,
       )};
     `;
   },
@@ -102,6 +105,8 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       position: absolute;
       box-sizing: border-box;
       padding: ${t.checkboxBorderWidth};
+
+      display: inline-block;        
     )};
     `;
   },
@@ -113,6 +118,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         t.checkboxFontSizeSmall,
         t.checkboxBoxSizeSmall,
         t.checkboxBoxOffsetY,
+        t.checkboxPaddingXSmall,
       )};
     `;
   },
@@ -124,6 +130,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         t.checkboxFontSizeMedium,
         t.checkboxBoxSizeMedium,
         t.checkboxBoxOffsetY,
+        t.checkboxPaddingXMedium,
       )};
     `;
   },
@@ -135,6 +142,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
         t.checkboxFontSizeLarge,
         t.checkboxBoxSizeLarge,
         t.checkboxBoxOffsetY,
+        t.checkboxPaddingXLarge,
       )};
     `;
   },

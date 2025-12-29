@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
-import type { FileUploaderProps, FileUploaderRef } from '../FileUploader';
+import type { FileUploaderProps } from '../FileUploader';
 import { FileUploader, FileUploaderDataTids } from '../FileUploader';
 import { delay } from '../../../lib/utils';
 import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
@@ -422,7 +422,7 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange after reset', async () => {
         const onValueChange = vi.fn();
-        const ref = React.createRef<FileUploaderRef>();
+        const ref = React.createRef<FileUploader>();
         render(<FileUploader onValueChange={onValueChange} ref={ref} />);
 
         await addFiles([file]);
@@ -625,14 +625,14 @@ describe('FileUploader', () => {
 
   describe('rootNode', () => {
     it('getRootNode is defined', () => {
-      const ref = React.createRef<FileUploaderRef>();
+      const ref = React.createRef<FileUploader>();
       render(<FileUploader ref={ref} />);
 
       expect(ref.current?.getRootNode).toBeDefined();
     });
 
     it('getRootNode returns correct node', () => {
-      const ref = React.createRef<FileUploaderRef>();
+      const ref = React.createRef<FileUploader>();
       render(<FileUploader ref={ref} />);
 
       const rootNode = ref.current?.getRootNode?.();
@@ -678,7 +678,7 @@ describe('FileUploader', () => {
 
   describe('methods exposed in ref', () => {
     const TestComponent = () => {
-      const fileUploaderRef = useRef<FileUploaderRef>(null);
+      const fileUploaderRef = useRef<FileUploader>(null);
       const [fileList, setFileList] = useState<FileUploaderAttachedFile[]>([]);
       return (
         <>

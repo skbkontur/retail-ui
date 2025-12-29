@@ -1,5 +1,6 @@
 import * as ModalStories from './Modal.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as ModalExamples from './ModalMobile.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +13,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=138-37644&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { Modal } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -23,3 +28,28 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Адаптивность
+
+Мобильный режим модального окна активируется при ширине вьюпорта `(max-width: 576px)` и наличии сенсорного экрана `(pointer: coarse)`.
+
+С помощью пропа `mobileAppearance` можно определять внешний вид модального окна в мобильном режиме. Работает с версией темы >= 5_2.
+
+Доступные значения:
+
+- `"auto"` — если футера нет, модальное окно распологается в центре экрана, если есть — модальное окно растягивается на весь экран с отступами и закругленными краями.
+- `"top"` — модальное окно располагается сверху независимо от наличия футера.
+- `"center"` — модальное окно располагается в центре независимо от наличия футера.
+- `"bottom"` — модальное окно располагается снизу независимо от наличия футера.
+- `"fullscreen-spacing"` — модальное окно растягивается на весь экран с отступами и закругленными краями.
+- `"fullscreen"` — модальное окно растягивается на весь экран.
+
+Для просмотра примера на десктопе активируйте мобильный режим в браузере через инструменты разработчика.
+
+<Story of={ModalExamples.ExampleMobile} />
+
+Вы можете передавать свои медиазапросы, больше о настройке адаптивности читайте в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs).
+
+## Доступность
+
+Компонент поддерживает стандартные aria-атрибуты, если вам необходимо переопределить его поведение.

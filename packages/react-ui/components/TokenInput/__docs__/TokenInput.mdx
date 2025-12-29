@@ -1,5 +1,6 @@
 import * as TokenInputStories from './TokenInput.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as TokenInputExamples from './TokenInputValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +13,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=497-81374&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { TokenInput } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -20,6 +25,38 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Поле с токенами похоже на [комбобокс](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-combobox--docs), но используется в случаях, когда нужно указать сразу много однородных элементов — токенов.
+
+Значения определяются в пропе `getItems` — задаёт функцию поиска элементов, которая должна возвращать `Promise` с массивом значений. По умолчанию ожидаются строки.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+В примере добавлена комплексная валидация:
+
+1.  Валидация обязательности ввода.
+2.  Классическая валидация компонента: проверка пробелов в токене.
+3.  Валидация каждого токена через `createValidator` и `renderToken`.
+
+<Story of={TokenInputExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Адаптивность
+
+По умолчанию поле с токенами не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)

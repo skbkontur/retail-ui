@@ -6,11 +6,12 @@ export const checkboxSizeMixin = (
   lineHeight: string,
   paddingY: string,
   checkboxBoxSize: string,
+  paddingX: string,
 ): string => {
   return `
     line-height: ${lineHeight};
     font-size: ${fontSize};
-    padding: ${paddingY} 0;
+    padding: ${paddingY} ${paddingX};
 
     &::before {
       width: ${checkboxBoxSize};
@@ -23,6 +24,7 @@ export const boxWrapperSizeMixin = (
   fontSize: string,
   checkboxBoxSize: string,
   checkboxBoxOffsetY: string,
+  checkboxPaddingX: string,
 ): string => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const boxFontSize = parseInt(fontSize);
@@ -37,5 +39,6 @@ export const boxWrapperSizeMixin = (
     width: ${checkboxBoxSize};
     height: ${checkboxBoxSize};
     margin-top: calc(${checkboxBoxOffsetY} + ${baselineCompensation}px);
+    left: ${checkboxPaddingX};
   `;
 };

@@ -143,6 +143,8 @@ export interface FileUploaderRef extends InstanceWithRootNode {
   removeFile: (fileId: string) => void;
 }
 
+export type FileUploader = FileUploaderRef;
+
 export const FileUploaderDataTids = {
   root: 'FileUploader__root',
   content: 'FileUploader__content',
@@ -596,4 +598,5 @@ export interface FileUploaderProps extends _FileUploaderProps, FileUploaderContr
 export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(
   React.memo(_FileUploader),
 );
+
 FileUploader.displayName = 'FileUploader';

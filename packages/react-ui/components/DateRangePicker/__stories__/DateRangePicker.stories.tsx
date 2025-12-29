@@ -13,6 +13,7 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 const meta: Meta = {
   title: 'DateRangePicker',
+  component: DateRangePicker,
   decorators: [
     (Story, { parameters }) => {
       switch (parameters.customSpacing) {
