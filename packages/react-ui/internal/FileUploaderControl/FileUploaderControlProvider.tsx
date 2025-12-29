@@ -61,7 +61,6 @@ export const FileUploaderControlProvider = (
     }
     return [];
   });
-  const [isMinLengthReached, setIsMinLengthReached] = useState<boolean>(false);
   const locale = useControlLocale();
 
   useEffectWithoutInitCall(() => {
@@ -119,8 +118,6 @@ export const FileUploaderControlProvider = (
         removeFile,
         setFileValidationResult,
         reset,
-        isMinLengthReached,
-        setIsMinLengthReached,
       })}
     >
       {children}

@@ -598,7 +598,7 @@ describe('FileUploader', () => {
     const fileItem = 'fileItem';
     const fileSize = '7 Bytes';
     const renderFile = () => fileItem;
-    const renderFileWithProps: FileUploaderProps['renderFile'] = (file, fileNode, props) => {
+    const renderFileWithProps: FileUploaderProps['renderFile'] = (props) => {
       return <FileUploaderFile {...props} showSize />;
     };
 

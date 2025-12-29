@@ -150,10 +150,7 @@ export interface TokenInputProps<T>
   /** Преобразует значение в элемент списка. */
   valueToItem?: (value: string) => T;
 
-  /** @deprecated Используйте `itemToId` вместо `toKey`. */
-  toKey?: (item: T) => string | number | undefined;
-
-  /** Задаёт функцию сравнения полученных результатов с `value`. */
+  /** Задаёт функцию сравнения полученных результатов с value. */
   itemToId?: (item: T) => string | number | undefined;
 
   /** Задаёт текст, который отображается если не введено никакое значение. */
@@ -246,7 +243,6 @@ type DefaultProps<T> = Required<
     | 'renderValue'
     | 'valueToString'
     | 'valueToItem'
-    | 'toKey'
     | 'itemToId'
     | 'onValueChange'
     | 'width'
@@ -259,7 +255,6 @@ type DefaultProps<T> = Required<
   >
 >;
 
-const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
@@ -299,7 +294,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     renderValue: identity,
     valueToString: identity,
     valueToItem: (item: string) => item,
-    toKey: defaultToKey,
     itemToId: identity,
     onValueChange: () => void 0,
     width: 250 as string | number,

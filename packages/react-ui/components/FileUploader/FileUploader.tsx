@@ -124,15 +124,11 @@ interface _FileUploaderProps
 
   /**
    * Задает функцию, которая позволяет кастомизировать файлы. Через нее можно вешать кастомные валидации на каждый файл.
-   * @param {FileUploaderAttachedFile} file - файл, отображение которого нужно кастомизировать.
-   * @param {fileNode} fileNode - `reactElement` компонента `FileUploaderFile`
-   * @param {FileUploaderFileProps} props - пропы компонента `FileUploaderFile`, смотри примеры использования в документации.
+   * @default (props: FileUploaderFileProps) => <FileUploaderFile {...props} />
+   * @param {FileUploaderFileProps} props - пропсы компонента `FileUploaderFile`, смотри примеры использования в документации.
+   * @returns {ReactNode} элемент, который отрисовывает контент файла.
    */
-  renderFile?: (
-    file: FileUploaderAttachedFile,
-    fileNode: React.ReactElement,
-    props: FileUploaderFileProps,
-  ) => React.ReactNode;
+  renderFile?: (props: FileUploaderFileProps) => React.ReactNode;
 }
 
 export interface FileUploaderRef extends InstanceWithRootNode {
@@ -152,11 +148,7 @@ export const FileUploaderDataTids = {
   input: 'FileUploader__input',
 } as const;
 
-const defaultRenderFile = (
-  _file: FileUploaderAttachedFile,
-  _fileNode: React.ReactElement,
-  props: FileUploaderFileProps,
-) => <FileUploaderFile {...props} />;
+const defaultRenderFile = (props: FileUploaderFileProps) => <FileUploaderFile {...props} />;
 
 const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('FileUploader', (props, ref) => {
   const theme = useContext(ThemeContext);
@@ -535,7 +527,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     disabled,
   };
 
-  const fileElement = renderFile(files[0], <FileUploaderFile {...fileProps} />, fileProps);
+  const fileElement = renderFile(fileProps);
 
   return (
     <CommonWrapper {...props}>
