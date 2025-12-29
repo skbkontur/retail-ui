@@ -487,9 +487,6 @@ export const DarkTheme6_0 = createTheme({
     public static get textareaPlaceholderColorDisabled(): string {
       return this.textColorDisabled;
     }
-    public static get textareaBorderTopColor(): string {
-      return this.textareaBorderColor;
-    }
     public static get textareaDisabledBorderColor(): string {
       return this.inputDisabledBorderColor;
     }

@@ -1,7 +1,6 @@
 import * as colors from '@skbkontur/colors/default-light';
 
 import { createTheme } from '../../lib/theming/ThemeHelpers';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 export class BasicThemeClass {
   //#region Common variables
@@ -237,7 +236,7 @@ export class BasicThemeClass {
   public static get tokenColorHover() {
     return this.tokenColor;
   }
-  public static tokenBorderColorHover = 'rgba(0, 0, 0, 0.16)';
+  public static tokenBorderColorHover = colors.lineNeutralPale;
   public static tokenBgActive = colors.shapeBoldAccent;
   public static tokenColorActive = colors.textOnAccentBoldHeavy;
   public static tokenBorderColorActive = 'transparent';
@@ -1036,9 +1035,8 @@ export class BasicThemeClass {
   public static dateInputComponentSelectedTextColor = '';
   //#endregion DateInput
   //#region Calendar
-  public static get calendarBottomSeparatorBorderColor(): string {
-    return ColorFunctions.fade(this.calendarMonthTitleBorderBottomColor, 1);
-  }
+  public static calendarBottomSeparatorBorderColor = colors.lineNeutralFaint;
+
   public static get calendarBottomSeparatorBorderWidth(): string {
     return '1px';
   }
@@ -2007,9 +2005,9 @@ export class BasicThemeClass {
     return this.bgDisabled;
   }
   public static checkboxCheckedHoverBg = colors.shapeBoldAccentHover;
-  public static get checkboxCheckedActiveBg(): string {
-    return ColorFunctions.darken(this.checkboxCheckedBg, '15%');
-  }
+
+  public static checkboxCheckedActiveBg = colors.shapeBoldAccentPressed;
+
   public static get checkboxShadowActive(): string {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
@@ -2103,7 +2101,7 @@ export class BasicThemeClass {
   public static get textareaBorderColor(): string {
     return this.borderColorGrayLight;
   }
-  public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.16)';
+  public static textareaBorderTopColor = colors.lineNeutralPale;
   public static get textareaBorderColorFocus(): string {
     return this.borderColorFocus;
   }
@@ -2126,9 +2124,8 @@ export class BasicThemeClass {
   public static get textareaCounterColor(): string {
     return this.gray;
   }
-  public static get textareaCounterBg(): string {
-    return ColorFunctions.fade(this.textareaBg, 0.9);
-  }
+  public static textareaCounterBg = 'transparent';
+
   public static get textareaCounterErrorColor(): string {
     return this.errorText;
   }
@@ -2232,9 +2229,10 @@ export class BasicThemeClass {
   public static get radioCheckedBulletColor() {
     return this.checkboxCheckedColor;
   }
-  public static get radioCheckedHoverBgColor(): string {
-    return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
+  public static get radioCheckedHoverBgColor() {
+    return this.checkboxCheckedHoverBg;
   }
+
   public static get radioDisabledBg() {
     return this.checkboxBgDisabled;
   }
@@ -2310,18 +2308,11 @@ export class BasicThemeClass {
     return this.btnPrimaryBg;
   }
   public static tabColorHover = colors.lineNeutralPale;
-  public static get tabColorHoverError(): string {
-    return ColorFunctions.lighten(this.tabColorError, '25%');
-  }
-  public static get tabColorHoverWarning(): string {
-    return ColorFunctions.lighten(this.tabColorWarning, '25%');
-  }
-  public static get tabColorHoverSuccess(): string {
-    return ColorFunctions.lighten(this.tabColorSuccess, '25%');
-  }
-  public static get tabColorHoverPrimary(): string {
-    return ColorFunctions.lighten(this.tabColorPrimary, '25%');
-  }
+  public static tabColorHoverError = colors.shapeBoldErrorHover;
+  public static tabColorHoverWarning = colors.shapeBoldWarningHover;
+  public static tabColorHoverSuccess = colors.shapeBoldSuccessHover;
+  public static tabColorHoverPrimary = colors.lineAccentPale;
+
   public static tabIndicatorBorderRadius = '2px';
   //#endregion Tabs
   //#region Spinner
@@ -2579,12 +2570,12 @@ export class BasicThemeClass {
   public static fileUploaderIconColor = colors.textNeutralPale;
   public static fileUploaderIconHoverColor = colors.textNeutralHeavy;
 
-  public static fileUploaderTileIconColorBg = 'rgba(0, 0, 0, 0.4)';
-  public static fileUploaderTileIconHoverColorBg = 'rgba(0, 0, 0, 0.48)';
-  public static fileUploaderTileIconActiveColorBg = 'rgba(0, 0, 0, 0.24)';
+  public static fileUploaderTileIconColorBg = colors.shapeFaintAccent;
+  public static fileUploaderTileIconHoverColorBg = colors.shapeFaintAccentHover;
+  public static fileUploaderTileIconActiveColorBg = colors.shapeFaintAccentPressed;
 
-  public static fileUploaderTileIconColor = '#ffffff';
-  public static fileUploaderTileIconHoverColor = '#ffffff';
+  public static fileUploaderTileIconColor = colors.textInvertedAccentHeavy;
+  public static fileUploaderTileIconHoverColor = colors.textInvertedAccentHeavyHover;
 
   public static get fileUploaderBorderColorError(): string {
     return this.borderColorError;
@@ -2622,10 +2613,10 @@ export class BasicThemeClass {
     return this.yellowDark;
   }
 
-  public static fileUploaderValidationTextColor = 'rgba(0, 0, 0, 0.87)';
+  public static fileUploaderValidationTextColor = colors.textWarningHeavy;
   public static fileUploaderLinkHoverTextDecoration = 'none';
   public static fileUploaderHoveredBg = colors.shapeOtherBacklessHover;
-  public static fileUploaderActiveBg = 'rgba(0, 0, 0, 0.1)';
+  public static fileUploaderActiveBg = colors.shapeOtherBacklessPressed;
   public static fileUploaderHoveredBorderColor = 'transparent';
   public static fileUploaderIconGapSmall = '4px';
   public static fileUploaderIconGapMedium = '6px';
@@ -2656,14 +2647,14 @@ export class BasicThemeClass {
   public static get fileUploaderFileTypePdfIconColor(): string {
     return this.red;
   }
-  public static fileUploaderFileTypeCodeIconColor = '#B750D1';
-  public static fileUploaderFileTypePictureIconColor = '#51ADFF';
-  public static fileUploaderFileTypePresentationIconColor = '#FC7630';
-  public static fileUploaderFileTypeTableIconColor = '#26AD50';
-  public static fileUploaderFileTypeTextIconColor = '#2291FF';
-  public static fileUploaderFileTypeArchiveIconColor = '#D46421';
-  public static fileUploaderFileTypeFolderIconColor = '#FECA42';
-  public static fileUploaderFileTypeUnknownIconColor = '#ADADAD';
+  public static fileUploaderFileTypeCodeIconColor = colors.customizableBoldPurple;
+  public static fileUploaderFileTypePictureIconColor = colors.customizableBoldBlue;
+  public static fileUploaderFileTypePresentationIconColor = colors.customizableBoldOrange;
+  public static fileUploaderFileTypeTableIconColor = colors.customizableBoldGreen;
+  public static fileUploaderFileTypeTextIconColor = colors.customizableBoldBlue;
+  public static fileUploaderFileTypeArchiveIconColor = colors.customizableHeavyOrange;
+  public static fileUploaderFileTypeFolderIconColor = colors.customizableBoldYellow;
+  public static fileUploaderFileTypeUnknownIconColor = colors.textNeutralSoft;
   public static get fileUploaderDisabledFileTypeIcon(): string {
     return this.fileUploaderDisabledIconColor;
   }
