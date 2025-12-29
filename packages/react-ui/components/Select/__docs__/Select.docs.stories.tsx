@@ -281,3 +281,5 @@ export const ExampleRenderButton: Story = () => {
   return <Select items={items} value={value} onValueChange={setValue} _renderButton={renderLinkButton} />;
 };
 ExampleRenderButton.storyName = 'Кастомизация кнопки';
+
+export default meta;

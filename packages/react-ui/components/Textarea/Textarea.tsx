@@ -274,18 +274,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
-   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
-   * @public
-   */
-  public getNode() {
+  public getNode(): Nullable<HTMLTextAreaElement> {
     return this.node;
   }
 
-  /**
+  /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
+   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
-   * @param {number} start
-   * @param {number} end
    */
   public setSelectionRange = (start: number, end: number): void => {
     if (!this.node) {
