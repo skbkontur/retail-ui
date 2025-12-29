@@ -38,7 +38,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   name?: string;
 
   /** Получает уникальный ключ по элементу
-   * @param item - элемент, по которуму нужно получить ключ. */
+   * @param item - элемент, по которому нужно получить ключ. */
   toKey?: (item: T) => string | number;
 
   /** Делает все радиокнопки недоступными. */

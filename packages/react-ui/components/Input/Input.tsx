@@ -120,9 +120,6 @@ export interface InputProps
         /** Задаёт значение внутри поля. */
         value?: string;
 
-        /** @deprecated Со следующей мажорной версии Input перестанет поддерживать проп `capture`. */
-        capture?: boolean;
-
         /** Устанавливает префикс `ReactNode` перед значением, но после иконки. */
         prefix?: React.ReactNode;
 

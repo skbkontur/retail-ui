@@ -238,7 +238,7 @@ export const FileUploaderWithMultiplePrefilledFilesCustomRender = () => (
   <FileUploader
     multiple
     initialFiles={[createFile('test1.txt'), createFile('test2.txt')]}
-    renderFile={(_file, _fileNode, props) => <FileUploaderFile {...props} showSize />}
+    renderFile={(props) => <FileUploaderFile {...props} showSize />}
   />
 );
 
@@ -249,7 +249,7 @@ export const FileUploaderWithMultiplePrefilledFilesUploadButtonEndAndPreview = (
     view="tile"
     uploadButtonPosition="end"
     initialFiles={[createFile('test1.txt'), createFile('test2.txt')]}
-    renderFile={(_file, _fileNode, props) => (
+    renderFile={(props) => (
       <FileUploaderFile {...props} previewImg="https://tech.skbkontur.ru/kontur-ui/images/previewImg.png" />
     )}
   />

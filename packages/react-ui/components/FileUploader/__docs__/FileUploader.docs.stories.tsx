@@ -49,12 +49,6 @@ Example4.storyName = 'Файлы по умолчанию';
 
 /**
  *  Для кастомизации отображения файлов можно использовать проп `renderFile`.
- *  Есть два способа кастомизации отображения файла с помощью этого пропа:
- *
- * 1. Клонирование аргумента `fileNode` с заменой нужных пропов.
- * 2. Использование аргумента `props` вместе с компонентом `FileUploaderFile`.
- *
- * Второй вариант станет основным в следующей мажорной версии, `6.0`.
  *
  * Более подробные примеры кастомизации отображения файлов можно посмотреть на [странице](https://tech.skbkontur.ru/kontur-ui/?path=/docs/input-data-fileuploader-fileuploaderfile--docs) компонента `FileUploaderFile`.
  */
@@ -64,10 +58,7 @@ export const Example5: Story = () => {
     <FileUploader
       multiple
       initialFiles={initialFiles}
-      renderFile={(_file, _fileNode, props) => {
-        // return React.cloneElement(fileNode, { showSize: true });
-        return <FileUploaderFile {...props} showSize />;
-      }}
+      renderFile={(props) => <FileUploaderFile {...props} showSize />}
     />
   );
 };

@@ -16,10 +16,7 @@ export default {
 
 export const Example1: Story = () => {
   return (
-    <FileUploader
-      initialFiles={[createFile('example.txt')]}
-      renderFile={(_file, _fileNode, props) => <FileUploaderFile {...props} />}
-    />
+    <FileUploader initialFiles={[createFile('example.txt')]} renderFile={(props) => <FileUploaderFile {...props} />} />
   );
 };
 Example1.storyName = 'Базовый пример';
@@ -29,12 +26,7 @@ Example1.storyName = 'Базовый пример';
  */
 export const Example2: Story = () => {
   const initialFile = createFile('text.txt');
-  return (
-    <FileUploader
-      initialFiles={[initialFile]}
-      renderFile={(_file, _fileNode, props) => <FileUploaderFile {...props} showSize />}
-    />
-  );
+  return <FileUploader initialFiles={[initialFile]} renderFile={(props) => <FileUploaderFile {...props} showSize />} />;
 };
 
 Example2.storyName = 'Отображение размера файла';
@@ -61,9 +53,7 @@ export const Example4: Story = () => {
   return (
     <FileUploader
       initialFiles={[new File(['content'], 'test.pdf')]}
-      renderFile={(_file, _fileNode, props) => (
-        <FileUploaderFile {...props} fileTypeIcon={<CheckAIcon16Light color="red" />} />
-      )}
+      renderFile={(props) => <FileUploaderFile {...props} fileTypeIcon={<CheckAIcon16Light color="red" />} />}
     />
   );
 };
@@ -78,7 +68,7 @@ export const Example5: Story = () => {
   return (
     <FileUploader
       initialFiles={initialFiles}
-      renderFile={(_file, _fileNode, props) => <FileUploaderFile {...props} showFilenameHint={false} />}
+      renderFile={(props) => <FileUploaderFile {...props} showFilenameHint={false} />}
     />
   );
 };
@@ -105,7 +95,7 @@ export const Example7 = () => {
       width={400}
       view="tile"
       initialFiles={initialFiles}
-      renderFile={(_file, _fileNode, props) => (
+      renderFile={(props) => (
         <FileUploaderFile {...props} previewImg="https://tech.skbkontur.ru/kontur-ui/images/previewImg.png" />
       )}
     />

@@ -4,13 +4,7 @@ import { useEmotion, useStyles } from '../../../lib/renderEnvironment';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import type { FileUploaderFileProps } from '../FileUploaderFile/FileUploaderFile';
-import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
-import {
-  FileUploaderFileStatus,
-  type FileUploaderValidationSummary,
-  type FileUploaderAttachedFile,
-  type FileUploaderView,
-} from '../fileUtils';
+import { FileUploaderFileStatus, type FileUploaderValidationSummary, type FileUploaderView } from '../fileUtils';
 import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 import type { SizeProp } from '../../../lib/types/props';
 import type { PopupPositionsType, ShortPopupPositionsType } from '../../Popup';
@@ -21,11 +15,7 @@ import { LocaleContext } from '../../../lib/locale';
 import { getJsStyles, getJsTileStyles, getJsRowStyles } from './FileUploaderFileList.styles';
 
 interface FileUploaderFileListProps {
-  renderFile: (
-    file: FileUploaderAttachedFile,
-    fileNode: React.ReactElement,
-    props: FileUploaderFileProps,
-  ) => React.ReactNode;
+  renderFile: (props: FileUploaderFileProps) => React.ReactNode;
   size: SizeProp;
   view?: FileUploaderView;
   validationSummary?: FileUploaderValidationSummary;
@@ -185,7 +175,7 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
           withWarningIcon,
         };
 
-        const fileElement = renderFile(file, <FileUploaderFile {...fileProps} />, fileProps);
+        const fileElement = renderFile(fileProps);
 
         return (
           <div
