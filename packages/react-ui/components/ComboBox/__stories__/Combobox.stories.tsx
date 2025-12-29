@@ -1078,3 +1078,31 @@ export const MultilineEditingComboboxStory: Story = () => {
   );
 };
 MultilineEditingComboboxStory.storyName = 'multiline editing combobox';
+
+export const LongValueKeyboardSelection = () => (
+  <ComboBox
+    width={200}
+    getItems={async () => [
+      {
+        value: 1,
+        label: 'long-long-long-long-long-long-long-long-long-long-long-long label',
+      },
+      { value: 2, label: 'short label' },
+    ]}
+  />
+);
+
+export const MultilineLongValueKeyboardSelection = () => (
+  <ComboBox
+    width={150}
+    getItems={async () => [
+      {
+        value: 1,
+        label:
+          'long-long-long-long-long-long-long-long-long-long-long-long long-long-long-long-long-long-long-long-long-long-long-long long-long-long-long-long-long-long-long-long-long-long-long long-long-long-long-long-long-long-long-long-long-long-long label',
+      },
+      { value: 2, label: 'short label' },
+    ]}
+    viewMode="multiline"
+  />
+);

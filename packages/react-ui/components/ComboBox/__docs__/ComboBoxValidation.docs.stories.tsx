@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComboBox, Button, Gapped } from '@skbkontur/react-ui';
+import { ComboBox, type ComboBoxItem } from '@skbkontur/react-ui';
 import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations/src';
 import type { ValidationInfo } from '@skbkontur/react-ui-validations/src';
 
@@ -11,42 +11,35 @@ export default {
 } as Meta;
 
 export const ExampleValidation: Story = () => {
-  const [value, setValue] = React.useState();
-  const [success, setSuccess] = React.useState(false);
-  const containerRef = React.useRef(null);
+  const [value, setValue] = React.useState<ComboBoxItem>();
 
-  const validate = (v): ValidationInfo | null => {
+  const validate = (v?: ComboBoxItem): ValidationInfo | null => {
     if (!v) {
-      return { type: 'submit', message: 'Укажите город' };
+      return { type: 'immediate', message: 'Укажите город' };
     }
     return null;
   };
 
-  async function handleSubmit() {
-    setSuccess(await containerRef.current?.validate());
-  }
+  const isSimpleItem = (x: unknown): x is ComboBoxItem => {
+    return x !== null && typeof x === 'object' && 'label' in x;
+  };
 
-  const getItems = (q) => {
+  const getItems = (q: string) => {
     return Promise.resolve(
       [
-        { value: 1, label: 'Абакан' },
-        { value: 2, label: 'Алексин' },
-        { value: 3, label: 'Алматы' },
-        { value: 4, label: 'Альметьевск' },
-      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+        { value: '1', label: 'Абакан' },
+        { value: '2', label: 'Алексин' },
+        { value: '3', label: 'Алматы' },
+        { value: '4', label: 'Альметьевск' },
+      ].filter((x) => !isSimpleItem(x) || x.label.toLowerCase().includes(q.toLowerCase())),
     );
   };
 
   return (
-    <ValidationContainer ref={containerRef}>
-      <Gapped vertical>
-        <ValidationWrapper validationInfo={validate(value)}>
-          <ComboBox getItems={getItems} onValueChange={setValue} placeholder="Выберите город" value={value} />
-        </ValidationWrapper>
-        <Button use={success ? 'success' : 'primary'} onClick={handleSubmit}>
-          {success ? 'Готово' : 'Отправить'}
-        </Button>
-      </Gapped>
+    <ValidationContainer>
+      <ValidationWrapper validationInfo={validate(value)}>
+        <ComboBox getItems={getItems} onValueChange={setValue} placeholder="Выберите город" value={value} />
+      </ValidationWrapper>
     </ValidationContainer>
   );
 };

@@ -146,6 +146,11 @@ export const Effect: EffectFactory = {
     }
 
     input.focus();
+    const inputNode = input.getNode();
+    if (inputNode) {
+      inputNode.scrollLeft = inputNode.scrollWidth;
+      inputNode.scrollTop = inputNode.scrollHeight;
+    }
   },
   highlightMenuItem: (dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue, valueToString } = getProps();

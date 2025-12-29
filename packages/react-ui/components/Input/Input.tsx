@@ -158,7 +158,7 @@ export interface InputProps
         /** Устанавливает суффикс `ReactNode` после значения, но перед правой иконкой. */
         suffix?: React.ReactNode;
 
-        /** Выделяет введенное значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
+        /** Выделяет введённое значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
         selectAllOnFocus?: boolean;
 
         /** Устанавливает обработчик на случай некорректного ввода.
@@ -298,6 +298,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
+   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    * @param {number} start
    * @param {number} end
@@ -354,8 +355,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   /**
    * Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст в нём.
-   * Работает с типами `text`, `password`, `tel`, `search`, `url`
-   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
+   * Работает с типами `text`, `password`, `tel`, `search`, `url`.
    * @public
    */
   public selectAll = (): void => this._selectAll();

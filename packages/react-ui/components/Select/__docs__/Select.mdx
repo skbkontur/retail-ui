@@ -1,5 +1,6 @@
 import * as SelectStories from './Select.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
+import * as SelectExamples from './SelectValidation.docs.stories.tsx';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -20,6 +21,36 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте раскрывающийся список при:
+
+- заполнении форм, например, для выбора месяца;
+- переключении состояний, например, фильтра;
+- выборе предустановленных настроек, например, частоты уведомлений или часового пояса.
+
+Не используйте раскрывающийся список для выбора элементов меню. В таком случае воспользуйтесь компонентом [Dropdown](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-dropdown--docs).
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Адаптивность
+
+Раскрывающийся список адаптивен: на мобильных устройствах он открывается на весь экран устройства и становится фокусным активным элементом, что упрощает работу с ним. Мобильный режим активируется при ширине вьюпорта `(max-width: 576px)` и наличии сенсорного экрана `(pointer: coarse)`.
+
+В мобильном режиме у раскрывающегося списка появляется заголовок, который необходимо передать через проп `mobileMenuHeaderText`. Полное описание адаптивного вида и поведения компонента смотрите в [Гайде](https://guides.kontur.ru/components/selection-elements/select/#Аdaptivnost').
+
+Вы можете передавать свои медиазапросы, больше о настройке адаптивности читайте в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs).
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+<Story of={SelectExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Доступность
+
+Компонент поддерживает стандартные aria-атрибуты, если вам необходимо переопределить его поведение.

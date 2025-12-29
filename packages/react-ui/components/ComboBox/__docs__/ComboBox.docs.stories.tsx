@@ -1,7 +1,16 @@
 import React from 'react';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
 import type { ComboBoxExtendedItem, ComboBoxItem } from '@skbkontur/react-ui';
-import { ComboBox, Tooltip, Button, Gapped, MenuItem } from '@skbkontur/react-ui';
+import {
+  ComboBox,
+  Tooltip,
+  Button,
+  Gapped,
+  MenuItem,
+  MenuHeader,
+  MenuSeparator,
+  MenuFooter,
+} from '@skbkontur/react-ui';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 
 import type { Meta, Story } from '../../../typings/stories';
@@ -876,6 +885,71 @@ export const ExampleCounter: Story = () => {
   );
 };
 ExampleCounter.storyName = 'Cчётчик найденных значений';
+
+/**
+ * В массиве, возвращаемом `getItems`, могут быть переданы React-компоненты:
+ * `<MenuHeader>`, `<MenuFooter>`, `<MenuSeparator />` и любые другие.
+ *
+ * В таких случаях поиск необходимо контролировать дополнительно.
+ * */
+export const ExampleExtendedItems: Story = () => {
+  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
+
+  const maybeReject = (x) => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
+
+  const getItems = (q) =>
+    Promise.resolve(
+      [
+        <MenuHeader>MenuHeader</MenuHeader>,
+        { value: 1, label: 'Абакан' },
+        { value: 2, label: 'Алексин' },
+        { value: 3, label: 'Алматы' },
+        { value: 4, label: 'Альметьевск' },
+        { value: 5, label: 'Алтайский край' },
+        { value: 6, label: 'Амурская область' },
+        <MenuSeparator />,
+        { value: 7, label: 'Анадырь' },
+        { value: 8, label: 'Анапа' },
+        { value: 9, label: 'Архангельск' },
+        { value: 10, label: 'Архангельская область' },
+        { value: 11, label: 'Астраханская область' },
+        { value: 12, label: 'Астрахань' },
+        <MenuFooter>MenuFooter</MenuFooter>,
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+    )
+      .then(delay(500))
+      .then(maybeReject);
+
+  const [selected, setSelected] = React.useState();
+  const [error, setError] = React.useState(false);
+
+  const handleValueChange = (value) => {
+    setSelected(value);
+    setError(false);
+  };
+
+  const handleUnexpectedInput = () => {
+    setSelected(null);
+    setError(true);
+  };
+
+  const handleFocus = () => setError(false);
+
+  return (
+    <Tooltip closeButton={false} render={() => 'Выберите значение из списка'} trigger={error ? 'opened' : 'closed'}>
+      <ComboBox
+        error={error}
+        getItems={getItems}
+        onValueChange={handleValueChange}
+        onFocus={handleFocus}
+        onUnexpectedInput={handleUnexpectedInput}
+        placeholder="Введите или выберите из списка"
+        value={selected}
+      />
+    </Tooltip>
+  );
+};
+ExampleExtendedItems.storyName = 'Шапка, разделитель и футер в списке';
 
 /** В примере с помощью пропсов `renderValue`, `renderItem` и `itemWrapper` переопределён внешний вид элементов списка и выбранного значения, задано отображение галочки для одобренных элементов. */
 export const ExampleCustom: Story = () => {

@@ -85,13 +85,14 @@ kind('Input', () => {
     });
     test('invalidText', async (context) => {
       const page = context.webdriver;
-      const submit = await page.locator(tid('submit'));
+      const submit = page.locator(tid('submit'));
       await submit.click();
       await page.waitForTimeout(500);
       await page.keyboard.type("i'm active!");
       const focusedThenFilledWhenSubmitAndAllEmpty = await context.takeScreenshot();
 
       await submit.click();
+      await page.waitForTimeout(500);
       const secondFocusedWhenSubmitAndFirstFull = await context.takeScreenshot();
       await context.matchImages({ focusedThenFilledWhenSubmitAndAllEmpty, secondFocusedWhenSubmitAndFirstFull });
     });
