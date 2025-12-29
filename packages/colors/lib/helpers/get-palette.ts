@@ -250,7 +250,7 @@ export function calculateBaseHueAndCorrectionRange(
   };
 }
 
-export function calcOnBrand(hex: string) {
+export function calcOnBrand(hex: string): typeof DefaultSwatch.whiteAlpha {
   const whiteContrast = Math.abs(Number(calcAPCA('#fff', hex)));
   const blackContrast = Math.abs(Number(calcAPCA('#000', hex)));
 

@@ -1,6 +1,8 @@
 import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase) => ({
+export const getColorsDefaultTokens = (
+  base: TokensBase
+): { light: Record<string, string>; dark: Record<string, string> } => ({
   light: {
     textAccentHeavy: base.accent?.palette?.vivid[52] || base.blackAlpha[88],
     textAccentHeavyHover: base.accent?.palette?.vivid[60] || base.blackAlpha[96],
