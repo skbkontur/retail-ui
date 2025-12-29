@@ -33,7 +33,7 @@ const getResetIcon = (size: SizeProp) => {
   return RESET_ICONS[iconSize];
 };
 
-export const AppliedFilters = ({ tokens, onResetAll }: AppliedFiltersProps) => {
+export const AppliedFilters = ({ tokens, onResetAll }: AppliedFiltersProps): JSX.Element => {
   const { size } = useContext(SizeTableContext);
 
   if (!tokens || tokens.length < 1) {

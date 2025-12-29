@@ -137,7 +137,11 @@ export function useTableSort<T extends Record<TKey, unknown>, TKey extends strin
   initialConfig: SortConfig<TKey> = { key: undefined, direction: 'asc' },
   compareFn: ((a: T, b: T, sortConfig: SortConfig<TKey>) => number) | undefined = undefined,
   options: UseTableSortOptions = {}
-) {
+): {
+  readonly sortedRows: T[];
+  readonly sortConfig: SortConfig<TKey>;
+  readonly handleSort: (columnKey: TKey, direction: SortDirection) => void;
+} {
   const [sortConfig, setSortConfig] = useState<SortConfig<TKey>>(initialConfig);
 
   const initialKey = initialConfig?.key;

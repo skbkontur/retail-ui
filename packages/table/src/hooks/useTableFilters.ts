@@ -67,7 +67,18 @@ const isFilterEmpty = (value: FilterValue | undefined) => !value || value.length
  * // Установить фильтр для колонки
  * setFilter('client', ['Client 1', 'Client 2']);
  */
-export function useTableFilters<T, K extends string>(rows: T[], columns: Array<ColumnFilterConfig<T, K>>) {
+export function useTableFilters<T, K extends string>(
+  rows: T[],
+  columns: Array<ColumnFilterConfig<T, K>>
+): {
+  filters: FiltersState<K>;
+  setFilters: React.Dispatch<React.SetStateAction<FiltersState<K>>>;
+  setFilter: (key: K, value: string[]) => void;
+  resetFilters: () => void;
+  uniqueValues: Record<K, string[]>;
+  filteredRows: T[];
+  convertFiltersToTokens: () => ITableFilterToken[];
+} {
   const buildEmptyFilters = useCallback((): FiltersState<K> => {
     const map = new Map<K, string[]>();
     columns.forEach((column) => map.set(column.key, []));

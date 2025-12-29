@@ -36,7 +36,19 @@ export interface UseTableRowSelectionOptions {
  *   initialCheckedRows: new Set([1, 2])
  * });
  */
-export function useTableRowSelection<T extends RowLike>(rows: T[], options?: UseTableRowSelectionOptions) {
+export function useTableRowSelection<T extends RowLike>(
+  rows: T[],
+  options?: UseTableRowSelectionOptions
+): {
+  readonly checkedRows: Set<number>;
+  readonly setCheckedRows: React.Dispatch<React.SetStateAction<Set<number>>>;
+  readonly isCheckedAll: boolean;
+  readonly hasChecked: boolean;
+  readonly checkboxRef: React.RefObject<Checkbox>;
+  readonly selectAll: () => void;
+  readonly toggleRow: (e: SyntheticEvent<HTMLElement> | undefined, rowId: number) => void;
+  readonly isRowChecked: (rowId: number) => boolean;
+} {
   const initialCheckedRows = options?.initialCheckedRows;
   const [checkedRows, setCheckedRows] = useState<Set<number>>(() =>
     initialCheckedRows ? new Set(initialCheckedRows) : new Set()
