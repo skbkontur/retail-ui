@@ -22,14 +22,14 @@ import type { RadioGroupContextType } from './RadioGroupContext';
 import { RadioGroupContext } from './RadioGroupContext';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
-  /** Задаёт значение по умолчанию. Должно быть одним из значений дочерних радиокнопок или значений из `items`. */
+  /** Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок или значений из `items`. */
   defaultValue?: T;
 
-  /** Задаёт значение группы радиокнопок. Должно быть одним из значений радиокнопок.
+  /** Значение группы радиокнопок. Должно быть одним из значений радиокнопок.
    * Если не указано, то компонент будет работать как неконтролируемый. */
   value?: T;
 
-  /** Задаёт массив параметров радиокнопок. Может быть типа `Array<Value>` или `Array<[Value, Data]>`,
+  /** Массив параметров радиокнопок. Может быть типа `Array<Value>` или `Array<[Value, Data]>`,
    * где тип `Value` — значение радиокнопки, а `Data` — значение которое будет использовано вторым параметром в `renderItem`.
    * Тип `Array<Value>` будет приведен к типу `Array<[Value, Value]>`.
    * Может быть использовано, если не передан `children`. */
@@ -57,7 +57,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   /** Ширина радиогруппы. Работает только со значениями, переданными через `items`, не работает с `children`. */
   width?: React.CSSProperties['width'];
 
-  /** Задаёт функцию, которая отображает контент радиокнопки. Работает только со значениями, переданными через `items`, не работает с `children`.
+  /** Отрисовывает контент радиокнопки. Работает только со значениями, переданными через `items`, не работает с `children`.
    * @param {Value} itemValue - значение радиокнопки.
    * @param {Data} data - значение для отрисовки радиокнопки. */
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
@@ -65,19 +65,19 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   /** @ignore */
   'aria-describedby'?: AriaAttributes['aria-describedby'];
 
-  /** Задаёт функцию, которая вызывается при изменении `value`. */
+  /** Событие изменения `value`. */
   onValueChange?: (value: T) => void;
 
-  /** Задаёт функцию, которая вызывается при потере радиогруппой фокуса. */
+  /** Событие потери радиогруппой фокуса. */
   onBlur?: (event: FocusEvent) => void;
 
-  /** Задаёт функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
+  /** Событие ухода мышки с объекта (событие `onmouseleave`). */
   onMouseLeave?: () => any;
 
-  /** Задаёт функцию, которая вызывается при наведении мышкой (событие `onmouseover`). */
+  /** Событие наведения мышкой (событие `onmouseover`). */
   onMouseOver?: () => any;
 
-  /** Задаёт функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). Смотрите разницу с `onMouseOver` в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
+  /** Событие наведения мышкой (событие `onmouseenter`). Смотрите разницу с `onMouseOver` в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave)  */
   onMouseEnter?: () => any;
 }
 

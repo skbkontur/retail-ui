@@ -12,9 +12,9 @@ export default {
 } as Meta;
 
 export const ExampleValidation: Story = () => {
-  const [value, setValue] = React.useState<string>('');
+  const [value, setValue] = React.useState<string>('/');
   function validate(value: string): Nullable<ValidationInfo> {
-    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'lostfocus' } : null;
+    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'immediate' } : null;
   }
   return (
     <ValidationContainer>

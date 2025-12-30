@@ -109,7 +109,7 @@ export interface InputProps
         /** Выравнивает контент внутри поля. */
         align?: InputAlign;
 
-        /** Задаёт паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
+        /** Паттерн маски. Доступен для типов `text`, `password`, `email`, `tel`, `search`, `url`
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         mask?: Nullable<string>;
 
@@ -117,7 +117,7 @@ export interface InputProps
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         maskChar?: Nullable<string>;
 
-        /** Задаёт словарь символов-регулярок для задания маски
+        /** Словарь символов-регулярок для задания маски
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput.
          * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }. */
         formatChars?: Record<string, string>;
@@ -126,12 +126,12 @@ export interface InputProps
          * @deprecated Со следующей мажорной версии Input перестанет поддерживать маску. Используйте MaskedInput. */
         alwaysShowMask?: boolean;
 
-        /** Задаёт размер.
+        /** Размер поля.
          * @default small
          */
         size?: SizeProp;
 
-        /** Задаёт функцию, которая вызывается при изменении значения `value` в поле. */
+        /** Событие изменения значения `value` в поле. */
         onValueChange?: (value: string) => void;
 
         /** @ignore */
@@ -143,10 +143,10 @@ export interface InputProps
         /** @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задаёт тип поля ввода. */
+        /** Тип поля ввода. */
         type?: InputType;
 
-        /** Задаёт значение внутри поля. */
+        /** Значение внутри поля. */
         value?: string;
 
         /** @deprecated Со следующей мажорной версии Input перестанет поддерживать проп `capture`. */

@@ -39,16 +39,16 @@ export interface FxInputProps
          * - false — кнопка Restore отображается в поле. Значение в поле считается отредактированным. */
         auto?: boolean;
 
-        /** Задаёт тип поля. */
+        /** Тип поля. */
         type?: 'currency' | InputProps['type'];
 
-        /** Задаёт функцию, которая вызывается при нажатии на кнопку Restore. */
+        /** Событие нажатия на кнопку Restore. */
         onRestore?: () => void;
 
-        /** Задаёт функцию, вызывающуюся при изменении value. */
+        /** Событие изменения value. */
         onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
 
-        /** Задаёт значение поля. */
+        /** Значение поля. */
         value?: string | number;
 
         /** Задаёт ref поля. */
@@ -57,7 +57,7 @@ export interface FxInputProps
         /** Убирает лишние нули после запятой. */
         hideTrailingZeros?: boolean;
 
-        /** Задаёт атрибут aria-label кнопке Restore. */
+        /** Атрибут aria-label кнопке Restore. */
         buttonAriaLabel?: AriaAttributes['aria-label'];
 
         /** @ignore */

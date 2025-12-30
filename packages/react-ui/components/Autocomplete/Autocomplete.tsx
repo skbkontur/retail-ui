@@ -63,7 +63,7 @@ export interface AutocompleteProps
     Override<
       Omit<InputProps, 'alwaysShowMask' | 'mask' | 'maskChar'>,
       {
-        /** Задаёт функцию отрисовки элементов результата поиска. */
+        /** Отрисовывает элементы результата поиска. */
         renderItem?: (item: string) => React.ReactNode;
 
         /** Задаёт функцию поиска элементов, которая должна возвращать Promise с массивом значений. */
@@ -87,10 +87,10 @@ export interface AutocompleteProps
         /** Отключает скролл окна, когда выпадающий список раскрыт. */
         preventWindowScroll?: boolean;
 
-        /** Задаёт функцию, которая вызывается при изменении `value`. */
+        /** Событие изменения `value`. */
         onValueChange: (value: string) => void;
 
-        /** Задаёт функцию, которая вызывается при потере автокомплитом фокуса. */
+        /** Событие потери автокомплитом фокуса. */
         onBlur?: () => void;
 
         /** Размер автокомплита. */
