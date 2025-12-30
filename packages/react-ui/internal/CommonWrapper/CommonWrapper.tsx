@@ -6,6 +6,7 @@ import type { Nullable } from '../../typings/utility-types';
 import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode';
 import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { getElementRef } from '../../lib/getElementRef';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types';
@@ -70,7 +71,7 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
       });
     }
 
-    const originalRef = (this.child as React.RefAttributes<any>)?.ref;
+    const originalRef = getElementRef(this.child as React.ReactElement);
     if (typeof originalRef === 'function' || (originalRef && typeof originalRef === 'object')) {
       originalRef && callChildRef(originalRef, instance);
     }

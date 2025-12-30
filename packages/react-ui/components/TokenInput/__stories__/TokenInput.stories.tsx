@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import React, { useState } from 'react';
 
 import type { Meta, Story } from '../../../typings/stories';

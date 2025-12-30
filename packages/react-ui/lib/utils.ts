@@ -68,11 +68,11 @@ export function isClassComponent(Component: unknown): Component is React.Compone
   return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
 }
 
-export function isIntrinsicElement(element: React.ReactElement): boolean {
+export function isIntrinsicElement(element: React.ReactElement<unknown>): boolean {
   return typeof element.type === 'string';
 }
 
-export function isRefableElement(element: React.ReactElement): boolean {
+export function isRefableElement(element: React.ReactElement<unknown>): boolean {
   return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 

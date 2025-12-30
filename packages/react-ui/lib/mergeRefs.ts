@@ -1,11 +1,11 @@
 import type React from 'react';
+import type { RefCallback } from 'react';
 
 import type { Nullable } from '../typings/utility-types';
 
 import { isNonNullable, isNullable } from './utils';
 
-type RefVariants<T> = Nullable<React.RefObject<T> | React.RefCallback<T>>;
-type RefCallback<T> = ReturnType<typeof createRefCallback<T>>;
+type RefVariants<T> = Nullable<React.RefObject<T | null> | React.RefCallback<T>>;
 const CALLBACK_AS_KEY = { callbackAsKey: true };
 
 type CacheKey<T> = NonNullable<RefVariants<T> | typeof CALLBACK_AS_KEY>;

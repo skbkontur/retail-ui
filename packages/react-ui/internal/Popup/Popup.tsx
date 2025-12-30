@@ -1,4 +1,4 @@
-import type { HTMLAttributes, LegacyRef } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import React from 'react';
 import { Transition } from 'react-transition-group';
 import warning from 'warning';
@@ -27,6 +27,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
 import { mergeRefs } from '../../lib/mergeRefs';
 import { getVisualStateDataAttributes } from '../CommonWrapper/utils/getVisualStateDataAttributes';
+import { getElementRef } from '../../lib/getElementRef';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import { PopupPin } from './PopupPin';
@@ -347,10 +348,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: mergeRefs(
-              (anchor as React.RefAttributes<typeof anchor>)?.ref as React.RefCallback<any>,
-              this.updateAnchorElement,
-            ),
+            ref: mergeRefs(getElementRef(anchor), this.updateAnchorElement),
           } as { ref: (instance: Nullable<React.ReactInstance>) => void })
         : null;
     // we need to get anchor's DOM node
@@ -368,7 +366,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       : this.renderInPortal(renderAnchor, renderRef);
   }
 
-  private renderInPortal = (anchor: React.ReactNode, ref: null | LegacyRef<RenderContainer>) => {
+  private renderInPortal = (anchor: React.ReactNode, ref: null | Ref<RenderContainer>) => {
     const { location } = this.state;
 
     return (
@@ -380,7 +378,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   };
 
-  private renderWithoutPortal = (anchor: React.ReactNode, ref: null | LegacyRef<EmptyWrapper>) => {
+  private renderWithoutPortal = (anchor: React.ReactNode, ref: null | Ref<EmptyWrapper>) => {
     const { location } = this.state;
 
     return (

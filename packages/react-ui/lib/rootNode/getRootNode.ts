@@ -1,6 +1,4 @@
-import { findDOMNode } from 'react-dom';
 import type React from 'react';
-import warning from 'warning';
 
 import type { Nullable } from '../../typings/utility-types';
 import { isElement } from '../utils';
@@ -48,27 +46,6 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     // the getter exists and has returned something, it should be what we are looking for
     // probably its an Element or null (which is also OK, e.g. Popup/Tooltip/Hint before opening)
     return rootNode;
-  }
-
-  try {
-    // rootNode is undefined, which means that the getter doesn't exists or returns the undefined
-    // anyway, it tell us that the convention is not respected,
-    // so, we have to fall back to the deprecated findDOMNode, which breaks StrictMode
-    // instance can still be a class component or an imperative handle (i.e., anything, except null/undefined/Element)
-    rootNode = findDOMNode(instance);
-  } catch (e) {
-    // but findDOMNode doesn`t accept everything that instance can be at this point,
-    // so we have to handle exceptions
-    // see https://github.com/facebook/react/blob/cae63505/packages/react-dom/src/__tests__/findDOMNode-test.js#L66-L86
-    warning(
-      false,
-      '[getRootNode]: can`t fallback to findDOMNode.' +
-        '\n' +
-        'See https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md#strictmode' +
-        '\n\n' +
-        (e as Error)?.message || String(e),
-    );
-    return null;
   }
 
   // the findDOMNode can also return Text, but we are only interested in Elements, so just filter it

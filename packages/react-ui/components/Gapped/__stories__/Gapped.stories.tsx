@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 
 import type { Meta } from '../../../typings/stories';
 import type { GappedProps } from '../Gapped';

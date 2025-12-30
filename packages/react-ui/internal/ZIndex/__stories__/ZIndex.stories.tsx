@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Dropdown } from '../../../components/Dropdown';
 import type { Story } from '../../../typings/stories';
@@ -148,11 +148,19 @@ class ZSample extends React.Component<ZSampleProps> {
     const { total = 0, current = 0 } = this.props;
     return (
       <Gapped vertical>
-        <Toast ref={(e) => (this.notifier = e)} />
+        <Toast
+          ref={(e) => {
+            this.notifier = e;
+          }}
+        />
         {controls}
         <Gapped>
           <ZLoader size={150} />
-          <div ref={(e) => (this.popupAnchor = e)}>
+          <div
+            ref={(e) => {
+              this.popupAnchor = e;
+            }}
+          >
             <Toggle checked={this.state.popup} onValueChange={(v) => this.setState({ popup: v })} />
           </div>
           {this.popupAnchor && (
@@ -249,7 +257,13 @@ const InputWithTooltip = ({ text = 'Hello', pos = 'top right' }: InputWithToolti
   </Tooltip>
 );
 
-const ModalWrapper = ({ caption = 'Title', ...props }: { caption?: string; children?: React.ReactChild }) => (
+const ModalWrapper = ({
+  caption = 'Title',
+  ...props
+}: {
+  caption?: string;
+  children?: React.ReactElement<any> | number | string;
+}) => (
   <Modal>
     <Modal.Header>{caption}</Modal.Header>
     <Modal.Body>{props.children}</Modal.Body>
@@ -884,24 +898,24 @@ ModalWithDropdown.parameters = { creevey: { captureElement: null } };
 
 function Root({ children }: React.PropsWithChildren<any>) {
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const reactRoot = React.useRef<ReturnType<typeof createRoot>>(null);
   const theme = React.useContext(ThemeContext);
 
   React.useEffect(() => {
-    if (rootRef.current) {
+    if (rootRef.current && children) {
       const App = () => children;
-      children &&
-        ReactDOM.render(
-          <ThemeContext.Provider value={theme}>
-            <App />
-          </ThemeContext.Provider>,
-          rootRef.current,
-        );
+      reactRoot.current = createRoot(rootRef.current);
+      reactRoot.current.render(
+        <ThemeContext.Provider value={theme}>
+          <App />
+        </ThemeContext.Provider>,
+      );
     }
   }, []);
 
   React.useLayoutEffect(
     () => () => {
-      rootRef.current && ReactDOM.unmountComponentAtNode(rootRef.current);
+      reactRoot.current && reactRoot.current.unmount();
     },
     [],
   );

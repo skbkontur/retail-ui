@@ -38,7 +38,7 @@ export interface MenuItemProps
   disabled?: boolean;
 
   /** Добавляет иконку элементу меню. */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /** Задает размер контрола. */
   size?: SizeProp;

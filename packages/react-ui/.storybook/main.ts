@@ -23,9 +23,6 @@ const config: StorybookConfig = {
     options: {
       strictMode: process?.env?.STRICT_MODE === 'true',
       fastRefresh: true,
-      // Флаг нужен только для регулярных прогонов, чтобы скриншоты проходили с установленным реакт 18 в репе
-      // Для версионного прогона убираем, реакт гонялися по честному как есть
-      ...(process?.env?.REACT_VERSION ? {} : { legacyRootApi: true }),
     },
   },
 

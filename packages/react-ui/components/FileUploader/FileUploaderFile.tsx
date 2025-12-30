@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment';
-import { CommonWrapper, type CommonProps } from '../../internal/CommonWrapper';
+import { type CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import type { PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import type {
@@ -26,8 +26,8 @@ import type { SizeProp } from '../../lib/types/props';
 import { FileUploaderFileStatusIcon } from '../../internal/FileUploaderControl/FileUploaderFile/icons/FileUploaderFileStatusIcon';
 import { FileUploaderFileTypeIcon } from '../../internal/FileUploaderControl/FileUploaderFile/icons/FileUploaderFileTypeIcon';
 import {
-  getJsStyles,
   getJsRowStyles,
+  getJsStyles,
   getJsTileStyles,
 } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile.styles';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon';
@@ -100,8 +100,8 @@ const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, n
 };
 
 const calcTruncatedName = (
-  textHelperRef: React.RefObject<TextWidthHelper>,
-  fileNameElementRef: React.RefObject<HTMLSpanElement>,
+  textHelperRef: React.RefObject<TextWidthHelper | null>,
+  fileNameElementRef: React.RefObject<HTMLSpanElement | null>,
   name: string,
   isTileView = false,
 ) => {

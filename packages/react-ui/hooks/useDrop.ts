@@ -19,7 +19,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
 
   const droppableRef = useRef<TElement>(null);
   const overRef = useRef<boolean>(false);
-  const timerId = useRef<SafeTimer>();
+  const timerId = useRef<SafeTimer>(undefined);
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
 
   const clearTimer = useCallback(() => {

@@ -150,5 +150,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
   };
 
-  private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
+  private refPopupMenu = (ref: Nullable<PopupMenu>) => {
+    this.popupMenu = ref;
+  };
 }

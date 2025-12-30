@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
 import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular';
 

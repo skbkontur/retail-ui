@@ -1,4 +1,3 @@
-import type { ReactElement } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 
@@ -10,6 +9,7 @@ import type { SizeProp } from '../../../lib/types/props';
 
 import { InputLayoutContext } from './InputLayoutContext';
 import { getStylesLayout } from './InputLayout.styles';
+
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';
@@ -33,8 +33,10 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
   };
 
   let _icon = icon instanceof Function ? icon() : icon;
-  if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
-    _icon = React.cloneElement(icon as ReactElement, { size: icon.props.size ?? sizes[size] });
+  if (isElement(icon) && isKonturIcon(icon)) {
+    _icon = React.cloneElement(icon, {
+      size: (icon.props.size as number) ?? sizes[size],
+    });
   }
 
   const style: React.CSSProperties = {};

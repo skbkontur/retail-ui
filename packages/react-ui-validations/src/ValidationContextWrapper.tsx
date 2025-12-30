@@ -168,7 +168,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {
     if (React.isValidElement(children)) {
-      return React.cloneElement(children as React.ReactElement, {
+      return React.cloneElement(children as React.ReactElement<ValidationContextWrapperProps>, {
         'data-tid': this.props['data-tid'],
       });
     }

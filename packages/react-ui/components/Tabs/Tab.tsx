@@ -162,7 +162,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     };
   }
 
-  public getUnderlyingNode(): typeof this.tabComponent {
+  public getUnderlyingNode(): Nullable<React.ReactElement<Tab<T>>> {
     return this.tabComponent;
   }
 

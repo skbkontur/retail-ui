@@ -1,4 +1,4 @@
-import type { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 
 import { filterProps } from '../../lib/filterProps';
@@ -50,7 +50,7 @@ export interface DropdownProps
   caption: React.ReactNode;
 
   /** Добавляет иконку слева от текста кнопки. */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /** Задает ширину выпадающего меню. */
   width?: React.CSSProperties['width'];
