@@ -3807,6 +3807,11 @@
   resolved "https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
+"@sinclair/typebox@^0.27.8":
+  version "0.27.8"
+  resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
+  integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
+
 "@skbkontur/colors@^2.0.4":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.0.4.tgz#19ebf5dba8e80f9a83293516df5d84a8f92ed5dd"
@@ -3815,10 +3820,10 @@
     apca-w3 "0.1.9"
     culori "4.0.2"
 
-"@sinclair/typebox@^0.27.8":
-  version "0.27.8"
-  resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
-  integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
+"@skbkontur/global-object@^0.4.4":
+  version "0.4.5"
+  resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.4.5.tgz#44a3533b7b1364f060543154f16ccdb50538ca56"
+  integrity sha512-2I7edEAXPcGPCG+l8+DBMonKigWO/tmQpkKB/SeX0r5CCrd2JZNhrB/8IeawUxHfoe1psrq604epoh0icyT09Q==
 
 "@skbkontur/icons@1.10.0":
   version "1.10.0"
