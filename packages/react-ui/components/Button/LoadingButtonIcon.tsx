@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 
 import { useStyles } from '../../lib/renderEnvironment';
 import type { IconSizeAliases } from '../../internal/icons2022/iconConstants';

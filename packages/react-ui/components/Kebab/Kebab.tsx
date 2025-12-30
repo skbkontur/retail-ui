@@ -25,6 +25,7 @@ import type { SizeProp } from '../../lib/types/props';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
 import { withSize } from '../../lib/size/SizeDecorator';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { IconProps } from '../../internal/icons2022/BaseIcon';
 
 import { getStyles } from './Kebab.styles';
 import { KebabIcon } from './KebabIcon';
@@ -247,6 +248,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     const { icon = <KebabIcon /> } = this.getProps();
 
     if (isElement(icon) && isKonturIcon(icon)) {
+      const iconProps = icon.props as IconProps;
       const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
@@ -254,9 +256,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       };
 
       return React.cloneElement(icon, {
-        size: icon.props.size ?? sizes[this.size],
-        color: icon.props.color ?? this.theme.kebabIconColor,
-      });
+        size: iconProps.size ?? sizes[this.size],
+        color: iconProps.color ?? this.theme.kebabIconColor,
+      } as IconProps);
     }
 
     return icon;
