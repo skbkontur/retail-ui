@@ -21,6 +21,7 @@ import type { SizeProp } from '../../lib/types/props';
 import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
 import { withSize } from '../../lib/size/SizeDecorator';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { IconProps } from '../../internal/icons2022/BaseIcon';
 
 import { getActiveStyles, getStyles, globalClasses } from './Button.styles';
 import type { ButtonIconProps } from './ButtonIcon';
@@ -442,9 +443,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   };
 
   private renderIcon2022(icon: React.ReactElement | undefined) {
-    if (icon && isKonturIcon(icon)) {
+    if (icon?.props && isKonturIcon(icon)) {
+      const iconProps = icon.props as IconProps;
       const sizes = getButtonIconSizes(this.theme);
-      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.size] });
+      return React.cloneElement(icon, { size: iconProps.size ?? sizes[this.size] } as IconProps);
     }
 
     return icon;
