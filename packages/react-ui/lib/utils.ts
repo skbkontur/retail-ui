@@ -33,7 +33,7 @@ export type AnyObject = Record<string, unknown>;
 
 export type NoInfer<T> = T extends infer U ? U : never;
 
-export const emptyHandler = () => {
+export const emptyHandler = (): void => {
   /* noop */
 };
 
@@ -41,7 +41,7 @@ export class CancelationError extends Error {
   public code = 'CancelationError';
 }
 
-export function taskWithDelay(task: () => void, ms: number) {
+export function taskWithDelay(task: () => void, ms: number): () => void {
   let cancelationToken: () => void = () => null;
 
   new Promise((resolve, reject) => {
@@ -68,11 +68,11 @@ export function isClassComponent(Component: unknown): Component is React.Compone
   return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
 }
 
-export function isIntrinsicElement(element: React.ReactElement): boolean {
+export function isIntrinsicElement(element: React.ReactElement<unknown>): boolean {
   return typeof element.type === 'string';
 }
 
-export function isRefableElement(element: React.ReactElement): boolean {
+export function isRefableElement(element: React.ReactElement<unknown>): boolean {
   return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
@@ -185,7 +185,9 @@ export const isReactUIInstance = <T extends React.Component>(
  * @param props Props object to extract data attributes from.
  * @returns Separated data attributes and all other props.
  */
-export const extractDataProps = <T extends Record<string, any>>(props: T) => {
+export const extractDataProps = <T extends Record<string, unknown>>(
+  props: T,
+): { dataProps: Record<string, unknown>; restWithoutDataProps: Record<string, unknown> } => {
   const dataProps: Record<string, any> = {};
   const restWithoutDataProps: Record<string, any> = {};
 
@@ -207,7 +209,7 @@ export const extractDataProps = <T extends Record<string, any>>(props: T) => {
  * @param inputString String on which search will be performed.
  * @returns `true` if `inputString` starts with one of keys, else `false`.
  */
-export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
+export const startsWithOneOf = (searchKeys: string[], inputString: string): boolean => {
   const keyIndex = searchKeys.findIndex((key) => {
     return inputString.startsWith(key);
   });
@@ -227,11 +229,11 @@ export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMen
 export const isHint = isReactUIComponent<HintProps>('Hint');
 export const isTooltip = isReactUIComponent<TooltipProps>('Tooltip');
 
-export const isKonturIcon = (icon: React.ReactElement) => {
+export const isKonturIcon = (icon: React.ReactElement): boolean => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');
 };
 
-export function clickOutside(eventType: 'touchstart' | 'mousedown' | 'pointerup' = 'mousedown') {
+export function clickOutside(eventType: 'touchstart' | 'mousedown' | 'pointerup' = 'mousedown'): void {
   const event = document.createEvent('HTMLEvents');
   event.initEvent(eventType, true, true);
   document.body.dispatchEvent(event);

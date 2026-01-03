@@ -1,7 +1,7 @@
 import type { DependencyList } from 'react';
 import { useEffect, useRef } from 'react';
 
-export const useEffectWithoutInitCall = (effect: () => void, deps: DependencyList) => {
+export const useEffectWithoutInitCall = (effect: () => void, deps: DependencyList): void => {
   const isMountedRef = useRef(false);
 
   useEffect(() => {

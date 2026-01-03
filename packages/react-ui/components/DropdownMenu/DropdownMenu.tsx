@@ -96,7 +96,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -106,7 +106,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     );
   }
 
-  public renderMain() {
+  public renderMain(): React.JSX.Element | null {
     if (!this.props.caption) {
       return null;
     }
@@ -150,5 +150,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
   };
 
-  private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
+  private refPopupMenu = (ref: Nullable<PopupMenu>) => {
+    this.popupMenu = ref;
+  };
 }

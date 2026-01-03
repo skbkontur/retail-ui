@@ -1,4 +1,4 @@
-import type { AriaAttributes } from 'react';
+import type { AriaAttributes, JSX } from 'react';
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 

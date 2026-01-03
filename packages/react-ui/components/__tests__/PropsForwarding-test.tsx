@@ -5,11 +5,18 @@ import { vi } from 'vitest';
 
 import * as ReactUI from '../../index.js';
 import type { Toast } from '../../index.js';
-import { ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index.js';
+import {
+  FileUploaderFileStatus,
+  ModalDataTids,
+  SidePageDataTids,
+  SingleToast,
+  TokenInputDataTids,
+} from '../../index.js';
 import type { AnyObject } from '../../lib/utils.js';
 import { delay } from '../../lib/utils.js';
 import { InputLikeTextDataTids } from '../../internal/InputLikeText/index.js';
 import { getRootNode } from '../../lib/rootNode/index.js';
+import { createFile } from '../../internal/FileUploaderControl/fileUtils.js';
 
 function isPublicComponent(component: any, name: string) {
   //skip contexts
@@ -62,6 +69,14 @@ const DEFAULT_PROPS = {
   Tab: { id: 'tab' },
   GlobalLoader: { active: true },
   MaskedInput: { mask: '99:99' },
+  FileUploaderFile: {
+    file: {
+      id: '1',
+      originalFile: createFile('test.txt', 'content'),
+      status: FileUploaderFileStatus.Attached,
+      validationResult: { isValid: true },
+    },
+  },
 };
 
 // allows rendering Tab not only inside Tabs
@@ -84,12 +99,12 @@ describe('Props Forwarding', () => {
   // check that className, style and data-* are being forwarding
   // correctly into all public components
   describe('Common Props', () => {
-    function getTestDOMNode<T>(compName: string, ref: React.RefObject<T>) {
+    function getTestDOMNode<T>(compName: string, ref: React.RefObject<T | null>) {
       switch (compName) {
         //root wrapper to far from styled container
         case 'Toast':
           act(() => {
-            const strictRef = ref as React.RefObject<Toast>;
+            const strictRef = ref as React.RefObject<Toast | null>;
             strictRef.current?.push('Toast');
           });
           return screen.getByTestId(props['data-tid']);
@@ -179,7 +194,7 @@ describe('Props Forwarding', () => {
   // check that the width prop still works
   describe('"width" Prop', () => {
     const width = '99px';
-    const getRootWrapper = (compName: string, ref: React.RefObject<React.ReactInstance>) => {
+    const getRootWrapper = (compName: string, ref: React.RefObject<React.ReactInstance | null>) => {
       switch (compName) {
         case 'Modal':
           return screen.getByTestId(ModalDataTids.content).firstChild;

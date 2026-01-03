@@ -4,11 +4,10 @@ import warning from 'warning';
 
 import type { Nullable } from '../typings/Types.js';
 
-import { getRootNode } from './utils/getRootNode/getRootNode.js';
+import { getRootNode, ReactUiDetection } from './ReactUiDetection.js';
 import { isElement } from './utils/utils.js';
 import { smoothScrollIntoView } from './smoothScrollIntoView.js';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper.js';
-import { ReactUiDetection } from './ReactUiDetection.js';
 import type { ValidationContextType } from './ValidationContextWrapper.js';
 import { ValidationContext } from './ValidationContextWrapper.js';
 
@@ -100,7 +99,7 @@ export class ValidationWrapperInternal extends React.Component<
     this.isChanging = false;
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     const { children, 'data-tid': dataTid } = this.props;
     const { validation } = this.state;
 
@@ -176,7 +175,7 @@ export class ValidationWrapperInternal extends React.Component<
     this.rootNode = getRootNode(element);
   };
 
-  public getRootNode = () => {
+  public getRootNode = (): Nullable<Element> => {
     return this.rootNode;
   };
 
@@ -189,7 +188,7 @@ export class ValidationWrapperInternal extends React.Component<
     return null;
   }
 
-  public processBlur() {
+  public processBlur(): Promise<void> {
     const touched = this.isChanging;
     this.isChanging = false;
     const validation = this.getOnBlurValidation(touched);

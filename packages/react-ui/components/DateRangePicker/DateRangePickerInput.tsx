@@ -50,7 +50,7 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
 
   const { isMobile } = useResponsiveLayout();
 
-  useImperativeHandle(ref, () => (isStart ? startRef.current : endRef.current), []);
+  useImperativeHandle<DateInput | null, DateInput | null>(ref, () => (isStart ? startRef.current : endRef.current), []);
 
   useEffect(() => {
     if (isStart && startValue !== props.value) {
@@ -97,11 +97,12 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
         setEndValue(value || '');
       }
     },
-    onClick: () => {
+    onClick: (e) => {
       if (props.disabled) {
         return;
       }
       open(props.type);
+      props.onClick?.(e);
     },
     onFocus: (e) => {
       open(props.type);

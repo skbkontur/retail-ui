@@ -1,7 +1,10 @@
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { isBrowser } from '../../lib/globalObject.js';
 
-export function getTextAreaHeight(globalObject: GlobalObject, params: GetTextAreaHeightParams) {
+export function getTextAreaHeight(
+  globalObject: GlobalObject,
+  params: GetTextAreaHeightParams,
+): { height: number; exceededMaxHeight: boolean } | null {
   if (!isBrowser(globalObject)) {
     return null;
   }

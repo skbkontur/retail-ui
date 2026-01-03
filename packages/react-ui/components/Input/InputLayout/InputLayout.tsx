@@ -6,6 +6,7 @@ import type { InputProps } from '../Input.js';
 import { InputDataTids } from '../Input.js';
 import type { CommonProps } from '../../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../../internal/CommonWrapper/index.js';
+import { mergeRefs } from '../../../lib/mergeRefs.js';
 
 import { InputLayoutAside } from './InputLayoutAside.js';
 import type { InputLayoutContextProps } from './InputLayoutContext.js';
@@ -15,7 +16,7 @@ import { getStylesLayout } from './InputLayout.styles.js';
 type InputLayoutRootFromInputProps = Pick<InputProps, 'leftIcon' | 'rightIcon' | 'prefix' | 'suffix'>;
 
 export interface InputLayoutRootProps extends InputLayoutRootFromInputProps, CommonProps {
-  labelProps: React.LabelHTMLAttributes<HTMLLabelElement>;
+  labelProps: React.LabelHTMLAttributes<HTMLLabelElement> & { ref?: React.Ref<HTMLLabelElement> };
   context: Partial<InputLayoutContextProps>;
   tag?: 'label' | 'span';
 }
@@ -29,7 +30,7 @@ export const InputLayout = forwardRefAndName<HTMLLabelElement, InputLayoutRootPr
   return (
     <InputLayoutContext.Provider value={_context}>
       <CommonWrapper {...props}>
-        <Tag ref={ref} data-tid={InputDataTids.root} {...labelProps}>
+        <Tag data-tid={InputDataTids.root} {...labelProps} ref={mergeRefs(ref, labelProps.ref)}>
           <InputLayoutAside icon={leftIcon} text={prefix} side="left" />
           <span className={stylesLayout.input()}>{children}</span>
           <InputLayoutAside icon={rightIcon} text={suffix} side="right" />

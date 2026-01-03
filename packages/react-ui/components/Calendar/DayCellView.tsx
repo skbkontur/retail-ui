@@ -16,7 +16,7 @@ export interface DayCellViewProps {
   date: DayCellViewModel;
 }
 
-export const DayCellView = (props: DayCellViewProps) => {
+export const DayCellView = (props: DayCellViewProps): React.JSX.Element => {
   const { date } = props;
   const { value, minDate, maxDate, isHoliday, renderDay, today, onDateClick } = useContext(CalendarContext);
   const styles = useStyles(getStyles);

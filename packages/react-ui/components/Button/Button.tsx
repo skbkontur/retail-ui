@@ -1,5 +1,6 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, JSX } from 'react';
 import React from 'react';
+import warning from 'warning';
 import type { Emotion } from '@emotion/css/create-instance';
 
 import type { GlobalObject } from '../../lib/globalObject.js';
@@ -20,6 +21,7 @@ import type { SizeProp } from '../../lib/types/props.js';
 import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { IconProps } from '../../internal/icons2022/BaseIcon.js';
 
 import { getStyles, getActiveStyles, globalClasses } from './Button.styles.js';
 import type { ButtonIconProps } from './ButtonIcon.js';
@@ -52,8 +54,10 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Убирает обводку у кнопки.
    *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.**
-   */
+   * **Не рекомендуем использовать, противоречит дизайн-требованиям.
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0.
+   *
+   * Альтернативный вариант использования — через переменную темы `btnBorderWidth` */
   borderless?: boolean;
 
   /** @ignore */
@@ -73,7 +77,7 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Переводит кнопку в состояние валидации "Ошибка".
    *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.** */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0. */
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
@@ -87,7 +91,9 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Сужает кнопку.
    *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.** */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0.
+   *
+   * Альтернативный вариант использования — через переменные темы `btnPaddingXSmall`, `btnPaddingXMedium`, `btnPaddingXLarge` */
   narrow?: boolean;
 
   /** Задаёт размер кнопки. */
@@ -108,9 +114,7 @@ export interface ButtonInnerProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /** Переводит кнопку в состояние валидации "Предупреждение".
-   *
-   * **Не рекомендуем использовать, противоречит дизайн-требованиям.**
-   */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0. */
   warning?: boolean;
 
   /** Задаёт ширину кнопки. */
@@ -186,10 +190,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       this.keyListener.isTabPressed = true;
       this.focus();
     }
-    // warning(
-    //   this.props.use !== 'link',
-    //   `[Button]: Use 'Link' has been deprecated. Please, use Link with 'component=button' prop instead.`,
-    // );
+    warning(
+      this.props.use !== 'link',
+      '[Button]: `use="link"` has been deprecated. Please, use `<Link component="button" />` instead.',
+    );
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
@@ -202,14 +206,14 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   /** Программно устанавливает фокус на кнопке. Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus() {
+  public focus(): void {
     this.node?.focus();
   }
 
   /** Программно снимает фокус с кнопки.
    * @public
    */
-  public blur() {
+  public blur(): void {
     this.node?.blur();
   }
 
@@ -439,9 +443,10 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   };
 
   private renderIcon2022(icon: React.ReactElement | undefined) {
-    if (icon && isKonturIcon(icon)) {
+    if (icon?.props && isKonturIcon(icon)) {
+      const iconProps = icon.props as IconProps;
       const sizes = getButtonIconSizes(this.theme);
-      return React.cloneElement(icon, { size: icon.props.size ?? sizes[this.size] });
+      return React.cloneElement(icon, { size: iconProps.size ?? sizes[this.size] } as IconProps);
     }
 
     return icon;

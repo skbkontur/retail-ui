@@ -125,17 +125,17 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   private contentRef = React.createRef<HTMLDivElement>();
   private menuNavigation: MenuNavigation<MenuItem> = new MenuNavigation(this.contentRef, MenuItemDataTids.content);
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     this.unmounted = true;
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.setInitialSelection();
     this.calculateMaxHeight();
     this.unmounted = false;
   }
 
-  public componentDidUpdate(prevProps: MenuProps) {
+  public componentDidUpdate(prevProps: MenuProps): void {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }
@@ -147,7 +147,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     }
   }
 
-  public focus() {
+  public focus(): void {
     this.focusOnRootElement();
   }
 
@@ -196,7 +196,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
   /**
    * @public
    */
-  public reset() {
+  public reset(): void {
     this.menuNavigation.reset();
   }
 
@@ -280,7 +280,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           [this.styles.wrapper()]: true,
           [this.styles.headerWrapper()]: true,
         })}
-        ref={(el) => (this.header = el)}
+        ref={(el) => {
+          this.header = el;
+        }}
       >
         <div className={this.styles.contentWrapper()}>{this.props.header}</div>
         <div className={this.styles.menuSeparatorWrapper(this.theme)}>
@@ -297,7 +299,9 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
           [this.styles.wrapper()]: true,
           [this.styles.footerWrapper()]: true,
         })}
-        ref={(el) => (this.footer = el)}
+        ref={(el) => {
+          this.footer = el;
+        }}
       >
         <div className={this.styles.menuSeparatorWrapper(this.theme)}>
           {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}

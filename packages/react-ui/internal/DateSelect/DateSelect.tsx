@@ -128,7 +128,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps> {
     );
   };
 
-  public close() {
+  public close(): void {
     this.selectRef.current?.close();
   }
 

@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext } from 'react';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { type CommonProps, CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 
 import type { TokenSize } from './Token.js';
@@ -17,7 +17,7 @@ export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   hideCloseButton?: boolean;
 }
 
-export function TokenView(props: TokenViewProps) {
+export const TokenView = forwardRef((props: TokenViewProps, ref: React.Ref<CommonWrapper<CommonProps>>) => {
   const { size = 'small', children, closeButton, hideCloseButton, className, ...rest } = props;
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);
@@ -38,7 +38,7 @@ export function TokenView(props: TokenViewProps) {
   );
 
   return (
-    <CommonWrapper {...props}>
+    <CommonWrapper {...props} ref={ref}>
       <div
         {...rest}
         className={cx(getSizeClassName(size), {
@@ -50,4 +50,4 @@ export function TokenView(props: TokenViewProps) {
       </div>
     </CommonWrapper>
   );
-}
+});

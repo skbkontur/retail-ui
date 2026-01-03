@@ -1,4 +1,4 @@
-import type { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
@@ -22,6 +22,8 @@ import { isTestEnv } from '../../lib/currentEnvironment.js';
 import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
 import { SidePageBody } from './SidePageBody.js';
@@ -100,9 +102,13 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
  */
 @withRenderEnvironment
+@rootNode
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
   public static displayName = 'SidePage';
+
+  public getRootNode!: TGetRootNode;
+  private setRootNode!: TSetRootNode;
 
   public static Header = SidePageHeader;
   public static Body = SidePageBody;
@@ -184,7 +190,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ResponsiveLayout>
         {({ isMobile }) => (
           <RenderContainer>
-            <CommonWrapper {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <ZIndex
                 priority={'Sidepage'}
                 onScroll={LayoutEvents.emit}

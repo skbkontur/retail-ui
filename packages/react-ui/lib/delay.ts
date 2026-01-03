@@ -1,1 +1,1 @@
-export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const delay = (ms: number): Promise<unknown> => new Promise((resolve) => setTimeout(resolve, ms));

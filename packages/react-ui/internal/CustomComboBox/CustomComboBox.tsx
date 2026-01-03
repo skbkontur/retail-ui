@@ -171,7 +171,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   /**
    * @public
    */
-  public blur = () => {
+  public blur = (): void => {
     if (this.props.disabled) {
       return;
     }
@@ -256,14 +256,14 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   /**
    * @public
    */
-  public open() {
+  public open(): void {
     this.dispatch({ type: 'Open' });
   }
 
   /**
    * @public
    */
-  public close() {
+  public close(): void {
     this.dispatch({ type: 'Close' });
   }
 
@@ -372,7 +372,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   /**
    * @public
    */
-  public reset() {
+  public reset(): void {
     this.dispatch({ type: 'Reset' });
   }
 

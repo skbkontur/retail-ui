@@ -66,22 +66,22 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     };
   }
 
-  public register(wrapper: ValidationWrapperInternal) {
+  public register(wrapper: ValidationWrapperInternal): void {
     this.childWrappers.push(wrapper);
   }
 
-  public unregister(wrapper: ValidationWrapperInternal) {
+  public unregister(wrapper: ValidationWrapperInternal): void {
     this.childWrappers.splice(this.childWrappers.indexOf(wrapper), 1);
     this.onValidationRemoved();
   }
 
-  public instanceProcessBlur(instance: ValidationWrapperInternal) {
+  public instanceProcessBlur(instance: ValidationWrapperInternal): void {
     for (const wrapper of this.childWrappers.filter((x) => x !== instance && !x.isIndependent())) {
       wrapper.processBlur();
     }
   }
 
-  public onValidationUpdated(wrapper: ValidationWrapperInternal, isValid?: boolean) {
+  public onValidationUpdated(wrapper: ValidationWrapperInternal, isValid?: boolean): void {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
       const isValidResult = !this.childWrappers.find((x) => {
@@ -102,7 +102,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return this.validationHasBeenCalled;
   }
 
-  public onValidationRemoved() {
+  public onValidationRemoved(): void {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
       const isValidResult = !this.childWrappers.find((x) => x.hasError());
@@ -168,7 +168,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   private renderChildren = (children: ValidationContextWrapperProps['children']) => {
     if (React.isValidElement(children)) {
-      return React.cloneElement(children as React.ReactElement, {
+      return React.cloneElement(children as React.ReactElement<ValidationContextWrapperProps>, {
         'data-tid': this.props['data-tid'],
       });
     }
@@ -176,7 +176,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return children;
   };
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ValidationContext.Provider value={this}>
         {this.renderChildren(<div style={{ display: 'inline' }}>{this.props.children}</div>)}

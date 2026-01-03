@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
 import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
 

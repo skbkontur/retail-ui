@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { forwardRef, useContext, useRef } from 'react';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ZIndex } from '../../internal/ZIndex/index.js';
@@ -25,60 +25,59 @@ export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
 
 export interface GlobalLoaderViewRef {
   element: HTMLDivElement;
-  refObject: React.RefObject<GlobalLoaderViewRef['element']>;
+  refObject: React.RefObject<GlobalLoaderViewRef['element'] | null>;
 }
 
-export const GlobalLoaderView = ({
-  expectedResponseTime,
-  delayBeforeHide,
-  status,
-  disableAnimations,
-  ...rest
-}: GlobalLoaderViewProps) => {
-  const ref = useRef<GlobalLoaderViewRef['element']>(null);
-  const theme = useContext(ThemeContext);
-  const { cx } = useEmotion();
-  const styles = useStyles(getStyles);
-  const animations = useStyles(getAnimations);
-  const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
-  const { left } = useGlobalLoaderPosition(ref);
+export const GlobalLoaderView = forwardRef(
+  (
+    { expectedResponseTime, delayBeforeHide, status, disableAnimations, ...rest }: GlobalLoaderViewProps,
+    externalRef: React.Ref<CommonWrapper<CommonProps>>,
+  ) => {
+    const ref = useRef<GlobalLoaderViewRef['element']>(null);
+    const theme = useContext(ThemeContext);
+    const { cx } = useEmotion();
+    const styles = useStyles(getStyles);
+    const animations = useStyles(getAnimations);
+    const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
+    const { left } = useGlobalLoaderPosition(ref);
 
-  const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
-    if (!disableAnimations) {
-      switch (status) {
-        case 'success':
-          return animations.successAnimation(delayBeforeHide, width, left);
-        case 'accept':
-          if (startWidth < fullWidth * 0.8) {
-            return animations.acceptAnimation(theme, startWidth, expectedResponseTime, width, left);
-          }
-          return animations.slowAcceptAnimation(theme, startWidth, width, left);
-        case 'error':
-          return animations.errorAnimation(theme);
-        case 'standard':
-          return animations.standardAnimation(theme, expectedResponseTime);
+    const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
+      if (!disableAnimations) {
+        switch (status) {
+          case 'success':
+            return animations.successAnimation(delayBeforeHide, width, left);
+          case 'accept':
+            if (startWidth < fullWidth * 0.8) {
+              return animations.acceptAnimation(theme, startWidth, expectedResponseTime, width, left);
+            }
+            return animations.slowAcceptAnimation(theme, startWidth, width, left);
+          case 'error':
+            return animations.errorAnimation(theme);
+          case 'standard':
+            return animations.standardAnimation(theme, expectedResponseTime);
+        }
       }
-    }
 
-    if (disableAnimations) {
-      switch (status) {
-        case 'success':
-          return styles.successWithoutAnimation();
-        case 'accept':
-          return animations.acceptWithoutAnimation(startWidth);
-        case 'error':
-          return styles.errorWithoutAnimation();
-        case 'standard':
-          return styles.standardWithoutAnimation();
+      if (disableAnimations) {
+        switch (status) {
+          case 'success':
+            return styles.successWithoutAnimation();
+          case 'accept':
+            return animations.acceptWithoutAnimation(startWidth);
+          case 'error':
+            return styles.errorWithoutAnimation();
+          case 'standard':
+            return styles.standardWithoutAnimation();
+        }
       }
-    }
-  };
+    };
 
-  return (
-    <CommonWrapper {...rest} data-status={status}>
-      <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
-        <div ref={ref} className={cx(styles.inner(theme), getAnimationClass(status))} />
-      </ZIndex>
-    </CommonWrapper>
-  );
-};
+    return (
+      <CommonWrapper {...rest} data-status={status} ref={externalRef}>
+        <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
+          <div ref={ref} className={cx(styles.inner(theme), getAnimationClass(status))} />
+        </ZIndex>
+      </CommonWrapper>
+    );
+  },
+);

@@ -9,7 +9,7 @@ import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEve
 
 export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
   customMediaQueries,
-}: ResponsiveLayoutOptions<T> = {}) {
+}: ResponsiveLayoutOptions<T> = {}): ResponsiveLayoutFlags<T> {
   const theme = useContext(ThemeContext);
   const globalObject = useGlobal();
 

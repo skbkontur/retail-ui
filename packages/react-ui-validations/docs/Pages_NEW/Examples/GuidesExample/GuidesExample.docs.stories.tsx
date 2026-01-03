@@ -4,7 +4,7 @@ import { Button } from '@skbkontur/react-ui/components/Button/index.js';
 import { Input } from '@skbkontur/react-ui/components/Input/index.js';
 import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/index.js';
 
-import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
 import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {

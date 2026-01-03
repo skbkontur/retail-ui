@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import React, { useState } from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -10,6 +10,9 @@ import { Token } from '../../Token/index.js';
 import { delay } from '../../../lib/utils.js';
 import { MenuItem } from '../../MenuItem/index.js';
 import { isTestEnv } from '../../../lib/currentEnvironment.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
+import { MenuFooter } from '../../MenuFooter/index.js';
 
 async function getItems(query: string) {
   if (!isTestEnv) {
@@ -416,3 +419,41 @@ export const WithItemToId: Story = () => {
 };
 WithItemToId.storyName = 'with item to id';
 WithItemToId.parameters = { creevey: { skip: true } };
+
+export const WithExtendedItem: Story = () => (
+  <TokenInput
+    autoFocus
+    getItems={async () => [
+      <MenuHeader>MenuHeader</MenuHeader>,
+      'First',
+      'Second',
+      <MenuSeparator />,
+      'Third',
+      'Fourth',
+      <MenuFooter>MenuFooter</MenuFooter>,
+    ]}
+  />
+);
+WithExtendedItem.storyName = 'with extended item';
+
+export const LotOfTokens: Story = () => {
+  return (
+    <Wrapper
+      onBlur={() => console.log('blur')}
+      maxHeight={200}
+      width={350}
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={Array(30)
+        .fill('')
+        .map(
+          (t, i1) =>
+            i1 +
+            Array(5 + (i1 % 10))
+              .fill('')
+              .map((_, i2) => i2)
+              .join(''),
+        )}
+    />
+  );
+};

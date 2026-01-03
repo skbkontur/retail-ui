@@ -9,10 +9,11 @@ export interface FileUploaderControlContextProps {
   setFiles: (files: FileUploaderAttachedFile[]) => void;
   removeFile: (fileId: string) => void;
   reset: () => void;
-  isMinLengthReached: boolean;
-  setIsMinLengthReached: (value: boolean) => void;
-
-  setFileValidationResult: (fileId: string, validationResult: FileUploaderFileValidationResult) => void;
+  setFileValidationResult: (
+    fileId: string,
+    validationResult: FileUploaderFileValidationResult,
+    status?: FileUploaderFileStatus,
+  ) => void;
 }
 
 export const FileUploaderControlContext = React.createContext({} as FileUploaderControlContextProps);

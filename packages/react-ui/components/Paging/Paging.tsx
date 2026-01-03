@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 import warning from 'warning';
 
@@ -182,7 +182,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     this.removeGlobalListener();
   }
 
-  public render() {
+  public render(): React.JSX.Element | null {
     if (this.props.pagesCount < 2) {
       return null;
     }

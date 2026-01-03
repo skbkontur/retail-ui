@@ -53,7 +53,7 @@ export class Center extends React.Component<CenterProps> {
   private cx!: Emotion['cx'];
   private styles!: ReturnType<typeof getStyles>;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

@@ -29,7 +29,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationWrapper';
   public static displayName = 'ValidationWrapper';
 
-  public render() {
+  public render(): React.JSX.Element {
     const { children, validationInfo, renderMessage, 'data-tid': datTid } = this.props;
     const validation: Nullable<Validation> = validationInfo
       ? {

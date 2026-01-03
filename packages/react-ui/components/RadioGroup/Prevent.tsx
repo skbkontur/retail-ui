@@ -5,7 +5,7 @@ export interface PreventProps {
 }
 
 export class Prevent extends React.Component<PreventProps> {
-  public render() {
+  public render(): React.JSX.Element {
     return <span onClick={this._prevent}>{this.props.children}</span>;
   }
 

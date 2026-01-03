@@ -1,5 +1,5 @@
 export class DayCellViewModel {
-  public static create(date: number, month: number, year: number, isWeekend: boolean) {
+  public static create(date: number, month: number, year: number, isWeekend: boolean): DayCellViewModel {
     return new DayCellViewModel(date, month, year, isWeekend);
   }
 

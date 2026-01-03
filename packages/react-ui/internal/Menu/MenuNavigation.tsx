@@ -9,14 +9,14 @@ interface Highlightable {
 }
 
 export class MenuNavigation<T extends Highlightable> {
-  private readonly root: RefObject<HTMLDivElement> | null;
+  private readonly root: RefObject<HTMLDivElement | null> | null;
   private readonly itemsContentDataTid: string;
   private tagsAndItems: WeakMap<Element, T> = new WeakMap();
 
   public highlightedItem: T | null = null;
   public items: T[] = [];
 
-  constructor(root: RefObject<HTMLDivElement> | null, itemsContentDataTid: string) {
+  constructor(root: RefObject<HTMLDivElement | null> | null, itemsContentDataTid: string) {
     this.root = root;
     this.itemsContentDataTid = itemsContentDataTid;
   }
@@ -98,7 +98,7 @@ export class MenuNavigation<T extends Highlightable> {
     return false;
   }
 
-  public reset() {
+  public reset(): void {
     this.highlight(null);
     this.highlightedItem = null;
   }

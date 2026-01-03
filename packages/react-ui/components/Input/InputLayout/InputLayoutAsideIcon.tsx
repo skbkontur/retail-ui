@@ -1,4 +1,3 @@
-import type { ReactElement } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 
@@ -7,9 +6,11 @@ import { isKonturIcon } from '../../../lib/utils.js';
 import type { InputProps } from '../Input.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../../lib/types/props.js';
+import type { IconProps } from '../../../internal/icons2022/BaseIcon.js';
 
 import { InputLayoutContext } from './InputLayoutContext.js';
 import { getStylesLayout } from './InputLayout.styles.js';
+
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   side: 'left' | 'right';
@@ -33,8 +34,11 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
   };
 
   let _icon = icon instanceof Function ? icon() : icon;
-  if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
-    _icon = React.cloneElement(icon as ReactElement, { size: icon.props.size ?? sizes[size] });
+  if (isElement(icon) && isKonturIcon(icon)) {
+    const iconProps = icon.props as IconProps;
+    _icon = React.cloneElement(icon, {
+      size: iconProps.size ?? sizes[size],
+    } as IconProps);
   }
 
   const style: React.CSSProperties = {};

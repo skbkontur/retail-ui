@@ -3,7 +3,7 @@ import type { ThemeValidations } from '../../typings/theme-context.js';
 
 export const DEFAULT_TEXT_COLOR = '#d43517';
 
-export function getValidationTextColor(theme: ThemeValidations, level: ValidationLevel = 'error') {
+export function getValidationTextColor(theme: ThemeValidations, level: ValidationLevel = 'error'): string {
   return (
     (level === 'warning' ? theme.validationsTextColorWarning : theme.validationsTextColorError) || DEFAULT_TEXT_COLOR
   );

@@ -28,19 +28,19 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Переводит контрол в состояние валидации "ошибка". */
+        /** Меняет визуальное отображение поля на состояние «ошибка». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
         error?: boolean;
 
-        /** Переводит контрол в состояние валидации "предупреждение". */
+        /** Меняет визуальное отображение поля на состояние «предупреждение». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
         warning?: boolean;
 
-        /** Задает размер. */
+        /** Размер радиокнопки. */
         size?: SizeProp;
 
-        /** Задает состояние фокуса. */
+        /** Задаёт состояние фокуса. */
         focused?: boolean;
 
-        /** Задает функцию, которая вызывается при изменении value. */
+        /** Задаёт функцию, которая вызывается при изменении `value`. */
         onValueChange?: (value: T) => void;
 
         /** Задает HTML-событие `onmouseenter`.
@@ -55,7 +55,7 @@ export interface RadioProps<T>
          * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Устанавливает значение. */
+        /** Задаёт значение. */
         value: T;
       }
     > {}
@@ -70,8 +70,9 @@ export const RadioDataTids = {
 
 type DefaultProps = Required<Pick<RadioProps<any>, 'focused'>>;
 
-/**
- * Радио-кнопки `Radio` используются, когда может быть выбран только один вариант из нескольких.
+/** Радиокнопка позволяет выбрать одно значение из нескольких. Подходит при небольшом количестве вариантов — 2–5.
+ *
+ * Для создания группы радиокнопок используйте специальный контейнер — компонент [RadioGroup](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs).
  */
 @withRenderEnvironment
 @rootNode
@@ -144,7 +145,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     this.keyListener = new KeyListener(this.globalObject);
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -161,22 +162,22 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     );
   }
 
-  /**
+  /** Программно устанавливает фокус на радиокнопку. Появляется фокусная обводка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus() {
+  public focus(): void {
     this.keyListener.isTabPressed = true;
     this.inputEl.current?.focus();
   }
 
-  /**
+  /** Программно снимает фокус с радиокнопки.
    * @public
    */
-  public blur() {
+  public blur(): void {
     this.inputEl.current?.blur();
   }
 
-  public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>) => {
+  public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>): React.JSX.Element => {
     const {
       disabled = this.context.disabled,
       warning = this.context.warning,

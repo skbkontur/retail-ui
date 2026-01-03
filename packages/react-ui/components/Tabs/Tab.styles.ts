@@ -2,7 +2,6 @@ import type { Emotion } from '@emotion/css/create-instance';
 
 import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
 import { shift } from '../../lib/styles/DimensionFunctions.js';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import type { SizeProp } from '../../lib/types/props.js';
 
@@ -69,14 +68,9 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => ({
 
   disabled(t: Theme) {
     return emotion.css`
-        color: rgba(
-          ${ColorFunctions.red(t.tabTextColorDefault)},
-          ${ColorFunctions.green(t.tabTextColorDefault)},
-          ${ColorFunctions.blue(t.tabTextColorDefault)},
-          0.5
-        );
-        cursor: default;
-      `;
+      color: color-mix(in srgb, ${t.tabTextColorDefault}, transparent 50%);
+      cursor: default;
+    `;
   },
 
   active() {

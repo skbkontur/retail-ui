@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import throttle from 'lodash.throttle';
 import type { Emotion } from '@emotion/css/create-instance';
 
@@ -98,7 +98,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     this.update();
   }, 5);
 
-  public update = () => {
+  public update = (): void => {
     this.sticky?.reflow();
   };
 
@@ -115,7 +115,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     );
   }
 
-  public getStickyProp() {
+  public getStickyProp(): boolean {
     if (typeof this.props.sticky !== 'undefined') {
       return this.props.sticky;
     }

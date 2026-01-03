@@ -150,7 +150,7 @@ export class CurrencyHelper {
     return result;
   }
 
-  public static isValidString(value: string, options: DecimalOptions) {
+  public static isValidString(value: string, options: DecimalOptions): boolean {
     const unformattedValue = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(unformattedValue);
 
@@ -207,7 +207,13 @@ export class CurrencyHelper {
     return '';
   }
 
-  public static destructString(value: string) {
+  public static destructString(value: string): {
+    sign: string;
+    integer: string;
+    delimiter: string;
+    fraction: string;
+    exponent: string;
+  } | null {
     const match = /^(-)?(\d*)?(\.)?(\d*)?(e)?([-+]?\d+)?$/.exec(value);
     if (!match) {
       return null;

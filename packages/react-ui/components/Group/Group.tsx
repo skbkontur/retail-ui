@@ -117,7 +117,7 @@ export class Group extends React.Component<GroupProps> {
   private cx!: Emotion['cx'];
   private styles!: ReturnType<typeof getStyles>;
 
-  public render() {
+  public render(): React.JSX.Element {
     const style: React.CSSProperties = {
       width: this.props.width,
     };

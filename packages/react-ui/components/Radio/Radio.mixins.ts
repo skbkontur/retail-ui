@@ -1,7 +1,7 @@
 import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation.js';
 import { isChrome, isFirefox } from '../../lib/client.js';
 
-export const radioSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, radioSize: string) => {
+export const radioSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, radioSize: string): string => {
   return `
     font-size: ${fontSize};
     line-height: ${lineHeight};
@@ -18,7 +18,7 @@ export const circleSizeMixin = (
   radioSize: string,
   radioBorderWidthCompensation: string,
   radioCircleOffsetY: string,
-) => {
+): string => {
   const labGrotesqueCompenstation = parseInt(labGrotesqueBaselineCompensation);
   const radioFontSize = parseInt(fontSize);
 
@@ -38,7 +38,7 @@ export const circleSizeMixin = (
   `;
 };
 
-export const radioCheckedMixin = (bulletSize: string) => {
+export const radioCheckedMixin = (bulletSize: string): string => {
   return `
     &::before {
       height: ${bulletSize};
@@ -47,7 +47,7 @@ export const radioCheckedMixin = (bulletSize: string) => {
   `;
 };
 
-export const afterOutlineMixin = (radioOutlineWidth: string) => {
+export const afterOutlineMixin = (radioOutlineWidth: string): string => {
   return `
     content: ' ';
     position: absolute;
@@ -62,7 +62,7 @@ export const afterOutlineMixin = (radioOutlineWidth: string) => {
   `;
 };
 
-export const outlineColorMixin = (shadow: string, borderColor: string) => {
+export const outlineColorMixin = (shadow: string, borderColor: string): string => {
   return `
     box-shadow: ${shadow};
     border-color: ${borderColor};

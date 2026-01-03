@@ -28,7 +28,7 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationTooltip';
   public static displayName = 'ValidationTooltip';
 
-  public render() {
+  public render(): React.JSX.Element {
     const { children, pos, error, render, ...rest } = this.props;
 
     const onlyChild = React.Children.only(children);

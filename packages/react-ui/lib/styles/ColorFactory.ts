@@ -16,7 +16,7 @@ const HSL_REGEX =
 const HEX_REGEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/;
 
 export class ColorFactory {
-  public static create(input: string) {
+  public static create(input: string): ColorObject {
     if (!this.cache[input]) {
       this.cache[input] = Object.freeze(this.instantiate(input));
     }

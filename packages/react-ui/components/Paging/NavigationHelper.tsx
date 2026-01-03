@@ -21,6 +21,6 @@ const createKeyDescription = () =>
 
 const keyDescription: Nullable<KeyDescriptionType> = createKeyDescription();
 
-export const getKeyName = () => keyDescription.name;
-export const checkKeyPressed = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) =>
+export const getKeyName = (): string => keyDescription.name;
+export const checkKeyPressed = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>): boolean =>
   keyDescription.checkPressed(event);

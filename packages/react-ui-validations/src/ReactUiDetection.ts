@@ -1,49 +1,53 @@
 import type { ReactElement } from 'react';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/Tooltip.js';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext.js';
+import { getRootNode } from '@skbkontur/react-ui/lib/rootNode/getRootNode.js';
 
 import { isNonNullable } from '../src/utils/isNonNullable/isNonNullable.js';
 
-export { Tooltip, ThemeContext };
-
+export { Tooltip, ThemeContext, getRootNode };
+interface KonturUIElementForDetection {
+  type: { __KONTUR_REACT_UI__: string };
+}
 export class ReactUiDetection {
-  public static checkType(element: any, type: string) {
-    return isNonNullable(element) && element.type?.__KONTUR_REACT_UI__ === type;
+  public static checkType(element: unknown, type: string): element is KonturUIElementForDetection {
+    const el = element as KonturUIElementForDetection;
+    return isNonNullable(element) && el.type?.__KONTUR_REACT_UI__ === type;
   }
 
-  public static isDatePicker(element: any): boolean {
+  public static isDatePicker(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'DatePicker');
   }
 
-  public static isRadioGroup(element: any): boolean {
+  public static isRadioGroup(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'RadioGroup');
   }
 
-  public static isTokenInput(element: any): boolean {
+  public static isTokenInput(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'TokenInput');
   }
 
-  public static isSwitcher(element: any): boolean {
+  public static isSwitcher(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'Switcher');
   }
 
-  public static isComboBox(element: any): boolean {
+  public static isComboBox(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'ComboBox');
   }
 
-  public static isRadio(element: any): boolean {
+  public static isRadio(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'Radio');
   }
 
-  public static isCheckBox(element: any): boolean {
+  public static isCheckBox(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'Checkbox');
   }
 
-  public static isToggle(element: any): boolean {
+  public static isToggle(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'Toggle');
   }
 
-  public static isSelect(element: any): boolean {
+  public static isSelect(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'Select');
   }
 

@@ -1,15 +1,18 @@
 import React from 'react';
 
-import { iconSizer } from '../../internal/icons2022/iconSizer.js';
-import { NetUploadIcon16Light } from '../../internal/icons2022/NetUploadIcon/NetUploadIcon16Light.js';
-import { NetUploadIcon20Light } from '../../internal/icons2022/NetUploadIcon/NetUploadIcon20Light.js';
-import { NetUploadIcon24Regular } from '../../internal/icons2022/NetUploadIcon/NetUploadIcon24Regular.js';
+import type { FileUploaderView } from '../../internal/FileUploaderControl/fileUtils.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-export const UploadIcon = iconSizer(
-  {
-    small: () => <NetUploadIcon16Light />,
-    medium: () => <NetUploadIcon20Light />,
-    large: () => <NetUploadIcon24Regular />,
-  },
-  'UploadIcon',
-);
+import { UploadIcon as TileUploadIcon } from './icons/TileUploadIcon.js';
+import { UploadIcon as RowUploadIcon } from './icons/RowUploadIcon.js';
+
+interface UploadIconProps {
+  size: SizeProp;
+  view?: FileUploaderView;
+}
+
+export const UploadIcon = (props: UploadIconProps): React.JSX.Element => {
+  const { size, view = 'row' } = props;
+
+  return view === 'row' ? <RowUploadIcon size={size} /> : <TileUploadIcon size={size} />;
+};

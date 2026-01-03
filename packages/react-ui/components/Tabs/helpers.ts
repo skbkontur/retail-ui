@@ -1,19 +1,19 @@
 import type { Theme } from '../../lib/theming/Theme.js';
 import type { SizeProp } from '../../lib/types/props.js';
 
-export function fontSize(t: Theme, size: SizeProp) {
+export function fontSize(t: Theme, size: SizeProp): string {
   return mapSize(size, t.tabFontSizeSmall, t.tabFontSizeMedium, t.tabFontSizeLarge);
 }
 
-export function lineHeight(t: Theme, size: SizeProp) {
+export function lineHeight(t: Theme, size: SizeProp): string {
   return mapSize(size, t.tabLineHeightSmall, t.tabLineHeightMedium, t.tabLineHeightLarge);
 }
 
-export function paddingX(t: Theme, size: SizeProp) {
+export function paddingX(t: Theme, size: SizeProp): string {
   return mapSize(size, t.tabPaddingXSmall, t.tabPaddingXMedium, t.tabPaddingXLarge);
 }
 
-export function paddingY(t: Theme, size: SizeProp) {
+export function paddingY(t: Theme, size: SizeProp): string {
   return mapSize(size, t.tabPaddingYSmall, t.tabPaddingYMedium, t.tabPaddingYLarge);
 }
 

@@ -158,7 +158,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   private readonly locale!: DatePickerLocale;
   private canOpenPopup = true;
 
-  public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
+  public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}): boolean => {
     if (!value) {
       return false;
     }
@@ -217,7 +217,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     if (this.input) {
       this.input.blur();
     }
@@ -227,7 +227,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   /**
    * @public
    */
-  public focus(opts?: { withoutOpenDropdown?: boolean }) {
+  public focus(opts?: { withoutOpenDropdown?: boolean }): void {
     if (this.props.disabled) {
       return;
     }
@@ -245,11 +245,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
    * Закрывает выпадашку выбора дня
    * @public
    */
-  public close() {
+  public close(): void {
     this.setState({ opened: false });
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -269,7 +269,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
+  public renderMain = (props: CommonWrapperRestProps<DatePickerProps>): React.JSX.Element => {
     let picker = null;
 
     const { minDate, maxDate, menuPos, menuAlign } = this.getProps();
@@ -412,7 +412,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
     );
   }
 
-  public getParent = () => {
+  public getParent = (): Nullable<Element> => {
     return getRootNode(this);
   };
 

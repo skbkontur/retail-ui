@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { render } from '@testing-library/react';
 
 import type { Nullable } from '../../../typings/utility-types.js';
@@ -7,7 +6,7 @@ import { callChildRef } from '../../../lib/callChildRef/callChildRef.js';
 import { getRootNode } from '../getRootNode.js';
 import type { InstanceWithRootNode } from '../rootNodeDecorator.js';
 
-const getInstance = (element: React.ReactElement): React.ReactInstance | null => {
+const getInstance = (element: React.ReactElement<any>): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;
   const refCallback = (instance: React.ReactInstance) => {
     const originalRef = (element as React.RefAttributes<any>).ref as React.RefCallback<any>;
@@ -87,14 +86,6 @@ describe('getRootNode', () => {
       expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
-    it('HTMLElement for class component without rootNode', () => {
-      class ClassComponentWithRootNode extends React.Component {
-        render = () => <div />;
-      }
-      const instance = getInstance(<ClassComponentWithRootNode />);
-      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
-    });
-
     it('HTMLElement for class component with rootNode that returns HTMLElement', () => {
       class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
         rootNode: Nullable<HTMLDivElement>;
@@ -103,15 +94,6 @@ describe('getRootNode', () => {
         };
         getRootNode = () => this.rootNode;
         render = () => <div ref={this.rootRef} />;
-      }
-      const instance = getInstance(<ClassComponentWithRootNode />);
-      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
-    });
-
-    it('HTMLElement for class component with rootNode that returns undefined', () => {
-      class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
-        getRootNode = () => undefined;
-        render = () => <div />;
       }
       const instance = getInstance(<ClassComponentWithRootNode />);
       expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
@@ -135,84 +117,6 @@ describe('getRootNode', () => {
       render(<ClassComponentWithRootNode />);
 
       expect(rootNode).toBeNull();
-    });
-  });
-
-  describe('findDOMNode', () => {
-    beforeEach(() => {
-      (findDOMNode as ReturnType<typeof vi.fn>).mockClear();
-    });
-
-    describe('should not be called for', () => {
-      it('null instance', () => {
-        getRootNode(null);
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-
-      it('undefined instance', () => {
-        getRootNode(undefined);
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-
-      it('HTMLElement instance', () => {
-        getRootNode(document.createElement('div'));
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-
-      it('intrinsic element', () => {
-        getRootNode(getInstance(<div />));
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-
-      it('functional component with forwardRef', () => {
-        const FC = React.forwardRef<HTMLDivElement>(function FC(_, ref) {
-          return <div ref={ref} />;
-        });
-        getRootNode(getInstance(<FC />));
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-
-      it('class component with rootNode that returns HTMLElement', () => {
-        class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
-          rootNode: Nullable<HTMLDivElement>;
-          rootRef = (instance: HTMLDivElement | null) => {
-            this.rootNode = instance;
-          };
-          getRootNode = () => this.rootNode;
-          render = () => <div ref={this.rootRef} />;
-        }
-        getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-
-      it('class component with rootNode that returns null', () => {
-        class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
-          getRootNode = () => null;
-          render = () => <div />;
-        }
-        getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('should be called for', () => {
-      it('class component without rootNode', () => {
-        class ClassComponentWithRootNode extends React.Component {
-          render = () => <div />;
-        }
-        getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).toHaveBeenCalled();
-      });
-
-      it('class component with rootNode that returns undefined', () => {
-        class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
-          getRootNode = () => undefined;
-          render = () => <div />;
-        }
-
-        getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).toHaveBeenCalled();
-      });
     });
   });
 });

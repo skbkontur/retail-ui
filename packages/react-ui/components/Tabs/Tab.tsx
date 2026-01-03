@@ -137,7 +137,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
     this.horizontalStyles = getHorizontalStyles(this.emotion);
     this.verticalStyles = getVerticalStyles(this.emotion);
@@ -152,7 +152,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     );
   }
 
-  public getIndicators() {
+  public getIndicators(): TabIndicators {
     return {
       error: Boolean(this.props.error),
       warning: Boolean(this.props.warning),
@@ -162,7 +162,9 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     };
   }
 
-  public getUnderlyingNode = () => this.tabComponent;
+  public getUnderlyingNode(): Nullable<React.ReactElement<Tab<T>>> {
+    return this.tabComponent;
+  }
 
   private renderMain() {
     const {

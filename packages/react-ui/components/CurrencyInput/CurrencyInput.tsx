@@ -130,7 +130,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
         {this.renderMain}
@@ -138,7 +138,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
+  public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>): React.JSX.Element => {
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
 
     return (
@@ -171,7 +171,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
    * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus = () => {
+  public focus = (): void => {
     if (this.input) {
       this.input.focus();
     }
@@ -180,7 +180,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   /** Программно снимает фокус с кнопки.
    * @public
    */
-  public blur = () => {
+  public blur = (): void => {
     if (this.input) {
       this.input.blur();
     }

@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState, useLayoutEffect, type AriaAttributes } from 'react';
+import React, { type AriaAttributes, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { MobilePopup } from '../../internal/MobilePopup/index.js';
@@ -14,6 +14,7 @@ import { DateInput } from '../DateInput/index.js';
 import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison.js';
 import type { DatePickerProps } from '../DatePicker/index.js';
 import { ZIndex } from '../../internal/ZIndex/index.js';
+import type { InstanceWithRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode } from '../../lib/rootNode/index.js';
 import { getMenuPositions } from '../../lib/getMenuPositions.js';
 import { Button } from '../Button/index.js';
@@ -83,6 +84,14 @@ export interface DateRangePickerProps
   children: React.ReactNode;
 }
 
+export interface DateRangePickerRef extends InstanceWithRootNode {
+  open: (inputType?: DateRangePickerInputType) => void;
+  close: () => void;
+  scrollToMonth: (month: number, year: number) => void;
+}
+
+export type DateRangePicker = DateRangePickerRef;
+
 export const DateRangePicker = Object.assign(
   {
     Start: DateRangePickerStart,
@@ -90,7 +99,7 @@ export const DateRangePicker = Object.assign(
     Separator: DateRangePickerSeparator,
     validate: validateDateRangePicker,
   },
-  forwardRefAndName('DateRangePicker', (props: DateRangePickerProps, ref) => {
+  forwardRefAndName<DateRangePickerRef, DateRangePickerProps>('DateRangePicker', (props: DateRangePickerProps, ref) => {
     const { css, cx } = useEmotion();
     const styles = useStyles(getStyles);
     const { isMobile } = useResponsiveLayout();
@@ -175,7 +184,9 @@ export const DateRangePicker = Object.assign(
       () => ({
         open,
         close,
-        scrollToMonth: calendarRef.current?.scrollToMonth,
+        scrollToMonth: (month, year) => {
+          calendarRef.current?.scrollToMonth?.(month, year);
+        },
         getRootNode: () => dateRangePickerRef.current,
       }),
       [],
@@ -467,7 +478,7 @@ export const DateRangePicker = Object.assign(
     function renderCalendarRange(
       props: CalendarDayProps,
       t: Theme,
-      renderDayFn: ((props: CalendarDayProps) => React.ReactElement) | undefined,
+      renderDayFn: ((props: CalendarDayProps) => React.ReactElement<unknown>) | undefined,
     ) {
       const day = props.date;
 

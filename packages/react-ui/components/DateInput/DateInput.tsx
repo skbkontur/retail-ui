@@ -171,7 +171,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     !this.props.disabled && this.selectNode();
   }
 
-  public selectNode = () => {
+  public selectNode = (): void => {
     const type = this.state.selected;
     const dateFragmentsView = this.dateFragmentsView && this.dateFragmentsView.getRootNode();
     if (type === null || !this.inputLikeText || !dateFragmentsView) {
@@ -194,25 +194,25 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   }
 
-  public blur() {
+  public blur(): void {
     if (this.inputLikeText) {
       this.inputLikeText.blur();
     }
   }
 
-  public focus() {
+  public focus(): void {
     if (this.inputLikeText) {
       this.inputLikeText.focus();
     }
   }
 
-  public blink() {
+  public blink(): void {
     if (this.inputLikeText) {
       this.inputLikeText.blink();
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

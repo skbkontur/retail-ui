@@ -42,7 +42,7 @@ export class TaskWithDelayAndMinimalDuration {
     this.timeoutBeforeTaskStop = null;
   };
 
-  public start = () => {
+  public start = (): void => {
     if (this.isTaskActive) {
       return;
     }
@@ -60,11 +60,11 @@ export class TaskWithDelayAndMinimalDuration {
     this.setTimeoutBeforeTaskStart();
   };
 
-  public update = (updateData: Partial<TaskWithDelayAndMinimalDurationProps>) => {
+  public update = (updateData: Partial<TaskWithDelayAndMinimalDurationProps>): void => {
     this.taskParams = { ...this.taskParams, ...updateData };
   };
 
-  public stop = () => {
+  public stop = (): void => {
     if (!this.isTaskActive) {
       return;
     }
@@ -80,7 +80,7 @@ export class TaskWithDelayAndMinimalDuration {
     }
   };
 
-  public clearTask = () => {
+  public clearTask = (): void => {
     this.isTaskActive = false;
     this.clearTimeoutBeforeTaskStart();
     this.clearTimeoutBeforeTaskStop();

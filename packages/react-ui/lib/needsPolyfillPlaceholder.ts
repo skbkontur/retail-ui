@@ -1,6 +1,6 @@
 import { getSafeWindow } from '../lib/globalObject.js';
 
-const needsPolyfillPlaceholderInternal = () => {
+const needsPolyfillPlaceholderInternal = (): boolean => {
   const globalObject = getSafeWindow();
   if (globalObject.document) {
     const supportsPlaceholder = 'placeholder' in globalObject.document.createElement('input');

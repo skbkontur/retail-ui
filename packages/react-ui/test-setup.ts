@@ -18,7 +18,6 @@ vi.mock('react-dom', async () => {
   const actual = await vi.importActual('react-dom');
   return {
     ...actual,
-    findDOMNode: vi.fn(actual.findDOMNode as unknown as () => void),
   };
 });
 

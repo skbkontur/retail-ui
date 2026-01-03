@@ -7,7 +7,6 @@ const config: StorybookConfig = {
     '../.storybook-docs/**/*.stories.tsx',
     '../.storybook-docs/**/*.mdx',
     '../components/**/*.mdx',
-    '../**/*.mdx',
   ],
   docs: {
     docsMode: true,
@@ -21,12 +20,8 @@ const config: StorybookConfig = {
     },
     '@skbkontur/storybook-addon-live-examples',
   ],
-  framework: {
-    name: '@storybook/react-webpack5',
-    options: {
-      legacyRootApi: Number(process?.env?.REACT_VERSION || 17) < 18,
-    },
-  },
+  framework: '@storybook/react-webpack5',
+
   core: {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,

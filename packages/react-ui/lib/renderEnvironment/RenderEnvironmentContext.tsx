@@ -34,7 +34,7 @@ export const RenderEnvironmentProvider: React.FC<RenderEnvironmentProviderProps>
 
 export const useGlobal = (): GlobalObject => useContext(RenderEnvironmentContext).globalObject;
 export const useEmotion = (): Emotion => useContext(RenderEnvironmentContext).emotion;
-export const useStyles = <T,>(getStyles: (emotion: Emotion) => T) => {
+export const useStyles = <T,>(getStyles: (emotion: Emotion) => T): T => {
   const emotion = useEmotion();
   return getStyles(emotion);
 };

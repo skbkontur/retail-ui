@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
@@ -24,7 +24,7 @@ export interface ModalBodyProps extends CommonProps {
 }
 
 /**
- * ModalBody - контейнер с отступами от края модалки.
+ * Контейнер с отступами для содержимого модального окна.
  *
  * @visibleName Modal.Body
  */
@@ -44,7 +44,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

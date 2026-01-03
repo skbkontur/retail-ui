@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 import type { Emotion } from '@emotion/css/create-instance';
@@ -102,7 +102,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   /**
    * @public
    */
-  public focus() {
+  public focus(): void {
     if (this.node) {
       this.node.focus();
     }
@@ -111,7 +111,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   /**
    * @public
    */
-  public blur() {
+  public blur(): void {
     if (this.node) {
       this.node.blur();
     }

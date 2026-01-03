@@ -27,7 +27,9 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
  * @param RFC Functional component wrapped in forwardRefAndName.
  * @returns Class component that wraps Functional component.
  */
-export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
+export function withClassWrapper<T, P>(
+  RFC: ReactUIComponentWithRef<T, P>,
+): React.ComponentClass<P> & { FC: ReactUIComponentWithRef<T, P> } {
   const fullName = getDisplayName(RFC);
   const nameWithoutPostfix = removePostfix(fullName, /FC$/);
 

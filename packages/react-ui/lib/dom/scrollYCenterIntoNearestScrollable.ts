@@ -2,7 +2,7 @@ import { getOwnerGlobalObject, isBrowser } from '../../lib/globalObject.js';
 
 import { getParentOrShadowHost } from './getParentOrShadowHost.js';
 
-export function scrollYCenterIntoNearestScrollable(element: HTMLElement) {
+export function scrollYCenterIntoNearestScrollable(element: HTMLElement): void {
   const globalObject = getOwnerGlobalObject(element);
   if (!isBrowser(globalObject)) {
     return;
@@ -26,7 +26,7 @@ export function scrollYCenterIntoNearestScrollable(element: HTMLElement) {
   }
 }
 
-export function findNearestScrollableParent(element: HTMLElement) {
+export function findNearestScrollableParent(element: HTMLElement): Element | undefined {
   const globalObject = getOwnerGlobalObject(element);
   if (!isBrowser(globalObject)) {
     return;

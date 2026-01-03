@@ -16,7 +16,7 @@ export interface ModalSeparatorProps extends CommonProps {
  *
  * @visibleName Modal.Separator
  */
-export function ModalSeparator({ fixed }: ModalSeparatorProps) {
+export function ModalSeparator({ fixed }: ModalSeparatorProps): React.JSX.Element {
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

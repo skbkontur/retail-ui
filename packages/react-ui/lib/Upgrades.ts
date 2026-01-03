@@ -8,11 +8,11 @@ let canModifySpecificityClassName = true;
 
 //TODO Delete Upgrade in major release if it still doesn't work (https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui/MIGRATION.md)
 export const Upgrade = {
-  getSpecificityLevel() {
+  getSpecificityLevel(): number {
     canModifySpecificityLevel = false;
     return specificityLevel;
   },
-  setSpecificityLevel(level: number) {
+  setSpecificityLevel(level: number): void {
     warning(
       false,
       "setSpecificityLevel doesn't work. For more information please visit https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md",
@@ -23,11 +23,11 @@ export const Upgrade = {
       warning(false, `specificityLevel=${specificityLevel} уже использован`);
     }
   },
-  getSpecificityClassName() {
+  getSpecificityClassName(): string {
     canModifySpecificityClassName = false;
     return specificityClassName;
   },
-  setSpecificityClassName(className: string) {
+  setSpecificityClassName(className: string): void {
     if (canModifySpecificityClassName) {
       specificityClassName = className;
     } else {

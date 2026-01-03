@@ -11,7 +11,7 @@ const ColorFunctionsCache: { [key: string]: string } = Object.create(null);
 
 const buildCacheKey = (name: string, ...args: any[]) => `${name}(${args.join()})`;
 
-const shiftColor = (colorString: string, a: number | string, sign: SignType, method?: MethodType) => {
+const shiftColor = (colorString: string, a: number | string, sign: SignType, method?: MethodType): string => {
   if (!colorString) {
     return '';
   }
@@ -48,7 +48,7 @@ const shiftColor = (colorString: string, a: number | string, sign: SignType, met
   return newColor.toColorString(color.type);
 };
 
-export function lighten(colorString: string, amount: number | string, method?: MethodType) {
+export function lighten(colorString: string, amount: number | string, method?: MethodType): string {
   const key = buildCacheKey('lighten', colorString, amount, method);
   if (ColorFunctionsCache[key] === undefined) {
     ColorFunctionsCache[key] = shiftColor(colorString, amount, '+', method);
@@ -56,7 +56,7 @@ export function lighten(colorString: string, amount: number | string, method?: M
   }
   return ColorFunctionsCache[key];
 }
-export function darken(colorString: string, amount: number | string, method?: MethodType) {
+export function darken(colorString: string, amount: number | string, method?: MethodType): string {
   const key = buildCacheKey('darken', colorString, amount, method);
   if (ColorFunctionsCache[key] === undefined) {
     ColorFunctionsCache[key] = shiftColor(colorString, amount, '-', method);
@@ -65,7 +65,7 @@ export function darken(colorString: string, amount: number | string, method?: Me
 
   return ColorFunctionsCache[key];
 }
-export function contrast(colorString: string, darkString?: string, lightString?: string, threshold = 0.43) {
+export function contrast(colorString: string, darkString?: string, lightString?: string, threshold = 0.43): string {
   const key = buildCacheKey('contrast', colorString, darkString, lightString, threshold);
   if (!colorString) {
     ColorFunctionsCache[key] = '';
@@ -89,23 +89,23 @@ export function contrast(colorString: string, darkString?: string, lightString?:
   return ColorFunctionsCache[key];
 }
 
-export const red = (colorString: string) => {
+export const red = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.rgb[0];
 };
-export const green = (colorString: string) => {
+export const green = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.rgb[1];
 };
-export const blue = (colorString: string) => {
+export const blue = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.rgb[2];
 };
-export const alpha = (colorString: string) => {
+export const alpha = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.alpha;
 };
-export const isValid = (colorString: string) => {
+export const isValid = (colorString: string): boolean => {
   try {
     ColorFactory.create(colorString);
     return true;
@@ -113,7 +113,7 @@ export const isValid = (colorString: string) => {
     return false;
   }
 };
-export const fade = (colorString: string, alpha: number) => {
+export const fade = (colorString: string, alpha: number): string => {
   const key = buildCacheKey('fade', colorString, alpha);
 
   if (ColorFunctionsCache[key] === undefined) {

@@ -1,4 +1,4 @@
-import type { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 
 import { filterProps } from '../../lib/filterProps.js';
@@ -50,7 +50,7 @@ export interface DropdownProps
   caption: React.ReactNode;
 
   /** Добавляет иконку слева от текста кнопки. */
-  icon?: React.ReactElement<any>;
+  icon?: React.ReactElement;
 
   /** Задает ширину выпадающего меню. */
   width?: React.CSSProperties['width'];
@@ -138,7 +138,7 @@ export class Dropdown extends React.Component<DropdownProps> {
   private setRootNode!: TSetRootNode;
   private theme!: Theme;
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -149,7 +149,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     );
   }
 
-  public renderMain = () => {
+  public renderMain = (): React.JSX.Element => {
     const { caption, icon, ...rest } = this.props;
     const items = React.Children.map(this.props.children, (item) => item) || [];
 
@@ -171,7 +171,7 @@ export class Dropdown extends React.Component<DropdownProps> {
   /**
    * @public
    */
-  public open() {
+  public open(): void {
     if (this._select) {
       this._select.open();
     }
@@ -180,7 +180,7 @@ export class Dropdown extends React.Component<DropdownProps> {
   /**
    * @public
    */
-  public close() {
+  public close(): void {
     if (this._select) {
       this._select.close();
     }

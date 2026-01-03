@@ -118,7 +118,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     this._clearTimer();
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -170,7 +170,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   /**
    * @public
    */
-  public close = () => {
+  public close = (): void => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
     this.setState({ notification: null, action: null });
   };

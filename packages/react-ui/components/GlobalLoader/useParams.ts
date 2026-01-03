@@ -11,7 +11,7 @@ import type { GlobalLoaderViewProps, GlobalLoaderViewRef } from './GlobalLoaderV
  * @returns - возвращает положение полоски `GlobalLoader`
  */
 
-export const useGlobalLoaderPosition = (ref: GlobalLoaderViewRef['refObject']) => {
+export const useGlobalLoaderPosition = (ref: GlobalLoaderViewRef['refObject']): { left: number } => {
   const { left } = getDOMRect(ref);
   return { left };
 };
@@ -27,7 +27,7 @@ export const useGlobalLoaderPosition = (ref: GlobalLoaderViewRef['refObject']) =
 export const useGlobalLoaderWidth = (
   status: GlobalLoaderViewProps['status'],
   ref: GlobalLoaderViewRef['refObject'],
-) => {
+): { width: number; startWidth: number; fullWidth: number } => {
   const { width } = getDOMRect(ref);
   const [startWidth, setStartWidth] = useState(0);
   const fullWidth = ref.current?.parentElement?.offsetWidth || 0;

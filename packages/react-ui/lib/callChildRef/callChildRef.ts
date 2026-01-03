@@ -5,7 +5,7 @@ import type { Nullable } from '../../typings/utility-types.js';
 export const callChildRef = (
   componentRef: React.RefCallback<any> | React.RefObject<any>,
   instance: Nullable<React.ReactInstance>,
-) => {
+): void => {
   if (!componentRef) {
     return;
   }

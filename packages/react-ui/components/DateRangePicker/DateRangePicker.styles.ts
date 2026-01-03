@@ -109,7 +109,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   },
 }));
 
-export function getFontSize(t: Theme, size?: SizeProp) {
+export function getFontSize(t: Theme, size?: SizeProp): string {
   switch (size) {
     case 'large':
       return t.fontSizeLarge;

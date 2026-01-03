@@ -5,6 +5,8 @@ import { Checkbox } from '../Checkbox.js';
 import { Gapped } from '../../Gapped/index.js';
 import type { Nullable } from '../../../typings/utility-types.js';
 import type { SizeProp } from '../../../lib/types/props.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 
 interface PlainCheckboxState {
   checked: false;
@@ -194,7 +196,13 @@ export const ProgrammaticFocus = () => {
 
   return (
     <div>
-      <Checkbox ref={(el) => (checkbox = el)}>Label</Checkbox>
+      <Checkbox
+        ref={(el) => {
+          checkbox = el;
+        }}
+      >
+        Label
+      </Checkbox>
       <Gapped>
         <button onClick={focus}>Focus</button>
         <button onClick={blur}>Blur</button>
@@ -248,3 +256,21 @@ export const Size: Story = () => {
   );
 };
 Size.storyName = 'size';
+
+export const CustomHoverSize: Story = () => {
+  return (
+    <Gapped vertical>
+      <Checkbox size="small" style={{ padding: 24, outline: '1px solid black' }} />
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxPaddingXSmall: '24px' })}>
+        <Checkbox size="small" style={{ outline: '1px solid black' }} />
+      </ThemeContext.Provider>
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxPaddingXMedium: '24px' })}>
+        <Checkbox size="medium" style={{ outline: '1px solid black' }} />
+      </ThemeContext.Provider>
+      <ThemeContext.Provider value={ThemeFactory.create({ checkboxPaddingXLarge: '24px' })}>
+        <Checkbox size="large" style={{ outline: '1px solid black' }} />
+      </ThemeContext.Provider>
+    </Gapped>
+  );
+};
+CustomHoverSize.storyName = 'custom hover size';

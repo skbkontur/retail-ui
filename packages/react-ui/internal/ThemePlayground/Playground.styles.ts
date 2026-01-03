@@ -29,6 +29,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   sidePageBody() {
     return css`
       padding: 0 30px 30px;
+      overflow-x: hidden;
     `;
   },
 

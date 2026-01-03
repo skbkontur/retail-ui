@@ -138,14 +138,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   /**
    * @public
    */
-  public focus = () => {
+  public focus = (): void => {
     if (this.input) {
       this.keyListener.isTabPressed = true;
       this.input.focus();
     }
   };
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

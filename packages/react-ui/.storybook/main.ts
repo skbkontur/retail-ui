@@ -5,6 +5,7 @@ const config: StorybookConfig = {
   docs: {
     docsMode: false,
   },
+
   addons: [
     'creevey',
     '@storybook/addon-links',
@@ -16,19 +17,22 @@ const config: StorybookConfig = {
       },
     },
   ],
+
   framework: {
     name: '@storybook/react-webpack5',
     options: {
       strictMode: process?.env?.STRICT_MODE === 'true',
       fastRefresh: true,
-      // Флаг нужен только для регулярных прогонов, чтобы скриншоты проходили с установленным реакт 18 в репе
-      // Для версионного прогона убираем, реакт гонялися по честному как есть
-      ...(process?.env?.REACT_VERSION ? {} : { legacyRootApi: true }),
     },
   },
+
   core: {
     disableWhatsNewNotifications: true,
     disableTelemetry: true,
+  },
+
+  typescript: {
+    reactDocgen: false,
   },
 };
 

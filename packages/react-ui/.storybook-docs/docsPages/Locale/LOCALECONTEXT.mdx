@@ -28,13 +28,17 @@ enum LangCodes {
 
 ```typescript static
 interface LocaleControls {
-  Autocomplete?: AutocompleteLocale;
-  Spinner?: SpinnerLocale;
-  TokenInput?: TokenInputLocale;
-  ComboBox?: ComboBoxLocale;
-  Select?: SelectLocale;
-  Paging?: PagingLocale;
-  DatePicker?: DatePickerLocale;
+  [key: string]: any;
+  TokenInput?: Partial<TokenInputLocale>;
+  Token?: Partial<TokenLocale>;
+  ComboBox?: Partial<ComboBoxLocale>;
+  Select?: Partial<SelectLocale>;
+  Paging?: Partial<PagingLocale>;
+  DatePicker?: Partial<DatePickerLocale>;
+  Calendar?: Partial<CalendarLocale>;
+  FileUploader?: Partial<FileUploaderLocale>;
+  PasswordInput?: Partial<PasswordInputLocale>;
+  SidePage?: Partial<SidePageLocale>;
 }
 ```
 

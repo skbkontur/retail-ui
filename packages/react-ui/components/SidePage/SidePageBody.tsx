@@ -45,7 +45,7 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
     this.context.updateLayout();
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (

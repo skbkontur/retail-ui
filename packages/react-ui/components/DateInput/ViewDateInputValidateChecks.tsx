@@ -13,7 +13,7 @@ interface DateInputValidateChecksProps {
 }
 
 export class ViewDateInputValidateChecks extends React.Component<DateInputValidateChecksProps> {
-  public render() {
+  public render(): React.JSX.Element {
     const internalDate = new InternalDate();
     internalDate.parseInternalValue(this.props.value);
     internalDate.setRangeStart(this.props.minDate ? new InternalDate().parseInternalValue(this.props.minDate) : null);

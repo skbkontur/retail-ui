@@ -13,7 +13,7 @@ import { getStyles } from './Modal.styles.js';
 import { ModalDataTids } from './Modal.js';
 import { ModalLocaleHelper } from './locale/index.js';
 
-export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
+export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps): React.JSX.Element {
   const locale = useLocaleForControl('Modal', ModalLocaleHelper);
   const globalObject = useGlobal();
   const { cx } = useEmotion();

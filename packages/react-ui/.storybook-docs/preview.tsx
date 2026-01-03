@@ -14,6 +14,7 @@ import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regu
 import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light.js';
 import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light.js';
 import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light.js';
+import { SettingsGearIcon20Regular } from '@skbkontur/icons/SettingsGearIcon20Regular.js';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers.js';
 import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities.js';
 import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities.js';
@@ -69,7 +70,10 @@ import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup.js';
 import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme.js';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme.js';
 import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions.js';
+import { createFile } from '../internal/FileUploaderControl/fileUtils.js';
 import { emit } from '../lib/LayoutEvents.js';
+import { ThemeContextPlayground } from '../internal/ThemePlayground/ThemeContextPlayground.js';
+import { isNullable } from '../lib/utils.js';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator.js';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator.js';
@@ -188,6 +192,16 @@ export const globalTypes = {
     description: 'React UI Feature flags',
     defaultValue: [],
   },
+  brand: {
+    name: 'Brand',
+    description: 'Brand color',
+    defaultValue: 'red',
+  },
+  accent: {
+    name: 'Accent',
+    description: 'Accent',
+    defaultValue: 'gray',
+  },
 };
 
 addons.setConfig({
@@ -195,6 +209,7 @@ addons.setConfig({
     scope: {
       ...ReactUi,
       ...ReactUiValidations,
+      createFile,
       DatePickerHelpers,
       cities,
       getCities,
@@ -204,6 +219,7 @@ addons.setConfig({
       isGreaterOrEqual,
       isLess,
       isLessOrEqual,
+      isNullable,
       ViewDateInputValidateChecks,
       ArrowUiCornerOutUpRightIcon,
       UiMenuBars3HIcon16Regular,
@@ -248,9 +264,11 @@ addons.setConfig({
       WeatherMoonIcon16Light,
       WeatherSunIcon16Light,
       SecurityLockClosedIcon20Light,
+      SettingsGearIcon20Regular,
       DocPlusIcon16Light,
       ShowcaseGroup,
       ThemeContext,
+      ThemeContextPlayground,
       ThemeFactory,
       ALL_LIGHT_THEMES,
       ALL_DARK_THEMES,

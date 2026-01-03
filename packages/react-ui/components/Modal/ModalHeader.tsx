@@ -14,14 +14,14 @@ import { ModalContext } from './ModalContext.js';
 import { ModalSeparator } from './ModalSeparator.js';
 
 export interface ModalHeaderProps extends CommonProps {
-  /** Закрепляет хедер сверху модального окна. */
+  /** Закрепляет заголовок модального окна при скролле длинной контент-зоны. */
   sticky?: boolean;
 
   /** @ignore */
   children?: ReactNode;
 
   /**
-   * Обрезает длинный заголовок при «залипании» шапки.
+   * Обрезает длинный заголовок. Работает с пропом `sticky`.
    * @default false
    */
   cutTitleOnStuck?: boolean;
@@ -32,11 +32,11 @@ export const ModalHeaderDataTids = {
 } as const;
 
 /**
- * Шапка модального окна.
+ * Шапка модального окна, состоит из заголовка и крестика закрытия.
  *
  * @visibleName Modal.Header
  */
-function ModalHeader(props: ModalHeaderProps) {
+function ModalHeader(props: ModalHeaderProps): React.JSX.Element {
   const theme = useContext(ThemeContext);
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

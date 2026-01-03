@@ -101,9 +101,9 @@ ExampleAlign.storyName = 'Выравнивание текста';
  * Если не передавать текст кнопки, будет отображаться кнопка-иконка. Для кнопки-иконки есть рекомендации по соблюдению доступности, изучите раздел <a href="#доступность" target="-_self"> Доступность </a>.
  *
  * Под разный размер кнопок используйте подходящие начертания и размер иконок:
- * - Small — 16Light
- * - Medium — 20Light
- * - Large — 24Regular
+ * - Small — Light 16
+ * - Medium — Light 20
+ * - Large — Regular 24
  */
 export const ExampleIcon: Story = () => {
   return (
@@ -190,7 +190,7 @@ export const ExampleLoading: Story = () => {
 };
 ExampleLoading.storyName = 'Состояние загрузки';
 
-/** Проп `disabled` переводит кнопку в состояние блокировки. Кнопка меняет цвет на серый и становится недоступна для нажатия. */
+/** Проп `disabled` блокирует кнопку. Кнопка меняет цвет на серый и становится недоступна для нажатия. */
 export const ExampleDisabled: Story = () => {
   return <Button disabled>Кнопка</Button>;
 };

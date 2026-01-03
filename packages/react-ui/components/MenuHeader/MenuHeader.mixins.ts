@@ -4,7 +4,7 @@ export const menuHeaderSizeMixin = (
   menuHeaderLineHeight: string,
   menuHeaderPaddingTop: string,
   menuHeaderPaddingBottom: string,
-) => {
+): string => {
   const paddingRight = menuHeaderPaddingX;
 
   return `
@@ -14,7 +14,7 @@ export const menuHeaderSizeMixin = (
   `;
 };
 
-export const withIconSizeMixin = (menuItemPaddingForIcon: string) => {
+export const withIconSizeMixin = (menuItemPaddingForIcon: string): string => {
   return `
     padding-left: ${menuItemPaddingForIcon};
   `;

@@ -71,7 +71,7 @@ export interface CalendarProps extends CommonProps {
    * @default (props: CalendarDayProps) => <CalendarDay {...props} />
    * @param {CalendarDayProps} props - параметры дня.
    * @returns {ReactElement} элемент, который отрисовывает контент числа месяца. */
-  renderDay?: (props: CalendarDayProps) => React.ReactElement;
+  renderDay?: (props: CalendarDayProps) => React.ReactElement<unknown>;
 
   /** Задает функцию, которая вызывается при каждом изменении месяца.
    * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
@@ -195,7 +195,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
     this.animation = animation(this.globalObject);
 
@@ -213,7 +213,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
    * Прокручивает календарь до переданной даты
    * @public
    */
-  public scrollToMonth = async (month: number, year: number) => {
+  public scrollToMonth = async (month: number, year: number): Promise<void> => {
     const monthNative = CalendarUtils.getMonthInNativeFormat(month);
 
     if (this.animation.inProgress()) {

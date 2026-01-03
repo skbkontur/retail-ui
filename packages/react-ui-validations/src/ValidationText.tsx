@@ -13,7 +13,12 @@ export interface ValidationTextProps {
   'data-tid'?: string;
 }
 
-export const ValidationText = ({ pos, children, validation, 'data-tid': dataTid }: ValidationTextProps) => {
+export const ValidationText = ({
+  pos,
+  children,
+  validation,
+  'data-tid': dataTid,
+}: ValidationTextProps): React.JSX.Element => {
   const theme = useContext(ThemeContext);
   const color = getValidationTextColor(theme, validation?.level);
 

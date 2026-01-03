@@ -52,7 +52,7 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
   /**
    * @public
    */
-  public focus = () => {
+  public focus = (): void => {
     if (this.input) {
       this.input.focus();
     }

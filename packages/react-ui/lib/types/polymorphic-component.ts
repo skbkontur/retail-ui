@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { JSX } from 'react';
 
 import type { Merge } from '../../typings/utility-types.js';
 
@@ -24,7 +25,9 @@ export type PolymorphicPropsWithRef<P, T extends React.ElementType> = Merge<
 type PolymorphicExoticComponent<P = Record<string, unknown>, T extends React.ElementType = React.ElementType> = Merge<
   React.ExoticComponent<P & { [key: string]: unknown }>,
   {
-    <InstanceT extends React.ElementType = T>(props: PolymorphicPropsWithRef<P, InstanceT>): React.ReactElement | null;
+    <InstanceT extends React.ElementType = T>(
+      props: PolymorphicPropsWithRef<P, InstanceT>,
+    ): React.ReactElement<any> | null;
   }
 >;
 

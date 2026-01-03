@@ -20,7 +20,9 @@ interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
 /**
  * Компонент `ResponsiveLayout` для определения текущего лэйаута.
  */
-export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(props: ResponsiveLayoutProps<T>) {
+export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(
+  props: ResponsiveLayoutProps<T>,
+): React.JSX.Element {
   const layoutFlags = useResponsiveLayout<T>({ customMediaQueries: props.customMediaQueries });
 
   useEffect(() => {

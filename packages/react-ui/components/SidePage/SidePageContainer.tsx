@@ -39,7 +39,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -52,7 +52,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
     );
   }
 
-  public renderMain() {
+  public renderMain(): React.JSX.Element {
     return (
       <SidePageContext.Consumer>
         {({ hasHeader, hasFooter, hasPanel }) => (

@@ -11,6 +11,8 @@ import { useControlLocale } from './hooks/useControlLocale.js';
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
 
 export interface FileUploaderControlProviderProps {
+  /** Начальное состояние загруженных файлов */
+  initialFiles?: File[];
   /** Срабатывает при выборе файлов */
   onAttach?: (files: FileUploaderAttachedFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
@@ -42,85 +44,87 @@ const updateFile = (
   return newFiles;
 };
 
-export const FileUploaderControlProvider = (
-  props: PropsWithChildren<
-    FileUploaderControlProviderProps & {
-      initialFiles?: File[];
-      multiple?: boolean;
-    }
-  >,
-) => {
-  const { initialFiles, multiple, children, onValueChange, onRemove, onAttach } = props;
+export const FileUploaderControlProvider = React.memo(
+  (
+    props: PropsWithChildren<
+      FileUploaderControlProviderProps & {
+        multiple?: boolean;
+      }
+    >,
+  ) => {
+    const { initialFiles, multiple, children, onValueChange, onRemove, onAttach } = props;
 
-  const [files, setFiles] = useState<FileUploaderAttachedFile[]>(() => {
-    if (initialFiles && initialFiles.length > 0) {
-      const attachedFiles = initialFiles.map(getAttachedFile);
-      return multiple ? attachedFiles : [attachedFiles[0]];
-    }
-    return [];
-  });
-  const [isMinLengthReached, setIsMinLengthReached] = useState<boolean>(false);
-  const locale = useControlLocale();
+    const [files, setFiles] = useState<FileUploaderAttachedFile[]>(() => {
+      if (initialFiles && initialFiles.length > 0) {
+        const attachedFiles = initialFiles.map((item: File) => getAttachedFile(item));
 
-  useEffectWithoutInitCall(() => {
-    onValueChange?.(files);
-  }, [files]);
+        return multiple ? attachedFiles : [attachedFiles[0]];
+      }
+      return [];
+    });
+    const locale = useControlLocale();
 
-  const setFileStatus = useCallback(
-    (fileId: string, status: FileUploaderFileStatus) => {
-      setFiles((files) =>
-        updateFile(files, fileId, (file) => ({
-          status,
-          validationResult:
-            status === FileUploaderFileStatus.Error
-              ? FileUploaderFileValidationResult.error(locale.requestErrorText)
-              : file.validationResult,
-        })),
-      );
-    },
-    [locale],
-  );
+    useEffectWithoutInitCall(() => {
+      onValueChange?.(files);
+    }, [files]);
 
-  const handleExternalSetFiles = useCallback(
-    (files: FileUploaderAttachedFile[]) => {
-      onAttach?.(files);
-      setFiles((state) => [...state, ...files]);
-    },
-    [onAttach],
-  );
+    const setFileStatus = useCallback(
+      (fileId: string, status: FileUploaderFileStatus) => {
+        setFiles((files) =>
+          updateFile(files, fileId, (file) => ({
+            status,
+            validationResult:
+              status === FileUploaderFileStatus.Error || status === FileUploaderFileStatus.Warning
+                ? FileUploaderFileValidationResult.error(locale.requestErrorText)
+                : file.validationResult,
+          })),
+        );
+      },
+      [locale],
+    );
 
-  const removeFile = useCallback(
-    (fileId: string) => {
-      onRemove?.(fileId);
-      setFiles((state) => state.filter((file) => file.id !== fileId));
-    },
-    [onRemove],
-  );
+    const handleExternalSetFiles = useCallback(
+      (files: FileUploaderAttachedFile[]) => {
+        onAttach?.(files);
+        setFiles((state) => [...state, ...files]);
+      },
+      [onAttach],
+    );
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
-    setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
-  }, []);
+    const removeFile = useCallback(
+      (fileId: string) => {
+        onRemove?.(fileId);
+        setFiles((state) => state.filter((file) => file.id !== fileId));
+      },
+      [onRemove],
+    );
 
-  const reset = React.useCallback(() => {
-    setFiles(() => [] as FileUploaderAttachedFile[]);
-  }, []);
+    const setFileValidationResult = useCallback(
+      (fileId: string, validationResult: FileUploaderFileValidationResult, status?: FileUploaderFileStatus) => {
+        setFiles((files) => updateFile(files, fileId, () => ({ validationResult, status })));
+      },
+      [],
+    );
 
-  return (
-    <FileUploaderControlContext.Provider
-      value={useMemoObject({
-        setFileStatus,
-        files,
-        setFiles: handleExternalSetFiles,
-        removeFile,
-        setFileValidationResult,
-        reset,
-        isMinLengthReached,
-        setIsMinLengthReached,
-      })}
-    >
-      {children}
-    </FileUploaderControlContext.Provider>
-  );
-};
+    const reset = React.useCallback(() => {
+      setFiles(() => [] as FileUploaderAttachedFile[]);
+    }, []);
+
+    return (
+      <FileUploaderControlContext.Provider
+        value={useMemoObject({
+          setFileStatus,
+          files,
+          setFiles: handleExternalSetFiles,
+          removeFile,
+          setFileValidationResult,
+          reset,
+        })}
+      >
+        {children}
+      </FileUploaderControlContext.Provider>
+    );
+  },
+);
 
 FileUploaderControlProvider.displayName = 'FileUploaderControlProvider';

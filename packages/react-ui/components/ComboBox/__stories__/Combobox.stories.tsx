@@ -208,7 +208,9 @@ export const OpenCloseSearchMethods = () => {
   return (
     <div>
       <ComboBox
-        ref={(e) => (combobox = e)}
+        ref={(e) => {
+          combobox = e;
+        }}
         value={items[0]}
         getItems={search}
         renderItem={(i) => i.name}
@@ -423,7 +425,7 @@ class SimpleCombobox extends React.Component<
     );
   }
 
-  public open() {
+  public open(): void {
     if (this.comboBoxRef.current) {
       this.comboBoxRef.current.open();
     }
@@ -675,7 +677,9 @@ class ComboBoxWithExternalValue extends React.Component {
         onValueChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
-        ref={(element) => (this.combobox = element)}
+        ref={(element) => {
+          this.combobox = element;
+        }}
       />
       <Button data-tid="setValueBtn" onClick={this.fill}>
         Set `First`
@@ -941,7 +945,14 @@ export const WithMenuAlignAndMenuPos: Story = () => {
     { menuAlign: 'left', disablePortal: true },
   ];
   const renderSelect = (props: Partial<ComboBoxProps<unknown>>) => (
-    <ComboBox ref={(el) => el?.search('')} width={100} getItems={async () => []} {...props} />
+    <ComboBox
+      ref={(el) => {
+        el?.search('');
+      }}
+      width={100}
+      getItems={async () => []}
+      {...props}
+    />
   );
 
   return (
@@ -1082,3 +1093,31 @@ export const MultilineEditingComboboxStory: Story = () => {
   );
 };
 MultilineEditingComboboxStory.storyName = 'multiline editing combobox';
+
+export const LongValueKeyboardSelection = () => (
+  <ComboBox
+    width={200}
+    getItems={async () => [
+      {
+        value: 1,
+        label: 'long-long-long-long-long-long-long-long-long-long-long-long label',
+      },
+      { value: 2, label: 'short label' },
+    ]}
+  />
+);
+
+export const MultilineLongValueKeyboardSelection = () => (
+  <ComboBox
+    width={150}
+    getItems={async () => [
+      {
+        value: 1,
+        label:
+          'long-long-long-long-long-long-long-long-long-long-long-long long-long-long-long-long-long-long-long-long-long-long-long long-long-long-long-long-long-long-long-long-long-long-long long-long-long-long-long-long-long-long-long-long-long-long label',
+      },
+      { value: 2, label: 'short label' },
+    ]}
+    viewMode="multiline"
+  />
+);

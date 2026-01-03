@@ -11,7 +11,7 @@ export const buttonUseMixin = (
   color: string,
   borderColor: string,
   borderWidth: string,
-) => {
+): string => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return `
     background-color: ${hasGradient ? `initial` : btnBackground};
@@ -35,7 +35,7 @@ export const buttonHoverMixin = (
   color: string,
   borderColor: string,
   borderWidth: string,
-) => {
+): string => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return `
     background-color: ${hasGradient ? `initial` : btnBackground};
@@ -50,7 +50,7 @@ export const buttonActiveMixin = (
   btnShadow: string,
   borderColor: string,
   borderWidth: string,
-) => {
+): string => {
   return `
     &,
     &:hover {
@@ -65,7 +65,7 @@ export const buttonActiveMixin = (
   `;
 };
 
-export const buttonSizeMixin = (fontSize: string, lineHeight: string, paddingX: string, paddingY: string) => {
+export const buttonSizeMixin = (fontSize: string, lineHeight: string, paddingX: string, paddingY: string): string => {
   return `
     font-size: ${fontSize};
     box-sizing: border-box;

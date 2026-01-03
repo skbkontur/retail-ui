@@ -3,7 +3,7 @@ export const getLabGrotesqueBaselineCompensation = (
   compensation: number,
   isChrome: boolean,
   isFirefox: boolean,
-) => {
+): number => {
   if (fontSize < 16 && !isChrome) {
     return compensation;
   } else if ((fontSize === 16 && isChrome) || (fontSize === 18 && (isFirefox || isChrome))) {

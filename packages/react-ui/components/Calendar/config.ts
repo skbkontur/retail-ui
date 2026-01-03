@@ -29,7 +29,7 @@ const getConfig = memo(
   },
 );
 
-export const themeConfig = (t: Theme) =>
+export const themeConfig = (t: Theme): ReturnType<typeof getConfig> =>
   getConfig(
     t.calendarMonthTitleLineHeight,
     t.calendarMonthTitlePaddingTop,

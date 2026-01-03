@@ -55,7 +55,9 @@ export const FixedIMaskInput = forwardRefAndName(
       }
     }, []);
 
-    useImperativeHandle(ref, () => imaskRef.current, []);
+    useImperativeHandle<typeof imaskRef.current, typeof imaskRef.current>(ref, () => imaskRef.current, [
+      imaskRef.current,
+    ]);
 
     return (
       <IMaskInput

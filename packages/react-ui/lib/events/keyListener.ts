@@ -20,7 +20,7 @@ export class KeyListener {
   }
 }
 
-export function useKeyListener() {
+export function useKeyListener(): KeyListener {
   const globalObject = useGlobal();
   return useMemo(() => new KeyListener(globalObject), [globalObject]);
 }

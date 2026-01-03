@@ -1,6 +1,6 @@
-import React, { useImperativeHandle, useRef, useState, useEffect, useContext } from 'react';
-import type { IMaskInputProps } from '@skbkontur/react-imask';
 import type { Ref } from 'react';
+import React, { useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import type { IMaskInputProps } from '@skbkontur/react-imask';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
@@ -9,7 +9,7 @@ import { Input } from '../Input/index.js';
 import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 
-import { globalClasses, getStyles } from './MaskedInput.styles.js';
+import { getStyles, globalClasses } from './MaskedInput.styles.js';
 import { getDefinitions, getMaskChar } from './MaskedInput.helpers.js';
 import { ColorableInputElement } from './ColorableInputElement/index.js';
 import { FixedIMaskInput } from './FixedIMaskInput.js';
@@ -128,7 +128,7 @@ export const MaskedInput = forwardRefAndName(
     const prevValue = useRef<string>(props.value || String(props.defaultValue) || '');
     const prevSelectionStart = useRef<number | null>(null);
 
-    useImperativeHandle(
+    useImperativeHandle<typeof inputRef.current, typeof inputRef.current>(
       ref,
       () =>
         inputRef.current &&

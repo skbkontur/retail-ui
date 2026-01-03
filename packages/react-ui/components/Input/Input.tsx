@@ -1,6 +1,6 @@
 // TODO: Enable this rule in functional components.
 import invariant from 'invariant';
-import type { AriaAttributes, ClassAttributes, HTMLAttributes, ReactElement } from 'react';
+import type { AriaAttributes, ClassAttributes, HTMLAttributes, JSX, ReactElement } from 'react';
 import React, { createRef } from 'react';
 import warning from 'warning';
 import type { Emotion } from '@emotion/css/create-instance';
@@ -35,7 +35,7 @@ export type InputType = (typeof inputTypes)[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export const selectionAllowedTypes: InputType[] = ['text', 'password', 'tel', 'search', 'url'];
-export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[] = selectionAllowedTypes) => {
+export const selectionErrorMessage = (type: InputType, allowedTypes: InputType[] = selectionAllowedTypes): string => {
   return `<Input />. Selection is not supported by the type "${type}". Types that support selection: ${allowedTypes
     .map((i) => `"${i}"`)
     .join(', ')}. Reason: https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange.`;
@@ -102,7 +102,7 @@ export interface InputProps
          */
         size?: SizeProp;
 
-        /** Задаёт функцию, которая вызывается при изменении значения в поле ввода. */
+        /** Задаёт функцию, которая вызывается при изменении значения `value` в поле. */
         onValueChange?: (value: string) => void;
 
         /** @ignore */
@@ -120,16 +120,13 @@ export interface InputProps
         /** Задаёт значение внутри поля. */
         value?: string;
 
-        /** @deprecated Со следующей мажорной версии Input перестанет поддерживать проп `capture`. */
-        capture?: boolean;
-
         /** Устанавливает префикс `ReactNode` перед значением, но после иконки. */
         prefix?: React.ReactNode;
 
         /** Устанавливает суффикс `ReactNode` после значения, но перед правой иконкой. */
         suffix?: React.ReactNode;
 
-        /** Выделяет введенное значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
+        /** Выделяет введённое значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
         selectAllOnFocus?: boolean;
 
         /** Устанавливает обработчик на случай некорректного ввода.
@@ -230,15 +227,15 @@ export class Input extends React.Component<InputProps, InputState> {
    * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus() {
+  public focus(): void {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
     this.input.focus();
   }
 
-  /** Программно снимает фокус с кнопки.
+  /** Программно снимает фокус с поля.
    * @public
    */
-  public blur() {
+  public blur(): void {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input.blur();
   }
@@ -246,23 +243,24 @@ export class Input extends React.Component<InputProps, InputState> {
   /** Возвращает DOM-узел поля ввода.
    * @public
    */
-  public getNode() {
+  public getNode(): HTMLInputElement | null {
     return this.input;
   }
 
   /** Кратковременно визуально подсвечивает поле ввода, чтобы привлечь внимание пользователя.
    * @public
    */
-  public blink() {
+  public blink(): void {
     blink({ el: this.labelRef.current, blinkColor: this.theme.inputBlinkColor });
   }
 
   /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
+   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
    * @param {number} start
    * @param {number} end
    */
-  public setSelectionRange(start: number, end: number) {
+  public setSelectionRange(start: number, end: number): void {
     // https://github.com/facebook/react/issues/7769
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
     if (!selectionAllowedTypes.includes(this.getProps().type)) {
@@ -301,9 +299,8 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст.
-   * Работает с типами `text`, `password`, `tel`, `search`, `url`
-   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
+   * Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст в нём.
+   * Работает с типами `text`, `password`, `tel`, `search`, `url`.
    * @public
    */
   public selectAll = (): void => this._selectAll();

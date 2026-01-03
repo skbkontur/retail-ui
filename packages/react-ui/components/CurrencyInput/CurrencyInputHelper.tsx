@@ -26,7 +26,7 @@ export class CurrencyInputHelper {
     return selection.end;
   }
 
-  public static extendSelection(value: string, selection: Selection, step: number) {
+  public static extendSelection(value: string, selection: Selection, step: number): Selection {
     const info = CurrencyHelper.getInfo(value);
     return CursorHelper.extendSelection(info.cursorMap, selection, step);
   }
@@ -36,7 +36,13 @@ export class CurrencyInputHelper {
     return CursorHelper.normalizeSelection(info.cursorMap, selection);
   }
 
-  public static safeInsert(value: string, start: number, end: number, input: string, options: DecimalOptions) {
+  public static safeInsert(
+    value: string,
+    start: number,
+    end: number,
+    input: string,
+    options: DecimalOptions,
+  ): { value: string; position: number } | null {
     if (input && start === 0 && end === value.length) {
       const extracted = CurrencyHelper.extractValid(input, options);
       if (!extracted) {
@@ -55,7 +61,12 @@ export class CurrencyInputHelper {
     return null;
   }
 
-  public static insert(value: string, start: number, end: number, input: string) {
+  public static insert(
+    value: string,
+    start: number,
+    end: number,
+    input: string,
+  ): { value: string; position: number } | null {
     const prefix = value.substring(0, start);
     const suffix = value.substring(end);
 

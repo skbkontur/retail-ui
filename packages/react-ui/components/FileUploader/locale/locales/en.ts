@@ -1,8 +1,8 @@
 import type { FileUploaderLocale } from '../types.js';
 
 export const componentsLocales: FileUploaderLocale = {
-  chooseFile: 'Select a file',
-  choosedFile: 'File selected',
-  orDragHere: 'or drag here',
+  chooseFile: 'Upload a file',
   requestErrorText: 'The file could not be uploaded to the server, please try again later',
+  errors: ['error', 'errors', 'errors'],
+  warnings: ['warning', 'warnings', 'warnings'],
 };

@@ -1,10 +1,10 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
-import type { CSSProperties } from 'react';
-import React from 'react';
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
 
-import type { Nullable } from '../../../typings/utility-types.js';
+import type { CSSProperties, ForwardedRef, JSX } from 'react';
+import React, { forwardRef, useState } from 'react';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
+import { flushSync } from 'react-dom';
+
 import type { Story } from '../../../typings/stories.js';
 import type { TooltipProps, TooltipTrigger } from '../Tooltip.js';
 import { Tooltip } from '../Tooltip.js';
@@ -113,11 +113,11 @@ export const TooltipBottom = () => (
 );
 TooltipBottom.storyName = 'tooltip bottom';
 
-export const TooltipWithFunctionalComponentChild = () => {
-  function PureComp() {
-    return <div>Pure Component!</div>;
-  }
+const PureComp = forwardRef((_, ref: ForwardedRef<HTMLDivElement>) => {
+  return <div ref={ref}>Pure Component!</div>;
+});
 
+export const TooltipWithFunctionalComponentChild = () => {
   return (
     <TestTooltip trigger="opened" pos="bottom center">
       <PureComp />
@@ -128,10 +128,6 @@ TooltipWithFunctionalComponentChild.storyName = 'tooltip with functional compone
 TooltipWithFunctionalComponentChild.parameters = { creevey: { skip: true } };
 
 export const TooltipWithFunctionalComponentChildHover = () => {
-  function PureComp() {
-    return <div>Pure Component!</div>;
-  }
-
   return (
     <TestTooltip trigger="hover" pos="bottom center">
       <PureComp />
@@ -142,10 +138,6 @@ TooltipWithFunctionalComponentChildHover.storyName = 'tooltip with functional co
 TooltipWithFunctionalComponentChildHover.parameters = { creevey: { skip: true } };
 
 export const TooltipWithFunctionalComponentClick = () => {
-  function PureComp() {
-    return <div>Pure Component!</div>;
-  }
-
   return (
     <TestTooltip trigger="click" pos="bottom center">
       <PureComp />
@@ -675,9 +667,9 @@ export const TooltipWithIconFromPackage = () => (
 );
 TooltipWithIconFromPackage.storyName = 'tooltip with icon';
 
-const FunctionalChild = () => {
-  return <div>FunctionalChild</div>;
-};
+const FunctionalChild = forwardRef<HTMLDivElement>((_, ref) => {
+  return <div ref={ref}>FunctionalChild</div>;
+});
 export const TooltipWithFunctionalChild = () => (
   <TestTooltip trigger="opened" pos="bottom center">
     <FunctionalChild />
@@ -693,46 +685,34 @@ const anchorStyle: CSSProperties = {
   border: '1px solid #dfdede',
 };
 
-interface AnchorTooltipExampleState {
-  anchor: Nullable<HTMLElement>;
-}
-class AnchorTooltipExample extends React.Component {
-  public state: AnchorTooltipExampleState = {
-    anchor: null,
-  };
-
-  render() {
-    return (
-      <>
-        {this.state.anchor ? (
-          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" pos="top center" />
-        ) : null}
-        <div style={{ width: 180, height: 180, position: 'relative' }}>
-          <div
-            data-tid={`tooltip_anchor_0`}
-            style={{
-              ...anchorStyle,
-              top: 60,
-            }}
-            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
-            onMouseLeave={() => this.setState({ anchor: null })}
-          />
-          <div
-            data-tid={`tooltip_anchor_1`}
-            style={{
-              ...anchorStyle,
-              top: 120,
-            }}
-            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
-            onMouseLeave={() => this.setState({ anchor: null })}
-          />
-        </div>
-      </>
-    );
-  }
-}
-
-export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
+export const TooltipWithAnchor = () => {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  return (
+    <>
+      {anchor ? <Tooltip anchorElement={anchor} render={() => 'Hello React'} trigger="hover" pos="top center" /> : null}
+      <div style={{ width: 180, height: 180, position: 'relative' }}>
+        <div
+          data-tid={`tooltip_anchor_0`}
+          style={{
+            ...anchorStyle,
+            top: 60,
+          }}
+          onMouseEnter={(event) => flushSync(() => setAnchor(event.target as HTMLElement))}
+          onMouseLeave={() => setAnchor(null)}
+        />
+        <div
+          data-tid={`tooltip_anchor_1`}
+          style={{
+            ...anchorStyle,
+            top: 120,
+          }}
+          onMouseEnter={(event) => flushSync(() => setAnchor(event.target as HTMLElement))}
+          onMouseLeave={() => setAnchor(null)}
+        />
+      </div>
+    </>
+  );
+};
 TooltipWithAnchor.storyName = 'Tooltip with anchor';
 
 export const WithSizes: Story = () => {

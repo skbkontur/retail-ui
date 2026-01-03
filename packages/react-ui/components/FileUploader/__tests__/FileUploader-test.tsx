@@ -5,11 +5,15 @@ import { userEvent } from '@testing-library/user-event';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { FileUploaderLocaleHelper } from '../locale/index.js';
-import type { FileUploaderProps, FileUploaderRef } from '../FileUploader.js';
+import type { FileUploaderProps } from '../FileUploader.js';
 import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
 import { delay } from '../../../lib/utils.js';
 import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils.js';
-import { FileUploaderFileDataTids } from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile.js';
+import { createFile } from '../../../internal/FileUploaderControl/fileUtils.js';
+import {
+  FileUploaderFile,
+  FileUploaderFileDataTids,
+} from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile.js';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList.js';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
@@ -54,10 +58,6 @@ const removeFile = async (filename?: string) => {
 };
 
 const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File;
-
-function createFile(filename: string, content = 'content'): File {
-  return new File([content], filename, { type: 'text/plain' });
-}
 
 const fastItemValueLookup = Symbol('item-value');
 
@@ -199,8 +199,6 @@ describe('FileUploader', () => {
           FileUploader: {
             chooseFile: customText,
             requestErrorText: customText,
-            choosedFile: customText,
-            orDragHere: customText,
           },
         },
       });
@@ -424,7 +422,7 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange after reset', async () => {
         const onValueChange = vi.fn();
-        const ref = React.createRef<FileUploaderRef>();
+        const ref = React.createRef<FileUploader>();
         render(<FileUploader onValueChange={onValueChange} ref={ref} />);
 
         await addFiles([file]);
@@ -574,8 +572,8 @@ describe('FileUploader', () => {
   describe('hideFiles', () => {
     const expectation = async () => {
       const locale = FileUploaderLocaleHelper.get(defaultLangCode);
-      const { chooseFile, orDragHere } = locale;
-      const expectedText = `${chooseFile} ${orDragHere} `;
+      const { chooseFile } = locale;
+      const expectedText = `${chooseFile} `;
 
       expect(getBaseButtonContent()).toBe(expectedText);
 
@@ -597,25 +595,44 @@ describe('FileUploader', () => {
   });
 
   describe('renderFile', () => {
+    const fileItem = 'fileItem';
+    const fileSize = '7 Bytes';
+    const renderFile = () => fileItem;
+    const renderFileWithProps: FileUploaderProps['renderFile'] = (props) => {
+      return <FileUploaderFile {...props} showSize />;
+    };
+
     it('should render custom file item control', async () => {
-      render(<FileUploader multiple renderFile={() => 'Custom file item'} />);
+      render(<FileUploader multiple renderFile={renderFile} />);
 
       await addFiles([getFile()]);
 
-      expect(getFilesList()).toHaveTextContent('Custom file item');
+      expect(getFilesList()).toHaveTextContent(fileItem);
+    });
+
+    it('should render correctly when props argument is used', async () => {
+      const { rerender } = render(<FileUploader renderFile={renderFileWithProps} />);
+
+      await addFiles([createFile(''), createFile('')]);
+
+      expect(screen.getByTestId(FileUploaderDataTids.content)).toHaveTextContent(fileSize);
+
+      rerender(<FileUploader multiple renderFile={renderFileWithProps} />);
+
+      expect(getFilesList()).toHaveTextContent(fileSize);
     });
   });
 
   describe('rootNode', () => {
     it('getRootNode is defined', () => {
-      const ref = React.createRef<FileUploaderRef>();
+      const ref = React.createRef<FileUploader>();
       render(<FileUploader ref={ref} />);
 
       expect(ref.current?.getRootNode).toBeDefined();
     });
 
     it('getRootNode returns correct node', () => {
-      const ref = React.createRef<FileUploaderRef>();
+      const ref = React.createRef<FileUploader>();
       render(<FileUploader ref={ref} />);
 
       const rootNode = ref.current?.getRootNode?.();
@@ -661,7 +678,7 @@ describe('FileUploader', () => {
 
   describe('methods exposed in ref', () => {
     const TestComponent = () => {
-      const fileUploaderRef = useRef<FileUploaderRef>(null);
+      const fileUploaderRef = useRef<FileUploader>(null);
       const [fileList, setFileList] = useState<FileUploaderAttachedFile[]>([]);
       return (
         <>
@@ -705,6 +722,14 @@ describe('FileUploader', () => {
 
       await addFiles(files);
       expect(screen.queryByText('bar')).toBeInTheDocument();
+    });
+  });
+
+  describe('drag-and-drop', () => {
+    it('should not accept multiple files in single mode', async () => {
+      renderComponent();
+      await addFiles([createFile('1', '1'), createFile('2', '2'), createFile('3', '3')]);
+      expect(getFilesList()).toBeNull();
     });
   });
 });

@@ -109,7 +109,7 @@ export class FxInput extends React.Component<FxInputProps> {
     this.validateProps(this.getProps());
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -124,7 +124,7 @@ export class FxInput extends React.Component<FxInputProps> {
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<DefaultizedFxInputProps>) => {
+  public renderMain = (props: CommonWrapperRestProps<DefaultizedFxInputProps>): React.JSX.Element => {
     const button = props.auto ? null : (
       <FxInputRestoreBtn
         size={props.size}
@@ -148,7 +148,7 @@ export class FxInput extends React.Component<FxInputProps> {
    * Появляется фокусная рамка, элемент получает клавиатурные события и воспринимается как текущий элемент для чтения скринридерами.
    * @public
    */
-  public focus = () => {
+  public focus = (): void => {
     if (this.input) {
       this.input.focus();
     }
@@ -157,7 +157,7 @@ export class FxInput extends React.Component<FxInputProps> {
   /** Программно снимает фокус с кнопки.
    * @public
    */
-  public blur = () => {
+  public blur = (): void => {
     if (this.input) {
       this.input.blur();
     }

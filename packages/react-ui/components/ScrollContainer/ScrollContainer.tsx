@@ -19,9 +19,9 @@ import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import { getStyles, globalClasses } from './ScrollContainer.styles.js';
 import { scrollSizeParametersNames } from './ScrollContainer.constants.js';
 import {
-  getScrollYOffset,
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
+  getScrollYOffset,
 } from './ScrollContainer.helpers.js';
 import type { ScrollAxis, ScrollBarScrollState } from './ScrollBar.js';
 import { ScrollBar } from './ScrollBar.js';
@@ -166,7 +166,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
   }
 
-  public render() {
+  public render(): React.ReactNode {
     this.styles = getStyles(this.emotion);
 
     const props = this.props;
@@ -212,7 +212,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
    * @public
    * @param {Element} element
    */
-  public scrollTo(element: Nullable<HTMLElement>) {
+  public scrollTo(element: Nullable<HTMLElement>): void {
     if (!element || !this.inner) {
       return;
     }
@@ -224,7 +224,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   /**
    * @public
    */
-  public scrollToTop() {
+  public scrollToTop(): void {
     if (!this.inner) {
       return;
     }
@@ -234,7 +234,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   /**
    * @public
    */
-  public scrollToBottom() {
+  public scrollToBottom(): void {
     if (!this.inner) {
       return;
     }
@@ -244,7 +244,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   /**
    * @public
    */
-  public scrollToLeft() {
+  public scrollToLeft(): void {
     if (!this.inner) {
       return;
     }
@@ -254,7 +254,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   /**
    * @public
    */
-  public scrollToRight() {
+  public scrollToRight(): void {
     if (!this.inner) {
       return;
     }
@@ -262,7 +262,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollLeft = this.inner.scrollWidth - this.inner.offsetWidth;
   }
 
-  public hasScrollBar(axis: ScrollAxis) {
+  public hasScrollBar(axis: ScrollAxis): boolean {
     if (!this.inner) {
       return false;
     }

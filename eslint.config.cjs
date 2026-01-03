@@ -109,7 +109,6 @@ module.exports = [
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/no-use-before-define': 0,
       '@typescript-eslint/no-non-null-assertion': 2,
-      '@typescript-eslint/explicit-module-boundary-types': 0,
       '@typescript-eslint/explicit-function-return-type': 0,
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       '@typescript-eslint/no-var-requires': 0,
@@ -124,6 +123,34 @@ module.exports = [
       'jsx-a11y/mouse-events-have-key-events': 0,
       'jsx-a11y/no-noninteractive-element-interactions': 0,
       'jsx-a11y/anchor-is-valid': 0,
+    },
+  },
+  {
+    files: ['**/*.{ts,tsx,mts}'],
+    ignores: [
+      '**/__stories__/**/*',
+      '**/stories/**/*',
+      '**/docs/**/*',
+      '**/*.stories.tsx',
+      '**/__mocks__/**/*.{ts,tsx}',
+      '**/__creevey__/**/*.{ts,mts}',
+      '**/internal/**/*.{ts,tsx}',
+      '**/.storybook/**/*.{ts,tsx,mts}',
+      '**/.storybook-docs/**/*.{ts,tsx,mts}',
+    ],
+    rules: {
+      '@typescript-eslint/explicit-module-boundary-types': [
+        2,
+        {
+          allowedNames: [
+            'componentDidMount',
+            'componentWillUnmount',
+            'componentDidUpdate',
+            'getDerivedStateFromProps',
+            'shouldComponentUpdate',
+          ],
+        },
+      ],
     },
   },
 ];

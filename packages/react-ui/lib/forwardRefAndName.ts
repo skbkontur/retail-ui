@@ -1,3 +1,4 @@
+import type { PropsWithoutRef } from 'react';
 import { forwardRef } from 'react';
 
 export interface ReactUIComponentWithRef<T, P>
@@ -16,7 +17,7 @@ function forwardName<ElementType, Props>(
 
 export function forwardRefAndName<ElementType, Props, Extra extends Record<string, unknown> = Record<never, never>>(
   name: string,
-  render: React.ForwardRefRenderFunction<ElementType, Props>,
+  render: React.ForwardRefRenderFunction<ElementType, PropsWithoutRef<Props>>,
 ): ReactUIComponentWithRef<ElementType, Props> & Extra {
   return forwardName<ElementType, Props>(
     name,
@@ -40,7 +41,7 @@ function forwardIconName<ElementType, Props>(
 
 export function forwardRefAndIconName<ElementType, Props>(
   name: string,
-  render: React.ForwardRefRenderFunction<ElementType, Props>,
+  render: React.ForwardRefRenderFunction<ElementType, PropsWithoutRef<Props>>,
 ): ReactUIIconWithRef<ElementType, Props> {
   return forwardIconName<ElementType, Props>(name, forwardRef(render) as ReactUIIconWithRef<ElementType, Props>);
 }

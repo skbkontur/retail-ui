@@ -1,12 +1,12 @@
-type MemoFunction<T> = (...args: T[]) => any;
+type MemoFunction<Args extends unknown[], Return> = (...args: Args) => Return;
 
-export function memo<T>(fn: MemoFunction<T>) {
-  let cache: { [key: string]: any } = {};
-  const getHash = (args: any[]) => args.reduce((acc, x) => acc + x, '');
+export function memo<Args extends unknown[], Return>(fn: MemoFunction<Args, Return>) {
+  let cache: Record<string, Return> = {};
+  const getHash = (args: Args) => args.reduce<string>((acc, x) => acc + x, '');
   let keysCount = 0;
   const limit = 1e4;
 
-  return (...args: Parameters<MemoFunction<T>>) => {
+  return (...args: Parameters<MemoFunction<Args, Return>>): Return => {
     try {
       const hash = getHash(args);
       const fromCache = cache[hash];

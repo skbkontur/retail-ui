@@ -79,7 +79,7 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
   }
 }
 
-export function checkMatches(globalObject: GlobalObject, mediaQuery: string) {
+export function checkMatches(globalObject: GlobalObject, mediaQuery: string): boolean {
   if (!globalObject.matchMedia) {
     return false;
   }

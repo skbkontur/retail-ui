@@ -40,48 +40,48 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /** Переводит контрол в состояние валидации "ошибка". */
+        /** Меняет визуальное отображение поля на состояние ошибки. */
         error?: boolean;
 
-        /** Переводит контрол в состояние валидации "предупреждение". */
+        /** Меняет визуальное отображение поля на состояние предупреждения. */
         warning?: boolean;
 
-        /** Делает компонент недоступным. */
+        /** Блокирует поле. */
         disabled?: boolean;
 
-        /** Задает размер компонента. */
+        /** Размер многострочного поля. */
         size?: SizeProp;
 
-        /** Выполняет автоматический ресайз в зависимости от содержимого. */
+        /** Выполняет автоматический ресайз в зависимости от количества текста в поле. Связан с пропом `extraRow`, который всегда добавляет дополнительную пустую строку. */
         autoResize?: boolean;
 
-        /** Задает высоту текстарии в виде числа строк видимых без скролла. */
+        /** Высота поля — число видимых строк. При превышении этой высоты появляется скролл. */
         rows?: number;
 
-        /** Задает максимальное число строк при автоматическом ресайзе. */
+        /** Максимальное число видимых строк при автоматическом ресайзе. */
         maxRows?: string | number;
 
-        /** Задает направления ресайза компонента.
-         * Попадает в `style`. */
+        /** Направление ресайза поля.
+         * Попадает в `style`. Описание всех значений смотрите [в документации MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/resize). */
         resize?: React.CSSProperties['resize'];
 
-        /** Задает ширину текстэрии. */
+        /** Ширина многострочного поля. */
         width?: React.CSSProperties['width'];
 
-        /** Задает функцию, которая вызывается при изменении `value`. */
+        /** Событие изменения `value`. */
         onValueChange?: (value: string) => void;
 
-        /** Определяет, нужно ли выделять введенное значение при фокусе. Работает с типами text, password, tel, search, url. */
+        /** Выделяет введённое значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
         selectAllOnFocus?: boolean;
 
-        /** Определяет, нужно ли показывать счетчик символов. */
+        /** Отображает счётчик введённых символов. */
         showLengthCounter?: boolean;
 
-        /** Задает допустимое количество символов в поле. Отображается в счетчике.
+        /** Допустимое количество символов в поле. Отображается в счётчике символов.
          * @default maxLength */
         lengthCounter?: number;
 
-        /** Задает подсказку к счетчику символов.
+        /** Добавляет подсказку к счётчику символов.
          * По умолчанию - тултип с содержимым из пропа, если передан `ReactNode`.
          * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой.
          * @example
@@ -90,13 +90,14 @@ export interface TextareaProps
          * ``` */
         counterHelp?: ReactNode | (() => ReactNode);
 
-        /** Добавляет дополнительную свободную строку при авто-ресайзе.
+        /** Добавляет дополнительную свободную строку при автоматическом ресайзе.
          * @see https://guides.kontur.ru/components/textarea/#04 */
         extraRow?: boolean;
 
-        /** Отключает анимацию при авто-ресайзе. Автоматически отключается когда в `extraRow` передан `false`. */
+        /** Отключает анимацию при автоматическом ресайзе. Автоматически отключается, когда в `extraRow` передан `false`. */
         disableAnimations?: boolean;
-        /** Выравнивание текста */
+
+        /** Выравнивание текста в поле. */
         align?: InputAlign;
       }
     > {}
@@ -115,10 +116,7 @@ export const TextareaDataTids = {
 type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
 
 /**
- * Многострочное поле `Textarea` — это поле ввода, которое позволяет работать с несколькими строками текста.
- *
- * Принимает все атрибуты `React.TextareaHTMLAttributes<HTMLTextAreaElement>`.
- * Пропсы **`className` и `style` игнорируются**.
+ * Многострочное поле — это поле ввода, в котором текст отображается в несколько строк.
  */
 @withRenderEnvironment
 @rootNode
@@ -134,7 +132,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     disableAnimations: isTestEnv,
   };
 
-  public clear = () => {
+  public clear = (): void => {
     if (this.node) {
       this.node.value = '';
     }
@@ -241,7 +239,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -258,30 +256,33 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     );
   }
 
-  /**
+  /** Программно устанавливает фокус на поле.
    * @public
    */
-  public focus() {
+  public focus(): void {
     if (this.node) {
       this.node.focus();
     }
   }
 
-  /**
+  /** Программно снимает фокус с поля.
    * @public
    */
-  public blur() {
+  public blur(): void {
     if (this.node) {
       this.node.blur();
     }
   }
 
-  /**
+  public getNode(): Nullable<HTMLTextAreaElement> {
+    return this.node;
+  }
+
+  /** start - инициирует последовательное изменение числового значения: начинает повторяющееся увеличение/уменьшение, обычно используется при удерживании кнопки «+» или «−» для числового Input. end - останавливает ранее запущенное числоизменение, инициируемое numberStart.
+   * [Документация](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange)
    * @public
-   * @param {number} start
-   * @param {number} end
    */
-  public setSelectionRange = (start: number, end: number) => {
+  public setSelectionRange = (start: number, end: number): void => {
     if (!this.node) {
       warning(false, 'Cannot call "setSelectionRange" on unmounted Input');
       return;
@@ -294,10 +295,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.node.setSelectionRange(start, end);
   };
 
-  /**
+  /** Переводит фокус в поле (если ещё не в фокусе) и выделяет весь текст в нём.
+   * Работает с типами `text`, `password`, `tel`, `search`, `url`.
    * @public
    */
-  public selectAll = () => {
+  public selectAll = (): void => {
     if (this.node) {
       this.setSelectionRange(0, this.node.value.length);
     }

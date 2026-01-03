@@ -45,7 +45,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
     }
   }
 
-  public render() {
+  public render(): React.JSX.Element {
     this.styles = getStyles(this.emotion);
 
     return (
@@ -68,5 +68,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
     return getDOMRect(this.element).height;
   }
 
-  private elementRef = (node: HTMLDivElement) => (this.element = node);
+  private elementRef = (node: HTMLDivElement) => {
+    this.element = node;
+  };
 }

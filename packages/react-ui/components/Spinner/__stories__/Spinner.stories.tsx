@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 
 import type { Meta } from '../../../typings/stories.js';
 import { Spinner } from '../Spinner.js';

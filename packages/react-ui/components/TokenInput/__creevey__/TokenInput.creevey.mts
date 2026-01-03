@@ -370,4 +370,27 @@ kind('TokenInput', () => {
       await context.matchImages({ leftTop, leftMiddle, leftBottom, rightTop, rightMiddle, rightBottom });
     });
   });
+
+  story('LotOfTokens', () => {
+    test('maxHeight', async (context) => {
+      const page = context.webdriver;
+      async function clickOnToken(num: number): Promise<Buffer> {
+        const tokens = page.locator('[data-tid~="Token__root"]');
+        await tokens.nth(num).click();
+        await page.waitForTimeout(100);
+        return await context.takeScreenshot();
+      }
+
+      const firstToken = await clickOnToken(0);
+      await page.locator(tid('TokenInput__label')).click({ position: { x: 330, y: 5 } });
+      await page.waitForTimeout(100);
+      const tokeInput = await context.takeScreenshot();
+      const lastToken = await clickOnToken(29);
+      await page.locator(tid('TokenInput__label')).click({ position: { x: 330, y: 5 } });
+      await page.waitForTimeout(100);
+      const tokeInputAgain = await context.takeScreenshot();
+
+      await context.matchImages({ firstToken, tokeInput, lastToken, tokeInputAgain });
+    });
+  });
 });

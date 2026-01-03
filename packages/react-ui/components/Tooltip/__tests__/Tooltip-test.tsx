@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 
@@ -696,77 +695,5 @@ describe('Tooltip', () => {
     unmount();
 
     expect(clearTimeout).toHaveBeenCalledWith(hoverTimeout);
-  });
-
-  describe('findDOMNode', () => {
-    beforeEach(() => {
-      (findDOMNode as ReturnType<typeof vi.fn>).mockClear();
-    });
-
-    it('should not be called when opened', () => {
-      render(
-        <Tooltip trigger={'opened'} render={() => <div />}>
-          <Button />
-        </Tooltip>,
-      );
-
-      expect(findDOMNode).not.toHaveBeenCalled();
-    });
-
-    it('should not be called when closed', () => {
-      render(
-        <Tooltip trigger={'closed'} render={() => <div />}>
-          <Button />
-        </Tooltip>,
-      );
-      expect(findDOMNode).not.toHaveBeenCalled();
-    });
-
-    describe('should be called with not-refable children', () => {
-      it('FC without forwardRef', () => {
-        const FC = () => <div />;
-        render(
-          <Tooltip trigger={'opened'} render={() => <div />}>
-            <FC />
-          </Tooltip>,
-        );
-
-        expect(findDOMNode).toHaveBeenCalled();
-      });
-
-      it('class component without getRootNode', () => {
-        class ClassComponent extends React.Component {
-          render = () => <div />;
-        }
-
-        render(
-          <Tooltip trigger={'opened'} render={() => <div />}>
-            <ClassComponent />
-          </Tooltip>,
-        );
-
-        expect(findDOMNode).toHaveBeenCalled();
-      });
-    });
-
-    describe('Warnings', () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-      beforeEach(() => {
-        consoleSpy.mockClear();
-      });
-
-      afterAll(() => {
-        consoleSpy.mockRestore();
-      });
-
-      it('should throw error if neither children nor anchorElement prop is provided to Tooltip', () => {
-        render(<Tooltip />);
-        expect(consoleSpy).toHaveBeenCalledTimes(1);
-        expect(consoleSpy.mock.calls[0][0]).toContain(
-          `[Tooltip]: you must provide either 'children' or 'anchorElement' prop for Tooltip to work properly`,
-        );
-      });
-    });
   });
 });

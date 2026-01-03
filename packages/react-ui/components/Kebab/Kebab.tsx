@@ -1,4 +1,4 @@
-import type { AriaAttributes, ReactElement, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
 import type { Emotion } from '@emotion/css/create-instance';
@@ -25,6 +25,7 @@ import type { SizeProp } from '../../lib/types/props.js';
 import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { IconProps } from '../../internal/icons2022/BaseIcon.js';
 
 import { getStyles } from './Kebab.styles.js';
 import { KebabIcon } from './KebabIcon.js';
@@ -246,17 +247,18 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon() {
     const { icon = <KebabIcon /> } = this.getProps();
 
-    if (isElement(icon) && isKonturIcon(icon as ReactElement)) {
+    if (isElement(icon) && isKonturIcon(icon)) {
+      const iconProps = icon.props as IconProps;
       const sizes: Record<SizeProp, number> = {
         small: parseInt(this.theme.kebabIconSizeSmall),
         medium: parseInt(this.theme.kebabIconSizeMedium),
         large: parseInt(this.theme.kebabIconSizeLarge),
       };
 
-      return React.cloneElement(icon as ReactElement, {
-        size: icon.props.size ?? sizes[this.size],
-        color: icon.props.color ?? this.theme.kebabIconColor,
-      });
+      return React.cloneElement(icon, {
+        size: iconProps.size ?? sizes[this.size],
+        color: iconProps.color ?? this.theme.kebabIconColor,
+      } as IconProps);
     }
 
     return icon;

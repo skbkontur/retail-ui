@@ -59,6 +59,7 @@ export const MobilePopupDataTids = {
 export class MobilePopup extends React.Component<MobilePopupProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
   public static displayName = 'MobileMenuHeader';
+  private refForTransition = React.createRef<HTMLDivElement>();
 
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
@@ -84,8 +85,15 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   public renderMain() {
     const content = (
       <ZIndex id={this.props.id} className={this.jsStyles.zIndex()} priority={'MobilePopup'}>
-        <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
-          <div className={this.jsStyles.wrapper()}>
+        <Transition
+          in={this.props.opened}
+          onExited={this.props.onClose}
+          mountOnEnter
+          unmountOnExit
+          timeout={0}
+          nodeRef={this.refForTransition}
+        >
+          <div className={this.jsStyles.wrapper()} ref={this.refForTransition}>
             <RenderLayer onClickOutside={this.close}>
               <div
                 ref={this.setRootNode}
@@ -114,7 +122,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
     return <RenderContainer>{content}</RenderContainer>;
   }
 
-  public close = () => {
+  public close = (): void => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }

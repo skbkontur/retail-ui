@@ -62,7 +62,7 @@ export class ValidationBuilder<TRoot, T> {
     type?: ValidationBehaviour,
     level?: ValidationLevel,
     independent?: boolean,
-  ) {
+  ): void {
     const validationWriter = this.writer.getNode<T>(this.path);
     if (validationWriter.isValidated()) {
       return;

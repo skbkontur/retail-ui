@@ -11,6 +11,7 @@ import { Modal } from '../../Modal/index.js';
 import { Button } from '../../Button/index.js';
 import type { TabsProps } from '../index.js';
 import type { SizeProp } from '../../../lib/types/props.js';
+
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (
@@ -417,15 +418,10 @@ WithLink.parameters = { creevey: { skip: true } };
 export const WithCustomTabComponent = () => {
   type Props = React.PropsWithChildren<unknown>;
 
-  const FC = function FC(props: Props) {
-    return <span {...props} />;
-  };
   const FCWithForwardRef = React.forwardRef<HTMLElement, Props>(function FC(props, ref) {
     return <span {...props} ref={ref} />;
   });
-  class ClassComponent extends React.Component<Props> {
-    render = () => <span {...this.props} />;
-  }
+
   class ClassComponentWithRootNode extends React.Component<Props> {
     rootRef = React.createRef<HTMLElement>();
     getRootNode = () => this.rootRef.current;
@@ -434,12 +430,8 @@ export const WithCustomTabComponent = () => {
 
   return (
     <div>
-      <h3>Functional Component</h3>
-      <TabsWithCustomComponent component={FC} />
       <h3>Functional Component with forwardRef</h3>
       <TabsWithCustomComponent component={FCWithForwardRef} />
-      <h3>Class Component</h3>
-      <TabsWithCustomComponent component={ClassComponent} />
       <h3>Calss Component with getRootNode</h3>
       <TabsWithCustomComponent component={ClassComponentWithRootNode} />
     </div>
