@@ -1,5 +1,5 @@
-import { LangCodes } from '../locale';
-import { pluralize } from '../pluralize';
+import { LangCodes } from '../locale/index.js';
+import { pluralize } from '../pluralize.js';
 
 const enItems = ['item', 'items', 'items'];
 const ruItems = ['элемент', 'элемента', 'элементов'];

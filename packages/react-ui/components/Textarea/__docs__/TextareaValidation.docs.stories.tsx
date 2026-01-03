@@ -1,8 +1,8 @@
 import React from 'react';
 import { Textarea } from '@skbkontur/react-ui';
-import { ValidationContainer, ValidationWrapper, createValidator } from '@skbkontur/react-ui-validations/src';
+import { ValidationContainer, ValidationWrapper, createValidator } from '@skbkontur/react-ui-validations';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 export default {
   title: 'Input data/Textarea',

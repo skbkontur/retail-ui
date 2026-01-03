@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../../../icons2022/iconSizer';
-import { WarningTriangleIcon24Regular } from '../../../../icons2022/WarningTriangleIcon/WarningTriangleIcon24Regular';
-import { WarningTriangleIcon32Regular } from '../../../../icons2022/WarningTriangleIcon/WarningTriangleIcon32Regular';
-import { WarningTriangleIcon64Regular } from '../../../../icons2022/WarningTriangleIcon/WarningTriangleIcon64Regular';
+import { iconSizer } from '../../../../icons2022/iconSizer.js';
+import { WarningTriangleIcon24Regular } from '../../../../icons2022/WarningTriangleIcon/WarningTriangleIcon24Regular.js';
+import { WarningTriangleIcon32Regular } from '../../../../icons2022/WarningTriangleIcon/WarningTriangleIcon32Regular.js';
+import { WarningTriangleIcon64Regular } from '../../../../icons2022/WarningTriangleIcon/WarningTriangleIcon64Regular.js';
 
 export const ValidationWarningIcon = iconSizer(
   {

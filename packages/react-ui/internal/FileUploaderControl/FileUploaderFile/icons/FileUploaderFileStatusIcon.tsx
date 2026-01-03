@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 
-import { useStyles } from '../../../../lib/renderEnvironment';
-import { useResponsiveLayout } from '../../../../components/ResponsiveLayout';
-import { ThemeContext } from '../../../../lib/theming/ThemeContext';
-import { FileUploaderFileStatus } from '../../fileUtils';
-import { LoadingIcon } from '../../../icons2022/LoadingIcon';
-import type { SizeProp } from '../../../../lib/types/props';
-import { getJsRowStyles, getJsTileStyles } from '../FileUploaderFile.styles';
+import { useStyles } from '../../../../lib/renderEnvironment/index.js';
+import { useResponsiveLayout } from '../../../../components/ResponsiveLayout/index.js';
+import { ThemeContext } from '../../../../lib/theming/ThemeContext.js';
+import { FileUploaderFileStatus } from '../../fileUtils.js';
+import { LoadingIcon } from '../../../icons2022/LoadingIcon.js';
+import type { SizeProp } from '../../../../lib/types/props.js';
+import { getJsRowStyles, getJsTileStyles } from '../FileUploaderFile.styles.js';
 
-import { DeleteIcon } from './DeleteIcon';
+import { DeleteIcon } from './DeleteIcon.js';
 
 // import { ActionIcon } from './ActionIcon';
 interface FileUploaderFileStatusIconProps {

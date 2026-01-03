@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import type { BasicThemeClass } from '@skbkontur/react-ui/internal/themes/BasicTheme';
+
+import type { BasicThemeClass } from '../../internal/themes/BasicTheme.js';
 
 import { ThemeContext } from './ThemeContext.js';
 

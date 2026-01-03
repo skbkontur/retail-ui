@@ -1,12 +1,12 @@
 import React from 'react';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { FileUploaderFile } from '../FileUploaderFile';
-import { FileUploader } from '../FileUploader';
-import { createFile } from '../../../internal/FileUploaderControl/fileUtils';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { FileUploaderFile } from '../FileUploaderFile.js';
+import { FileUploader } from '../FileUploader.js';
+import { createFile } from '../../../internal/FileUploaderControl/fileUtils.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 
 export default {
   title: 'Input data/FileUploader/FileUploaderFile',

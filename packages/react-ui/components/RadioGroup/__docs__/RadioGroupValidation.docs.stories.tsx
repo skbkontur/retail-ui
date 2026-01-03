@@ -1,12 +1,10 @@
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
-import { Radio } from '@skbkontur/react-ui/components/Radio';
-import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations/src';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Button, Radio, RadioGroup, Gapped } from '@skbkontur/react-ui';
+import { ValidationContainer, type ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { isNullable } from '../../../lib/utils';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { isNullable } from '../../../lib/utils.js';
+import type { Nullable } from '../../../typings/utility-types.js';
 
 export default {
   title: 'Input data/RadioGroup',

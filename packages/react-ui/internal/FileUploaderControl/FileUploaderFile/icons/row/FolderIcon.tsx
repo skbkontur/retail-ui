@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../../../icons2022/iconSizer';
-import { FolderIcon16Solid } from '../../../../icons2022/FileTypeFolderIcon/FolderIcon16Solid';
-import { FolderIcon20Solid } from '../../../../icons2022/FileTypeFolderIcon/FolderIcon20Solid';
-import { FolderIcon24Solid } from '../../../../icons2022/FileTypeFolderIcon/FolderIcon24Solid';
+import { iconSizer } from '../../../../icons2022/iconSizer.js';
+import { FolderIcon16Solid } from '../../../../icons2022/FileTypeFolderIcon/FolderIcon16Solid.js';
+import { FolderIcon20Solid } from '../../../../icons2022/FileTypeFolderIcon/FolderIcon20Solid.js';
+import { FolderIcon24Solid } from '../../../../icons2022/FileTypeFolderIcon/FolderIcon24Solid.js';
 
 export const FolderIcon = iconSizer(
   {

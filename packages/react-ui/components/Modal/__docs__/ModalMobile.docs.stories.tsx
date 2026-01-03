@@ -11,7 +11,7 @@ import {
 } from '@skbkontur/react-ui';
 import type { MobileModalAppearance } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 export default {
   title: 'Overlay/Modal',

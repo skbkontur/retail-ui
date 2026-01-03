@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../../../icons2022/iconSizer';
-import { PdfIcon24Regular } from '../../../../icons2022/FileTypePdfIcon/PdfIcon24Regular';
-import { PdfIcon32Regular } from '../../../../icons2022/FileTypePdfIcon/PdfIcon32Regular';
-import { PdfIcon64Regular } from '../../../../icons2022/FileTypePdfIcon/PdfIcon64Regular';
+import { iconSizer } from '../../../../icons2022/iconSizer.js';
+import { PdfIcon24Regular } from '../../../../icons2022/FileTypePdfIcon/PdfIcon24Regular.js';
+import { PdfIcon32Regular } from '../../../../icons2022/FileTypePdfIcon/PdfIcon32Regular.js';
+import { PdfIcon64Regular } from '../../../../icons2022/FileTypePdfIcon/PdfIcon64Regular.js';
 
 export const PdfIcon = iconSizer(
   {

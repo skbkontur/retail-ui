@@ -1,9 +1,9 @@
 import React from 'react';
 import { ComboBox, type ComboBoxItem } from '@skbkontur/react-ui';
-import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations/src';
-import type { ValidationInfo } from '@skbkontur/react-ui-validations/src';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
+import type { ValidationInfo } from '@skbkontur/react-ui-validations';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 export default {
   title: 'Input data/ComboBox',
   component: ComboBox,
