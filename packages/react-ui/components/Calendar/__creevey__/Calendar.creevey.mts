@@ -46,7 +46,7 @@ kind('Calendar', () => {
     test('scrolls to new date on date change', async (context) => {
       const page = context.webdriver;
       await page.locator('[data-tid="change-date-button"]').click();
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(3000); // wait for borders animation to end
       await context.matchImage(await context.takeScreenshot(), 'scrolls to new date on date change');
     });
   });
