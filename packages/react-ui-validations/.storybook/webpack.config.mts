@@ -30,7 +30,7 @@ export default async ({ config }: { config: Configuration }) => {
         exclude: /node_modules/,
         options: {
           babelrc: false,
-          extends: join(__dirname, '../babel.config.js'),
+          extends: join(__dirname, '../babel.config.cjs'),
         },
       },
       {
