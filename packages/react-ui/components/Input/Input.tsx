@@ -576,9 +576,13 @@ export class Input extends React.Component<InputProps, InputState> {
       this.props.onChange(event);
     }
 
-    this.setState({
-      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: this.state.hovered }),
-    });
+    const clearCrossShowed = this.getClearCrossShowed({ focused: this.state.focused, hovered: this.state.hovered });
+
+    if (this.state.clearCrossShowed !== clearCrossShowed) {
+      this.setState({
+        clearCrossShowed,
+      });
+    }
   };
 
   private handleMouseEnter = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
