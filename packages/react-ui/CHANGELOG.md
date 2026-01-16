@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.1...@skbkontur/react-ui@5.6.2) (2026-01-16)
+
+
+### Bug Fixes
+
+* **Input:** decrease rerenders count ([07e9ae5](https://github.com/skbkontur/retail-ui/commit/07e9ae5ddb8168777c2f89ec17d22d2cb286b0d0))
+
+
+
+
+
 ## [5.6.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.0...@skbkontur/react-ui@5.6.1) (2026-01-14)
 
 
