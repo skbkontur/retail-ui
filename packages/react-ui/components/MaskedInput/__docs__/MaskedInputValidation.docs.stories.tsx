@@ -1,5 +1,5 @@
 import React from 'react';
-import { MaskedInput } from '@skbkontur/react-ui';
+import { MaskedInput, Gapped } from '@skbkontur/react-ui';
 import { type ValidationInfo, ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations/src';
 
 import type { Meta, Story } from '../../../typings/stories';
