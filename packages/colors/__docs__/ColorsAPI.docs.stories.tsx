@@ -7,7 +7,7 @@ import type { Meta } from '@skbkontur/react-ui/typings/stories';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
 import { getColorsBase } from '../lib/get-colors-base';
-import { getColors } from '../lib/get-colors';
+import { getColors } from '../get-colors';
 import type { TokensBase } from '../lib/types/tokens-base';
 import type { ColorFormat } from '../lib/utils/convert-color';
 
