@@ -1,6 +1,6 @@
 import * as colors from '@skbkontur/colors/default-light';
 
-import { createTheme } from '../../lib/theming/ThemeHelpers';
+import { createTheme } from '../../lib/theming/ThemeHelpers.js';
 
 export class BasicThemeClass {
   //#region Common variables

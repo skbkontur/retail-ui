@@ -1,9 +1,9 @@
 import type React from 'react';
 
-import type { Nullable } from '../../typings/utility-types';
-import { isElement } from '../utils';
+import type { Nullable } from '../../typings/utility-types.js';
+import { isElement } from '../utils.js';
 
-import { isInstanceWithRootNode } from './rootNodeDecorator';
+import { isInstanceWithRootNode } from './rootNodeDecorator.js';
 
 /**
  * Extracts component's root Element (HTMLElement/SVGElement) out of it's instance

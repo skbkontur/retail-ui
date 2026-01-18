@@ -1,12 +1,12 @@
 import React, { type JSX } from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
-import { Menu } from '../Menu';
-import type { MenuItemProps } from '../../../components/MenuItem';
-import { MenuItem } from '../../../components/MenuItem';
-import { MenuHeader } from '../../../components/MenuHeader';
-import { MenuSeparator } from '../../../components/MenuSeparator';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular.js';
+import { Menu } from '../Menu.js';
+import type { MenuItemProps } from '../../../components/MenuItem/index.js';
+import { MenuItem } from '../../../components/MenuItem/index.js';
+import { MenuHeader } from '../../../components/MenuHeader/index.js';
+import { MenuSeparator } from '../../../components/MenuSeparator/index.js';
 
 const meta: Meta = {
   title: 'Menu',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { RenderInnerContainer } from '../RenderInnerContainer';
+import { RenderInnerContainer } from '../RenderInnerContainer.js';
 
 describe('<RenderInnerContainer />', () => {
   const rootId = 'test-root-id';

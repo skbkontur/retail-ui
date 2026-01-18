@@ -2,14 +2,14 @@
 /* eslint-disable react/no-unstable-nested-components */
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
-import { MediaUiAStopIcon16Regular } from '@skbkontur/icons/icons/MediaUiAStopIcon/MediaUiAStopIcon16Regular';
+import { MediaUiAStopIcon16Regular } from '@skbkontur/icons/icons/MediaUiAStopIcon/MediaUiAStopIcon16Regular.js';
 
-import type { Story } from '../../../typings/stories';
-import { Modal } from '../Modal';
-import { Button } from '../../Button';
-import { Input } from '../../Input';
-import { Toggle } from '../../Toggle';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import type { Story } from '../../../typings/stories.js';
+import { Modal } from '../Modal.js';
+import { Button } from '../../Button/index.js';
+import { Input } from '../../Input/index.js';
+import { Toggle } from '../../Toggle/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 
 const basicFontStyle = {
   fontSize: '14px',

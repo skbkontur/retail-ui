@@ -1,21 +1,21 @@
 import { DocsContext } from '@storybook/blocks';
 import type { ModuleExports } from '@storybook/types';
 import React, { useContext, useEffect } from 'react';
-import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
-import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light';
-import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light';
-import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
-import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light.js';
+import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light.js';
+import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light.js';
+import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light.js';
+import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light.js';
+import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu/index.js';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem/index.js';
 import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
 import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { linkTo } from '@storybook/addon-links';
 import { memoizeGetStyles } from '@skbkontur/react-ui/lib/theming/Emotion';
-import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment/index.js';
+import type { Emotion } from '@emotion/css/create-instance';
 
 import { validationsFeatureFlagsDefault } from '../src';
 const themes = [

@@ -2,19 +2,19 @@ import React from 'react';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { isBrowser } from '../../lib/globalObject';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isInstanceOf } from '../../lib/isInstanceOf';
-import { LoaderDataTids } from '../../components/Loader';
-import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isBrowser } from '../../lib/globalObject.js';
+import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { LoaderDataTids } from '../../components/Loader/index.js';
+import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../RenderContainer/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import type { LayerComponentName } from './ZIndexStorage';
-import { incrementZIndex, removeZIndex, upperBorder, componentPriorities } from './ZIndexStorage';
+import type { LayerComponentName } from './ZIndexStorage.js';
+import { incrementZIndex, removeZIndex, upperBorder, componentPriorities } from './ZIndexStorage.js';
 
 const DEFAULT_ZINDEX_CONTEXT = { parentLayerZIndex: 0, maxZIndex: Infinity };
 

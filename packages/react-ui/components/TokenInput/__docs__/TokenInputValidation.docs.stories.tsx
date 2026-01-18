@@ -1,15 +1,14 @@
 import React from 'react';
-import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
-import { TokenInput, Token } from '@skbkontur/react-ui';
+import { TokenInput, Token, TokenInputType } from '@skbkontur/react-ui';
 import {
   tooltip,
   ValidationContainer,
   type ValidationInfo,
   ValidationWrapper,
   createValidator,
-} from '@skbkontur/react-ui-validations/src';
+} from '@skbkontur/react-ui-validations';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 export default {
   title: 'Input data/TokenInput',

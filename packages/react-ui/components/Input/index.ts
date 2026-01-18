@@ -1,2 +1,2 @@
-export * from './Input';
-export * from './Input.typings';
+export * from './Input.js';
+export * from './Input.typings.js';

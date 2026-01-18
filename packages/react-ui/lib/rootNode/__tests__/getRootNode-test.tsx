@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import type { Nullable } from '../../../typings/utility-types';
-import { callChildRef } from '../../../lib/callChildRef/callChildRef';
-import { getRootNode } from '../getRootNode';
-import type { InstanceWithRootNode } from '../rootNodeDecorator';
+import type { Nullable } from '../../../typings/utility-types.js';
+import { callChildRef } from '../../../lib/callChildRef/callChildRef.js';
+import { getRootNode } from '../getRootNode.js';
+import type { InstanceWithRootNode } from '../rootNodeDecorator.js';
 
 const getInstance = (element: React.ReactElement<any>): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;

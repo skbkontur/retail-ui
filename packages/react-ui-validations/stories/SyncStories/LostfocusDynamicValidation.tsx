@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import type { ValidationInfo } from '../../src';
-import { text, ValidationContainer, ValidationWrapper } from '../../src';
-import type { Nullable } from '../../typings/Types';
+import type { ValidationInfo } from '../../index.js';
+import { text, ValidationContainer, ValidationWrapper } from '../../index.js';
+import type { Nullable } from '../../typings/Types.js';
 
 export const LostfocusDynamicValidation = () => {
   const counter = useRef<number>(0);

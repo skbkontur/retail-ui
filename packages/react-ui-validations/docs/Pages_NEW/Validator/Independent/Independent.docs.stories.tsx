@@ -1,13 +1,13 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import type { ValidationInfo, ValidationBehaviour } from '../../../../src';
-import { ValidationContainer, ValidationWrapper, text } from '../../../../src';
-import type { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
+import type { ValidationInfo, ValidationBehaviour } from '../../../../index.js';
+import { ValidationContainer, ValidationWrapper, text } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Validator/Independent',
@@ -75,11 +75,11 @@ export const LostfocusDependent: Story = () => {
   );
 };
 
-type DependsType = {
+interface DependsType {
   immediate: string;
   lostfocus: string;
   submit: string;
-};
+}
 export const Mixture: Story = () => {
   const container = React.useRef<ValidationContainer>(null);
   const [dependents, setDependents] = React.useState<DependsType>({ immediate: '', lostfocus: '', submit: '' });

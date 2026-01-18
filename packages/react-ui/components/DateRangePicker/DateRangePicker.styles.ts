@@ -1,9 +1,9 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { SizeProp } from '../../lib/types/props';
-import { memoizeGetStyles } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
-import { CalendarDataTids } from '../Calendar';
+import type { SizeProp } from '../../lib/types/props.js';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { CalendarDataTids } from '../Calendar/index.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {

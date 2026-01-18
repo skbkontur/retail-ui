@@ -1,14 +1,14 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { SizeProp } from '../../lib/types/props';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 
-import { getStyles } from './MenuFooter.styles';
+import { getStyles } from './MenuFooter.styles.js';
 
 export interface MenuFooterProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Добавляет отступ иконке. */

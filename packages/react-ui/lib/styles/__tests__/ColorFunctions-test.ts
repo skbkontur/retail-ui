@@ -1,4 +1,4 @@
-import * as ColorFunctions from '../ColorFunctions';
+import * as ColorFunctions from '../ColorFunctions.js';
 
 const validWaysToWriteRGB = [
   'rgb(0, 255, 255)',

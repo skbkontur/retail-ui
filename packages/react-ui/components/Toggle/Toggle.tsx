@@ -2,22 +2,22 @@ import React from 'react';
 import type { AriaAttributes, InputHTMLAttributes } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { KeyListener } from '../../lib/events/keyListener';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import type { SizeProp } from '../../lib/types/props';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
-import { withSize } from '../../lib/size/SizeDecorator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles, globalClasses } from './Toggle.styles';
+import { getStyles, globalClasses } from './Toggle.styles.js';
 
 export interface ToggleProps
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,

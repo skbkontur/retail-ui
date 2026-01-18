@@ -15,13 +15,16 @@ export default {
         options: {
           babelrc: false,
           envName: 'cjs',
-          extends: path.join(__dirname, '../../react-ui/.babelrc.js'),
+          extends: path.join(__dirname, '../../react-ui/.babelrc.cjs'),
         },
       },      
     ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
+    extensionAlias: {
+      '.js': ['.ts', '.tsx', '.js'],
+    }
   },
   mode: env,
   target: 'node',

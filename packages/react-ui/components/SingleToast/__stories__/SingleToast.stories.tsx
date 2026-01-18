@@ -1,8 +1,8 @@
 import React, { type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Meta } from '../../../typings/stories';
-import { SingleToast } from '../SingleToast';
+import type { Meta } from '../../../typings/stories.js';
+import { SingleToast } from '../SingleToast.js';
 
 const meta: Meta = {
   title: 'SingleToast',

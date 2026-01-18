@@ -1,4 +1,4 @@
-import * as Components from '../../../index';
+import * as Components from '../../../index.js';
 
 const tids = Object.keys(Components).filter((componentName) => {
   if (componentName.match(/datatids/i)) {

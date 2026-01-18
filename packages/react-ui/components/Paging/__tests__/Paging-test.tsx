@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
-import { emptyHandler } from '../../../lib/utils';
-import { defaultLangCode } from '../../../lib/locale/constants';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { PagingLocaleHelper } from '../locale';
-import { Paging, PagingDataTids } from '../Paging';
+import { emptyHandler } from '../../../lib/utils.js';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { PagingLocaleHelper } from '../locale/index.js';
+import { Paging, PagingDataTids } from '../Paging.js';
 
 describe('Paging', () => {
   it('should keep focus on body when the component is disabled', async () => {

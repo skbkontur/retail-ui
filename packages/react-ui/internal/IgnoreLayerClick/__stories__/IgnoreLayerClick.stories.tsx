@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { SidePage } from '../../../components/SidePage';
-import { IgnoreLayerClick } from '../IgnoreLayerClick';
-import { Button } from '../../../components/Button';
-import { Toggle } from '../../../components/Toggle';
+import { SidePage } from '../../../components/SidePage/index.js';
+import { IgnoreLayerClick } from '../IgnoreLayerClick.js';
+import { Button } from '../../../components/Button/index.js';
+import { Toggle } from '../../../components/Toggle/index.js';
 
 interface SampleState {
   open: boolean;

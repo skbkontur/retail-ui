@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollContainer } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Layout/ScrollContainer',

@@ -1,18 +1,18 @@
 import React from 'react';
 
-import type { HTMLProps } from '../../typings/html';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { PopupPositionsType, PopupProps } from '../../internal/Popup';
-import { Popup } from '../../internal/Popup';
-import type { ComboBoxMenuProps } from '../../internal/CustomComboBox';
-import { ComboBoxMenu } from '../../internal/CustomComboBox';
-import type { Menu } from '../../internal/Menu';
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { TokenSize } from '../Token';
+import type { HTMLProps } from '../../typings/html.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { PopupPositionsType, PopupProps } from '../../internal/Popup/index.js';
+import { Popup } from '../../internal/Popup/index.js';
+import type { ComboBoxMenuProps } from '../../internal/CustomComboBox/index.js';
+import { ComboBoxMenu } from '../../internal/CustomComboBox/index.js';
+import type { Menu } from '../../internal/Menu/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { TokenSize } from '../Token/index.js';
 
-import type { TokenInputMenuAlign, TokenInputProps } from './TokenInput';
-import { TokenInputDataTids } from './TokenInput';
+import type { TokenInputMenuAlign, TokenInputProps } from './TokenInput.js';
+import { TokenInputDataTids } from './TokenInput.js';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   /** html-элемент от которого будет позиционировано Menu в случае menuAlign cursor */

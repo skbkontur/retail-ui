@@ -2,8 +2,8 @@ import React from 'react';
 import type { RenderResult } from '@testing-library/react';
 import { render } from '@testing-library/react';
 
-import { clickOutside } from '../../../lib/utils';
-import { FocusTrap } from '../FocusTrap';
+import { clickOutside } from '../../../lib/utils.js';
+import { FocusTrap } from '../FocusTrap.js';
 
 describe('<FocusTrap>', () => {
   let onBlur: ReturnType<typeof vi.fn>;

@@ -1,25 +1,25 @@
 import React from 'react';
-import { People1Icon16Regular } from '@skbkontur/icons/icons/People1Icon/People1Icon16Regular';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
+import { People1Icon16Regular } from '@skbkontur/icons/icons/People1Icon/People1Icon16Regular.js';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
 
-import type { Story } from '../../../typings/stories';
-import { BGRuler } from '../../../internal/BGRuler';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { Group } from '../Group';
-import { Input } from '../../Input';
-import { Button } from '../../Button';
-import { Dropdown } from '../../Dropdown';
-import { DropdownMenu } from '../../DropdownMenu';
-import { Select } from '../../Select';
-import { Autocomplete } from '../../Autocomplete';
-import { PasswordInput } from '../../PasswordInput';
-import { CurrencyInput } from '../../CurrencyInput';
-import { FxInput } from '../../FxInput';
-import { Hint } from '../../Hint';
-import { Tooltip } from '../../Tooltip';
-import { Gapped } from '../../Gapped';
-import { SingleToast } from '../../SingleToast';
+import type { Story } from '../../../typings/stories.js';
+import { BGRuler } from '../../../internal/BGRuler.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { Group } from '../Group.js';
+import { Input } from '../../Input/index.js';
+import { Button } from '../../Button/index.js';
+import { Dropdown } from '../../Dropdown/index.js';
+import { DropdownMenu } from '../../DropdownMenu/index.js';
+import { Select } from '../../Select/index.js';
+import { Autocomplete } from '../../Autocomplete/index.js';
+import { PasswordInput } from '../../PasswordInput/index.js';
+import { CurrencyInput } from '../../CurrencyInput/index.js';
+import { FxInput } from '../../FxInput/index.js';
+import { Hint } from '../../Hint/index.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { SingleToast } from '../../SingleToast/index.js';
 
 export default {
   title: 'Group',

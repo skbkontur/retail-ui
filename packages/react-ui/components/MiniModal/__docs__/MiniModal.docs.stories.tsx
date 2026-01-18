@@ -1,11 +1,11 @@
 import React from 'react';
-import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon';
-import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon';
-import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid';
-import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/NotificationBellAlarmIcon64Regular';
+import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon.js';
+import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon.js';
+import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid.js';
+import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/NotificationBellAlarmIcon64Regular.js';
 import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Overlay/MiniModal/MiniModal',

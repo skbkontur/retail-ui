@@ -1,11 +1,11 @@
 import React from 'react';
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
 
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import type { Meta } from '../../../typings/stories';
-import { MenuItem } from '../MenuItem';
-import { Gapped } from '../../Gapped';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import type { Meta } from '../../../typings/stories.js';
+import { MenuItem } from '../MenuItem.js';
+import { Gapped } from '../../Gapped/index.js';
 
 const meta: Meta = {
   title: 'MenuItem',

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { useStyles } from '../../../lib/renderEnvironment';
-import type { InputProps } from '../Input';
+import { useStyles } from '../../../lib/renderEnvironment/index.js';
+import type { InputProps } from '../Input.js';
 
-import { getStylesLayout } from './InputLayout.styles';
-import { InputLayoutAsideIcon } from './InputLayoutAsideIcon';
-import { InputLayoutAsideText } from './InputLayoutAsideText';
+import { getStylesLayout } from './InputLayout.styles.js';
+import { InputLayoutAsideIcon } from './InputLayoutAsideIcon.js';
+import { InputLayoutAsideText } from './InputLayoutAsideText.js';
 
 export interface InputLayoutAsideProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];

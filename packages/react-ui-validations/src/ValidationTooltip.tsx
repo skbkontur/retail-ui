@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactUiDetection, Tooltip } from './ReactUiDetection';
+import { ReactUiDetection, Tooltip } from './ReactUiDetection.js';
 
 export type TooltipPosition =
   | 'top left'

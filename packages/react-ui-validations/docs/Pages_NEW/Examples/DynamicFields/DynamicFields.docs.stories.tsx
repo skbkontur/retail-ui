@@ -1,14 +1,14 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { Tabs } from '@skbkontur/react-ui/components/Tabs';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox.js';
+import { Tabs } from '@skbkontur/react-ui/components/Tabs/Tabs.js';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher.js';
 
-import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
+import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
 
 const meta: Meta = {
   title: 'Examples/Dynamic fields',

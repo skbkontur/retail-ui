@@ -1,1 +1,1 @@
-export * from './TokenInput';
+export * from './TokenInput.js';

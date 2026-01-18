@@ -1,17 +1,17 @@
-import { InternalDate } from '../../../lib/date/InternalDate';
-import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
-import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
+import { InternalDate } from '../../../lib/date/InternalDate.js';
+import { InternalDateGetter } from '../../../lib/date/InternalDateGetter.js';
+import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer.js';
 import type {
   InputKeyResult,
   InternalDateComponentRaw,
   InternalDateFragment,
   InternalDateTypesOrder,
-} from '../../../lib/date/types';
-import { InternalDateComponentType, InternalDateValidateCheck } from '../../../lib/date/types';
-import type { DatePickerLocale } from '../../DatePicker/locale';
-import type { DateInputProps } from '../DateInput';
+} from '../../../lib/date/types.js';
+import { InternalDateComponentType, InternalDateValidateCheck } from '../../../lib/date/types.js';
+import type { DatePickerLocale } from '../../DatePicker/locale/index.js';
+import type { DateInputProps } from '../DateInput.js';
 
-import { inputNumber } from './inputNumber';
+import { inputNumber } from './inputNumber.js';
 
 export class InternalDateMediator {
   public iDate: InternalDate = new InternalDate();

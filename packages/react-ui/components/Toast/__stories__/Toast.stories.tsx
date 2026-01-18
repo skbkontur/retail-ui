@@ -1,10 +1,10 @@
 import React, { type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Meta } from '../../../typings/stories';
-import type { ToastUse } from '../Toast';
-import { Toast } from '../Toast';
-import { Gapped } from '../../Gapped';
+import type { Meta } from '../../../typings/stories.js';
+import type { ToastUse } from '../Toast.js';
+import { Toast } from '../Toast.js';
+import { Gapped } from '../../Gapped/index.js';
 
 const TestNotifier = ({ complex, use }: { complex?: boolean; use?: ToastUse }) => {
   const toastRef = React.useRef<Toast>(null);

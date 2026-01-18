@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type { ValidationWrapperInternal } from './ValidationWrapperInternal';
-import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer';
-import { isNullable } from './utils/isNullable';
-import { FocusMode } from './FocusMode';
+import type { ValidationWrapperInternal } from './ValidationWrapperInternal.js';
+import type { ScrollOffset, ValidateArgumentType } from './ValidationContainer.js';
+import { isNullable } from './utils/isNullable/isNullable.js';
+import { FocusMode } from './FocusMode.js';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;

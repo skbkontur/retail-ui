@@ -1,16 +1,16 @@
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 
-import { CustomComboBox } from '../../internal/CustomComboBox';
-import type { Nullable } from '../../typings/utility-types';
-import type { MenuItemState } from '../MenuItem';
-import type { ShowClearIcon, InputIconType } from '../Input';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { SizeProp } from '../../lib/types/props';
-import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../MaskedInput';
+import { CustomComboBox } from '../../internal/CustomComboBox/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { MenuItemState } from '../MenuItem/MenuItem.js';
+import type { ShowClearIcon, InputIconType } from '../Input/Input.js';
+import type { CommonProps } from '../../internal/CommonWrapper/types.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../MaskedInput/MaskedInput.js';
 
 export type ComboBoxViewMode = 'singleline' | 'multiline' | 'multiline-editing';
 

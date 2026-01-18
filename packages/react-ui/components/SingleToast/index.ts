@@ -1,1 +1,1 @@
-export * from './SingleToast';
+export * from './SingleToast.js';

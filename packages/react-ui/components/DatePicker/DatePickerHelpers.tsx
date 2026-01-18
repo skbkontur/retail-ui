@@ -1,5 +1,5 @@
-import type { CalendarDateShape } from '../../components/Calendar/CalendarDateShape';
-import { getMonthInHumanFormat } from '../Calendar/CalendarUtils';
+import type { CalendarDateShape } from '../../components/Calendar/CalendarDateShape.js';
+import { getMonthInHumanFormat } from '../Calendar/CalendarUtils.js';
 
 export function formatDate({ date, month, year }: CalendarDateShape): string {
   const [d, m, y] = [date, getMonthInHumanFormat(month), year].map((x) => x.toString());

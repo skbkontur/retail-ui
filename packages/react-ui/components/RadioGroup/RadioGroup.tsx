@@ -1,24 +1,24 @@
 import type { AriaAttributes, JSX } from 'react';
 import React from 'react';
 import invariant from 'invariant';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { getRandomID, isNonNullable } from '../../lib/utils';
-import { Radio } from '../Radio';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { Nullable } from '../../typings/utility-types';
-import { FocusTrap } from '../../internal/FocusTrap';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { getRandomID, isNonNullable } from '../../lib/utils.js';
+import { Radio } from '../Radio/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { FocusTrap } from '../../internal/FocusTrap/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './RadioGroup.styles';
-import { Prevent } from './Prevent';
-import type { RadioGroupContextType } from './RadioGroupContext';
-import { RadioGroupContext } from './RadioGroupContext';
+import { getStyles } from './RadioGroup.styles.js';
+import { Prevent } from './Prevent.js';
+import type { RadioGroupContextType } from './RadioGroupContext.js';
+import { RadioGroupContext } from './RadioGroupContext.js';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
   /** Задаёт значение по умолчанию. Должно быть одним из значений дочерних радиокнопок или значений из `items`. */

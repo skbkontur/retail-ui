@@ -1,11 +1,11 @@
 import React from 'react';
 import type { Decorator } from '@storybook/react';
 
-import { LIGHT_THEME, LIGHT_THEME_6_0 } from '../../../lib/theming/themes/LightTheme';
-import { DARK_THEME, DARK_THEME_6_0 } from '../../../lib/theming/themes/DarkTheme';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { isDarkTheme } from '../../../lib/theming/ThemeHelpers';
+import { LIGHT_THEME, LIGHT_THEME_6_0 } from '../../../lib/theming/themes/LightTheme.js';
+import { DARK_THEME, DARK_THEME_6_0 } from '../../../lib/theming/themes/DarkTheme.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import { isDarkTheme } from '../../../lib/theming/ThemeHelpers.js';
 
 export const themes = {
   LIGHT_THEME,

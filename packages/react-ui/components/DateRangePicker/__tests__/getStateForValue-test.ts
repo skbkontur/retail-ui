@@ -1,4 +1,4 @@
-import { getStateForValue } from '../helpers/getStateForValue';
+import { getStateForValue } from '../helpers/getStateForValue.js';
 
 describe('DateRangePicker value pick', () => {
   it(`should set value to 1st field and set focus to 2nd`, () => {

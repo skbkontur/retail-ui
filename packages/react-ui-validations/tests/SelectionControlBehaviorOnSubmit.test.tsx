@@ -1,17 +1,17 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { Radio } from '@skbkontur/react-ui/components/Radio';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { Toggle } from '@skbkontur/react-ui/components/Toggle';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Radio } from '@skbkontur/react-ui/components/Radio/Radio.js';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox.js';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle.js';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher.js';
+import { Select } from '@skbkontur/react-ui/components/Select/Select.js';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox.js';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup.js';
 import React from 'react';
-import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
-import userEvent from '@testing-library/user-event';
+import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox/index.js';
+import { userEvent } from '@testing-library/user-event';
 
-import { ValidationContainer, ValidationWrapper } from '../src';
-import type { ValidationInfo } from '../src';
+import { ValidationContainer, ValidationWrapper } from '../index.js';
+import type { ValidationInfo } from '../index.js';
 
 const validation: ValidationInfo & { message: string } = {
   message: 'Ошибка',

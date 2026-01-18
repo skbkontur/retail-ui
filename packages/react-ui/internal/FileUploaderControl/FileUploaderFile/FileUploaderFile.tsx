@@ -2,4 +2,4 @@ export {
   FileUploaderFile,
   type FileUploaderFileProps,
   FileUploaderFileDataTids,
-} from '../../../components/FileUploader/FileUploaderFile';
+} from '../../../components/FileUploader/FileUploaderFile.js';

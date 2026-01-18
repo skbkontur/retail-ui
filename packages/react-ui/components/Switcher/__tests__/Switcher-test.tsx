@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { Switcher } from '../Switcher';
+import { Switcher } from '../Switcher.js';
 
 describe('Switcher', () => {
   const switchDefaultRole = 'switch';

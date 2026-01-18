@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 
-import { createValidator } from '../src/Validations';
-import type { Nullable } from '../typings/Types';
+import { createValidator } from '../src/Validations/index.js';
+import type { Nullable } from '../typings/Types.js';
 
 describe('Validator', () => {
   it('root invalid', () => {

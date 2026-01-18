@@ -1,6 +1,6 @@
 import React from 'react';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
+import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
+import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/index.js';
 import {
   DropdownMenu,
   Button,
@@ -13,7 +13,7 @@ import {
   Gapped,
 } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Menu/DropdownMenu',

@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": "./packages",
     "sourceMap": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "strict": true,
     "jsx": "react",
     "experimentalDecorators": true,

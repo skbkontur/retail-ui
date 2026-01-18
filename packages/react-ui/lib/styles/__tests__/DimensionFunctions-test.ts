@@ -1,4 +1,4 @@
-import { shift } from '../DimensionFunctions';
+import { shift } from '../DimensionFunctions.js';
 
 describe('DimensionFunctions.shift helper', () => {
   test('shifts `px` value', () => {

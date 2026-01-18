@@ -1,16 +1,11 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import { Form } from '../../../Common/Form';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-  ValidationBuilder,
-  ValidationRule,
-} from '../../../../src';
+import { Form } from '../../../Common/Form.js';
+import type { ValidationBuilder, ValidationRule } from '../../../../index.js';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
 
 const meta: Meta = {
   title: 'Validator/Reusable',

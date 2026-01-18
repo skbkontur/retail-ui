@@ -2,9 +2,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { Gapped } from '../../Gapped';
-import { Radio } from '../Radio';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Radio } from '../Radio.js';
 
 const meta: Meta = {
   title: 'Radio',

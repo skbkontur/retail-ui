@@ -1,34 +1,37 @@
 import React, { type JSX } from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { isNonNullable } from '../../lib/utils';
-import type { MouseDragEventHandler } from '../../lib/events/MouseDrag';
-import { MouseDrag } from '../../lib/events/MouseDrag';
-import { isMobile } from '../../lib/client';
-import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers';
-import type { InputProps, InputState } from '../../components/Input';
-import { calculateClearCrossShowedState, InputDataTids } from '../../components/Input';
-import { getStyles as getJsInputStyles } from '../../components/Input/Input.styles';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps, CommonWrapperRestProps } from '../CommonWrapper';
-import { CommonWrapper } from '../CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside';
-import { InputLayoutContext, InputLayoutContextDefault } from '../../components/Input/InputLayout/InputLayoutContext';
-import { FocusControlWrapper } from '../FocusControlWrapper';
-import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon';
-import { blink } from '../../lib/blink';
-import { withSize } from '../../lib/size/SizeDecorator';
-import type { SizeProp } from '../../lib/types/props';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isNonNullable } from '../../lib/utils.js';
+import type { MouseDragEventHandler } from '../../lib/events/MouseDrag.js';
+import { MouseDrag } from '../../lib/events/MouseDrag.js';
+import { isMobile } from '../../lib/client.js';
+import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers.js';
+import type { InputProps, InputState } from '../../components/Input/index.js';
+import { calculateClearCrossShowedState, InputDataTids } from '../../components/Input/index.js';
+import { getStyles as getJsInputStyles } from '../../components/Input/Input.styles.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps, CommonWrapperRestProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside.js';
+import {
+  InputLayoutContext,
+  InputLayoutContextDefault,
+} from '../../components/Input/InputLayout/InputLayoutContext.js';
+import { FocusControlWrapper } from '../FocusControlWrapper/index.js';
+import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon.js';
+import { blink } from '../../lib/blink.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './InputLikeText.styles';
+import { getStyles } from './InputLikeText.styles.js';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {
   children?: React.ReactNode;

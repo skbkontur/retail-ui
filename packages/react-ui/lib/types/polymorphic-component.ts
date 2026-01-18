@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { JSX } from 'react';
 
-import type { Merge } from '../../typings/utility-types';
+import type { Merge } from '../../typings/utility-types.js';
 
 type PropsWithComponent<P, T extends React.ElementType> = P & {
   /**

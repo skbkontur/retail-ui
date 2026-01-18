@@ -2,20 +2,20 @@
 
 import type { CSSProperties, ForwardedRef, JSX } from 'react';
 import React, { forwardRef, useState } from 'react';
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
 import { flushSync } from 'react-dom';
 
-import type { Story } from '../../../typings/stories';
-import type { TooltipProps, TooltipTrigger } from '../Tooltip';
-import { Tooltip } from '../Tooltip';
-import { Button } from '../../Button';
-import type { PopupPositionsType } from '../../../internal/Popup';
-import { PopupPinnablePositions } from '../../../internal/Popup';
-import { createPropsGetter } from '../../../lib/createPropsGetter';
-import { Textarea } from '../../Textarea';
-import { Checkbox } from '../../Checkbox';
-import { Gapped } from '../../Gapped';
-import { Input } from '../../Input';
+import type { Story } from '../../../typings/stories.js';
+import type { TooltipProps, TooltipTrigger } from '../Tooltip.js';
+import { Tooltip } from '../Tooltip.js';
+import { Button } from '../../Button/index.js';
+import type { PopupPositionsType } from '../../../internal/Popup/index.js';
+import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
+import { createPropsGetter } from '../../../lib/createPropsGetter.js';
+import { Textarea } from '../../Textarea/index.js';
+import { Checkbox } from '../../Checkbox/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Input } from '../../Input/index.js';
 
 interface TestTooltipProps {
   pos?: PopupPositionsType;

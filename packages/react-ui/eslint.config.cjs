@@ -1,4 +1,4 @@
-const rootConfig = require('../../eslint.config');
+const rootConfig = require('../../eslint.config.cjs');
 
 module.exports = [
   ...rootConfig,
@@ -28,9 +28,11 @@ module.exports = [
       'jest-dom': require('eslint-plugin-jest-dom'),
       vitest: require('eslint-plugin-vitest'),
       storybook: require('eslint-plugin-storybook'),
+      'file-extension-in-import-ts': require('eslint-plugin-file-extension-in-import-ts'),
     },
     rules: {
       'import/no-default-export': 0,
+      'file-extension-in-import-ts/file-extension-in-import-ts': ['error', 'always', { extMapping: { '.ts': '.js' } }],
     },
   },
   {

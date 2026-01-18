@@ -1,1 +1,1 @@
-export * from './MenuSeparator';
+export * from './MenuSeparator.js';

@@ -1,17 +1,17 @@
 import React from 'react';
-import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete';
-import { Button } from '@skbkontur/react-ui/components/Button';
+import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete/index.js';
+import { Button } from '@skbkontur/react-ui/components/Button/index.js';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
-import { FxInput } from '@skbkontur/react-ui/components/FxInput';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Link } from '@skbkontur/react-ui/components/Link';
-import { Modal } from '@skbkontur/react-ui/components/Modal';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index.js';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index.js';
+import { FxInput } from '@skbkontur/react-ui/components/FxInput/index.js';
+import { Input } from '@skbkontur/react-ui/components/Input.js';
+import { Link } from '@skbkontur/react-ui/components/Link/index.js';
+import { Modal } from '@skbkontur/react-ui/components/Modal/index.js';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+import { Select } from '@skbkontur/react-ui/components/Select/index.js';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea/index.js';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/index.js';
 
 import { Label } from '../common/Label';
 

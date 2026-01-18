@@ -2,16 +2,16 @@ import type React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { isNonNullable } from '../../lib/utils';
-import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import type { Nullable } from '../../typings/utility-types';
-import type { ComboBoxExtendedItem } from '../../components/ComboBox';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isNonNullable } from '../../lib/utils.js';
+import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { ComboBoxExtendedItem } from '../../components/ComboBox/index.js';
 
-import type { CustomComboBox, CustomComboBoxProps, CustomComboBoxState } from './CustomComboBox';
-import { DefaultState } from './CustomComboBox';
-import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import type { CustomComboBox, CustomComboBoxProps, CustomComboBoxState } from './CustomComboBox.js';
+import { DefaultState } from './CustomComboBox.js';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';
 
 export type CustomComboBoxAction<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }

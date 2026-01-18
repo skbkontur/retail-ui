@@ -1,5 +1,5 @@
-import type { ReactUIFeatureFlags } from './ReactUIFeatureFlagsContext';
-import { reactUIFeatureFlagsDefault } from './ReactUIFeatureFlagsContext';
+import type { ReactUIFeatureFlags } from './ReactUIFeatureFlagsContext.js';
+import { reactUIFeatureFlagsDefault } from './ReactUIFeatureFlagsContext.js';
 
 export const getFullReactUIFlagsContext = (flags: ReactUIFeatureFlags): ReactUIFeatureFlags => {
   return { ...reactUIFeatureFlagsDefault, ...flags };

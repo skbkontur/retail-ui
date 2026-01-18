@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Tooltip } from '../../Tooltip';
-import { Button } from '../../Button';
-import { Loader } from '../Loader';
-import type { LoaderProps } from '..';
+import { Tooltip } from '../../Tooltip/index.js';
+import { Button } from '../../Button/index.js';
+import { Loader } from '../Loader.js';
+import type { LoaderProps } from '../index.js';
 
 type LoaderAndButtonProps = Pick<LoaderProps, 'active'>;
 interface LoaderAndButtonState {

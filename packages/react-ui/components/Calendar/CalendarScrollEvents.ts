@@ -1,4 +1,4 @@
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 
 let emitterCache: EventEmitter;
 function getEmitter(): EventEmitter {

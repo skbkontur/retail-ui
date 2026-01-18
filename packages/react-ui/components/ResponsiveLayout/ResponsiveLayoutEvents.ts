@@ -1,4 +1,4 @@
-import type { GlobalObject } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject.js';
 
 interface mediaQueryData {
   mql: MediaQueryList;

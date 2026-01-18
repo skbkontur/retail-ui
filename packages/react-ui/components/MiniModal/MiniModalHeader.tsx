@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react';
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import type { ModalHeaderProps } from '../Modal';
-import { Modal } from '../Modal';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { InfoCircleIcon64Regular } from '../../internal/icons2022/InfoCircleIcon/InfoCircleIcon64Regular';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import type { ModalHeaderProps } from '../Modal/index.js';
+import { Modal } from '../Modal/index.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { InfoCircleIcon64Regular } from '../../internal/icons2022/InfoCircleIcon/InfoCircleIcon64Regular.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 
-import { getStyles } from './MiniModal.styles';
-import { MiniModalDataTids } from './MiniModal';
+import { getStyles } from './MiniModal.styles.js';
+import { MiniModalDataTids } from './MiniModal.js';
 
 interface MiniModalHeaderProps extends ModalHeaderProps {
   /** Задает иконку в шапку компонента.

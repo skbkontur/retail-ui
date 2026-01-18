@@ -6,6 +6,7 @@
     "pretest": "rimraf ./temp",
     "test": "cross-env BABEL_ENV=development vitest run"
   },
+  "type": "module",
   "license": "MIT",
   "devDependencies": {
     "@babel/preset-typescript": "^7.24.6",

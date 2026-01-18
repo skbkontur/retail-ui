@@ -1,10 +1,9 @@
 import React from 'react';
-import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
-import { TokenInput, Token, Gapped, MenuHeader, MenuSeparator, MenuFooter } from '@skbkontur/react-ui';
-import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities';
+import { TokenInput, Token, Gapped, MenuHeader, MenuSeparator, MenuFooter, TokenInputType } from '@skbkontur/react-ui';
 
-import { LocaleContext } from '../../../lib/locale';
-import type { Meta, Story } from '../../../typings/stories';
+import { cities } from '../../ComboBox/__mocks__/cities.js';
+import { LocaleContext } from '../../../lib/locale/index.js';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Input data/TokenInput/TokenInput',

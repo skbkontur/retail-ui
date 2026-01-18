@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped';
-import type { CheckboxProps } from '../../components/Checkbox';
-import { Checkbox } from '../../components/Checkbox';
+import { Gapped } from '../../components/Gapped/index.js';
+import type { CheckboxProps } from '../../components/Checkbox/index.js';
+import { Checkbox } from '../../components/Checkbox/index.js';
 
-import { getComponentsFromPropsList } from './helpers';
+import { getComponentsFromPropsList } from './helpers.js';
 
 type CheckboxProp = CheckboxProps & { focused?: boolean };
 const propsList: CheckboxProp[] = [

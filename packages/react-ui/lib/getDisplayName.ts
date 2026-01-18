@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import type { ReactUIComponentWithRef } from './forwardRefAndName';
+import type { ReactUIComponentWithRef } from './forwardRefAndName.js';
 
 export function getDisplayName<P>(
   RC: React.ComponentType<P> | React.FunctionComponent<P> | ReactUIComponentWithRef<any, P>,

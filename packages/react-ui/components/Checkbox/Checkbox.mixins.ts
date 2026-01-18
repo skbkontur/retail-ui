@@ -1,5 +1,5 @@
-import { isChrome, isFirefox } from '../../lib/client';
-import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
+import { isChrome, isFirefox } from '../../lib/client.js';
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation.js';
 
 export const checkboxSizeMixin = (
   fontSize: string,

@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { RenderEnvironmentContext } from '../../lib/renderEnvironment';
-import { isBrowser } from '../../lib/globalObject';
-import type { GlobalObject } from '../../lib/globalObject';
-import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+import { RenderEnvironmentContext } from '../../lib/renderEnvironment/index.js';
+import { isBrowser } from '../../lib/globalObject.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { getScrollWidth } from '../../lib/dom/getScrollWidth.js';
 
 let disposeDocumentStyle: (() => void) | null = null;
 

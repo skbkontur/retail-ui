@@ -1,1 +1,1 @@
-export * from './MenuFooter';
+export * from './MenuFooter.js';

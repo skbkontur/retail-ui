@@ -1,4 +1,4 @@
-import type { SafeTimer } from '../lib/globalObject';
+import type { SafeTimer } from '../lib/globalObject.js';
 
 export interface TaskWithDelayAndMinimalDurationProps {
   delayBeforeTaskStart: number;

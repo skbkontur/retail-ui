@@ -1,2 +1,2 @@
-export * from './CustomComboBox';
-export * from './ComboBoxMenu';
+export * from './CustomComboBox.js';
+export * from './ComboBoxMenu.js';

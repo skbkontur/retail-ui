@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../../../icons2022/iconSizer';
-import { TableIcon16Solid } from '../../../../icons2022/FileTypeTableIcon/TableIcon16Solid';
-import { TableIcon20Solid } from '../../../../icons2022/FileTypeTableIcon/TableIcon20Solid';
-import { TableIcon24Solid } from '../../../../icons2022/FileTypeTableIcon/TableIcon24Solid';
+import { iconSizer } from '../../../../icons2022/iconSizer.js';
+import { TableIcon16Solid } from '../../../../icons2022/FileTypeTableIcon/TableIcon16Solid.js';
+import { TableIcon20Solid } from '../../../../icons2022/FileTypeTableIcon/TableIcon20Solid.js';
+import { TableIcon24Solid } from '../../../../icons2022/FileTypeTableIcon/TableIcon24Solid.js';
 
 export const TableIcon = iconSizer(
   {

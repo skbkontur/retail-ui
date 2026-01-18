@@ -1,9 +1,9 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import { text, ValidationContainer, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationWrapper } from '../index.js';
 
 import { IframeRenderer } from './StoryHelpers';
 

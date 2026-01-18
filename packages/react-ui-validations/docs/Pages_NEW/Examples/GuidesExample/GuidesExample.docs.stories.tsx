@@ -1,11 +1,11 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput';
+import { Button } from '@skbkontur/react-ui/components/Button/index.js';
+import { Input } from '@skbkontur/react-ui/components/Input/index.js';
+import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/index.js';
 
-import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Examples/Guides example',

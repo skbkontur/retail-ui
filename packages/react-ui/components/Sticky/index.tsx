@@ -1,1 +1,1 @@
-export * from './Sticky';
+export * from './Sticky.js';

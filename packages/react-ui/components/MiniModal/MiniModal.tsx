@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 
-import type { ModalProps } from '../Modal';
-import { Modal } from '../Modal';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import type { ModalProps } from '../Modal/index.js';
+import { Modal } from '../Modal/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 
-import { getMiniModalTheme } from './getMiniModalTheme';
-import { MiniModalFooter } from './MiniModalFooter';
-import { MiniModalHeader } from './MiniModalHeader';
-import { MiniModalBody } from './MiniModalBody';
-import { MiniModalIndent } from './MiniModalIndent';
+import { getMiniModalTheme } from './getMiniModalTheme.js';
+import { MiniModalFooter } from './MiniModalFooter.js';
+import { MiniModalHeader } from './MiniModalHeader.js';
+import { MiniModalBody } from './MiniModalBody.js';
+import { MiniModalIndent } from './MiniModalIndent.js';
 
 export const MiniModalDataTids = {
   icon: 'MiniModal__icon',

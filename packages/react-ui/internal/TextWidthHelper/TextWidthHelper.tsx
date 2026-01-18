@@ -1,10 +1,10 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getJsStyles } from './TextWidthHelper.styles';
+import { getJsStyles } from './TextWidthHelper.styles.js';
 
 const THIN_SPACE = '\u2009';
 

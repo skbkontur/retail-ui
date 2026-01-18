@@ -2,10 +2,10 @@ import type { Emotion } from '@emotion/css/create-instance';
 import createEmotion from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 
-import { Upgrade } from '../Upgrades';
-import type { AnyObject, FunctionWithParams } from '../utils';
+import { Upgrade } from '../Upgrades.js';
+import type { AnyObject, FunctionWithParams } from '../utils.js';
 
-import type { Theme } from './Theme';
+import type { Theme } from './Theme.js';
 
 export const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Textarea, Button, Gapped, Switcher } from '@skbkontur/react-ui';
 
-import type { Story } from '../../../typings/stories';
+import type { Story } from '../../../typings/stories.js';
 
 export default {
   title: 'Input data/Textarea',

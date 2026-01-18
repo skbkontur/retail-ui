@@ -1,1 +1,1 @@
-export * from './RenderContainer';
+export * from './RenderContainer.js';

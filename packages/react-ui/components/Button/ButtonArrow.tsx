@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
-import { ArrowRightIcon } from './ArrowRightIcon';
-import { ArrowLeftIcon } from './ArrowLeftIcon';
-import type { ButtonInnerProps } from './Button';
-import { globalClasses, getStyles } from './Button.styles';
+import { ArrowRightIcon } from './ArrowRightIcon.js';
+import { ArrowLeftIcon } from './ArrowLeftIcon.js';
+import type { ButtonInnerProps } from './Button.js';
+import { globalClasses, getStyles } from './Button.styles.js';
 
 type ButtonArrowProps = Pick<
   ButtonInnerProps,

@@ -1,13 +1,13 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Select } from '@skbkontur/react-ui/components/Select';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Select } from '@skbkontur/react-ui/components/Select/Select.js';
 
-import type { ValidationBehaviour, ValidationInfo } from '../../../../src';
-import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Form } from '../../../Common/Form';
+import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
+import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Examples/Custom controls',

@@ -1,4 +1,4 @@
-import { getVisualStateDataAttributes } from '../utils/getVisualStateDataAttributes';
+import { getVisualStateDataAttributes } from '../utils/getVisualStateDataAttributes.js';
 
 describe('getVisualStateDataAttributes', () => {
   it('empty object', () => {

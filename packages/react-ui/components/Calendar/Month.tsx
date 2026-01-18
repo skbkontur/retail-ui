@@ -1,18 +1,18 @@
 import React, { type JSX } from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { DateSelect } from '../../internal/DateSelect';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { DateSelect } from '../../internal/DateSelect/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import type { MonthViewModel } from './MonthViewModel';
-import type { DayCellViewModel } from './DayCellViewModel';
-import { MonthView } from './MonthView';
-import { DayCellView } from './DayCellView';
-import * as CalendarScrollEvents from './CalendarScrollEvents';
-import { getStyles } from './MonthView.styles';
-import { getStyles as getCellStyles } from './DayCellView.styles';
+import type { MonthViewModel } from './MonthViewModel.js';
+import type { DayCellViewModel } from './DayCellViewModel.js';
+import { MonthView } from './MonthView.js';
+import { DayCellView } from './DayCellView.js';
+import * as CalendarScrollEvents from './CalendarScrollEvents.js';
+import { getStyles } from './MonthView.styles.js';
+import { getStyles as getCellStyles } from './DayCellView.styles.js';
 
 interface MonthProps {
   top: number;

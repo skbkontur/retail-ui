@@ -1,18 +1,18 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState, type JSX } from 'react';
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
 import { action } from '@storybook/addon-actions';
 import type { CSFStory } from 'creevey';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
-import { Button } from '../../Button';
-import type { SelectProps } from '../Select';
-import { Select } from '../Select';
-import { Gapped } from '../../Gapped';
-import { ResponsiveLayout } from '../../ResponsiveLayout';
-import { MenuItem } from '../../MenuItem';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { isKeyEnter } from '../../../lib/events/keyboard/identifiers.js';
+import { Button } from '../../Button/index.js';
+import type { SelectProps } from '../Select.js';
+import { Select } from '../Select.js';
+import { Gapped } from '../../Gapped/index.js';
+import { ResponsiveLayout } from '../../ResponsiveLayout/index.js';
+import { MenuItem } from '../../MenuItem/index.js';
 
 const mobileDecorator = (Story: () => JSX.Element) => {
   return (

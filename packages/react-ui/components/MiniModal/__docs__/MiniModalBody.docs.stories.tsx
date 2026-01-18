@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { MiniModalBody } from '../MiniModalBody';
+import type { Meta } from '../../../typings/stories.js';
+import { MiniModalBody } from '../MiniModalBody.js';
 
 const meta: Meta = {
   title: 'Overlay/MiniModal/MiniModalBody',

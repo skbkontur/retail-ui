@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../globalObject';
+import type { GlobalObject } from '../globalObject.js';
 
-import { RenderEnvironmentContext } from './RenderEnvironmentContext';
+import { RenderEnvironmentContext } from './RenderEnvironmentContext.js';
 
 interface ComponentWithKonturReactUI {
   __KONTUR_REACT_UI__?: string;

@@ -1,34 +1,34 @@
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import { isElement } from 'react-is';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { isKonturIcon } from '../../lib/utils';
-import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import { KeyListener } from '../../lib/events/keyListener';
-import type { PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu';
-import { PopupMenu } from '../../internal/PopupMenu';
-import type { Nullable } from '../../typings/utility-types';
-import type { PopupPositionsType } from '../../internal/Popup';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { SizeProp } from '../../lib/types/props';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import { withSize } from '../../lib/size/SizeDecorator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
-import type { IconProps } from '../../internal/icons2022/BaseIcon';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isKonturIcon } from '../../lib/utils.js';
+import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu/index.js';
+import { PopupMenu } from '../../internal/PopupMenu/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { PopupPositionsType } from '../../internal/Popup/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { IconProps } from '../../internal/icons2022/BaseIcon.js';
 
-import { getStyles } from './Kebab.styles';
-import { KebabIcon } from './KebabIcon';
+import { getStyles } from './Kebab.styles.js';
+import { KebabIcon } from './KebabIcon.js';
 
 export interface KebabProps
   extends Pick<AriaAttributes, 'aria-label'>,

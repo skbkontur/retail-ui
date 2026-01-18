@@ -1,8 +1,8 @@
 import type React from 'react';
 
-import { SEPARATOR } from '../../../lib/date/constants';
-import * as Keyboard from '../../../lib/events/keyboard/identifiers';
-import { KeyboardActionExctracterBuilder } from '../../../lib/extractKeyboardAction';
+import { SEPARATOR } from '../../../lib/date/constants.js';
+import * as Keyboard from '../../../lib/events/keyboard/identifiers.js';
+import { KeyboardActionExctracterBuilder } from '../../../lib/extractKeyboardAction.js';
 
 const delimiters = [
   (e: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => new RegExp(SEPARATOR).test(e.key),

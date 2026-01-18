@@ -1,20 +1,20 @@
 import React from 'react';
-import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular';
-import EventEmitter from 'eventemitter3';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
+import { EventEmitter } from 'eventemitter3';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { isColor } from '../../lib/styles/ColorHelpers';
-import { Input } from '../../components/Input';
-import { Gapped } from '../../components/Gapped';
-import type { Theme } from '../../lib/theming/Theme';
-import { Link } from '../../components/Link';
-import { Hint } from '../../components/Hint';
-import { isFunction } from '../../lib/utils';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { isColor } from '../../lib/styles/ColorHelpers.js';
+import { Input } from '../../components/Input/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { Link } from '../../components/Link/index.js';
+import { Hint } from '../../components/Hint/index.js';
+import { isFunction } from '../../lib/utils.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Playground.styles';
+import { getStyles } from './Playground.styles.js';
 
 const emitter = new EventEmitter();
 

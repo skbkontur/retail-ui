@@ -1,33 +1,33 @@
 import React, { type JSX } from 'react';
 import warning from 'warning';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject, SafeTimer } from '../../lib/globalObject';
-import { isNullable } from '../../lib/utils';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { PopupPositionsType, PopupProps, ShortPopupPositionsType } from '../../internal/Popup';
-import { Popup } from '../../internal/Popup';
-import type { RenderLayerProps } from '../../internal/RenderLayer';
-import { RenderLayer } from '../../internal/RenderLayer';
-import type { Nullable } from '../../typings/utility-types';
-import type { MouseEventType } from '../../typings/event-types';
-import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import { isInstanceOf } from '../../lib/isInstanceOf';
-import type { SizeProp } from '../../lib/types/props';
-import { withSize } from '../../lib/size/SizeDecorator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject, SafeTimer } from '../../lib/globalObject.js';
+import { isNullable } from '../../lib/utils.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { PopupPositionsType, PopupProps, ShortPopupPositionsType } from '../../internal/Popup/index.js';
+import { Popup } from '../../internal/Popup/index.js';
+import type { RenderLayerProps } from '../../internal/RenderLayer/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { MouseEventType } from '../../typings/event-types.js';
+import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Tooltip.styles';
+import { getStyles } from './Tooltip.styles.js';
 
 export type TooltipTrigger =
   /** Наведение на children и на тултип */

@@ -1,8 +1,8 @@
-import type { ValidationInfo } from '../ValidationWrapper';
+import type { ValidationInfo } from '../ValidationWrapper.js';
 
-import type { ValidationNode } from './Types';
-import { ValidationReader } from './ValidationReader';
-import type { PathTokensCache } from './PathHelper';
+import type { ValidationNode } from './Types.js';
+import { ValidationReader } from './ValidationReader.js';
+import type { PathTokensCache } from './PathHelper.js';
 
 export class ValidationWriter<T> {
   private readonly node: ValidationNode<T>;

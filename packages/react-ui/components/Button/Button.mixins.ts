@@ -1,4 +1,4 @@
-import { globalClasses } from './Button.styles';
+import { globalClasses } from './Button.styles.js';
 
 const getBtnPadding = (paddingY: string, paddingX: string): string => {
   return `${paddingY} ${paddingX} ${paddingY}`;

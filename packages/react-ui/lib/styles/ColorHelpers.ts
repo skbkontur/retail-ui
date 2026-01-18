@@ -1,4 +1,4 @@
-import { startsWithOneOf } from '../utils';
+import { startsWithOneOf } from '../utils.js';
 
 export function clamp(val: number, max = 1): number {
   return Math.min(max, Math.max(0, val));

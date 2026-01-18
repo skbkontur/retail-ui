@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { RenderEnvironmentContext } from '../../lib/renderEnvironment';
-import type { RenderEnvironmentContextType } from '../../lib/renderEnvironment';
-import type { Nullable } from '../../typings/utility-types';
-import { getRandomID } from '../../lib/utils';
-import { Upgrade } from '../../lib/Upgrades';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { RenderEnvironmentContext } from '../../lib/renderEnvironment/index.js';
+import type { RenderEnvironmentContextType } from '../../lib/renderEnvironment/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { getRandomID } from '../../lib/utils.js';
+import { Upgrade } from '../../lib/Upgrades.js';
+import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
 
-import { RenderInnerContainer } from './RenderInnerContainer';
-import type { RenderContainerProps } from './RenderContainerTypes';
+import { RenderInnerContainer } from './RenderInnerContainer.js';
+import type { RenderContainerProps } from './RenderContainerTypes.js';
 
 interface GlobalWithReactTesting {
   ReactTesting?: any;

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../../../icons2022/iconSizer';
-import { TextIcon16Solid } from '../../../../icons2022/FileTypeTextIcon/TextIcon16Solid';
-import { TextIcon20Solid } from '../../../../icons2022/FileTypeTextIcon/TextIcon20Solid';
-import { TextIcon24Solid } from '../../../../icons2022/FileTypeTextIcon/TextIcon24Solid';
+import { iconSizer } from '../../../../icons2022/iconSizer.js';
+import { TextIcon16Solid } from '../../../../icons2022/FileTypeTextIcon/TextIcon16Solid.js';
+import { TextIcon20Solid } from '../../../../icons2022/FileTypeTextIcon/TextIcon20Solid.js';
+import { TextIcon24Solid } from '../../../../icons2022/FileTypeTextIcon/TextIcon24Solid.js';
 
 export const TextIcon = iconSizer(
   {

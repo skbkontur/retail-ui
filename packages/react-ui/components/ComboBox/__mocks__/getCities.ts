@@ -1,5 +1,5 @@
-import type { City } from './cities';
-import { cities } from './cities';
+import type { City } from './cities.js';
+import { cities } from './cities.js';
 
 const delay = (ms: number) => (v: unknown) => new Promise((resolve) => setTimeout(resolve, ms, v));
 

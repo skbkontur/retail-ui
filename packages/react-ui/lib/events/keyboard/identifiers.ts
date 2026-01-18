@@ -1,7 +1,7 @@
-import { isMac } from '../../client';
+import { isMac } from '../../client.js';
 
-import { extractCode } from './extractCode';
-import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
+import { extractCode } from './extractCode.js';
+import { KeyboardEventCodes as Codes } from './KeyboardEventCodes.js';
 
 type E = React.KeyboardEvent<HTMLElement> | KeyboardEvent;
 type IS = (e: E) => boolean;

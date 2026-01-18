@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { ModalFooter } from '../ModalFooter';
+import type { Meta } from '../../../typings/stories.js';
+import { ModalFooter } from '../ModalFooter.js';
 
 const meta: Meta = {
   title: 'Overlay/Modal/ModalFooter',

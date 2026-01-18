@@ -1,10 +1,10 @@
 import React from 'react';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon';
-import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon';
+import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
+import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon32Regular.js';
+import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon32Regular.js';
 import { TooltipMenu, Button, MenuHeader, MenuItem, MenuSeparator, Gapped } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Menu/TooltipMenu',

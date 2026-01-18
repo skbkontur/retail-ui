@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
+import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
 import type { ComboBoxExtendedItem, ComboBoxItem } from '@skbkontur/react-ui';
 import {
   ComboBox,
@@ -11,10 +11,10 @@ import {
   MenuSeparator,
   MenuFooter,
 } from '@skbkontur/react-ui';
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
 
-import type { Meta, Story } from '../../../typings/stories';
-import type { Nullable } from '../../../typings/utility-types';
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { Nullable } from '../../../typings/utility-types.js';
 
 const meta: Meta = {
   title: 'Input data/ComboBox',

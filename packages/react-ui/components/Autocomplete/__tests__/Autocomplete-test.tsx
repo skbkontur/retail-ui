@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular';
-import userEvent from '@testing-library/user-event';
+import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { userEvent } from '@testing-library/user-event';
 
-import { InputDataTids } from '../../Input';
-import type { AutocompleteProps } from '../Autocomplete';
-import { Autocomplete, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete';
-import { delay, clickOutside } from '../../../lib/utils';
-import * as listenFocusOutside from '../../../lib/listenFocusOutside';
+import { InputDataTids } from '../../Input/index.js';
+import type { AutocompleteProps } from '../Autocomplete.js';
+import { Autocomplete, AutocompleteIds, AutocompleteDataTids } from '../Autocomplete.js';
+import { delay, clickOutside } from '../../../lib/utils.js';
+import * as listenFocusOutside from '../../../lib/listenFocusOutside.js';
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {

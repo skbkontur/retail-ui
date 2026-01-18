@@ -1,6 +1,6 @@
 import warning from 'warning';
 
-import type { Selection } from './SelectionHelper';
+import type { Selection } from './SelectionHelper.js';
 
 export type CursorMap = number[];
 

@@ -1,1 +1,1 @@
-export * from './ColorableInputElement';
+export * from './ColorableInputElement.js';

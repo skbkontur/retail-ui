@@ -1,5 +1,5 @@
-import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject';
-import type { GlobalObject } from '../../lib/globalObject';
+import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
 
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number): void => {
   if (!node) {

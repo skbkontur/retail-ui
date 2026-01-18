@@ -1,16 +1,16 @@
 import React from 'react';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru';
-import { componentsLocales as DateSelectLocalesEn } from '../../../internal/DateSelect/locale/locales/en';
-import { Calendar } from '../Calendar';
-import { SelectDataTids } from '../../Select';
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { CalendarDataTids } from '..';
-import { CalendarLocaleHelper } from '../locale';
-import type { CalendarDayProps } from '../CalendarDay';
-import { CalendarDay } from '../CalendarDay';
+import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru.js';
+import { componentsLocales as DateSelectLocalesEn } from '../../../internal/DateSelect/locale/locales/en.js';
+import { Calendar } from '../Calendar.js';
+import { SelectDataTids } from '../../Select/index.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { CalendarDataTids } from '../index.js';
+import { CalendarLocaleHelper } from '../locale/index.js';
+import type { CalendarDayProps } from '../CalendarDay.js';
+import { CalendarDay } from '../CalendarDay.js';
 
 describe('Calendar', () => {
   it('renders', () => {

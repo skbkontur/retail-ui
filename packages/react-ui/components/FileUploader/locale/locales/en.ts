@@ -1,4 +1,4 @@
-import type { FileUploaderLocale } from '../types';
+import type { FileUploaderLocale } from '../types.js';
 
 export const componentsLocales: FileUploaderLocale = {
   chooseFile: 'Upload a file',

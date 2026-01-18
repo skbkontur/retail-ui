@@ -1,30 +1,30 @@
 import type { AriaAttributes, JSX } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { locale } from '../../lib/locale/decorators';
-import { RenderLayer } from '../../internal/RenderLayer';
-import { isNonNullable } from '../../lib/utils';
-import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
-import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
-import type { InputProps } from '../Input';
-import { Input } from '../Input';
-import type { Nullable } from '../../typings/utility-types';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { withSize } from '../../lib/size/SizeDecorator';
-import type { SizeProp } from '../../lib/types/props';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { locale } from '../../lib/locale/decorators.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import { isNonNullable } from '../../lib/utils.js';
+import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers.js';
+import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes.js';
+import type { InputProps } from '../Input/index.js';
+import { Input } from '../Input/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './PasswordInput.styles';
-import { PasswordInputIcon } from './PasswordInputIcon';
-import type { PasswordInputLocale } from './locale';
-import { PasswordInputLocaleHelper } from './locale';
+import { getStyles } from './PasswordInput.styles.js';
+import { PasswordInputIcon } from './PasswordInputIcon.js';
+import type { PasswordInputLocale } from './locale/index.js';
+import { PasswordInputLocaleHelper } from './locale/index.js';
 
 export interface PasswordInputProps
   extends Pick<AriaAttributes, 'aria-label'>,

@@ -2,22 +2,22 @@ import { DocsContext } from '@storybook/addon-docs';
 import type { ModuleExports } from '@storybook/types';
 import * as colors from '@skbkontur/colors/default-light';
 import React, { useContext, useEffect } from 'react';
-import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
-import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light.js';
+import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light.js';
+import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light.js';
+import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light.js';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { useStyles } from '../lib/renderEnvironment';
-import { DropdownMenu } from '../components/DropdownMenu';
-import { MenuItem } from '../components/MenuItem';
-import { Toggle } from '../components/Toggle';
-import { MenuHeader } from '../components/MenuHeader';
-import { MenuSeparator } from '../components/MenuSeparator';
-import { Hint } from '../components/Hint';
-import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext';
-import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme';
-import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme';
+import { useStyles } from '../lib/renderEnvironment/index.js';
+import { DropdownMenu } from '../components/DropdownMenu/index.js';
+import { MenuItem } from '../components/MenuItem/index.js';
+import { Toggle } from '../components/Toggle/index.js';
+import { MenuHeader } from '../components/MenuHeader/index.js';
+import { MenuSeparator } from '../components/MenuSeparator/index.js';
+import { Hint } from '../components/Hint/index.js';
+import { reactUIFeatureFlagsDefault } from '../lib/featureFlagsContext/index.js';
+import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme.js';
+import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme.js';
 
 const languages = [
   { icon: '🇷🇺', caption: 'Russian', value: 'ru' },

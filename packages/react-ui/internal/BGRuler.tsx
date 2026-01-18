@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getDOMRect } from '../lib/dom/getDOMRect';
-import { createPropsGetter } from '../lib/createPropsGetter';
+import { getDOMRect } from '../lib/dom/getDOMRect.js';
+import { createPropsGetter } from '../lib/createPropsGetter.js';
 
 export interface BGRulerProps {
   width?: string | number;

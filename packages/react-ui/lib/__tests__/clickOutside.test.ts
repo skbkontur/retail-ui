@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-import { clickOutside } from '../utils';
+import { clickOutside } from '../utils.js';
 
 describe('clickOutside integration tests', () => {
   let onClickOutside: ReturnType<typeof vi.fn>;

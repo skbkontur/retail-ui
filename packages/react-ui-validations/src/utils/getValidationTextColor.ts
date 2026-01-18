@@ -1,5 +1,5 @@
-import type { ValidationLevel } from '../ValidationWrapperInternal';
-import type { ThemeValidations } from '../../typings/theme-context';
+import type { ValidationLevel } from '../ValidationWrapperInternal.js';
+import type { ThemeValidations } from '../../typings/theme-context.js';
 
 export const DEFAULT_TEXT_COLOR = '#d43517';
 

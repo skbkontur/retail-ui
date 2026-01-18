@@ -1,11 +1,11 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import { shift } from '../../lib/styles/DimensionFunctions';
-import type { Theme } from '../../lib/theming/Theme';
-import type { SizeProp } from '../../lib/types/props';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import { shift } from '../../lib/styles/DimensionFunctions.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import { fontSize, lineHeight, paddingX, paddingY } from './helpers';
+import { fontSize, lineHeight, paddingX, paddingY } from './helpers.js';
 
 export const globalClasses = prefix('tab')({
   focus: 'focus',

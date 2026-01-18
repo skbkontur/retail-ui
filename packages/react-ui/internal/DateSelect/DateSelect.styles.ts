@@ -1,7 +1,7 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 export const globalClasses = prefix('select')({
   arrow: 'arrow',

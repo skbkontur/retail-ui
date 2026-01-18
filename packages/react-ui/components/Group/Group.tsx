@@ -1,10 +1,10 @@
 import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
 import {
   isButton,
   isAutocomplete,
@@ -17,10 +17,10 @@ import {
   isSelect,
   isTooltip,
   isHint,
-} from '../../lib/utils';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+} from '../../lib/utils.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Group.styles';
+import { getStyles } from './Group.styles.js';
 
 export interface GroupProps extends CommonProps {
   /** Задает длину компонента Group. */

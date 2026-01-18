@@ -1,13 +1,13 @@
 import React, { type JSX } from 'react';
-import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular';
-import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
+import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular.js';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { MenuItem } from '../../MenuItem';
-import { MenuHeader } from '../../MenuHeader';
-import { MenuSeparator } from '../../MenuSeparator';
-import { TooltipMenu } from '../TooltipMenu';
-import { Button } from '../../Button';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
+import { TooltipMenu } from '../TooltipMenu.js';
+import { Button } from '../../Button/index.js';
 
 const meta: Meta = {
   title: 'TooltipMenu',

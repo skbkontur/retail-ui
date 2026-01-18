@@ -1,25 +1,25 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { locale } from '../../lib/locale/decorators';
-import { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon';
-import type { SizeProp } from '../../lib/types/props';
-import { reactGetTextContent } from '../../lib/reactGetTextContent';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { locale } from '../../lib/locale/decorators.js';
+import { emptyHandler } from '../../lib/utils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { reactGetTextContent } from '../../lib/reactGetTextContent.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Token.styles';
-import type { TokenLocale } from './locale';
-import { TokenLocaleHelper } from './locale';
-import { TokenView } from './TokenView';
+import { getStyles } from './Token.styles.js';
+import type { TokenLocale } from './locale/index.js';
+import { TokenLocaleHelper } from './locale/index.js';
+import { TokenView } from './TokenView.js';
 
 export type TokenSize = SizeProp;
 

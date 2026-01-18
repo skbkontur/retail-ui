@@ -1,8 +1,8 @@
 import { useContext, useMemo } from 'react';
 
-import type { LocaleControls } from './types';
-import type { LocaleHelper } from './LocaleHelper';
-import { LocaleContext } from './LocaleContext';
+import type { LocaleControls } from './types.js';
+import type { LocaleHelper } from './LocaleHelper.js';
+import { LocaleContext } from './LocaleContext.js';
 
 export const useLocaleForControl = <TTranslationByLangCode extends Record<string, any>>(
   controlName: keyof LocaleControls,

@@ -1,16 +1,16 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { CalendarDayProps } from '../';
-import { Calendar, CalendarDay } from '../';
-import type { Story } from '../../../typings/stories';
-import { Gapped } from '../../Gapped';
-import { LocaleContext } from '../../../lib/locale';
-import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison';
-import { useMemoObject } from '../../../hooks/useMemoObject';
+import type { CalendarDayProps } from '../index.js';
+import { Calendar, CalendarDay } from '..//index.js';
+import type { Story } from '../../../typings/stories.js';
+import { Gapped } from '../../Gapped/index.js';
+import { LocaleContext } from '../../../lib/locale/index.js';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import { isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison.js';
+import { useMemoObject } from '../../../hooks/useMemoObject.js';
 
 export default {
   title: 'Calendar',

@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { useStyles } from '../../../lib/renderEnvironment';
-import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import type { InputProps } from '../Input';
-import { InputDataTids } from '../Input';
-import type { CommonProps } from '../../../internal/CommonWrapper';
-import { CommonWrapper } from '../../../internal/CommonWrapper';
-import { mergeRefs } from '../../../lib/mergeRefs';
+import { useStyles } from '../../../lib/renderEnvironment/index.js';
+import { forwardRefAndName } from '../../../lib/forwardRefAndName.js';
+import type { InputProps } from '../Input.js';
+import { InputDataTids } from '../Input.js';
+import type { CommonProps } from '../../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../../internal/CommonWrapper/index.js';
+import { mergeRefs } from '../../../lib/mergeRefs.js';
 
-import { InputLayoutAside } from './InputLayoutAside';
-import type { InputLayoutContextProps } from './InputLayoutContext';
-import { InputLayoutContext, InputLayoutContextDefault } from './InputLayoutContext';
-import { getStylesLayout } from './InputLayout.styles';
+import { InputLayoutAside } from './InputLayoutAside.js';
+import type { InputLayoutContextProps } from './InputLayoutContext.js';
+import { InputLayoutContext, InputLayoutContextDefault } from './InputLayoutContext.js';
+import { getStylesLayout } from './InputLayout.styles.js';
 
 type InputLayoutRootFromInputProps = Pick<InputProps, 'leftIcon' | 'rightIcon' | 'prefix' | 'suffix'>;
 

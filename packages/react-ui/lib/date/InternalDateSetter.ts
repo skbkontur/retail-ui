@@ -1,6 +1,6 @@
-import type { InternalDate } from './InternalDate';
-import type { InternalDateComponentRaw, InternalDateComponentsRaw, InternalDateChangeSettings } from './types';
-import { InternalDateComponentType } from './types';
+import type { InternalDate } from './InternalDate.js';
+import type { InternalDateComponentRaw, InternalDateComponentsRaw, InternalDateChangeSettings } from './types.js';
+import { InternalDateComponentType } from './types.js';
 
 export class InternalDateSetter {
   public static setValueDateComponent(

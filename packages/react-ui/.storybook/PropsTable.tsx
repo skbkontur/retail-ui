@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArgTypes } from '@storybook/blocks';
 
-import { useEmotion } from '../lib/renderEnvironment';
+import { useEmotion } from '../lib/renderEnvironment/index.js';
 
 export const PropsTable = () => {
   const [isOpen, setIsOpen] = useState(false);

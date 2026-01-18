@@ -1,7 +1,7 @@
 import type React from 'react';
 
-import { isMac } from '../../lib/client';
-import type { Nullable } from '../../typings/utility-types';
+import { isMac } from '../../lib/client.js';
+import type { Nullable } from '../../typings/utility-types.js';
 
 export interface KeyDescriptionType {
   name: string;

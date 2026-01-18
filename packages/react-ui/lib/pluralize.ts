@@ -1,4 +1,4 @@
-import { LangCodes } from './locale';
+import { LangCodes } from './locale/index.js';
 
 export function pluralize(
   langCode: LangCodes = LangCodes.ru_RU,

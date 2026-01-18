@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, ThemeContext, ThemeFactory, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
-import type { Meta, Story } from '../../../typings/stories';
-import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme';
-import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme';
-import { parseVersionFromThemeName } from '../../../lib/theming/ThemeVersions';
+import type { Meta, Story } from '../../../typings/stories.js';
+import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme.js';
+import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme.js';
+import { parseVersionFromThemeName } from '../../../lib/theming/ThemeVersions.js';
 
 const meta: Meta = {
   title: 'Information/Theme',

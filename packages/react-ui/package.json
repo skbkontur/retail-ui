@@ -2,24 +2,25 @@
   "name": "@skbkontur/react-ui",
   "version": "5.6.0",
   "description": "UI Components",
-  "main": "cjs/index.js",
-  "module": "index.js",
   "sideEffects": false,
   "homepage": "https://tech.skbkontur.ru/kontur-ui",
   "repository": {
     "type": "git",
-    "url": "git@github.com:skbkontur/retail-ui.git"
+    "url": "git+ssh://git@github.com/skbkontur/retail-ui.git"
   },
   "bugs": {
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
+  "type": "module",
   "scripts": {
-    "prebuild": "run-s clean \"build:types\"",
-    "build:types": "tsc -p ./prod.tsconfig.json --emitDeclarationOnly --diagnostics --outDir build",
-    "build:cjs": "cross-env BABEL_ENV=cjs node scripts/build",
-    "build:esm": "node scripts/build",
-    "build": "run-p build:esm build:cjs && node scripts/build/postbuild",
     "clean": "git clean -fdxqe node_modules",
+    "prebuild": "yarn rimraf build",
+    "build": "run-s build:* build:lint:*",
+    "build:tsc": "tsc --outDir build -p prod.tsconfig.json",
+    "build:copy-files": "copyfiles package.json README.md CHANGELOG.md LICENSE typings/* build",
+    "build:lint:publint": "publint --pack npm ./build",
+    "build:lint:attw": "attw --ignore-rules cjs-resolves-to-esm --quiet --pack ./build",
+    "build:exports": "node ./scripts/exports.ts",
     "prerelease": "yarn build",
     "release": "npm publish ./build --workspaces=false",
     "release:unstable": "yarn release --tag=unstable",
@@ -109,6 +110,7 @@
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
     "dts-css-modules-loader": "^2.0.1",
+    "eslint-plugin-file-extension-in-import-ts": "2.1.1",
     "eslint-plugin-jest-dom": "^5.4.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.8.0",

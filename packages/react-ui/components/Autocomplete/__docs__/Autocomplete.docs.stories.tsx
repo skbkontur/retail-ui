@@ -1,9 +1,9 @@
 import React from 'react';
-import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light';
+import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light.js';
 import { Autocomplete, Button, Gapped } from '@skbkontur/react-ui';
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
+import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Input data/Autocomplete',

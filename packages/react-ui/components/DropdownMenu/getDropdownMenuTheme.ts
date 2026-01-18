@@ -1,5 +1,5 @@
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { Theme } from '../../lib/theming/Theme';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 export const getDropdownMenuTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(

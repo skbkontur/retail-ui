@@ -1,8 +1,8 @@
 import React from 'react';
-import { People3Icon } from '@skbkontur/icons/icons/People3Icon';
+import { People3Icon } from '@skbkontur/icons/icons/People3Icon/People3Icon.js';
 import { Select, Button, Link, Gapped, type ButtonParams } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Input data/Select',

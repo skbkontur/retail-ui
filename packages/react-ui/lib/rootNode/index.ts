@@ -1,2 +1,2 @@
-export * from './getRootNode';
-export * from './rootNodeDecorator';
+export * from './getRootNode.js';
+export * from './rootNodeDecorator.js';

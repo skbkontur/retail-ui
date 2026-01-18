@@ -1,10 +1,10 @@
 import React from 'react';
-import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light';
-import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular';
-import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light';
-import { Link, Gapped, Button, Toast } from '@skbkontur/react-ui';
+import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light.js';
+import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular.js';
+import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light.js';
+import { Link, Gapped, Button, SingleToast } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Button/Link',
@@ -122,7 +122,7 @@ ExampleButton.storyName = 'Управление корневым элемент�
 
 /** Вы можете управлять тем, какое именно действие присходит при нажатии на ссылку. */
 export const ExampleClickCustom: Story = () => {
-  return <Link onClick={() => Toast.push('Ты нажал на ссылку')}>Ссылка с кастомным действием</Link>;
+  return <Link onClick={() => SingleToast.push('Ты нажал на ссылку')}>Ссылка с кастомным действием</Link>;
 };
 ExampleClickCustom.storyName = 'Кастомизация: действие при нажатии';
 
@@ -163,7 +163,7 @@ export const ExampleCustomLink: Story = () => {
 
   const copyStyles = (styles: Record<string, string>) => {
     navigator.clipboard.writeText(stringify(styles));
-    Toast.push('Copied');
+    SingleToast.push('Copied');
   };
 
   const tableStyle: React.CSSProperties = {

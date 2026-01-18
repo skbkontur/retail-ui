@@ -1,7 +1,7 @@
 import type React from 'react';
 
-import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject';
-import { isFirefox } from '../client';
+import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject.js';
+import { isFirefox } from '../client.js';
 
 // Checkbox not checked in Firefox if key of modifier was active
 // shift+click, ctrl+click on Win and cmd+click on Mac

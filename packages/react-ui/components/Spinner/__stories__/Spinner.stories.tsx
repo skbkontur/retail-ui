@@ -1,8 +1,8 @@
 import React, { type JSX } from 'react';
 
-import type { Meta } from '../../../typings/stories';
-import { Spinner } from '../Spinner';
-import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular';
+import type { Meta } from '../../../typings/stories.js';
+import { Spinner } from '../Spinner.js';
+import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular.js';
 
 const reactNodeCaption = (
   <div>

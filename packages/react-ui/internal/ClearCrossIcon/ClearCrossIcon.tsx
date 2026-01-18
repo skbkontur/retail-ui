@@ -1,16 +1,16 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { useKeyListener } from '../../lib/events/keyListener';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps } from '../CommonWrapper';
-import { CommonWrapper } from '../CommonWrapper';
-import type { SizeProp } from '../../lib/types/props';
-import type { TokenSize } from '../../components/Token';
+import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { useKeyListener } from '../../lib/events/keyListener.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import type { TokenSize } from '../../components/Token/index.js';
 
-import { getStyles } from './ClearCrossIcon.styles';
-import { CrossIcon } from './CrossIcon';
+import { getStyles } from './ClearCrossIcon.styles.js';
+import { CrossIcon } from './CrossIcon.js';
 
 export interface ClearCrossIconProps
   extends Pick<AriaAttributes, 'aria-label'>,

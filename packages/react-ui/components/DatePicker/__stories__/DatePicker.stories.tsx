@@ -1,19 +1,19 @@
 import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import type { Nullable } from '../../../typings/utility-types';
-import type { Meta, Story } from '../../../typings/stories';
-import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
-import { Button } from '../../Button';
-import { Gapped } from '../../Gapped';
-import { Tooltip } from '../../Tooltip';
-import { DatePicker } from '../DatePicker';
-import { LocaleContext, LangCodes } from '../../../lib/locale';
-import { emptyHandler } from '../../../lib/utils';
-import type { SizeProp } from '../../../lib/types/props';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
+import type { Nullable } from '../../../typings/utility-types.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types.js';
+import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import { DatePicker } from '../DatePicker.js';
+import { LocaleContext, LangCodes } from '../../../lib/locale/index.js';
+import { emptyHandler } from '../../../lib/utils.js';
+import type { SizeProp } from '../../../lib/types/props.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 
 interface DatePickerWithErrorProps {
   disabled?: boolean;

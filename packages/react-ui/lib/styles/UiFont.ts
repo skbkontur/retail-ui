@@ -1,4 +1,4 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
 export const UI_FONT_NAME = 'ui';
 

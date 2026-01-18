@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment';
-import { Gapped } from '../../components/Gapped';
-import type { Theme } from '../../lib/theming/Theme';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
-import { getStyles } from './Playground.styles';
+import { getStyles } from './Playground.styles.js';
 
 interface ComponentsGroupProps {
   title: string;

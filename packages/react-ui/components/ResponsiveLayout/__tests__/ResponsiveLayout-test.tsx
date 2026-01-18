@@ -1,6 +1,6 @@
-import type { listenerToken } from '../ResponsiveLayoutEvents';
-import { addResponsiveLayoutListener, eventListenersMap } from '../ResponsiveLayoutEvents';
-import { getSafeWindow } from '../../../lib/globalObject';
+import type { listenerToken } from '../ResponsiveLayoutEvents.js';
+import { addResponsiveLayoutListener, eventListenersMap } from '../ResponsiveLayoutEvents.js';
+import { getSafeWindow } from '../../../lib/globalObject.js';
 
 const safeWindow = getSafeWindow();
 

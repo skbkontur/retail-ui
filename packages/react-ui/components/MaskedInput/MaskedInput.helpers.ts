@@ -1,6 +1,6 @@
 import { type Definitions } from '@skbkontur/imask';
 
-import { isNonNullable } from '../../lib/utils';
+import { isNonNullable } from '../../lib/utils.js';
 
 export const DEFAULT_MASK_CHAR = '_';
 export const DEFINITIONS = Object.freeze({ '9': /[0-9]/, a: /[A-Za-z]/, '*': /[A-Za-z0-9]/ });

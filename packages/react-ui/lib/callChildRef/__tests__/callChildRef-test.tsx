@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { Hint } from '../../../components/Hint';
+import { Hint } from '../../../components/Hint/index.js';
 
 describe('Setting ref to child', () => {
   it('should call callback  ref', () => {

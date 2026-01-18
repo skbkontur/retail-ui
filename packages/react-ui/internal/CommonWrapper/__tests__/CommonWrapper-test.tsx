@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { CommonWrapper } from '../CommonWrapper';
+import { CommonWrapper } from '../CommonWrapper.js';
 
 describe('CommonWrapper', () => {
   it('common cases', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index.js';
 
 import { Case, CaseSuite } from '../Case';
 

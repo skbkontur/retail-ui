@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../internal/icons2022/iconSizer';
-import { EyeClosedIcon16Light } from '../../internal/icons2022/EyeClosedIcon/EyeClosedIcon16Light';
-import { EyeClosedIcon20Light } from '../../internal/icons2022/EyeClosedIcon/EyeClosedIcon20Light';
-import { EyeClosedIcon24Regular } from '../../internal/icons2022/EyeClosedIcon/EyeClosedIcon24Regular';
+import { iconSizer } from '../../internal/icons2022/iconSizer.js';
+import { EyeClosedIcon16Light } from '../../internal/icons2022/EyeClosedIcon/EyeClosedIcon16Light.js';
+import { EyeClosedIcon20Light } from '../../internal/icons2022/EyeClosedIcon/EyeClosedIcon20Light.js';
+import { EyeClosedIcon24Regular } from '../../internal/icons2022/EyeClosedIcon/EyeClosedIcon24Regular.js';
 
 export const ClosedIcon = iconSizer(
   {

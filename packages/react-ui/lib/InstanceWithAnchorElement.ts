@@ -1,4 +1,4 @@
-import type { Nullable } from '../typings/utility-types';
+import type { Nullable } from '../typings/utility-types.js';
 
 export interface InstanceWithAnchorElement {
   getAnchorElement: () => Nullable<Element>;

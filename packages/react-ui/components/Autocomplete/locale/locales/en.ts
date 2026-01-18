@@ -1,4 +1,4 @@
-import type { AutocompleteLocale } from '../types';
+import type { AutocompleteLocale } from '../types.js';
 
 export const componentsLocales: AutocompleteLocale = {
   enterValue: 'Start typing',

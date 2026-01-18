@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment';
-import type { ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
+import type { ReactUIComponentWithRef } from '../../lib/forwardRefAndName.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 
-import { getStyles } from './BaseIcon.styles';
+import { getStyles } from './BaseIcon.styles.js';
 
 export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: string;

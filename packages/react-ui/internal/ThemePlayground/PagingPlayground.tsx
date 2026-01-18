@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Paging } from '../../components/Paging';
+import { Paging } from '../../components/Paging/index.js';
 
 interface PagingPlaygroundState {
   activePage: number;

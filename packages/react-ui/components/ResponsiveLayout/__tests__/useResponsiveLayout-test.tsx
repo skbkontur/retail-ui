@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-import { eventListenersMap } from '../ResponsiveLayoutEvents';
-import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsiveLayout';
-import type { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
+import { eventListenersMap } from '../ResponsiveLayoutEvents.js';
+import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsiveLayout.js';
+import type { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 
 function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: ResponsiveLayoutOptions<T>) {
   const useResponsiveLayout = () => {

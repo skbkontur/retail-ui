@@ -1,1 +1,1 @@
-export * from './InputLikeText';
+export * from './InputLikeText.js';

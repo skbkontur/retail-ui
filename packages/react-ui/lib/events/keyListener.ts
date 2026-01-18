@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { useGlobal } from '../renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { useGlobal } from '../renderEnvironment/index.js';
 
-import { isKeyArrow, isKeyTab } from './keyboard/identifiers';
+import { isKeyArrow, isKeyTab } from './keyboard/identifiers.js';
 
 export class KeyListener {
   public isTabPressed = false;

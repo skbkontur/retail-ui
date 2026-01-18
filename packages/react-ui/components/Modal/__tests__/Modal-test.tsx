@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { StickyDataTids } from '../../Sticky';
-import { Modal, ModalDataTids } from '../Modal';
-import { componentsLocales as ModalLocalesRu } from '../locale/locales/ru';
-import { componentsLocales as ModalLocalesEn } from '../locale/locales/en';
-import { ModalStack } from '../../../lib/ModalStack';
-import { getSafeWindow } from '../../../lib/globalObject';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { StickyDataTids } from '../../Sticky/index.js';
+import { Modal, ModalDataTids } from '../Modal.js';
+import { componentsLocales as ModalLocalesRu } from '../locale/locales/ru.js';
+import { componentsLocales as ModalLocalesEn } from '../locale/locales/en.js';
+import { ModalStack } from '../../../lib/ModalStack.js';
+import { getSafeWindow } from '../../../lib/globalObject.js';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,

@@ -12,7 +12,7 @@ import {
   Select,
 } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 import {
   Default,
   CustomChildrenVertical,
@@ -20,7 +20,7 @@ import {
   Sizes,
   Validations as ValidationsStory,
   TodayButton,
-} from '../__stories__/DateRangePicker.stories';
+} from '../__stories__/DateRangePicker.stories.js';
 
 const meta: Meta = {
   title: 'Date Components/DateRangePicker',

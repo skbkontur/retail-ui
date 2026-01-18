@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { ResponsiveLayout } from '../ResponsiveLayout';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 
-import { getStyles } from './MenuSeparator.styles';
+import { getStyles } from './MenuSeparator.styles.js';
 
 export type MenuSeparatorProps = CommonProps;
 

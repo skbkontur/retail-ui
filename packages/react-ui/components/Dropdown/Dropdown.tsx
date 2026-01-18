@@ -1,22 +1,22 @@
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 
-import { filterProps } from '../../lib/filterProps';
-import { MenuHeader } from '../MenuHeader';
-import { MenuItem } from '../MenuItem';
-import { MenuSeparator } from '../MenuSeparator';
-import { Select } from '../Select';
-import type { Nullable } from '../../typings/utility-types';
-import type { ButtonUse } from '../Button';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { SizeProp } from '../../lib/types/props';
+import { filterProps } from '../../lib/filterProps.js';
+import { MenuHeader } from '../MenuHeader/index.js';
+import { MenuItem } from '../MenuItem/index.js';
+import { MenuSeparator } from '../MenuSeparator/index.js';
+import { Select } from '../Select/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { ButtonUse } from '../Button/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/types.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import { getDropdownTheme } from './getDropdownTheme';
+import { getDropdownTheme } from './getDropdownTheme.js';
 
 const PASS_PROPS = {
   _renderButton: true,

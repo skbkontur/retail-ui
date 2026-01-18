@@ -1,27 +1,27 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import invariant from 'invariant';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
-import { KeyListener } from '../../lib/events/keyListener';
-import type { Nullable } from '../../typings/utility-types';
-import { isFunctionalComponent } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { ResizeDetector } from '../../internal/ResizeDetector/index.js';
+import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { isFunctionalComponent } from '../../lib/utils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import type { TabsContextType } from './TabsContext';
-import { TabsContext, TabsContextDefaultValue } from './TabsContext';
-import { globalClasses, getHorizontalStyles, getStyles, getVerticalStyles } from './Tab.styles';
+import type { TabsContextType } from './TabsContext.js';
+import { TabsContext, TabsContextDefaultValue } from './TabsContext.js';
+import { globalClasses, getHorizontalStyles, getStyles, getVerticalStyles } from './Tab.styles.js';
 
 export interface TabIndicators {
   error: boolean;

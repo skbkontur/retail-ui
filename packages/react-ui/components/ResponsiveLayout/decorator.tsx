@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ResponsiveLayout } from './ResponsiveLayout';
-import type { ResponsiveLayoutFlags } from './types';
+import { ResponsiveLayout } from './ResponsiveLayout.js';
+import type { ResponsiveLayoutFlags } from './types.js';
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T): T {
   const ComponentWithLayout = class extends WrappedComp {

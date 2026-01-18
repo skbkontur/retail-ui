@@ -1,18 +1,18 @@
 import React from 'react';
 
-import type { Story } from '../../../typings/stories';
-import type { SwitcherItems, SwitcherProps } from '../Switcher';
-import { Switcher } from '../Switcher';
-import { Gapped } from '../../Gapped';
-import { Hint } from '../../Hint';
-import { Tooltip } from '../../Tooltip';
-import type { ButtonProps } from '../../Button';
-import { Button } from '../../Button';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { Select } from '../../Select';
-import type { SizeProp } from '../../../lib/types/props';
-import type { CommonProps } from '../../../internal/CommonWrapper/types';
+import type { Story } from '../../../typings/stories.js';
+import type { SwitcherItems, SwitcherProps } from '../Switcher.js';
+import { Switcher } from '../Switcher.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Hint } from '../../Hint/index.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import type { ButtonProps } from '../../Button/index.js';
+import { Button } from '../../Button/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import { Select } from '../../Select/index.js';
+import type { SizeProp } from '../../../lib/types/props.js';
+import type { CommonProps } from '../../../internal/CommonWrapper/types.js';
 
 interface ComponentState {
   value: string;

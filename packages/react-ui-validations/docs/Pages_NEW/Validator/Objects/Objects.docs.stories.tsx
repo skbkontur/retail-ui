@@ -1,11 +1,11 @@
-import { Meta, Story } from '@skbkontur/react-ui/typings/stories';
+import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
 
-import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import { Form } from '../../../Common/Form';
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import type { Nullable } from '../../../../typings/Types.js';
+import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {
   title: 'Validator/Objects',
@@ -116,7 +116,7 @@ export const NestedObject: Story = () => {
   const fullName = contactInfo?.fullName;
 
   function handleFullNameChange(value: Partial<FullName>): void {
-    handleChange({ fullName: { ...fullName!, ...value } });
+    handleChange({ ...(fullName ? { fullName } : {}), ...value });
   }
 
   function handleChange(value: Partial<ContactInfo>): void {

@@ -1,15 +1,15 @@
 import React, { type JSX } from 'react';
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular';
-import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular';
+import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
 
-import { Button } from '../../Button';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import type { Meta, Story } from '../../../typings/stories';
-import { Dropdown } from '../Dropdown';
-import { MenuItem } from '../../MenuItem';
-import { Gapped } from '../../Gapped';
-import { MenuHeader } from '../../MenuHeader';
+import { Button } from '../../Button/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Dropdown } from '../Dropdown.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
 
 const meta: Meta = {
   title: 'Dropdown',

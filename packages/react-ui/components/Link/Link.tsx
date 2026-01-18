@@ -1,25 +1,25 @@
 import React, { type JSX } from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import type { ButtonLinkAllowedValues } from '../../lib/types/button-link';
-import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component';
-import { KeyListener } from '../../lib/events/keyListener';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { isExternalLink } from '../../lib/utils';
-import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import type { DefaultizedProps } from '../../lib/createPropsGetter';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import type { ButtonLinkAllowedValues } from '../../lib/types/button-link.js';
+import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isExternalLink } from '../../lib/utils.js';
+import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { DefaultizedProps } from '../../lib/createPropsGetter.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Link.styles';
-import { LinkIcon } from './LinkIcon';
+import { getStyles } from './Link.styles.js';
+import { LinkIcon } from './LinkIcon.js';
 
 export interface LinkInnerProps extends CommonProps {
   /** Ссылка меняет цвет на серый и становится недоступна для нажатия. */

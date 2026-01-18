@@ -1,4 +1,4 @@
-import { extractDataProps } from '../utils';
+import { extractDataProps } from '../utils.js';
 
 describe('extractDataProps', () => {
   it('correctly extracts data props', () => {

@@ -1,8 +1,9 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
+  "include": ["index.ts", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
   "compilerOptions": {
     "types": ["node", "vitest/globals", "@testing-library/jest-dom", "creevey/playwright"],
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "inlineSources": true
   }
 }

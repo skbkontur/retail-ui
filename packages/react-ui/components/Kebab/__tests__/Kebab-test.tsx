@@ -1,11 +1,11 @@
 import React from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
-import { PopupDataTids, PopupIds } from '../../../internal/Popup';
-import { MenuItem } from '../../MenuItem';
-import { Kebab, KebabDataTids } from '../Kebab';
-import { delay } from '../../../lib/utils';
+import { PopupDataTids, PopupIds } from '../../../internal/Popup/index.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { Kebab, KebabDataTids } from '../Kebab.js';
+import { delay } from '../../../lib/utils.js';
 
 describe('Kebab', () => {
   it('prop `popupMenuId` sets an `id` for root of the popup', async () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { InputLikeText, InputLikeTextDataTids } from '../InputLikeText';
+import { InputLikeText, InputLikeTextDataTids } from '../InputLikeText.js';
 
 describe('InputLikeText', () => {
   describe('placeholder', () => {

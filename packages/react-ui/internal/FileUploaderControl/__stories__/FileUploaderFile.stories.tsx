@@ -1,11 +1,11 @@
 import React, { type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Story } from '../../../typings/stories';
-import { Gapped } from '../../../components/Gapped';
-import type { FileUploaderAttachedFile } from '../../../components/FileUploader';
-import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
-import { FileUploaderFileStatus } from '../fileUtils';
+import type { Story } from '../../../typings/stories.js';
+import { Gapped } from '../../../components/Gapped/index.js';
+import type { FileUploaderAttachedFile } from '../../../components/FileUploader/index.js';
+import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile.js';
+import { FileUploaderFileStatus } from '../fileUtils.js';
 
 export default {
   title: 'FileUploaderFile',

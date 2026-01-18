@@ -1,6 +1,6 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from '../../lib/theming/Theme';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 export const getStyles = (
   emotion: Emotion,

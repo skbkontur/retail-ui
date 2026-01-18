@@ -1,5 +1,5 @@
-import type { GlobalObject } from '../../lib/globalObject';
-import { isBrowser } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isBrowser } from '../../lib/globalObject.js';
 
 export function getTextAreaHeight(
   globalObject: GlobalObject,

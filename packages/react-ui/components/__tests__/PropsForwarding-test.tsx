@@ -3,14 +3,20 @@ import type { RenderResult } from '@testing-library/react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import type { Toast } from '../../index';
-import * as ReactUI from '../../index';
-import { FileUploaderFileStatus, ModalDataTids, SidePageDataTids, SingleToast, TokenInputDataTids } from '../../index';
-import type { AnyObject } from '../../lib/utils';
-import { delay } from '../../lib/utils';
-import { InputLikeTextDataTids } from '../../internal/InputLikeText';
-import { getRootNode } from '../../lib/rootNode';
-import { createFile } from '../../internal/FileUploaderControl/fileUtils';
+import * as ReactUI from '../../index.js';
+import type { Toast } from '../../index.js';
+import {
+  FileUploaderFileStatus,
+  ModalDataTids,
+  SidePageDataTids,
+  SingleToast,
+  TokenInputDataTids,
+} from '../../index.js';
+import type { AnyObject } from '../../lib/utils.js';
+import { delay } from '../../lib/utils.js';
+import { InputLikeTextDataTids } from '../../internal/InputLikeText/index.js';
+import { getRootNode } from '../../lib/rootNode/index.js';
+import { createFile } from '../../internal/FileUploaderControl/fileUtils.js';
 
 function isPublicComponent(component: any, name: string) {
   //skip contexts

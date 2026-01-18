@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
-import { isFunction } from '../../lib/utils';
-import { CommonWrapper } from '../../internal/CommonWrapper';
+import { isFunction } from '../../lib/utils.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 
-import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types';
-import { useResponsiveLayout } from './useResponsiveLayout';
+import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types.js';
+import { useResponsiveLayout } from './useResponsiveLayout.js';
 
 interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
   /** Задает функцию, которая вызывается при изменении лейаута. */

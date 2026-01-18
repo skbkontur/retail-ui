@@ -3,7 +3,7 @@ import type { InputMask, MaskedPatternOptions } from '@skbkontur/imask';
 import type { IMaskInputProps } from '@skbkontur/react-imask';
 import { IMaskInput } from '@skbkontur/react-imask';
 
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import {
   isKeyArrow,
   isKeyArrowHorizontal,
@@ -15,8 +15,8 @@ import {
   isShortcutJumpCaret,
   isShortcutSelectAll,
   someKeys,
-} from '../../lib/events/keyboard/identifiers';
-import { MouseDrag } from '../../lib/events/MouseDrag';
+} from '../../lib/events/keyboard/identifiers.js';
+import { MouseDrag } from '../../lib/events/MouseDrag.js';
 
 export type FixedIMaskInputProps = IMaskInputProps<HTMLInputElement>;
 

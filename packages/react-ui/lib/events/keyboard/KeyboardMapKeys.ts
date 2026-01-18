@@ -1,4 +1,4 @@
-import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
+import { KeyboardEventCodes as Codes } from './KeyboardEventCodes.js';
 
 export type Location = number;
 export type KeyCode = number;

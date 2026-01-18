@@ -1,9 +1,9 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { RadioGroup } from '../../RadioGroup';
-import { Radio, RadioDataTids } from '../Radio';
+import { RadioGroup } from '../../RadioGroup/index.js';
+import { Radio, RadioDataTids } from '../Radio.js';
 
 describe('Radio', () => {
   it('should render radio', () => {

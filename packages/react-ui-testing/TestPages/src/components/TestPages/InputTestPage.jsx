@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button/index.js';
+import { Input } from '@skbkontur/react-ui/components/Input.js';
 
 import { CaseSuite, Case } from '../Case';
 

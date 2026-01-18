@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import { ToastView as Toast } from '../ToastView';
+import { ToastView as Toast } from '../ToastView.js';
 
 export default { title: 'ToastView', parameters: { creevey: { skip: true } } };
 

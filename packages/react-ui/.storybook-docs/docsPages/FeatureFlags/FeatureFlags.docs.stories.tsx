@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 // import { FeatureFlagToggle } from '../../FeatureFlagToggle';
 
 const meta: Meta = {

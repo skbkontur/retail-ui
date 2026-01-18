@@ -1,3 +1,3 @@
-import type { SizeProp } from '../types/props';
+import type { SizeProp } from '../types/props.js';
 
 export const defaultSizeValue: SizeProp = 'small';

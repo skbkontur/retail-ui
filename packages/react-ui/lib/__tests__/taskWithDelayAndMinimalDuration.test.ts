@@ -1,5 +1,5 @@
-import { TaskWithDelayAndMinimalDuration } from '../taskWithDelayAndMinimalDuration';
-import { delay } from '../utils';
+import { TaskWithDelayAndMinimalDuration } from '../taskWithDelayAndMinimalDuration.js';
+import { delay } from '../utils.js';
 
 describe('stop() cases', () => {
   it('after before task works', async () => {

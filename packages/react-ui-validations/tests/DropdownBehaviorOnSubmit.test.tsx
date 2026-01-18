@@ -1,13 +1,13 @@
 import { act, render, screen } from '@testing-library/react';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
-import { DatePicker, DatePickerDataTids } from '@skbkontur/react-ui/components/DatePicker';
-import { TooltipDataTids } from '@skbkontur/react-ui/components/Tooltip';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox.js';
+import { DatePicker, DatePickerDataTids } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
+import { TooltipDataTids } from '@skbkontur/react-ui/components/Tooltip/Tooltip.js';
 import React from 'react';
-import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox';
+import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox/index.js';
 
-import type { Nullable } from '../typings/Types';
-import type { ValidationInfo } from '../src';
-import { ValidationContainer, ValidationWrapper } from '../src';
+import type { Nullable } from '../typings/Types.js';
+import type { ValidationInfo } from '../index.js';
+import { ValidationContainer, ValidationWrapper } from '../index.js';
 
 const validate = (): Nullable<ValidationInfo> => {
   return { message: 'Всегда невалидно', type: 'immediate' };

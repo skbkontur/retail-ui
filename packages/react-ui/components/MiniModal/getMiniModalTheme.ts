@@ -1,7 +1,6 @@
-import type { BasicThemeClass } from '@skbkontur/react-ui/internal/themes/BasicTheme';
-
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme';
+import type { BasicThemeClass } from '../../internal/themes/BasicTheme.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
 
 export const getMiniModalTheme = (contextTheme: Theme, propsTheme: ThemeIn = {}): Readonly<typeof BasicThemeClass> => {
   const theme = ThemeFactory.create(propsTheme, contextTheme);

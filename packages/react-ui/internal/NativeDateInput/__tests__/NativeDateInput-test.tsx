@@ -1,5 +1,5 @@
-import type { CalendarDateShape } from '../../../components/Calendar/CalendarDateShape';
-import { getDateForNative, getDateForComponent, getNativeDateFromShape, getShapeFromNativeDate } from '../utils';
+import type { CalendarDateShape } from '../../../components/Calendar/CalendarDateShape.js';
+import { getDateForNative, getDateForComponent, getNativeDateFromShape, getShapeFromNativeDate } from '../utils.js';
 
 describe('NativeDatePikcer', () => {
   it('get correct native date input string (YYYY-MM-DD) from value format (DD.MM.YYYY)', () => {

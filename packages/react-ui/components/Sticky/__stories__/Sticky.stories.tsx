@@ -1,7 +1,7 @@
 import React, { type JSX } from 'react';
 
-import type { Story } from '../../../typings/stories';
-import { Sticky } from '../Sticky';
+import type { Story } from '../../../typings/stories.js';
+import { Sticky } from '../Sticky.js';
 
 const stickyContent = (fixed: boolean) => (
   <div

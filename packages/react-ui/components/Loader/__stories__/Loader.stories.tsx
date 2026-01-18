@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-import { useEmotion } from '../../../lib/renderEnvironment';
-import type { AnyObject } from '../../../lib/utils';
-import type { Story } from '../../../typings/stories';
-import type { LoaderProps } from '../Loader';
-import { Loader } from '../Loader';
-import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { Toggle } from '../../Toggle';
+import { useEmotion } from '../../../lib/renderEnvironment/index.js';
+import type { AnyObject } from '../../../lib/utils.js';
+import type { Story } from '../../../typings/stories.js';
+import type { LoaderProps } from '../Loader.js';
+import { Loader } from '../Loader.js';
+import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { Toggle } from '../../Toggle/index.js';
 
-import { LoaderAndButton } from './LoaderAndButton';
+import { LoaderAndButton } from './LoaderAndButton.js';
 
 const loaderClass = `
   height: 100%;

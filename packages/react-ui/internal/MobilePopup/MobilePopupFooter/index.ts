@@ -1,1 +1,1 @@
-export * from './MobilePopupFooter';
+export * from './MobilePopupFooter.js';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
-import { Hint } from '../Hint';
+import { Hint } from '../Hint.js';
 
 describe('Hint', () => {
   it('should render without crash', () => {

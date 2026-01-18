@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type { Nullable } from '../../typings/utility-types';
-import { Tooltip } from '../../components/Tooltip';
-import type { DatePickerProps } from '../../components/DatePicker';
-import { DatePicker } from '../../components/DatePicker';
+import type { Nullable } from '../../typings/utility-types.js';
+import { Tooltip } from '../../components/Tooltip/index.js';
+import type { DatePickerProps } from '../../components/DatePicker/index.js';
+import { DatePicker } from '../../components/DatePicker/index.js';
 
 interface DatePickerPlaygroundState {
   value: Nullable<string>;

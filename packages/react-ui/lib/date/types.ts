@@ -1,4 +1,4 @@
-import type { LangCodes } from '../locale';
+import type { LangCodes } from '../locale/index.js';
 
 export enum InternalDateOrder {
   DMY = 'DMY',

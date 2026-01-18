@@ -1,2 +1,2 @@
-export * from './ZIndex';
-export type { Priority } from './ZIndexStorage';
+export * from './ZIndex.js';
+export type { Priority } from './ZIndexStorage.js';

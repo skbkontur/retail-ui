@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { iconSizer } from '../../../../icons2022/iconSizer';
-import { TableIcon24Regular } from '../../../../icons2022/FileTypeTableIcon/TableIcon24Regular';
-import { TableIcon32Regular } from '../../../../icons2022/FileTypeTableIcon/TableIcon32Regular';
-import { TableIcon64Regular } from '../../../../icons2022/FileTypeTableIcon/TableIcon64Regular';
+import { iconSizer } from '../../../../icons2022/iconSizer.js';
+import { TableIcon24Regular } from '../../../../icons2022/FileTypeTableIcon/TableIcon24Regular.js';
+import { TableIcon32Regular } from '../../../../icons2022/FileTypeTableIcon/TableIcon32Regular.js';
+import { TableIcon64Regular } from '../../../../icons2022/FileTypeTableIcon/TableIcon64Regular.js';
 
 export const TableIcon = iconSizer(
   {

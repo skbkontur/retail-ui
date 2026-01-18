@@ -1,5 +1,5 @@
-import type { GlobalObject } from '../../lib/globalObject';
-import { getOwnerGlobalObject } from '../../lib/globalObject';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { getOwnerGlobalObject } from '../../lib/globalObject.js';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',

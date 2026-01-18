@@ -1,1 +1,1 @@
-export * from './GlobalLoader';
+export * from './GlobalLoader.js';

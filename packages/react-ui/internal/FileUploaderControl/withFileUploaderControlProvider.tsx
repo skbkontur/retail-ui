@@ -1,8 +1,8 @@
 import type { ComponentType } from 'react';
 import React from 'react';
 
-import type { FileUploaderControlProviderProps } from './FileUploaderControlProvider';
-import { FileUploaderControlProvider } from './FileUploaderControlProvider';
+import type { FileUploaderControlProviderProps } from './FileUploaderControlProvider.js';
+import { FileUploaderControlProvider } from './FileUploaderControlProvider.js';
 
 export const withFileUploaderControlProvider = <TProps extends Record<string, any>, TRef extends Record<string, any>>(
   Component: ComponentType<

@@ -3,13 +3,13 @@ import type { ForwardedRef } from 'react';
 import React, { useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import debounce from 'lodash.debounce';
 
-import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment';
-import { isBrowser } from '../../../lib/globalObject';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import type { InputElement, InputElementProps } from '../../Input';
-import { forwardRefAndName } from '../../../lib/forwardRefAndName';
+import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
+import { isBrowser } from '../../../lib/globalObject.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import type { InputElement, InputElementProps } from '../../Input/index.js';
+import { forwardRefAndName } from '../../../lib/forwardRefAndName.js';
 
-import { globalClasses, getStyles } from './ColorableInputElement.styles';
+import { globalClasses, getStyles } from './ColorableInputElement.styles.js';
 
 export type ColorableInputElementProps = InputElementProps & {
   alwaysShowMask?: boolean;

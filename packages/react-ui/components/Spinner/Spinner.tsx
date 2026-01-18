@@ -1,17 +1,17 @@
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { SpinnerIcon } from '../../internal/SpinnerIcon/SpinnerIcon';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { SpinnerIcon } from '../../internal/SpinnerIcon/SpinnerIcon.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './Spinner.styles';
+import { getStyles } from './Spinner.styles.js';
 
 const types = ['big', 'mini', 'normal'] as const;
 

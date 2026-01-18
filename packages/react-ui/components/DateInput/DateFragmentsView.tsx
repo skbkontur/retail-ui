@@ -1,16 +1,16 @@
 import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
-import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
-import type { InternalDateFragment } from '../../lib/date/types';
-import { InternalDateComponentType } from '../../lib/date/types';
-import type { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { MaskCharLowLine } from '../../internal/MaskCharLowLine/index.js';
+import { InternalDateValidator } from '../../lib/date/InternalDateValidator.js';
+import type { InternalDateFragment } from '../../lib/date/types.js';
+import { InternalDateComponentType } from '../../lib/date/types.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './DateFragmentsView.styles';
+import { getStyles } from './DateFragmentsView.styles.js';
 
 interface DateFragmentViewProps {
   selected: InternalDateComponentType | null;

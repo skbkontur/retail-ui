@@ -1,13 +1,13 @@
 import React, { type JSX } from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 
-import { PopupDataTids } from '..';
-import { MobilePopupDataTids } from '../../MobilePopup';
-import type { InstanceWithRootNode } from '../../../lib/rootNode';
-import type { PopupProps } from '../Popup';
-import { Popup } from '../Popup';
-import { delay } from '../../../lib/utils';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
+import { PopupDataTids } from '../index.js';
+import { MobilePopupDataTids } from '../../MobilePopup/index.js';
+import type { InstanceWithRootNode } from '../../../lib/rootNode//rootNodeDecorator.js';
+import type { PopupProps } from '../Popup.js';
+import { Popup } from '../Popup.js';
+import { delay } from '../../../lib/utils.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 
 describe('Popup', () => {
   vi.setConfig({ testTimeout: 10000 });

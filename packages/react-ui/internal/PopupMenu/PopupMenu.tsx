@@ -1,38 +1,38 @@
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject';
-import { getRandomID } from '../../lib/utils';
-import type { HTMLProps } from '../../typings/html';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { getRandomID } from '../../lib/utils.js';
+import type { HTMLProps } from '../../typings/html.js';
 import {
   isKeyArrowVertical,
   isKeyEnter,
   isKeyEscape,
   isKeySpace,
   someKeys,
-} from '../../lib/events/keyboard/identifiers';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { PopupPositionsType } from '../Popup';
-import { Popup, PopupIds } from '../Popup';
-import { RenderLayer } from '../RenderLayer';
-import type { Nullable } from '../../typings/utility-types';
-import type { CommonProps } from '../CommonWrapper';
-import { CommonWrapper } from '../CommonWrapper';
-import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { rootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
-import type { MenuProps } from '../Menu';
-import { Menu } from '../Menu';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+} from '../../lib/events/keyboard/identifiers.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { PopupPositionsType } from '../Popup/index.js';
+import { Popup, PopupIds } from '../Popup/index.js';
+import { RenderLayer } from '../RenderLayer/index.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { CommonProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import type { MenuProps } from '../Menu/index.js';
+import { Menu } from '../Menu/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { isValidPositions } from './validatePositions';
-import { getStyles } from './PopupMenu.styles';
-import { PopupMenuDataTids } from './tids';
+import { isValidPositions } from './validatePositions.js';
+import { getStyles } from './PopupMenu.styles.js';
+import { PopupMenuDataTids } from './tids.js';
 
-export * from './tids';
+export * from './tids.js';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;

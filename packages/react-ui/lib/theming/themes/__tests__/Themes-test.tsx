@@ -1,11 +1,11 @@
-import { isDarkTheme, isThemeGTE } from '../../ThemeHelpers';
-import type { ThemeVersions, ThemeVersionParsed } from '../../ThemeVersions';
-import { parseVersionFromThemeName } from '../../ThemeVersions';
-import { DARK_THEME } from '../DarkTheme';
-import { LIGHT_THEME } from '../LightTheme';
-import * as DarkThemeImports from '../DarkTheme';
-import * as LightThemeImports from '../LightTheme';
-import type { Theme } from '../../Theme';
+import { isDarkTheme, isThemeGTE } from '../../ThemeHelpers.js';
+import type { ThemeVersions, ThemeVersionParsed } from '../../ThemeVersions.js';
+import { parseVersionFromThemeName } from '../../ThemeVersions.js';
+import { DARK_THEME } from '../DarkTheme.js';
+import { LIGHT_THEME } from '../LightTheme.js';
+import * as DarkThemeImports from '../DarkTheme.js';
+import * as LightThemeImports from '../LightTheme.js';
+import type { Theme } from '../../Theme.js';
 
 interface ThemeWithNameAndVersion {
   theme: Theme;

@@ -1,12 +1,12 @@
 import React from 'react';
 import type { Meta } from '@storybook/react';
 import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
-import { Input } from '@skbkontur/react-ui/components/Input';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext.js';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
-import { text, ValidationContainer, ValidationWrapper } from '../src';
+import { text, ValidationContainer, ValidationWrapper } from '../index.js';
 
 const meta: Meta = {
   title: 'Themes',

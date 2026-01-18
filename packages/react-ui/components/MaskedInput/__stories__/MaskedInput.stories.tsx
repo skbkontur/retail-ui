@@ -2,16 +2,16 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useState } from 'react';
 
-import { ComponentTable } from '../../../internal/ComponentTable';
-import { SearchLoupeIcon16Regular } from '../../../internal/icons2022/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import type { Meta, Story } from '../../../typings/stories';
-import type { MaskedInputProps } from '../MaskedInput';
-import { MaskedInput } from '../MaskedInput';
-import type { InputProps } from '../../Input';
-import { Input } from '../../Input';
-import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
-import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
+import { ComponentTable } from '../../../internal/ComponentTable.js';
+import { SearchLoupeIcon16Regular } from '../../../internal/icons2022/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import type { MaskedInputProps } from '../MaskedInput.js';
+import { MaskedInput } from '../MaskedInput.js';
+import type { InputProps } from '../../Input/Input.js';
+import { Input } from '../../Input/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme.js';
 
 const meta: Meta = {
   title: 'MaskedInput',

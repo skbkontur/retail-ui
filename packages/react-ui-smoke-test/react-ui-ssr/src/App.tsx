@@ -31,12 +31,12 @@ import {
   ScrollContainer,
   Select,
   SidePage,
+  SingleToast,
   Spinner,
   Sticky,
   Switcher,
   Tabs,
   Textarea,
-  Toast,
   Toggle,
   Token,
   TokenInput,
@@ -44,8 +44,8 @@ import {
   Tooltip,
   TooltipMenu,
 } from '@skbkontur/react-ui';
-import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular';
-import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations/src';
+import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 
 export const App = () => {
   return (
@@ -93,7 +93,7 @@ export const App = () => {
       <Hint text="World">Hello</Hint>
       <Input />
       <Kebab size="large">
-        <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => Toast.push('Nope')}>
+        <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => SingleToast.push('Nope')}>
           Редактировать
         </MenuItem>
       </Kebab>

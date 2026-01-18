@@ -1,23 +1,23 @@
 import React, { type JSX } from 'react';
 import throttle from 'lodash.throttle';
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { Sticky } from '../Sticky';
-import { isFunction } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { Theme } from '../../lib/theming/Theme';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
-import { getRootNode, rootNode } from '../../lib/rootNode';
-import { ModalSeparator } from '../Modal/ModalSeparator';
-import { withRenderEnvironment } from '../../lib/renderEnvironment';
+import { Sticky } from '../Sticky/index.js';
+import { isFunction } from '../../lib/utils.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { ModalSeparator } from '../Modal/ModalSeparator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
-import { getStyles } from './SidePage.styles';
-import type { SidePageContextType } from './SidePageContext';
-import { SidePageContext } from './SidePageContext';
-import { SidePageCloseButton } from './SidePageCloseButton';
+import { getStyles } from './SidePage.styles.js';
+import type { SidePageContextType } from './SidePageContext.js';
+import { SidePageContext } from './SidePageContext.js';
+import { SidePageCloseButton } from './SidePageCloseButton.js';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);

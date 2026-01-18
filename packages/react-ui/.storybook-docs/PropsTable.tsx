@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { ArgTypes, useOf } from '@storybook/blocks';
 
-import { useEmotion } from '../lib/renderEnvironment';
+import { useEmotion } from '../lib/renderEnvironment/index.js';
 
 import type { PublicMethod } from './MethodsTable';
-import { PublicMethods } from './MethodsTable';
+import { PublicMethods } from './MethodsTable.js';
 
 export const PropsTable = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { FileUploaderView } from '../../internal/FileUploaderControl/fileUtils';
-import type { SizeProp } from '../../lib/types/props';
+import type { FileUploaderView } from '../../internal/FileUploaderControl/fileUtils.js';
+import type { SizeProp } from '../../lib/types/props.js';
 
-import { UploadIcon as TileUploadIcon } from './icons/TileUploadIcon';
-import { UploadIcon as RowUploadIcon } from './icons/RowUploadIcon';
+import { UploadIcon as TileUploadIcon } from './icons/TileUploadIcon.js';
+import { UploadIcon as RowUploadIcon } from './icons/RowUploadIcon.js';
 
 interface UploadIconProps {
   size: SizeProp;

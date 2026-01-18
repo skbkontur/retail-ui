@@ -1,8 +1,8 @@
 import React from 'react';
 import warning from 'warning';
 
-import type { ReactUIComponentWithRef } from './forwardRefAndName';
-import { getDisplayName } from './getDisplayName';
+import type { ReactUIComponentWithRef } from './forwardRefAndName.js';
+import { getDisplayName } from './getDisplayName.js';
 
 const removePostfix = (word: string, postfixRegex: RegExp) => {
   const regexContent = postfixRegex.source.replace(/\$$/, '');

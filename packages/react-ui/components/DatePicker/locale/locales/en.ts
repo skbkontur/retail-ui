@@ -1,8 +1,8 @@
-import { internalDateLocale } from '../../../../lib/date/localeSets';
-import { LangCodes } from '../../../../lib/locale';
-import type { DatePickerLocale } from '../types';
-import { componentsLocales as CalendarLocales } from '../../../Calendar/locale/locales/en';
-import { componentsLocales as DateSelectLocales } from '../../../../internal/DateSelect/locale/locales/en';
+import { internalDateLocale } from '../../../../lib/date/localeSets.js';
+import { LangCodes } from '../../../../lib/locale/index.js';
+import type { DatePickerLocale } from '../types.js';
+import { componentsLocales as CalendarLocales } from '../../../Calendar/locale/locales/en.js';
+import { componentsLocales as DateSelectLocales } from '../../../../internal/DateSelect/locale/locales/en.js';
 
 export const componentsLocales: DatePickerLocale = {
   today: 'Today',

@@ -1,1 +1,1 @@
-export * from './Center';
+export * from './Center.js';

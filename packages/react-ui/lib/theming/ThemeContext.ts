@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ThemeFactory } from './ThemeFactory';
+import { ThemeFactory } from './ThemeFactory.js';
 
 export const ThemeContext = React.createContext(ThemeFactory.defaultTheme);
 

@@ -1,17 +1,17 @@
 import type { ReactNode } from 'react';
 import React, { useContext, useLayoutEffect } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { Sticky } from '../Sticky';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import type { CommonProps } from '../../internal/CommonWrapper';
-import { CommonWrapper } from '../../internal/CommonWrapper';
-import { useResponsiveLayout } from '../ResponsiveLayout';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { Sticky } from '../Sticky/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
 
-import { getStyles } from './Modal.styles';
-import { ModalClose } from './ModalClose';
-import { ModalContext } from './ModalContext';
-import { ModalSeparator } from './ModalSeparator';
+import { getStyles } from './Modal.styles.js';
+import { ModalClose } from './ModalClose.js';
+import { ModalContext } from './ModalContext.js';
+import { ModalSeparator } from './ModalSeparator.js';
 
 export interface ModalHeaderProps extends CommonProps {
   /** Закрепляет заголовок модального окна при скролле длинной контент-зоны. */

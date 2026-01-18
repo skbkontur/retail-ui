@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import { Tabs, TabsDataTids } from '../Tabs';
-import { TabDataTids } from '../Tab';
+import { Tabs, TabsDataTids } from '../Tabs.js';
+import { TabDataTids } from '../Tab.js';
 
 describe('Tabs', () => {
   it('Should not throw error when previous active tab was unmounted', () => {

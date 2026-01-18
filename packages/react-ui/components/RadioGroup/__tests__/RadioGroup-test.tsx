@@ -1,11 +1,11 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
-import type { RadioGroupProps } from '../RadioGroup';
-import { RadioGroup, RadioGroupDataTids } from '../RadioGroup';
-import { Radio, RadioDataTids } from '../../Radio';
-import { clickOutside } from '../../../lib/utils';
+import type { RadioGroupProps } from '../RadioGroup.js';
+import { RadioGroup, RadioGroupDataTids } from '../RadioGroup.js';
+import { Radio, RadioDataTids } from '../../Radio/index.js';
+import { clickOutside } from '../../../lib/utils.js';
 
 const renderRadioGroup = (
   props: Partial<RadioGroupProps<any>> & {

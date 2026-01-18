@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import type { Nullable } from '../../typings/utility-types';
+import type { Nullable } from '../../typings/utility-types.js';
 
 export interface CommonProps {
   /**

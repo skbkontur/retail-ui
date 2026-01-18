@@ -1,9 +1,9 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion';
-import type { Theme } from '../../lib/theming/Theme';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
-import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins';
+import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins.js';
 
 export const globalClasses = prefix('checkbox')({
   box: 'box',

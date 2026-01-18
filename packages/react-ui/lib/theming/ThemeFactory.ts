@@ -1,9 +1,9 @@
-import type { NoInfer } from '../utils';
-import { isNonNullable } from '../utils';
+import type { NoInfer } from '../utils.js';
+import { isNonNullable } from '../utils.js';
 
-import type { Theme, ThemeIn } from './Theme';
-import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers';
-import { LIGHT_THEME } from './themes/LightTheme';
+import type { Theme, ThemeIn } from './Theme.js';
+import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers.js';
+import { LIGHT_THEME } from './themes/LightTheme.js';
 
 export class ThemeFactory {
   /**

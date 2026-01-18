@@ -1,6 +1,6 @@
-import { LENGTH_DATE, LENGTH_MONTH, LENGTH_YEAR } from '../../../lib/date/constants';
-import type { InternalDateComponentRaw } from '../../../lib/date/types';
-import { InternalDateComponentType } from '../../../lib/date/types';
+import { LENGTH_DATE, LENGTH_MONTH, LENGTH_YEAR } from '../../../lib/date/constants.js';
+import type { InternalDateComponentRaw } from '../../../lib/date/types.js';
+import { InternalDateComponentType } from '../../../lib/date/types.js';
 
 export const inputNumber = (
   type: InternalDateComponentType | null,

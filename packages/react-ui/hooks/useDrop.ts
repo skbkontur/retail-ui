@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import type { SafeTimer } from '../lib/globalObject';
+import type { SafeTimer } from '../lib/globalObject.js';
 
 interface IUseDropProps {
   onDrop?: (event: DragEvent) => void;

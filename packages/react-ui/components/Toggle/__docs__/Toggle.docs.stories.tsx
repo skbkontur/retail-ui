@@ -1,7 +1,7 @@
 import React from 'react';
-import { Toggle, Gapped, Toast } from '@skbkontur/react-ui';
+import { Toggle, Gapped, SingleToast } from '@skbkontur/react-ui';
 
-import type { Meta, Story } from '../../../typings/stories';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Input data/Toggle',
@@ -78,7 +78,7 @@ Example7.storyName = 'Размер';
 
 export const Example8: Story = () => {
   return (
-    <Toggle onFocus={() => Toast.push('Я получил фокус!')} onBlur={() => Toast.push('И потерял его...')}>
+    <Toggle onFocus={() => SingleToast.push('Я получил фокус!')} onBlur={() => SingleToast.push('И потерял его...')}>
       С кастомными действиями при фокусе и его потере
     </Toggle>
   );
@@ -87,7 +87,9 @@ Example8.storyName = 'Кастомное действие при получен�
 
 export const Example9: Story = () => {
   return (
-    <Toggle onChange={() => Toast.push('Запускаю кастомное действие')}>Кастомное действие при переключении</Toggle>
+    <Toggle onChange={() => SingleToast.push('Запускаю кастомное действие')}>
+      Кастомное действие при переключении
+    </Toggle>
   );
 };
 Example9.storyName = 'Кастомное действие при переключении';

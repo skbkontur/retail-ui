@@ -1,16 +1,16 @@
 import type { AriaAttributes, CSSProperties } from 'react';
 import React from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment';
-import { useKeyListener } from '../../lib/events/keyListener';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import type { CommonProps } from '../CommonWrapper';
-import { CommonWrapper } from '../CommonWrapper';
+import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { useKeyListener } from '../../lib/events/keyListener.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { CommonProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
 
-import { getStyles } from './CloseButtonIcon.styles';
-import { CrossIcon } from './CrossIcon';
+import { getStyles } from './CloseButtonIcon.styles.js';
+import { CrossIcon } from './CrossIcon.js';
 
 export interface CloseButtonIconProps
   extends Pick<AriaAttributes, 'aria-label'>,

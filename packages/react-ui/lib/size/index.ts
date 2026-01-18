@@ -1,1 +1,1 @@
-export * from './SizeControlContext';
+export * from './SizeControlContext.js';

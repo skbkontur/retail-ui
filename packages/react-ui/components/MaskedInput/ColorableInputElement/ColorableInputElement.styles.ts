@@ -1,6 +1,6 @@
-import type { Emotion } from '@emotion/css/types/create-instance';
+import type { Emotion } from '@emotion/css/create-instance';
 
-import { prefix, memoizeGetStyles } from '../../../lib/theming/Emotion';
+import { prefix, memoizeGetStyles } from '../../../lib/theming/Emotion.js';
 
 export const globalClasses = prefix('colorable')({
   input: 'input',

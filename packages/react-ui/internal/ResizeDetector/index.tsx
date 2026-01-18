@@ -1,1 +1,1 @@
-export * from './ResizeDetector';
+export * from './ResizeDetector.js';

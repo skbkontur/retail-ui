@@ -1,6 +1,6 @@
 import React from 'react';
 import { Kebab } from '@skbkontur/react-ui/components/Kebab';
-import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem/index.js';
 
 import { Case, CaseSuite } from '../Case';
 

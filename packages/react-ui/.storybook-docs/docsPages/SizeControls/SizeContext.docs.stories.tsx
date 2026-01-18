@@ -1,14 +1,14 @@
 import React from 'react';
 
-import type { Meta, Story } from '../../../typings/stories';
-import { Input } from '../../../components/Input';
-import { Button } from '../../../components/Button';
-import { Checkbox } from '../../../components/Checkbox';
-import { Select } from '../../../components/Select';
-import { Gapped } from '../../../components/Gapped';
-import { RadioGroup } from '../../../components/RadioGroup';
-import { SizeControlContext } from '../../../lib/size';
-import type { SizeProp } from '../../../lib/types/props';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Input } from '../../../components/Input/index.js';
+import { Button } from '../../../components/Button/index.js';
+import { Checkbox } from '../../../components/Checkbox/index.js';
+import { Select } from '../../../components/Select/index.js';
+import { Gapped } from '../../../components/Gapped/index.js';
+import { RadioGroup } from '../../../components/RadioGroup/index.js';
+import { SizeControlContext } from '../../../lib/size/index.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 
 export default {
   title: 'Information/SizeControls',
