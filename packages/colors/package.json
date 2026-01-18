@@ -18,12 +18,12 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./colors.d.ts",
-      "default": "./colors.js"
+      "types": "./index.d.ts",
+      "default": "./index.js"
     },
     "./get-colors": {
-      "types": "./lib/get-colors.d.ts",
-      "default": "./lib/get-colors.js"
+      "types": "./get-colors.d.ts",
+      "default": "./get-colors.js"
     },
     "./default-light": {
       "types": "./default-light.d.ts",

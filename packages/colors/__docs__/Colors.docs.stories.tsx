@@ -10,7 +10,7 @@ import { WeatherSunIcon16Regular } from '@skbkontur/icons/icons/WeatherSunIcon/W
 import type { Meta } from '@skbkontur/react-ui/typings/stories';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
-import { getColors } from '../lib/get-colors';
+import { getColors } from '../get-colors';
 import type { ColorFormat } from '../lib/utils/convert-color';
 
 import { SideMenu } from '@skbkontur/side-menu';
