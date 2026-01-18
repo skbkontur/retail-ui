@@ -5,6 +5,3 @@
 **/*.d.ts
 **/*.less
 **/*.scss
-colors.ts
-colors-dark-default.ts
-colors-light-default.ts

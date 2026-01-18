@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/colors",
-  "version": "2.0.1",
+  "version": "2.0.4",
   "author": "Kontur",
   "publishConfig": {
     "access": "public",
@@ -13,7 +13,7 @@
     "/lib",
     "/tokens",
     "/tokens-mobile",
-    "./"
+    "/*.{js,d.ts,less,scss}"
   ],
   "exports": {
     "./package.json": "./package.json",
@@ -26,12 +26,12 @@
       "default": "./lib/get-colors.js"
     },
     "./default-light": {
-      "types": "./colors-default-light.d.ts",
-      "default": "./colors-default-light.js"
+      "types": "./default-light.d.ts",
+      "default": "./default-light.js"
     },
     "./default-dark": {
-      "types": "./colors-default-dark.d.ts",
-      "default": "./colors-default-dark.js"
+      "types": "./default-dark.d.ts",
+      "default": "./default-dark.js"
     },
     "./colors.scss": "./colors.scss",
     "./colors.less": "./colors.less",

@@ -3,30 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.0.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.0...@skbkontur/colors@2.0.1) (2025-12-22)
+## [2.0.4](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.3...@skbkontur/colors@2.0.4) (2025-12-23)
+
+**Note:** Version bump only for package @skbkontur/colors
+
+
+
+
+
+## [2.0.3](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.2...@skbkontur/colors@2.0.3) (2025-12-23)
+
+**Note:** Version bump only for package @skbkontur/colors
+
+
+
+
+
+## [2.0.2](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.1...@skbkontur/colors@2.0.2) (2025-12-23)
 
 
 ### Bug Fixes
 
-* **Colors:** fix package.json exports ([d209f14](https://git.skbkontur.ru/ui/ui-parking-2/commits/d209f14e927c33a832bf3c4ce38cc8ecfabe8f74))
+* **Colors:** add dash `[@color](https://git.skbkontur.ru/color)-`, `$color-` to less/scss prefixes ([b683ace](https://git.skbkontur.ru/ui/ui-parking-2/commits/b683ace20e03859d4ea9cc152bfde53adb189f35))
+* **Colors:** fix mobile tokens hex-aarrggbb convert ([19cef41](https://git.skbkontur.ru/ui/ui-parking-2/commits/19cef41f2aabd4c682a2f4f9240010f05d038493))
+* **Colors:** remove unused files from npm pkg ([fb1bfb9](https://git.skbkontur.ru/ui/ui-parking-2/commits/fb1bfb98a8cd1e5bcbbfb1d65779ebe2d5a9b9fc))
 
 
 
 
+
+## [2.0.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.0...@skbkontur/colors@2.0.1) (2025-12-22)
+
+### Bug Fixes
+
+- **Colors:** fix package.json exports ([d209f14](https://git.skbkontur.ru/ui/ui-parking-2/commits/d209f14e927c33a832bf3c4ce38cc8ecfabe8f74))
 
 # [2.0.0](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.1.1...@skbkontur/colors@2.0.0) (2025-12-22)
 
-
 ### Features
 
-* **Colors:** add new semantic tokens with color shemes & dark themes (v2) ([6214338](https://git.skbkontur.ru/ui/ui-parking-2/commits/62143381754449459234e0508e5fd414f9d90f07))
+- **Colors:** add new semantic tokens with color shemes & dark themes (v2) ([6214338](https://git.skbkontur.ru/ui/ui-parking-2/commits/62143381754449459234e0508e5fd414f9d90f07))
 
-- Color Schemes: Includes specific palettes for every brand color.
-- Semantic Tokens: Built using a semantic logic for easier naming and use.
-- Dark Mode: Full support for dark themes.
-- Accessibility: Color contrast follows APCA W3 standards.
-- Figma Sync: Completely synchronized with Figma Variables.
-- Framework Agnostic: Compatible with any web framework.
+* Color Schemes: Includes specific palettes for every brand color.
+* Semantic Tokens: Built using a semantic logic for easier naming and use.
+* Dark Mode: Full support for dark themes.
+* Accessibility: Color contrast follows APCA W3 standards.
+* Figma Sync: Completely synchronized with Figma Variables.
+* Framework Agnostic: Compatible with any web framework.
 
 **API**
 
@@ -37,10 +60,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Core Settings**
 
 Both Figma and the code package rely on three main settings:
+
 - brand: primary brand color (red, orange, green, mint, blue, blueDeep, violet, purple, or any #custom-hex).
 - accent: UI accent color (gray, brand, or #custom-hex). Default is gray.
 - theme: mode light or dark. Default is light.
-
 
 ## [1.1.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.1.0...@skbkontur/colors@1.1.1) (2025-05-06)
 

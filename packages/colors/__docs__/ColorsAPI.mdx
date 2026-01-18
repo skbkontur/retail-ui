@@ -93,6 +93,8 @@ import { Meta } from '../../../.storybook-docs/Meta';
 - **format** — формат цвета `'hex/rgba' | 'oklch' | 'hex-aarrggbb'` (по умолчанию hex/rgba)
 
 ```ts
+import { getColors } from '@skbkontur/colors/get-colors';
+
 getColors({
   brand: 'red' | 'orange' | 'green' | 'mint' | 'blue' | 'blueDeep' | 'violet' | 'purple' | string,
   accent: 'gray' | 'brand' | string
@@ -119,6 +121,8 @@ getColors({
 Функция `getColors` возвращает JS-объект с токенами `colors`:
 
 ```js
+import { getColors } from '@skbkontur/colors/get-colors';
+
 getColors({ brand: '#FE4C4C', accent: 'brand', theme: 'dark', format: 'oklch' });
 
 // ->

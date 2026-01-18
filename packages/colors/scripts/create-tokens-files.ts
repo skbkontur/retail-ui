@@ -141,7 +141,7 @@ saveTokens({
   fileFormat: 'js-css-vars-fallback',
   tokensIsFlat: true,
   tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-default-light.ts'),
+  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'default-light.ts'),
 });
 
 saveTokens({
@@ -152,10 +152,10 @@ saveTokens({
   fileFormat: 'js-css-vars-fallback',
   tokensIsFlat: true,
   tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors-default-dark.ts'),
+  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'default-dark.ts'),
 });
 
-function saveTokens({
+export function saveTokens({
   tokens,
   colorBrand,
   colorAccent,
@@ -166,7 +166,7 @@ function saveTokens({
   fileOutputDir,
   fileFormat,
   removePressedAndHover,
-}: SaveTokensOptions) {
+}: SaveTokensOptions): void {
   const isFlat = tokensIsFlat ?? false;
   const cssPrefix = tokensCSSPrefix ?? '';
 
@@ -262,7 +262,7 @@ function saveTokens({
 
     case 'less':
     case 'scss': {
-      const varPrefix = format === 'less' ? '@color' : '$color';
+      const varPrefix = format === 'less' ? '@color-' : '$color-';
 
       const lessScssVars: string[] = [];
       const hasThemes = tokens.light || tokens.dark;
