@@ -1,5 +1,5 @@
 import React from 'react';
-import { CurrencyLabel } from '@skbkontur/react-ui';
+import { CurrencyLabel, Gapped } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories';
 
@@ -9,27 +9,31 @@ export default {
   parameters: { creevey: { skip: true } },
 };
 
-export const Example1: Story = () => {
-  return <CurrencyLabel value={12356.1} currencySymbol={'₽'} />;
+export const ExampleBasic: Story = () => {
+  return <CurrencyLabel value={12345.6} currencySymbol={'₽'} />;
 };
-Example1.storyName = 'To render rubles';
 
-export const Example2: Story = () => {
-  return <CurrencyLabel value={12356.1} currencySymbol={'$'} />;
+/** В пропе `currencySymbol` указывается нужный символ валюты. */
+export const ExampleCurrencySymbol: Story = () => {
+  return (
+    <Gapped vertical>
+      <CurrencyLabel value={123.0} />
+      <CurrencyLabel value={123.0} currencySymbol={'₽'} />
+      <CurrencyLabel value={123.1} currencySymbol={'$'} />
+      <CurrencyLabel value={123.2} currencySymbol={'€'} />
+    </Gapped>
+  );
 };
-Example2.storyName = '...or dollars';
+ExampleCurrencySymbol.storyName = 'Символ валюты';
 
-export const Example3: Story = () => {
-  return <CurrencyLabel value={12356.1} />;
+/** Проп `fractionDigits` устанавливает минимальное количество знаков после запятой. */
+export const ExampleFractionDigits: Story = () => {
+  return <CurrencyLabel value={123456.7} fractionDigits={3} currencySymbol={'₽'} />;
 };
-Example3.storyName = '...or nothing';
+ExampleFractionDigits.storyName = 'Минимальное количество знаков после запятой';
 
-export const Example4: Story = () => {
-  return <CurrencyLabel value={3562001.1} fractionDigits={3} currencySymbol={'₽'} />;
+/** Проп `hideTrailingZeros` удаляет лишние нули, если они есть в конце значения. */
+export const ExampleHideTrailingZeros: Story = () => {
+  return <CurrencyLabel value={123.4} hideTrailingZeros />;
 };
-Example4.storyName = 'Count of fraction digits can be changed';
-
-export const Example5: Story = () => {
-  return <CurrencyLabel value={356.167} fractionDigits={5} hideTrailingZeros />;
-};
-Example5.storyName = 'Can hide trailing zeros';
+ExampleHideTrailingZeros.storyName = 'Удаление лишних нулей';

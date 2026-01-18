@@ -9,14 +9,14 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 export interface CurrencyLabelProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
-  /** Устанавливает минимальное количество отображаемых знаков после запятой.
+  /** Минимальное количество отображаемых знаков после запятой.
    * @default 2 */
   fractionDigits?: number;
 
-  /** Устанавливает значение. */
+  /** Значение. */
   value: number;
 
-  /** Задает символ валюты. */
+  /** Символ валюты. */
   currencySymbol?: React.ReactNode;
 
   /** Убирает лишние нули после запятой. */
@@ -30,7 +30,7 @@ export const CurrencyLabelDataTids = {
 } as const;
 
 /**
- * `CurrencyLabel` — подпись для денежных сумм (и других числовых значений).
+ * Подпись для денежных сумм и других числовых значений.
  */
 const CurrencyLabel = forwardRefAndName(
   'CurrencyLabel',

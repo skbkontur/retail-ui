@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toggle, Gapped, Toast } from '@skbkontur/react-ui';
+import { Toggle, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -9,61 +9,17 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
   return (
     <Toggle checked={checked} onValueChange={setChecked}>
-      {checked ? 'On' : 'Off'}
+      {checked ? 'Включен' : 'Выключен'}
     </Toggle>
   );
 };
-Example1.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
-  return <Toggle defaultChecked>Включен по умолчанию</Toggle>;
-};
-Example2.storyName = 'Тогл включенный по умолчанию';
-
-export const Example3: Story = () => {
-  const [checked, setChecked] = React.useState(false);
-
-  return (
-    <Toggle checked={checked} onValueChange={setChecked} captionPosition="left">
-      Показывать уведомления
-    </Toggle>
-  );
-};
-Example3.storyName = 'Надпись слева от переключателя';
-
-export const Example4: Story = () => {
-  const [checked, setChecked] = React.useState(false);
-
-  return (
-    <Gapped>
-      <Toggle id="toggle-1" checked={checked} onValueChange={setChecked} />
-      <label htmlFor="toggle-1">Внешний label</label>
-    </Gapped>
-  );
-};
-Example4.storyName = 'Тогл с внешним `<label/>`';
-
-export const Example5: Story = () => {
-  return <Toggle autoFocus>Сразу с фокусом</Toggle>;
-};
-Example5.storyName = 'Получение фокуса после загрузки страницы';
-
-export const Example6: Story = () => {
-  return (
-    <Gapped gap={20}>
-      <Toggle loading>Loading</Toggle>
-      <Toggle disabled>Disabled</Toggle>
-    </Gapped>
-  );
-};
-Example6.storyName = 'Стили';
-
-export const Example7: Story = () => {
+export const ExampleSize: Story = () => {
   return (
     <Gapped vertical>
       <Toggle size="small">Маленький</Toggle>
@@ -72,20 +28,51 @@ export const Example7: Story = () => {
     </Gapped>
   );
 };
-Example7.storyName = 'Размер';
+ExampleSize.storyName = 'Размер';
 
-export const Example8: Story = () => {
+/** Проп `captionPosition` определяет, с какой стороны от переключателя находится его название. */
+export const ExampleCaptionPosition: Story = () => {
+  const [checked, setChecked] = React.useState(false);
+
   return (
-    <Toggle onFocus={() => Toast.push('Я получил фокус!')} onBlur={() => Toast.push('И потерял его...')}>
-      С кастомными действиями при фокусе и его потере
-    </Toggle>
+    <Gapped vertical>
+      <Toggle checked={checked} onValueChange={setChecked} captionPosition="right">
+        Название справа
+      </Toggle>
+      <Toggle checked={checked} onValueChange={setChecked} captionPosition="left">
+        Название слева
+      </Toggle>
+    </Gapped>
   );
 };
-Example8.storyName = 'Кастомное действие при получении и потере фокуса';
+ExampleCaptionPosition.storyName = 'Расположение надписи';
 
-export const Example9: Story = () => {
+export const ExampleLabel: Story = () => {
+  const [checked, setChecked] = React.useState(false);
+
   return (
-    <Toggle onChange={() => Toast.push('Запускаю кастомное действие')}>Кастомное действие при переключении</Toggle>
+    <Gapped>
+      <Toggle id="toggle-id" checked={checked} onValueChange={setChecked} />
+      <label htmlFor="toggle-id">Внешний label</label>
+    </Gapped>
   );
 };
-Example9.storyName = 'Кастомное действие при переключении';
+ExampleLabel.storyName = 'Тогл с внешним `<label/>`';
+
+/** Проп `disabled` переводит тогл в состояние блокировки. */
+export const ExampleDisabled: Story = () => {
+  return <Toggle disabled>Заблокированный</Toggle>;
+};
+ExampleDisabled.storyName = 'Состояние блокировки';
+
+/** Проп `loading` переводит тогл в состояние загрузки. */
+export const ExampleLoading: Story = () => {
+  return <Toggle loading>Загрузка</Toggle>;
+};
+ExampleLoading.storyName = 'Состояние загрузки';
+
+/** Проп `disableAnimations` отключает анимацию при переключении тогла. По умолчанию тогл переключается с анимацией: круг плавно перемещается, фон движется за ним. */
+export const ExampleDisableAnimations: Story = () => {
+  return <Toggle disableAnimations>Без анимации</Toggle>;
+};
+ExampleDisableAnimations.storyName = 'Отключение анимации';
