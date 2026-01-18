@@ -1,22 +1,23 @@
 import type { FC, ReactNode, ReactElement } from 'react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, isValidElement } from 'react';
 import type { ButtonProps } from '@skbkontur/react-ui/components/Button';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Hint } from '@skbkontur/react-ui/components/Hint';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 import { PopupMenu } from '@skbkontur/react-ui/internal/PopupMenu';
+import type { PopupMenuProps } from '@skbkontur/react-ui/internal/PopupMenu';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { IconUiMenuDots3VRegular24 as MenuKebabIcon24 } from '@skbkontur/icons/IconUiMenuDots3VRegular24';
-import { IconUiMenuDots3VRegular20 as MenuKebabIcon20 } from '@skbkontur/icons/IconUiMenuDots3VRegular20';
-import { IconUiMenuDots3VRegular16 as MenuKebabIcon16 } from '@skbkontur/icons/IconUiMenuDots3VRegular16';
 import cx from 'classnames';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
+import { getSizeModifier } from '../../../utils/getSizeModifier.js';
 import styles from '../Table.module.css';
+
+import { TableKebabButton } from './TableKebabButton.js';
 
 interface DangerWrapperProps {
   danger?: boolean;
@@ -47,31 +48,37 @@ const DangerWrapper: FC<DangerWrapperProps> = ({ danger, children }) =>
 
 export interface TableActionItem extends Omit<ButtonProps, 'onClick' | 'icon'> {
   key?: React.Key;
-  text?: ReactNode;
+  text?: ReactElement | string;
   icon?: ReactElement;
   danger?: boolean;
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-export interface TableActionBarProps extends CommonProps {
+interface TableActionBarPropsWithItems extends CommonProps {
+  caption?: PopupMenuProps['caption'];
   items: TableActionItem[];
   itemsVisible?: number;
   popup?: boolean;
 }
 
-const KEBAB_ICONS = {
-  small: MenuKebabIcon16,
-  medium: MenuKebabIcon20,
-  large: MenuKebabIcon24,
-} as const;
+interface TableActionBarPropsWithoutItems extends CommonProps {
+  caption: PopupMenuProps['caption'];
+  popup?: boolean;
+}
 
-export const TableActionBar: FC<TableActionBarProps> = ({ items, itemsVisible = 4, popup, ...rest }) => {
+export type TableActionBarProps = TableActionBarPropsWithItems | TableActionBarPropsWithoutItems;
+
+function hasItems(props: TableActionBarProps): props is TableActionBarPropsWithItems {
+  return 'items' in props;
+}
+
+export const TableActionBar: FC<TableActionBarProps> = (props) => {
   const { size } = useContext(SizeTableContext);
   const [isKebabOpen, setIsKebabOpen] = useState(false);
 
-  const getKebabIcon = () => {
-    return KEBAB_ICONS[size ?? 'small'];
-  };
+  const { popup, caption, ...rest } = props;
+  const items = hasItems(props) ? props.items : [];
+  const itemsVisible = hasItems(props) ? props.itemsVisible ?? 4 : 0;
 
   const renderInlineItem = (item: TableActionItem, index: number) => {
     const { key, text, icon, onClick, danger, ...itemRest } = item;
@@ -79,7 +86,7 @@ export const TableActionBar: FC<TableActionBarProps> = ({ items, itemsVisible = 
     const btnContent = (
       <DangerWrapper danger={danger}>
         <Button
-          className={danger ? styles.Danger : ''}
+          className={cx({ [styles.Danger]: danger })}
           key={key ?? index}
           use="text"
           size={size}
@@ -105,6 +112,10 @@ export const TableActionBar: FC<TableActionBarProps> = ({ items, itemsVisible = 
 
     const { component, type, ...menuItemProps } = itemRest;
 
+    if (isValidElement(text)) {
+      return text;
+    }
+
     return (
       <MenuItem key={key ?? index} icon={icon} onClick={onClick} size={size} {...menuItemProps}>
         {text}
@@ -112,22 +123,10 @@ export const TableActionBar: FC<TableActionBarProps> = ({ items, itemsVisible = 
     );
   };
 
-  const KebabIcon = getKebabIcon();
-
   const handleKebabOpen = () => setIsKebabOpen(true);
   const handleKebabClose = () => setIsKebabOpen(false);
 
-  const kebabButton = (
-    <div className={cx({ [styles.Hover]: isKebabOpen })}>
-      <Button
-        active={isKebabOpen}
-        use="text"
-        size={size}
-        icon={<KebabIcon />}
-        data-tid={TableDataTids.actionsKebabButton}
-      />
-    </div>
-  );
+  const kebabButton = <TableKebabButton active={isKebabOpen} size={size} />;
 
   const renderContent = () => {
     const inlineItems = items.slice(0, itemsVisible);
@@ -138,7 +137,7 @@ export const TableActionBar: FC<TableActionBarProps> = ({ items, itemsVisible = 
         {inlineItems.map(renderInlineItem)}
         {menuItems.length ? (
           <PopupMenu
-            caption={kebabButton}
+            caption={caption ?? kebabButton}
             positions={['bottom right']}
             onOpen={handleKebabOpen}
             onClose={handleKebabClose}
@@ -150,8 +149,9 @@ export const TableActionBar: FC<TableActionBarProps> = ({ items, itemsVisible = 
     );
 
     if (popup) {
+      const popupActionBarSizeClass = styles[getSizeModifier('PopupActionBar', size ?? 'small')];
       return (
-        <div className={styles.PopupActionBar} data-tid={TableDataTids.popupActionBar}>
+        <div className={cx(styles.PopupActionBar, popupActionBarSizeClass)} data-tid={TableDataTids.popupActionBar}>
           {content}
         </div>
       );

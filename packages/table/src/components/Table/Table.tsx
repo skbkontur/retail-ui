@@ -9,12 +9,11 @@ import React, {
 } from 'react';
 import cx from 'classnames';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
-import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 
 import type { SizeProp } from '../../reactUiCompat/useSizeContext.js';
-import { TableTheme } from '../../../internal/themes/TableTheme.js';
+import { TableLightTheme } from '../../../internal/themes/TableLightTheme.js';
 import { getTableTheme } from '../../../lib/theming/ThemeHelpers.js';
 import { useSizeContextCompat } from '../../reactUiCompat/useSizeContext.js';
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
@@ -28,6 +27,7 @@ import { TableDropdownFilter } from './TableDropdownFilter.js';
 import { TableSort } from './TableSort.js';
 import { TableDropdownSortableFilter } from './TableDropdownSortableFilter.js';
 import { TableActionBar } from './TableActionBar/TableActionBar.js';
+import { TableKebabButton } from './TableActionBar/TableKebabButton.js';
 import { TableDataTids } from './TableDataTids.js';
 import { TableFilter } from './TableFilter/TableFilter.js';
 import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
@@ -93,6 +93,7 @@ interface TableComponent extends FC<TableProps> {
   DropdownFilter: typeof TableDropdownFilter;
   DropdownSortableFilter: typeof TableDropdownSortableFilter;
   ActionBar: typeof TableActionBar;
+  KebabButton: typeof TableKebabButton;
   Filter: typeof TableFilter;
   FilterSearch: typeof TableFilterSearch;
   HeaderButton: typeof TableHeaderButton;
@@ -110,7 +111,6 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
     const size = sizeProp ?? sizeContext.size;
     const tableTheme = getTableTheme(useContext(ThemeContext));
     const tableSizeClassName = styles[getSizeModifier('Table', size)];
-
     const tableRef = useCallback(
       (node: HTMLTableElement | null) => {
         if (typeof ref === 'function') {
@@ -130,7 +130,7 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
               ref={tableRef}
               style={
                 {
-                  '--base-size': TableTheme.tableBaseSize,
+                  '--table-base-size': TableLightTheme.tableBaseSize,
                   '--table-sticky-background': tableTheme.tableStickyBackground,
                   '--table-text': tableTheme.tableText,
                   '--table-secondary-text': tableTheme.tableSecondaryText,
@@ -138,14 +138,17 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
                   '--table-outline-width': tableTheme.tableOutlineWidth,
                   '--table-border': tableTheme.tableBorder,
                   '--table-row-hover': tableTheme.tableRowHover,
-                  '--table-shadow-light': tableTheme.tableShadowLight,
-                  '--table-row-checked-hover': isDarkTheme(tableTheme)
-                    ? tableTheme.tableRowCheckedHoverDark
-                    : tableTheme.tableRowCheckedHoverLight,
-                  '--table-shadow-medium': isDarkTheme(tableTheme)
-                    ? tableTheme.tableShadowMediumDark
-                    : tableTheme.tableShadowMediumLight,
+                  '--table-row-shadow-hover': tableTheme.tableRowShadowHover,
+                  '--table-row-active': tableTheme.tableRowActive,
+                  '--table-row-shadow-active': tableTheme.tableRowShadowActive,
+                  '--table-row-checked': tableTheme.tableRowChecked,
+                  '--table-row-shadow-checked': tableTheme.tableRowShadowChecked,
+                  '--table-row-checked-hover': tableTheme.tableRowCheckedHover,
+                  '--table-row-shadow-checked-hover': tableTheme.tableRowShadowCheckedHover,
                   '--table-row-checked-active': tableTheme.tableRowCheckedActive,
+                  '--table-row-shadow-checked-active': tableTheme.tableRowShadowCheckedActive,
+                  '--table-shadow-medium': tableTheme.tableShadowMedium,
+                  '--table-shadow-light': tableTheme.tableShadowLight,
                   '--table-red': tableTheme.tableRed,
                   '--table-red-dark': tableTheme.tableRedDark,
                   '--table-round-button-background': tableTheme.tableRoundButtonBackground,
@@ -181,6 +184,7 @@ Table.Sort = TableSort;
 Table.DropdownFilter = TableDropdownFilter;
 Table.DropdownSortableFilter = TableDropdownSortableFilter;
 Table.ActionBar = TableActionBar;
+Table.KebabButton = TableKebabButton;
 Table.Filter = TableFilter;
 Table.FilterSearch = TableFilterSearch;
 Table.HeaderButton = TableHeaderButton;

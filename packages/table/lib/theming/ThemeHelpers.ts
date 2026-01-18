@@ -1,9 +1,11 @@
 import type { Theme as ReactUITheme } from '@skbkontur/react-ui/lib/theming/Theme';
 import type { AnyObject, FunctionWithParams } from '@skbkontur/react-ui/lib/utils';
+import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 import { isFunction } from '@skbkontur/react-ui/lib/utils';
 
 import { memo } from '../utils/memo.js';
-import { TableThemeInternal, isTableTheme, markAsTableTheme } from '../../internal/themes/TableTheme.js';
+import { TableThemeInternal, isTableTheme, markAsTableTheme } from '../../internal/themes/TableLightTheme.js';
+import { TableDarkThemeInternal } from '../../internal/themes/TableDarkTheme.js';
 
 import type { TableTheme } from './ThemeTypes.js';
 
@@ -22,7 +24,13 @@ export const createTableTheme = (theme: ReactUITheme | TableTheme): TableTheme =
     return theme as TableTheme;
   }
 
-  const TableTheme = Object.create(theme, Object.assign(Object.getOwnPropertyDescriptors(TableThemeInternal), {}));
+  const TableTheme = Object.create(
+    theme,
+    Object.assign(
+      Object.getOwnPropertyDescriptors(TableThemeInternal),
+      isDarkTheme(theme) ? Object.getOwnPropertyDescriptors(TableDarkThemeInternal) : {}
+    )
+  );
 
   for (const key of Object.keys(TableTheme)) {
     const descriptor = Object.getOwnPropertyDescriptor(TableTheme, key);

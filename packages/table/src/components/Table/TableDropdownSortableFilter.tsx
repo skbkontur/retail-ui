@@ -35,7 +35,7 @@ import { TableDataTids } from './TableDataTids.js';
 
 export interface TableDropdownSortableFilterProps extends TableDropdownFilterProps {
   onSort?: (direction: SortDirection) => void;
-  sorted?: SortDirection;
+  sortDirection?: SortDirection;
   sortAscLabel?: string;
   sortDescLabel?: string;
 }
@@ -62,9 +62,14 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
       searchPlaceholder,
       loaderActive,
       onSort,
-      sorted,
+      sortDirection,
       sortAscLabel,
       sortDescLabel,
+      withoutDefaultIcon,
+      defaultIcon,
+      iconDefaultColor,
+      iconActiveColor,
+      ...rest
     },
     ref
   ) => {
@@ -114,9 +119,14 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
       <TableFilter
         ref={ref}
         filtered={currentSelected.length > 0}
-        sorted={sorted}
+        sortDirection={sortDirection}
         data-tid={TableDataTids.dropdownSortableFilter}
         onOpen={handleOpen}
+        withoutDefaultIcon={withoutDefaultIcon}
+        defaultIcon={defaultIcon}
+        iconDefaultColor={iconDefaultColor}
+        iconActiveColor={iconActiveColor}
+        {...rest}
         popup={
           <>
             <TableFilterSearch

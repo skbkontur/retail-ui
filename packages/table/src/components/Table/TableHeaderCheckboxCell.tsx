@@ -13,10 +13,10 @@ export interface TableHeaderCheckboxCellBaseProps extends TableHeaderCellBasePro
 }
 
 export const TableHeaderCheckboxCell = forwardRef<HTMLTableCellElement, TableHeaderCheckboxCellBaseProps>(
-  ({ checkboxRef, onClick, checked, initialIndeterminate, colSpan, rowSpan, ...rest }, ref) => {
+  ({ checkboxRef, onClick, checked, initialIndeterminate, colSpan, rowSpan, width, ...rest }, ref) => {
     const { size } = useContext(SizeTableContext);
     return (
-      <TableHeaderCell ref={ref} checkboxCell rowSpan={rowSpan} colSpan={colSpan}>
+      <TableHeaderCell ref={ref} checkboxCell rowSpan={rowSpan} colSpan={colSpan} width={width}>
         <Checkbox
           ref={checkboxRef}
           onClick={onClick}

@@ -5,7 +5,7 @@ export const getCheckboxSize = (size: SizeProp): string => {
     return '16px';
   }
   if (size === 'medium') {
-    return '22px';
+    return '20px';
   }
   return '24px';
 };

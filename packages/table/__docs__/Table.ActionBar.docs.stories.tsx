@@ -6,6 +6,9 @@ import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
 import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
 import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 
 export default {
   title: 'Components/Table.ActionBar',
@@ -51,6 +54,21 @@ export const Basic = () => {
     },
   ];
 
+  const customMenu = [
+    {
+      text: <MenuHeader>Заголовок меню</MenuHeader>,
+    },
+    {
+      text: <MenuItem>Раз</MenuItem>,
+    },
+    {
+      text: <MenuSeparator />,
+    },
+    {
+      text: <MenuItem>Раз</MenuItem>,
+    },
+  ];
+
   return (
     <Table>
       <Table.Header>
@@ -82,6 +100,41 @@ export const Basic = () => {
           <Table.Cell>Пример popup</Table.Cell>
           <Table.Cell>
             <Table.ActionBar items={actionItems} popup itemsVisible={1} />
+          </Table.Cell>
+        </Table.Row>
+        <Table.Row onClick={() => console.log(12)}>
+          <Table.Cell>Пример popup caption</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar
+              caption={<Table.KebabButton active={true} size="small" />}
+              items={actionItems}
+              popup
+              itemsVisible={0}
+            />
+          </Table.Cell>
+        </Table.Row>
+        <Table.Row onClick={() => console.log(12)}>
+          <Table.Cell>Пример popup caption with opennead to active</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar
+              caption={({ opened, openMenu }) => (
+                <Table.KebabButton active={opened} size="small" onClick={() => openMenu()} />
+              )}
+              items={customMenu}
+              popup
+              itemsVisible={0}
+            />
+          </Table.Cell>
+        </Table.Row>
+        <Table.Row onClick={() => console.log(12)}>
+          <Table.Cell>Пример popup caption with opennead to active</Table.Cell>
+          <Table.Cell>
+            <Table.ActionBar
+              caption={({ opened }) => <Table.KebabButton active={opened} size="small" />}
+              items={actionItems}
+              popup
+              itemsVisible={0}
+            />
           </Table.Cell>
         </Table.Row>
       </Table.Body>

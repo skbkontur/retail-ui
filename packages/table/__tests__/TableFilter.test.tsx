@@ -349,7 +349,7 @@ describe('TableSort', () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <Table.Sort sorted="asc">Column Header</Table.Sort>
+              <Table.Sort sortDirection="asc">Column Header</Table.Sort>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -365,7 +365,7 @@ describe('TableSort', () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <Table.Sort sorted="desc">Column Header</Table.Sort>
+              <Table.Sort sortDirection="desc">Column Header</Table.Sort>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -476,7 +476,7 @@ describe('TableHeaderButton', () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <TableHeaderButton sorted="asc">Column Header</TableHeaderButton>
+              <TableHeaderButton sortDirection="asc">Column Header</TableHeaderButton>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -492,7 +492,7 @@ describe('TableHeaderButton', () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <TableHeaderButton sorted="desc">Column Header</TableHeaderButton>
+              <TableHeaderButton sortDirection="desc">Column Header</TableHeaderButton>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -508,7 +508,7 @@ describe('TableHeaderButton', () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <TableHeaderButton filtered sorted="asc">
+              <TableHeaderButton filtered sortDirection="asc">
                 Column Header
               </TableHeaderButton>
             </Table.HeaderCell>

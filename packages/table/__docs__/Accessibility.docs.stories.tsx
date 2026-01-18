@@ -2,7 +2,14 @@ import React from 'react';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Link } from '@skbkontur/react-ui/components/Link';
 import { Button } from '@skbkontur/react-ui/components/Button';
-import { Table, useTableRowSelection, useTableSort, useTableFilters, ColumnFilterConfig } from '../index';
+import {
+  Table,
+  useTableRowSelection,
+  useTableSort,
+  useTableFilters,
+  ColumnFilterConfig,
+  TableActionBar,
+} from '../index';
 import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
 import { IconDocsPlusRegular24 } from '@skbkontur/icons/IconDocsPlusRegular24';
@@ -174,7 +181,6 @@ export const AccessibilityExampleStory = () => {
                   value={tableSize}
                   onValueChange={(value) => setTableSize(value)}
                 />
-                <Select value={selectedTheme} onValueChange={(value) => setSelectedTheme(value)} />
               </div>
               {filterTokens.length > 0 && <Table.FilterResultRow tokens={filterTokens} onResetAll={resetFilters} />}
               <Table hasChecked={hasChecked} size={tableSize as 'medium' | 'small' | 'large'}>
@@ -193,12 +199,20 @@ export const AccessibilityExampleStory = () => {
                         selectedOptions={columnFilters.get('client') ?? []}
                         onSelect={(selected: string[]) => setFilter('client', selected)}
                         onSort={(direction) => handleSort('client', direction)}
-                        sorted={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
                       >
                         Клиент
                       </Table.DropdownSortableFilter>
                     </Table.HeaderCell>
-                    <Table.HeaderCell width={'200px'}>Кнопка</Table.HeaderCell>
+                    <Table.HeaderCell width={'200px'}>
+                      <Table.Sort
+                        onSort={(direction) => handleSort('region', direction)}
+                        sortDirection={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
+                        filtered={(columnFilters.get('region')?.length ?? 0) > 0}
+                      >
+                        Кнопка
+                      </Table.Sort>
+                    </Table.HeaderCell>
                     <Table.HeaderCell width={'300px'}>Ответственный</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -209,7 +223,7 @@ export const AccessibilityExampleStory = () => {
                     </Table.Row>
                   ) : (
                     <>
-                      {paginatedRows.map((row) => (
+                      {paginatedRows.map((row, index) => (
                         <Table.Row
                           bottomBorder={true}
                           checked={checkedRows.has(row.id)}
@@ -227,7 +241,7 @@ export const AccessibilityExampleStory = () => {
                               {row.client}
                             </Link>
                           </Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell contentCompensator={false}>
                             <Button
                               size={tableSize === 'small' ? 'small' : tableSize === 'large' ? 'large' : 'medium'}
                               onClick={(e) => {
@@ -240,10 +254,11 @@ export const AccessibilityExampleStory = () => {
                           </Table.Cell>
                           <Table.Cell>
                             {row.responsible.name}
-                            <br />
+                            {index % 2 === 1 && <br />}
                             <Link href={`/responsible/${row.id}`} onClick={(e) => e.stopPropagation()}>
                               Подробнее
                             </Link>
+                            <TableActionBar caption={<Table.ActionKebab />}></TableActionBar>
                             <Table.ActionBar
                               popup
                               items={[

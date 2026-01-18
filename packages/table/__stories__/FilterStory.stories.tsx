@@ -51,11 +51,14 @@ export const FilterStory = () => {
 };
 
 interface CustomDropdownFilterProps extends TableDropdownFilterProps {
-  sorted?: 'asc' | 'desc';
+  sortDirection?: 'asc' | 'desc';
 }
 
 const CustomDropdownFilter = React.forwardRef<HTMLDivElement, CustomDropdownFilterProps>(
-  ({ children, options, selectedOptions, onSelect, searchPlaceholder = 'Поиск...', onSort, sorted, ...rest }, ref) => {
+  (
+    { children, options, selectedOptions, onSelect, searchPlaceholder = 'Поиск...', onSort, sortDirection, ...rest },
+    ref
+  ) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const filteredOptions = useMemo(() => {
@@ -83,7 +86,7 @@ const CustomDropdownFilter = React.forwardRef<HTMLDivElement, CustomDropdownFilt
       <div ref={ref}>
         <TableFilter
           filtered={hasSelected}
-          sorted={sorted}
+          sortDirection={sortDirection}
           popup={
             <>
               <TableFilterSearch
@@ -687,7 +690,7 @@ export const FilterWithHookAndTable = () => {
           selectedOptions={selectedClients}
           onSelect={(selected: string[]) => setFilter('client', selected)}
           onSort={(direction) => handleSort('client', direction)}
-          sorted={clientSort}
+          sortDirection={clientSort}
         >
           Клиент
           {selectedClients.length > 0 && ` (${selectedClients.length})`}
@@ -698,7 +701,7 @@ export const FilterWithHookAndTable = () => {
           selectedOptions={selectedRegions}
           onSelect={(selected: string[]) => setFilter('region', selected)}
           onSort={(direction) => handleSort('region', direction)}
-          sorted={regionSort}
+          sortDirection={regionSort}
         >
           Регион
           {selectedRegions.length > 0 && ` (${selectedRegions.length})`}

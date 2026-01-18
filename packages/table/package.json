@@ -1,7 +1,7 @@
 {
   "name": "@skbkontur/table",
   "description": "Table",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,6 +36,7 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@skbkontur/colors": "^2.0.4",
     "@skbkontur/global-object": "0.4.5",
     "@skbkontur/icons": "2.0.1",
     "@skbkontur/react-ui": "^5.0.0",
@@ -58,7 +59,7 @@
     "classnames": "^2"
   },
   "peerDependencies": {
-    "@skbkontur/react-ui": ">=5.0.0 <=5.4.6",
+    "@skbkontur/react-ui": ">=5.0.0 <=5.6.0",
     "react": ">=16.14",
     "react-dom": ">=16.14"
   },

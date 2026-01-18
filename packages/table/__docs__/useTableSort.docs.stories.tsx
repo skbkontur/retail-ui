@@ -40,7 +40,7 @@ export const SimpleSortExample = () => {
                 selectedOptions={[]}
                 onSelect={() => {}}
                 onSort={(direction) => handleSort('name', direction)}
-                sorted={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
               >
                 Имя
               </Table.DropdownSortableFilter>
@@ -51,7 +51,7 @@ export const SimpleSortExample = () => {
                 selectedOptions={[]}
                 onSelect={() => {}}
                 onSort={(direction) => handleSort('score', direction)}
-                sorted={sortConfig.key === 'score' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'score' ? sortConfig.direction ?? undefined : undefined}
               >
                 Балл
               </Table.DropdownSortableFilter>

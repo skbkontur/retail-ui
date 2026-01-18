@@ -19,6 +19,9 @@ import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegula
 import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
 import { IconMoneyTypeCoinsRegular20 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular20';
 import { IconMoneyTypeCoinsRegular24 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular24';
+import { IconArrowCRightRegular16 } from '@skbkontur/icons/IconArrowCRightRegular16';
+import { IconArrowCDownRegular16 } from '@skbkontur/icons/IconArrowCDownRegular16';
+import { IconXCircleSolid64 } from '@skbkontur/icons/IconXCircleSolid64';
 import { initialData } from '../__stories__/data';
 import { EmptyState } from '@skbkontur/empty-state';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
@@ -104,7 +107,7 @@ export const CheckeredExampleStory = () => {
                 selectedOptions={getSelectedOptions(columnFilters, 'client')}
                 onSelect={(selected: string[]) => setFilter('client', selected)}
                 onSort={(direction) => handleSort('client', direction)}
-                sorted={sortConfig.key === 'client' ? sortConfig.direction : undefined}
+                sortDirection={sortConfig.key === 'client' ? sortConfig.direction : undefined}
               >
                 Клиент
               </Table.DropdownSortableFilter>
@@ -116,7 +119,7 @@ export const CheckeredExampleStory = () => {
                 selectedOptions={getSelectedOptions(columnFilters, 'region')}
                 onSelect={(selected: string[]) => setFilter('region', selected)}
                 onSort={(direction) => handleSort('region', direction)}
-                sorted={sortConfig.key === 'region' ? sortConfig.direction : undefined}
+                sortDirection={sortConfig.key === 'region' ? sortConfig.direction : undefined}
               >
                 Регион
               </Table.DropdownSortableFilter>
@@ -127,7 +130,7 @@ export const CheckeredExampleStory = () => {
                 selectedOptions={getSelectedOptions(columnFilters, 'amount')}
                 onSelect={(selected: string[]) => setFilter('amount', selected)}
                 onSort={(direction) => handleSort('amount', direction)}
-                sorted={sortConfig.key === 'amount' ? sortConfig.direction : undefined}
+                sortDirection={sortConfig.key === 'amount' ? sortConfig.direction : undefined}
               >
                 Сумма, ₽
               </Table.DropdownSortableFilter>
@@ -138,15 +141,19 @@ export const CheckeredExampleStory = () => {
                 selectedOptions={getSelectedOptions(columnFilters, 'responsibleName')}
                 onSelect={(selected: string[]) => setFilter('responsibleName', selected)}
                 onSort={(direction) => handleSort('responsible', direction)}
-                sorted={sortConfig.key === 'responsible' ? sortConfig.direction : undefined}
+                sortDirection={sortConfig.key === 'responsible' ? sortConfig.direction : undefined}
               >
                 Ответственный
               </Table.DropdownSortableFilter>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-        {filterTokens.length > 0 && <Table.FilterResultRow tokens={filterTokens} onResetAll={resetFilters} />}
         <Table.Body>
+          {filterTokens.length > 0 && (
+            <Table.FilterResultRow tokens={filterTokens} onResetAll={resetFilters}>
+              <Table.Cell>Фильтры</Table.Cell>
+            </Table.FilterResultRow>
+          )}
           {sortedRows.length === 0 ? (
             <Table.Row>
               <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
@@ -596,7 +603,7 @@ export const BasicTableExample = () => {
                 selectedOptions={selectedNames}
                 onSelect={(selected: string[]) => setFilter('name', selected)}
                 onSort={(direction) => handleSort('name', direction)}
-                sorted={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
               >
                 Имя
                 {selectedNames.length > 0 && ` (${selectedNames.length})`}
@@ -632,7 +639,9 @@ export const BasicTableExample = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {filterTokens.length > 0 && <Table.FilterResultRow tokens={filterTokens} onResetAll={resetFilters} />}
+          {filterTokens.length > 0 && (
+            <Table.FilterResultRow colSpan={5} tokens={filterTokens} onResetAll={resetFilters} />
+          )}
           {sortedRows.length === 0 ? (
             <Table.Row>
               <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
@@ -854,7 +863,7 @@ export const ExpandableRowsExample = () => {
           return (
             <React.Fragment key={row.id}>
               <Table.Row onClick={() => toggle(row.id)}>
-                <Table.Cell>{isExpanded ? '↓' : '→'}</Table.Cell>
+                <Table.Cell>{isExpanded ? <IconArrowCDownRegular16 /> : <IconArrowCRightRegular16 />}</Table.Cell>
                 <Table.Cell>{row.client}</Table.Cell>
                 <Table.Cell>{row.region}</Table.Cell>
                 <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
@@ -938,7 +947,9 @@ export const EmptyErrorStateExample = () => {
                     </EmptyState>
                   ) : (
                     <EmptyState use="status">
-                      <EmptyState.Header>Не удалось загрузить данные</EmptyState.Header>
+                      <EmptyState.Header icon={<IconXCircleSolid64 color="#FE4C4C" />}>
+                        Не удалось загрузить данные
+                      </EmptyState.Header>
                       <EmptyState.Body>Произошла ошибка при загрузке. Попробуйте обновить страницу</EmptyState.Body>
                     </EmptyState>
                   )}
@@ -1086,7 +1097,7 @@ export const GroupedHeadersExample = () => {
           <Table.Row>
             <Table.HeaderCell width="250px">
               <Table.Sort
-                sorted={sortConfig.key === 'organization' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'organization' ? sortConfig.direction ?? undefined : undefined}
                 onSort={(direction) => handleSort('organization', direction)}
               >
                 Организация
@@ -1094,7 +1105,7 @@ export const GroupedHeadersExample = () => {
             </Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
-                sorted={sortConfig.key === 'totalAmount' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'totalAmount' ? sortConfig.direction ?? undefined : undefined}
                 onSort={(direction) => handleSort('totalAmount', direction)}
               >
                 Общая сумма, ₽
@@ -1102,7 +1113,7 @@ export const GroupedHeadersExample = () => {
             </Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
-                sorted={sortConfig.key === 'rate18' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'rate18' ? sortConfig.direction ?? undefined : undefined}
                 onSort={(direction) => handleSort('rate18', direction)}
               >
                 По ставке 18 %
@@ -1110,7 +1121,7 @@ export const GroupedHeadersExample = () => {
             </Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
-                sorted={sortConfig.key === 'rate10' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'rate10' ? sortConfig.direction ?? undefined : undefined}
                 onSort={(direction) => handleSort('rate10', direction)}
               >
                 По ставке 10 %
@@ -1258,7 +1269,7 @@ export const SizeExampleStory = () => {
                         selectedOptions={columnFilters.get('client') ?? []}
                         onSelect={(selected: string[]) => setFilter('client', selected)}
                         onSort={(direction) => handleSort('client', direction)}
-                        sorted={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
                       >
                         Клиент
                       </Table.DropdownSortableFilter>
@@ -1267,7 +1278,7 @@ export const SizeExampleStory = () => {
                     <Table.HeaderCell width={'33.33%'}>
                       <Table.Sort
                         onSort={(direction) => handleSort('region', direction)}
-                        sorted={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
                         filtered={(columnFilters.get('region')?.length ?? 0) > 0}
                       >
                         Регион

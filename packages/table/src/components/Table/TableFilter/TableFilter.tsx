@@ -1,4 +1,4 @@
-import React, { forwardRef, type ComponentRef, type ReactNode } from 'react';
+import React, { forwardRef, type ComponentRef, type ReactNode, type ReactElement } from 'react';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
 import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
@@ -13,14 +13,27 @@ import styles from './TableFilter.module.css';
 export interface TableFilterProps extends CommonProps {
   popup: ReactNode;
   filtered: boolean;
-  sorted?: SortDirection;
+  sortDirection?: SortDirection;
   onOpen?: () => void;
+  withoutDefaultIcon?: boolean;
+  defaultIcon?: ReactElement;
+  iconDefaultColor?: string;
+  iconActiveColor?: string;
 }
 export const TableFilter = forwardRef<ComponentRef<typeof Button>, TableFilterProps>(
   ({ children, popup, ...rest }, ref) => (
     <CommonWrapper {...rest}>
       {(wrapperRest: CommonWrapperRestProps<TableFilterProps>) => {
-        const { filtered, sorted, onOpen, ...dropdownProps } = wrapperRest;
+        const {
+          filtered,
+          sortDirection,
+          onOpen,
+          withoutDefaultIcon,
+          defaultIcon,
+          iconDefaultColor,
+          iconActiveColor,
+          ...dropdownProps
+        } = wrapperRest;
         return (
           <DropdownMenu
             caption={({ openMenu, opened }) => (
@@ -29,8 +42,12 @@ export const TableFilter = forwardRef<ComponentRef<typeof Button>, TableFilterPr
                 onClick={() => openMenu()}
                 className={styles.ClickableHeader}
                 filtered={filtered}
-                sorted={sorted}
+                sortDirection={sortDirection}
                 hovered={opened}
+                withoutDefaultIcon={withoutDefaultIcon}
+                defaultIcon={defaultIcon}
+                iconDefaultColor={iconDefaultColor}
+                iconActiveColor={iconActiveColor}
               >
                 {children}
               </TableHeaderButton>
