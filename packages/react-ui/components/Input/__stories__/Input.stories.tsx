@@ -354,7 +354,12 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <Input ref={(element) => (input = element)} defaultValue="Some value" />
+        <Input
+          ref={(element) => {
+            input = element;
+          }}
+          defaultValue="Some value"
+        />
       </div>
       <button data-tid="select-all" onClick={selectAll}>
         Select all

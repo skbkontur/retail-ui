@@ -1,4 +1,4 @@
-import type { AriaAttributes, HTMLAttributes } from 'react';
+import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
@@ -21,6 +21,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { catchUnreachableWarning } from '../../lib/typeGuards';
+import { rootNode, type TGetRootNode, type TSetRootNode } from '../../lib/rootNode';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
 import type { ModalContextProps } from './ModalContext';
@@ -109,6 +110,7 @@ type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role' | 'mob
  * - футер [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs).
  */
 @withRenderEnvironment
+@rootNode
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
   public static displayName = 'Modal';
@@ -116,6 +118,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Header = ModalHeader;
   public static Body = ModalBody;
   public static Footer = ModalFooter;
+
+  public getRootNode!: TGetRootNode;
+  private setRootNode!: TSetRootNode;
 
   public static defaultProps: DefaultProps = {
     disableFocusLock: false,
@@ -264,7 +269,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
+        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <ZIndex priority={'Modal'} className={this.styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && (

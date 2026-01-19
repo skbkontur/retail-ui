@@ -14,7 +14,7 @@ import { globalClasses, getStyles } from './ColorableInputElement.styles';
 export type ColorableInputElementProps = InputElementProps & {
   alwaysShowMask?: boolean;
   showOnFocus?: boolean;
-  children: React.ReactElement;
+  children: React.ReactElement<any>;
 };
 
 // Возможно придётся включить.
@@ -28,7 +28,7 @@ export const ColorableInputElement = forwardRefAndName(
     const inputRef = useRef<HTMLInputElement | null>(null);
     const spanRef = useRef<HTMLSpanElement | null>(null);
     const focused = useRef(false);
-    const updateActiveTimer = useRef<ReturnType<typeof setTimeout>>();
+    const updateActiveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
     const globalObject = useGlobal();
     const emotion = useEmotion();
     const { cx } = emotion;

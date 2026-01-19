@@ -80,5 +80,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
     );
   }
 
-  private refChildContext = (el: ValidationContextWrapper | null) => (this.childContext = el);
+  private refChildContext = (el: ValidationContextWrapper | null) => {
+    this.childContext = el;
+  };
 }

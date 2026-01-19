@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import throttle from 'lodash.throttle';
 import type { Emotion } from '@emotion/css/types/create-instance';
 

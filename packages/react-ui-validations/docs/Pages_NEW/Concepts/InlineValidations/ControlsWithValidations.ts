@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { ComponentType, JSX } from 'react';
 import React from 'react';
 import type { DatePickerProps } from '@skbkontur/react-ui/components/DatePicker';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 
 import type { Story } from '../../../typings/stories';
 import { Sticky } from '../Sticky';

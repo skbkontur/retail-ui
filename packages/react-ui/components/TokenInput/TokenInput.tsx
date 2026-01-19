@@ -263,8 +263,6 @@ const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled, size }: Partial<TokenProps>,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  index: number,
 ) => (
   <Token
     key={item.toString()}
@@ -651,10 +649,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return state.inFocus && (this.isInputValueChanged || state.activeTokens.length === 0);
   }
 
-  private inputRef = (node: HTMLTextAreaElement) => (this.input = node);
-  private tokensInputMenuRef = (node: TokenInputMenu<T>) => (this.tokensInputMenu = node);
-  private textHelperRef = (node: TextWidthHelper) => (this.textHelper = node);
-  private wrapperRef = (node: HTMLLabelElement) => (this.wrapper = node);
+  private inputRef = (node: HTMLTextAreaElement) => {
+    this.input = node;
+  };
+  private tokensInputMenuRef = (node: TokenInputMenu<T>) => {
+    this.tokensInputMenu = node;
+  };
+  private textHelperRef = (node: TextWidthHelper) => {
+    this.textHelper = node;
+  };
+  private wrapperRef = (node: HTMLLabelElement) => {
+    this.wrapper = node;
+  };
 
   private dispatch = (action: TokenInputAction, cb?: () => void) => {
     this.setState((prevState) => tokenInputReducer(prevState, action), cb);

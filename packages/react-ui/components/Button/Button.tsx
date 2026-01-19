@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import warning from 'warning';
 import type { Emotion } from '@emotion/css/create-instance';
@@ -22,7 +22,7 @@ import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-com
 import { withSize } from '../../lib/size/SizeDecorator';
 import { withRenderEnvironment } from '../../lib/renderEnvironment';
 
-import { getStyles, getActiveStyles, globalClasses } from './Button.styles';
+import { getActiveStyles, getStyles, globalClasses } from './Button.styles';
 import type { ButtonIconProps } from './ButtonIcon';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon';
 import { useButtonArrow } from './ButtonArrow';

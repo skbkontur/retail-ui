@@ -4,11 +4,10 @@ import warning from 'warning';
 
 import type { Nullable } from '../typings/Types';
 
-import { getRootNode } from './utils/getRootNode';
+import { getRootNode, ReactUiDetection } from './ReactUiDetection';
 import { isElement } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
-import { ReactUiDetection } from './ReactUiDetection';
 import type { ValidationContextType } from './ValidationContextWrapper';
 import { ValidationContext } from './ValidationContextWrapper';
 
