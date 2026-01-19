@@ -10,8 +10,11 @@ export default async ({ config }: { config: Configuration }) => {
     config.entry.unshift('core-js/stable');
   }
 
-  if (config.resolve?.extensions) {
-    config.resolve.extensions.unshift('.ts', '.tsx');
+  if (config.resolve) {
+    config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx'];
+    config.resolve.extensionAlias = {
+      '.js': ['.ts', '.tsx', '.js'],
+    };
   }
 
   // storybook's rule for css doesn't handle css-modules
@@ -28,7 +31,7 @@ export default async ({ config }: { config: Configuration }) => {
         exclude: /node_modules/,
         options: {
           babelrc: false,
-          extends: join(__dirname, '../babel.config.js'),
+          extends: join(__dirname, '../babel.config.cjs'),
         },
       },
       {
