@@ -39,7 +39,7 @@ export default async ({ config }: { config: Configuration }) => {
         exclude: /node_modules/,
         options: {
           babelrc: false,
-          extends: join(__dirname, '../.babelrc.js'),
+          extends: join(__dirname, '../.babelrc.cjs'),
         },
       },
       // порядок config.module.rules важен, т.к. в react-docgen-loader (filteredStorybooksWebpackRules) ожидается не транспилированный babelем код
