@@ -17,7 +17,7 @@ import { memoizeGetStyles } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment/index.js';
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { validationsFeatureFlagsDefault } from '../src';
+import { validationsFeatureFlagsDefault } from '../index.js';
 const themes = [
   { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
   { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },

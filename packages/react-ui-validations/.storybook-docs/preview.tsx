@@ -5,11 +5,11 @@ import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples
 import { addons } from '@storybook/manager-api';
 import { isNonNullable } from '@skbkontur/react-ui/lib/utils.js';
 import styled from 'styled-components';
-import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon.js';
-import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon.js';
+import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
+import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
 
-import * as Validations from '../src/index';
-import * as ReactUI from '../../react-ui/index';
+import * as Validations from '../index.js';
+import * as ReactUI from '../../react-ui/index.js';
 import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations.js';
 import { Form } from '../docs/Common/Form.js';
 import { SpaceFiller } from '../docs/Common/SpaceFiller';

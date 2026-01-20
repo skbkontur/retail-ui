@@ -20,11 +20,16 @@ export default async ({ config }: { config: Configuration }) => {
   // storybook's rule for css doesn't handle css-modules
   const filteredStorybooksWebpackRules = (config.module?.rules || [])
     .filter((rule) => hasTestInRule(rule) && !rule.test.test('.css'))
-    .filter(
-      (rule) =>
+    .filter((rule) => {
+      if (!hasUseInRule(rule)) {
+        // leave non babel-loader and non css rules untouched
+        return true;
+      }
+      return (
         hasUseInRule(rule) &&
-        !rule.use?.some((use: RuleSetUseItem) => isRuleSetUseItem(use) && use.loader.includes('babel-loader')),
-    ); // exclude babel-loader rules
+        !rule.use?.some((use: RuleSetUseItem) => isRuleSetUseItem(use) && use.loader.includes('babel-loader'))
+      );
+    }); // exclude babel-loader rules
 
   const reactDocgenLoaderRule = filteredStorybooksWebpackRules.find(
     (rule) => hasUseInRule(rule) && rule.loader?.includes('react-docgen-loader'),

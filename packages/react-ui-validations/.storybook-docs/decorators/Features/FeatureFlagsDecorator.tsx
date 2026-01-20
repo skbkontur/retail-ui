@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Decorator } from '@storybook/react';
 
-import { ValidationsFeatureFlagsContext } from '../../../src/';
+import { ValidationsFeatureFlagsContext } from '../../../index.js';
 
 const createFeatureFlagsWithBoolean = (featureFlags: string[]) =>
   featureFlags.reduce((acc, featureFlag) => {
