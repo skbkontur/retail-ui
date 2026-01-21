@@ -19,7 +19,7 @@ const isCI = Boolean(process.env.CI) || Boolean(process.env.GITLAB_CI);
 const reportFilePath = path.resolve(__dirname, '..', 'reports');
 const browsersLimit = Number(process.env.CREEVEY_BROWSERS_LIMIT) || (isCI ? 1 : 3);
 const playwrightOptions: LaunchOptions = {
-  ignoreDefaultArgs: ['--hide-scrollbars'],
+  ignoreDefaultArgs: ['--hide-scrollbars'], // flag works only in chromium, but not works in firefox headless https://github.com/microsoft/playwright/issues/4295
 };
 const config: CreeveyConfig = {
   useDocker: !isCI,
