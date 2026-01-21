@@ -5,6 +5,7 @@ import type { SafeTimer } from '@skbkontur/global-object';
 import { globalObject } from '@skbkontur/global-object';
 
 import { isNonNullable } from '../../lib/utils';
+import { mergeRefs } from '../../lib/mergeRefs';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import type { MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { MouseDrag } from '../../lib/events/MouseDrag';
@@ -176,7 +177,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+            <CommonWrapper {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -261,7 +262,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
           onMouseEnter={this.handleHover}
           onMouseLeave={this.handleUnhover}
           onBlur={this.handleBlur}
-          ref={this.innerRef}
+          ref={mergeRefs(this.setRootNode, this.innerRef)}
           onKeyDown={this.handleKeyDown}
           onMouseDown={this.handleMouseDown}
           role="textbox"
