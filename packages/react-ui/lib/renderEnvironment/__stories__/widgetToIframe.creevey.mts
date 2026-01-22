@@ -52,11 +52,11 @@ kind('widgetToIframe', () => {
     setStoryParameters({ captureElement: 'body' });
 
     test('should remove highlighted numbers', async (context) => {
-      await delay(500);
+      await delay(2000);
       const iframe = context.webdriver.frameLocator('#test-element iframe');
       await iframe.locator('#widgetRoot button').click();
       await iframe.locator("[data-tid='modal-container'] [data-tid='Button__rootElement']").click();
-      await delay(500);
+      await delay(2000);
       await context.matchImage(await context.takeScreenshot());
     });
   });

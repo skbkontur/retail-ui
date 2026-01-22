@@ -200,34 +200,3 @@ export const Disabled = () => (
   </RadioGroup>
 );
 Disabled.storyName = 'disabled';
-
-export const RemoveBaselineSpacer = () => (
-  <div id="RemoveBaselineSpacer-wrap" style={{ textWrap: 'nowrap' }}>
-    <div style={{ background: 'red', margin: '5px' }}>
-      <h5>Флаг true</h5>
-      <RadioGroup
-        style={{ background: 'green' }}
-        name="number-simple"
-        items={['One', 'Two', 'Three', 'Four']}
-        defaultValue="One"
-      />
-    </div>
-
-    <div style={{ background: 'red', margin: '5px' }}>
-      <h5>Флаг false</h5>
-      <RadioGroup
-        style={{ background: 'green' }}
-        name="number-simple"
-        items={['One', 'Two', 'Three', 'Four']}
-        defaultValue="One"
-      />
-    </div>
-  </div>
-);
-RemoveBaselineSpacer.storyName = 'RemoveBaselineSpacer';
-
-RemoveBaselineSpacer.parameters = {
-  creevey: {
-    captureElement: '#RemoveBaselineSpacer-wrap',
-  },
-};
