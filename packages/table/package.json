@@ -3,37 +3,25 @@
   "description": "Table",
   "version": "0.1.3",
   "type": "module",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist",
-    "src",
-    "index.ts",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "clean": "rm -rf dist && git clean -fdxqe node_modules",
+    "clean": "rimraf dist",
     "prebuild": "yarn clean",
-    "build": "yarn build:vite",
+    "build": "run-s build:* build:lint:*",
     "build:vite": "vite build",
-    "build:types": "tsc --outDir dist",
-    "build:watch": "vite build --watch",
-    "build:prettier": "prettier --write .",
+    "build:copyfiles": "copyfiles package.json README.md CHANGELOG.md dist",
+    "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",
+    "build:lint:publint": "publint --pack npm ./dist",
+    "build:lint:attw": "attw --config-path ../../.attw.json ./dist",
     "dev": "vite build --watch --mode development",
     "test": "vitest run",
     "test:watch": "vitest"
+  },
+  "exports-to-generate": {
+    ".": "./index.js"
   },
   "devDependencies": {
     "@skbkontur/colors": "^2.0.5",
