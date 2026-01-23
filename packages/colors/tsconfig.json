@@ -1,8 +1,3 @@
 {
-  "exclude": ["scripts", "__*"],
-  "compilerOptions": {
-    "module": "nodenext",
-    "moduleResolution": "nodenext"
-  },
   "extends": "../../tsconfig"
 }

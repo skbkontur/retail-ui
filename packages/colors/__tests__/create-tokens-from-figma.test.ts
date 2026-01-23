@@ -26,7 +26,7 @@ describe('extractTokensFromFigma (Integration)', () => {
 
     const expectedCode = `import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase) => ({
+export const getColorsDefaultTokens = (base: TokensBase): { light: Record<string, string>; dark: Record<string, string> } => ({
   light: {
     textPrimary: base.gray[20],
     shapeOnBrandDefault: base.brand.original,
@@ -146,7 +146,7 @@ describe('Pipeline Steps', () => {
 
     const expected = `import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase) => ({
+export const getColorsDefaultTokens = (base: TokensBase): { light: Record<string, string>; dark: Record<string, string> } => ({
   light: {
     tokenOne: l1,
     tokenTwo: l2

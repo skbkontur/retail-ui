@@ -9,30 +9,11 @@
   "type": "module",
   "license": "UNLICENSED",
   "sideEffects": false,
-  "files": [
-    "/lib",
-    "/tokens",
-    "/tokens-mobile",
-    "/*.{js,d.ts,less,scss}"
-  ],
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./index.d.ts",
-      "default": "./index.js"
-    },
-    "./get-colors": {
-      "types": "./get-colors.d.ts",
-      "default": "./get-colors.js"
-    },
-    "./default-light": {
-      "types": "./default-light.d.ts",
-      "default": "./default-light.js"
-    },
-    "./default-dark": {
-      "types": "./default-dark.d.ts",
-      "default": "./default-dark.js"
-    },
+  "exports-to-generate": {
+    ".": "./index.js",
+    "./get-colors": "./get-colors.js",
+    "./default-light": "./default-light.js",
+    "./default-dark": "./default-dark.js",
     "./colors.scss": "./colors.scss",
     "./colors.less": "./colors.less",
     "./tokens/brand-orange_accent-gray.css": "./tokens/brand-orange_accent-gray.css",
@@ -63,13 +44,17 @@
     "./tokens-mobile/brand-violet_accent-gray.json": "./tokens-mobile/brand-violet_accent-gray.json"
   },
   "scripts": {
-    "prebuild": "node --import=tsx scripts/create-tokens-from-figma.ts",
-    "build": "npm run build:static && npm run build:esm",
-    "build:esm": "tsc",
-    "build:static": "node --import=tsx scripts/create-tokens-files.ts && prettier . --write && npx stylelint \"**/*.{css,scss,less}\" --fix",
+    "prebuild": "yarn clean && node --import=tsx scripts/create-tokens-from-figma.ts",
+    "build": "run-s build:* build:lint:*",
+    "build:static": "node --import=tsx scripts/create-tokens-files.ts && prettier . \"!**/*.md\" --write && npx stylelint \"**/*.{css,scss,less}\" --fix",
+    "build:tsc": "tsc --outDir dist",
+    "build:copyfiles": "copyfiles package.json README.md CHANGELOG.md tokens/* tokens-mobile/* colors.* dist",
+    "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",
+    "build:lint:publint": "publint --pack npm ./dist",
+    "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints colors.scss colors.less ./tokens/brand-orange_accent-gray.css ./tokens/brand-blue_accent-gray.css ./tokens/brand-blue_accent-brand.css ./tokens/brand-blue-deep_accent-brand.css ./tokens/brand-blue-deep_accent-gray.css ./tokens/brand-green_accent-brand.css ./tokens/brand-green_accent-gray.css ./tokens/brand-mint_accent-brand.css ./tokens/brand-mint_accent-gray.css ./tokens/brand-purple_accent-brand.css ./tokens/brand-purple_accent-gray.css ./tokens/brand-violet_accent-brand.css ./tokens/brand-violet_accent-gray.css",
     "test": "vitest run",
     "test:watch": "vitest",
-    "clean": "git clean -fdxqe node_modules"
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "apca-w3": "0.1.9",

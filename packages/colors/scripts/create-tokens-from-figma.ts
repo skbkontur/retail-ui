@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { customizable } from '../lib/consts/default-swatch';
+import { customizable } from '../lib/consts/default-swatch.js';
 
 interface Value {
   light: string;
@@ -324,7 +324,7 @@ export const transformations: Rule[] = [
 
       return `import type { TokensBase } from './types/tokens-base.js';
 
-export const getColorsDefaultTokens = (base: TokensBase) => ({
+export const getColorsDefaultTokens = (base: TokensBase): { light: Record<string, string>; dark: Record<string, string> } => ({
   light: {
 ${lightBody}
   },

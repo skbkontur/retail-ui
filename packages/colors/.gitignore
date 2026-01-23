@@ -5,3 +5,4 @@
 **/*.d.ts
 **/*.less
 **/*.scss
+colors.ts
