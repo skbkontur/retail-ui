@@ -7,7 +7,7 @@ const config = defineConfig({
     setupFiles: ['./__tests__/setup.ts'],
     server: {
       deps: {
-        inline: ['@skbkontur/icons', '@skbkontur/global-object'],
+        inline: ['@skbkontur/icons'],
       },
     },
   },
