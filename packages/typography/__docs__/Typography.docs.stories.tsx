@@ -3,7 +3,7 @@ import type { Meta } from '@skbkontur/react-ui/typings/stories';
 import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
 import { Text } from '../src/Text';
 import { TextTokens, TTextTokens } from '../src/TextTokens';
-import { injectGlobal, css, cx } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { injectGlobal, css, cx } from '@emotion/css';
 import {
   ThemeContext,
   DropdownMenu,
