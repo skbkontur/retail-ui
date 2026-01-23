@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 
-import type { TTextTokens } from '../src/TextTokens';
-import { TextTokens } from '../src/TextTokens';
+import type { TTextTokens } from '../src/TextTokens.ts';
+// @ts-expect-error: its ok to import .ts here
+import { TextTokens } from '../src/TextTokens.ts';
 
 function createFile(fileName: string, content: string) {
   fs.writeFile(fileName, content, () => {});

@@ -2,24 +2,30 @@
   "name": "@skbkontur/typography",
   "description": "Kontur UI Typography",
   "version": "0.1.3",
-  "exports": {
-    ".": "./index.js",
-    "./Text.css": "./Text.css",
-    "./Text.module.css": "./Text.module.css",
-    "./text.less": "./text.less",
-    "./text.scss": "./text.scss"
-  },
+  "type": "module",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "sideEffects": false,
   "scripts": {
-    "prebuild": "node --require ./scripts/babel-register -- scripts/generate.ts && yarn build:prettier",
-    "clean": "git clean -fdxqe node_modules",
-    "build": "yarn build:esm",
-    "build:esm": "yarn tsc --module es6",
-    "build:prettier": "prettier --write ."
+    "clean": "rimraf dist",
+    "prebuild": "yarn clean",
+    "build": "run-s build:* build:lint:*",
+    "build:static": "node scripts/generate.ts",
+    "build:prettier": "prettier --write .",
+    "build:tsc": "yarn tsc --outDir dist",
+    "build:copyfiles": "copyfiles Text.css Text.module.css text.less text.scss package.json README.md CHANGELOG.md dist",
+    "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",
+    "build:lint:publint": "publint --pack npm ./dist",
+    "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints Text.css Text.module.css text.less text.scss"
+  },
+  "exports-to-generate": {
+    ".": "./index.js",
+    "./Text.css": "./Text.css",
+    "./Text.module.css": "./Text.module.css",
+    "./text.less": "./text.less",
+    "./text.scss": "./text.scss"
   },
   "devDependencies": {
     "@babel/preset-typescript": "7.22.5",

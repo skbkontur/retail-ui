@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from '../Text.module.css';
 
-import type { TTextProps } from './types';
+import type { TTextProps } from './types.js';
 
 export const Text: React.FC<TTextProps> = (props) => {
   const Tag = props.tag;
