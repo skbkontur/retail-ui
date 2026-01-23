@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DropdownMenu, MenuHeader, MenuItem, Select, Toast, ThemeFactory, ThemeContext } from '@skbkontur/react-ui';
 import { BasicThemeClass } from '@skbkontur/react-ui/internal/themes/BasicTheme';
-import { css, injectGlobal } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { css, injectGlobal } from '@emotion/css';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import { SideMenuThemeIn } from '@skbkontur/side-menu';
 import { WeatherMoonIcon16Regular } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Regular';
