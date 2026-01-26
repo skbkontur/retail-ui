@@ -706,6 +706,52 @@ export const DemoStory = () => <Demo />;
 DemoStory.storyName = 'Demo';
 DemoStory.parameters = { creevey: { skip: true } };
 
+function StringZIndexInPortalContent({ withRoot = false }) {
+  const selectRef = React.useRef<Select>(null);
+  const title = withRoot ? 'новый root' : 'текущий root';
+  const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
+
+  React.useEffect(() => {
+    selectRef.current?.open();
+  }, []);
+
+  return (
+    <div style={{ zIndex: 'initial', display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+      <div
+        style={{
+          width: 200,
+          height: 140,
+          background: '#eee',
+          padding: 10,
+        }}
+      >
+        <Popup opened anchorElement={<div />} pos="bottom left" priority="Modal">
+          <MayBeRoot>
+            <Loader caption={null}>
+              <div style={{ zIndex: 'auto', minWidth: 200 }}>
+                {title}
+                <Classic />
+              </div>
+            </Loader>
+          </MayBeRoot>
+        </Popup>
+      </div>
+    </div>
+  );
+}
+
+export const StringZIndexInPortalStory = () => {
+  return (
+    <SeveralRoots
+      title="String z-index в портале"
+      goldenSample={<StringZIndexInPortalContent />}
+      withRoot={<StringZIndexInPortalContent withRoot />}
+    />
+  );
+};
+StringZIndexInPortalStory.storyName = 'String z-index in portal';
+StringZIndexInPortalStory.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
 LoaderCoversTooltipStory.storyName = 'Loader covers tooltip';
 
