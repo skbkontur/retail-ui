@@ -155,3 +155,54 @@ export const Example3: Story = () => {
   );
 };
 Example3.storyName = 'Отключение залипания шапки';
+
+/**
+ * При помощи пропа `onOutsideClick` можно управлять поведением при клике по фону.
+ *
+ * Например, не закрывать при клике на определённый элемент.
+ */
+export const Example4: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+
+  function renderSidePage() {
+    return (
+      <SidePage onClose={close} onOutsideClick={handleIgnoredElementClick}>
+        <SidePage.Header>Голова</SidePage.Header>
+        <SidePage.Body>
+          <div style={{ padding: 20 }}>Туловище</div>
+        </SidePage.Body>
+        <SidePage.Footer>
+          <Button onClick={close}>Close</Button>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  function handleIgnoredElementClick(e: Event) {
+    if (e.target instanceof HTMLElement) {
+      const ignoredElement = e.target.closest('#bg-ignore');
+      if (ignoredElement) {
+        e.preventDefault();
+      }
+    }
+  }
+
+  return (
+    <div>
+      {opened && renderSidePage()}
+      <Button type="submit" id="bg-ignore" onClick={open}>
+        {opened ? `Will not close` : 'Open'}
+      </Button>
+    </div>
+  );
+};
+
+Example4.storyName = 'Игнорирование элемента при клике по фону';

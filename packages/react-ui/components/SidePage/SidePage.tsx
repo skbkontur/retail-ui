@@ -44,8 +44,15 @@ export interface SidePageProps
   /** Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа. */
   disableClose?: boolean;
 
-  /** Оставляет окно открытым при клике на фон. */
+  /**
+   * Оставляет окно открытым при клике на фон.
+   * @deprecated Используйте `ignoreOutsideClick` вместо `ignoreBackgroundClick`
+   **/
   ignoreBackgroundClick?: boolean;
+  /**
+   * Оставляет окно открытым при клике на фон.
+   **/
+  ignoreOutsideClick?: boolean;
 
   /** Задает ширину сайдпейджа. */
   width?: number | string;
@@ -71,6 +78,10 @@ export interface SidePageProps
 
   /** Задает отступ от края экрана. */
   offset?: number | string;
+  /**
+   * Задаёт функцию, которая вызывается при клике на фон.
+   */
+  onOutsideClick?: (e: Event) => void;
 }
 
 export interface SidePageState {
@@ -352,7 +363,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private handleClickOutside = (e: Event) => {
-    if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
+    if (this.state.stackPosition === 0 && !(this.props.ignoreBackgroundClick || this.props.ignoreOutsideClick)) {
       // ignore mousedown on window scrollbar
       if (
         isInstanceOf(e, this.globalObject.MouseEvent) &&
@@ -360,6 +371,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         e.clientX > this.globalObject.document.documentElement.clientWidth
       ) {
         return;
+      }
+      if (this.props.onOutsideClick) {
+        this.props.onOutsideClick(e);
+        if (e.defaultPrevented) {
+          return;
+        }
       }
       this.requestClose();
     }

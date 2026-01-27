@@ -113,6 +113,78 @@ describe('SidePage', () => {
     expect(headerRoot).toHaveStyle({ position: 'sticky' });
   });
 
+  describe('onOutsideClick', () => {
+    const TestComponent = () => {
+      const [opened, setOpened] = React.useState(false);
+
+      function open() {
+        setOpened(true);
+      }
+
+      function close() {
+        setOpened(false);
+      }
+
+      function handleIgnoredElementClick(e: Event) {
+        if (e.target instanceof HTMLElement) {
+          const ignoredElement = e.target.closest('#bg-ignore');
+          if (ignoredElement) {
+            e.preventDefault();
+          }
+        }
+      }
+
+      function renderSidePage() {
+        return (
+          <SidePage onClose={close} onOutsideClick={handleIgnoredElementClick}>
+            <SidePage.Header>Head</SidePage.Header>
+            <SidePage.Body>
+              <div style={{ padding: 20 }}>Body</div>
+            </SidePage.Body>
+          </SidePage>
+        );
+      }
+
+      return (
+        <>
+          {opened && renderSidePage()}
+          <button id="bg-ignore" onClick={open}>
+            {opened ? 'Close' : 'Open'}
+          </button>
+        </>
+      );
+    };
+
+    it('should not close with a click on an ignoredElement', async () => {
+      render(<TestComponent />);
+      expect(screen.queryByText('Head')).toBeNull();
+
+      await userEvent.click(screen.getByRole('button', { name: 'Open' }));
+      expect(await screen.findByText('Head')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('button', { name: 'Close' }));
+      expect(await screen.findByText('Head')).toBeInTheDocument();
+    });
+  });
+
+  it('ignoreOutsideClick should prevent closing on outside click', async () => {
+    const onClose = vi.fn();
+    render(
+      <>
+        <SidePage onClose={onClose} ignoreOutsideClick>
+          <SidePage.Header>Title</SidePage.Header>
+        </SidePage>
+        <button>Close</button>
+      </>,
+    );
+
+    const closeButton = screen.getByText('Close');
+
+    await userEvent.click(closeButton);
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
   describe('a11y', () => {
     it('should have `aria-modal` attribute set to `true`', () => {
       render(<SidePage />);
