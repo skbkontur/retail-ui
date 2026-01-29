@@ -344,7 +344,7 @@ export const ColorsPaletteOverridesStory = () => {
         overrides,
         format: outputFormatParam,
       }),
-    })
+    }),
   ).reduce((acc: any, [key, value]) => {
     acc[kebabCaseToCamelCase(key)] = value;
     return acc;
@@ -357,7 +357,7 @@ export const ColorsPaletteOverridesStory = () => {
       acc[firstWord] = { ...acc[firstWord], [colorKey]: colorValue };
       return acc;
     },
-    {} as Record<string, Record<string, string>>
+    {} as Record<string, Record<string, string>>,
   );
 
   const allGroupedTokens = groupTokensByFirstWord(transformThemeObject(colorGroups));
