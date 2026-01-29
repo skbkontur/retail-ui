@@ -5,25 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.1.3](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/typography@0.1.2...@skbkontur/typography@0.1.3) (2025-12-10)
 
-
 ### Bug Fixes
 
-* **typography:** specified undefined type explicitly ([2806dca](https://git.skbkontur.ru/ui/ui-parking-2/commits/2806dca87d6cd5339987a3174663307c4a01c9d8))
-
-
-
-
+- **typography:** specified undefined type explicitly ([2806dca](https://git.skbkontur.ru/ui/ui-parking-2/commits/2806dca87d6cd5339987a3174663307c4a01c9d8))
 
 ## [0.1.2](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/typography@0.1.1...@skbkontur/typography@0.1.2) (2025-11-11)
 
-
 ### Bug Fixes
 
-* **typography:** caption 12 line-height by design ([2a2a1d6](https://git.skbkontur.ru/ui/ui-parking-2/commits/2a2a1d674f0842f5f9a1e3e61bbef350dc9ea8f1))
-
-
-
-
+- **typography:** caption 12 line-height by design ([2a2a1d6](https://git.skbkontur.ru/ui/ui-parking-2/commits/2a2a1d674f0842f5f9a1e3e61bbef350dc9ea8f1))
 
 ## [0.1.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/typography@0.1.0...@skbkontur/typography@0.1.1) (2025-05-06)
 
