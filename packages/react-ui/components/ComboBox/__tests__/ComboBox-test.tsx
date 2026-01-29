@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import FocusLock from 'react-focus-lock';
 
+import { FocusLock } from '../../../internal/react-focus-lock/index.js';
 import { MobilePopupDataTids } from '../../../internal/MobilePopup/index.js';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 import type { HTMLProps } from '../../../typings/html.js';
@@ -1668,7 +1668,6 @@ describe('ComboBox', () => {
 
     it('FocusLock allow to blur', async () => {
       render(
-        // @ts-expect-error: bad cjs-package types
         <FocusLock autoFocus={false}>
           <ComboBox value={testValues[0]} getItems={getItems} ref={comboboxRef} />
         </FocusLock>,

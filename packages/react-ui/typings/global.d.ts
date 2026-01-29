@@ -7,3 +7,10 @@ declare var __RetailUiZIndexes: number[];
 // XDomainRequest is IE-specific API, therefore it was removed from `lib.d.ts`
 // See: https://github.com/Microsoft/TypeScript/issues/2927
 declare var XDomainRequest: typeof XMLHttpRequest;
+
+declare module 'react-clientside-effect' {
+  export default function withSideEffect(
+    reducePropsToState: (instances: any[]) => any,
+    handleStateChangeOnClient: (state: any) => void,
+  ): (Component: React.ComponentType<any>) => React.ComponentType<any>;
+}

@@ -1,0 +1,17 @@
+import { globalObject } from '@skbkontur/global-object';
+import { createMedium, createSidecarMedium } from 'use-sidecar';
+
+export const mediumFocus = createMedium(
+  {} as any,
+  ({ target, currentTarget }: { target: Element; currentTarget: Element }) => ({ target, currentTarget }),
+);
+export const mediumBlur = createMedium();
+
+export const mediumEffect = createMedium();
+
+export const mediumSidecar = createSidecarMedium({
+  async: true,
+  // focus-lock sidecar is not required on the server
+  // however, it might be required for JSDOM tests
+  ssr: typeof globalObject.document !== 'undefined',
+});

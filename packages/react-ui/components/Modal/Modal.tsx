@@ -1,9 +1,9 @@
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
-import FocusLock from 'react-focus-lock';
 import throttle from 'lodash.throttle';
 import type { Emotion } from '@emotion/css/create-instance';
 
+import { FocusLock } from '../../internal/react-focus-lock/index.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { isNonNullable } from '../../lib/utils.js';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
@@ -316,7 +316,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       style={isMobile ? undefined : style}
                     >
                       <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
-                        {/* @ts-expect-error: bad cjs-package types */}
                         <FocusLock
                           disabled={disableFocusLock}
                           autoFocus={false}

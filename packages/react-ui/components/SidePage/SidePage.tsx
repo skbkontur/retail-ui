@@ -1,16 +1,16 @@
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
-import FocusLock from 'react-focus-lock';
 import type { Emotion } from '@emotion/css/create-instance';
 
 import type { GlobalObject } from '../../lib/globalObject.js';
+import { FocusLock } from '../../internal/react-focus-lock/index.js';
 import { isNonNullable, isReactUIInstance } from '../../lib/utils.js';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
 import * as LayoutEvents from '../../lib/LayoutEvents.js';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll/index.js';
-import type { ModalStackSubscription } from '../../lib/ModalStack.js';
 import { ModalStack } from '../../lib/ModalStack.js';
+import type { ModalStackSubscription } from '../../lib/ModalStack.js';
 import { RenderContainer } from '../../internal/RenderContainer/index.js';
 import { RenderLayer } from '../../internal/RenderLayer/index.js';
 import { ZIndex } from '../../internal/ZIndex/index.js';
@@ -33,7 +33,6 @@ import { SidePageContext } from './SidePageContext.js';
 import { SidePageFooter } from './SidePageFooter.js';
 import { SidePageHeader } from './SidePageHeader.js';
 import { getStyles } from './SidePage.styles.js';
-
 export interface SidePageProps
   extends CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
@@ -270,7 +269,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           left: fromLeft ? offset : 'auto',
         }}
       >
-        {/* @ts-expect-error: bad cjs-package types */}
         <FocusLock disabled={this.isFocusLockDisabled} autoFocus={false} className={this.styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
