@@ -590,8 +590,6 @@ export const DarkTheme6_0 = createTheme({
       return this.popupBoxShadow;
     }
     public static dateSelectTextColorInvert = '';
-    public static dateSelectMenuItemBgActive = 'rgba(255, 255, 255, 0.06)';
-    public static dateSelectMenuItemBgSelected = 'rgba(255, 255, 255, 0.1)';
     //#endregion DateSelect
     //#region DateInput
     public static dateInputMaskColor = colors.textNeutralFaint;
@@ -879,10 +877,6 @@ export const DarkTheme6_0 = createTheme({
     public static fileUploaderIconColorForValidation = '#222222';
     public static get fileUploaderIconHoverColorForValidation(): string {
       return this.bgSecondary;
-    }
-
-    public static get fileUploaderErrorColor(): string {
-      return this.textColorDisabled;
     }
 
     public static fileUploaderFileTypeUnknownIconColor = '#676767';

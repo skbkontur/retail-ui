@@ -1078,10 +1078,7 @@ export class BasicThemeClass {
   public static get dateSelectMenuBg(): string {
     return this.bgSecondary;
   }
-  /**
-   * @deprecated
-   */
-  public static dateSelectMenuItemBgActive = '#F0F0F0';
+
   public static get dateSelectMenuItemBgDisabled(): string {
     return this.bgSecondary;
   }
@@ -1095,10 +1092,7 @@ export class BasicThemeClass {
   public static dateSelectLineHeight = '20px';
   public static dateSelectFontSize = '14px';
   public static dateSelectFontWeight = 'bold';
-  /**
-   * @deprecated
-   */
-  public static dateSelectMenuItemBgSelected = '#ececec';
+
   public static get dateSelectTextColorDisabled(): string {
     return this.textColorDisabled;
   }
@@ -1669,15 +1663,6 @@ export class BasicThemeClass {
     return this.toggleBgChecked;
   }
 
-  /**
-   * @deprecated
-   */
-  public static toggleCheckedBg = '#fff';
-  /**
-   * @deprecated
-   */
-  public static toggleCheckedBgHover = '#fff';
-
   // checked :hover
   public static toggleContainerBoxShadowCheckedHover = 'none';
   public static toggleContainerBgCheckedHover = colors.shapeBoldAccentHover;
@@ -1702,11 +1687,6 @@ export class BasicThemeClass {
   public static get toggleBorderColorDisabledChecked(): string {
     return this.toggleBorderColor;
   }
-
-  /**
-   * @deprecated
-   */
-  public static toggleBgDisabledChecked = '#dadada';
 
   //#endregion Toggle
   //#region Popup
@@ -2529,12 +2509,6 @@ export class BasicThemeClass {
   }
   public static get fileUploaderDisabledIconColor(): string {
     return this.textColorDisabled;
-  }
-  /**
-   * @deprecated
-   */
-  public static get fileUploaderErrorColor(): string {
-    return this.closeGrayColor;
   }
 
   public static fileUploaderErrorBgColor = colors.shapeFaintError;

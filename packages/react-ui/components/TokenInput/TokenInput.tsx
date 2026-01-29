@@ -150,9 +150,6 @@ export interface TokenInputProps<T>
   /** Преобразует значение в элемент списка. */
   valueToItem?: (value: string) => T;
 
-  /** @deprecated Используйте `itemToId` вместо `toKey`. */
-  toKey?: (item: T) => string | number | undefined;
-
   /** Сравнивает полученные результаты с `value`. */
   itemToId?: (item: T) => string | number | undefined;
 
