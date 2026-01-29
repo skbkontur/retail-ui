@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Gapped, Select, Input } from '@skbkontur/react-ui';
-import { css, injectGlobal } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import type { Meta } from '@skbkontur/react-ui/typings/stories';
 
@@ -10,6 +9,9 @@ import { getColorsBase } from '../lib/get-colors-base';
 import { getColors } from '../get-colors';
 import type { TokensBase } from '../lib/types/tokens-base';
 import type { ColorFormat } from '../lib/utils/convert-color';
+
+import { type Emotion } from '@emotion/css/create-instance';
+import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
 
 interface TokenPair {
   key: string;
@@ -28,11 +30,13 @@ type TTransformedTokens = Record<string, TokenPair>;
 
 type TGroupedTokens = Record<string, { key: string; value: TokenPair }[]>;
 
-injectGlobal(`
+const style = document.createElement('style');
+style.innerHTML = `
   [data-role=preview]:has([data-colors-controls]) {
     padding: 0 !important;
   }
-`);
+`;
+document.head.appendChild(style);
 
 export default {
   title: 'Colors API',
@@ -120,7 +124,7 @@ export const ColorsPaletteOverridesStory = () => {
   const GROUP_HEADER_STICKY_TOP = '57px';
   const LIGHT_TEXT_COLOR = '#222';
 
-  const styles = {
+  const getStyles = ({ css }: Emotion) => ({
     colors: css`
       display: flex;
       flex-direction: column;
@@ -212,7 +216,9 @@ export const ColorsPaletteOverridesStory = () => {
       box-shadow: 0 -1px rgba(0, 0, 0, 0.15);
       margin-top: auto;
     `,
-  };
+  });
+
+  const styles = useStyles(getStyles);
 
   const colorOptions = Object.keys(brandSwatch);
   const defaultBrandColor = colorOptions[0];
