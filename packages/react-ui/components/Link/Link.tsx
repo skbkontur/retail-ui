@@ -31,7 +31,7 @@ export interface LinkInnerProps extends CommonProps {
   /** Добавляет иконку справа от ссылки. */
   rightIcon?: React.ReactElement;
 
-  /** Задаёт стиль ссылки. */
+  /** Стиль ссылки. */
   use?: 'default' | 'success' | 'danger' | 'grayed';
 
   /** @ignore */
@@ -40,13 +40,13 @@ export interface LinkInnerProps extends CommonProps {
   /** @ignore */
   _buttonOpened?: boolean;
 
-  /** Задаёт HTML-атрибут `tabindex`. */
+  /** HTML-атрибут `tabindex`. */
   tabIndex?: number;
 
   /** Переводит ссылку в состояние загрузки. */
   loading?: boolean;
 
-  /** Задаёт объект с переменными темы. */
+  /** Объект с переменными темы. */
   theme?: ThemeIn;
 
   /** Задает состояние фокуса.

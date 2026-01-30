@@ -199,6 +199,8 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     return incrementZIndex(priority, delta, this.globalObject);
   };
 
+  private findClosestWithZIndex = (el: Element | null | undefined) => el?.closest('[style*=z-index]');
+
   private tryGetContextByDOM = (element: HTMLDivElement) => {
     if (
       this.props.applyZIndex &&
@@ -211,18 +213,27 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
       if (isInstanceOf(portal, this.globalObject.HTMLElement)) {
         const portalID = portal.getAttribute(PORTAL_OUTLET_ATTR);
         const noscript = this.globalObject.document?.querySelector(`noscript[${PORTAL_INLET_ATTR}="${portalID}"]`);
-        const parent = noscript?.parentElement?.closest('[style*=z-index]');
+        let parent = this.findClosestWithZIndex(noscript?.parentElement);
 
-        if (isInstanceOf(parent, this.globalObject.HTMLElement)) {
-          const newZIndex = Number(parent.style.zIndex || 0);
+        while (isInstanceOf(parent, this.globalObject.HTMLElement)) {
+          const styleZIndex = parent.style.zIndex;
 
-          let maxZIndex = Infinity;
+          if (styleZIndex) {
+            const newZIndex = Number(parent.style.zIndex);
 
-          if (parent.parentElement?.dataset.tid === LoaderDataTids.veil) {
-            maxZIndex = this.calcZIndex(newZIndex, maxZIndex);
+            if (!Number.isNaN(newZIndex)) {
+              let maxZIndex = Infinity;
+
+              if (parent.parentElement?.dataset.tid === LoaderDataTids.veil) {
+                maxZIndex = this.calcZIndex(newZIndex, maxZIndex);
+              }
+
+              DOMZIndexContext = { maxZIndex, parentLayerZIndex: newZIndex };
+              break;
+            }
           }
 
-          DOMZIndexContext = { maxZIndex, parentLayerZIndex: newZIndex };
+          parent = this.findClosestWithZIndex(parent.parentElement);
         }
       }
 

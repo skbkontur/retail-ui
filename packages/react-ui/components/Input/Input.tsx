@@ -97,12 +97,12 @@ export interface InputProps
         /** Выравнивает контент внутри поля. */
         align?: InputAlign;
 
-        /** Задаёт размер.
+        /** Размер поля.
          * @default small
          */
         size?: SizeProp;
 
-        /** Задаёт функцию, которая вызывается при изменении значения `value` в поле. */
+        /** Событие изменения значения `value` в поле. */
         onValueChange?: (value: string) => void;
 
         /** @ignore */
@@ -114,10 +114,10 @@ export interface InputProps
         /** @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задаёт тип поля ввода. */
+        /** Тип поля ввода. */
         type?: InputType;
 
-        /** Задаёт значение внутри поля. */
+        /** Значение внутри поля. */
         value?: string;
 
         /** Устанавливает префикс `ReactNode` перед значением, но после иконки. */
@@ -477,9 +477,13 @@ export class Input extends React.Component<InputProps, InputState> {
       this.props.onChange(event);
     }
 
-    this.setState({
-      clearCrossShowed: this.getClearCrossShowed({ focused: this.state.focused, hovered: this.state.hovered }),
-    });
+    const clearCrossShowed = this.getClearCrossShowed({ focused: this.state.focused, hovered: this.state.hovered });
+
+    if (this.state.clearCrossShowed !== clearCrossShowed) {
+      this.setState({
+        clearCrossShowed,
+      });
+    }
   };
 
   private handleMouseEnter = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {

@@ -43,7 +43,7 @@ export interface ButtonInnerProps extends CommonProps {
   /** Применяет к кнопке стили псевдокласса `:active`. */
   active?: boolean;
 
-  /** Задаёт выравнивание текста в кнопке. */
+  /** Выравнивание текста в кнопке. */
   align?: React.CSSProperties['textAlign'];
 
   /** Преобразует обычную кнопку в кнопку со стрелкой. */
@@ -96,16 +96,16 @@ export interface ButtonInnerProps extends CommonProps {
    * Альтернативный вариант использования — через переменные темы `btnPaddingXSmall`, `btnPaddingXMedium`, `btnPaddingXLarge` */
   narrow?: boolean;
 
-  /** Задаёт размер кнопки. */
+  /** Размер кнопки. */
   size?: SizeProp;
 
-  /** Задаёт HTML-атрибут `type`. */
+  /** HTML-атрибут `type`. */
   type?: ButtonType;
 
-  /** Задаёт HTML-атрибут `title`. */
+  /** HTML-атрибут `title`. */
   title?: string;
 
-  /** Задаёт стиль кнопки.
+  /** Стиль кнопки.
    * **Вариант `link` устарел.** Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
    */
   use?: ButtonUse;
@@ -117,10 +117,10 @@ export interface ButtonInnerProps extends CommonProps {
    * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0. */
   warning?: boolean;
 
-  /** Задаёт ширину кнопки. */
+  /** Ширина кнопки. */
   width?: number | string;
 
-  /** Задаёт объект с переменными темы. */
+  /** Объект с переменными темы. */
   theme?: ThemeIn;
 }
 

@@ -13,7 +13,16 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       right: 0;
       top: 0;
 
-      background: ${t.loaderBg};
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: ${t.loaderOpacity};
+        background: ${t.loaderBg};
+      }
     `;
   },
 
