@@ -567,7 +567,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       </>
     );
     const container = maxHeight ? (
-      <ScrollContainer scrollRef={this.scrollContainerRef} maxHeight={maxHeight} showScrollBar="always">
+      <ScrollContainer
+        scrollRef={this.scrollContainerRef}
+        maxHeight={maxHeight}
+        showScrollBar="always"
+        style={{ width: '100%' }}
+      >
         {inner}
       </ScrollContainer>
     ) : (
