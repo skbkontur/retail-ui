@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.2...@skbkontur/react-ui@5.6.3) (2026-01-30)
+
+
+### Bug Fixes
+
+* **TokenInput:** fix focus by click with maxHeight prop ([7d814b6](https://github.com/skbkontur/retail-ui/commit/7d814b6310b9bab5c41b65bf16043d56da5575b9))
+* **ZIndex:** ignore string values from DOM context ([f5e02fb](https://github.com/skbkontur/retail-ui/commit/f5e02fbc402b301fe2af55f387cbd53680619e6f))
+
+
+
+
+
 ## [5.6.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.1...@skbkontur/react-ui@5.6.2) (2026-01-16)
 
 
