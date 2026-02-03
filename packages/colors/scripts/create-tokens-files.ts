@@ -22,7 +22,16 @@ interface SaveTokensOptions {
   tokensJSVariableName?: string;
   fileSingleOutputName?: string;
   fileOutputDir: string;
-  fileFormat: 'json' | 'css' | 'less' | 'scss' | 'js' | 'js-css-vars' | 'js-css-vars-fallback';
+  fileFormat:
+    | 'json'
+    | 'json-snapshot'
+    | 'json-base-snapshot'
+    | 'css'
+    | 'less'
+    | 'scss'
+    | 'js'
+    | 'js-css-vars'
+    | 'js-css-vars-fallback';
   removePressedAndHover?: boolean;
 }
 
@@ -224,6 +233,54 @@ export function saveTokens({
       }
 
       fs.writeFileSync(finalOutputFile, JSON.stringify(themedTokens, null, 2));
+      break;
+    }
+
+    case 'json-snapshot': {
+      const toCamelCaseFlat = (obj: any) =>
+        Object.entries(flattenHybridCase(obj)).reduce((acc: any, [key, value]) => {
+          acc[kebabCaseToCamelCase(key)] = value;
+          return acc;
+        }, {});
+
+      const lightHex = toCamelCaseFlat(tokens.light.hex);
+      const lightOklch = toCamelCaseFlat(tokens.light.oklch);
+      const darkHex = toCamelCaseFlat(tokens.dark.hex);
+      const darkOklch = toCamelCaseFlat(tokens.dark.oklch);
+
+      const result: any = {};
+      const allKeys = new Set([...Object.keys(lightHex), ...Object.keys(darkHex)]);
+
+      allKeys.forEach((key) => {
+        result[key] = {
+          light: {
+            oklch: lightOklch[key],
+            hex: lightHex[key],
+          },
+          dark: {
+            oklch: darkOklch[key],
+            hex: darkHex[key],
+          },
+        };
+      });
+
+      fs.writeFileSync(finalOutputFile, JSON.stringify(result, null, 2));
+      break;
+    }
+
+    case 'json-base-snapshot': {
+      const flatHex = flattenObject(tokens.hex);
+      const flatOklch = flattenObject(tokens.oklch);
+
+      const result: any = {};
+      Object.keys(flatHex).forEach((key) => {
+        result[kebabCaseToCamelCase(key)] = {
+          oklch: flatOklch[key],
+          hex: flatHex[key],
+        };
+      });
+
+      fs.writeFileSync(finalOutputFile, JSON.stringify(result, null, 2));
       break;
     }
 

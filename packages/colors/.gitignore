@@ -1,5 +1,5 @@
-/tokens
-/tokens-mobile
+/tokens/
+/tokens-mobile/
 **/*.js
 **/*.js.map
 **/*.d.ts
