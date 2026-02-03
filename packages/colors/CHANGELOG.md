@@ -5,43 +5,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [2.0.5](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.4...@skbkontur/colors@2.0.5) (2026-01-19)
 
-
 ### Bug Fixes
 
-* **Colors:** update package.json exports ([d6103cb](https://git.skbkontur.ru/ui/ui-parking-2/commits/d6103cbcf02622e65190bc1e36cae45d899959f5))
-
-
-
-
+- **Colors:** update package.json exports ([d6103cb](https://git.skbkontur.ru/ui/ui-parking-2/commits/d6103cbcf02622e65190bc1e36cae45d899959f5))
 
 ## [2.0.4](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.3...@skbkontur/colors@2.0.4) (2025-12-23)
 
 **Note:** Version bump only for package @skbkontur/colors
 
-
-
-
-
 ## [2.0.3](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.2...@skbkontur/colors@2.0.3) (2025-12-23)
 
 **Note:** Version bump only for package @skbkontur/colors
 
-
-
-
-
 ## [2.0.2](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.1...@skbkontur/colors@2.0.2) (2025-12-23)
-
 
 ### Bug Fixes
 
-* **Colors:** add dash `[@color](https://git.skbkontur.ru/color)-`, `$color-` to less/scss prefixes ([b683ace](https://git.skbkontur.ru/ui/ui-parking-2/commits/b683ace20e03859d4ea9cc152bfde53adb189f35))
-* **Colors:** fix mobile tokens hex-aarrggbb convert ([19cef41](https://git.skbkontur.ru/ui/ui-parking-2/commits/19cef41f2aabd4c682a2f4f9240010f05d038493))
-* **Colors:** remove unused files from npm pkg ([fb1bfb9](https://git.skbkontur.ru/ui/ui-parking-2/commits/fb1bfb98a8cd1e5bcbbfb1d65779ebe2d5a9b9fc))
-
-
-
-
+- **Colors:** add dash `[@color](https://git.skbkontur.ru/color)-`, `$color-` to less/scss prefixes ([b683ace](https://git.skbkontur.ru/ui/ui-parking-2/commits/b683ace20e03859d4ea9cc152bfde53adb189f35))
+- **Colors:** fix mobile tokens hex-aarrggbb convert ([19cef41](https://git.skbkontur.ru/ui/ui-parking-2/commits/19cef41f2aabd4c682a2f4f9240010f05d038493))
+- **Colors:** remove unused files from npm pkg ([fb1bfb9](https://git.skbkontur.ru/ui/ui-parking-2/commits/fb1bfb98a8cd1e5bcbbfb1d65779ebe2d5a9b9fc))
 
 ## [2.0.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.0...@skbkontur/colors@2.0.1) (2025-12-22)
 

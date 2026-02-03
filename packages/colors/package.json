@@ -66,9 +66,11 @@
     "prebuild": "node --import=tsx scripts/create-tokens-from-figma.ts",
     "build": "npm run build:static && npm run build:esm",
     "build:esm": "tsc",
-    "build:static": "node --import=tsx scripts/create-tokens-files.ts && prettier . --write && npx stylelint \"**/*.{css,scss,less}\" --fix",
+    "build:static": "node --import=tsx scripts/create-tokens-files.ts && npm run format",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:update-snapshoots": "node --import=tsx scripts/create-tokens-snapshots.ts && npm run format && vitest run -u",
+    "format": "prettier . --write && npx stylelint \"**/*.{css,scss,less}\" --fix",
     "clean": "git clean -fdxqe node_modules"
   },
   "dependencies": {
