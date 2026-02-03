@@ -191,32 +191,32 @@
   },
   "textInvertedWarningHeavy": {
     "light": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     },
     "dark": {
-      "oklch": "oklch(64% 0.136 74)",
-      "hex": "#bc7d00"
+      "oklch": "oklch(64% 0.157 56)",
+      "hex": "#d26e00"
     }
   },
   "textInvertedWarningHeavyHover": {
     "light": {
-      "oklch": "oklch(84% 0.171 84)",
-      "hex": "#ffbf0b"
+      "oklch": "oklch(84% 0.155 80)",
+      "hex": "#ffbe3d"
     },
     "dark": {
-      "oklch": "oklch(72% 0.152 75)",
-      "hex": "#db9400"
+      "oklch": "oklch(72% 0.162 65)",
+      "hex": "#e88b00"
     }
   },
   "textInvertedWarningHeavyPressed": {
     "light": {
-      "oklch": "oklch(72% 0.109 75)",
-      "hex": "#cc9a51"
+      "oklch": "oklch(72% 0.116 65)",
+      "hex": "#d69551"
     },
     "dark": {
-      "oklch": "oklch(56% 0.092 74)",
-      "hex": "#956c30"
+      "oklch": "oklch(56% 0.092 64)",
+      "hex": "#9a6836"
     }
   },
   "textLogo": {
@@ -301,32 +301,32 @@
   },
   "textWarningHeavy": {
     "light": {
-      "oklch": "oklch(64% 0.136 74)",
-      "hex": "#bc7d00"
+      "oklch": "oklch(64% 0.157 56)",
+      "hex": "#d26e00"
     },
     "dark": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     }
   },
   "textWarningHeavyHover": {
     "light": {
-      "oklch": "oklch(72% 0.152 75)",
-      "hex": "#db9400"
+      "oklch": "oklch(72% 0.162 65)",
+      "hex": "#e88b00"
     },
     "dark": {
-      "oklch": "oklch(84% 0.171 84)",
-      "hex": "#ffbf0b"
+      "oklch": "oklch(84% 0.155 80)",
+      "hex": "#ffbe3d"
     }
   },
   "textWarningHeavyPressed": {
     "light": {
-      "oklch": "oklch(60% 0.099 74)",
-      "hex": "#a37736"
+      "oklch": "oklch(60% 0.099 60)",
+      "hex": "#ab713f"
     },
     "dark": {
-      "oklch": "oklch(72% 0.109 75)",
-      "hex": "#cc9a51"
+      "oklch": "oklch(72% 0.116 65)",
+      "hex": "#d69551"
     }
   },
   "textConstFaintBlack": {
@@ -641,32 +641,32 @@
   },
   "shapeBoldWarning": {
     "light": {
-      "oklch": "oklch(84% 0.171 84)",
-      "hex": "#ffbf0b"
+      "oklch": "oklch(84% 0.155 80)",
+      "hex": "#ffbe3d"
     },
     "dark": {
-      "oklch": "oklch(80% 0.147 78)",
-      "hex": "#f1b03b"
+      "oklch": "oklch(80% 0.149 74)",
+      "hex": "#f6ad3c"
     }
   },
   "shapeBoldWarningHover": {
     "light": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     },
     "dark": {
-      "oklch": "oklch(84% 0.134 84)",
-      "hex": "#f4c359"
+      "oklch": "oklch(84% 0.133 80)",
+      "hex": "#f8c05c"
     }
   },
   "shapeBoldWarningPressed": {
     "light": {
-      "oklch": "oklch(76% 0.144 76)",
-      "hex": "#e5a331"
+      "oklch": "oklch(76% 0.148 70)",
+      "hex": "#ec9e32"
     },
     "dark": {
-      "oklch": "oklch(72% 0.109 75)",
-      "hex": "#cc9a51"
+      "oklch": "oklch(72% 0.116 65)",
+      "hex": "#d69551"
     }
   },
   "shapeFaintAccent": {
@@ -821,32 +821,32 @@
   },
   "shapeFaintWarning": {
     "light": {
-      "oklch": "oklch(96% 0.070 97)",
-      "hex": "#fff3bd"
+      "oklch": "oklch(96% 0.053 91)",
+      "hex": "#fff1ca"
     },
     "dark": {
-      "oklch": "oklch(32% 0.044 74)",
-      "hex": "#402f18"
+      "oklch": "oklch(32% 0.044 68)",
+      "hex": "#422e19"
     }
   },
   "shapeFaintWarningHover": {
     "light": {
-      "oklch": "oklch(92% 0.074 95)",
-      "hex": "#f4e5ad"
+      "oklch": "oklch(92% 0.074 88)",
+      "hex": "#f9e3ac"
     },
     "dark": {
-      "oklch": "oklch(36% 0.052 74)",
-      "hex": "#4d391c"
+      "oklch": "oklch(36% 0.052 68)",
+      "hex": "#4f381d"
     }
   },
   "shapeFaintWarningPressed": {
     "light": {
-      "oklch": "oklch(92% 0.044 95)",
-      "hex": "#ede5c4"
+      "oklch": "oklch(92% 0.044 88)",
+      "hex": "#f1e4c4"
     },
     "dark": {
-      "oklch": "oklch(28% 0.036 74)",
-      "hex": "#342614"
+      "oklch": "oklch(28% 0.036 68)",
+      "hex": "#352515"
     }
   },
   "shapeHeavyError": {
@@ -881,12 +881,12 @@
   },
   "shapeHeavyWarning": {
     "light": {
-      "oklch": "oklch(36% 0.076 74)",
-      "hex": "#543600"
+      "oklch": "oklch(36% 0.079 68)",
+      "hex": "#583400"
     },
     "dark": {
-      "oklch": "oklch(92% 0.110 95)",
-      "hex": "#fbe48d"
+      "oklch": "oklch(92% 0.095 88)",
+      "hex": "#ffe29a"
     }
   },
   "shapeOtherAccentBoldDisabled": {
@@ -1261,32 +1261,32 @@
   },
   "shapePaleWarning": {
     "light": {
-      "oklch": "oklch(92% 0.110 95)",
-      "hex": "#fbe48d"
+      "oklch": "oklch(92% 0.095 88)",
+      "hex": "#ffe29a"
     },
     "dark": {
-      "oklch": "oklch(36% 0.052 74)",
-      "hex": "#4d391c"
+      "oklch": "oklch(36% 0.052 68)",
+      "hex": "#4f381d"
     }
   },
   "shapePaleWarningHover": {
     "light": {
-      "oklch": "oklch(88% 0.104 90)",
-      "hex": "#f2d585"
+      "oklch": "oklch(88% 0.104 84)",
+      "hex": "#f8d286"
     },
     "dark": {
-      "oklch": "oklch(40% 0.060 74)",
-      "hex": "#5b4320"
+      "oklch": "oklch(40% 0.060 68)",
+      "hex": "#5d4122"
     }
   },
   "shapePaleWarningPressed": {
     "light": {
-      "oklch": "oklch(88% 0.067 90)",
-      "hex": "#e9d6a5"
+      "oklch": "oklch(88% 0.067 84)",
+      "hex": "#edd5a5"
     },
     "dark": {
-      "oklch": "oklch(32% 0.044 74)",
-      "hex": "#402f18"
+      "oklch": "oklch(32% 0.044 68)",
+      "hex": "#422e19"
     }
   },
   "shapeSoftAccent": {
@@ -1441,32 +1441,32 @@
   },
   "shapeSoftWarning": {
     "light": {
-      "oklch": "oklch(88% 0.142 90)",
-      "hex": "#fcd35d"
+      "oklch": "oklch(88% 0.127 84)",
+      "hex": "#ffd06f"
     },
     "dark": {
-      "oklch": "oklch(52% 0.084 74)",
-      "hex": "#86612c"
+      "oklch": "oklch(52% 0.084 66)",
+      "hex": "#8a5f30"
     }
   },
   "shapeSoftWarningHover": {
     "light": {
-      "oklch": "oklch(84% 0.134 84)",
-      "hex": "#f4c359"
+      "oklch": "oklch(84% 0.133 80)",
+      "hex": "#f8c05c"
     },
     "dark": {
-      "oklch": "oklch(56% 0.092 74)",
-      "hex": "#956c30"
+      "oklch": "oklch(56% 0.092 64)",
+      "hex": "#9a6836"
     }
   },
   "shapeSoftWarningPressed": {
     "light": {
-      "oklch": "oklch(80% 0.112 78)",
-      "hex": "#e5b566"
+      "oklch": "oklch(80% 0.112 74)",
+      "hex": "#e9b368"
     },
     "dark": {
-      "oklch": "oklch(48% 0.076 74)",
-      "hex": "#775728"
+      "oklch": "oklch(48% 0.076 68)",
+      "hex": "#7a552b"
     }
   },
   "shapeInvertedBacklessHover": {
@@ -2171,32 +2171,32 @@
   },
   "lineWarningBold": {
     "light": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     },
     "dark": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     }
   },
   "lineWarningBoldHover": {
     "light": {
-      "oklch": "oklch(72% 0.152 75)",
-      "hex": "#db9400"
+      "oklch": "oklch(72% 0.162 65)",
+      "hex": "#e88b00"
     },
     "dark": {
-      "oklch": "oklch(84% 0.171 84)",
-      "hex": "#ffbf0b"
+      "oklch": "oklch(84% 0.155 80)",
+      "hex": "#ffbe3d"
     }
   },
   "lineWarningBoldPressed": {
     "light": {
-      "oklch": "oklch(68% 0.101 74)",
-      "hex": "#bd8f4d"
+      "oklch": "oklch(68% 0.112 60)",
+      "hex": "#cb874c"
     },
     "dark": {
-      "oklch": "oklch(72% 0.109 75)",
-      "hex": "#cc9a51"
+      "oklch": "oklch(72% 0.116 65)",
+      "hex": "#d69551"
     }
   },
   "lineInvertedAccentBold": {
@@ -2391,32 +2391,32 @@
   },
   "lineInvertedWarningBold": {
     "light": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     },
     "dark": {
-      "oklch": "oklch(80% 0.167 78)",
-      "hex": "#f8ae00"
+      "oklch": "oklch(80% 0.170 74)",
+      "hex": "#fdaa00"
     }
   },
   "lineInvertedWarningBoldHover": {
     "light": {
-      "oklch": "oklch(84% 0.171 84)",
-      "hex": "#ffbf0b"
+      "oklch": "oklch(84% 0.155 80)",
+      "hex": "#ffbe3d"
     },
     "dark": {
-      "oklch": "oklch(72% 0.152 75)",
-      "hex": "#db9400"
+      "oklch": "oklch(72% 0.162 65)",
+      "hex": "#e88b00"
     }
   },
   "lineInvertedWarningBoldPressed": {
     "light": {
-      "oklch": "oklch(72% 0.109 75)",
-      "hex": "#cc9a51"
+      "oklch": "oklch(72% 0.116 65)",
+      "hex": "#d69551"
     },
     "dark": {
-      "oklch": "oklch(68% 0.101 74)",
-      "hex": "#bd8f4d"
+      "oklch": "oklch(68% 0.112 60)",
+      "hex": "#cb874c"
     }
   },
   "lineConstFaintBlack": {
@@ -2701,12 +2701,12 @@
   },
   "customizableBoldOrange": {
     "light": {
-      "oklch": "oklch(68% 0.195 45)",
-      "hex": "#f56600"
+      "oklch": "oklch(68% 0.202 43)",
+      "hex": "#f96100"
     },
     "dark": {
-      "oklch": "oklch(68% 0.176 45)",
-      "hex": "#ed6d28"
+      "oklch": "oklch(68% 0.182 43)",
+      "hex": "#f06a28"
     }
   },
   "customizableBoldPurple": {
@@ -2741,12 +2741,12 @@
   },
   "customizableBoldYellow": {
     "light": {
-      "oklch": "oklch(80% 0.164 86)",
-      "hex": "#ecb400"
+      "oklch": "oklch(80% 0.168 76)",
+      "hex": "#faac00"
     },
     "dark": {
-      "oklch": "oklch(76% 0.156 84)",
-      "hex": "#dfa700"
+      "oklch": "oklch(76% 0.161 74)",
+      "hex": "#ed9f00"
     }
   },
   "customizableFaintBlack": {
@@ -2811,12 +2811,12 @@
   },
   "customizableFaintOrange": {
     "light": {
-      "oklch": "oklch(96% 0.025 61)",
-      "hex": "#ffeee1"
+      "oklch": "oklch(96% 0.024 59)",
+      "hex": "#ffeee2"
     },
     "dark": {
-      "oklch": "oklch(32% 0.048 45)",
-      "hex": "#472b1e"
+      "oklch": "oklch(32% 0.050 43)",
+      "hex": "#482a1e"
     }
   },
   "customizableFaintPurple": {
@@ -2851,12 +2851,12 @@
   },
   "customizableFaintYellow": {
     "light": {
-      "oklch": "oklch(96% 0.070 103)",
-      "hex": "#faf5be"
+      "oklch": "oklch(96% 0.065 95)",
+      "hex": "#fff2c1"
     },
     "dark": {
-      "oklch": "oklch(32% 0.044 82)",
-      "hex": "#3e3117"
+      "oklch": "oklch(32% 0.044 72)",
+      "hex": "#412f18"
     }
   },
   "customizableHeavyBlack": {
@@ -2921,12 +2921,12 @@
   },
   "customizableHeavyOrange": {
     "light": {
-      "oklch": "oklch(48% 0.138 45)",
-      "hex": "#9a3d00"
+      "oklch": "oklch(48% 0.143 43)",
+      "hex": "#9c3a00"
     },
     "dark": {
-      "oklch": "oklch(76% 0.156 49)",
-      "hex": "#ff8f4f"
+      "oklch": "oklch(76% 0.154 47)",
+      "hex": "#ff8f54"
     }
   },
   "customizableHeavyPurple": {
@@ -2961,12 +2961,12 @@
   },
   "customizableHeavyYellow": {
     "light": {
-      "oklch": "oklch(56% 0.115 82)",
-      "hex": "#966c01"
+      "oklch": "oklch(56% 0.120 72)",
+      "hex": "#9f6700"
     },
     "dark": {
-      "oklch": "oklch(84% 0.171 90)",
-      "hex": "#f6c405"
+      "oklch": "oklch(84% 0.165 82)",
+      "hex": "#ffbe26"
     }
   },
   "customizablePaleBlack": {
@@ -3031,12 +3031,12 @@
   },
   "customizablePaleOrange": {
     "light": {
-      "oklch": "oklch(92% 0.049 57)",
-      "hex": "#ffddc6"
+      "oklch": "oklch(92% 0.048 55)",
+      "hex": "#ffddc7"
     },
     "dark": {
-      "oklch": "oklch(36% 0.056 45)",
-      "hex": "#563324"
+      "oklch": "oklch(36% 0.058 43)",
+      "hex": "#573324"
     }
   },
   "customizablePalePurple": {
@@ -3071,12 +3071,12 @@
   },
   "customizablePaleYellow": {
     "light": {
-      "oklch": "oklch(92% 0.110 100)",
-      "hex": "#f5e78f"
+      "oklch": "oklch(92% 0.110 93)",
+      "hex": "#fee38d"
     },
     "dark": {
-      "oklch": "oklch(36% 0.052 82)",
-      "hex": "#4b3a1b"
+      "oklch": "oklch(36% 0.052 72)",
+      "hex": "#4e381d"
     }
   },
   "customizableSoftBlack": {
@@ -3141,12 +3141,12 @@
   },
   "customizableSoftOrange": {
     "light": {
-      "oklch": "oklch(80% 0.128 51)",
-      "hex": "#ffa56f"
+      "oklch": "oklch(80% 0.125 49)",
+      "hex": "#ffa573"
     },
     "dark": {
-      "oklch": "oklch(48% 0.083 45)",
-      "hex": "#844d34"
+      "oklch": "oklch(48% 0.086 43)",
+      "hex": "#864c34"
     }
   },
   "customizableSoftPurple": {
@@ -3181,12 +3181,12 @@
   },
   "customizableSoftYellow": {
     "light": {
-      "oklch": "oklch(88% 0.142 94)",
-      "hex": "#f6d65e"
+      "oklch": "oklch(88% 0.142 88)",
+      "hex": "#fed25d"
     },
     "dark": {
-      "oklch": "oklch(52% 0.084 82)",
-      "hex": "#81642a"
+      "oklch": "oklch(52% 0.084 72)",
+      "hex": "#87602d"
     }
   }
 }

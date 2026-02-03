@@ -1,5 +1,4 @@
 import { clampChroma, converter } from 'culori';
-import { calcAPCA } from 'apca-w3';
 
 import type {
   GeneratorColorAbneyCorrection,
@@ -7,11 +6,12 @@ import type {
   GeneratorColorPalette,
   GeneratorColorWarningHuePatch,
 } from '../types/tokens-base-generator.js';
-import * as DefaultSwatch from '../consts/default-swatch.js';
 import { CHROMA_PARAMS } from '../consts/params/chroma-params.js';
 import { ABNEY_CORRECTION } from '../consts/params/abney-correction.js';
 import { PROMO_HUE_SHIFTS } from '../consts/params/promo-hue-shift.js';
 import { WARNING_HUE_PATCH } from '../consts/params/warning-hue-patch.js';
+
+const toOklch = converter('oklch');
 
 interface GeneratePaletteParams {
   color: string;
@@ -41,10 +41,6 @@ export function getPalette({
     ...customSettings,
   };
 
-  const toOklch = converter('oklch');
-  const oklchColor = toOklch(color);
-  const currentHue = oklchColor?.h || 0;
-
   const toNorm = (x: number) => x / 100;
 
   const calculateChromaValue = (
@@ -70,6 +66,8 @@ export function getPalette({
     dim: {},
   };
   const isWarning = type === 'warning';
+  const baseHue = calcBaseHue(color, settings.abneyCorrection);
+  const correctionHueRange = calcCorrectionRange(color, settings.abneyCorrection);
 
   for (const Lstr in settings.chromaSettings) {
     const L = +Lstr;
@@ -80,10 +78,18 @@ export function getPalette({
       continue;
     }
 
-    const hueAfterWarningPatch = applyWarningHuePatch(currentHue, L, settings.warningHuePatch, isWarning);
-    const appliedHueShift = applyAbneyShift(L, hueAfterWarningPatch, settings.abneyCorrection);
+    let hue = baseHue;
+    const lightnessCorrectionData = settings.abneyCorrection[L];
+    if (lightnessCorrectionData && correctionHueRange !== undefined) {
+      const shift = lightnessCorrectionData[correctionHueRange] ?? 0;
+      hue = (baseHue + shift + 360) % 360;
+    }
 
-    const chromaMax = clampChroma({ mode: 'oklch', l: L / 100, c: 1, h: appliedHueShift }, 'oklch').c;
+    if (isWarning) {
+      hue = calcWarningHuePatch(hue, L, settings.warningHuePatch);
+    }
+
+    const chromaMax = clampChroma({ mode: 'oklch', l: L / 100, c: 1, h: hue }, 'oklch').c;
     const currentParams = settings.chromaSettings[L];
 
     const vividN = calculateChromaValue(
@@ -100,62 +106,22 @@ export function getPalette({
     );
     const dimN = calculateChromaValue(currentParams.dim.rel, currentParams.dim.min, currentParams.dim.max, chromaMax);
 
-    result.vivid[L] = `oklch(${L}% ${vividN.toFixed(3)} ${appliedHueShift.toFixed(0)})`;
-    result.normal[L] = `oklch(${L}% ${normN.toFixed(3)} ${appliedHueShift.toFixed(0)})`;
-    result.dim[L] = `oklch(${L}% ${dimN.toFixed(3)} ${appliedHueShift.toFixed(0)})`;
+    result.vivid[L] = `oklch(${L}% ${vividN.toFixed(3)} ${hue.toFixed(0)})`;
+    result.normal[L] = `oklch(${L}% ${normN.toFixed(3)} ${hue.toFixed(0)})`;
+    result.dim[L] = `oklch(${L}% ${dimN.toFixed(3)} ${hue.toFixed(0)})`;
   }
 
   return result;
 }
 
-export function getAbneyHueShift(
-  lightness: number,
-  currentHue: number,
-  abneyData: GeneratorColorAbneyCorrection
-): number {
-  const lightnessData = abneyData[lightness];
-  if (!lightnessData) {
-    return 0;
-  }
-  const hueRanges = Object.keys(lightnessData)
-    .map(Number)
-    .sort((a, b) => a - b);
-  let selectedHueRange = hueRanges[0];
-  for (let i = 0; i < hueRanges.length; i++) {
-    const startRange = hueRanges[i];
-    const endRange = hueRanges[i + 1] !== undefined ? hueRanges[i + 1] : 360;
-    if (currentHue >= startRange && currentHue < endRange) {
-      selectedHueRange = startRange;
-      break;
-    }
-    if (i === hueRanges.length - 1 && currentHue >= startRange && currentHue < 360) {
-      selectedHueRange = startRange;
-      break;
-    }
-  }
-  return lightnessData[selectedHueRange] !== undefined ? lightnessData[selectedHueRange] : 0;
-}
-
-export function applyAbneyShift(
-  lightness: number,
-  currentHue: number,
-  abneyData: GeneratorColorAbneyCorrection
-): number {
-  const abneyShift = getAbneyHueShift(lightness, currentHue, abneyData);
-  return (currentHue + abneyShift + 360) % 360;
-}
-
-export function applyWarningHuePatch(
+export function calcWarningHuePatch(
   currentHue: number,
   lightness: number,
-  warningHuePatchData: GeneratorColorWarningHuePatch,
-  isWarningMode: boolean
+  warningHuePatchData: GeneratorColorWarningHuePatch
 ): number {
-  if (isWarningMode) {
-    const patch = warningHuePatchData[lightness];
-    if (patch !== undefined) {
-      return (currentHue + patch + 360) % 360;
-    }
+  const patch = warningHuePatchData[lightness];
+  if (patch !== undefined) {
+    return (currentHue + patch + 360) % 360;
   }
   return currentHue;
 }
@@ -178,37 +144,13 @@ function findClosestLightnessStep(targetL: number, availableLightnessSteps: numb
   return closestStep;
 }
 
-export function calculateBaseHueAndCorrectionRange(
-  inputColorString: string,
-  abneyData: GeneratorColorAbneyCorrection
-): {
-  baseHue: number;
-  correctionLightness: number;
-  correctionHueRange: number;
-} | null {
-  const toOklch = converter('oklch');
-  const oklch = toOklch(inputColorString) as { l: number; c: number; h: number };
-  if (!oklch) {
-    console.warn(`Could not parse color string: ${inputColorString}`);
-    return null;
-  }
-  const targetLightness = Math.round(oklch.l * 100);
-  let targetHue = oklch.h;
-  if (isNaN(targetHue)) {
-    console.warn(`Achromatic color detected (${inputColorString}). Defaulting hue to 0.`);
-    targetHue = 0;
-  }
+export function calcBaseHue(inputColorString: string, abneyData: GeneratorColorAbneyCorrection): number {
+  const colorOKLCH = toOklch(inputColorString) as { l: number; c: number; h: number };
+  const targetLightness = colorOKLCH.l * 100;
+  const targetHue = colorOKLCH.h;
   const availableLightnessSteps = Object.keys(abneyData).map(Number);
-  if (availableLightnessSteps.length === 0) {
-    console.warn('Abney correction data is empty, cannot calculate base hue.');
-    return null;
-  }
   const closestLightness = findClosestLightnessStep(targetLightness, availableLightnessSteps);
   const lightnessCorrectionData = abneyData[closestLightness];
-  if (!lightnessCorrectionData) {
-    console.warn(`No Abney correction data for lightness ${closestLightness}.`);
-    return null;
-  }
   const correctedHueMap = Object.entries(lightnessCorrectionData).map(([rawHueStr, shift]) => {
     const rawHue = Number(rawHueStr);
     return {
@@ -217,45 +159,59 @@ export function calculateBaseHueAndCorrectionRange(
       correctedHue: (rawHue + shift + 360) % 360,
     };
   });
-  correctedHueMap.sort((a, b) => {
-    if (a.correctedHue !== b.correctedHue) {
-      return a.correctedHue - b.correctedHue;
-    }
-    return a.rawHue - b.rawHue;
-  });
+
+  correctedHueMap.sort((a, b) => a.correctedHue - b.correctedHue);
   if (correctedHueMap.length === 0) {
-    console.warn(`No hue ranges defined for lightness ${closestLightness}.`);
-    return null;
+    return targetHue;
   }
-  const findCorrectRange = () => {
-    const nextRangeIndex = correctedHueMap.findIndex((range) => range.correctedHue > targetHue);
-    if (nextRangeIndex === 0) {
-      return correctedHueMap[correctedHueMap.length - 1];
+
+  let selectedRange = correctedHueMap[correctedHueMap.length - 1];
+  for (let i = 0; i < correctedHueMap.length; i++) {
+    const current = correctedHueMap[i];
+    const next = correctedHueMap[i + 1];
+
+    if (!next) {
+      selectedRange = current;
+      break;
     }
-    if (nextRangeIndex > 0) {
-      return correctedHueMap[nextRangeIndex - 1];
+
+    if (targetHue >= current.correctedHue && targetHue < next.correctedHue) {
+      selectedRange = current;
+      break;
     }
-    return correctedHueMap[correctedHueMap.length - 1];
-  };
-  const selectedRange = findCorrectRange();
-  if (!selectedRange) {
-    console.error('Could not determine the correct hue range.');
-    return null;
   }
-  const baseHue = (targetHue - selectedRange.shift + 360) % 360;
-  return {
-    baseHue,
-    correctionLightness: closestLightness,
-    correctionHueRange: selectedRange.rawHue,
-  };
+
+  return (targetHue - selectedRange.shift + 360) % 360;
 }
 
-export function calcOnBrand(hex: string) {
-  const whiteContrast = Math.abs(Number(calcAPCA('#fff', hex)));
-  const blackContrast = Math.abs(Number(calcAPCA('#000', hex)));
+export function calcCorrectionRange(inputColorString: string, abneyData: GeneratorColorAbneyCorrection): number {
+  const colorOKLCH = toOklch(inputColorString) as { l: number; c: number; h: number };
+  const targetLightness = colorOKLCH.l * 100;
+  const targetHue = colorOKLCH.h;
+  const availableLightnessSteps = Object.keys(abneyData).map(Number);
+  const closestLightness = findClosestLightnessStep(targetLightness, availableLightnessSteps);
+  const lightnessCorrectionData = abneyData[closestLightness];
+  const correctedHueMap = Object.entries(lightnessCorrectionData).map(([rawHueStr, shift]) => {
+    const rawHue = Number(rawHueStr);
+    return {
+      rawHue,
+      shift,
+      correctedHue: (rawHue + shift + 360) % 360,
+    };
+  });
 
-  if (whiteContrast + 10 >= blackContrast) {
-    return DefaultSwatch.whiteAlpha;
+  correctedHueMap.sort((a, b) => a.correctedHue - b.correctedHue);
+
+  let selectedRange = correctedHueMap[correctedHueMap.length - 1];
+  for (let i = 0; i < correctedHueMap.length; i++) {
+    const current = correctedHueMap[i];
+    const next = correctedHueMap[i + 1];
+
+    if (targetHue >= current.correctedHue && targetHue < next.correctedHue) {
+      selectedRange = current;
+      break;
+    }
   }
-  return DefaultSwatch.blackAlpha;
+
+  return selectedRange.rawHue;
 }
