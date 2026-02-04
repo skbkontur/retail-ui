@@ -1,4 +1,4 @@
-import { converter, type Oklch } from 'culori';
+import { clampChroma, converter, type Oklch } from 'culori';
 
 import {
   HOVER_LIGHT_L,
@@ -22,9 +22,10 @@ function applyOklchDelta(oklchColor: Oklch, dL: number, dC: number): string {
   const safeH = h === undefined || isNaN(h) ? 0 : h;
 
   const newL = Math.max(0, Math.min(1, l + dL / 100));
-  const newC = Math.max(0, c + dC);
+  const chromaMax = clampChroma({ mode: 'oklch', l: newL, c: 1, h: safeH }, 'oklch').c;
+  const newC = Math.min(Math.max(0, c + dC), chromaMax);
 
-  return `oklch(${newL.toFixed(3)} ${newC.toFixed(3)} ${safeH.toFixed(0)})`;
+  return `oklch(${(newL * 100).toFixed(1)}% ${newC.toFixed(3)} ${safeH.toFixed(1)})`;
 }
 
 export function getHover(hex: string): InteractionColors {

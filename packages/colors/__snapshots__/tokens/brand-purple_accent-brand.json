@@ -501,21 +501,21 @@
   },
   "shapeBoldAccentHover": {
     "light": {
-      "oklch": "oklch(0.575 0.206 319)",
+      "oklch": "oklch(57.5% 0.206 319.0)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(0.655 0.206 319)",
+      "oklch": "oklch(65.5% 0.206 319.0)",
       "hex": "#c45ddf"
     }
   },
   "shapeBoldAccentPressed": {
     "light": {
-      "oklch": "oklch(0.535 0.176 319)",
+      "oklch": "oklch(53.5% 0.176 319.0)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(0.575 0.176 319)",
+      "oklch": "oklch(57.5% 0.176 319.0)",
       "hex": "#a44fb9"
     }
   },
@@ -531,21 +531,21 @@
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(0.575 0.206 319)",
+      "oklch": "oklch(57.5% 0.206 319.0)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(0.655 0.206 319)",
+      "oklch": "oklch(65.5% 0.206 319.0)",
       "hex": "#c45ddf"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(0.535 0.176 319)",
+      "oklch": "oklch(53.5% 0.176 319.0)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(0.535 0.176 319)",
+      "oklch": "oklch(53.5% 0.176 319.0)",
       "hex": "#9742ac"
     }
   },
@@ -1941,21 +1941,21 @@
   },
   "lineAccentBoldHover": {
     "light": {
-      "oklch": "oklch(0.575 0.206 319)",
+      "oklch": "oklch(57.5% 0.206 319.0)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(0.655 0.206 319)",
+      "oklch": "oklch(65.5% 0.206 319.0)",
       "hex": "#c45ddf"
     }
   },
   "lineAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(0.535 0.176 319)",
+      "oklch": "oklch(53.5% 0.176 319.0)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(0.575 0.176 319)",
+      "oklch": "oklch(57.5% 0.176 319.0)",
       "hex": "#a44fb9"
     }
   },
@@ -2211,21 +2211,21 @@
   },
   "lineInvertedAccentBoldHover": {
     "light": {
-      "oklch": "oklch(0.655 0.206 319)",
+      "oklch": "oklch(65.5% 0.206 319.0)",
       "hex": "#c45ddf"
     },
     "dark": {
-      "oklch": "oklch(0.575 0.206 319)",
+      "oklch": "oklch(57.5% 0.206 319.0)",
       "hex": "#aa43c4"
     }
   },
   "lineInvertedAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(0.575 0.176 319)",
+      "oklch": "oklch(57.5% 0.176 319.0)",
       "hex": "#a44fb9"
     },
     "dark": {
-      "oklch": "oklch(0.535 0.176 319)",
+      "oklch": "oklch(53.5% 0.176 319.0)",
       "hex": "#9742ac"
     }
   },

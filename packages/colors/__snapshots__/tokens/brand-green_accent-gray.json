@@ -531,22 +531,22 @@
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(0.617 0.174 149)",
-      "hex": "#00a044"
+      "oklch": "oklch(61.7% 0.174 148.6)",
+      "hex": "#08a043"
     },
     "dark": {
-      "oklch": "oklch(0.697 0.174 149)",
-      "hex": "#36ba5d"
+      "oklch": "oklch(69.7% 0.174 148.6)",
+      "hex": "#38ba5c"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(0.577 0.144 149)",
-      "hex": "#289046"
+      "oklch": "oklch(57.7% 0.144 148.6)",
+      "hex": "#299046"
     },
     "dark": {
-      "oklch": "oklch(0.577 0.144 149)",
-      "hex": "#289046"
+      "oklch": "oklch(57.7% 0.144 148.6)",
+      "hex": "#299046"
     }
   },
   "shapeBoldError": {

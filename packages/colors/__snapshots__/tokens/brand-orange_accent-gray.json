@@ -531,21 +531,21 @@
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(0.675 0.182 45)",
-      "hex": "#ee691d"
+      "oklch": "oklch(67.5% 0.182 44.7)",
+      "hex": "#ee691e"
     },
     "dark": {
-      "oklch": "oklch(0.755 0.182 45)",
-      "hex": "#ff833e"
+      "oklch": "oklch(75.5% 0.156 44.7)",
+      "hex": "#ff8c56"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(0.635 0.152 45)",
+      "oklch": "oklch(63.5% 0.152 44.7)",
       "hex": "#d36731"
     },
     "dark": {
-      "oklch": "oklch(0.635 0.152 45)",
+      "oklch": "oklch(63.5% 0.152 44.7)",
       "hex": "#d36731"
     }
   },

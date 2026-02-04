@@ -501,22 +501,22 @@
   },
   "shapeBoldAccentHover": {
     "light": {
-      "oklch": "oklch(0.531 0.213 265)",
-      "hex": "#2d5de5"
+      "oklch": "oklch(53.1% 0.213 264.7)",
+      "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(0.611 0.213 265)",
-      "hex": "#4377ff"
+      "oklch": "oklch(61.1% 0.210 264.7)",
+      "hex": "#4277ff"
     }
   },
   "shapeBoldAccentPressed": {
     "light": {
-      "oklch": "oklch(0.491 0.183 265)",
-      "hex": "#2c55c6"
+      "oklch": "oklch(49.1% 0.183 264.7)",
+      "hex": "#2b55c6"
     },
     "dark": {
-      "oklch": "oklch(0.531 0.183 265)",
-      "hex": "#3662d4"
+      "oklch": "oklch(53.1% 0.183 264.7)",
+      "hex": "#3562d4"
     }
   },
   "shapeBoldBrandOriginal": {
@@ -531,22 +531,22 @@
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(0.531 0.213 265)",
-      "hex": "#2d5de5"
+      "oklch": "oklch(53.1% 0.213 264.7)",
+      "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(0.611 0.213 265)",
-      "hex": "#4377ff"
+      "oklch": "oklch(61.1% 0.210 264.7)",
+      "hex": "#4277ff"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(0.491 0.183 265)",
-      "hex": "#2c55c6"
+      "oklch": "oklch(49.1% 0.183 264.7)",
+      "hex": "#2b55c6"
     },
     "dark": {
-      "oklch": "oklch(0.491 0.183 265)",
-      "hex": "#2c55c6"
+      "oklch": "oklch(49.1% 0.183 264.7)",
+      "hex": "#2b55c6"
     }
   },
   "shapeBoldError": {
@@ -1941,22 +1941,22 @@
   },
   "lineAccentBoldHover": {
     "light": {
-      "oklch": "oklch(0.531 0.213 265)",
-      "hex": "#2d5de5"
+      "oklch": "oklch(53.1% 0.213 264.7)",
+      "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(0.611 0.213 265)",
-      "hex": "#4377ff"
+      "oklch": "oklch(61.1% 0.210 264.7)",
+      "hex": "#4277ff"
     }
   },
   "lineAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(0.491 0.183 265)",
-      "hex": "#2c55c6"
+      "oklch": "oklch(49.1% 0.183 264.7)",
+      "hex": "#2b55c6"
     },
     "dark": {
-      "oklch": "oklch(0.531 0.183 265)",
-      "hex": "#3662d4"
+      "oklch": "oklch(53.1% 0.183 264.7)",
+      "hex": "#3562d4"
     }
   },
   "lineAccentPale": {
@@ -2211,22 +2211,22 @@
   },
   "lineInvertedAccentBoldHover": {
     "light": {
-      "oklch": "oklch(0.611 0.213 265)",
-      "hex": "#4377ff"
+      "oklch": "oklch(61.1% 0.210 264.7)",
+      "hex": "#4277ff"
     },
     "dark": {
-      "oklch": "oklch(0.531 0.213 265)",
-      "hex": "#2d5de5"
+      "oklch": "oklch(53.1% 0.213 264.7)",
+      "hex": "#2b5de5"
     }
   },
   "lineInvertedAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(0.531 0.183 265)",
-      "hex": "#3662d4"
+      "oklch": "oklch(53.1% 0.183 264.7)",
+      "hex": "#3562d4"
     },
     "dark": {
-      "oklch": "oklch(0.491 0.183 265)",
-      "hex": "#2c55c6"
+      "oklch": "oklch(49.1% 0.183 264.7)",
+      "hex": "#2b55c6"
     }
   },
   "lineInvertedAccentPale": {

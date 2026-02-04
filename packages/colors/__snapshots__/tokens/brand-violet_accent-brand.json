@@ -501,21 +501,21 @@
   },
   "shapeBoldAccentHover": {
     "light": {
-      "oklch": "oklch(0.528 0.228 294)",
-      "hex": "#783dde"
+      "oklch": "oklch(52.8% 0.228 294.2)",
+      "hex": "#793dde"
     },
     "dark": {
-      "oklch": "oklch(0.608 0.228 294)",
+      "oklch": "oklch(60.8% 0.228 294.2)",
       "hex": "#8f59fa"
     }
   },
   "shapeBoldAccentPressed": {
     "light": {
-      "oklch": "oklch(0.488 0.198 294)",
+      "oklch": "oklch(48.8% 0.198 294.2)",
       "hex": "#6b3bc2"
     },
     "dark": {
-      "oklch": "oklch(0.528 0.198 294)",
+      "oklch": "oklch(52.8% 0.198 294.2)",
       "hex": "#7648cf"
     }
   },
@@ -531,21 +531,21 @@
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(0.528 0.228 294)",
-      "hex": "#783dde"
+      "oklch": "oklch(52.8% 0.228 294.2)",
+      "hex": "#793dde"
     },
     "dark": {
-      "oklch": "oklch(0.608 0.228 294)",
+      "oklch": "oklch(60.8% 0.228 294.2)",
       "hex": "#8f59fa"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(0.488 0.198 294)",
+      "oklch": "oklch(48.8% 0.198 294.2)",
       "hex": "#6b3bc2"
     },
     "dark": {
-      "oklch": "oklch(0.488 0.198 294)",
+      "oklch": "oklch(48.8% 0.198 294.2)",
       "hex": "#6b3bc2"
     }
   },
@@ -1941,21 +1941,21 @@
   },
   "lineAccentBoldHover": {
     "light": {
-      "oklch": "oklch(0.528 0.228 294)",
-      "hex": "#783dde"
+      "oklch": "oklch(52.8% 0.228 294.2)",
+      "hex": "#793dde"
     },
     "dark": {
-      "oklch": "oklch(0.608 0.228 294)",
+      "oklch": "oklch(60.8% 0.228 294.2)",
       "hex": "#8f59fa"
     }
   },
   "lineAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(0.488 0.198 294)",
+      "oklch": "oklch(48.8% 0.198 294.2)",
       "hex": "#6b3bc2"
     },
     "dark": {
-      "oklch": "oklch(0.528 0.198 294)",
+      "oklch": "oklch(52.8% 0.198 294.2)",
       "hex": "#7648cf"
     }
   },
@@ -2211,21 +2211,21 @@
   },
   "lineInvertedAccentBoldHover": {
     "light": {
-      "oklch": "oklch(0.608 0.228 294)",
+      "oklch": "oklch(60.8% 0.228 294.2)",
       "hex": "#8f59fa"
     },
     "dark": {
-      "oklch": "oklch(0.528 0.228 294)",
-      "hex": "#783dde"
+      "oklch": "oklch(52.8% 0.228 294.2)",
+      "hex": "#793dde"
     }
   },
   "lineInvertedAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(0.528 0.198 294)",
+      "oklch": "oklch(52.8% 0.198 294.2)",
       "hex": "#7648cf"
     },
     "dark": {
-      "oklch": "oklch(0.488 0.198 294)",
+      "oklch": "oklch(48.8% 0.198 294.2)",
       "hex": "#6b3bc2"
     }
   },

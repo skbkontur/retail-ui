@@ -16,19 +16,19 @@
     "hex": "#844BEC"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(0.528 0.228 294)",
-    "hex": "#783dde"
+    "oklch": "oklch(52.8% 0.228 294.2)",
+    "hex": "#793dde"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(0.608 0.228 294)",
+    "oklch": "oklch(60.8% 0.228 294.2)",
     "hex": "#8f59fa"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(0.488 0.198 294)",
+    "oklch": "oklch(48.8% 0.198 294.2)",
     "hex": "#6b3bc2"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(0.528 0.198 294)",
+    "oklch": "oklch(52.8% 0.198 294.2)",
     "hex": "#7648cf"
   },
   "brandPaletteVivid20": {
@@ -280,19 +280,19 @@
     "hex": "#844BEC"
   },
   "accentInteractionsHoverLight": {
-    "oklch": "oklch(0.528 0.228 294)",
-    "hex": "#783dde"
+    "oklch": "oklch(52.8% 0.228 294.2)",
+    "hex": "#793dde"
   },
   "accentInteractionsHoverDark": {
-    "oklch": "oklch(0.608 0.228 294)",
+    "oklch": "oklch(60.8% 0.228 294.2)",
     "hex": "#8f59fa"
   },
   "accentInteractionsPressedLight": {
-    "oklch": "oklch(0.488 0.198 294)",
+    "oklch": "oklch(48.8% 0.198 294.2)",
     "hex": "#6b3bc2"
   },
   "accentInteractionsPressedDark": {
-    "oklch": "oklch(0.528 0.198 294)",
+    "oklch": "oklch(52.8% 0.198 294.2)",
     "hex": "#7648cf"
   },
   "accentPaletteVivid20": {

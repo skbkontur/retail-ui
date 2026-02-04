@@ -16,19 +16,19 @@
     "hex": "#B750D1"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(0.575 0.206 319)",
+    "oklch": "oklch(57.5% 0.206 319.0)",
     "hex": "#aa43c4"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(0.655 0.206 319)",
+    "oklch": "oklch(65.5% 0.206 319.0)",
     "hex": "#c45ddf"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(0.535 0.176 319)",
+    "oklch": "oklch(53.5% 0.176 319.0)",
     "hex": "#9742ac"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(0.575 0.176 319)",
+    "oklch": "oklch(57.5% 0.176 319.0)",
     "hex": "#a44fb9"
   },
   "brandPaletteVivid20": {
