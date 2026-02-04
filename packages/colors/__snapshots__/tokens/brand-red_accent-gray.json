@@ -221,11 +221,11 @@
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
@@ -521,31 +521,31 @@
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(63.0% 0.215 25.1)",
+      "oklch": "oklch(63% 0.215 25.1)",
       "hex": "#ef3c40"
     },
     "dark": {
-      "oklch": "oklch(71.0% 0.182 25.1)",
+      "oklch": "oklch(71% 0.182 25.1)",
       "hex": "#ff6b65"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(59.0% 0.185 25.1)",
+      "oklch": "oklch(59% 0.185 25.1)",
       "hex": "#d54140"
     },
     "dark": {
-      "oklch": "oklch(59.0% 0.185 25.1)",
+      "oklch": "oklch(59% 0.185 25.1)",
       "hex": "#d54140"
     }
   },
@@ -1861,11 +1861,11 @@
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     },
     "dark": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     }
   },
@@ -2021,11 +2021,11 @@
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
@@ -2551,17 +2551,17 @@
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     },
     "dark": {
@@ -2605,17 +2605,17 @@
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     },
     "dark": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     }
   },

@@ -10,6 +10,7 @@ import {
   PRESSED_DARK_L,
   PRESSED_DARK_C,
 } from '../consts/params/interactions.js';
+import { formatOklch } from '../utils/convert-color.js';
 
 interface InteractionColors {
   light: string;
@@ -25,7 +26,7 @@ function applyOklchDelta(oklchColor: Oklch, dL: number, dC: number): string {
   const chromaMax = clampChroma({ mode: 'oklch', l: newL, c: 1, h: safeH }, 'oklch').c;
   const newC = Math.min(Math.max(0, c + dC), chromaMax);
 
-  return `oklch(${(newL * 100).toFixed(1)}% ${newC.toFixed(3)} ${safeH.toFixed(1)})`;
+  return formatOklch({ l: newL, c: newC, h: safeH });
 }
 
 export function getHover(hex: string): InteractionColors {

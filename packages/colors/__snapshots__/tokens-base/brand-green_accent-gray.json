@@ -1,18 +1,18 @@
 {
   "brandLogoLight": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandLogoDark": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandPromo": {
-    "oklch": "oklch(34.7% 0.060 188.6)",
+    "oklch": "oklch(34.7% 0.06 188.6)",
     "hex": "#004440"
   },
   "brandOriginal": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandInteractionsHoverLight": {

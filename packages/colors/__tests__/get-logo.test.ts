@@ -12,7 +12,7 @@ describe('getLogo', () => {
 
   test('should clamp lightness to LOGO_LIGHTNESS_MIN', () => {
     const result = getLogo('#000000');
-    const expectedL = (LOGO_LIGHTNESS_MIN * 100).toFixed(1);
+    const expectedL = LOGO_LIGHTNESS_MIN * 100;
     expect(result.dark).toContain(`oklch(${expectedL}`);
   });
 });

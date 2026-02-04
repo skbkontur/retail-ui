@@ -1,6 +1,7 @@
 import { clampChroma, converter, type Oklch } from 'culori';
 
 import { LOGO_LIGHTNESS_MIN } from '../consts/params/logo-lightness.js';
+import { formatOklch } from '../utils/convert-color.js';
 
 const toOklch = converter('oklch');
 
@@ -25,6 +26,6 @@ export function getLogo(color: string): LogoColors {
 
   return {
     light: color,
-    dark: `oklch(${(darkColor.l * 100).toFixed(1)}% ${chromaResult.toFixed(3)} ${(darkColor.h || 0).toFixed(0)})`,
+    dark: formatOklch({ l: darkColor.l, c: chromaResult, h: darkColor.h }),
   };
 }

@@ -7,6 +7,7 @@ import {
   PROMO_HUE_SHIFTS,
   PROMO_LIGHTNESS_SHIFTS,
 } from '../consts/params/promo-params.js';
+import { formatOklch } from '../utils/convert-color.js';
 
 const toOklch = converter('oklch');
 
@@ -28,5 +29,5 @@ export function getPromo(
   const chromeRelative = chromaMaxAvailable * PROMO_CHROMA_RELATIVE;
   color.c = Math.min(chromaMaxAvailable, Math.max(PROMO_CHROMA_MIN, Math.min(PROMO_CHROMA_MAX, chromeRelative)));
 
-  return `oklch(${(color.l * 100).toFixed(1)}% ${color.c.toFixed(3)} ${color.h.toFixed(1)})`;
+  return formatOklch(color);
 }

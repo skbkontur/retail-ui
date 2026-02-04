@@ -221,11 +221,11 @@
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -491,11 +491,11 @@
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -521,11 +521,11 @@
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -1861,11 +1861,11 @@
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
@@ -1931,11 +1931,11 @@
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -2021,11 +2021,11 @@
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -2201,11 +2201,11 @@
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -2551,17 +2551,17 @@
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
@@ -2605,17 +2605,17 @@
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },

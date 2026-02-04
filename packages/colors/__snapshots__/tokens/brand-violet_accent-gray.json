@@ -221,12 +221,12 @@
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.216 294)",
-      "hex": "#9767ff"
+      "oklch": "oklch(64% 0.216 294.2)",
+      "hex": "#9867ff"
     }
   },
   "textNeutralFaint": {
@@ -521,11 +521,11 @@
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -2021,11 +2021,11 @@
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -2551,11 +2551,11 @@
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },

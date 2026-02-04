@@ -1,34 +1,34 @@
 {
   "brandLogoLight": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.206 319)",
+    "oklch": "oklch(64% 0.206 319)",
     "hex": "#bf58d9"
   },
   "brandPromo": {
-    "oklch": "oklch(36.5% 0.130 295.0)",
+    "oklch": "oklch(36.5% 0.13 295)",
     "hex": "#452a7a"
   },
   "brandOriginal": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(57.5% 0.206 319.0)",
+    "oklch": "oklch(57.5% 0.206 319)",
     "hex": "#aa43c4"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(65.5% 0.206 319.0)",
+    "oklch": "oklch(65.5% 0.206 319)",
     "hex": "#c45ddf"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(53.5% 0.176 319.0)",
+    "oklch": "oklch(53.5% 0.176 319)",
     "hex": "#9742ac"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(57.5% 0.176 319.0)",
+    "oklch": "oklch(57.5% 0.176 319)",
     "hex": "#a44fb9"
   },
   "brandPaletteVivid20": {

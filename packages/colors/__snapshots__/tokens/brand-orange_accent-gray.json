@@ -221,11 +221,11 @@
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
@@ -521,11 +521,11 @@
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
@@ -1861,11 +1861,11 @@
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     }
   },
@@ -2021,11 +2021,11 @@
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
@@ -2551,17 +2551,17 @@
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     },
     "dark": {
@@ -2605,17 +2605,17 @@
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     }
   },

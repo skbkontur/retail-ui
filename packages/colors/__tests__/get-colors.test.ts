@@ -110,8 +110,8 @@ test('should correctly convert to "oklch" format', () => {
     }),
   }) as any;
 
-  expect(res.white).toBe('oklch(86.260% 0.156 87)');
-  expect(res.black).toBe('oklch(71.459% 0.183 45)');
+  expect(res.white).toBe('oklch(86.3% 0.156 86.8)');
+  expect(res.black).toBe('oklch(71.5% 0.183 45.3)');
 });
 
 test('should correctly convert to "hex/rgba" format (default)', () => {

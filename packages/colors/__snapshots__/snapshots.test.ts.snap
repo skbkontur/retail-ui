@@ -3,19 +3,19 @@
 exports[`Base Palette > Snapshot comparison: brand-blue_accent-brand.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "brandLogoDark": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "brandPromo": {
-    "oklch": "oklch(34.5% 0.130 264.2)",
+    "oklch": "oklch(34.5% 0.13 264.2)",
     "hex": "#15327b"
   },
   "brandOriginal": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "brandInteractionsHoverLight": {
@@ -275,11 +275,11 @@ exports[`Base Palette > Snapshot comparison: brand-blue_accent-brand.json 1`] = 
     "hex": "#e8f4fa"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "accentInteractionsHoverLight": {
@@ -3937,19 +3937,19 @@ exports[`Base Palette > Snapshot comparison: brand-blue_accent-brand.json 1`] = 
 exports[`Base Palette > Snapshot comparison: brand-blue_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "brandLogoDark": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "brandPromo": {
-    "oklch": "oklch(34.5% 0.130 264.2)",
+    "oklch": "oklch(34.5% 0.13 264.2)",
     "hex": "#15327b"
   },
   "brandOriginal": {
-    "oklch": "oklch(65.479% 0.188 253)",
+    "oklch": "oklch(65.5% 0.188 253.2)",
     "hex": "#2291FF"
   },
   "brandInteractionsHoverLight": {
@@ -7505,19 +7505,19 @@ exports[`Base Palette > Snapshot comparison: brand-blue_accent-gray.json 1`] = `
 exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-brand.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(57.126% 0.213 265)",
+    "oklch": "oklch(57.1% 0.213 264.7)",
     "hex": "#366AF3"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.192 265)",
-    "hex": "#5183ff"
+    "oklch": "oklch(64% 0.192 264.7)",
+    "hex": "#5083ff"
   },
   "brandPromo": {
     "oklch": "oklch(32.1% 0.128 278.7)",
     "hex": "#292572"
   },
   "brandOriginal": {
-    "oklch": "oklch(57.126% 0.213 265)",
+    "oklch": "oklch(57.1% 0.213 264.7)",
     "hex": "#366AF3"
   },
   "brandInteractionsHoverLight": {
@@ -7525,7 +7525,7 @@ exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-brand.json 1
     "hex": "#2b5de5"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(61.1% 0.210 264.7)",
+    "oklch": "oklch(61.1% 0.21 264.7)",
     "hex": "#4277ff"
   },
   "brandInteractionsPressedLight": {
@@ -7777,11 +7777,11 @@ exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-brand.json 1
     "hex": "#eaf3fc"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(57.126% 0.213 265)",
+    "oklch": "oklch(57.1% 0.213 264.7)",
     "hex": "#366AF3"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(57.126% 0.213 265)",
+    "oklch": "oklch(57.1% 0.213 264.7)",
     "hex": "#366AF3"
   },
   "accentInteractionsHoverLight": {
@@ -7789,7 +7789,7 @@ exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-brand.json 1
     "hex": "#2b5de5"
   },
   "accentInteractionsHoverDark": {
-    "oklch": "oklch(61.1% 0.210 264.7)",
+    "oklch": "oklch(61.1% 0.21 264.7)",
     "hex": "#4277ff"
   },
   "accentInteractionsPressedLight": {
@@ -11439,19 +11439,19 @@ exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-brand.json 1
 exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(57.126% 0.213 265)",
+    "oklch": "oklch(57.1% 0.213 264.7)",
     "hex": "#366AF3"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.192 265)",
-    "hex": "#5183ff"
+    "oklch": "oklch(64% 0.192 264.7)",
+    "hex": "#5083ff"
   },
   "brandPromo": {
     "oklch": "oklch(32.1% 0.128 278.7)",
     "hex": "#292572"
   },
   "brandOriginal": {
-    "oklch": "oklch(57.126% 0.213 265)",
+    "oklch": "oklch(57.1% 0.213 264.7)",
     "hex": "#366AF3"
   },
   "brandInteractionsHoverLight": {
@@ -11459,7 +11459,7 @@ exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-gray.json 1`
     "hex": "#2b5de5"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(61.1% 0.210 264.7)",
+    "oklch": "oklch(61.1% 0.21 264.7)",
     "hex": "#4277ff"
   },
   "brandInteractionsPressedLight": {
@@ -15007,19 +15007,19 @@ exports[`Base Palette > Snapshot comparison: brand-blue-deep_accent-gray.json 1`
 exports[`Base Palette > Snapshot comparison: brand-green_accent-brand.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandLogoDark": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandPromo": {
-    "oklch": "oklch(34.7% 0.060 188.6)",
+    "oklch": "oklch(34.7% 0.06 188.6)",
     "hex": "#004440"
   },
   "brandOriginal": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandInteractionsHoverLight": {
@@ -15279,11 +15279,11 @@ exports[`Base Palette > Snapshot comparison: brand-green_accent-brand.json 1`] =
     "hex": "#e6f7e8"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "accentInteractionsHoverLight": {
@@ -18941,19 +18941,19 @@ exports[`Base Palette > Snapshot comparison: brand-green_accent-brand.json 1`] =
 exports[`Base Palette > Snapshot comparison: brand-green_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandLogoDark": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandPromo": {
-    "oklch": "oklch(34.7% 0.060 188.6)",
+    "oklch": "oklch(34.7% 0.06 188.6)",
     "hex": "#004440"
   },
   "brandOriginal": {
-    "oklch": "oklch(65.745% 0.174 149)",
+    "oklch": "oklch(65.7% 0.174 148.6)",
     "hex": "#26AD50"
   },
   "brandInteractionsHoverLight": {
@@ -22509,35 +22509,35 @@ exports[`Base Palette > Snapshot comparison: brand-green_accent-gray.json 1`] = 
 exports[`Base Palette > Snapshot comparison: brand-mint_accent-brand.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandLogoDark": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandPromo": {
-    "oklch": "oklch(34.7% 0.068 228.0)",
+    "oklch": "oklch(34.7% 0.068 228)",
     "hex": "#004055"
   },
   "brandOriginal": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(67.7% 0.125 177.0)",
+    "oklch": "oklch(67.7% 0.125 177)",
     "hex": "#04b096"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(75.7% 0.133 177.0)",
+    "oklch": "oklch(75.7% 0.133 177)",
     "hex": "#28cbae"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(63.7% 0.103 177.0)",
+    "oklch": "oklch(63.7% 0.103 177)",
     "hex": "#329f8a"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(67.7% 0.103 177.0)",
+    "oklch": "oklch(67.7% 0.103 177)",
     "hex": "#41ac96"
   },
   "brandPaletteVivid20": {
@@ -22781,27 +22781,27 @@ exports[`Base Palette > Snapshot comparison: brand-mint_accent-brand.json 1`] = 
     "hex": "#e0f8f4"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "accentInteractionsHoverLight": {
-    "oklch": "oklch(67.7% 0.125 177.0)",
+    "oklch": "oklch(67.7% 0.125 177)",
     "hex": "#04b096"
   },
   "accentInteractionsHoverDark": {
-    "oklch": "oklch(75.7% 0.133 177.0)",
+    "oklch": "oklch(75.7% 0.133 177)",
     "hex": "#28cbae"
   },
   "accentInteractionsPressedLight": {
-    "oklch": "oklch(63.7% 0.103 177.0)",
+    "oklch": "oklch(63.7% 0.103 177)",
     "hex": "#329f8a"
   },
   "accentInteractionsPressedDark": {
-    "oklch": "oklch(67.7% 0.103 177.0)",
+    "oklch": "oklch(67.7% 0.103 177)",
     "hex": "#41ac96"
   },
   "accentPaletteVivid20": {
@@ -26443,35 +26443,35 @@ exports[`Base Palette > Snapshot comparison: brand-mint_accent-brand.json 1`] = 
 exports[`Base Palette > Snapshot comparison: brand-mint_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandLogoDark": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandPromo": {
-    "oklch": "oklch(34.7% 0.068 228.0)",
+    "oklch": "oklch(34.7% 0.068 228)",
     "hex": "#004055"
   },
   "brandOriginal": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(67.7% 0.125 177.0)",
+    "oklch": "oklch(67.7% 0.125 177)",
     "hex": "#04b096"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(75.7% 0.133 177.0)",
+    "oklch": "oklch(75.7% 0.133 177)",
     "hex": "#28cbae"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(63.7% 0.103 177.0)",
+    "oklch": "oklch(63.7% 0.103 177)",
     "hex": "#329f8a"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(67.7% 0.103 177.0)",
+    "oklch": "oklch(67.7% 0.103 177)",
     "hex": "#41ac96"
   },
   "brandPaletteVivid20": {
@@ -30011,19 +30011,19 @@ exports[`Base Palette > Snapshot comparison: brand-mint_accent-gray.json 1`] = `
 exports[`Base Palette > Snapshot comparison: brand-orange_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(71.480% 0.182 45)",
+    "oklch": "oklch(71.5% 0.182 44.7)",
     "hex": "#FC7630"
   },
   "brandLogoDark": {
-    "oklch": "oklch(71.480% 0.182 45)",
+    "oklch": "oklch(71.5% 0.182 44.7)",
     "hex": "#FC7630"
   },
   "brandPromo": {
-    "oklch": "oklch(34.5% 0.110 9.7)",
+    "oklch": "oklch(34.5% 0.11 9.7)",
     "hex": "#65182c"
   },
   "brandOriginal": {
-    "oklch": "oklch(71.480% 0.182 45)",
+    "oklch": "oklch(71.5% 0.182 44.7)",
     "hex": "#FC7630"
   },
   "brandInteractionsHoverLight": {
@@ -33579,35 +33579,35 @@ exports[`Base Palette > Snapshot comparison: brand-orange_accent-gray.json 1`] =
 exports[`Base Palette > Snapshot comparison: brand-purple_accent-brand.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.206 319)",
+    "oklch": "oklch(64% 0.206 319)",
     "hex": "#bf58d9"
   },
   "brandPromo": {
-    "oklch": "oklch(36.5% 0.130 295.0)",
+    "oklch": "oklch(36.5% 0.13 295)",
     "hex": "#452a7a"
   },
   "brandOriginal": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(57.5% 0.206 319.0)",
+    "oklch": "oklch(57.5% 0.206 319)",
     "hex": "#aa43c4"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(65.5% 0.206 319.0)",
+    "oklch": "oklch(65.5% 0.206 319)",
     "hex": "#c45ddf"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(53.5% 0.176 319.0)",
+    "oklch": "oklch(53.5% 0.176 319)",
     "hex": "#9742ac"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(57.5% 0.176 319.0)",
+    "oklch": "oklch(57.5% 0.176 319)",
     "hex": "#a44fb9"
   },
   "brandPaletteVivid20": {
@@ -33851,27 +33851,27 @@ exports[`Base Palette > Snapshot comparison: brand-purple_accent-brand.json 1`] 
     "hex": "#f9edfa"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "accentInteractionsHoverLight": {
-    "oklch": "oklch(57.5% 0.206 319.0)",
+    "oklch": "oklch(57.5% 0.206 319)",
     "hex": "#aa43c4"
   },
   "accentInteractionsHoverDark": {
-    "oklch": "oklch(65.5% 0.206 319.0)",
+    "oklch": "oklch(65.5% 0.206 319)",
     "hex": "#c45ddf"
   },
   "accentInteractionsPressedLight": {
-    "oklch": "oklch(53.5% 0.176 319.0)",
+    "oklch": "oklch(53.5% 0.176 319)",
     "hex": "#9742ac"
   },
   "accentInteractionsPressedDark": {
-    "oklch": "oklch(57.5% 0.176 319.0)",
+    "oklch": "oklch(57.5% 0.176 319)",
     "hex": "#a44fb9"
   },
   "accentPaletteVivid20": {
@@ -37513,35 +37513,35 @@ exports[`Base Palette > Snapshot comparison: brand-purple_accent-brand.json 1`] 
 exports[`Base Palette > Snapshot comparison: brand-purple_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.206 319)",
+    "oklch": "oklch(64% 0.206 319)",
     "hex": "#bf58d9"
   },
   "brandPromo": {
-    "oklch": "oklch(36.5% 0.130 295.0)",
+    "oklch": "oklch(36.5% 0.13 295)",
     "hex": "#452a7a"
   },
   "brandOriginal": {
-    "oklch": "oklch(61.460% 0.206 319)",
+    "oklch": "oklch(61.5% 0.206 319)",
     "hex": "#B750D1"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(57.5% 0.206 319.0)",
+    "oklch": "oklch(57.5% 0.206 319)",
     "hex": "#aa43c4"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(65.5% 0.206 319.0)",
+    "oklch": "oklch(65.5% 0.206 319)",
     "hex": "#c45ddf"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(53.5% 0.176 319.0)",
+    "oklch": "oklch(53.5% 0.176 319)",
     "hex": "#9742ac"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(57.5% 0.176 319.0)",
+    "oklch": "oklch(57.5% 0.176 319)",
     "hex": "#a44fb9"
   },
   "brandPaletteVivid20": {
@@ -41081,35 +41081,35 @@ exports[`Base Palette > Snapshot comparison: brand-purple_accent-gray.json 1`] =
 exports[`Base Palette > Snapshot comparison: brand-red_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(67.023% 0.215 25)",
+    "oklch": "oklch(67% 0.215 25.1)",
     "hex": "#FE4C4C"
   },
   "brandLogoDark": {
-    "oklch": "oklch(67.023% 0.215 25)",
+    "oklch": "oklch(67% 0.215 25.1)",
     "hex": "#FE4C4C"
   },
   "brandPromo": {
-    "oklch": "oklch(36.0% 0.110 353.1)",
+    "oklch": "oklch(36% 0.11 353.1)",
     "hex": "#661e42"
   },
   "brandOriginal": {
-    "oklch": "oklch(67.023% 0.215 25)",
+    "oklch": "oklch(67% 0.215 25.1)",
     "hex": "#FE4C4C"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(63.0% 0.215 25.1)",
+    "oklch": "oklch(63% 0.215 25.1)",
     "hex": "#ef3c40"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(71.0% 0.182 25.1)",
+    "oklch": "oklch(71% 0.182 25.1)",
     "hex": "#ff6b65"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(59.0% 0.185 25.1)",
+    "oklch": "oklch(59% 0.185 25.1)",
     "hex": "#d54140"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(63.0% 0.185 25.1)",
+    "oklch": "oklch(63% 0.185 25.1)",
     "hex": "#e34f4c"
   },
   "brandPaletteVivid20": {
@@ -44649,19 +44649,19 @@ exports[`Base Palette > Snapshot comparison: brand-red_accent-gray.json 1`] = `
 exports[`Base Palette > Snapshot comparison: brand-violet_accent-brand.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(56.829% 0.228 294)",
+    "oklch": "oklch(56.8% 0.228 294.2)",
     "hex": "#844BEC"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.216 294)",
-    "hex": "#9767ff"
+    "oklch": "oklch(64% 0.216 294.2)",
+    "hex": "#9867ff"
   },
   "brandPromo": {
     "oklch": "oklch(34.8% 0.125 294.2)",
     "hex": "#402773"
   },
   "brandOriginal": {
-    "oklch": "oklch(56.829% 0.228 294)",
+    "oklch": "oklch(56.8% 0.228 294.2)",
     "hex": "#844BEC"
   },
   "brandInteractionsHoverLight": {
@@ -44921,11 +44921,11 @@ exports[`Base Palette > Snapshot comparison: brand-violet_accent-brand.json 1`] 
     "hex": "#f1f0fc"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(56.829% 0.228 294)",
+    "oklch": "oklch(56.8% 0.228 294.2)",
     "hex": "#844BEC"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(56.829% 0.228 294)",
+    "oklch": "oklch(56.8% 0.228 294.2)",
     "hex": "#844BEC"
   },
   "accentInteractionsHoverLight": {
@@ -48583,19 +48583,19 @@ exports[`Base Palette > Snapshot comparison: brand-violet_accent-brand.json 1`] 
 exports[`Base Palette > Snapshot comparison: brand-violet_accent-gray.json 1`] = `
 "{
   "brandLogoLight": {
-    "oklch": "oklch(56.829% 0.228 294)",
+    "oklch": "oklch(56.8% 0.228 294.2)",
     "hex": "#844BEC"
   },
   "brandLogoDark": {
-    "oklch": "oklch(64.0% 0.216 294)",
-    "hex": "#9767ff"
+    "oklch": "oklch(64% 0.216 294.2)",
+    "hex": "#9867ff"
   },
   "brandPromo": {
     "oklch": "oklch(34.8% 0.125 294.2)",
     "hex": "#402773"
   },
   "brandOriginal": {
-    "oklch": "oklch(56.829% 0.228 294)",
+    "oklch": "oklch(56.8% 0.228 294.2)",
     "hex": "#844BEC"
   },
   "brandInteractionsHoverLight": {
@@ -52372,11 +52372,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -52642,11 +52642,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -52672,11 +52672,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -54012,11 +54012,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     }
   },
@@ -54082,11 +54082,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -54172,11 +54172,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -54352,11 +54352,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -54702,17 +54702,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     },
     "dark": {
@@ -54756,17 +54756,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-brand.json 1`]
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     }
   },
@@ -55568,11 +55568,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -55868,11 +55868,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -57208,11 +57208,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     }
   },
@@ -57368,11 +57368,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
@@ -57898,17 +57898,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(65.479% 0.188 253)",
+      "oklch": "oklch(65.5% 0.188 253.2)",
       "hex": "#2291FF"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     },
     "dark": {
@@ -57952,17 +57952,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue_accent-gray.json 1`] 
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.130 264.2)",
+      "oklch": "oklch(34.5% 0.13 264.2)",
       "hex": "#15327b"
     }
   },
@@ -58764,12 +58764,12 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.192 265)",
-      "hex": "#5183ff"
+      "oklch": "oklch(64% 0.192 264.7)",
+      "hex": "#5083ff"
     }
   },
   "textNeutralFaint": {
@@ -59034,11 +59034,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -59048,7 +59048,7 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
       "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(61.1% 0.210 264.7)",
+      "oklch": "oklch(61.1% 0.21 264.7)",
       "hex": "#4277ff"
     }
   },
@@ -59064,11 +59064,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -59078,7 +59078,7 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
       "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(61.1% 0.210 264.7)",
+      "oklch": "oklch(61.1% 0.21 264.7)",
       "hex": "#4277ff"
     }
   },
@@ -60474,11 +60474,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -60488,7 +60488,7 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
       "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(61.1% 0.210 264.7)",
+      "oklch": "oklch(61.1% 0.21 264.7)",
       "hex": "#4277ff"
     }
   },
@@ -60564,11 +60564,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -60744,17 +60744,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
   "lineInvertedAccentBoldHover": {
     "light": {
-      "oklch": "oklch(61.1% 0.210 264.7)",
+      "oklch": "oklch(61.1% 0.21 264.7)",
       "hex": "#4277ff"
     },
     "dark": {
@@ -61094,11 +61094,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-brand.jso
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -61960,12 +61960,12 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-gray.json
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.192 265)",
-      "hex": "#5183ff"
+      "oklch": "oklch(64% 0.192 264.7)",
+      "hex": "#5083ff"
     }
   },
   "textNeutralFaint": {
@@ -62260,11 +62260,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-gray.json
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -62274,7 +62274,7 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-gray.json
       "hex": "#2b5de5"
     },
     "dark": {
-      "oklch": "oklch(61.1% 0.210 264.7)",
+      "oklch": "oklch(61.1% 0.21 264.7)",
       "hex": "#4277ff"
     }
   },
@@ -63760,11 +63760,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-gray.json
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -64290,11 +64290,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-blue-deep_accent-gray.json
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     },
     "dark": {
-      "oklch": "oklch(57.126% 0.213 265)",
+      "oklch": "oklch(57.1% 0.213 264.7)",
       "hex": "#366AF3"
     }
   },
@@ -65156,11 +65156,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -65426,11 +65426,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -65456,11 +65456,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -66796,11 +66796,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
@@ -66866,11 +66866,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -66956,11 +66956,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -67136,11 +67136,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -67486,17 +67486,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
@@ -67540,17 +67540,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-brand.json 1`
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
@@ -68352,11 +68352,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -68652,11 +68652,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -69992,11 +69992,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
@@ -70152,11 +70152,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
@@ -70682,17 +70682,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     },
     "dark": {
-      "oklch": "oklch(65.745% 0.174 149)",
+      "oklch": "oklch(65.7% 0.174 148.6)",
       "hex": "#26AD50"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
@@ -70736,17 +70736,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-green_accent-gray.json 1`]
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.060 188.6)",
+      "oklch": "oklch(34.7% 0.06 188.6)",
       "hex": "#004440"
     }
   },
@@ -71548,11 +71548,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
@@ -71818,61 +71818,61 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "shapeBoldAccentHover": {
     "light": {
-      "oklch": "oklch(67.7% 0.125 177.0)",
+      "oklch": "oklch(67.7% 0.125 177)",
       "hex": "#04b096"
     },
     "dark": {
-      "oklch": "oklch(75.7% 0.133 177.0)",
+      "oklch": "oklch(75.7% 0.133 177)",
       "hex": "#28cbae"
     }
   },
   "shapeBoldAccentPressed": {
     "light": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     },
     "dark": {
-      "oklch": "oklch(67.7% 0.103 177.0)",
+      "oklch": "oklch(67.7% 0.103 177)",
       "hex": "#41ac96"
     }
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(67.7% 0.125 177.0)",
+      "oklch": "oklch(67.7% 0.125 177)",
       "hex": "#04b096"
     },
     "dark": {
-      "oklch": "oklch(75.7% 0.133 177.0)",
+      "oklch": "oklch(75.7% 0.133 177)",
       "hex": "#28cbae"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     },
     "dark": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     }
   },
@@ -73188,11 +73188,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     }
   },
@@ -73258,31 +73258,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "lineAccentBoldHover": {
     "light": {
-      "oklch": "oklch(67.7% 0.125 177.0)",
+      "oklch": "oklch(67.7% 0.125 177)",
       "hex": "#04b096"
     },
     "dark": {
-      "oklch": "oklch(75.7% 0.133 177.0)",
+      "oklch": "oklch(75.7% 0.133 177)",
       "hex": "#28cbae"
     }
   },
   "lineAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     },
     "dark": {
-      "oklch": "oklch(67.7% 0.103 177.0)",
+      "oklch": "oklch(67.7% 0.103 177)",
       "hex": "#41ac96"
     }
   },
@@ -73348,11 +73348,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
@@ -73528,31 +73528,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "lineInvertedAccentBoldHover": {
     "light": {
-      "oklch": "oklch(75.7% 0.133 177.0)",
+      "oklch": "oklch(75.7% 0.133 177)",
       "hex": "#28cbae"
     },
     "dark": {
-      "oklch": "oklch(67.7% 0.125 177.0)",
+      "oklch": "oklch(67.7% 0.125 177)",
       "hex": "#04b096"
     }
   },
   "lineInvertedAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(67.7% 0.103 177.0)",
+      "oklch": "oklch(67.7% 0.103 177)",
       "hex": "#41ac96"
     },
     "dark": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     }
   },
@@ -73878,17 +73878,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     },
     "dark": {
@@ -73932,17 +73932,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-brand.json 1`]
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     }
   },
@@ -74744,11 +74744,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
@@ -75044,31 +75044,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(67.7% 0.125 177.0)",
+      "oklch": "oklch(67.7% 0.125 177)",
       "hex": "#04b096"
     },
     "dark": {
-      "oklch": "oklch(75.7% 0.133 177.0)",
+      "oklch": "oklch(75.7% 0.133 177)",
       "hex": "#28cbae"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     },
     "dark": {
-      "oklch": "oklch(63.7% 0.103 177.0)",
+      "oklch": "oklch(63.7% 0.103 177)",
       "hex": "#329f8a"
     }
   },
@@ -76384,11 +76384,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     }
   },
@@ -76544,11 +76544,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
@@ -77074,17 +77074,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     },
     "dark": {
-      "oklch": "oklch(71.661% 0.133 177)",
+      "oklch": "oklch(71.7% 0.133 177)",
       "hex": "#00BEA2"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     },
     "dark": {
@@ -77128,17 +77128,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-mint_accent-gray.json 1`] 
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     },
     "dark": {
-      "oklch": "oklch(34.7% 0.068 228.0)",
+      "oklch": "oklch(34.7% 0.068 228)",
       "hex": "#004055"
     }
   },
@@ -77940,11 +77940,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
@@ -78240,11 +78240,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
@@ -79580,11 +79580,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     }
   },
@@ -79740,11 +79740,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
@@ -80270,17 +80270,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     },
     "dark": {
-      "oklch": "oklch(71.480% 0.182 45)",
+      "oklch": "oklch(71.5% 0.182 44.7)",
       "hex": "#FC7630"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     },
     "dark": {
@@ -80324,17 +80324,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-orange_accent-gray.json 1`
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     },
     "dark": {
-      "oklch": "oklch(34.5% 0.110 9.7)",
+      "oklch": "oklch(34.5% 0.11 9.7)",
       "hex": "#65182c"
     }
   },
@@ -81136,11 +81136,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.206 319)",
+      "oklch": "oklch(64% 0.206 319)",
       "hex": "#bf58d9"
     }
   },
@@ -81406,61 +81406,61 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "shapeBoldAccentHover": {
     "light": {
-      "oklch": "oklch(57.5% 0.206 319.0)",
+      "oklch": "oklch(57.5% 0.206 319)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(65.5% 0.206 319.0)",
+      "oklch": "oklch(65.5% 0.206 319)",
       "hex": "#c45ddf"
     }
   },
   "shapeBoldAccentPressed": {
     "light": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(57.5% 0.176 319.0)",
+      "oklch": "oklch(57.5% 0.176 319)",
       "hex": "#a44fb9"
     }
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(57.5% 0.206 319.0)",
+      "oklch": "oklch(57.5% 0.206 319)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(65.5% 0.206 319.0)",
+      "oklch": "oklch(65.5% 0.206 319)",
       "hex": "#c45ddf"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     }
   },
@@ -82776,11 +82776,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     },
     "dark": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     }
   },
@@ -82846,31 +82846,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "lineAccentBoldHover": {
     "light": {
-      "oklch": "oklch(57.5% 0.206 319.0)",
+      "oklch": "oklch(57.5% 0.206 319)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(65.5% 0.206 319.0)",
+      "oklch": "oklch(65.5% 0.206 319)",
       "hex": "#c45ddf"
     }
   },
   "lineAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(57.5% 0.176 319.0)",
+      "oklch": "oklch(57.5% 0.176 319)",
       "hex": "#a44fb9"
     }
   },
@@ -82936,11 +82936,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
@@ -83116,31 +83116,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "lineInvertedAccentBoldHover": {
     "light": {
-      "oklch": "oklch(65.5% 0.206 319.0)",
+      "oklch": "oklch(65.5% 0.206 319)",
       "hex": "#c45ddf"
     },
     "dark": {
-      "oklch": "oklch(57.5% 0.206 319.0)",
+      "oklch": "oklch(57.5% 0.206 319)",
       "hex": "#aa43c4"
     }
   },
   "lineInvertedAccentBoldPressed": {
     "light": {
-      "oklch": "oklch(57.5% 0.176 319.0)",
+      "oklch": "oklch(57.5% 0.176 319)",
       "hex": "#a44fb9"
     },
     "dark": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     }
   },
@@ -83466,17 +83466,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     },
     "dark": {
@@ -83520,17 +83520,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-brand.json 1
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     },
     "dark": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     }
   },
@@ -84332,11 +84332,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.206 319)",
+      "oklch": "oklch(64% 0.206 319)",
       "hex": "#bf58d9"
     }
   },
@@ -84632,31 +84632,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(57.5% 0.206 319.0)",
+      "oklch": "oklch(57.5% 0.206 319)",
       "hex": "#aa43c4"
     },
     "dark": {
-      "oklch": "oklch(65.5% 0.206 319.0)",
+      "oklch": "oklch(65.5% 0.206 319)",
       "hex": "#c45ddf"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     },
     "dark": {
-      "oklch": "oklch(53.5% 0.176 319.0)",
+      "oklch": "oklch(53.5% 0.176 319)",
       "hex": "#9742ac"
     }
   },
@@ -85972,11 +85972,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     },
     "dark": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     }
   },
@@ -86132,11 +86132,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
@@ -86662,17 +86662,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     },
     "dark": {
-      "oklch": "oklch(61.460% 0.206 319)",
+      "oklch": "oklch(61.5% 0.206 319)",
       "hex": "#B750D1"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     },
     "dark": {
@@ -86716,17 +86716,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-purple_accent-gray.json 1`
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     },
     "dark": {
-      "oklch": "oklch(36.5% 0.130 295.0)",
+      "oklch": "oklch(36.5% 0.13 295)",
       "hex": "#452a7a"
     }
   },
@@ -87528,11 +87528,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
@@ -87828,31 +87828,31 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
   "shapeBoldBrandOriginalHover": {
     "light": {
-      "oklch": "oklch(63.0% 0.215 25.1)",
+      "oklch": "oklch(63% 0.215 25.1)",
       "hex": "#ef3c40"
     },
     "dark": {
-      "oklch": "oklch(71.0% 0.182 25.1)",
+      "oklch": "oklch(71% 0.182 25.1)",
       "hex": "#ff6b65"
     }
   },
   "shapeBoldBrandOriginalPressed": {
     "light": {
-      "oklch": "oklch(59.0% 0.185 25.1)",
+      "oklch": "oklch(59% 0.185 25.1)",
       "hex": "#d54140"
     },
     "dark": {
-      "oklch": "oklch(59.0% 0.185 25.1)",
+      "oklch": "oklch(59% 0.185 25.1)",
       "hex": "#d54140"
     }
   },
@@ -89168,11 +89168,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     },
     "dark": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     }
   },
@@ -89328,11 +89328,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
@@ -89858,17 +89858,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     },
     "dark": {
-      "oklch": "oklch(67.023% 0.215 25)",
+      "oklch": "oklch(67% 0.215 25.1)",
       "hex": "#FE4C4C"
     }
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     },
     "dark": {
@@ -89912,17 +89912,17 @@ exports[`Semantic Tokens > Snapshot comparison: brand-red_accent-gray.json 1`] =
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     },
     "dark": {
-      "oklch": "oklch(36.0% 0.110 353.1)",
+      "oklch": "oklch(36% 0.11 353.1)",
       "hex": "#661e42"
     }
   },
@@ -90724,12 +90724,12 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.216 294)",
-      "hex": "#9767ff"
+      "oklch": "oklch(64% 0.216 294.2)",
+      "hex": "#9867ff"
     }
   },
   "textNeutralFaint": {
@@ -90994,11 +90994,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "shapeBoldAccent": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -91024,11 +91024,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -92434,11 +92434,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "lineAccentBold": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -92524,11 +92524,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -92704,11 +92704,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "lineInvertedAccentBold": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -93054,11 +93054,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-brand.json 1
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -93920,12 +93920,12 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-gray.json 1`
   },
   "textLogo": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(64.0% 0.216 294)",
-      "hex": "#9767ff"
+      "oklch": "oklch(64% 0.216 294.2)",
+      "hex": "#9867ff"
     }
   },
   "textNeutralFaint": {
@@ -94220,11 +94220,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-gray.json 1`
   },
   "shapeBoldBrandOriginal": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -95720,11 +95720,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-gray.json 1`
   },
   "lineBrandOriginal": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },
@@ -96250,11 +96250,11 @@ exports[`Semantic Tokens > Snapshot comparison: brand-violet_accent-gray.json 1`
   },
   "illustrationBrand": {
     "light": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     },
     "dark": {
-      "oklch": "oklch(56.829% 0.228 294)",
+      "oklch": "oklch(56.8% 0.228 294.2)",
       "hex": "#844BEC"
     }
   },

@@ -1,34 +1,34 @@
 {
   "brandLogoLight": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandLogoDark": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandPromo": {
-    "oklch": "oklch(34.7% 0.068 228.0)",
+    "oklch": "oklch(34.7% 0.068 228)",
     "hex": "#004055"
   },
   "brandOriginal": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "brandInteractionsHoverLight": {
-    "oklch": "oklch(67.7% 0.125 177.0)",
+    "oklch": "oklch(67.7% 0.125 177)",
     "hex": "#04b096"
   },
   "brandInteractionsHoverDark": {
-    "oklch": "oklch(75.7% 0.133 177.0)",
+    "oklch": "oklch(75.7% 0.133 177)",
     "hex": "#28cbae"
   },
   "brandInteractionsPressedLight": {
-    "oklch": "oklch(63.7% 0.103 177.0)",
+    "oklch": "oklch(63.7% 0.103 177)",
     "hex": "#329f8a"
   },
   "brandInteractionsPressedDark": {
-    "oklch": "oklch(67.7% 0.103 177.0)",
+    "oklch": "oklch(67.7% 0.103 177)",
     "hex": "#41ac96"
   },
   "brandPaletteVivid20": {
@@ -272,27 +272,27 @@
     "hex": "#e0f8f4"
   },
   "accentOriginalLight": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "accentOriginalDark": {
-    "oklch": "oklch(71.661% 0.133 177)",
+    "oklch": "oklch(71.7% 0.133 177)",
     "hex": "#00BEA2"
   },
   "accentInteractionsHoverLight": {
-    "oklch": "oklch(67.7% 0.125 177.0)",
+    "oklch": "oklch(67.7% 0.125 177)",
     "hex": "#04b096"
   },
   "accentInteractionsHoverDark": {
-    "oklch": "oklch(75.7% 0.133 177.0)",
+    "oklch": "oklch(75.7% 0.133 177)",
     "hex": "#28cbae"
   },
   "accentInteractionsPressedLight": {
-    "oklch": "oklch(63.7% 0.103 177.0)",
+    "oklch": "oklch(63.7% 0.103 177)",
     "hex": "#329f8a"
   },
   "accentInteractionsPressedDark": {
-    "oklch": "oklch(67.7% 0.103 177.0)",
+    "oklch": "oklch(67.7% 0.103 177)",
     "hex": "#41ac96"
   },
   "accentPaletteVivid20": {
