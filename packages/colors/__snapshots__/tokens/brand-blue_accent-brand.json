@@ -225,8 +225,8 @@
       "hex": "#2291FF"
     },
     "dark": {
-      "oklch": "oklch(0.655 0.188 253)",
-      "hex": "#2191ff"
+      "oklch": "oklch(65.479% 0.188 253)",
+      "hex": "#2291FF"
     }
   },
   "textNeutralFaint": {

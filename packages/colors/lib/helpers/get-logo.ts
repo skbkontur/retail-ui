@@ -1,40 +1,30 @@
-import { converter, type Oklch } from 'culori';
+import { clampChroma, converter, type Oklch } from 'culori';
 
 import { LOGO_LIGHTNESS_MIN } from '../consts/params/logo-lightness.js';
+
+const toOklch = converter('oklch');
 
 interface LogoColors {
   light: string;
   dark: string;
 }
 
-export function getLogo(hex: string): LogoColors {
-  const toOklch = converter('oklch');
-  const oklchColor = toOklch(hex) as Oklch | undefined;
+export function getLogo(color: string): LogoColors {
+  const darkColor = toOklch(color) as Oklch;
 
-  const lightThemeLogoColor = hex;
-
-  if (!oklchColor) {
-    const fallbackColor = `oklch(${LOGO_LIGHTNESS_MIN}% 0 0)`;
-    return { light: hex, dark: fallbackColor };
+  if (darkColor.l >= LOGO_LIGHTNESS_MIN) {
+    return {
+      light: color,
+      dark: color,
+    };
   }
 
-  let { l = 0, c = 0 } = oklchColor;
-  const { h } = oklchColor;
-
-  const safeH = h === undefined || isNaN(h) ? 0 : h;
-
-  l = l || 0;
-  c = c || 0;
-
-  const percentL = l * 100;
-  if (percentL < LOGO_LIGHTNESS_MIN) {
-    l = LOGO_LIGHTNESS_MIN / 100;
-  }
-
-  const darkThemeLogoColor = `oklch(${l.toFixed(3)} ${c.toFixed(3)} ${safeH.toFixed(0)})`;
+  darkColor.l = LOGO_LIGHTNESS_MIN;
+  const chromaMaxAvailable = clampChroma({ ...darkColor, c: 1 }, 'oklch').c;
+  const chromaResult = Math.min(chromaMaxAvailable, darkColor.c);
 
   return {
-    light: lightThemeLogoColor,
-    dark: darkThemeLogoColor,
+    light: color,
+    dark: `oklch(${(darkColor.l * 100).toFixed(1)}% ${chromaResult.toFixed(3)} ${(darkColor.h || 0).toFixed(0)})`,
   };
 }
