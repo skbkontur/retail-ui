@@ -1861,12 +1861,12 @@
   },
   "shapeConstPromo": {
     "light": {
-      "oklch": "oklch(33.854% 0.059 190)",
-      "hex": "#00413e"
+      "oklch": "oklch(34.7% 0.060 188.6)",
+      "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(33.854% 0.059 190)",
-      "hex": "#00413e"
+      "oklch": "oklch(34.7% 0.060 188.6)",
+      "hex": "#004440"
     }
   },
   "shapeConstSoftBlack": {
@@ -2561,8 +2561,8 @@
   },
   "illustrationComplement": {
     "light": {
-      "oklch": "oklch(33.854% 0.059 190)",
-      "hex": "#00413e"
+      "oklch": "oklch(34.7% 0.060 188.6)",
+      "hex": "#004440"
     },
     "dark": {
       "oklch": "oklch(100% 0 0)",
@@ -2605,18 +2605,18 @@
       "hex": "#ffffff"
     },
     "dark": {
-      "oklch": "oklch(33.854% 0.059 190)",
-      "hex": "#00413e"
+      "oklch": "oklch(34.7% 0.060 188.6)",
+      "hex": "#004440"
     }
   },
   "illustrationPromo": {
     "light": {
-      "oklch": "oklch(33.854% 0.059 190)",
-      "hex": "#00413e"
+      "oklch": "oklch(34.7% 0.060 188.6)",
+      "hex": "#004440"
     },
     "dark": {
-      "oklch": "oklch(33.854% 0.059 190)",
-      "hex": "#00413e"
+      "oklch": "oklch(34.7% 0.060 188.6)",
+      "hex": "#004440"
     }
   },
   "illustrationSymbol": {

@@ -1,55 +1,32 @@
-import { clampChroma, converter, formatHex, type Oklch } from 'culori';
+import { converter, clampChroma, type Oklch } from 'culori';
 
-import { PROMO_HUE_SHIFTS } from '../consts/params/promo-hue-shift.js';
+import {
+  PROMO_CHROMA_MAX,
+  PROMO_CHROMA_MIN,
+  PROMO_CHROMA_RELATIVE,
+  PROMO_HUE_SHIFTS,
+  PROMO_LIGHTNESS_SHIFTS,
+} from '../consts/params/promo-params.js';
 
-export function getPromo(color: string, hueShifts = PROMO_HUE_SHIFTS): string {
-  const toOklch = converter('oklch');
-  const oklchColor = toOklch(color) as Oklch;
-  if (!oklchColor) {
-    throw new Error(`Invalid color string: ${color}`);
-  }
+const toOklch = converter('oklch');
 
-  const currentHue = oklchColor.h as number;
-  const promoHueShift = getPromoHueShift(currentHue, hueShifts);
-  const correctedHue = (currentHue + promoHueShift + 360) % 360;
+export function getPromo(
+  inputColor: string,
+  hueShifts = PROMO_HUE_SHIFTS,
+  lightnessShifts = PROMO_LIGHTNESS_SHIFTS
+): string {
+  const color = toOklch(inputColor) as Oklch;
+  const hue = (((color.h || 0) % 360) + 360) % 360;
+  const hueShift = hueShifts.find((r) => hue >= r.min && hue <= r.max)?.shift || 0;
+  color.h = (hue + hueShift + 360) % 360;
 
-  let promoLightness = oklchColor.l * 100;
-  if (promoLightness >= 50) {
-    promoLightness = promoLightness - 32;
-  }
-  promoLightness = Math.min(Math.max(promoLightness, 30), 34);
+  const lightness = color.l * 100;
+  const lightnessShift = lightnessShifts.find((r) => lightness >= r.min && lightness <= r.max)?.shift || 0;
+  color.l = Math.max(0, Math.min(100, lightness + lightnessShift)) / 100;
 
-  const promoChroma = 0.1;
+  const chromaMaxAvailable = clampChroma({ ...color, c: 1 }, 'oklch').c;
+  const chromeRelative = chromaMaxAvailable * PROMO_CHROMA_RELATIVE;
+  color.c = Math.min(chromaMaxAvailable, Math.max(PROMO_CHROMA_MIN, Math.min(PROMO_CHROMA_MAX, chromeRelative)));
 
-  const finalLightness = Math.round(promoLightness) / 100;
-  const finalChroma = Math.round(promoChroma * 100) / 100;
-
-  const promoOklch: Oklch = {
-    mode: 'oklch',
-    l: finalLightness,
-    c: finalChroma,
-    h: correctedHue,
-  };
-
-  return formatHex(clampChroma(promoOklch, 'oklch'));
-}
-
-export function getPromoHueShift(currentHue: number, promoHueShifts: { [hueRange: number]: number }): number {
-  const hueRanges = Object.keys(promoHueShifts)
-    .map(Number)
-    .sort((a, b) => a - b);
-  let selectedHueRange = hueRanges[0];
-  for (let i = 0; i < hueRanges.length; i++) {
-    const startRange = hueRanges[i];
-    const endRange = hueRanges[i + 1] !== undefined ? hueRanges[i + 1] : 360;
-    if (currentHue >= startRange && currentHue < endRange) {
-      selectedHueRange = startRange;
-      break;
-    }
-    if (i === hueRanges.length - 1 && (currentHue >= startRange || currentHue < hueRanges[0])) {
-      selectedHueRange = startRange;
-      break;
-    }
-  }
-  return promoHueShifts[selectedHueRange] !== undefined ? promoHueShifts[selectedHueRange] : 0;
+  return `oklch(${(color.l * 100).toFixed(1)}% ${color.c.toFixed(3)} ${color.h.toFixed(1)})`;
 }

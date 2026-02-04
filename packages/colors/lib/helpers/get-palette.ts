@@ -8,7 +8,6 @@ import type {
 } from '../types/tokens-base-generator.js';
 import { CHROMA_PARAMS } from '../consts/params/chroma-params.js';
 import { ABNEY_CORRECTION } from '../consts/params/abney-correction.js';
-import { PROMO_HUE_SHIFTS } from '../consts/params/promo-hue-shift.js';
 import { WARNING_HUE_PATCH } from '../consts/params/warning-hue-patch.js';
 
 const toOklch = converter('oklch');
@@ -19,7 +18,6 @@ interface GeneratePaletteParams {
   settings?: {
     chromaSettings?: GeneratorColorChromaParamsGroup;
     abneyCorrection?: GeneratorColorAbneyCorrection;
-    promoHueShifts?: { [hueRange: number]: number };
     warningHuePatch?: GeneratorColorWarningHuePatch;
   };
 }
@@ -32,7 +30,6 @@ export function getPalette({
   const defaultSettings = {
     chromaSettings: CHROMA_PARAMS,
     abneyCorrection: ABNEY_CORRECTION,
-    promoHueShifts: PROMO_HUE_SHIFTS,
     warningHuePatch: WARNING_HUE_PATCH,
   };
 
