@@ -59,11 +59,11 @@ export interface ComboBoxProps<T>
 
   /** Задаёт функцию поиска элементов, которая должна возвращать Promise с массивом значений.
    * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
-   * Элементы могут быть любого типа. В этом случае необходимо определить свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`. */
+   * Элементы могут быть любого типа. В этом случае необходимо определить свойства `itemToId`, `renderValue`, `renderItem`, `valueToString`. */
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
 
   /** Сравнивает полученные результаты с `value`. */
-  itemToValue?: (item: T) => string | number;
+  itemToId?: (item: T) => string | number;
 
   /** Mаксимальная длина значения, которое пользователь может ввести в поле. */
   maxLength?: number;
@@ -197,7 +197,7 @@ export type ComboBoxExtendedItem<T> = T | (() => React.ReactElement<T>) | React.
 type DefaultProps<T> = Required<
   Pick<
     ComboBoxProps<T>,
-    | 'itemToValue'
+    | 'itemToId'
     | 'valueToString'
     | 'renderValue'
     | 'renderItem'
@@ -217,7 +217,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   public static displayName = 'ComboBox';
 
   public static defaultProps: DefaultProps<any> = {
-    itemToValue: (item: ComboBoxItem) => item.value,
+    itemToId: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,
     renderItem: (item: ComboBoxItem) => item.label,

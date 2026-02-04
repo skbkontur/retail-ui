@@ -46,7 +46,7 @@ export default class ComboBoxTestPage extends React.Component {
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}
-              itemToValue={x => x.id}
+              itemToId={x => x.id}
             />
           </Case.Body>
         </Case>
@@ -61,7 +61,7 @@ export default class ComboBoxTestPage extends React.Component {
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}
-              itemToValue={x => x.id}
+              itemToId={x => x.id}
             />
           </Case.Body>
         </Case>
@@ -82,7 +82,7 @@ export default class ComboBoxTestPage extends React.Component {
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}
-              itemToValue={x => x.id}
+              itemToId={x => x.id}
             />
           </Case.Body>
         </Case>
@@ -95,7 +95,7 @@ export default class ComboBoxTestPage extends React.Component {
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}
-              itemToValue={x => x.id}
+              itemToId={x => x.id}
             />
           </Case.Body>
         </Case>

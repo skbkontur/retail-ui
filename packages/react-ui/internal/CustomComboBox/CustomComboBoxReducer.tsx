@@ -153,7 +153,7 @@ export const Effect: EffectFactory = {
     }
   },
   highlightMenuItem: (dispatch, getState, getProps, getInstance, globalObject) => {
-    const { value, itemToValue, valueToString } = getProps();
+    const { value, itemToId, valueToString } = getProps();
     const { items, focused, textValue, requestStatus } = getState();
     const { menu } = getInstance();
     const valueString = getValueString(value, valueToString);
@@ -168,7 +168,7 @@ export const Effect: EffectFactory = {
 
     let index = -1;
     if (items?.length && isNonNullable(value)) {
-      index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
+      index = items.findIndex((x) => itemToId(x) === itemToId(value));
       menu.highlightItem(index);
     } else {
       menu.reset();

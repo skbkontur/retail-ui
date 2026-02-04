@@ -79,7 +79,7 @@ export interface CustomComboBoxProps<T>
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
-  itemToValue: (item: T) => string | number;
+  itemToId: (item: T) => string | number;
   getItems: (query: string) => Promise<Array<ComboBoxExtendedItem<T>>>;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
   onBeforePasteInMask?: MaskedInputOnBeforePasteValue;

@@ -216,7 +216,7 @@ export const OpenCloseSearchMethods = () => {
         renderItem={(i) => i.name}
         valueToString={(v) => v.name}
         renderValue={(v) => v.name}
-        itemToValue={(v) => v.name}
+        itemToId={(v) => v.name}
       />{' '}
       <span className="control-buttons">
         <button onClick={() => combobox && combobox.open()}>open</button>{' '}
@@ -337,7 +337,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           searchOnFocus={this.props.searchOnFocus}
           autoFocus={this.props.autoFocus}
           borderless={this.props.borderless}
-          itemToValue={(x) => x.id}
+          itemToId={(x) => x.id}
           disabled={this.props.disabled}
           error={this.state.error}
           warning={this.state.warning}
@@ -834,7 +834,7 @@ export const WithExtendedItem: Story = () => {
       <ComboBox<ValueType>
         value={value}
         onValueChange={setValue}
-        itemToValue={(item) => item.id}
+        itemToId={(item) => item.id}
         renderValue={(item) => item.name}
         valueToString={(item) => item.name}
         getItems={() =>

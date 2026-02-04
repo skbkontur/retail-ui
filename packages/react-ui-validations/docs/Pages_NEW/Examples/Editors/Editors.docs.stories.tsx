@@ -172,7 +172,7 @@ export const Editors: Story = () => {
               valueToString={(x) => x}
               renderValue={(x) => x}
               renderItem={(x) => x}
-              itemToValue={(x) => x}
+              itemToId={(x) => x}
               value={data.city}
               onValueChange={(value) => handleChange({ city: value })}
               getItems={async (query) => {

@@ -20,7 +20,7 @@ const RENAMED_VARS: Record<string, string> = {
   pagingDotsPadding: "pagingDotsPaddingSmall"
 };
 
-export default function transform(file: FileInfo, api: API) {
+export default function transform(file: FileInfo, api: API): string | undefined {
   const j = api.jscodeshift;
   let modified = false;
   const result = j(file.source)

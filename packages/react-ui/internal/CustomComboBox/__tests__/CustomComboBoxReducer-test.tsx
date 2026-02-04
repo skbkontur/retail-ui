@@ -11,7 +11,7 @@ interface ItemType {
 
 const createGetPropsMock = (props: Partial<CustomComboBoxProps<ItemType>>) => {
   return vi.fn(() => ({
-    itemToValue: (item: ItemType) => item.value,
+    itemToId: (item: ItemType) => item.value,
     valueToString: (item: ItemType) => item.label,
     renderValue: (item: ItemType) => item.label,
     renderItem: (item: ItemType) => item.label,
