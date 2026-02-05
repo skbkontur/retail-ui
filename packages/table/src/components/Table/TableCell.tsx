@@ -1,7 +1,8 @@
 import React, { useContext, useCallback, forwardRef, type CSSProperties, type MouseEventHandler } from 'react';
 import cx from 'classnames';
 import textStyles from '@skbkontur/typography/Text.module.css';
-import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
 import { getTypographyClass } from '../../utils/getTypographyClass.js';
@@ -10,7 +11,7 @@ import styles from './Table.module.css';
 import { TableDataTids } from './TableDataTids.js';
 import { SizeTableContext } from './TableContext.js';
 
-export interface TableCellBaseProps extends CommonProps {
+export interface TableCellBaseProps extends CommonProps, React.TdHTMLAttributes<HTMLTableCellElement> {
   colSpan?: number;
   width?: CSSProperties['width'];
   rowSpan?: number;
@@ -57,25 +58,29 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
     const checkboxCellSizeClass = styles[getSizeModifier('CheckboxCell', size)];
 
     return (
-      <td
-        ref={ref}
-        colSpan={colSpan}
-        rowSpan={rowSpan}
-        className={cx(styles.TableCell, typographyClass, textStyles.noSpacing, className, {
-          [styles.CheckboxCell]: checkboxCell,
-          [checkboxCellSizeClass]: checkboxCell,
-          [tableCellSizeClass]: !checkboxCell,
-          [tableCellTextSizeClass]: contentCompensator,
-          [styles.NoWrapCell]: noWrap,
-          [styles.Currency]: currency,
-        })}
-        data-tid={checkboxCell ? TableDataTids.checkboxCell : TableDataTids.cell}
-        style={{ width, ...rest.style }}
-        {...rest}
-        onClick={onClick}
-      >
-        <div>{children}</div>
-      </td>
+      <CommonWrapper {...rest}>
+        {(wrapperRest: CommonWrapperRestProps<TableCellBaseProps>) => (
+          <td
+            {...wrapperRest}
+            ref={ref}
+            colSpan={colSpan}
+            rowSpan={rowSpan}
+            className={cx(styles.TableCell, typographyClass, textStyles.noSpacing, className, {
+              [styles.CheckboxCell]: checkboxCell,
+              [checkboxCellSizeClass]: checkboxCell,
+              [tableCellSizeClass]: !checkboxCell,
+              [tableCellTextSizeClass]: contentCompensator,
+              [styles.NoWrapCell]: noWrap,
+              [styles.Currency]: currency,
+            })}
+            data-tid={checkboxCell ? TableDataTids.checkboxCell : TableDataTids.cell}
+            style={{ width, ...wrapperRest.style }}
+            onClick={onClick}
+          >
+            <div>{children}</div>
+          </td>
+        )}
+      </CommonWrapper>
     );
   }
 );
