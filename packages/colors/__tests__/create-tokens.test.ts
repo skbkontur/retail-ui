@@ -5,6 +5,7 @@ import { saveTokens } from '../scripts/create-tokens-files';
 vi.mock('fs', () => ({
   mkdirSync: vi.fn(),
   writeFileSync: vi.fn(),
+  existsSync: vi.fn(() => true),
 }));
 
 const mockTokens = {
