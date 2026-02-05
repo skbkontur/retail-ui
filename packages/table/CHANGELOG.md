@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.3...@skbkontur/table@0.1.4) (2026-02-05)
+
+
+### Bug Fixes
+
+* **Table:** add dual publish esm+cjs for fallback with cjs react-ui for webpack5 ([7203ba0](https://git.skbkontur.ru/ui/ui-parking-2/commits/7203ba00e357e902285a59cbdadc38731ed3ea9d))
+* **Table:** border radius logic for nested and popup actions using :has selector ([a153996](https://git.skbkontur.ru/ui/ui-parking-2/commits/a1539967c88f7647a8aa60ddfc50d83f6815e438))
+* **Table:** fix order border radius cancel ([9e1000f](https://git.skbkontur.ru/ui/ui-parking-2/commits/9e1000f59add1481aaa58b195b47aa8fe7cde7c0))
+* **Table:** integrate CommonWrapper and enable native HTML attributes passthrough for table components ([420095e](https://git.skbkontur.ru/ui/ui-parking-2/commits/420095e534baf3b717b48cefac8eb6905f77d4af))
+
+
+
+
+
 ## [0.1.3](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.2...@skbkontur/table@0.1.3) (2026-01-19)
 
 **Note:** Version bump only for package @skbkontur/table
