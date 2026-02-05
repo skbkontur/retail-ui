@@ -2,7 +2,7 @@ import type { BasicLightThemeInternal } from '@skbkontur/react-ui/internal/theme
 import type { Theme as ReactUITheme } from '@skbkontur/react-ui/lib/theming/Theme';
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
-import * as colors from '../../../colors/default-light.js';
+import * as colors from '../../../colors/tokens-default/light.js';
 
 export const REACT_UI_TABLE_CONSTRUCTOR_THEME_KEY = '__IS_REACT_UI_TABLE_CONSTRUCTOR_THEME__';
 export class TableLightTheme extends (class {} as typeof BasicLightThemeInternal) {
