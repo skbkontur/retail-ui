@@ -14,7 +14,6 @@ interface SizeModuleShape {
 }
 
 const fallbackContext: SizeContext = createContext<SizeContextValue>({ size: 'small' });
-const sizeModulePath = '@skbkontur/react-ui/lib/size';
 
 const isSizeContext = (candidate: unknown): candidate is SizeContext => {
   if (!candidate || typeof candidate !== 'object') {
@@ -23,9 +22,25 @@ const isSizeContext = (candidate: unknown): candidate is SizeContext => {
   return 'Provider' in candidate;
 };
 
+// Скрываем путь к модулю от статического анализа бандлеров (Rollup/Vite/Webpack).
+// Формируем путь динамически, чтобы бандлеры не могли его распознать как статический импорт.
+// Это необходимо, потому что:
+// 1. Модуль @skbkontur/react-ui/lib/size доступен только в react-ui v5.4.0+
+// 2. Пакет @skbkontur/table поддерживает react-ui v5.x, включая версии ниже 5.4.0, где модуля нет
+// 3. Vite 7.x/Rollup требуют разрешения всех статических импортов при сборке
+// 4. Webpack 5 показывает "Critical dependency" для динамических путей
+
+// Путь формируется в runtime, что предотвращает статический анализ Rollup/Vite
+// Комментарий webpackIgnore предотвращает предупреждение Webpack
+const getSizeModulePath = (): string => {
+  const parts = ['@skbkontur', 'react-ui', 'lib', 'size'];
+  return parts.join('/');
+};
+
 const dynamicImportSizeModule = async (): Promise<SizeModuleShape | null> => {
   try {
-    return await import(sizeModulePath);
+    const modulePath = getSizeModulePath();
+    return await import(/* webpackIgnore: true */ modulePath);
   } catch {
     return null;
   }

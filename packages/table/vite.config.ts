@@ -13,11 +13,14 @@ const external = Object.keys(packageJson.peerDependencies || {});
 export default defineConfig({
   plugins: [
     react(),
-    cssInjectedByJsPlugin({ useStrictCSP: true, relativeCSSInjection: false }),
+    cssInjectedByJsPlugin({
+      useStrictCSP: true,
+      relativeCSSInjection: false,
+    }),
     dts({
       entryRoot: '.',
       outDir: 'dist',
-      include: ['index.ts', 'src/**/*.ts', 'src/**/*.tsx'],
+      include: ['index.ts', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.d.ts'],
       exclude: ['**/*.stories.tsx', '**/*.stories.ts', '__stories__', '__tests__', '__docs__'],
     }),
   ],
@@ -25,8 +28,24 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'index.ts'),
       name: 'Table',
-      fileName: 'index',
-      formats: ['es'],
+      // ESM для Vite, CJS для Webpack/Node
+      fileName: (format) => (format === 'es' ? 'index.js' : 'cjs/index.js'),
+      formats: ['es', 'cjs'],
+    },
+    // Используем terser для сохранения комментария webpackIgnore
+    minify: 'terser',
+    terserOptions: {
+      format: {
+        // Сохраняем комментарии webpackIgnore для Webpack
+        comments: (node, comment) => {
+          return comment.value.includes('webpackIgnore');
+        },
+      },
+      compress: {
+        // Предотвращаем инлайнинг функции getSizeModulePath
+        // чтобы путь оставался динамическим для Rollup/Vite
+        pure_funcs: [],
+      },
     },
     rollupOptions: {
       external: (id) => {
