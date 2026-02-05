@@ -10,13 +10,7 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
-
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <>
-    {title && <h3 className="section-title">{title}</h3>}
-    {children}
-  </>
-);
+import { getColors } from '../lib/get-colors';
 
 export const ColorsCodePlayground = () => {
   const [projectType, setProjectType] = React.useState('Продукт Контура');
@@ -108,12 +102,15 @@ export const ColorsCodePlayground = () => {
     if (isOnPrem) {
       return `${kw('import')} { getColors } ${kw('from')} ${val('@skbkontur/colors/get-colors')};
 
-${kw('const')} params = { brand: ${val(customHex || mainBrand)}, accent: ${val(mainAccent)} };
-${kw('const')} light = ${kw('getColors')}({ ...params, theme: ${val('light')} });
-${kw('const')} dark = ${kw('getColors')}({ ...params, theme: ${val('dark')} });
+${kw('const')} css = ${kw('getColors')}({
+  brand: ${val(customHex || mainBrand)},
+  accent: ${val(mainAccent)},
+  theme: ${val('all')},
+  output: ${val('css')}
+});
 
 ${kw('const')} style = document.${kw('createElement')}(${val('style')});
-style.innerHTML = light + dark;
+style.innerHTML = css;
 document.head.${kw('appendChild')}(style);`;
     }
 
@@ -152,7 +149,8 @@ document.head.${kw('appendChild')}(style);`;
           onValueChange={setProjectType}
         />
 
-        <Section title="Настройка цветовой схемы">
+        <>
+          <h3 className="section-title">Цветовая схема</h3>
           <div className="section-desc">
             {projectType === 'Продукт Контура' &&
               'Выберите брендовый и акцентные цвета. Для сценариев с рекламными врезками можно добавить несколько цветовых схем'}
@@ -257,7 +255,6 @@ document.head.${kw('appendChild')}(style);`;
               ))}
               <div className="add-btn-wrapper">
                 <Link
-                  size="small"
                   onClick={() => {
                     const usedBrands = [mainBrand, ...extraSchemes.map((s) => s.brand)];
                     const nextBrand = brandIds.find((id) => !usedBrands.includes(id)) || brandIds[0];
@@ -269,14 +266,15 @@ document.head.${kw('appendChild')}(style);`;
               </div>
             </div>
           )}
-        </Section>
+        </>
 
         {!isWidget && (
-          <Section title="Подключение">
+          <>
+            <h3 className="section-title">Подключение</h3>
             <div className="section-desc">
               {projectType === 'Продукт Контура' && 'Подключите CSS с цветовыми схемами в точку входа приложения'}
               {projectType === 'Продукт OnPrem' &&
-                'Вызовите функцию getColors для получения CSS-строки со стилями и добавьте её в head документа'}
+                'Вызовите функцию getColors для генерации стилей на клиенте или сервере. На клиенте подключите в `<style>` — желательно кешировать результат, чтобы не вызывать функцию на каждом рендере'}
             </div>
             <div className="copy-container">
               <pre className="copy-pre" dangerouslySetInnerHTML={{ __html: getConnectSnippet() }} />
@@ -286,10 +284,20 @@ document.head.${kw('appendChild')}(style);`;
                 </svg>
               </button>
             </div>
-          </Section>
+            {projectType === 'Продукт OnPrem' && (
+              <details>
+                <summary>Сгенерированный код</summary>
+                <pre style={{ maxHeight: 140, fontSize: 11, overflow: 'auto', border: '1px solid #E2E7EB' }}>
+                  &lt;style&gt;
+                  {getColors({ brand: customHex, accent: 'brand', theme: 'all', output: 'css' })}
+                  &lt;/style&gt;
+                </pre>
+              </details>
+            )}
+          </>
         )}
 
-        <Section>
+        <>
           <div className="section-desc">
             {projectType === 'Продукт Контура' &&
               'Используйте токены через CSS-переменные (или ссылки на них в JS/SCSS/Less) и добавьте data-атрибуты на контейнер'}
@@ -327,7 +335,7 @@ document.head.${kw('appendChild')}(style);`;
               </div>
             )}
           </Gapped>
-        </Section>
+        </>
       </Gapped>
 
       <style>{`

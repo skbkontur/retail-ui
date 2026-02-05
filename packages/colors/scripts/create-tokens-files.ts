@@ -6,6 +6,7 @@ import { getColors } from '../lib/get-colors.js';
 import * as DEFAULT_SWATCH from '../lib/consts/default-swatch.js';
 import type { ColorObject, ColorValue } from '../lib/types/tokens.js';
 import type { ConfigOptions } from '../lib/get-colors-base.js';
+import { flattenHybridCase } from '../lib/utils/create-styles.js';
 
 type ColorFormat = ConfigOptions['format'];
 
@@ -43,18 +44,30 @@ for (const accentVariant of ['brand', 'gray']) {
       continue;
     }
 
-    const tokens = {
-      light: getColors({
+    const cssContent = [
+      getColors({
         brand: brandColorKey,
         accent: accentVariant,
         theme: 'light',
+        output: 'css',
       }),
-      dark: getColors({
+      getColors({
         brand: brandColorKey,
         accent: accentVariant,
         theme: 'dark',
+        output: 'css',
       }),
-    };
+    ].join('\n\n');
+
+    const brandFileName = camelCaseToKebabCase(brandColorKey);
+
+    saveTokens({
+      tokens: cssContent,
+      colorBrand: brandFileName,
+      colorAccent: accentVariant,
+      fileOutputDir: path.join(TOKENS_OUTPUT, 'tokens'),
+      fileFormat: 'css',
+    });
 
     const tokensMobile = {
       light: getColors({
@@ -70,17 +83,6 @@ for (const accentVariant of ['brand', 'gray']) {
         format: 'hex-aarrggbb',
       }),
     };
-
-    const brandFileName = camelCaseToKebabCase(brandColorKey);
-
-    saveTokens({
-      tokens,
-      colorBrand: brandFileName,
-      colorAccent: accentVariant,
-      fileOutputDir: path.join(TOKENS_OUTPUT, 'tokens'),
-      fileFormat: 'css',
-      tokensCSSPrefix: 'k-color',
-    });
 
     saveTokens({
       tokens: tokensMobile,
@@ -285,35 +287,7 @@ export function saveTokens({
     }
 
     case 'css': {
-      const brandDataSelector = `[data-k-brand="${brandFileName}"][data-k-accent="${accentVariant.toLowerCase()}"]`;
-      const baseSelector = brandDataSelector;
-
-      let cssContent = '';
-
-      const hasThemes = tokens.light || tokens.dark;
-
-      if (hasThemes) {
-        const lightTokens = tokens.light;
-        const flattenedLightTokens = flattenHybridCase(lightTokens);
-        const lightVars = Object.entries(flattenedLightTokens)
-          .map(([key, value]) => `  --${cssPrefix}-${camelCaseToKebabCase(key)}: ${value};`)
-          .join('\n');
-
-        cssContent += `${baseSelector} {\n${lightVars}\n}\n\n`;
-
-        if (tokens.dark) {
-          const darkTokens = tokens.dark;
-          const flattenedDarkTokens = flattenHybridCase(darkTokens);
-          const darkVars = Object.entries(flattenedDarkTokens)
-            .map(([key, value]) => `  --${cssPrefix}-${camelCaseToKebabCase(key)}: ${value};`)
-            .join('\n');
-
-          const darkSelector = `${baseSelector}[data-k-theme="dark"]`;
-          cssContent += `${darkSelector} {\n${darkVars}\n}\n\n`;
-        }
-      }
-
-      fs.writeFileSync(finalOutputFile, cssContent.trim());
+      fs.writeFileSync(finalOutputFile, typeof tokens === 'string' ? tokens.trim() : '');
       break;
     }
 
@@ -446,19 +420,6 @@ function removeStateTokens(obj: any): any {
     }
   }
   return obj;
-}
-
-function flattenHybridCase(obj: any, prefix = ''): any {
-  return Object.keys(obj).reduce((acc, key) => {
-    const newKey = prefix + (prefix ? '-' : '') + key;
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      Object.assign(acc, flattenHybridCase(obj[key], newKey));
-    } else {
-      // @ts-ignore
-      acc[newKey] = obj[key];
-    }
-    return acc;
-  }, {});
 }
 
 function flattenObject(obj: ColorObject, prefix = ''): { [key: string]: string | ColorValue } {

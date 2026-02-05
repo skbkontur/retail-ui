@@ -4,7 +4,7 @@ import type { TokensBase } from './types/tokens-base.js';
 import { convertColorFormat, type ColorFormat } from './utils/convert-color.js';
 import type { DefaultTokens, DefaultTokensFull, Themed } from './types/tokens.js';
 import type * as DEFAULT_SWATCH from './consts/default-swatch.js';
-
+import { generateCSSStyles } from './utils/create-styles.js';
 export interface SemanticConfigOptions<T> extends ConfigOptions {
   /** Брендовый цвет из палитры или кастомная строка */
   brand: PresetOrCustom<keyof typeof DEFAULT_SWATCH.brand>;
@@ -16,7 +16,7 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
   /**
    * Возвращать токены для конкретной темы или для всех сразу
    */
-  theme: 'light' | 'dark';
+  theme: 'light' | 'dark' | 'all';
   /** Объект с образцами цветов warning, error, success */
   system?: typeof DEFAULT_SWATCH.system;
   /**
@@ -24,6 +24,11 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
    * @default 'hex/rgba'
    */
   format?: ColorFormat;
+  /**
+   * Формат возвращаемых данных
+   * @default 'object'
+   */
+  output?: 'object' | 'css';
   /**
    * Колбэк для формирования кастомного списка семантических токенов
    * @param base Ссылки на базовые токены
@@ -37,9 +42,9 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
  * Получение списка семантических токенов
  *
  * @param {SemanticConfigOptions<T>} params - Конфигурация генерации
- * @returns {DefaultTokensFull | Themed<T>} Список токенов для light, dark или вместе
+ * @returns {DefaultTokensFull | Themed<T> | string} Список токенов или CSS-строка
  */
-export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens {
+export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens | string {
   let base;
 
   // Convert hex-aarrggbb via hex/rgba
@@ -61,6 +66,19 @@ export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens {
 
   if (params.format) {
     result = convertColorFormat(result, params.format);
+  }
+
+  if (params.output === 'css') {
+    if (params.theme === 'all') {
+      const lightStyles = generateCSSStyles(result.light, { ...params, theme: 'light' });
+      const darkStyles = generateCSSStyles(result.dark, { ...params, theme: 'dark' });
+      return `${lightStyles}\n\n${darkStyles}`;
+    }
+    return generateCSSStyles(result[params.theme], params);
+  }
+
+  if (params.theme === 'all') {
+    return result;
   }
 
   return result[params.theme];

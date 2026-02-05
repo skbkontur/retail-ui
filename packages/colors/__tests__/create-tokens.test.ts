@@ -25,7 +25,18 @@ beforeEach(() => {
 });
 
 test('should generate css with correct variables and selectors', () => {
-  saveTokens({ ...options, fileFormat: 'css' });
+  const mockCssString = `
+[data-k-brand="red"][data-k-accent="gray"] {
+  --k-primary: #ffffff;
+  --k-surface-base: #f0f0f0;
+}
+
+[data-k-brand="red"][data-k-accent="gray"][data-k-theme="dark"] {
+  --k-primary: #000000;
+  --k-surface-base: #121212;
+}`;
+
+  saveTokens({ ...options, tokens: mockCssString, fileFormat: 'css' });
 
   const [, content] = vi.mocked(fs.writeFileSync).mock.calls[0];
 
