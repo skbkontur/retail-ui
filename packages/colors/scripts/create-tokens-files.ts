@@ -30,6 +30,8 @@ interface SaveTokensOptions {
     | 'css'
     | 'less'
     | 'scss'
+    | 'less-fallback'
+    | 'scss-fallback'
     | 'js'
     | 'js-css-vars'
     | 'js-css-vars-fallback';
@@ -37,6 +39,11 @@ interface SaveTokensOptions {
 }
 
 const TOKENS_OUTPUT = path.join(import.meta.dirname, '..');
+const DEFAULT_FOLDER = path.join(TOKENS_OUTPUT, 'tokens-default');
+
+if (!fs.existsSync(DEFAULT_FOLDER)) {
+  fs.mkdirSync(DEFAULT_FOLDER, { recursive: true });
+}
 
 for (const accentVariant of ['brand', 'gray']) {
   for (const brandColorKey in DEFAULT_SWATCH.brand) {
@@ -111,6 +118,7 @@ const tokensDefault = {
 
 const defaultBrandFileName = camelCaseToKebabCase(DEFAULT_BRAND);
 
+// Оригинальные файлы в корне
 saveTokens({
   tokens: tokensDefault,
   colorBrand: defaultBrandFileName,
@@ -141,29 +149,49 @@ saveTokens({
   fileFormat: 'js-css-vars',
   tokensIsFlat: true,
   tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors.ts'),
+  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'index.ts'),
 });
 
-saveTokens({
-  tokens: { light: tokensDefault.light },
-  colorBrand: defaultBrandFileName,
-  colorAccent: DEFAULT_ACCENT,
-  fileOutputDir: '',
-  fileFormat: 'js-css-vars-fallback',
-  tokensIsFlat: true,
-  tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'default-light.ts'),
-});
+const defaultThemes = [
+  { name: 'light', data: tokensDefault.light },
+  { name: 'dark', data: tokensDefault.dark },
+];
 
-saveTokens({
-  tokens: { dark: tokensDefault.dark },
-  colorBrand: defaultBrandFileName,
-  colorAccent: DEFAULT_ACCENT,
-  fileOutputDir: '',
-  fileFormat: 'js-css-vars-fallback',
-  tokensIsFlat: true,
-  tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'default-dark.ts'),
+defaultThemes.forEach((theme) => {
+  const payload = { [theme.name]: theme.data };
+
+  saveTokens({
+    tokens: payload,
+    colorBrand: defaultBrandFileName,
+    colorAccent: DEFAULT_ACCENT,
+    fileOutputDir: '',
+    fileFormat: 'js-css-vars-fallback',
+    tokensIsFlat: true,
+    tokensCSSPrefix: 'k-color',
+    fileSingleOutputName: path.join(DEFAULT_FOLDER, `${theme.name}.ts`),
+  });
+
+  saveTokens({
+    tokens: payload,
+    colorBrand: defaultBrandFileName,
+    colorAccent: DEFAULT_ACCENT,
+    fileOutputDir: '',
+    fileFormat: 'scss-fallback',
+    tokensIsFlat: true,
+    tokensCSSPrefix: 'k-color',
+    fileSingleOutputName: path.join(DEFAULT_FOLDER, `${theme.name}.scss`),
+  });
+
+  saveTokens({
+    tokens: payload,
+    colorBrand: defaultBrandFileName,
+    colorAccent: DEFAULT_ACCENT,
+    fileOutputDir: '',
+    fileFormat: 'less-fallback',
+    tokensIsFlat: true,
+    tokensCSSPrefix: 'k-color',
+    fileSingleOutputName: path.join(DEFAULT_FOLDER, `${theme.name}.less`),
+  });
 });
 
 export function saveTokens({
@@ -314,6 +342,25 @@ export function saveTokens({
       const content = lessScssVars.join('\n');
 
       fs.writeFileSync(finalOutputFile, content.trim() + '\n');
+      break;
+    }
+
+    case 'less-fallback':
+    case 'scss-fallback': {
+      const varPrefix = format === 'less-fallback' ? '@color-' : '$color-';
+      const themeKey = tokens.dark ? 'dark' : 'light';
+      const themeTokens = themeKey ? tokens[themeKey] : tokens;
+
+      if (themeTokens) {
+        const flattenedTokens = flattenHybridCase(themeTokens);
+        const content = Object.entries(flattenedTokens)
+          .map(([key, value]) => {
+            const cssVarName = camelCaseToKebabCase(key);
+            return `${varPrefix}${cssVarName}: var(--${cssPrefix}-${cssVarName}, ${value});`;
+          })
+          .join('\n');
+        fs.writeFileSync(finalOutputFile, content.trim() + '\n');
+      }
       break;
     }
 

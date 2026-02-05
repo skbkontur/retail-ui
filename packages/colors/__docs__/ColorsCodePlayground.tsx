@@ -19,11 +19,11 @@ export const ColorsCodePlayground = () => {
   const [customHex, setCustomHex] = React.useState('#FFDD2D');
   const [mainAccent, setMainAccent] = React.useState('brand');
   const [extraSchemes, setExtraSchemes] = React.useState<Array<{ brand: string; accent: string; theme: string }>>([]);
-  const [useFormat, setUseFormat] = React.useState<'ts' | 'css' | 'scss' | 'less'>('ts');
+  const [format, setFormat] = React.useState<'ts' | 'css' | 'scss' | 'less'>('ts');
 
   const isWidget = projectType === 'Виджеты и библиотеки';
   const isOnPrem = projectType === 'Продукт OnPrem';
-  const useItems = isWidget ? ['ts', 'scss'] : ['ts', 'css', 'scss', 'less'];
+  const useItems = isWidget ? ['ts', 'scss', 'less'] : ['ts', 'css', 'scss', 'less'];
 
   const brandIds = Object.keys(brandSwatch);
   const restrictedBrands = ['red', 'orange'];
@@ -42,6 +42,8 @@ export const ColorsCodePlayground = () => {
       if (isWidget) {
         setMainBrand('red');
         setMainAccent('gray');
+      } else {
+        setMainBrand('mint');
       }
     }
   }, [projectType, isWidget, isOnPrem]);
@@ -78,7 +80,7 @@ export const ColorsCodePlayground = () => {
   };
 
   const getUseSnippet = () => {
-    if (useFormat === 'ts') {
+    if (format === 'ts') {
       const importLine = `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val(
         isWidget ? `@skbkontur/colors/default-${mainTheme}` : '@skbkontur/colors'
       )};`;
@@ -89,12 +91,14 @@ export const ColorsCodePlayground = () => {
       )}\n);`;
     }
     // eslint-disable-next-line no-nested-ternary
-    const prefix = useFormat === 'css' ? 'var(--k-color-' : useFormat === 'scss' ? '$' : '@';
-    const suffix = useFormat === 'css' ? ')' : '';
+    const prefix = format === 'css' ? 'var(--k-color-' : format === 'scss' ? '$color-' : '@color-';
+    const suffix = format === 'css' ? ')' : '';
     const code = `.block {\n  color: ${prefix}text-neutral-heavy${suffix};\n  background: ${prefix}shape-bold-accent${suffix};\n}`;
-    const importPath = `@skbkontur/colors/colors.${useFormat}`;
+    const importPath = isWidget
+      ? `@skbkontur/colors/tokens-default/${mainTheme}.${format}`
+      : `@skbkontur/colors/colors.${format}`;
     const importLine =
-      useFormat === 'scss' ? `${kw('@use')} ${val(importPath)} ${kw('as *')}` : `${kw('@import')} ${val(importPath)}`;
+      format === 'scss' ? `${kw('@use')} ${val(importPath)} ${kw('as *')}` : `${kw('@import')} ${val(importPath)}`;
     return `${importLine};\n\n${code}`;
   };
 
@@ -274,7 +278,7 @@ document.head.${kw('appendChild')}(style);`;
             <div className="section-desc">
               {projectType === 'Продукт Контура' && 'Подключите CSS с цветовыми схемами в точку входа приложения'}
               {projectType === 'Продукт OnPrem' &&
-                'Вызовите функцию getColors для генерации стилей на клиенте или сервере. На клиенте подключите в `<style>` — желательно кешировать результат, чтобы не вызывать функцию на каждом рендере'}
+                'Вызовите функцию getColors для генерации стилей на клиенте или сервере. На клиенте добавьте в <style>. Желательно кешировать результат, чтобы не вызывать функцию на каждом рендере'}
             </div>
             <div className="copy-container">
               <pre className="copy-pre" dangerouslySetInnerHTML={{ __html: getConnectSnippet() }} />
@@ -303,11 +307,14 @@ document.head.${kw('appendChild')}(style);`;
               'Используйте токены через CSS-переменные (или ссылки на них в JS/SCSS/Less) и добавьте data-атрибуты на контейнер'}
             {projectType === 'Продукт OnPrem' &&
               'Используйте токены через CSS-переменные, сгенерированные функцией подключения. Либо через ссылки на них в JS/SCSS/Less'}
-            {projectType === 'Виджеты и библиотеки' &&
-              'При разработке виджета/библиотеки используйте CSS-переменные с фолбэком через JS/TS или SCSS'}
+            {projectType === 'Виджеты и библиотеки' && (
+              <>
+                Используйте CSS-переменные <b>с фолбэками</b> var(--variable, #fallback) доступные в JS/SCSS/Less
+              </>
+            )}
           </div>
           <div className="tabs-wrapper">
-            <Tabs value={useFormat} onValueChange={(v: any) => setUseFormat(v)}>
+            <Tabs value={format} onValueChange={(v: any) => setFormat(v)}>
               {useItems.map((id) => (
                 <Tabs.Tab key={id} id={id}>
                   {id === 'ts' ? 'JS/TS' : id.toUpperCase()}
@@ -324,7 +331,7 @@ document.head.${kw('appendChild')}(style);`;
                 </svg>
               </button>
             </div>
-            {useFormat !== 'ts' && (
+            {format !== 'ts' && (
               <div className="copy-container">
                 <pre className="copy-pre" dangerouslySetInnerHTML={{ __html: getHtmlSnippet() }} />
                 <button className="copy-btn" onClick={() => copyToClipboard(getHtmlSnippet())}>
