@@ -24,7 +24,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "clean": "rm -rf dist && git clean -fdxqe node_modules",
+    "clean": "rimraf dist && git clean -fdxqe node_modules",
     "prebuild": "yarn clean",
     "build": "yarn build:vite",
     "build:vite": "vite build",
@@ -53,7 +53,8 @@
     "vite-plugin-css-injected-by-js": "3.5.2",
     "vite-plugin-dts": "4.0.3",
     "vite-plugin-lib-inject-css": "^2.1.1",
-    "vitest": "^2.1.6"
+    "vitest": "^2.1.6",
+    "rimraf": "^6.0.1"
   },
   "dependencies": {
     "classnames": "^2"
