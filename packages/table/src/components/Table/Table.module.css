@@ -156,40 +156,6 @@
   }
 }
 
-@supports (selector(:has(*))) {
-  .CheckedRow:has(+ .CheckedRow) .TableCell,
-  .CheckedRow:has(+ .ClickableTableRow:hover) .TableCell,
-  .CheckedRow:has(+ .ClickableTableRow:focus-within) .TableCell,
-  .ClickableTableRow:focus-within:has(+ .CheckedRow) .TableCell,
-  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:hover) .TableCell,
-  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:focus-within) .TableCell,
-  .ClickableTableRow:hover:has(+ .CheckedRow) .TableCell,
-  .ClickableTableRow:hover:has(+ .ClickableTableRow:hover) .TableCell,
-  .ClickableTableRow:hover:has(+ .ClickableTableRow:focus-within) .TableCell,
-  .FilterResultRow:has(+ .CheckedRow) .TableCell,
-  .FilterResultRow:has(+ .ClickableTableRow:hover) .TableCell,
-  .FilterResultRow:has(+ .ClickableTableRow:focus-within) .TableCell {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .CheckedRow + .CheckedRow .TableCell,
-  .CheckedRow + .ClickableTableRow:hover .TableCell,
-  .CheckedRow + .ClickableTableRow:focus-within .TableCell,
-  .ClickableTableRow:focus-within + .CheckedRow .TableCell,
-  .ClickableTableRow:focus-within + .ClickableTableRow:hover .TableCell,
-  .ClickableTableRow:focus-within + .ClickableTableRow:focus-within .TableCell,
-  .ClickableTableRow:hover + .CheckedRow .TableCell,
-  .ClickableTableRow:hover + .ClickableTableRow:hover .TableCell,
-  .ClickableTableRow:hover + .ClickableTableRow:focus-within .TableCell,
-  .FilterResultRow + .CheckedRow .TableCell,
-  .FilterResultRow + .ClickableTableRow:hover .TableCell,
-  .FilterResultRow + .ClickableTableRow:focus-within .TableCell {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
-
 .TableRow:focus-visible {
   outline: var(--table-outline-width) solid var(--table-outline);
   outline-offset: 2px;
@@ -247,6 +213,40 @@
 .TableCellLarge:last-child {
   border-top-right-radius: var(--table-radius-large);
   border-bottom-right-radius: var(--table-radius-large);
+}
+
+@supports (selector(:has(*))) {
+  .CheckedRow:has(+ .CheckedRow) .TableCell,
+  .CheckedRow:has(+ .ClickableTableRow:hover) .TableCell,
+  .CheckedRow:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .CheckedRow) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:hover) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .ClickableTableRow:hover:has(+ .CheckedRow) .TableCell,
+  .ClickableTableRow:hover:has(+ .ClickableTableRow:hover) .TableCell,
+  .ClickableTableRow:hover:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .FilterResultRow:has(+ .CheckedRow) .TableCell,
+  .FilterResultRow:has(+ .ClickableTableRow:hover) .TableCell,
+  .FilterResultRow:has(+ .ClickableTableRow:focus-within) .TableCell {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .CheckedRow + .CheckedRow .TableCell,
+  .CheckedRow + .ClickableTableRow:hover .TableCell,
+  .CheckedRow + .ClickableTableRow:focus-within .TableCell,
+  .ClickableTableRow:focus-within + .CheckedRow .TableCell,
+  .ClickableTableRow:focus-within + .ClickableTableRow:hover .TableCell,
+  .ClickableTableRow:focus-within + .ClickableTableRow:focus-within .TableCell,
+  .ClickableTableRow:hover + .CheckedRow .TableCell,
+  .ClickableTableRow:hover + .ClickableTableRow:hover .TableCell,
+  .ClickableTableRow:hover + .ClickableTableRow:focus-within .TableCell,
+  .FilterResultRow + .CheckedRow .TableCell,
+  .FilterResultRow + .ClickableTableRow:hover .TableCell,
+  .FilterResultRow + .ClickableTableRow:focus-within .TableCell {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }
 
 .TableCellSmall {
@@ -382,7 +382,7 @@
 }
 
 .PopupActionBarSmall {
-  top: 0px;
+  top: 1px;
   right: 0px;
   padding-top: 3px;
   padding-right: 4px;
@@ -391,7 +391,7 @@
 }
 
 .PopupActionBarMedium {
-  top: 0px;
+  top: 1px;
   right: 0px;
   padding-top: 7px;
   padding-right: 8px;
@@ -400,44 +400,12 @@
 }
 
 .PopupActionBarLarge {
-  top: 0px;
+  top: 1px;
   right: 0px;
   padding-top: 11px;
   padding-right: 12px;
   height: calc(100% - 12px);
   border-radius: var(--table-radius-large);
-}
-
-@supports (selector(:has(*))) {
-  .CheckedRow:has(+ .CheckedRow) .PopupActionBar,
-  .CheckedRow:has(+ .ClickableTableRow:hover) .PopupActionBar,
-  .CheckedRow:has(+ .ClickableTableRow:focus-within) .PopupActionBar,
-  .ClickableTableRow:focus-within:has(+ .CheckedRow) .PopupActionBar,
-  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:hover) .PopupActionBar,
-  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:focus-within) .PopupActionBar,
-  .ClickableTableRow:hover:has(+ .CheckedRow) .PopupActionBar,
-  .ClickableTableRow:hover:has(+ .ClickableTableRow:hover) .PopupActionBar,
-  .ClickableTableRow:hover:has(+ .ClickableTableRow:focus-within) .PopupActionBar,
-  .FilterResultRow:has(+ .CheckedRow) .PopupActionBar,
-  .FilterResultRow:has(+ .ClickableTableRow:hover) .PopupActionBar,
-  .FilterResultRow:has(+ .ClickableTableRow:focus-within) .PopupActionBar {
-    border-bottom-right-radius: 0;
-  }
-
-  .CheckedRow + .CheckedRow .PopupActionBar,
-  .CheckedRow + .ClickableTableRow:hover .PopupActionBar,
-  .CheckedRow + .ClickableTableRow:focus-within .PopupActionBar,
-  .ClickableTableRow:focus-within + .CheckedRow .PopupActionBar,
-  .ClickableTableRow:focus-within + .ClickableTableRow:hover .PopupActionBar,
-  .ClickableTableRow:focus-within + .ClickableTableRow:focus-within .PopupActionBar,
-  .ClickableTableRow:hover + .CheckedRow .PopupActionBar,
-  .ClickableTableRow:hover + .ClickableTableRow:hover .PopupActionBar,
-  .ClickableTableRow:hover + .ClickableTableRow:focus-within .PopupActionBar,
-  .FilterResultRow + .CheckedRow .PopupActionBar,
-  .FilterResultRow + .ClickableTableRow:hover .PopupActionBar,
-  .FilterResultRow + .ClickableTableRow:focus-within .PopupActionBar {
-    border-top-right-radius: 0;
-  }
 }
 
 @supports not (selector(:has(*))) {
