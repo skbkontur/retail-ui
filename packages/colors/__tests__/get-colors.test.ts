@@ -37,6 +37,14 @@ test('should output ARGB hex for "hex-aarrggbb" format', () => {
   expect(firstToken).toMatch(/^#[0-9A-F]{6,8}$/);
 });
 
+test('should return HEX/RGBA by default (no oklch in output)', () => {
+  const res = getColors({ brand: '#ffffff', accent: 'brand', theme: 'light' }) as any;
+
+  expect(res.textAccentHeavy).toMatch(/^#/);
+  expect(JSON.stringify(res)).not.toContain('oklch');
+  expect(JSON.stringify(res)).not.toContain('NaN');
+});
+
 test('should merge custom tokens via overrides', () => {
   const res = getColors({
     brand: 'blue',

@@ -144,7 +144,7 @@ function findClosestLightnessStep(targetL: number, availableLightnessSteps: numb
 export function calcBaseHue(inputColorString: string, abneyData: GeneratorColorAbneyCorrection): number {
   const colorOKLCH = toOklch(inputColorString) as { l: number; c: number; h: number };
   const targetLightness = colorOKLCH.l * 100;
-  const targetHue = colorOKLCH.h;
+  const targetHue = colorOKLCH.h || 0;
   const availableLightnessSteps = Object.keys(abneyData).map(Number);
   const closestLightness = findClosestLightnessStep(targetLightness, availableLightnessSteps);
   const lightnessCorrectionData = abneyData[closestLightness];
