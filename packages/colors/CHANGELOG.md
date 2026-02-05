@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.5...@skbkontur/colors@2.1.0) (2026-02-05)
+
+
+### Features
+
+* **Colors:** add JS/SCSS/Less tokens for widgets & libs ([c915f5a](https://git.skbkontur.ru/ui/ui-parking-2/commits/c915f5ad06257e8b48d9cd704f13b4c22ce0c7bd))
+* **Colors:** add CSS styles generation via getColors() ([2c19ac2](https://git.skbkontur.ru/ui/ui-parking-2/commits/2c19ac2fc5e3e5f051d082b8febc3125a549a03a))
+
+
+### Bug Fixes
+
+* **Colors:** fix warning and customizable yellow/orange colors ([24c61c2](https://git.skbkontur.ru/ui/ui-parking-2/commits/24c61c2f4c5d7aca6d43261a5fcf75b7b4feeaad))
+* **Colors:** fix promo colors ([4e3b044](https://git.skbkontur.ru/ui/ui-parking-2/commits/4e3b0443ba511f1614ce123ef453c89494acb2ec))
+* **Colors:** fix interactions hover/pressed colors ([9afe8a3](https://git.skbkontur.ru/ui/ui-parking-2/commits/9afe8a374f06fb1e2e8aaecd4cf3a97acf40f850))
+* **Colors:** unify oklch() output format ([c7aba0f](https://git.skbkontur.ru/ui/ui-parking-2/commits/c7aba0f33ca5439a58f1027a9d1ac4a04088503a))
+
+
+
+
+
 ## [2.0.5](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.4...@skbkontur/colors@2.0.5) (2026-01-19)
 
 ### Bug Fixes
@@ -31,7 +51,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **Colors:** fix package.json exports ([d209f14](https://git.skbkontur.ru/ui/ui-parking-2/commits/d209f14e927c33a832bf3c4ce38cc8ecfabe8f74))
 
+
+
+
+
 # [2.0.0](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.1.1...@skbkontur/colors@2.0.0) (2025-12-22)
+
+
 
 ### Features
 
@@ -57,6 +83,10 @@ Both Figma and the code package rely on three main settings:
 - brand: primary brand color (red, orange, green, mint, blue, blueDeep, violet, purple, or any #custom-hex).
 - accent: UI accent color (gray, brand, or #custom-hex). Default is gray.
 - theme: mode light or dark. Default is light.
+
+
+
+
 
 ## [1.1.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@1.1.0...@skbkontur/colors@1.1.1) (2025-05-06)
 
