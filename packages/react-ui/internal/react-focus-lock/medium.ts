@@ -14,5 +14,5 @@ export const mediumSidecar = createSidecarMedium({
   async: true,
   // focus-lock sidecar is not required on the server
   // however, it might be required for JSDOM tests
-  ssr: !isBrowser(getSafeWindow()),
+  ssr: isBrowser(getSafeWindow()),
 });
