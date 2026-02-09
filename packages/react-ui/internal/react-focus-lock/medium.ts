@@ -1,5 +1,6 @@
-import { globalObject } from '@skbkontur/global-object';
 import { createMedium, createSidecarMedium } from 'use-sidecar';
+
+import { getSafeWindow, isBrowser } from '../../lib/globalObject.js';
 
 export const mediumFocus = createMedium(
   {} as any,
@@ -13,5 +14,5 @@ export const mediumSidecar = createSidecarMedium({
   async: true,
   // focus-lock sidecar is not required on the server
   // however, it might be required for JSDOM tests
-  ssr: typeof globalObject.document !== 'undefined',
+  ssr: !isBrowser(getSafeWindow()),
 });
