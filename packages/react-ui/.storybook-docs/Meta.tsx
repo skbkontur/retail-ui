@@ -1,6 +1,6 @@
 import { DocsContext } from '@storybook/addon-docs';
 import type { ModuleExports } from '@storybook/types';
-import * as colors from '@skbkontur/colors/default-light';
+import * as colors from '@skbkontur/colors/tokens-default/light';
 import React, { useContext, useEffect } from 'react';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light.js';
 import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light.js';
