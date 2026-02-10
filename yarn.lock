@@ -3742,11 +3742,13 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
-"@skbkontur/colors@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.0.4.tgz#19ebf5dba8e80f9a83293516df5d84a8f92ed5dd"
-  integrity sha512-Yi7RbvG7Qfxc/RY905ydHRu7r0go7DqYEy8kGsnl/URpLGT3HZ5v+L2TOnVvq64h2iTkedw35TuUdsHNwEtd/g==
+"@skbkontur/colors@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.1.0.tgz#726441363bc0562ac2fdd0c9740916cd8f3bb5bf"
+  integrity sha512-QOCYkzZaEM6xDvwC8qVyeE6Zvm0AdfJIazulsWXzIrGGe5FzFZrzM2dItKNmCrC6+PUnkaHB4oS2ET6u3K83uQ==
   dependencies:
+    "@types/apca-w3" "0.1.3"
+    "@types/culori" "4.0.1"
     apca-w3 "0.1.9"
     culori "4.0.2"
 
@@ -5433,13 +5435,6 @@ anymatch@^3.0.0, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apca-w3@0.1.9:
-  version "0.1.9"
-  resolved "https://registry.npmjs.org/apca-w3/-/apca-w3-0.1.9.tgz#5fe32d4a0bc6295f89532a856dbb81a4d6818fc5"
-  integrity sha512-Zrf6AeBeQjNe/fxK7U1jCo5zfdjDl6T4/kdw5Xlky3G7u+EJTZkyItjMYQGtwf9pkftsINxcYyOpuLkzKf1ITQ==
-  dependencies:
-    colorparsley "^0.1.8"
-
 aproba@^1.0.3:
   version "1.2.0"
   resolved "https://registry.npmjs.org/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -6772,11 +6767,6 @@ colorette@^2.0.10, colorette@^2.0.14:
   resolved "https://registry.npmjs.org/colorette/-/colorette-2.0.20.tgz#9eb793e6833067f7235902fcd3b09917a000a95a"
   integrity sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==
 
-colorparsley@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.npmjs.org/colorparsley/-/colorparsley-0.1.8.tgz#fd5c1b3d2befbc08c4ab73dc5c2c88f72f743132"
-  integrity sha512-rObESTTTE6G5qO5WFwFxWPggpw4KfpxnLC6Ssl8bITBnNVRhDsyCeTRAUxWQNVTx2pRknKlO2nddYTxjkdNFaw==
-
 colors@~0.6.0-1:
   version "0.6.2"
   resolved "https://registry.npmjs.org/colors/-/colors-0.6.2.tgz#2423fe6678ac0c5dae8852e5d0e5be08c997abcc"
@@ -7447,11 +7437,6 @@ csstype@^3.2.2:
   version "3.2.3"
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz#ec48c0f3e993e50648c86da559e2610995cf989a"
   integrity sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==
-
-culori@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/culori/-/culori-4.0.2.tgz#fbb28dbeb8d13d0eeab7520191f74ab822a8ca71"
-  integrity sha512-1+BhOB8ahCn4O0cep0Sh2l9KCOfOdY+BXJnKMHFFzDEouSr/el18QwXEMRlOj9UY5nCeA8UN3a/82rUWRBeyBw==
 
 cz-conventional-changelog@3.3.0, cz-conventional-changelog@^3.3.0:
   version "3.3.0"
