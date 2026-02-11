@@ -54,24 +54,6 @@ export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
   public static get tableRowShadowCheckedActive() {
     return colors.shapeOtherNeutralPaleSolidPressed;
   }
-  public static get tableShadowLight() {
-    return colors.shapeOtherDisabled;
-  }
-  public static get tableShadowMedium() {
-    return colors.shapeOtherBasePressed;
-  }
-  public static get tableRed() {
-    return colors.customizableBoldRed;
-  }
-  public static get tableRedDark() {
-    return colors.customizableHeavyRed;
-  }
-  public static get tableRoundButtonBackground() {
-    return colors.shapeOtherDisabled;
-  }
-  public static get tableRoundButtonActiveBackground() {
-    return colors.shapeOtherBacklessPressed;
-  }
   public static get tableDangerActiveColor() {
     return colors.textConstHeavyWhite;
   }

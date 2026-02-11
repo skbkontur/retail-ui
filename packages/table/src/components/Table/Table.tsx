@@ -148,12 +148,6 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
                   '--table-row-shadow-checked-hover': tableTheme.tableRowShadowCheckedHover,
                   '--table-row-checked-active': tableTheme.tableRowCheckedActive,
                   '--table-row-shadow-checked-active': tableTheme.tableRowShadowCheckedActive,
-                  '--table-shadow-medium': tableTheme.tableShadowMedium,
-                  '--table-shadow-light': tableTheme.tableShadowLight,
-                  '--table-red': tableTheme.tableRed,
-                  '--table-red-dark': tableTheme.tableRedDark,
-                  '--table-round-button-background': tableTheme.tableRoundButtonBackground,
-                  '--table-round-button-active-background': tableTheme.tableRoundButtonActiveBackground,
                   '--table-danger-active-color': tableTheme.tableDangerActiveColor,
                 } as CSSProperties
               }

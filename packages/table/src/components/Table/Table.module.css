@@ -3,6 +3,7 @@
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  color: var(--table-text);
 
   --table-radius-small: 12px;
   --table-radius-medium: 16px;
@@ -487,8 +488,4 @@
 
 .ActionsDropdownItem {
   padding: 4px 8px;
-}
-
-.Danger:active * {
-  color: var(--table-danger-active-color, #fff);
 }
