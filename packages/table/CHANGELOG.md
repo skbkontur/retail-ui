@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.5...@skbkontur/table@0.1.6) (2026-02-11)
+
+
+### Bug Fixes
+
+* **Colors:** update shapeOtherBase interactive tokens ([a57f1d5](https://git.skbkontur.ru/ui/ui-parking-2/commits/a57f1d5b3ee0253c6f47a5e4a75672767eafdb86))
+
+
+
+
+
 # [0.1.5](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.4...@skbkontur/table@0.2.0) (2026-02-05)
 
 **Note:** Version bump only for package @skbkontur/table
