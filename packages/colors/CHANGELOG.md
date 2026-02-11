@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.1.0...@skbkontur/colors@2.1.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* **Colors:** add getColor override for output object/css ([7d910d0](https://git.skbkontur.ru/ui/ui-parking-2/commits/7d910d0965123dd5965643d35c15a08e2dc7eb55))
+* **Colors:** update shapeOtherBase interactive tokens ([a57f1d5](https://git.skbkontur.ru/ui/ui-parking-2/commits/a57f1d5b3ee0253c6f47a5e4a75672767eafdb86))
+
+
+
+
+
 # [2.1.0](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.0.5...@skbkontur/colors@2.1.0) (2026-02-05)
 
 
