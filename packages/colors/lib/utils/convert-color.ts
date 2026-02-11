@@ -1,4 +1,4 @@
-import { converter, formatHex, type Oklch, type Rgb } from 'culori';
+import { converter, formatHex, type Rgb } from 'culori';
 
 import type { ColorObject, ColorStructure } from '../types/tokens.js';
 

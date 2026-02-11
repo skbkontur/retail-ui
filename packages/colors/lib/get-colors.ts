@@ -5,6 +5,7 @@ import { convertColorFormat, type ColorFormat } from './utils/convert-color.js';
 import type { DefaultTokens, DefaultTokensFull, Themed } from './types/tokens.js';
 import type * as DEFAULT_SWATCH from './consts/default-swatch.js';
 import { generateCSSStyles } from './utils/create-styles.js';
+
 export interface SemanticConfigOptions<T> extends ConfigOptions {
   /** Брендовый цвет из палитры или кастомная строка */
   brand: PresetOrCustom<keyof typeof DEFAULT_SWATCH.brand>;
@@ -39,11 +40,21 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
 }
 
 /**
- * Получение списка семантических токенов
+ * Получение списка семантических токенов в виде объекта
  *
  * @param {SemanticConfigOptions<T>} params - Конфигурация генерации
- * @returns {DefaultTokensFull | Themed<T> | string} Список токенов или CSS-строка
+ * @returns {DefaultTokens} Список токенов
  */
+export function getColors<T>(params: SemanticConfigOptions<T> & { output?: 'object' }): DefaultTokens;
+
+/**
+ * Получение списка семантических токенов в виде CSS-строки
+ *
+ * @param {SemanticConfigOptions<T>} params - Конфигурация генерации с output: 'css'
+ * @returns {string} CSS-строка
+ */
+export function getColors<T>(params: SemanticConfigOptions<T> & { output: 'css' }): string;
+
 export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens | string {
   let base;
 
