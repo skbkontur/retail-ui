@@ -17,7 +17,7 @@ import {
 } from '@skbkontur/react-ui';
 
 export default {
-  title: 'Docs',
+  title: 'Typography',
   component: Text,
   parameters: {
     creevey: {
