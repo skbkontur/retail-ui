@@ -75,7 +75,7 @@
     "build:snapshots": "node --import=tsx scripts/create-tokens-snapshots.ts && npm run format",
     "test": "yarn build:snapshots && vitest run",
     "test:watch": "vitest",
-    "test:update-snapshots": "vitest run -u",
+    "test:update-snapshots": "yarn build:snapshots && vitest run -u",
     "format": "prettier . --write \"**/*.{.ts,json}\" && npx stylelint \"**/*.{css,scss,less}\" --fix",
     "clean": "git clean -fdxqe node_modules"
   },

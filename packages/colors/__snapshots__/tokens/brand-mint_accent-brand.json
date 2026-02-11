@@ -545,8 +545,8 @@
       "hex": "#329f8a"
     },
     "dark": {
-      "oklch": "oklch(63.7% 0.103 177)",
-      "hex": "#329f8a"
+      "oklch": "oklch(67.7% 0.103 177)",
+      "hex": "#41ac96"
     }
   },
   "shapeBoldError": {
@@ -931,18 +931,18 @@
   },
   "shapeOtherBaseHover": {
     "light": {
-      "oklch": "oklch(96% 0 0)",
-      "hex": "#f2f2f2"
+      "oklch": "oklch(100% 0 0 / 0.64)",
+      "hex": "rgba(255, 255, 255, 0.64)"
     },
     "dark": {
-      "oklch": "oklch(100% 0 0 / 0.08)",
-      "hex": "rgba(255, 255, 255, 0.08)"
+      "oklch": "oklch(100% 0 0 / 0.12)",
+      "hex": "rgba(255, 255, 255, 0.12)"
     }
   },
   "shapeOtherBasePressed": {
     "light": {
-      "oklch": "oklch(92% 0 0)",
-      "hex": "#e4e4e4"
+      "oklch": "oklch(100% 0 0 / 0.32)",
+      "hex": "rgba(255, 255, 255, 0.32)"
     },
     "dark": {
       "oklch": "oklch(100% 0 0 / 0.04)",
