@@ -55,51 +55,84 @@ export const ColorsCodePlayground = () => {
   const toKebab = (str: string) => str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
   const getHtmlSnippet = () => {
-    const brandVal = isOnPrem ? customHex : mainBrand;
-    if (isWidget) {
-      return `${tag('&lt;div')} ${prop('style')}={{ background: colors.shapeBoldAccent }}${tag('&gt;')}Контент${tag(
-        '&lt;/div&gt;'
-      )}`;
-    }
-    const themeAttr = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
-    let siblings = `\n    ${tag('&lt;div')} ${prop('style')}={{ background: colors.shapeBoldAccent }}${tag(
-      '&gt;'
-    )}Контент${tag('&lt;/div&gt;')}`;
+    const isTs = format === 'ts';
+    const brandValue = isOnPrem ? customHex : mainBrand;
+    const themeAttribute = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
 
-    if (projectType === 'Продукт Контура') {
-      extraSchemes.forEach((s) => {
-        const sTheme = s.theme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
-        siblings += `\n\n    ${tag('&lt;div')} ${prop('data-k-brand')}=${val(s.brand)} ${prop('data-k-accent')}=${val(
-          s.accent
-        )}${sTheme}${tag('&gt;')}\n      Дополнительная схема\n    ${tag('&lt;/div&gt;')}`;
-      });
+    const contentAttribute = isTs
+      ? ` ${prop('style')}={{ background: colors.shapeBoldAccent }}`
+      : ` ${prop('class')}=${val('block')}`;
+
+    const renderInnerBlock = (text: string, baseIndent = '    ') => {
+      const line1 = `${baseIndent}${tag('&lt;div')}${contentAttribute}${tag('&gt;')}`;
+      const line2 = `${baseIndent}  ${text}`;
+      const line3 = `${baseIndent}${tag('&lt;/div&gt;')}`;
+      return `${line1}\n${line2}\n${line3}`;
+    };
+
+    if (isWidget) {
+      return renderInnerBlock('Контент', '').trim();
     }
-    return `${tag('&lt;div')} ${prop('data-k-brand')}=${val(brandVal)} ${prop('data-k-accent')}=${val(
+
+    const mainBlockOpen = `${tag('&lt;div')} ${prop('data-k-brand')}=${val(brandValue)} ${prop('data-k-accent')}=${val(
       mainAccent
-    )}${themeAttr}${tag('&gt;')}${siblings}\n  ${tag('&lt;/div&gt;')}`.trim();
+    )}${themeAttribute}${tag('&gt;')}`;
+    const mainBlockClose = tag('&lt;/div&gt;');
+
+    const extraBlocks = extraSchemes
+      .map((scheme) => {
+        const schemeTheme = scheme.theme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
+        const open = `    ${tag('&lt;div')} ${prop('data-k-brand')}=${val(scheme.brand)} ${prop('data-k-accent')}=${val(
+          scheme.accent
+        )}${schemeTheme}${tag('&gt;')}`;
+        const close = `    ${tag('&lt;/div&gt;')}`;
+        return `${open}\n      Дополнительная схема\n${close}`;
+      })
+      .join('\n\n');
+
+    const children = extraBlocks ? `${renderInnerBlock('Контент')}\n\n${extraBlocks}` : renderInnerBlock('Контент');
+
+    return `${mainBlockOpen}\n${children}\n${mainBlockClose}`;
   };
 
   const getUseSnippet = () => {
-    if (format === 'ts') {
+    const isTs = format === 'ts';
+
+    if (isTs) {
+      const packageSuffix = isWidget ? `/default-${mainTheme}` : '';
       const importLine = `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val(
-        isWidget ? `@skbkontur/colors/default-${mainTheme}` : '@skbkontur/colors'
+        `@skbkontur/colors${packageSuffix}`
       )};`;
-      const htmlSnippet = getHtmlSnippet();
-      return `${importLine}\n\n${kw('const')} App = () => (\n  ${htmlSnippet.replace(
-        'Контент',
-        '\n    Контент\n  '
-      )}\n);`;
+
+      const indentedHtml = getHtmlSnippet()
+        .split('\n')
+        .map((line) => `  ${line}`)
+        .join('\n');
+
+      return `${importLine}\n\n${kw('const')} App = () => (\n${indentedHtml}\n);`;
     }
-    // eslint-disable-next-line no-nested-ternary
-    const prefix = format === 'css' ? 'var(--k-color-' : format === 'scss' ? '$color-' : '@color-';
-    const suffix = format === 'css' ? ')' : '';
-    const code = `.block {\n  color: ${prefix}text-neutral-heavy${suffix};\n  background: ${prefix}shape-bold-accent${suffix};\n}`;
+
+    const tokenSyntax = {
+      css: { prefix: 'var(--k-color-', suffix: ')' },
+      scss: { prefix: '$color-', suffix: '' },
+      less: { prefix: '@color-', suffix: '' },
+    }[format];
+
     const importPath = isWidget
       ? `@skbkontur/colors/tokens-default/${mainTheme}.${format}`
       : `@skbkontur/colors/colors.${format}`;
-    const importLine =
-      format === 'scss' ? `${kw('@use')} ${val(importPath)} ${kw('as *')}` : `${kw('@import')} ${val(importPath)}`;
-    return `${importLine};\n\n${code}`;
+
+    const importKeyword = format === 'scss' ? kw('@use') : kw('@import');
+    const importAlias = format === 'scss' ? ` ${kw('as *')}` : '';
+    const importLine = `${importKeyword} ${val(importPath)}${importAlias};`;
+
+    const cssRule =
+      `.block {\n` +
+      `  color: ${tokenSyntax.prefix}text-neutral-heavy${tokenSyntax.suffix};\n` +
+      `  background: ${tokenSyntax.prefix}shape-bold-accent${tokenSyntax.suffix};\n` +
+      `}`;
+
+    return `${importLine}\n\n${cssRule}`;
   };
 
   const getConnectSnippet = () => {
@@ -160,7 +193,7 @@ document.head.${kw('appendChild')}(style);`;
               'Выберите брендовый и акцентные цвета. Для сценариев с рекламными врезками можно добавить несколько цветовых схем'}
             {projectType === 'Продукт OnPrem' && 'Укажите HEX-код, из которого сформируются светлые и темные темы'}
             {projectType === 'Виджеты и библиотеки' &&
-              'Цвета виджетов и библиотек должны зависеть от контекста. Без настроенной схемы применяется fallback на дефолтные серые тона'}
+              'Цвета виджетов и библиотек должны зависеть от data-атрибутов интегратора. Без настроенной схемы применяется fallback на дефолтные серые тона'}
           </div>
           <Gapped gap={12} verticalAlign="top" style={{ marginTop: -2 }}>
             <div className="field-container">
@@ -303,10 +336,8 @@ document.head.${kw('appendChild')}(style);`;
 
         <>
           <div className="section-desc">
-            {projectType === 'Продукт Контура' &&
-              'Используйте токены через CSS-переменные (или ссылки на них в JS/SCSS/Less) и добавьте data-атрибуты на контейнер'}
-            {projectType === 'Продукт OnPrem' &&
-              'Используйте токены через CSS-переменные, сгенерированные функцией подключения. Либо через ссылки на них в JS/SCSS/Less'}
+            {(projectType === 'Продукт Контура' || projectType === 'Продукт OnPrem') &&
+              'Укажите data-атрибуты на контейнере — компоненты Kontur UI перекрасятся в указанные цвета. Для блоков не из библиотеки используйте токены через JS/SCSS/Less или напрямую через CSS-переменные'}
             {projectType === 'Виджеты и библиотеки' && (
               <>
                 Используйте CSS-переменные <b>с фолбэками</b> var(--variable, #fallback) доступные в JS/SCSS/Less
