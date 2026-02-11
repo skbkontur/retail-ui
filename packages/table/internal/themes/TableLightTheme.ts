@@ -23,7 +23,7 @@ export class TableLightTheme extends (class {} as typeof BasicLightThemeInternal
     return this.controlOutlineWidth;
   }
   public static get tableBorder() {
-    return colors.shapeOtherBasePressed;
+    return colors.lineNeutralFaint;
   }
   public static get tableRowHover() {
     return colors.shapeOtherBacklessHover;

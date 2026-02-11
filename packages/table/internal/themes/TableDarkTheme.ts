@@ -22,7 +22,7 @@ export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
     return this.controlOutlineWidth;
   }
   public static get tableBorder() {
-    return colors.shapeOtherBasePressed;
+    return colors.lineNeutralFaint;
   }
   public static get tableRowHover() {
     return colors.shapeOtherBacklessHover;
