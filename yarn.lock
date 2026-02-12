@@ -9260,6 +9260,11 @@ find-cache-dir@^5.0.0:
     common-path-prefix "^3.0.0"
     pkg-dir "^7.0.0"
 
+find-dom-node-polyfill@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/find-dom-node-polyfill/-/find-dom-node-polyfill-1.0.3.tgz#95ba836744e574b0b0ebb250c2e4296be1829b06"
+  integrity sha512-k6UbUnpBgZQlWnlUYdRP1e28ZKdvEuvSpz8DSf8iaSkCffFegkgcbTtTzqm6I1IX8vtiyvqZhGbDeXys5n5kVQ==
+
 find-node-modules@^2.1.2:
   version "2.1.3"
   resolved "https://registry.npmjs.org/find-node-modules/-/find-node-modules-2.1.3.tgz#3c976cff2ca29ee94b4f9eafc613987fc4c0ee44"
