@@ -364,10 +364,10 @@ export class BasicThemeClass {
   public static get btnDefaultTextColor(): string {
     return this.textColorDefault;
   }
-  public static btnDefaultHoverBg = colors.shapeOtherBaseHover;
+  public static btnDefaultHoverBg = colors.shapeOtherNeutralFaintSolidHover;
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
-  public static btnDefaultActiveBg = colors.shapeOtherBasePressed;
+  public static btnDefaultActiveBg = colors.shapeOtherNeutralFaintSolidPressed;
   public static get btnDefaultHoverBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
@@ -396,6 +396,10 @@ export class BasicThemeClass {
     return this.btnSuccessActiveBg;
   }
   public static btnSuccessActiveShadow = 'none';
+
+  public static btnFillBg = colors.shapeOtherBase;
+  public static btnFillHoverBg = colors.shapeOtherBaseHover;
+  public static btnFillActiveBg = colors.shapeOtherBasePressed;
 
   public static btnPrimaryBg = colors.shapeBoldAccent;
   public static btnPrimaryHoverBg = colors.shapeBoldAccentHover;

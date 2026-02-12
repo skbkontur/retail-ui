@@ -45,29 +45,44 @@ export const Default: Story = () => (
 
 const useStates2022: ButtonState[] = [
   { use: 'default' },
-  { use: 'primary' },
+  { use: 'fill' },
+  { use: 'outline' },
+  { use: 'text' },
+  { use: 'accent' },
   { use: 'danger' },
   { use: 'pay' },
   { use: 'success' },
-  { use: 'text' },
+
+  /** @deprecated */
+  { use: 'primary' },
   { use: 'backless' },
   { use: 'link' },
 ];
 const testingButtonUseStates2022: ButtonState[] = [
   { use: 'default' },
-  { use: 'primary' },
+  { use: 'fill' },
+  { use: 'outline' },
   { use: 'text' },
+  { use: 'accent' },
+
+  /** @deprecated */
+  { use: 'primary' },
   { use: 'backless' },
   { use: 'link' },
 ];
 
 const buttonAsLinkUseStates: ButtonState[] = [
   { use: 'default' },
-  { use: 'primary' },
+  { use: 'fill' },
+  { use: 'outline' },
+  { use: 'text' },
+  { use: 'accent' },
   { use: 'danger' },
   { use: 'pay' },
   { use: 'success' },
-  { use: 'text' },
+
+  /** @deprecated */
+  { use: 'primary' },
   { use: 'backless' },
 ];
 

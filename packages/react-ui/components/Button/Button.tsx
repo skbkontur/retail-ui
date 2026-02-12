@@ -31,7 +31,21 @@ import { getInnerLinkTheme } from './getInnerLinkTheme.js';
 import { LoadingButtonIcon } from './LoadingButtonIcon.js';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
-export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
+export type ButtonUse =
+  | 'default'
+  | 'outline'
+  | 'fill'
+  | 'text'
+  | 'accent'
+  | 'danger'
+  | 'success'
+  | 'pay'
+  /** @deprecated Используйте компонент <Link component="button" /> */
+  | 'link'
+  /** @deprecated Используйте use="outline" */
+  | 'backless'
+  /** @deprecated Используйте use="accent" */
+  | 'primary';
 
 export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
@@ -55,9 +69,9 @@ export interface ButtonInnerProps extends CommonProps {
   /** Убирает обводку у кнопки.
    *
    * **Не рекомендуем использовать, противоречит дизайн-требованиям.
-   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0.
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в 7.0.
    *
-   * Альтернативный вариант использования — через переменную темы `btnBorderWidth` */
+   * Альтернативный вариант использования — use="fill" или переменную темы `btnBorderWidth` */
   borderless?: boolean;
 
   /** @ignore */
@@ -77,7 +91,7 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Переводит кнопку в состояние валидации "Ошибка".
    *
-   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0. */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в 7.0. */
   error?: boolean;
 
   /** Добавляет иконку слева от текста кнопки. */
@@ -91,7 +105,7 @@ export interface ButtonInnerProps extends CommonProps {
 
   /** Сужает кнопку.
    *
-   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0.
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в 7.0.
    *
    * Альтернативный вариант использования — через переменные темы `btnPaddingXSmall`, `btnPaddingXMedium`, `btnPaddingXLarge` */
   narrow?: boolean;
@@ -106,7 +120,19 @@ export interface ButtonInnerProps extends CommonProps {
   title?: string;
 
   /** Стиль кнопки.
-   * **Вариант `link` устарел.** Если нужна кнопка, выглядящая как ссылка, используйте `Link component=button`.
+   * - accent — кнопка основного действия
+   * - outline — кнопка второстепенного действия с границами без фона
+   * - fill — кнопка второстепенного действия с фоном без границ
+   * - text — кнопка второстепенного действия без фона и обводки
+   * - danger — кнопка деструктивного действия
+   * - success — кнопка позитивного действия
+   * - pay — кнопка, связанная с оплатой
+   *
+   * ⚠️ Deprecated-стили, будут удалены в 7.0:
+   * - use="primary" → use="accent"
+   * - use="backless" → use="outline"
+   * - use="link" → `<Link component="button">`
+   * - use="default" → use="outline" или use="fill"
    */
   use?: ButtonUse;
 
@@ -114,7 +140,7 @@ export interface ButtonInnerProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /** Переводит кнопку в состояние валидации "Предупреждение".
-   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в следующей мажорной версии, 7.0. */
+   * @deprecated Состояние не соответствует Контур.Гайдам, проп будет удален в 7.0. */
   warning?: boolean;
 
   /** Ширина кнопки. */
@@ -193,6 +219,14 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     warning(
       this.props.use !== 'link',
       '[Button]: `use="link"` has been deprecated. Please, use `<Link component="button" />` instead.',
+    );
+    warning(
+      this.props.use !== 'primary',
+      '[Button]: `use="primary"` has been deprecated. Please, use `use="accent"` instead.',
+    );
+    warning(
+      this.props.use !== 'backless',
+      '[Button]: `use="backless"` has been deprecated. Please, use `use="outline"` instead.',
     );
   }
 
@@ -286,12 +320,14 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       this.styles,
       this.cx,
     );
-    const isUseStateWithoutOutlineInDisabledState = !['default', 'backless'].includes(use);
+    const isUseStateWithoutOutlineInDisabledState = !['default', 'backless', 'outline'].includes(use);
 
     const nonInteractive = disabled || loading;
+    const { style, styleActive } = this.getUseStyle();
+
     const rootClassName = this.cx(
       this.styles.root(this.theme),
-      this.styles[use](this.theme),
+      style,
       sizeClass,
       narrow && this.styles.narrow(),
       _noPadding && this.styles.noPadding(),
@@ -303,12 +339,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
             isUseStateWithoutOutlineInDisabledState && this.styles.disabledWithoutOutline(this.theme),
             checked && this.styles.checkedDisabled(this.theme),
             borderless && this.styles.borderless(),
-            use === 'backless' && this.styles.backlessDisabled(this.theme),
+            (use === 'backless' || use === 'outline') && this.styles.backlessDisabled(this.theme),
             use === 'text' && this.styles.textDisabled(),
             globalClasses.disabled,
           ]
         : [
-            active && !checked && this.activeStyles[use](this.theme),
+            active && !checked && styleActive,
             isFocused && this.styles.focus(this.theme),
             checked && this.styles.checked(this.theme),
             checked && isFocused && this.styles.checkedFocused(this.theme),
@@ -346,7 +382,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     if ((!isFocused || isLink) && !nonInteractive) {
       outlineNode = (
         <div
-          className={this.cx(this.styles.outline(), {
+          className={this.cx(this.styles.outlineDefault(), {
             [this.styles.outlineWarning(this.theme)]: warning,
             [this.styles.outlineError(this.theme)]: error,
             [this.styles.outlineLink()]: isLink,
@@ -450,6 +486,50 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     }
 
     return icon;
+  }
+
+  private getUseStyle() {
+    let style;
+    let styleActive;
+    const { styles, activeStyles } = this;
+
+    switch (this.props.use) {
+      case 'primary':
+      case 'accent':
+        style = styles.accent(this.theme);
+        styleActive = activeStyles.accent(this.theme);
+        break;
+      case 'backless':
+      case 'outline':
+        style = styles.outline(this.theme);
+        styleActive = activeStyles.outline(this.theme);
+        break;
+      case 'fill':
+        style = styles.fill(this.theme);
+        styleActive = activeStyles.fill(this.theme);
+        break;
+      case 'success':
+        style = styles.success(this.theme);
+        styleActive = activeStyles.success(this.theme);
+        break;
+      case 'danger':
+        style = styles.danger(this.theme);
+        styleActive = activeStyles.danger(this.theme);
+        break;
+      case 'pay':
+        style = styles.pay(this.theme);
+        styleActive = activeStyles.pay(this.theme);
+        break;
+      case 'text':
+        style = styles.text(this.theme);
+        styleActive = activeStyles.text(this.theme);
+        break;
+      default:
+        style = styles.default(this.theme);
+        styleActive = activeStyles.default(this.theme);
+    }
+
+    return { style, styleActive };
   }
 
   private getSizeClassName() {

@@ -21,28 +21,33 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Базовый пример';
 
-/** Проп `use` задаёт стиль кнопки.
- *  Тип влияет на внешний вид и поведение кнопки в зависимости от выбранного значения. По умолчанию: `'default'`.
- * Доступны стили:
- * - Default — кнопка второстепенного действия с заливкой и обводкой.
- * - Primary — кнопка основного действия.
- * - Success — кнопка позитивного действия.
- * - Danger — кнопка деструктивного действия.
- * - Pay — кнопка, связанная с оплатой.
- * - Text — второстепенная кнопка без заливки и обводки.
- * - Backless — второстепенная кнопка без заливки, но с обводкой.
- * - Link — ⚠️ устарел. Рекомендуем использовать [Link](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-link--docs) с заданным корневым элементом `component=button`. */
+/** Проп `use` задаёт стиль кнопки. Список доступных:
+ * - outline — кнопка второстепенного действия с обводкой, но без заливки
+ * - fill — кнопка второстепенного действия с заливкой, но без обводки
+ * - text — кнопка второстепенного действия без заливки и обводки
+ * - accent — кнопка основного действия
+ * - danger — кнопка деструктивного действия
+ * - success — кнопка позитивного действия
+ * - pay — кнопка, связанная с оплатой
+ *
+ * ⚠️ Deprecated-стили, будут удалены в следующих мажорных версиях:
+ * - use="primary" → use="accent"
+ * - use="backless" → use="outline"
+ * - use="link" → &lt;Link component="button"&gt;
+ * - use="default" → use="outline" для границ или use="fill" для фона
+ * */
 export const ExampleStyles: Story = () => {
   return (
     <Gapped>
-      <Button use="default">Default</Button>
-      <Button use="primary">Primary</Button>
-      <Button use="success">Success</Button>
-      <Button use="danger">Danger</Button>
-      <Button use="pay">Pay</Button>
+      <Button use="outline">Outline</Button>
+      <div style={{ background: 'var(--k-color-surface-low)', padding: 8 }}>
+        <Button use="fill">Fill</Button>
+      </div>
       <Button use="text">Text</Button>
-      <Button use="backless">Backless</Button>
-      <Button use="link">Link</Button>
+      <Button use="accent">Accent</Button>
+      <Button use="danger">Danger</Button>
+      <Button use="success">Success</Button>
+      <Button use="pay">Pay</Button>
     </Gapped>
   );
 };
@@ -296,74 +301,3 @@ export const ExampleHoverColor: Story = () => {
   );
 };
 ExampleHoverColor.storyName = 'Кастомизация: смена цвета при наведении';
-
-/** ⚠️ Вариант Link устарел. Рекомендуем использовать [Link](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-link--docs) с заданным корневым элементом `component=button`. */
-export const ExampleCustomLink: Story = () => {
-  const textDecorationStyles = {
-    btnLinkTextUnderlineOffset: '1px',
-  };
-
-  const underlineOnHoverStyles = {
-    btnLinkTextDecorationColor: 'transparent',
-  };
-
-  const differentColorStyles = {
-    btnLinkColor: 'blue',
-    btnLinkHoverColor: 'blue',
-    btnLinkActiveColor: 'blue',
-  };
-
-  const stringify = (styles: Record<string, string>) => {
-    return `${Object.entries(styles)
-      .map(([key, value]) => `${key}: "${value}"`)
-      .join(', ')}`;
-  };
-
-  const copyStyles = (styles: Record<string, string>) => {
-    navigator.clipboard.writeText(stringify(styles));
-    Toast.push('Copied');
-  };
-
-  const tableStyle: React.CSSProperties = {
-    borderCollapse: 'collapse',
-    width: '100%',
-  };
-
-  const tdStyle = {
-    border: '1px solid',
-    padding: '8px',
-  };
-
-  const renderExampleRow = (title: string, styles: Record<string, string>) => {
-    return (
-      <tr>
-        <td style={tdStyle}>{title}</td>
-        <td style={tdStyle}>
-          <Button use={'link'} theme={styles}>
-            Button-link
-          </Button>
-        </td>
-        <td style={tdStyle}>
-          <div style={{ display: 'flex' }}>
-            <div style={{ width: '80%', whiteSpace: 'pre-line' }}>{stringify(styles).replace(/, /g, '\n')}</div>
-            <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)} />
-          </div>
-        </td>
-      </tr>
-    );
-  };
-
-  return (
-    <table style={tableStyle}>
-      <tr style={{ textAlign: 'left' }}>
-        <th style={tdStyle}></th>
-        <th style={tdStyle}>Пример</th>
-        <th style={tdStyle}>Переменные темы</th>
-      </tr>
-      {renderExampleRow('Ссылка с подчеркиванием без отступа', textDecorationStyles)}
-      {renderExampleRow('Ссылка с подчеркиванием при наведении', underlineOnHoverStyles)}
-      {renderExampleRow('Изменение цвета ссылки', differentColorStyles)}
-    </table>
-  );
-};
-ExampleCustomLink.storyName = 'Кастомизация: вид кнопки-ссылки';

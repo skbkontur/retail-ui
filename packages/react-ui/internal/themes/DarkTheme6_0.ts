@@ -87,12 +87,12 @@ export const DarkTheme6_0 = createTheme({
 
     // default
     public static btnDefaultBg = colors.shapeOtherBase;
-    public static btnDefaultHoverBg = colors.shapeOtherBaseHover;
-    public static btnDefaultActiveBg = colors.shapeOtherBasePressed;
     public static btnDefaultHoverTextColor = colors.textNeutralHeavy;
     public static btnDefaultBorderColor = colors.lineNeutralPale;
+    public static btnDefaultHoverBg = colors.shapeOtherNeutralFaintSolidHover;
     public static btnDefaultHoverBgStart = 'none';
     public static btnDefaultHoverBgEnd = 'none';
+    public static btnDefaultActiveBg = colors.shapeOtherNeutralFaintSolidPressed;
     public static get btnDefaultHoverBorderColor(): string {
       return this.btnDefaultHoverBg;
     }
@@ -119,6 +119,12 @@ export const DarkTheme6_0 = createTheme({
     public static get btnSuccessActiveBorderColor(): string {
       return this.btnSuccessActiveBg;
     }
+
+    // fill
+    public static btnFillBg = colors.shapeOtherBase;
+    public static btnFillHoverBg = colors.shapeOtherBaseHover;
+    public static btnFillActiveBg = colors.shapeOtherBasePressed;
+
     // primary
     public static btnPrimaryBg = colors.shapeBoldAccent;
     public static get btnPrimaryBorderColor(): string {

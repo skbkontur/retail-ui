@@ -37,10 +37,11 @@ export const buttonHoverMixin = (
   borderWidth: string,
 ): string => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
+  const isBorderAboveBg = borderColor !== '' && borderColor !== btnBackground;
   return `
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${isBorderAboveBg ? `, 0 0 0 ${borderWidth} ${btnBackground}` : ''};
     color: ${color};
   `;
 };
@@ -51,12 +52,13 @@ export const buttonActiveMixin = (
   borderColor: string,
   borderWidth: string,
 ): string => {
+  const isBorderAboveBg = borderColor !== '' && borderColor !== btnBackground;
   return `
     &,
     &:hover {
       background-image: none !important; // override :hover styles
       background-color: ${btnBackground} !important; // override :hover styles
-      box-shadow: 0 0 0 ${borderWidth} ${borderColor} !important; // override :hover styles
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${isBorderAboveBg ? `, 0 0 0 ${borderWidth} ${btnBackground}` : ''} !important; // override :hover styles
 
       .${globalClasses.innerShadow} {
         box-shadow: ${btnShadow};

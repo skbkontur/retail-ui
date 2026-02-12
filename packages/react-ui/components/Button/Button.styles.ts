@@ -114,7 +114,8 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    outline() {
+    /** @deprecated */
+    outlineDefault() {
       return emotion.css`
         border-radius: inherit;
         position: absolute;
@@ -125,6 +126,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     outlineWarning(t: Theme) {
       return emotion.css`
         box-shadow:
@@ -133,6 +135,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     outlineError(t: Theme) {
       return emotion.css`
         box-shadow:
@@ -141,6 +144,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     outlineLink() {
       return emotion.css`
         cursor: default;
@@ -152,12 +156,14 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     outlineLinkWarning(t: Theme) {
       return emotion.css`
         background-color: ${t.btnWarningSecondary};
       `;
     },
 
+    /** @deprecated */
     outlineLinkError(t: Theme) {
       return emotion.css`
         background-color: ${t.btnErrorSecondary};
@@ -245,6 +251,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
     `;
     },
 
+    /** @deprecated */
     link(t: Theme) {
       return emotion.css`
         background: none;
@@ -270,12 +277,14 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     linkLineHeight() {
       return emotion.css`
         line-height: inherit !important; // override size mixin
       `;
     },
 
+    /** @deprecated */
     linkLineHeightSafariFallback() {
       return emotion.css`
         /* Safari overrides 'underline' and 'border' if 'line-height' is used */
@@ -283,6 +292,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     linkFocus(t: Theme) {
       return emotion.css`
         & {
@@ -292,6 +302,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     linkDisabled(t: Theme) {
       return emotion.css`
         cursor: default;
@@ -406,7 +417,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    primary(t: Theme) {
+    accent(t: Theme) {
       return emotion.css`
         ${buttonUseMixin(
           t.btnPrimaryBg,
@@ -429,7 +440,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
         }
 
         &:active {
-          ${activeStyles.primary(t)}
+          ${activeStyles.accent(t)}
         }
       `;
     },
@@ -545,7 +556,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    backless(t: Theme) {
+    outline(t: Theme) {
       return emotion.css`
         ${buttonUseMixin(t.btnBacklessBg, '', '', t.btnBacklessTextColor, t.btnBacklessBorderColor, t.btnBorderWidth)};
 
@@ -561,7 +572,21 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
         }
 
         &:active {
-          ${activeStyles.backless(t)}
+          ${activeStyles.outline(t)}
+        }
+      `;
+    },
+
+    fill(t: Theme) {
+      return emotion.css`
+        ${buttonUseMixin(t.btnFillBg, '', '', t.btnDefaultTextColor, '', '')};
+
+        &:hover {
+          ${buttonHoverMixin(t.btnFillHoverBg, '', '', t.btnDefaultHoverTextColor, '', '')};
+        }
+
+        &:active {
+          ${activeStyles.fill(t)};
         }
       `;
     },
@@ -674,6 +699,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     narrow() {
       return emotion.css`
         padding-left: 5px;
@@ -700,6 +726,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
+    /** @deprecated */
     borderless() {
       return emotion.css`
         &,
@@ -760,7 +787,7 @@ export const getActiveStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  primary(t: Theme) {
+  accent(t: Theme) {
     return css`
       & {
         ${buttonActiveMixin(
@@ -823,10 +850,18 @@ export const getActiveStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  backless(t: Theme) {
+  outline(t: Theme) {
     return css`
       & {
-        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, t.btnBorderWidth)}
+        ${buttonActiveMixin(t.btnBacklessActiveBg, '', t.btnBacklessActiveBorderColor, t.btnBorderWidth)};
+      }
+    `;
+  },
+
+  fill(t: Theme) {
+    return css`
+      & {
+        ${buttonActiveMixin(t.btnFillActiveBg, '', '', '')};
       }
     `;
   },
