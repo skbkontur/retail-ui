@@ -89,15 +89,15 @@ export const DarkTheme6_0 = createTheme({
     public static btnDefaultBg = colors.shapeOtherBase;
     public static btnDefaultHoverTextColor = colors.textNeutralHeavy;
     public static btnDefaultBorderColor = colors.lineNeutralPale;
-    public static btnDefaultHoverBg = colors.shapeOtherNeutralFaintSolidHover;
+    public static btnDefaultHoverBg = '#3A3A3A';
     public static btnDefaultHoverBgStart = 'none';
     public static btnDefaultHoverBgEnd = 'none';
-    public static btnDefaultActiveBg = colors.shapeOtherNeutralFaintSolidPressed;
+    public static btnDefaultActiveBg = '#313131';
     public static get btnDefaultHoverBorderColor(): string {
-      return this.btnDefaultHoverBg;
+      return this.btnDefaultBorderColor;
     }
     public static get btnDefaultActiveBorderColor(): string {
-      return this.btnDefaultActiveBg;
+      return this.btnDefaultBorderColor;
     }
     public static get btnDefaultTextColor(): string {
       return this.textColorDefault;

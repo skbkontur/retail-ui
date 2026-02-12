@@ -364,10 +364,12 @@ export class BasicThemeClass {
   public static get btnDefaultTextColor(): string {
     return this.textColorDefault;
   }
-  public static btnDefaultHoverBg = colors.shapeOtherNeutralFaintSolidHover;
+  // TODO: create token in colors package
+  public static btnDefaultHoverBg = '#F2F2F2';
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
-  public static btnDefaultActiveBg = colors.shapeOtherNeutralFaintSolidPressed;
+  // TODO: create token in colors package
+  public static btnDefaultActiveBg = '#E4E4E4';
   public static get btnDefaultHoverBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
