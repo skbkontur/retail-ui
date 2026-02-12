@@ -1,6 +1,6 @@
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
-import * as colors from '../../../colors/default-dark.js';
+import * as colors from '../../../colors/tokens-default/dark';
 
 import type { TableThemeInternal } from './TableLightTheme.js';
 
@@ -22,7 +22,7 @@ export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
     return this.controlOutlineWidth;
   }
   public static get tableBorder() {
-    return colors.shapeOtherBasePressed;
+    return colors.lineNeutralFaint;
   }
   public static get tableRowHover() {
     return colors.shapeOtherBacklessHover;
@@ -53,24 +53,6 @@ export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
   }
   public static get tableRowShadowCheckedActive() {
     return colors.shapeOtherNeutralPaleSolidPressed;
-  }
-  public static get tableShadowLight() {
-    return colors.shapeOtherDisabled;
-  }
-  public static get tableShadowMedium() {
-    return colors.shapeOtherBasePressed;
-  }
-  public static get tableRed() {
-    return colors.customizableBoldRed;
-  }
-  public static get tableRedDark() {
-    return colors.customizableHeavyRed;
-  }
-  public static get tableRoundButtonBackground() {
-    return colors.shapeOtherDisabled;
-  }
-  public static get tableRoundButtonActiveBackground() {
-    return colors.shapeOtherBacklessPressed;
   }
   public static get tableDangerActiveColor() {
     return colors.textConstHeavyWhite;

@@ -7,3 +7,4 @@ tsconfig.json
 **/*.ts
 **/*.mdx
 !**/*.d.ts
+!**/*.d.mts

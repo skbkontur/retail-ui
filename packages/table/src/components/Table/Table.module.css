@@ -3,6 +3,7 @@
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  color: var(--table-text);
 
   --table-radius-small: 12px;
   --table-radius-medium: 16px;
@@ -156,40 +157,6 @@
   }
 }
 
-@supports (selector(:has(*))) {
-  .CheckedRow:has(+ .CheckedRow) .TableCell,
-  .CheckedRow:has(+ .ClickableTableRow:hover) .TableCell,
-  .CheckedRow:has(+ .ClickableTableRow:focus-within) .TableCell,
-  .ClickableTableRow:focus-within:has(+ .CheckedRow) .TableCell,
-  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:hover) .TableCell,
-  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:focus-within) .TableCell,
-  .ClickableTableRow:hover:has(+ .CheckedRow) .TableCell,
-  .ClickableTableRow:hover:has(+ .ClickableTableRow:hover) .TableCell,
-  .ClickableTableRow:hover:has(+ .ClickableTableRow:focus-within) .TableCell,
-  .FilterResultRow:has(+ .CheckedRow) .TableCell,
-  .FilterResultRow:has(+ .ClickableTableRow:hover) .TableCell,
-  .FilterResultRow:has(+ .ClickableTableRow:focus-within) .TableCell {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .CheckedRow + .CheckedRow .TableCell,
-  .CheckedRow + .ClickableTableRow:hover .TableCell,
-  .CheckedRow + .ClickableTableRow:focus-within .TableCell,
-  .ClickableTableRow:focus-within + .CheckedRow .TableCell,
-  .ClickableTableRow:focus-within + .ClickableTableRow:hover .TableCell,
-  .ClickableTableRow:focus-within + .ClickableTableRow:focus-within .TableCell,
-  .ClickableTableRow:hover + .CheckedRow .TableCell,
-  .ClickableTableRow:hover + .ClickableTableRow:hover .TableCell,
-  .ClickableTableRow:hover + .ClickableTableRow:focus-within .TableCell,
-  .FilterResultRow + .CheckedRow .TableCell,
-  .FilterResultRow + .ClickableTableRow:hover .TableCell,
-  .FilterResultRow + .ClickableTableRow:focus-within .TableCell {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
-
 .TableRow:focus-visible {
   outline: var(--table-outline-width) solid var(--table-outline);
   outline-offset: 2px;
@@ -247,6 +214,40 @@
 .TableCellLarge:last-child {
   border-top-right-radius: var(--table-radius-large);
   border-bottom-right-radius: var(--table-radius-large);
+}
+
+@supports (selector(:has(*))) {
+  .CheckedRow:has(+ .CheckedRow) .TableCell,
+  .CheckedRow:has(+ .ClickableTableRow:hover) .TableCell,
+  .CheckedRow:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .CheckedRow) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:hover) .TableCell,
+  .ClickableTableRow:focus-within:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .ClickableTableRow:hover:has(+ .CheckedRow) .TableCell,
+  .ClickableTableRow:hover:has(+ .ClickableTableRow:hover) .TableCell,
+  .ClickableTableRow:hover:has(+ .ClickableTableRow:focus-within) .TableCell,
+  .FilterResultRow:has(+ .CheckedRow) .TableCell,
+  .FilterResultRow:has(+ .ClickableTableRow:hover) .TableCell,
+  .FilterResultRow:has(+ .ClickableTableRow:focus-within) .TableCell {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .CheckedRow + .CheckedRow .TableCell,
+  .CheckedRow + .ClickableTableRow:hover .TableCell,
+  .CheckedRow + .ClickableTableRow:focus-within .TableCell,
+  .ClickableTableRow:focus-within + .CheckedRow .TableCell,
+  .ClickableTableRow:focus-within + .ClickableTableRow:hover .TableCell,
+  .ClickableTableRow:focus-within + .ClickableTableRow:focus-within .TableCell,
+  .ClickableTableRow:hover + .CheckedRow .TableCell,
+  .ClickableTableRow:hover + .ClickableTableRow:hover .TableCell,
+  .ClickableTableRow:hover + .ClickableTableRow:focus-within .TableCell,
+  .FilterResultRow + .CheckedRow .TableCell,
+  .FilterResultRow + .ClickableTableRow:hover .TableCell,
+  .FilterResultRow + .ClickableTableRow:focus-within .TableCell {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }
 
 .TableCellSmall {
@@ -487,8 +488,4 @@
 
 .ActionsDropdownItem {
   padding: 4px 8px;
-}
-
-.Danger:active * {
-  color: var(--table-danger-active-color, #fff);
 }

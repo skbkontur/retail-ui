@@ -2,7 +2,7 @@ import { BasicThemeClassForExtension } from '@skbkontur/react-ui/internal/themes
 import type { Theme as ReactUITheme } from '@skbkontur/react-ui/lib/theming/Theme';
 import { exposeGetters } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 
-import * as colors from '../../../colors/default-light.js';
+import * as colors from '../../../colors/tokens-default/light.js';
 
 export const REACT_UI_TABLE_CONSTRUCTOR_THEME_KEY = '__IS_REACT_UI_TABLE_CONSTRUCTOR_THEME__';
 export class TableLightTheme extends BasicThemeClassForExtension {
@@ -23,7 +23,7 @@ export class TableLightTheme extends BasicThemeClassForExtension {
     return this.controlOutlineWidth;
   }
   public static get tableBorder() {
-    return colors.shapeOtherBasePressed;
+    return colors.lineNeutralFaint;
   }
   public static get tableRowHover() {
     return colors.shapeOtherBacklessHover;
@@ -54,24 +54,6 @@ export class TableLightTheme extends BasicThemeClassForExtension {
   }
   public static get tableRowShadowCheckedActive() {
     return colors.shapeOtherNeutralPaleSolidPressed;
-  }
-  public static get tableShadowLight() {
-    return colors.shapeOtherDisabled;
-  }
-  public static get tableShadowMedium() {
-    return colors.shapeOtherBasePressed;
-  }
-  public static get tableRed() {
-    return colors.customizableBoldRed;
-  }
-  public static get tableRedDark() {
-    return colors.customizableHeavyRed;
-  }
-  public static get tableRoundButtonBackground() {
-    return colors.shapeOtherDisabled;
-  }
-  public static get tableRoundButtonActiveBackground() {
-    return colors.shapeOtherBacklessPressed;
   }
   public static get tableDangerActiveColor() {
     return colors.textConstHeavyWhite;

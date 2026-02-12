@@ -7,12 +7,13 @@ import React, {
   type KeyboardEvent,
 } from 'react';
 import cx from 'classnames';
-import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 
 import styles from './Table.module.css';
 import { TableDataTids } from './TableDataTids.js';
 
-export interface TableRowProps extends CommonProps {
+export interface TableRowProps extends CommonProps, React.HTMLAttributes<HTMLTableRowElement> {
   onClick?: MouseEventHandler<HTMLTableRowElement>;
   checked?: boolean;
   bottomBorder?: boolean;
@@ -86,21 +87,25 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
     };
 
     return (
-      <tr
-        tabIndex={computedTabIndex}
-        ref={rowRef}
-        onClick={handleClick}
-        onKeyDown={onKeyDown}
-        className={cx(styles.TableRow, className, {
-          [styles.CheckedRow]: checked,
-          [styles.BottomBorder]: bottomBorder,
-          [styles.ClickableTableRow]: onClick,
-        })}
-        data-tid={TableDataTids.row}
-        {...rest}
-      >
-        {children}
-      </tr>
+      <CommonWrapper {...rest}>
+        {(wrapperRest: CommonWrapperRestProps<TableRowProps>) => (
+          <tr
+            {...wrapperRest}
+            tabIndex={computedTabIndex}
+            ref={rowRef}
+            onClick={handleClick}
+            onKeyDown={onKeyDown}
+            className={cx(styles.TableRow, className, {
+              [styles.CheckedRow]: checked,
+              [styles.BottomBorder]: bottomBorder,
+              [styles.ClickableTableRow]: onClick,
+            })}
+            data-tid={TableDataTids.row}
+          >
+            {children}
+          </tr>
+        )}
+      </CommonWrapper>
     );
   }
 );

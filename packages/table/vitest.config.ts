@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 import { defineConfig } from 'vitest/config';
 
 const config = defineConfig({
@@ -7,8 +9,14 @@ const config = defineConfig({
     setupFiles: ['./__tests__/setup.ts'],
     server: {
       deps: {
-        inline: ['@skbkontur/icons'],
+        inline: ['@skbkontur/icons', '@skbkontur/react-ui'],
       },
+    },
+  },
+  resolve: {
+    alias: {
+      '@skbkontur/react-ui/lib/size': resolve(__dirname, 'src/reactUiCompat/react-ui-size-stub.ts'),
+      '@skbkontur/colors': resolve(__dirname, '../../packages/colors'),
     },
   },
 });
