@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.6...@skbkontur/table@0.1.7) (2026-02-12)
+
+
+### Bug Fixes
+
+* **table:** resolve align type conflict ([2258dce](https://git.skbkontur.ru/ui/ui-parking-2/commits/2258dcee4d41995bf9fa71730cf9d45e16a3ee7b))
+
+
+
+
+
 ## [0.1.6](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.5...@skbkontur/table@0.1.6) (2026-02-11)
 
 
