@@ -2415,6 +2415,11 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
+"@hukopo/eslint-plugin-nodenext-extensions@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@hukopo/eslint-plugin-nodenext-extensions/-/eslint-plugin-nodenext-extensions-1.0.0.tgz#2cf33c2f22786fe550b8602cbddf7d276df29f92"
+  integrity sha512-jlIxjGUjc9sriqAoP40yHT3cGMkh+CCzRo2bdKfekG25ZXSefQ0HQJWAuYLlt5U5wEp2n+fC+kWETtPaCOtbdg==
+
 "@humanwhocodes/config-array@^0.13.0":
   version "0.13.0"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.13.0.tgz#fb907624df3256d04b9aa2df50d7aa97ec648748"
@@ -8569,14 +8574,6 @@ eslint-module-utils@^2.8.0:
   integrity sha512-rXDXR3h7cs7dy9RNpUlQf80nX31XWJEyGq1tRMo+6GsO5VmTe4UTwtmonAD4ZkAsrfMVDA2wlGJ3790Ys+D49Q==
   dependencies:
     debug "^3.2.7"
-
-eslint-plugin-file-extension-in-import-ts@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/eslint-plugin-file-extension-in-import-ts/-/eslint-plugin-file-extension-in-import-ts-2.1.1.tgz#51401aa90ae76622299670a9d76bb6788f850d92"
-  integrity sha512-cZMQy+/nG6TU9eN2C0m3HO0N4D1t6brg0DR3YPzh0m/MHEFSfY+/2VaEbkMbtyJjPJxwlRLYGD2aGCqo2+M3bA==
-  dependencies:
-    is-core-module "^2.13.1"
-    resolve "^1.22.8"
 
 eslint-plugin-import@2.29.1:
   version "2.29.1"

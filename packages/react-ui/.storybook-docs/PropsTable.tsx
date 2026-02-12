@@ -3,7 +3,7 @@ import { ArgTypes, useOf } from '@storybook/blocks';
 
 import { useEmotion } from '../lib/renderEnvironment/index.js';
 
-import type { PublicMethod } from './MethodsTable';
+import type { PublicMethod } from './MethodsTable.js';
 import { PublicMethods } from './MethodsTable.js';
 
 export const PropsTable = () => {
