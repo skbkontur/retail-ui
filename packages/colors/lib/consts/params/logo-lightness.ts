@@ -1,1 +1,1 @@
-export const LOGO_LIGHTNESS_MIN = 64;
+export const LOGO_LIGHTNESS_MIN = 0.64;

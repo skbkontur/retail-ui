@@ -24,7 +24,7 @@ export const customizable = {
   blueDeep: '#366AF3',
   violet: '#844BEC',
   purple: '#B750D1',
-  yellow: '#FAB700',
+  yellow: '#FAB800',
 };
 
 export const gray = {

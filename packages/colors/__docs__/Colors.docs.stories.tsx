@@ -18,6 +18,7 @@ import { Kontur } from '@skbkontur/logos/src/Kontur';
 import { Product } from '@skbkontur/logos/src/Product';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Link } from '@skbkontur/react-ui/components/Link';
@@ -887,7 +888,7 @@ export const ColorsExampleStory = () => {
 
             <div className="container">
               <header className="header">
-                <Button use="text" icon={<IconArrowALeftRegular24 color={c.textNeutralHeavy} />} size="large" />
+                <Button use="text" icon={<IconArrowALeftRegular24 color={c.textNeutralHeavy} />} size="medium" />
                 <span className="header__title">Иванов Иван Иванович</span>
               </header>
               <div className="panel">
@@ -972,6 +973,9 @@ export const ColorsExampleStory = () => {
 ColorsExampleStory.storyName = 'Пример интерфейса';
 
 /**
+ * <a href="https://chromewebstore.google.com/detail/kontur-ui/oiekpgnfbdafebmcjlbaapekngfnjfom?authuser=0&hl=en&pli=1" target="_blank" style="font-size: 14px; padding: 8px 24px; border-radius: 8px; background: #F6F8FA; display: flex; align-items: center; gap: 12px;">
+    <img width="24" height="24" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/60px-Google_Chrome_icon_%28February_2022%29.svg.png" alt=""> Chrome Extension для удобного копирования из Figma →
+  </a>
  * Токены цветов состоят из 6 основных групп:
  * - **text** — переменные для текстов и иконок, которые являются частью текста
  * - **shape** — подложки, плашки, фоны и заливки

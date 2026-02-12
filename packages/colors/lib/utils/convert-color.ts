@@ -40,11 +40,7 @@ function convertToOklchRecursive(obj: ColorStructure): ColorStructure {
       } else {
         const color = toOklch(value);
         if (color) {
-          const l = (color.l * 100).toFixed(3);
-          const c = color.c.toFixed(3);
-          const h = (color.h || 0).toFixed(0);
-          const a = color.alpha !== undefined && color.alpha < 1 ? ` / ${color.alpha}` : '';
-          newObj[key] = `oklch(${l}% ${c} ${h}${a})`;
+          newObj[key] = formatOklch(color);
         } else {
           newObj[key] = value;
         }
@@ -161,3 +157,12 @@ function convertToAarrggbbRecursive(obj: ColorStructure): ColorStructure {
   }
   return newObj as ColorStructure;
 }
+
+export const formatOklch = ({ l, c, h = 0, alpha }: { l: number; c: number; h?: number; alpha?: number }): string => {
+  const lightness = Number((l <= 1 && l > 0 ? l * 100 : l).toFixed(1));
+  const chroma = Number(c.toFixed(3));
+  const hue = Number(h.toFixed(1));
+  const opacity = alpha !== undefined && alpha < 1 ? ` / ${alpha}` : '';
+
+  return `oklch(${lightness}% ${chroma} ${hue}${opacity})`;
+};

@@ -6,6 +6,7 @@ import { getColors } from '../lib/get-colors.js';
 import * as DEFAULT_SWATCH from '../lib/consts/default-swatch.js';
 import type { ColorObject, ColorValue } from '../lib/types/tokens.js';
 import type { ConfigOptions } from '../lib/get-colors-base.js';
+import { flattenHybridCase } from '../lib/utils/create-styles.js';
 
 type ColorFormat = ConfigOptions['format'];
 
@@ -22,11 +23,27 @@ interface SaveTokensOptions {
   tokensJSVariableName?: string;
   fileSingleOutputName?: string;
   fileOutputDir: string;
-  fileFormat: 'json' | 'css' | 'less' | 'scss' | 'js' | 'js-css-vars' | 'js-css-vars-fallback';
+  fileFormat:
+    | 'json'
+    | 'json-snapshot'
+    | 'json-base-snapshot'
+    | 'css'
+    | 'less'
+    | 'scss'
+    | 'less-fallback'
+    | 'scss-fallback'
+    | 'js'
+    | 'js-css-vars'
+    | 'js-css-vars-fallback';
   removePressedAndHover?: boolean;
 }
 
 const TOKENS_OUTPUT = path.join(import.meta.dirname, '..');
+const DEFAULT_FOLDER = path.join(TOKENS_OUTPUT, 'tokens-default');
+
+if (!fs.existsSync(DEFAULT_FOLDER)) {
+  fs.mkdirSync(DEFAULT_FOLDER, { recursive: true });
+}
 
 for (const accentVariant of ['brand', 'gray']) {
   for (const brandColorKey in DEFAULT_SWATCH.brand) {
@@ -34,18 +51,30 @@ for (const accentVariant of ['brand', 'gray']) {
       continue;
     }
 
-    const tokens = {
-      light: getColors({
+    const cssContent = [
+      getColors({
         brand: brandColorKey,
         accent: accentVariant,
         theme: 'light',
+        output: 'css',
       }),
-      dark: getColors({
+      getColors({
         brand: brandColorKey,
         accent: accentVariant,
         theme: 'dark',
+        output: 'css',
       }),
-    };
+    ].join('\n\n');
+
+    const brandFileName = camelCaseToKebabCase(brandColorKey);
+
+    saveTokens({
+      tokens: cssContent,
+      colorBrand: brandFileName,
+      colorAccent: accentVariant,
+      fileOutputDir: path.join(TOKENS_OUTPUT, 'tokens'),
+      fileFormat: 'css',
+    });
 
     const tokensMobile = {
       light: getColors({
@@ -61,17 +90,6 @@ for (const accentVariant of ['brand', 'gray']) {
         format: 'hex-aarrggbb',
       }),
     };
-
-    const brandFileName = camelCaseToKebabCase(brandColorKey);
-
-    saveTokens({
-      tokens,
-      colorBrand: brandFileName,
-      colorAccent: accentVariant,
-      fileOutputDir: path.join(TOKENS_OUTPUT, 'tokens'),
-      fileFormat: 'css',
-      tokensCSSPrefix: 'k-color',
-    });
 
     saveTokens({
       tokens: tokensMobile,
@@ -100,6 +118,7 @@ const tokensDefault = {
 
 const defaultBrandFileName = camelCaseToKebabCase(DEFAULT_BRAND);
 
+// Оригинальные файлы в корне
 saveTokens({
   tokens: tokensDefault,
   colorBrand: defaultBrandFileName,
@@ -130,29 +149,49 @@ saveTokens({
   fileFormat: 'js-css-vars',
   tokensIsFlat: true,
   tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'colors.ts'),
+  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'index.ts'),
 });
 
-saveTokens({
-  tokens: { light: tokensDefault.light },
-  colorBrand: defaultBrandFileName,
-  colorAccent: DEFAULT_ACCENT,
-  fileOutputDir: '',
-  fileFormat: 'js-css-vars-fallback',
-  tokensIsFlat: true,
-  tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'default-light.ts'),
-});
+const defaultThemes = [
+  { name: 'light', data: tokensDefault.light },
+  { name: 'dark', data: tokensDefault.dark },
+];
 
-saveTokens({
-  tokens: { dark: tokensDefault.dark },
-  colorBrand: defaultBrandFileName,
-  colorAccent: DEFAULT_ACCENT,
-  fileOutputDir: '',
-  fileFormat: 'js-css-vars-fallback',
-  tokensIsFlat: true,
-  tokensCSSPrefix: 'k-color',
-  fileSingleOutputName: path.join(TOKENS_OUTPUT, 'default-dark.ts'),
+defaultThemes.forEach((theme) => {
+  const payload = { [theme.name]: theme.data };
+
+  saveTokens({
+    tokens: payload,
+    colorBrand: defaultBrandFileName,
+    colorAccent: DEFAULT_ACCENT,
+    fileOutputDir: '',
+    fileFormat: 'js-css-vars-fallback',
+    tokensIsFlat: true,
+    tokensCSSPrefix: 'k-color',
+    fileSingleOutputName: path.join(DEFAULT_FOLDER, `${theme.name}.ts`),
+  });
+
+  saveTokens({
+    tokens: payload,
+    colorBrand: defaultBrandFileName,
+    colorAccent: DEFAULT_ACCENT,
+    fileOutputDir: '',
+    fileFormat: 'scss-fallback',
+    tokensIsFlat: true,
+    tokensCSSPrefix: 'k-color',
+    fileSingleOutputName: path.join(DEFAULT_FOLDER, `${theme.name}.scss`),
+  });
+
+  saveTokens({
+    tokens: payload,
+    colorBrand: defaultBrandFileName,
+    colorAccent: DEFAULT_ACCENT,
+    fileOutputDir: '',
+    fileFormat: 'less-fallback',
+    tokensIsFlat: true,
+    tokensCSSPrefix: 'k-color',
+    fileSingleOutputName: path.join(DEFAULT_FOLDER, `${theme.name}.less`),
+  });
 });
 
 export function saveTokens({
@@ -227,36 +266,56 @@ export function saveTokens({
       break;
     }
 
+    case 'json-snapshot': {
+      const toCamelCaseFlat = (obj: any) =>
+        Object.entries(flattenHybridCase(obj)).reduce((acc: any, [key, value]) => {
+          acc[kebabCaseToCamelCase(key)] = value;
+          return acc;
+        }, {});
+
+      const lightHex = toCamelCaseFlat(tokens.light.hex);
+      const lightOklch = toCamelCaseFlat(tokens.light.oklch);
+      const darkHex = toCamelCaseFlat(tokens.dark.hex);
+      const darkOklch = toCamelCaseFlat(tokens.dark.oklch);
+
+      const result: any = {};
+      const allKeys = new Set([...Object.keys(lightHex), ...Object.keys(darkHex)]);
+
+      allKeys.forEach((key) => {
+        result[key] = {
+          light: {
+            oklch: lightOklch[key],
+            hex: lightHex[key],
+          },
+          dark: {
+            oklch: darkOklch[key],
+            hex: darkHex[key],
+          },
+        };
+      });
+
+      fs.writeFileSync(finalOutputFile, JSON.stringify(result, null, 2));
+      break;
+    }
+
+    case 'json-base-snapshot': {
+      const flatHex = flattenObject(tokens.hex);
+      const flatOklch = flattenObject(tokens.oklch);
+
+      const result: any = {};
+      Object.keys(flatHex).forEach((key) => {
+        result[kebabCaseToCamelCase(key)] = {
+          oklch: flatOklch[key],
+          hex: flatHex[key],
+        };
+      });
+
+      fs.writeFileSync(finalOutputFile, JSON.stringify(result, null, 2));
+      break;
+    }
+
     case 'css': {
-      const brandDataSelector = `[data-k-brand="${brandFileName}"][data-k-accent="${accentVariant.toLowerCase()}"]`;
-      const baseSelector = brandDataSelector;
-
-      let cssContent = '';
-
-      const hasThemes = tokens.light || tokens.dark;
-
-      if (hasThemes) {
-        const lightTokens = tokens.light;
-        const flattenedLightTokens = flattenHybridCase(lightTokens);
-        const lightVars = Object.entries(flattenedLightTokens)
-          .map(([key, value]) => `  --${cssPrefix}-${camelCaseToKebabCase(key)}: ${value};`)
-          .join('\n');
-
-        cssContent += `${baseSelector} {\n${lightVars}\n}\n\n`;
-
-        if (tokens.dark) {
-          const darkTokens = tokens.dark;
-          const flattenedDarkTokens = flattenHybridCase(darkTokens);
-          const darkVars = Object.entries(flattenedDarkTokens)
-            .map(([key, value]) => `  --${cssPrefix}-${camelCaseToKebabCase(key)}: ${value};`)
-            .join('\n');
-
-          const darkSelector = `${baseSelector}[data-k-theme="dark"]`;
-          cssContent += `${darkSelector} {\n${darkVars}\n}\n\n`;
-        }
-      }
-
-      fs.writeFileSync(finalOutputFile, cssContent.trim());
+      fs.writeFileSync(finalOutputFile, typeof tokens === 'string' ? tokens.trim() : '');
       break;
     }
 
@@ -283,6 +342,25 @@ export function saveTokens({
       const content = lessScssVars.join('\n');
 
       fs.writeFileSync(finalOutputFile, content.trim() + '\n');
+      break;
+    }
+
+    case 'less-fallback':
+    case 'scss-fallback': {
+      const varPrefix = format === 'less-fallback' ? '@color-' : '$color-';
+      const themeKey = tokens.dark ? 'dark' : 'light';
+      const themeTokens = themeKey ? tokens[themeKey] : tokens;
+
+      if (themeTokens) {
+        const flattenedTokens = flattenHybridCase(themeTokens);
+        const content = Object.entries(flattenedTokens)
+          .map(([key, value]) => {
+            const cssVarName = camelCaseToKebabCase(key);
+            return `${varPrefix}${cssVarName}: var(--${cssPrefix}-${cssVarName}, ${value});`;
+          })
+          .join('\n');
+        fs.writeFileSync(finalOutputFile, content.trim() + '\n');
+      }
       break;
     }
 
@@ -389,19 +467,6 @@ function removeStateTokens(obj: any): any {
     }
   }
   return obj;
-}
-
-function flattenHybridCase(obj: any, prefix = ''): any {
-  return Object.keys(obj).reduce((acc, key) => {
-    const newKey = prefix + (prefix ? '-' : '') + key;
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      Object.assign(acc, flattenHybridCase(obj[key], newKey));
-    } else {
-      // @ts-ignore
-      acc[newKey] = obj[key];
-    }
-    return acc;
-  }, {});
 }
 
 function flattenObject(obj: ColorObject, prefix = ''): { [key: string]: string | ColorValue } {
