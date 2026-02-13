@@ -12,6 +12,7 @@ import type { ColorFormat } from '../lib/utils/convert-color';
 
 import { type Emotion } from '@emotion/css/create-instance';
 import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
+import { css } from '@emotion/css';
 
 interface TokenPair {
   key: string;
@@ -317,14 +318,14 @@ export const ColorsPaletteOverridesStory = () => {
 
   const effectiveAccentColor = safeAccentColor;
 
-  const overrides = (base: TokensBase) => ({
+  const overrides = (base?: TokensBase) => ({
     light: {
-      textCustom1: base.accent?.palette?.normal[40] || base.whiteAlpha[20],
-      textCustom2: base.brand.palette.normal[56],
+      textCustom1: base?.accent?.palette?.normal[40] || base?.whiteAlpha[20],
+      textCustom2: base?.brand.palette.normal[56],
     },
     dark: {
-      textCustom1: base.accent?.palette?.vivid[72] || base.blackAlpha[20],
-      textCustom2: base.brand.palette?.vivid[88],
+      textCustom1: base?.accent?.palette?.vivid[72] || base?.blackAlpha[20],
+      textCustom2: base?.brand.palette?.vivid[88],
     },
   });
 
