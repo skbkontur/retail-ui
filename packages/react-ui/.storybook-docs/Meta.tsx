@@ -1,7 +1,8 @@
+import React, { useContext, useEffect } from 'react';
 import { DocsContext } from '@storybook/addon-docs';
 import type { ModuleExports } from '@storybook/types';
-import * as colors from '@skbkontur/colors/default-light';
-import React, { useContext, useEffect } from 'react';
+import * as colors from '@skbkontur/colors/tokens-default/light';
+import { getColors } from '@skbkontur/colors/get-colors';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
 import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
@@ -29,7 +30,7 @@ const brands = [
   { caption: 'Green', value: 'green', color: colors.customizableBoldGreen },
   { caption: 'Mint', value: 'mint', color: colors.customizableBoldMint },
   { caption: 'Blue', value: 'blue', color: colors.customizableBoldBlue },
-  { caption: 'Blue Deep', value: 'blue-deep', color: colors.customizableBoldBlueDeep },
+  { caption: 'Blue Deep', value: 'blueDeep', color: colors.customizableBoldBlueDeep },
   { caption: 'Purple', value: 'purple', color: colors.customizableBoldPurple },
   { caption: 'Violet', value: 'violet', color: colors.customizableBoldViolet },
 ];
@@ -156,6 +157,15 @@ const styles = {
     vertical-align: middle;
   `,
 };
+
+for (const { value: brand } of brands) {
+  let colorStyle = '';
+  colorStyle += getColors({ brand, accent: 'brand', theme: 'all', output: 'css' });
+  colorStyle += getColors({ brand, accent: 'gray', theme: 'all', output: 'css' });
+  const style = document.createElement('style');
+  style.innerHTML = colorStyle.replace(/'blue-deep'/g, "'blueDeep'");
+  document.head.appendChild(style);
+}
 
 export const Meta = ({ of }: { of?: ModuleExports }) => {
   const context = useContext(DocsContext);
