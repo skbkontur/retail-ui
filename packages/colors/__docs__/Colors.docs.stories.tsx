@@ -1,6 +1,16 @@
 import React from 'react';
 
-import { DropdownMenu, MenuHeader, MenuItem, Select, Toast, ThemeFactory, ThemeContext } from '@skbkontur/react-ui';
+import {
+  DropdownMenu,
+  MenuHeader,
+  MenuItem,
+  Select,
+  Toast,
+  ThemeFactory,
+  ThemeContext,
+  Hint,
+} from '@skbkontur/react-ui';
+import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
 import { BasicThemeClass } from '@skbkontur/react-ui/internal/themes/BasicTheme';
 import { css, injectGlobal } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
@@ -18,7 +28,6 @@ import { Kontur } from '@skbkontur/logos/src/Kontur';
 import { Product } from '@skbkontur/logos/src/Product';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Link } from '@skbkontur/react-ui/components/Link';
@@ -45,6 +54,11 @@ interface TokenPair {
     light: string;
     dark: string;
   };
+}
+
+interface TokenPairWithMeta extends TokenPair {
+  isFuzzy: boolean;
+  matchPercent?: number;
 }
 
 injectGlobal(`
@@ -1006,6 +1020,8 @@ export const ColorsPaletteStory = () => {
     'customizable',
   ];
 
+  const diff = differenceEuclidean('oklch');
+
   const generateTokenList = (tokens: any): TokenPair[] => {
     const { light, dark } = tokens;
     const tokenList: TokenPair[] = [];
@@ -1044,8 +1060,8 @@ export const ColorsPaletteStory = () => {
     return null;
   };
 
-  const groupTokensByRoot = (tokens: TokenPair[]): Record<string, TokenPair[]> => {
-    const groupedByRoot: Record<string, TokenPair[]> = {};
+  const groupTokensByRoot = (tokens: TokenPairWithMeta[]): Record<string, TokenPairWithMeta[]> => {
+    const groupedByRoot: Record<string, TokenPairWithMeta[]> = {};
     const allRoots = GROUPING_ROOTS;
 
     const sortedTokens = tokens.sort((a, b) => a.key.localeCompare(b.key));
@@ -1077,7 +1093,7 @@ export const ColorsPaletteStory = () => {
       groupedByRoot[rootKey].push(token);
     }
 
-    const finalGrouped: Record<string, TokenPair[]> = {};
+    const finalGrouped: Record<string, TokenPairWithMeta[]> = {};
 
     for (const key of GROUPING_ROOTS) {
       if (groupedByRoot[key]) {
@@ -1198,10 +1214,25 @@ export const ColorsPaletteStory = () => {
       position: sticky;
       z-index: 10;
       bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       padding: 8px;
       background: white;
       box-shadow: 0 -1px rgba(0, 0, 0, 0.15);
       margin-top: auto;
+    `,
+    matchBadge: css`
+      position: relative;
+      top: -1px;
+      font-size: 10px;
+      padding: 2px 5px;
+      margin-left: 8px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.04);
+      color: #555;
+      font-weight: 600;
+      white-space: nowrap;
     `,
   };
 
@@ -1217,6 +1248,7 @@ export const ColorsPaletteStory = () => {
   const [brand, setBrand] = React.useState(defaultBrandColor);
   const [accent, setAccent] = React.useState(defaultAccentColor);
   const [filter, setFilter] = React.useState('');
+  const [isSimilarSearch, setIsSimilarSearch] = React.useState(true);
   const [colorFormat, setColorFormat] = React.useState(colorFormatOptions[0]);
 
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
@@ -1324,7 +1356,7 @@ export const ColorsPaletteStory = () => {
     return safeAccentColor;
   }, [safeBrandColor, safeAccentColor]);
 
-  let tokenList;
+  let tokenList: TokenPair[] = [];
 
   try {
     tokenList = generateTokenList({
@@ -1358,54 +1390,93 @@ export const ColorsPaletteStory = () => {
     });
   }
 
-  const filterTokens = (tokens: TokenPair[]) => {
-    if (!filter) return tokens;
+  const filterTokens = (tokens: TokenPair[]): TokenPairWithMeta[] => {
+    const asMeta = (t: TokenPair, fuzzy: boolean, percent?: number) => ({
+      ...t,
+      isFuzzy: fuzzy,
+      matchPercent: percent,
+    });
+
+    if (!filter) {
+      return tokens.map((t) => asMeta(t, false));
+    }
 
     const filterLower = filter.toLowerCase();
+    const parsedFilter = parse(filter);
+    const FUZZY_THRESHOLD = 0.09;
 
-    return tokens.filter((token) => {
-      if (token.key.toLowerCase().includes(filterLower)) {
-        return true;
-      }
+    const blendWithBackground = (colorStr: string, isDark: boolean): Color | undefined => {
+      const parsed = parse(colorStr) as Rgb;
+      if (!parsed) return undefined;
 
+      const bgColor = isDark
+        ? { mode: 'rgb', r: 0, g: 0, b: 0, alpha: 1 }
+        : { mode: 'rgb', r: 1, g: 1, b: 1, alpha: 1 };
+
+      if (parsed.alpha === undefined || parsed.alpha === 1) return parsed;
+
+      const a = parsed.alpha;
+      const rgb = {
+        mode: 'rgb' as const,
+        r: parsed.r * a + bgColor.r * (1 - a),
+        g: parsed.g * a + bgColor.g * (1 - a),
+        b: parsed.b * a + bgColor.b * (1 - a),
+        alpha: 1,
+      };
+
+      return rgb;
+    };
+
+    const results: TokenPairWithMeta[] = [];
+
+    for (const token of tokens) {
+      let isStringMatch = false;
       if (
+        token.key.toLowerCase().includes(filterLower) ||
         token.value.light.toLowerCase().includes(filterLower) ||
         token.value.dark.toLowerCase().includes(filterLower)
       ) {
-        return true;
+        isStringMatch = true;
       }
 
-      const figmaNameToToken = (figmanName: string): string => {
-        const prefixMatch = figmanName.match(/^(Hover|Pressed)\//);
-
-        const [processedString, extractedPrefix] = prefixMatch
-          ? [
-              figmanName.substring(prefixMatch[0].length),
-              prefixMatch[1].charAt(0).toUpperCase() + prefixMatch[1].slice(1),
-            ]
-          : [figmanName, ''];
-
-        const parts = processedString.split(/[/ ]+/).filter(Boolean);
-
-        const baseCamelCaseString = parts.reduce((acc, part, index) => {
-          return (
-            acc +
-            (index === 0 ? part.charAt(0).toLowerCase() + part.slice(1) : part.charAt(0).toUpperCase() + part.slice(1))
-          );
-        }, '');
-
-        return baseCamelCaseString + extractedPrefix;
-      };
-
-      if (token.key.includes(figmaNameToToken(filter))) {
-        return true;
+      if (isStringMatch) {
+        results.push(asMeta(token, false));
+        continue;
       }
 
-      return false;
+      if (isSimilarSearch && parsedFilter) {
+        const lightBlended = blendWithBackground(token.value.light, false);
+        const darkBlended = blendWithBackground(token.value.dark, true);
+
+        let distLight = 1;
+        let distDark = 1;
+
+        if (lightBlended) {
+          distLight = diff(parsedFilter, lightBlended) ?? 1;
+        }
+        if (darkBlended) {
+          distDark = diff(parsedFilter, darkBlended) ?? 1;
+        }
+
+        const minDist = Math.min(distLight, distDark);
+
+        if (minDist <= FUZZY_THRESHOLD) {
+          const matchPercent = Math.max(0, Math.round((1 - minDist) * 100));
+          results.push(asMeta(token, true, matchPercent));
+        }
+      }
+    }
+
+    return results.sort((a, b) => {
+      if (a.isFuzzy && b.isFuzzy) return (b.matchPercent || 0) - (a.matchPercent || 0);
+      if (a.isFuzzy && !b.isFuzzy) return 1;
+      if (!a.isFuzzy && b.isFuzzy) return -1;
+      return 0;
     });
   };
 
-  const groupedByRoot = groupTokensByRoot(filterTokens(tokenList));
+  const filteredList = filterTokens(tokenList);
+  const groupedByRoot = groupTokensByRoot(filteredList);
 
   const renderColorItem = (color: string, text: string) => {
     return (
@@ -1506,7 +1577,7 @@ export const ColorsPaletteStory = () => {
           <div className={styles.groupHeader} style={{ margin: i !== 0 ? '24px 0 16px' : '12px 0 0' }}>
             {rootKey}
           </div>
-          {tokens.map(({ key, value }) => {
+          {tokens.map(({ key, value, isFuzzy, matchPercent }) => {
             const convertHexAlphaToWebFormat = (color: string) =>
               color.length === 9 ? '#' + color.slice(3, 9) + color.slice(1, 3) : color;
             const displayLightValue = value?.light;
@@ -1518,7 +1589,17 @@ export const ColorsPaletteStory = () => {
                 width="100%"
                 caption={
                   <button className={styles.dropdownRow}>
-                    <span className={styles.colorName}>{key}</span>
+                    <span
+                      className={styles.colorName}
+                      style={{ opacity: isFuzzy && matchPercent ? (matchPercent <= 94 ? 0.5 : 1) : undefined }}
+                    >
+                      {key}
+                      {isFuzzy && matchPercent && (
+                        <Hint text="Процент совпадения">
+                          <span className={styles.matchBadge}>{matchPercent}%</span>
+                        </Hint>
+                      )}
+                    </span>
                     <div className={styles.colorTileWrapper}>
                       <div
                         className={styles.colorTile}
@@ -1571,9 +1652,12 @@ export const ColorsPaletteStory = () => {
           width="50%"
           value={filter}
           onValueChange={setFilter}
-          placeholder="Введите название токена или цвет"
+          placeholder="Введите название токена или цвет в #hex/rgba/oklch"
           rightIcon={<SearchLoupeIcon16Regular />}
         />
+        <Checkbox checked={isSimilarSearch} onValueChange={() => setIsSimilarSearch(!isSimilarSearch)}>
+          Подбирать похожие цвета
+        </Checkbox>
       </div>
     </div>
   );

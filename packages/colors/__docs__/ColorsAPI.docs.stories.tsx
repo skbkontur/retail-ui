@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Gapped, Select, Input } from '@skbkontur/react-ui';
+import { Gapped, Select, Input, Checkbox } from '@skbkontur/react-ui';
 import { css, injectGlobal } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
 import type { Meta } from '@skbkontur/react-ui/typings/stories';
@@ -10,6 +10,8 @@ import { getColorsBase } from '../lib/get-colors-base';
 import { getColors } from '../get-colors';
 import type { TokensBase } from '../lib/types/tokens-base';
 import type { ColorFormat } from '../lib/utils/convert-color';
+import { differenceEuclidean } from 'culori';
+import { parse } from '@babel/core';
 
 interface TokenPair {
   key: string;
@@ -550,9 +552,6 @@ export const BaseTokensStory = () => {
       overflow-y: auto;
       overflow-x: hidden;
     `,
-    colorGroup: css`
-      margin-bottom: 64px;
-    `,
     filterRow: css`
       position: sticky;
       z-index: 10;
@@ -594,6 +593,9 @@ export const BaseTokensStory = () => {
     `,
     colorName: css`
       flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     `,
     colorTileWrapper: css`
       position: relative;
@@ -632,10 +634,21 @@ export const BaseTokensStory = () => {
       position: sticky;
       z-index: 10;
       bottom: 0;
-      padding: 8px;
+      padding: 16px;
       background: white;
       box-shadow: 0 -1px rgba(0, 0, 0, 0.15);
       margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    `,
+    similarityBadge: css`
+      padding: 2px 6px;
+      background: #eee;
+      border-radius: 10px;
+      font-size: 11px;
+      color: #666;
+      font-weight: normal;
     `,
   };
 
@@ -648,6 +661,7 @@ export const BaseTokensStory = () => {
   const [brand, setBrand] = React.useState(defaultBrandColor);
   const [accent, setAccent] = React.useState(defaultAccentColor);
   const [filter, setFilter] = React.useState('');
+  const [isSimilarSearch, setIsSimilarSearch] = React.useState(true);
   const [colorFormat, setColorFormat] = React.useState(colorFormatOptions[0]);
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
   const [customAccentColor, setCustomAccentColor] = React.useState('#FFDD2D');
@@ -666,7 +680,6 @@ export const BaseTokensStory = () => {
         return 'hex-aarrggbb';
       case 'Web (oklch)':
         return 'oklch';
-      case 'Web (hex/rgba)':
       default:
         return 'hex/rgba';
     }
@@ -682,22 +695,12 @@ export const BaseTokensStory = () => {
     return brandSwatch[brand as keyof typeof brandSwatch];
   }, [brand, customBrandColor]);
 
-  const renderColorItem = (color: string, text: string) => {
-    return (
-      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-        <div
-          style={{
-            flexShrink: 0,
-            background: color,
-            width: 12,
-            height: 12,
-            borderRadius: 4,
-          }}
-        />
-        {text}
-      </div>
-    );
-  };
+  const renderColorItem = (color: string, text: string) => (
+    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+      <div style={{ flexShrink: 0, background: color, width: 12, height: 12, borderRadius: 4 }} />
+      {text}
+    </div>
+  );
 
   const renderBrandItem = (value: string) => {
     if (value === 'custom') {
@@ -722,109 +725,87 @@ export const BaseTokensStory = () => {
   };
 
   const safeBrandColor = React.useMemo(() => {
-    if (brand !== 'custom') {
-      return brand;
-    }
+    if (brand !== 'custom') return brand;
     return customBrandColor.trim() !== '' ? customBrandColor : defaultBrandColor;
   }, [brand, customBrandColor]);
 
   const safeAccentColor = React.useMemo(() => {
-    if (accent !== 'custom') {
-      return accent;
-    }
+    if (accent !== 'custom') return accent;
     return customAccentColor.trim() !== '' ? customAccentColor : defaultAccentColor;
   }, [accent, customAccentColor]);
-
-  const effectiveAccentColor = safeAccentColor;
 
   const baseTokensRaw = React.useMemo(() => {
     return getColorsBase({
       brand: safeBrandColor,
-      accent: effectiveAccentColor,
+      accent: safeAccentColor,
       format: outputFormatParam,
     });
-  }, [safeBrandColor, effectiveAccentColor, outputFormatParam]);
+  }, [safeBrandColor, safeAccentColor, outputFormatParam]);
 
-  const tokensToDisplay: BaseTokenDisplay[] = React.useMemo(() => {
+  const tokensToDisplay = React.useMemo(() => {
     const flattened = flattenObject(baseTokensRaw);
     const result: BaseTokenDisplay[] = [];
     const uniqueKeys = new Set<string>();
 
     const formatKey = (flatKey: string) => {
       const scaleMatch = flatKey.match(/^(gray|whiteAlpha|blackAlpha|onBrand|onAccent)-(\d+)$/);
-      if (scaleMatch) {
-        const root = kebabCaseToCamelCase(scaleMatch[1]);
-        const scale = scaleMatch[2];
-        return `${root}[${scale}]`;
-      }
-
+      if (scaleMatch) return `${kebabCaseToCamelCase(scaleMatch[1])}[${scaleMatch[2]}]`;
       const customizablePaletteMatch = flatKey.match(/(.*)-(vivid|normal|dim)-(\d+)/);
-      if (customizablePaletteMatch) {
-        const root = customizablePaletteMatch[1].replace(/-/g, '.');
-        const palette = customizablePaletteMatch[2];
-        const scale = customizablePaletteMatch[3];
-        return `${root}.${palette}[${scale}]`;
-      }
-
+      if (customizablePaletteMatch)
+        return `${customizablePaletteMatch[1].replace(/-/g, '.')}.${customizablePaletteMatch[2]}[${
+          customizablePaletteMatch[3]
+        }]`;
       const themedMatch = flatKey.match(/^(.*)-(light|dark)$/);
-      if (themedMatch) {
-        const root = themedMatch[1].replace(/-/g, '.');
-        const theme = themedMatch[2];
-        return `${root}.${theme}`;
-      }
-
+      if (themedMatch) return `${themedMatch[1].replace(/-/g, '.')}.${themedMatch[2]}`;
       return flatKey.replace(/-/g, '.');
     };
 
     for (const key in flattened) {
-      if (Object.prototype.hasOwnProperty.call(flattened, key)) {
-        let value = flattened[key];
-
-        if (value === null || value === undefined) {
-          continue;
-        }
-
-        if (typeof value === 'string') {
-          const displayKey = formatKey(key);
-
-          if (!uniqueKeys.has(displayKey)) {
-            result.push({
-              key: displayKey,
-              value: value,
-            });
-            uniqueKeys.add(displayKey);
-          }
-        }
+      const displayKey = formatKey(key);
+      if (!uniqueKeys.has(displayKey) && typeof flattened[key] === 'string') {
+        result.push({ key: displayKey, value: flattened[key] });
+        uniqueKeys.add(displayKey);
       }
     }
-
     return result.sort((a, b) => a.key.localeCompare(b.key));
   }, [baseTokensRaw]);
 
-  const filterBaseTokens = (tokens: BaseTokenDisplay[]) => {
-    if (!filter) return tokens;
+  const filteredTokens = React.useMemo(() => {
+    const cleanFilter = filter.trim().toLowerCase();
+    if (!cleanFilter) return tokensToDisplay;
 
-    const filterLower = filter.toLowerCase();
+    const parsedFilterColor = parse(cleanFilter);
 
-    return tokens.filter((token) => {
-      return token.key.toLowerCase().includes(filterLower) || token.value.toLowerCase().includes(filterLower);
-    });
-  };
+    return tokensToDisplay
+      .map((token) => {
+        const isNameMatch = token.key.toLowerCase().includes(cleanFilter);
+        const isValueMatch = token.value.toLowerCase().includes(cleanFilter);
+        let similarity = 0;
 
-  const groupTokensByRootBase = (tokens: BaseTokenDisplay[]): Record<string, BaseTokenDisplay[]> => {
-    return tokens.reduce((acc: Record<string, BaseTokenDisplay[]>, token) => {
+        if (isSimilarSearch && parsedFilterColor) {
+          const tokenColor = parse(token.value);
+          if (tokenColor) {
+            const distance = differenceEuclidean('rgb')(parsedFilterColor, tokenColor);
+            similarity = Math.max(0, Math.round((1 - distance) * 100));
+          }
+        }
+
+        return { ...token, similarity, isDirectMatch: isNameMatch || isValueMatch };
+      })
+      .filter((t) => t.isDirectMatch || t.similarity >= 90)
+      .sort((a, b) => (b.similarity || 0) - (a.similarity || 0));
+  }, [filter, isSimilarSearch, tokensToDisplay]);
+
+  const groupTokensByRootBase = (tokens: any[]): Record<string, any[]> => {
+    return tokens.reduce((acc: Record<string, any[]>, token) => {
       const match = token.key.match(/^([a-z]+)/i);
       const root = match ? match[1] : 'other';
-
-      if (!acc[root]) {
-        acc[root] = [];
-      }
+      if (!acc[root]) acc[root] = [];
       acc[root].push(token);
       return acc;
     }, {});
   };
 
-  const filteredTokens = filterBaseTokens(tokensToDisplay);
   const groupedBaseTokens = groupTokensByRootBase(filteredTokens);
 
   const BASE_TOKEN_ORDER = [
@@ -839,16 +820,13 @@ export const BaseTokensStory = () => {
     'onBrand',
     'customizable',
   ];
-
-  const sortedGroupedTokens: Record<string, BaseTokenDisplay[]> = {};
-
+  const sortedGroupedTokens: Record<string, any[]> = {};
   BASE_TOKEN_ORDER.forEach((root) => {
-    if (groupedBaseTokens[root]) {
-      sortedGroupedTokens[root] = groupedBaseTokens[root];
-      delete groupedBaseTokens[root];
-    }
+    if (groupedBaseTokens[root]) sortedGroupedTokens[root] = groupedBaseTokens[root];
   });
-  Object.assign(sortedGroupedTokens, groupedBaseTokens);
+  Object.keys(groupedBaseTokens).forEach((k) => {
+    if (!BASE_TOKEN_ORDER.includes(k)) sortedGroupedTokens[k] = groupedBaseTokens[k];
+  });
 
   return (
     <div className={styles.colors} data-colors-controls>
@@ -908,36 +886,46 @@ export const BaseTokensStory = () => {
           />
         </Gapped>
       </div>
+
       <div className={styles.headerRow}>
         <span className={styles.colorName}>Token</span>
         <div className={styles.colorTileWrapper} style={{ borderLeft: '1px solid rgba(0, 0, 0, 0.08)' }}>
           <span>Value</span>
         </div>
       </div>
+
       {Object.entries(sortedGroupedTokens).map(([groupName, tokens], i) => (
         <React.Fragment key={groupName}>
           <div className={styles.groupHeader} style={{ margin: i !== 0 ? '24px 0 16px' : '12px 0 0' }}>
             {groupName}
           </div>
-          {tokens.map(({ key, value }) => (
-            <div key={key} className={styles.displayRow}>
-              <span className={styles.colorName}>{key}</span>
+          {tokens.map((token) => (
+            <div key={token.key} className={styles.displayRow}>
+              <div className={styles.colorName}>
+                {token.key}
+                {token.similarity > 0 && !token.isDirectMatch && (
+                  <span className={styles.similarityBadge}>{token.similarity}%</span>
+                )}
+              </div>
               <div className={styles.colorTileWrapper}>
                 <div
                   className={styles.colorTile}
                   style={{
                     backgroundColor:
-                      colorFormat === 'iOS/Android (hex-aarrggbb)' ? convertHexAlphaToWebFormat(value) : value,
+                      colorFormat === 'iOS/Android (hex-aarrggbb)'
+                        ? convertHexAlphaToWebFormat(token.value)
+                        : token.value,
                   }}
                 />
                 <span className={styles.colorHex} style={{ color: LIGHT_TEXT_COLOR }}>
-                  {value?.replace(/, /g, ',')}
+                  {token.value?.replace(/, /g, ',')}
                 </span>
               </div>
             </div>
           ))}
         </React.Fragment>
       ))}
+
       <div className={styles.controls}>
         <Input
           width="50%"
@@ -946,6 +934,9 @@ export const BaseTokensStory = () => {
           placeholder="Введите название токена или цвет"
           rightIcon={<SearchLoupeIcon16Regular />}
         />
+        <Checkbox checked={isSimilarSearch} onValueChange={setIsSimilarSearch}>
+          Искать похожие
+        </Checkbox>
       </div>
     </div>
   );
