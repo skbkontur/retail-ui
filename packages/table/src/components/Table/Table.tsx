@@ -1,15 +1,6 @@
-import React, {
-  useContext,
-  useCallback,
-  type ReactNode,
-  type FC,
-  forwardRef,
-  type MutableRefObject,
-  type CSSProperties,
-} from 'react';
+import React, { useContext, type ReactNode, type FC, forwardRef, type CSSProperties } from 'react';
 import cx from 'classnames';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
-import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 
@@ -42,6 +33,7 @@ import { TableHeaderCell } from './TableHeaderCell.js';
 import { TableCell } from './TableCell.js';
 import { TableCheckboxCell } from './TableCheckboxCell.js';
 import { TableHeaderCheckboxCell } from './TableHeaderCheckboxCell.js';
+import { useTableStyleSync } from './useTableStyleSync.js';
 
 interface TableProps extends CommonProps {
   width?: CSSProperties['width'];
@@ -112,16 +104,7 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
     const size = sizeProp ?? sizeContext.size;
     const tableTheme = getTableTheme(useContext(ThemeContext));
     const tableSizeClassName = styles[getSizeModifier('Table', size)];
-    const tableRef = useCallback(
-      (node: HTMLTableElement | null) => {
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as MutableRefObject<HTMLTableElement | null>).current = node;
-        }
-      },
-      [ref]
-    );
+    const tableRef = useTableStyleSync(ref, styles.Table);
 
     return (
       <SizeTableContext.Provider value={{ size }}>

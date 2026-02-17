@@ -6,8 +6,10 @@ import react from '@vitejs/plugin-react';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import dts from 'vite-plugin-dts';
 
+import { injectTableCssAtRuntime } from './build/injectTableCssAtRuntime';
+
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
-const external = Object.keys(packageJson.peerDependencies || {});
+const external = [...Object.keys(packageJson.peerDependencies || {}), '@skbkontur/global-object'];
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
@@ -16,6 +18,8 @@ export default defineConfig({
     cssInjectedByJsPlugin({
       useStrictCSP: true,
       relativeCSSInjection: false,
+      styleId: 'skbkontur-table',
+      injectCodeFunction: injectTableCssAtRuntime,
     }),
     dts({
       entryRoot: '.',
