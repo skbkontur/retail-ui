@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Gapped, Select, Input } from '@skbkontur/react-ui';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import type { Meta } from '@skbkontur/react-ui/typings/stories';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
@@ -951,7 +951,7 @@ export const BaseTokensStory = () => {
           value={filter}
           onValueChange={setFilter}
           placeholder="Введите название токена или цвет"
-          rightIcon={<SearchLoupeIcon16Regular />}
+          rightIcon={<IconSearchLoupeRegular16 />}
         />
       </div>
     </div>

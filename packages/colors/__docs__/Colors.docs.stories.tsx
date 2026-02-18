@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 
 import { DropdownMenu, MenuHeader, MenuItem, Select, Toast } from '@skbkontur/react-ui';
 import { css, injectGlobal } from '@emotion/css';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular';
-import { WeatherMoonIcon16Regular } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Regular';
-import { WeatherSunIcon16Regular } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Regular';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
+import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
 import * as Colors from '@skbkontur/colors';
@@ -23,16 +23,16 @@ import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
-import { IconArrowALeftRegular24 } from '@skbkontur/icons-v2/IconArrowALeftRegular24';
-import { IconQuestionCircleLight20 } from '@skbkontur/icons-v2/IconQuestionCircleLight20';
-import { IconWarningTriangleSolid20 } from '@skbkontur/icons-v2/IconWarningTriangleSolid20';
-import { IconDocTextRegular24 } from '@skbkontur/icons-v2/IconDocTextRegular24';
-import { IconCommentRectTextRegular24 } from '@skbkontur/icons-v2/IconCommentRectTextRegular24';
-import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons-v2/IconMarketShoppingBasketRegular24';
-import { IconSettingsGearRegular24 } from '@skbkontur/icons-v2/IconSettingsGearRegular24';
-import { IconPeople2Regular24 } from '@skbkontur/icons-v2/IconPeople2Regular24';
-import { IconStackHDownRegular24 } from '@skbkontur/icons-v2/IconStackHDownRegular24';
-import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons-v2/IconNaturePlantFlowerSolid20';
+import { IconArrowALeftRegular24 } from '@skbkontur/icons/IconArrowALeftRegular24';
+import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
+import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
+import { IconDocTextRegular24 } from '@skbkontur/icons/IconDocTextRegular24';
+import { IconCommentRectTextRegular24 } from '@skbkontur/icons/IconCommentRectTextRegular24';
+import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons/IconMarketShoppingBasketRegular24';
+import { IconSettingsGearRegular24 } from '@skbkontur/icons/IconSettingsGearRegular24';
+import { IconPeople2Regular24 } from '@skbkontur/icons/IconPeople2Regular24';
+import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular24';
+import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons/IconNaturePlantFlowerSolid20';
 import { Meta } from '@storybook/react';
 import { getColors } from '../get-colors';
 
@@ -237,7 +237,7 @@ export const ColorsExampleStory = () => {
   const renderThemeItem = (value: 'light' | 'dark') => {
     return (
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-        {value === 'light' ? <WeatherSunIcon16Regular /> : <WeatherMoonIcon16Regular />}
+        {value === 'light' ? <IconWeatherSunRegular16 /> : <IconWeatherMoonRegular16 />}
         {value}
       </div>
     );
@@ -1194,7 +1194,7 @@ export const ColorsPaletteStory = () => {
           value={filter}
           onValueChange={setFilter}
           placeholder="Введите название токена или цвет"
-          rightIcon={<SearchLoupeIcon16Regular />}
+          rightIcon={<IconSearchLoupeRegular16 />}
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { WeatherMoonIcon16Regular } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Regular';
-import { WeatherSunIcon16Regular } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Regular';
+import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
+import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
 import { Link } from '@skbkontur/react-ui/components/Link';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
@@ -237,7 +237,7 @@ document.head.${kw('appendChild')}(style);`;
                 onValueChange={setMainTheme}
                 renderItem={(i) => (
                   <div className="select-item">
-                    {i === 'light' ? <WeatherSunIcon16Regular /> : <WeatherMoonIcon16Regular />}
+                    {i === 'light' ? <IconWeatherSunRegular16 /> : <IconWeatherMoonRegular16 />}
                     {i}
                   </div>
                 )}
@@ -375,7 +375,6 @@ document.head.${kw('appendChild')}(style);`;
           </Gapped>
         </>
       </Gapped>
-
       <style>{`
 .constructor-container {
   -webkit-font-smoothing: antialiased;
