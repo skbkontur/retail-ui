@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta } from '@skbkontur/react-ui/typings/stories';
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular';
+import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
 import { Text } from '../src/Text';
 import { TextTokens, TTextTokens } from '../src/TextTokens';
 import { injectGlobal, css, cx } from '@emotion/css';
@@ -196,7 +196,7 @@ export const TypographyStory = () => {
               </div>
             )}
           >
-            <QuestionCircleIcon16Regular />
+            <IconQuestionCircleRegular16 />
           </Tooltip>
         </Toggle>
       </Gapped>
