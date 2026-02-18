@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "classnames": "^2",
+    "@skbkontur/global-object": "^0.4.5",
     "@skbkontur/colors": "^2.1.1"
   },
   "peerDependencies": {

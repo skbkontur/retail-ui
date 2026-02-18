@@ -7,6 +7,7 @@ import React, {
   type KeyboardEvent,
 } from 'react';
 import cx from 'classnames';
+import { globalObject } from '@skbkontur/global-object';
 import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 
@@ -35,7 +36,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
         return;
       }
 
-      const selection = window.getSelection();
+      const selection = globalObject.getSelection?.();
       if (selection && selection.toString().length > 0) {
         return;
       }
