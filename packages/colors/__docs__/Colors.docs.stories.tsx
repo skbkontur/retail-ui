@@ -1,13 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { DropdownMenu, MenuHeader, MenuItem, Select, Toast } from '@skbkontur/react-ui';
+import {
+  DropdownMenu,
+  MenuHeader,
+  MenuItem,
+  Select,
+  Toast,
+  ThemeFactory,
+  ThemeContext,
+  Hint,
+} from '@skbkontur/react-ui';
+import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
+import { BasicThemeClass } from '@skbkontur/react-ui/internal/themes/BasicTheme';
 import { css, injectGlobal } from '@emotion/css';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { SideMenuThemeIn } from '@skbkontur/side-menu';
 import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
-import * as Colors from '@skbkontur/colors';
+import { getColors } from '../get-colors';
 import type { ColorFormat } from '../lib/utils/convert-color';
 
 import { SideMenu } from '@skbkontur/side-menu';
@@ -23,18 +35,18 @@ import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
-import { IconArrowALeftRegular24 } from '@skbkontur/icons/IconArrowALeftRegular24';
-import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
-import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
-import { IconDocTextRegular24 } from '@skbkontur/icons/IconDocTextRegular24';
-import { IconCommentRectTextRegular24 } from '@skbkontur/icons/IconCommentRectTextRegular24';
-import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons/IconMarketShoppingBasketRegular24';
-import { IconSettingsGearRegular24 } from '@skbkontur/icons/IconSettingsGearRegular24';
-import { IconPeople2Regular24 } from '@skbkontur/icons/IconPeople2Regular24';
-import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular24';
-import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons/IconNaturePlantFlowerSolid20';
-import { Meta } from '@storybook/react';
-import { getColors } from '../get-colors';
+import { IconArrowALeftRegular24 } from '@skbkontur/icons-v2/IconArrowALeftRegular24';
+import { IconQuestionCircleLight20 } from '@skbkontur/icons-v2/IconQuestionCircleLight20';
+import { IconWarningTriangleSolid20 } from '@skbkontur/icons-v2/IconWarningTriangleSolid20';
+import { IconDocTextRegular24 } from '@skbkontur/icons-v2/IconDocTextRegular24';
+import { IconCommentRectTextRegular24 } from '@skbkontur/icons-v2/IconCommentRectTextRegular24';
+import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons-v2/IconMarketShoppingBasketRegular24';
+import { IconSettingsGearRegular24 } from '@skbkontur/icons-v2/IconSettingsGearRegular24';
+import { IconPeople2Regular24 } from '@skbkontur/icons-v2/IconPeople2Regular24';
+import { IconStackHDownRegular24 } from '@skbkontur/icons-v2/IconStackHDownRegular24';
+import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons-v2/IconNaturePlantFlowerSolid20';
+import { AddonsTheme } from '@skbkontur/react-ui-addons';
+import type { Meta } from '@storybook/react';
 
 interface TokenPair {
   key: string;
@@ -42,6 +54,11 @@ interface TokenPair {
     light: string;
     dark: string;
   };
+}
+
+interface TokenPairWithMeta extends TokenPair {
+  isFuzzy: boolean;
+  matchPercent?: number;
 }
 
 injectGlobal(`
@@ -66,7 +83,6 @@ export default {
  * - **theme** — тема `light | dark` (по умолчанию light)
  */
 export const ColorsExampleStory = () => {
-  const c = Colors;
   const styles: Record<string, string> = {
     colors: css`
       display: grid;
@@ -187,7 +203,7 @@ export const ColorsExampleStory = () => {
   const [checked, setChecked] = React.useState<boolean>(true);
   const [brand, setBrand] = React.useState(defaultBrandColor);
   const [accent, setAccent] = React.useState(defaultAccentColor);
-  const [themeAttr, setColorTheme] = React.useState<'light' | 'dark'>(defaultTheme);
+  const [colorTheme, setColorTheme] = React.useState<'light' | 'dark'>(defaultTheme);
 
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
   const [customAccentColor, setCustomAccentColor] = React.useState('#FFDD2D');
@@ -243,18 +259,18 @@ export const ColorsExampleStory = () => {
     );
   };
 
-  const brandAttr = React.useMemo(() => {
+  const safeBrandColor = React.useMemo(() => {
     if (brand !== 'custom') {
       return brand;
     }
-    return customBrandColor.trim() !== '' ? customBrandColor.toLowerCase() : defaultBrandColor.toLowerCase();
+    return customBrandColor.trim() !== '' ? customBrandColor : defaultBrandColor;
   }, [brand, customBrandColor]);
 
   const safeAccentColor = React.useMemo(() => {
     if (accent !== 'custom') {
       return accent;
     }
-    return customAccentColor.trim() !== '' ? customAccentColor.toLowerCase() : defaultAccentColor.toLowerCase();
+    return customAccentColor.trim() !== '' ? customAccentColor : defaultAccentColor;
   }, [accent, customAccentColor]);
 
   const isAccentDisabled = (accentValue: string, currentBrand: string) => {
@@ -286,19 +302,395 @@ export const ColorsExampleStory = () => {
     }
   }, [brand, accent]);
 
-  const accentAttr = React.useMemo(() => {
-    if (isAccentDisabled(safeAccentColor, brandAttr)) {
+  const effectiveAccentColor = React.useMemo(() => {
+    if (isAccentDisabled(safeAccentColor, safeBrandColor)) {
       return 'gray';
     }
     return safeAccentColor;
-  }, [brandAttr, safeAccentColor]);
+  }, [safeBrandColor, safeAccentColor]);
 
-  React.useEffect(() => {
-    let styles = getColors({ brand: brandAttr, accent: accentAttr, theme: themeAttr, output: 'css' });
-    const style = document.createElement('style');
-    style.innerHTML = styles;
-    document.head.appendChild(style);
-  }, [brandAttr, accentAttr, themeAttr]);
+  let c = getColors({
+    brand: safeBrandColor,
+    accent: effectiveAccentColor,
+    theme: colorTheme,
+  });
+
+  const theme = ThemeFactory.create<BasicThemeClass | SideMenuThemeIn | AddonsTheme>({
+    brand: c.shapeBoldBrandOriginal,
+    bgDefault: c.surfaceHigh,
+    bgSecondary: c.surfaceHigh,
+    bgDisabled: c.shapeOtherDisabled,
+    errorText: c.textErrorHeavy,
+    borderColorDisabled: c.lineNeutralFaint,
+    placeholderColor: c.textNeutralPale,
+    outlineColorFocus: c.surfaceBase,
+    placeholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
+    textColorDefault: c.textNeutralHeavy,
+    textColorDisabled: c.textNeutralPale,
+    borderColorFocus: c.lineAccentBold,
+    borderColorError: c.lineErrorBold,
+    borderColorWarning: c.lineWarningBold,
+    linkColor: c.textAccentHeavy,
+    linkHoverColor: c.textAccentHeavyHover,
+    linkActiveColor: c.textAccentHeavyPressed,
+    linkSuccessColor: c.textSuccessHeavy,
+    linkSuccessHoverColor: c.textSuccessHeavyHover,
+    linkSuccessActiveColor: c.textSuccessHeavyPressed,
+    linkDangerColor: c.textErrorHeavy,
+    linkDangerHoverColor: c.textErrorHeavyHover,
+    linkDangerActiveColor: c.textErrorHeavyPressed,
+    linkDisabledColor: c.textNeutralPale,
+    linkGrayedColor: c.textNeutralSoft,
+    linkGrayedHoverColor: c.textNeutralHeavy,
+    linkGrayedActiveColor: c.textNeutralHeavy,
+    linkFocusOutlineColor: c.lineAccentBold,
+    tokenDisabledBg: c.shapeOtherDisabled,
+    tokenBg: c.shapeFaintNeutralAlpha,
+    tokenColor: c.textNeutralHeavy,
+    tokenBorderColor: c.lineNeutralPale,
+    tokenBgHover: c.shapeFaintNeutralAlphaHover,
+    tokenColorHover: c.textNeutralHeavy,
+    tokenBorderColorHover: c.lineNeutralPale,
+    tokenBgActive: c.shapeBoldAccent,
+    tokenColorActive: c.textOnAccentBoldHeavy,
+    tokenInputBorderColor: c.lineNeutralPale,
+    tokenInputBorderColorHover: c.lineNeutralPaleHover,
+    tokenInputBorderColorFocus: c.lineAccentBold,
+    tokenInputBorderColorError: c.lineErrorBold,
+    tokenInputBorderColorWarning: c.lineWarningBold,
+    tokenInputBorderTopColor: c.lineNeutralPale,
+    tokenInputPlaceholderColor: c.textNeutralPale,
+    tokenInputPlaceholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
+    tokenInputDisabledBg: c.shapeOtherDisabled,
+    tokenInputBg: c.shapeOtherField,
+    tokenInputMenuPopupBg: 'transparent',
+    loaderBg: c.shapeInvertedNeutralHeavy,
+    btnDisabledBorderColor: c.lineNeutralFaint,
+    btnCheckedBg: c.shapeBoldAccent,
+    btnCheckedDisabledBg: c.shapeOtherAccentBoldDisabled,
+    btnCheckedDisabledColor: c.textInvertedNeutralSoft,
+    btnCheckedTextColor: c.textOnAccentBoldHeavy,
+    btnDefaultBg: c.shapeOtherBase,
+    btnDefaultHoverBg: c.shapeOtherBaseHover,
+    btnDefaultActiveBg: c.shapeOtherBasePressed,
+    btnDefaultHoverTextColor: c.textNeutralHeavy,
+    btnDefaultBorderColor: c.lineNeutralPale,
+    btnSuccessBg: c.shapeBoldSuccess,
+    btnSuccessBorderColor: c.shapeBoldSuccess,
+    btnSuccessHoverBg: c.shapeBoldSuccessHover,
+    btnSuccessHoverBorderColor: c.shapeBoldSuccessHover,
+    btnSuccessHoverTextColor: c.textConstHeavyWhite,
+    btnSuccessTextColor: c.textConstHeavyWhite,
+    btnSuccessActiveBg: c.shapeBoldSuccessPressed,
+    btnSuccessActiveBorderColor: c.shapeBoldSuccessPressed,
+    btnPrimaryBg: c.shapeBoldAccent,
+    btnPrimaryHoverBg: c.shapeBoldAccentHover,
+    btnPrimaryActiveBg: c.shapeBoldAccentPressed,
+    btnPrimaryHoverTextColor: '',
+    btnPrimaryBorderColor: c.shapeBoldAccent,
+    btnPrimaryHoverBorderColor: c.shapeBoldAccentHover,
+    btnPrimaryActiveBorderColor: c.shapeBoldAccentPressed,
+    btnPrimaryTextColor: c.textOnAccentBoldHeavy,
+    btnDangerBg: c.shapeBoldError,
+    btnDangerHoverBg: c.shapeBoldErrorHover,
+    btnDangerHoverBorderColor: c.shapeBoldErrorHover,
+    btnDangerTextColor: c.textConstHeavyWhite,
+    btnDangerActiveBg: c.shapeBoldErrorPressed,
+    btnDangerActiveBorderColor: c.shapeBoldErrorPressed,
+    btnPayBg: c.shapeBoldWarning,
+    btnPayBorderColor: c.shapeBoldWarning,
+    btnPayHoverBg: c.shapeBoldWarningHover,
+    btnPayHoverBorderColor: c.shapeBoldWarningHover,
+    btnPayTextColor: c.textConstHeavyBlack,
+    btnPayActiveBg: c.shapeBoldWarningPressed,
+    btnPayActiveBorderColor: c.shapeBoldWarningPressed,
+    btnMenuArrowColor: c.textNeutralSoft,
+    btnDisabledBg: c.shapeOtherDisabled,
+    btnBorderColorWarning: c.lineWarningBold,
+    btnBorderColorError: c.lineErrorBold,
+    btnErrorSecondary: c.shapeFaintError,
+    btnWarningSecondary: c.shapeFaintWarning,
+    btnInsetColor: c.surfaceBase,
+    btnDisabledTextColor: c.textNeutralPale,
+    btnBacklessBg: 'transparent',
+    btnBacklessHoverBg: c.shapeOtherBacklessHover,
+    btnBacklessActiveBg: c.shapeOtherBacklessPressed,
+    btnBacklessActiveBorderColor: c.lineNeutralPale,
+    btnBacklessBorderColor: c.lineNeutralPale,
+    btnBacklessDisabledBorderColor: c.lineNeutralFaint,
+    btnBacklessHoverBorderColor: c.lineNeutralPale,
+    btnBacklessHoverTextColor: '',
+    btnTextHoverBg: c.shapeOtherBacklessHover,
+    btnTextActiveBg: c.shapeOtherBacklessPressed,
+    selectDefaultBg: c.shapeOtherField,
+    selectPlaceholderColor: c.textNeutralPale,
+    selectPlaceholderColorDisabled: c.textNeutralPale,
+    selectMenuArrowColorDisabled: c.textNeutralPale,
+    selectBgDisabled: c.shapeOtherDisabled,
+    selectBorderColorDisabled: c.lineNeutralFaint,
+    tooltipCloseBtnColor: c.textNeutralPale,
+    tooltipCloseBtnHoverColor: c.textNeutralHeavy,
+    tooltipTextColor: c.textNeutralHeavy,
+    tooltipBg: c.surfaceHigh,
+    kebabBackgroundHover: c.shapeOtherBacklessHover,
+    kebabBackgroundActive: c.shapeOtherBacklessPressed,
+    kebabIconColor: c.textNeutralSoft,
+    modalWindowShadow: '0px 16px 32px 0px rgba(0, 0, 0, 0.06)',
+    modalBackBg: c.surfaceModalBackdrop,
+    modalBg: c.surfaceHigh,
+    modalBackOpacity: '1',
+    modalCloseButtonColor: c.textNeutralPale,
+    modalCloseButtonDisabledColor: c.textNeutralPale,
+    modalCloseButtonHoverColor: c.textNeutralHeavy,
+    modalFixedHeaderBg: c.surfaceHigh,
+    modalFooterBg: c.surfaceHigh,
+    modalHeaderTextColor: c.textNeutralHeavy,
+    modalSeparatorBorderBottom: `1px solid ${c.lineNeutralFaint}`,
+    sidePageFooterPanelBg: c.surfaceHigh,
+    sidePageBackingBg: c.surfaceModalBackdrop,
+    sidePageBackingBgOpacity: '1',
+    sidePageCloseButtonColor: c.textNeutralPale,
+    sidePageCloseButtonHoverColor: c.textNeutralHeavy,
+    sidePageContainerShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+    sidePageBgDefault: c.surfaceHigh,
+    sidePageHeaderTextColor: c.textNeutralHeavy,
+    dateInputMaskColor: c.textNeutralPale,
+    calendarBottomSeparatorBorderColor: c.lineNeutralFaint,
+    calendarBottomSeparatorBorder: `1px solid ${c.lineNeutralFaint}`,
+    calendarBg: c.surfaceHigh,
+    calendarCellBg: 'transparent',
+    calendarCellHoverColor: '',
+    calendarCellActiveHoverColor: '',
+    calendarCellWeekendColor: c.customizableHeavyRed,
+    calendarCellTodayBorder: '1px solid',
+    calendarCellSelectedBgColor: c.shapeBoldAccent,
+    calendarCellSelectedFontColor: c.textOnAccentBoldHeavy,
+    calendarMonthHeaderStickedBgColor: c.surfaceHigh,
+    calendarMonthTitleBorderBottomColor: c.lineNeutralFaint,
+    calendarCellHoverBgColor: c.shapeOtherBacklessHover,
+    datePickerOpenBtnColor: c.textNeutralHeavy,
+    rangeCalendarCellBg: c.shapeFaintNeutralAlpha,
+    rangeCalendarCellEndBg: c.shapeBoldAccent,
+    rangeCalendarCellEndColor: c.textOnAccentBoldHeavy,
+    rangeCalendarCellHoverBg: c.shapeOtherBacklessHover,
+    dateSelectMenuBg: c.surfaceHigh,
+    dateSelectMenuItemBgDisabled: c.surfaceHigh,
+    dateSelectMenuItemFontActive: '',
+    dateSelectMenuItemFontSelected: c.textNeutralHeavy,
+    dateSelectMenuItemFontDisabled: c.textNeutralPale,
+    dateSelectTextColorDisabled: c.textNeutralPale,
+    dateSelectTextColorDefault: c.textNeutralHeavy,
+    dateSelectLinkColor: c.textAccentHeavy,
+    dateSelectPopupBoxShadow: '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)',
+    dateSelectTextColorInvert: '',
+    pagingPageLinkActiveBg: c.shapeOtherBacklessPressed,
+    pagingPageLinkDisabledActiveBg: c.shapeOtherDisabled,
+    pagingPageLinkHoverBg: c.shapeOtherBacklessHover,
+    pagingDotsColor: c.textNeutralPale,
+    pagingPageLinkHintColor: c.textNeutralSoft,
+    hintColor: c.textInvertedNeutralHeavy,
+    mobileHintColor: c.textInvertedNeutralHeavy,
+    hintBgColor: c.shapeHeavyNeutral,
+    toastBg: c.shapeHeavyNeutral,
+    toastErrorBg: c.shapeBoldError,
+    toastColor: c.textInvertedNeutralHeavy,
+    toastLinkColor: c.textInvertedNeutralHeavy,
+    toastLinkTextDecorationHover: '',
+    toastLinkBgHover: c.shapeInvertedBacklessHover,
+    toastLinkBgActive: c.shapeInvertedBacklessPressed,
+    toastCloseColor: c.textInvertedNeutralSoft,
+    toastCloseHoverColor: c.textInvertedNeutralHeavy,
+    toastColorError: c.textConstHeavyWhite,
+    toastLinkColorError: c.textConstHeavyWhite,
+    toastLinkBgHoverError: c.shapeConstBacklessWhiteHover,
+    toastLinkBgActiveError: c.shapeConstBacklessWhiteHover,
+    toastLinkColorActiveError: c.textConstHeavyWhite,
+    toastCloseColorError: c.textConstSoftWhite,
+    toastCloseHoverColorError: c.textConstHeavyWhite,
+    dropdownDefaultBg: c.shapeOtherBase,
+    dropdownBgDisabled: c.shapeOtherDisabled,
+    dropdownBorderColorDisabled: c.lineNeutralFaint,
+    dropdownTextColorDisabled: c.textNeutralPale,
+    menuBgDefault: c.surfaceHigh,
+    menuShadow: '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)',
+    menuItemSelectedBg: c.shapeOtherBacklessPressed,
+    menuItemHoverBg: c.shapeOtherBacklessHover,
+    menuItemLinkColor: c.textAccentHeavy,
+    menuItemCommentColor: c.textNeutralSoft,
+    menuItemCommentOpacity: '1',
+    menuItemDisabledColor: c.textNeutralPale,
+    menuMessageTextColor: c.textNeutralPale,
+    menuHeaderColor: c.textNeutralSoft,
+    menuFooterColor: c.textNeutralSoft,
+    menuSeparatorBorderColor: c.lineNeutralFaint,
+    toggleTextColor: c.textNeutralHeavy,
+    toggleBaseBg: 'transparent',
+    toggleBgHover: c.shapeOtherFieldHover,
+    toggleBorderColor: c.lineNeutralPale,
+    toggleBorderColorDisabled: c.lineNeutralPale,
+    toggleBgFocus: 'linear-gradient(-180deg, #f1f1f1, #dedede)',
+    toggleShadowColorError: c.lineErrorBold,
+    toggleShadowColorWarning: c.lineWarningBold,
+    toggleFocusShadowColor: c.lineAccentBold,
+    toggleContainerBg: c.shapeOtherField,
+    toggleHandleBg: c.shapeOtherBase,
+    toggleHandleBoxShadow: `0 0 0 1px ${c.lineNeutralPale}`,
+    toggleContainerBoxShadow: `inset 0 0 0 1px ${c.lineNeutralPale}`,
+    toggleContainerBoxShadowHover: `inset 0 0 0 1px ${c.lineNeutralPaleHover}`,
+    toggleHandleBgHover: c.shapeOtherBase,
+    toggleHandleBoxShadowHover: `0 0 0 1px ${c.lineNeutralPale}`,
+    toggleContainerBgHover: c.shapeOtherFieldHover,
+    toggleContainerBoxShadowChecked: 'none',
+    toggleHandleBoxShadowChecked: 'none',
+    toggleHandleBgChecked: c.shapeInvertedNeutralHeavy,
+    toggleBgChecked: c.shapeBoldAccent,
+    toggleContainerBgChecked: c.shapeBoldAccent,
+    toggleContainerBoxShadowCheckedHover: 'none',
+    toggleContainerBgCheckedHover: c.shapeBoldAccentHover,
+    toggleHandleBoxShadowCheckedHover: 'none',
+    toggleHandleBgCheckedHover: c.shapeInvertedNeutralHeavyHover,
+    toggleContainerBgDisabled: c.shapeOtherDisabled,
+    toggleHandleBgDisabled: 'transparent',
+    toggleContainerBoxShadowDisabled: `inset 0 0 0 1px ${c.lineNeutralFaint}`,
+    toggleHandleBoxShadowDisabled: `0 0 0 1px ${c.lineNeutralFaint}`,
+    toggleDisabledHandleBg: 'transparent',
+    toggleBgDisabled: c.shapeOtherDisabled,
+    toggleContainerBgDisabledChecked: c.shapeOtherAccentBoldDisabled,
+    toggleHandleBgDisabledChecked: c.shapeInvertedNeutralHeavy,
+    toggleContainerBoxShadowDisabledChecked: 'none',
+    toggleHandleBoxShadowDisabledChecked: 'none',
+    toggleBorderColorDisabledChecked: c.lineNeutralPale,
+    popupDropShadow: 'drop-shadow(0px 32px 32px rgba(0, 0, 0, 0.08)) drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.12))',
+    popupBoxShadow: '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)',
+    popupTextColor: c.textNeutralHeavy,
+    popupBackground: c.surfaceHigh,
+    inputBg: c.shapeOtherField,
+    inputIconColor: c.textNeutralSoft,
+    inputDisabledBg: c.shapeOtherDisabled,
+    inputBorderColor: c.lineNeutralPale,
+    inputBorderColorHover: c.lineNeutralPaleHover,
+    inputBorderTopColor: c.lineNeutralPale,
+    inputPlaceholderColor: c.textNeutralPale,
+    inputPlaceholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
+    inputBlinkColor: c.shapeFaintNeutralAlpha,
+    inputColorScheme: 'light',
+    checkboxTextColorDefault: c.textNeutralHeavy,
+    checkboxTextColorDisabled: c.textNeutralPale,
+    checkboxShadowDisabled: `0 0 0 1px ${c.lineNeutralFaint}`,
+    checkboxBorder: 'none',
+    checkboxShadow: `0 0 0 1px ${c.lineNeutralPale}`,
+    checkboxShadowHover: `0 0 0 1px ${c.lineNeutralPaleHover}`,
+    checkboxCheckedColor: c.shapeInvertedNeutralHeavy,
+    checkboxBorderColorWarning: c.lineWarningBold,
+    checkboxBorderColorError: c.lineErrorBold,
+    checkboxCheckedHoverShadow: `0 0 0 1px ${c.shapeBoldAccentHover}`,
+    checkboxCheckedShadow: `0 0 0 1px ${c.shapeBoldAccent}`,
+    checkboxCheckedActiveShadow: `0 0 0 1px ${c.shapeBoldAccentPressed}`,
+    checkboxBorderColorFocus: c.lineAccentBold,
+    checkboxBg: c.shapeOtherField,
+    checkboxHoverBg: c.shapeOtherFieldHover,
+    checkboxActiveBg: c.shapeOtherFieldPressed,
+    checkboxCheckedBg: c.shapeBoldAccent,
+    checkboxBgDisabled: c.shapeOtherDisabled,
+    checkboxCheckedHoverBg: c.shapeBoldAccentHover,
+    checkboxCheckedActiveBg: c.shapeBoldAccentPressed,
+    checkboxShadowActive: `0 0 0 1px ${c.lineNeutralPalePressed}`,
+    textareaBg: c.shapeOtherField,
+    textareaColor: c.textNeutralHeavy,
+    textareaTextColorDisabled: c.textNeutralPale,
+    textareaPlaceholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
+    textareaPlaceholderColor: c.textNeutralPale,
+    textareaPlaceholderColorDisabled: c.textNeutralPale,
+    textareaShadow: 'none',
+    textareaBorderColor: c.lineNeutralPale,
+    textareaBorderTopColor: c.lineNeutralPale,
+    textareaBorderColorFocus: c.lineAccentBold,
+    textareaBorderColorHover: c.lineNeutralPaleHover,
+    textareaBorderColorWarning: c.lineWarningBold,
+    textareaBorderColorError: c.lineErrorBold,
+    textareaDisabledBg: c.shapeOtherDisabled,
+    textareaDisabledBorderColor: c.lineNeutralFaint,
+    textareaCounterColor: c.textNeutralSoft,
+    textareaCounterBg: 'transparent',
+    textareaCounterErrorColor: c.textErrorHeavy,
+    textareaCounterHelpIconColor: c.textNeutralHeavy,
+    radioBgColor: c.shapeOtherField,
+    radioHoverBg: c.shapeOtherFieldHover,
+    radioActiveBg: c.shapeOtherFieldPressed,
+    radioBorderColor: c.lineNeutralPale,
+    radioBoxShadow: 'none',
+    radioBorder: `1px solid ${c.lineNeutralPale}`,
+    radioBorderColorFocus: c.lineAccentBold,
+    radioBorderColorWarning: c.lineWarningBold,
+    radioBorderColorError: c.lineErrorBold,
+    radioHoverShadow: 'none',
+    radioActiveShadow: 'none',
+    radioCheckedBgColor: c.shapeBoldAccent,
+    radioCheckedBorderColor: 'transparent',
+    radioCheckedBulletColor: c.shapeInvertedNeutralHeavy,
+    radioCheckedHoverBgColor: c.shapeBoldAccentHover,
+    radioDisabledBg: c.shapeOtherDisabled,
+    radioDisabledShadow: `0 0 0 1px ${c.lineNeutralFaint}`,
+    radioCheckedDisabledBulletBg: c.textNeutralPale,
+    tabTextColorDefault: c.textNeutralHeavy,
+    tabColorFocus: c.lineAccentBold,
+    tabColorError: c.shapeBoldError,
+    tabColorWarning: c.shapeBoldWarning,
+    tabColorSuccess: c.shapeBoldSuccess,
+    tabColorPrimary: c.shapeBoldAccent,
+    tabColorHover: c.lineNeutralPale,
+    tabColorHoverError: `color-mix(in srgb, ${c.shapeBoldError}, transparent 50%)`,
+    tabColorHoverWarning: `color-mix(in srgb, ${c.shapeBoldWarning}, transparent 50%)`,
+    tabColorHoverSuccess: `color-mix(in srgb, ${c.shapeBoldSuccess}, transparent 50%)`,
+    tabColorHoverPrimary: c.lineAccentPale,
+    spinnerColor: c.customizableBoldRed,
+    spinnerDimmedColor: c.customizableBoldGray,
+    spinnerCaptionColor: c.textNeutralSoft,
+    switcherTextColor: c.textNeutralHeavy,
+    switcherBtnDisabledBorderColor: c.lineNeutralPale,
+    switcherButtonDisabledBorderColor: c.lineNeutralPale,
+    scrollContainerScrollBarColor: c.shapeSoftNeutralAlpha,
+    scrollContainerScrollBarInvertColor: c.shapeInvertedNeutralSoftAlpha,
+    passwordInputVisibilityIconColor: c.textNeutralHeavy,
+    passwordInputVisibilityIconOpacity: '0.64',
+    passwordInputVisibilityIconHoverColor: c.textNeutralHeavy,
+    passwordInputVisibilityIconHoverOpacity: '1',
+    globalLoaderColor: c.shapeBoldBrandOriginal,
+    fileUploaderBg: '',
+    fileUploaderUploadButtonBg: 'transparent',
+    fileUploaderTextColorDefault: c.textNeutralHeavy,
+    fileUploaderBorderColor: c.lineNeutralPale,
+    fileUploaderDisabledBorder: `1px ${'dashed'} ${c.lineNeutralFaint}`,
+    fileUploaderBorderColorFocus: c.lineAccentBold,
+    fileUploaderLinkColor: c.textNeutralHeavy,
+    fileUploaderAfterLinkColor: c.textNeutralSoft,
+    fileUploaderIconColor: c.textNeutralPale,
+    fileUploaderIconHoverColor: c.textNeutralHeavy,
+    fileUploaderBorderColorError: c.lineErrorBold,
+    fileUploaderBorderColorWarning: c.lineWarningBold,
+    fileUploaderDisabledBg: c.shapeOtherDisabled,
+    fileUploaderDisabledBorderColor: c.lineNeutralFaint,
+    fileUploaderDisabledTextColor: c.textNeutralPale,
+    fileUploaderDisabledLinkColor: c.textNeutralPale,
+    fileUploaderDisabledIconColor: c.textNeutralPale,
+    fileUploaderHoveredBg: c.shapeOtherBacklessHover,
+    fileUploaderHoveredBorderColor: 'transparent',
+    fileUploaderDragOverBorderColor: c.lineAccentBold,
+    clearCrossIconColor: c.textNeutralSoft,
+    clearCrossIconHoverColor: c.textNeutralHeavy,
+    closeBtnIconColor: c.textNeutralPale,
+    closeBtnIconDisabledColor: c.textNeutralPale,
+    closeBtnIconHoverColor: c.textNeutralHeavy,
+    validationsTextColorError: c.textErrorHeavy,
+    validationsTextColorWarning: c.textWarningHeavy,
+    sideMenuBgColor: c.surfaceLow,
+    sideMenuProductColor: c.shapeBoldBrandOriginal,
+    sideMenuNotificationsMarkerBg: c.shapeHeavyNeutral,
+    addonsUserAvatarBorderColor: c.shapeHeavyNeutral,
+    addonsUserAvatarColor: c.shapeHeavyNeutral,
+    sideMenuItemActiveBg: c.shapeOtherBase,
+    sideMenuItemHoverBg: c.shapeOtherBacklessHover,
+  });
 
   return (
     <div data-colors-controls>
@@ -355,14 +747,14 @@ export const ColorsExampleStory = () => {
             id="example-theme"
             width={140}
             items={['light', 'dark']}
-            value={themeAttr}
+            value={colorTheme}
             onValueChange={setColorTheme}
             renderValue={renderThemeItem}
             renderItem={renderThemeItem}
           />
         </Gapped>
       </div>
-      <div data-k-brand={brandAttr} data-k-accent={accentAttr} data-k-theme={themeAttr}>
+      <ThemeContext.Provider value={theme}>
         <div style={{ color: c.textNeutralHeavy, background: c.surfaceHigh }}>
           <div className="wrapper">
             <style>{`
@@ -572,10 +964,10 @@ export const ColorsExampleStory = () => {
               </main>
               <footer className="footer">
                 <div className="footer__controls">
-                  <Button use="accent" size="large">
+                  <Button use="primary" size="large">
                     Сохранить
                   </Button>
-                  <Button use="outline" size="large">
+                  <Button use="backless" size="large">
                     Отменить
                   </Button>
                   <div className="footer__warning-panel">
@@ -587,7 +979,7 @@ export const ColorsExampleStory = () => {
             </div>
           </div>
         </div>
-      </div>
+      </ThemeContext.Provider>
     </div>
   );
 };
@@ -628,6 +1020,8 @@ export const ColorsPaletteStory = () => {
     'customizable',
   ];
 
+  const diff = differenceEuclidean('oklch');
+
   const generateTokenList = (tokens: any): TokenPair[] => {
     const { light, dark } = tokens;
     const tokenList: TokenPair[] = [];
@@ -666,8 +1060,8 @@ export const ColorsPaletteStory = () => {
     return null;
   };
 
-  const groupTokensByRoot = (tokens: TokenPair[]): Record<string, TokenPair[]> => {
-    const groupedByRoot: Record<string, TokenPair[]> = {};
+  const groupTokensByRoot = (tokens: TokenPairWithMeta[]): Record<string, TokenPairWithMeta[]> => {
+    const groupedByRoot: Record<string, TokenPairWithMeta[]> = {};
     const allRoots = GROUPING_ROOTS;
 
     const sortedTokens = tokens.sort((a, b) => a.key.localeCompare(b.key));
@@ -699,7 +1093,7 @@ export const ColorsPaletteStory = () => {
       groupedByRoot[rootKey].push(token);
     }
 
-    const finalGrouped: Record<string, TokenPair[]> = {};
+    const finalGrouped: Record<string, TokenPairWithMeta[]> = {};
 
     for (const key of GROUPING_ROOTS) {
       if (groupedByRoot[key]) {
@@ -820,10 +1214,25 @@ export const ColorsPaletteStory = () => {
       position: sticky;
       z-index: 10;
       bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       padding: 8px;
       background: white;
       box-shadow: 0 -1px rgba(0, 0, 0, 0.15);
       margin-top: auto;
+    `,
+    matchBadge: css`
+      position: relative;
+      top: -1px;
+      font-size: 10px;
+      padding: 2px 5px;
+      margin-left: 8px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.04);
+      color: #555;
+      font-weight: 600;
+      white-space: nowrap;
     `,
   };
 
@@ -839,6 +1248,7 @@ export const ColorsPaletteStory = () => {
   const [brand, setBrand] = React.useState(defaultBrandColor);
   const [accent, setAccent] = React.useState(defaultAccentColor);
   const [filter, setFilter] = React.useState('');
+  const [isSimilarSearch, setIsSimilarSearch] = React.useState(true);
   const [colorFormat, setColorFormat] = React.useState(colorFormatOptions[0]);
 
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
@@ -946,7 +1356,7 @@ export const ColorsPaletteStory = () => {
     return safeAccentColor;
   }, [safeBrandColor, safeAccentColor]);
 
-  let tokenList;
+  let tokenList: TokenPair[] = [];
 
   try {
     tokenList = generateTokenList({
@@ -980,54 +1390,93 @@ export const ColorsPaletteStory = () => {
     });
   }
 
-  const filterTokens = (tokens: TokenPair[]) => {
-    if (!filter) return tokens;
+  const filterTokens = (tokens: TokenPair[]): TokenPairWithMeta[] => {
+    const asMeta = (t: TokenPair, fuzzy: boolean, percent?: number) => ({
+      ...t,
+      isFuzzy: fuzzy,
+      matchPercent: percent,
+    });
+
+    if (!filter) {
+      return tokens.map((t) => asMeta(t, false));
+    }
 
     const filterLower = filter.toLowerCase();
+    const parsedFilter = parse(filter);
+    const FUZZY_THRESHOLD = 0.09;
 
-    return tokens.filter((token) => {
-      if (token.key.toLowerCase().includes(filterLower)) {
-        return true;
-      }
+    const blendWithBackground = (colorStr: string, isDark: boolean): Color | undefined => {
+      const parsed = parse(colorStr) as Rgb;
+      if (!parsed) return undefined;
 
+      const bgColor = isDark
+        ? { mode: 'rgb', r: 0, g: 0, b: 0, alpha: 1 }
+        : { mode: 'rgb', r: 1, g: 1, b: 1, alpha: 1 };
+
+      if (parsed.alpha === undefined || parsed.alpha === 1) return parsed;
+
+      const a = parsed.alpha;
+      const rgb = {
+        mode: 'rgb' as const,
+        r: parsed.r * a + bgColor.r * (1 - a),
+        g: parsed.g * a + bgColor.g * (1 - a),
+        b: parsed.b * a + bgColor.b * (1 - a),
+        alpha: 1,
+      };
+
+      return rgb;
+    };
+
+    const results: TokenPairWithMeta[] = [];
+
+    for (const token of tokens) {
+      let isStringMatch = false;
       if (
+        token.key.toLowerCase().includes(filterLower) ||
         token.value.light.toLowerCase().includes(filterLower) ||
         token.value.dark.toLowerCase().includes(filterLower)
       ) {
-        return true;
+        isStringMatch = true;
       }
 
-      const figmaNameToToken = (figmanName: string): string => {
-        const prefixMatch = figmanName.match(/^(Hover|Pressed)\//);
-
-        const [processedString, extractedPrefix] = prefixMatch
-          ? [
-              figmanName.substring(prefixMatch[0].length),
-              prefixMatch[1].charAt(0).toUpperCase() + prefixMatch[1].slice(1),
-            ]
-          : [figmanName, ''];
-
-        const parts = processedString.split(/[/ ]+/).filter(Boolean);
-
-        const baseCamelCaseString = parts.reduce((acc, part, index) => {
-          return (
-            acc +
-            (index === 0 ? part.charAt(0).toLowerCase() + part.slice(1) : part.charAt(0).toUpperCase() + part.slice(1))
-          );
-        }, '');
-
-        return baseCamelCaseString + extractedPrefix;
-      };
-
-      if (token.key.includes(figmaNameToToken(filter))) {
-        return true;
+      if (isStringMatch) {
+        results.push(asMeta(token, false));
+        continue;
       }
 
-      return false;
+      if (isSimilarSearch && parsedFilter) {
+        const lightBlended = blendWithBackground(token.value.light, false);
+        const darkBlended = blendWithBackground(token.value.dark, true);
+
+        let distLight = 1;
+        let distDark = 1;
+
+        if (lightBlended) {
+          distLight = diff(parsedFilter, lightBlended) ?? 1;
+        }
+        if (darkBlended) {
+          distDark = diff(parsedFilter, darkBlended) ?? 1;
+        }
+
+        const minDist = Math.min(distLight, distDark);
+
+        if (minDist <= FUZZY_THRESHOLD) {
+          const matchPercent = Math.max(0, Math.round((1 - minDist) * 100));
+          results.push(asMeta(token, true, matchPercent));
+        }
+      }
+    }
+
+    return results.sort((a, b) => {
+      if (a.isFuzzy && b.isFuzzy) return (b.matchPercent || 0) - (a.matchPercent || 0);
+      if (a.isFuzzy && !b.isFuzzy) return 1;
+      if (!a.isFuzzy && b.isFuzzy) return -1;
+      return 0;
     });
   };
 
-  const groupedByRoot = groupTokensByRoot(filterTokens(tokenList));
+  const filteredList = filterTokens(tokenList);
+  const groupedByRoot = groupTokensByRoot(filteredList);
 
   const renderColorItem = (color: string, text: string) => {
     return (
@@ -1128,7 +1577,7 @@ export const ColorsPaletteStory = () => {
           <div className={styles.groupHeader} style={{ margin: i !== 0 ? '24px 0 16px' : '12px 0 0' }}>
             {rootKey}
           </div>
-          {tokens.map(({ key, value }) => {
+          {tokens.map(({ key, value, isFuzzy, matchPercent }) => {
             const convertHexAlphaToWebFormat = (color: string) =>
               color.length === 9 ? '#' + color.slice(3, 9) + color.slice(1, 3) : color;
             const displayLightValue = value?.light;
@@ -1140,7 +1589,17 @@ export const ColorsPaletteStory = () => {
                 width="100%"
                 caption={
                   <button className={styles.dropdownRow}>
-                    <span className={styles.colorName}>{key}</span>
+                    <span
+                      className={styles.colorName}
+                      style={{ opacity: isFuzzy && matchPercent ? (matchPercent <= 94 ? 0.5 : 1) : undefined }}
+                    >
+                      {key}
+                      {isFuzzy && matchPercent && (
+                        <Hint text="Процент совпадения">
+                          <span className={styles.matchBadge}>{matchPercent}%</span>
+                        </Hint>
+                      )}
+                    </span>
                     <div className={styles.colorTileWrapper}>
                       <div
                         className={styles.colorTile}
@@ -1193,9 +1652,12 @@ export const ColorsPaletteStory = () => {
           width="50%"
           value={filter}
           onValueChange={setFilter}
-          placeholder="Введите название токена или цвет"
+          placeholder="Введите название токена или цвет в #hex/rgba/oklch"
           rightIcon={<IconSearchLoupeRegular16 />}
         />
+        <Checkbox checked={isSimilarSearch} onValueChange={() => setIsSimilarSearch(!isSimilarSearch)}>
+          Подбирать похожие цвета
+        </Checkbox>
       </div>
     </div>
   );
