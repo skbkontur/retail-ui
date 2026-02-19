@@ -99,7 +99,7 @@ export const TableActionBar: FC<TableActionBarProps> = (props) => {
 
     if (text) {
       return (
-        <Hint key={key ?? index} text={text} maxWidth={300} pos="top">
+        <Hint key={key ?? index} text={text} maxWidth={300} pos="top" useWrapper>
           {btnContent}
         </Hint>
       );
