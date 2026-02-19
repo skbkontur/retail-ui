@@ -184,6 +184,7 @@ export const TypographyStory = () => {
         <Toggle checked={isWideColumn} onValueChange={setIsWideColumn}>
           Широкая колонка (wideColumn){' '}
           <Tooltip
+            useWrapper
             render={() => (
               <div style={{ maxWidth: 200 }}>
                 Если длина строки больше 40&nbsp;символов, увеличивается высота строки и абзацный отступ.{' '}
