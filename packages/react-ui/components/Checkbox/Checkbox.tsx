@@ -55,10 +55,6 @@ export interface CheckboxProps
         /** Задает функцию, вызывающуюся при изменении value. */
         onValueChange?: (value: boolean) => void;
 
-        /** Задает HTML-событие `onclick`.
-         * @ignore */
-        onClick?: React.MouseEventHandler<HTMLLabelElement>;
-
         /** Задает HTML-событие `onblur`.
          * @ignore */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -292,6 +288,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
+      onClick: this.handleInputClick,
       ref: this.input,
     };
 
@@ -331,7 +328,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseOver={onMouseOver}
-        onClick={this.handleClick}
+        onClick={this.handleLabelClick}
       >
         <FocusControlWrapper onBlurWhenDisabled={this.resetFocus}>
           <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
@@ -374,9 +371,15 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     this.props.onChange?.(event);
   };
 
-  private handleClick = (e: React.MouseEvent<HTMLLabelElement>) => {
+  private handleLabelClick = (e: React.MouseEvent<HTMLLabelElement>) => {
     const handleModifierClickInFirefox = fixFirefoxModifiedClickOnLabel(this.input);
     handleModifierClickInFirefox(e);
+    if (this.props.onClick && e.target !== this.input.current) {
+      e.stopPropagation();
+    }
+  };
+
+  private handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
     this.props.onClick?.(e);
   };
 }
