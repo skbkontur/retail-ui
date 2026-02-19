@@ -49,8 +49,8 @@
   },
   "peerDependencies": {
     "@skbkontur/react-ui": ">=5.1.0 <7",
-    "react": ">=16.14",
-    "react-dom": ">=16.14"
+    "react": ">=16.14 <20",
+    "react-dom": ">=16.14 <20"
   },
   "optionalDependencies": {
     "@esbuild/darwin-arm64": "^0.24.0",
