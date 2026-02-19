@@ -152,5 +152,9 @@
   "peerDependencies": {
     "react": ">=16.9 <=19",
     "react-dom": ">=16.9 <=19"
+  },
+  "exports": {
+    "./*.js": "./*.js",
+    "./*": "./*.js"
   }
 }
