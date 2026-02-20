@@ -19,6 +19,7 @@ interface SuperModalProps {
   hasFooter?: boolean;
   stickyFooter?: boolean;
   isLongContent?: boolean;
+  hasPanel?: boolean;
 }
 
 interface ModalWithVariableHeightState {
@@ -30,13 +31,14 @@ class MobileModalWithSettings extends React.Component<SuperModalProps> {
   };
 
   public render() {
-    const { isMini, appearance, hasHeader, stickyHeader, hasFooter, stickyFooter, isLongContent } = this.props;
+    const { isMini, appearance, hasHeader, stickyHeader, hasFooter, stickyFooter, isLongContent, hasPanel } =
+      this.props;
     const header = <Modal.Header sticky={stickyHeader}>Title</Modal.Header>;
     const footer = (
       <ResponsiveLayout>
         {({ isMobile }) => {
           return (
-            <Modal.Footer sticky={stickyFooter}>
+            <Modal.Footer panel={hasPanel} sticky={stickyFooter}>
               <Button style={isMobile ? { width: '100%' } : undefined}>i'm first button</Button>
               <Button style={isMobile ? { width: '100%' } : undefined}>i'm second button</Button>
             </Modal.Footer>
@@ -220,4 +222,8 @@ export const MobileModalFullscreenWithStickyHeaderAndStickyFooterWithLongContent
       isOpened
     />
   );
+};
+
+export const MobileModalAppearanceBug: Story = () => {
+  return <MobileModalWithSettings appearance="fullscreen" isOpened isLongContent hasFooter hasPanel />;
 };

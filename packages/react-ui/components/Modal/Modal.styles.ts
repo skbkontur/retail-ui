@@ -95,7 +95,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       width: 100%;
       height: 100%;
-      overflow: auto;
+      overflow: hidden;
     `;
   },
 

@@ -66,8 +66,7 @@ export interface PagingProps extends CommonProps {
   pagesCount: number;
 
   /** Задает размер контрола.
-   * @default 'small'
-   */
+   * @default 'small'. Проп поддерживается начиная с версии темы 5.3. */
   size?: SizeProp;
 
   /** Делает компонент недоступным. */
