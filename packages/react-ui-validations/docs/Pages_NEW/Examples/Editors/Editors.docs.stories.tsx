@@ -1,4 +1,3 @@
-import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon.js';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon/HandThumbUpIcon.js';
@@ -13,6 +12,7 @@ import { Select } from '@skbkontur/react-ui/components/Select/index';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea/index';
 import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput';
 
+import type { Meta, Story } from '../../../../typings/stories.js';
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
 import type { Nullable } from '../../../../typings/Types.js';
 import { Form } from '../../../Common/Form.js';

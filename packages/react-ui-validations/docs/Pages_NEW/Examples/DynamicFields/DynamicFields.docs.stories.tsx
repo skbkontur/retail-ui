@@ -1,4 +1,3 @@
-import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
@@ -7,6 +6,7 @@ import { Tabs } from '@skbkontur/react-ui/components/Tabs/Tabs';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
 
+import type { Meta, Story } from '../../../../typings/stories.js';
 import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
 import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
 
