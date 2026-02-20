@@ -20,8 +20,8 @@
     "build:lint:publint": "publint --pack npm ./dist",
     "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints Text.css Text.module.css text.less text.scss"
   },
-  "exports-to-generate": {
-    ".": "./index.js",
+  "exports": {
+    ".": "./index.ts",
     "./Text.css": "./Text.css",
     "./Text.module.css": "./Text.module.css",
     "./text.less": "./text.less",
