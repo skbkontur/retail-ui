@@ -45,7 +45,6 @@ export interface KebabProps
    * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
    * @default ['bottom left', 'bottom right', 'top left', 'top right']. */
   positions?: PopupPositionsType[];
-  positions2?: string;
 
   /** Задает максимальную высоту меню. */
   menuMaxHeight?: number | string;
