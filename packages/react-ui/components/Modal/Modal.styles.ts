@@ -108,7 +108,7 @@ export const styles = memoizeStyle({
     return css`
       width: 100%;
       height: 100%;
-      overflow: auto;
+      overflow: hidden;
     `;
   },
 

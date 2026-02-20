@@ -89,4 +89,15 @@ kind('Modal/Mobile', () => {
       await context.matchImages({ top, scrollToMiddle, scrollToBottom });
     });
   });
+
+  story('MobileModalAppearanceBug', () => {
+    test('after scrolling', async (context) => {
+      const page = context.webdriver;
+      await page.evaluate(() => {
+        const modalContainer = window.document.querySelector('.focus-lock-container') as HTMLElement;
+        modalContainer.scrollTop = 1000;
+      });
+      await context.matchImage(await context.takeScreenshot(), 'after scrolling');
+    });
+  });
 });
