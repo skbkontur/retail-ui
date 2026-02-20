@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.4...@skbkontur/react-ui@5.6.5) (2026-02-20)
+
+
+### Bug Fixes
+
+* **Modal:** double scroll bars in mobile with panel footer ([a92b8ef](https://github.com/skbkontur/retail-ui/commit/a92b8ef35788f19b61b07522e20673a4c4cf1373))
+
+
+
+
+
 ## [5.6.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.3...@skbkontur/react-ui@5.6.4) (2026-02-06)
 
 
