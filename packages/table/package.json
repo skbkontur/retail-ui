@@ -21,8 +21,8 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "exports-to-generate": {
-    ".": "./index.js"
+  "exports": {
+    ".": "./index.ts"
   },
   "devDependencies": {
     "@skbkontur/icons": "2.0.1",
