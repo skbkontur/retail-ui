@@ -23,8 +23,8 @@ import { getColors } from '../get-colors';
 import type { ColorFormat } from '../lib/utils/convert-color';
 
 import { SideMenu } from '@skbkontur/side-menu';
-import { Kontur } from '@skbkontur/logos/src/Kontur';
-import { Product } from '@skbkontur/logos/src/Product';
+import { Kontur } from '@skbkontur/logos/Kontur';
+import { Product } from '@skbkontur/logos/Product';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';

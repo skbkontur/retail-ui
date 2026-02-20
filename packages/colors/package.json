@@ -9,16 +9,10 @@
   "type": "module",
   "license": "UNLICENSED",
   "sideEffects": false,
-  "exports-to-generate": {
+  "exports": {
     "./package.json": "./package.json",
-    ".": {
-      "types": "./index.d.ts",
-      "default": "./index.js"
-    },
-    "./get-colors": {
-      "types": "./get-colors.d.ts",
-      "default": "./get-colors.js"
-    },
+    ".": "./index.ts",
+    "./get-colors": "./get-colors.ts",
     "./colors.scss": "./colors.scss",
     "./colors.less": "./colors.less",
     "./tokens/brand-orange_accent-gray.css": "./tokens/brand-orange_accent-gray.css",
@@ -36,16 +30,10 @@
     "./tokens/brand-violet_accent-gray.css": "./tokens/brand-violet_accent-gray.css",
     "./tokens-default/light.less": "./tokens-default/light.less",
     "./tokens-default/light.scss": "./tokens-default/light.scss",
-    "./tokens-default/light": {
-      "types": "./tokens-default/light.d.ts",
-      "default": "./tokens-default/light.js"
-    },
+    "./tokens-default/light": "./tokens-default/light.ts",
     "./tokens-default/dark.less": "./tokens-default/dark.less",
     "./tokens-default/dark.scss": "./tokens-default/dark.scss",
-    "./tokens-default/dark": {
-      "types": "./tokens-default/dark.d.ts",
-      "default": "./tokens-default/dark.js"
-    },
+    "./tokens-default/dark": "./tokens-default/dark.ts",
     "./tokens-mobile/brand-orange_accent-gray.json": "./tokens-mobile/brand-orange_accent-gray.json",
     "./tokens-mobile/brand-blue_accent-gray.json": "./tokens-mobile/brand-blue_accent-gray.json",
     "./tokens-mobile/brand-blue_accent-brand.json": "./tokens-mobile/brand-blue_accent-brand.json",
