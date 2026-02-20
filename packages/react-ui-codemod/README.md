@@ -27,6 +27,14 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Список кодмодов
 
+### side-menu-4.0/renameThemeVars
+
+Переименовывает переменные темы в соответствии с изменениями в [51](https://git.skbkontur.ru/ui/ui-parking-2/-/merge_requests/51)
+
+```
+npx react-ui-codemod side-menu-4.0/renameThemeVars.ts FILES_PATH 
+```
+
 ### react-ui-5.0/renameThemeVars
 
 Переименовывает переменные темы в соответствии с изменениями в [3459](https://github.com/skbkontur/retail-ui/pull/3459)
