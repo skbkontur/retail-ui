@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader.js';
-import type { FileUploaderAttachedFile } from '@skbkontur/react-ui/internal/FileUploaderControl/fileUtils.js';
+import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader';
+import type { FileUploaderAttachedFile } from '@skbkontur/react-ui/internal/FileUploaderControl/fileUtils';
 
 import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper } from '../index.js';

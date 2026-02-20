@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
-import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/Tooltip.js';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext.js';
-import { getRootNode } from '@skbkontur/react-ui/lib/rootNode/getRootNode.js';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/Tooltip';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { getRootNode } from '@skbkontur/react-ui/lib/rootNode/getRootNode';
 
 import { isNonNullable } from '../src/utils/isNonNullable/isNonNullable.js';
 

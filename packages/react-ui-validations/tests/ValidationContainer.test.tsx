@@ -1,14 +1,14 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher.js';
-import { TokenInput, TokenInputType } from '@skbkontur/react-ui/components/TokenInput/TokenInput.js';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox.js';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
-import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
+import { TokenInput, TokenInputType } from '@skbkontur/react-ui/components/TokenInput/TokenInput';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
+import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
 
 import type { ValidationInfo, ValidationContainerProps } from '../index.js';
 import { FocusMode, ValidationContainer, ValidationWrapper } from '../index.js';

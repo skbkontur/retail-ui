@@ -1,9 +1,9 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
+import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
-import { Select } from '@skbkontur/react-ui/components/Select/Select.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Select } from '@skbkontur/react-ui/components/Select/Select';
 
 import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
 import { ValidationContainer, ValidationWrapper } from '../../../../index.js';

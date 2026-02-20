@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 
 import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper } from '../index.js';

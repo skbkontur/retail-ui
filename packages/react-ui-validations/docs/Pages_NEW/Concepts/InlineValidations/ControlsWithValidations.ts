@@ -1,8 +1,8 @@
 import type { ComponentType, JSX } from 'react';
 import React from 'react';
-import type { DatePickerProps } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import type { DatePickerProps } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
 
 import type { RenderErrorMessage, ValidationInfo } from '../../../../index.js';
 import { ValidationWrapper } from '../../../../index.js';

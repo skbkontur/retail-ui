@@ -1,9 +1,9 @@
 import { act, render, screen } from '@testing-library/react';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox.js';
-import { DatePicker, DatePickerDataTids } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
-import { TooltipDataTids } from '@skbkontur/react-ui/components/Tooltip/Tooltip.js';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
+import { DatePicker, DatePickerDataTids } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
+import { TooltipDataTids } from '@skbkontur/react-ui/components/Tooltip/Tooltip';
 import React from 'react';
-import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox/index.js';
+import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox/index';
 
 import type { Nullable } from '../typings/Types.js';
 import type { ValidationInfo } from '../index.js';

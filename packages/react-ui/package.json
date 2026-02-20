@@ -12,6 +12,13 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./components/*": "./components/*.tsx",
+    "./lib/*": "./lib/*.ts",
+    "./hooks/*": "./hooks/*.ts",
+    "./internal/*": "./internal/*.ts"
+  },
   "scripts": {
     "clean": "git clean -fdxqe node_modules",
     "prebuild": "yarn rimraf build",

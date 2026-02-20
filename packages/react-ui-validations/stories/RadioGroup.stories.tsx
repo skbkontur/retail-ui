@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup.js';
-import { Radio } from '@skbkontur/react-ui/components/Radio/Radio.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
+import { Radio } from '@skbkontur/react-ui/components/Radio/Radio';
 
 import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper } from '../index.js';

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox.js';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
 import { Button } from '@skbkontur/react-ui';
-import { DatePicker as BaseDatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
+import { DatePicker as BaseDatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
 
 import { ValidationContainer, ValidationWrapper } from '../index.js';
 

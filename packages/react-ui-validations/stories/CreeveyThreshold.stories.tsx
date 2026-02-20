@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import type { Meta } from '@storybook/react';
 
 export default {

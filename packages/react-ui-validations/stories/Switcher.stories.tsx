@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
 
 import type { ValidationInfo } from '../index.js';

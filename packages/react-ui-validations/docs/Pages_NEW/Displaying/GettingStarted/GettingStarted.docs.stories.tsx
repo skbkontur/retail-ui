@@ -1,6 +1,6 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
+import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
 
 import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
 import { Form } from '../../../Common/Form.js';

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
 
 import type { ValidationInfo } from '../../index.js';
 import { text, ValidationContainer, ValidationWrapper } from '../../index.js';

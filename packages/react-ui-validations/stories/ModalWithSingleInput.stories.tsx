@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Center } from '@skbkontur/react-ui/components/Center/Center.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
-import { Modal } from '@skbkontur/react-ui/components/Modal/Modal.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Center } from '@skbkontur/react-ui/components/Center/Center';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Modal } from '@skbkontur/react-ui/components/Modal/Modal';
 
 import type { ValidationInfo } from '../index.js';
 import { text, ValidationContainer, ValidationWrapper } from '../index.js';

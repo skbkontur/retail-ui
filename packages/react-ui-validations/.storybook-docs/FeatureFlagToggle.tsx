@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle';
 
 interface FeatureFlagToggleProps {
   isFlagEnabled: boolean;

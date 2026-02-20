@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ThemeContext, ThemeFactory, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
+import { ShowcaseGroup } from '../../../internal/ThemePlayground/ShowcaseGroup.js';
 import type { Meta, Story } from '../../../typings/stories.js';
 import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme.js';
 import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme.js';

@@ -4,7 +4,7 @@ import { CurrencyInput, Button, Gapped } from '@skbkontur/react-ui';
 import type { Story } from '../../../typings/stories.js';
 
 export default {
-  title: 'Input data/CurrencyInput/index.js',
+  title: 'Input data/CurrencyInput',
   component: CurrencyInput,
   parameters: { creevey: { skip: true } },
 };

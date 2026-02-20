@@ -1,7 +1,7 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
+import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
-import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle';
 
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
 import { Form } from '../../../Common/Form.js';

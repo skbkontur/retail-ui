@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker.js';
-import { isNonNullable } from '@skbkontur/react-ui/lib/utils.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
+import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 
 import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper } from '../index.js';

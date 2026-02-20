@@ -36,6 +36,9 @@
     "selenium:test": "dotnet test ./selenium-tests/ValidationTests/ValidationTests.csproj --configuration Release --framework netcoreapp3.1",
     "selenium:ci": "start-server-and-test storybook http://localhost:6060/iframe.html selenium:test"
   },
+  "exports": {
+    ".": "./index.ts"
+  },
   "main": "./index.js",
   "types": "./index.d.ts",
   "author": "exactlynosense <whois.ard@gmail.com>",

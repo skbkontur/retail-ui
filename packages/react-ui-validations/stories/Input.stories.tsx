@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
-import { Select } from '@skbkontur/react-ui/components/Select/Select.js';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped.js';
-import type { Story } from '@skbkontur/react-ui/typings/stories.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Select } from '@skbkontur/react-ui/components/Select/Select';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
+import type { Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 
 import type { ValidationBehaviour, ValidationInfo } from '../index.js';
 import { text, tooltip, ValidationContainer, ValidationWrapper } from '../index.js';

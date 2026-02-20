@@ -1,17 +1,17 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
+import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon.js';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon/HandThumbUpIcon.js';
-import { Button } from '@skbkontur/react-ui/components/Button/index.js';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox.js';
-import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index.js';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index.js';
-import { Input } from '@skbkontur/react-ui/components/Input/index.js';
-import { Link } from '@skbkontur/react-ui/components/Link/index.js';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup.js';
-import { Select } from '@skbkontur/react-ui/components/Select/index.js';
-import { Textarea } from '@skbkontur/react-ui/components/Textarea/index.js';
-import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Link } from '@skbkontur/react-ui/components/Link/index';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
+import { Select } from '@skbkontur/react-ui/components/Select/index';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea/index';
+import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
 import type { Nullable } from '../../../../typings/Types.js';

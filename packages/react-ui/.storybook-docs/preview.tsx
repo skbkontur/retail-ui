@@ -15,9 +15,7 @@ import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light.js';
 import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light.js';
 import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light.js';
 import { SettingsGearIcon20Regular } from '@skbkontur/icons/SettingsGearIcon20Regular.js';
-import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers.js';
-import { cities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/cities.js';
-import { getCities } from '@skbkontur/react-ui/components/ComboBox/__mocks__/getCities.js';
+import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
 import {
   isBetween,
   isEqual,
@@ -25,8 +23,8 @@ import {
   isGreaterOrEqual,
   isLess,
   isLessOrEqual,
-} from '@skbkontur/react-ui/lib/date/comparison.js';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks.js';
+} from '@skbkontur/react-ui/lib/date/comparison';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
@@ -61,6 +59,8 @@ import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCorne
 import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
 import * as ReactUiValidations from '@skbkontur/react-ui-validations';
 
+import { getCities } from '../components/ComboBox/__mocks__/getCities.js';
+import { cities } from '../components/ComboBox/__mocks__/cities.js';
 import { ThemeContext } from '../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../lib/theming/ThemeFactory.js';
 import * as ReactUi from '../index.js';

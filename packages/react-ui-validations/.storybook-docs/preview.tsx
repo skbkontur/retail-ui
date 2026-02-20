@@ -3,7 +3,7 @@ import type { Preview } from '@storybook/react';
 import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
 import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import { addons } from '@storybook/manager-api';
-import { isNonNullable } from '@skbkontur/react-ui/lib/utils.js';
+import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import styled from 'styled-components';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';

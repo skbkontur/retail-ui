@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import type { Meta } from '@storybook/react';
 
 import type { ValidationInfo } from '../../index.js';

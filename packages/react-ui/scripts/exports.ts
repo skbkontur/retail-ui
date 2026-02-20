@@ -8,27 +8,26 @@ interface ExportsField {
 }
 type ExportsObject = Record<string, ExportsField | string>;
 
-const defaultExports: ExportsObject = {
-  '.': './index.js',
-  './package.json': './package.json',
-
-  // pattern exports for backward compatibility with 5.x
-  './components/*': './components/*.js',
-  './lib/*': './lib/*.js',
-  './hooks/*': './hooks/*.js',
-  './internal/*': './internal/*.js',
-};
-
 function handlePath(path: string): string {
   return './' + path.replace(/\\/g, '/');
 }
 
-// function pathToExportField(path: string): ExportsField {
-//   return {
-//     types: path.replace('.js', '.d.ts'),
-//     default: path,
-//   };
-// }
+export const replaceTSToJS = (packageJsonPath: string): void => {
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+
+  const exports = packageJson['exports'];
+
+  for (const entry in exports) {
+    exports[entry] = exports[entry].replace(/\.tsx?$/, '.js');
+  }
+
+  packageJson.exports = {
+    ...exports,
+    './package.json': './package.json',
+  };
+
+  writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+};
 
 function filesToExports(dir: string, baseDir: string = dir): ExportsObject {
   const exports: ExportsObject = {};
@@ -73,11 +72,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildDir = join(__dirname, '..', 'build');
 
 const buildPackageJsonPath = join(buildDir, 'package.json');
+replaceTSToJS(buildPackageJsonPath);
 const buildPackageJson = JSON.parse(readFileSync(buildPackageJsonPath, 'utf-8'));
 
-// find all index.js files and make package entrypoints out of them
+// Update package.json exports field:
+// 1. Replace .ts to .js in package.json
+// 2. Find all index.js files and make package entrypoints out of them
 // make exports look like future public api
 // and allow package linters work at full
-buildPackageJson.exports = Object.assign(defaultExports, filesToExports(buildDir));
+buildPackageJson.exports = Object.assign(buildPackageJson.exports, filesToExports(buildDir));
 
 writeFileSync(buildPackageJsonPath, JSON.stringify(buildPackageJson, null, 2) + '\n');

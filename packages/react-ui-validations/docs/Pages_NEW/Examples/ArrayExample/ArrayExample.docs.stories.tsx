@@ -1,8 +1,8 @@
-import type { Meta, Story } from '@skbkontur/react-ui/typings/stories.js';
+import type { Meta, Story } from '@skbkontur/react-ui-validations/typings/stories.js';
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button/Button.js';
-import { Input } from '@skbkontur/react-ui/components/Input/Input.js';
-import { Group } from '@skbkontur/react-ui/components/Group/Group.js';
+import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { Group } from '@skbkontur/react-ui/components/Group/Group';
 
 import { isNonNullable } from '../../../../src/utils/isNonNullable/isNonNullable.js';
 import { createValidator, text, ValidationContainer, ValidationWrapper } from '../../../../index.js';

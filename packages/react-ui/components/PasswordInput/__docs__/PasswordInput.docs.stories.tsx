@@ -4,7 +4,7 @@ import { PasswordInput } from '@skbkontur/react-ui';
 import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
-  title: 'Input data/PasswordInput/index.js',
+  title: 'Input data/PasswordInput',
   component: PasswordInput,
   parameters: { creevey: { skip: true } },
 };

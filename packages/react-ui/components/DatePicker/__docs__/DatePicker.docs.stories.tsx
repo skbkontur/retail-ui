@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks.js';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import {
   DatePicker,
   Gapped,

@@ -19,7 +19,7 @@ import { rootNode } from '../../lib/rootNode/index.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/RenderEnvironmentDecorator.js';
 
 import { getStyles } from './PasswordInput.styles.js';
 import { PasswordInputIcon } from './PasswordInputIcon.js';
