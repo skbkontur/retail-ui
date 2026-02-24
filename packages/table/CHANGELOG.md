@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.8](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.7...@skbkontur/table@0.2.0) (2026-02-24)
+
+
+### Bug Fixes
+
+* **Table:** up react-ui peer dependency ([3976065](https://git.skbkontur.ru/ui/ui-parking-2/commits/3976065495c0bf31f483390cc581709aba6fedb1))
+
+
+### Features
+
+* **Table:** fix iframe/widget rendering ([f3af993](https://git.skbkontur.ru/ui/ui-parking-2/commits/f3af993812123d4abdebd3bd0f1320c77e829136))
+
+
+
+
+
 ## [0.1.7](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.6...@skbkontur/table@0.1.7) (2026-02-12)
 
 
