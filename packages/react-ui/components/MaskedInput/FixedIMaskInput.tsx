@@ -17,6 +17,7 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag } from '../../lib/events/MouseDrag';
+import { scrollInputCaretIntoView } from '../../lib/scrollInputCaretIntoView';
 
 export type FixedIMaskInputProps = IMaskInputProps<HTMLInputElement>;
 
@@ -51,6 +52,7 @@ export const FixedIMaskInput = forwardRefAndName(
 
           const [start, end] = getSelection();
           setSelection(start, end, direction);
+          scrollCaretIntoView();
         });
       }
     }, []);
@@ -128,6 +130,13 @@ export const FixedIMaskInput = forwardRefAndName(
         getNormalizedRange(end),
         direction || 'none',
       );
+    }
+
+    function scrollCaretIntoView() {
+      const element = imaskRef.current?.element;
+      if (element) {
+        scrollInputCaretIntoView(element);
+      }
     }
 
     function jumpCaret(prev: number, headDirection: HeadDirection) {
@@ -218,10 +227,12 @@ export const FixedIMaskInput = forwardRefAndName(
       if (isShortcutSelectAll(e)) {
         e.preventDefault();
         setSelection(0, nearest);
+        scrollCaretIntoView();
       } else if (isKeyArrow(e) || isKeyEnd(e) || isKeyHome(e)) {
         e.preventDefault();
         const [start, end, direction] = calcSelection(e);
         setSelection(start, end, direction);
+        scrollCaretIntoView();
       }
 
       props.onKeyDown?.(e);

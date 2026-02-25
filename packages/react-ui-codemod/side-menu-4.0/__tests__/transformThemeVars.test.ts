@@ -17,7 +17,7 @@ defineInlineTest(
   const THEME = ThemeFactory.create({
     blue: '#0000ff',
     sideMenuBg: '#fff',
-    sideMenuItemFocusBoxShadowColor() {},
+    sideMenuItemBoxShadowColorFocus() {},
   }, LIGHT_THEME);
 `,
   `rename theme variables`,

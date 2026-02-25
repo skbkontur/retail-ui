@@ -15,6 +15,7 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode';
 import { rootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isInstanceOf } from '../../lib/isInstanceOf';
+import { scrollInputCaretIntoView } from '../../lib/scrollInputCaretIntoView';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
@@ -306,26 +307,8 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   private scrollInput = () => {
     const node = this.input?.getNode();
-    if (!node || node.scrollWidth === node.clientWidth) {
-      return;
-    }
-    const PAD = 1;
-    const SHIFT = 3;
-
-    const selection = this.state.selection;
-    const selected = selection.start !== selection.end;
-    const position = selected && selection.direction === 'forward' ? selection.end : selection.start;
-    const charsCount = this.state.formatted.length;
-    const charWidth = node.scrollWidth / charsCount;
-    const frame = Math.ceil(node.clientWidth / charWidth);
-    const frameStart = Math.ceil(node.scrollLeft / charWidth);
-    const frameEnd = frameStart + frame;
-
-    if (position < frameStart + PAD) {
-      node.scrollLeft = (position - SHIFT) * charWidth;
-    }
-    if (position > frameEnd - PAD) {
-      node.scrollLeft = (position - frame + SHIFT) * charWidth;
+    if (node) {
+      scrollInputCaretIntoView(node, this.state.selection);
     }
   };
 
