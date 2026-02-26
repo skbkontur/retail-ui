@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-codemod@2.0.1...react-ui-codemod@2.1.0) (2026-02-26)
+
+
+### Bug Fixes
+
+* **MaskedInput:** scroll when cursor move in input ([1b574d5](https://git.skbkontur.ru/ui/react-ui/commits/1b574d50539bfab0b71d1963eefdbab3edef77e6))
+
+
+### Features
+
+* **codemod:** add side-menu-4.0 codemod ([61b5898](https://git.skbkontur.ru/ui/react-ui/commits/61b589841b162a4632a44d2e0180f09c25ec6d2a))
+
+
+
+
+
 ## [2.0.1](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-codemod@2.0.0...react-ui-codemod@2.0.1) (2025-11-20)
 
 **Note:** Version bump only for package react-ui-codemod
