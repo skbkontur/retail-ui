@@ -893,12 +893,19 @@ ExampleCounter.storyName = 'Cчётчик найденных значений';
  * В таких случаях поиск необходимо контролировать дополнительно.
  * */
 export const ExampleExtendedItems: Story = () => {
-  const delay = (time) => (args) => new Promise((resolve) => setTimeout(resolve, time, args));
+  interface Item {
+    value: number;
+    label: string;
+  }
+  const delay =
+    (time: number) =>
+    <T,>(args: T): Promise<T> =>
+      new Promise((resolve) => setTimeout(resolve, time, args));
 
-  const maybeReject = (x) => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
+  const maybeReject = <T,>(x: T) => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
 
-  const getItems = (q) =>
-    Promise.resolve(
+  const getItems = (q: string): Promise<Array<ComboBoxExtendedItem<Item>>> =>
+    Promise.resolve<Array<ComboBoxExtendedItem<Item>>>(
       [
         <MenuHeader>MenuHeader</MenuHeader>,
         { value: 1, label: 'Абакан' },
@@ -915,15 +922,15 @@ export const ExampleExtendedItems: Story = () => {
         { value: 11, label: 'Астраханская область' },
         { value: 12, label: 'Астрахань' },
         <MenuFooter>MenuFooter</MenuFooter>,
-      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+      ].filter((x) => ('label' in x ? x.label.toLowerCase().includes(q.toLowerCase()) : q === '')),
     )
       .then(delay(500))
       .then(maybeReject);
 
-  const [selected, setSelected] = React.useState();
+  const [selected, setSelected] = React.useState<Item | null>(null);
   const [error, setError] = React.useState(false);
 
-  const handleValueChange = (value) => {
+  const handleValueChange = (value: Item | null) => {
     setSelected(value);
     setError(false);
   };
@@ -937,7 +944,7 @@ export const ExampleExtendedItems: Story = () => {
 
   return (
     <Tooltip closeButton={false} render={() => 'Выберите значение из списка'} trigger={error ? 'opened' : 'closed'}>
-      <ComboBox
+      <ComboBox<Item>
         error={error}
         getItems={getItems}
         onValueChange={handleValueChange}
