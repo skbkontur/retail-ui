@@ -46,8 +46,7 @@ export interface MenuProps extends CommonProps, Pick<HTMLAttributes<HTMLDivEleme
   disableScrollContainer?: boolean;
   align?: 'left' | 'right';
   /**
-   * Предотвращает выравнивание текста всех пунктов меню относительно друг друга.
-   * Так, если хотя бы у одного пункта меню есть иконка, текст в  остальных пунктах меню будет выровнен относительно пункта меню с иконкой
+   * Отключает выравнивание текста пунктов меню относительно иконок в других пунктах.
    */
   preventIconsOffset?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;

@@ -33,25 +33,25 @@ export interface KebabProps
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
-  /** Делает компонент недоступным. */
-  disabled?: boolean;
-
-  /** Задает размер контрола. */
+  /** Размер кнопки. */
   size?: SizeProp;
 
-  /** Определяет список позиций, доступных для расположения выпадашки относительно `kebab`.
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
-   * @default ['bottom left', 'bottom right', 'top left', 'top right']. */
+  /** Список доступных позиций выпадающего меню относительно кнопки.
+   * @default ['bottom left', 'bottom right', 'top left', 'top right'].
+   */
   positions?: PopupPositionsType[];
   positions2?: string;
 
-  /** Задает максимальную высоту меню. */
+  /** Максимальная высота меню. */
   menuMaxHeight?: number | string;
 
-  /** Отключает анимацию. */
+  /** Блокирует кнопку. */
+  disabled?: boolean;
+
+  /** Отключает анимацию выпадающего меню. */
   disableAnimations?: boolean;
 
-  /** Добавляет иконку слева. */
+  /** Заменяет иконку кебаба у кнопки. */
   icon?: React.ReactNode;
 
   /** @ignore */
@@ -70,9 +70,8 @@ export interface KebabState {
 type DefaultProps = Required<Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'disableAnimations'>>;
 
 /**
- * Кебаб-меню `Kebab` содержит действия с объектом.
+ * Кебаб-меню содержит действия с объектом.
  */
-
 @rootNode
 @withSize
 export class Kebab extends React.Component<KebabProps, KebabState> {

@@ -75,15 +75,11 @@ export interface PopupMenuProps
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations?: boolean;
-  /** Действие при открытии меню */
+  /** Действие при открытии меню. */
   onOpen?: () => void;
-  /** Действие при закрытии меню */
+  /** Действие при закрытии меню. */
   onClose?: () => void;
-  /**
-   * Позволяет задать `id` выпадающему меню.
-   *
-   * Это может пригодиться при реализации a11y. Например, для того, чтобы связать `aria-controls` с выпадающим меню.
-   */
+  /** `id` выпадающего меню. */
   popupMenuId?: HTMLProps['id'];
 
   /** @ignore */

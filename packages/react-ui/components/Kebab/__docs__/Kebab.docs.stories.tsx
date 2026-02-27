@@ -1,8 +1,7 @@
 import React from 'react';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon';
-import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon';
-import { TrashCanIcon, TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon';
-import { Kebab, Gapped, MenuItem, Toast, MenuHeader } from '@skbkontur/react-ui';
+import { Kebab, MenuItem, MenuHeader, Toast } from '@skbkontur/react-ui';
+import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
+import { PlusIcon16Light } from '@skbkontur/icons/icons/PlusIcon';
 
 import type { Meta, Story } from '../../../typings/stories';
 
@@ -12,259 +11,171 @@ export default {
   parameters: { creevey: { skip: true } },
 } as Meta;
 
-export const Example1: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 250,
-  };
-
-  const Card = ({ name, post }) => (
-    <div style={style}>
-      <div>
-        <h3>{name}</h3>
-        <p style={{ color: 'gray' }}>{post}</p>
-      </div>
-
-      <Kebab size="large">
-        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
-          Редактировать
-        </MenuItem>
-        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
-          Удалить
-        </MenuItem>
-      </Kebab>
-    </div>
-  );
-
-  return (
-    <Gapped gap={-1} wrap>
-      <Gapped gap={-1}>
-        <Card name="Баранова Анастасия" post="SEO GazPro" />
-        <Card name="Слуцкий Антон" post="Junior Front-Back Developer" />
-      </Gapped>
-      <Gapped gap={-1}>
-        <Card name="Иванов Иван" post="Head Ivan Co" />
-        <Card name="Сашка Егоров" post="KungFu Master" />
-      </Gapped>
-    </Gapped>
-  );
-};
-Example1.storyName = 'Базовый пример';
-
-export const Example2: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 230,
-  };
-
-  const Card = ({ title, size }) => (
-    <div style={style}>
-      <div>
-        <h3>{title}</h3>
-      </div>
-
-      <Kebab size={size}>
-        <MenuItem icon={<ToolPencilLineIcon />} onClick={() => Toast.push('Отредактировано')}>
-          Редактировать
-        </MenuItem>
-        <MenuItem icon={<TrashCanIcon />} onClick={() => Toast.push('Удалено')}>
-          Удалить
-        </MenuItem>
-      </Kebab>
-    </div>
-  );
-
-  return (
-    <Gapped>
-      <Card title="Маленький кебаб" size="small" />
-      <Card title="Средний кебаб" size="medium" />
-      <Card title="Большой кебаб" size="large" />
-    </Gapped>
-  );
-};
-Example2.storyName = 'Размер';
-
-export const Example3: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 250,
-  };
-
-  const Card = ({ title }) => (
-    <div style={style}>
-      <div>
-        <h3>{title}</h3>
-      </div>
-
-      <Kebab positions={['left middle']} size="large">
-        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
-          Редактировать
-        </MenuItem>
-        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
-          Удалить
-        </MenuItem>
-      </Kebab>
-    </div>
-  );
-
-  return <Card title="С выпадашкой слева" />;
-};
-Example3.storyName = 'Кебаб-меню с выпадашкой слева';
-
-export const Example4: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 250,
-  };
-
-  const Card = ({ title }) => (
-    <div style={style}>
-      <div>
-        <h3>{title}</h3>
-      </div>
-
-      <Kebab onOpen={() => Toast.push('Кебаб-меню открылось!')} size="large">
-        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
-          Редактировать
-        </MenuItem>
-        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
-          Удалить
-        </MenuItem>
-      </Kebab>
-    </div>
-  );
-
-  return <Card title="С кастомным действием" />;
-};
-Example4.storyName = 'Кастомное действие при открытии';
-
-export const Example5: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
     <Kebab>
-      <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
-      <MenuItem>MenuItem3</MenuItem>
+      <MenuItem>Действие 1</MenuItem>
+      <MenuItem>Действие 2</MenuItem>
+      <MenuItem>Действие 3</MenuItem>
     </Kebab>
   );
 };
-Example5.storyName = 'Иконка и автовыравнивание';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example6: Story = () => {
+/** Проп `size` задаёт размер кнопки. По умолчанию: `'small'`. */
+export const ExampleSize: Story = () => {
   return (
-    <Kebab preventIconsOffset>
-      <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
-      <MenuItem>MenuItem3</MenuItem>
+    <div style={{ display: 'flex', alignItems: 'end', gap: '24px' }}>
+      <Kebab size="small">
+        <MenuItem>Действие 1</MenuItem>
+        <MenuItem>Действие 2</MenuItem>
+        <MenuItem>Действие 3</MenuItem>
+      </Kebab>
+      <Kebab size="medium">
+        <MenuItem>Действие 1</MenuItem>
+        <MenuItem>Действие 2</MenuItem>
+        <MenuItem>Действие 3</MenuItem>
+      </Kebab>
+      <Kebab size="large">
+        <MenuItem>Действие 1</MenuItem>
+        <MenuItem>Действие 2</MenuItem>
+        <MenuItem>Действие 3</MenuItem>
+      </Kebab>
+    </div>
+  );
+};
+ExampleSize.storyName = 'Размер';
+
+/** Проп `positions` задаёт список доступных позиций выпадающего меню относительно кнопки.
+ * По умолчанию: `['bottom left', 'bottom right', 'top left', 'top right']`.
+ *
+ * Если во всех позициях в списке выпадающее меню вылезает за пределы `viewport`, будет использована первая.
+ */
+export const ExamplePositions: Story = () => {
+  return (
+    <div style={{ display: 'flex', gap: '24px' }}>
+      <div>
+        <span>bottom left</span>
+        <Kebab positions={['bottom left']}>
+          <MenuItem>Действие 1</MenuItem>
+          <MenuItem>Действие 2</MenuItem>
+          <MenuItem>Действие 3</MenuItem>
+        </Kebab>
+      </div>
+      <div>
+        <span>top center</span>
+        <Kebab positions={['top center']}>
+          <MenuItem>Действие 1</MenuItem>
+          <MenuItem>Действие 2</MenuItem>
+          <MenuItem>Действие 3</MenuItem>
+        </Kebab>
+      </div>
+      <div>
+        <span>right bottom</span>
+        <Kebab positions={['right bottom']}>
+          <MenuItem>Действие 1</MenuItem>
+          <MenuItem>Действие 2</MenuItem>
+          <MenuItem>Действие 3</MenuItem>
+        </Kebab>
+      </div>
+    </div>
+  );
+};
+ExamplePositions.storyName = 'Позиционирование';
+
+/** Пропом `menuMaxHeight` можно задать максимальную высоту выпадающего меню в пикселях. */
+export const ExampleMaxHeight: Story = () => {
+  return (
+    <Kebab menuMaxHeight={200}>
+      <MenuItem>Действие 1</MenuItem>
+      <MenuItem>Действие 2</MenuItem>
+      <MenuItem>Действие 3</MenuItem>
+      <MenuItem>Действие 4</MenuItem>
+      <MenuItem>Действие 5</MenuItem>
+      <MenuItem>Действие 6</MenuItem>
+      <MenuItem>Действие 7</MenuItem>
+      <MenuItem>Действие 8</MenuItem>
+      <MenuItem>Действие 9</MenuItem>
     </Kebab>
   );
 };
-Example6.storyName = 'Иконка и отключенное автовыравнивание';
+ExampleMaxHeight.storyName = 'Максимальная высота меню';
 
-export const Example7: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 250,
-  };
-
-  const Card = ({ title }) => (
-    <div style={style}>
+/** Проп `preventIconsOffset` отключает выравнивание текста пунктов меню относительно иконок в других пунктах. */
+export const ExampleIconsOffset: Story = () => {
+  return (
+    <div style={{ display: 'flex', gap: '24px' }}>
       <div>
-        <h3>{title}</h3>
+        <span>preventIconsOffset="false"</span>
+        <Kebab>
+          <MenuHeader>Заголовок</MenuHeader>
+          <MenuItem icon={<CheckAIcon16Light />}>Действие 1</MenuItem>
+          <MenuItem>Действие 2</MenuItem>
+          <MenuItem>Действие 3</MenuItem>
+        </Kebab>
       </div>
+      <div>
+        <span>preventIconsOffset="true"</span>
+        <Kebab preventIconsOffset>
+          <MenuHeader>Заголовок</MenuHeader>
+          <MenuItem icon={<CheckAIcon16Light />}>Действие 1</MenuItem>
+          <MenuItem>Действие 2</MenuItem>
+          <MenuItem>Действие 3</MenuItem>
+        </Kebab>
+      </div>
+    </div>
+  );
+};
+ExampleIconsOffset.storyName = 'Выравнивание пунктов меню';
 
-      <Kebab disabled size="large">
-        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
-          Редактировать
-        </MenuItem>
-        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
-          Удалить
-        </MenuItem>
+/** Пропом `icon` можно задать свою иконку кнопке. */
+export const ExampleIcon: Story = () => {
+  return (
+    <Kebab icon={<PlusIcon16Light />}>
+      <MenuItem>Действие 1</MenuItem>
+      <MenuItem>Действие 2</MenuItem>
+      <MenuItem>Действие 3</MenuItem>
+    </Kebab>
+  );
+};
+ExampleIcon.storyName = 'Кастомная иконка у кнопки';
+
+/** Проп `disabled` блокирует кнопку, делая её недоступной для нажатия. */
+export const ExampleDisabled: Story = () => {
+  return (
+    <Kebab disabled>
+      <MenuItem>Действие 1</MenuItem>
+      <MenuItem>Действие 2</MenuItem>
+      <MenuItem>Действие 3</MenuItem>
+    </Kebab>
+  );
+};
+ExampleDisabled.storyName = 'Состояние блокировки';
+
+/** Проп `disableAnimations` отключает анимацию выпадающего меню. */
+export const ExampleDisableAnimations: Story = () => {
+  return (
+    <Kebab disableAnimations>
+      <MenuItem>Действие 1</MenuItem>
+      <MenuItem>Действие 2</MenuItem>
+      <MenuItem>Действие 3</MenuItem>
+    </Kebab>
+  );
+};
+ExampleDisableAnimations.storyName = 'Отключение анимации';
+
+/** Коллбеки `onOpen` и `onClose` вызываются при открытии и закрытии кебаб-меню. */
+export const ExampleOnOpenAndClose: Story = () => {
+  const [isOpened, setIsOpened] = React.useState(false);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <span>Кебаб-меню {isOpened ? 'открыто' : 'закрыто'}.</span>
+      <Kebab onOpen={() => setIsOpened(true)} onClose={() => setIsOpened(false)}>
+        <MenuItem>Действие 1</MenuItem>
+        <MenuItem>Действие 2</MenuItem>
+        <MenuItem>Действие 3</MenuItem>
       </Kebab>
     </div>
   );
-
-  return <Card title="Не нажимается :(" />;
 };
-Example7.storyName = 'Отключенное кебаб-меню';
-
-export const Example8: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 250,
-  };
-
-  const Card = ({ title }) => (
-    <div style={style}>
-      <div>
-        <h3>{title}</h3>
-      </div>
-
-      <Kebab disableAnimations size="large">
-        <MenuItem icon={<ToolPencilLineIcon24Regular />} onClick={() => Toast.push('Отредактировано')}>
-          Редактировать
-        </MenuItem>
-        <MenuItem icon={<TrashCanIcon24Regular />} onClick={() => Toast.push('Удалено')}>
-          Удалить
-        </MenuItem>
-      </Kebab>
-    </div>
-  );
-
-  return <Card title="Без анимации" />;
-};
-Example8.storyName = 'Отключенная анимация';
-
-export const Example9: Story = () => {
-  const style = {
-    alignItems: 'center',
-    border: '1px solid #dfdede',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 20px',
-    width: 250,
-  };
-
-  const Card = ({ title }) => (
-    <div style={style}>
-      <div>
-        <h3>{title}</h3>
-      </div>
-
-      <Kebab menuMaxHeight="100px" size="large">
-        <MenuItem>Действие</MenuItem>
-        <MenuItem>И ещё одно</MenuItem>
-        <MenuItem>Ещё действие</MenuItem>
-        <MenuItem>И последнее действие</MenuItem>
-      </Kebab>
-    </div>
-  );
-
-  return <Card title="С заданной высотой" />;
-};
-Example9.storyName = 'Высота';
+ExampleOnOpenAndClose.storyName = 'События открытия и закрытия';
