@@ -10,10 +10,10 @@
   "license": "UNLICENSED",
   "sideEffects": false,
   "files": [
-    "/lib",
+    "/lib/*.{js,d.ts}",
     "/tokens",
     "/tokens-mobile",
-    "/tokens-default",
+    "/tokens-default/*.{js,d.ts,less,scss}",
     "/*.{js,d.ts,less,scss}"
   ],
   "exports": {
