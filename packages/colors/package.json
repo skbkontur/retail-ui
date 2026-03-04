@@ -10,11 +10,16 @@
   "license": "UNLICENSED",
   "sideEffects": false,
   "files": [
-    "/lib/*.{js,d.ts}",
+    "/lib/**/*.{js,d.ts}",
     "/tokens",
     "/tokens-mobile",
     "/tokens-default/*.{js,d.ts,less,scss}",
-    "/*.{js,d.ts,less,scss}"
+    "/index.js",
+    "/index.d.ts",
+    "/get-colors.js",
+    "/get-colors.d.ts",
+    "/colors.less",
+    "/colors.scss"
   ],
   "exports": {
     "./package.json": "./package.json",
