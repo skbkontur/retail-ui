@@ -51,15 +51,14 @@ export const Example5: Story = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <Gapped>
-      <Hint opened={isOpen} manual text="Подсказка">
-        Управляемая удалённо
-      </Hint>
-      <Button onClick={() => setIsOpen(!isOpen)}>{isOpen ? 'Закрыть подсказку' : 'Открыть подсказку'}</Button>
-    </Gapped>
+    <Hint opened={isOpen} manual text="Подсказка">
+      <Button onFocus={() => setIsOpen(true)} onBlur={() => setIsOpen(false)}>
+        {isOpen ? 'Закрыть подсказку' : 'Открыть подсказку'}
+      </Button>
+    </Hint>
   );
 };
-Example5.storyName = 'Открытие подсказки кнопкой';
+Example5.storyName = 'Открытие подсказки при фокусе на кнопку';
 
 export const Example6: Story = () => {
   return (
