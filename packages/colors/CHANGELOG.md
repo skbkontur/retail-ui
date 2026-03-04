@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.1.2...@skbkontur/colors@2.1.3) (2026-03-04)
+
+
+### Bug Fixes
+
+* **Colors:** include lib folder contents in package ([9cfa981](https://git.skbkontur.ru/ui/ui-parking-2/commits/9cfa9811c25571ac3b98fff1e76095943986ea53))
+
+
+
+
+
 ## [2.1.2](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.1.1...@skbkontur/colors@2.1.2) (2026-03-02)
 
 
