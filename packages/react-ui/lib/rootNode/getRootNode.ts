@@ -4,7 +4,7 @@ import warning from 'warning';
 
 import type { Nullable } from '../../typings/utility-types.js';
 import { isElement } from '../utils.js';
-import { isDevelopmentEnv } from '../../lib/currentEnvironment.js';
+import { isProductionEnv } from '../../lib/currentEnvironment.js';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator.js';
 
@@ -51,7 +51,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     return rootNode;
   }
 
-  if (isDevelopmentEnv) {
+  if (!isProductionEnv) {
     throw new Error('can`t fallback to findDOMNode. Use forwardRef for pass ref');
   }
 
