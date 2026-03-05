@@ -377,6 +377,22 @@ describe('useTableRowSelection', () => {
     expect(result.current.isCheckedAll).toBe(false);
   });
 
+  test('supports string ids', () => {
+    const guidData = [
+      { id: '8c4f4ff7-66ef-4c39-b3eb-cc9029a91f91', name: 'Alice' },
+      { id: 'd25108f3-4799-43c2-809a-051b72f95f2d', name: 'Bob' },
+    ];
+    const { result } = renderHook(() => useTableRowSelection(guidData));
+
+    act(() => {
+      result.current.toggleRow(undefined, guidData[0].id);
+    });
+
+    expect(result.current.checkedRows.size).toBe(1);
+    expect(result.current.isRowChecked(guidData[0].id)).toBe(true);
+    expect(result.current.isRowChecked(guidData[1].id)).toBe(false);
+  });
+
   test('unselects row when already checked', () => {
     const { result } = renderHook(() => useTableRowSelection(testData));
 

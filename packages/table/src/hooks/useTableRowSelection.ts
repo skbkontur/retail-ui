@@ -3,14 +3,14 @@ import { useMemo, useEffect, useCallback, useRef, useState } from 'react';
 import { type SyntheticEvent } from 'react';
 
 interface RowLike {
-  id: number;
+  id: string | number;
 }
 
-export interface UseTableRowSelectionOptions {
+export interface UseTableRowSelectionOptions<Id extends RowLike['id'] = RowLike['id']> {
   /**
    * Начально выбранные строки (устанавливаются при монтировании или изменении пропа)
    */
-  initialCheckedRows?: Set<number>;
+  initialCheckedRows?: Set<Id>;
 }
 
 /**
@@ -18,7 +18,7 @@ export interface UseTableRowSelectionOptions {
  * Предоставляет функциональность для выбора/снятия выбора отдельных строк и всех строк,
  * а также автоматически управляет состоянием indeterminate для чекбокса "Выбрать все".
  *
- * @template T - Тип строки таблицы, должен содержать поле `id: number`
+ * @template T - Тип строки таблицы, должен содержать поле `id: string | number`
  * @param {T[]} rows - Массив строк таблицы
  * @param {UseTableRowSelectionOptions} options - Опции для управления выбором строк
  * @returns {Object} Объект с методами и состоянием выбора:
@@ -36,16 +36,16 @@ export interface UseTableRowSelectionOptions {
  *   initialCheckedRows: new Set([1, 2])
  * });
  */
-export function useTableRowSelection<T extends RowLike>(rows: T[], options?: UseTableRowSelectionOptions) {
+export function useTableRowSelection<T extends RowLike>(rows: T[], options?: UseTableRowSelectionOptions<T['id']>) {
   const initialCheckedRows = options?.initialCheckedRows;
-  const [checkedRows, setCheckedRows] = useState<Set<number>>(() =>
+  const [checkedRows, setCheckedRows] = useState<Set<T['id']>>(() =>
     initialCheckedRows ? new Set(initialCheckedRows) : new Set()
   );
-  const initialCheckedRowsRef = useRef<Set<number> | undefined>(
+  const initialCheckedRowsRef = useRef<Set<T['id']> | undefined>(
     initialCheckedRows ? new Set(initialCheckedRows) : undefined
   );
 
-  const areSetsEqual = useCallback((a: Set<number>, b: Set<number>) => {
+  const areSetsEqual = useCallback((a: Set<T['id']>, b: Set<T['id']>) => {
     if (a.size !== b.size) {
       return false;
     }
@@ -57,7 +57,7 @@ export function useTableRowSelection<T extends RowLike>(rows: T[], options?: Use
     return true;
   }, []);
 
-  const checkedRowsRef = useRef<Set<number>>(checkedRows);
+  const checkedRowsRef = useRef<Set<T['id']>>(checkedRows);
 
   useEffect(() => {
     checkedRowsRef.current = checkedRows;
@@ -92,7 +92,7 @@ export function useTableRowSelection<T extends RowLike>(rows: T[], options?: Use
       rows.some((row) => !prevRowIds.has(row.id));
 
     if (rowsChanged && checkedRowsRef.current.size > 0) {
-      setCheckedRows(new Set<number>());
+      setCheckedRows(new Set<T['id']>());
     }
 
     prevRowsRef.current = rows;
@@ -121,14 +121,14 @@ export function useTableRowSelection<T extends RowLike>(rows: T[], options?: Use
   const selectAll = useCallback(() => {
     setCheckedRows((prev) => {
       if (prev.size === rows.length) {
-        return new Set<number>();
+        return new Set<T['id']>();
       }
       return new Set(rows.map((r) => r.id));
     });
   }, [rows, setCheckedRows]);
 
   const toggleRow = useCallback(
-    (e: SyntheticEvent<HTMLElement> | undefined, rowId: number) => {
+    (e: SyntheticEvent<HTMLElement> | undefined, rowId: T['id']) => {
       if (e) {
         e.stopPropagation();
       }
@@ -145,7 +145,7 @@ export function useTableRowSelection<T extends RowLike>(rows: T[], options?: Use
     [setCheckedRows]
   );
 
-  const isRowChecked = useCallback((rowId: number) => checkedRows.has(rowId), [checkedRows]);
+  const isRowChecked = useCallback((rowId: T['id']) => checkedRows.has(rowId), [checkedRows]);
 
   return {
     checkedRows,
