@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.10](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.9...@skbkontur/table@0.1.10) (2026-03-06)
+
+
+### Features
+
+* **Table:** id type number -> number | string ([3e34aad](https://git.skbkontur.ru/ui/ui-parking-2/commits/3e34aad561c47baf24242fe0629d8c4a5d5b670e))
+
+
+
+
+
 ## [0.1.9](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.8...@skbkontur/table@0.1.9) (2026-03-04)
 
 **Note:** Version bump only for package @skbkontur/table
