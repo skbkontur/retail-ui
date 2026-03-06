@@ -12,7 +12,11 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=138-37462&t=LhpicPI1NxqnkQAe-11"
 />
 
-<Description />
+```jsx
+import { Dropdown } from '@skbkontur/react-ui';
+```
+
+Кнопка-меню `Dropdown` объединяет действия и открывает раскрывающееся меню.
 
 <Primary />
 
@@ -20,6 +24,40 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте кнопку-меню:
+
+- когда не хватает места для нескольких кнопок;
+- когда названия действий очень длинные;
+- когда действия редко используются или объединены по смыслу.
+
+## Альтернативы и дополнения
+
+- [DropdownMenu](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-dropdownmenu--docs) — выбирайте, когда нужен более гибкий сценарий:
+  произвольный `caption` (в том числе render-function), кастомные `header`/`footer`, управление `positions`.
+- [Select](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-select--docs) — используйте для выбора значения из набора вариантов.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+Рекомендации:
+
+- задавайте понятный текст в `caption`, чтобы действие кнопки-меню было очевидно;
+- если подпись недостаточно описательна, добавляйте `aria-label`;
+- контролируйте фокус после открытия/закрытия меню в сложных сценариях;
+- для полного отключения используйте проп `disabled`: компонент становится недоступен для взаимодействия и клавиатурной навигации;
+- если важно сохранить элемент в потоке озвучивания скринридером, используйте `aria-disabled="true"` и блокируйте действия логически.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+`Dropdown` адаптивен: на мобильных устройствах раскрывающееся меню открывается в мобильном попапе (`MobilePopup`). Поведение включается настройками адаптивности React UI.
+
+Если нужно настроить пороги переключения между десктопным и мобильным режимами, используйте настройки из раздела [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs).
