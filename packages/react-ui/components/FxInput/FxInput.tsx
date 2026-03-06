@@ -99,10 +99,9 @@ export class FxInput extends React.Component<FxInputProps> {
   private featureFlags!: ReactUIFeatureFlags;
 
   private validateProps(props: FxInputProps) {
-    warning(
-      props.type !== 'currency' && props.mask !== undefined,
-      '[FxInput]: Prop "mask" is not supported when type="currency"',
-    );
+    if (props.type === 'currency' && props.mask !== undefined) {
+      warning(false, '[FxInput]: Prop "mask" is not supported when type="currency"');
+    }
   }
 
   public componentDidMount() {
