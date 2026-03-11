@@ -37,14 +37,13 @@ export const TabDataTids = {
 export interface TabProps<T extends string = string>
   extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     CommonProps {
-  /** Позволяет передавать свой компонент, строку или функцию, которая заменит собой элемент используемый в компоненте по умолчанию.
-   * Реализует паттерн [render prop](https://www.patterns.dev/posts/render-props-pattern). */
+  /** Компонент или тег для рендера корневого элемента. */
   component?: React.ComponentType<any> | string;
 
-  /** Задает HTML-атрибут `href` - адрес, на который следует перейти. */
+  /** HTML-атрибут `href`. */
   href?: string;
 
-  /** Задает уникальный идентификатор таба. По нему компонент `<Tabs />` определяет какой `<Tab />` сейчас выбран. */
+  /** Уникальный идентификатор таба. По нему компонент `<Tabs />` определяет выбранный таб. */
   id?: T;
 
   /**`HTML`-событие `onclick`. */
@@ -53,19 +52,19 @@ export interface TabProps<T extends string = string>
   /** `HTML`-событие `onkeydown`. */
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
-  /** Делает компонент недоступным. */
+  /** Делает таб недоступным. */
   disabled?: boolean;
 
-  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Переводит таб в состояние валидации "Ошибка". */
   error?: boolean;
 
-  /** Переводит контрол в состояние валидации "предупреждение". */
+  /** Переводит таб в состояние валидации "Предупреждение". */
   warning?: boolean;
 
-  /** Устанавливает визульное состояние валидации "успех". */
+  /** Переводит таб в состояние валидации "Успех". */
   success?: boolean;
 
-  /** Задает визульное состояние главного элемента. */
+  /** Задаёт визульное состояние главного элемента. */
   primary?: boolean;
 }
 
@@ -76,7 +75,9 @@ export interface TabState {
 type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 
 /**
- * Вложенный элемент компонента Tabs.
+ * Табы группируют контент и помогают в навигации.
+ *
+ * Для создания группы табов используйте специальный контейнер - компонент [Tabs](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-tabs-tabs--docs).
  */
 @rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {

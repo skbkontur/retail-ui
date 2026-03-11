@@ -29,7 +29,7 @@ export interface Action {
 /**
  * Состояния тоста:
  *
- * - default стиль для отображения по-умолчанию
+ * - default стиль для отображения по умолчанию
  * - error стиль для отображения ошибок
  **/
 export type ToastUse = 'default' | 'error';
@@ -70,15 +70,15 @@ export interface ToastPushConfig {
   /**
    * Определяет стили для тоста.
    *
-   * - default стиль для отображения по-умолчанию
+   * - default стиль для отображения по умолчанию
    * - error стиль для отображения ошибок
    *
-   * По-умолчанию будет использован стиль default.
+   * По умолчанию будет использован стиль default.
    **/
   use?: ToastUse;
 }
 
-/** TODO: Новый Api для метода push в Toast. Станет api по-умолчанию с версии 6.0. В мажоре нужно будет убрать New из названия */
+/** TODO: Новый Api для метода push в Toast. Станет api по умолчанию с версии 6.0. В мажоре нужно будет убрать New из названия */
 export type ToastNewPushApi = (notification: React.ReactNode, config: ToastPushConfig) => void;
 
 export type ToastClose = () => void;

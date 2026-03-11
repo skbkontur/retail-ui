@@ -74,6 +74,7 @@ import { createFile } from '../internal/FileUploaderControl/fileUtils';
 import { emit } from '../lib/LayoutEvents';
 import { ThemeContextPlayground } from '../internal/ThemePlayground/ThemeContextPlayground';
 import { isNullable } from '../lib/utils';
+import { styles } from '../components/Tabs/Indicator.styles';
 
 import { LocaleDecorator } from './decorators/Locale/LocaleDecorator';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
@@ -209,6 +210,7 @@ addons.setConfig({
     scope: {
       ...ReactUi,
       ...ReactUiValidations,
+      styles,
       createFile,
       DatePickerHelpers,
       cities,
