@@ -88,8 +88,8 @@ export const CalendarDay = memo(
           className={cx(
             {
               [styles.day(theme)]: true,
-              [styles.selected(theme)]: isSelected,
               [styles.weekend(theme)]: isWeekend,
+              [styles.selected(theme)]: isSelected,
             },
             className,
           )}
