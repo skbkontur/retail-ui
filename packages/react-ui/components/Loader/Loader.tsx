@@ -31,27 +31,27 @@ export interface LoaderProps extends CommonProps {
   /** @ignore */
   children?: React.ReactNode;
 
-  /** Задает состояние лоадера.
+  /** Показывает лоадер.
    * @default false */
   active?: boolean;
 
-  /** Задает подпись под спиннером.
-   * @default  "Загрузка"
+  /** Подпись под спиннером.
+   * @default  ""
    */
   caption?: SpinnerProps['caption'];
 
   /** Задает компонент, заменяющий спиннер. */
   component?: React.ReactNode;
 
-  /** Задает размер спиннера и текста.
+  /** Размер спиннера и текста.
    * @default normal. */
   type?: LoaderType;
 
-  /** Устанавливает время в миллисекундах для показа вуали без спиннера.
+  /** Время в миллисекундах для показа вуали без спиннера.
    * @default 300 */
   delayBeforeSpinnerShow?: number;
 
-  /** Устанавливает минимальное время в миллисекундах для показа спиннера.
+  /** Минимальное время в миллисекундах для показа спиннера.
    * @default 1000. */
   minimalDelayBeforeSpinnerHide?: number;
 }
@@ -74,9 +74,9 @@ type DefaultProps = Required<
 >;
 
 /**
- * Компонент `Loader` принимает внутрь себя контент, поверх которого в активном состоянии `Loader`'а будет отрисован спиннер.
- *
- * Если вам нужен только сам спиннер без дополнительного функционала - используйте компонент Spinner.
+ * С помощью лоадера можно отобразить процесс выполнения задачи.
+ * Лоадер принимает в качестве дочернего элемента другой компонент или контент, который будет показан на экране.
+ * Когда происходит загрузка, поверх этого компонента или контента будет отображаться [Спиннер](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-spinner--docs).
  */
 @rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {
