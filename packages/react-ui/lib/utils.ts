@@ -1,6 +1,6 @@
 import type React from 'react';
 import { isValidElement } from 'react';
-import { isForwardRef } from 'react-is';
+import { isForwardRef, isMemo } from 'react-is';
 
 import type { GlobalObject } from '../lib/globalObject.js';
 import { isBrowser } from '../lib/globalObject.js';
@@ -73,7 +73,9 @@ export function isIntrinsicElement(element: React.ReactElement<unknown>): boolea
 }
 
 export function isRefableElement(element: React.ReactElement<unknown>): boolean {
-  return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
+  return (
+    Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element)) || isMemo(element)
+  );
 }
 
 export function escapeRegExpSpecChars(s: string): string {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import type { TGetRootNode } from '../../lib/rootNode/rootNodeDecorator.js';
 import { RenderEnvironmentContext } from '../../lib/renderEnvironment/index.js';
 import type { RenderEnvironmentContextType } from '../../lib/renderEnvironment/index.js';
 import type { Nullable } from '../../typings/utility-types.js';
@@ -25,9 +26,13 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   public context!: RenderEnvironmentContextType;
 
   private static getRootId = () => getRandomID();
-  private domContainer: Nullable<HTMLElement> = null;
+  // see #2873 and #2895
+  public static readonly defaultRootNode = null;
+  private domContainer: Nullable<HTMLElement> = RenderContainer.defaultRootNode;
 
   private readonly rootId: string = RenderContainer.getRootId();
+
+  public getRootNode: TGetRootNode = (): Nullable<Element> => this.domContainer;
 
   public shouldComponentUpdate(nextProps: RenderContainerProps) {
     if (!this.props.children && nextProps.children) {

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 
+import { CalendarDay } from '../../Calendar/index.js';
 import { Hint } from '../Hint.js';
 
 describe('Hint', () => {
@@ -56,7 +57,7 @@ describe('Hint', () => {
     expect(hintContentUpdated).toBeInTheDocument();
   });
 
-  it('handels onMouseEnter event', async () => {
+  it('handles onMouseEnter event', async () => {
     const onMouseEnter = vi.fn();
     const hintChildrenText = 'Hello';
     render(
@@ -70,7 +71,7 @@ describe('Hint', () => {
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseLeave event', async () => {
+  it('handles onMouseLeave event', async () => {
     const onMouseLeave = vi.fn();
     const hintChildrenText = 'Hello';
     render(
@@ -108,5 +109,36 @@ describe('Hint', () => {
     unmount();
 
     expect(clearTimeout).toHaveBeenCalledWith(timer);
+  });
+
+  it('should work with calendarDay', async () => {
+    const onMouseEnter = vi.fn();
+    render(
+      <Hint text="Hint" onMouseEnter={onMouseEnter}>
+        <CalendarDay date="01.01.2021" onDayClick={vi.fn()} />
+      </Hint>,
+    );
+
+    await userEvent.hover(screen.getByRole('button'));
+    expect(await screen.findByText('Hint')).toBeInTheDocument();
+  });
+
+  it('should work with memoized component', async () => {
+    const MemoizedComponent = React.memo(
+      forwardRef((props, ref: React.Ref<HTMLButtonElement>) => (
+        <button {...props} ref={ref}>
+          Button
+        </button>
+      )),
+    );
+    const onMouseEnter = vi.fn();
+    render(
+      <Hint text="Hint" onMouseEnter={onMouseEnter}>
+        <MemoizedComponent />
+      </Hint>,
+    );
+
+    await userEvent.hover(screen.getByRole('button'));
+    expect(await screen.findByText('Hint')).toBeInTheDocument();
   });
 });
