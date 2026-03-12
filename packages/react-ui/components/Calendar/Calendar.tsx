@@ -246,16 +246,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       });
     };
 
-    const isYearChanges = (state: CalendarState) => {
-      return (
-        state.months[1].year !== year &&
-        // if diff in months is 2 or less,
-        // either year is not changing either months already
-        // have right isFirstInYear/isLastInYear flags
-        Math.abs(diffInMonths) > 2
-      );
-    };
-
     // If scrolling upwards, prepend maximum maxMonthsToAdd months
     // and scroll to the first month
     if (diffInMonths > 0) {
@@ -265,16 +255,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       });
       this.setState(
         (state) => {
-          const yearChanges = isYearChanges(state);
-          if (yearChanges) {
-            // Mutating here can lead to some unexpected bugs
-            // but we couldn't find any yet
-            state.months[0].isFirstInYear = true;
-            if (monthsToPrepend.length) {
-              // Mutating item here is safe as it was just created
-              monthsToPrepend[monthsToPrepend.length - 1].isLastInYear = true;
-            }
-          }
           return {
             months: monthsToPrepend.concat(state.months),
             scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend, this.theme),
@@ -296,15 +276,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       });
       this.setState(
         (state) => {
-          if (isYearChanges(state)) {
-            // Mutating here can lead to some unexpected bugs
-            // but we couldn't find any yet
-            state.months[state.months.length - 1].isLastInYear = true;
-            // Mutating item here is safe as it was just created
-            if (monthsToAppend[0]) {
-              monthsToAppend[0].isFirstInYear = true;
-            }
-          }
           return { months: state.months.concat(monthsToAppend) };
         },
         () => {
