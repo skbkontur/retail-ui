@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.6...@skbkontur/react-ui@5.6.7) (2026-03-12)
+
+
+### Bug Fixes
+
+* **Calendar:** fix color calendar active weekend by figma ([ab605b6](https://github.com/skbkontur/retail-ui/commit/ab605b6b1933cd23fa2cc7553496812f4bdc37cf))
+
+
+
+
+
 ## [5.6.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.5...@skbkontur/react-ui@5.6.6) (2026-02-26)
 
 
