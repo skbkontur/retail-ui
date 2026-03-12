@@ -17,26 +17,43 @@ const types = ['big', 'mini', 'normal'] as const;
 export type SpinnerType = (typeof types)[number];
 
 export interface SpinnerProps extends CommonProps {
-  /** Задает подпись под спиннером.
-   * @default "Загрузка" */
+  /**
+   * Подпись спиннера
+   */
   caption?: React.ReactNode;
 
-  /** Переводит спиннер в "затемнённый режим".
-   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`. */
-  dimmed?: boolean;
-
-  /** Задает размер спиннера и текста.
-   * @default normal. */
+  /**
+   * Размер индикатора и текста
+   *
+   * @default normal
+   */
   type?: SpinnerType;
 
-  /** Уменьшает спиннер для вставки в инлайн элемент. При type = "big"|"normal" размер спиннера уменьшается. */
+  /**
+   * Одноцветный режим. Удобная альтернатива пропа `dimmed`
+   */
+  color?: React.CSSProperties['color'];
+
+  /**
+   * Уменьшает размер индикатора для работы в строках. Если задан, то размер индикитора из `type` игнорируется
+   *
+   * @default false
+   */
   inline?: boolean;
 
-  /** Задает толщину спиннера. */
+  /**
+   * Толщина индикатора в пикселях.
+   *
+   * @default 2
+   */
   width?: number;
 
-  /** Задает цвет спиннера. Не работает с пропом dimmed. */
-  color?: React.CSSProperties['color'];
+  /**
+   * Одноцветный режим. Цвет спиннера не переливается. Можно кастомизировать переменной `spinnerDimmedColor`
+   *
+   * @default false
+   */
+  dimmed?: boolean;
 }
 
 export const SpinnerDataTids = {
@@ -47,11 +64,6 @@ type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
  * `Spinner` — это зацикленный индикатор, не отображающий прогресс выполнения задачи.
- *
- * Используйте `Spinner`, чтобы показать, что система выполняет команду, которую дал пользователь.
- * Не применяйте `Spinner` для заполнения паузы при загрузке контента, для этого предназначен GlobalLoader.
- *
- * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент Loader.
  */
 @rootNode
 export class Spinner extends React.Component<SpinnerProps> {
