@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.7...@skbkontur/react-ui@5.6.8) (2026-03-12)
+
+
+### Bug Fixes
+
+* **Calendar:** show year label only for first month ([0513727](https://github.com/skbkontur/retail-ui/commit/05137279c82a4a77bc4d875e708890117659aac1))
+* **Textarea:** remove min-width ([8941d1b](https://github.com/skbkontur/retail-ui/commit/8941d1ba9f3aa88e53cd9d6fdc2b3bd99606a674))
+
+
+
+
+
 ## [5.6.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.6...@skbkontur/react-ui@5.6.7) (2026-03-12)
 
 
