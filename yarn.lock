@@ -3767,7 +3767,7 @@
   resolved "https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
-"@skbkontur/colors@^2.1.0":
+"@skbkontur/colors@2.1.0":
   version "2.1.0"
   resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.1.0.tgz#726441363bc0562ac2fdd0c9740916cd8f3bb5bf"
   integrity sha512-QOCYkzZaEM6xDvwC8qVyeE6Zvm0AdfJIazulsWXzIrGGe5FzFZrzM2dItKNmCrC6+PUnkaHB4oS2ET6u3K83uQ==
