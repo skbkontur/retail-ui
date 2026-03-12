@@ -70,7 +70,7 @@ import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup.js';
 import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme.js';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme.js';
 import { parseVersionFromThemeName } from '../lib/theming/ThemeVersions.js';
-import { createFile } from '../internal/FileUploaderControl/fileUtils.js';
+import { createFile } from '../components/FileUploader/fileUtils.js';
 import { emit } from '../lib/LayoutEvents.js';
 import { ThemeContextPlayground } from '../internal/ThemePlayground/ThemeContextPlayground.js';
 import { isNullable } from '../lib/utils.js';

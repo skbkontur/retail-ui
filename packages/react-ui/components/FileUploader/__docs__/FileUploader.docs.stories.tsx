@@ -10,11 +10,8 @@ import {
 } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
-import {
-  type FileUploaderAttachedFile,
-  FileUploaderFileStatus,
-} from '../../../internal/FileUploaderControl/fileUtils.js';
-import { createFile } from '../../../internal/FileUploaderControl/fileUtils.js';
+import { type FileUploaderAttachedFile, FileUploaderFileStatus } from '../fileUtils.js';
+import { createFile } from '../fileUtils.js';
 
 const meta: Meta = {
   title: 'Input data/FileUploader/FileUploader',

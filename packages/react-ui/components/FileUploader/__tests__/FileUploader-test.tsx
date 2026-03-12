@@ -8,13 +8,10 @@ import { FileUploaderLocaleHelper } from '../locale/index.js';
 import type { FileUploaderProps } from '../FileUploader.js';
 import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
 import { delay } from '../../../lib/utils.js';
-import type { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils.js';
-import { createFile } from '../../../internal/FileUploaderControl/fileUtils.js';
-import {
-  FileUploaderFile,
-  FileUploaderFileDataTids,
-} from '../../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile.js';
-import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList.js';
+import type { FileUploaderAttachedFile } from '../fileUtils.js';
+import { createFile } from '../fileUtils.js';
+import { FileUploaderFile, FileUploaderFileDataTids } from '../FileUploaderFile.js';
+import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../FileUploaderFileList/FileUploaderFileList.js';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   render(

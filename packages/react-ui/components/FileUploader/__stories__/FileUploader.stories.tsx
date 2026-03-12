@@ -1,10 +1,10 @@
 import React, { type JSX, useRef } from 'react';
 
-import type { FileUploaderAttachedFile, FileUploaderView } from '../../../internal/FileUploaderControl/fileUtils.js';
-import { createFile, FileUploaderFileStatus } from '../../../internal/FileUploaderControl/fileUtils.js';
+import type { FileUploaderAttachedFile, FileUploaderView } from '../fileUtils.js';
+import { createFile, FileUploaderFileStatus } from '../fileUtils.js';
 import { Button } from '../../Button/index.js';
 import { Gapped } from '../../Gapped/index.js';
-import { DeleteIcon } from '../../../internal/FileUploaderControl/FileUploaderFile/icons/DeleteIcon.js';
+import { DeleteIcon } from '../icons/DeleteIcon.js';
 import { FileUploader } from '../FileUploader.js';
 import { FileUploaderFile } from '../FileUploaderFile.js';
 

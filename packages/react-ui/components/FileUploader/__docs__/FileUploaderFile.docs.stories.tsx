@@ -4,7 +4,7 @@ import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon1
 import type { Meta, Story } from '../../../typings/stories.js';
 import { FileUploaderFile } from '../FileUploaderFile.js';
 import { FileUploader } from '../FileUploader.js';
-import { createFile } from '../../../internal/FileUploaderControl/fileUtils.js';
+import { createFile } from '../fileUtils.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 

@@ -16,7 +16,7 @@ import type { AnyObject } from '../../lib/utils.js';
 import { delay } from '../../lib/utils.js';
 import { InputLikeTextDataTids } from '../../internal/InputLikeText/index.js';
 import { getRootNode } from '../../lib/rootNode/index.js';
-import { createFile } from '../../internal/FileUploaderControl/fileUtils.js';
+import { createFile } from '../FileUploader/fileUtils.js';
 
 function isPublicComponent(component: any, name: string) {
   //skip contexts

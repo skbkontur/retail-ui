@@ -5,12 +5,6 @@ import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/in
 import { type CommonProps, CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import type { PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-import type {
-  FileUploaderAttachedFile,
-  FileUploaderIconType,
-  FileUploaderView,
-} from '../../internal/FileUploaderControl/fileUtils.js';
-import { FileUploaderFileStatus, getFileUploaderTypeIcon } from '../../internal/FileUploaderControl/fileUtils.js';
 import { formatBytes } from '../../lib/utils.js';
 import { TextWidthHelper } from '../../internal/TextWidthHelper/TextWidthHelper.js';
 import { truncate } from '../../lib/stringUtils.js';
@@ -21,16 +15,15 @@ import type { Nullable } from '../../typings/utility-types.js';
 import { Hint } from '../Hint/index.js';
 import { Tooltip } from '../Tooltip/index.js';
 import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize.js';
 import type { SizeProp } from '../../lib/types/props.js';
-import { FileUploaderFileStatusIcon } from '../../internal/FileUploaderControl/FileUploaderFile/icons/FileUploaderFileStatusIcon.js';
-import { FileUploaderFileTypeIcon } from '../../internal/FileUploaderControl/FileUploaderFile/icons/FileUploaderFileTypeIcon.js';
-import {
-  getJsRowStyles,
-  getJsStyles,
-  getJsTileStyles,
-} from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile.styles.js';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon.js';
+
+import { useFileUploaderSize } from './hooks/useFileUploaderSize.js';
+import { FileUploaderFileStatus, getFileUploaderTypeIcon } from './fileUtils.js';
+import type { FileUploaderAttachedFile, FileUploaderIconType, FileUploaderView } from './fileUtils.js';
+import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon.js';
+import { FileUploaderFileTypeIcon } from './FileUploaderFileTypeIcon.js';
+import { getJsRowStyles, getJsStyles, getJsTileStyles } from './FileUploaderFile.styles.js';
 
 export interface FileUploaderFileProps extends CommonProps {
   file: FileUploaderAttachedFile;
