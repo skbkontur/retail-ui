@@ -46,6 +46,7 @@
     "./tokens/brand-purple_accent-gray.css": "./tokens/brand-purple_accent-gray.css",
     "./tokens/brand-violet_accent-brand.css": "./tokens/brand-violet_accent-brand.css",
     "./tokens/brand-violet_accent-gray.css": "./tokens/brand-violet_accent-gray.css",
+    "./tokens/brand-red_accent-gray.css": "./tokens/brand-red_accent-gray.css",
     "./tokens-default/light.less": "./tokens-default/light.less",
     "./tokens-default/light.scss": "./tokens-default/light.scss",
     "./tokens-default/light": {
@@ -70,7 +71,8 @@
     "./tokens-mobile/brand-purple_accent-brand.json": "./tokens-mobile/brand-purple_accent-brand.json",
     "./tokens-mobile/brand-purple_accent-gray.json": "./tokens-mobile/brand-purple_accent-gray.json",
     "./tokens-mobile/brand-violet_accent-brand.json": "./tokens-mobile/brand-violet_accent-brand.json",
-    "./tokens-mobile/brand-violet_accent-gray.json": "./tokens-mobile/brand-violet_accent-gray.json"
+    "./tokens-mobile/brand-violet_accent-gray.json": "./tokens-mobile/brand-violet_accent-gray.json",
+    "./tokens-mobile/brand-red_accent-gray.json": "./tokens-mobile/brand-red_accent-gray.json"
   },
   "scripts": {
     "prebuild": "node --import=tsx scripts/create-tokens-from-figma.ts",

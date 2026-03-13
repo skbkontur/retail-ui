@@ -43,4 +43,11 @@ describe('npm package contents', () => {
 
     expect(snapshots).toEqual([]);
   });
+
+  test('include brand-red_accent-gray files', () => {
+    const files = getPackedFiles().filter((filePath) => filePath.includes('brand-red_accent-gray'));
+
+    expect(files).toContain('tokens/brand-red_accent-gray.css');
+    expect(files).toContain('tokens-mobile/brand-red_accent-gray.json');
+  });
 });
