@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { scrollInputCaretIntoView } from '../scrollInputCaretIntoView';
+import { scrollInputCaretIntoView } from '../scrollInputCaretIntoView.js';
 
 function createInput(
   overrides: {
