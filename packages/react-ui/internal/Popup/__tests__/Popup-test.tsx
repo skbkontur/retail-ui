@@ -3,11 +3,12 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 
 import { PopupDataTids } from '..';
 import { MobilePopupDataTids } from '../../MobilePopup';
+import * as ResponsiveLayoutHooks from '../../../components/ResponsiveLayout/useResponsiveLayout';
 import type { InstanceWithRootNode } from '../../../lib/rootNode';
 import type { PopupProps } from '../Popup';
 import { Popup } from '../Popup';
+import { PopupHelper } from '../PopupHelper';
 import { delay } from '../../../lib/utils';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme';
 
 describe('Popup', () => {
   vi.setConfig({ testTimeout: 10000 });
@@ -91,6 +92,260 @@ describe('Popup', () => {
   });
 });
 
+describe('Popup fallback position logic', () => {
+  const mountPopup = (props: Partial<PopupProps> = {}) => {
+    const anchorElement = document.createElement('button');
+    const popupRef = React.createRef<Popup>();
+
+    render(
+      <Popup anchorElement={anchorElement} opened={false} disableAnimations ref={popupRef} {...props}>
+        Test content
+      </Popup>,
+    );
+
+    if (!popupRef.current) {
+      throw new Error('Popup ref is not set');
+    }
+
+    return { popup: popupRef.current, anchorElement };
+  };
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('сохраняет текущую позицию, когда она может стать видимой после скролла', () => {
+    const popupElement = document.createElement('div');
+    const { popup, anchorElement } = mountPopup({
+      positions: ['bottom left', 'top left'],
+      tryPreserveFirstRenderedPosition: true,
+    });
+
+    vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) =>
+      element === anchorElement
+        ? { top: 0, left: 0, width: 100, height: 20 }
+        : { top: 0, left: 0, width: 120, height: 60 },
+    );
+    vi.spyOn(popup as any, 'getCoordinates').mockReturnValue({ top: -20, left: 10 });
+    vi.spyOn(PopupHelper, 'isFullyVisible').mockReturnValue(false);
+    vi.spyOn(PopupHelper, 'canBecomeFullyVisible').mockReturnValue(true);
+    const pickFallbackPositionSpy = vi.spyOn(popup as any, 'pickBestFallbackPosition');
+
+    const result = (popup as any).getLocation(popupElement, {
+      position: 'top left',
+      coordinates: { top: 0, left: 0 },
+      isFullyVisible: false,
+    });
+
+    expect(result).toEqual({
+      coordinates: { top: -20, left: 10 },
+      position: 'top left',
+      isFullyVisible: true,
+    });
+    expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
+  });
+
+  it('выбирает первую полностью видимую позицию до fallback-эвристики', () => {
+    const popupElement = document.createElement('div');
+    const { popup, anchorElement } = mountPopup({
+      positions: ['bottom left', 'top left', 'bottom right'],
+    });
+
+    vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) =>
+      element === anchorElement
+        ? { top: 0, left: 0, width: 100, height: 20 }
+        : { top: 0, left: 0, width: 120, height: 60 },
+    );
+    vi.spyOn(popup as any, 'getCoordinates').mockImplementation((_anchorRect, _popupRect, position) => {
+      switch (position) {
+        case 'bottom left':
+          return { top: 10, left: 10 };
+        case 'top left':
+          return { top: 20, left: 20 };
+        default:
+          return { top: 30, left: 30 };
+      }
+    });
+    vi.spyOn(PopupHelper, 'isFullyVisible').mockImplementation((coordinates) => coordinates.top === 20);
+    const pickFallbackPositionSpy = vi.spyOn(popup as any, 'pickBestFallbackPosition');
+
+    const result = (popup as any).getLocation(popupElement);
+
+    expect(result).toEqual({
+      coordinates: { top: 20, left: 20 },
+      position: 'top left',
+      isFullyVisible: true,
+    });
+    expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
+  });
+
+  it('среди кандидатов по площади игнорирует partially visible позиции слева', () => {
+    const { popup } = mountPopup();
+    const bestCandidate = (popup as any).pickBestAreaCandidate(
+      [
+        {
+          position: 'left middle',
+          coordinates: { top: 0, left: 0 },
+          overflowCount: 1,
+          visibleArea: 500,
+          isFullyVisible: false,
+          isAreaEligible: false,
+        },
+        {
+          position: 'top left',
+          coordinates: { top: 0, left: 0 },
+          overflowCount: 2,
+          visibleArea: 300,
+          isFullyVisible: false,
+          isAreaEligible: true,
+        },
+      ],
+      new Set(['top left']),
+    );
+
+    expect(bestCandidate?.position).toBe('top left');
+  });
+
+  it('при равной видимой площади предпочитает позицию из исходного positions', () => {
+    const { popup } = mountPopup();
+    const bestCandidate = (popup as any).pickBestAreaCandidate(
+      [
+        {
+          position: 'bottom center',
+          coordinates: { top: 0, left: 0 },
+          overflowCount: 1,
+          visibleArea: 300,
+          isFullyVisible: false,
+          isAreaEligible: true,
+        },
+        {
+          position: 'top left',
+          coordinates: { top: 0, left: 0 },
+          overflowCount: 1,
+          visibleArea: 300,
+          isFullyVisible: false,
+          isAreaEligible: true,
+        },
+      ],
+      new Set(['top left']),
+    );
+
+    expect(bestCandidate?.position).toBe('top left');
+  });
+
+  it('при наличии видимой площади выбирает area-based fallback', () => {
+    const { popup } = mountPopup();
+    const candidateByPosition = {
+      'bottom center': {
+        position: 'bottom center',
+        coordinates: { top: 0, left: 0 },
+        overflowCount: 3,
+        visibleArea: 0,
+        isFullyVisible: false,
+        isAreaEligible: true,
+      },
+      'top left': {
+        position: 'top left',
+        coordinates: { top: 0, left: 0 },
+        overflowCount: 2,
+        visibleArea: 400,
+        isFullyVisible: false,
+        isAreaEligible: true,
+      },
+      'right middle': {
+        position: 'right middle',
+        coordinates: { top: 0, left: 0 },
+        overflowCount: 1,
+        visibleArea: 200,
+        isFullyVisible: false,
+        isAreaEligible: true,
+      },
+    };
+
+    vi.spyOn(popup as any, 'getCoordinates').mockReturnValue({ top: 0, left: 0 });
+    vi.spyOn(PopupHelper, 'getOverflowEdges').mockReturnValue({
+      top: false,
+      bottom: true,
+      left: false,
+      right: false,
+    });
+    vi.spyOn(PopupHelper, 'getPreferredDirection').mockReturnValue('top');
+    vi.spyOn(PopupHelper, 'getOrderedFallbackCandidates').mockReturnValue([
+      'bottom center',
+      'top left',
+      'right middle',
+    ]);
+    vi.spyOn(PopupHelper, 'getViewportAbsoluteRect').mockReturnValue({ top: 0, left: 0, width: 1000, height: 1000 });
+    vi.spyOn(popup as any, 'evaluateFallbackCandidate').mockImplementation(
+      (position) => candidateByPosition[position as keyof typeof candidateByPosition],
+    );
+
+    const bestPosition = (popup as any).pickBestFallbackPosition(
+      ['top left', 'right middle'],
+      { top: 0, left: 0, width: 10, height: 10 },
+      { top: 0, left: 0, width: 20, height: 20 },
+    );
+
+    expect(bestPosition).toBe('top left');
+  });
+
+  it('если видимой площади нет, откатывается к минимальному overflowCount', () => {
+    const { popup } = mountPopup();
+    const candidateByPosition = {
+      'bottom center': {
+        position: 'bottom center',
+        coordinates: { top: 0, left: 0 },
+        overflowCount: 3,
+        visibleArea: 0,
+        isFullyVisible: false,
+        isAreaEligible: true,
+      },
+      'top left': {
+        position: 'top left',
+        coordinates: { top: 0, left: 0 },
+        overflowCount: 2,
+        visibleArea: 0,
+        isFullyVisible: false,
+        isAreaEligible: true,
+      },
+      'right middle': {
+        position: 'right middle',
+        coordinates: { top: 0, left: 0 },
+        overflowCount: 1,
+        visibleArea: 0,
+        isFullyVisible: false,
+        isAreaEligible: true,
+      },
+    };
+
+    vi.spyOn(popup as any, 'getCoordinates').mockReturnValue({ top: 0, left: 0 });
+    vi.spyOn(PopupHelper, 'getOverflowEdges').mockReturnValue({
+      top: true,
+      bottom: true,
+      left: false,
+      right: false,
+    });
+    vi.spyOn(PopupHelper, 'getPreferredDirection').mockReturnValue('bottom');
+    vi.spyOn(PopupHelper, 'getOrderedFallbackCandidates').mockReturnValue([
+      'bottom center',
+      'top left',
+      'right middle',
+    ]);
+    vi.spyOn(PopupHelper, 'getViewportAbsoluteRect').mockReturnValue({ top: 0, left: 0, width: 1000, height: 1000 });
+    vi.spyOn(popup as any, 'evaluateFallbackCandidate').mockImplementation(
+      (position) => candidateByPosition[position as keyof typeof candidateByPosition],
+    );
+
+    const bestPosition = (popup as any).pickBestFallbackPosition(
+      ['top left', 'right middle'],
+      { top: 0, left: 0, width: 10, height: 10 },
+      { top: 0, left: 0, width: 20, height: 20 },
+    );
+
+    expect(bestPosition).toBe('right middle');
+  });
+});
+
 describe('rootNode', () => {
   const popupRef = React.createRef<Popup & InstanceWithRootNode>();
 
@@ -128,17 +383,21 @@ describe('rootNode', () => {
     it('is content container when opened and is null when closed', async () => {
       const { rerender } = render(<Component opened />);
 
-      const contentContainer = await screen.findByTestId(dataTid);
-      let rootNode = popupRef.current?.getRootNode();
+      await waitFor(() => {
+        const rootNode = popupRef.current?.getRootNode();
 
-      expect(popupRef.current).not.toBeNull();
-      expect(rootNode).toBeInstanceOf(HTMLElement);
-      expect(rootNode).toBe(contentContainer);
+        expect(popupRef.current).not.toBeNull();
+        expect(rootNode).toBeInstanceOf(HTMLElement);
+
+        if (rootNode instanceof HTMLElement) {
+          expect(rootNode.dataset.tid).toBe(dataTid);
+        }
+      });
 
       rerender(<Component opened={false} />);
 
       await waitFor(() => {
-        rootNode = popupRef.current?.getRootNode();
+        const rootNode = popupRef.current?.getRootNode();
         expect(popupRef.current).not.toBeNull();
         expect(rootNode).toBeNull();
       });
@@ -149,26 +408,12 @@ describe('rootNode', () => {
     testRootNode(TestPopup, popupRef, PopupDataTids.root);
   });
   describe('on mobile', () => {
-    const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
-    const oldMatchMedia = window.matchMedia;
-    const matchMediaMock = vi.fn().mockImplementation((query) => {
-      return {
-        matches: calcMatches(query),
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      };
-    });
-
     beforeEach(() => {
-      window.matchMedia = matchMediaMock;
+      vi.spyOn(ResponsiveLayoutHooks, 'useResponsiveLayout').mockReturnValue({ isMobile: true });
     });
 
     afterEach(() => {
-      window.matchMedia = oldMatchMedia;
+      vi.restoreAllMocks();
     });
 
     testRootNode(TestPopup, popupRef, MobilePopupDataTids.container);
