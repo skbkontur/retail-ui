@@ -3737,7 +3737,17 @@
   resolved "https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
-"@skbkontur/colors@^2.1.0":
+"@sinclair/typebox@^0.27.8":
+  version "0.27.10"
+  resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.10.tgz#beefe675f1853f73676aecc915b2bd2ac98c4fc6"
+  integrity sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA==
+
+"@sindresorhus/is@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
+  integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
+
+"@skbkontur/colors@2.1.0":
   version "2.1.0"
   resolved "https://registry.npmjs.org/@skbkontur/colors/-/colors-2.1.0.tgz#726441363bc0562ac2fdd0c9740916cd8f3bb5bf"
   integrity sha512-QOCYkzZaEM6xDvwC8qVyeE6Zvm0AdfJIazulsWXzIrGGe5FzFZrzM2dItKNmCrC6+PUnkaHB4oS2ET6u3K83uQ==
