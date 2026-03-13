@@ -33,55 +33,56 @@ import { DotsIcon } from './DotsIcon.js';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 export interface ItemComponentProps {
-  /** Определяет, является ли страница текущей. */
-  active: boolean;
-
   /** @ignore */
   children?: React.ReactNode;
 
-  /** Задает HTML-атрибут class. */
-  className: string;
+  /** Определяет, является ли страница текущей. */
+  active: boolean;
 
-  /** Задает функцию, которая вызывается при клике на элемент. */
-  onClick: () => void;
-
-  /** Задает номер текущей страницы. */
+  /** Номер страницы. */
   pageNumber: number | 'forward';
 
-  /** Задает HTML-атрибут `tabindex`. */
+  /** Вызывается при клике на элемент. */
+  onClick: () => void;
+
+  /** HTML-атрибут `class`. */
+  className: string;
+
+  /** HTML-атрибут `tabindex`. */
   tabIndex: number;
 }
 
 export interface PagingProps extends CommonProps {
-  activePage: number;
-
-  /** Компонент обертки по умолчанию.
-   * @default <span/> */
-  component?: React.ComponentType<ItemComponentProps>;
-
-  /** Задает функцию, которая вызывается при переключении страницы. */
-  onPageChange: (pageNumber: number) => void;
-
-  /** Задает общее количество страниц. */
+  /** Количество страниц. */
   pagesCount: number;
 
-  /** Задает размер контрола.
-   * @default 'small'. Проп поддерживается начиная с версии темы 5.3. */
+  /** Номер текущей страницы. */
+  activePage: number;
+
+  /** Вызывается при переключении страницы. */
+  onPageChange: (pageNumber: number) => void;
+
+  /** Размер пейджинга.
+   *
+   * *Проп поддерживается начиная с версии 5.3.*
+   * @default 'small' */
   size?: SizeProp;
 
   /** Делает компонент недоступным. */
   disabled?: boolean;
 
-  /** Отключает навигационные подсказки.
-   * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры (либо элемент в фокусе, либо globalListeners === true). */
-  withoutNavigationHint?: boolean;
-
-  /** Задает подпить у пейджинга. */
+  /** Подпись у кнопки перехода на следующую страницу. */
   caption?: string;
 
-  /** Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
-   * Если на странице используется несколько элементов **Paging** с useGlobalListener === true,
-   * то обработчик keyDown будет вызываться на каждом из них. Такие случаи лучше обрабатывать отдельно. */
+  /** Компонент обёртки страниц.
+   * @default <span/> */
+  component?: React.ComponentType<ItemComponentProps>;
+
+  /** Отключает навигационные подсказки.
+   * По умолчанию подсказки появляются, когда доступно управление с клавиатуры (либо контрол в фокусе, либо globalListeners === true). */
+  withoutNavigationHint?: boolean;
+
+  /** Включает глобальный слушатель `keyDown`, для навигации клавишами без фокуса на контроле. */
   useGlobalListener?: boolean;
 }
 

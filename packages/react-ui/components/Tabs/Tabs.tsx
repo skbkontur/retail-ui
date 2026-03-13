@@ -29,23 +29,23 @@ interface TabType<T extends ValueBaseType> {
 }
 
 export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
-  /** Задает кастомный класс подчёркиванию таба. */
+  /** Кастомный класс для индикатора (подчёркивания) активного таба. */
   indicatorClassName?: string;
 
-  /** Задает размер контрола. */
+  /** Размер табов. */
   size?: SizeProp;
 
-  /** Задает текущий активный `<Tab />`. Принимает `id` таба. */
+  /** Идентификатор активного таба. Совпадает с `id` выбранного `<Tab />`. */
   value: T;
 
-  /** Задает функцию, изменяющую текущий активный `<Tab />`. */
+  /** Вызывается при смене активного таба. */
   onValueChange?: (value: T) => void;
 
-  /** Задает расположение элементов по вертикали.
+  /** Располагает табы вертикально.
    * @default false */
   vertical?: boolean;
 
-  /** Задает ширину компонента Tabs. */
+  /** Ширина компонента. */
   width?: number | string;
 
   /** @ignore */
@@ -60,12 +60,7 @@ export const TabsDataTids = {
 type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 
 /**
- * Родитель компонента Tab. Связывает `Tab`'ы в группу и позволяет управлять их состоянием, помогают в навигации.
- *
- * Используйте `Tabs` для второстепенной навигации, для группировки или фильтрации контента.
- *
- * Не используйте `Tabs` для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
- * Не используйте `Tabs` для переключения состояний — для этого есть RadioGroup, Toggle и Switcher.
+ * Контейнер для компонента [Tab](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-tabs-tab--doc). Группирует табы и позволяет управлять их состоянием.
  */
 @withRenderEnvironment
 @rootNode

@@ -43,13 +43,12 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       font-size: inherit;
       line-height: inherit;
       max-width: 100%;
-      min-width: ${t.textareaWidth};
+      width: 100%;
       outline: none;
       transition:
         border-color ${t.transitionDuration} ${t.transitionTimingFunction},
         height 0.2s ease-out;
       vertical-align: ${t.textareaVerticalAlign};
-      width: 100%;
       border-radius: ${t.textareaBorderRadius};
       white-space: pre-wrap;
 

@@ -164,8 +164,15 @@ TextareaInInlineFlexAndText.parameters = { creevey: { skip: true } };
 export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
 
-export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
-TextareaWithCustomWidth.storyName = 'Textarea with custom width';
+export const TextareaWithCustomWidth = () => (
+  <Gapped gap={16} vertical>
+    <Textarea value={'Default (250px)'} />
+    <Textarea width={400} value={'400px'} />
+    <Textarea width={50} value={'50px'} />
+    <Textarea width={'50%'} value={'50%'} />
+  </Gapped>
+);
+TextareaWithCustomWidth.storyName = 'Width';
 
 export const TextareaInsideGapped = () => (
   <Gapped gap={10}>

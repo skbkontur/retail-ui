@@ -11,32 +11,36 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
     <Gapped>
       <Button onClick={() => GlobalLoader.start()} use="primary">
-        start
+        Запустить лоадер
       </Button>
-      <Button onClick={() => GlobalLoader.done()} use="success">
-        done
-      </Button>
-      <Button onClick={() => GlobalLoader.reject()} use="danger">
-        reject
-      </Button>
-      <Button onClick={() => GlobalLoader.accept()} use="pay">
-        accept
-      </Button>
+      <Button onClick={() => GlobalLoader.done()}>Завершить</Button>
     </Gapped>
   );
 };
-Example1.storyName = 'Все статические методы';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
-  const myTheme = ThemeFactory.create({ globalLoaderColor: 'red' });
+export const ExampleStaticMethods: Story = () => {
+  return (
+    <Gapped>
+      <Button onClick={() => GlobalLoader.start()} use="primary">
+        Запустить лоадер
+      </Button>
+      <Button onClick={() => GlobalLoader.done()}>Завершить</Button>
+      <Button onClick={() => GlobalLoader.reject()}>Эмулировать проблему</Button>
+      <Button onClick={() => GlobalLoader.accept()}>Вернуться в состояние загрузки</Button>
+    </Gapped>
+  );
+};
+ExampleStaticMethods.storyName = 'Все статические методы';
 
-  const [manually, setManually] = React.useState(false);
-  const [active, setActive] = React.useState(false);
-  const [error, setError] = React.useState(false);
+export const ExampleMount: Story = () => {
+  const [manually, setManually] = React.useState<boolean>(false);
+  const [active, setActive] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<boolean>(false);
 
   const reset = () => {
     if (manually) {
@@ -51,19 +55,17 @@ export const Example2: Story = () => {
   return (
     <Gapped vertical>
       <Toggle checked={manually} onValueChange={reset}>
-        Управление пропсами
+        Активировать управление пропсами
       </Toggle>
       <Toggle checked={active} onValueChange={setActive} disabled={!manually}>
-        <code>active</code>
+        Запустить лоадер
       </Toggle>
       <Toggle checked={error} onValueChange={setError} disabled={!manually}>
-        <code>rejected</code>
+        Эмулировать ошибку
       </Toggle>
 
-      <ThemeContext.Provider value={myTheme}>
+      {manually && (
         <GlobalLoader
-          expectedResponseTime={2000}
-          delayBeforeShow={1000}
           active={active}
           rejected={error}
           onStart={() => console.log('start')}
@@ -71,14 +73,14 @@ export const Example2: Story = () => {
           onReject={() => console.log('reject')}
           onAccept={() => console.log('accept')}
         />
-      </ThemeContext.Provider>
+      )}
     </Gapped>
   );
 };
-Example2.storyName = 'Монтирование и кастомизация';
+ExampleMount.storyName = 'Монтирование';
 
-export const Example3: Story = () => {
-  const [opened, setOpened] = React.useState(false);
+export const ExampleInModal: Story = () => {
+  const [opened, setOpened] = React.useState<boolean>(false);
 
   function renderModal() {
     return (
@@ -87,11 +89,9 @@ export const Example3: Story = () => {
         <Modal.Body>
           <Gapped>
             <Button onClick={() => GlobalLoader.start()} use="primary">
-              start
+              Запустить лоадер
             </Button>
-            <Button onClick={() => GlobalLoader.done()} use="success">
-              done
-            </Button>
+            <Button onClick={() => GlobalLoader.done()}>Завершить</Button>
           </Gapped>
         </Modal.Body>
       </Modal>
@@ -109,8 +109,39 @@ export const Example3: Story = () => {
   return (
     <div>
       {opened && renderModal()}
-      <Button onClick={open}>Открыть</Button>
+      <Button onClick={open}>Открыть модальное окно</Button>
     </div>
   );
 };
-Example3.storyName = 'Статические методы в модалке';
+ExampleInModal.storyName = 'Статические методы в модальном окне';
+
+export const ExampleCustomizeColor: Story = () => {
+  const [enableTheme, setEnableTheme] = React.useState<boolean>(false);
+  const [active, setActive] = React.useState<boolean>(false);
+
+  const globalLoaderCustomTheme = ThemeFactory.create(
+    enableTheme
+      ? {
+          globalLoaderColor: 'cyan',
+        }
+      : {},
+  );
+
+  return (
+    <Gapped vertical gap={16}>
+      <Toggle checked={enableTheme} onValueChange={setEnableTheme}>
+        Изменить цвет индикатора загрузки на 'cyan'
+      </Toggle>
+      <Gapped>
+        <Button onClick={() => setActive(true)} use="primary">
+          Запустить лоадер
+        </Button>
+        <Button onClick={() => setActive(false)}>Завершить</Button>
+      </Gapped>
+      <ThemeContext.Provider value={globalLoaderCustomTheme}>
+        <GlobalLoader active={active} />
+      </ThemeContext.Provider>
+    </Gapped>
+  );
+};
+ExampleCustomizeColor.storyName = 'Кастомизация: изменение цвета индикатора загрузки';

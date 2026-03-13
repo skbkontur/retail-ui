@@ -182,7 +182,7 @@ export const ExampleDisabled: Story = () => {
 };
 ExampleDisabled.storyName = 'Состояние блокировки';
 
-/** Пропы `error` и `warning используются для валидации. */
+/** Пропсы `error` и `warning` используются для валидации. */
 export const ExampleError: Story = () => {
   const [valid, setValid] = React.useState();
   const [value, setValue] = React.useState('');

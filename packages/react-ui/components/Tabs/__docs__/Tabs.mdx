@@ -1,5 +1,5 @@
 import * as TabsStories from './Tabs.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import { Primary, ArgTypes, Story, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +12,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=244-14762&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { Tabs } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -20,6 +24,31 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте `Tabs` для второстепенной навигации, для группировки или фильтрации контента.
+
+**Когда не использовать:**
+
+- Для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
+- Для состояний — для этого есть [RadioGroup](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs), [Toggle](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-toggle--docs) и [Switcher](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-switcher--docs).
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Компонент поддерживает управление с клавиатуры - при переходе к группе табов клавишей `Tab` первый таб получает фокус. Стрелками можно перемещать фокус между табами. При нажатии клавиши `Enter` таб с фокусом становится активным.
+
+**Рекомендации**
+
+- Используйте `aria-describedby` для связи группы табов с элементом, содержащим дополнительное, развёрнутое описание.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+По умолчанию группа табов не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)

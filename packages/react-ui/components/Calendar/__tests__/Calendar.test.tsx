@@ -11,6 +11,7 @@ import { CalendarDataTids } from '../index.js';
 import { CalendarLocaleHelper } from '../locale/index.js';
 import type { CalendarDayProps } from '../CalendarDay.js';
 import { CalendarDay } from '../CalendarDay.js';
+import type { MonthViewModel } from '../MonthViewModel.js';
 
 describe('Calendar', () => {
   it('renders', () => {
@@ -154,6 +155,38 @@ describe('Calendar', () => {
     refCalendar.current?.scrollToMonth(month, year);
 
     await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month, year }), { timeout: 5000 });
+  });
+
+  it('should have correct firstInYear and lastInYear months', async () => {
+    const firstInYearMonths = new Set<number>();
+    const lastInYearMonths = new Set<number>();
+    const checkMonths = (months?: MonthViewModel[]) => {
+      if (!months) {
+        return;
+      }
+      months.forEach((month) => {
+        if (month.isFirstInYear) {
+          firstInYearMonths.add(month.month);
+        }
+        if (month.isLastInYear) {
+          lastInYearMonths.add(month.month);
+        }
+      });
+    };
+
+    const refCalendar = React.createRef<Calendar>();
+    render(<Calendar value="01.01.2026" onValueChange={vi.fn()} ref={refCalendar} />);
+
+    checkMonths(refCalendar.current?.state.months);
+    for (let newYear = 2026; newYear < 2028; newYear++) {
+      for (let newMonth = 1; newMonth < 13; newMonth++) {
+        await act(async () => refCalendar.current?.scrollToMonth(newMonth, newYear));
+        checkMonths(refCalendar.current?.state.months);
+      }
+    }
+
+    await waitFor(() => expect(firstInYearMonths).toEqual(new Set([0])), { timeout: 30000 });
+    await waitFor(() => expect(lastInYearMonths).toEqual(new Set([11])), { timeout: 30000 });
   });
 
   describe('a11y', () => {

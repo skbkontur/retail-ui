@@ -94,7 +94,7 @@ describe('FxInput', () => {
     });
 
     it(`shouldn't throw error if type="currency" without mask`, () => {
-      render(<FxInput mask="9" onValueChange={() => {}} />);
+      render(<FxInput type="currency" onValueChange={() => {}} />);
       const warnings = getMaskCurrencyWarnings(consoleSpy.mock.calls);
       expect(warnings.length).toBe(0);
     });

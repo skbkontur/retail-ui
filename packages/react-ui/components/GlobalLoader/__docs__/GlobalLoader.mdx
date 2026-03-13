@@ -1,5 +1,5 @@
 import * as GlobalLoaderStories from './GlobalLoader.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import { Primary, ArgTypes, Stories, Story, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +12,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=1593-28299&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { GlobalLoader } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -20,6 +24,79 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте глобальный лоадер для индикации длительных операций обмена данными с сервером, таких как загрузка данных, сохранение формы, отправка запросов и т.д.
+
+**Когда использовать:**
+
+- Для индикации загрузки данных с сервера.
+- Для отображения прогресса выполнения длительных операций.
+- Для информирования пользователя о состоянии соединения с сервером.
+
+**Когда не использовать:**
+
+- Для локальных операций, которые выполняются мгновенно.
+- Для индикации загрузки отдельных элементов интерфейса. В этом случае используйте ['Loader'](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-loader--docs).
+- Если в приложении уже есть другой глобальный индикатор загрузки.
+
 ## Примеры
 
-<Stories title="" includePrimary={false} />
+### {GlobalLoaderStories.ExampleStaticMethods.storyName}
+
+У компонента `GlobalLoader` есть набор статических методов: `GlobalLoader.start()`, `GlobalLoader.done()`, `GlobalLoader.reject()`, `GlobalLoader.accept()`.
+
+<ul>
+  <li>
+    Запустить лоадер (<code>"start"</code>) — активирует анимацию загрузки
+  </li>
+  <li>
+    Завершить (<code>"done"</code>) — переведёт глобальный лоадер в успешное завершённое состояние
+  </li>
+  <li>
+    Эмулировать проблему (<code>"reject"</code>) — переведёт глобальный лоадер в состояние с ошибкой
+  </li>
+  <li>
+    Вернуться в состояние загрузки (<code>"accept"</code>) — запустит глобальный лоадер с момента остановки при ошибке
+  </li>
+</ul>
+
+<Story of={GlobalLoaderStories.ExampleStaticMethods} />
+
+### {GlobalLoaderStories.ExampleMount.storyName}
+
+Вместо статических методов можно воспользоваться управлением через пропсы.
+
+<Story of={GlobalLoaderStories.ExampleMount} />
+
+### {GlobalLoaderStories.ExampleInModal.storyName}
+
+Глобальный лоадер можно запустить в модальном окне. Тогда он перекроет вуаль.
+
+<Story of={GlobalLoaderStories.ExampleInModal} />
+
+### {GlobalLoaderStories.ExampleCustomizeColor.storyName}
+
+Через переменные темы можно изменять параметры глобального лоадера. Например, цвет индикатора загрузки.
+
+<Story of={GlobalLoaderStories.ExampleCustomizeColor} />
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+Глобальный лоадер визуально отображает состояние загрузки, но для пользователей скринридеров рекомендуется дополнительно информировать о состоянии операции через регионы `aria-live` или другие доступные механизмы.
+
+**Рекомендации:**
+
+- Используйте `aria-live="polite"` или `aria-live="assertive"` для объявления изменений состояния загрузки.
+- Предоставляйте текстовые альтернативы для индикации состояния операции.
+- Убедитесь, что пользователи могут понять, что происходит загрузка, даже без визуального индикатора.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+По умолчанию глобальный лоадер не меняет свой вид и поведение на мобильных устройствах. Лоадер отображается у верхней границы экрана независимо от размера вьюпорта.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)

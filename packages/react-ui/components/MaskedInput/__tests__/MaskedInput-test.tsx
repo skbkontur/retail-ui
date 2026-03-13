@@ -281,6 +281,40 @@ describe('MaskedInput', () => {
     });
   });
 
+  describe('horizontal scroll on arrow keys', () => {
+    it('scrolls left when caret moves left out of visible area', () => {
+      render(<MaskedInput mask="99999999999999999999" value="12345678901234567890" />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      Object.defineProperty(input, 'scrollWidth', { value: 500, configurable: true });
+      Object.defineProperty(input, 'clientWidth', { value: 100, configurable: true });
+
+      input.focus();
+      input.setSelectionRange(16, 16);
+      (input as HTMLInputElement).scrollLeft = 400;
+
+      fireEvent.keyDown(input, { key: 'ArrowLeft' });
+
+      expect((input as HTMLInputElement).scrollLeft).toBe(300);
+    });
+
+    it('scrolls right when caret moves right out of visible area', () => {
+      render(<MaskedInput mask="99999999999999999999" value="12345678901234567890" />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      Object.defineProperty(input, 'scrollWidth', { value: 500, configurable: true });
+      Object.defineProperty(input, 'clientWidth', { value: 100, configurable: true });
+
+      input.focus();
+      input.setSelectionRange(4, 4);
+      (input as HTMLInputElement).scrollLeft = 0;
+
+      fireEvent.keyDown(input, { key: 'ArrowRight' });
+
+      expect((input as HTMLInputElement).scrollLeft).toBe(100);
+    });
+  });
+
   describe('cleaning input', () => {
     it(`without unmask`, async () => {
       let value = '';
