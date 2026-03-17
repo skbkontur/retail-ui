@@ -1,6 +1,6 @@
 import React from 'react';
-import { isElement } from 'react-is';
 
+import { isElement } from '../../../lib/react-is.js';
 import { useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
 import { isKonturIcon } from '../../../lib/utils.js';
 import type { InputProps } from '../Input.js';

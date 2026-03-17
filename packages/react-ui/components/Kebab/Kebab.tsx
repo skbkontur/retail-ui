@@ -1,8 +1,8 @@
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
-import { isElement } from 'react-is';
 import type { Emotion } from '@emotion/css/create-instance';
 
+import { isElement } from '../../lib/react-is.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { isKonturIcon } from '../../lib/utils.js';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers.js';

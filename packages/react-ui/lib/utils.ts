@@ -1,6 +1,5 @@
 import type React from 'react';
 import { isValidElement } from 'react';
-import { isForwardRef, isMemo } from 'react-is';
 
 import type { GlobalObject } from '../lib/globalObject.js';
 import { isBrowser } from '../lib/globalObject.js';
@@ -15,6 +14,8 @@ import type { DropdownMenuProps } from '../components/DropdownMenu/index.js';
 import type { ButtonProps } from '../components/Button/index.js';
 import type { TooltipProps } from '../components/Tooltip/index.js';
 import type { HintProps } from '../components/Hint/index.js';
+
+import { isForwardRef, isMemo } from './react-is.js';
 
 export { delay } from './delay.js';
 
