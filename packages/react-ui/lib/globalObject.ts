@@ -25,24 +25,24 @@ export function getSafeWindow(): GlobalObject {
 export function getOwnerGlobalObject(element: Element): GlobalObject {
   if (!element) {
     warning(
-      true,
+      false,
       "The 'element' argument is missing. This indicates incorrect type casting and may cause issues in iframes.",
     );
     return globalObject;
   }
 
   if (element.nodeType === Node.DOCUMENT_NODE && 'defaultView' in element) {
-    warning(true, "The 'element' argument is 'document', but 'Element' was expected.");
+    warning(false, "The 'element' argument is 'document', but 'Element' was expected.");
     return element.defaultView as GlobalObject;
   }
 
   if ('window' in element && element.window === element) {
-    warning(true, "The 'element' argument is 'window', but 'Element' was expected.");
+    warning(false, "The 'element' argument is 'window', but 'Element' was expected.");
     return element as GlobalObject;
   }
 
   if (!element.ownerDocument.defaultView) {
-    warning(true, "The 'element.ownerDocument.defaultView' is missing. This is an unexpected edge case.");
+    warning(false, "The 'element.ownerDocument.defaultView' is missing. This is an unexpected edge case.");
     return globalObject;
   }
 
