@@ -11,6 +11,7 @@ import { Tabs } from '@skbkontur/react-ui/components/Tabs';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
 import { getColors } from '../lib/get-colors';
+import { camelCaseToKebabCase } from '../lib/utils/format-variable';
 
 export const ColorsCodePlayground = (): JSX.Element => {
   const [projectType, setProjectType] = React.useState('Продукт Контура');
@@ -56,7 +57,7 @@ export const ColorsCodePlayground = (): JSX.Element => {
 
   const getHtmlSnippet = () => {
     const isTs = format === 'ts';
-    const brandValue = isOnPrem ? customHex : mainBrand;
+    const brandValue = isOnPrem ? customHex : camelCaseToKebabCase(mainBrand);
     const themeAttribute = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
 
     const contentAttribute = isTs

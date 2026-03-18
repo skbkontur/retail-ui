@@ -1397,6 +1397,11 @@ export const ColorsPaletteStory = () => {
       matchPercent: percent,
     });
 
+    // Hide hover & pressed
+    if (colorFormat === 'iOS/Android (hex-aarrggbb)') {
+      tokens = tokens.filter((t) => !t.key.endsWith('Hover') && !t.key.endsWith('Pressed'));
+    }
+
     if (!filter) {
       return tokens.map((t) => asMeta(t, false));
     }

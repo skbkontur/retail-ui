@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/colors",
-  "version": "2.1.1",
+  "version": "2.1.4",
   "author": "Kontur",
   "publishConfig": {
     "access": "public",
@@ -9,6 +9,18 @@
   "type": "module",
   "license": "UNLICENSED",
   "sideEffects": false,
+  "files": [
+    "/lib/**/*.{js,d.ts}",
+    "/tokens",
+    "/tokens-mobile",
+    "/tokens-default/*.{js,d.ts,less,scss}",
+    "/index.js",
+    "/index.d.ts",
+    "/get-colors.js",
+    "/get-colors.d.ts",
+    "/colors.less",
+    "/colors.scss"
+  ],
   "exports": {
     "./package.json": "./package.json",
     ".": "./index.ts",
@@ -28,6 +40,7 @@
     "./tokens/brand-purple_accent-gray.css": "./tokens/brand-purple_accent-gray.css",
     "./tokens/brand-violet_accent-brand.css": "./tokens/brand-violet_accent-brand.css",
     "./tokens/brand-violet_accent-gray.css": "./tokens/brand-violet_accent-gray.css",
+    "./tokens/brand-red_accent-gray.css": "./tokens/brand-red_accent-gray.css",
     "./tokens-default/light.less": "./tokens-default/light.less",
     "./tokens-default/light.scss": "./tokens-default/light.scss",
     "./tokens-default/light": "./tokens-default/light.ts",
@@ -46,7 +59,8 @@
     "./tokens-mobile/brand-purple_accent-brand.json": "./tokens-mobile/brand-purple_accent-brand.json",
     "./tokens-mobile/brand-purple_accent-gray.json": "./tokens-mobile/brand-purple_accent-gray.json",
     "./tokens-mobile/brand-violet_accent-brand.json": "./tokens-mobile/brand-violet_accent-brand.json",
-    "./tokens-mobile/brand-violet_accent-gray.json": "./tokens-mobile/brand-violet_accent-gray.json"
+    "./tokens-mobile/brand-violet_accent-gray.json": "./tokens-mobile/brand-violet_accent-gray.json",
+    "./tokens-mobile/brand-red_accent-gray.json": "./tokens-mobile/brand-red_accent-gray.json"
   },
   "scripts": {
     "prebuild": "yarn clean && node --import=tsx scripts/create-tokens-from-figma.ts",
