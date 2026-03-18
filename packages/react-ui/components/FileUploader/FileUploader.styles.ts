@@ -33,10 +33,11 @@ const styles = {
     `;
   },
 
-  root5_5() {
+  root5_5(t: Theme) {
     return css`
       display: inline-flex;
       flex-wrap: wrap;
+      border-radius: ${t.fileUploaderBorderRadius};
     `;
   },
 
@@ -524,6 +525,12 @@ const tileStyles = {
   uploadButtonTileWithFileLarge(t: Theme) {
     return css`
       padding: ${t.fileUploaderTileFilePaddingLarge};
+    `;
+  },
+
+  verticalAlign() {
+    return css`
+      vertical-align: middle;
     `;
   },
 

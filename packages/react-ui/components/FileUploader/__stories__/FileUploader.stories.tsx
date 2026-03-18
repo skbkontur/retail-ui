@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { createFile, FileUploaderFileStatus } from '../../../internal/FileUploaderControl/fileUtils';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -315,5 +317,18 @@ export const FileUploaderWithMultipleFileTypeIcons = () => {
       <FileUploader multiple initialFiles={initialFiles} size="medium" />
       <FileUploader multiple initialFiles={initialFiles} size="large" />
     </Gapped>
+  );
+};
+
+export const FileUploaderWithCustomBg = () => {
+  return (
+    <ThemeContext.Provider value={ThemeFactory.create({ fileUploaderBg: 'white' })}>
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: 'lightgrey', padding: '10px' }}
+      >
+        <FileUploader data-tid="file-uploader-1" initialFiles={[createFile('test.pdf')]} />
+        <FileUploader view="tile" data-tid="file-uploader-2" initialFiles={[createFile('test.pdf')]} />
+      </div>
+    </ThemeContext.Provider>
   );
 };

@@ -428,6 +428,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     versionGTE5_5 &&
       hasOneFileForSingle && {
         [uploadButtonTileWithFileClassName]: isTileView,
+        [jsTileStyles.verticalAlign()]: isTileView,
         [jsStyles.warningFile(theme)]: (!isTileView || hovered) && hasWarning,
         [jsStyles.errorFile(theme)]: (!isTileView || hovered) && hasError,
       },
@@ -460,7 +461,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
   const rootClassNames = cx(
     jsStyles.root(theme),
     versionGTE5_5 && {
-      [jsStyles.root5_5()]: true,
+      [jsStyles.root5_5(theme)]: true,
       [jsRowStyles.root()]: !isTileView,
     },
   );
