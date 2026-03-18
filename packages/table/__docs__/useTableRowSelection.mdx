@@ -17,11 +17,11 @@ const { checkedRows, setCheckedRows, isCheckedAll, hasChecked, checkboxRef, sele
 
 ### Принимает
 
-- `rows: T[]` — массив строк. Каждая строка должна иметь уникальный `id: number`.
+- `rows: T[]` — массив строк. Каждая строка должна иметь уникальный `id: string | number`.
 
 ### Возвращает
 
-- `checkedRows: Set<number>` — выбранные ID.
+- `checkedRows: Set<T['id']>` — выбранные ID.
 - `setCheckedRows(Set)` — установить выбранные строки вручную.
 - `isCheckedAll: boolean` — все строки выбраны.
 - `hasChecked: boolean` — есть выбранные строки (для indeterminate).
