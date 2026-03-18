@@ -19,7 +19,7 @@ const getPackedFiles = () => {
 
 describe('npm package contents', () => {
   beforeAll(() => {
-    execSync('npm run build:tsc', { stdio: 'pipe' });
+    execSync('npm run build', { stdio: 'pipe' });
   });
 
   test('does not include source TypeScript files', () => {
