@@ -20,6 +20,8 @@ const getPackedFiles = () => {
 describe('npm package contents', () => {
   beforeAll(() => {
     execSync('npm run build', { stdio: 'pipe' });
+    const packageFiles = getPackedFiles();
+    console.log('Packed files in CI:', JSON.stringify(packageFiles, null, 2));
   });
 
   test('does not include source TypeScript files', () => {
