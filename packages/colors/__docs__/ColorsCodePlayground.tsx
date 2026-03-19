@@ -282,13 +282,14 @@ style.innerHTML = css;
 document.head.${kw('appendChild')}(style);`;
 
   const getUseSnippet = () => {
-    if (format === 'ts')
-      {return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
+    if (format === 'ts') {
+      return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
         'const'
       )} App = () => (\n${getHtmlSnippet()
         .split('\n')
         .map((l) => `  ${l}`)
-        .join('\n')}\n);`;}
+        .join('\n')}\n);`;
+    }
     const syntax = {
       css: { p: 'var(--k-color-', s: ')' },
       scss: { p: '$color-', s: '' },
