@@ -19,7 +19,7 @@ const getPackedFiles = () => {
 
 describe('npm package contents', () => {
   beforeAll(() => {
-    execSync('npm run build', { stdio: 'pipe' });
+    execSync('npm run build', { stdio: 'inherit' });
     const packageFiles = getPackedFiles();
     console.log('Packed files in CI:', JSON.stringify(packageFiles, null, 2));
   });
