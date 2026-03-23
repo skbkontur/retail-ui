@@ -4,17 +4,36 @@ import * as DEFAULT_SWATCH from '../consts/default-swatch.js';
 
 import { camelCaseToKebabCase } from './format-variable.js';
 
+/**
+ * Формирует CSS-селектор, подставляя $brand, $accent, $theme
+ */
+function createSelector<T>(params: SemanticConfigOptions<T>, brand: string, accent: string, theme: string): string {
+  const template = params.outputSelectors?.[theme as 'light' | 'dark'] || params.outputSelectors?.light || '';
+
+  if (template) {
+    return template
+      .replace(/\$brand/g, brand)
+      .replace(/\$accent/g, accent)
+      .replace(/\$theme/g, theme);
+  }
+
+  const baseSelector = `[${BRAND_ATTR}='${brand}'][${ACCENT_ATTR}='${accent}']`;
+  const themeSuffix = theme === 'dark' ? `[${THEME_ATTR}='${theme}']` : '';
+
+  return `${baseSelector}${themeSuffix}`;
+}
+
+/**
+ * Генерация CSS-стилей [selector] { --variables: ... }
+ */
 export function generateCSSStyles<T>(themeTokens: any, params: SemanticConfigOptions<T>): string {
   const brand =
     params.brand in DEFAULT_SWATCH.brand ? camelCaseToKebabCase(params.brand as string) : params.brand.toLowerCase();
 
-  const accentSelectorValue = params.accent.toLowerCase();
+  const accent = params.accent.toLowerCase();
+  const theme = params.theme as string;
 
-  let selector = `[${BRAND_ATTR}='${brand}'][${ACCENT_ATTR}='${accentSelectorValue}']`;
-
-  if (params.theme === 'dark') {
-    selector += `[${THEME_ATTR}='dark']`;
-  }
+  const selector = createSelector(params, brand, accent, theme);
 
   const cssVariables = flattenToCssVars(themeTokens, CSS_PREFIX);
   return `${selector} {\n${cssVariables}\n}`;

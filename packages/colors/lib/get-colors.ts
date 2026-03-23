@@ -31,6 +31,18 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
    */
   output?: 'object' | 'css';
   /**
+   * Кастомные селекторы для генерируемого CSS через `output: 'css'`.
+   * Поддерживают плейсхолдеры $brand, $accent, $theme.
+   * @default {
+   * light: "[data-k-brand='$brand'][data-k-accent='$accent']",
+   * dark: "[data-k-brand='$brand'][data-k-accent='$accent'][data-k-theme='$theme']"
+   * }
+   */
+  outputSelectors?: {
+    light?: string;
+    dark?: string;
+  };
+  /**
    * Колбэк для формирования кастомного списка семантических токенов
    * @param base Ссылки на базовые токены
    * @param defaults Токены по умолчанию
@@ -38,6 +50,11 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
    */
   overrides?: (base?: TokensBase, defaults?: DefaultTokensFull, params?: SemanticConfigOptions<T>) => Themed<T>;
 }
+
+const defaultSelectors = {
+  light: "[data-k-brand='$brand'][data-k-accent='$accent']",
+  dark: "[data-k-brand='$brand'][data-k-accent='$accent'][data-k-theme='$theme']",
+};
 
 /**
  * Получение списка семантических токенов в виде объекта
@@ -80,12 +97,20 @@ export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens | 
   }
 
   if (params.output === 'css') {
+    const cssParams = {
+      ...params,
+      outputSelectors: {
+        ...defaultSelectors,
+        ...params.outputSelectors,
+      },
+    };
+
     if (params.theme === 'all') {
-      const lightStyles = generateCSSStyles(result.light, { ...params, theme: 'light' });
-      const darkStyles = generateCSSStyles(result.dark, { ...params, theme: 'dark' });
+      const lightStyles = generateCSSStyles(result.light, { ...cssParams, theme: 'light' });
+      const darkStyles = generateCSSStyles(result.dark, { ...cssParams, theme: 'dark' });
       return `${lightStyles}\n\n${darkStyles}`;
     }
-    return generateCSSStyles(result[params.theme], params);
+    return generateCSSStyles(result[params.theme], cssParams);
   }
 
   if (params.theme === 'all') {
