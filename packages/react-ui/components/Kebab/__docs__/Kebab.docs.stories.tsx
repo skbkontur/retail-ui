@@ -1,5 +1,5 @@
 import React from 'react';
-import { Kebab, MenuItem, MenuHeader, Toast } from '@skbkontur/react-ui';
+import { Kebab, MenuItem, MenuHeader } from '@skbkontur/react-ui';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon';
 import { PlusIcon16Light } from '@skbkontur/icons/icons/PlusIcon';
 

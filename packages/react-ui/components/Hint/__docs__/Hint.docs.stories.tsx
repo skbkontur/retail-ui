@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hint, Button, Gapped } from '@skbkontur/react-ui';
+import { Hint, Button } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories';
 
