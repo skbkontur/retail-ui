@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import { PopupDataTids } from '..';
 import { MobilePopupDataTids } from '../../MobilePopup';
@@ -417,6 +417,57 @@ describe('rootNode', () => {
     });
 
     testRootNode(TestPopup, popupRef, MobilePopupDataTids.container);
+
+    it('closes on backdrop click', () => {
+      const onCloseRequest = vi.fn();
+      const anchor = document.createElement('button');
+
+      render(
+        <Popup opened anchorElement={anchor} disableAnimations mobileOnCloseRequest={onCloseRequest}>
+          Test content
+        </Popup>,
+      );
+
+      fireEvent.click(screen.getByTestId(MobilePopupDataTids.backdrop));
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls onCloseRequest once for a single backdrop click sequence', () => {
+      const onCloseRequest = vi.fn();
+      const anchor = document.createElement('button');
+
+      render(
+        <Popup opened anchorElement={anchor} disableAnimations mobileOnCloseRequest={onCloseRequest}>
+          Test content
+        </Popup>,
+      );
+
+      const backdrop = screen.getByTestId(MobilePopupDataTids.backdrop);
+      fireEvent.mouseDown(backdrop);
+      fireEvent.click(backdrop);
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not bubble backdrop click outside', () => {
+      const onCloseRequest = vi.fn();
+      const onOuterClick = vi.fn();
+      const anchor = document.createElement('button');
+
+      render(
+        <div onClick={onOuterClick}>
+          <Popup opened anchorElement={anchor} disableAnimations mobileOnCloseRequest={onCloseRequest}>
+            Test content
+          </Popup>
+        </div>,
+      );
+
+      fireEvent.click(screen.getByTestId(MobilePopupDataTids.backdrop));
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+      expect(onOuterClick).not.toHaveBeenCalled();
+    });
   });
 
   describe('properly renders opened/closed states', () => {

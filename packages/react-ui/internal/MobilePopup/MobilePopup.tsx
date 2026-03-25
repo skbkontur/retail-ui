@@ -50,6 +50,7 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
 export const MobilePopupDataTids = {
   root: 'MobilePopup__root',
   container: 'MobilePopup__container',
+  backdrop: 'MobilePopup__backdrop',
 } as const;
 
 @rootNode
@@ -94,7 +95,12 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
                 <div onClick={this.close} className={jsStyles.bottomIndent()} />
               </div>
             </RenderLayer>
-            <div className={jsStyles.bg()} />
+            <div
+              data-tid={MobilePopupDataTids.backdrop}
+              className={jsStyles.bg()}
+              onMouseDown={this.handleBackdropMouseDown}
+              onClick={this.handleBackdropClick}
+            />
             <HideBodyVerticalScroll />
           </div>
         </Transition>
@@ -112,5 +118,17 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
+  };
+
+  private handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.close();
+  };
+
+  private handleBackdropMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    // NOTE: prevent double close event from backdrop and RenderLayer
+    event.preventDefault();
+    event.stopPropagation();
   };
 }
