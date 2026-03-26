@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.9...@skbkontur/react-ui@5.6.10) (2026-03-26)
+
+
+### Bug Fixes
+
+* **MobilePopup:** prevent mobile events on backdrop ([351667d](https://github.com/skbkontur/retail-ui/commit/351667d1798ea843fee24de9c94af74ad4acc60f))
+
+
+
+
+
 ## [5.6.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.8...@skbkontur/react-ui@5.6.9) (2026-03-25)
 
 
