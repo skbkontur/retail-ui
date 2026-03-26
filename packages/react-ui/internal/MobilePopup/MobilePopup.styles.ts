@@ -51,6 +51,7 @@ const styles = {
       right: 0;
       left: 0;
       z-index: 9999;
+      touch-action: none;
       background: #333333;
       opacity: 50%;
     `;
