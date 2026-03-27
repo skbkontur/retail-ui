@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.5](/compare/@skbkontur/colors@2.1.4...@skbkontur/colors@2.1.5) (2026-03-27)
+
+
+### Features
+
+* **Colors:** add `outputSelector` option to `getColors()` 94d757f
+* **Colors:** update libs & widgets docs
+
+
+
+
+
 ## [2.1.4](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/colors@2.1.3...@skbkontur/colors@2.1.4) (2026-03-18)
 
 
