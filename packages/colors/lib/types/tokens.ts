@@ -1,6 +1,8 @@
 import type { getColorsDefaultTokens } from '../get-colors-default-tokens.js';
 
-export interface Themed<T> {
+export type ThemeKey = 'light' | 'dark';
+
+export interface Themed<T> extends Record<ThemeKey, T> {
   light: T;
   dark: T;
 }
@@ -15,4 +17,4 @@ export type ColorStructure = ColorObject | ColorValue[];
 
 export type DefaultTokensFull = ReturnType<typeof getColorsDefaultTokens>;
 
-export type DefaultTokens = DefaultTokensFull['light' | 'dark'];
+export type DefaultTokens = DefaultTokensFull[ThemeKey];

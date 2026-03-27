@@ -2,7 +2,7 @@ import { getColorsDefaultTokens } from './get-colors-default-tokens.js';
 import { type ConfigOptions, type PresetOrCustom, getColorsBase } from './get-colors-base.js';
 import type { TokensBase } from './types/tokens-base.js';
 import { convertColorFormat, type ColorFormat } from './utils/convert-color.js';
-import type { DefaultTokens, DefaultTokensFull, Themed } from './types/tokens.js';
+import type { DefaultTokens, DefaultTokensFull, Themed, ThemeKey } from './types/tokens.js';
 import type * as DEFAULT_SWATCH from './consts/default-swatch.js';
 import { generateCSSStyles } from './utils/create-styles.js';
 
@@ -17,7 +17,7 @@ export interface SemanticConfigOptions<T> extends ConfigOptions {
   /**
    * Возвращать токены для конкретной темы или для всех сразу
    */
-  theme: 'light' | 'dark' | 'all';
+  theme: ThemeKey | 'all';
   /** Объект с образцами цветов warning, error, success */
   system?: typeof DEFAULT_SWATCH.system;
   /**
@@ -97,6 +97,7 @@ export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens | 
   }
 
   if (params.output === 'css') {
+    const { theme } = params;
     const cssParams = {
       ...params,
       outputSelectors: {
@@ -105,12 +106,12 @@ export function getColors<T>(params: SemanticConfigOptions<T>): DefaultTokens | 
       },
     };
 
-    if (params.theme === 'all') {
+    if (theme === 'all') {
       const lightStyles = generateCSSStyles(result.light, { ...cssParams, theme: 'light' });
       const darkStyles = generateCSSStyles(result.dark, { ...cssParams, theme: 'dark' });
       return `${lightStyles}\n\n${darkStyles}`;
     }
-    return generateCSSStyles(result[params.theme], cssParams);
+    return generateCSSStyles(result[theme], { ...cssParams, theme });
   }
 
   if (params.theme === 'all') {

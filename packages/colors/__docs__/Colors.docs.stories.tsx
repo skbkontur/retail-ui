@@ -47,6 +47,7 @@ import { IconPeople2Regular24 } from '@skbkontur/icons-v2/IconPeople2Regular24';
 import { IconStackHDownRegular24 } from '@skbkontur/icons-v2/IconStackHDownRegular24';
 import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons-v2/IconNaturePlantFlowerSolid20';
 import { AddonsTheme } from '@skbkontur/react-ui-addons';
+import type { ThemeKey } from '../lib/types/tokens';
 
 interface TokenPair {
   key: string;
@@ -203,7 +204,7 @@ export const ColorsExampleStory = () => {
   const [checked, setChecked] = React.useState<boolean>(true);
   const [brand, setBrand] = React.useState(defaultBrandColor);
   const [accent, setAccent] = React.useState(defaultAccentColor);
-  const [colorTheme, setColorTheme] = React.useState<'light' | 'dark'>(defaultTheme);
+  const [colorTheme, setColorTheme] = React.useState<ThemeKey>(defaultTheme);
 
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
   const [customAccentColor, setCustomAccentColor] = React.useState('#FFDD2D');
@@ -250,7 +251,7 @@ export const ColorsExampleStory = () => {
     return renderColorItem(brandSwatch[value as keyof typeof brandSwatch], value);
   };
 
-  const renderThemeItem = (value: 'light' | 'dark') => {
+  const renderThemeItem = (value: ThemeKey) => {
     return (
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         {value === 'light' ? <WeatherSunIcon16Regular /> : <WeatherMoonIcon16Regular />}

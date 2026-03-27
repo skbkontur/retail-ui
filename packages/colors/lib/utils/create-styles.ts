@@ -1,14 +1,15 @@
 import { ACCENT_ATTR, BRAND_ATTR, CSS_PREFIX, THEME_ATTR } from '../consts/css-attributes.js';
 import type { SemanticConfigOptions } from '../get-colors.js';
 import * as DEFAULT_SWATCH from '../consts/default-swatch.js';
+import type { ThemeKey } from '../types/tokens.js';
 
 import { camelCaseToKebabCase } from './format-variable.js';
 
 /**
  * Формирует CSS-селектор, подставляя $brand, $accent, $theme
  */
-function createSelector<T>(params: SemanticConfigOptions<T>, brand: string, accent: string, theme: string): string {
-  const template = params.outputSelectors?.[theme as 'light' | 'dark'] || params.outputSelectors?.light || '';
+function createSelector<T>(params: SemanticConfigOptions<T>, brand: string, accent: string, theme: ThemeKey): string {
+  const template = params.outputSelectors?.[theme] || params.outputSelectors?.light || '';
 
   if (template) {
     return template
@@ -26,12 +27,12 @@ function createSelector<T>(params: SemanticConfigOptions<T>, brand: string, acce
 /**
  * Генерация CSS-стилей [selector] { --variables: ... }
  */
-export function generateCSSStyles<T>(themeTokens: any, params: SemanticConfigOptions<T>): string {
+export function generateCSSStyles<T>(themeTokens: any, params: SemanticConfigOptions<T> & { theme: ThemeKey }): string {
   const brand =
     params.brand in DEFAULT_SWATCH.brand ? camelCaseToKebabCase(params.brand as string) : params.brand.toLowerCase();
 
   const accent = params.accent.toLowerCase();
-  const theme = params.theme as string;
+  const theme = params.theme;
 
   const selector = createSelector(params, brand, accent, theme);
 
