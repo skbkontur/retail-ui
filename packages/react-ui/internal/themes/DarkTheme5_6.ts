@@ -122,9 +122,9 @@ export const DarkTheme5_6 = createTheme({
     public static btnCheckedDisabledBg = colors.shapeOtherAccentBoldDisabled;
     public static btnCheckedDisabledColor = colors.textInvertedNeutralSoft;
     public static btnCheckedTextColor = colors.textOnAccentBoldHeavy;
-    public static btnDefaultBg = colors.shapeOtherBase;
-    public static btnDefaultHoverBg = colors.shapeOtherBaseHover;
-    public static btnDefaultActiveBg = colors.shapeOtherBasePressed;
+    public static btnDefaultBg = 'rgba(255, 255, 255, .06)';
+    public static btnDefaultHoverBg = 'rgba(255, 255, 255, .08)';
+    public static btnDefaultActiveBg = 'rgba(255, 255, 255, .04)';
     public static btnDefaultHoverTextColor = colors.textNeutralHeavy;
     public static btnDefaultBorderColor = colors.lineNeutralPale;
     public static btnSuccessBg = colors.shapeBoldSuccess;
@@ -433,12 +433,12 @@ export const DarkTheme5_6 = createTheme({
     public static toggleShadowColorWarning = colors.lineWarningBold;
     public static toggleFocusShadowColor = colors.lineAccentBold;
     public static toggleContainerBg = colors.shapeOtherField;
-    public static toggleHandleBg = colors.shapeOtherBase;
+    public static toggleHandleBg = this.btnDefaultBg;
     public static toggleHandleBoxShadow = `0 0 0 1px ${colors.lineNeutralPale}`;
     public static toggleContainerBoxShadow = `inset 0 0 0 1px ${colors.lineNeutralPale}`;
     // idle :hover
     public static toggleContainerBoxShadowHover = `inset 0 0 0 1px ${colors.lineNeutralPaleHover}`;
-    public static toggleHandleBgHover = colors.shapeOtherBase;
+    public static toggleHandleBgHover = this.btnDefaultBg;
     public static toggleHandleBoxShadowHover = `0 0 0 1px ${colors.lineNeutralPale}`;
     public static get toggleContainerBgHover() {
       return this.toggleBgHover;
