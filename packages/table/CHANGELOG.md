@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.12](/compare/@skbkontur/table@0.1.11...@skbkontur/table@0.1.12) (2026-03-27)
+
+**Note:** Version bump only for package @skbkontur/table
+
+
+
+
+
 ## [0.1.11](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/table@0.1.10...@skbkontur/table@0.1.11) (2026-03-18)
 
 **Note:** Version bump only for package @skbkontur/table

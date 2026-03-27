@@ -1,7 +1,7 @@
 {
   "name": "@skbkontur/table",
   "description": "Table",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,7 +30,7 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@skbkontur/colors": "^2.1.4",
+    "@skbkontur/colors": "^2.1.5",
     "@skbkontur/icons": "2.0.1",
     "@skbkontur/react-ui": "^5.0.0",
     "@skbkontur/typography": "^0.1.3",
