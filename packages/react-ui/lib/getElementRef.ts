@@ -5,12 +5,7 @@ import React from 'react';
  * Получает ссылку на элемент, учитывая разные версии React
  */
 export function getElementRef(element: React.ReactElement): Ref<unknown> {
-  if (
-    parseInt(React.version, 10) >= 19 &&
-    element.props &&
-    typeof element.props === 'object' &&
-    'ref' in element.props
-  ) {
+  if (Number(React.version) >= 19 && element.props && typeof element.props === 'object' && 'ref' in element.props) {
     return element.props.ref as Ref<unknown>;
   }
   return (element as any).ref;

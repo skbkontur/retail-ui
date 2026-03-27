@@ -394,7 +394,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     const update = () => this.setState({ ...state, valueFormatted } as DateInputState, this.emitChange);
 
-    if (sync && React.version.search('18') === 0) {
+    if (sync && Number(React.version) >= 18) {
       ReactDOM.flushSync(update);
     } else {
       update();

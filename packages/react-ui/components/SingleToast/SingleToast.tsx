@@ -19,7 +19,7 @@ export class SingleToast extends React.Component<ToastProps> {
   public static ref = React.createRef<Toast>();
 
   public static close: ToastClose = () => {
-    if (React.version.search('18') === 0) {
+    if (Number(React.version) >= 18) {
       ReactDOM.flushSync(() => SingleToast.ref.current?.close());
     } else {
       SingleToast.ref.current?.close();
