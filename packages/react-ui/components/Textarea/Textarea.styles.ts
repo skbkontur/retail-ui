@@ -33,7 +33,6 @@ export const styles = memoizeStyle({
       background: ${t.textareaBg};
       background-clip: ${t.textareaBackgroundClip};
       border: ${t.textareaBorderWidth} solid ${t.textareaBorderColor};
-      border-top-color: ${t.textareaBorderTopColor};
       box-shadow: ${t.textareaShadow};
       box-sizing: border-box;
       color: ${t.textareaColor};
