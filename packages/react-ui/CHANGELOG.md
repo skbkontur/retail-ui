@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.10...@skbkontur/react-ui@5.6.11) (2026-03-30)
+
+
+### Bug Fixes
+
+* **react-ui:** inline color in button use="default", update colors@2.1.5 ([0be1981](https://github.com/skbkontur/retail-ui/commit/0be1981cc1595e03302a71742a39fc37e53ce5e9))
+* **Textarea:** remove unused border-top ([7bd903b](https://github.com/skbkontur/retail-ui/commit/7bd903b09cfa077a37217d9ffa2e7ac6384d8adb))
+
+
+
+
+
 ## [5.6.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.9...@skbkontur/react-ui@5.6.10) (2026-03-26)
 
 
