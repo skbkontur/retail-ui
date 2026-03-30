@@ -1,3 +1,4 @@
+/** @deprecated Используйте библиотеку цветов Colors 2.x. Будет удалено в 7.0 */
 export const ColorKeywords = {
   aliceblue: '#f0f8ff',
   antiquewhite: '#faebd7',

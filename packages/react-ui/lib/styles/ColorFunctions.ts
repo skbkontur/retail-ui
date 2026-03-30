@@ -48,14 +48,22 @@ const shiftColor = (colorString: string, a: number | string, sign: SignType, met
   return newColor.toColorString(color.type);
 };
 
+/**
+ * @deprecated Устарело в пользу нативного CSS color-mix(). Будет удалено в версии 7.0.
+ * Пример: color: color-mix(in srgb, #3498db, white 20%);
+ */
 export function lighten(colorString: string, amount: number | string, method?: MethodType): string {
   const key = buildCacheKey('lighten', colorString, amount, method);
   if (ColorFunctionsCache[key] === undefined) {
     ColorFunctionsCache[key] = shiftColor(colorString, amount, '+', method);
-    return ColorFunctionsCache[key];
   }
   return ColorFunctionsCache[key];
 }
+
+/**
+ * @deprecated Устарело в пользу нативного CSS color-mix(). Будет удалено в версии 7.0.
+ * Пример: color: color-mix(in srgb, #3498db, black 20%);
+ */
 export function darken(colorString: string, amount: number | string, method?: MethodType): string {
   const key = buildCacheKey('darken', colorString, amount, method);
   if (ColorFunctionsCache[key] === undefined) {
@@ -65,6 +73,10 @@ export function darken(colorString: string, amount: number | string, method?: Me
 
   return ColorFunctionsCache[key];
 }
+
+/**
+ * @deprecated Устарело. Рекомендуется использовать CSS Relative Color Syntax или CSS-переменные. Будет удалено в версии 7.0.
+ */
 export function contrast(colorString: string, darkString?: string, lightString?: string, threshold = 0.43): string {
   const key = buildCacheKey('contrast', colorString, darkString, lightString, threshold);
   if (!colorString) {
@@ -89,22 +101,31 @@ export function contrast(colorString: string, darkString?: string, lightString?:
   return ColorFunctionsCache[key];
 }
 
+/** @deprecated Устарело в пользу CSS Relative Color Syntax (например, from #3498db r). Будет удалено в версии 7.0. */
 export const red = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.rgb[0];
 };
+
+/** @deprecated Устарело в пользу CSS Relative Color Syntax (например, from #3498db g). Будет удалено в версии 7.0. */
 export const green = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.rgb[1];
 };
+
+/** @deprecated Устарело в пользу CSS Relative Color Syntax (например, from #3498db b). Будет удалено в версии 7.0. */
 export const blue = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.rgb[2];
 };
+
+/** @deprecated Устарело в пользу CSS Relative Color Syntax или color-mix. Будет удалено в версии 7.0. */
 export const alpha = (colorString: string): number => {
   const color = ColorFactory.create(colorString);
   return color.alpha;
 };
+
+/** @deprecated Устарело. Валидация на стороне JS не требуется при использовании нативного CSS. Будет удалено в версии 7.0. */
 export const isValid = (colorString: string): boolean => {
   try {
     ColorFactory.create(colorString);
@@ -113,6 +134,11 @@ export const isValid = (colorString: string): boolean => {
     return false;
   }
 };
+
+/**
+ * @deprecated Устарело в пользу нативного CSS color-mix(). Будет удалено в версии 7.0.
+ * Пример: color: color-mix(in srgb, #3498db, transparent 50%);
+ */
 export const fade = (colorString: string, alpha: number): string => {
   const key = buildCacheKey('fade', colorString, alpha);
 
