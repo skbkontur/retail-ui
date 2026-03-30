@@ -1,5 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import type { Theme } from '../../lib/theming/Theme';
+import { globalClasses } from '../ScrollContainer/ScrollContainer.styles';
 
 import { labelSizeMixin, inputSizeMixin } from './TokenInput.mixins';
 
@@ -148,6 +149,16 @@ export const styles = memoizeStyle({
   inputPlaceholderWrapper() {
     return css`
       flex: 1 1 100%;
+    `;
+  },
+
+  inputPlaceholderScrollWrapper() {
+    return css`
+      display: flex;
+      & .${globalClasses.inner} {
+        display: inherit;
+        flex-wrap: wrap;
+      }
     `;
   },
 
