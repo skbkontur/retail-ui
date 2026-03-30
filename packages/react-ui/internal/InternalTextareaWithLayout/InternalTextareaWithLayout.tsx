@@ -193,7 +193,6 @@ export class InternalTextareaWithLayout extends React.Component<
   private get preparedTheme(): Theme {
     return ThemeFactory.create(
       {
-        textareaWidth: 'auto',
         textareaBorderWidth: '0px',
         textareaPaddingXSmall: '0px',
         textareaPaddingXMedium: '0px',

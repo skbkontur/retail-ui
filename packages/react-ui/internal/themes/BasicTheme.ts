@@ -2018,8 +2018,6 @@ export class BasicThemeClass {
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
 
-  /** @deprecated Перестала использоваться с версии `react-ui@5.6.7`. */
-  public static textareaWidth = '250px';
   public static textareaPaddingXSmall = '7px';
 
   public static textareaPaddingXMedium = '11px';
