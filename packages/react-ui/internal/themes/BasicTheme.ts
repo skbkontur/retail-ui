@@ -880,8 +880,8 @@ export class BasicThemeClass {
   public static modalSeparatorBorderBottom = `1px solid ${colors.lineNeutralFaint}`;
   public static modalSeparatorMargin = '0 32px';
   public static modalSeparatorFixedMargin = '0 16px';
-  public static modalBodyTextColor = 'inherit';
-  public static modalFooterTextColor = 'inherit';
+  public static modalBodyTextColor = this.textColorDefault;
+  public static modalFooterTextColor = this.textColorDefault;
   public static modalBodyPaddingTop = '0';
   public static modalBodyPaddingBottom = '20px';
   public static modalBodyBorderRadius = '0px';
@@ -943,8 +943,8 @@ export class BasicThemeClass {
   public static get sidePageHeaderTextColor(): string {
     return this.textColorDefault;
   }
-  public static sidePageBodyTextColor = 'inherit';
-  public static sidePageFooterTextColor = 'inherit';
+  public static sidePageBodyTextColor = this.textColorDefault;
+  public static sidePageFooterTextColor = this.textColorDefault;
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
