@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.11...@skbkontur/react-ui@5.6.12) (2026-03-30)
+
+
+### Bug Fixes
+
+* **TokenInput:** show placeholder with maxHeight prop ([581d974](https://github.com/skbkontur/retail-ui/commit/581d9745158741167a5dd79797de6d3b74d1d558))
+
+
+
+
+
 ## [5.6.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.10...@skbkontur/react-ui@5.6.11) (2026-03-30)
 
 
