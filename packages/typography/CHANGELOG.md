@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](/compare/@skbkontur/typography@0.1.3...@skbkontur/typography@0.2.0) (2026-03-31)
+
+### BREAKING CHANGES
+
+- adopt react-ui v6 renderEnvironment context ([0c119ec](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/0c119ec))
+- type module, esm-only build, exports ([60e9281](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/60e9281))
+
 ## [0.1.3](https://git.skbkontur.ru/ui/ui-parking-2/compare/@skbkontur/typography@0.1.2...@skbkontur/typography@0.1.3) (2025-12-10)
 
 ### Bug Fixes
