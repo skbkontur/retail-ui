@@ -25,7 +25,6 @@
     ".": "./index.ts"
   },
   "devDependencies": {
-    "@skbkontur/colors": "^2.1.5",
     "@skbkontur/icons": "2.0.1",
     "@skbkontur/typography": "^0.1.3",
     "@testing-library/jest-dom": "5.16.2",
@@ -46,12 +45,12 @@
   "dependencies": {
     "classnames": "^2",
     "@skbkontur/global-object": "^0.4.5",
-    "@skbkontur/colors": "^2.1.1"
+    "@skbkontur/colors": "^2.1.5"
   },
   "peerDependencies": {
-    "@skbkontur/react-ui": ">=5.1.0 <7",
-    "react": ">=16.14 <20",
-    "react-dom": ">=16.14 <20"
+    "@skbkontur/react-ui": ">=5.1.0 <=6",
+    "react": ">=16.9 <=19",
+    "react-dom": ">=16.9 <=19"
   },
   "optionalDependencies": {
     "@esbuild/darwin-arm64": "^0.24.0",
