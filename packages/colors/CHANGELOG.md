@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.6](/compare/@skbkontur/colors@2.1.5...@skbkontur/colors@2.1.6) (2026-03-31)
+
+* **Colors:** simplify package.json exports ([d209f14](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/d209f14))
+* Add TypeScript explicit types ([a95c75d](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/a95c75d))
+
+
+
+
+
 # [2.1.5](/compare/@skbkontur/colors@2.1.4...@skbkontur/colors@2.1.5) (2026-03-27)
 
 
