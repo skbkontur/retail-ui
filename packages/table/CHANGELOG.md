@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](/compare/@skbkontur/table@0.1.12...@skbkontur/table@0.2.0) (2026-03-31)
+
+
+### Features
+
+* **table:** use actual BasicTheme from react-ui@5.1+ ([ba5b590](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/ba5b590))
+
+
+### BREAKING CHANGES
+
+* add explicit types ([a95c75d](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/a95c75d))
+* adopt react-ui v6 changes ([6521a68](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/6521a68))
+* adopt react-ui v6 renderEnvironment context ([0c119ec](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/0c119ec))
+* improve typescript usage ([9fdd79c](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/9fdd79c))
+* remove global-object ([64fae64](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/64fae64))
+* type module, esm-only build, exports ([60e9281](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/60e9281))
+
+
+
 ## [0.1.12](/compare/@skbkontur/table@0.1.11...@skbkontur/table@0.1.12) (2026-03-27)
 
 **Note:** Version bump only for package @skbkontur/table
