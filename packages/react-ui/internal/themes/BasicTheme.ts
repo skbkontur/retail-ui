@@ -355,7 +355,7 @@ export class BasicThemeClass {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
-  public static btnDefaultBg = colors.shapeOtherBase;
+  public static btnDefaultBg = 'rgba(255, 255, 255, .06)';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
   public static get btnDefaultCheckedBorderColor(): string {
@@ -365,11 +365,11 @@ export class BasicThemeClass {
     return this.textColorDefault;
   }
   // TODO: create token in colors package
-  public static btnDefaultHoverBg = '#F2F2F2';
+  public static btnDefaultHoverBg = 'rgba(255, 255, 255, .08)';
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
   // TODO: create token in colors package
-  public static btnDefaultActiveBg = '#E4E4E4';
+  public static btnDefaultActiveBg = 'rgba(255, 255, 255, .04)';
   public static get btnDefaultHoverBorderColor(): string {
     return this.btnDefaultBorderColor;
   }

@@ -1,7 +1,8 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
+import { globalClasses } from '../ScrollContainer/ScrollContainer.styles.js';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 
 import { labelSizeMixin, inputSizeMixin } from './TokenInput.mixins.js';
 
@@ -150,6 +151,16 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   inputPlaceholderWrapper() {
     return css`
       flex: 1 1 100%;
+    `;
+  },
+
+  inputPlaceholderScrollWrapper() {
+    return css`
+      display: flex;
+      & .${globalClasses.inner} {
+        display: inherit;
+        flex-wrap: wrap;
+      }
     `;
   },
 

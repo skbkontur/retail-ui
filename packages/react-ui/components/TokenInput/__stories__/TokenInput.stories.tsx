@@ -457,3 +457,8 @@ export const LotOfTokens: Story = () => {
     />
   );
 };
+
+export const MaxHeightAndPlaceholder: Story = () => (
+  <Wrapper getItems={getExtendedItems} placeholder="Placeholder" maxHeight={200} type={TokenInputType.Combined} />
+);
+MaxHeightAndPlaceholder.storyName = 'maxHeight and placeholder';

@@ -52,6 +52,7 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
 export const MobilePopupDataTids = {
   root: 'MobilePopup__root',
   container: 'MobilePopup__container',
+  backdrop: 'MobilePopup__backdrop',
 } as const;
 
 @withRenderEnvironment
@@ -108,7 +109,14 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
                 <div onClick={this.close} className={this.jsStyles.bottomIndent()} />
               </div>
             </RenderLayer>
-            <div className={this.jsStyles.bg()} />
+            <div
+              data-tid={MobilePopupDataTids.backdrop}
+              className={this.jsStyles.bg()}
+              onClick={this.backdropClick}
+              onMouseDown={this.backdropStopPropagation}
+              onPointerDownCapture={this.backdropStopPropagation}
+              onPointerUpCapture={this.backdropStopPropagation}
+            />
             <HideBodyVerticalScroll />
           </div>
         </Transition>
@@ -126,5 +134,19 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
     }
+  };
+
+  /** Не даём событию дойти до document (`RenderLayer` / «клик сквозь» вуаль).
+   *  В мобильных браузерах pointerup может породить click по нижележащему элементу.
+   *  Гасим его на вуали, а закрытие остаётся на обычном click по backdrop.
+   */
+  private backdropStopPropagation = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  private backdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    this.backdropStopPropagation(event);
+    this.close();
   };
 }

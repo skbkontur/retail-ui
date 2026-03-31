@@ -49,7 +49,7 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect, global
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
 }
 
-// Can become fully visible by scrolling into viewport
+/** Может стать полностью видимым после прокрутки в область видимости */
 function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset, globalObject: GlobalObject) {
   const position = getPositionObject(positionName);
 
@@ -63,7 +63,7 @@ function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Of
     return coordinates.left + availableScrollDistances.left >= 0;
   }
 
-  // NOTE: for bottom/right cases browser will always expand document size
+  // NOTE: в случаях bottom/right браузер всегда расширяет размер документа
   return true;
 }
 
@@ -123,6 +123,113 @@ function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
   );
 }
 
+/** Прямоугольник вьюпорта в координатах документа (абсолютных) */
+function getViewportAbsoluteRect(globalObject: GlobalObject): Rect {
+  return convertRectToAbsolute(_getWindowRelativeRect(globalObject), globalObject);
+}
+
+export interface OverflowEdges {
+  top: boolean;
+  bottom: boolean;
+  left: boolean;
+  right: boolean;
+}
+
+/** Какие стороны попапа (с заданными координатами) выходят за пределы вьюпорта */
+function getOverflowEdges(coordinates: Offset, popupRect: Rect, globalObject: GlobalObject): OverflowEdges {
+  const viewport = getViewportAbsoluteRect(globalObject);
+  const popup = {
+    top: coordinates.top,
+    left: coordinates.left,
+    width: popupRect.width,
+    height: popupRect.height,
+  };
+  return {
+    top: popup.top < viewport.top,
+    bottom: popup.top + popup.height > viewport.top + viewport.height,
+    left: popup.left < viewport.left,
+    right: popup.left + popup.width > viewport.left + viewport.width,
+  };
+}
+
+/** Количество сторон, по которым попап выходит за вьюпорт (0–4) */
+function getOverflowCount(overflow: OverflowEdges): number {
+  return [overflow.top, overflow.bottom, overflow.left, overflow.right].filter(Boolean).length;
+}
+
+/** Предпочтительное направление по вертикали при переполнении */
+function getPreferredDirection(overflow: OverflowEdges, defaultPosition: PopupPositionsType): string {
+  if (overflow.bottom) {
+    return 'top';
+  }
+  if (overflow.top) {
+    return 'bottom';
+  }
+  return getPositionObject(defaultPosition).direction;
+}
+
+/**
+ * Упорядоченный список кандидатов для fallback-позиции: при горизонтальном переполнении
+ * сначала позиции с нужным align (в т.ч. из pinnablePositions), затем по direction и positions.
+ */
+function getOrderedFallbackCandidates(
+  positions: Readonly<PopupPositionsType[]>,
+  overflow: OverflowEdges,
+  preferredDirection: string,
+  preferredAlignOrder: string[],
+  pinnablePositions: Readonly<PopupPositionsType[]>,
+): PopupPositionsType[] {
+  const seen = new Set<PopupPositionsType>();
+  const add = (p: PopupPositionsType) => {
+    if (!seen.has(p)) {
+      seen.add(p);
+      return true;
+    }
+    return false;
+  };
+
+  const candidates: PopupPositionsType[] = [];
+  const hasHorizontalOverflow = overflow.left || overflow.right;
+
+  if (hasHorizontalOverflow) {
+    const preferredAlign = preferredAlignOrder[0];
+    for (const dir of ['bottom', 'top']) {
+      const p = `${dir} ${preferredAlign}` as PopupPositionsType;
+      if (pinnablePositions.includes(p) && add(p)) {
+        candidates.push(p);
+      }
+    }
+    for (const align of preferredAlignOrder) {
+      for (const p of positions) {
+        if (getPositionObject(p).align === align && add(p)) {
+          candidates.push(p);
+        }
+      }
+    }
+  }
+
+  for (const align of preferredAlignOrder) {
+    for (const p of positions) {
+      const pos = getPositionObject(p);
+      if (pos.direction === preferredDirection && pos.align === align && add(p)) {
+        candidates.push(p);
+      }
+    }
+  }
+  for (const p of positions) {
+    if (getPositionObject(p).direction === preferredDirection && add(p)) {
+      candidates.push(p);
+    }
+  }
+  for (const p of positions) {
+    if (add(p)) {
+      candidates.push(p);
+    }
+  }
+
+  return candidates;
+}
+
 function _getViewProperty(getProperty: (e: Element) => number, globalObject: GlobalObject): number {
   const views = [globalObject.document?.documentElement, globalObject.document?.body];
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
@@ -133,4 +240,9 @@ export const PopupHelper = {
   getElementAbsoluteRect,
   isFullyVisible: isAbsoluteRectFullyVisible,
   canBecomeFullyVisible,
+  getViewportAbsoluteRect,
+  getOverflowEdges,
+  getOverflowCount,
+  getPreferredDirection,
+  getOrderedFallbackCandidates,
 };

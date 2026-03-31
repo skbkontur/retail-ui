@@ -420,4 +420,52 @@ kind('ComboBox', () => {
     });
     keyboardSelectionTest();
   });
+
+  story('VariousMenuPositionsMediumText', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } },
+    });
+
+    test('all positions in viewport', async (context) => {
+      async function clickOnComboBox(tid: string): Promise<Buffer> {
+        const page = context.webdriver;
+        await page.locator(`[data-tid~="${tid}"]`).click();
+        await page.waitForTimeout(800);
+        return await context.takeScreenshot();
+      }
+
+      const leftTop = await clickOnComboBox('ComboBoxViewLeftTop');
+      const leftMiddle = await clickOnComboBox('ComboBoxViewLeftMiddle');
+      const leftBottom = await clickOnComboBox('ComboBoxViewLeftBottom');
+      const rightTop = await clickOnComboBox('ComboBoxViewRightTop');
+      const rightMiddle = await clickOnComboBox('ComboBoxViewRightMiddle');
+      const rightBottom = await clickOnComboBox('ComboBoxViewRightBottom');
+
+      await context.matchImages({ leftTop, leftMiddle, leftBottom, rightTop, rightMiddle, rightBottom });
+    });
+  });
+
+  story('VariousMenuPositionsLongText', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } },
+    });
+
+    test('all positions in viewport', async (context) => {
+      async function clickOnComboBox(tid: string): Promise<Buffer> {
+        const page = context.webdriver;
+        await page.locator(`[data-tid~="${tid}"]`).click();
+        await page.waitForTimeout(800);
+        return await context.takeScreenshot();
+      }
+
+      const leftTop = await clickOnComboBox('ComboBoxViewLeftTop');
+      const leftMiddle = await clickOnComboBox('ComboBoxViewLeftMiddle');
+      const leftBottom = await clickOnComboBox('ComboBoxViewLeftBottom');
+      const rightTop = await clickOnComboBox('ComboBoxViewRightTop');
+      const rightMiddle = await clickOnComboBox('ComboBoxViewRightMiddle');
+      const rightBottom = await clickOnComboBox('ComboBoxViewRightBottom');
+
+      await context.matchImages({ leftTop, leftMiddle, leftBottom, rightTop, rightMiddle, rightBottom });
+    });
+  });
 });

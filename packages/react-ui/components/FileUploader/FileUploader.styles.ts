@@ -29,13 +29,13 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
         display: inline-flex;
         flex-wrap: wrap;
         position: relative;
+        border-radius: ${t.fileUploaderBorderRadius};
         line-height: ${t.fileUploaderLineHeightSmall};
         font-size: ${t.fileUploaderFontSizeSmall};
         color: ${t.fileUploaderTextColorDefault};
         background-color: ${t.fileUploaderBg};
       `;
     },
-
     uploadButton(t: Theme) {
       return css`
         width: 100%;
@@ -499,7 +499,6 @@ export const getJsTileStyles = memoizeGetStyles(({ css }: Emotion) => {
         )};
       `;
     },
-
     sizeLarge(t: Theme) {
       return css`
         ${fileUploaderSizeMixin(
@@ -511,6 +510,12 @@ export const getJsTileStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
+    verticalAlign() {
+      return css`
+        vertical-align: middle;
+      `;
+    },
+    
     content() {
       return css`
         display: block;

@@ -86,13 +86,14 @@ export const DarkTheme6_0 = createTheme({
     public static btnInsetColor = colors.surfaceBase;
 
     // default
-    public static btnDefaultBg = colors.shapeOtherBase;
+    public static btnDefaultBg = 'rgba(255, 255, 255, .06)';
+
     public static btnDefaultHoverTextColor = colors.textNeutralHeavy;
     public static btnDefaultBorderColor = colors.lineNeutralPale;
-    public static btnDefaultHoverBg = '#3A3A3A';
+    public static btnDefaultHoverBg = 'rgba(255, 255, 255, .08)';
     public static btnDefaultHoverBgStart = 'none';
     public static btnDefaultHoverBgEnd = 'none';
-    public static btnDefaultActiveBg = '#313131';
+    public static btnDefaultActiveBg = 'rgba(255, 255, 255, .04)';
     public static get btnDefaultHoverBorderColor(): string {
       return this.btnDefaultBorderColor;
     }

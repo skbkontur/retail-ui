@@ -157,6 +157,11 @@ export interface PopupProps
    * @see https://github.com/skbkontur/retail-ui/pull/1195
    */
   tryPreserveFirstRenderedPosition?: boolean;
+  /**
+   * Включает поиск наиболее подходящей позиции попапа, если ни одна заданная позиция попапа не влезает во вьюпорт.
+   * Выбирается позиция с наибольшей видимой площадью.
+   */
+  tryBestFallbackPosition?: boolean;
   withoutMobile?: boolean;
   /** @ignore */
   disablePortal?: boolean;
@@ -178,6 +183,15 @@ interface PopupLocation {
 
 export interface PopupState {
   location: Nullable<PopupLocation>;
+}
+
+interface FallbackCandidateEvaluation {
+  position: PopupPositionsType;
+  coordinates: Offset;
+  overflowCount: number;
+  visibleArea: number;
+  isFullyVisible: boolean;
+  isAreaEligible: boolean;
 }
 
 export const PopupDataTids = {
@@ -235,6 +249,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
   private styles!: ReturnType<typeof getStyles>;
+
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
@@ -646,7 +661,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private reorderPropsPositionsWithPriorityPos() {
+  private getOrderedPositions() {
     const positions = this.props.positions ? this.props.positions : PopupPinnablePositions;
     let pos_ = '';
     if (this.props.pos) {
@@ -663,8 +678,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getLocation(popupElement: Element, location?: Nullable<PopupLocation>): Nullable<PopupLocation> {
-    const { tryPreserveFirstRenderedPosition } = this.getProps();
-    const positions = this.reorderPropsPositionsWithPriorityPos();
+    const { tryBestFallbackPosition } = this.getProps();
+    const positions = this.getOrderedPositions();
 
     const anchorElement = this.anchorElement;
 
@@ -680,41 +695,204 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    let position: PopupPositionsType;
-    let coordinates: Offset;
-
-    if (location && location !== DUMMY_LOCATION && location.position) {
-      position = location.position;
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
-
-      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject);
-      const canBecomeVisible =
-        !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates, this.globalObject);
-
-      if (
-        // если нужно сохранить первоначальную позицию и Попап целиком
-        // находится в пределах вьюпорта (или может быть проскроллен в него)
-        (tryPreserveFirstRenderedPosition && (isFullyVisible || canBecomeVisible)) ||
-        // если Попап целиком во вьюпорте и в самой приоритетной позиции
-        // (иначе нужно попытаться позицию сменить)
-        (isFullyVisible && position === positions[0])
-      ) {
-        // сохраняем текущую позицию
-        return { coordinates, position, isFullyVisible: true };
-      }
+    const reusedLocation = this.tryReuseCurrentLocation(location, positions, anchorRect, popupRect);
+    if (reusedLocation) {
+      return reusedLocation;
     }
 
-    for (position of positions) {
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    const fullyVisibleLocation = this.tryGetFirstFullyVisibleLocation(positions, anchorRect, popupRect);
+    if (fullyVisibleLocation) {
+      return fullyVisibleLocation;
+    }
+
+    return this.getFallbackLocation(positions, anchorRect, popupRect, Boolean(tryBestFallbackPosition));
+  }
+
+  private tryReuseCurrentLocation(
+    location: Nullable<PopupLocation> | undefined,
+    positions: Readonly<PopupPositionsType[]>,
+    anchorRect: Rect,
+    popupRect: Rect,
+  ): Nullable<PopupLocation> {
+    const { tryPreserveFirstRenderedPosition } = this.getProps();
+
+    if (!(location && location !== DUMMY_LOCATION && location.position)) {
+      return null;
+    }
+
+    const position = location.position;
+    const coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject);
+    const canBecomeVisible =
+      !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates, this.globalObject);
+
+    const shouldReuseCurrentLocation =
+      // если нужно сохранить первоначальную позицию и Попап целиком
+      // находится в пределах вьюпорта (или может быть проскроллен в него)
+      (tryPreserveFirstRenderedPosition && (isFullyVisible || canBecomeVisible)) ||
+      // если Попап целиком во вьюпорте и в самой приоритетной позиции
+      // (иначе нужно попытаться позицию сменить)
+      (isFullyVisible && position === positions[0]);
+
+    if (!shouldReuseCurrentLocation) {
+      return null;
+    }
+
+    return { coordinates, position, isFullyVisible: true };
+  }
+
+  private tryGetFirstFullyVisibleLocation(
+    positions: Readonly<PopupPositionsType[]>,
+    anchorRect: Rect,
+    popupRect: Rect,
+  ): Nullable<PopupLocation> {
+    for (const position of positions) {
+      const coordinates = this.getCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject)) {
         return { coordinates, position, isFullyVisible: true };
       }
     }
 
-    position = positions[0];
-    coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    return null;
+  }
 
-    return { coordinates, position, isFullyVisible: false };
+  private getFallbackLocation(
+    positions: Readonly<PopupPositionsType[]>,
+    anchorRect: Rect,
+    popupRect: Rect,
+    tryBestFallbackPosition: boolean,
+  ): PopupLocation {
+    const position = tryBestFallbackPosition
+      ? this.pickBestFallbackPosition(positions, anchorRect, popupRect)
+      : positions[0];
+    const coordinates = this.getCoordinates(anchorRect, popupRect, position);
+
+    return {
+      coordinates,
+      position,
+      isFullyVisible: PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject),
+    };
+  }
+
+  private pickBestFallbackPosition(
+    positions: Readonly<PopupPositionsType[]>,
+    anchorRect: Rect,
+    popupRect: Rect,
+  ): PopupPositionsType {
+    const defaultPosition = positions[0];
+    const coords = this.getCoordinates(anchorRect, popupRect, defaultPosition);
+    const overflow = PopupHelper.getOverflowEdges(coords, popupRect, this.globalObject);
+    const preferredDirection = PopupHelper.getPreferredDirection(overflow, defaultPosition);
+    const preferredAlignOrder =
+      overflow.left || overflow.right ? ['right', 'center', 'left'] : ['center', 'left', 'right'];
+    const candidates = PopupHelper.getOrderedFallbackCandidates(
+      positions,
+      overflow,
+      preferredDirection,
+      preferredAlignOrder,
+      PopupPinnablePositions,
+    );
+    const positionsSet = new Set(positions);
+    const viewport = PopupHelper.getViewportAbsoluteRect(this.globalObject);
+    const evaluatedCandidates = candidates.map((position) =>
+      this.evaluateFallbackCandidate(position, anchorRect, popupRect, viewport),
+    );
+    const bestAreaCandidate = this.pickBestAreaCandidate(evaluatedCandidates, positionsSet);
+    const bestOverflowCandidate = this.pickBestOverflowCandidate(evaluatedCandidates, positionsSet);
+
+    // Если есть хотя бы одна позиция с ненулевой видимой площадью,
+    // выбираем её (с приоритетом полностью видимых вариантов).
+    // Иначе — используем старую эвристику по количеству переполненных сторон.
+    return bestAreaCandidate && bestAreaCandidate.visibleArea > 0
+      ? bestAreaCandidate.position
+      : bestOverflowCandidate.position;
+  }
+
+  private evaluateFallbackCandidate(
+    position: PopupPositionsType,
+    anchorRect: Rect,
+    popupRect: Rect,
+    viewport: Rect,
+  ): FallbackCandidateEvaluation {
+    const coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    const popupAbsolute = {
+      top: coordinates.top,
+      left: coordinates.left,
+      width: popupRect.width,
+      height: popupRect.height,
+    };
+    const overlapWidth =
+      Math.min(popupAbsolute.left + popupAbsolute.width, viewport.left + viewport.width) -
+      Math.max(popupAbsolute.left, viewport.left);
+    const overlapHeight =
+      Math.min(popupAbsolute.top + popupAbsolute.height, viewport.top + viewport.height) -
+      Math.max(popupAbsolute.top, viewport.top);
+    const visibleWidth = Math.max(0, overlapWidth);
+    const visibleHeight = Math.max(0, overlapHeight);
+    const overflow = PopupHelper.getOverflowEdges(coordinates, popupRect, this.globalObject);
+    const isFullyVisible = visibleWidth === popupAbsolute.width && visibleHeight === popupAbsolute.height;
+    const isAreaEligible = PopupHelper.getPositionObject(position).direction !== 'left' || isFullyVisible;
+
+    return {
+      position,
+      coordinates,
+      overflowCount: PopupHelper.getOverflowCount(overflow),
+      visibleArea: visibleWidth * visibleHeight,
+      isFullyVisible,
+      isAreaEligible,
+    };
+  }
+
+  private pickBestAreaCandidate(
+    candidates: Readonly<FallbackCandidateEvaluation[]>,
+    positionsSet: ReadonlySet<PopupPositionsType>,
+  ): Nullable<FallbackCandidateEvaluation> {
+    let bestCandidate: Nullable<FallbackCandidateEvaluation> = null;
+
+    for (const candidate of candidates) {
+      if (!candidate.isAreaEligible || candidate.visibleArea <= 0) {
+        continue;
+      }
+
+      const isBetterArea =
+        !bestCandidate ||
+        // предпочитаем любые полностью видимые позиции
+        (candidate.isFullyVisible && !bestCandidate.isFullyVisible) ||
+        // среди одинаковых по полноте — большую видимую площадь
+        (candidate.isFullyVisible === bestCandidate.isFullyVisible &&
+          candidate.visibleArea > bestCandidate.visibleArea) ||
+        // при равной площади — ту, что указана в props.positions
+        (candidate.visibleArea === bestCandidate.visibleArea &&
+          positionsSet.has(candidate.position) &&
+          !positionsSet.has(bestCandidate.position));
+
+      if (isBetterArea) {
+        bestCandidate = candidate;
+      }
+    }
+
+    return bestCandidate;
+  }
+
+  private pickBestOverflowCandidate(
+    candidates: Readonly<FallbackCandidateEvaluation[]>,
+    positionsSet: ReadonlySet<PopupPositionsType>,
+  ): FallbackCandidateEvaluation {
+    let bestCandidate = candidates[0];
+
+    for (const candidate of candidates) {
+      const isBetterOverflow =
+        candidate.overflowCount < bestCandidate.overflowCount ||
+        (candidate.overflowCount === bestCandidate.overflowCount &&
+          positionsSet.has(candidate.position) &&
+          !positionsSet.has(bestCandidate.position));
+
+      if (isBetterOverflow) {
+        bestCandidate = candidate;
+      }
+    }
+
+    return bestCandidate;
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
@@ -763,10 +941,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       top: anchorRect.top - popupRect.height - margin,
       left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
     };
-
     switch (position.direction) {
       case 'top':
         return defaultCoordinates;
+
       case 'middle':
         return {
           top: anchorRect.top + anchorRect.height / 2 - popupRect.height / 2,

@@ -393,4 +393,25 @@ kind('TokenInput', () => {
       await context.matchImages({ firstToken, tokeInput, lastToken, tokeInputAgain });
     });
   });
+
+  story('MaxHeightAndPlaceholder', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { "themes don't affect logic": { in: /^(?!\bchrome2022\b)/ } },
+    });
+
+    test('add tokens', async (context) => {
+      const page = context.webdriver;
+      const plain = await context.takeScreenshot();
+      await page.locator(tid('TokenInput__root')).click();
+      await page.keyboard.type('0000000');
+      const firstToken = await context.takeScreenshot();
+      await page.keyboard.press('Enter');
+      await page.keyboard.type('0000001');
+      const secondToken = await context.takeScreenshot();
+      await page.keyboard.press('Enter');
+      await page.keyboard.type('0000002');
+      const thirdToken = await context.takeScreenshot();
+      await context.matchImages({ 0: plain, 1: firstToken, 2: secondToken, 3: thirdToken });
+    });
+  });
 });

@@ -175,7 +175,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private size!: SizeProp;
   private menuId = ComboBoxViewIds.menu + getRandomID();
 
-  public state = {
+  public state: ComboBoxViewState = {
     anchorElement: null,
     clearCrossShowed: this.props.showClearIcon === 'always' && !!this.props.value?.toString(),
   };
@@ -289,6 +289,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         <Popup
           opened
           hasShadow
+          tryBestFallbackPosition
           minWidth="100%"
           anchorElement={anchorElement}
           priority={ZIndex.priorities.PopupMenu}

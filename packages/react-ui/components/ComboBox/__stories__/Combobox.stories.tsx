@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { type CSSProperties } from 'react';
 import { action } from '@storybook/addon-actions';
 import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
@@ -1121,3 +1121,79 @@ export const MultilineLongValueKeyboardSelection = () => (
     viewMode="multiline"
   />
 );
+
+export const VariousMenuPositionsMediumText = () => {
+  const styleWrapper: CSSProperties = {
+    display: 'flex',
+    height: '100%',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  };
+
+  const getItems = (count: number) => async () => [
+    {
+      value: 1,
+      label: new Array(count).fill('repeat').join('-'),
+    },
+    { value: 2, label: 'short label' },
+  ];
+
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: '#666' }}>
+      <div style={{ position: 'fixed', left: -8, top: 8, bottom: 8 }}>
+        <div style={styleWrapper}>
+          <ComboBox data-tid="ComboBoxViewLeftTop" getItems={getItems(15)} />
+          <ComboBox data-tid="ComboBoxViewLeftMiddle" getItems={getItems(15)} />
+          <ComboBox data-tid="ComboBoxViewLeftBottom" getItems={getItems(15)} />
+        </div>
+      </div>
+      <div style={{ position: 'fixed', right: -8, top: 8, bottom: 8 }}>
+        <div style={styleWrapper}>
+          <ComboBox data-tid="ComboBoxViewRightTop" getItems={getItems(15)} />
+          <ComboBox data-tid="ComboBoxViewRightMiddle" getItems={getItems(15)} />
+          <ComboBox data-tid="ComboBoxViewRightBottom" getItems={getItems(15)} />
+        </div>
+      </div>
+    </div>
+  );
+};
+VariousMenuPositionsMediumText.parameters = { creevey: { captureElement: null } };
+
+export const VariousMenuPositionsLongText = () => {
+  const styleWrapper: CSSProperties = {
+    display: 'flex',
+    height: '100%',
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  };
+
+  const getItems = (count: number) => async () => [
+    {
+      value: 1,
+      label: new Array(count).fill('repeat').join('-'),
+    },
+    { value: 2, label: 'short label' },
+  ];
+
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: '#666' }}>
+      <div style={{ position: 'fixed', left: 8, top: 8, bottom: 8 }}>
+        <div style={styleWrapper}>
+          <ComboBox data-tid="ComboBoxViewLeftTop" getItems={getItems(100)} />
+          <ComboBox data-tid="ComboBoxViewLeftMiddle" getItems={getItems(100)} />
+          <ComboBox data-tid="ComboBoxViewLeftBottom" getItems={getItems(100)} />
+        </div>
+      </div>
+      <div style={{ position: 'fixed', right: 8, top: 8, bottom: 8 }}>
+        <div style={styleWrapper}>
+          <ComboBox data-tid="ComboBoxViewRightTop" getItems={getItems(100)} />
+          <ComboBox data-tid="ComboBoxViewRightMiddle" getItems={getItems(100)} />
+          <ComboBox data-tid="ComboBoxViewRightBottom" getItems={getItems(100)} />
+        </div>
+      </div>
+    </div>
+  );
+};
+VariousMenuPositionsLongText.parameters = { creevey: { captureElement: null } };

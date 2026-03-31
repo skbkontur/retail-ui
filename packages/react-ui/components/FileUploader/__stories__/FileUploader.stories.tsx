@@ -317,3 +317,16 @@ export const FileUploaderWithMultipleFileTypeIcons = () => {
     </Gapped>
   );
 };
+
+export const FileUploaderWithCustomBg = () => {
+  return (
+    <ThemeContext.Provider value={ThemeFactory.create({ fileUploaderBg: 'white' })}>
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: 'lightgrey', padding: '10px' }}
+      >
+        <FileUploader data-tid="file-uploader-1" initialFiles={[createFile('test.pdf')]} />
+        <FileUploader view="tile" data-tid="file-uploader-2" initialFiles={[createFile('test.pdf')]} />
+      </div>
+    </ThemeContext.Provider>
+  );
+};

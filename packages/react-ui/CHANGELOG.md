@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.6.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.11...@skbkontur/react-ui@5.6.12) (2026-03-30)
+
+
+### Bug Fixes
+
+* **TokenInput:** show placeholder with maxHeight prop ([581d974](https://github.com/skbkontur/retail-ui/commit/581d9745158741167a5dd79797de6d3b74d1d558))
+
+
+
+
+
+## [5.6.11](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.10...@skbkontur/react-ui@5.6.11) (2026-03-30)
+
+
+### Bug Fixes
+
+* **react-ui:** inline color in button use="default", update colors@2.1.5 ([0be1981](https://github.com/skbkontur/retail-ui/commit/0be1981cc1595e03302a71742a39fc37e53ce5e9))
+* **Textarea:** remove unused border-top ([7bd903b](https://github.com/skbkontur/retail-ui/commit/7bd903b09cfa077a37217d9ffa2e7ac6384d8adb))
+
+
+
+
+
+## [5.6.10](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.9...@skbkontur/react-ui@5.6.10) (2026-03-26)
+
+
+### Bug Fixes
+
+* **MobilePopup:** prevent mobile events on backdrop ([351667d](https://github.com/skbkontur/retail-ui/commit/351667d1798ea843fee24de9c94af74ad4acc60f))
+
+
+
+
+
+## [5.6.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.8...@skbkontur/react-ui@5.6.9) (2026-03-25)
+
+
+### Bug Fixes
+
+* **Combobox:** auto position menu on oveflow edges ([9cf5951](https://github.com/skbkontur/retail-ui/commit/9cf595110a8cf8cb94ac589f0415332f5d135250))
+* **FileUploader:** add border radius to root and correct tile view hover ([72e8a4e](https://github.com/skbkontur/retail-ui/commit/72e8a4e18ee89982678165b0d47b74630ba24a31))
+* **MobilePopup:** prevent click event throught backdrop on mobile devices ([70cade4](https://github.com/skbkontur/retail-ui/commit/70cade4606e4bf7db69709bd0c9a0888390bf01c))
+
+
+
+
+
 ## [5.6.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.7...@skbkontur/react-ui@5.6.8) (2026-03-12)
 
 
