@@ -515,7 +515,7 @@ export const getJsTileStyles = memoizeGetStyles(({ css }: Emotion) => {
         vertical-align: middle;
       `;
     },
-    
+
     content() {
       return css`
         display: block;

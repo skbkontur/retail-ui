@@ -21,7 +21,7 @@ describe('isRefableElement', () => {
   });
 
   it('returns true for forwardRef components', () => {
-    const ForwardRefComponent = React.forwardRef<HTMLDivElement>((_props, _ref) => null);
+    const ForwardRefComponent = React.forwardRef<HTMLDivElement>(() => null);
     const element = React.createElement(ForwardRefComponent);
     expect(isRefableElement(element)).toBe(true);
   });

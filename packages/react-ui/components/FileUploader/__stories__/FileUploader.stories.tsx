@@ -7,6 +7,8 @@ import { Gapped } from '../../Gapped/index.js';
 import { DeleteIcon } from '../icons/DeleteIcon.js';
 import { FileUploader } from '../FileUploader.js';
 import { FileUploaderFile } from '../FileUploaderFile.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 
 export default {
   title: 'FileUploader',

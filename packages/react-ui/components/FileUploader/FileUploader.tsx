@@ -423,7 +423,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     },
     hasOneFileForSingle && {
       [uploadButtonTileWithFileClassName]: isTileView,
-        [jsTileStyles.verticalAlign()]: isTileView,
+      [jsTileStyles.verticalAlign()]: isTileView,
       [jsStyles.warningFile(theme)]: (!isTileView || hovered) && hasWarning,
       [jsStyles.errorFile(theme)]: (!isTileView || hovered) && hasError,
     },
