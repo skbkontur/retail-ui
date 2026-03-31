@@ -1,5 +1,5 @@
 {
-  "name": "react-ui-codemod",
+  "name": "@skbkontur/react-ui-codemod",
   "version": "2.2.0",
   "main": "index.js",
   "license": "MIT",
@@ -11,7 +11,9 @@
     "jscodeshift": "^0.15.2"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "release": "npm publish",
+    "release:unstable": "npm publish --tag=unstable"
   },
   "devDependencies": {
     "@babel/core": "^7.24.6",
