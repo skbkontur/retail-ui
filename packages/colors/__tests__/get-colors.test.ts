@@ -3,19 +3,19 @@ import { getColors } from '../lib/get-colors';
 
 test('should return both themes with HEX values by default', () => {
   const res = getColors({ brand: 'blue', accent: 'brand', theme: 'light' });
-  const firstToken = Object.values(res)[0] as string;
+  const firstToken = Object.values(res)[0];
   expect(firstToken).toMatch(/^#[0-9a-f]{6}$/i);
 });
 
 test('should return flat object when theme is "light"', () => {
   const res = getColors({ brand: 'blue', accent: 'brand', theme: 'light' });
-  const firstToken = Object.values(res)[0] as string;
+  const firstToken = Object.values(res)[0];
   expect(firstToken).toMatch(/^#[0-9a-f]{6}$/i);
 });
 
 test('should use custom hex for brand tokens', () => {
   const res = getColors({ brand: '#FF5500', accent: 'brand', theme: 'light' });
-  const firstToken = Object.values(res)[0] as string;
+  const firstToken = Object.values(res)[0];
   expect(firstToken).toMatch(/^#[0-9a-f]{6}$/i);
 });
 
@@ -27,13 +27,13 @@ test('should apply custom system palette', () => {
 
 test('should output OKLCH strings when format is "oklch"', () => {
   const res = getColors({ brand: 'blue', accent: 'brand', theme: 'light', format: 'oklch' });
-  const firstToken = Object.values(res)[0] as string;
+  const firstToken = Object.values(res)[0];
   expect(firstToken).toContain('oklch(');
 });
 
 test('should output ARGB hex for "hex-aarrggbb" format', () => {
   const res = getColors({ brand: 'blue', accent: 'brand', theme: 'light', format: 'hex-aarrggbb' });
-  const firstToken = Object.values(res)[0] as string;
+  const firstToken = Object.values(res)[0];
   expect(firstToken).toMatch(/^#[0-9A-F]{6,8}$/);
 });
 
@@ -162,12 +162,50 @@ describe('getColors with ouput', () => {
       accent: 'gray',
       theme: 'light',
       output: 'css',
-    }) as string;
+    });
 
     expect(typeof res).toBe('string');
     expect(res).toContain("[data-k-brand='blue-deep']");
     expect(res).toContain("[data-k-accent='gray']");
     expect(res).toContain('--k-color-text-accent-heavy:');
+  });
+
+  describe('getColors: CSS syntax structure', () => {
+    const params = {
+      brand: 'blue',
+      accent: 'gray',
+      theme: 'light',
+      output: 'css',
+    } as const;
+
+    test('should contain valid curly braces for the block', () => {
+      const res = getColors(params);
+
+      expect(res).toContain('{');
+      expect(res).toContain('}');
+      expect(res.trim().endsWith('}')).toBe(true);
+    });
+
+    test('should contain valid variable markers with no triples', () => {
+      const res = getColors(params);
+
+      expect(res).toContain('--');
+      expect(res).not.toContain('---');
+    });
+
+    test('should contain valid declaration punctuation', () => {
+      const res = getColors(params);
+
+      expect(res).toContain(':');
+      expect(res).toContain(';');
+    });
+
+    test('should not have empty values between colon and semicolon', () => {
+      const res = getColors(params);
+
+      expect(res).not.toContain(': ;');
+      expect(res).not.toContain(':;');
+    });
   });
 
   test('should include dark theme attribute in CSS selector', () => {
@@ -176,7 +214,7 @@ describe('getColors with ouput', () => {
       accent: 'brand',
       theme: 'dark',
       output: 'css',
-    }) as string;
+    });
 
     expect(res).toContain("[data-k-theme='dark']");
   });
@@ -188,7 +226,7 @@ describe('getColors with ouput', () => {
       accent: 'gray',
       theme: 'light',
       output: 'css',
-    }) as string;
+    });
 
     expect(res).toContain("[data-k-brand='#abcdef']");
   });
@@ -205,7 +243,7 @@ describe('getColors with ouput', () => {
         },
         dark: {},
       }),
-    }) as string;
+    });
 
     expect(res).toContain('--k-color-custom-test-token: #ffffff;');
   });
@@ -233,7 +271,7 @@ describe('getColors with theme: "all"', () => {
       accent: 'brand',
       theme: 'all',
       output: 'css',
-    }) as string;
+    });
 
     expect(typeof res).toBe('string');
 
@@ -273,5 +311,73 @@ describe('getColors with theme: "all"', () => {
 
     expect(res.light.custom).toBe('#ffffff');
     expect(res.dark.custom).toBe('#000000');
+  });
+
+  describe('CSS Output & Selectors', () => {
+    test('should include both default selectors in "all" mode', () => {
+      const res = getColors({
+        brand: 'blue',
+        accent: 'gray',
+        theme: 'all',
+        output: 'css',
+      });
+
+      expect(res).toContain("[data-k-brand='blue'][data-k-accent='gray']");
+      expect(res).toContain("[data-k-brand='blue'][data-k-accent='gray'][data-k-theme='dark']");
+    });
+
+    test('should apply custom outputSelectors with placeholders', () => {
+      const res = getColors({
+        brand: 'orange',
+        accent: 'gray',
+        theme: 'light',
+        output: 'css',
+        outputSelectors: {
+          light: '.theme-light.$brand.$accent',
+          dark: '.theme-dark.$brand.$accent',
+        },
+      });
+
+      expect(res).toContain('.theme-light.orange.gray');
+      expect(res).not.toContain('[data-k-color-default]');
+    });
+
+    test('should correctly replace $theme placeholder in custom selectors', () => {
+      const res = getColors({
+        brand: 'blue',
+        accent: 'brand',
+        theme: 'dark',
+        output: 'css',
+        outputSelectors: {
+          light: '.light-$brand',
+          dark: "html[data-theme='$theme'].$brand",
+        },
+      });
+
+      expect(res).toContain("html[data-theme='dark'].blue");
+    });
+
+    test('should sanitize custom hex in selectors to lowercase', () => {
+      const res = getColors({
+        brand: '#ABCDEF',
+        accent: 'gray',
+        theme: 'light',
+        output: 'css',
+      });
+
+      expect(res).toContain("[data-k-brand='#abcdef']");
+    });
+
+    test('should generate nested data-attribute selectors in "all" mode', () => {
+      const res = getColors({
+        brand: 'blue',
+        accent: 'gray',
+        theme: 'all',
+        output: 'css',
+      });
+
+      expect(res).toContain("[data-k-brand='blue'][data-k-accent='gray']");
+      expect(res).toContain("[data-k-brand='blue'][data-k-accent='gray'][data-k-theme='dark']");
+    });
   });
 });

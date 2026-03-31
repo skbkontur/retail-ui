@@ -1,20 +1,41 @@
 import { ACCENT_ATTR, BRAND_ATTR, CSS_PREFIX, THEME_ATTR } from '../consts/css-attributes.js';
 import type { SemanticConfigOptions } from '../get-colors.js';
 import * as DEFAULT_SWATCH from '../consts/default-swatch.js';
+import type { ThemeKey } from '../types/tokens.js';
 
 import { camelCaseToKebabCase } from './format-variable.js';
 
-export function generateCSSStyles<T>(themeTokens: unknown, params: SemanticConfigOptions<T>): string {
+/**
+ * Формирует CSS-селектор, подставляя $brand, $accent, $theme
+ */
+function createSelector<T>(params: SemanticConfigOptions<T>, brand: string, accent: string, theme: ThemeKey): string {
+  const template = params.outputSelectors?.[theme] || params.outputSelectors?.light || '';
+
+  if (template) {
+    return template
+      .replace(/\$brand/g, brand)
+      .replace(/\$accent/g, accent)
+      .replace(/\$theme/g, theme);
+  }
+
+  const baseSelector = `[${BRAND_ATTR}='${brand}'][${ACCENT_ATTR}='${accent}']`;
+  const themeSuffix = theme === 'dark' ? `[${THEME_ATTR}='${theme}']` : '';
+
+  return `${baseSelector}${themeSuffix}`;
+}
+
+/**
+ * Генерация CSS-стилей [selector] { --variables: ... }
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function generateCSSStyles<T>(themeTokens: any, params: SemanticConfigOptions<T> & { theme: ThemeKey }): string {
   const brand =
     params.brand in DEFAULT_SWATCH.brand ? camelCaseToKebabCase(params.brand as string) : params.brand.toLowerCase();
 
-  const accentSelectorValue = params.accent.toLowerCase();
+  const accent = params.accent.toLowerCase();
+  const theme = params.theme;
 
-  let selector = `[${BRAND_ATTR}='${brand}'][${ACCENT_ATTR}='${accentSelectorValue}']`;
-
-  if (params.theme === 'dark') {
-    selector += `[${THEME_ATTR}='dark']`;
-  }
+  const selector = createSelector(params, brand, accent, theme);
 
   const cssVariables = flattenToCssVars(themeTokens, CSS_PREFIX);
   return `${selector} {\n${cssVariables}\n}`;

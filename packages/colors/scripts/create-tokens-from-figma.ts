@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { customizable } from '../lib/consts/default-swatch.js';
+import type { ThemeKey } from '../lib/types/tokens.js';
 
 interface Value {
   light: string;
@@ -50,7 +51,7 @@ export const transformations: Rule[] = [
       const groups: Groups = {};
       for (const [key, value] of Object.entries(inputMap)) {
         const parts = key.split(' / ');
-        const theme = parts.pop()?.toLowerCase() as 'light' | 'dark';
+        const theme = parts.pop()?.toLowerCase() as ThemeKey;
         const baseName = parts.join(' / ');
 
         if (!theme || !['light', 'dark'].includes(theme)) {
@@ -314,7 +315,7 @@ export const transformations: Rule[] = [
   {
     rule: 'Generate Code',
     fn: (sorted: Entries): string => {
-      const generateBody = (theme: 'light' | 'dark') =>
+      const generateBody = (theme: ThemeKey) =>
         sorted
           .map(([key, values], i) => `    ${key}: ${values[theme]}${i === sorted.length - 1 ? '' : ','}`)
           .join('\n');

@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/colors",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "author": "Kontur",
   "publishConfig": {
     "access": "public",

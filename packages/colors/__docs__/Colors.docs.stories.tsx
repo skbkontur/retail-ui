@@ -18,9 +18,9 @@ import { SideMenuThemeIn } from '@skbkontur/side-menu';
 import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
 
-import { brand as brandSwatch } from '../lib/consts/default-swatch';
-import { getColors } from '../get-colors';
-import type { ColorFormat } from '../lib/utils/convert-color';
+import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
+import { getColors } from '../get-colors.js';
+import type { ColorFormat } from '../lib/utils/convert-color.js';
 
 import { SideMenu } from '@skbkontur/side-menu';
 import { Kontur } from '@skbkontur/logos/Kontur';
@@ -46,6 +46,7 @@ import { IconPeople2Regular24 } from '@skbkontur/icons/IconPeople2Regular24';
 import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular24';
 import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons/IconNaturePlantFlowerSolid20';
 import { AddonsTheme } from '@skbkontur/react-ui-addons';
+import type { ThemeKey } from '../lib/types/tokens.js';
 import type { Meta } from '@storybook/react';
 
 interface TokenPair {
@@ -203,7 +204,7 @@ export const ColorsExampleStory = () => {
   const [checked, setChecked] = React.useState<boolean>(true);
   const [brand, setBrand] = React.useState(defaultBrandColor);
   const [accent, setAccent] = React.useState(defaultAccentColor);
-  const [colorTheme, setColorTheme] = React.useState<'light' | 'dark'>(defaultTheme);
+  const [colorTheme, setColorTheme] = React.useState<ThemeKey>(defaultTheme);
 
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
   const [customAccentColor, setCustomAccentColor] = React.useState('#FFDD2D');
@@ -250,7 +251,7 @@ export const ColorsExampleStory = () => {
     return renderColorItem(brandSwatch[value as keyof typeof brandSwatch], value);
   };
 
-  const renderThemeItem = (value: 'light' | 'dark') => {
+  const renderThemeItem = (value: ThemeKey) => {
     return (
       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         {value === 'light' ? <IconWeatherSunRegular16 /> : <IconWeatherMoonRegular16 />}
@@ -964,7 +965,7 @@ export const ColorsExampleStory = () => {
               </main>
               <footer className="footer">
                 <div className="footer__controls">
-                  <Button use="primary" size="large">
+                  <Button use="accent" size="large">
                     Сохранить
                   </Button>
                   <Button use="backless" size="large">

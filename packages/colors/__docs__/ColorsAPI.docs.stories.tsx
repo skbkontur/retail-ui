@@ -50,6 +50,224 @@ export default {
   },
 } as Meta;
 
+export const GetColorsConfiguratorStory = () => {
+  const [brand, setBrand] = React.useState('blue');
+  const [customBrand, setCustomBrand] = React.useState('#0077FF');
+  const [accent, setAccent] = React.useState('gray');
+  const [customAccent, setCustomAccent] = React.useState('#808080');
+  const [theme, setTheme] = React.useState<'light' | 'dark' | 'all'>('all');
+
+  const [warning, setWarning] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [success, setSuccess] = React.useState('');
+
+  const [format, setFormat] = React.useState<ColorFormat>('hex/rgba');
+  const [output, setOutput] = React.useState<'object' | 'css'>('css');
+
+  const [selLight, setSelLight] = React.useState("[data-k-brand='$brand'][data-k-accent='$accent']");
+  const [selDark, setSelDark] = React.useState(
+    "[data-k-brand='$brand'][data-k-accent='$accent'][data-k-theme='$theme']"
+  );
+
+  const config = {
+    brand: brand === 'custom' ? customBrand : brand,
+    accent: accent === 'custom' ? customAccent : accent,
+    theme,
+    system:
+      warning || error || success
+        ? {
+            warning: warning || '#FDAA00',
+            error: error || '#E62B34',
+            success: success || '#009A40',
+          }
+        : undefined,
+    overrides: undefined,
+    format,
+    output,
+    ...(output === 'css' && {
+      outputSelectors: { light: selLight, dark: selDark },
+    }),
+  };
+
+  let result: any = '';
+  let errorMessage = '';
+
+  try {
+    result = getColors(config as any);
+  } catch (e: any) {
+    errorMessage = e.message || 'Error';
+  }
+
+  const styles = {
+    textarea: css`
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      background: #f6f8fa;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 11px;
+      line-height: 1.4;
+      max-height: 50vh;
+      overflow-y: auto;
+    `,
+  };
+
+  const rowStyle = { display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' };
+  const labelStyle = { width: '150px', flexShrink: 0, fontSize: '14px', marginTop: '8px' };
+  const controlWidth = 140;
+
+  return (
+    <div style={{ padding: '16px 16px 0 16px' }}>
+      <div style={rowStyle}>
+        <label htmlFor="brand-select" style={labelStyle}>
+          Brand
+        </label>
+        <Gapped>
+          <Select
+            id="brand-select"
+            width={controlWidth}
+            items={[...Object.keys(brandSwatch), 'custom']}
+            value={brand}
+            onValueChange={setBrand}
+          />
+          {brand === 'custom' && <Input width={controlWidth} value={customBrand} onValueChange={setCustomBrand} />}
+        </Gapped>
+      </div>
+
+      <div style={rowStyle}>
+        <label htmlFor="accent-select" style={labelStyle}>
+          Accent
+        </label>
+        <Gapped>
+          <Select
+            id="accent-select"
+            width={controlWidth}
+            items={['gray', 'brand', 'custom']}
+            value={accent}
+            onValueChange={setAccent}
+          />
+          {accent === 'custom' && <Input width={controlWidth} value={customAccent} onValueChange={setCustomAccent} />}
+        </Gapped>
+      </div>
+
+      <div style={rowStyle}>
+        <label htmlFor="theme-select" style={labelStyle}>
+          Theme
+        </label>
+        <Select
+          id="theme-select"
+          width={controlWidth}
+          items={['light', 'dark', 'all']}
+          value={theme}
+          onValueChange={(v: any) => setTheme(v)}
+        />
+      </div>
+
+      <div style={rowStyle}>
+        <label style={labelStyle}>System</label>
+        <Gapped>
+          <Input
+            width={controlWidth}
+            value={warning}
+            onValueChange={setWarning}
+            placeholder="warning #FDAA00"
+            title="warning"
+          />
+          <Input
+            width={controlWidth}
+            value={error}
+            onValueChange={setError}
+            placeholder="error #E62B34"
+            title="error"
+          />
+          <Input
+            width={controlWidth}
+            value={success}
+            onValueChange={setSuccess}
+            placeholder="success #009A40"
+            title="success"
+          />
+        </Gapped>
+      </div>
+
+      <div style={rowStyle}>
+        <label htmlFor="format-select" style={labelStyle}>
+          Format
+        </label>
+        <Select
+          id="format-select"
+          width={controlWidth}
+          items={['hex/rgba', 'oklch', 'hex-aarrggbb']}
+          value={format}
+          onValueChange={(v: any) => setFormat(v)}
+        />
+      </div>
+
+      <div style={rowStyle}>
+        <label htmlFor="output-select" style={labelStyle}>
+          Output
+        </label>
+        <Select
+          id="output-select"
+          width={controlWidth}
+          items={['object', 'css']}
+          value={output}
+          onValueChange={(v: any) => setOutput(v)}
+        />
+      </div>
+
+      {output === 'css' && (
+        <>
+          <div style={rowStyle}>
+            <label htmlFor="sel-light" style={labelStyle}>
+              Output selector light
+            </label>
+            <div>
+              <Input id="sel-light" value={selLight} onValueChange={setSelLight} width={450} />
+            </div>
+          </div>
+          <div style={rowStyle}>
+            <label htmlFor="sel-dark" style={labelStyle}>
+              Output selector dark
+            </label>
+            <div>
+              <Input id="sel-dark" value={selDark} onValueChange={setSelDark} width={450} />
+            </div>
+          </div>
+        </>
+      )}
+
+      <div style={rowStyle}>
+        <label style={labelStyle}>Overrides</label>
+        <span style={{ color: '#999', fontSize: '12px', marginTop: '8px' }}>
+          Переопределение токенов со ссылкой на базовые палитры (см. ниже в разделе «Переопределение токенов overrides»)
+        </span>
+      </div>
+
+      <div style={{ marginTop: '24px' }}>
+        <div style={{ fontWeight: 'bold', fontSize: '14px' }}>Код генерации</div>
+        <pre className={styles.textarea}>
+          {`getColors(${JSON.stringify(config, (k, v) => (v === undefined ? undefined : v), 2)})`}
+        </pre>
+
+        <div style={{ fontWeight: 'bold', fontSize: '14px' }}>Результат</div>
+        {errorMessage && <div style={{ color: '#d32f2f', marginBottom: '4px', fontSize: '12px' }}>{errorMessage}</div>}
+        <pre className={styles.textarea} style={{ marginBottom: 0 }}>
+          {output === 'object' ? JSON.stringify(result, null, 2) : result}
+        </pre>
+      </div>
+    </div>
+  );
+};
+
+GetColorsConfiguratorStory.storyName = 'Конфигуратор getColors()';
+
 /**
  * Добавление/изменение токенов доступно через `overrides` с заполнением их базовыми значениями `base` и параметрами `params`
  */
@@ -514,7 +732,7 @@ export const ColorsPaletteOverridesStory = () => {
   );
 };
 
-ColorsPaletteOverridesStory.storyName = 'Кастомные токены';
+ColorsPaletteOverridesStory.storyName = 'Переопределение токенов overrides';
 
 /**
  * Список токенов базовой палитры. Переменные подставляются в семантические токены через `overrides`

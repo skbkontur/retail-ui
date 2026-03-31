@@ -77,6 +77,7 @@ import { Meta } from '../../../.storybook-docs/Meta';
 - Генерация палитр для произвольных HEX-цветов, а не только брендовых
 - Создание/расширение цветовых палитр с собственными семантическими токенами
 - Генерация цветов в форматах для разных платформ (oklch, hex, rgba и др.)
+- Генерация CSS-стилей с настраиваемыми селекторами
 - Перекраска интерфейсов в любой цвет на лету
 
 <br />
@@ -87,51 +88,38 @@ import { Meta } from '../../../.storybook-docs/Meta';
 
 - **brand** — брендовый цвет `red | orange | green | mint | blue | blueDeep | violet | purple | #custom-hex`
 - **accent** — акцентный цвет `gray | brand | #custom-hex` (по умолчанию gray)
-- **theme** — тема `light | dark` (по умолчанию light)
+- **theme** — тема `light | dark | all`. Режим `all` возвращает токены для обеих тем сразу
 - **system** — настройка образцов цветов состояний warning/error/success
 - **overrides** — переопределение/добавление токенов со ссылкой на базовые палитры
 - **format** — формат цвета `'hex/rgba' | 'oklch' | 'hex-aarrggbb'` (по умолчанию hex/rgba)
+- **output** — формат возвращаемых данных `'object' | 'css'` (по умолчанию object)
+- **outputSelectors** — кастомные шаблоны селекторов для CSS. Поддерживают плейсхолдеры `$brand`, `$accent`, `$theme`.
 
 ```ts
 import { getColors } from '@skbkontur/colors/get-colors';
 
 getColors({
   brand: 'red' | 'orange' | 'green' | 'mint' | 'blue' | 'blueDeep' | 'violet' | 'purple' | string,
-  accent: 'gray' | 'brand' | string
-  theme: 'light' | 'dark',
-  system?: {
-    warning?: string,
-    error?: string,
-    success?: string,
+  accent: 'gray' | 'brand' | string,
+  theme: 'light' | 'dark' | 'all',
+  format: 'hex/rgba' | 'oklch' | 'hex-aarrggbb',
+  output: 'object' | 'css',
+  outputSelectors: {
+    light: string,
+    dark: string,
   },
-  overrides?: (base, defaults, params) => {
-    light: {
-      ...defaults.light,
-      // Кастомные токены светлой темы
+  system: {
+    warning: string,
+    error: string,
+    success: string,
+  },
+  overrides: (base, defaults, params) => {
+    return {
+      light: { ...defaults.light /* кастомные токены */ },
+      dark: { ...defaults.dark /* кастомные токены */ },
     };
-    dark: {
-      ...defaults.dark,
-      // Кастомные токены тёмной темы
-    }
   },
-  format?: 'hex/rgba' | 'oklch' | 'hex-aarrggbb'
 });
-```
-
-Функция `getColors` возвращает JS-объект с токенами `colors`:
-
-```js
-import { getColors } from '@skbkontur/colors/get-colors';
-
-getColors({ brand: '#FE4C4C', accent: 'brand', theme: 'dark', format: 'oklch' });
-
-// ->
-{
-  textNeutralHeavy: 'oklch(100% 0 0 / 0.96)',
-  shapePaleBrand: 'oklch(36% 0.079 25)',
-  shapePaleBrandHover: 'oklch(40% 0.091 25)',
-  ...
-}
 ```
 
 <Stories title="" includePrimary={true} />
