@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](/compare/react-ui-testing@4.0.0...react-ui-testing@4.1.0) (2026-03-31)
+
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
+
 # [4.0.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-testing@3.11.1...react-ui-testing@4.0.0) (2025-10-03)
 
 

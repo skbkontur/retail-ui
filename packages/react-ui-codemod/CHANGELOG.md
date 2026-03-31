@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](/compare/react-ui-codemod@2.1.0...react-ui-codemod@2.2.0) (2026-03-31)
+
+
+### Features
+
+* **react-ui-codemod:** add codemod for react-ui@6.0 ([e710a7e](https://git.skbkontur.ru/ui/react-ui/-/commit/e710a7ee3c3c761f9f5834bf97f9b62f3350ae5f))
+* **react-ui-addons:** add codemod for react-ui-addons@6.0 ([4d263f5](http://git.skbkontur.ru/ui/react-ui/-/commit/4d263f529e107afc83947276064572b73eaea3e2))
+* **side-menu:** add codemod for side-menu@4.0 ([61b58984](https://git.skbkontur.ru/ui/react-ui/-/commit/61b589841b162a4632a44d2e0180f09c25ec6d2a))
+
+
+
+
+
 # [2.1.0](https://git.skbkontur.ru/ui/react-ui/compare/react-ui-codemod@2.0.1...react-ui-codemod@2.1.0) (2026-02-26)
 
 

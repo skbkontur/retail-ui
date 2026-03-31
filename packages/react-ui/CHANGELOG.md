@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.12...@skbkontur/react-ui@6.0.0) (2026-03-31)
+
+
+### Features
+
+* Add React 19 support ([b39a371](https://github.com/skbkontur/retail-ui/commit/b39a3715ae262d179be06eb2bfc01049b134c03b))
+* Update TypeScript 4 → 5 ([4bd78e1](https://github.com/skbkontur/retail-ui/commit/4bd78e1ee277b3ce972bb8569837149045b8805d))
+* CJS + ESM → ESM-only package (type: "module")  ([d22de46](https://github.com/skbkontur/retail-ui/commit/d22de4669f764bfe628cd491a978361ed68e5e98))
+* Drop IE 11 & Edge support ([05126b4b](https://github.com/skbkontur/retail-ui/commit/05126b4b8169a651d0ec5428c59a25ab42e020d4))
+* Add TypeScript explicit types ([e3d83c6](https://github.com/skbkontur/retail-ui/commit/e3d83c6f4027f26fbed6e67a0c86d5c47e5723d9))
+* Update mobileMediaQuery: `(max-width: 576px) and (pointer: coarse)` → `(max-width: 576px)` ([6cae815](https://github.com/skbkontur/retail-ui/commit/6cae8158641367c52651c6504db91370097bada8))
+* **Button:** add new `use` values `"accent" | "outline" | "fill"` ([af5b0e5](https://github.com/skbkontur/retail-ui/commit/af5b0e5bbfaef627548f894ee4791d0234060059))
+* **SidePage:** add `onOutsideClick` prop instead `<IgnoreLayerClick>` ([dd5c73a](https://github.com/skbkontur/retail-ui/commit/dd5c73ac190628111153b6265304b2a4c0b3fe55))
+* Remove 5.x themes ([f5de3a0](https://github.com/skbkontur/retail-ui/commit/f5de3a04bc1b61e5b0d3d38b5d777b0a8934bca4))
+* Show throw errors only on dev-mode ([c0b378e](https://github.com/skbkontur/retail-ui/commit/c0b378e27fc39e8876ab9439eed8229e6acba547))
+
+
+### Bug Fixes
+
+* **Checkbox:** make stopPropagation on root work ([fea10f2](https://github.com/skbkontur/retail-ui/commit/fea10f28dccd867f2ef60fdadb9ced35d783788c), [6a66cc4](https://github.com/skbkontur/retail-ui/commit/6a66cc4e0eb053173c84558b2347346fdd2deea3))
+* **Tooltip:** use correct default positions ([47de412](https://github.com/skbkontur/retail-ui/commit/47de4124d1fba3052bab8e8c5519e3390ee46fb0))
+* **Modal, SidePage:** use fixed colors instead CSS `<body>` inherit ([4f16cba](https://github.com/skbkontur/retail-ui/commit/4f16cba11db7a6c61a319052b38049fd97a6e879))
+* **PopupPin:** remove warning conditions and return default values ([c0a9831](https://github.com/skbkontur/retail-ui/commit/c0a98314b44838686bfa4c94d960d675aa36b580))
+
+
+### Deprecated ([60eeccd](https://github.com/skbkontur/retail-ui/commit/60eeccdb92cd064fa2bb8c12f222f7f88dd9426c))
+
+* Button props:
+    * duplicated theme props `narrow`, `borderless`, `warning`, `error`
+    * `use="primary"` → `use="accent"`
+    * `use="backless"` → `use="outline"`
+    * `use="default"` → `use="outline"` or `use="fill"`
+    * `use="link"` → `<Link component="button">`
+* SidePage: prop `ignoreBackgroundClick` → `ignoreOutsideClick`
+* `lib/ColorFunctions`, use native CSS-function color-mix()
+
+
+### Removed legacy API ([60eeccd](https://github.com/skbkontur/retail-ui/commit/60eeccdb92cd064fa2bb8c12f222f7f88dd9426c))
+
+- Input: remove prop `mask`
+- SingleToast, Toast: remove outdated api `.push()`
+- CurrencyInput: remove prop `maxlength`
+- MenuItem: remove prop `link`
+- ScrollContainer: remove prop `onScrollStateChange`
+- Paging: remove `legacy` value of `size` prop
+- ValidationContainer: remove type number in prop `scrollOffset`
+- MaskedInput: remove global CSS class `.react-ui-ui-font-root`
+- Remove helper `tabListener`
+- Remove helpers `globalObject` & `setWindow` → component `<RenderEnvironment.Provider>` ([ed9acfd](https://github.com/skbkontur/retail-ui/commit/ed9acfd212f1e2aa0724e6b3aa2cce72a1286612))
+- Remove .env variable `enableReactTesting`
+- Remove helper `stopPropagation` [!114](https://git.skbkontur.ru/ui/react-ui/-/merge_requests/114)
+- Remove helper `keyListener` → hook `useKeyListener`
+- Emotion.js API: `import { css } from '../lib/theming/Emotion'` → <br />`import { useEmotion } from '../lib/renderEnvironment';`
+
+
+### Removed Feature flags 5.x ([6abebeb](https://github.com/skbkontur/retail-ui/commit/6abebeba5e710a0f7f5bb46d0e07489e9c8813e6))
+
+* DateInput: `dateInputAllowInvalidValuesInDays`
+* DateInput: `dateInputFixSameNumberTypingOnRefocus`
+* RadioGroup: `radioGroupRemoveBaselineSpacer`
+* ComboBox: `comboBoxAllowValueChangeInEditingState`
+* Sticky: `stickyReduceLayoutEvents`
+* Group: `groupAddHintsAndTooltipsSupport`
+* Popup: `popupFixPinTearing`
+* SidePage: `sidePageDisableHeaderShrink`
+* SidePage: `sidePageNotCutTitleOnStuckByDefault`
+* Autocomplete: `autocompleteUseMaskedInput`
+* FxInput: `fxInputUseMaskedInput`
+* TokenInput: `tokenInputCreateTokenOnBlurInWithoutReferenceMode`
+* Textarea: `textareaBaselineAlign` ([78f99d8](https://github.com/skbkontur/retail-ui/commit/78f99d8401dab1e2513d76f6fb869dae889efad7)
+
+
+### Technical changes (Internal)
+
+* Improve typescript usage ([14a9e3a](https://github.com/skbkontur/retail-ui/commit/14a9e3abcb6d0c340b81187bdd6cdbc82cad27ad))
+* Add eslint plugin for node next import extention ([16a7b50](https://github.com/skbkontur/retail-ui/commit/16a7b50e14a863f67c529f3c5622848046720780))
+* Patch react-focus-lock ([5fe6521](https://github.com/skbkontur/retail-ui/commit/5fe6521feb39c073089e0855dcf6b722a947be6d))
+* Inline `react-is` package for support React 16-18 and 19
+- Remove internal APIs:
+	- Remove `<PolyfillPlaceholder>` 
+    - Remove `<InternalMaskedInput>`
+    - Remove `<IgnoreLayerClick>` → `<SidePage>`'s `onOutsideClick` prop
+    - Remove internal-theme `BasicLightThemeInternal`
+    - Remove `react-input-mask` dependency → `@skbkontur/react-imask`
+
+
+
+
 ## [5.6.12](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@5.6.11...@skbkontur/react-ui@5.6.12) (2026-03-30)
 
 

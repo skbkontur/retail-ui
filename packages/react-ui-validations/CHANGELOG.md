@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@2.3.8...@skbkontur/react-ui-validations@3.0.0) (2026-03-31)
+
+
+### Features
+
+* Add React 19 support ([b39a371](https://github.com/skbkontur/retail-ui/commit/b39a3715ae262d179be06eb2bfc01049b134c03b))
+* Update TypeScript 4 → 5 ([4bd78e1](https://github.com/skbkontur/retail-ui/commit/4bd78e1ee277b3ce972bb8569837149045b8805d))
+* CJS + ESM → ESM-only package (type: "module")  ([d22de46](https://github.com/skbkontur/retail-ui/commit/d22de4669f764bfe628cd491a978361ed68e5e98))
+* Add TypeScript explicit types ([e3d83c6](https://github.com/skbkontur/retail-ui/commit/e3d83c6f4027f26fbed6e67a0c86d5c47e5723d9))
+* Remove uncatched throw errors ([c0b378e](https://github.com/skbkontur/retail-ui/commit/c0b378e27fc39e8876ab9439eed8229e6acba547))
+
+## Removed deprecated API
+
+- ValidationContainer: remove type number in prop `scrollOffset` ([60eeccd](https://github.com/skbkontur/retail-ui/commit/60eeccdb92cd064fa2bb8c12f222f7f88dd9426c))
+
+
+### Removed feature flags ([6abebeb](https://github.com/skbkontur/retail-ui/commit/6abebeba5e710a0f7f5bb46d0e07489e9c8813e6))
+
+More info in [feature-flags sandbox](https://tech.skbkontur.ru/kontur-ui/packages/react-ui-validations/2.3.8/index.html?path=/docs/displaying-feature-flags--docs)
+
+* `validationWrapperValidateOnMount`
+* `hideTooltipOnSelectionControlsFlag`
+* `dropdownsDoNotOpenOnFocusByValidation`
+
+
+### Technical changes (Internal)
+
+* GlobalObject to RenderEnvironmentProvider ([ed9acfd](https://github.com/skbkontur/retail-ui/commit/ed9acfd212f1e2aa0724e6b3aa2cce72a1286612))
+* Improve TypeScript usage ([14a9e3a](https://github.com/skbkontur/retail-ui/commit/14a9e3abcb6d0c340b81187bdd6cdbc82cad27ad))
+* Remove deprecated ([60eeccd](https://github.com/skbkontur/retail-ui/commit/60eeccdb92cd064fa2bb8c12f222f7f88dd9426c))*
+* Inline react-focus-lock ([5fe6521](https://github.com/skbkontur/retail-ui/commit/5fe6521feb39c073089e0855dcf6b722a947be6d))
+
+
+
 ## [2.3.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@2.3.7...@skbkontur/react-ui-validations@2.3.8) (2025-12-18)
 
 **Note:** Version bump only for package @skbkontur/react-ui-validations
