@@ -43,10 +43,10 @@ kind('Textarea', () => {
       const textArea = () => page.locator(tid('TextArea'));
       const before = await textArea().screenshot();
       await page.locator(tid('AddButton')).click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(600);
       const addText = await textArea().screenshot();
       await page.locator(tid('CollapseButton')).click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(600);
       const collapse = await textArea().screenshot();
       await context.matchImages({ before, addText, collapse });
     });

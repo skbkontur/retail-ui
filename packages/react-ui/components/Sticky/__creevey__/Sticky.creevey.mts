@@ -89,9 +89,9 @@ kind('Sticky', () => {
       });
       // Ждем завершения скролла и стабилизации позиции
       // В Firefox может потребоваться больше времени для стабилизации
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(1100);
       await waitForAnimationFrame(page);
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(600);
       // Дополнительная проверка стабильности скролла для Firefox
       await page.evaluate(() => {
         return new Promise<void>((resolve) => {
@@ -135,9 +135,9 @@ kind('Sticky', () => {
         window.scrollTo(0, scrollOffset);
       });
       // Ждем завершения скролла и стабилизации позиции
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1100);
       await waitForAnimationFrame(page);
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(600);
       await context.matchImage(await context.takeScreenshot(), 'fixed');
     });
   });

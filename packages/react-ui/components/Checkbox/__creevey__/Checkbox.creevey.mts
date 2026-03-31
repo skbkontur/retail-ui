@@ -21,6 +21,7 @@ const checkboxTests = () => {
     await page.mouse.down();
     await page.waitForTimeout(1000);
     await page.mouse.up();
+    await context.matchImage(await context.takeScreenshot(), 'pressed');
   });
 
   test('clicked', async (context) => {
@@ -86,6 +87,7 @@ kind('Checkbox', () => {
       await page.mouse.down();
       await page.waitForTimeout(1000);
       await page.mouse.up();
+      await context.matchImage(await context.takeScreenshot(), 'pressed');
     });
   });
 
