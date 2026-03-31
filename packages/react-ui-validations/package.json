@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui-validations",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Validations for @skbkontur/react-ui",
   "type": "module",
   "scripts": {
