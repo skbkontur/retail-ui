@@ -1,6 +1,6 @@
-# Разработка Retail UI
+# CONTRIBUTING
 
-Библиотека компонентов **Retail UI** — это открытый проект и результат совместных усилий [большого количества людей](https://github.com/skbkontur/retail-ui/graphs/contributors). Мы очень ценим вклад каждого и приглашаем всех желающих принять участие в его развитии. Этот гайд призван помочь новым участникам познакомиться с проектом и ответить на основные вопросы касательно его разработки.
+Библиотека компонентов **Konur UI** — это открытый проект и результат совместных усилий [большого количества людей](https://github.com/skbkontur/retail-ui/graphs/contributors). Мы очень ценим вклад каждого и приглашаем всех желающих принять участие в его развитии. Этот гайд призван помочь новым участникам познакомиться с проектом и ответить на основные вопросы касательно его разработки.
 
 ## Содержание
 
@@ -26,32 +26,15 @@
 
 ## Общие сведения
 
-### Полезные ссылки:
-
-- [Документация](https://tech.skbkontur.ru/kontur-ui/)
-- NPM-пакеты:
-  - [retail-ui](https://npmjs.com/package/retail-ui) (больше не поддерживается, используйте `@skbkontur/react-ui`)
-  - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)
-  - [react-ui-validations](https://www.npmjs.com/package/react-ui-validations)
-  - [@skbkontur/react-ui-validations](https://www.npmjs.com/package/@skbkontur/react-ui-validations)
-  - [@skbkontur/react-icons](https://www.npmjs.com/package/@skbkontur/react-icons)
-  - [react-ui-codemod](https://www.npmjs.com/package/react-ui-codemod)
-- [Контур.Гайды](https://guides.kontur.ru/)
-
 ### Технологии
 
 - JS: React, TypeScript;
-- CSS: CSS-in-JS;
+- CSS: Emotion (css-in-js);
 - Сборка: Babel;
-- CI: TeamCity;
 
 ### Дизайн
 
 Библиотека во многом опирается на стандарты и принципы дизайна, описанные в [Контур.Гайдах](https://guides.kontur.ru/). Как правило, все изменения, связанные с поведением или внешним видом компонентов, сперва согласуются с гайдами, и только потом реализуются в библиотеке. Контакты для решения подобных вопросов можно найти в разделе [помощь](#помощь).
-
-### Планы
-
-Наши планы по развитию описаны в [Roadmap](packages/react-ui/ROADMAP.md).
 
 ## Краткая инструкция
 
