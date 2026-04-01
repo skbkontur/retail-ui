@@ -5,16 +5,15 @@ import {
   MenuHeader,
   MenuItem,
   Select,
-  Toast,
-  ThemeFactory,
   ThemeContext,
   Hint,
+  DARK_THEME,
+  LIGHT_THEME,
+  Toast,
 } from '@skbkontur/react-ui';
 import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
-import { BasicThemeClass } from '@skbkontur/react-ui/internal/themes/BasicTheme';
 import { css, injectGlobal } from '@emotion/css';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
-import { SideMenuThemeIn } from '@skbkontur/side-menu';
 import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
 
@@ -65,7 +64,7 @@ interface TokenPairWithMeta extends TokenPair {
 injectGlobal(`
   [data-role=preview]:has([data-colors-controls]) {
     padding: 0 !important;
-  }
+  };
 `);
 
 export default {
@@ -209,6 +208,8 @@ export const ColorsExampleStory = () => {
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
   const [customAccentColor, setCustomAccentColor] = React.useState('#FFDD2D');
 
+  const toastRef = React.useRef<Toast>(null);
+
   const handleCustomBrandColorValueChange = React.useCallback((newColor: string) => {
     setCustomBrandColor(newColor);
   }, []);
@@ -260,7 +261,7 @@ export const ColorsExampleStory = () => {
     );
   };
 
-  const safeBrandColor = React.useMemo(() => {
+  const brandColor = React.useMemo(() => {
     if (brand !== 'custom') {
       return brand;
     }
@@ -296,405 +297,30 @@ export const ColorsExampleStory = () => {
     );
   };
 
-  React.useEffect(() => {
-    if (isAccentDisabled(accent, brand)) {
-      setAccent('gray');
-      Toast.push('Акцент brand недоступен для red и orange', null, 3000);
-    }
-  }, [brand, accent]);
-
-  const effectiveAccentColor = React.useMemo(() => {
-    if (isAccentDisabled(safeAccentColor, safeBrandColor)) {
+  const accentColor = React.useMemo(() => {
+    if (isAccentDisabled(safeAccentColor, brandColor)) {
       return 'gray';
     }
     return safeAccentColor;
-  }, [safeBrandColor, safeAccentColor]);
+  }, [brandColor, safeAccentColor]);
 
   let c = getColors({
-    brand: safeBrandColor,
-    accent: effectiveAccentColor,
+    brand: brandColor,
+    accent: accentColor,
     theme: colorTheme,
   });
 
-  const theme = ThemeFactory.create<BasicThemeClass | SideMenuThemeIn | AddonsTheme>({
-    brand: c.shapeBoldBrandOriginal,
-    bgDefault: c.surfaceHigh,
-    bgSecondary: c.surfaceHigh,
-    bgDisabled: c.shapeOtherDisabled,
-    errorText: c.textErrorHeavy,
-    borderColorDisabled: c.lineNeutralFaint,
-    placeholderColor: c.textNeutralPale,
-    outlineColorFocus: c.surfaceBase,
-    placeholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
-    textColorDefault: c.textNeutralHeavy,
-    textColorDisabled: c.textNeutralPale,
-    borderColorFocus: c.lineAccentBold,
-    borderColorError: c.lineErrorBold,
-    borderColorWarning: c.lineWarningBold,
-    linkColor: c.textAccentHeavy,
-    linkHoverColor: c.textAccentHeavyHover,
-    linkActiveColor: c.textAccentHeavyPressed,
-    linkSuccessColor: c.textSuccessHeavy,
-    linkSuccessHoverColor: c.textSuccessHeavyHover,
-    linkSuccessActiveColor: c.textSuccessHeavyPressed,
-    linkDangerColor: c.textErrorHeavy,
-    linkDangerHoverColor: c.textErrorHeavyHover,
-    linkDangerActiveColor: c.textErrorHeavyPressed,
-    linkDisabledColor: c.textNeutralPale,
-    linkGrayedColor: c.textNeutralSoft,
-    linkGrayedHoverColor: c.textNeutralHeavy,
-    linkGrayedActiveColor: c.textNeutralHeavy,
-    linkFocusOutlineColor: c.lineAccentBold,
-    tokenDisabledBg: c.shapeOtherDisabled,
-    tokenBg: c.shapeFaintNeutralAlpha,
-    tokenColor: c.textNeutralHeavy,
-    tokenBorderColor: c.lineNeutralPale,
-    tokenBgHover: c.shapeFaintNeutralAlphaHover,
-    tokenColorHover: c.textNeutralHeavy,
-    tokenBorderColorHover: c.lineNeutralPale,
-    tokenBgActive: c.shapeBoldAccent,
-    tokenColorActive: c.textOnAccentBoldHeavy,
-    tokenInputBorderColor: c.lineNeutralPale,
-    tokenInputBorderColorHover: c.lineNeutralPaleHover,
-    tokenInputBorderColorFocus: c.lineAccentBold,
-    tokenInputBorderColorError: c.lineErrorBold,
-    tokenInputBorderColorWarning: c.lineWarningBold,
-    tokenInputBorderTopColor: c.lineNeutralPale,
-    tokenInputPlaceholderColor: c.textNeutralPale,
-    tokenInputPlaceholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
-    tokenInputDisabledBg: c.shapeOtherDisabled,
-    tokenInputBg: c.shapeOtherField,
-    tokenInputMenuPopupBg: 'transparent',
-    loaderBg: c.shapeInvertedNeutralHeavy,
-    btnDisabledBorderColor: c.lineNeutralFaint,
-    btnCheckedBg: c.shapeBoldAccent,
-    btnCheckedDisabledBg: c.shapeOtherAccentBoldDisabled,
-    btnCheckedDisabledColor: c.textInvertedNeutralSoft,
-    btnCheckedTextColor: c.textOnAccentBoldHeavy,
-    btnDefaultBg: c.shapeOtherBase,
-    btnDefaultHoverBg: c.shapeOtherBaseHover,
-    btnDefaultActiveBg: c.shapeOtherBasePressed,
-    btnDefaultHoverTextColor: c.textNeutralHeavy,
-    btnDefaultBorderColor: c.lineNeutralPale,
-    btnSuccessBg: c.shapeBoldSuccess,
-    btnSuccessBorderColor: c.shapeBoldSuccess,
-    btnSuccessHoverBg: c.shapeBoldSuccessHover,
-    btnSuccessHoverBorderColor: c.shapeBoldSuccessHover,
-    btnSuccessHoverTextColor: c.textConstHeavyWhite,
-    btnSuccessTextColor: c.textConstHeavyWhite,
-    btnSuccessActiveBg: c.shapeBoldSuccessPressed,
-    btnSuccessActiveBorderColor: c.shapeBoldSuccessPressed,
-    btnPrimaryBg: c.shapeBoldAccent,
-    btnPrimaryHoverBg: c.shapeBoldAccentHover,
-    btnPrimaryActiveBg: c.shapeBoldAccentPressed,
-    btnPrimaryHoverTextColor: '',
-    btnPrimaryBorderColor: c.shapeBoldAccent,
-    btnPrimaryHoverBorderColor: c.shapeBoldAccentHover,
-    btnPrimaryActiveBorderColor: c.shapeBoldAccentPressed,
-    btnPrimaryTextColor: c.textOnAccentBoldHeavy,
-    btnDangerBg: c.shapeBoldError,
-    btnDangerHoverBg: c.shapeBoldErrorHover,
-    btnDangerHoverBorderColor: c.shapeBoldErrorHover,
-    btnDangerTextColor: c.textConstHeavyWhite,
-    btnDangerActiveBg: c.shapeBoldErrorPressed,
-    btnDangerActiveBorderColor: c.shapeBoldErrorPressed,
-    btnPayBg: c.shapeBoldWarning,
-    btnPayBorderColor: c.shapeBoldWarning,
-    btnPayHoverBg: c.shapeBoldWarningHover,
-    btnPayHoverBorderColor: c.shapeBoldWarningHover,
-    btnPayTextColor: c.textConstHeavyBlack,
-    btnPayActiveBg: c.shapeBoldWarningPressed,
-    btnPayActiveBorderColor: c.shapeBoldWarningPressed,
-    btnMenuArrowColor: c.textNeutralSoft,
-    btnDisabledBg: c.shapeOtherDisabled,
-    btnBorderColorWarning: c.lineWarningBold,
-    btnBorderColorError: c.lineErrorBold,
-    btnErrorSecondary: c.shapeFaintError,
-    btnWarningSecondary: c.shapeFaintWarning,
-    btnInsetColor: c.surfaceBase,
-    btnDisabledTextColor: c.textNeutralPale,
-    btnBacklessBg: 'transparent',
-    btnBacklessHoverBg: c.shapeOtherBacklessHover,
-    btnBacklessActiveBg: c.shapeOtherBacklessPressed,
-    btnBacklessActiveBorderColor: c.lineNeutralPale,
-    btnBacklessBorderColor: c.lineNeutralPale,
-    btnBacklessDisabledBorderColor: c.lineNeutralFaint,
-    btnBacklessHoverBorderColor: c.lineNeutralPale,
-    btnBacklessHoverTextColor: '',
-    btnTextHoverBg: c.shapeOtherBacklessHover,
-    btnTextActiveBg: c.shapeOtherBacklessPressed,
-    selectDefaultBg: c.shapeOtherField,
-    selectPlaceholderColor: c.textNeutralPale,
-    selectPlaceholderColorDisabled: c.textNeutralPale,
-    selectMenuArrowColorDisabled: c.textNeutralPale,
-    selectBgDisabled: c.shapeOtherDisabled,
-    selectBorderColorDisabled: c.lineNeutralFaint,
-    tooltipCloseBtnColor: c.textNeutralPale,
-    tooltipCloseBtnHoverColor: c.textNeutralHeavy,
-    tooltipTextColor: c.textNeutralHeavy,
-    tooltipBg: c.surfaceHigh,
-    kebabBackgroundHover: c.shapeOtherBacklessHover,
-    kebabBackgroundActive: c.shapeOtherBacklessPressed,
-    kebabIconColor: c.textNeutralSoft,
-    modalWindowShadow: '0px 16px 32px 0px rgba(0, 0, 0, 0.06)',
-    modalBackBg: c.surfaceModalBackdrop,
-    modalBg: c.surfaceHigh,
-    modalBackOpacity: '1',
-    modalCloseButtonColor: c.textNeutralPale,
-    modalCloseButtonDisabledColor: c.textNeutralPale,
-    modalCloseButtonHoverColor: c.textNeutralHeavy,
-    modalFixedHeaderBg: c.surfaceHigh,
-    modalFooterBg: c.surfaceHigh,
-    modalHeaderTextColor: c.textNeutralHeavy,
-    modalSeparatorBorderBottom: `1px solid ${c.lineNeutralFaint}`,
-    sidePageFooterPanelBg: c.surfaceHigh,
-    sidePageBackingBg: c.surfaceModalBackdrop,
-    sidePageBackingBgOpacity: '1',
-    sidePageCloseButtonColor: c.textNeutralPale,
-    sidePageCloseButtonHoverColor: c.textNeutralHeavy,
-    sidePageContainerShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
-    sidePageBgDefault: c.surfaceHigh,
-    sidePageHeaderTextColor: c.textNeutralHeavy,
-    dateInputMaskColor: c.textNeutralPale,
-    calendarBottomSeparatorBorderColor: c.lineNeutralFaint,
-    calendarBottomSeparatorBorder: `1px solid ${c.lineNeutralFaint}`,
-    calendarBg: c.surfaceHigh,
-    calendarCellBg: 'transparent',
-    calendarCellHoverColor: '',
-    calendarCellActiveHoverColor: '',
-    calendarCellWeekendColor: c.customizableHeavyRed,
-    calendarCellTodayBorder: '1px solid',
-    calendarCellSelectedBgColor: c.shapeBoldAccent,
-    calendarCellSelectedFontColor: c.textOnAccentBoldHeavy,
-    calendarMonthHeaderStickedBgColor: c.surfaceHigh,
-    calendarMonthTitleBorderBottomColor: c.lineNeutralFaint,
-    calendarCellHoverBgColor: c.shapeOtherBacklessHover,
-    datePickerOpenBtnColor: c.textNeutralHeavy,
-    rangeCalendarCellBg: c.shapeFaintNeutralAlpha,
-    rangeCalendarCellEndBg: c.shapeBoldAccent,
-    rangeCalendarCellEndColor: c.textOnAccentBoldHeavy,
-    rangeCalendarCellHoverBg: c.shapeOtherBacklessHover,
-    dateSelectMenuBg: c.surfaceHigh,
-    dateSelectMenuItemBgDisabled: c.surfaceHigh,
-    dateSelectMenuItemFontActive: '',
-    dateSelectMenuItemFontSelected: c.textNeutralHeavy,
-    dateSelectMenuItemFontDisabled: c.textNeutralPale,
-    dateSelectTextColorDisabled: c.textNeutralPale,
-    dateSelectTextColorDefault: c.textNeutralHeavy,
-    dateSelectLinkColor: c.textAccentHeavy,
-    dateSelectPopupBoxShadow: '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)',
-    dateSelectTextColorInvert: '',
-    pagingPageLinkActiveBg: c.shapeOtherBacklessPressed,
-    pagingPageLinkDisabledActiveBg: c.shapeOtherDisabled,
-    pagingPageLinkHoverBg: c.shapeOtherBacklessHover,
-    pagingDotsColor: c.textNeutralPale,
-    pagingPageLinkHintColor: c.textNeutralSoft,
-    hintColor: c.textInvertedNeutralHeavy,
-    mobileHintColor: c.textInvertedNeutralHeavy,
-    hintBgColor: c.shapeHeavyNeutral,
-    toastBg: c.shapeHeavyNeutral,
-    toastErrorBg: c.shapeBoldError,
-    toastColor: c.textInvertedNeutralHeavy,
-    toastLinkColor: c.textInvertedNeutralHeavy,
-    toastLinkTextDecorationHover: '',
-    toastLinkBgHover: c.shapeInvertedBacklessHover,
-    toastLinkBgActive: c.shapeInvertedBacklessPressed,
-    toastCloseColor: c.textInvertedNeutralSoft,
-    toastCloseHoverColor: c.textInvertedNeutralHeavy,
-    toastColorError: c.textConstHeavyWhite,
-    toastLinkColorError: c.textConstHeavyWhite,
-    toastLinkBgHoverError: c.shapeConstBacklessWhiteHover,
-    toastLinkBgActiveError: c.shapeConstBacklessWhiteHover,
-    toastLinkColorActiveError: c.textConstHeavyWhite,
-    toastCloseColorError: c.textConstSoftWhite,
-    toastCloseHoverColorError: c.textConstHeavyWhite,
-    dropdownDefaultBg: c.shapeOtherBase,
-    dropdownBgDisabled: c.shapeOtherDisabled,
-    dropdownBorderColorDisabled: c.lineNeutralFaint,
-    dropdownTextColorDisabled: c.textNeutralPale,
-    menuBgDefault: c.surfaceHigh,
-    menuShadow: '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)',
-    menuItemSelectedBg: c.shapeOtherBacklessPressed,
-    menuItemHoverBg: c.shapeOtherBacklessHover,
-    menuItemLinkColor: c.textAccentHeavy,
-    menuItemCommentColor: c.textNeutralSoft,
-    menuItemCommentOpacity: '1',
-    menuItemDisabledColor: c.textNeutralPale,
-    menuMessageTextColor: c.textNeutralPale,
-    menuHeaderColor: c.textNeutralSoft,
-    menuFooterColor: c.textNeutralSoft,
-    menuSeparatorBorderColor: c.lineNeutralFaint,
-    toggleTextColor: c.textNeutralHeavy,
-    toggleBaseBg: 'transparent',
-    toggleBgHover: c.shapeOtherFieldHover,
-    toggleBorderColor: c.lineNeutralPale,
-    toggleBorderColorDisabled: c.lineNeutralPale,
-    toggleBgFocus: 'linear-gradient(-180deg, #f1f1f1, #dedede)',
-    toggleShadowColorError: c.lineErrorBold,
-    toggleShadowColorWarning: c.lineWarningBold,
-    toggleFocusShadowColor: c.lineAccentBold,
-    toggleContainerBg: c.shapeOtherField,
-    toggleHandleBg: c.shapeOtherBase,
-    toggleHandleBoxShadow: `0 0 0 1px ${c.lineNeutralPale}`,
-    toggleContainerBoxShadow: `inset 0 0 0 1px ${c.lineNeutralPale}`,
-    toggleContainerBoxShadowHover: `inset 0 0 0 1px ${c.lineNeutralPaleHover}`,
-    toggleHandleBgHover: c.shapeOtherBase,
-    toggleHandleBoxShadowHover: `0 0 0 1px ${c.lineNeutralPale}`,
-    toggleContainerBgHover: c.shapeOtherFieldHover,
-    toggleContainerBoxShadowChecked: 'none',
-    toggleHandleBoxShadowChecked: 'none',
-    toggleHandleBgChecked: c.shapeInvertedNeutralHeavy,
-    toggleBgChecked: c.shapeBoldAccent,
-    toggleContainerBgChecked: c.shapeBoldAccent,
-    toggleContainerBoxShadowCheckedHover: 'none',
-    toggleContainerBgCheckedHover: c.shapeBoldAccentHover,
-    toggleHandleBoxShadowCheckedHover: 'none',
-    toggleHandleBgCheckedHover: c.shapeInvertedNeutralHeavyHover,
-    toggleContainerBgDisabled: c.shapeOtherDisabled,
-    toggleHandleBgDisabled: 'transparent',
-    toggleContainerBoxShadowDisabled: `inset 0 0 0 1px ${c.lineNeutralFaint}`,
-    toggleHandleBoxShadowDisabled: `0 0 0 1px ${c.lineNeutralFaint}`,
-    toggleDisabledHandleBg: 'transparent',
-    toggleBgDisabled: c.shapeOtherDisabled,
-    toggleContainerBgDisabledChecked: c.shapeOtherAccentBoldDisabled,
-    toggleHandleBgDisabledChecked: c.shapeInvertedNeutralHeavy,
-    toggleContainerBoxShadowDisabledChecked: 'none',
-    toggleHandleBoxShadowDisabledChecked: 'none',
-    toggleBorderColorDisabledChecked: c.lineNeutralPale,
-    popupDropShadow: 'drop-shadow(0px 32px 32px rgba(0, 0, 0, 0.08)) drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.12))',
-    popupBoxShadow: '0px 32px 32px -16px rgba(0, 0, 0, 0.08), 0px 0px 24px 0px rgba(0, 0, 0, 0.12)',
-    popupTextColor: c.textNeutralHeavy,
-    popupBackground: c.surfaceHigh,
-    inputBg: c.shapeOtherField,
-    inputIconColor: c.textNeutralSoft,
-    inputDisabledBg: c.shapeOtherDisabled,
-    inputBorderColor: c.lineNeutralPale,
-    inputBorderColorHover: c.lineNeutralPaleHover,
-    inputBorderTopColor: c.lineNeutralPale,
-    inputPlaceholderColor: c.textNeutralPale,
-    inputPlaceholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
-    inputBlinkColor: c.shapeFaintNeutralAlpha,
-    inputColorScheme: 'light',
-    checkboxTextColorDefault: c.textNeutralHeavy,
-    checkboxTextColorDisabled: c.textNeutralPale,
-    checkboxShadowDisabled: `0 0 0 1px ${c.lineNeutralFaint}`,
-    checkboxBorder: 'none',
-    checkboxShadow: `0 0 0 1px ${c.lineNeutralPale}`,
-    checkboxShadowHover: `0 0 0 1px ${c.lineNeutralPaleHover}`,
-    checkboxCheckedColor: c.shapeInvertedNeutralHeavy,
-    checkboxBorderColorWarning: c.lineWarningBold,
-    checkboxBorderColorError: c.lineErrorBold,
-    checkboxCheckedHoverShadow: `0 0 0 1px ${c.shapeBoldAccentHover}`,
-    checkboxCheckedShadow: `0 0 0 1px ${c.shapeBoldAccent}`,
-    checkboxCheckedActiveShadow: `0 0 0 1px ${c.shapeBoldAccentPressed}`,
-    checkboxBorderColorFocus: c.lineAccentBold,
-    checkboxBg: c.shapeOtherField,
-    checkboxHoverBg: c.shapeOtherFieldHover,
-    checkboxActiveBg: c.shapeOtherFieldPressed,
-    checkboxCheckedBg: c.shapeBoldAccent,
-    checkboxBgDisabled: c.shapeOtherDisabled,
-    checkboxCheckedHoverBg: c.shapeBoldAccentHover,
-    checkboxCheckedActiveBg: c.shapeBoldAccentPressed,
-    checkboxShadowActive: `0 0 0 1px ${c.lineNeutralPalePressed}`,
-    textareaBg: c.shapeOtherField,
-    textareaColor: c.textNeutralHeavy,
-    textareaTextColorDisabled: c.textNeutralPale,
-    textareaPlaceholderColorLight: `color-mix(in srgb, ${c.textNeutralPale}, transparent 40%)`,
-    textareaPlaceholderColor: c.textNeutralPale,
-    textareaPlaceholderColorDisabled: c.textNeutralPale,
-    textareaShadow: 'none',
-    textareaBorderColor: c.lineNeutralPale,
-    textareaBorderTopColor: c.lineNeutralPale,
-    textareaBorderColorFocus: c.lineAccentBold,
-    textareaBorderColorHover: c.lineNeutralPaleHover,
-    textareaBorderColorWarning: c.lineWarningBold,
-    textareaBorderColorError: c.lineErrorBold,
-    textareaDisabledBg: c.shapeOtherDisabled,
-    textareaDisabledBorderColor: c.lineNeutralFaint,
-    textareaCounterColor: c.textNeutralSoft,
-    textareaCounterBg: 'transparent',
-    textareaCounterErrorColor: c.textErrorHeavy,
-    textareaCounterHelpIconColor: c.textNeutralHeavy,
-    radioBgColor: c.shapeOtherField,
-    radioHoverBg: c.shapeOtherFieldHover,
-    radioActiveBg: c.shapeOtherFieldPressed,
-    radioBorderColor: c.lineNeutralPale,
-    radioBoxShadow: 'none',
-    radioBorder: `1px solid ${c.lineNeutralPale}`,
-    radioBorderColorFocus: c.lineAccentBold,
-    radioBorderColorWarning: c.lineWarningBold,
-    radioBorderColorError: c.lineErrorBold,
-    radioHoverShadow: 'none',
-    radioActiveShadow: 'none',
-    radioCheckedBgColor: c.shapeBoldAccent,
-    radioCheckedBorderColor: 'transparent',
-    radioCheckedBulletColor: c.shapeInvertedNeutralHeavy,
-    radioCheckedHoverBgColor: c.shapeBoldAccentHover,
-    radioDisabledBg: c.shapeOtherDisabled,
-    radioDisabledShadow: `0 0 0 1px ${c.lineNeutralFaint}`,
-    radioCheckedDisabledBulletBg: c.textNeutralPale,
-    tabTextColorDefault: c.textNeutralHeavy,
-    tabColorFocus: c.lineAccentBold,
-    tabColorError: c.shapeBoldError,
-    tabColorWarning: c.shapeBoldWarning,
-    tabColorSuccess: c.shapeBoldSuccess,
-    tabColorPrimary: c.shapeBoldAccent,
-    tabColorHover: c.lineNeutralPale,
-    tabColorHoverError: `color-mix(in srgb, ${c.shapeBoldError}, transparent 50%)`,
-    tabColorHoverWarning: `color-mix(in srgb, ${c.shapeBoldWarning}, transparent 50%)`,
-    tabColorHoverSuccess: `color-mix(in srgb, ${c.shapeBoldSuccess}, transparent 50%)`,
-    tabColorHoverPrimary: c.lineAccentPale,
-    spinnerColor: c.customizableBoldRed,
-    spinnerDimmedColor: c.customizableBoldGray,
-    spinnerCaptionColor: c.textNeutralSoft,
-    switcherTextColor: c.textNeutralHeavy,
-    switcherBtnDisabledBorderColor: c.lineNeutralPale,
-    switcherButtonDisabledBorderColor: c.lineNeutralPale,
-    scrollContainerScrollBarColor: c.shapeSoftNeutralAlpha,
-    scrollContainerScrollBarInvertColor: c.shapeInvertedNeutralSoftAlpha,
-    passwordInputVisibilityIconColor: c.textNeutralHeavy,
-    passwordInputVisibilityIconOpacity: '0.64',
-    passwordInputVisibilityIconHoverColor: c.textNeutralHeavy,
-    passwordInputVisibilityIconHoverOpacity: '1',
-    globalLoaderColor: c.shapeBoldBrandOriginal,
-    fileUploaderBg: '',
-    fileUploaderUploadButtonBg: 'transparent',
-    fileUploaderTextColorDefault: c.textNeutralHeavy,
-    fileUploaderBorderColor: c.lineNeutralPale,
-    fileUploaderDisabledBorder: `1px ${'dashed'} ${c.lineNeutralFaint}`,
-    fileUploaderBorderColorFocus: c.lineAccentBold,
-    fileUploaderLinkColor: c.textNeutralHeavy,
-    fileUploaderAfterLinkColor: c.textNeutralSoft,
-    fileUploaderIconColor: c.textNeutralPale,
-    fileUploaderIconHoverColor: c.textNeutralHeavy,
-    fileUploaderBorderColorError: c.lineErrorBold,
-    fileUploaderBorderColorWarning: c.lineWarningBold,
-    fileUploaderDisabledBg: c.shapeOtherDisabled,
-    fileUploaderDisabledBorderColor: c.lineNeutralFaint,
-    fileUploaderDisabledTextColor: c.textNeutralPale,
-    fileUploaderDisabledLinkColor: c.textNeutralPale,
-    fileUploaderDisabledIconColor: c.textNeutralPale,
-    fileUploaderHoveredBg: c.shapeOtherBacklessHover,
-    fileUploaderHoveredBorderColor: 'transparent',
-    fileUploaderDragOverBorderColor: c.lineAccentBold,
-    clearCrossIconColor: c.textNeutralSoft,
-    clearCrossIconHoverColor: c.textNeutralHeavy,
-    closeBtnIconColor: c.textNeutralPale,
-    closeBtnIconDisabledColor: c.textNeutralPale,
-    closeBtnIconHoverColor: c.textNeutralHeavy,
-    validationsTextColorError: c.textErrorHeavy,
-    validationsTextColorWarning: c.textWarningHeavy,
-    sideMenuBgColor: c.surfaceLow,
-    sideMenuProductColor: c.shapeBoldBrandOriginal,
-    sideMenuNotificationsMarkerBg: c.shapeHeavyNeutral,
-    addonsUserAvatarBorderColor: c.shapeHeavyNeutral,
-    addonsUserAvatarColor: c.shapeHeavyNeutral,
-    sideMenuItemActiveBg: c.shapeOtherBase,
-    sideMenuItemHoverBg: c.shapeOtherBacklessHover,
-  });
+  const handleBrandChange = (value: string) => {
+    if ((value === 'red' || value === 'orange') && accent === 'brand') {
+      toastRef?.current?.push('Акцент brand недоступен для red и orange', { showTime: 3000 });
+      setAccent('gray');
+    }
+    setBrand(value);
+  };
 
   return (
     <div data-colors-controls>
+      <Toast ref={toastRef} />
       <div className={styles.filterRow}>
         <Gapped>
           <label htmlFor="example-brand">Brand</label>
@@ -703,7 +329,7 @@ export const ColorsExampleStory = () => {
             items={colorOptions}
             value={brand}
             width={140}
-            onValueChange={setBrand}
+            onValueChange={handleBrandChange}
             renderValue={renderBrandItem}
             renderItem={renderBrandItem}
           />
@@ -755,10 +381,17 @@ export const ColorsExampleStory = () => {
           />
         </Gapped>
       </div>
-      <ThemeContext.Provider value={theme}>
-        <div style={{ color: c.textNeutralHeavy, background: c.surfaceHigh }}>
+      <ThemeContext.Provider value={colorTheme === 'light' ? LIGHT_THEME : DARK_THEME}>
+        <div style={{ color: c.textNeutralHeavy, background: c.surfaceHigh }} data-colors-selector>
           <div className="wrapper">
             <style>{`
+            ${getColors({
+              brand: brandColor,
+              accent: accentColor,
+              theme: colorTheme,
+              output: 'css',
+              outputSelectors: { light: '[data-colors-selector]', dark: '[data-colors-selector]' },
+            })}
 .wrapper {
   display: flex;
   height: 100%;
@@ -968,7 +601,7 @@ export const ColorsExampleStory = () => {
                   <Button use="accent" size="large">
                     Сохранить
                   </Button>
-                  <Button use="backless" size="large">
+                  <Button use="outline" size="large">
                     Отменить
                   </Button>
                   <div className="footer__warning-panel">
@@ -1255,6 +888,8 @@ export const ColorsPaletteStory = () => {
   const [customBrandColor, setCustomBrandColor] = React.useState('#FFDD2D');
   const [customAccentColor, setCustomAccentColor] = React.useState('#FFDD2D');
 
+  const toastRef = React.useRef<Toast>(null);
+
   const handleCustomBrandColorValueChange = React.useCallback((newColor: string) => {
     setCustomBrandColor(newColor);
   }, []);
@@ -1277,7 +912,7 @@ export const ColorsPaletteStory = () => {
 
   const copyColor = (colorValue: string) => {
     window.navigator.clipboard.writeText(colorValue);
-    Toast.push('Цвет скопирован', null, 1000);
+    toastRef?.current?.push('Цвет скопирован', { showTime: 1000 });
   };
 
   const getOutputFormatParam = (format: string): ColorFormat => {
@@ -1339,16 +974,13 @@ export const ColorsPaletteStory = () => {
     );
   };
 
-  const handleBrandChange = React.useCallback((newBrand: string) => {
-    setBrand(newBrand);
-  }, []);
-
-  React.useEffect(() => {
-    if (isAccentDisabled(accent, brand)) {
+  const handleBrandChange = (value: string) => {
+    if ((value === 'red' || value === 'orange') && accent === 'brand') {
+      toastRef?.current?.push('Акцент brand недоступен для red и orange', { showTime: 3000 });
       setAccent('gray');
-      Toast.push('Акцент brand недоступен для red и orange', null, 3000);
     }
-  }, [brand, accent]);
+    setBrand(value);
+  };
 
   const effectiveAccentColor = React.useMemo(() => {
     if (isAccentDisabled(safeAccentColor, safeBrandColor)) {
@@ -1390,7 +1022,6 @@ export const ColorsPaletteStory = () => {
       }),
     });
   }
-
   const filterTokens = (tokens: TokenPair[]): TokenPairWithMeta[] => {
     const asMeta = (t: TokenPair, fuzzy: boolean, percent?: number) => ({
       ...t,
@@ -1511,6 +1142,7 @@ export const ColorsPaletteStory = () => {
 
   return (
     <div className={styles.colors} data-colors-controls>
+      <Toast ref={toastRef} />
       <div className={styles.filterRow}>
         <Gapped>
           <label htmlFor="palette-brand">Brand</label>
