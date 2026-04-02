@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta } from '@skbkontur/react-ui/typings/stories';
+import type { Meta } from '@storybook/react';
 import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
 import { Text } from '../src/Text';
 import { TextTokens, TTextTokens } from '../src/TextTokens';
