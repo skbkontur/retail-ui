@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Gapped, Select, Input } from '@skbkontur/react-ui';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
-import type { Meta } from '@skbkontur/react-ui/typings/stories';
+import type { Meta } from '@storybook/react';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
 import { getColorsBase } from '../lib/get-colors-base';
