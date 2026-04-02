@@ -1,0 +1,10 @@
+import { Markdown } from '@storybook/blocks';
+import { Meta } from '../Meta';
+
+import Migration from '../../MIGRATION.md';
+
+<Meta title="Migration" />
+
+<Markdown options={{ wrapper: React.Fragment }}>{Migration}</Markdown>
+
+<style>{` .node-name--H2 + .toc-list {display: none;} `}</style>
