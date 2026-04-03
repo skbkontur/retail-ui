@@ -65,6 +65,17 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  selected_6_1(t: Theme) {
+    return css`
+      @media (hover: hover) {
+        &:hover {
+          background-color: ${t.calendarCellSelectedBgColor};
+          color: ${t.calendarCellSelectedFontColor};
+        }
+      }
+    `;
+  },
+
   weekend(t: Theme) {
     return css`
       color: ${t.calendarCellWeekendColor};

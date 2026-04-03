@@ -94,4 +94,30 @@ kind('Calendar', () => {
       await context.matchImage(await context.takeScreenshot(), 'years');
     });
   });
+
+  story('SimpleCalendar', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { "themes don't affect logic": { in: /^(?!\b(chrome2022|firefox2022)\b)/ } },
+    });
+    test('selected date hover', async (context) => {
+      const page = context.webdriver;
+      await page
+        .locator(tid('DayCellView__root'), { has: page.getByText('12') })
+        .nth(0)
+        .hover();
+
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'selected date hover');
+    });
+
+    test('selected weekend date hover', async (context) => {
+      const page = context.webdriver;
+      await page
+        .locator(tid('DayCellView__root'), { has: page.getByText('14') })
+        .nth(0)
+        .click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'selected holiday date hover');
+    });
+  });
 });

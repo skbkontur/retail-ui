@@ -1,18 +1,20 @@
-import React, { memo, useCallback, useContext } from 'react';
-import type { PropsWithChildren } from 'react';
+import React, { memo, useCallback, useContext } from "react";
+import type { PropsWithChildren } from "react";
 
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
-import { InternalDate } from '../../lib/date/InternalDate.js';
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-import { LocaleContext } from '../../lib/locale/index.js';
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { DatePickerLocaleHelper } from '../DatePicker/locale/index.js';
-import { CalendarDataTids } from './Calendar.js';
-import { getStyles } from './DayCellView.styles.js';
+import { isThemeGTE } from "../../lib/theming/ThemeHelpers.js";
+import { getVisualStateDataAttributes } from "../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js";
+import { InternalDate } from "../../lib/date/InternalDate.js";
+import { forwardRefAndName } from "../../lib/forwardRefAndName.js";
+import { LocaleContext } from "../../lib/locale/index.js";
+import { useLocaleForControl } from "../../lib/locale/useLocaleForControl.js";
+import { useEmotion, useStyles } from "../../lib/renderEnvironment/index.js";
+import { ThemeContext } from "../../lib/theming/ThemeContext.js";
+import { DatePickerLocaleHelper } from "../DatePicker/locale/index.js";
+import { CalendarDataTids } from "./Calendar.js";
+import { getStyles } from "./DayCellView.styles.js";
 
-export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface CalendarDayProps
+  extends React.HTMLAttributes<HTMLButtonElement> {
   /** Устанавливает, является ли день текущим. */
   isToday?: boolean;
 
@@ -41,7 +43,7 @@ export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement
  */
 export const CalendarDay = memo(
   forwardRefAndName(
-    'CalendarDay',
+    "CalendarDay",
     function CalendarDay(
       {
         isToday,
@@ -60,14 +62,17 @@ export const CalendarDay = memo(
       const theme = useContext(ThemeContext);
       const { cx } = useEmotion();
       const styles = useStyles(getStyles);
+      const isTheme6_1 = isThemeGTE(theme, "6.1");
 
       const { langCode } = useContext(LocaleContext);
       const internalDate = new InternalDate({ langCode, value: date });
 
-      const locale = useLocaleForControl('Calendar', DatePickerLocaleHelper);
+      const locale = useLocaleForControl("Calendar", DatePickerLocaleHelper);
       const ariaLabel = `${locale.dayCellChooseDateAriaLabel}: ${internalDate.toA11YFormat()}`;
 
-      const handleClick = useCallback<React.MouseEventHandler<HTMLButtonElement>>(
+      const handleClick = useCallback<
+        React.MouseEventHandler<HTMLButtonElement>
+      >(
         (e) => {
           onDayClick();
           onClick?.(e);
@@ -91,13 +96,16 @@ export const CalendarDay = memo(
               [styles.day(theme)]: true,
               [styles.weekend(theme)]: isWeekend,
               [styles.selected(theme)]: isSelected,
+              [styles.selected_6_1(theme)]: isSelected && isTheme6_1,
             },
             className,
           )}
           {...getVisualStateDataAttributes({ selected: isSelected })}
           {...rest}
         >
-          <span className={cx({ [styles.todayCaption(theme)]: isToday })}>{caption}</span>
+          <span className={cx({ [styles.todayCaption(theme)]: isToday })}>
+            {caption}
+          </span>
         </button>
       );
     },

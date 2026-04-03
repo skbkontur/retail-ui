@@ -17,13 +17,13 @@ export default {
   component: Calendar,
 };
 
-export const CalendarWithBottomSeparator: Story = () => {
+export const SimpleCalendar: Story = () => {
   const [date, setDate] = React.useState('12.05.2022');
 
   return <Calendar value={date} onValueChange={setDate} />;
 };
 
-CalendarWithBottomSeparator.storyName = 'Calendar with bottom separator';
+SimpleCalendar.storyName = 'Simple Calendar';
 
 export const CalendarWithMinMaxDate: Story = () => {
   const [min, setMin] = React.useState('02.07.2017');
