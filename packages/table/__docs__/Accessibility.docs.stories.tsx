@@ -219,7 +219,7 @@ export const AccessibilityExampleStory = () => {
                 <Table.Body>
                   {sortedRows.length === 0 ? (
                     <Table.Row>
-                      <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
+                      <Table.Cell colSpan={4}>Нет данных, соответствующих вашему запросу.</Table.Cell>
                     </Table.Row>
                   ) : (
                     <>
@@ -337,7 +337,7 @@ export const AccessibilityExampleStory = () => {
                 </Table.Body>
                 <Table.Footer sticky>
                   <Table.Row>
-                    <Table.Cell colSpan={5}>
+                    <Table.Cell colSpan={4}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <p>
                           Показано {startIndex + 1}-{Math.min(endIndex, sortedRows.length)} из {sortedRows.length}{' '}

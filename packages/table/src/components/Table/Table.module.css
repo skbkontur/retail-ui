@@ -18,23 +18,44 @@
   position: relative;
 }
 
+.TableHeader > .TableRow:last-child > .TableHeaderCell,
+.TableHeader > .TableRow:not(:last-child) > .TableHeaderCell[rowspan] {
+  --table-header-bottom-border-opacity: 1;
+}
+
 @supports (selector(:has(*))) {
-  .TableHeader:not(
-      :has(
-          + .TableBody > .ClickableTableRow:hover:first-child,
-          + .TableBody > .CheckedRow:first-child,
-          + .TableBody > .ClickableTableRow:focus-within:first-child,
-          + .TableBody > .TableRow > .FilterResultCell
-        )
-    )::after {
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    content: ' ';
-    bottom: 1px;
-    z-index: 3;
-    box-shadow: 0 13px 0 -12px var(--table-border);
+  .TableHeader:has(
+      + .TableBody > .ClickableTableRow:hover:first-child,
+      + .TableBody > .CheckedRow:first-child,
+      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .TableRow > .FilterResultCell
+    )
+    > .TableRow:last-child
+    > .TableHeaderCell,
+  .TableHeader:has(
+      + .TableBody > .ClickableTableRow:hover:first-child,
+      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .TableRow > .FilterResultCell
+    )
+    > .TableRow:last-child
+    > .TableHeaderCell,
+  .TableHeader:has(
+      + .TableBody > .ClickableTableRow:hover:first-child,
+      + .TableBody > .CheckedRow:first-child,
+      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .TableRow > .FilterResultCell
+    )
+    > .TableRow:not(:last-child)
+    > .TableHeaderCell[rowspan],
+  .TableHeader:has(
+      + .TableBody > .ClickableTableRow:hover:first-child,
+      + .TableBody > .CheckedRow:first-child,
+      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .TableRow > .FilterResultCell
+    )
+    > .TableRow:not(:last-child)
+    > .TableHeaderCell[rowspan] {
+    --table-header-bottom-border-opacity: 0;
   }
 }
 
@@ -47,10 +68,24 @@
 
 .TableHeaderCell {
   border: none;
+  position: relative;
   font-weight: normal;
   text-align: left;
   vertical-align: baseline;
   padding: 8px 0 8px 0;
+  --table-header-bottom-border-opacity: 0;
+}
+
+.TableHeaderCell::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  background: var(--table-border);
+  opacity: var(--table-header-bottom-border-opacity);
 }
 
 .TableHeaderCell.CheckboxCell label {
@@ -112,25 +147,68 @@
   cursor: pointer;
 }
 
-.BottomBorder {
-  box-shadow: 0 13px 0 -12px var(--table-border);
+.BottomBorder > .TableCell {
+  position: relative;
+}
+
+.BottomBorder > .TableCell {
+  --table-bottom-border-opacity: 1;
+}
+
+.BottomBorder > .TableCell::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--table-border);
+  opacity: var(--table-bottom-border-opacity);
+}
+
+.BottomBorder > .TableCell:first-child::after {
+  border-bottom-left-radius: inherit;
+}
+
+.BottomBorder > .TableCell:last-child::after {
+  border-bottom-right-radius: inherit;
 }
 
 .BottomBorderInset {
-  box-shadow: inset 0px -1px 0 0px var(--table-border);
+  --table-header-bottom-border-opacity: 1;
 }
 
-.ClickableTableRow:focus-within.BottomBorder,
-.ClickableTableRow:hover.BottomBorder,
-.ClickableTableRow.CheckedRow.BottomBorder {
-  box-shadow: none;
+.ClickableTableRow.BottomBorder:focus-within > .TableCell,
+.ClickableTableRow.BottomBorder:hover > .TableCell {
+  --table-bottom-border-opacity: 0;
+}
+
+.ClickableTableRow.CheckedRow.BottomBorder > .TableCell {
+  --table-bottom-border-opacity: 0;
+}
+
+.ClickableTableRow.CheckedRow.BottomBorder:hover > .TableCell,
+.ClickableTableRow.CheckedRow.BottomBorder:focus-within > .TableCell {
+  --table-bottom-border-opacity: 0;
 }
 
 @supports (selector(:has(*))) {
-  .BottomBorder:has(+ .ClickableTableRow:hover),
-  .BottomBorder:has(+ .ClickableTableRow.CheckedRow),
-  .BottomBorder:has(+ .ClickableTableRow:focus-within) {
-    box-shadow: none;
+  .BottomBorder:has(+ .ClickableTableRow.CheckedRow:hover) > .TableCell,
+  .BottomBorder:has(+ .ClickableTableRow.CheckedRow:focus-within) > .TableCell {
+    --table-bottom-border-opacity: 0;
+  }
+
+  .BottomBorder:has(+ .ClickableTableRow.CheckedRow) > .TableCell {
+    --table-bottom-border-opacity: 0;
+  }
+
+  .BottomBorder:has(+ .ClickableTableRow:hover) > .TableCell,
+  .BottomBorder:has(+ .ClickableTableRow:focus-within) > .TableCell {
+    --table-bottom-border-opacity: 0;
+  }
+
+  .TableBody:has(+ .TableFooter) > .BottomBorder:last-child > .TableCell {
+    --table-bottom-border-opacity: 0;
   }
 }
 
@@ -183,7 +261,7 @@
   border-bottom-right-radius: var(--table-base-size);
 }
 
-.TableCell:first-child.CheckboxCellSmall,
+.TableCell.CheckboxCellSmall:first-child,
 .TableCellSmall:first-child {
   border-top-left-radius: var(--table-radius-small);
   border-bottom-left-radius: var(--table-radius-small);
@@ -194,7 +272,7 @@
   border-bottom-right-radius: var(--table-radius-small);
 }
 
-.TableCell:first-child.CheckboxCellMedium,
+.TableCell.CheckboxCellMedium:first-child,
 .TableCellMedium:first-child {
   border-top-left-radius: var(--table-radius-medium);
   border-bottom-left-radius: var(--table-radius-medium);
@@ -205,7 +283,7 @@
   border-bottom-right-radius: var(--table-radius-medium);
 }
 
-.TableCell:first-child.CheckboxCellLarge,
+.TableCell.CheckboxCellLarge:first-child,
 .TableCellLarge:first-child {
   border-top-left-radius: var(--table-radius-large);
   border-bottom-left-radius: var(--table-radius-large);
@@ -353,8 +431,31 @@
 
 .TableFooter {
   border: none;
-  padding: 8px;
-  box-shadow: 0px -13px 0px -12px var(--table-border);
+  padding: 0;
+}
+
+.TableFooter > .TableRow:first-child > .TableCell {
+  position: relative;
+  --table-footer-top-border-opacity: 1;
+}
+
+.TableFooter > .TableRow:first-child > .TableCell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--table-border);
+  opacity: var(--table-footer-top-border-opacity);
+}
+
+.TableFooter > .TableRow:first-child > .TableCell:first-child::before {
+  border-top-left-radius: inherit;
+}
+
+.TableFooter > .TableRow:first-child > .TableCell:last-child::before {
+  border-top-right-radius: inherit;
 }
 
 .StickyTableFooter {
@@ -366,10 +467,21 @@
 }
 
 @supports (selector(:has(*))) {
-  .TableBody:has(.ClickableTableRow:hover:last-child) + .TableFooter,
-  .TableBody:has(.CheckedRow:last-child) + .TableFooter,
-  .TableBody:has(.ClickableTableRow:focus-within:last-child) + .TableFooter {
-    box-shadow: none;
+  .TableBody:has(.ClickableTableRow.CheckedRow:hover:last-child) + .TableFooter > .TableRow:first-child > .TableCell,
+  .TableBody:has(.ClickableTableRow.CheckedRow:focus-within:last-child)
+    + .TableFooter
+    > .TableRow:first-child
+    > .TableCell {
+    --table-footer-top-border-opacity: 0;
+  }
+
+  .TableBody:has(.CheckedRow:last-child) + .TableFooter > .TableRow:first-child > .TableCell {
+    --table-footer-top-border-opacity: 0;
+  }
+
+  .TableBody:has(.ClickableTableRow:hover:last-child) + .TableFooter > .TableRow:first-child > .TableCell,
+  .TableBody:has(.ClickableTableRow:focus-within:last-child) + .TableFooter > .TableRow:first-child > .TableCell {
+    --table-footer-top-border-opacity: 0;
   }
 }
 
