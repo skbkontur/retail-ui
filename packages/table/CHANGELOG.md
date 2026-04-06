@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](/compare/@skbkontur/table@0.2.0...@skbkontur/table@0.2.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* **table:** render bottomBorder reliably in Safari bc370d2
+
+
+
+
+
 # [0.2.0](/compare/@skbkontur/table@0.1.12...@skbkontur/table@0.2.0) (2026-03-31)
 
 
