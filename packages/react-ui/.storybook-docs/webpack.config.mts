@@ -44,7 +44,7 @@ export default async ({ config }: { config: Configuration }) => {
       {
         test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules\/(?!@skbkontur\/colors)/,
+        exclude: /node_modules[/\\](?!@skbkontur[/\\]colors)/,
         options: {
           babelrc: false,
           extends: join(__dirname, '../.babelrc.cjs'),
