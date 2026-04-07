@@ -307,7 +307,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       theme,
       ...rest
     } = props;
-    const { use, component, children } = this.getProps();
+    const { use, component, children, 'aria-disabled': ariaDisabled } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
 
@@ -322,6 +322,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     );
     const isUseStateWithoutOutlineInDisabledState = !['default', 'backless', 'outline'].includes(use);
 
+    const isAriaDisabled = ariaDisabled === true || ariaDisabled === 'true';
     const nonInteractive = disabled || loading;
     const { style, styleActive } = this.getUseStyle();
 
@@ -333,7 +334,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       _noPadding && this.styles.noPadding(),
       _noRightPadding && this.styles.noRightPadding(),
       rootClassNameWithArrow,
-      ...(nonInteractive
+      ...(nonInteractive || isAriaDisabled
         ? [
             this.styles.disabled(this.theme),
             isUseStateWithoutOutlineInDisabledState && this.styles.disabledWithoutOutline(this.theme),

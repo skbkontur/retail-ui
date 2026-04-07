@@ -6,6 +6,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 import type { ButtonType } from '../Button.js';
 import { Button, ButtonDataTids } from '../Button.js';
+import { globalClasses } from '../Button.styles.js';
 
 describe('Button', () => {
   it('has id attribute', () => {
@@ -179,6 +180,13 @@ describe('Button', () => {
     expect(button).not.toBeChecked();
     await userEvent.click(button);
     expect(button).toBeChecked();
+  });
+
+  it('passes correct value to `aria-disabled` attribute', () => {
+    render(<Button aria-disabled="true" />);
+    const button = screen.getByRole('button');
+    expect(button).toHaveAttribute('aria-disabled', 'true');
+    expect(button).toHaveClass(globalClasses.disabled);
   });
 
   it('event `onClickCapture` works correctly', async () => {
