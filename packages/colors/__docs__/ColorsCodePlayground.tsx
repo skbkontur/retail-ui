@@ -5,18 +5,21 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import { Select } from '@skbkontur/react-ui/components/Select';
-import { Toast } from '@skbkontur/react-ui/components/Toast';
+import { SingleToast } from '@skbkontur/react-ui/components/SingleToast';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
-import { getColors } from '../lib/get-colors.js';
 import { camelCaseToKebabCase } from '../lib/utils/format-variable.js';
 
 const kw = (t: string) => `<span class="token-kw">${t}</span>`;
 const val = (t: string) => `<span class="token-val">"${t}"</span>`;
 const tag = (t: string) => `<span class="token-tag">${t}</span>`;
 const prop = (t: string) => `<span class="token-prop">${t}</span>`;
+const selector = (t: string) => `<span class="token-tag">${t}</span>`;
+const cssProp = (t: string) => `<span class="token-prop">${t}</span>`;
+const cssVal = (t: string) => `<span class="token-val">${t}</span>`;
+
 const toKebab = (str: string) => str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 
 const copyToClipboard = (snippet: string) => {
@@ -25,7 +28,7 @@ const copyToClipboard = (snippet: string) => {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>');
   navigator.clipboard.writeText(plainText);
-  Toast.push('Код скопирован');
+  SingleToast.push('Код скопирован');
 };
 
 const renderBrandOption = (id: string) => (
@@ -51,7 +54,7 @@ const ProductKontur = () => {
   const [mainBrand, setMainBrand] = React.useState('mint');
   const [mainAccent, setMainAccent] = React.useState('brand');
   const [extraSchemes, setExtraSchemes] = React.useState<Array<{ brand: string; accent: string; theme: string }>>([]);
-  const [format, setFormat] = React.useState<'ts' | 'css' | 'scss' | 'less'>('ts');
+  const [format, setFormat] = React.useState<'css' | 'scss' | 'less' | 'ts'>('css');
 
   const brandIds = Object.keys(brandSwatch);
   const restrictedBrands = ['red', 'orange'];
@@ -64,54 +67,6 @@ const ProductKontur = () => {
     setMainAccent((prev) => validateAccent(mainBrand, prev));
   }, [mainBrand]);
 
-  const getHtmlSnippet = () => {
-    const isTs = format === 'ts';
-    const themeAttr = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
-    const contentAttr = isTs
-      ? ` ${prop('style')}={{ background: colors.shapeBoldAccent }}`
-      : ` ${prop('class')}=${val('block')}`;
-
-    const renderInner = (text: string) =>
-      `    ${tag('&lt;div')}${contentAttr}${tag('&gt;')}\n      ${text}\n    ${tag('&lt;/div&gt;')}`;
-
-    const mainOpen = `${tag('&lt;div')} ${prop('data-k-brand')}=${val(camelCaseToKebabCase(mainBrand))} ${prop(
-      'data-k-accent'
-    )}=${val(mainAccent)}${themeAttr}${tag('&gt;')}`;
-    const mainClose = tag('&lt;/div&gt;');
-
-    const extras = extraSchemes
-      .map((s) => {
-        const sTheme = s.theme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
-        return `    ${tag('&lt;div')} ${prop('data-k-brand')}=${val(s.brand)} ${prop('data-k-accent')}=${val(
-          s.accent
-        )}${sTheme}${tag('&gt;')}\n      Дополнительная схема\n    ${tag('&lt;/div&gt;')}`;
-      })
-      .join('\n\n');
-
-    return `${mainOpen}\n${renderInner('Контент')}${extras ? '\n\n' + extras : ''}\n${mainClose}`;
-  };
-
-  const getUseSnippet = () => {
-    if (format === 'ts') {
-      return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
-        'const'
-      )} App = () => (\n${getHtmlSnippet()
-        .split('\n')
-        .map((l) => `  ${l}`)
-        .join('\n')}\n);`;
-    }
-    const syntax = {
-      css: { p: 'var(--k-color-', s: ')' },
-      scss: { p: '$color-', s: '' },
-      less: { p: '@color-', s: '' },
-    }[format];
-    const imp =
-      format === 'scss'
-        ? `${kw('@use')} ${val(`@skbkontur/colors/colors.${format}`)} ${kw('as *')};`
-        : `${kw('@import')} ${val(`@skbkontur/colors/colors.${format}`)};`;
-    return `${imp}\n\n.block {\n  color: ${syntax.p}text-neutral-heavy${syntax.s};\n  background: ${syntax.p}shape-bold-accent${syntax.s};\n}`;
-  };
-
   const getConnectSnippet = () => {
     const all = [{ brand: mainBrand, accent: mainAccent }, ...extraSchemes];
     const unique = all.filter((v, i, a) => a.findIndex((t) => t.brand === v.brand && t.accent === v.accent) === i);
@@ -122,10 +77,56 @@ const ProductKontur = () => {
       .join('\n');
   };
 
+  const getAttrSnippet = () => {
+    const themeAttr = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
+    const mainAttr = `${prop('data-k-brand')}=${val(camelCaseToKebabCase(mainBrand))} ${prop('data-k-accent')}=${val(
+      mainAccent
+    )}${themeAttr}`;
+
+    let res = `${tag('&lt;html')} ${mainAttr}${tag('&gt;')}`;
+
+    if (extraSchemes.length > 0) {
+      res = `${tag('&lt;div')} ${mainAttr}${tag('&gt;')}\n  ... \n\n`;
+      extraSchemes.forEach((s) => {
+        const sTheme = s.theme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
+        res += `  ${tag('&lt;div')} ${prop('data-k-brand')}=${val(s.brand)} ${prop('data-k-accent')}=${val(
+          s.accent
+        )}${sTheme}${tag('&gt;')}\n    Дополнительная схема\n  ${tag('&lt;/div&gt;')}\n`;
+      });
+      res += tag('&lt;/div&gt;');
+    }
+    return res;
+  };
+
+  const getUseSnippet = () => {
+    if (format === 'css') {
+      return `${selector('.block')} {\n  ${cssProp('color')}: ${cssVal(
+        'var(--k-color-text-neutral-heavy)'
+      )};\n  ${cssProp('background')}: ${cssVal('var(--k-color-shape-bold-accent)')};\n}`;
+    }
+    if (format === 'scss') {
+      return `${kw('@use')} ${val('@skbkontur/colors/colors.scss')} ${kw('as *')};\n\n${selector(
+        '.block'
+      )} {\n  ${cssProp('color')}: ${cssVal('$color-text-neutral-heavy')};\n  ${cssProp('background')}: ${cssVal(
+        '$color-shape-bold-accent'
+      )};\n}`;
+    }
+    if (format === 'less') {
+      return `${kw('@import')} ${val('@skbkontur/colors/colors.less')};\n\n${selector('.block')} {\n  ${cssProp(
+        'color'
+      )}: ${cssVal('@color-text-neutral-heavy')};\n  ${cssProp('background')}: ${cssVal(
+        '@color-shape-bold-accent'
+      )};\n}`;
+    }
+    return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
+      'const'
+    )} styles = { ${cssProp('background')}: colors.shapeBoldAccent };`;
+  };
+
   return (
-    <Gapped vertical gap={32}>
+    <Gapped vertical gap={24}>
       <div>
-        <h3 className="section-title">Цветовая схема</h3>
+        <h3 className="section-title">1. Настройка цветовой схемы</h3>
         <div className="section-desc">
           Выберите брендовый и акцентные цвета. Для сценариев с рекламными врезками можно добавить несколько цветовых
           схем
@@ -223,27 +224,31 @@ const ProductKontur = () => {
       </div>
 
       <div>
-        <h3 className="section-title">Подключение</h3>
+        <h3 className="section-title">2. Подключение переменных</h3>
         <div className="section-desc">Подключите CSS с цветовыми схемами в точку входа приложения</div>
         <CopyBlock code={getConnectSnippet()} />
       </div>
 
       <div>
+        <h3 className="section-title">3. Атрибуты на контейнере</h3>
+        <div className="section-desc">Укажите data-атрибуты на &lt;html&gt; или &lt;body&gt;</div>
+        <CopyBlock code={getAttrSnippet()} />
+      </div>
+
+      <div>
+        <h3 className="section-title">4. Использование переменных</h3>
         <div className="section-desc">
-          Укажите data-атрибуты на контейнере — компоненты Kontur UI перекрасятся в указанные цвета. Используйте один из
-          вариантов:
+          Выберите формат токенов для использования в ваших стилях (компоненты Kontur UI перекрасятся сами)
         </div>
         <Tabs value={format} onValueChange={(v: any) => setFormat(v)}>
-          {['ts', 'css', 'scss', 'less'].map((id) => (
-            <Tabs.Tab key={id} id={id}>
-              {id === 'ts' ? 'JS/TS' : id.toUpperCase()}
-            </Tabs.Tab>
-          ))}
+          <Tabs.Tab id="css">CSS</Tabs.Tab>
+          <Tabs.Tab id="scss">SCSS</Tabs.Tab>
+          <Tabs.Tab id="less">LESS</Tabs.Tab>
+          <Tabs.Tab id="ts">JS/TS</Tabs.Tab>
         </Tabs>
-        <Gapped vertical gap={16} style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 16 }}>
           <CopyBlock code={getUseSnippet()} />
-          {format !== 'ts' && <CopyBlock code={getHtmlSnippet()} />}
-        </Gapped>
+        </div>
       </div>
     </Gapped>
   );
@@ -253,20 +258,7 @@ const ProductOnPrem = () => {
   const [mainTheme, setMainTheme] = React.useState('light');
   const [customHex, setCustomHex] = React.useState('#FFDD2D');
   const [mainAccent, setMainAccent] = React.useState('brand');
-  const [format, setFormat] = React.useState<'ts' | 'css' | 'scss' | 'less'>('ts');
-
-  const getHtmlSnippet = () => {
-    const isTs = format === 'ts';
-    const themeAttr = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
-    const contentAttr = isTs
-      ? ` ${prop('style')}={{ background: colors.shapeBoldAccent }}`
-      : ` ${prop('class')}=${val('block')}`;
-    return `${tag('&lt;div')} ${prop('data-k-brand')}=${val(customHex)} ${prop('data-k-accent')}=${val(
-      mainAccent
-    )}${themeAttr}${tag('&gt;')}\n  ${tag('&lt;div')}${contentAttr}${tag('&gt;')}\n    Контент\n  ${tag(
-      '&lt;/div&gt;'
-    )}\n${tag('&lt;/div&gt;')}`;
-  };
+  const [format, setFormat] = React.useState<'css' | 'scss' | 'less' | 'ts'>('css');
 
   const getConnectSnippet = () => `${kw('import')} { getColors } ${kw('from')} ${val('@skbkontur/colors/get-colors')};
 
@@ -281,31 +273,42 @@ ${kw('const')} style = document.${kw('createElement')}(${val('style')});
 style.innerHTML = css;
 document.head.${kw('appendChild')}(style);`;
 
+  const getAttrSnippet = () => {
+    const themeAttr = mainTheme === 'dark' ? ` ${prop('data-k-theme')}=${val('dark')}` : '';
+    return `${tag('&lt;html')} ${prop('data-k-brand')}=${val(customHex)} ${prop('data-k-accent')}=${val(
+      mainAccent
+    )}${themeAttr}${tag('&gt;')}`;
+  };
+
   const getUseSnippet = () => {
-    if (format === 'ts') {
-      return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
-        'const'
-      )} App = () => (\n${getHtmlSnippet()
-        .split('\n')
-        .map((l) => `  ${l}`)
-        .join('\n')}\n);`;
+    if (format === 'css') {
+      return `${selector('.block')} {\n  ${cssProp('color')}: ${cssVal(
+        'var(--k-color-text-neutral-heavy)'
+      )};\n  ${cssProp('background')}: ${cssVal('var(--k-color-shape-bold-accent)')};\n}`;
     }
-    const syntax = {
-      css: { p: 'var(--k-color-', s: ')' },
-      scss: { p: '$color-', s: '' },
-      less: { p: '@color-', s: '' },
-    }[format];
-    return `${format === 'scss' ? kw('@use') : kw('@import')} ${val(`@skbkontur/colors/colors.${format}`)}${
-      format === 'scss' ? ' ' + kw('as *') : ''
-    };\n\n.block {\n  color: ${syntax.p}text-neutral-heavy${syntax.s};\n  background: ${syntax.p}shape-bold-accent${
-      syntax.s
-    };\n}`;
+    if (format === 'scss') {
+      return `${kw('@use')} ${val('@skbkontur/colors/colors.scss')} ${kw('as *')};\n\n${selector(
+        '.block'
+      )} {\n  ${cssProp('color')}: ${cssVal('$color-text-neutral-heavy')};\n  ${cssProp('background')}: ${cssVal(
+        '$color-shape-bold-accent'
+      )};\n}`;
+    }
+    if (format === 'less') {
+      return `${kw('@import')} ${val('@skbkontur/colors/colors.less')};\n\n${selector('.block')} {\n  ${cssProp(
+        'color'
+      )}: ${cssVal('@color-text-neutral-heavy')};\n  ${cssProp('background')}: ${cssVal(
+        '@color-shape-bold-accent'
+      )};\n}`;
+    }
+    return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
+      'const'
+    )} styles = { ${cssProp('background')}: colors.shapeBoldAccent };`;
   };
 
   return (
-    <Gapped vertical gap={32}>
+    <Gapped vertical gap={24}>
       <div>
-        <h3 className="section-title">Цветовая схема</h3>
+        <h3 className="section-title">1. Настройка цветовой схемы</h3>
         <div className="section-desc">Укажите HEX-код, из которого сформируются светлые и темные темы</div>
         <Gapped gap={12}>
           <div className="field-container">
@@ -341,36 +344,110 @@ document.head.${kw('appendChild')}(style);`;
       </div>
 
       <div>
-        <h3 className="section-title">Подключение</h3>
+        <h3 className="section-title">2. Подключение переменных</h3>
         <div className="section-desc">
           Вызовите функцию getColors для генерации стилей на клиенте или сервере. На клиенте добавьте в &lt;style&gt;.
           Желательно кешировать результат, чтобы не вызывать функцию на каждом рендере
         </div>
         <CopyBlock code={getConnectSnippet()} />
-        <details style={{ marginTop: 12 }}>
-          <summary>Сгенерированный код</summary>
-          <pre style={{ maxHeight: 140, fontSize: 11, overflow: 'auto', border: '1px solid #E2E7EB', padding: 8 }}>
-            &lt;style&gt;{getColors({ brand: customHex, accent: 'brand', theme: 'all', output: 'css' })}&lt;/style&gt;
-          </pre>
-        </details>
       </div>
 
       <div>
+        <h3 className="section-title">3. Атрибуты на контейнере</h3>
+        <div className="section-desc">Укажите data-атрибуты на &lt;html&gt; или &lt;body&gt;</div>
+        <CopyBlock code={getAttrSnippet()} />
+      </div>
+
+      <div>
+        <h3 className="section-title">4. Использование переменных</h3>
         <div className="section-desc">
-          Укажите data-атрибуты на контейнере — компоненты Kontur UI перекрасятся в указанные цвета. Используйте один из
-          вариантов:
+          Выберите формат токенов для использования в ваших стилях (компоненты Kontur UI перекрасятся сами)
         </div>
         <Tabs value={format} onValueChange={(v: any) => setFormat(v)}>
-          {['ts', 'css', 'scss', 'less'].map((id) => (
-            <Tabs.Tab key={id} id={id}>
-              {id === 'ts' ? 'JS/TS' : id.toUpperCase()}
-            </Tabs.Tab>
-          ))}
+          <Tabs.Tab id="css">CSS</Tabs.Tab>
+          <Tabs.Tab id="scss">SCSS</Tabs.Tab>
+          <Tabs.Tab id="less">LESS</Tabs.Tab>
+          <Tabs.Tab id="ts">JS/TS</Tabs.Tab>
         </Tabs>
-        <Gapped vertical gap={16} style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 16 }}>
           <CopyBlock code={getUseSnippet()} />
-          {format !== 'ts' && <CopyBlock code={getHtmlSnippet()} />}
-        </Gapped>
+        </div>
+      </div>
+    </Gapped>
+  );
+};
+
+const Widgets = () => {
+  const [format, setFormat] = React.useState<'css' | 'scss' | 'less' | 'ts'>('css');
+
+  const getRenderSnippet = () => `${kw('import')} { createRoot } ${kw('from')} ${val('react-dom/client')};
+  
+${kw('import')} ${val('@skbkontur/colors/tokens/brand-red_accent-gray.css')};
+
+${kw('interface')} Props {}
+
+${kw('export function')} render(container: HTMLElement, signal: AbortSignal, {}: Props): ${kw('void')} {
+  ${kw('if')} (!container.${kw('closest')}(${val('[data-k-brand][data-k-accent]')})) {
+    container.${kw('setAttribute')}(${val('data-k-brand')}, ${val('red')});
+    container.${kw('setAttribute')}(${val('data-k-accent')}, ${val('gray')});
+  }
+  ${kw('const')} root = ${kw('createRoot')}(container);
+  root.${kw('render')}(${tag('&lt;h1&gt;')}!${tag('&lt;/h1&gt;')});
+  signal.${kw('addEventListener')}(${val('abort')}, () => root.${kw('unmount')}(), { once: ${kw('true')} });
+}`;
+
+  const getUseSnippet = () => {
+    if (format === 'css') {
+      return `${selector('.block')} {\n  ${cssProp('color')}: ${cssVal(
+        'var(--k-color-text-neutral-heavy)'
+      )};\n  ${cssProp('background')}: ${cssVal('var(--k-color-shape-bold-accent)')};\n}`;
+    }
+    if (format === 'scss') {
+      return `${kw('@use')} ${val('@skbkontur/colors/colors.scss')} ${kw('as *')};\n\n${selector(
+        '.block'
+      )} {\n  ${cssProp('color')}: ${cssVal('$color-text-neutral-heavy')};\n  ${cssProp('background')}: ${cssVal(
+        '$color-shape-bold-accent'
+      )};\n}`;
+    }
+    if (format === 'less') {
+      return `${kw('@import')} ${val('@skbkontur/colors/colors.less')};\n\n${selector('.block')} {\n  ${cssProp(
+        'color'
+      )}: ${cssVal('@color-text-neutral-heavy')};\n  ${cssProp('background')}: ${cssVal(
+        '@color-shape-bold-accent'
+      )};\n}`;
+    }
+    return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val('@skbkontur/colors')};\n\n${kw(
+      'const'
+    )} styles = { ${cssProp('background')}: colors.shapeBoldAccent };`;
+  };
+
+  return (
+    <Gapped vertical gap={24}>
+      <div>
+        <h3 className="section-title">1. Настройка render.tsx</h3>
+        <div className="section-desc">
+          В файл{' '}
+          <Link href="https://git.skbkontur.ru/platform/widget-platform/templates/kontur-react/-/blob/master/widget/render.tsx">
+            render.tsx
+          </Link>{' '}
+          добавьте проверку цветовой схемы продукта и подключение дефолтной
+        </div>
+        <CopyBlock code={getRenderSnippet()} />
+      </div>
+      <div>
+        <h3 className="section-title">2. Использование переменных</h3>
+        <div className="section-desc">
+          Выберите формат токенов для использования в ваших стилях (компоненты Kontur UI перекрасятся сами)
+        </div>
+        <Tabs value={format} onValueChange={(v: any) => setFormat(v)}>
+          <Tabs.Tab id="css">CSS</Tabs.Tab>
+          <Tabs.Tab id="scss">SCSS</Tabs.Tab>
+          <Tabs.Tab id="less">LESS</Tabs.Tab>
+          <Tabs.Tab id="ts">JS/TS</Tabs.Tab>
+        </Tabs>
+        <div style={{ marginTop: 16 }}>
+          <CopyBlock code={getUseSnippet()} />
+        </div>
       </div>
     </Gapped>
   );
@@ -378,36 +455,32 @@ document.head.${kw('appendChild')}(style);`;
 
 const Libs = () => {
   const [mainTheme, setMainTheme] = React.useState('light');
-  const [format, setFormat] = React.useState<'ts' | 'scss' | 'less'>('ts');
-
-  const getHtmlSnippet = () => {
-    const isTs = format === 'ts';
-    const contentAttr = isTs
-      ? ` ${prop('style')}={{ background: colors.shapeBoldAccent }}`
-      : ` ${prop('class')}=${val('block')}`;
-    return `${tag('&lt;div')}${contentAttr}${tag('&gt;')}\n  Контент\n${tag('&lt;/div&gt;')}`;
-  };
+  const [format, setFormat] = React.useState<'scss' | 'less' | 'ts'>('ts');
 
   const getUseSnippet = () => {
     if (format === 'ts') {
       const pkg = `@skbkontur/colors/default-${mainTheme}`;
-      return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val(pkg)};\n\n${kw(
-        'const'
-      )} App = () => (\n  ${getHtmlSnippet().replace('\n', '\n  ')}\n);`;
+      return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val(pkg)};\n\n${kw('const')} App = () => (\n  ${tag(
+        '&lt;div'
+      )} ${prop('style')}={{ ${cssProp('background')}: colors.shapeBoldAccent }}${tag('&gt;')}\n    Контент\n  ${tag(
+        '&lt;/div&gt;'
+      )}\n);`;
     }
     const syntax = { scss: { p: '$color-', s: '' }, less: { p: '@color-', s: '' } }[format as 'scss' | 'less'];
     const path = `@skbkontur/colors/tokens-default/${mainTheme}.${format}`;
     const imp = format === 'scss' ? `${kw('@use')} ${val(path)} ${kw('as *')};` : `${kw('@import')} ${val(path)};`;
-    return `${imp}\n\n.block {\n  color: ${syntax.p}text-neutral-heavy${syntax.s};\n  background: ${syntax.p}shape-bold-accent${syntax.s};\n}`;
+    return `${imp}\n\n${selector('.block')} {\n  ${cssProp('color')}: ${cssVal(
+      `${syntax.p}text-neutral-heavy${syntax.s}`
+    )};\n  ${cssProp('background')}: ${cssVal(`${syntax.p}shape-bold-accent${syntax.s}`)};\n}`;
   };
 
   return (
-    <Gapped vertical gap={32}>
+    <Gapped vertical gap={24}>
       <div>
-        <h3 className="section-title">Цветовая схема</h3>
+        <h3 className="section-title">1. Выбор темы</h3>
         <div className="section-desc">
-          Цвета в UI-библиотеках должны зависеть от data-атрибутов интегратора. Без настроенной схемы применяется
-          fallback на дефолтные серые тона
+          Цвета в UI-библиотеках должны зависеть от data-атрибутов интегратора. Без настроек применяется fallback на
+          дефолтные цвета
         </div>
         <Gapped gap={12}>
           <div className="field-container">
@@ -435,23 +508,20 @@ const Libs = () => {
           </div>
         </Gapped>
       </div>
-
       <div>
+        <h3 className="section-title">2. Использование переменных</h3>
         <div className="section-desc">
-          Используйте CSS-переменные <b>с фолбэками</b> var(--variable, #fallback). CSS <b>не поддерживает</b> импорт с
-          фолбэками, доступны только JS/SCSS/Less:
+          Используйте переменные с фолбэками var(--variable, #fff). CSS не поддерживает импорт с фолбэками, доступны
+          только JS/SCSS/Less:
         </div>
         <Tabs value={format} onValueChange={(v: any) => setFormat(v)}>
-          {['ts', 'scss', 'less'].map((id) => (
-            <Tabs.Tab key={id} id={id}>
-              {id === 'ts' ? 'JS/TS' : id.toUpperCase()}
-            </Tabs.Tab>
-          ))}
+          <Tabs.Tab id="ts">JS/TS</Tabs.Tab>
+          <Tabs.Tab id="scss">SCSS</Tabs.Tab>
+          <Tabs.Tab id="less">LESS</Tabs.Tab>
         </Tabs>
-        <Gapped vertical gap={16} style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 16 }}>
           <CopyBlock code={getUseSnippet()} />
-          {format !== 'ts' && <CopyBlock code={getHtmlSnippet()} />}
-        </Gapped>
+        </div>
       </div>
     </Gapped>
   );
@@ -462,17 +532,18 @@ export const ColorsCodePlayground = (): JSX.Element => {
 
   return (
     <div className="constructor-container">
-      <Gapped vertical gap={32}>
+      <SingleToast />
+      <Gapped vertical gap={24}>
         <Switcher
           size="medium"
           value={projectType}
-          items={['Продукт Контура', 'Продукт OnPrem', 'Библиотеки npm']}
+          items={['Продукт Контура', 'Продукт OnPrem', 'Виджет', 'UI-библиотека']}
           onValueChange={setProjectType}
         />
-
         {projectType === 'Продукт Контура' && <ProductKontur />}
         {projectType === 'Продукт OnPrem' && <ProductOnPrem />}
-        {projectType === 'Библиотеки npm' && <Libs />}
+        {projectType === 'Виджет' && <Widgets />}
+        {projectType === 'UI-библиотека' && <Libs />}
       </Gapped>
 
       <style>{`
