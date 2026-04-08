@@ -47,7 +47,7 @@
 - Удалена .env-переменная `enableReactTesting`
 - Удален хелпер `stopPropagation` (требовался для IE9)
 - Хелпер `keyListener` →  `useKeyListener`
-- Хелпер Emotion вынесен в хук `import { css } from '../lib/theming/Emotion'` → <br />`import { useEmotion } from '../lib/renderEnvironment';`
+- Хелпер Emotion вынесен в хук `import { css, cache, cx } from '@skbkontur/react-ui/lib/theming/Emotion'` → <br />`import { useEmotion } from '@skbkontur/react-ui/lib/renderEnvironment';` 
 - Удаленные Internal-компоненты:
 	- Удален компонент `PolyfillPlaceholder` 
     - Удален internal-компонент `InternalMaskedInput`
