@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](/compare/@skbkontur/eslint-config@1.1.0...@skbkontur/eslint-config@1.3.0) (2026-04-08)
+
+
+### Features
+
+* type module, esm-only build d22de46
+* update typescript from 4.9.4 to 5.9.3 4bd78e1
+
+
+
+
+
 # [1.2.0](/compare/@skbkontur/eslint-config@1.1.0...@skbkontur/eslint-config@1.2.0) (2026-03-31)
 
 

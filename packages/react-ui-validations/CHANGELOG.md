@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.0.1...@skbkontur/react-ui-validations@3.0.2) (2026-04-08)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** update react peerDependencies ([d0a2dd9](https://github.com/skbkontur/retail-ui/commit/d0a2dd9645953607ff7777bb71983badf1ebba31))
+
+
+
+
+
 # [3.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@2.3.8...@skbkontur/react-ui-validations@3.0.0) (2026-03-31)
 
 

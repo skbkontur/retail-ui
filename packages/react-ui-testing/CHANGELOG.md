@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](/compare/react-ui-testing@4.0.0...react-ui-testing@4.2.0) (2026-04-08)
+
+
+### Features
+
+* **all-packages:** improve typescript usage 14a9e3a
+* **all-packages:** remove deprecated 60eeccd
+* type module, esm-only build d22de46
+
+
+
+
+
 # [4.1.0](/compare/react-ui-testing@4.0.0...react-ui-testing@4.1.0) (2026-03-31)
 
 

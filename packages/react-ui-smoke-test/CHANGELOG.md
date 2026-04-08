@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](/compare/react-ui-smoke-test@3.1.2...react-ui-smoke-test@3.3.0) (2026-04-08)
+
+
+### Features
+
+* **all-packages:** improve typescript usage 14a9e3a
+* globalObject to RenderEnvironmentProvider ed9acfd
+* type module, esm-only build d22de46
+* update typescript from 4.9.4 to 5.9.3 4bd78e1
+
+
+
+
+
 # [3.2.0](/compare/react-ui-smoke-test@3.1.2...react-ui-smoke-test@3.2.0) (2026-03-31)
 
 **Note:** Version bump only for package react-ui-smoke-test
