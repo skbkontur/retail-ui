@@ -33,12 +33,12 @@ export const MiniModal = forwardRefAndName<
     Footer: typeof MiniModalFooter;
     Body: typeof MiniModalBody;
   }
->('MiniModal', ({ children, theme: propsTheme, mobileAppearance, ...rest }, ref) => {
+>('MiniModal', ({ children, theme: propsTheme, mobileAppearance, width, ...rest }, ref) => {
   const contextTheme = useContext(ThemeContext);
 
   return (
     <ThemeContext.Provider value={getMiniModalTheme(contextTheme, propsTheme)}>
-      <Modal width={400} mobileAppearance={mobileAppearance ?? 'center'} noClose ref={ref} {...rest}>
+      <Modal width={width ?? 400} mobileAppearance={mobileAppearance ?? 'center'} noClose ref={ref} {...rest}>
         {children}
       </Modal>
     </ThemeContext.Provider>
