@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.1...@skbkontur/react-ui@6.0.2) (2026-04-13)
+
+
+### Bug Fixes
+
+* correct react version calculation + react 19 ref usage ([f857dee](https://github.com/skbkontur/retail-ui/commit/f857dee9552412cd5b3947ea92f93a536e3df70f))
+
+
+
+
+
 ## [6.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.0...@skbkontur/react-ui@6.0.1) (2026-04-08)
 
 
