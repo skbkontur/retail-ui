@@ -22,6 +22,7 @@ import type { SizeProp } from '../../lib/types/props.js';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 
 import { CalendarIcon } from './CalendarIcon.js';
 import { DateFragmentsView } from './DateFragmentsView.js';
@@ -394,7 +395,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     const update = () => this.setState({ ...state, valueFormatted } as DateInputState, this.emitChange);
 
-    if (sync && Number(React.version) >= 18) {
+    if (sync && REACT_MAJOR_VERSION >= 18) {
       ReactDOM.flushSync(update);
     } else {
       update();

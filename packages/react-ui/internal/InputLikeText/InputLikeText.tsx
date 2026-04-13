@@ -30,6 +30,7 @@ import { blink } from '../../lib/blink.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 
 import { getStyles } from './InputLikeText.styles.js';
 
@@ -340,7 +341,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     // Auto-batching React@18 creates problems that are fixed with flushSync
     // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
-    if (Number(React.version) >= 18) {
+    if (REACT_MAJOR_VERSION >= 18) {
       ReactDOM.flushSync(() => this.setState({ focused: true }));
     } else {
       this.setState({ focused: true });

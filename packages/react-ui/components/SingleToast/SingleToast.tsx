@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import type { ToastClose, ToastProps, ToastPushApi, ToastPushConfig } from '../Toast/index.js';
 import { Toast } from '../Toast/index.js';
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 
 /**
  * `SingleToast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.
@@ -19,7 +20,7 @@ export class SingleToast extends React.Component<ToastProps> {
   public static ref = React.createRef<Toast>();
 
   public static close: ToastClose = () => {
-    if (Number(React.version) >= 18) {
+    if (REACT_MAJOR_VERSION >= 18) {
       ReactDOM.flushSync(() => SingleToast.ref.current?.close());
     } else {
       SingleToast.ref.current?.close();

@@ -20,6 +20,7 @@ import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../comp
 import type { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';
 import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer.js';
@@ -395,7 +396,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     // Auto-batching React@18 creates problems that are fixed with flushSync
     // https://github.com/skbkontur/retail-ui/pull/3144#issuecomment-1535235366
-    if (sync && Number(React.version) >= 18) {
+    if (sync && REACT_MAJOR_VERSION >= 18) {
       ReactDOM.flushSync(() => updateState(action));
     } else {
       updateState(action);

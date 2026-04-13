@@ -6,8 +6,9 @@ import warning from 'warning';
 // - https://app.unpkg.com/react-is@19.0.0/files/cjs/react-is.production.js
 // - https://app.unpkg.com/react-is@18.3.1/files/cjs/react-is.production.min.js
 
-export const IS_REACT_19 = /* @__PURE__ */ React.version.startsWith('19');
-export const IS_REACT_20 = /* @__PURE__ */ React.version.startsWith('20');
+export const REACT_MAJOR_VERSION = /* @__PURE__ */ parseInt(React.version.split('.')[0] ?? '', 10) || 0;
+export const IS_REACT_19 = REACT_MAJOR_VERSION === 19;
+export const IS_REACT_20 = REACT_MAJOR_VERSION === 20;
 
 if (IS_REACT_20) {
   warning(
