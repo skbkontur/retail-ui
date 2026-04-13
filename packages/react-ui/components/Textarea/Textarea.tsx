@@ -378,7 +378,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     const counter = showLengthCounter && isCounterVisible && this.node && (
       <TextareaCounter
         textarea={this.node}
-        size={this.size}
         help={counterHelp}
         value={textareaProps.value}
         length={textareaProps.maxLength ?? lengthCounter ?? 0}

@@ -11,10 +11,3 @@ export const textareaSizeMixin = (paddingY: string, paddingX: string, minHeight:
     padding: ${paddingY} ${paddingX};
   `;
 };
-
-export const counterSizeMixin = (paddingX: string, paddingY: string): string => {
-  return `
-    right: ${paddingY};
-    bottom: ${paddingX};
-  `;
-};

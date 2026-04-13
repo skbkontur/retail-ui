@@ -2,6 +2,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 import { Textarea, TextareaDataTids } from '../Textarea.js';
 
 describe('Textarea', () => {
@@ -195,6 +197,30 @@ describe('Textarea', () => {
       screen.getByRole('textbox').focus();
     });
     expect(screen.getByText('Help me')).toBeInTheDocument();
+  });
+
+  it('positions counter by computed textarea paddings when theme uses shorthand values', () => {
+    const theme = ThemeFactory.create({
+      textareaPaddingXSmall: '8px 8px',
+      textareaPaddingYSmall: '8px 42px',
+    });
+
+    render(
+      <ThemeContext.Provider value={theme}>
+        <Textarea showLengthCounter lengthCounter={1} />
+      </ThemeContext.Provider>,
+    );
+
+    act(() => {
+      screen.getByRole('textbox').focus();
+    });
+
+    const counter = screen.getByTestId(TextareaDataTids.counter).querySelector('span');
+
+    expect(counter).toHaveStyle({
+      right: '42px',
+      bottom: '8px',
+    });
   });
 
   it('renders disabled element', () => {

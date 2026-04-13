@@ -5,7 +5,6 @@ import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCirc
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { SizeProp } from '../../lib/types/props.js';
 import { isFunction } from '../../lib/utils.js';
 import { Tooltip } from '../Tooltip/index.js';
 import { TextareaDataTids } from './Textarea.js';
@@ -18,7 +17,6 @@ export interface TextareaCounterProps {
   help: TextareaProps['counterHelp'];
   onCloseHelp: () => void;
   textarea: HTMLTextAreaElement;
-  size: SizeProp;
 }
 
 export interface TextareaCounterRef {
@@ -27,9 +25,18 @@ export interface TextareaCounterRef {
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
+const getCounterOffsets = (textarea: HTMLTextAreaElement) => {
+  const computedStyle = textarea.ownerDocument.defaultView?.getComputedStyle(textarea);
+
+  return {
+    right: computedStyle?.paddingRight ?? textarea.style.paddingRight ?? '0px',
+    bottom: computedStyle?.paddingBottom ?? textarea.style.paddingBottom ?? '0px',
+  };
+};
+
 export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCounterProps>(
   'TextareaCounter',
-  ({ length, value, help, onCloseHelp, textarea, size }, ref) => {
+  ({ length, value, help, onCloseHelp, textarea }, ref) => {
     const theme = useContext(ThemeContext);
     const { cx } = useEmotion();
     const styles = useStyles(getStyles);
@@ -49,6 +56,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     }, [help]);
     const textareaValue = value ? value.toString().length : 0;
     const counterValue = length - textareaValue;
+    const counterOffsets = getCounterOffsets(textarea);
 
     const helpIconProps = {
       onMouseDown: handleHelpMouseDown,
@@ -64,22 +72,11 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       </Tooltip>
     );
 
-    const getCounterSizeClassName = () => {
-      switch (size) {
-        case 'large':
-          return styles.counterLarge(theme);
-        case 'medium':
-          return styles.counterMedium(theme);
-        case 'small':
-        default:
-          return styles.counterSmall(theme);
-      }
-    };
-
     return (
       <div data-tid={TextareaDataTids.counter} className={cx(styles.counterContainer(theme))} style={{ width, height }}>
         <span
-          className={cx(getCounterSizeClassName(), styles.counter(theme), {
+          style={counterOffsets}
+          className={cx(styles.counter(theme), {
             [styles.counterError(theme)]: counterValue < 0,
           })}
         >

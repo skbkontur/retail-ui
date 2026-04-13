@@ -2,7 +2,7 @@ import type { Emotion } from '@emotion/css/create-instance';
 
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { counterSizeMixin, rootTextareaSizeMixin, textareaSizeMixin } from './Textarea.mixins.js';
+import { rootTextareaSizeMixin, textareaSizeMixin } from './Textarea.mixins.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root() {
@@ -177,21 +177,6 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       background: ${t.textareaCounterBg};
       color: ${t.textareaCounterColor};
       border-radius: 2px;
-    `;
-  },
-  counterSmall(t: Theme) {
-    return css`
-      ${counterSizeMixin(t.textareaPaddingYSmall, t.textareaPaddingXSmall)};
-    `;
-  },
-  counterMedium(t: Theme) {
-    return css`
-      ${counterSizeMixin(t.textareaPaddingYMedium, t.textareaPaddingXMedium)};
-    `;
-  },
-  counterLarge(t: Theme) {
-    return css`
-      ${counterSizeMixin(t.textareaPaddingYLarge, t.textareaPaddingXLarge)};
     `;
   },
 
