@@ -4,6 +4,37 @@ import type { Configuration, RuleSetUseItem } from 'webpack';
 
 import { isRuleSetUseItem, hasTestInRule, hasUseInRule } from '../../../scripts/webpack-type-guards/index.ts';
 
+const customReactDocgenLoader = resolve(__dirname, './react-docgen-loader.ts');
+
+const getRuleLoader = (rule: unknown): string | undefined => {
+  if (typeof rule !== 'object' || rule === null || !('loader' in rule)) {
+    return undefined;
+  }
+
+  return typeof rule.loader === 'string' ? rule.loader : undefined;
+};
+
+const isReactDocgenLoader = (use: RuleSetUseItem | string) =>
+  (typeof use === 'string' && use.includes('react-docgen-loader')) ||
+  (isRuleSetUseItem(use) && use.loader.includes('react-docgen-loader'));
+
+const replaceReactDocgenLoaderUse = (use: RuleSetUseItem | string): RuleSetUseItem | string => {
+  if (!isReactDocgenLoader(use)) {
+    return use;
+  }
+
+  if (typeof use === 'string') {
+    return {
+      loader: customReactDocgenLoader,
+    };
+  }
+
+  return {
+    ...use,
+    loader: customReactDocgenLoader,
+  };
+};
+
 export default async ({ config }: { config: Configuration }) => {
   config.devtool = false;
   if (config.entry && Array.isArray(config.entry)) {
@@ -32,11 +63,18 @@ export default async ({ config }: { config: Configuration }) => {
     }); // exclude babel-loader rules
 
   const reactDocgenLoaderRule = filteredStorybooksWebpackRules.find(
-    (rule) => hasUseInRule(rule) && rule.loader?.includes('react-docgen-loader'),
+    (rule) =>
+      getRuleLoader(rule)?.includes('react-docgen-loader') ||
+      (hasUseInRule(rule) && rule.use?.some(isReactDocgenLoader)),
   );
   if (hasTestInRule(reactDocgenLoaderRule)) {
     reactDocgenLoaderRule.test = /\.(tsx)/;
-    reactDocgenLoaderRule.loader = resolve(__dirname, './react-docgen-loader.ts');
+    if (typeof getRuleLoader(reactDocgenLoaderRule) === 'string') {
+      reactDocgenLoaderRule.loader = customReactDocgenLoader;
+    }
+    if (hasUseInRule(reactDocgenLoaderRule)) {
+      reactDocgenLoaderRule.use = reactDocgenLoaderRule.use?.map(replaceReactDocgenLoaderUse);
+    }
   }
 
   if (config.module?.rules) {
