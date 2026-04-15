@@ -1,18 +1,13 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React, { useState } from 'react';
-import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
-import { configure } from '@testing-library/dom';
 
 import { Table } from '../src/components/Table/Table';
 import { TableFilter } from '../src/components/Table/TableFilter/TableFilter';
 import { TableHeaderButton } from '../src/components/Table/TableFilter/TableHeaderButton';
 import { TableFilterSearch } from '../src/components/Table/TableFilter/TableFilterSearch';
 import { TableFilterItem } from '../src/components/Table/TableFilter/TableFilterItem';
-
-configure({
-  testIdAttribute: 'data-tid',
-});
 
 describe('TableDropdownFilter', () => {
   const defaultProps = {

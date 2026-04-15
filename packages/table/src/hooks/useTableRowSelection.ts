@@ -47,7 +47,7 @@ export function useTableRowSelection<T extends RowLike>(
   readonly checkboxRef: React.RefObject<Checkbox>;
   readonly selectAll: () => void;
   readonly toggleRow: (e: SyntheticEvent<HTMLElement> | undefined, rowId: T['id']) => void;
-  readonly isRowChecked: (rowId: number) => boolean;
+  readonly isRowChecked: (rowId: T['id']) => boolean;
 } {
   const initialCheckedRows = options?.initialCheckedRows;
   const [checkedRows, setCheckedRows] = useState<Set<T['id']>>(() =>

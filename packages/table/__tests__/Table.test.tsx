@@ -1,14 +1,9 @@
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
-import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { configure } from '@testing-library/dom';
 
 import { Table } from '../src/components/Table/Table';
-
-configure({
-  testIdAttribute: 'data-tid',
-});
 
 describe('Table', () => {
   it('renders correctly', () => {

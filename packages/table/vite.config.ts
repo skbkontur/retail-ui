@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import dts from 'vite-plugin-dts';
 
-import { injectTableCssAtRuntime } from './build/injectTableCssAtRuntime';
+import { injectTableCssAtRuntime } from './build/injectTableCssAtRuntime.js';
 
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
 const external = [...Object.keys(packageJson.peerDependencies || {}), '@skbkontur/global-object'];

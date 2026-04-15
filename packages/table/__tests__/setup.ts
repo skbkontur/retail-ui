@@ -1,9 +1,4 @@
-import '@testing-library/jest-dom';
-import { configure } from '@testing-library/dom';
-
-configure({
-  testIdAttribute: 'data-tid',
-});
+import '../../../scripts/test/vitest-setup-base';
 
 if (typeof window !== 'undefined' && typeof window.getSelection !== 'function') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

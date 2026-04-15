@@ -1,13 +1,8 @@
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { configure } from '@testing-library/dom';
-import { vi } from 'vitest';
 
 import { Table } from '../src/components/Table/Table';
-
-configure({
-  testIdAttribute: 'data-tid',
-});
 
 describe('Props Forwarding', () => {
   describe('Table', () => {

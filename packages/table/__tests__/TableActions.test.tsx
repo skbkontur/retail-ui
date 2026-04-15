@@ -1,16 +1,11 @@
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
-import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
-import { configure } from '@testing-library/dom';
 
 import { Table } from '../src/components/Table/Table';
 import { TableActionBar } from '../src/components/Table/TableActionBar/TableActionBar';
 import { TableDataTids } from '../src/components/Table/TableDataTids';
-
-configure({
-  testIdAttribute: 'data-tid',
-});
 
 const MockIcon = () => <svg data-tid="mock-icon" />;
 
