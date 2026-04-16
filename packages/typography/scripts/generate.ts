@@ -54,7 +54,11 @@ const generateScss = (inputTokens: { [key in TTextTokens]: Record<string, any> }
   /// @param {boolean} $spacing [true] - Отступы
   /// @param {boolean} $wideColumn [false] - Широкая колонка
   @mixin t($size, $spacing: true, $wideColumn: false) {
-    $size-key: if($wideColumn, "#{$size}Wide", "#{$size}");
+    @if $wideColumn {
+      $size-key: '#{$size}Wide';
+    } @else {
+      $size-key: '#{$size}';
+    }
     $style: map.get($typography, $size-key);
 
     font-size: map.get($style, font-size);
