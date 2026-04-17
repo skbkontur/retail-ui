@@ -364,6 +364,21 @@ describe('Table.Cell', () => {
     expect(cell).toHaveStyle({ width: '200px' });
   });
 
+  it('supports vAlign prop', () => {
+    const { container } = render(
+      <Table>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell vAlign="bottom">Content</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    );
+
+    const cell = container.querySelector('td');
+    expect(cell).toHaveStyle({ verticalAlign: 'bottom' });
+  });
+
   it('supports colSpan prop', () => {
     const { container } = render(
       <Table>

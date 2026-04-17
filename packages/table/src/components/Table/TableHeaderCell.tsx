@@ -41,6 +41,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
       noWrap,
       currency,
       className,
+      style,
       ...rest
     },
     ref
@@ -54,7 +55,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
     const checkboxCellSizeClass = styles[getSizeModifier('CheckboxCell', size)];
     return (
       <CommonWrapper {...rest}>
-        {(wrapperRest: CommonWrapperRestProps<TableHeaderCellBaseProps>) => (
+        {(wrapperRest: CommonWrapperRestProps<typeof rest>) => (
           <th
             {...wrapperRest}
             ref={ref}
@@ -62,7 +63,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
               verticalAlign: vAlign,
               textAlign: align,
               width: width ?? (checkboxCell ? getCheckboxSize(size) : undefined),
-              ...wrapperRest.style,
+              ...style,
             }}
             colSpan={colSpan}
             rowSpan={rowSpan}

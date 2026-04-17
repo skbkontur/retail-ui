@@ -35,6 +35,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
       width,
       vAlign,
       className,
+      style,
       onClick: onClickProp,
       contentCompensator = true,
       ...rest
@@ -59,7 +60,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
 
     return (
       <CommonWrapper {...rest}>
-        {(wrapperRest: CommonWrapperRestProps<TableCellBaseProps>) => (
+        {(wrapperRest: CommonWrapperRestProps<typeof rest>) => (
           <td
             {...wrapperRest}
             ref={ref}
@@ -74,7 +75,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
               [styles.Currency]: currency,
             })}
             data-tid={checkboxCell ? TableDataTids.checkboxCell : TableDataTids.cell}
-            style={{ width, ...wrapperRest.style }}
+            style={{ verticalAlign: vAlign, width, ...style }}
             onClick={onClick}
           >
             <div>{children}</div>
