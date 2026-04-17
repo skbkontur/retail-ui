@@ -11,6 +11,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { isBrowser } from '../../lib/globalObject.js';
 import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
 import type { InstanceWithRootNode } from '../../lib/rootNode/index.js';
+import { useSizeControl } from '../../lib/size/useSizeControl.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import type { Nullable } from '../../typings/utility-types.js';
@@ -180,10 +181,11 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
     validateBeforeUpload,
     onRequestSuccess,
     onRequestError,
-    size = 'small',
+    size: sizeProp,
     renderFile = defaultRenderFile,
     ...inputProps
   } = props;
+  const size = useSizeControl(sizeProp);
 
   const { files, setFiles, removeFile, reset, setFileValidationResult } = useContext(FileUploaderControlContext);
 

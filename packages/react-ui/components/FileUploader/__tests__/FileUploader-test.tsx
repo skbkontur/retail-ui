@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { SizeControlContext } from '../../../lib/size/SizeControlContext.js';
+import type { SizeProp } from '../../../lib/types/props.js';
 import { delay } from '../../../lib/utils.js';
 import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
 import type { FileUploaderProps } from '../FileUploader.js';
@@ -27,6 +29,23 @@ const getBaseButtonContent = (): string | undefined => {
 
 const getFilesList = () => {
   return screen.queryByTestId(FileUploaderFileListDataTids.fileList);
+};
+
+const renderAndGetFileSize = (getComponent: (renderFile: FileUploaderProps['renderFile']) => React.ReactElement) => {
+  let size: SizeProp | undefined;
+  const renderFile: FileUploaderProps['renderFile'] = (props) => {
+    size = props.size;
+    return null;
+  };
+
+  const { unmount } = render(getComponent(renderFile));
+  unmount();
+
+  if (!size) {
+    throw new Error('FileUploader size was not resolved');
+  }
+
+  return size;
 };
 
 const addFiles = async (files: File[]) => {
@@ -219,6 +238,32 @@ describe('FileUploader', () => {
       );
 
       expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
+    });
+  });
+
+  describe('size', () => {
+    it('applies size from SizeControlContext', () => {
+      expect(renderAndGetFileSize((renderFile) => <FileUploader renderFile={renderFile} />)).toBe('small');
+      expect(renderAndGetFileSize((renderFile) => <FileUploader size="medium" renderFile={renderFile} />)).toBe(
+        'medium',
+      );
+      expect(
+        renderAndGetFileSize((renderFile) => (
+          <SizeControlContext.Provider value={{ size: 'medium' }}>
+            <FileUploader renderFile={renderFile} />
+          </SizeControlContext.Provider>
+        )),
+      ).toBe('medium');
+    });
+
+    it('prefers explicit size prop over SizeControlContext', () => {
+      expect(
+        renderAndGetFileSize((renderFile) => (
+          <SizeControlContext.Provider value={{ size: 'large' }}>
+            <FileUploader size="small" renderFile={renderFile} />
+          </SizeControlContext.Provider>
+        )),
+      ).toBe('small');
     });
   });
 
