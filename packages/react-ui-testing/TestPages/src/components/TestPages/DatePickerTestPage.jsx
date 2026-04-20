@@ -1,5 +1,5 @@
-import React from 'react';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index.js';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 
@@ -36,7 +36,7 @@ export default class DatePickerTestPage extends React.Component {
               data-tid="DisabledDatePicker"
               value={this.state.date2}
               onValueChange={value => this.setState({ date2: value })}
-              disabled={true}
+              disabled
             />
           </Case.Body>
         </Case>

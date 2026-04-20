@@ -1,7 +1,6 @@
-import path from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
-// @ts-expect-error - jscodeshift/dist/testUtils doesn't have type definitions
 import { defineTest } from 'jscodeshift/dist/testUtils';
 
 const __filename = fileURLToPath(import.meta.url);

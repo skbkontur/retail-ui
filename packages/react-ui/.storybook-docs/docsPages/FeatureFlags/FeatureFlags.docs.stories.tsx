@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon.js';
 import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon.js';
 import {
@@ -19,6 +17,7 @@ import {
   TokenInputType,
   Tooltip,
 } from '@skbkontur/react-ui';
+import React from 'react';
 
 import { emit } from '../../../lib/LayoutEvents.js';
 import type { Meta, Story } from '../../../typings/stories.js';

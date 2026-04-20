@@ -1,31 +1,29 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React, { useState } from 'react';
 
-import { FocusLock } from '../../../internal/react-focus-lock/index.js';
-import { MobilePopupDataTids } from '../../../internal/MobilePopup/index.js';
-import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
-import type { HTMLProps } from '../../../typings/html.js';
-import { Input, InputDataTids } from '../../Input/index.js';
-import { MenuMessageDataTids } from '../../../internal/MenuMessage/index.js';
-import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale/index.js';
-import type { LocaleContextProps } from '../../../lib/locale/index.js';
-import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import { defaultLangCode } from '../../../lib/locale/constants.js';
-import { ComboBox } from '../ComboBox.js';
-import { InputLikeTextDataTids } from '../../../internal/InputLikeText/index.js';
-import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
-import { MenuDataTids } from '../../../internal/Menu/index.js';
-import { clickOutside, delay } from '../../../lib/utils.js';
+import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView.js';
 import {
   ComboBoxMenuDataTids,
   DELAY_BEFORE_SHOW_LOADER,
   LOADER_SHOW_TIME,
 } from '../../../internal/CustomComboBox/index.js';
-import { ComboBoxViewIds } from '../../../internal/CustomComboBox/ComboBoxView.js';
+import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale/index.js';
+import { InputLikeTextDataTids } from '../../../internal/InputLikeText/index.js';
+import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { MenuMessageDataTids } from '../../../internal/MenuMessage/index.js';
+import { MobilePopupDataTids } from '../../../internal/MobilePopup/index.js';
+import { FocusLock } from '../../../internal/react-focus-lock/index.js';
+import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import type { LocaleContextProps } from '../../../lib/locale/index.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
+import { clickOutside, delay } from '../../../lib/utils.js';
+import type { HTMLProps } from '../../../typings/html.js';
+import { Input, InputDataTids } from '../../Input/index.js';
+import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
 import { SpinnerDataTids } from '../../Spinner/index.js';
+import { ComboBox } from '../ComboBox.js';
 import type { ComboBoxItem } from '../index.js';
 
 function searchFactory<T = string[]>(promise: Promise<T>): [ReturnType<typeof vi.fn>, Promise<void>] {

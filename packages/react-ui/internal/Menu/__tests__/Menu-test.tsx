@@ -1,8 +1,8 @@
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
 
-import { Menu } from '../Menu.js';
 import { MenuItem } from '../../../components/MenuItem/index.js';
+import { Menu } from '../Menu.js';
 
 describe('Menu', () => {
   it('calls existing refs of children when highlighted', () => {

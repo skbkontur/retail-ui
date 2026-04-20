@@ -1,9 +1,8 @@
 import { useContext, useMemo, useRef } from 'react';
 
 import { useGlobal } from '../../lib/renderEnvironment/index.js';
-
-import { FocusScope } from './scope.js';
 import { mediumEffect } from './medium.js';
+import { FocusScope } from './scope.js';
 import { extractRef } from './util.js';
 
 const collapseRefs = (shards: Array<React.RefObject<Element>>) => shards.map(extractRef).filter(Boolean);

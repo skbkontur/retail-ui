@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
-import { join, dirname, relative } from 'path';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
+import { dirname, join, relative } from 'path';
 import { fileURLToPath } from 'url';
 
 interface ExportsField {

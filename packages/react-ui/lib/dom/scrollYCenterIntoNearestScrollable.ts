@@ -1,5 +1,4 @@
 import { getOwnerGlobalObject, isBrowser } from '../../lib/globalObject.js';
-
 import { getParentOrShadowHost } from './getParentOrShadowHost.js';
 
 export function scrollYCenterIntoNearestScrollable(element: HTMLElement): void {

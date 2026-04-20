@@ -1,5 +1,5 @@
+import { Button, Gapped, Switcher, Textarea } from '@skbkontur/react-ui';
 import React from 'react';
-import { Textarea, Button, Gapped, Switcher } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories.js';
 

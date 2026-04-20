@@ -1,7 +1,6 @@
 import React from 'react';
 
 import type { Nullable } from '../typings/Types.js';
-
 import { tooltip } from './ErrorRenderer.js';
 import type {
   RenderErrorMessage,

@@ -1,7 +1,7 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from './Theme.js';
 import { memoizeGetStyles } from './Emotion.js';
+import type { Theme } from './Theme.js';
 
 export const getAnimationKeyframes = memoizeGetStyles(({ keyframes }: Emotion) => ({
   spinnerCircleOffset() {

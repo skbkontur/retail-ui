@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../../lib/forwardRefAndName.js';
-import type { IconProps } from '../BaseIcon.js';
 import { BaseIcon } from '../BaseIcon.js';
+import type { IconProps } from '../BaseIcon.js';
 
 export const PictureIcon16Solid = forwardRefAndName<SVGSVGElement, IconProps>('PictureIcon16Solid', (props, ref) => {
   return (

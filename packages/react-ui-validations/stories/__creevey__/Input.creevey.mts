@@ -1,6 +1,6 @@
-import { story, kind, test } from 'creevey';
-
 import 'creevey/playwright';
+import { kind, story, test } from 'creevey';
+
 import { tid, waitForByTid } from './helpers.mjs';
 
 const validationMessage = 'Значение должно состоять из двух слов';

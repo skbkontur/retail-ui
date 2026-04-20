@@ -1,8 +1,8 @@
 import React from 'react';
 
-import type { PasswordInputProps, PasswordInputState } from './PasswordInput.js';
 import { ClosedIcon } from './ClosedIcon.js';
 import { OpenedIcon } from './OpenedIcon.js';
+import type { PasswordInputProps, PasswordInputState } from './PasswordInput.js';
 
 export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'> & Pick<PasswordInputProps, 'size'>;
 

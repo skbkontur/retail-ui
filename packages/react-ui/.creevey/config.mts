@@ -1,9 +1,9 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { config as dotenv } from 'dotenv';
 import { CreeveyConfig, hybridStoriesProvider } from 'creevey';
-import { PlaywrightWebdriver } from 'creevey/playwright';
 import type { LaunchOptions } from 'playwright-core';
+import { PlaywrightWebdriver } from 'creevey/playwright';
+import { config as dotenv } from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

@@ -1,11 +1,11 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import { Button } from '../../../components/Button/index.js';
-import { ToastDataTids } from '../Toast.js';
-import { componentsLocales as ToastViewLocaleRu } from '../locale/locales/ru.js';
 import { SingleToast } from '../../../components/SingleToast/index.js';
+import { componentsLocales as ToastViewLocaleRu } from '../locale/locales/ru.js';
+import { ToastDataTids } from '../Toast.js';
 
 describe('ToastView', () => {
   describe('a11y', () => {

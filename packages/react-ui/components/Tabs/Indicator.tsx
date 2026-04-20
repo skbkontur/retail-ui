@@ -1,23 +1,22 @@
-import React from 'react';
-import throttle from 'lodash.throttle';
 import type { Emotion } from '@emotion/css/create-instance';
+import throttle from 'lodash.throttle';
+import React from 'react';
 
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import * as LayoutEvents from '../../lib/LayoutEvents.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Indicator.styles.js';
-import type { TabsContextType } from './TabsContext.js';
-import { TabsContext } from './TabsContext.js';
 import type { TabIndicators } from './Tab.js';
 import { TabsDataTids } from './Tabs.js';
+import { TabsContext } from './TabsContext.js';
+import type { TabsContextType } from './TabsContext.js';
 
 export interface IndicatorProps {
   className?: string;

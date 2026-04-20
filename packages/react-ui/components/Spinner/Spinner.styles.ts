@@ -1,8 +1,8 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
+import { getAnimationKeyframes } from '../../lib/theming/AnimationKeyframes.js';
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { getAnimationKeyframes } from '../../lib/theming/AnimationKeyframes.js';
 
 export const getStyles = memoizeGetStyles((emotion: Emotion) => {
   const AnimationKeyframes = getAnimationKeyframes(emotion);

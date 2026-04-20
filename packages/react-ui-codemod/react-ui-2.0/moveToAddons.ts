@@ -1,10 +1,10 @@
 import type { API, FileInfo } from 'jscodeshift';
 
 import {
-  deduplicateImports,
-  moveSpecifierToSeparateImport,
-  moveSpecifierToSeparateExport,
   deduplicateExports,
+  deduplicateImports,
+  moveSpecifierToSeparateExport,
+  moveSpecifierToSeparateImport,
 } from './helpers';
 
 interface TransformOptions {

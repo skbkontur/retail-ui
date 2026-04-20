@@ -2,7 +2,6 @@ import type React from 'react';
 
 import type { Nullable } from '../../typings/utility-types.js';
 import { isElement } from '../utils.js';
-
 import { isInstanceWithRootNode } from './rootNodeDecorator.js';
 
 /**

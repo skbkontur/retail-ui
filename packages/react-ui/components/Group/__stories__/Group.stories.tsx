@@ -1,25 +1,25 @@
-import React from 'react';
 import { People1Icon16Regular } from '@skbkontur/icons/icons/People1Icon/People1Icon16Regular.js';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
 import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
+import React from 'react';
 
-import type { Story } from '../../../typings/stories.js';
 import { BGRuler } from '../../../internal/BGRuler.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
-import { Group } from '../Group.js';
-import { Input } from '../../Input/index.js';
+import type { Story } from '../../../typings/stories.js';
+import { Autocomplete } from '../../Autocomplete/index.js';
 import { Button } from '../../Button/index.js';
+import { CurrencyInput } from '../../CurrencyInput/index.js';
 import { Dropdown } from '../../Dropdown/index.js';
 import { DropdownMenu } from '../../DropdownMenu/index.js';
-import { Select } from '../../Select/index.js';
-import { Autocomplete } from '../../Autocomplete/index.js';
-import { PasswordInput } from '../../PasswordInput/index.js';
-import { CurrencyInput } from '../../CurrencyInput/index.js';
 import { FxInput } from '../../FxInput/index.js';
-import { Hint } from '../../Hint/index.js';
-import { Tooltip } from '../../Tooltip/index.js';
 import { Gapped } from '../../Gapped/index.js';
+import { Hint } from '../../Hint/index.js';
+import { Input } from '../../Input/index.js';
+import { PasswordInput } from '../../PasswordInput/index.js';
+import { Select } from '../../Select/index.js';
 import { SingleToast } from '../../SingleToast/index.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import { Group } from '../Group.js';
 
 export default {
   title: 'Group',

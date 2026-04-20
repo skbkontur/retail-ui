@@ -1,5 +1,5 @@
-import type { Theme } from '../../lib/theming/Theme.js';
 import { memo } from '../../lib/memo.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 const getConfig = memo(
   (

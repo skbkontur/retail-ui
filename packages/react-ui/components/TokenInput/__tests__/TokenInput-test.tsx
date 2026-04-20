@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React, { useState } from 'react';
 
 import { PopupIds } from '../../../internal/Popup/index.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
-import type { LocaleContextProps } from '../../../lib/locale/index.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import type { LocaleContextProps } from '../../../lib/locale/index.js';
 import { delay } from '../../../lib/utils.js';
-import { TokenInputLocaleHelper } from '../locale/index.js';
-import type { TokenInputProps } from '../TokenInput.js';
-import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput.js';
-import { Token, TokenDataTids } from '../../Token/index.js';
 import { MenuItemDataTids } from '../../MenuItem/index.js';
+import { Token, TokenDataTids } from '../../Token/index.js';
+import { TokenInputLocaleHelper } from '../locale/index.js';
+import { TokenInput, TokenInputDataTids, TokenInputType } from '../TokenInput.js';
+import type { TokenInputProps } from '../TokenInput.js';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));

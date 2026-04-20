@@ -1,13 +1,13 @@
-import React from 'react';
-import { userEvent } from '@testing-library/user-event';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { InputDataTids } from '../../Input/index.js';
+import * as listenFocusOutside from '../../../lib/listenFocusOutside.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import { PasswordInput, PasswordInputDataTids } from '../PasswordInput.js';
+import { InputDataTids } from '../../Input/index.js';
 import { componentsLocales as PasswordInputLocaleEn } from '../locale/locales/en.js';
 import { componentsLocales as PasswordInputLocaleRu } from '../locale/locales/ru.js';
-import * as listenFocusOutside from '../../../lib/listenFocusOutside.js';
+import { PasswordInput, PasswordInputDataTids } from '../PasswordInput.js';
 
 describe('PasswordInput', () => {
   it('should change icon after clicking on the toggle button', async () => {

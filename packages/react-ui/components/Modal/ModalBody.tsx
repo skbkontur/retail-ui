@@ -1,22 +1,21 @@
-import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React, { type JSX } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
-import * as LayoutEvents from '../../lib/LayoutEvents.js';
 import { ResizeDetector } from '../../internal/ResizeDetector/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { ModalContext } from './ModalContext.js';
-import { getStyles } from './Modal.styles.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { getModalBodyTheme } from './getModalBodyTheme.js';
 import { ModalZIndexPriority } from './Modal.js';
+import { getStyles } from './Modal.styles.js';
+import { ModalContext } from './ModalContext.js';
 
 export interface ModalBodyProps extends CommonProps {
   /** Убирает отступы. */

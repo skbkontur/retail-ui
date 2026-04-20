@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { extractDataProps } from '../../lib/utils.js';
 import type { CommonProps } from '../../internal/CommonWrapper/types.js';
+import { extractDataProps } from '../../lib/utils.js';
 
 interface PagingDefaultComponentInterface {
   /** Задает функцию, которая вызывается при клике на пейджинг. */

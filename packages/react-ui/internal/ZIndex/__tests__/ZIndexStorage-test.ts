@@ -1,6 +1,6 @@
 import { getSafeWindow } from '../../../lib/globalObject.js';
-import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage.js';
 import { incrementZIndex, removeZIndex } from '../ZIndexStorage.js';
+import type { GlobalWithRetailUiZIndexes } from '../ZIndexStorage.js';
 
 const safeWindow = getSafeWindow();
 const globalWithRetailUiZIndexes = safeWindow as GlobalWithRetailUiZIndexes;

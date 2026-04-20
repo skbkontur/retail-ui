@@ -1,16 +1,16 @@
 import React from 'react';
 
-import type { PopupPositionsType, PopupProps } from '../Popup.js';
-import { Popup } from '../Popup.js';
-import type { Nullable } from '../../../typings/utility-types.js';
-import type { DropdownProps } from '../../../components/Dropdown/index.js';
-import { Tooltip } from '../../../components/Tooltip/index.js';
 import { ComboBox } from '../../../components/ComboBox/index.js';
+import type { DropdownProps } from '../../../components/Dropdown/index.js';
 import { Hint } from '../../../components/Hint/index.js';
 import { Select } from '../../../components/Select/index.js';
-import { RenderLayer } from '../../RenderLayer/index.js';
+import { Tooltip } from '../../../components/Tooltip/index.js';
 import { isTestEnv } from '../../../lib/currentEnvironment.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import type { Nullable } from '../../../typings/utility-types.js';
+import { RenderLayer } from '../../RenderLayer/index.js';
+import type { PopupPositionsType, PopupProps } from '../Popup.js';
+import { Popup } from '../Popup.js';
 
 export default { title: 'Popup' };
 

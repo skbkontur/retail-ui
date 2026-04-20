@@ -1,9 +1,8 @@
 import React from 'react';
 
 import type { SizeProp } from '../types/props.js';
-
-import { SizeControlContext } from './SizeControlContext.js';
 import { defaultSizeValue } from './constants.js';
+import { SizeControlContext } from './SizeControlContext.js';
 
 type Constructor<T = NonNullable<unknown>> = new (...args: any[]) => T;
 

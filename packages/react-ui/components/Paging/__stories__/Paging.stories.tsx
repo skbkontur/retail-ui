@@ -1,13 +1,13 @@
-import React, { type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { StoryFn } from '@storybook/react';
+import React, { type JSX } from 'react';
 
+import { emptyHandler } from '../../../lib/utils.js';
 import type { Meta, Story } from '../../../typings/stories.js';
+import { Gapped } from '../../Gapped/index.js';
+import type { PagingProps } from '../index.js';
 import type { ItemComponentProps } from '../Paging.js';
 import { Paging } from '../Paging.js';
-import { emptyHandler } from '../../../lib/utils.js';
-import type { PagingProps } from '../index.js';
-import { Gapped } from '../../Gapped/index.js';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
 dignissimos labore expedita. Sapiente beatae eveniet sit, similique,

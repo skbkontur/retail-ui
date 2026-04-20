@@ -1,5 +1,5 @@
-import { Link } from "retail-ui/Link";
 import Icon from "retail-ui/Icon";
+import { Link } from "retail-ui/Link";
 
 props => (
   <Link {...props}>

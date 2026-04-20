@@ -1,5 +1,5 @@
-import React from 'react';
 import { Tabs } from '@skbkontur/react-ui';
+import React from 'react';
 
 import { useEmotion } from '../../../lib/renderEnvironment/RenderEnvironmentContext.js';
 import type { Meta, Story } from '../../../typings/stories.js';

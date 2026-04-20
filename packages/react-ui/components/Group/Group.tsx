@@ -1,25 +1,24 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
 import {
-  isButton,
   isAutocomplete,
+  isButton,
   isCurrencyInput,
   isDropdown,
   isDropdownMenu,
   isFxInput,
+  isHint,
   isInput,
   isPasswordInput,
   isSelect,
   isTooltip,
-  isHint,
 } from '../../lib/utils.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
 import { getStyles } from './Group.styles.js';
 
 export interface GroupProps extends CommonProps {

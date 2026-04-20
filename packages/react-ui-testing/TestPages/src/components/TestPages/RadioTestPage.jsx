@@ -1,5 +1,5 @@
-import React from 'react';
 import { Radio } from '@skbkontur/react-ui/components/Radio';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 

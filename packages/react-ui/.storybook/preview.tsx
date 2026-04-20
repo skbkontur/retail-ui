@@ -1,11 +1,10 @@
-import React from 'react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import type { Preview } from '@storybook/react';
+import React from 'react';
 
 import { isTestEnv } from '../lib/currentEnvironment.js';
 import { ThemeContext } from '../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../lib/theming/ThemeFactory.js';
-
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator.js';
 
 const customViewports = {

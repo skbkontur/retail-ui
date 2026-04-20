@@ -1,23 +1,22 @@
-import React, { type JSX } from 'react';
-import throttle from 'lodash.throttle';
 import type { Emotion } from '@emotion/css/create-instance';
+import throttle from 'lodash.throttle';
+import React, { type JSX } from 'react';
 
-import { Sticky } from '../Sticky/index.js';
-import { isFunction } from '../../lib/utils.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isFunction } from '../../lib/utils.js';
 import { ModalSeparator } from '../Modal/ModalSeparator.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import { Sticky } from '../Sticky/index.js';
 import { getStyles } from './SidePage.styles.js';
-import type { SidePageContextType } from './SidePageContext.js';
-import { SidePageContext } from './SidePageContext.js';
 import { SidePageCloseButton } from './SidePageCloseButton.js';
+import { SidePageContext } from './SidePageContext.js';
+import type { SidePageContextType } from './SidePageContext.js';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);

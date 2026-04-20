@@ -1,14 +1,14 @@
 import React, { type JSX, useRef } from 'react';
 
-import type { FileUploaderAttachedFile, FileUploaderView } from '../fileUtils.js';
-import { createFile, FileUploaderFileStatus } from '../fileUtils.js';
-import { Button } from '../../Button/index.js';
-import { Gapped } from '../../Gapped/index.js';
-import { DeleteIcon } from '../icons/DeleteIcon.js';
-import { FileUploader } from '../FileUploader.js';
-import { FileUploaderFile } from '../FileUploaderFile.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { FileUploader } from '../FileUploader.js';
+import { FileUploaderFile } from '../FileUploaderFile.js';
+import type { FileUploaderAttachedFile, FileUploaderView } from '../fileUtils.js';
+import { FileUploaderFileStatus, createFile } from '../fileUtils.js';
+import { DeleteIcon } from '../icons/DeleteIcon.js';
 
 export default {
   title: 'FileUploader',

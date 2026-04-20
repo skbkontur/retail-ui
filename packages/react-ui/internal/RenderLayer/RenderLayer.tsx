@@ -1,15 +1,15 @@
 import React, { type JSX } from 'react';
 
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
-import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside.js';
-import type { CommonProps } from '../CommonWrapper/index.js';
-import { CommonWrapper } from '../CommonWrapper/index.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
 import type { Nullable } from '../../typings/utility-types.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { CommonProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;

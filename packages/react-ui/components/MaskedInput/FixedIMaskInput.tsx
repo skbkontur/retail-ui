@@ -1,9 +1,8 @@
-import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import type { InputMask, MaskedPatternOptions } from '@skbkontur/imask';
-import type { IMaskInputProps } from '@skbkontur/react-imask';
 import { IMaskInput } from '@skbkontur/react-imask';
+import type { IMaskInputProps } from '@skbkontur/react-imask';
+import React, { useEffect, useImperativeHandle, useRef } from 'react';
 
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import {
   isKeyArrow,
   isKeyArrowHorizontal,
@@ -17,6 +16,7 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers.js';
 import { MouseDrag } from '../../lib/events/MouseDrag.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { scrollInputCaretIntoView } from '../../lib/scrollInputCaretIntoView.js';
 
 export type FixedIMaskInputProps = IMaskInputProps<HTMLInputElement>;

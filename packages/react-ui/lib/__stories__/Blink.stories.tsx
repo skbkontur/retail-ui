@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
-import type { Story } from '../../typings/stories.js';
 import { Gapped } from '../../components/Gapped/index.js';
-import { blink } from '../blink.js';
-import { isKeyChar } from '../events/keyboard/identifiers.js';
 import { Input } from '../../components/Input/index.js';
 import { TokenInput } from '../../components/TokenInput/index.js';
-import { ThemeContext } from '../theming/ThemeContext.js';
+import type { Story } from '../../typings/stories.js';
+import { blink } from '../blink.js';
+import { isKeyChar } from '../events/keyboard/identifiers.js';
 import type { Theme } from '../theming/Theme.js';
+import { ThemeContext } from '../theming/ThemeContext.js';
 
 export default { title: 'Lib/blink' };
 

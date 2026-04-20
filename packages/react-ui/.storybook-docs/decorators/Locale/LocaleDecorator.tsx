@@ -1,8 +1,8 @@
-import React from 'react';
 import type { Decorator } from '@storybook/react';
+import React from 'react';
 
-import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 
 export const toolbarItems: { [key: string]: LangCodes } = {
   ru: LangCodes.ru_RU,

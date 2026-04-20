@@ -1,15 +1,14 @@
-import type { Ref } from 'react';
 import React, { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
+import type { Ref } from 'react';
 
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
-import type { DateInputProps } from '../DateInput/index.js';
-import { DateInput } from '../DateInput/index.js';
-import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
 import { isNonNullable } from '../../lib/utils.js';
-
-import { DateRangePickerContext } from './DateRangePickerContext.js';
+import { DateInput } from '../DateInput/index.js';
+import type { DateInputProps } from '../DateInput/index.js';
+import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { DateRangePickerDataTids } from './DateRangePicker.js';
+import { DateRangePickerContext } from './DateRangePickerContext.js';
 import { DateRangePickerLocaleHelper } from './locale/index.js';
 
 export type DateRangePickerInputType = 'start' | 'end';

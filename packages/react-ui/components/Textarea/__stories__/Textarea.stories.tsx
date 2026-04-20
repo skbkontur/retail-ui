@@ -1,9 +1,9 @@
 import React from 'react';
 
 import type { Story } from '../../../typings/stories.js';
-import { Textarea } from '../Textarea.js';
 import { Button } from '../../Button/index.js';
 import { Gapped } from '../../Gapped/index.js';
+import { Textarea } from '../Textarea.js';
 
 const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';

@@ -2,7 +2,6 @@ import warning from 'warning';
 
 import type { Nullable } from '../../typings/utility-types.js';
 import { isNonNullable } from '../utils.js';
-
 import type { Theme, ThemeIn } from './Theme.js';
 import type { ThemeVersions } from './ThemeVersions.js';
 import { isThemeVersionGTE } from './ThemeVersions.js';

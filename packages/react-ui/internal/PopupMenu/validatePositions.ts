@@ -1,8 +1,8 @@
 import warning from 'warning';
 
 import { isProductionEnv } from '../../lib/currentEnvironment.js';
-import type { PopupPositionsType } from '../Popup/index.js';
 import { PopupPositions } from '../Popup/index.js';
+import type { PopupPositionsType } from '../Popup/index.js';
 
 const isValidPosition = (position: PopupPositionsType): boolean => {
   return PopupPositions.includes(position);

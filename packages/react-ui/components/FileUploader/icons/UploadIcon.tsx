@@ -2,9 +2,8 @@ import React from 'react';
 
 import type { SizeProp } from '../../../lib/types/props.js';
 import type { FileUploaderView } from '../fileUtils.js';
-
-import { UploadIcon as TileUploadIcon } from './tile/TileUploadIcon.js';
 import { UploadIcon as RowUploadIcon } from './row/RowUploadIcon.js';
+import { UploadIcon as TileUploadIcon } from './tile/TileUploadIcon.js';
 
 interface UploadIconProps {
   size: SizeProp;

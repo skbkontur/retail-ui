@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/index.js';
+import React from 'react';
 import { SidePage } from '@skbkontur/react-ui/components/SidePage/index.js';
 
 import { Case, CaseSuite } from '../Case';

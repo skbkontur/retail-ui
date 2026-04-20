@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { createPropsGetter } from '../lib/createPropsGetter.js';
 import type { DefaultizeProps } from '../lib/utils.js';
 import { isFunctionalComponent } from '../lib/utils.js';
-import { createPropsGetter } from '../lib/createPropsGetter.js';
 
 // TODO We should output state too
 const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNode => {

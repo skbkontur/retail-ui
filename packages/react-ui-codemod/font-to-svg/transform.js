@@ -20,7 +20,7 @@ function patchIconToNamedIcon({ j, path, nameAttr, nameAttrIndex, iconName, cons
 }
 
 function patchIconToNamespace({ j, path, nameAttr, nameAttrIndex, iconName }) {
-  if (!nameAttr) return;
+  if (!nameAttr) {return;}
 
   if (isSimpleIcon(nameAttr)) {
     path.node.name = j.jsxMemberExpression(j.jsxIdentifier('Icon'), j.jsxIdentifier(iconName));
@@ -170,7 +170,7 @@ module.exports = function(file, api) {
       const iconAttr = path.node.attributes[iconAttrIndex];
       const component = { j, iconAttr };
 
-      if (!iconAttr) return;
+      if (!iconAttr) {return;}
 
       if (isSimpleIcon(iconAttr)) {
         component.iconName = iconAttr.value.value || iconAttr.value.expression.value;
@@ -219,13 +219,13 @@ module.exports = function(file, api) {
     const specifiers = path.node.specifiers;
     const filteredSpecifiers = specifiers.filter(spec => spec.local.name !== 'Icon');
 
-    if (specifiers.length === filteredSpecifiers.length) return path.node;
+    if (specifiers.length === filteredSpecifiers.length) {return path.node;}
 
-    if (preserveIconImport && filteredSpecifiers.length === 0) return null;
+    if (preserveIconImport && filteredSpecifiers.length === 0) {return null;}
 
     iconImportsInserted = true;
 
-    if (filteredSpecifiers.length === 0) return iconImports;
+    if (filteredSpecifiers.length === 0) {return iconImports;}
 
     path.node.specifiers = filteredSpecifiers;
 
@@ -243,10 +243,10 @@ module.exports = function(file, api) {
       );
   }
 
-  if (iconNames.size === 0) return root.toSource({ lineTerminator: '\n' });
+  if (iconNames.size === 0) {return root.toSource({ lineTerminator: '\n' });}
 
   if (!preserveIconImport) {
-    if (!iconImportsInserted) imports.at(-1).insertAfter(iconImports);
+    if (!iconImportsInserted) {imports.at(-1).insertAfter(iconImports);}
   }
 
   return root.toSource({ lineTerminator: '\n' });

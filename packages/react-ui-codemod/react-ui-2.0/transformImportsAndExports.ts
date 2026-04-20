@@ -2,14 +2,14 @@ import type { API, FileInfo } from 'jscodeshift';
 import type { Collection } from 'jscodeshift/src/Collection';
 
 import {
-  getComponentNameFromPath,
-  getActualImportName,
-  deduplicateImports,
-  moveSpecifierToSeparateImport,
-  moveSpecifierToSeparateExport,
   deduplicateExports,
+  deduplicateImports,
+  getActualImportName,
+  getComponentNameFromPath,
   isModuleRemoved,
   isReactUISource,
+  moveSpecifierToSeparateExport,
+  moveSpecifierToSeparateImport,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): boolean => {

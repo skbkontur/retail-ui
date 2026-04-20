@@ -1,12 +1,12 @@
-import path from 'path';
+import { exec, spawn, spawnSync } from 'child_process';
+import type { ChildProcess} from 'child_process';
 import fs from 'fs';
 import os from 'os';
-import type { ChildProcess} from 'child_process';
-import { spawn, spawnSync, exec } from 'child_process';
+import path from 'path';
 import { promisify } from 'util';
 
-import { vi } from 'vitest';
 import puppeteer from 'puppeteer';
+import { vi } from 'vitest';
 import waitOn from 'wait-on';
 
 const execAsync = promisify(exec);

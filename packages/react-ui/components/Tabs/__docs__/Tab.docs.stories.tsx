@@ -1,5 +1,5 @@
+import { Button, Gapped, Tab, Tabs, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import React from 'react';
-import { Tab, ThemeContext, ThemeFactory, Button, Tabs, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

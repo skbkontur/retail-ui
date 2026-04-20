@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
-import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
 import { Radio } from '@skbkontur/react-ui/components/Radio/Radio';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
+import type { Meta } from '@storybook/react';
+import React, { useRef, useState } from 'react';
 
-import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper } from '../index.js';
-import type { Nullable } from '../typings/Types.js';
+import type { ValidationInfo } from '../index.js';
 import { isNullable } from '../src/utils/isNullable/isNullable.js';
+import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {
   title: 'RadioGroup',

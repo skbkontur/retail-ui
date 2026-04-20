@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment/index.js';
-import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon.js';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
-
-import { FileUploaderFileStatus } from './fileUtils.js';
+import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { getJsRowStyles, getJsTileStyles } from './FileUploaderFile.styles.js';
+import { FileUploaderFileStatus } from './fileUtils.js';
 import { DeleteIcon } from './icons/DeleteIcon.js';
 
 interface FileUploaderFileStatusIconProps {

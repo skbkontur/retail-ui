@@ -1,5 +1,5 @@
-import React from 'react';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 

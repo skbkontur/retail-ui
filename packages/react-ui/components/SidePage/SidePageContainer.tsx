@@ -1,15 +1,14 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { getStyles } from './SidePage.styles.js';
 import { SidePageContext } from './SidePageContext.js';
 

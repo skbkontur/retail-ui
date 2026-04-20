@@ -1,24 +1,23 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import { locale } from '../../lib/locale/decorators.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { locale } from '../../lib/locale/decorators.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { getStyles } from './ToastView.styles.js';
-import type { Action, ToastUse } from './Toast.js';
-import { ToastDataTids } from './Toast.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import type { ToastLocale } from './locale/index.js';
 import { ToastLocaleHelper } from './locale/index.js';
+import type { Action, ToastUse } from './Toast.js';
+import { ToastDataTids } from './Toast.js';
+import { getStyles } from './ToastView.styles.js';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
   /** Задает контент тоста. */

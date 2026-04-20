@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { act, render, screen, waitFor, within, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React, { useState } from 'react';
 
-import { Input } from '../../Input/index.js';
+import { DateSelectDataTids } from '../../../internal/DateSelect/index.js';
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru.js';
-import type { CalendarDayProps } from '../../Calendar/index.js';
-import { CalendarDataTids, CalendarDay } from '../../Calendar/index.js';
-import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine/index.js';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText/index.js';
+import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine/index.js';
+import { MenuDataTids } from '../../../internal/Menu/index.js';
 import { InternalDate } from '../../../lib/date/InternalDate.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
-import type { DatePickerProps } from '../DatePicker.js';
-import { DatePicker, DatePickerDataTids } from '../DatePicker.js';
-import { DatePickerLocaleHelper } from '../locale/index.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
-import { MobilePickerDataTids } from '../MobilePicker.js';
-import { DateSelectDataTids } from '../../../internal/DateSelect/index.js';
-import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { CalendarDataTids, CalendarDay } from '../../Calendar/index.js';
+import type { CalendarDayProps } from '../../Calendar/index.js';
 import { componentsLocales as DayCellViewLocalesRu } from '../../Calendar/locale/locales/ru.js';
+import { Input } from '../../Input/index.js';
+import { DatePicker, DatePickerDataTids } from '../DatePicker.js';
+import type { DatePickerProps } from '../DatePicker.js';
+import { DatePickerLocaleHelper } from '../locale/index.js';
+import { MobilePickerDataTids } from '../MobilePicker.js';
 
 describe('DatePicker', () => {
   describe('validate', () => {

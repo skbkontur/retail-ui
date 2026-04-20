@@ -1,13 +1,13 @@
-import React from 'react';
+import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
 import { act, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
+import React from 'react';
 
-import { PopupDataTids } from '../../../internal/Popup/index.js';
-import { DropdownMenu } from '../DropdownMenu.js';
-import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
 import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { PopupDataTids } from '../../../internal/Popup/index.js';
 import { delay } from '../../../lib/utils.js';
+import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
+import { DropdownMenu } from '../DropdownMenu.js';
 
 describe('<DropdownMenu />', () => {
   const captionDatatid = 'captionForTest';

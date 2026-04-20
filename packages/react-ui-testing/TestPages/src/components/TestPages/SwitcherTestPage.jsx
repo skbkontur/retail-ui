@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Switcher} from '@skbkontur/react-ui/components/Switcher';
 
-import {CaseSuite, Case} from '../Case';
+import {Case, CaseSuite} from '../Case';
 
 const switcherItems = [
   {label: "Налево", value: "Left"},

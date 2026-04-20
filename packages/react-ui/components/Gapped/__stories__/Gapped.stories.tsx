@@ -1,9 +1,9 @@
 import React, { type JSX } from 'react';
 
 import type { Meta } from '../../../typings/stories.js';
-import type { GappedProps } from '../Gapped.js';
-import { Gapped } from '../Gapped.js';
 import { Button } from '../../Button/index.js';
+import { Gapped } from '../Gapped.js';
+import type { GappedProps } from '../Gapped.js';
 
 const meta: Meta = {
   title: 'Gapped',

@@ -1,16 +1,15 @@
+import React, { useCallback, useContext, useImperativeHandle, useState } from 'react';
 import type { SyntheticEvent } from 'react';
-import React, { useContext, useCallback, useImperativeHandle, useState } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
 import { isFunction } from '../../lib/utils.js';
 import { Tooltip } from '../Tooltip/index.js';
-import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Solid.js';
-import type { SizeProp } from '../../lib/types/props.js';
-
-import type { TextareaProps } from './Textarea.js';
 import { TextareaDataTids } from './Textarea.js';
+import type { TextareaProps } from './Textarea.js';
 import { getStyles } from './Textarea.styles.js';
 
 export interface TextareaCounterProps {

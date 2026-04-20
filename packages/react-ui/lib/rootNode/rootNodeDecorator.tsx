@@ -1,8 +1,7 @@
-import type React from 'react';
 import { EventEmitter } from 'eventemitter3';
+import type React from 'react';
 
 import type { Nullable } from '../../typings/utility-types.js';
-
 import { getRootNode } from './getRootNode.js';
 
 export type TGetRootNode = () => Nullable<Element>;

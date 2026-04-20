@@ -1,5 +1,5 @@
-import React from 'react';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index.js';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 

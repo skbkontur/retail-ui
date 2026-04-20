@@ -1,11 +1,10 @@
 import React, { forwardRef, useContext, useRef } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { getAnimations, getStyles } from './GlobalLoaderView.styles.js';
 import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams.js';
 

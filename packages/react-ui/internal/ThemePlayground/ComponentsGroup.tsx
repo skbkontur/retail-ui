@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment/index.js';
 import { Gapped } from '../../components/Gapped/index.js';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-
 import { getStyles } from './Playground.styles.js';
 
 interface ComponentsGroupProps {

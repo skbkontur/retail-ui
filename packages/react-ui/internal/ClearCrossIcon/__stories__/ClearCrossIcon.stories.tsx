@@ -1,8 +1,8 @@
 import React from 'react';
 
-import type { Story } from '../../../typings/stories.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import type { Story } from '../../../typings/stories.js';
 import { ClearCrossIcon } from '../ClearCrossIcon.js';
 
 export default {

@@ -1,11 +1,10 @@
-import type React from 'react';
 import { createRef, useCallback, useContext, useEffect, useState } from 'react';
+import type React from 'react';
 
 import { useGlobal } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
-import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types.js';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents.js';
+import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types.js';
 
 export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
   customMediaQueries,

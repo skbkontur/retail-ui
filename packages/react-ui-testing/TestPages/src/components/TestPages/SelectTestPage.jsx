@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select } from '@skbkontur/react-ui/components/Select/index.js';
 
-import { CaseSuite, Case } from '../Case';
+import { Case, CaseSuite } from '../Case';
 
 export default class SelectTestPage extends React.Component {
   state = {

@@ -1,5 +1,5 @@
+import { Button, Gapped, GlobalLoader, Modal, ThemeContext, ThemeFactory, Toggle } from '@skbkontur/react-ui';
 import React from 'react';
-import { GlobalLoader, Button, Gapped, Toggle, ThemeContext, ThemeFactory, Modal } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

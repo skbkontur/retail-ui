@@ -1,16 +1,15 @@
 import React from 'react';
 
-import type { HTMLProps } from '../../typings/html.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { ComboBoxMenu } from '../../internal/CustomComboBox/index.js';
+import type { ComboBoxMenuProps } from '../../internal/CustomComboBox/index.js';
+import type { Menu } from '../../internal/Menu/index.js';
 import type { PopupPositionsType, PopupProps } from '../../internal/Popup/index.js';
 import { Popup } from '../../internal/Popup/index.js';
-import type { ComboBoxMenuProps } from '../../internal/CustomComboBox/index.js';
-import { ComboBoxMenu } from '../../internal/CustomComboBox/index.js';
-import type { Menu } from '../../internal/Menu/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { HTMLProps } from '../../typings/html.js';
 import type { TokenSize } from '../Token/index.js';
-
 import type { TokenInputMenuAlign, TokenInputProps } from './TokenInput.js';
 import { TokenInputDataTids } from './TokenInput.js';
 

@@ -1,4 +1,4 @@
-import { API, FileInfo } from 'jscodeshift';
+import type { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
   linkLineBorderBottomStyle: 'linkTextDecorationStyle',

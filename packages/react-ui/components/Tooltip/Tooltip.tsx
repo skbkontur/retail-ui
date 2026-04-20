@@ -1,32 +1,31 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import React, { type JSX } from 'react';
 import warning from 'warning';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject, SafeTimer } from '../../lib/globalObject.js';
-import { isNullable } from '../../lib/utils.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import type { PopupPositionsType, PopupProps, ShortPopupPositionsType } from '../../internal/Popup/index.js';
-import { Popup } from '../../internal/Popup/index.js';
-import type { RenderLayerProps } from '../../internal/RenderLayer/index.js';
-import { RenderLayer } from '../../internal/RenderLayer/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import type { MouseEventType } from '../../typings/event-types.js';
-import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { PopupPositionsType, PopupProps, ShortPopupPositionsType } from '../../internal/Popup/index.js';
+import { Popup } from '../../internal/Popup/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import type { RenderLayerProps } from '../../internal/RenderLayer/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { GlobalObject, SafeTimer } from '../../lib/globalObject.js';
+import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
-import type { SizeProp } from '../../lib/types/props.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { isNullable } from '../../lib/utils.js';
+import type { MouseEventType } from '../../typings/event-types.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Tooltip.styles.js';
 
 export type TooltipTrigger =

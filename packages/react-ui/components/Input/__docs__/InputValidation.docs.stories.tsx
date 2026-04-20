@@ -1,6 +1,6 @@
+import { Gapped, Input } from '@skbkontur/react-ui';
+import { ValidationContainer, type ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import React from 'react';
-import { Input, Gapped } from '@skbkontur/react-ui';
-import { type ValidationInfo, ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import type { Nullable } from '../../../typings/utility-types.js';

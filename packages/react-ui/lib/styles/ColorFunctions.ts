@@ -1,5 +1,5 @@
-import { clamp, floatFromPercent } from './ColorHelpers.js';
 import { ColorFactory } from './ColorFactory.js';
+import { clamp, floatFromPercent } from './ColorHelpers.js';
 import type { ColorObject } from './ColorObject.js';
 
 type SignType = '+' | '-';

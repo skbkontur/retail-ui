@@ -1,4 +1,4 @@
-import type { API, ASTPath, ImportSpecifier, ExportSpecifier, ImportDeclaration, ExportNamedDeclaration } from 'jscodeshift';
+import type { API, ASTPath, ExportNamedDeclaration, ExportSpecifier, ImportDeclaration, ImportSpecifier } from 'jscodeshift';
 import type { Collection } from 'jscodeshift/src/Collection';
 
 export const getComponentNameFromPath = (path: string, packagePath: string): string | null => {

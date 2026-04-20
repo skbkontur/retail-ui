@@ -1,4 +1,4 @@
-import { parseThemeVersion, isThemeVersionGTE, parseVersionFromThemeName } from '../ThemeVersions.js';
+import { isThemeVersionGTE, parseThemeVersion, parseVersionFromThemeName } from '../ThemeVersions.js';
 
 describe('ThemeVersions', () => {
   describe('parseThemeVersion', () => {

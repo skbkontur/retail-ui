@@ -1,5 +1,5 @@
-import type { DateRangePickerLocale } from '../types.js';
 import { componentsLocales as DatePickerLocale } from '../../../DatePicker/locale/locales/ru.js';
+import type { DateRangePickerLocale } from '../types.js';
 
 export const componentsLocales: DateRangePickerLocale = {
   startDateLabel: 'Дата начала',

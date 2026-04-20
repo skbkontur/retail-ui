@@ -1,16 +1,15 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { SpinnerIcon } from '../../internal/SpinnerIcon/SpinnerIcon.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
-import { rootNode } from '../../lib/rootNode/index.js';
+import { SpinnerIcon } from '../../internal/SpinnerIcon/SpinnerIcon.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { getStyles } from './Spinner.styles.js';
 
 const types = ['big', 'mini', 'normal'] as const;

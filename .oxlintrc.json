@@ -2,15 +2,6 @@
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "plugins": ["react", "typescript", "import", "jsx-a11y", "vitest"],
   "rules": {
-    "sort-imports": [
-      "error",
-      {
-        "allowSeparatedGroups": true,
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true,
-        "ignoreMemberSort": true
-      }
-    ],
     "no-did-mount-set-state": "off",
     "no-self-compare": "warn",
     "no-template-curly-in-string": "warn",

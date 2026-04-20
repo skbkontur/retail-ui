@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
 import type { Decorator } from '@storybook/react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { WidgetWrapper } from './WidgetWrapper.js';
 

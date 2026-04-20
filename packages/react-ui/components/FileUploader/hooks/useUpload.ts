@@ -2,9 +2,9 @@ import { useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
 
 import type { Nullable } from '../../../typings/utility-types.js';
+import { FileUploaderControlContext } from '../FileUploaderControlContext.js';
 import type { FileUploaderAttachedFile } from '../fileUtils.js';
 import { FileUploaderFileStatus } from '../fileUtils.js';
-import { FileUploaderControlContext } from '../FileUploaderControlContext.js';
 
 export const useUpload = (
   request: Nullable<(file: FileUploaderAttachedFile) => Promise<void>>,

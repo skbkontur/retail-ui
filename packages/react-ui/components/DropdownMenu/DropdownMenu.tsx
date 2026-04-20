@@ -2,18 +2,17 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import type { PopupMenuProps } from '../../internal/PopupMenu/index.js';
-import { PopupMenu } from '../../internal/PopupMenu/index.js';
-import { isTestEnv } from '../../lib/currentEnvironment.js';
-import type { PopupPositionsType } from '../../internal/Popup/index.js';
-import type { CommonProps } from '../../internal/CommonWrapper/types.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/types.js';
+import type { PopupPositionsType } from '../../internal/Popup/index.js';
+import { PopupMenu } from '../../internal/PopupMenu/index.js';
+import type { PopupMenuProps } from '../../internal/PopupMenu/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode//rootNodeDecorator.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getDropdownMenuTheme } from './getDropdownMenuTheme.js';
 
 export interface DropdownMenuProps

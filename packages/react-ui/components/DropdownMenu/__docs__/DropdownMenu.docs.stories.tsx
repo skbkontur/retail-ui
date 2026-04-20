@@ -1,17 +1,17 @@
-import React from 'react';
 import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
 import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/index.js';
 import {
-  DropdownMenu,
   Button,
+  Checkbox,
+  DropdownMenu,
+  Gapped,
   MenuHeader,
   MenuItem,
   MenuSeparator,
-  Checkbox,
   ThemeContext,
   ThemeFactory,
-  Gapped,
 } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

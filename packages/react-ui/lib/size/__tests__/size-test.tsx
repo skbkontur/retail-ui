@@ -1,16 +1,16 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 
-import { SizeControlContext } from '../SizeControlContext.js';
 import { Button } from '../../../components/Button/Button.js';
-import { Input } from '../../../components/Input/Input.js';
 import { Checkbox } from '../../../components/Checkbox/Checkbox.js';
+import { DateInput } from '../../../components/DateInput/DateInput.js';
+import { Input } from '../../../components/Input/Input.js';
+import { PasswordInput } from '../../../components/PasswordInput/PasswordInput.js';
 import { Radio } from '../../../components/Radio/Radio.js';
 import { Textarea } from '../../../components/Textarea/Textarea.js';
 import { Toggle } from '../../../components/Toggle/Toggle.js';
-import { PasswordInput } from '../../../components/PasswordInput/PasswordInput.js';
-import { DateInput } from '../../../components/DateInput/DateInput.js';
 import type { SizeProp } from '../../types/props.js';
+import { SizeControlContext } from '../SizeControlContext.js';
 
 const sizes: SizeProp[] = ['small', 'medium', 'large'];
 

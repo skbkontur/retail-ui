@@ -1,6 +1,6 @@
-import React from 'react';
 import { Kebab } from '@skbkontur/react-ui/components/Kebab';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem/index.js';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 
@@ -14,7 +14,7 @@ export default class KebabTestPage extends React.Component {
       <CaseSuite title="Kebab">
         <Case title="Disabled">
           <Case.Body>
-            <Kebab data-tid="DisabledKebab" disabled={true} />
+            <Kebab data-tid="DisabledKebab" disabled />
           </Case.Body>
         </Case>
         <Case title="SimpleKebab">

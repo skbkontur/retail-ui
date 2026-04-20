@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { emptyHandler } from '../../lib/utils.js';
 import type { SizeProp } from '../../lib/types/props.js';
-
+import { emptyHandler } from '../../lib/utils.js';
 import type { Tab } from './Tab.js';
 
 export interface TabsContextType<T extends string = any> {

@@ -1,15 +1,15 @@
-import React from 'react';
 import {
-  Modal,
   Button,
-  ResponsiveLayout,
-  ThemeContext,
-  RadioGroup,
   Checkbox,
   Gapped,
+  Modal,
+  RadioGroup,
+  ResponsiveLayout,
+  ThemeContext,
   ThemeFactory,
 } from '@skbkontur/react-ui';
 import type { MobileModalAppearance } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

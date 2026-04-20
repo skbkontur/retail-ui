@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { TokenInput } from '../../components/TokenInput/index.js';
 import { Token } from '../../components/Token/index.js';
+import { TokenInput } from '../../components/TokenInput/index.js';
 
 async function getItems(query: string) {
   return Promise.resolve(

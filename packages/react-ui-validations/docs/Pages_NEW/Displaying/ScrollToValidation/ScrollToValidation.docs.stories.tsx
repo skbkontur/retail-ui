@@ -1,13 +1,13 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import React from 'react';
 
-import type { Meta, Story } from '../../../../typings/stories.js';
-import type { ValidationInfo } from '../../../../index.js';
 import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import type { ValidationInfo } from '../../../../index.js';
+import type { Meta, Story } from '../../../../typings/stories.js';
+import type { Nullable } from '../../../../typings/Types.js';
 import { Form } from '../../../Common/Form.js';
 import { SpaceFiller } from '../../../Common/SpaceFiller.js';
-import type { Nullable } from '../../../../typings/Types.js';
 
 const meta: Meta = {
   title: 'Displaying/Scroll to validation',

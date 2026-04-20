@@ -1,17 +1,16 @@
-import type { ReactNode } from 'react';
 import React, { useContext, useLayoutEffect } from 'react';
+import type { ReactNode } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { useGetScrollWidth } from '../../lib/dom/getScrollWidth.js';
-import { Sticky } from '../Sticky/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
-import type { GappedProps } from '../Gapped/index.js';
-import { Gapped } from '../Gapped/index.js';
+import { useGetScrollWidth } from '../../lib/dom/getScrollWidth.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { isNonNullable } from '../../lib/utils.js';
-
+import { Gapped } from '../Gapped/index.js';
+import type { GappedProps } from '../Gapped/index.js';
+import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { Sticky } from '../Sticky/index.js';
 import { getStyles } from './Modal.styles.js';
 import { ModalContext } from './ModalContext.js';
 import { ModalSeparator } from './ModalSeparator.js';

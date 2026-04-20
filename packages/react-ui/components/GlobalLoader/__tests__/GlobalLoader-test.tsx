@@ -1,8 +1,8 @@
-import React, { StrictMode } from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
+import React, { StrictMode } from 'react';
 
-import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader.js';
 import { delay } from '../../../lib/utils.js';
+import { GlobalLoader, GlobalLoaderDataTids } from '../GlobalLoader.js';
 
 const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1100;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;

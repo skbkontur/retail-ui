@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useStyles } from '../../../lib/renderEnvironment/index.js';
 import type { InputProps } from '../Input.js';
-
 import { getStylesLayout } from './InputLayout.styles.js';
 import { InputLayoutAsideIcon } from './InputLayoutAsideIcon.js';
 import { InputLayoutAsideText } from './InputLayoutAsideText.js';

@@ -1,7 +1,7 @@
+import { Markdown } from '@storybook/blocks';
+import { Table } from '@storybook/components';
 import type { FC } from 'react';
 import React from 'react';
-import { Table } from '@storybook/components';
-import { Markdown } from '@storybook/blocks';
 
 export interface PublicMethod {
   name: string;

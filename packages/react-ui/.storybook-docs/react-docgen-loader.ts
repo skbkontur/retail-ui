@@ -1,16 +1,16 @@
+import type { TransformOptions } from '@babel/core';
+import { logger } from '@storybook/node-logger';
+import MagicString from 'magic-string';
+import type { Documentation, Handler, NodePath, babelTypes as t } from 'react-docgen';
 import {
-  parse,
-  builtinResolvers as docgenResolver,
+  ERROR_CODES,
   builtinHandlers as docgenHandlers,
   builtinImporters as docgenImporters,
-  ERROR_CODES,
+  builtinResolvers as docgenResolver,
+  parse,
   utils,
 } from 'react-docgen';
-import MagicString from 'magic-string';
 import type { LoaderContext } from 'webpack';
-import type { Handler, NodePath, babelTypes as t, Documentation } from 'react-docgen';
-import { logger } from '@storybook/node-logger';
-import type { TransformOptions } from '@babel/core';
 
 /**
  *

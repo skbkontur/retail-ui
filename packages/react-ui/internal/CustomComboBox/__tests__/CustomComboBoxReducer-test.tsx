@@ -1,6 +1,6 @@
-import { Effect } from '../CustomComboBoxReducer.js';
-import type { CustomComboBoxProps } from '../CustomComboBox.js';
 import { getSafeWindow } from '../../../lib/globalObject.js';
+import type { CustomComboBoxProps } from '../CustomComboBox.js';
+import { Effect } from '../CustomComboBoxReducer.js';
 
 const safeWindow = getSafeWindow();
 

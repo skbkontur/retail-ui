@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils.js';
 import type { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
+import type { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils.js';
 
 export interface FileUploaderControlContextProps {
   setFileStatus: (fileId: string, status: FileUploaderFileStatus) => void;

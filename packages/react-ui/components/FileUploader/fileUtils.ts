@@ -1,5 +1,4 @@
 import { getUid } from '../../lib/uidUtils.js';
-
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
 
 export type FileUploaderView = 'row' | 'tile';

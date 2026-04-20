@@ -1,4 +1,3 @@
-import React from 'react';
 import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete/index.js';
 import { Button } from '@skbkontur/react-ui/components/Button/index.js';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
@@ -9,6 +8,7 @@ import { Input } from '@skbkontur/react-ui/components/Input.js';
 import { Link } from '@skbkontur/react-ui/components/Link/index.js';
 import { Modal } from '@skbkontur/react-ui/components/Modal/index.js';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import React from 'react';
 import { Select } from '@skbkontur/react-ui/components/Select/index.js';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea/index.js';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/index.js';

@@ -1,8 +1,8 @@
-import { resolve, join } from 'path';
+import { join, resolve } from 'path';
 
 import type { Configuration, RuleSetUseItem } from 'webpack';
 
-import { isRuleSetUseItem, hasTestInRule, hasUseInRule } from '../../../scripts/webpack-type-guards/index.ts';
+import { hasTestInRule, hasUseInRule, isRuleSetUseItem } from '../../../scripts/webpack-type-guards/index.ts';
 
 const customReactDocgenLoader = resolve(__dirname, './react-docgen-loader.ts');
 

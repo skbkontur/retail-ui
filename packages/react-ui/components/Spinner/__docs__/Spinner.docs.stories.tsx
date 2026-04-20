@@ -1,5 +1,5 @@
+import { Gapped, Spinner, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import React from 'react';
-import { Spinner, Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

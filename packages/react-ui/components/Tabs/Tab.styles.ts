@@ -1,10 +1,9 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
 import { shift } from '../../lib/styles/DimensionFunctions.js';
+import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import type { SizeProp } from '../../lib/types/props.js';
-
 import { fontSize, lineHeight, paddingX, paddingY } from './helpers.js';
 
 export const globalClasses = prefix('tab')({

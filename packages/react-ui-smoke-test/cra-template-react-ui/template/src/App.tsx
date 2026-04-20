@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Autocomplete,
   Button,
@@ -44,6 +43,7 @@ import {
   Tooltip,
   TooltipMenu,
 } from '@skbkontur/react-ui';
+import React from 'react';
 import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
 
 export const App = () => {

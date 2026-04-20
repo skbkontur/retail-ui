@@ -1,5 +1,5 @@
-import { story, kind, test } from 'creevey';
 import 'creevey/playwright';
+import { kind, story, test } from 'creevey';
 
 const clickThenTAB = (clickDataTid: string) => {
   test(clickDataTid, async (context) => {

@@ -1,7 +1,7 @@
-import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../../lib/date/types.js';
-import { InternalDate } from '../../../lib/date/InternalDate.js';
-import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants.js';
 import { isLessOrEqual } from '../../../lib/date/comparison.js';
+import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants.js';
+import { InternalDate } from '../../../lib/date/InternalDate.js';
+import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../../lib/date/types.js';
 import type { Nullable } from '../../../typings/utility-types.js';
 
 interface ValidationOptions {

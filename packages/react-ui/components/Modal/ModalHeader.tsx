@@ -1,13 +1,12 @@
-import type { ReactNode } from 'react';
 import React, { useContext, useLayoutEffect } from 'react';
+import type { ReactNode } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { Sticky } from '../Sticky/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
-
+import { Sticky } from '../Sticky/index.js';
 import { getStyles } from './Modal.styles.js';
 import { ModalClose } from './ModalClose.js';
 import { ModalContext } from './ModalContext.js';

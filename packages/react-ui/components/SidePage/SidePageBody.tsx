@@ -1,17 +1,16 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { getStyles } from './SidePage.styles.js';
-import type { SidePageContextType } from './SidePageContext.js';
 import { SidePageContext } from './SidePageContext.js';
+import type { SidePageContextType } from './SidePageContext.js';
 
 export interface SidePageBodyProps extends CommonProps {
   children?: React.ReactNode;

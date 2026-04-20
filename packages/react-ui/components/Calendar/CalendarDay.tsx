@@ -1,17 +1,16 @@
+import React, { memo, useCallback, useContext } from 'react';
 import type { PropsWithChildren } from 'react';
-import React, { useContext, memo, useCallback } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { InternalDate } from '../../lib/date/InternalDate.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { LocaleContext } from '../../lib/locale/index.js';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { DatePickerLocaleHelper } from '../DatePicker/locale/index.js';
-import { InternalDate } from '../../lib/date/InternalDate.js';
-import { LocaleContext } from '../../lib/locale/index.js';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-
-import { getStyles } from './DayCellView.styles.js';
 import { CalendarDataTids } from './Calendar.js';
+import { getStyles } from './DayCellView.styles.js';
 
 export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement> {
   /** Устанавливает, является ли день текущим. */

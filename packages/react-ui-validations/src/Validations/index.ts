@@ -1,8 +1,8 @@
-import { ValidationBuilder } from './ValidationBuilder.js';
-import { ValidationWriter } from './ValidationWriter.js';
-import type { RootValidationRule, ValidationRule, ItemValidationRule } from './Types.js';
-import { ValidationReader } from './ValidationReader.js';
 import { PathTokensCache } from './PathHelper.js';
+import type { ItemValidationRule, RootValidationRule, ValidationRule } from './Types.js';
+import { ValidationBuilder } from './ValidationBuilder.js';
+import { ValidationReader } from './ValidationReader.js';
+import { ValidationWriter } from './ValidationWriter.js';
 
 function validate<T>(data: T, validationRule: RootValidationRule<T>, tokens: PathTokensCache): ValidationReader<T> {
   const validationWriter = new ValidationWriter<T>();

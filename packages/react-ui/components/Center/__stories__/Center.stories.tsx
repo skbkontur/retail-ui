@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Center } from '../Center.js';
 import type { Meta } from '../../../typings/stories.js';
+import { Center } from '../Center.js';
 
 const meta: Meta = {
   title: 'Center',

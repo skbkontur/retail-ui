@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { Story } from '../../../typings/stories.js';
-import { SidePage } from '../SidePage.js';
+import type { Shape } from '../../../typings/utility-types.js';
 import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
 import { Input } from '../../Input/index.js';
+import { Modal } from '../../Modal/index.js';
 import { Textarea } from '../../Textarea/index.js';
 import { Toggle } from '../../Toggle/index.js';
-import { Modal } from '../../Modal/index.js';
-import { Gapped } from '../../Gapped/index.js';
-import type { Shape } from '../../../typings/utility-types.js';
-import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { SidePage } from '../SidePage.js';
 
 const textSample = (
   <p>

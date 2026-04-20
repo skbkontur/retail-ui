@@ -1,5 +1,5 @@
-import React from 'react';
 import { CurrencyLabel, Gapped } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Story } from '../../../typings/stories.js';
 

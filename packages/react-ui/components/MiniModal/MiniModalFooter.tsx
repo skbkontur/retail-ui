@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import type { ModalFooterProps } from '../Modal/index.js';
-import { Modal } from '../Modal/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
-import { getStyles } from './MiniModal.styles.js';
+import { Modal } from '../Modal/index.js';
+import type { ModalFooterProps } from '../Modal/index.js';
 import { MiniModalDataTids } from './MiniModal.js';
+import { getStyles } from './MiniModal.styles.js';
 
 interface MiniModalFooterProps extends ModalFooterProps {
   /** Задает направление позиционирования кнопок. `row` работает только для 2 элементов, в других случаях автоматически включиться `column`.

@@ -1,5 +1,5 @@
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
 import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
 
 export const getMobilePickerTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(

@@ -1,30 +1,29 @@
-import React from 'react';
-import debounce from 'lodash.debounce';
 import type { Emotion } from '@emotion/css/create-instance';
+import debounce from 'lodash.debounce';
+import React from 'react';
 
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import * as LayoutEvents from '../../lib/LayoutEvents.js';
-import type { CommonProps } from '../../internal/CommonWrapper/index.js';
-import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { isTestEnv } from '../../lib/currentEnvironment.js';
-import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { getStyles, globalClasses } from './ScrollContainer.styles.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { ScrollAxis, ScrollBarScrollState } from './ScrollBar.js';
+import { ScrollBar } from './ScrollBar.js';
 import { scrollSizeParametersNames } from './ScrollContainer.constants.js';
 import {
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
   getScrollYOffset,
 } from './ScrollContainer.helpers.js';
-import type { ScrollAxis, ScrollBarScrollState } from './ScrollBar.js';
-import { ScrollBar } from './ScrollBar.js';
+import { getStyles, globalClasses } from './ScrollContainer.styles.js';
 
 export type ScrollContainerScrollStateX = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';

@@ -1,16 +1,16 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { PointerEventsCheckLevel, userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import type { CalendarProps } from '../Calendar.js';
-import { Calendar, CalendarDataTids } from '../Calendar.js';
-import { CalendarDay } from '../CalendarDay.js';
-import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru.js';
-import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en.js';
 import { InternalDate } from '../../../lib/date/InternalDate.js';
-import { CalendarLocaleHelper } from '../locale/index.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { Hint } from '../../Hint/index.js';
+import { Calendar, CalendarDataTids } from '../Calendar.js';
+import type { CalendarProps } from '../Calendar.js';
+import { CalendarDay } from '../CalendarDay.js';
+import { CalendarLocaleHelper } from '../locale/index.js';
+import { componentsLocales as DayCellViewLocalesEn } from '../locale/locales/en.js';
+import { componentsLocales as DayCellViewLocalesRu } from '../locale/locales/ru.js';
 
 describe('DayCellView', () => {
   describe('a11y', () => {

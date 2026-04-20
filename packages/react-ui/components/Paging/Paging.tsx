@@ -1,34 +1,33 @@
-import React, { type JSX } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React, { type JSX } from 'react';
 import warning from 'warning';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
-import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
-import { locale } from '../../lib/locale/decorators.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { KeyListener } from '../../lib/events/keyListener.js';
-import { emptyHandler } from '../../lib/utils.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { locale } from '../../lib/locale/decorators.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
-import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { getStyles } from './Paging.styles.js';
-import * as NavigationHelper from './NavigationHelper.js';
-import { getItems } from './PagingHelper.js';
+import { emptyHandler } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { DotsIcon } from './DotsIcon.js';
+import { ForwardIcon, ForwardIconMobile } from './ForwardIcon.js';
 import type { PagingLocale } from './locale/index.js';
 import { PagingLocaleHelper } from './locale/index.js';
+import * as NavigationHelper from './NavigationHelper.js';
+import { getStyles } from './Paging.styles.js';
 import { PagingDefaultComponent } from './PagingDefaultComponent.js';
-import { ForwardIcon, ForwardIconMobile } from './ForwardIcon.js';
-import { DotsIcon } from './DotsIcon.js';
+import { getItems } from './PagingHelper.js';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 

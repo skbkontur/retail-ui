@@ -1,22 +1,21 @@
-import React, { createRef } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React, { createRef } from 'react';
 
-import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
-import { getRandomID, isNonNullable } from '../../lib/utils.js';
 import type { DatePickerLocale } from '../../components/DatePicker/locale/index.js';
 import { DatePickerLocaleHelper } from '../../components/DatePicker/locale/index.js';
-import { locale } from '../../lib/locale/decorators.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { MenuItem } from '../../components/MenuItem/index.js';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
 import type { ButtonParams } from '../../components/Select/index.js';
 import { Select } from '../../components/Select/index.js';
-import { MenuItem } from '../../components/MenuItem/index.js';
-import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular.js';
 import type { PopupPositionsType } from '../../internal/Popup/types.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { locale } from '../../lib/locale/decorators.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { globalClasses, getStyles } from './DateSelect.styles.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { getRandomID, isNonNullable } from '../../lib/utils.js';
+import { ArrowCollapseCVOpenIcon16Regular } from '../icons2022/ArrowCollapseCVOpenIcon/ArrowCollapseCVOpenIcon16Regular.js';
+import { getStyles, globalClasses } from './DateSelect.styles.js';
 
 const defaultMinMonth = 0;
 const defaultMaxMonth = 11;

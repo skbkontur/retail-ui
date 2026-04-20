@@ -1,5 +1,5 @@
+import { Gapped, Toggle } from '@skbkontur/react-ui';
 import React from 'react';
-import { Toggle, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

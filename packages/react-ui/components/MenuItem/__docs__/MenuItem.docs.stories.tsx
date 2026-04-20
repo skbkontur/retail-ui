@@ -1,9 +1,9 @@
-import React from 'react';
+import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/ArrowUiCornerOutUpRightIcon.js';
 import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
 import { HandThumbDownIcon } from '@skbkontur/icons/HandThumbDownIcon.js';
 import { TechPhoneSmartIcon } from '@skbkontur/icons/TechPhoneSmartIcon.js';
-import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/ArrowUiCornerOutUpRightIcon.js';
-import { MenuItem, Button, DropdownMenu, Gapped, MenuSeparator } from '@skbkontur/react-ui';
+import { Button, DropdownMenu, Gapped, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

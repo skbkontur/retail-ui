@@ -1,7 +1,6 @@
 import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { getOwnerGlobalObject } from '../../lib/globalObject.js';
-
 import type { PopupPositionsType } from './Popup.js';
 
 export interface Rect {

@@ -1,9 +1,9 @@
-import React from 'react';
-import { userEvent } from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { tooltip, text } from '../src/ErrorRenderer.js';
+import { text, tooltip } from '../src/ErrorRenderer.js';
 import type { ValidationInfo } from '../src/ValidationWrapper.js';
 import { ValidationWrapper } from '../src/ValidationWrapper.js';
 import type { Nullable } from '../typings/Types.js';

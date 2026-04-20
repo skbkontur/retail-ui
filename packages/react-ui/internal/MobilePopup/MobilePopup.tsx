@@ -1,21 +1,20 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { HTMLAttributes } from 'react';
 import React from 'react';
 import { Transition } from 'react-transition-group';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { RenderContainer } from '../RenderContainer/index.js';
-import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll/index.js';
-import { ZIndex } from '../ZIndex/index.js';
-import { RenderLayer } from '../RenderLayer/index.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll/index.js';
+import { RenderContainer } from '../RenderContainer/index.js';
+import { RenderLayer } from '../RenderLayer/index.js';
+import { ZIndex } from '../ZIndex/index.js';
 import { getJsStyles } from './MobilePopup.styles.js';
-import { MobilePopupHeader } from './MobilePopupHeader/index.js';
 import { MobilePopupFooter } from './MobilePopupFooter/index.js';
+import { MobilePopupHeader } from './MobilePopupHeader/index.js';
 
 interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**

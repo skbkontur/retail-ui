@@ -1,24 +1,23 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { HTMLAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
-import { getButtonCorners, Group } from '../Group/index.js';
-import type { ButtonProps } from '../Button/index.js';
-import { Button } from '../Button/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Nullable } from '../../typings/utility-types.js';
+import { Button } from '../Button/index.js';
+import type { ButtonProps } from '../Button/index.js';
+import { Group, getButtonCorners } from '../Group/index.js';
+import { mod } from './helpers.js';
 import { getStyles } from './Switcher.styles.js';
 import { getSwitcherTheme } from './switcherTheme.js';
-import { mod } from './helpers.js';
 
 export type SwitcherItems = string | SwitcherItem;
 

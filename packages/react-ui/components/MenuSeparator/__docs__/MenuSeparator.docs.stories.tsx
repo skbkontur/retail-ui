@@ -1,5 +1,5 @@
+import { Button, DropdownMenu, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 import React from 'react';
-import { MenuSeparator, Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

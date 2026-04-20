@@ -1,12 +1,12 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import type { Theme } from '../../lib/theming/Theme.js';
 import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { TokenView } from '../Token/TokenView.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 import type { TokenSize } from '../Token/index.js';
 import { getStyles } from '../Token/Token.styles.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { TokenView } from '../Token/TokenView.js';
 
 // a thin character to preserve some space
 // for the caret visibillity in the input

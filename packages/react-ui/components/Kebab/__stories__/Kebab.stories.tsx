@@ -1,13 +1,12 @@
-import React, { type JSX } from 'react';
-import { action } from '@storybook/addon-actions';
 import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { action } from '@storybook/addon-actions';
+import React, { type JSX } from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
-import { Kebab } from '../Kebab.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
 import { MenuItem } from '../../MenuItem/index.js';
 import type { KebabProps } from '../index.js';
-import { MenuHeader } from '../../MenuHeader/index.js';
-
+import { Kebab } from '../Kebab.js';
 import { defaultItemsList, manyItemsList } from './Kebab.items.js';
 
 interface KebabItem {

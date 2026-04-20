@@ -1,10 +1,10 @@
-﻿import React from 'react';
 import { render, screen } from '@testing-library/react';
+import React from 'react';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import { Token, TokenDataTids } from '../Token.js';
-import { componentsLocales as TokenLocalesRu } from '../locale/locales/ru.js';
 import { componentsLocales as TokenLocalesEn } from '../locale/locales/en.js';
+import { componentsLocales as TokenLocalesRu } from '../locale/locales/ru.js';
+import { Token, TokenDataTids } from '../Token.js';
 
 describe('Token', () => {
   it('handles onRemove event', () => {

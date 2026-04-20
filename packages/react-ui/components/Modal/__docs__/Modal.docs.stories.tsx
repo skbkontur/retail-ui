@@ -1,5 +1,5 @@
+import { Button, Gapped, Modal, Toggle } from '@skbkontur/react-ui';
 import React from 'react';
-import { Modal, Button, Toggle, Gapped } from '@skbkontur/react-ui';
 
 import type { Story } from '../../../typings/stories.js';
 

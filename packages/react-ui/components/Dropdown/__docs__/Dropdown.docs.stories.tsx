@@ -1,6 +1,6 @@
-import React from 'react';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
 import { Dropdown, Gapped, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

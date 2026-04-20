@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 
 import type { Nullable } from '../typings/Types.js';
-
-import type { TextPosition, Validation } from './ValidationWrapperInternal.js';
-import { getValidationTextColor } from './utils/getValidationTextColor.js';
 import { ThemeContext } from './ReactUiDetection.js';
+import { getValidationTextColor } from './utils/getValidationTextColor.js';
+import type { TextPosition, Validation } from './ValidationWrapperInternal.js';
 
 export interface ValidationTextProps {
   pos: TextPosition;

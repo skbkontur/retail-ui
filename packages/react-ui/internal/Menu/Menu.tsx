@@ -1,33 +1,32 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { CSSProperties, HTMLAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { isBrowser } from '../../lib/globalObject.js';
-import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
-import { MenuSeparator } from '../../components/MenuSeparator/index.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
-import { isNonNullable } from '../../lib/utils.js';
-import type { ScrollContainerScrollStateY } from '../../components/ScrollContainer/index.js';
-import { ScrollContainer } from '../../components/ScrollContainer/index.js';
 import type { MenuItem } from '../../components/MenuItem/index.js';
 import { MenuItemDataTids } from '../../components/MenuItem/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
+import { MenuSeparator } from '../../components/MenuSeparator/index.js';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
+import { ScrollContainer } from '../../components/ScrollContainer/index.js';
+import type { ScrollContainerScrollStateY } from '../../components/ScrollContainer/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isBrowser } from '../../lib/globalObject.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { isNonNullable } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import type { CommonProps } from '../CommonWrapper/index.js';
 import { CommonWrapper } from '../CommonWrapper/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
 import { getStyles } from './Menu.styles.js';
-import { MenuNavigation } from './MenuNavigation.js';
 import { MenuContext } from './MenuContext.js';
+import { MenuNavigation } from './MenuNavigation.js';
 
 export interface MenuProps extends CommonProps, Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   children: React.ReactNode;

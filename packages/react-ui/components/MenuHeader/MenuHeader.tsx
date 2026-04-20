@@ -1,14 +1,13 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { SizeProp } from '../../lib/types/props.js';
 import { MenuContext } from '../../internal/Menu/MenuContext.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles } from './MenuHeader.styles.js';
 
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {

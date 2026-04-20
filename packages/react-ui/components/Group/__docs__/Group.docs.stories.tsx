@@ -1,7 +1,7 @@
-import React from 'react';
 import { MathFunctionIcon } from '@skbkontur/icons/MathFunctionIcon.js';
 import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon.js';
-import { Group, Button, Input, Hint, DateRangePicker, Tooltip } from '@skbkontur/react-ui';
+import { Button, DateRangePicker, Group, Hint, Input, Tooltip } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

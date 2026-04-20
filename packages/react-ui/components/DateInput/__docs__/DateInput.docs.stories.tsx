@@ -1,5 +1,5 @@
+import { DateInput, DateOrder, DateSeparator, Gapped, LangCodes, LocaleContext, Select } from '@skbkontur/react-ui';
 import React from 'react';
-import { DateInput, Gapped, LangCodes, LocaleContext, Select, DateOrder, DateSeparator } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

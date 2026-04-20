@@ -1,7 +1,7 @@
-import React from 'react';
-import { Kebab, MenuItem, MenuHeader } from '@skbkontur/react-ui';
 import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
 import { PlusIcon16Light } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Light.js';
+import { Kebab, MenuHeader, MenuItem } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

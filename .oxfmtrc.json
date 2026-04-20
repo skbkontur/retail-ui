@@ -3,6 +3,8 @@
   "singleQuote": true,
   "printWidth": 120,
   "trailingComma": "all",
+  "sortImports": true,
+  "sortPackageJson": true,
   "overrides": [
     {
       "files": ["*.demo.tsx"],

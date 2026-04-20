@@ -1,18 +1,17 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 
+import type { PopupPositionsType, ShortPopupPositionsType } from '../../../internal/Popup/index.js';
+import { LocaleContext } from '../../../lib/locale/index.js';
+import { pluralize } from '../../../lib/pluralize.js';
 import { useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../../lib/types/props.js';
-import type { PopupPositionsType, ShortPopupPositionsType } from '../../../internal/Popup/index.js';
-import { pluralize } from '../../../lib/pluralize.js';
-import { LocaleContext } from '../../../lib/locale/index.js';
 import { FileUploaderControlContext } from '../FileUploaderControlContext.js';
 import type { FileUploaderFileProps } from '../FileUploaderFile.js';
 import { FileUploaderFileStatus, type FileUploaderValidationSummary, type FileUploaderView } from '../fileUtils.js';
-import { useFileUploaderSize } from '../hooks/useFileUploaderSize.js';
 import { useControlLocale } from '../hooks/useControlLocale.js';
-
-import { getJsStyles, getJsTileStyles, getJsRowStyles } from './FileUploaderFileList.styles.js';
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize.js';
+import { getJsRowStyles, getJsStyles, getJsTileStyles } from './FileUploaderFileList.styles.js';
 
 interface FileUploaderFileListProps {
   renderFile: (props: FileUploaderFileProps) => React.ReactNode;

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
+import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light.js';
 import { useEmotion } from '../../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { AnyObject } from '../../../lib/utils.js';
 import type { Story } from '../../../typings/stories.js';
-import type { LoaderProps } from '../Loader.js';
-import { Loader } from '../Loader.js';
-import { EyeOpenIcon16Light } from '../../../internal/icons2022/EyeOpenIcon/EyeOpenIcon16Light.js';
-import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { Toggle } from '../../Toggle/index.js';
-
+import { Loader } from '../Loader.js';
+import type { LoaderProps } from '../Loader.js';
 import { LoaderAndButton } from './LoaderAndButton.js';
 
 const loaderClass = `

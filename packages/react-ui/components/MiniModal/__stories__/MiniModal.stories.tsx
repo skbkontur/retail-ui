@@ -1,11 +1,11 @@
-import React from 'react';
-import { TrashCanIcon64Regular } from '@skbkontur/icons/TrashCanIcon64Regular.js';
 import { TechPhoneSmartIcon64Regular } from '@skbkontur/icons/TechPhoneSmartIcon64Regular.js';
+import { TrashCanIcon64Regular } from '@skbkontur/icons/TrashCanIcon64Regular.js';
+import React from 'react';
 
-import { MiniModal } from '../MiniModal.js';
+import type { Meta } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
 import { Modal } from '../../Modal/index.js';
-import type { Meta } from '../../../typings/stories.js';
+import { MiniModal } from '../MiniModal.js';
 
 const meta: Meta = {
   title: 'MiniModal',

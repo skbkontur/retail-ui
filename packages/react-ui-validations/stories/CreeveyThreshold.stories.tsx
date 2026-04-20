@@ -1,6 +1,6 @@
-import React from 'react';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import type { Meta } from '@storybook/react';
+import React from 'react';
 
 export default {
   title: 'Creevey',

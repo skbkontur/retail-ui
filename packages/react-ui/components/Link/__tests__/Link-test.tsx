@@ -1,6 +1,6 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import type { LinkProps } from '../index.js';
 import { Link, LinkDataTids } from '../Link.js';

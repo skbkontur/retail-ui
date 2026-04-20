@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/index.js';
+import React from 'react';
 import { Toast } from '@skbkontur/react-ui/components/Toast';
 
 import { Case, CaseSuite } from '../Case';

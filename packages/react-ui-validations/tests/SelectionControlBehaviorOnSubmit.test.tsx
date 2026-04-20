@@ -1,14 +1,14 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { Radio } from '@skbkontur/react-ui/components/Radio/Radio';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
-import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
-import { Select } from '@skbkontur/react-ui/components/Select/Select';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
+import { Radio } from '@skbkontur/react-ui/components/Radio/Radio';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
-import React from 'react';
+import { Select } from '@skbkontur/react-ui/components/Select/Select';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle';
 import { ComboBoxMenuDataTids } from '@skbkontur/react-ui/internal/CustomComboBox/index';
+import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import { ValidationContainer, ValidationWrapper } from '../index.js';
 import type { ValidationInfo } from '../index.js';

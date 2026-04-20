@@ -1,13 +1,13 @@
-import React from 'react';
 import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import React from 'react';
 
-import type { Story } from '../../../typings/stories.js';
-import { ComboBoxView } from '../ComboBoxView.js';
 import { Gapped } from '../../../components/Gapped/index.js';
-import { Modal } from '../../../components/Modal/index.js';
+import { MenuHeader } from '../../../components/MenuHeader/index.js';
 import { MenuItem } from '../../../components/MenuItem/index.js';
 import { MenuSeparator } from '../../../components/MenuSeparator/index.js';
-import { MenuHeader } from '../../../components/MenuHeader/index.js';
+import { Modal } from '../../../components/Modal/index.js';
+import type { Story } from '../../../typings/stories.js';
+import { ComboBoxView } from '../ComboBoxView.js';
 
 export default { title: 'ComboBoxView' };
 

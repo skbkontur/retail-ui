@@ -1,8 +1,8 @@
-import React from 'react';
 import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import React from 'react';
 
-import type { Story } from '../../../typings/stories.js';
 import { Gapped } from '../../../components/Gapped/index.js';
+import type { Story } from '../../../typings/stories.js';
 import { InternalTextareaWithLayout } from '../InternalTextareaWithLayout.js';
 
 export default { title: 'InternalTextareaWithLayout' };

@@ -1,11 +1,10 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import { isNonNullable } from '../../../lib/utils.js';
+import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
 import type { Theme } from '../../../lib/theming/Theme.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
-import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
-
+import { isNonNullable } from '../../../lib/utils.js';
 import { getJsStyles } from './MobilePopupHeader.styles.js';
 
 interface MobilePopupHeaderProps {

@@ -1,18 +1,17 @@
-import type { Ref } from 'react';
-import React, { useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import type { IMaskInputProps } from '@skbkontur/react-imask';
+import React, { useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import type { Ref } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { InputProps, InputType } from '../Input/index.js';
 import { Input } from '../Input/index.js';
-import { isKeyBackspace, isKeyDelete } from '../../lib/events/keyboard/identifiers.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
-import { getStyles, globalClasses } from './MaskedInput.styles.js';
-import { getDefinitions, getMaskChar } from './MaskedInput.helpers.js';
 import { ColorableInputElement } from './ColorableInputElement/index.js';
 import { FixedIMaskInput } from './FixedIMaskInput.js';
+import { getDefinitions, getMaskChar } from './MaskedInput.helpers.js';
+import { getStyles, globalClasses } from './MaskedInput.styles.js';
 
 export type MaskedInputOnBeforePasteValue = (value: string) => string;
 

@@ -1,30 +1,28 @@
-// TODO: Enable this rule in functional components.
+import type { Emotion } from '@emotion/css/create-instance';
 import invariant from 'invariant';
 import type { AriaAttributes, ClassAttributes, HTMLAttributes, JSX, ReactElement } from 'react';
 import React, { createRef } from 'react';
 import warning from 'warning';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers.js';
-import type { Override } from '../../typings/utility-types.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
+import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon.js';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
+import { blink } from '../../lib/blink.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
-import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon.js';
-import { catchUnreachableWarning } from '../../lib/typeGuards.js';
-import { blink } from '../../lib/blink.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import type { InputElement, InputElementProps } from './Input.typings.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { catchUnreachableWarning } from '../../lib/typeGuards.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import type { Override } from '../../typings/utility-types.js';
 import { getStyles } from './Input.styles.js';
+import type { InputElement, InputElementProps } from './Input.typings.js';
 import { InputLayout } from './InputLayout/InputLayout.js';
 
 export const inputTypes = ['password', 'text', 'number', 'tel', 'search', 'time', 'date', 'url', 'email'] as const;

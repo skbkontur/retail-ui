@@ -1,15 +1,13 @@
-/* eslint react-hooks/exhaustive-deps: 2 */
-import type { ForwardedRef } from 'react';
-import React, { useContext, useEffect, useImperativeHandle, useRef, useCallback, useState } from 'react';
 import debounce from 'lodash.debounce';
+import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import type { ForwardedRef } from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
+import { forwardRefAndName } from '../../../lib/forwardRefAndName.js';
 import { isBrowser } from '../../../lib/globalObject.js';
+import { useEmotion, useGlobal, useStyles } from '../../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { InputElement, InputElementProps } from '../../Input/index.js';
-import { forwardRefAndName } from '../../../lib/forwardRefAndName.js';
-
-import { globalClasses, getStyles } from './ColorableInputElement.styles.js';
+import { getStyles, globalClasses } from './ColorableInputElement.styles.js';
 
 export type ColorableInputElementProps = InputElementProps & {
   alwaysShowMask?: boolean;

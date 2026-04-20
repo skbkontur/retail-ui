@@ -1,21 +1,21 @@
-import React, { useState, type JSX } from 'react';
-import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
 import { ArrowADownRightIcon16Regular } from '@skbkontur/icons/icons/ArrowADownRightIcon/ArrowADownRightIcon16Regular.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
 import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
 import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
+import React, { type JSX, useState } from 'react';
 
-import type { Meta, Story } from '../../../typings/stories.js';
-import { MenuItem } from '../../MenuItem/index.js';
-import { MenuHeader } from '../../MenuHeader/index.js';
-import { MenuSeparator } from '../../MenuSeparator/index.js';
-import type { DropdownMenuProps } from '../DropdownMenu.js';
-import { DropdownMenu } from '../DropdownMenu.js';
-import { Button } from '../../Button/index.js';
-import { Input } from '../../Input/index.js';
-import { Gapped } from '../../Gapped/index.js';
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular.js';
+import type { Meta, Story } from '../../../typings/stories.js';
+import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Input } from '../../Input/index.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
 import { SingleToast } from '../../SingleToast/index.js';
+import { DropdownMenu } from '../DropdownMenu.js';
+import type { DropdownMenuProps } from '../DropdownMenu.js';
 
 const meta: Meta = {
   title: 'DropdownMenu',

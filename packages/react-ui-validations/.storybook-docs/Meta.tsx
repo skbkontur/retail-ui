@@ -1,21 +1,21 @@
-import { DocsContext } from '@storybook/blocks';
-import type { ModuleExports } from '@storybook/types';
-import React, { useContext, useEffect } from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
+import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light.js';
 import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light.js';
 import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light.js';
 import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light.js';
 import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light.js';
-import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light.js';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu/DropdownMenu';
+import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter/MenuFooter';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader/MenuHeader';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem/MenuItem';
 import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator/MenuSeparator';
-import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader/MenuHeader';
-import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter/MenuFooter';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle';
-import { linkTo } from '@storybook/addon-links';
-import { memoizeGetStyles } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment/index';
-import type { Emotion } from '@emotion/css/create-instance';
+import { memoizeGetStyles } from '@skbkontur/react-ui/lib/theming/Emotion';
+import { linkTo } from '@storybook/addon-links';
+import { DocsContext } from '@storybook/blocks';
+import type { ModuleExports } from '@storybook/types';
+import React, { useContext, useEffect } from 'react';
 
 import { validationsFeatureFlagsDefault } from '../index.js';
 const themes = [

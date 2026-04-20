@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
-import type { ButtonType } from '../Button.js';
 import { Button, ButtonDataTids } from '../Button.js';
+import type { ButtonType } from '../Button.js';
 import { globalClasses } from '../Button.styles.js';
 
 describe('Button', () => {

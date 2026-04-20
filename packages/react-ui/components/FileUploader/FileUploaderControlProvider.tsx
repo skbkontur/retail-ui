@@ -1,14 +1,13 @@
-import type { PropsWithChildren } from 'react';
 import React, { useCallback, useState } from 'react';
+import type { PropsWithChildren } from 'react';
 
-import { useMemoObject } from '../../hooks/useMemoObject.js';
 import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall.js';
-
-import type { FileUploaderAttachedFile } from './fileUtils.js';
-import { FileUploaderFileStatus, getAttachedFile } from './fileUtils.js';
+import { useMemoObject } from '../../hooks/useMemoObject.js';
 import { FileUploaderControlContext } from './FileUploaderControlContext.js';
-import { useControlLocale } from './hooks/useControlLocale.js';
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
+import { FileUploaderFileStatus, getAttachedFile } from './fileUtils.js';
+import type { FileUploaderAttachedFile } from './fileUtils.js';
+import { useControlLocale } from './hooks/useControlLocale.js';
 
 export interface FileUploaderControlProviderProps {
   initialFiles?: File[];

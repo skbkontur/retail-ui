@@ -1,22 +1,21 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
+import { InputDataTids, calculateClearCrossShowedState } from '../../components/Input/index.js';
 import type { InputProps } from '../../components/Input/index.js';
+import { getStyles as getInputStyles } from '../../components/Input/Input.styles.js';
 import { InputLayout } from '../../components/Input/InputLayout/InputLayout.js';
 import { DEFAULT_WIDTH, Textarea } from '../../components/Textarea/index.js';
 import type { TextareaProps } from '../../components/Textarea/index.js';
 import { getStyles as getTextareaStyles } from '../../components/Textarea/Textarea.styles.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { getStyles as getInputStyles } from '../../components/Input/Input.styles.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
-import { calculateClearCrossShowedState, InputDataTids } from '../../components/Input/index.js';
-import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon.js';
 import { getStyles } from './InternalTextareaWithLayout.styles.js';
 
 interface InternalTextareaWithLayoutProps

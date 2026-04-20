@@ -1,8 +1,8 @@
-import React from 'react';
 import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light.js';
 import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular.js';
 import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light.js';
-import { Link, Gapped, Button, SingleToast } from '@skbkontur/react-ui';
+import { Button, Gapped, Link, SingleToast } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

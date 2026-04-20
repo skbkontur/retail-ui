@@ -1,17 +1,16 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import { useStyles, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import type { Theme } from '../../lib/theming/Theme.js';
 import { Gapped } from '../../components/Gapped/index.js';
 import { Loader } from '../../components/Loader/index.js';
+import { useStyles, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
 import { isNonNullable } from '../../lib/utils.js';
-
-import { VariableValue } from './VariableValue.js';
-import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants.js';
-import type { ThemeErrorsType } from './ThemeContextPlayground.js';
+import { DEPRECATED_VARIABLES, VARIABLES_GROUPS } from './constants.js';
 import { getStyles } from './Playground.styles.js';
+import type { ThemeErrorsType } from './ThemeContextPlayground.js';
+import { VariableValue } from './VariableValue.js';
 
 interface ThemeEditorProps {
   editingTheme: Theme;

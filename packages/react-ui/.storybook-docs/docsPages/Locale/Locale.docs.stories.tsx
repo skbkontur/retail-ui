@@ -1,17 +1,17 @@
-import React from 'react';
 import {
-  LocaleContext,
-  TokenInput,
-  LangCodes,
-  TokenInputType,
-  Gapped,
-  Spinner,
-  Select,
   ComboBox,
-  DatePicker,
-  Paging,
   DateInput,
+  DatePicker,
+  Gapped,
+  LangCodes,
+  LocaleContext,
+  Paging,
+  Select,
+  Spinner,
+  TokenInput,
+  TokenInputType,
 } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

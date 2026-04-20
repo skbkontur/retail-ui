@@ -1,9 +1,9 @@
-import React from 'react';
-import { Button, Radio, RadioGroup, Gapped } from '@skbkontur/react-ui';
+import { Button, Gapped, Radio, RadioGroup } from '@skbkontur/react-ui';
 import { ValidationContainer, type ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
+import React from 'react';
 
-import type { Meta, Story } from '../../../typings/stories.js';
 import { isNullable } from '../../../lib/utils.js';
+import type { Meta, Story } from '../../../typings/stories.js';
 import type { Nullable } from '../../../typings/utility-types.js';
 
 export default {

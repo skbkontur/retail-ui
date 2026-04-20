@@ -1,5 +1,5 @@
-import React, { type JSX } from 'react';
 import { action } from '@storybook/addon-actions';
+import React, { type JSX } from 'react';
 
 import type { Meta } from '../../../typings/stories.js';
 import { SingleToast } from '../SingleToast.js';

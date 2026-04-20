@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { isFunction } from '../../lib/utils.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-
+import { isFunction } from '../../lib/utils.js';
 import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types.js';
 import { useResponsiveLayout } from './useResponsiveLayout.js';
 

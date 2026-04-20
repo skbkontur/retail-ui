@@ -1,4 +1,4 @@
-import { join, dirname } from 'path';
+import { dirname, join } from 'path';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 

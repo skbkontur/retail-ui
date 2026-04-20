@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react';
 
-import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll.js';
 import type { Meta, Story } from '../../../typings/stories.js';
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll.js';
 
 const meta: Meta = {
   title: 'HideBodyVerticalScroll',

@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { JSX } from 'react';
+import type React from 'react';
 
 import type { Merge } from '../../typings/utility-types.js';
 

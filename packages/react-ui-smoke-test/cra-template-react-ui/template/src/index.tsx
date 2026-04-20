@@ -1,8 +1,8 @@
 import React, {StrictMode} from 'react';
 import { render } from 'react-dom';
 
-import { App } from './App';
 import * as serviceWorker from './serviceWorker';
+import { App } from './App';
 
 const container = document.getElementById('root');
 

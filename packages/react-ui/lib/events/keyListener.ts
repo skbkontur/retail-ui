@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { useGlobal } from '../renderEnvironment/index.js';
-
 import { isKeyArrow, isKeyTab } from './keyboard/identifiers.js';
 
 export class KeyListener {

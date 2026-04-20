@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment/index.js';
 import type { ReactUIComponentWithRef } from '../../lib/forwardRefAndName.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-
+import { useStyles } from '../../lib/renderEnvironment/index.js';
 import { getStyles } from './BaseIcon.styles.js';
 
 export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {

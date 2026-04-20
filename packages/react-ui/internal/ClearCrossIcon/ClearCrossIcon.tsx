@@ -1,14 +1,13 @@
 import type { AriaAttributes } from 'react';
 import React from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import type { TokenSize } from '../../components/Token/index.js';
 import { useKeyListener } from '../../lib/events/keyListener.js';
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
 import type { CommonProps } from '../CommonWrapper/index.js';
 import { CommonWrapper } from '../CommonWrapper/index.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import type { TokenSize } from '../../components/Token/index.js';
-
 import { getStyles } from './ClearCrossIcon.styles.js';
 import { CrossIcon } from './CrossIcon.js';
 

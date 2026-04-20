@@ -1,5 +1,5 @@
+import { Button, Gapped, SingleToast, Toast } from '@skbkontur/react-ui';
 import React from 'react';
-import { Toast, Button, Gapped, SingleToast } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

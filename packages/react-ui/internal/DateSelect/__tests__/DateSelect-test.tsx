@@ -1,10 +1,10 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import { DatePickerLocaleHelper } from '../../../components/DatePicker/locale/index.js';
-import type { DateSelectProps } from '../DateSelect.js';
 import { DateSelect } from '../DateSelect.js';
+import type { DateSelectProps } from '../DateSelect.js';
 
 const renderSelect = (props: DateSelectProps) => render(<DateSelect {...props} />);
 

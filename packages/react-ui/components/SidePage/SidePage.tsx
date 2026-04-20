@@ -1,38 +1,37 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { FocusLock } from '../../internal/react-focus-lock/index.js';
-import { isNonNullable, isReactUIInstance } from '../../lib/utils.js';
-import { isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
-import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll/index.js';
-import { ModalStack } from '../../lib/ModalStack.js';
-import type { ModalStackSubscription } from '../../lib/ModalStack.js';
+import { FocusLock } from '../../internal/react-focus-lock/index.js';
 import { RenderContainer } from '../../internal/RenderContainer/index.js';
 import { RenderLayer } from '../../internal/RenderLayer/index.js';
 import { ZIndex } from '../../internal/ZIndex/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import type { CommonProps } from '../../internal/CommonWrapper/index.js';
-import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { isTestEnv } from '../../lib/currentEnvironment.js';
-import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { ModalStack } from '../../lib/ModalStack.js';
+import type { ModalStackSubscription } from '../../lib/ModalStack.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isNonNullable, isReactUIInstance } from '../../lib/utils.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { getStyles } from './SidePage.styles.js';
 import { SidePageBody } from './SidePageBody.js';
 import { SidePageContainer } from './SidePageContainer.js';
-import type { SidePageContextType } from './SidePageContext.js';
 import { SidePageContext } from './SidePageContext.js';
+import type { SidePageContextType } from './SidePageContext.js';
 import { SidePageFooter } from './SidePageFooter.js';
 import { SidePageHeader } from './SidePageHeader.js';
-import { getStyles } from './SidePage.styles.js';
 export interface SidePageProps
   extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'>, Pick<AriaAttributes, 'aria-label'> {
   /** Добавляет блокирующий фон, когда сайдпейдж открыт. */

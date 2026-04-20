@@ -1,17 +1,17 @@
-import React from 'react';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import {
-  DatePicker,
-  Gapped,
-  Tooltip,
+  CalendarDay,
   DateOrder,
+  DatePicker,
   DateSeparator,
+  Gapped,
+  LangCodes,
   LocaleContext,
   Select,
-  LangCodes,
-  CalendarDay,
+  Tooltip,
 } from '@skbkontur/react-ui';
 import type { CalendarDayProps } from '@skbkontur/react-ui';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import * as DatePickerHelpers from '../DatePickerHelpers.js';

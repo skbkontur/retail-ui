@@ -1,11 +1,11 @@
 import React from 'react';
 
-import type { CloseButtonIconProps } from '../CloseButtonIcon.js';
-import { CloseButtonIcon } from '../CloseButtonIcon.js';
-import { ComponentTable } from '../../ComponentTable.js';
 import { Gapped } from '../../../components/Gapped/index.js';
-import type { Story } from '../../../typings/stories.js';
 import { Input } from '../../../components/Input/index.js';
+import type { Story } from '../../../typings/stories.js';
+import { ComponentTable } from '../../ComponentTable.js';
+import { CloseButtonIcon } from '../CloseButtonIcon.js';
+import type { CloseButtonIconProps } from '../CloseButtonIcon.js';
 
 export default {
   title: 'CloseButtonIcon',

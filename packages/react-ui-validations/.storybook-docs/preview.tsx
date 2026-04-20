@@ -1,22 +1,21 @@
-import React from 'react';
-import type { Preview } from '@storybook/react';
-import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
-import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
-import { addons } from '@storybook/manager-api';
-import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
-import styled from 'styled-components';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
+import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
+import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
+import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
+import { addons } from '@storybook/manager-api';
+import type { Preview } from '@storybook/react';
+import React from 'react';
+import styled from 'styled-components';
 
-import * as Validations from '../index.js';
 import * as ReactUI from '../../react-ui/index.js';
-import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations.js';
 import { Form } from '../docs/Common/Form.js';
 import { SpaceFiller } from '../docs/Common/SpaceFiller';
-
-import { FeatureFlagToggle } from './FeatureFlagToggle';
+import * as ControlsWithValidations from '../docs/Pages_NEW/Concepts/InlineValidations/ControlsWithValidations.js';
+import * as Validations from '../index.js';
 import FeatureFlagsDecorator from './decorators/Features/FeatureFlagsDecorator';
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator';
+import { FeatureFlagToggle } from './FeatureFlagToggle';
 
 const preview: Preview = {
   decorators: [

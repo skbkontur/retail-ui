@@ -1,10 +1,10 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle/Toggle';
+import React from 'react';
 
-import type { Meta, Story } from '../../../../typings/stories.js';
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
+import type { Meta, Story } from '../../../../typings/stories.js';
 import type { Nullable } from '../../../../typings/Types.js';
 import { Form } from '../../../Common/Form.js';
 

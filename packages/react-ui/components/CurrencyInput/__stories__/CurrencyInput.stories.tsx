@@ -2,12 +2,12 @@ import React from 'react';
 
 import { isNullable } from '../../../lib/utils.js';
 import type { Story } from '../../../typings/stories.js';
-import type { CurrencyInputProps } from '../CurrencyInput.js';
-import { CurrencyInput } from '../CurrencyInput.js';
-import { Gapped } from '../../Gapped/index.js';
-import { Button } from '../../Button/index.js';
-import { Toggle } from '../../Toggle/index.js';
 import type { Nullable } from '../../../typings/utility-types.js';
+import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Toggle } from '../../Toggle/index.js';
+import { CurrencyInput } from '../CurrencyInput.js';
+import type { CurrencyInputProps } from '../CurrencyInput.js';
 
 export default {
   title: 'CurrencyInput',

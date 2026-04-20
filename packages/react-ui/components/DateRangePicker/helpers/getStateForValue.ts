@@ -1,6 +1,6 @@
+import { isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../../lib/date/comparison.js';
+import { MAX_FULLDATE, MIN_FULLDATE } from '../../../lib/date/constants.js';
 import type { DateRangePickerInputType } from '../DateRangePickerInput.js';
-import { isLess, isGreater, isLessOrEqual, isGreaterOrEqual } from '../../../lib/date/comparison.js';
-import { MIN_FULLDATE, MAX_FULLDATE } from '../../../lib/date/constants.js';
 
 interface DateRangeState {
   start: string;

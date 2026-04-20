@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { userEvent } from '@testing-library/user-event';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import React, { useState } from 'react';
 
-import { MenuItemDataTids } from '../../MenuItem/index.js';
 import { MenuDataTids } from '../../../internal/Menu/index.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { MenuItemDataTids } from '../../MenuItem/index.js';
 import { SelectLocaleHelper } from '../locale/index.js';
 import { Select, SelectDataTids, SelectIds } from '../Select.js';
 

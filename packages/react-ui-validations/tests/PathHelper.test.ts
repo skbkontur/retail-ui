@@ -1,4 +1,4 @@
-import { extractPath, extractTokens, PathTokensCache } from '../src/Validations/PathHelper';
+import { PathTokensCache, extractPath, extractTokens } from '../src/Validations/PathHelper';
 
 describe('PathHelper', () => {
   describe('extractPath', () => {

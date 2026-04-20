@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import type { Meta } from '@storybook/react';
 
-import type { ValidationInfo } from '../../index.js';
-import { text, ValidationContainer, ValidationWrapper } from '../../index.js';
+import { ValidationContainer, ValidationWrapper, text } from '../../index.js';
 import type { Nullable } from '../../typings/Types.js';
+import type { ValidationInfo } from '../../index.js';
 
 const meta: Meta = {
   title: 'DependentInputs',

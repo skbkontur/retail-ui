@@ -1,22 +1,21 @@
-import React from 'react';
-import type { AriaAttributes, InputHTMLAttributes } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import type { AriaAttributes, InputHTMLAttributes } from 'react';
+import React from 'react';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { KeyListener } from '../../lib/events/keyListener.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
-import { rootNode } from '../../lib/rootNode/index.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
-import { withSize } from '../../lib/size/SizeDecorator.js';
+import { KeyListener } from '../../lib/events/keyListener.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles, globalClasses } from './Toggle.styles.js';
 
 export interface ToggleProps

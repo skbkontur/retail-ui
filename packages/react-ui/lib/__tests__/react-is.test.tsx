@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import React, { memo, forwardRef } from 'react';
+import React, { forwardRef, memo } from 'react';
+import { describe, expect, it } from 'vitest';
 
-import { isMemo, isForwardRef, isElement } from '../react-is.js';
+import { isElement, isForwardRef, isMemo } from '../react-is.js';
 
 describe('isMemo', () => {
   it('returns true for a React.memo element', () => {

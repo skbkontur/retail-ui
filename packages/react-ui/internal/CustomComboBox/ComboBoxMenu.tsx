@@ -1,21 +1,20 @@
 import React from 'react';
 
-import { isFunction, isNullable } from '../../lib/utils.js';
-import { locale } from '../../lib/locale/decorators.js';
-import { Menu, MenuDataTids } from '../Menu/index.js';
-import type { MenuItemState } from '../../components/MenuItem/index.js';
-import { isMenuItem, MenuItem } from '../../components/MenuItem/index.js';
-import { Spinner } from '../../components/Spinner/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { MenuSeparator } from '../../components/MenuSeparator/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { MenuMessage } from '../MenuMessage/index.js';
 import type { ComboBoxExtendedItem } from '../../components/ComboBox/index.js';
+import { MenuFooter } from '../../components/MenuFooter/index.js';
+import { MenuItem, isMenuItem } from '../../components/MenuItem/index.js';
+import type { MenuItemState } from '../../components/MenuItem/index.js';
+import { MenuSeparator } from '../../components/MenuSeparator/index.js';
+import { Spinner } from '../../components/Spinner/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { locale } from '../../lib/locale/decorators.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { MenuFooter } from '../../components/MenuFooter/index.js';
 import type { SizeProp } from '../../lib/types/props.js';
-
+import { isFunction, isNullable } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { Menu, MenuDataTids } from '../Menu/index.js';
+import { MenuMessage } from '../MenuMessage/index.js';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';
 import type { ComboBoxLocale } from './locale/index.js';
 import { CustomComboBoxLocaleHelper } from './locale/index.js';

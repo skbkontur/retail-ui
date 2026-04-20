@@ -1,9 +1,9 @@
-import React from 'react';
 import { Link } from '@skbkontur/react-ui/components/Link/index.js';
 import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import React from 'react';
 import { TechStorageUsbIcon16Regular } from '@skbkontur/icons/icons/TechStorageUsbIcon/TechStorageUsbIcon16Regular.js';
 
-import { CaseSuite, Case } from '../Case';
+import { Case, CaseSuite } from '../Case';
 
 export default class LinkTestPage extends React.Component {
   state = {

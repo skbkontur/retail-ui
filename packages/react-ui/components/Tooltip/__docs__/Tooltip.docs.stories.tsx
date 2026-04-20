@@ -1,8 +1,8 @@
-import React from 'react';
+import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
 import { QuestionCircleIcon20Light } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon20Light.js';
 import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon/SecurityLockClosedIcon20Light.js';
-import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
-import { Tooltip, Button, Gapped, Input, Link, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { Button, Gapped, Input, Link, ThemeContext, ThemeFactory, Tooltip } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Story } from '../../../typings/stories.js';
 

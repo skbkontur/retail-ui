@@ -1,8 +1,5 @@
 import {
   CHAR_PAD,
-  defaultDateComponentsOrder,
-  defaultDateComponentsSeparator,
-  emptyDateComponents,
   LENGTH_DATE,
   LENGTH_MONTH,
   LENGTH_SEPARATOR,
@@ -10,6 +7,9 @@ import {
   RE_ORDER_DMY,
   RE_ORDER_MDY,
   RE_ORDER_YMD,
+  defaultDateComponentsOrder,
+  defaultDateComponentsSeparator,
+  emptyDateComponents,
 } from './constants.js';
 import { InternalDateValidator } from './InternalDateValidator.js';
 import type {

@@ -1,4 +1,4 @@
-import { Icon, Button, Input } from "retail-ui";
+import { Button, Icon, Input } from "retail-ui";
 
 props => (
   <>

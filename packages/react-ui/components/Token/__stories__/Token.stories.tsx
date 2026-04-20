@@ -1,8 +1,8 @@
 import React, { type JSX } from 'react';
 
 import type { Meta } from '../../../typings/stories.js';
-import { Token } from '../Token.js';
 import { Gapped } from '../../Gapped/index.js';
+import { Token } from '../Token.js';
 
 const meta: Meta = {
   title: 'Token',

@@ -1,11 +1,11 @@
-import React from 'react';
+import { ThemeFactory } from '@skbkontur/react-ui';
 import { act, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { ThemeFactory } from '@skbkontur/react-ui';
+import React from 'react';
 import { vi } from 'vitest';
 
 import type { ValidationBehaviour, ValidationInfo } from '../index.js';
-import { text, ValidationContainer, ValidationWrapper } from '../index.js';
+import { ValidationContainer, ValidationWrapper, text } from '../index.js';
 import { ThemeContext } from '../src/ReactUiDetection.js';
 
 function setup(jsx: any) {

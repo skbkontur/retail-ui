@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { Spinner } from '../Spinner/index.js';
-
 import type { LinkProps } from './Link.js';
 import { getStyles } from './Link.styles.js';
 

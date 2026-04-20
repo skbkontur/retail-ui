@@ -1,10 +1,9 @@
+import { isSafari } from '../../lib/client.js';
 import { isNonNullable, isNullable } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
-import { isSafari } from '../../lib/client.js';
-
+import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS, MINUS_SIGN, SPACE, THIN_SPACE } from './constants.js';
 import type { DecimalOptions } from './CurrencyInputHelper.js';
 import type { CursorMap } from './CursorHelper.js';
-import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS, MINUS_SIGN, SPACE, THIN_SPACE } from './constants.js';
 
 export interface DecimalFormattingOptions {
   /** Устанавливает минимальное количество отображаемых знаков после запятой. */

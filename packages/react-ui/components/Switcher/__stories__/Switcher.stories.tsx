@@ -1,18 +1,18 @@
 import React from 'react';
 
-import type { Story } from '../../../typings/stories.js';
-import type { SwitcherItems, SwitcherProps } from '../Switcher.js';
-import { Switcher } from '../Switcher.js';
-import { Gapped } from '../../Gapped/index.js';
-import { Hint } from '../../Hint/index.js';
-import { Tooltip } from '../../Tooltip/index.js';
-import type { ButtonProps } from '../../Button/index.js';
-import { Button } from '../../Button/index.js';
+import type { CommonProps } from '../../../internal/CommonWrapper/types.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
-import { Select } from '../../Select/index.js';
 import type { SizeProp } from '../../../lib/types/props.js';
-import type { CommonProps } from '../../../internal/CommonWrapper/types.js';
+import type { Story } from '../../../typings/stories.js';
+import { Button } from '../../Button/index.js';
+import type { ButtonProps } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Hint } from '../../Hint/index.js';
+import { Select } from '../../Select/index.js';
+import { Tooltip } from '../../Tooltip/index.js';
+import type { SwitcherItems, SwitcherProps } from '../Switcher.js';
+import { Switcher } from '../Switcher.js';
 
 interface ComponentState {
   value: string;

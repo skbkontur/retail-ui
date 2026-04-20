@@ -1,11 +1,11 @@
+import { Button, DARK_THEME, LIGHT_THEME, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import React from 'react';
-import { Button, ThemeContext, ThemeFactory, LIGHT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 
 import { ShowcaseGroup } from '../../../internal/ThemePlayground/ShowcaseGroup.js';
-import type { Meta, Story } from '../../../typings/stories.js';
-import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme.js';
 import * as ALL_DARK_THEMES from '../../../lib/theming/themes/DarkTheme.js';
+import * as ALL_LIGHT_THEMES from '../../../lib/theming/themes/LightTheme.js';
 import { parseVersionFromThemeName } from '../../../lib/theming/ThemeVersions.js';
+import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Information/Theme',

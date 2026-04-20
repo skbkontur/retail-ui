@@ -1,14 +1,14 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
-import { Tabs } from '@skbkontur/react-ui/components/Tabs/Tabs';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
+import { Tabs } from '@skbkontur/react-ui/components/Tabs/Tabs';
+import React from 'react';
 
-import type { Meta, Story } from '../../../../typings/stories.js';
 import type { ValidationBehaviour, ValidationInfo } from '../../../../index.js';
 import { ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import type { Meta, Story } from '../../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'Examples/Dynamic fields',

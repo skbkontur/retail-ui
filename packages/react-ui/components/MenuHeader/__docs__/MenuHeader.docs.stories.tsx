@@ -1,5 +1,5 @@
+import { Button, DropdownMenu, Gapped, MenuHeader, MenuItem } from '@skbkontur/react-ui';
 import React from 'react';
-import { MenuHeader, Button, MenuItem, DropdownMenu, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

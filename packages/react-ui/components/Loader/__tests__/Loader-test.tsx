@@ -1,8 +1,8 @@
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 
-import { Loader, LoaderDataTids } from '../Loader.js';
 import { delay } from '../../../lib/utils.js';
+import { Loader, LoaderDataTids } from '../Loader.js';
 
 const DELAY_BEFORE_SPINNER_SHOW = 1000;
 const MINIMAL_DELAY_BEFORE_SPINNER_HIDE = 1000;

@@ -1,5 +1,4 @@
 import { isMac } from '../../client.js';
-
 import { extractCode } from './extractCode.js';
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes.js';
 

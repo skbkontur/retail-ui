@@ -1,6 +1,6 @@
-import { story, kind, test } from 'creevey';
-
 import 'creevey/playwright';
+import { kind, story, test } from 'creevey';
+
 import { tid, waitForAnimationFrame } from '../../__creevey__/helpers.mjs';
 
 kind('Sticky', () => {

@@ -1,8 +1,7 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
 import { getStyles } from './ResizeDetector.styles.js';
 
 export interface ResizeDetectorProps {

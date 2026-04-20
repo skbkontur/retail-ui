@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import { isBrowser, getOwnerGlobalObject } from '../../lib/globalObject.js';
+import { getOwnerGlobalObject, isBrowser } from '../../lib/globalObject.js';
 import { isFirefox } from '../client.js';
 
 // Checkbox not checked in Firefox if key of modifier was active

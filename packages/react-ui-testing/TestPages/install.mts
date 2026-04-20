@@ -1,8 +1,8 @@
-import { join } from 'path';
-import { existsSync, mkdirSync, createReadStream, createWriteStream, appendFileSync } from 'fs';
+import { appendFileSync, createReadStream, createWriteStream, existsSync, mkdirSync } from 'fs';
 import { exec } from 'child_process';
+import { join } from 'path';
 
-import { versions, reactUiLocalVersionStub } from './versions.mts';
+import { reactUiLocalVersionStub, versions } from './versions.mts';
 
 const getPackageNameAndVersion = function(name: string, version: string) {
   return `${name}@${version}`;

@@ -1,42 +1,41 @@
 import React, { type AriaAttributes, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { MobilePopup } from '../../internal/MobilePopup/index.js';
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { CalendarDayProps } from '../Calendar/index.js';
-import { Calendar, CalendarDay } from '../Calendar/index.js';
+import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light.js';
+import { MobilePopup } from '../../internal/MobilePopup/index.js';
+import { NativeDateInput } from '../../internal/NativeDateInput/index.js';
 import { Popup } from '../../internal/Popup/index.js';
-import { DateInput } from '../DateInput/index.js';
-import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison.js';
-import type { DatePickerProps } from '../DatePicker/index.js';
 import { ZIndex } from '../../internal/ZIndex/index.js';
-import type { InstanceWithRootNode } from '../../lib/rootNode/index.js';
-import { getRootNode } from '../../lib/rootNode/index.js';
-import { getMenuPositions } from '../../lib/getMenuPositions.js';
-import { Button } from '../Button/index.js';
-import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
+import { isIOS } from '../../lib/client.js';
+import { isBetween, isGreater, isGreaterOrEqual, isLess, isLessOrEqual } from '../../lib/date/comparison.js';
 import { InternalDate } from '../../lib/date/InternalDate.js';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter.js';
-import { ArrowAUpIcon16Light } from '../../internal/icons2022/ArrowAUpIcon/ArrowAUp16Light.js';
-import { NativeDateInput } from '../../internal/NativeDateInput/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { getMenuPositions } from '../../lib/getMenuPositions.js';
 import { LocaleContext } from '../../lib/locale/index.js';
-import { isIOS } from '../../lib/client.js';
-
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
+import type { InstanceWithRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { Button } from '../Button/index.js';
+import { Calendar, CalendarDay } from '../Calendar/index.js';
+import type { CalendarDayProps } from '../Calendar/index.js';
+import { DateInput } from '../DateInput/index.js';
+import type { DatePickerProps } from '../DatePicker/index.js';
+import { useResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { getFontSize, getStyles } from './DateRangePicker.styles.js';
-import { DateRangePickerSeparator } from './DateRangePickerSeparator.js';
-import type { DateRangePickerContextProps } from './DateRangePickerContext.js';
 import { DateRangePickerContext } from './DateRangePickerContext.js';
-import type { DateRangePickerInputType } from './DateRangePickerInput.js';
+import type { DateRangePickerContextProps } from './DateRangePickerContext.js';
 import { DateRangePickerEnd, DateRangePickerStart } from './DateRangePickerInput.js';
+import type { DateRangePickerInputType } from './DateRangePickerInput.js';
+import { DateRangePickerSeparator } from './DateRangePickerSeparator.js';
 import { getDateRangePickerTheme, getMobileDateRangePickerTheme } from './DateRangePickerTheme.js';
-import { DateRangePickerLocaleHelper } from './locale/index.js';
-import { validateDateRangePicker } from './helpers/validateDateRangePicker.js';
 import { getStateForValue } from './helpers/getStateForValue.js';
+import { validateDateRangePicker } from './helpers/validateDateRangePicker.js';
+import { DateRangePickerLocaleHelper } from './locale/index.js';
 
 export const DateRangePickerDataTids = {
   root: 'DateRangePicker__root',

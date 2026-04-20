@@ -1,17 +1,17 @@
-import React, { useRef, useState } from 'react';
-import { fireEvent, render, screen, within, act } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React, { useRef, useState } from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import { FileUploaderLocaleHelper } from '../locale/index.js';
-import type { FileUploaderProps } from '../FileUploader.js';
-import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
 import { delay } from '../../../lib/utils.js';
-import type { FileUploaderAttachedFile } from '../fileUtils.js';
-import { createFile } from '../fileUtils.js';
+import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
+import type { FileUploaderProps } from '../FileUploader.js';
 import { FileUploaderFile, FileUploaderFileDataTids } from '../FileUploaderFile.js';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../FileUploaderFileList/FileUploaderFileList.js';
+import type { FileUploaderAttachedFile } from '../fileUtils.js';
+import { createFile } from '../fileUtils.js';
+import { FileUploaderLocaleHelper } from '../locale/index.js';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   render(

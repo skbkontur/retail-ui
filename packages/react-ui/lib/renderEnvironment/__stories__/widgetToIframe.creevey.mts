@@ -1,4 +1,4 @@
-import { story, kind, test } from 'creevey';
+import { kind, story, test } from 'creevey';
 
 import { delay } from '../../delay.mjs';
 

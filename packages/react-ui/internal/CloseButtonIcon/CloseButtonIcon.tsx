@@ -1,14 +1,13 @@
 import type { AriaAttributes, CSSProperties } from 'react';
 import React from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { useKeyListener } from '../../lib/events/keyListener.js';
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants.js';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
 import type { CommonProps } from '../CommonWrapper/index.js';
 import { CommonWrapper } from '../CommonWrapper/index.js';
-
+import { DEFAULT_ICON_SIZE } from '../icons2022/iconConstants.js';
 import { getStyles } from './CloseButtonIcon.styles.js';
 import { CrossIcon } from './CrossIcon.js';
 

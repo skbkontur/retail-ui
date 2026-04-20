@@ -1,18 +1,18 @@
 import type { CSSProperties, JSX } from 'react';
 import React, { useState } from 'react';
 
+import { isTestEnv } from '../../../lib/currentEnvironment.js';
+import { delay } from '../../../lib/utils.js';
 import type { Meta, Story } from '../../../typings/stories.js';
 import { Gapped } from '../../Gapped/index.js';
 import { Input } from '../../Input/index.js';
-import type { TokenInputProps } from '../TokenInput.js';
-import { TokenInput, TokenInputType } from '../TokenInput.js';
-import { Token } from '../../Token/index.js';
-import { delay } from '../../../lib/utils.js';
-import { MenuItem } from '../../MenuItem/index.js';
-import { isTestEnv } from '../../../lib/currentEnvironment.js';
-import { MenuHeader } from '../../MenuHeader/index.js';
-import { MenuSeparator } from '../../MenuSeparator/index.js';
 import { MenuFooter } from '../../MenuFooter/index.js';
+import { MenuHeader } from '../../MenuHeader/index.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
+import { Token } from '../../Token/index.js';
+import { TokenInput, TokenInputType } from '../TokenInput.js';
+import type { TokenInputProps } from '../TokenInput.js';
 
 async function getItems(query: string) {
   if (!isTestEnv) {

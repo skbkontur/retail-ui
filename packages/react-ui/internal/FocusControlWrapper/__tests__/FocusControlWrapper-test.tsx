@@ -1,9 +1,9 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { FocusControlWrapper } from '../FocusControlWrapper.js';
 import { CommonWrapper } from '../../CommonWrapper/index.js';
+import { FocusControlWrapper } from '../FocusControlWrapper.js';
 
 interface Props {
   disabled?: boolean;

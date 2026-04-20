@@ -1,24 +1,23 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import { locale } from '../../lib/locale/decorators.js';
-import { emptyHandler } from '../../lib/utils.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
+import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { locale } from '../../lib/locale/decorators.js';
+import { reactGetTextContent } from '../../lib/reactGetTextContent.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { CloseButtonIcon } from '../../internal/CloseButtonIcon/CloseButtonIcon.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
-import { reactGetTextContent } from '../../lib/reactGetTextContent.js';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { getStyles } from './Token.styles.js';
+import { emptyHandler } from '../../lib/utils.js';
 import type { TokenLocale } from './locale/index.js';
 import { TokenLocaleHelper } from './locale/index.js';
+import { getStyles } from './Token.styles.js';
 import { TokenView } from './TokenView.js';
 
 export type TokenSize = SizeProp;

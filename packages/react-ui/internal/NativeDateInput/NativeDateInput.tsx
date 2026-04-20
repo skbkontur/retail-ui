@@ -1,11 +1,10 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import type { Nullable } from '../../typings/utility-types.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { getDateForNative, getDateForComponent } from './utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getJsStyles } from './NativeDateInput.styles.js';
+import { getDateForComponent, getDateForNative } from './utils.js';
 
 export interface NativeDateInputProps {
   onValueChange?: (value: string) => void;

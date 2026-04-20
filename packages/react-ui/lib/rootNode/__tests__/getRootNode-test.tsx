@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 
-import type { Nullable } from '../../../typings/utility-types.js';
 import { callChildRef } from '../../../lib/callChildRef/callChildRef.js';
+import type { Nullable } from '../../../typings/utility-types.js';
 import { getRootNode } from '../getRootNode.js';
 import type { InstanceWithRootNode } from '../rootNodeDecorator.js';
 

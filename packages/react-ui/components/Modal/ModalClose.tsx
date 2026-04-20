@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { useKeyListener } from '../../lib/events/keyListener.js';
-import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular.js';
-
-import type { CloseProps } from './ModalContext.js';
-import { getStyles } from './Modal.styles.js';
-import { ModalDataTids } from './Modal.js';
+import { useKeyListener } from '../../lib/events/keyListener.js';
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { ModalLocaleHelper } from './locale/index.js';
+import { ModalDataTids } from './Modal.js';
+import { getStyles } from './Modal.styles.js';
+import type { CloseProps } from './ModalContext.js';
 
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps): React.JSX.Element {
   const locale = useLocaleForControl('Modal', ModalLocaleHelper);

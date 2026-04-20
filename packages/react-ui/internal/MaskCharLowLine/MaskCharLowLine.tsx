@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useStyles } from '../../lib/renderEnvironment/index.js';
-
 import { getStyles } from './MaskCharLowLine.styles.js';
 
 /**

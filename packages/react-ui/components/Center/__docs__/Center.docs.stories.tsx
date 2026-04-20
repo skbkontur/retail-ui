@@ -1,5 +1,5 @@
+import { Center, Gapped, Switcher } from '@skbkontur/react-ui';
 import React from 'react';
-import { Center, Switcher, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

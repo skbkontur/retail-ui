@@ -2,30 +2,29 @@ import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import type { Nullable } from '../../typings/utility-types.js';
+import type { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox/index.js';
 import type { Input, InputIconType, ShowClearIcon } from '../../components/Input/index.js';
-import type { Menu } from '../Menu/index.js';
-import type { InputLikeText } from '../InputLikeText/index.js';
+import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput/index.js';
 import type { MenuItemState } from '../../components/MenuItem/index.js';
-import { CancelationError, taskWithDelay } from '../../lib/utils.js';
-import type { CommonProps } from '../CommonWrapper/index.js';
-import { CommonWrapper } from '../CommonWrapper/index.js';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import type { ComboBoxExtendedItem, ComboBoxViewMode } from '../../components/ComboBox/index.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../../components/MaskedInput/index.js';
-import type { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
-
-import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { CancelationError, taskWithDelay } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { CommonProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
+import type { InputLikeText } from '../InputLikeText/index.js';
+import type { InternalTextareaWithLayout } from '../InternalTextareaWithLayout/InternalTextareaWithLayout.js';
+import type { Menu } from '../Menu/index.js';
+import { ComboBoxView } from './ComboBoxView.js';
 import type { CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer.js';
 import { reducer } from './CustomComboBoxReducer.js';
-import { ComboBoxView } from './ComboBoxView.js';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';
 
 export * from './tids.js';
 

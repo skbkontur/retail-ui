@@ -2,11 +2,11 @@ import type { HTMLAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
 
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/types.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants.js';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper.js';
-import type { CommonProps } from '../../internal/CommonWrapper/types.js';
-import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 
 export interface CurrencyLabelProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Минимальное количество отображаемых знаков после запятой.

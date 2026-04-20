@@ -1,10 +1,9 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import type { Meta } from '@storybook/react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 
-import { text, ValidationContainer, ValidationWrapper } from '../index.js';
-
+import { ValidationContainer, ValidationWrapper, text } from '../index.js';
 import { IframeRenderer } from './StoryHelpers';
 
 const meta: Meta = {

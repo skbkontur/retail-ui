@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
-import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Select } from '@skbkontur/react-ui/components/Select/Select';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
+import type { Meta } from '@storybook/react';
+import React, { useRef, useState } from 'react';
 
-import type { Story } from '../typings/stories.js';
 import type { ValidationBehaviour, ValidationInfo } from '../index.js';
-import { text, tooltip, ValidationContainer, ValidationWrapper } from '../index.js';
+import { ValidationContainer, ValidationWrapper, text, tooltip } from '../index.js';
+import type { Story } from '../typings/stories.js';
 import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {

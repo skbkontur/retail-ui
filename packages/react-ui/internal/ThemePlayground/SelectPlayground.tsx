@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { SelectProps } from '../../components/Select/index.js';
 import { Select } from '../../components/Select/index.js';
+import type { SelectProps } from '../../components/Select/index.js';
 
 type SelectPlaygroundValue = string;
 type SelectPlaygroundItem = string;

@@ -1,6 +1,6 @@
-import React from 'react';
 import { Textarea } from '@skbkontur/react-ui';
 import { ValidationContainer, ValidationWrapper, createValidator } from '@skbkontur/react-ui-validations';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

@@ -1,24 +1,23 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes } from 'react';
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { SafeTimer } from '../../lib/globalObject.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
-import { RenderContainer } from '../../internal/RenderContainer/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { RenderContainer } from '../../internal/RenderContainer/index.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { SafeTimer } from '../../lib/globalObject.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Toast.styles.js';
-import type { ToastViewProps } from './ToastView.js';
 import { ToastView } from './ToastView.js';
+import type { ToastViewProps } from './ToastView.js';
 
 export interface Action {
   label: string;

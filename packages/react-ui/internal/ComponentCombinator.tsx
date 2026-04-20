@@ -1,8 +1,7 @@
 import React from 'react';
 
-import type { DefaultizeProps } from '../lib/utils.js';
 import { createPropsGetter } from '../lib/createPropsGetter.js';
-
+import type { DefaultizeProps } from '../lib/utils.js';
 import type { StatePropsCombinations, StateType } from './ComponentTable.js';
 import { ComponentTable } from './ComponentTable.js';
 

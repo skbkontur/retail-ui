@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped/index.js';
-import type { CheckboxProps } from '../../components/Checkbox/index.js';
 import { Checkbox } from '../../components/Checkbox/index.js';
-
+import type { CheckboxProps } from '../../components/Checkbox/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
 import { getComponentsFromPropsList } from './helpers.js';
 
 type CheckboxProp = CheckboxProps & { focused?: boolean };

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
+import { containsTargetOrRenderContainer, listen as listenFocusOutside } from '../../lib/listenFocusOutside.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;

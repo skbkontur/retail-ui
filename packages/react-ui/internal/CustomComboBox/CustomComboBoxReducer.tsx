@@ -1,14 +1,13 @@
-import type React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import type React from 'react';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { isNonNullable } from '../../lib/utils.js';
-import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
-import * as LayoutEvents from '../../lib/LayoutEvents.js';
-import type { Nullable } from '../../typings/utility-types.js';
 import type { ComboBoxExtendedItem } from '../../components/ComboBox/index.js';
-
+import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { isNonNullable } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import type { CustomComboBox, CustomComboBoxProps, CustomComboBoxState } from './CustomComboBox.js';
 import { DefaultState } from './CustomComboBox.js';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes.js';

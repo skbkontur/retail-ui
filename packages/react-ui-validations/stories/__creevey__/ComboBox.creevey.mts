@@ -1,5 +1,5 @@
 import 'creevey/playwright';
-import { story, kind, test } from 'creevey';
+import { kind, story, test } from 'creevey';
 
 import { tid, waitForByTid } from './helpers.mjs';
 

@@ -1,5 +1,5 @@
-import { story, kind, test } from 'creevey';
 import 'creevey/playwright';
+import { kind, story, test } from 'creevey';
 
 kind('Group', () => {
   story('SimpleGroupWithInputAndButton', () => {

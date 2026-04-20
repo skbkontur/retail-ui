@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Center } from '@skbkontur/react-ui/components/Center/Center';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Modal } from '@skbkontur/react-ui/components/Modal/Modal';
+import type { Meta } from '@storybook/react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { ValidationContainer, ValidationWrapper, text } from '../index.js';
 import type { ValidationInfo } from '../index.js';
-import { text, ValidationContainer, ValidationWrapper } from '../index.js';
 import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {

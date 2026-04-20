@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
-import type { Meta } from '@storybook/react';
 import { Token } from '@skbkontur/react-ui/components/Token/Token';
 import { TokenInput } from '@skbkontur/react-ui/components/TokenInput/TokenInput';
+import type { Meta } from '@storybook/react';
+import React, { useRef, useState } from 'react';
 
-import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper, tooltip } from '../index.js';
+import type { ValidationInfo } from '../index.js';
 import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {

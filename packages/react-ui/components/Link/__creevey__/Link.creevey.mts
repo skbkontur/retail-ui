@@ -1,5 +1,5 @@
-import { story, kind, test } from 'creevey';
 import 'creevey/playwright';
+import { kind, story, test } from 'creevey';
 
 const focusedLinkTest = () => {
   test('tab press', async (context) => {

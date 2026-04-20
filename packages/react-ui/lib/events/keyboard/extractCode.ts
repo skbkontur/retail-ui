@@ -1,5 +1,4 @@
 import type { Entries } from '../../../typings/utility-types.js';
-
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes.js';
 import type { KeyboardKey } from './KeyboardMapKeys.js';
 import { KeyboardMapKeys } from './KeyboardMapKeys.js';

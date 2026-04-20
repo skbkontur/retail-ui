@@ -1,9 +1,9 @@
-import { resolve, join, dirname } from 'path';
+import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import { satisfies } from 'semver';
 import { DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { satisfies } from 'semver';
 
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { ThemeContext } from '../ThemeContext.js';
-import type { Marker } from '../ThemeHelpers.js';
-import { applyMarkers, createTheme, REACT_UI_THEME_MARKERS } from '../ThemeHelpers.js';
-import { ThemeFactory } from '../ThemeFactory.js';
-import type { Theme } from '../Theme.js';
-import type { AnyObject } from '../../utils.js';
 import { BasicTheme, BasicThemeClassForExtension } from '../../../internal/themes/BasicTheme.js';
+import type { AnyObject } from '../../utils.js';
+import type { Theme } from '../Theme.js';
+import { ThemeContext } from '../ThemeContext.js';
+import { ThemeFactory } from '../ThemeFactory.js';
+import { REACT_UI_THEME_MARKERS, applyMarkers, createTheme } from '../ThemeHelpers.js';
+import type { Marker } from '../ThemeHelpers.js';
 
 const TEST_MARKERS = {
   test: {

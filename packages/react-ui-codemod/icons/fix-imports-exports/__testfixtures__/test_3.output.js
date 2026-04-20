@@ -1,6 +1,6 @@
-import events from 'add-event-listener';
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
+import events from 'add-event-listener';
 
 import PropTypes from 'prop-types';
 

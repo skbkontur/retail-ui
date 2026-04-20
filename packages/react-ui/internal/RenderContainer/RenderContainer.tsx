@@ -1,15 +1,14 @@
 import React from 'react';
 
-import type { TGetRootNode } from '../../lib/rootNode/rootNodeDecorator.js';
+import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
 import { RenderEnvironmentContext } from '../../lib/renderEnvironment/index.js';
 import type { RenderEnvironmentContextType } from '../../lib/renderEnvironment/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { getRandomID } from '../../lib/utils.js';
+import type { TGetRootNode } from '../../lib/rootNode/rootNodeDecorator.js';
 import { Upgrade } from '../../lib/Upgrades.js';
-import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
-
-import { RenderInnerContainer } from './RenderInnerContainer.js';
+import { getRandomID } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import type { RenderContainerProps } from './RenderContainerTypes.js';
+import { RenderInnerContainer } from './RenderInnerContainer.js';
 
 interface GlobalWithReactTesting {
   ReactTesting?: any;

@@ -1,5 +1,5 @@
-import React from 'react';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 

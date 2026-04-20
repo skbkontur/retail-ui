@@ -1,10 +1,9 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { globalClasses } from '../ScrollContainer/ScrollContainer.styles.js';
-import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
-
-import { labelSizeMixin, inputSizeMixin } from './TokenInput.mixins.js';
+import { inputSizeMixin, labelSizeMixin } from './TokenInput.mixins.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   label(t: Theme) {

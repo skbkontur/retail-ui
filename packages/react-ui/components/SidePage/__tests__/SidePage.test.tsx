@@ -1,12 +1,12 @@
-import React from 'react';
-import { fireEvent, act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import { SidePage, SidePageDataTids } from '../SidePage.js';
-import { SidePageHeaderDataTids } from '../SidePageHeader.js';
 import { componentsLocales as SidePageLocalesEn } from '../locale/locales/en.js';
 import { componentsLocales as SidePageLocalesRu } from '../locale/locales/ru.js';
+import { SidePage, SidePageDataTids } from '../SidePage.js';
+import { SidePageHeaderDataTids } from '../SidePageHeader.js';
 
 describe('SidePage', () => {
   it('onClose event performs an action on click', async () => {

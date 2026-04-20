@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { Group, GroupDataTids } from '../Group.js';
-import { Input } from '../../Input/index.js';
 import { Button } from '../../Button/index.js';
+import { Input } from '../../Input/index.js';
+import { Group, GroupDataTids } from '../Group.js';
 
 describe('Group', () => {
   it('renders', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import type { SizeProp } from '../types/props.js';
-
 import { defaultSizeValue } from './constants.js';
 
 export interface SizeControlContextProps {

@@ -1,9 +1,9 @@
-import React from 'react';
-import type { ButtonProps, SwitcherItems } from '@skbkontur/react-ui';
-import { Switcher, Hint, Tooltip, Gapped } from '@skbkontur/react-ui';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/WeatherSunIcon16Light.js';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/WeatherMoonIcon16Light.js';
 import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/TechScreenMonitorIcon16Light.js';
+import { WeatherMoonIcon16Light } from '@skbkontur/icons/WeatherMoonIcon16Light.js';
+import { WeatherSunIcon16Light } from '@skbkontur/icons/WeatherSunIcon16Light.js';
+import type { ButtonProps, SwitcherItems } from '@skbkontur/react-ui';
+import { Gapped, Hint, Switcher, Tooltip } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

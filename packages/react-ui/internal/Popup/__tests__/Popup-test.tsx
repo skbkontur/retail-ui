@@ -1,13 +1,13 @@
-import React, { type JSX } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React, { type JSX } from 'react';
 
-import { PopupDataTids } from '../index.js';
-import { MobilePopupDataTids } from '../../MobilePopup/index.js';
 import * as ResponsiveLayoutHooks from '../../../components/ResponsiveLayout/useResponsiveLayout.js';
 import type { InstanceWithRootNode } from '../../../lib/rootNode/rootNodeDecorator.js';
-import type { PopupProps } from '../Popup.js';
-import { Popup } from '../Popup.js';
 import { delay } from '../../../lib/utils.js';
+import { MobilePopupDataTids } from '../../MobilePopup/index.js';
+import { PopupDataTids } from '../index.js';
+import { Popup } from '../Popup.js';
+import type { PopupProps } from '../Popup.js';
 import { PopupHelper } from '../PopupHelper.js';
 
 describe('Popup', () => {

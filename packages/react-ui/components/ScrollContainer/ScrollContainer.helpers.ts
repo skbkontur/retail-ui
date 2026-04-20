@@ -1,5 +1,5 @@
-import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants.js';
 import type { ScrollBarScrollState } from './ScrollBar.js';
+import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants.js';
 import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer.js';
 
 export interface ScrollSizeParams {

@@ -1,6 +1,6 @@
-import React from 'react';
 import { People3Icon } from '@skbkontur/icons/icons/People3Icon/People3Icon.js';
-import { Select, Button, Link, Gapped, type ButtonParams } from '@skbkontur/react-ui';
+import { Button, type ButtonParams, Gapped, Link, Select } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

@@ -1,13 +1,12 @@
-import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
+import ReactDOM from 'react-dom';
 import warning from 'warning';
 
 import { PORTAL_INLET_ATTR, PORTAL_OUTLET_ATTR } from '../internal/RenderContainer/index.js';
-import { getOwnerGlobalObject } from '../lib/globalObject.js';
 import type { GlobalObject } from '../lib/globalObject.js';
-
-import { isInstanceOf } from './isInstanceOf.js';
+import { getOwnerGlobalObject } from '../lib/globalObject.js';
 import { isFirefox } from './client.js';
+import { isInstanceOf } from './isInstanceOf.js';
 
 interface FocusOutsideEventHandler {
   elements: Element[] | (() => Element[]);

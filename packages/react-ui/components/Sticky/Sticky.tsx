@@ -1,21 +1,20 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import React from 'react';
 import shallowEqual from 'shallowequal';
-import type { Emotion } from '@emotion/css/create-instance';
 import warning from 'warning';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import * as LayoutEvents from '../../lib/LayoutEvents.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { isFunction } from '../../lib/utils.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import { isFunction } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Sticky.styles.js';
 
 const MAX_REFLOW_RETRIES = 5;

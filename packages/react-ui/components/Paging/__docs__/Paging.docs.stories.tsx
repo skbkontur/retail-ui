@@ -1,5 +1,5 @@
-import React from 'react';
 import { Paging, useResponsiveLayout } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import type { ItemComponentProps } from '../Paging.js';

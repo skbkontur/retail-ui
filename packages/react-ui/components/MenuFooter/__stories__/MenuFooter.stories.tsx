@@ -1,8 +1,8 @@
 import React from 'react';
 
 import type { Meta } from '../../../typings/stories.js';
-import { MenuFooter } from '../MenuFooter.js';
 import { Gapped } from '../../Gapped/index.js';
+import { MenuFooter } from '../MenuFooter.js';
 
 const meta: Meta = {
   title: 'MenuFooter',

@@ -1,23 +1,22 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import type { SafeTimer } from '../../lib/globalObject.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import type { PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
-import { DUMMY_LOCATION, Popup } from '../../internal/Popup/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import type { MouseEventType } from '../../typings/event-types.js';
-import { isTestEnv } from '../../lib/currentEnvironment.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { DUMMY_LOCATION, Popup } from '../../internal/Popup/index.js';
+import type { PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { isTestEnv } from '../../lib/currentEnvironment.js';
+import type { SafeTimer } from '../../lib/globalObject.js';
+import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import type { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { MouseEventType } from '../../typings/event-types.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Hint.styles.js';
 
 const HINT_BORDER_COLOR = 'transparent';

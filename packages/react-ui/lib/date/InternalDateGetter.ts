@@ -1,6 +1,6 @@
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from './constants.js';
 import type { InternalDate } from './InternalDate.js';
-import type { InternalDateComponentsRaw, InternalDateComponentRaw, InternalDateComponents } from './types.js';
+import type { InternalDateComponentRaw, InternalDateComponents, InternalDateComponentsRaw } from './types.js';
 import { InternalDateComponentType } from './types.js';
 
 const calculateMonth = (month: number) => {

@@ -1,16 +1,16 @@
-import React from 'react';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru.js';
 import { componentsLocales as DateSelectLocalesEn } from '../../../internal/DateSelect/locale/locales/en.js';
-import { Calendar } from '../Calendar.js';
-import { SelectDataTids } from '../../Select/index.js';
+import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { SelectDataTids } from '../../Select/index.js';
+import { Calendar } from '../Calendar.js';
+import { CalendarDay } from '../CalendarDay.js';
+import type { CalendarDayProps } from '../CalendarDay.js';
 import { CalendarDataTids } from '../index.js';
 import { CalendarLocaleHelper } from '../locale/index.js';
-import type { CalendarDayProps } from '../CalendarDay.js';
-import { CalendarDay } from '../CalendarDay.js';
 import type { MonthViewModel } from '../MonthViewModel.js';
 
 describe('Calendar', () => {

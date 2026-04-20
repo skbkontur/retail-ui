@@ -1,11 +1,10 @@
 import React from 'react';
 
 import { useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
-import type { InputProps } from '../Input.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
-
-import { InputLayoutContext } from './InputLayoutContext.js';
+import type { InputProps } from '../Input.js';
 import { getStylesLayout } from './InputLayout.styles.js';
+import { InputLayoutContext } from './InputLayoutContext.js';
 
 export interface InputLayoutAsideTextProps {
   text: InputProps['prefix'] | InputProps['suffix'];

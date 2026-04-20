@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
 
-import { useGlobal, useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { XIcon20Regular } from '../../internal/icons2022/XIcon/XIcon20Regular.js';
 import { useKeyListener } from '../../lib/events/keyListener.js';
-import type { CommonProps } from '../../internal/CommonWrapper/index.js';
-
-import { getStyles } from './SidePage.styles.js';
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { SidePageLocaleHelper } from './locale/index.js';
-import { SidePageHeaderDataTids } from './SidePageHeader.js';
+import { getStyles } from './SidePage.styles.js';
 import { SidePageContext } from './SidePageContext.js';
+import { SidePageHeaderDataTids } from './SidePageHeader.js';
 
 export interface SidePageCloseButtonProps extends CommonProps {
   isHeaderFixed: boolean;

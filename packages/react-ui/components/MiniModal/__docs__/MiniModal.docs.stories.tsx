@@ -1,9 +1,9 @@
-import React from 'react';
 import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon.js';
-import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon.js';
 import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid.js';
 import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/NotificationBellAlarmIcon64Regular.js';
-import { MiniModal, Button, Gapped, ThemeContext } from '@skbkontur/react-ui';
+import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon.js';
+import { Button, Gapped, MiniModal, ThemeContext } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

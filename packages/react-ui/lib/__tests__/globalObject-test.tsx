@@ -1,4 +1,4 @@
-import { isBrowser, getSafeWindow, getOwnerGlobalObject, type GlobalObject } from '../globalObject.js';
+import { type GlobalObject, getOwnerGlobalObject, getSafeWindow, isBrowser } from '../globalObject.js';
 
 describe('globalObject', () => {
   describe('isBrowser', () => {

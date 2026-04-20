@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useResponsiveLayout } from '../../components/ResponsiveLayout/index.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { CommonProps } from '../CommonWrapper/index.js';
 import type { SizeProp } from '../../lib/types/props.js';
-
+import type { CommonProps } from '../CommonWrapper/index.js';
 import { getStyles } from './MenuMessage.styles.js';
 
 export interface MenuMessageProps extends CommonProps {

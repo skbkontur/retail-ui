@@ -1,28 +1,27 @@
-import React from 'react';
-import debounce from 'lodash.debounce';
 import type { Emotion } from '@emotion/css/create-instance';
+import debounce from 'lodash.debounce';
+import React from 'react';
 
-import { isBrowser } from '../../lib/globalObject.js';
-import type { GlobalObject } from '../../lib/globalObject.js';
-import type { AnyObject } from '../../lib/utils.js';
-import * as LayoutEvents from '../../lib/LayoutEvents.js';
-import type { SpinnerProps } from '../Spinner/index.js';
-import { Spinner } from '../Spinner/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
-import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isBrowser } from '../../lib/globalObject.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { AnyObject } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { Spinner } from '../Spinner/index.js';
+import type { SpinnerProps } from '../Spinner/index.js';
 import { getStyles } from './Loader.styles.js';
 
 const types = ['mini', 'normal', 'big'] as const;

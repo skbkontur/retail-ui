@@ -10,7 +10,6 @@ import type {
 import { InternalDateComponentType, InternalDateValidateCheck } from '../../../lib/date/types.js';
 import type { DatePickerLocale } from '../../DatePicker/locale/index.js';
 import type { DateInputProps } from '../DateInput.js';
-
 import { inputNumber } from './inputNumber.js';
 
 export class InternalDateMediator {

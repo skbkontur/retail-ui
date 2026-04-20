@@ -1,21 +1,19 @@
-// TODO: Rewrite stories and enable rule (in process of functional refactoring).
-
+import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
 import type { CSSProperties, ForwardedRef, JSX } from 'react';
 import React, { forwardRef, useState } from 'react';
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
 import { flushSync } from 'react-dom';
 
-import type { Story } from '../../../typings/stories.js';
-import type { TooltipProps, TooltipTrigger } from '../Tooltip.js';
-import { Tooltip } from '../Tooltip.js';
-import { Button } from '../../Button/index.js';
-import type { PopupPositionsType } from '../../../internal/Popup/index.js';
 import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
+import type { PopupPositionsType } from '../../../internal/Popup/index.js';
 import { createPropsGetter } from '../../../lib/createPropsGetter.js';
-import { Textarea } from '../../Textarea/index.js';
+import type { Story } from '../../../typings/stories.js';
+import { Button } from '../../Button/index.js';
 import { Checkbox } from '../../Checkbox/index.js';
 import { Gapped } from '../../Gapped/index.js';
 import { Input } from '../../Input/index.js';
+import { Textarea } from '../../Textarea/index.js';
+import type { TooltipProps, TooltipTrigger } from '../Tooltip.js';
+import { Tooltip } from '../Tooltip.js';
 
 interface TestTooltipProps {
   pos?: PopupPositionsType;

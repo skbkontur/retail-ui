@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button, FxInput, Gapped } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

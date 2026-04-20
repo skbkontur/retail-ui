@@ -1,5 +1,5 @@
+import { Gapped, Token } from '@skbkontur/react-ui';
 import React from 'react';
-import { Token, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

@@ -1,13 +1,11 @@
-// TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import React from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import type { InputProps } from '../Input.js';
-import { Input } from '../Input.js';
 import { Gapped } from '../../Gapped/index.js';
+import { Input } from '../Input.js';
+import type { InputProps } from '../Input.js';
 
 const meta: Meta = {
   title: 'Input',

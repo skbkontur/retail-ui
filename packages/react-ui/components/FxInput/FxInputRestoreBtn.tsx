@@ -1,13 +1,12 @@
-import type { AriaAttributes } from 'react';
 import React, { useContext } from 'react';
+import type { AriaAttributes } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { Button } from '../Button/index.js';
-import type { SizeProp } from '../../lib/types/props.js';
 import { useSizeControl } from '../../lib/size/useSizeControl.js';
-
-import { UndoIcon } from './UndoIcon.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { Button } from '../Button/index.js';
 import type { FxInputProps } from './FxInput.js';
+import { UndoIcon } from './UndoIcon.js';
 
 interface FxInputRestoreBtnProps
   extends Pick<AriaAttributes, 'aria-label'>, Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {

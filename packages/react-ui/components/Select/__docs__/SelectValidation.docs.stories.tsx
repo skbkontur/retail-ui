@@ -1,7 +1,7 @@
-import React from 'react';
-import { Select, Button, Gapped } from '@skbkontur/react-ui';
+import { Button, Gapped, Select } from '@skbkontur/react-ui';
 import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import type { ValidationInfo } from '@skbkontur/react-ui-validations';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 export default {

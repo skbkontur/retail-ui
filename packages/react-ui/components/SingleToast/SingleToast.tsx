@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 import type { ToastClose, ToastProps, ToastPushApi, ToastPushConfig } from '../Toast/index.js';
 import { Toast } from '../Toast/index.js';
-import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
 
 /**
  * `SingleToast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.

@@ -1,14 +1,13 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import { isFunction, isRefableElement } from '../../lib/utils.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode/index.js';
-import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode/index.js';
 import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
 import { getElementRef } from '../../lib/getElementRef.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { TGetRootNode, TRootNodeSubscription, TSetRootNode } from '../../lib/rootNode/index.js';
+import { getRootNode, isInstanceWithRootNode, rootNode } from '../../lib/rootNode/index.js';
+import { isFunction, isRefableElement } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import type { CommonProps, CommonPropsRootNodeRef, CommonWrapperProps } from './types.js';
 import { extractCommonProps } from './utils/extractCommonProps.js';
 import { getCommonVisualStateDataAttributes } from './utils/getCommonVisualStateDataAttributes.js';

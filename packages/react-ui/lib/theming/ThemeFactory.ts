@@ -1,8 +1,7 @@
 import type { NoInfer } from '../utils.js';
 import { isNonNullable } from '../utils.js';
-
 import type { Theme, ThemeIn } from './Theme.js';
-import { findPropertyDescriptor, REACT_UI_THEME_MARKERS } from './ThemeHelpers.js';
+import { REACT_UI_THEME_MARKERS, findPropertyDescriptor } from './ThemeHelpers.js';
 import { LIGHT_THEME } from './themes/LightTheme.js';
 
 export class ThemeFactory {

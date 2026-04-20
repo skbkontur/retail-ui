@@ -1,6 +1,6 @@
-import type { Nullable } from '../typings/Types.js';
 import type { Validation, ValidationBehaviour } from '../index.js';
 import { getVisibleValidation } from '../src/ValidationHelper.js';
+import type { Nullable } from '../typings/Types.js';
 
 describe('ValidationHelper', () => {
   describe('getVisibleValidation', () => {

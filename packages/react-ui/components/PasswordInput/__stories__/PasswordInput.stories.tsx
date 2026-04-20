@@ -1,9 +1,9 @@
 import React from 'react';
 
 import type { Story } from '../../../typings/stories.js';
-import { PasswordInput } from '../PasswordInput.js';
 import type { Nullable } from '../../../typings/utility-types.js';
 import { Gapped } from '../../Gapped/index.js';
+import { PasswordInput } from '../PasswordInput.js';
 
 interface ComponentProps {
   capsLockEnabled?: boolean;

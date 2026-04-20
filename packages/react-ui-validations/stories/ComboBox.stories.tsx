@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import type { Meta } from '@storybook/react';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
+import type { Meta } from '@storybook/react';
+import React, { useState } from 'react';
 
-import type { ValidationInfo } from '../index.js';
 import { ValidationContainer, ValidationWrapper } from '../index.js';
+import type { ValidationInfo } from '../index.js';
 import type { Nullable } from '../typings/Types.js';
 
 const meta: Meta = {

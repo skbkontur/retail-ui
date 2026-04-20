@@ -1,38 +1,37 @@
-import React from 'react';
-import normalizeWheel from 'normalize-wheel';
-import throttle from 'lodash.throttle';
-import shallowEqual from 'shallowequal';
 import type { Emotion } from '@emotion/css/create-instance';
+import throttle from 'lodash.throttle';
+import normalizeWheel from 'normalize-wheel';
+import React from 'react';
+import shallowEqual from 'shallowequal';
 
-import type { GlobalObject, SafeTimer } from '../../lib/globalObject.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
-import { InternalDate } from '../../lib/date/InternalDate.js';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
-import { rootNode } from '../../lib/rootNode/index.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants.js';
-import type { Nullable, Range } from '../../typings/utility-types.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { animation } from '../../lib/animation/index.js';
 import { isMobile } from '../../lib/client.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants.js';
+import { InternalDate } from '../../lib/date/InternalDate.js';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer.js';
+import type { GlobalObject, SafeTimer } from '../../lib/globalObject.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { themeConfig } from './config.js';
-import { MonthViewModel } from './MonthViewModel.js';
-import * as CalendarScrollEvents from './CalendarScrollEvents.js';
-import { Month } from './Month.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Nullable, Range } from '../../typings/utility-types.js';
 import { getStyles } from './Calendar.styles.js';
-import type { CalendarDateShape } from './CalendarDateShape.js';
-import { create, isGreater, isLess } from './CalendarDateShape.js';
-import * as CalendarUtils from './CalendarUtils.js';
-import type { CalendarContextProps } from './CalendarContext.js';
 import { CalendarContext } from './CalendarContext.js';
-import type { CalendarDayProps } from './CalendarDay.js';
+import type { CalendarContextProps } from './CalendarContext.js';
+import { create, isGreater, isLess } from './CalendarDateShape.js';
+import type { CalendarDateShape } from './CalendarDateShape.js';
 import { CalendarDay } from './CalendarDay.js';
+import type { CalendarDayProps } from './CalendarDay.js';
+import * as CalendarScrollEvents from './CalendarScrollEvents.js';
+import * as CalendarUtils from './CalendarUtils.js';
+import { themeConfig } from './config.js';
+import { Month } from './Month.js';
+import { MonthViewModel } from './MonthViewModel.js';
 
 export interface CalendarProps extends CommonProps {
   /** Задает функцию, которая вызывается при изменении value.

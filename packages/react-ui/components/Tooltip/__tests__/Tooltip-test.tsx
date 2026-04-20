@@ -1,11 +1,11 @@
-import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { Button } from '../../Button/index.js';
-import type { TooltipProps } from '../Tooltip.js';
-import { Tooltip, TooltipDataTids } from '../Tooltip.js';
 import { clickOutside, delay } from '../../../lib/utils.js';
+import { Button } from '../../Button/index.js';
+import { Tooltip, TooltipDataTids } from '../Tooltip.js';
+import type { TooltipProps } from '../Tooltip.js';
 
 /** Wraps test and runs it twice with external and child anchor */
 const withVariousAnchors = (testFn: (render: (props: Partial<TooltipProps>) => { anchor: HTMLElement }) => void) => {

@@ -1,5 +1,5 @@
-import React from 'react';
 import type { Decorator } from '@storybook/react';
+import React from 'react';
 
 import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/index.js';
 const createFeatureFlagsWithBoolean = (featureFlags: string[]) =>

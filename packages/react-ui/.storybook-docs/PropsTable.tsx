@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
 import { ArgTypes, useOf } from '@storybook/blocks';
+import React, { useRef, useState } from 'react';
 
 import { useEmotion } from '../lib/renderEnvironment/index.js';
-
 import type { PublicMethod } from './MethodsTable.js';
 import { PublicMethods } from './MethodsTable.js';
 

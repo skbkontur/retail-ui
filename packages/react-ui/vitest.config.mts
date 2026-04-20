@@ -1,5 +1,3 @@
-/// <reference types="vitest" />
-
 import { defineConfig } from 'vitest/config';
 
 const isCI = process.env['GITLAB_CI'] !== undefined;

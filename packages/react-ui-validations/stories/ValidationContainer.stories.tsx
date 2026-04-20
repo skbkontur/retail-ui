@@ -1,11 +1,11 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import type { Meta } from '@storybook/react';
+import React from 'react';
 
+import { ValidationContainer, ValidationWrapper, text } from '../index.js';
 import type { ValidationInfo } from '../index.js';
-import { text, ValidationContainer, ValidationWrapper } from '../index.js';
 
 const meta: Meta = {
   title: 'ValidationContainer',

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React, { useState } from 'react';
 
-import { Input } from '../../Input/index.js';
-import { Select } from '../../Select/index.js';
+import type { DateInput } from '../../../components/DateInput/index.js';
 import { componentsLocales as DateSelectLocalesRu } from '../../../internal/DateSelect/locale/locales/ru.js';
-import type { CalendarDayProps } from '../../Calendar/index.js';
-import { CalendarDataTids, CalendarDay } from '../../Calendar/index.js';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine/index.js';
 import { InternalDate } from '../../../lib/date/InternalDate.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { CalendarDataTids, CalendarDay } from '../../Calendar/index.js';
+import type { CalendarDayProps } from '../../Calendar/index.js';
+import { Input } from '../../Input/index.js';
+import { Select } from '../../Select/index.js';
 import { DateRangePicker, DateRangePickerDataTids } from '../DateRangePicker.js';
 import { DateRangePickerLocaleHelper } from '../locale/index.js';
-import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
-import type { DateInput } from '../../../components/DateInput/index.js';
 
 describe('DateRangePicker', () => {
   it('renders', () => {

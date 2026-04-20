@@ -1,5 +1,5 @@
+import { Gapped, Radio, RadioGroup } from '@skbkontur/react-ui';
 import React from 'react';
-import { RadioGroup, Gapped, Radio } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

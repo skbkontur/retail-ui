@@ -1,6 +1,6 @@
-import React, { forwardRef, useState } from 'react';
-import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import React, { forwardRef, useState } from 'react';
 
 import { CalendarDay } from '../../Calendar/index.js';
 import { Hint } from '../Hint.js';

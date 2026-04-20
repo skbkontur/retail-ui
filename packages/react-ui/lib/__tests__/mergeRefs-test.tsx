@@ -1,5 +1,5 @@
-import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { render } from '@testing-library/react';
+import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 
 import { mergeRefs } from '../mergeRefs.js';
 

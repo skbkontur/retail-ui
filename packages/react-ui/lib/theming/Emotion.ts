@@ -4,7 +4,6 @@ import extraScopePlugin from 'stylis-plugin-extra-scope';
 
 import { Upgrade } from '../Upgrades.js';
 import type { AnyObject, FunctionWithParams } from '../utils.js';
-
 import type { Theme } from './Theme.js';
 
 export const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();

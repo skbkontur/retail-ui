@@ -1,29 +1,28 @@
-import type { ReactNode } from 'react';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 
-import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
 import { type CommonProps, CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { LoadingIcon } from '../../internal/icons2022/LoadingIcon.js';
 import type { PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-import { formatBytes } from '../../lib/utils.js';
 import { TextWidthHelper } from '../../internal/TextWidthHelper/TextWidthHelper.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import { isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
+import { useKeyListener } from '../../lib/events/keyListener.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
 import { truncate } from '../../lib/stringUtils.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { useKeyListener } from '../../lib/events/keyListener.js';
-import { isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { formatBytes } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import { Hint } from '../Hint/index.js';
 import { Tooltip } from '../Tooltip/index.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { LoadingIcon } from '../../internal/icons2022/LoadingIcon.js';
-
-import { useFileUploaderSize } from './hooks/useFileUploaderSize.js';
-import { FileUploaderFileStatus, getFileUploaderTypeIcon } from './fileUtils.js';
-import type { FileUploaderAttachedFile, FileUploaderIconType, FileUploaderView } from './fileUtils.js';
+import { getJsRowStyles, getJsStyles, getJsTileStyles } from './FileUploaderFile.styles.js';
 import { FileUploaderFileStatusIcon } from './FileUploaderFileStatusIcon.js';
 import { FileUploaderFileTypeIcon } from './FileUploaderFileTypeIcon.js';
-import { getJsRowStyles, getJsStyles, getJsTileStyles } from './FileUploaderFile.styles.js';
+import type { FileUploaderAttachedFile, FileUploaderIconType, FileUploaderView } from './fileUtils.js';
+import { FileUploaderFileStatus, getFileUploaderTypeIcon } from './fileUtils.js';
+import { useFileUploaderSize } from './hooks/useFileUploaderSize.js';
 
 export interface FileUploaderFileProps extends CommonProps {
   file: FileUploaderAttachedFile;

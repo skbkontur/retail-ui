@@ -1,5 +1,5 @@
-import type { NotCommonProps } from '../types.js';
 import type { CommonPropsWithRootNodeRef } from '../CommonWrapper.js';
+import type { NotCommonProps } from '../types.js';
 
 export const extractCommonProps = <P extends CommonPropsWithRootNodeRef>(
   props: P,

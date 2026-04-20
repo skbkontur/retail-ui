@@ -1,11 +1,10 @@
 import React from 'react';
 
+import { getStyles } from '../../components/Spinner/Spinner.styles.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { getStyles } from '../../components/Spinner/Spinner.styles.js';
-import type { SpinnerIconProps } from '../SpinnerIcon/SpinnerIcon.js';
 import { SpinnerIcon } from '../SpinnerIcon/SpinnerIcon.js';
-
+import type { SpinnerIconProps } from '../SpinnerIcon/SpinnerIcon.js';
 import { iconSizer } from './iconSizer.js';
 
 const Icon = (props: SpinnerIconProps) => {

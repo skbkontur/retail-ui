@@ -1,4 +1,3 @@
- 
 import type { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {

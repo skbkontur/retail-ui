@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
-
 import { getStyles } from './SpinnerIcon.styles.js';
 
 interface SpinnerIconSize {

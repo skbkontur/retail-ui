@@ -1,9 +1,9 @@
-import type React from 'react';
 import { EventEmitter } from 'eventemitter3';
+import type React from 'react';
 
-import type { GlobalObject } from '../lib/globalObject.js';
-import type { SidePageProps } from '../components/SidePage/index.js';
 import type { ModalProps } from '../components/Modal/index.js';
+import type { SidePageProps } from '../components/SidePage/index.js';
+import type { GlobalObject } from '../lib/globalObject.js';
 
 interface StackInfo {
   emitter: EventEmitter;

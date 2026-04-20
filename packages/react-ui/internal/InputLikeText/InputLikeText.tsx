@@ -1,37 +1,36 @@
+import type { Emotion } from '@emotion/css/create-instance';
+import debounce from 'lodash.debounce';
 import React, { type JSX } from 'react';
 import ReactDOM from 'react-dom';
-import debounce from 'lodash.debounce';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { isNonNullable } from '../../lib/utils.js';
-import type { MouseDragEventHandler } from '../../lib/events/MouseDrag.js';
-import { MouseDrag } from '../../lib/events/MouseDrag.js';
-import { isMobile } from '../../lib/client.js';
-import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers.js';
+import { InputDataTids, calculateClearCrossShowedState } from '../../components/Input/index.js';
 import type { InputProps, InputState } from '../../components/Input/index.js';
-import { calculateClearCrossShowedState, InputDataTids } from '../../components/Input/index.js';
 import { getStyles as getJsInputStyles } from '../../components/Input/Input.styles.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import type { CommonProps, CommonWrapperRestProps } from '../CommonWrapper/index.js';
-import { CommonWrapper } from '../CommonWrapper/index.js';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
-import { rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { InputLayoutAside } from '../../components/Input/InputLayout/InputLayoutAside.js';
 import {
   InputLayoutContext,
   InputLayoutContextDefault,
 } from '../../components/Input/InputLayout/InputLayoutContext.js';
-import { FocusControlWrapper } from '../FocusControlWrapper/index.js';
-import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon.js';
 import { blink } from '../../lib/blink.js';
-import { withSize } from '../../lib/size/SizeDecorator.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import { isMobile } from '../../lib/client.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { removeAllSelections, selectNodeContents } from '../../lib/dom/selectionHelpers.js';
+import { MouseDrag } from '../../lib/events/MouseDrag.js';
+import type { MouseDragEventHandler } from '../../lib/events/MouseDrag.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
 import { REACT_MAJOR_VERSION } from '../../lib/react-is.js';
-
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { isNonNullable } from '../../lib/utils.js';
+import { ClearCrossIcon } from '../ClearCrossIcon/ClearCrossIcon.js';
+import type { CommonProps, CommonWrapperRestProps } from '../CommonWrapper/index.js';
+import { CommonWrapper } from '../CommonWrapper/index.js';
+import { FocusControlWrapper } from '../FocusControlWrapper/index.js';
 import { getStyles } from './InputLikeText.styles.js';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {

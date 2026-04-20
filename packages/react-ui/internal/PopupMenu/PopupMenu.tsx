@@ -1,10 +1,9 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes, HTMLAttributes, JSX } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { getRandomID } from '../../lib/utils.js';
-import type { HTMLProps } from '../../typings/html.js';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import {
   isKeyArrowVertical,
   isKeyEnter,
@@ -12,25 +11,25 @@ import {
   isKeySpace,
   someKeys,
 } from '../../lib/events/keyboard/identifiers.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
+import { rootNode } from '../../lib/rootNode/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import type { PopupPositionsType } from '../Popup/index.js';
-import { Popup, PopupIds } from '../Popup/index.js';
-import { RenderLayer } from '../RenderLayer/index.js';
+import { getRandomID } from '../../lib/utils.js';
+import type { HTMLProps } from '../../typings/html.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import type { CommonProps } from '../CommonWrapper/index.js';
 import { CommonWrapper } from '../CommonWrapper/index.js';
-import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
-import { rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import type { MenuProps } from '../Menu/index.js';
 import { Menu } from '../Menu/index.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { isValidPositions } from './validatePositions.js';
+import type { MenuProps } from '../Menu/index.js';
+import { Popup, PopupIds } from '../Popup/index.js';
+import type { PopupPositionsType } from '../Popup/index.js';
+import { RenderLayer } from '../RenderLayer/index.js';
 import { getStyles } from './PopupMenu.styles.js';
 import { PopupMenuDataTids } from './tids.js';
+import { isValidPositions } from './validatePositions.js';
 
 export * from './tids.js';
 

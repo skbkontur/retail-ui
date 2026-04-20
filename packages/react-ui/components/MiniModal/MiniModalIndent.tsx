@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
-import { getStyles } from './MiniModal.styles.js';
 import { MiniModalDataTids } from './MiniModal.js';
+import { getStyles } from './MiniModal.styles.js';
 
 /**
  * Отступ между кнопками

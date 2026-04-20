@@ -1,5 +1,4 @@
 import type { Nullable } from '../typings/Types.js';
-
 import type { Validation, ValidationBehaviour, ValidationLevel } from './ValidationWrapperInternal.js';
 
 export function getVisibleValidation(

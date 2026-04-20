@@ -1,5 +1,5 @@
+import { Button, Gapped, Input, Loader } from '@skbkontur/react-ui';
 import React from 'react';
-import { Loader, Button, Gapped, Input } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 

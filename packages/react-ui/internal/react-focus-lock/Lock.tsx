@@ -2,10 +2,9 @@ import React from 'react';
 import { useMergeRefs } from 'use-callback-ref';
 
 import { useGlobal } from '../../lib/renderEnvironment/index.js';
-
 import { FOCUS_DISABLED, FOCUS_GROUP } from './constants.js';
 import { hiddenGuard } from './FocusGuard.js';
-import { mediumFocus, mediumBlur, mediumSidecar } from './medium.js';
+import { mediumBlur, mediumFocus, mediumSidecar } from './medium.js';
 import { FocusScope } from './scope.js';
 
 const emptyArray: any[] = [];

@@ -1,8 +1,7 @@
 import type { Nullable } from '../../typings/utility-types.js';
-
-import type { Selection } from './SelectionHelper.js';
 import { CurrencyHelper } from './CurrencyHelper.js';
 import { CursorHelper } from './CursorHelper.js';
+import type { Selection } from './SelectionHelper.js';
 
 export interface DecimalOptions {
   /** Задает допустимое количество цифр целой части. Если передан 0, или fractionDigits=15, то и в целой части допускается только 0. */

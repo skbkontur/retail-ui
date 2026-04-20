@@ -1,7 +1,6 @@
 import * as colors from '@skbkontur/colors/tokens-default/dark';
 
-import { markAsDarkTheme, createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers.js';
-
+import { createTheme, markAsDarkTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers.js';
 import { BasicTheme, BasicThemeClassForExtension } from './BasicTheme.js';
 
 export const DarkTheme6_0 = createTheme({

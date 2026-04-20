@@ -1,39 +1,38 @@
 import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
-import { isBrowser } from '../../lib/globalObject.js';
-import type { InstanceWithRootNode } from '../../lib/rootNode/index.js';
-import { useMemoObject } from '../../hooks/useMemoObject.js';
 import { useDrop } from '../../hooks/useDrop.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { useKeyListener } from '../../lib/events/keyListener.js';
+import { useMemoObject } from '../../hooks/useMemoObject.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
 import type { PopupPositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
-
-import { useFileUploaderSize } from './hooks/useFileUploaderSize.js';
-import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
-import { FileUploaderFileList } from './FileUploaderFileList/FileUploaderFileList.js';
-import { withFileUploaderControlProvider } from './withFileUploaderControlProvider.js';
-import type { FileUploaderControlProviderProps } from './FileUploaderControlProvider.js';
-import { useUpload } from './hooks/useUpload.js';
-import { useControlLocale } from './hooks/useControlLocale.js';
+import { useKeyListener } from '../../lib/events/keyListener.js';
+import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { isBrowser } from '../../lib/globalObject.js';
+import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
+import type { InstanceWithRootNode } from '../../lib/rootNode/index.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { getJsRowStyles, getJsStyles, getJsTileStyles, globalClasses } from './FileUploader.styles.js';
 import { FileUploaderControlContext } from './FileUploaderControlContext.js';
-import { FileUploaderFileStatus, getAttachedFile } from './fileUtils.js';
+import type { FileUploaderControlProviderProps } from './FileUploaderControlProvider.js';
+import { FileUploaderFile } from './FileUploaderFile.js';
+import type { FileUploaderFileProps } from './FileUploaderFile.js';
+import { FileUploaderFileList } from './FileUploaderFileList/FileUploaderFileList.js';
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult.js';
 import type {
   FileUploaderAttachedFile,
   FileUploaderUploadButtonPosition,
   FileUploaderValidationSummary,
   FileUploaderView,
 } from './fileUtils.js';
-import { FileUploaderFile } from './FileUploaderFile.js';
-import type { FileUploaderFileProps } from './FileUploaderFile.js';
+import { FileUploaderFileStatus, getAttachedFile } from './fileUtils.js';
+import { useControlLocale } from './hooks/useControlLocale.js';
+import { useFileUploaderSize } from './hooks/useFileUploaderSize.js';
+import { useUpload } from './hooks/useUpload.js';
 import { UploadIcon } from './icons/UploadIcon.js';
-import { globalClasses, getJsStyles, getJsRowStyles, getJsTileStyles } from './FileUploader.styles.js';
+import { withFileUploaderControlProvider } from './withFileUploaderControlProvider.js';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 

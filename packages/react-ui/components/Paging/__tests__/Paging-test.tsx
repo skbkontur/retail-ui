@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { userEvent } from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import React, { useState } from 'react';
 
-import { emptyHandler } from '../../../lib/utils.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import { emptyHandler } from '../../../lib/utils.js';
 import { PagingLocaleHelper } from '../locale/index.js';
 import { Paging, PagingDataTids } from '../Paging.js';
 

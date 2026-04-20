@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useMemo } from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React, { createContext, useContext, useMemo } from 'react';
 
 import { getOwnerGlobalObject, getSafeWindow } from '../globalObject.js';
 import type { GlobalObject } from '../globalObject.js';

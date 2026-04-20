@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import type { Nullable } from '../../typings/utility-types.js';
-
-import type { PortalProps, RenderContainerProps } from './RenderContainerTypes.js';
 import { PORTAL_INLET_ATTR } from './RenderContainer.js';
+import type { PortalProps, RenderContainerProps } from './RenderContainerTypes.js';
 
 const KONTUR_COLORS_ATTRIBUTES = ['data-k-brand', 'data-k-accent', 'data-k-theme'];
 

@@ -1,6 +1,5 @@
-/* eslint-disable no-eval */
-import React from 'react';
 import { CalendarDay, Gapped } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 
@@ -65,6 +64,7 @@ export const Example2: Story = () => {
         <code>{code}</code>
       </td>
       <td>
+        {/* oxlint-disable-next-line no-eval */}
         <code>{JSON.stringify(eval(code), null, 2)}</code>
       </td>
     </tr>

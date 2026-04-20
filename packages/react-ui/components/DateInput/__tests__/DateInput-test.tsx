@@ -1,16 +1,16 @@
-import React from 'react';
 import { fireEvent, render as renderRTL, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText/index.js';
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine/index.js';
+import { InternalDateOrder } from '../../../lib/date/types.js';
+import { LocaleContext } from '../../../lib/locale/index.js';
+import type { LocaleContextProps } from '../../../lib/locale/index.js';
 import type { DefaultizeProps } from '../../../lib/utils.js';
 import { delay } from '../../../lib/utils.js';
-import { InternalDateOrder } from '../../../lib/date/types.js';
-import type { DateInputProps } from '../DateInput.js';
 import { DateInput, DateInputDataTids } from '../DateInput.js';
-import type { LocaleContextProps } from '../../../lib/locale/index.js';
-import { LocaleContext } from '../../../lib/locale/index.js';
+import type { DateInputProps } from '../DateInput.js';
 
 type InitialDate = string;
 type PressedKeys = string[];

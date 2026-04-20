@@ -1,7 +1,6 @@
 import React from 'react';
 
 import type { MenuItem } from '../../components/MenuItem/index.js';
-
 import type { MenuNavigation } from './MenuNavigation.js';
 
 export interface MenuContextType {

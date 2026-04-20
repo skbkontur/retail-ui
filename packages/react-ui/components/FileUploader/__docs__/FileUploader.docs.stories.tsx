@@ -1,13 +1,13 @@
-import React from 'react';
 import {
+  Button,
+  FileUploader,
+  FileUploaderFile,
+  Gapped,
   ThemeContext,
   ThemeFactory,
-  FileUploaderFile,
-  FileUploader,
-  Button,
   Toggle,
-  Gapped,
 } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import { type FileUploaderAttachedFile, FileUploaderFileStatus, createFile } from '../fileUtils.js';

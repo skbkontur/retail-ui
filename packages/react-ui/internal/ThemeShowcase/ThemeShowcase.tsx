@@ -1,22 +1,21 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
-import { useEmotion, useStyles, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-import { isColor } from '../../lib/styles/ColorHelpers.js';
-import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme.js';
-import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme.js';
-import type { ComboBoxItem } from '../../components/ComboBox/index.js';
 import { ComboBox } from '../../components/ComboBox/index.js';
+import type { ComboBoxItem } from '../../components/ComboBox/index.js';
 import { Gapped } from '../../components/Gapped/index.js';
 import { Link } from '../../components/Link/index.js';
 import { Sticky } from '../../components/Sticky/index.js';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
 import { Tooltip } from '../../components/Tooltip/index.js';
+import { useEmotion, useStyles, withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions.js';
+import { isColor } from '../../lib/styles/ColorHelpers.js';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
-import type { ComponentDescriptionType, ComponentRowDescriptionType } from './VariablesCollector.js';
+import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme.js';
+import { LIGHT_THEME as lightVariables } from '../../lib/theming/themes/LightTheme.js';
+import { getStyles } from './ThemeShowcase.styles.js';
 import {
   ALL_USED_VARIABLES,
   CALLS_COUNT,
@@ -24,7 +23,7 @@ import {
   COMPONENT_DESCRIPTIONS_BY_VARIABLE,
   EXECUTION_TIME,
 } from './VariablesCollector.js';
-import { getStyles } from './ThemeShowcase.styles.js';
+import type { ComponentDescriptionType, ComponentRowDescriptionType } from './VariablesCollector.js';
 
 const EMPTY_ARRAY: string[] = [];
 

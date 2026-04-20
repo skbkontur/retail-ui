@@ -1,10 +1,9 @@
-import React from 'react';
-import type { RenderResult } from '@testing-library/react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
+import React from 'react';
 import { vi } from 'vitest';
 
 import * as ReactUI from '../../index.js';
-import type { Toast } from '../../index.js';
 import {
   FileUploaderFileStatus,
   ModalDataTids,
@@ -12,10 +11,11 @@ import {
   SingleToast,
   TokenInputDataTids,
 } from '../../index.js';
-import type { AnyObject } from '../../lib/utils.js';
-import { delay } from '../../lib/utils.js';
+import type { Toast } from '../../index.js';
 import { InputLikeTextDataTids } from '../../internal/InputLikeText/index.js';
 import { getRootNode } from '../../lib/rootNode/index.js';
+import type { AnyObject } from '../../lib/utils.js';
+import { delay } from '../../lib/utils.js';
 import { createFile } from '../FileUploader/fileUtils.js';
 
 function isPublicComponent(component: any, name: string) {

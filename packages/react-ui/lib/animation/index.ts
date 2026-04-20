@@ -1,5 +1,4 @@
 import type { GlobalObject } from '../../lib/globalObject.js';
-
 import { stepper } from './stepper.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

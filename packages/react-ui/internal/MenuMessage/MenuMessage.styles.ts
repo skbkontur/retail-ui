@@ -1,8 +1,8 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import type { Theme } from '../../lib/theming/Theme.js';
-import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import { getMenuItemPaddings } from '../../components/MenuItem/MenuItem.styles.js';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
+import type { Theme } from '../../lib/theming/Theme.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {

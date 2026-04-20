@@ -1,13 +1,11 @@
-// TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
-import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
+import type { CSSProperties } from 'react';
 
-import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from '../ScrollContainer.js';
-import { ScrollContainer } from '../ScrollContainer.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { Story } from '../../../typings/stories.js';
 import { Gapped } from '../../Gapped/index.js';
-import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import type { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from '../ScrollContainer.js';
+import { ScrollContainer } from '../ScrollContainer.js';
 
 function getItems(count: number) {
   const items = [];

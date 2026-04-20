@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped/Gapped';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import React, { useRef, useState } from 'react';
 
+import { ValidationContainer, ValidationWrapper, text } from '../../index.js';
 import type { ValidationInfo } from '../../index.js';
-import { text, ValidationContainer, ValidationWrapper } from '../../index.js';
 import type { Nullable } from '../../typings/Types.js';
 
 export const LostfocusDynamicValidation = () => {

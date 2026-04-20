@@ -1,9 +1,8 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
 import { Select } from '../../../components/Select/index.js';
 import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
-
 import { componentsDataTids } from './componentsDataTids.js';
 import { getStyles } from './DataTids.styles.js';
 

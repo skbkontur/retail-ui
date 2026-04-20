@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { isNonNullable } from '../../lib/utils.js';
-import type { CommonProps } from '../../internal/CommonWrapper/types.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator.js';
-import { rootNode } from '../../lib/rootNode/index.js';
+import type { CommonProps } from '../../internal/CommonWrapper/types.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { rootNode } from '../../lib/rootNode/index.js';
+import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator.js';
+import { isNonNullable } from '../../lib/utils.js';
 
 export interface GappedProps extends CommonProps {
   /** Задает расстояние между элементами в пикселях. */

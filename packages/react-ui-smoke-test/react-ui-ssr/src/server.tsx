@@ -1,11 +1,11 @@
 import fs from 'fs';
 
-import React from 'react';
-import { renderToString } from 'react-dom/server';
 import { CacheProvider } from '@emotion/react';
+import { REACT_UI_PREFIX } from "@skbkontur/react-ui/lib/theming/Emotion"
+import React from 'react';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
-import { REACT_UI_PREFIX } from "@skbkontur/react-ui/lib/theming/Emotion"
+import { renderToString } from 'react-dom/server';
 
 const key = REACT_UI_PREFIX
 const cache = createCache({ key })

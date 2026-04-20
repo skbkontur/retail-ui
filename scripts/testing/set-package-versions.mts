@@ -1,5 +1,5 @@
-import { resolve } from 'path';
 import { readFileSync, writeFileSync } from 'fs';
+import { resolve } from 'path';
 
 const reactVersion = process?.env?.REACT_VERSION;
 const tsVersion = process?.env?.TYPESCRIPT_VERSION;

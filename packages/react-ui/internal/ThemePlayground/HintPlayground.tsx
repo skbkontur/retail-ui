@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Gapped } from '../../components/Gapped/index.js';
 import { Button } from '../../components/Button/index.js';
+import { Gapped } from '../../components/Gapped/index.js';
 import { Hint } from '../../components/Hint/index.js';
 import { SingleToast } from '../../components/SingleToast/index.js';
 

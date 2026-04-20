@@ -1,39 +1,38 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes, KeyboardEvent } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import { MenuMessage } from '../../internal/MenuMessage/index.js';
-import { locale } from '../../lib/locale/decorators.js';
-import { getRandomID, isNullable } from '../../lib/utils.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
-import type { InputProps } from '../Input/index.js';
-import { Input } from '../Input/index.js';
-import { Menu } from '../../internal/Menu/index.js';
-import { MenuItem } from '../MenuItem/index.js';
-import { RenderLayer } from '../../internal/RenderLayer/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import type { Nullable, Override } from '../../typings/utility-types.js';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { Menu } from '../../internal/Menu/index.js';
+import { MenuMessage } from '../../internal/MenuMessage/index.js';
 import { MobilePopup } from '../../internal/MobilePopup/index.js';
-import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import { Popup } from '../../internal/Popup/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers.js';
+import { getMenuPositions } from '../../lib/getMenuPositions.js';
+import { locale } from '../../lib/locale/decorators.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import { getDOMRect } from '../../lib/dom/getDOMRect.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { Popup } from '../../internal/Popup/index.js';
-import { getMenuPositions } from '../../lib/getMenuPositions.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
-import { getSafeMaskInputType, MaskedInput, type MaskedProps } from '../MaskedInput/index.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { getRandomID, isNullable } from '../../lib/utils.js';
+import type { Nullable, Override } from '../../typings/utility-types.js';
+import { Input } from '../Input/index.js';
+import type { InputProps } from '../Input/index.js';
+import { MaskedInput, type MaskedProps, getSafeMaskInputType } from '../MaskedInput/index.js';
+import { MenuItem } from '../MenuItem/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { getStyles } from './Autocomplete.styles.js';
+import { getAutocompleteTheme } from './getAutocompleteTheme.js';
 import type { AutocompleteLocale } from './locale/index.js';
 import { AutocompleteLocaleHelper } from './locale/index.js';
-import { getAutocompleteTheme } from './getAutocompleteTheme.js';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {

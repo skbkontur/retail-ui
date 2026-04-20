@@ -1,10 +1,9 @@
+import type { Meta } from '@storybook/react';
 import type { CSSProperties, FC, FormEvent, PropsWithChildren } from 'react';
 import React, { useCallback, useState } from 'react';
-import type { Meta } from '@storybook/react';
 
-import type { Story } from '../../typings/stories.js';
 import { getSafeWindow } from '../../lib/globalObject.js';
-
+import type { Story } from '../../typings/stories.js';
 import { FocusControlWrapper } from './FocusControlWrapper.js';
 
 const meta: Meta = { title: 'FocusControlWrapper' };

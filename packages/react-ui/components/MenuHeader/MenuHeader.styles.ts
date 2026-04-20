@@ -2,7 +2,6 @@ import type { Emotion } from '@emotion/css/create-instance';
 
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-
 import { menuHeaderSizeMixin, withIconSizeMixin } from './MenuHeader.mixins.js';
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({

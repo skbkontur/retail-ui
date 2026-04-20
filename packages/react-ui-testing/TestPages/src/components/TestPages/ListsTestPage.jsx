@@ -1,7 +1,7 @@
-import React from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input/index.js';
+import React from 'react';
 
-import { CaseSuite, Case } from '../Case';
+import { Case, CaseSuite } from '../Case';
 
 export default class InputTextPage extends React.Component {
   state = {

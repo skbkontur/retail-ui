@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
-import type { ModalBodyProps } from '../Modal/index.js';
-import { Modal } from '../Modal/index.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
+import { Modal } from '../Modal/index.js';
+import type { ModalBodyProps } from '../Modal/index.js';
 import { MiniModalDataTids } from './MiniModal.js';
 import { getStyles } from './MiniModal.styles.js';
 

@@ -1,5 +1,5 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 
 import { Hint } from '../../../components/Hint/index.js';
 

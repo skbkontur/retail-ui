@@ -1,24 +1,23 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import type { AriaAttributes, HTMLAttributes } from 'react';
 import React from 'react';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
-import { isBrowser } from '../../lib/globalObject.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable.js';
-import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme } from '../../lib/theming/Theme.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { MenuContext } from '../../internal/Menu/MenuContext.js';
+import type { MenuContextType } from '../../internal/Menu/MenuContext.js';
+import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import { isBrowser } from '../../lib/globalObject.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
-import type { MenuContextType } from '../../internal/Menu/MenuContext.js';
-import { MenuContext } from '../../internal/Menu/MenuContext.js';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './MenuItem.styles.js';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;

@@ -1,10 +1,9 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
+import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
 import type { Theme } from '../../../lib/theming/Theme.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
-import { withRenderEnvironment } from '../../../lib/renderEnvironment/index.js';
-
 import { getJsStyles } from './MobilePopupFooter.styles.js';
 
 @withRenderEnvironment

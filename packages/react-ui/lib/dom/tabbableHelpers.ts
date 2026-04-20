@@ -1,10 +1,10 @@
+import { isFocusable, tabbable } from 'tabbable';
 import type { FocusableElement } from 'tabbable';
-import { tabbable, isFocusable } from 'tabbable';
 
 import { getOwnerGlobalObject } from '../../lib/globalObject.js';
-import type { Nullable } from '../../typings/utility-types.js';
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import { isElement } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
 
 /**
  * Поиск всех элементов, у которых tabindex > -1, в переданном родителе

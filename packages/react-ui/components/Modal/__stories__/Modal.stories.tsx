@@ -1,15 +1,13 @@
-// TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
-import type { ReactNode } from 'react';
-import React, { useState } from 'react';
 import { MediaUiAStopIcon16Regular } from '@skbkontur/icons/icons/MediaUiAStopIcon/MediaUiAStopIcon16Regular.js';
+import React, { useState } from 'react';
+import type { ReactNode } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import type { Story } from '../../../typings/stories.js';
-import { Modal } from '../Modal.js';
 import { Button } from '../../Button/index.js';
 import { Input } from '../../Input/index.js';
 import { Toggle } from '../../Toggle/index.js';
-import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { Modal } from '../Modal.js';
 
 const basicFontStyle = {
   fontSize: '14px',

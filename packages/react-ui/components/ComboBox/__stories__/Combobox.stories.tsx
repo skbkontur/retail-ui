@@ -1,26 +1,24 @@
-// TODO: Rewrite stories and enable rule (in process of functional refactoring).
-/* eslint-disable react/no-unstable-nested-components */
-import React, { type CSSProperties } from 'react';
-import { action } from '@storybook/addon-actions';
 import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
 import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { action } from '@storybook/addon-actions';
+import React, { type CSSProperties } from 'react';
 
+import { mergeRefs } from '../../../lib/mergeRefs.js';
+import type { TSetRootNode } from '../../../lib/rootNode//rootNodeDecorator.js';
+import { rootNode } from '../../../lib/rootNode/index.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import type { ComboBoxItem, ComboBoxProps } from '../ComboBox.js';
-import { ComboBox } from '../ComboBox.js';
-import type { MenuItemState } from '../../MenuItem/index.js';
-import { MenuItem } from '../../MenuItem/index.js';
-import { MenuSeparator } from '../../MenuSeparator/index.js';
 import type { Nullable } from '../../../typings/utility-types.js';
-import { Toggle } from '../../Toggle/index.js';
 import { Button } from '../../Button/index.js';
 import { Gapped } from '../../Gapped/index.js';
 import { MenuHeader } from '../../MenuHeader/index.js';
-import { mergeRefs } from '../../../lib/mergeRefs.js';
+import { MenuItem } from '../../MenuItem/index.js';
+import type { MenuItemState } from '../../MenuItem/index.js';
+import { MenuSeparator } from '../../MenuSeparator/index.js';
+import { Toggle } from '../../Toggle/index.js';
 import { Tooltip } from '../../Tooltip/index.js';
-import type { TSetRootNode } from '../../../lib/rootNode//rootNodeDecorator.js';
-import { rootNode } from '../../../lib/rootNode/index.js';
 import { getCities } from '../__mocks__/getCities.js';
+import type { ComboBoxItem, ComboBoxProps } from '../ComboBox.js';
+import { ComboBox } from '../ComboBox.js';
 
 const meta: Meta = {
   title: 'ComboBox',

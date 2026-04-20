@@ -1,5 +1,5 @@
-import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation.js';
 import { isChrome, isFirefox } from '../../lib/client.js';
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation.js';
 
 export const radioSizeMixin = (fontSize: string, lineHeight: string, paddingY: string, radioSize: string): string => {
   return `

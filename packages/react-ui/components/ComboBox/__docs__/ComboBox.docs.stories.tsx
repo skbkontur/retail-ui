@@ -1,17 +1,17 @@
-import React from 'react';
 import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
-import type { ComboBoxExtendedItem, ComboBoxItem } from '@skbkontur/react-ui';
-import {
-  ComboBox,
-  Tooltip,
-  Button,
-  Gapped,
-  MenuItem,
-  MenuHeader,
-  MenuSeparator,
-  MenuFooter,
-} from '@skbkontur/react-ui';
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
+import {
+  Button,
+  ComboBox,
+  Gapped,
+  MenuFooter,
+  MenuHeader,
+  MenuItem,
+  MenuSeparator,
+  Tooltip,
+} from '@skbkontur/react-ui';
+import type { ComboBoxExtendedItem, ComboBoxItem } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import type { Nullable } from '../../../typings/utility-types.js';

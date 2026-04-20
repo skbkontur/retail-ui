@@ -2,26 +2,25 @@ import type { AriaAttributes } from 'react';
 import React from 'react';
 import warning from 'warning';
 
-import { getOwnerGlobalObject } from '../../lib/globalObject.js';
-import { isNonNullable, isNullable, isElement } from '../../lib/utils.js';
-import type { InputProps } from '../Input/index.js';
-import { Input } from '../Input/index.js';
-import type { Nullable, Override } from '../../typings/utility-types.js';
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { getOwnerGlobalObject } from '../../lib/globalObject.js';
+import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import { scrollInputCaretIntoView } from '../../lib/scrollInputCaretIntoView.js';
-import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
-
+import { isElement, isNonNullable, isNullable } from '../../lib/utils.js';
+import type { Nullable, Override } from '../../typings/utility-types.js';
+import { Input } from '../Input/index.js';
+import type { InputProps } from '../Input/index.js';
 import { MAX_SAFE_DIGITS } from './constants.js';
-import type { Selection, SelectionDirection } from './SelectionHelper.js';
-import { SelectionHelper } from './SelectionHelper.js';
 import { CurrencyHelper } from './CurrencyHelper.js';
 import { CurrencyInputHelper } from './CurrencyInputHelper.js';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions.js';
+import type { Selection, SelectionDirection } from './SelectionHelper.js';
+import { SelectionHelper } from './SelectionHelper.js';
 
 export interface CurrencyInputProps
   extends

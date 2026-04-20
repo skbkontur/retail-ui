@@ -1,25 +1,25 @@
-import React from 'react';
-import type { CalendarDayProps } from '@skbkontur/react-ui';
 import {
   CalendarDay,
-  DateRangePicker,
-  Gapped,
-  ThemeContext,
-  ThemeFactory,
   DateOrder,
+  DateRangePicker,
   DateSeparator,
+  Gapped,
   LocaleContext,
   Select,
+  ThemeContext,
+  ThemeFactory,
 } from '@skbkontur/react-ui';
+import type { CalendarDayProps } from '@skbkontur/react-ui';
+import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import {
-  Default,
   CustomChildrenVertical,
   CustomChildrenWithoutDash,
+  Default,
   Sizes,
-  Validations as ValidationsStory,
   TodayButton,
+  Validations as ValidationsStory,
 } from '../__stories__/DateRangePicker.stories.js';
 
 const meta: Meta = {

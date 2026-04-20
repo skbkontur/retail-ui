@@ -1,5 +1,5 @@
-import React from 'react';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
+import React from 'react';
 
 import { Case, CaseSuite } from '../Case';
 

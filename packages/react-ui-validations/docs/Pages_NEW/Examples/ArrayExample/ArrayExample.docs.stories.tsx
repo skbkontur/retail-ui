@@ -1,11 +1,11 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Group } from '@skbkontur/react-ui/components/Group/Group';
+import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import React from 'react';
 
-import type { Meta, Story } from '../../../../typings/stories.js';
+import { ValidationContainer, ValidationWrapper, createValidator, text } from '../../../../index.js';
 import { isNonNullable } from '../../../../src/utils/isNonNullable/isNonNullable.js';
-import { createValidator, text, ValidationContainer, ValidationWrapper } from '../../../../index.js';
+import type { Meta, Story } from '../../../../typings/stories.js';
 import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {

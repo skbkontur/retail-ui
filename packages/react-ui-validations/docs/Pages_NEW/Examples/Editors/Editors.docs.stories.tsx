@@ -1,4 +1,3 @@
-import React from 'react';
 import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon.js';
 import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon/HandThumbUpIcon.js';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
@@ -7,13 +6,14 @@ import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/index';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { Link } from '@skbkontur/react-ui/components/Link/index';
+import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select/index';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea/index';
-import { MaskedInput } from '@skbkontur/react-ui/components/MaskedInput/MaskedInput';
+import React from 'react';
 
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
 import type { Meta, Story } from '../../../../typings/stories.js';
-import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
 import type { Nullable } from '../../../../typings/Types.js';
 import { Form } from '../../../Common/Form.js';
 

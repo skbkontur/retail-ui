@@ -1,5 +1,5 @@
 import type { InternalDate } from './InternalDate.js';
-import type { InternalDateComponentRaw, InternalDateComponentsRaw, InternalDateChangeSettings } from './types.js';
+import type { InternalDateChangeSettings, InternalDateComponentRaw, InternalDateComponentsRaw } from './types.js';
 import { InternalDateComponentType } from './types.js';
 
 export class InternalDateSetter {

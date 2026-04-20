@@ -1,5 +1,4 @@
 import { defaultLangCode, langCodesToCanonicalLocale } from '../locale/constants.js';
-
 import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants.js';
 import { InternalDateCalculator } from './InternalDateCalculator.js';
 import { InternalDateGetter } from './InternalDateGetter.js';

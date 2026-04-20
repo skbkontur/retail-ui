@@ -1,12 +1,12 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
 import { LangCodes } from '../../../lib/locale/index.js';
 import { Button } from '../../Button/index.js';
-import { SingleToast } from '../SingleToast.js';
 import { ToastDataTids } from '../../Toast/index.js';
 import { ToastLocaleHelper } from '../../Toast/locale/index.js';
+import { SingleToast } from '../SingleToast.js';
 
 describe('SingleToast', () => {
   describe('showCloseIcon', () => {

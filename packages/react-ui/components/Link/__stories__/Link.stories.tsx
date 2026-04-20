@@ -1,16 +1,16 @@
-import React from 'react';
 import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import React from 'react';
 
-import type { Story } from '../../../typings/stories.js';
 import { ComponentTable } from '../../../internal/ComponentTable.js';
-import type { LinkProps } from '../Link.js';
-import { Link } from '../Link.js';
+import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
+import type { Story } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
 import { Gapped } from '../../Gapped/index.js';
 import { Hint } from '../../Hint/index.js';
-import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 import { SingleToast } from '../../SingleToast/index.js';
+import { Link } from '../Link.js';
+import type { LinkProps } from '../Link.js';
 
 export default {
   title: 'Link',

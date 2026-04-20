@@ -1,17 +1,17 @@
-import React from 'react';
-import { act, render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
-import { TokenInput, TokenInputType } from '@skbkontur/react-ui/components/TokenInput/TokenInput';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker/DatePicker';
 import { FileUploader } from '@skbkontur/react-ui/components/FileUploader/FileUploader';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup/RadioGroup';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher/Switcher';
+import { TokenInput, TokenInputType } from '@skbkontur/react-ui/components/TokenInput/TokenInput';
+import { act, render, screen } from '@testing-library/react';
+import React from 'react';
+import { vi } from 'vitest';
 
-import type { ValidationInfo, ValidationContainerProps } from '../index.js';
 import { FocusMode, ValidationContainer, ValidationWrapper } from '../index.js';
+import type { ValidationContainerProps, ValidationInfo } from '../index.js';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView.js';
 
 describe('ValidationContainer', () => {

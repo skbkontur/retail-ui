@@ -1,11 +1,11 @@
-import React from 'react';
 import { flatten } from 'lodash';
+import React from 'react';
 
+import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
+import type { Meta, Story } from '../../../typings/stories.js';
 import { Gapped } from '../../Gapped/Gapped.js';
 import { Autocomplete } from '../Autocomplete.js';
-import type { Meta, Story } from '../../../typings/stories.js';
 import type { AutocompleteProps } from '../Autocomplete.js';
-import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 
 const meta: Meta = {
   title: 'Autocomplete',

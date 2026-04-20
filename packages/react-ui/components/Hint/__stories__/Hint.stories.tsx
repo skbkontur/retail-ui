@@ -1,15 +1,15 @@
 import React, { type JSX } from 'react';
 
-import type { Meta, Story } from '../../../typings/stories.js';
-import { Hint } from '../Hint.js';
-import { Gapped } from '../../Gapped/index.js';
-import { Input } from '../../Input/index.js';
 import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
-import { Textarea } from '../../Textarea/index.js';
 import type { TSetRootNode } from '../../../lib/rootNode//rootNodeDecorator.js';
 import { rootNode } from '../../../lib/rootNode/index.js';
+import type { Meta, Story } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
+import { Gapped } from '../../Gapped/index.js';
+import { Input } from '../../Input/index.js';
+import { Textarea } from '../../Textarea/index.js';
 import { Tooltip } from '../../Tooltip/index.js';
+import { Hint } from '../Hint.js';
 
 const meta: Meta = {
   title: 'Hint',

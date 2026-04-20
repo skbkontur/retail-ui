@@ -2,10 +2,9 @@ import React, { useContext } from 'react';
 
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { isKonturIcon } from '../../lib/utils.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
-
+import { isKonturIcon } from '../../lib/utils.js';
 import type { ButtonInnerProps } from './Button.js';
 import { getStyles } from './ButtonIcon.styles.js';
 import { LoadingButtonIcon } from './LoadingButtonIcon.js';

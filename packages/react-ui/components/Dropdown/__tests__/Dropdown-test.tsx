@@ -1,9 +1,9 @@
-import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import React from 'react';
 
-import { Dropdown, DropdownDataTids } from '../Dropdown.js';
 import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
+import { Dropdown, DropdownDataTids } from '../Dropdown.js';
 
 describe('Dropdown', () => {
   const captionText = 'Open';

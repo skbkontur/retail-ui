@@ -1,12 +1,12 @@
-import React from 'react';
+import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
+import React from 'react';
 
-import { TooltipMenu } from '../TooltipMenu.js';
-import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
 import { MenuDataTids } from '../../../internal/Menu/index.js';
+import { MenuItem, MenuItemDataTids } from '../../MenuItem/index.js';
 import { TooltipMenuDataTids } from '../index.js';
+import { TooltipMenu } from '../TooltipMenu.js';
 
 describe('<TooltipMenu />', () => {
   const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});

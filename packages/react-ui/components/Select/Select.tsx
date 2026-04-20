@@ -1,10 +1,17 @@
-import type { AriaAttributes, HTMLAttributes, ReactNode, ReactPortal } from 'react';
-import React from 'react';
+import type { Emotion } from '@emotion/css/create-instance';
 import invariant from 'invariant';
 import debounce from 'lodash.debounce';
-import type { Emotion } from '@emotion/css/create-instance';
+import type { AriaAttributes, HTMLAttributes, ReactNode, ReactPortal } from 'react';
+import React from 'react';
 
-import type { GlobalObject } from '../../lib/globalObject.js';
+import type { CommonProps } from '../../internal/CommonWrapper/index.js';
+import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { Menu } from '../../internal/Menu/index.js';
+import { MobilePopup } from '../../internal/MobilePopup/index.js';
+import { Popup, type PopupPositionsType } from '../../internal/Popup/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
+import { ZIndex } from '../../internal/ZIndex/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import {
   isKeyArrowDown,
   isKeyArrowUp,
@@ -13,38 +20,30 @@ import {
   isKeyEscape,
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers.js';
+import { filterProps } from '../../lib/filterProps.js';
+import { getMenuPositions } from '../../lib/getMenuPositions.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
 import { locale } from '../../lib/locale/decorators.js';
 import { reactGetTextContent } from '../../lib/reactGetTextContent.js';
-import type { ButtonProps, ButtonUse } from '../Button/index.js';
-import { Button } from '../Button/index.js';
-import { filterProps } from '../../lib/filterProps.js';
-import { Input } from '../Input/index.js';
-import { Menu } from '../../internal/Menu/index.js';
-import type { MenuItemProps } from '../MenuItem/index.js';
-import { MenuItem } from '../MenuItem/index.js';
-import { MenuSeparator } from '../MenuSeparator/index.js';
-import { RenderLayer } from '../../internal/RenderLayer/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
-import type { CommonProps } from '../../internal/CommonWrapper/index.js';
-import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { MobilePopup } from '../../internal/MobilePopup/index.js';
-import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
-import type { MenuHeaderProps } from '../MenuHeader/index.js';
-import type { SizeProp } from '../../lib/types/props.js';
-import { getStyles as getLinkStyles } from '../Link/Link.styles.js';
-import { Popup, type PopupPositionsType } from '../../internal/Popup/index.js';
-import { ZIndex } from '../../internal/ZIndex/index.js';
-import { getMenuPositions } from '../../lib/getMenuPositions.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import type { SizeProp } from '../../lib/types/props.js';
+import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import type { ButtonProps, ButtonUse } from '../Button/index.js';
+import { Button } from '../Button/index.js';
+import { Input } from '../Input/index.js';
+import { getStyles as getLinkStyles } from '../Link/Link.styles.js';
+import type { MenuHeaderProps } from '../MenuHeader/index.js';
+import { MenuItem } from '../MenuItem/index.js';
+import type { MenuItemProps } from '../MenuItem/index.js';
+import { MenuSeparator } from '../MenuSeparator/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { ArrowDownIcon } from './ArrowDownIcon.js';
 import { Item } from './Item.js';
 import type { SelectLocale } from './locale/index.js';

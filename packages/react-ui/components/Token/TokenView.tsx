@@ -1,12 +1,11 @@
-import type { ReactNode } from 'react';
 import React, { forwardRef, useContext } from 'react';
+import type { ReactNode } from 'react';
 
-import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { type CommonProps, CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-
 import type { TokenSize } from './Token.js';
-import { globalClasses, getStyles } from './Token.styles.js';
+import { getStyles, globalClasses } from './Token.styles.js';
 
 export interface TokenViewProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Задает размер контрола. */

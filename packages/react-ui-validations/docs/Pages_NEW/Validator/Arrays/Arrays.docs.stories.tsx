@@ -1,9 +1,9 @@
-import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Input } from '@skbkontur/react-ui/components/Input/Input';
+import React from 'react';
 
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../index.js';
 import type { Meta, Story } from '../../../../typings/stories.js';
-import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../index.js';
 import { Form } from '../../../Common/Form.js';
 
 const meta: Meta = {

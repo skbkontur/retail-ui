@@ -1,9 +1,8 @@
 import React, { type JSX } from 'react';
 
-import { useStyles } from '../../lib/renderEnvironment/index.js';
 import type { IconSizeAliases } from '../../internal/icons2022/iconConstants.js';
 import { LoadingIcon } from '../../internal/icons2022/LoadingIcon.js';
-
+import { useStyles } from '../../lib/renderEnvironment/index.js';
 import { ButtonDataTids } from './Button.js';
 import { getStyles } from './Button.styles.js';
 

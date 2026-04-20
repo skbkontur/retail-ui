@@ -1,17 +1,16 @@
-import React from 'react';
 import type { Emotion } from '@emotion/css/create-instance';
+import React from 'react';
 
 import type { GlobalObject } from '../../lib/globalObject.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import type { Theme } from '../../lib/theming/Theme.js';
-import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { isInstanceOf } from '../../lib/isInstanceOf.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { Nullable } from '../../typings/utility-types.js';
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants.js';
-import { getStyles, globalClasses } from './ScrollContainer.styles.js';
 import { getScrollSizeParams } from './ScrollContainer.helpers.js';
 import type { ScrollContainerProps } from './ScrollContainer.js';
+import { getStyles, globalClasses } from './ScrollContainer.styles.js';
 
 export type ScrollAxis = 'x' | 'y';
 export type ScrollBarScrollState = 'begin' | 'middle' | 'end';

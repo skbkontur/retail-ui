@@ -1,4 +1,3 @@
-// @ts-expect-error - jscodeshift/dist/testUtils doesn't have type definitions
 import { defineInlineTest } from 'jscodeshift/dist/testUtils';
 
 import transform from '../transformLabelToCaption';

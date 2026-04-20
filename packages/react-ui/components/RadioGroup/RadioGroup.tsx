@@ -1,24 +1,23 @@
+import type { Emotion } from '@emotion/css/create-instance';
+import invariant from 'invariant';
 import type { AriaAttributes, JSX } from 'react';
 import React from 'react';
-import invariant from 'invariant';
-import type { Emotion } from '@emotion/css/create-instance';
 
-import { getRandomID, isNonNullable } from '../../lib/utils.js';
-import { Radio } from '../Radio/index.js';
-import { createPropsGetter } from '../../lib/createPropsGetter.js';
-import type { Nullable } from '../../typings/utility-types.js';
-import { FocusTrap } from '../../internal/FocusTrap/index.js';
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
+import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
+import { FocusTrap } from '../../internal/FocusTrap/index.js';
+import { createPropsGetter } from '../../lib/createPropsGetter.js';
+import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
-import { getVisualStateDataAttributes } from '../../internal/CommonWrapper/utils/getVisualStateDataAttributes.js';
-import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
-
-import { getStyles } from './RadioGroup.styles.js';
+import { getRandomID, isNonNullable } from '../../lib/utils.js';
+import type { Nullable } from '../../typings/utility-types.js';
+import { Radio } from '../Radio/index.js';
 import { Prevent } from './Prevent.js';
-import type { RadioGroupContextType } from './RadioGroupContext.js';
+import { getStyles } from './RadioGroup.styles.js';
 import { RadioGroupContext } from './RadioGroupContext.js';
+import type { RadioGroupContextType } from './RadioGroupContext.js';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
   /** Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок или значений из `items`. */

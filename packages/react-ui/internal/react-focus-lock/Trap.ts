@@ -1,20 +1,19 @@
-import withSideEffect from 'react-clientside-effect';
 import {
-  moveFocusInside,
+  captureFocusRestore,
+  expandFocusableNodes,
+  focusFirstElement,
   focusInside,
   focusIsHidden,
-  expandFocusableNodes,
+  focusLastElement,
   focusNextElement,
   focusPrevElement,
-  focusFirstElement,
-  focusLastElement,
-  captureFocusRestore,
+  moveFocusInside,
 } from 'focus-lock';
+import withSideEffect from 'react-clientside-effect';
 
 import { getOwnerGlobalObject } from '../../lib/globalObject.js';
-
+import { mediumBlur, mediumEffect, mediumFocus } from './medium.js';
 import { deferAction, extractRef } from './util.js';
-import { mediumFocus, mediumBlur, mediumEffect } from './medium.js';
 
 const focusOnBody = (globalObject: any) =>
   globalObject.document && globalObject.document.activeElement === globalObject.document.body;

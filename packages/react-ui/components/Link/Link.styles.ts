@@ -1,9 +1,8 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
+import { resetButton } from '../../lib/styles/Mixins.js';
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { resetButton } from '../../lib/styles/Mixins.js';
-
 import { linkDisabledMixin, linkUseColorsMixin } from './Link.mixins.js';
 
 const line = ({ keyframes }: Emotion) => keyframes`
