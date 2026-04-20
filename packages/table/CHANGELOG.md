@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](/compare/@skbkontur/table@0.2.1...@skbkontur/table@0.2.2) (2026-04-20)
+
+
+### Bug Fixes
+
+* remove html attrs 4f618c5
+* **table:** handle CommonWrapper rest props in cells c38d5e4
+
+
+
+
+
 ## [0.2.1](/compare/@skbkontur/table@0.2.0...@skbkontur/table@0.2.1) (2026-04-06)
 
 
