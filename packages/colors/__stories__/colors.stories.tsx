@@ -274,13 +274,16 @@ export const BaseTokensStory = () => {
   };
 
   const groupTokensByRoot = (tokens: TokenPair[]): Record<string, TokenPair[]> =>
-    tokens.reduce((acc, t) => {
-      const parts = t.key.split('.');
-      const rootKey = parts[0] === 'customizable' ? `${parts[0]}.${parts[1]}` : parts[0];
+    tokens.reduce(
+      (acc, t) => {
+        const parts = t.key.split('.');
+        const rootKey = parts[0] === 'customizable' ? `${parts[0]}.${parts[1]}` : parts[0];
 
-      acc[rootKey] = [...(acc[rootKey] || []), t];
-      return acc;
-    }, {} as Record<string, TokenPair[]>);
+        acc[rootKey] = [...(acc[rootKey] || []), t];
+        return acc;
+      },
+      {} as Record<string, TokenPair[]>
+    );
 
   const copyColor = (v: string) => {
     window.navigator.clipboard.writeText(v);

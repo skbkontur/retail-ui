@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 import { vitestCiJUnit } from '../../scripts/test/vitest-shared.js';
 
 /** Свой конфиг: при `yarn test` из пакета cwd = packages/colors, корневой include `packages/**` тогда не находит тесты. */
-// eslint-disable-next-line import/no-default-export -- точка входа Vitest
+// oxlint-disable-next-line import/no-default-export
 export default defineConfig({
   test: {
     name: 'colors',

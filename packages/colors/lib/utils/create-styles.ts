@@ -27,7 +27,6 @@ function createSelector<T>(params: SemanticConfigOptions<T>, brand: string, acce
 /**
  * Генерация CSS-стилей [selector] { --variables: ... }
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function generateCSSStyles<T>(themeTokens: any, params: SemanticConfigOptions<T> & { theme: ThemeKey }): string {
   const brand =
     params.brand in DEFAULT_SWATCH.brand ? camelCaseToKebabCase(params.brand as string) : params.brand.toLowerCase();
@@ -41,7 +40,6 @@ export function generateCSSStyles<T>(themeTokens: any, params: SemanticConfigOpt
   return `${selector} {\n${cssVariables}\n}`;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function flattenToCssVars(obj: any, prefix: string): string {
   const flattened = flattenHybridCase(obj);
   return Object.entries(flattened)
@@ -49,16 +47,18 @@ export function flattenToCssVars(obj: any, prefix: string): string {
     .join('\n');
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function flattenHybridCase(obj: any, prefix = ''): Record<string, string> {
-  return Object.keys(obj).reduce((acc, key) => {
-    const newKey = prefix + (prefix ? '-' : '') + key;
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      Object.assign(acc, flattenHybridCase(obj[key], newKey));
-    } else {
-      // @ts-ignore
-      acc[newKey] = obj[key];
-    }
-    return acc;
-  }, {} as Record<string, string>);
+  return Object.keys(obj).reduce(
+    (acc, key) => {
+      const newKey = prefix + (prefix ? '-' : '') + key;
+      if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+        Object.assign(acc, flattenHybridCase(obj[key], newKey));
+      } else {
+        // @ts-ignore
+        acc[newKey] = obj[key];
+      }
+      return acc;
+    },
+    {} as Record<string, string>
+  );
 }
