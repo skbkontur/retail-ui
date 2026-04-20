@@ -53,7 +53,8 @@ function renderItem(item: any) {
 }
 
 export interface AutocompleteProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<AriaAttributes, 'aria-label'>,
     Pick<Partial<MaskedProps>, 'alwaysShowMask' | 'mask' | 'maskChar'>,
     Override<

@@ -38,9 +38,7 @@ let mountedModalsCount = 0;
 export type MobileModalAppearance = 'auto' | 'top' | 'center' | 'bottom' | 'fullscreen-spacing' | 'fullscreen';
 
 export interface ModalProps
-  extends CommonProps,
-    Pick<HTMLAttributes<unknown>, 'role'>,
-    Pick<AriaAttributes, 'aria-label' | 'aria-labelledby'> {
+  extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'>, Pick<AriaAttributes, 'aria-label' | 'aria-labelledby'> {
   /** Отключает событие `onClose` и блокирует кнопку закрытия модального окна. */
   disableClose?: boolean;
 

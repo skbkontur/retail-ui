@@ -24,7 +24,8 @@ import { CurrencyInputHelper } from './CurrencyInputHelper.js';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions.js';
 
 export interface CurrencyInputProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Override<
       Omit<InputProps, 'showClearIcon' | 'maxLength'>,

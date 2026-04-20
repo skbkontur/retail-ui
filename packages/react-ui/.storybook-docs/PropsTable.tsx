@@ -85,6 +85,7 @@ export const PropsTable = () => {
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const useMethods = (): PublicMethod[] => {
     try {
+      // oxlint-disable-next-line react-hooks/rules-of-hooks
       const resolved = useOf('meta') as any;
       const __methodsDocgenInfo = resolved.preparedMeta.component.__methodsDocgenInfo ?? [];
       return __methodsDocgenInfo.map((method: any) => ({

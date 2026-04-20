@@ -20,8 +20,7 @@ import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import { getStyles } from './InternalTextareaWithLayout.styles.js';
 
 interface InternalTextareaWithLayoutProps
-  extends TextareaProps,
-    Pick<InputProps, 'leftIcon' | 'rightIcon' | 'align' | 'borderless' | 'showClearIcon'> {}
+  extends TextareaProps, Pick<InputProps, 'leftIcon' | 'rightIcon' | 'align' | 'borderless' | 'showClearIcon'> {}
 
 interface InternalTextareaWithLayoutState {
   focused: boolean;

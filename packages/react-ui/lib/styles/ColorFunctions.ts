@@ -130,7 +130,7 @@ export const isValid = (colorString: string): boolean => {
   try {
     ColorFactory.create(colorString);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

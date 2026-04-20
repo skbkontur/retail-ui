@@ -15,7 +15,8 @@ import { getStyles } from './Center.styles.js';
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
 export interface CenterProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Override<
       React.HTMLAttributes<HTMLDivElement>,
       {

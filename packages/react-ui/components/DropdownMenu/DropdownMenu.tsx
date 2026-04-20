@@ -17,7 +17,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { getDropdownMenuTheme } from './getDropdownMenuTheme.js';
 
 export interface DropdownMenuProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {

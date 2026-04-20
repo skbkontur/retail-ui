@@ -72,7 +72,8 @@ export enum TokenInputType {
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T>
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Токены, которые будут отображаться в поле ввода. */

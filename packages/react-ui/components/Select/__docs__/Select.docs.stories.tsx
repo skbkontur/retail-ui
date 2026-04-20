@@ -197,7 +197,9 @@ export const ExampleIsNotSelectable: Story = () => {
   const [value, setValue] = React.useState();
 
   const items = [
-    <Select.Item isNotSelectable>Невыбираемое значение</Select.Item>,
+    <Select.Item key="not-selectable" isNotSelectable>
+      Невыбираемое значение
+    </Select.Item>,
     'Счёт-фактура',
     'Акт',
     'Накладная',

@@ -22,7 +22,7 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
         selection.addRange(range);
         return;
       }
-    } catch (e) {
+    } catch {
       // empty block
     }
   }
@@ -44,7 +44,7 @@ export const removeAllSelections = (globalObject: GlobalObject): void => {
     try {
       // Fix IE from issue not working (https://github.com/skbkontur/retail-ui/issues/1205)
       selection.removeAllRanges();
-    } catch (e) {
+    } catch {
       // empty block
     }
   }

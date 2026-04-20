@@ -2,16 +2,17 @@
   "name": "@skbkontur/react-ui",
   "version": "6.0.2",
   "description": "UI Components",
-  "sideEffects": false,
   "homepage": "https://tech.skbkontur.ru/kontur-ui",
+  "bugs": {
+    "url": "https://github.com/skbkontur/retail-ui/issues"
+  },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/skbkontur/retail-ui.git"
   },
-  "bugs": {
-    "url": "https://github.com/skbkontur/retail-ui/issues"
-  },
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./index.ts",
     "./components/*": "./components/*.tsx",
@@ -38,21 +39,19 @@
     "storybook:docs": "cross-env STORYBOOK_REACT_UI_DOCS=true storybook dev --docs -p 6061 -c .storybook-docs",
     "storybook:serve": "yarn serve -l 6060 .storybook/build",
     "lint": "run-p -c lint:*",
-    "lint:eslint": "cross-env TIMING=1 yarn eslint ./",
+    "lint:oxlint": "oxlint .",
     "lint:tsc": "tsc --noEmit --diagnostics",
-    "lint:prettier": "prettier --check .",
+    "lint:oxfmt": "oxfmt --check .",
     "fix": "run-s -c fix:*",
-    "fix:eslint": "yarn lint:eslint --fix",
-    "fix:prettier": "yarn prettier --write .",
+    "fix:oxlint": "oxlint --fix .",
+    "fix:oxfmt": "oxfmt .",
     "test": "vitest run",
     "test:watch": "vitest",
     "creevey": "cross-env BABEL_ENV=cjs creevey test -c .creevey/config.mts --storybook-port=6060",
     "creevey:ci": "start-server-and-test storybook:serve http://localhost:6060 creevey",
     "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.mts --update",
-    "creevey:ui": "yarn creevey --ui",
-    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
+    "creevey:ui": "yarn creevey --ui"
   },
-  "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.24.6",
     "@emotion/css": "^11.11.2",
@@ -84,7 +83,6 @@
     "@babel/preset-react": "^7.24.6",
     "@babel/preset-typescript": "^7.24.6",
     "@babel/register": "^7.24.6",
-    "@hukopo/eslint-plugin-nodenext-extensions": "^1.0.0",
     "@playwright/test": "1.59.1",
     "@skbkontur/icons": "1.10.0",
     "@skbkontur/storybook-addon-live-examples": "1.0.0-beta.1",
@@ -118,11 +116,6 @@
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
     "dts-css-modules-loader": "^2.0.1",
-    "eslint-plugin-jest-dom": "^5.4.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-storybook": "^0.8.0",
-    "eslint-plugin-testing-library": "^6.2.2",
-    "eslint-plugin-vitest": "^0.5.4",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "fs-extra": "^11.2.0",
@@ -144,8 +137,6 @@
     "storybook": "8.6.14",
     "string-replace-loader": "3.1.0",
     "style-loader": "^4.0.0",
-    "stylelint": "^16.6.0",
-    "stylelint-config-standard": "^36.0.0",
     "typescript": "5.9.3",
     "upath": "^2.0.1",
     "url-loader": "^4.1.1",

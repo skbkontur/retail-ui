@@ -23,7 +23,8 @@ import { CheckedIcon } from './CheckedIcon.js';
 import { IndeterminateIcon } from './IndeterminateIcon.js';
 
 export interface CheckboxProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,

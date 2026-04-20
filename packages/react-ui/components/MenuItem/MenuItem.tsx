@@ -24,7 +24,8 @@ import { getStyles } from './MenuItem.styles.js';
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps
-  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Omit<CommonProps, 'children'> {
   /** Добавляет отступ иконке.

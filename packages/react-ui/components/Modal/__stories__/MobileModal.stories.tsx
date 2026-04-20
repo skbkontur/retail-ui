@@ -51,16 +51,12 @@ class MobileModalWithSettings extends React.Component<SuperModalProps> {
       <Modal.Body>
         <div>
           * Навигация – используйте верхнее меню для быстрого перехода к основным разделам.
-          <br />
-          * Фильтрация и поиск – применяйте фильтры и строку поиска, чтобы быстрее находить нужные данные. <br />
-          * Настройки – персонализируйте интерфейс под свои нужды, изменяя темы, уведомления и другие параметры. <br />
-          ❓ Часто задаваемые вопросы: <br />
-          🔹 Как сохранить изменения? – После внесения правок нажмите кнопку «Сохранить». Все данные обновятся
-          автоматически. <br />
-          🔹 Можно ли отменить действие? – Да! Используйте кнопку «Отмена» или сочетание клавиш Ctrl + Z (для ПК).{' '}
-          <br />
-          🔗 Дополнительные ресурсы: Если у вас возникли вопросы или сложности, вы можете: <br />
-          * Ознакомиться с подробной документацией (доступна в разделе «Помощь»). <br />
+          <br />* Фильтрация и поиск – применяйте фильтры и строку поиска, чтобы быстрее находить нужные данные. <br />*
+          Настройки – персонализируйте интерфейс под свои нужды, изменяя темы, уведомления и другие параметры. <br />❓
+          Часто задаваемые вопросы: <br />🔹 Как сохранить изменения? – После внесения правок нажмите кнопку
+          «Сохранить». Все данные обновятся автоматически. <br />🔹 Можно ли отменить действие? – Да! Используйте кнопку
+          «Отмена» или сочетание клавиш Ctrl + Z (для ПК). <br />🔗 Дополнительные ресурсы: Если у вас возникли вопросы
+          или сложности, вы можете: <br />* Ознакомиться с подробной документацией (доступна в разделе «Помощь»). <br />
           * Обратиться в техническую поддержку через чат или по email. <br />* Посетить форум сообщества, где
           пользователи делятся советами и решениями. Спасибо, что пользуетесь нашим сервисом! 🚀
           <div style={{ height: '700px', backgroundColor: 'aquamarine' }}></div>
@@ -147,15 +143,21 @@ export const MobileModalPlayground: Story = () => {
         <br />
         <br />
         <Gapped vertical gap={0}>
-          <Checkbox checked={hasHeader} onValueChange={setHasHeader} children={'Шапка'} />
-          <Checkbox checked={hasFooter} onValueChange={setHasFooter} children={'Подвал'} />
-          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader} children={'Залипаюшая шапка'} />
-          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter} children={'Залипающий подвал'} />
-          <Checkbox
-            checked={isLongContent}
-            onValueChange={setIsLongContent}
-            children={'Длинный текст для появления скролла'}
-          />
+          <Checkbox checked={hasHeader} onValueChange={setHasHeader}>
+            Шапка
+          </Checkbox>
+          <Checkbox checked={hasFooter} onValueChange={setHasFooter}>
+            Подвал
+          </Checkbox>
+          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader}>
+            Залипаюшая шапка
+          </Checkbox>
+          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter}>
+            Залипающий подвал
+          </Checkbox>
+          <Checkbox checked={isLongContent} onValueChange={setIsLongContent}>
+            Длинный текст для появления скролла
+          </Checkbox>
         </Gapped>
       </div>
       <Button onClick={() => setOpened(true)}>Открыть</Button>

@@ -82,9 +82,7 @@ export interface PopupHandlerProps {
 }
 
 export interface PopupProps
-  extends Omit<CommonProps, 'children'>,
-    PopupHandlerProps,
-    Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
+  extends Omit<CommonProps, 'children'>, PopupHandlerProps, Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
   /**
    * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
    */

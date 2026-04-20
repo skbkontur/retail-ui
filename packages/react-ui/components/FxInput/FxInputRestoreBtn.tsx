@@ -10,8 +10,7 @@ import { UndoIcon } from './UndoIcon.js';
 import type { FxInputProps } from './FxInput.js';
 
 interface FxInputRestoreBtnProps
-  extends Pick<AriaAttributes, 'aria-label'>,
-    Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {
+  extends Pick<AriaAttributes, 'aria-label'>, Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'> {
   /** @ignore */
   corners?: React.CSSProperties;
 }

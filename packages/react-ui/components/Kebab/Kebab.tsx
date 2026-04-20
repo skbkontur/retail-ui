@@ -31,7 +31,8 @@ import { getStyles } from './Kebab.styles.js';
 import { KebabIcon } from './KebabIcon.js';
 
 export interface KebabProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {

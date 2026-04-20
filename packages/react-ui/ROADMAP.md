@@ -20,15 +20,12 @@
 - <input type="checkbox" readonly checked/> Релиз версии 3.0 [#2123](https://github.com/skbkontur/retail-ui/issues/2123)
 - <input type="checkbox" readonly checked/> Второй этап поддержки 8px сетки по Контур.Гайдам [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
 
-
 # 2020
-
 
 ### 2.4 Август 2020
 
 - <input type="checkbox" readonly checked/> Первый этап дизайн-решения по сбору телеметрии — пакет React Sorge. [#1539](https://github.com/skbkontur/retail-ui/issues/1539)
 - <input type="checkbox" readonly checked/> Создание и выпуск темы с новыми размерами контролов для поддержки 8px сетки по Контур.Гайдам. [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
-
 
 ### 2.0.0 Март 2020
 
@@ -80,7 +77,7 @@
 ### Апрель 2019
 
 - <input type="checkbox" readonly checked/> Добавлены скриншотные тесты на плоскую тему [#1253](https://github.com/skbkontur/retail-ui/pull/1253)
-- <input type="checkbox" readonly checked/> Ссылки со стайлгайдиста на ишьюс гитхаба и гайды  [#1376](https://github.com/skbkontur/retail-ui/pull/1376)
+- <input type="checkbox" readonly checked/> Ссылки со стайлгайдиста на ишьюс гитхаба и гайды [#1376](https://github.com/skbkontur/retail-ui/pull/1376)
 
 ### Март 2019
 

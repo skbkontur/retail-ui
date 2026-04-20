@@ -44,7 +44,8 @@ export const DateInputDataTids = {
 } as const;
 
 export interface DateInputProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */

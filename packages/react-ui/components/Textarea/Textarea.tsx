@@ -35,7 +35,8 @@ export const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
-  extends Pick<AriaAttributes, 'aria-controls' | 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-controls' | 'aria-label'>,
     CommonProps,
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,

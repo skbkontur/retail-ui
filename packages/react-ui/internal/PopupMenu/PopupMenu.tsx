@@ -44,7 +44,8 @@ export interface PopupMenuCaptionProps {
 }
 
 export interface PopupMenuProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<MenuProps, 'preventIconsOffset'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<AriaAttributes, 'aria-label'> {

@@ -33,7 +33,7 @@ export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(
 
   return (
     <CommonWrapper {...props}>
-      {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
+      {isFunction(props.children) ? (props.children(layoutFlags) ?? null) : (props.children ?? null)}
     </CommonWrapper>
   );
 }

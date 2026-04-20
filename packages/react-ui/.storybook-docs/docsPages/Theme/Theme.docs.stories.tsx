@@ -129,7 +129,7 @@ export const ThemesList: Story = () => {
         {Object.keys(REST_LIGHT_THEMES).map((name) => {
           const version = parseVersionFromThemeName(name);
           return (
-            <tr>
+            <tr key={name}>
               <td>{name}</td>
               <td>
                 Светлая тема на момент версии библиотеки{' '}
@@ -147,7 +147,7 @@ export const ThemesList: Story = () => {
         {Object.keys(REST_DARK_THEMES).map((name) => {
           const version = parseVersionFromThemeName(name);
           return (
-            <tr>
+            <tr key={name}>
               <td>{name}</td>
               <td>
                 Темная тема на момент версии библиотеки{' '}

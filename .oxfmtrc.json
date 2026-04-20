@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "printWidth": 120,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": ["*.demo.tsx"],
+      "options": {
+        "printWidth": 90
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "react-ui-codemod",
+    "react-ui-smoke-test",
+    "react-ui-testing",
+    "CHANGELOG.md",
+    ".idea",
+    ".vscode",
+    ".DS_Store",
+    ".npmrc",
+    "node_modules",
+    "build",
+    "selenium-tests",
+    "yarn-debug.log",
+    "yarn-error.log",
+    "npm-debug.log",
+    ".creevey",
+    "dist"
+  ]
+}

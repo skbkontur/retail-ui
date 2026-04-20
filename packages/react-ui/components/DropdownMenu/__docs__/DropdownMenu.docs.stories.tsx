@@ -207,10 +207,10 @@ export const Example11: Story = () => {
   const [showItems, setShowItems] = React.useState(false);
 
   const hiddenItems = [
-    <MenuSeparator />,
-    <MenuItem>А я скрываюсь</MenuItem>,
-    <MenuItem>И я</MenuItem>,
-    <MenuItem>Я с вами</MenuItem>,
+    <MenuSeparator key="hidden-sep" />,
+    <MenuItem key="hidden-1">А я скрываюсь</MenuItem>,
+    <MenuItem key="hidden-2">И я</MenuItem>,
+    <MenuItem key="hidden-3">Я с вами</MenuItem>,
   ];
 
   return (

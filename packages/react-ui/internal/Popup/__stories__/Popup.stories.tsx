@@ -132,13 +132,13 @@ const Positioning = () => (
       <tbody>
         {new Array(6 * 5).fill(0).map((x, i) => {
           return Math.floor(i / 6) % 2 ? (
-            <tr>
+            <tr key={i}>
               <td>
                 <div style={{ height: '40px' }} />
               </td>
             </tr>
           ) : (
-            <tr>
+            <tr key={i}>
               <td>
                 <PopupWithPositions />
               </td>

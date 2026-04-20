@@ -307,7 +307,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
       isTileView && isLoading ? (
         <LoadingIcon size={size} />
       ) : (
-        fileTypeIcon ?? <FileUploaderFileTypeIcon type={fileType} size={size} view={view} />
+        (fileTypeIcon ?? <FileUploaderFileTypeIcon type={fileType} size={size} view={view} />)
       );
 
     const splitTruncatedFileName = truncatedFileName && splitFileNameAndExtension(truncatedFileName);

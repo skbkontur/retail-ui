@@ -23,7 +23,8 @@ import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import { getStyles, globalClasses } from './Radio.styles.js';
 
 export interface RadioProps<T>
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,

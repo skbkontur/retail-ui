@@ -189,7 +189,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           }, 2000);
         }
       }
-    } catch (err) {
+    } catch {
       // pass
     }
   });

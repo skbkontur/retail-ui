@@ -1,8 +1,9 @@
 import type { PropsWithoutRef } from 'react';
 import { forwardRef } from 'react';
 
-export interface ReactUIComponentWithRef<T, P>
-  extends React.NamedExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> {
+export interface ReactUIComponentWithRef<T, P> extends React.NamedExoticComponent<
+  React.PropsWithoutRef<P> & React.RefAttributes<T>
+> {
   __KONTUR_REACT_UI__: string;
 }
 

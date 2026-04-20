@@ -40,8 +40,7 @@ const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 type FileUploaderOverriddenProps = 'size';
 
 interface _FileUploaderProps
-  extends CommonProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
+  extends CommonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
   /** Переводит контрол в состояние валидации "ошибка". */
   /** Состояние ошибки всего контрола */
   error?: boolean;

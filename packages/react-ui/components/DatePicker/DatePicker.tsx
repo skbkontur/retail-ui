@@ -51,7 +51,8 @@ const INPUT_PASS_PROPS = {
 export const MIN_WIDTH = 120;
 
 export interface DatePickerProps
-  extends Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
+  extends
+    Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
   /** Устанавливает фокус на контроле после окончания загрузки страницы. */

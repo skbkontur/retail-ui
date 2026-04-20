@@ -19,20 +19,19 @@ export const MobilePickerDataTids = {
   today: 'MobilePicker__today',
 } as const;
 
-export interface MobilePickerProps
-  extends Pick<
-    DatePickerProps,
-    | 'error'
-    | 'warning'
-    | 'value'
-    | 'minDate'
-    | 'maxDate'
-    | 'onValueChange'
-    | 'isHoliday'
-    | 'enableTodayLink'
-    | 'renderDay'
-    | 'onMonthChange'
-  > {
+export interface MobilePickerProps extends Pick<
+  DatePickerProps,
+  | 'error'
+  | 'warning'
+  | 'value'
+  | 'minDate'
+  | 'maxDate'
+  | 'onValueChange'
+  | 'isHoliday'
+  | 'enableTodayLink'
+  | 'renderDay'
+  | 'onMonthChange'
+> {
   onCloseRequest?: () => void;
 }
 

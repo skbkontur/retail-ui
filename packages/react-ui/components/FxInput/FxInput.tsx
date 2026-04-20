@@ -25,7 +25,8 @@ import { MathFunctionIcon } from './MathFunctionIcon.js';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn.js';
 
 export interface FxInputProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Pick<Partial<MaskedInputProps>, 'alwaysShowMask' | 'mask' | 'maskChar' | 'formatChars'>,
     Override<

@@ -30,7 +30,8 @@ import { ComboBoxView } from './ComboBoxView.js';
 export * from './tids.js';
 
 export interface CustomComboBoxProps<T>
-  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps,
     Partial<Pick<MaskedInputProps, 'mask' | 'maskChar' | 'formatChars'>> {

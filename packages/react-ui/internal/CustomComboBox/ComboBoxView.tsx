@@ -41,7 +41,8 @@ import { CustomComboBoxDataTids } from './CustomComboBox.js';
 import { getComboBoxTheme } from './getComboBoxTheme.js';
 
 interface ComboBoxViewProps<T>
-  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps,
     Partial<Pick<MaskedInputProps, 'mask' | 'maskChar' | 'formatChars'>> {

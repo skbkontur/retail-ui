@@ -20,7 +20,8 @@ import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import { getStyles, globalClasses } from './Toggle.styles.js';
 
 export interface ToggleProps
-  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+  extends
+    Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'name'>,
     CommonProps {
   /** @ignore */

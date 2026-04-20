@@ -1,0 +1,152 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "import", "jsx-a11y", "vitest"],
+  "rules": {
+    "sort-imports": [
+      "error",
+      {
+        "allowSeparatedGroups": true,
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": true
+      }
+    ],
+    "no-did-mount-set-state": "off",
+    "no-self-compare": "warn",
+    "no-template-curly-in-string": "warn",
+    "no-unmodified-loop-condition": "error",
+    "default-case-last": "error",
+    "default-param-last": "error",
+    "no-array-constructor": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-extend-native": "error",
+    "no-extra-label": "error",
+    "no-lone-blocks": "error",
+    "no-new-wrappers": "warn",
+    "no-proto": "error",
+    "no-throw-literal": "error",
+    "no-unneeded-ternary": "warn",
+    "no-useless-concat": "warn",
+    "prefer-spread": "warn",
+    "no-useless-computed-key": "warn",
+    "no-else-return": "warn",
+    "no-lonely-if": "warn",
+    "yoda": "warn",
+    "eqeqeq": "error",
+    "no-implicit-coercion": ["error", { "allow": ["!!", "+"] }],
+    "new-cap": "error",
+    "curly": "warn",
+    "no-unused-expressions": "off",
+    "array-callback-return": "error",
+    "no-nested-ternary": "error",
+    "no-multi-assign": "error",
+    "no-param-reassign": "error",
+    "no-sequences": "error",
+    "no-useless-constructor": "error",
+    "no-bitwise": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-ui",
+            "message": "Please use relative path or @skbkontur/react-ui instead."
+          }
+        ],
+        "patterns": [
+          {
+            "group": ["react-ui/*"],
+            "message": "Please use relative path or @skbkontur/react-ui instead."
+          }
+        ]
+      }
+    ],
+    "import/no-duplicates": "warn",
+    "import/no-default-export": "error",
+    "react/jsx-boolean-value": "error",
+    "react/no-find-dom-node": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "typescript/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "typescript/no-explicit-any": "off",
+    "typescript/no-use-before-define": "off",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/explicit-function-return-type": "off",
+    "typescript/consistent-type-definitions": ["error", "interface"],
+    "typescript/no-var-requires": "off",
+    "typescript/ban-types": "error",
+    "typescript/array-type": ["warn", { "default": "array-simple" }],
+    "typescript/consistent-type-imports": "error",
+    "typescript/ban-ts-comment": "off",
+    "typescript/explicit-module-boundary-types": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/mouse-events-have-key-events": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "vitest/require-mock-type-parameters": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/vitest.config.{mts,ts}",
+        "**/.storybook/**/*.{mts,ts,tsx}",
+        "**/.storybook-docs/**/webpack.config.{mts,ts}",
+        "**/react-ui-ssr/webpack.*.{mts,ts}",
+        "**/TestPages/webpack.config.{mts,ts}",
+        "**/.creevey/config.mts"
+      ],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": [
+        "**/__stories__/**/*",
+        "**/stories/**/*",
+        "**/docs/**/*",
+        "**/*.stories.tsx",
+        "**/__mocks__/**/*.{ts,tsx}",
+        "**/__creevey__/**/*.{ts,mts}",
+        "**/internal/**/*.{ts,tsx}",
+        "**/.storybook/**/*.{ts,tsx,mts}",
+        "**/.storybook-docs/**/*.{ts,tsx,mts}"
+      ],
+      "rules": {
+        "typescript/explicit-module-boundary-types": "off"
+      }
+    },
+    {
+      "files": ["packages/react-ui/**/*.ts", "packages/react-ui/**/*.tsx"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": ["packages/react-ui-validations/**/*.ts", "packages/react-ui-validations/**/*.tsx"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": ["**/*.docs.stories.tsx"],
+      "rules": {}
+    }
+  ],
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/docs/dist/**",
+    "**/coverage/**",
+    "**/storybook-static/**",
+    "**/build/**",
+    "**/lib/**/*.js",
+    "**/components/**/*.js",
+    "**/*.d.ts",
+    "**/bundle/**",
+    "**/dist/**",
+    "**/.creevey/**",
+    "**/reports/**"
+  ]
+}

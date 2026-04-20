@@ -34,9 +34,7 @@ import { SidePageFooter } from './SidePageFooter.js';
 import { SidePageHeader } from './SidePageHeader.js';
 import { getStyles } from './SidePage.styles.js';
 export interface SidePageProps
-  extends CommonProps,
-    Pick<HTMLAttributes<unknown>, 'role'>,
-    Pick<AriaAttributes, 'aria-label'> {
+  extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'>, Pick<AriaAttributes, 'aria-label'> {
   /** Добавляет блокирующий фон, когда сайдпейдж открыт. */
   blockBackground?: boolean;
 

@@ -121,9 +121,9 @@ const CalendarPeriodDay = (props: CalendarDayProps) => {
   }): boolean => {
     return Boolean(
       date &&
-        periodStart &&
-        isGreaterOrEqual(date, periodStart) &&
-        (periodEnd ? isLessOrEqual(date, periodEnd) : hoveredDate && isLessOrEqual(date, hoveredDate)),
+      periodStart &&
+      isGreaterOrEqual(date, periodStart) &&
+      (periodEnd ? isLessOrEqual(date, periodEnd) : hoveredDate && isLessOrEqual(date, hoveredDate)),
     );
   };
 

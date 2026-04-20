@@ -936,21 +936,21 @@ export const ExampleExtendedItems: Story = () => {
   const getItems = (q: string): Promise<Array<ComboBoxExtendedItem<Item>>> =>
     Promise.resolve<Array<ComboBoxExtendedItem<Item>>>(
       [
-        <MenuHeader>MenuHeader</MenuHeader>,
+        <MenuHeader key="ext-header">MenuHeader</MenuHeader>,
         { value: 1, label: 'Абакан' },
         { value: 2, label: 'Алексин' },
         { value: 3, label: 'Алматы' },
         { value: 4, label: 'Альметьевск' },
         { value: 5, label: 'Алтайский край' },
         { value: 6, label: 'Амурская область' },
-        <MenuSeparator />,
+        <MenuSeparator key="ext-sep" />,
         { value: 7, label: 'Анадырь' },
         { value: 8, label: 'Анапа' },
         { value: 9, label: 'Архангельск' },
         { value: 10, label: 'Архангельская область' },
         { value: 11, label: 'Астраханская область' },
         { value: 12, label: 'Астрахань' },
-        <MenuFooter>MenuFooter</MenuFooter>,
+        <MenuFooter key="ext-footer">MenuFooter</MenuFooter>,
       ].filter((x) => ('label' in x ? x.label.toLowerCase().includes(q.toLowerCase()) : q === '')),
     )
       .then(delay(500))

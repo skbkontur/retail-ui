@@ -19,7 +19,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter.js';
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
 export interface TooltipMenuProps
-  extends Pick<AriaAttributes, 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-label'>,
     CommonProps,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'preventIconsOffset'> {
   /** @ignore */

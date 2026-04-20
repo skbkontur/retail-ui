@@ -2,7 +2,21 @@
   "name": "@skbkontur/react-ui-validations",
   "version": "3.0.2",
   "description": "Validations for @skbkontur/react-ui",
+  "bugs": {
+    "url": "https://github.com/skbkontur/retail-ui/issues"
+  },
+  "license": "ISC",
+  "author": "exactlynosense <whois.ard@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/skbkontur/retail-ui.git"
+  },
   "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
   "scripts": {
     "prerelease": "yarn build",
     "release": "npm publish ./build --workspaces=false",
@@ -22,11 +36,11 @@
     "storybook:serve": "serve -l 6060 .storybook/build",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit --diagnostics",
-    "lint:eslint": "cross-env TIMING=1 eslint ./ --ignore-pattern \"**/docs/**/*.docs.stories.tsx\"",
-    "lint:prettier": "prettier --check .",
+    "lint:oxlint": "oxlint .",
+    "lint:oxfmt": "oxfmt --check .",
     "fix": "run-s -c fix:*",
-    "fix:eslint": "yarn lint:eslint --fix",
-    "fix:prettier": "yarn prettier --write .",
+    "fix:oxlint": "oxlint --fix .",
+    "fix:oxfmt": "oxfmt .",
     "test": "vitest run",
     "test:watch": "vitest",
     "creevey": "creevey test -c .creevey/config.mts --storybook-port=6060",
@@ -35,25 +49,6 @@
     "creevey:ui": "yarn creevey --ui",
     "selenium:test": "dotnet test ./selenium-tests/ValidationTests/ValidationTests.csproj --configuration Release --framework netcoreapp3.1",
     "selenium:ci": "start-server-and-test storybook http://localhost:6060/iframe.html selenium:test"
-  },
-  "exports": {
-    ".": "./index.ts"
-  },
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "author": "exactlynosense <whois.ard@gmail.com>",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/skbkontur/retail-ui.git"
-  },
-  "bugs": {
-    "url": "https://github.com/skbkontur/retail-ui/issues"
-  },
-  "peerDependencies": {
-    "@skbkontur/react-ui": ">=5 <=6",
-    "react": ">=16.9 <=19",
-    "react-dom": ">=16.9 <=19"
   },
   "dependencies": {
     "smoothscroll-polyfill": "^0.4.4",
@@ -121,5 +116,10 @@
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "5.0.4"
+  },
+  "peerDependencies": {
+    "@skbkontur/react-ui": ">=5 <=6",
+    "react": ">=16.9 <=19",
+    "react-dom": ">=16.9 <=19"
   }
 }

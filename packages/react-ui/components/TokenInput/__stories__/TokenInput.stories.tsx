@@ -424,13 +424,13 @@ export const WithExtendedItem: Story = () => (
   <TokenInput
     autoFocus
     getItems={async () => [
-      <MenuHeader>MenuHeader</MenuHeader>,
+      <MenuHeader key="ext-header">MenuHeader</MenuHeader>,
       'First',
       'Second',
-      <MenuSeparator />,
+      <MenuSeparator key="ext-sep" />,
       'Third',
       'Fourth',
-      <MenuFooter>MenuFooter</MenuFooter>,
+      <MenuFooter key="ext-footer">MenuFooter</MenuFooter>,
     ]}
   />
 );

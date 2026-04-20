@@ -43,7 +43,8 @@ const PASS_PROPS = {
 };
 
 export interface DropdownProps
-  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
+  extends
+    Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
   /** Текст кнопки-меню. */

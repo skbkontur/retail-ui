@@ -55,8 +55,10 @@ import { SelectDataTids } from './tids.js';
 
 export * from './tids.js';
 
-export interface ButtonParams
-  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'> {
+export interface ButtonParams extends Pick<
+  AriaAttributes,
+  'aria-describedby' | 'aria-controls' | 'aria-label' | 'aria-expanded'
+> {
   /** Блокирует компонент. */
   disabled?: boolean;
 
@@ -105,7 +107,8 @@ type SelectItem<TValue, TItem> =
   | (() => React.ReactElement);
 
 export interface SelectProps<TValue, TItem>
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'> {
   /** @ignore */

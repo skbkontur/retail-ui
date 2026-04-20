@@ -57,6 +57,8 @@ import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/Notif
 import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
 import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon.js';
 import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
+import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
+import { MinusCircleIcon16Light } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Light.js';
 import * as ReactUiValidations from '@skbkontur/react-ui-validations';
 
 import { getCities } from '../components/ComboBox/__mocks__/getCities.js';
@@ -64,8 +66,7 @@ import { cities } from '../components/ComboBox/__mocks__/cities.js';
 import { ThemeContext } from '../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../lib/theming/ThemeFactory.js';
 import * as ReactUi from '../index.js';
-import { XIcon16Regular } from '../internal/icons2022/XIcon/XIcon16Regular.js';
-import { MinusCircleIcon16Light } from '../internal/icons2022/MinusCircleIcon/MinusCircleIcon16Light.js';
+
 import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup.js';
 import * as ALL_LIGHT_THEMES from '../lib/theming/themes/LightTheme.js';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme.js';

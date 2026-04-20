@@ -36,8 +36,7 @@ export const TabDataTids = {
 } as const;
 
 export interface TabProps<T extends string = string>
-  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>,
-    CommonProps {
+  extends Pick<AriaAttributes, 'aria-label' | 'aria-describedby'>, CommonProps {
   /** Компонент или тег для рендера корневого элемента. */
   component?: React.ComponentType<any> | string;
 

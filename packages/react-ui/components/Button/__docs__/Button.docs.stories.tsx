@@ -4,6 +4,7 @@ import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regu
 import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light.js';
 import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light.js';
 import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light.js';
+import { MinusCircleIcon16Light } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Light.js';
 import { Button, Gapped } from '@skbkontur/react-ui';
 
 import type { Meta, Story } from '../../../typings/stories.js';

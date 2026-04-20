@@ -1,6 +1,5 @@
 # Migration Guides
 
-
 ## react-ui 5.x → 6.0
 
 ### Основные изменения
@@ -24,11 +23,11 @@
 Помечены как устаревшие, сохранены для обратной совместимости перед удалением в следующем мажорном релизе 7.0:
 
 - Пропсы Button
-	- Button: `narrow`, `borderless`, `warning`, `error` — не по Контур.Гайдам, дублируют тему 
-	- Button: `use="primary"` → `use="accent"`
-	- Button: `use="backless"` → `use="outline"`
-	- Button: `use="default"` → либо`use="outline"`, либо `use="fill"`
-	- Button: `use="link"` → `<Link component="button">`
+  - Button: `narrow`, `borderless`, `warning`, `error` — не по Контур.Гайдам, дублируют тему
+  - Button: `use="primary"` → `use="accent"`
+  - Button: `use="backless"` → `use="outline"`
+  - Button: `use="default"` → либо`use="outline"`, либо `use="fill"`
+  - Button: `use="link"` → `<Link component="button">`
 - SidePage: проп `ignoreBackgroundClick` → `ignoreOutsideClick`
 - lib ColorFunctions → нативная CSS-функция [color-mix()](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/color-mix)
 
@@ -43,137 +42,133 @@
 - Paging: добавлен проп значение `legacy` у пропа `size` — теперь по умолчанию `small`
 - MaskedInput: удален глобальный CSS-класс `.react-ui-ui-font-root`
 - Удален хелпер `tabListener`
-- Удаление хелпера `globalObject` и `setWindow`  → `<RenderEnvironment.Provider>`
+- Удаление хелпера `globalObject` и `setWindow` → `<RenderEnvironment.Provider>`
 - Удалена .env-переменная `enableReactTesting`
 - Удален хелпер `stopPropagation` (требовался для IE9)
-- Хелпер `keyListener` →  `useKeyListener`
-- Хелпер Emotion вынесен в хук `import { css, cache, cx } from '@skbkontur/react-ui/lib/theming/Emotion'` → <br />`import { useEmotion } from '@skbkontur/react-ui/lib/renderEnvironment';` 
+- Хелпер `keyListener` → `useKeyListener`
+- Хелпер Emotion вынесен в хук `import { css, cache, cx } from '@skbkontur/react-ui/lib/theming/Emotion'` → <br />`import { useEmotion } from '@skbkontur/react-ui/lib/renderEnvironment';`
 - Удаленные Internal-компоненты:
-	- Удален компонент `PolyfillPlaceholder` 
+  - Удален компонент `PolyfillPlaceholder`
     - Удален internal-компонент `InternalMaskedInput`
     - Удален `<IgnoreLayerClick>` → `<SidePage>`'s `onOutsideClick` prop
     - Удалена internal-тема `BasicLightThemeInternal`
     - Удалена зависимость `react-input-mask` (вместо неё `react-imask`)
 
-
 #### Удалены и применены фича-флаги 5.x
 
-Список фича-флагов и примеры работы можно посмотреть на странице [с фича-флагами React UI](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.6.12/index.html?path=/docs/information-feature-flags--featureflagscontext): 
+Список фича-флагов и примеры работы можно посмотреть на странице [с фича-флагами React UI](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.6.12/index.html?path=/docs/information-feature-flags--featureflagscontext):
 
-- DateInput: [dateInputAllowInvalidValuesInDays](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#dateinputallowinvalidvaluesindays)
-- DateInput: [dateInputFixSameNumberTypingOnRefocus](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#dateinputfixsamenumbertypingonrefocus) 
-- RadioGroup: [radioGroupRemoveBaselineSpacer](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#radiogroupremovebaselinespacer)
-- ComboBox: [comboBoxAllowValueChangeInEditingState](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#comboboxallowvaluechangeineditingstate)
-- Sticky: [stickyReduceLayoutEvents](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#stickyreducelayoutevents)
-- Group: [groupAddHintsAndTooltipsSupport](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#groupaddhintsandtooltipssupport)
-- Popup: [popupFixPinTearing](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#popupfixpintearing)
-- SidePage: [sidePageDisableHeaderShrink](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#sidepagedisableheadershrink)
-- SidePage: [sidePageNotCutTitleOnStuckByDefault](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#sidepagenotcuttitleonstuckbydefault)
-- Autocomplete: [autocompleteUseMaskedInput](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#autocompleteusemaskedinput)
-- FxInput: [fxInputUseMaskedInput](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#fxinputusemaskedinput)
-- TokenInput: [tokenInputCreateTokenOnBlurInWithoutReferenceMode](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#tokeninputcreatetokenonblurinwithoutreferencemode)
-- Textarea: [textareaBaselineAlign](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&amp;viewMode=docs&amp;refId=react-ui#textareabaselinealign)
-
-
+- DateInput: [dateInputAllowInvalidValuesInDays](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#dateinputallowinvalidvaluesindays)
+- DateInput: [dateInputFixSameNumberTypingOnRefocus](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#dateinputfixsamenumbertypingonrefocus)
+- RadioGroup: [radioGroupRemoveBaselineSpacer](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#radiogroupremovebaselinespacer)
+- ComboBox: [comboBoxAllowValueChangeInEditingState](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#comboboxallowvaluechangeineditingstate)
+- Sticky: [stickyReduceLayoutEvents](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#stickyreducelayoutevents)
+- Group: [groupAddHintsAndTooltipsSupport](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#groupaddhintsandtooltipssupport)
+- Popup: [popupFixPinTearing](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#popupfixpintearing)
+- SidePage: [sidePageDisableHeaderShrink](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#sidepagedisableheadershrink)
+- SidePage: [sidePageNotCutTitleOnStuckByDefault](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#sidepagenotcuttitleonstuckbydefault)
+- Autocomplete: [autocompleteUseMaskedInput](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#autocompleteusemaskedinput)
+- FxInput: [fxInputUseMaskedInput](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#fxinputusemaskedinput)
+- TokenInput: [tokenInputCreateTokenOnBlurInWithoutReferenceMode](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#tokeninputcreatetokenonblurinwithoutreferencemode)
+- Textarea: [textareaBaselineAlign](https://tech.skbkontur.ru/kontur-ui/packages/react-ui/5.4.3/iframe.html?id=information-feature-flags--featureflagscontext&viewMode=docs&refId=react-ui#textareabaselinealign)
 
 ##### Удалены темы 5.x
 
-Если на текущий момент вы не применяете механизмом версионирования тем или уже находитесь на версии 5.6 с темами по умолчанию LIGHT\_DEFAULT или DARK\_DEFAULT, то визуальные изменения релиза должны быть минимальными, касаясь только цветов.
+Если на текущий момент вы не применяете механизмом версионирования тем или уже находитесь на версии 5.6 с темами по умолчанию LIGHT_DEFAULT или DARK_DEFAULT, то визуальные изменения релиза должны быть минимальными, касаясь только цветов.
 
 - 5.1 — Modal, SidePage, Switcher
-- 5.2 — ModalHeader, ModalFooter, ModalBody, MenuItem, SidePage 
+- 5.2 — ModalHeader, ModalFooter, ModalBody, MenuItem, SidePage
 - 5.3 — Button, MiniModal, Paging
 - 5.4 — Tooltip
-- 5.5 — FileUploader, TokenInput 
-- 5.6 — внедрение Colors 2 
-
+- 5.5 — FileUploader, TokenInput
+- 5.6 — внедрение Colors 2
 
 Для автоматического изменения можно воспользоваться кодмодом:
+
 ```sh
 npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 ```
 
-| Тип | Было | Стало |
-|---|---|---|
-| + | btnWithIconPaddingLeftSmall | btnWithIconPaddingSmall |
-| | | btnWithIconPaddingMedium |
-| | | btnWithIconPaddingLarge |
-| + | tooltipPaddingY | tooltipPaddingYSmall |
-| | | tooltipPaddingYMedium |
-| | | tooltipPaddingYLarge |
-| + | tooltipPaddingX | tooltipPaddingXSmall |
-| | | tooltipPaddingXMedium |
-| | | tooltipPaddingXLarge |
-| + | tooltipCloseBtnPadding | tooltipCloseBtnPaddingSmall |
-| | | tooltipCloseBtnPaddingMedium |
-| | | tooltipCloseBtnPaddingLarge |
-| + | tooltipBorderRadius | tooltipBorderRadiusSmall |
-| | | tooltipBorderRadiusMedium |
-| | | tooltipBorderRadiusLarge |
-| + | tooltipPinOffsetY | tooltipPinOffsetYSmall |
-| | | tooltipPinOffsetYMedium |
-| | | tooltipPinOffsetYLarge |
-| + | tooltipPinOffsetX | tooltipPinOffsetXSmall |
-| | | tooltipPinOffsetXMedium |
-| | | tooltipPinOffsetXLarge |
-| + | tooltipMargin | tooltipMarginSmall |
-| | | tooltipMarginMedium |
-| | | tooltipMarginLarge |
-| + | tooltipPinSize | tooltipPinSizeSmall |
-| | | tooltipPinSizeMedium |
-| | | tooltipPinSizeLarge |
-| + | tooltipFontSize | tooltipFontSizeSmall |
-| | | tooltipFontSizeMedium |
-| | | tooltipFontSizeLarge |
-| + | tooltipLineHeight | tooltipLineHeightSmall |
-| | | tooltipLineHeightMedium |
-| | | tooltipLineHeightLarge |
-| + | sidePageCloseButtonPadding | sidePageCloseButtonClickAreaLeft |
-| | | sidePageCloseButtonClickAreaRight |
-| + | sidePageCloseButtonClickArea | sidePageCloseButtonClickAreaTop |
-| | | sidePageCloseButtonClickAreaBottom |
-| | | sidePageCloseButtonClickAreaLeft |
-| | | sidePageCloseButtonClickAreaRight |
-| - | sidePageHeaderFixedFontSize | |
-| - | sidePageHeaderFixedLineHeight | |
-| - | sidePageHeaderFixedPaddingY | |
-| = | mobileSidePageCloseButtonRightPadding | mobileSidePageCloseButtonPadding |
-| + | pagingFontSize | pagingFontSizeSmall |
-| | | pagingFontSizeMedium |
-| | | pagingFontSizeLarge |
-| + | pagingLineHeight | pagingLineHeightSmall |
-| | | pagingLineHeightMedium |
-| | | pagingLineHeightLarge |
-| - | pagingPageLinkMinWidth | |
-| + | pagingPageLinkPaddingY | pagingPageLinkPaddingYSmall |
-| | | pagingPageLinkPaddingYMedium |
-| | | pagingPageLinkPaddingYLarge |
-| + | pagingPageLinkPaddingX | pagingPageLinkPaddingXSmall |
-| | | pagingPageLinkPaddingXMedium |
-| | | pagingPageLinkPaddingXLarge |
-| - | pagingPageLinkMargin | |
-| - | pagingPageForwardLinkMarginTop | |
-| - | pagingPageForwardLinkMarginLeft | |
-| - | pagingPageForwardLinkPaddingRight | |
-| - | pagingForwardIconSize | |
-| + | pagingDotsPadding | pagingDotsPaddingSmall |
-| | | pagingDotsPaddingMedium |
-| | | pagingDotsPaddingLarge |
-| - | menuItemLinkColor | |
-
+| Тип | Было                                  | Стало                              |
+| --- | ------------------------------------- | ---------------------------------- |
+| +   | btnWithIconPaddingLeftSmall           | btnWithIconPaddingSmall            |
+|     |                                       | btnWithIconPaddingMedium           |
+|     |                                       | btnWithIconPaddingLarge            |
+| +   | tooltipPaddingY                       | tooltipPaddingYSmall               |
+|     |                                       | tooltipPaddingYMedium              |
+|     |                                       | tooltipPaddingYLarge               |
+| +   | tooltipPaddingX                       | tooltipPaddingXSmall               |
+|     |                                       | tooltipPaddingXMedium              |
+|     |                                       | tooltipPaddingXLarge               |
+| +   | tooltipCloseBtnPadding                | tooltipCloseBtnPaddingSmall        |
+|     |                                       | tooltipCloseBtnPaddingMedium       |
+|     |                                       | tooltipCloseBtnPaddingLarge        |
+| +   | tooltipBorderRadius                   | tooltipBorderRadiusSmall           |
+|     |                                       | tooltipBorderRadiusMedium          |
+|     |                                       | tooltipBorderRadiusLarge           |
+| +   | tooltipPinOffsetY                     | tooltipPinOffsetYSmall             |
+|     |                                       | tooltipPinOffsetYMedium            |
+|     |                                       | tooltipPinOffsetYLarge             |
+| +   | tooltipPinOffsetX                     | tooltipPinOffsetXSmall             |
+|     |                                       | tooltipPinOffsetXMedium            |
+|     |                                       | tooltipPinOffsetXLarge             |
+| +   | tooltipMargin                         | tooltipMarginSmall                 |
+|     |                                       | tooltipMarginMedium                |
+|     |                                       | tooltipMarginLarge                 |
+| +   | tooltipPinSize                        | tooltipPinSizeSmall                |
+|     |                                       | tooltipPinSizeMedium               |
+|     |                                       | tooltipPinSizeLarge                |
+| +   | tooltipFontSize                       | tooltipFontSizeSmall               |
+|     |                                       | tooltipFontSizeMedium              |
+|     |                                       | tooltipFontSizeLarge               |
+| +   | tooltipLineHeight                     | tooltipLineHeightSmall             |
+|     |                                       | tooltipLineHeightMedium            |
+|     |                                       | tooltipLineHeightLarge             |
+| +   | sidePageCloseButtonPadding            | sidePageCloseButtonClickAreaLeft   |
+|     |                                       | sidePageCloseButtonClickAreaRight  |
+| +   | sidePageCloseButtonClickArea          | sidePageCloseButtonClickAreaTop    |
+|     |                                       | sidePageCloseButtonClickAreaBottom |
+|     |                                       | sidePageCloseButtonClickAreaLeft   |
+|     |                                       | sidePageCloseButtonClickAreaRight  |
+| -   | sidePageHeaderFixedFontSize           |                                    |
+| -   | sidePageHeaderFixedLineHeight         |                                    |
+| -   | sidePageHeaderFixedPaddingY           |                                    |
+| =   | mobileSidePageCloseButtonRightPadding | mobileSidePageCloseButtonPadding   |
+| +   | pagingFontSize                        | pagingFontSizeSmall                |
+|     |                                       | pagingFontSizeMedium               |
+|     |                                       | pagingFontSizeLarge                |
+| +   | pagingLineHeight                      | pagingLineHeightSmall              |
+|     |                                       | pagingLineHeightMedium             |
+|     |                                       | pagingLineHeightLarge              |
+| -   | pagingPageLinkMinWidth                |                                    |
+| +   | pagingPageLinkPaddingY                | pagingPageLinkPaddingYSmall        |
+|     |                                       | pagingPageLinkPaddingYMedium       |
+|     |                                       | pagingPageLinkPaddingYLarge        |
+| +   | pagingPageLinkPaddingX                | pagingPageLinkPaddingXSmall        |
+|     |                                       | pagingPageLinkPaddingXMedium       |
+|     |                                       | pagingPageLinkPaddingXLarge        |
+| -   | pagingPageLinkMargin                  |                                    |
+| -   | pagingPageForwardLinkMarginTop        |                                    |
+| -   | pagingPageForwardLinkMarginLeft       |                                    |
+| -   | pagingPageForwardLinkPaddingRight     |                                    |
+| -   | pagingForwardIconSize                 |                                    |
+| +   | pagingDotsPadding                     | pagingDotsPaddingSmall             |
+|     |                                       | pagingDotsPaddingMedium            |
+|     |                                       | pagingDotsPaddingLarge             |
+| -   | menuItemLinkColor                     |                                    |
 
 ### Совместимость 6.0 с другими пакетами
 
-В связи с ломающими изменениями совместимость других пакетов с 6.0: 
+В связи с ломающими изменениями совместимость других пакетов с 6.0:
 
-| Пакет                             | Версия   |
-| :-------------------------------- | :------- |
-| `react-ui-validations` | `3.0.0`  |
-| `react-ui-addons`      | `6.0.0`  |
-| `side-menu`            | `4.0.0`  |
-| `table`                | `0.2.0`  |
-| `mass-actions-panel`   | `0.7.0`  |
-| `empty-state`          | `2.0.0`  |
+| Пакет                  | Версия  |
+| :--------------------- | :------ |
+| `react-ui-validations` | `3.0.0` |
+| `react-ui-addons`      | `6.0.0` |
+| `side-menu`            | `4.0.0` |
+| `table`                | `0.2.0` |
+| `mass-actions-panel`   | `0.7.0` |
+| `empty-state`          | `2.0.0` |
 
 <br />
 <br />
@@ -181,23 +176,20 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 
 ## react-ui-validations 2.x → 3.0
 
-
 В `ValidationContainer` удален тип `number` у пропа`scrollOffset`. `scrollOffset={30} →  scrollOffset={{ top: 30 }}`
 
 #### Удалены и применены фича-флаги 2.x
 
 Удаленные [фича-флаги React UI Validations 2.x](https://tech.skbkontur.ru/kontur-ui/packages/react-ui-validations/2.3.8/index.html?path=/docs/displaying-feature-flags--docs#dropdownsdonotopenonfocusbyvalidation):
 
-- Vadidations: [validationWrapperValidateOnMount](https://tech.skbkontur.ru/kontur-ui/packages/react-ui-validations/2.3.8/index.html?path=/docs/displaying-feature-flags--docs#hidetooltiponselectioncontrolsflag) 
+- Vadidations: [validationWrapperValidateOnMount](https://tech.skbkontur.ru/kontur-ui/packages/react-ui-validations/2.3.8/index.html?path=/docs/displaying-feature-flags--docs#hidetooltiponselectioncontrolsflag)
 - Vadidations: [hideTooltipOnSelectionControlsFlag](https://tech.skbkontur.ru/kontur-ui/packages/react-ui-validations/2.3.8/index.html?path=/docs/displaying-feature-flags--docs#hidetooltiponselectioncontrolsflag)
 - Vadidations: [dropdownsDoNotOpenOnFocusByValidation](https://tech.skbkontur.ru/kontur-ui/packages/react-ui-validations/2.3.8/index.html?path=/docs/displaying-feature-flags--docs#dropdownsdonotopenonfocusbyvalidation)
 
-
 <br />
 <br />
 <br />
 <br />
-
 
 ## react-ui 4.x → 5.0
 
@@ -205,25 +197,26 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 
 В версии 5.0 удалены старые темы: `THEME_2022`, `DARK_THEME_2022`, `DEFAULT_THEME`, `DARK_THEME`, `DEFAULT_THEME_8PX_OLD`, `FLAT_THEME_8PX_OLD`, `THEME_2022_UPDATE_2024` и `THEME_2022_DARK_UPDATE_2024`. Подробнее о новых темах в следующем разделе.
 
-Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`. 
+Удалены устаревшие внутренние компоненты: `DropdownContainer`, `InternalMenu`, `Picker`. Их окончательно заменили `Popup`, `Menu` и `Calendar`.
 
 Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui/lib/featureFlagsContext/FEATUREFLAGSCONTEXT.md) кроме `comboBoxAllowValueChangeInEditingState`. Краткий список вступивших в силу изменений:
-  1. в `TokenInput` из дефолтных разделителей удалён пробел
-  2. в `Hint` и `Kebab` убран pin
-  3. в `Spinner` и `Loader` убран дефолтный `caption`
-  4. в `SidePage` с пропом `blockBackground` активируется FocusLock
-  5. `MenuItem` остаются активными даже после обертки во что-либо
-  6. в `Textarea` фикс для Safari 17 применяется по умолчанию
-  7. в `Link` добавлена обводка при фокусе
-  8. `Hint` изменяет свое положения, если не попадает во viewport
-  9. логика выбора позиции в `Hint` и `Tooltip` унифицирована
 
+1. в `TokenInput` из дефолтных разделителей удалён пробел
+2. в `Hint` и `Kebab` убран pin
+3. в `Spinner` и `Loader` убран дефолтный `caption`
+4. в `SidePage` с пропом `blockBackground` активируется FocusLock
+5. `MenuItem` остаются активными даже после обертки во что-либо
+6. в `Textarea` фикс для Safari 17 применяется по умолчанию
+7. в `Link` добавлена обводка при фокусе
+8. `Hint` изменяет свое положения, если не попадает во viewport
+9. логика выбора позиции в `Hint` и `Tooltip` унифицирована
 
-Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars). 
+Удалены или переименованы устаревшие переменные темы. Полный список перечислен [тут](https://github.com/skbkontur/retail-ui/pull/3459). Для ускорения переезда доступен [кодмод](https://github.com/skbkontur/retail-ui/tree/5.x/packages/react-ui-codemod#react-ui-50renamethemevars).
 
-В `ScrollContainer` и `SideMenu` удален проп `hideScrollBar`. Вместо него следует использовать `showScrollBar`. 
+В `ScrollContainer` и `SideMenu` удален проп `hideScrollBar`. Вместо него следует использовать `showScrollBar`.
 
 Также удалены некоторые другие устаревшие сущности. Полный список доступен в [#3459](https://github.com/skbkontur/retail-ui/pull/3459) и [#3523](https://github.com/skbkontur/retail-ui/pull/3523). Самые значимые из них:
+
 - удален проп `colors` из `Token` (рекомендуется использовать переменные `tokenBg`, `tokenColor`, `tokenBorderColor` и др.)
 - удален проп `color` в `Toggle` (рекомендуется использовать переменную `toggleBgChecked`)
 - удален проп `shouldBeVisibledWithLessThanTwoPages` в `Paging`
@@ -234,12 +227,12 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 
 Список тем на момент выхода 5.0:
 
-| Имя                     | Описание                     |
-| ----------------------- | ---------------------------- |
-| `LIGHT_THEME`           | Актуальная светлая тема      |
-| `DARK_THEME`            | Актуальная темная тема       |
+| Имя           | Описание                |
+| ------------- | ----------------------- |
+| `LIGHT_THEME` | Актуальная светлая тема |
+| `DARK_THEME`  | Актуальная темная тема  |
 
-### ButtonLink 
+### ButtonLink
 
 В компоненты `Button` и `Link` добавлен проп `component`. Новые возможности и ломающие изменения описаны в [#3521](https://github.com/skbkontur/retail-ui/pull/3521).
 
@@ -281,15 +274,13 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 
 ### Совместимость 5.0 с другими пакетами
 
-В связи с ломающими изменениями совместимость с 5.0 других пакетов начинается с версий: 
+В связи с ломающими изменениями совместимость с 5.0 других пакетов начинается с версий:
 
-| Пакет                             | Версия   |
-| --------------------------------- | ---------|
-| `react-ui-validations` | `2.0.0`  |
-| `react-ui-addons`      | `5.0.0`  |
-| `side-menu`            | `3.0.0`  |
-
-
+| Пакет                  | Версия  |
+| ---------------------- | ------- |
+| `react-ui-validations` | `2.0.0` |
+| `react-ui-addons`      | `5.0.0` |
+| `side-menu`            | `3.0.0` |
 
 <br />
 <br />
@@ -298,17 +289,18 @@ npx react-ui-codemod react-ui-6.0/renameThemeVars.ts FILES_PATH
 ## react-ui-validations 1.x → 2.0
 
 Удалены все [фиче-флаги](https://github.com/skbkontur/retail-ui/blob/4.x/packages/react-ui-validations/docs/Pages/Displaying/FeatureFlags/FeatureFlagsContext.md). Краткий список вступивших в силу изменений:
-  1. применены актуальные цвета 
-  2. в компонентах обертки в span заменены на `div` c `display: inline`
+
+1. применены актуальные цвета
+2. в компонентах обертки в span заменены на `div` c `display: inline`
 
 Замена оберток на `div` решает проблемы с семантикой верстки и позиционированием сообщений валидации. Подробнее в [#3463](https://github.com/skbkontur/retail-ui/pull/3463).
 
-В связи с ломающими изменениями совместимость с 2.0 других пакетов начинается с версий: 
+В связи с ломающими изменениями совместимость с 2.0 других пакетов начинается с версий:
 
-| Пакет                             | Версия   |
-| --------------------------------- | ---------|
-| `react-ui`             | `5.0.0`  |
-| `react-ui-addons`      | `5.0.0`  |
+| Пакет             | Версия  |
+| ----------------- | ------- |
+| `react-ui`        | `5.0.0` |
+| `react-ui-addons` | `5.0.0` |
 
 <br />
 <br />
@@ -377,7 +369,6 @@ import { ThemeContext, DEFAULT_THEME_8PX } from 'react-ui';
 ### Механизм повышения специфичности перестал работать
 
 Механизм повышения специфичности стилей (`Upgrade.setSpecificityLevel()`) не работает в версиях 4.х из-за внешнего [плагина](https://github.com/Andarist/stylis-plugin-extra-scope), который сломался с обновлением на `Emotion 11` и [никак пока не чинится](https://github.com/Andarist/stylis-plugin-extra-scope/pull/14). В данный момент не представляется возможным его починить до официального фикса плагина.
-
 
 <br />
 <br />
@@ -706,7 +697,6 @@ ThemeFactory.overrideDefaultTheme(theme);
    ```
 
 2. Для ленивых:
-
    - выделить и скопировать "ThemeFactory.overrideDefaultTheme(FlatTheme)"
    - ctrl+shift+f -> "Uprgades.enableFlatDesign()" -> enter;
    - вставить "ThemeFactory.overrideDefaultTheme(FlatTheme)";

@@ -56,7 +56,8 @@ export const DateRangePickerDataTids = {
 const DayDateAttribute = 'data-date-range-picker-day';
 
 export interface DateRangePickerProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
     Pick<
       DatePickerProps,
@@ -491,7 +492,7 @@ export const DateRangePicker = Object.assign(
         hasHoveredDay &&
         Boolean(
           (focusInput === 'start' && endValue && isBetween(day, hoveredDay, endValue)) ||
-            (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
+          (focusInput === 'end' && startValue && isBetween(day, startValue, hoveredDay)),
         );
 
       let hasLeftRoundings;

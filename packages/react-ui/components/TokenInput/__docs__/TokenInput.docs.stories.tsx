@@ -650,13 +650,13 @@ export const ExampleExtendedItems: Story = () => {
       onValueChange={setSelectedItems}
       getItems={async (q: string) =>
         [
-          <MenuHeader>MenuHeader</MenuHeader>,
+          <MenuHeader key="ext-header">MenuHeader</MenuHeader>,
           'Красный',
           'Синий',
-          <MenuSeparator />,
+          <MenuSeparator key="ext-sep" />,
           'Жёлтый',
           'Зелёный',
-          <MenuFooter>MenuFooter</MenuFooter>,
+          <MenuFooter key="ext-footer">MenuFooter</MenuFooter>,
         ].filter((i) => (typeof i === 'string' ? i.toLowerCase().includes(q.toLowerCase()) : q === ''))
       }
     />

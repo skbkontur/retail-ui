@@ -35,14 +35,12 @@ ref, из-за чего появились некоторые требовани
 ```js static
 import { Hint } from '@skbkontur/react-ui';
 
-const CustomFunctionComponent = React.forwardRef(
-  (props, ref) => <div ref={ref}>children text</div>
-);
+const CustomFunctionComponent = React.forwardRef((props, ref) => <div ref={ref}>children text</div>);
 
 export const WithFunctionChildren = () => (
   <React.StrictMode>
     <Hint pos="top" text="Something will never be changed" manual opened>
-      <CustomFunctionComponent/>
+      <CustomFunctionComponent />
     </Hint>
   </React.StrictMode>
 );
@@ -55,7 +53,7 @@ export const WithFunctionChildren = () => (
 import { Hint } from '@skbkontur/react-ui';
 
 const ImperativeHandleComponent = React.forwardRef(function FN(_, ref) {
-  const rootNode = React.useRef < HTMLDivElement > (null);
+  const rootNode = React.useRef < HTMLDivElement > null;
   React.useImperativeHandle(ref, () => ({
     foo: 'bar',
     getRootNode: () => rootNode.current,
@@ -66,7 +64,7 @@ const ImperativeHandleComponent = React.forwardRef(function FN(_, ref) {
 export const WithImperativeHandleChildren = () => (
   <React.StrictMode>
     <Hint pos="top" text="Something will never be changed" manual opened>
-      <ImperativeHandleComponent/>
+      <ImperativeHandleComponent />
     </Hint>
   </React.StrictMode>
 );
@@ -86,13 +84,13 @@ class CustomClassComponent extends React.Component {
 
   getRootNode = () => {
     return this.rootNode.current;
-  }
+  };
 }
 
 export const WithClassChildren = () => (
   <React.StrictMode>
     <Hint pos="top" text="Something will never be changed" manual opened>
-      <CustomClassComponent/>
+      <CustomClassComponent />
     </Hint>
   </React.StrictMode>
 );

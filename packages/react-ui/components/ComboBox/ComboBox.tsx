@@ -15,7 +15,8 @@ import type { MaskedInputOnBeforePasteValue, MaskedInputProps } from '../MaskedI
 export type ComboBoxViewMode = 'singleline' | 'multiline' | 'multiline-editing';
 
 export interface ComboBoxProps<T>
-  extends Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
+  extends
+    Pick<AriaAttributes, 'aria-describedby' | 'aria-label'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Partial<Pick<MaskedInputProps, 'mask' | 'maskChar' | 'formatChars'>>,
     CommonProps {

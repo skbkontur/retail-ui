@@ -27,9 +27,7 @@ import type { PasswordInputLocale } from './locale/index.js';
 import { PasswordInputLocaleHelper } from './locale/index.js';
 
 export interface PasswordInputProps
-  extends Pick<AriaAttributes, 'aria-label'>,
-    CommonProps,
-    Omit<InputProps, 'showClearIcon'> {
+  extends Pick<AriaAttributes, 'aria-label'>, CommonProps, Omit<InputProps, 'showClearIcon'> {
   /** Визуально показывает, что активен CapsLock. */
   detectCapsLock?: boolean;
 }

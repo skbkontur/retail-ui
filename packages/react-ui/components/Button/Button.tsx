@@ -26,7 +26,7 @@ import type { IconProps } from '../../internal/icons2022/BaseIcon.js';
 import { getStyles, getActiveStyles, globalClasses } from './Button.styles.js';
 import type { ButtonIconProps } from './ButtonIcon.js';
 import { ButtonIcon, getButtonIconSizes } from './ButtonIcon.js';
-import { useButtonArrow } from './ButtonArrow.js';
+import { useButtonArrow as getButtonArrow } from './ButtonArrow.js';
 import { getInnerLinkTheme } from './getInnerLinkTheme.js';
 import { LoadingButtonIcon } from './LoadingButtonIcon.js';
 
@@ -314,7 +314,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
 
-    const [rootClassNameWithArrow, arrowNode] = useButtonArrow(
+    const [rootClassNameWithArrow, arrowNode] = getButtonArrow(
       { ...this.props, isFocused: Boolean(isFocused), size: this.size },
       this.theme,
       this.styles,

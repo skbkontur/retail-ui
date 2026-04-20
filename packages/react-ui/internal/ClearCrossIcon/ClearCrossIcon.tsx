@@ -13,9 +13,7 @@ import { getStyles } from './ClearCrossIcon.styles.js';
 import { CrossIcon } from './CrossIcon.js';
 
 export interface ClearCrossIconProps
-  extends Pick<AriaAttributes, 'aria-label'>,
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    CommonProps {
+  extends Pick<AriaAttributes, 'aria-label'>, React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
   /** Ширина и высота иконки крестика
    * @default small */
   size?: SizeProp;

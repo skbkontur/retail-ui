@@ -127,7 +127,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           }, 1000);
         }
       }
-    } catch (err) {
+    } catch {
       // pass
     }
   });
@@ -173,7 +173,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           }
         >
           {allFeatureFlags.map((flag) => (
-            <MenuItem className={styles.menuItem()}>
+            <MenuItem key={flag} className={styles.menuItem()}>
               <Toggle
                 checked={currentFeatureFlags.includes(flag)}
                 onValueChange={(newValue) => {

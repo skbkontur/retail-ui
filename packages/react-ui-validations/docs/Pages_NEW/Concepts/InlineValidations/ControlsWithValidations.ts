@@ -71,7 +71,7 @@ function prepareProps<TValue, TProps extends { value?: any }>(
 type ExtractProps<TComponentOrTProps> =
   TComponentOrTProps extends React.ComponentType<infer P> ? (P extends { value?: any } ? P : never) : never;
 
-type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null | infer TValue } ? TValue : never;
+type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null | (infer TValue) } ? TValue : never;
 
 function wrapControl<TComponent extends React.ComponentType<ExtractProps<TComponent>>>(
   controlType: TComponent,

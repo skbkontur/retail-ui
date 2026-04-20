@@ -97,15 +97,21 @@ export const ExampleMobile: Story = () => {
         <br />
         <br />
         <Gapped vertical gap={0}>
-          <Checkbox checked={hasHeader} onValueChange={setHasHeader} children={'Заголовок'} />
-          <Checkbox checked={hasFooter} onValueChange={setHasFooter} children={'Футер'} />
-          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader} children={'Закреплённый заголовок'} />
-          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter} children={'Закреплённый футер'} />
-          <Checkbox
-            checked={isLongContent}
-            onValueChange={setIsLongContent}
-            children={'Длинный текст для появления скролла'}
-          />
+          <Checkbox checked={hasHeader} onValueChange={setHasHeader}>
+            Заголовок
+          </Checkbox>
+          <Checkbox checked={hasFooter} onValueChange={setHasFooter}>
+            Футер
+          </Checkbox>
+          <Checkbox checked={stickyHeader} onValueChange={setStickyHeader}>
+            Закреплённый заголовок
+          </Checkbox>
+          <Checkbox checked={stickyFooter} onValueChange={setStickyFooter}>
+            Закреплённый футер
+          </Checkbox>
+          <Checkbox checked={isLongContent} onValueChange={setIsLongContent}>
+            Длинный текст для появления скролла
+          </Checkbox>
         </Gapped>
       </div>
       <Button onClick={() => setOpened(true)}>Открыть</Button>

@@ -65,7 +65,8 @@ export const calculateClearCrossShowedState = ({
 };
 
 export interface InputProps
-  extends CommonProps,
+  extends
+    CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label'>,
     Override<
