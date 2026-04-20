@@ -199,7 +199,7 @@ export const AccessibilityExampleStory = () => {
                         selectedOptions={columnFilters.get('client') ?? []}
                         onSelect={(selected: string[]) => setFilter('client', selected)}
                         onSort={(direction) => handleSort('client', direction)}
-                        sortDirection={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'client' ? (sortConfig.direction ?? undefined) : undefined}
                       >
                         Клиент
                       </Table.DropdownSortableFilter>
@@ -207,7 +207,7 @@ export const AccessibilityExampleStory = () => {
                     <Table.HeaderCell width={'200px'}>
                       <Table.Sort
                         onSort={(direction) => handleSort('region', direction)}
-                        sortDirection={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'region' ? (sortConfig.direction ?? undefined) : undefined}
                         filtered={(columnFilters.get('region')?.length ?? 0) > 0}
                       >
                         Кнопка

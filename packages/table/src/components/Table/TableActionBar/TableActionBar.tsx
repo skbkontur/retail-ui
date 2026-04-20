@@ -78,7 +78,7 @@ export const TableActionBar: FC<TableActionBarProps> = (props) => {
 
   const { popup, caption, ...rest } = props;
   const items = hasItems(props) ? props.items : [];
-  const itemsVisible = hasItems(props) ? props.itemsVisible ?? 4 : 0;
+  const itemsVisible = hasItems(props) ? (props.itemsVisible ?? 4) : 0;
 
   const renderInlineItem = (item: TableActionItem, index: number) => {
     const { key, text, icon, onClick, danger, ...itemRest } = item;

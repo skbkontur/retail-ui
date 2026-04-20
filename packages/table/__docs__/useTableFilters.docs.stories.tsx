@@ -66,7 +66,7 @@ export const SimpleFiltersExample = () => {
                 selectedOptions={filters.get('name') ?? []}
                 onSelect={(selected: string[]) => setFilter('name', selected)}
                 onSort={(direction) => handleSort('name', direction)}
-                sortDirection={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'name' ? (sortConfig.direction ?? undefined) : undefined}
               >
                 Имя
                 {filters.get('name')?.length ? ` (${filters.get('name')?.length})` : ''}
@@ -87,7 +87,7 @@ export const SimpleFiltersExample = () => {
                 selectedOptions={filters.get('score') ?? []}
                 onSelect={(selected: string[]) => setFilter('score', selected)}
                 onSort={(direction) => handleSort('score', direction)}
-                sortDirection={sortConfig.key === 'score' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'score' ? (sortConfig.direction ?? undefined) : undefined}
               >
                 Балл
               </Table.DropdownSortableFilter>

@@ -38,7 +38,6 @@ export const createTableTheme = (theme: ReactUITheme | TableTheme): TableTheme =
       get() {
         if (descriptor) {
           const { get, value } = descriptor;
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           // @ts-ignore
           return theme[key] || (isFunction(get) ? get.call(this) : value);
         }

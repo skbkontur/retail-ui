@@ -603,7 +603,7 @@ export const BasicTableExample = () => {
                 selectedOptions={selectedNames}
                 onSelect={(selected: string[]) => setFilter('name', selected)}
                 onSort={(direction) => handleSort('name', direction)}
-                sortDirection={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'name' ? (sortConfig.direction ?? undefined) : undefined}
               >
                 Имя
                 {selectedNames.length > 0 && ` (${selectedNames.length})`}
@@ -1097,7 +1097,7 @@ export const GroupedHeadersExample = () => {
           <Table.Row>
             <Table.HeaderCell width="250px">
               <Table.Sort
-                sortDirection={sortConfig.key === 'organization' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'organization' ? (sortConfig.direction ?? undefined) : undefined}
                 onSort={(direction) => handleSort('organization', direction)}
               >
                 Организация
@@ -1105,7 +1105,7 @@ export const GroupedHeadersExample = () => {
             </Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
-                sortDirection={sortConfig.key === 'totalAmount' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'totalAmount' ? (sortConfig.direction ?? undefined) : undefined}
                 onSort={(direction) => handleSort('totalAmount', direction)}
               >
                 Общая сумма, ₽
@@ -1113,7 +1113,7 @@ export const GroupedHeadersExample = () => {
             </Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
-                sortDirection={sortConfig.key === 'rate18' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'rate18' ? (sortConfig.direction ?? undefined) : undefined}
                 onSort={(direction) => handleSort('rate18', direction)}
               >
                 По ставке 18 %
@@ -1121,7 +1121,7 @@ export const GroupedHeadersExample = () => {
             </Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
-                sortDirection={sortConfig.key === 'rate10' ? sortConfig.direction ?? undefined : undefined}
+                sortDirection={sortConfig.key === 'rate10' ? (sortConfig.direction ?? undefined) : undefined}
                 onSort={(direction) => handleSort('rate10', direction)}
               >
                 По ставке 10 %
@@ -1269,7 +1269,7 @@ export const SizeExampleStory = () => {
                         selectedOptions={columnFilters.get('client') ?? []}
                         onSelect={(selected: string[]) => setFilter('client', selected)}
                         onSort={(direction) => handleSort('client', direction)}
-                        sortDirection={sortConfig.key === 'client' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'client' ? (sortConfig.direction ?? undefined) : undefined}
                       >
                         Клиент
                       </Table.DropdownSortableFilter>
@@ -1278,7 +1278,7 @@ export const SizeExampleStory = () => {
                     <Table.HeaderCell width={'33.33%'}>
                       <Table.Sort
                         onSort={(direction) => handleSort('region', direction)}
-                        sortDirection={sortConfig.key === 'region' ? sortConfig.direction ?? undefined : undefined}
+                        sortDirection={sortConfig.key === 'region' ? (sortConfig.direction ?? undefined) : undefined}
                         filtered={(columnFilters.get('region')?.length ?? 0) > 0}
                       >
                         Регион

@@ -11,7 +11,7 @@ import { injectTableCssAtRuntime } from './build/injectTableCssAtRuntime.js';
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
 const external = [...Object.keys(packageJson.peerDependencies || {}), '@skbkontur/global-object'];
 
-// eslint-disable-next-line import/no-default-export
+// oxlint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins: [
     react(),

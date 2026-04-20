@@ -77,7 +77,6 @@ export const markAsTableTheme = <T extends object>(theme: T): T => {
 };
 
 export const isTableTheme = (theme: ReactUITheme | TableLightTheme): boolean => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   return theme[REACT_UI_TABLE_CONSTRUCTOR_THEME_KEY] === true;
 };
