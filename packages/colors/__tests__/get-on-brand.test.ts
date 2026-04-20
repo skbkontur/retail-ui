@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
-import { getOnBrand } from '../lib/helpers/get-on-brand.js';
 
 import * as DefaultSwatch from '../lib/consts/default-swatch.js';
+import { getOnBrand } from '../lib/helpers/get-on-brand.js';
 
 describe('getOnBrand', () => {
   test('should return whiteAlpha for black', () => {

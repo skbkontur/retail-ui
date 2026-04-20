@@ -1,4 +1,5 @@
 import { describe, test, expect } from 'vitest';
+
 import { camelCaseToKebabCase, kebabCaseToCamelCase } from '../lib/utils/format-variable';
 
 describe('format-variable', () => {

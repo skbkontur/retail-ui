@@ -1,8 +1,7 @@
 import { ACCENT_ATTR, BRAND_ATTR, CSS_PREFIX, THEME_ATTR } from '../consts/css-attributes.js';
-import type { SemanticConfigOptions } from '../get-colors.js';
 import * as DEFAULT_SWATCH from '../consts/default-swatch.js';
+import type { SemanticConfigOptions } from '../get-colors.js';
 import type { ThemeKey } from '../types/tokens.js';
-
 import { camelCaseToKebabCase } from './format-variable.js';
 
 /**

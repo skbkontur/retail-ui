@@ -1,4 +1,5 @@
 import { describe, test, expect } from 'vitest';
+
 import { getHover, getPressed } from '../lib/helpers/get-interactions';
 
 describe('getHover', () => {

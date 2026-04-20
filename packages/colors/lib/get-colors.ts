@@ -1,9 +1,9 @@
-import { getColorsDefaultTokens } from './get-colors-default-tokens.js';
-import { type ConfigOptions, type PresetOrCustom, getColorsBase } from './get-colors-base.js';
-import type { TokensBase } from './types/tokens-base.js';
-import { convertColorFormat, type ColorFormat } from './utils/convert-color.js';
-import type { DefaultTokens, DefaultTokensFull, Themed, ThemeKey } from './types/tokens.js';
 import type * as DEFAULT_SWATCH from './consts/default-swatch.js';
+import { type ConfigOptions, type PresetOrCustom, getColorsBase } from './get-colors-base.js';
+import { getColorsDefaultTokens } from './get-colors-default-tokens.js';
+import type { TokensBase } from './types/tokens-base.js';
+import type { DefaultTokens, DefaultTokensFull, Themed, ThemeKey } from './types/tokens.js';
+import { convertColorFormat, type ColorFormat } from './utils/convert-color.js';
 import { generateCSSStyles } from './utils/create-styles.js';
 
 export interface SemanticConfigOptions<T> extends ConfigOptions {

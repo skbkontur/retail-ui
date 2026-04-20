@@ -1,4 +1,5 @@
 import { test, describe, expect } from 'vitest';
+
 import { getColors } from '../lib/get-colors';
 
 test('should return both themes with HEX values by default', () => {

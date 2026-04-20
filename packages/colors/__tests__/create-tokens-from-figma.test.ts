@@ -1,4 +1,5 @@
 import { describe, test, expect } from 'vitest';
+
 import { slashToCamelCase, transformations, extractTokensFromFigma } from '../scripts/create-tokens-from-figma';
 
 const [

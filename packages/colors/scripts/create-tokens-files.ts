@@ -1,12 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { camelCaseToKebabCase, kebabCaseToCamelCase } from '../lib/utils/format-variable.js';
-import { getColors } from '../lib/get-colors.js';
 import * as DEFAULT_SWATCH from '../lib/consts/default-swatch.js';
-import type { ColorObject, ColorValue } from '../lib/types/tokens.js';
 import type { ConfigOptions } from '../lib/get-colors-base.js';
+import { getColors } from '../lib/get-colors.js';
+import type { ColorObject, ColorValue } from '../lib/types/tokens.js';
 import { flattenHybridCase } from '../lib/utils/create-styles.js';
+import { camelCaseToKebabCase, kebabCaseToCamelCase } from '../lib/utils/format-variable.js';
 
 type ColorFormat = ConfigOptions['format'];
 

@@ -1,12 +1,12 @@
-import { getPalette } from './helpers/get-palette.js';
+import * as DEFAULT_SWATCH from './consts/default-swatch.js';
 import { getHover, getPressed } from './helpers/get-interactions.js';
 import { getLogo } from './helpers/get-logo.js';
-import { getPromo } from './helpers/get-promo.js';
-import { type ColorFormat, convertColorFormat } from './utils/convert-color.js';
-import { type ColorStructure } from './types/tokens.js';
-import * as DEFAULT_SWATCH from './consts/default-swatch.js';
-import type { TokensBase, ColorPalette } from './types/tokens-base.js';
 import { getOnBrand } from './helpers/get-on-brand.js';
+import { getPalette } from './helpers/get-palette.js';
+import { getPromo } from './helpers/get-promo.js';
+import type { TokensBase, ColorPalette } from './types/tokens-base.js';
+import { type ColorStructure } from './types/tokens.js';
+import { type ColorFormat, convertColorFormat } from './utils/convert-color.js';
 
 export type PresetOrCustom<T extends string> = T | (string & Record<never, never>);
 

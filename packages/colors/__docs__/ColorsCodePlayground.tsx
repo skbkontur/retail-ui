@@ -1,13 +1,13 @@
-import React from 'react';
 import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
-import { Link } from '@skbkontur/react-ui/components/Link';
-import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Link } from '@skbkontur/react-ui/components/Link';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { SingleToast } from '@skbkontur/react-ui/components/SingleToast';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
+import React from 'react';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
 import { camelCaseToKebabCase } from '../lib/utils/format-variable.js';

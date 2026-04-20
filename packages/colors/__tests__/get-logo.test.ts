@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest';
-import { getLogo } from '../lib/helpers/get-logo';
+
 import { LOGO_LIGHTNESS_MIN } from '../lib/consts/params/logo-lightness';
+import { getLogo } from '../lib/helpers/get-logo';
 
 describe('getLogo', () => {
   test('should return hex for light and oklch for dark theme', () => {

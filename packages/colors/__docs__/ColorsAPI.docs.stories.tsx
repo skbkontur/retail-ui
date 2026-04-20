@@ -1,20 +1,18 @@
+import { parse } from '@babel/core';
+import { css } from '@emotion/css';
+import { type Emotion } from '@emotion/css/create-instance';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { Gapped, Select, Input } from '@skbkontur/react-ui';
+import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
+import type { Meta } from '@storybook/react';
+import { differenceEuclidean } from 'culori';
 import React from 'react';
 
-import { Gapped, Select, Input } from '@skbkontur/react-ui';
-import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
-import type { Meta } from '@storybook/react';
-
+import { getColors } from '../get-colors';
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
 import { getColorsBase } from '../lib/get-colors-base';
-import { getColors } from '../get-colors';
 import type { TokensBase } from '../lib/types/tokens-base';
 import type { ColorFormat } from '../lib/utils/convert-color';
-import { differenceEuclidean } from 'culori';
-import { parse } from '@babel/core';
-
-import { type Emotion } from '@emotion/css/create-instance';
-import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
-import { css } from '@emotion/css';
 
 interface TokenPair {
   key: string;

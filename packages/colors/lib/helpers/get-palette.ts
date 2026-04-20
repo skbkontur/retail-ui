@@ -1,14 +1,14 @@
 import { clampChroma, converter } from 'culori';
 
+import { ABNEY_CORRECTION } from '../consts/params/abney-correction.js';
+import { CHROMA_PARAMS } from '../consts/params/chroma-params.js';
+import { WARNING_HUE_PATCH } from '../consts/params/warning-hue-patch.js';
 import type {
   GeneratorColorAbneyCorrection,
   GeneratorColorChromaParamsGroup,
   GeneratorColorPalette,
   GeneratorColorWarningHuePatch,
 } from '../types/tokens-base-generator.js';
-import { CHROMA_PARAMS } from '../consts/params/chroma-params.js';
-import { ABNEY_CORRECTION } from '../consts/params/abney-correction.js';
-import { WARNING_HUE_PATCH } from '../consts/params/warning-hue-patch.js';
 
 const toOklch = converter('oklch');
 

@@ -1,11 +1,10 @@
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
 
-import { getColors } from '../lib/get-colors.js';
-import { getColorsBase } from '../lib/get-colors-base.js';
-import { camelCaseToKebabCase } from '../lib/utils/format-variable.js';
 import * as DEFAULT_SWATCH from '../lib/consts/default-swatch.js';
-
+import { getColorsBase } from '../lib/get-colors-base.js';
+import { getColors } from '../lib/get-colors.js';
+import { camelCaseToKebabCase } from '../lib/utils/format-variable.js';
 import { saveTokens } from './create-tokens-files.js';
 
 const SNAPSHOTS_ROOT = path.join(import.meta.dirname, '..', '__snapshots__');

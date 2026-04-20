@@ -1,4 +1,5 @@
 import { test, expect } from 'vitest';
+
 import { convertColorFormat } from '../lib/utils/convert-color.js';
 
 const mockTokens = {

@@ -1,13 +1,9 @@
 {
   "name": "@skbkontur/colors",
   "version": "2.1.6",
-  "author": "Kontur",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "type": "module",
   "license": "UNLICENSED",
+  "author": "Kontur",
+  "type": "module",
   "sideEffects": false,
   "exports": {
     "./package.json": "./package.json",
@@ -49,6 +45,10 @@
     "./tokens-mobile/brand-purple_accent-gray.json": "./tokens-mobile/brand-purple_accent-gray.json",
     "./tokens-mobile/brand-violet_accent-brand.json": "./tokens-mobile/brand-violet_accent-brand.json",
     "./tokens-mobile/brand-violet_accent-gray.json": "./tokens-mobile/brand-violet_accent-gray.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "clean": "rimraf dist",

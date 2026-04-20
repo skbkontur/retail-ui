@@ -1,4 +1,5 @@
 import { test, expect } from 'vitest';
+
 import { getColorsBase } from '../lib/get-colors-base';
 
 test('should return full TokensBase structure by default', () => {

@@ -1,4 +1,5 @@
 import { describe, test, expect } from 'vitest';
+
 import { getPromo } from '../lib/helpers/get-promo';
 
 describe('getPromo', () => {

@@ -1,7 +1,8 @@
 import { describe, test, expect } from 'vitest';
-import { calcBaseHue, calcCorrectionRange, calcWarningHuePatch, getPalette } from '../lib/helpers/get-palette';
+
 import { ABNEY_CORRECTION } from '../lib/consts/params/abney-correction';
 import { WARNING_HUE_PATCH } from '../lib/consts/params/warning-hue-patch';
+import { calcBaseHue, calcCorrectionRange, calcWarningHuePatch, getPalette } from '../lib/helpers/get-palette';
 
 describe('getPalette', () => {
   const testColor = '#2291FF';

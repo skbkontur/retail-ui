@@ -1,5 +1,19 @@
-import React from 'react';
-
+import { css, injectGlobal } from '@emotion/css';
+import { IconArrowALeftRegular24 } from '@skbkontur/icons/IconArrowALeftRegular24';
+import { IconCommentRectTextRegular24 } from '@skbkontur/icons/IconCommentRectTextRegular24';
+import { IconDocTextRegular24 } from '@skbkontur/icons/IconDocTextRegular24';
+import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons/IconMarketShoppingBasketRegular24';
+import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons/IconNaturePlantFlowerSolid20';
+import { IconPeople2Regular24 } from '@skbkontur/icons/IconPeople2Regular24';
+import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconSettingsGearRegular24 } from '@skbkontur/icons/IconSettingsGearRegular24';
+import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular24';
+import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
+import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
+import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
+import { Kontur } from '@skbkontur/logos/Kontur';
+import { Product } from '@skbkontur/logos/Product';
 import {
   DropdownMenu,
   MenuHeader,
@@ -11,19 +25,7 @@ import {
   LIGHT_THEME,
   Toast,
 } from '@skbkontur/react-ui';
-import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
-import { css, injectGlobal } from '@emotion/css';
-import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
-import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
-import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
-
-import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
-import { getColors } from '../get-colors.js';
-import type { ColorFormat } from '../lib/utils/convert-color.js';
-
-import { SideMenu } from '@skbkontur/side-menu';
-import { Kontur } from '@skbkontur/logos/Kontur';
-import { Product } from '@skbkontur/logos/Product';
+import { AddonsTheme } from '@skbkontur/react-ui-addons';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
@@ -34,19 +36,15 @@ import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
-import { IconArrowALeftRegular24 } from '@skbkontur/icons/IconArrowALeftRegular24';
-import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
-import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
-import { IconDocTextRegular24 } from '@skbkontur/icons/IconDocTextRegular24';
-import { IconCommentRectTextRegular24 } from '@skbkontur/icons/IconCommentRectTextRegular24';
-import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons/IconMarketShoppingBasketRegular24';
-import { IconSettingsGearRegular24 } from '@skbkontur/icons/IconSettingsGearRegular24';
-import { IconPeople2Regular24 } from '@skbkontur/icons/IconPeople2Regular24';
-import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular24';
-import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons/IconNaturePlantFlowerSolid20';
-import { AddonsTheme } from '@skbkontur/react-ui-addons';
-import type { ThemeKey } from '../lib/types/tokens.js';
+import { SideMenu } from '@skbkontur/side-menu';
 import type { Meta } from '@storybook/react';
+import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
+import React from 'react';
+
+import { getColors } from '../get-colors.js';
+import { brand as brandSwatch } from '../lib/consts/default-swatch.js';
+import type { ThemeKey } from '../lib/types/tokens.js';
+import type { ColorFormat } from '../lib/utils/convert-color.js';
 
 interface TokenPair {
   key: string;

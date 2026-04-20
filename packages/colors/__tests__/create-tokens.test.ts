@@ -1,5 +1,7 @@
-import { test, expect, vi, beforeEach } from 'vitest';
 import * as fs from 'fs';
+
+import { test, expect, vi, beforeEach } from 'vitest';
+
 import { saveTokens } from '../scripts/create-tokens-files';
 
 vi.mock('fs', () => ({

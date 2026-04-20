@@ -1,6 +1,7 @@
-import { describe, test, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import { describe, test, expect } from 'vitest';
 
 const SNAPSHOTS_ROOT = path.join(__dirname, '__snapshots__');
 const TOKENS_DIR = path.join(SNAPSHOTS_ROOT, 'tokens');
