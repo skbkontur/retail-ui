@@ -11,7 +11,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "yarn clean",
-    "build": "run-s build:* build:lint:*",
+    "build": "tsc --noEmit && run-s build:* build:lint:*",
     "build:vite": "vite build",
     "build:copyfiles": "copyfiles package.json README.md CHANGELOG.md dist",
     "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",

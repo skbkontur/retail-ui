@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
-    "noEmit": false,
+    "noEmit": true,
     "preserveWatchOutput": true,
     "incremental": true,
     "composite": false,
