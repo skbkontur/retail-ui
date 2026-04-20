@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
 import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 
 import { Table } from '../src/components/Table/Table';
 

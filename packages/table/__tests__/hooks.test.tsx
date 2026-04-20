@@ -1,6 +1,6 @@
-import { describe, test, expect, vi } from 'vitest';
-import * as React from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
+import * as React from 'react';
+import { describe, test, expect, vi } from 'vitest';
 
 import { useTableSort, useTableRowSelection, useTableFilters, SortConfig, ColumnFilterConfig } from '../src/hooks';
 

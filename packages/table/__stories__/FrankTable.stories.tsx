@@ -1,13 +1,14 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { Textarea } from '@skbkontur/react-ui/components/Textarea';
-import { Table, TableFilterResultRow, useTableRowSelection, useTableSort, useTableFilters } from '..';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
 import { IconMoneyTypeCoinsRegular20 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular20';
 import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
 import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
 import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegular20';
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+import React, { useCallback, useMemo, useState } from 'react';
+
+import { Table, TableFilterResultRow, useTableRowSelection, useTableSort, useTableFilters } from '..';
 import { initialData } from '../__stories__/data';
 
 export default {

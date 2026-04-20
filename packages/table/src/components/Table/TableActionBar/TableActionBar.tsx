@@ -1,23 +1,23 @@
-import type { FC, ReactNode, ReactElement } from 'react';
-import React, { useContext, useState, isValidElement } from 'react';
 import type { ButtonProps } from '@skbkontur/react-ui/components/Button';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Hint } from '@skbkontur/react-ui/components/Hint';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import { PopupMenu } from '@skbkontur/react-ui/internal/PopupMenu';
-import type { PopupMenuProps } from '@skbkontur/react-ui/internal/PopupMenu';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
-import cx from 'classnames';
+import { PopupMenu } from '@skbkontur/react-ui/internal/PopupMenu';
+import type { PopupMenuProps } from '@skbkontur/react-ui/internal/PopupMenu';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import cx from 'classnames';
+import type { FC, ReactNode, ReactElement } from 'react';
+import React, { useContext, useState, isValidElement } from 'react';
 
+import { getSizeModifier } from '../../../utils/getSizeModifier.js';
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
-import { getSizeModifier } from '../../../utils/getSizeModifier.js';
-import styles from '../Table.module.css';
-
 import { TableKebabButton } from './TableKebabButton.js';
+
+import styles from '../Table.module.css';
 
 interface DangerWrapperProps {
   danger?: boolean;

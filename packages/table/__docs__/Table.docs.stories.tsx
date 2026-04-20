@@ -1,32 +1,33 @@
-import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Table, useTableFilters, useTableSort, useTableRowSelection } from '../index';
-import { IconSendPaperplaneRegular16 } from '@skbkontur/icons/IconSendPaperplaneRegular16';
-import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
-import { IconSendPaperplaneRegular24 } from '@skbkontur/icons/IconSendPaperplaneRegular24';
+import { EmptyState } from '@skbkontur/empty-state';
+import { IconArrowCDownRegular16 } from '@skbkontur/icons/IconArrowCDownRegular16';
+import { IconArrowCRightRegular16 } from '@skbkontur/icons/IconArrowCRightRegular16';
 import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
 import { IconDocsPlusRegular24 } from '@skbkontur/icons/IconDocsPlusRegular24';
-import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
-import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
-import { IconNetDownloadRegular24 } from '@skbkontur/icons/IconNetDownloadRegular24';
-import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
-import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
-import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
-import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
-import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegular20';
-import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegular24';
 import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
 import { IconMoneyTypeCoinsRegular20 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular20';
 import { IconMoneyTypeCoinsRegular24 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular24';
-import { IconArrowCRightRegular16 } from '@skbkontur/icons/IconArrowCRightRegular16';
-import { IconArrowCDownRegular16 } from '@skbkontur/icons/IconArrowCDownRegular16';
+import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
+import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
+import { IconNetDownloadRegular24 } from '@skbkontur/icons/IconNetDownloadRegular24';
+import { IconSendPaperplaneRegular16 } from '@skbkontur/icons/IconSendPaperplaneRegular16';
+import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
+import { IconSendPaperplaneRegular24 } from '@skbkontur/icons/IconSendPaperplaneRegular24';
+import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
+import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegular20';
+import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegular24';
+import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
+import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
+import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
 import { IconXCircleSolid64 } from '@skbkontur/icons/IconXCircleSolid64';
-import { initialData } from '../__stories__/data';
-import { EmptyState } from '@skbkontur/empty-state';
+import { Button } from '@skbkontur/react-ui/components/Button';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import React from 'react';
+
+import { initialData } from '../__stories__/data';
+import { Table, useTableFilters, useTableSort, useTableRowSelection } from '../index';
 
 export default {
   title: 'Table',

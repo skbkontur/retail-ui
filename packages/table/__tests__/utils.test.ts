@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { getSizeModifier } from '../src/utils/getSizeModifier';
 
 describe('getSizeModifier', () => {

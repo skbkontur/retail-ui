@@ -1,7 +1,7 @@
-import React, { type FC } from 'react';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { Token } from '@skbkontur/react-ui/components/Token';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import React, { type FC } from 'react';
 
 import { TableDataTids } from '../TableDataTids.js';
 

@@ -1,8 +1,8 @@
-import React, { useContext, forwardRef } from 'react';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import React, { useContext, forwardRef } from 'react';
 
-import { SizeTableContext } from './TableContext.js';
 import { TableCell, type TableCellBaseProps } from './TableCell.js';
+import { SizeTableContext } from './TableContext.js';
 
 export interface TableCheckboxCellBaseProps extends TableCellBaseProps {
   checked: boolean;

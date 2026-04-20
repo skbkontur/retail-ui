@@ -1,15 +1,15 @@
-import React, { useContext, useCallback, forwardRef, type CSSProperties, type MouseEventHandler } from 'react';
-import cx from 'classnames';
-import textStyles from '@skbkontur/typography/Text.module.css';
 import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+import cx from 'classnames';
+import React, { useContext, useCallback, forwardRef, type CSSProperties, type MouseEventHandler } from 'react';
 
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
 import { getTypographyClass } from '../../utils/getTypographyClass.js';
+import { SizeTableContext } from './TableContext.js';
+import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
-import { TableDataTids } from './TableDataTids.js';
-import { SizeTableContext } from './TableContext.js';
+import textStyles from '@skbkontur/typography/Text.module.css';
 
 export interface TableCellBaseProps extends CommonProps {
   colSpan?: number;

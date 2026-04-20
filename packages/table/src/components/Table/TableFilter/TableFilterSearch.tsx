@@ -1,4 +1,3 @@
-import React, { useContext, forwardRef } from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import type { Input as InputType } from '@skbkontur/react-ui/components/Input';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
@@ -6,6 +5,7 @@ import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/in
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import React, { useContext, forwardRef } from 'react';
 
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';

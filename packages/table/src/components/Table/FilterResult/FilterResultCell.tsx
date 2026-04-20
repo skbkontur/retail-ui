@@ -1,13 +1,13 @@
-import React, { forwardRef } from 'react';
-import cx from 'classnames';
 import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+import cx from 'classnames';
+import React, { forwardRef } from 'react';
 
-import tableStyles from '../Table.module.css';
 import { TableDataTids } from '../TableDataTids.js';
-
 import { AppliedFilters } from './AppliedFilters.js';
 import type { ITableFilterToken } from './AppliedFilters.js';
+
+import tableStyles from '../Table.module.css';
 import styles from './FilterResult.module.css';
 
 export interface IAppliedFiltersProps extends CommonProps {

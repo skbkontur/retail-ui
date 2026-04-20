@@ -1,14 +1,15 @@
-import React from 'react';
-import { Table } from '../src/components/Table/Table';
+import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
+import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
 import { IconSendPaperplaneRegular16 } from '@skbkontur/icons/IconSendPaperplaneRegular16';
 import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
-import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
-import { IconNetDownloadRegular16 } from '@skbkontur/icons/IconNetDownloadRegular16';
-import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
 import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
-import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
+import React from 'react';
+
+import { Table } from '../src/components/Table/Table';
 
 export default {
   title: 'Components/Table.ActionBar',

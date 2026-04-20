@@ -1,20 +1,19 @@
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
-import React, { useState, useMemo, useCallback, useContext, useEffect, forwardRef, useRef } from 'react';
-import { Loader } from '@skbkontur/react-ui/components/Loader';
 import type { Button } from '@skbkontur/react-ui/components/Button/Button';
-import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import type { ReactElement, ComponentRef } from 'react';
-import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import type { Input } from '@skbkontur/react-ui/components/Input';
+import { Loader } from '@skbkontur/react-ui/components/Loader';
+import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
+import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
+import React, { useState, useMemo, useCallback, useContext, useEffect, forwardRef, useRef } from 'react';
+import type { ReactElement, ComponentRef } from 'react';
 
 import { TableLocaleHelper } from '../../locale/index.js';
-
-import { TableFilter } from './TableFilter/TableFilter.js';
-import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
-import { TableFilterItem } from './TableFilter/TableFilterItem.js';
 import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
+import { TableFilter } from './TableFilter/TableFilter.js';
+import { TableFilterItem } from './TableFilter/TableFilterItem.js';
+import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
 
 export interface TableDropdownFilterProps extends CommonProps {
   options: string[];

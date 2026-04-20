@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 
 import { Table } from '../src/components/Table/Table';
 

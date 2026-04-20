@@ -1,13 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
+import { LocaleContext, LangCodes } from '@skbkontur/react-ui';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { LocaleContext, LangCodes } from '@skbkontur/react-ui';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 
 import { Table } from '../src/components/Table/Table';
 import { TableDropdownSortableFilter } from '../src/components/Table/TableDropdownSortableFilter';
-import { TableLocaleHelper } from '../src/locale';
 import { useTableSort } from '../src/hooks/useTableSort';
+import { TableLocaleHelper } from '../src/locale';
 
 vi.mock('@skbkontur/react-ui/components/DropdownMenu', () => {
   const React = require('react');

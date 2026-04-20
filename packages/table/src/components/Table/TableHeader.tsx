@@ -1,10 +1,11 @@
-import React, { forwardRef } from 'react';
-import cx from 'classnames';
 import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+import cx from 'classnames';
+import React, { forwardRef } from 'react';
+
+import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
-import { TableDataTids } from './TableDataTids.js';
 
 export interface TableHeaderProps extends CommonProps, React.HTMLAttributes<HTMLTableSectionElement> {
   sticky?: boolean;

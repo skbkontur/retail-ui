@@ -1,39 +1,39 @@
-import React, { useContext, type ReactNode, type FC, forwardRef, type CSSProperties } from 'react';
-import cx from 'classnames';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import cx from 'classnames';
+import React, { useContext, type ReactNode, type FC, forwardRef, type CSSProperties } from 'react';
 
-import type { SizeProp } from '../../reactUiCompat/useSizeContext.js';
 import { TableLightTheme } from '../../../internal/themes/TableLightTheme.js';
 import { getTableTheme } from '../../../lib/theming/ThemeHelpers.js';
+import type { SizeProp } from '../../reactUiCompat/useSizeContext.js';
 import { useSizeContextCompat } from '../../reactUiCompat/useSizeContext.js';
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
-
-import styles from './Table.module.css';
-import { TableHeader } from './TableHeader.js';
-import { TableBody } from './TableBody.js';
-import { TableFooter } from './TableFooter.js';
-import { TableRow } from './TableRow.js';
-import { TableDropdownFilter } from './TableDropdownFilter.js';
-import { TableSort } from './TableSort.js';
-import { TableDropdownSortableFilter } from './TableDropdownSortableFilter.js';
+import { TableFilterResultCell } from './FilterResult/FilterResultCell.js';
+import { TableFilterResultRow } from './FilterResult/FilterResultRow.js';
+import { TableToken } from './FilterResult/TableToken.js';
 import { TableActionBar } from './TableActionBar/TableActionBar.js';
 import { TableKebabButton } from './TableActionBar/TableKebabButton.js';
-import { TableDataTids } from './TableDataTids.js';
-import { TableFilter } from './TableFilter/TableFilter.js';
-import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
-import { TableHeaderButton } from './TableFilter/TableHeaderButton.js';
-import { TableFilterItem } from './TableFilter/TableFilterItem.js';
-import { TableFilterResultCell } from './FilterResult/FilterResultCell.js';
-import { TableToken } from './FilterResult/TableToken.js';
-import { TableFilterResultRow } from './FilterResult/FilterResultRow.js';
-import { SizeTableContext } from './TableContext.js';
-import { TableHeaderCell } from './TableHeaderCell.js';
+import { TableBody } from './TableBody.js';
 import { TableCell } from './TableCell.js';
 import { TableCheckboxCell } from './TableCheckboxCell.js';
+import { SizeTableContext } from './TableContext.js';
+import { TableDataTids } from './TableDataTids.js';
+import { TableDropdownFilter } from './TableDropdownFilter.js';
+import { TableDropdownSortableFilter } from './TableDropdownSortableFilter.js';
+import { TableFilter } from './TableFilter/TableFilter.js';
+import { TableFilterItem } from './TableFilter/TableFilterItem.js';
+import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
+import { TableHeaderButton } from './TableFilter/TableHeaderButton.js';
+import { TableFooter } from './TableFooter.js';
+import { TableHeader } from './TableHeader.js';
+import { TableHeaderCell } from './TableHeaderCell.js';
 import { TableHeaderCheckboxCell } from './TableHeaderCheckboxCell.js';
+import { TableRow } from './TableRow.js';
+import { TableSort } from './TableSort.js';
 import { useTableStyleSync } from './useTableStyleSync.js';
+
+import styles from './Table.module.css';
 
 interface TableProps extends CommonProps {
   width?: CSSProperties['width'];

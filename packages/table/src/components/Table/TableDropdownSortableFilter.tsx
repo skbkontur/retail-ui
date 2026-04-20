@@ -1,5 +1,16 @@
+import { IconUiFilterSortAHighToLowRegular16 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular16';
+import { IconUiFilterSortAHighToLowRegular20 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular20';
+import { IconUiFilterSortAHighToLowRegular24 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular24';
+import { IconUiFilterSortALowToHighRegular16 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular16';
+import { IconUiFilterSortALowToHighRegular20 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular20';
+import { IconUiFilterSortALowToHighRegular24 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular24';
+import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import type { Input } from '@skbkontur/react-ui/components/Input';
+import { Loader } from '@skbkontur/react-ui/components/Loader';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator/MenuSeparator';
 import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
+import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
 import React, {
   useState,
   useMemo,
@@ -10,28 +21,16 @@ import React, {
   useRef,
   type ComponentRef,
 } from 'react';
-import { Loader } from '@skbkontur/react-ui/components/Loader';
-import { IconUiFilterSortAHighToLowRegular16 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular16';
-import { IconUiFilterSortAHighToLowRegular20 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular20';
-import { IconUiFilterSortAHighToLowRegular24 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular24';
-import { IconUiFilterSortALowToHighRegular16 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular16';
-import { IconUiFilterSortALowToHighRegular20 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular20';
-import { IconUiFilterSortALowToHighRegular24 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular24';
-import type { Button } from '@skbkontur/react-ui/components/Button/Button';
-import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
-import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator/MenuSeparator';
-import type { Input } from '@skbkontur/react-ui/components/Input';
 
+import type { SortDirection } from '../../hooks/useTableSort.js';
 import { TableLocaleHelper } from '../../locale/index.js';
 import { getIconSize } from '../../utils/getIconSize.js';
-import type { SortDirection } from '../../hooks/useTableSort.js';
-
-import { TableFilter } from './TableFilter/TableFilter.js';
-import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
-import type { TableDropdownFilterProps } from './TableDropdownFilter.js';
-import { TableFilterItem } from './TableFilter/TableFilterItem.js';
 import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
+import type { TableDropdownFilterProps } from './TableDropdownFilter.js';
+import { TableFilter } from './TableFilter/TableFilter.js';
+import { TableFilterItem } from './TableFilter/TableFilterItem.js';
+import { TableFilterSearch } from './TableFilter/TableFilterSearch.js';
 
 export interface TableDropdownSortableFilterProps extends TableDropdownFilterProps {
   onSort?: (direction: SortDirection) => void;

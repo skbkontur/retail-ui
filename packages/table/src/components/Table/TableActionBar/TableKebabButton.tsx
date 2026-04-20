@@ -1,12 +1,13 @@
-import React, { type FC } from 'react';
+import { IconUiMenuDots3VRegular16 as MenuKebabIcon16 } from '@skbkontur/icons/IconUiMenuDots3VRegular16';
+import { IconUiMenuDots3VRegular20 as MenuKebabIcon20 } from '@skbkontur/icons/IconUiMenuDots3VRegular20';
+import { IconUiMenuDots3VRegular24 as MenuKebabIcon24 } from '@skbkontur/icons/IconUiMenuDots3VRegular24';
 import type { ButtonProps } from '@skbkontur/react-ui/components/Button';
 import { Button } from '@skbkontur/react-ui/components/Button';
-import { IconUiMenuDots3VRegular24 as MenuKebabIcon24 } from '@skbkontur/icons/IconUiMenuDots3VRegular24';
-import { IconUiMenuDots3VRegular20 as MenuKebabIcon20 } from '@skbkontur/icons/IconUiMenuDots3VRegular20';
-import { IconUiMenuDots3VRegular16 as MenuKebabIcon16 } from '@skbkontur/icons/IconUiMenuDots3VRegular16';
 import cx from 'classnames';
+import React, { type FC } from 'react';
 
 import { TableDataTids } from '../TableDataTids.js';
+
 import styles from '../Table.module.css';
 
 const KEBAB_ICONS = {

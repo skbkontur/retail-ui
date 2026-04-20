@@ -1,15 +1,16 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { Paging } from '@skbkontur/react-ui/components/Paging';
-import { Table, useTableRowSelection, useTableSort, useTableFilters } from '..';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
 import { IconMoneyTypeCoinsRegular20 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular20';
 import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
 import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
 import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegular20';
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
-import { initialData } from './data';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import React, { useCallback, useMemo, useState } from 'react';
+
+import { Table, useTableRowSelection, useTableSort, useTableFilters } from '..';
+import { initialData } from './data';
 
 export default {
   title: 'Table/CheckeredTable',

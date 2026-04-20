@@ -1,5 +1,5 @@
-import { useCallback, useRef, type ForwardedRef, type MutableRefObject } from 'react';
 import { globalObject } from '@skbkontur/global-object';
+import { useCallback, useRef, type ForwardedRef, type MutableRefObject } from 'react';
 
 const TABLE_STYLE_MARKER_ATTR = 'data-skbkontur-table';
 const TABLE_STYLE_SELECTOR = `style[${TABLE_STYLE_MARKER_ATTR}]`;

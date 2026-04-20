@@ -1,10 +1,11 @@
-import React from 'react';
-import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
-import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
-import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
-import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegular20';
 import { IconMoneyTypeCoinsRegular20 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular20';
+import { IconNetDownloadRegular20 } from '@skbkontur/icons/IconNetDownloadRegular20';
+import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
+import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegular20';
+import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
+import React from 'react';
+
 import { Table } from '../src/components/Table/Table';
 import { SizeTableContext } from '../src/components/Table/TableContext';
 

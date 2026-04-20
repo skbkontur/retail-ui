@@ -1,12 +1,11 @@
 import type { Theme as ReactUITheme } from '@skbkontur/react-ui/lib/theming/Theme';
-import type { AnyObject, FunctionWithParams } from '@skbkontur/react-ui/lib/utils';
 import { isDarkTheme } from '@skbkontur/react-ui/lib/theming/ThemeHelpers';
+import type { AnyObject, FunctionWithParams } from '@skbkontur/react-ui/lib/utils';
 import { isFunction } from '@skbkontur/react-ui/lib/utils';
 
-import { memo } from '../utils/memo.js';
-import { TableThemeInternal, isTableTheme, markAsTableTheme } from '../../internal/themes/TableLightTheme.js';
 import { TableDarkThemeInternal } from '../../internal/themes/TableDarkTheme.js';
-
+import { TableThemeInternal, isTableTheme, markAsTableTheme } from '../../internal/themes/TableLightTheme.js';
+import { memo } from '../utils/memo.js';
 import type { TableTheme } from './ThemeTypes.js';
 
 /**

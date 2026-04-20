@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
 import { IconXCircleLight16 } from '@skbkontur/icons/IconXCircleLight16';
 import { IconXCircleRegular20 } from '@skbkontur/icons/IconXCircleRegular20';
 import { IconXCircleRegular24 } from '@skbkontur/icons/IconXCircleRegular24';
 import { Link } from '@skbkontur/react-ui/components/Link';
+import React, { useContext } from 'react';
 
 import type { SizeProp } from '../../../reactUiCompat/useSizeContext.js';
-import { SizeTableContext } from '../TableContext.js';
 import { getIconSize } from '../../../utils/getIconSize.js';
-
+import { SizeTableContext } from '../TableContext.js';
 import { TableToken } from './TableToken.js';
+
 import styles from './FilterResult.module.css';
 
 export interface ITableFilterToken {

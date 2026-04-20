@@ -1,3 +1,7 @@
+import { globalObject } from '@skbkontur/global-object';
+import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
+import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+import cx from 'classnames';
 import React, {
   useImperativeHandle,
   useRef,
@@ -6,13 +10,10 @@ import React, {
   type MouseEvent,
   type KeyboardEvent,
 } from 'react';
-import cx from 'classnames';
-import { globalObject } from '@skbkontur/global-object';
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+
+import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
-import { TableDataTids } from './TableDataTids.js';
 
 export interface TableRowProps extends CommonProps, React.HTMLAttributes<HTMLTableRowElement> {
   onClick?: MouseEventHandler<HTMLTableRowElement>;

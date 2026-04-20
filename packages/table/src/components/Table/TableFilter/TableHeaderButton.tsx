@@ -1,5 +1,5 @@
-import React, { useContext, forwardRef, type ComponentRef, type MouseEventHandler, type ReactElement } from 'react';
-import cx from 'classnames';
+import { IconArrowCDownLight16 } from '@skbkontur/icons/IconArrowCDownLight16';
+import { IconArrowCDownLight20 } from '@skbkontur/icons/IconArrowCDownLight20';
 import { IconUiFilterFunnelLight16 } from '@skbkontur/icons/IconUiFilterFunnelLight16';
 import { IconUiFilterFunnelRegular20 } from '@skbkontur/icons/IconUiFilterFunnelRegular20';
 import { IconUiFilterFunnelRegular24 } from '@skbkontur/icons/IconUiFilterFunnelRegular24';
@@ -9,20 +9,20 @@ import { IconUiFilterSortAHighToLowRegular24 } from '@skbkontur/icons/IconUiFilt
 import { IconUiFilterSortALowToHighRegular16 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular16';
 import { IconUiFilterSortALowToHighRegular20 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular20';
 import { IconUiFilterSortALowToHighRegular24 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular24';
-import { IconArrowCDownLight16 } from '@skbkontur/icons/IconArrowCDownLight16';
-import { IconArrowCDownLight20 } from '@skbkontur/icons/IconArrowCDownLight20';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import cx from 'classnames';
+import React, { useContext, forwardRef, type ComponentRef, type MouseEventHandler, type ReactElement } from 'react';
 
 import { getTableTheme } from '../../../../lib/theming/ThemeHelpers.js';
 import type { SortDirection } from '../../../hooks/useTableSort.js';
 import type { SizeProp } from '../../../reactUiCompat/useSizeContext.js';
-import { SizeTableContext } from '../TableContext.js';
 import { getIconSize } from '../../../utils/getIconSize.js';
 import { getSizeModifier } from '../../../utils/getSizeModifier.js';
+import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
 
 import styles from './TableFilter.module.css';

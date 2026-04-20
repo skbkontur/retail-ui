@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table } from '../src/components/Table/Table';
+
 import { initialData } from '../__stories__/data';
+import { Table } from '../src/components/Table/Table';
 
 export default {
   title: 'Components/Table.FilterResultRow',

@@ -1,17 +1,16 @@
-import React, { forwardRef, useCallback, useContext, type ComponentRef, type MouseEvent } from 'react';
-import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { IconUiFilterSortADefaultRegular16 } from '@skbkontur/icons/IconUiFilterSortADefaultRegular16';
 import { IconUiFilterSortADefaultRegular20 } from '@skbkontur/icons/IconUiFilterSortADefaultRegular20';
 import { IconUiFilterSortADefaultRegular24 } from '@skbkontur/icons/IconUiFilterSortADefaultRegular24';
+import type { Button } from '@skbkontur/react-ui/components/Button/Button';
+import React, { forwardRef, useCallback, useContext, type ComponentRef, type MouseEvent } from 'react';
 
 import type { SortDirection } from '../../hooks/useTableSort.js';
-import { getIconSize } from '../../utils/getIconSize.js';
 import type { SizeProp } from '../../reactUiCompat/useSizeContext.js';
-
+import { getIconSize } from '../../utils/getIconSize.js';
 import { SizeTableContext } from './TableContext.js';
+import { TableDataTids } from './TableDataTids.js';
 import type { TableHeaderButtonProps } from './TableFilter/TableHeaderButton.js';
 import { TableHeaderButton } from './TableFilter/TableHeaderButton.js';
-import { TableDataTids } from './TableDataTids.js';
 
 const DEFAULT_SORT_ICONS = {
   16: IconUiFilterSortADefaultRegular16,

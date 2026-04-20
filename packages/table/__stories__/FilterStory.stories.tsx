@@ -1,16 +1,17 @@
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { Input } from '@skbkontur/react-ui/components/Input';
 import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
 import React, { useState, useMemo, useCallback } from 'react';
+
+import { ColumnFilterValues } from '../__stories__/data';
+import { Table } from '../src/components/Table/Table';
+import { TableDropdownFilterProps } from '../src/components/Table/TableDropdownFilter';
 import { TableFilter } from '../src/components/Table/TableFilter/TableFilter';
 import { TableFilterItem } from '../src/components/Table/TableFilter/TableFilterItem';
 import { TableFilterSearch } from '../src/components/Table/TableFilter/TableFilterSearch';
-import { initialData } from './data';
-import { TableDropdownFilterProps } from '../src/components/Table/TableDropdownFilter';
-import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
-import { ColumnFilterValues } from '../__stories__/data';
 import { useTableFilters } from '../src/hooks/useTableFilters';
-import { Table } from '../src/components/Table/Table';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { initialData } from './data';
 
 const options = initialData.map((x) => x.client);
 

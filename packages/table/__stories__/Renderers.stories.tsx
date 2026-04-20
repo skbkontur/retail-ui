@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table } from '../src/components/Table/Table';
 
+import { Table } from '../src/components/Table/Table';
 import { Grid, CSPRenderer, DelayedAttachmentRenderer, IframeRenderer, ShadowDOMRenderer } from './StoryHelpers';
 
 export default {

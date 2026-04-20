@@ -1,14 +1,14 @@
-import React, { forwardRef } from 'react';
-import cx from 'classnames';
 import type { CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
+import cx from 'classnames';
+import React, { forwardRef } from 'react';
 
-import tableStyles from '../Table.module.css';
 import { Table } from '../Table.js';
 import { TableDataTids } from '../TableDataTids.js';
-
 import type { IAppliedFiltersProps } from './FilterResultCell.js';
 import { TableFilterResultCell } from './FilterResultCell.js';
+
+import tableStyles from '../Table.module.css';
 
 export const TableFilterResultRow = forwardRef<HTMLTableRowElement, IAppliedFiltersProps>(
   ({ children, colSpan, ...rest }, ref) => {

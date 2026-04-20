@@ -1,7 +1,3 @@
-import React from 'react';
-import { Paging } from '@skbkontur/react-ui/components/Paging';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { Table, useTableFilters, useTableRowSelection, useTableSort } from '../index';
 import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
 import { IconDocsPlusRegular24 } from '@skbkontur/icons/IconDocsPlusRegular24';
@@ -20,7 +16,12 @@ import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegula
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
+import { Paging } from '@skbkontur/react-ui/components/Paging';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import React from 'react';
+
 import { initialData } from '../__stories__/data';
+import { Table, useTableFilters, useTableRowSelection, useTableSort } from '../index';
 
 export default {
   title: 'Responsive',

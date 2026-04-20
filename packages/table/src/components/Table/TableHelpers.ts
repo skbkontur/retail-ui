@@ -1,6 +1,6 @@
-import textStyles from '@skbkontur/typography/Text.module.css';
-
 import type { SizeProp } from '../../reactUiCompat/useSizeContext.js';
+
+import textStyles from '@skbkontur/typography/Text.module.css';
 
 export const transformWidth = (width: string | number | undefined): string | number | undefined => {
   if (!width) {

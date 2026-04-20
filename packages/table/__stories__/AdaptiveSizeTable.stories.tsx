@@ -1,11 +1,3 @@
-import React from 'react';
-import { Paging } from '@skbkontur/react-ui/components/Paging';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { Table, useTableFilters, useTableRowSelection, useTableSort } from '..';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
-import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
-import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
-import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
 import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
 import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
 import { IconDocsPlusRegular24 } from '@skbkontur/icons/IconDocsPlusRegular24';
@@ -24,6 +16,15 @@ import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegula
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
+import { Paging } from '@skbkontur/react-ui/components/Paging';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
+import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
+import React from 'react';
+
+import { Table, useTableFilters, useTableRowSelection, useTableSort } from '..';
 import { initialData } from '../__stories__/data';
 
 export default {

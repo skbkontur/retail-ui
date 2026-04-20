@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import { Table } from '../src/components/Table/Table';
-import { IconSendPaperplaneDiagRegular16 } from '@skbkontur/icons/IconSendPaperplaneDiagRegular16';
-import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
-import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
 import { IconCommentRectRegular16 } from '@skbkontur/icons/IconCommentRectRegular16';
+import { IconSendPaperplaneDiagRegular16 } from '@skbkontur/icons/IconSendPaperplaneDiagRegular16';
+import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
+import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import React, { useCallback, useMemo, useState } from 'react';
+
+import { Table } from '../src/components/Table/Table';
 
 export default {
   title: 'Table',

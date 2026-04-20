@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Table, useTableFilters, useTableSort } from '..';
 
 export default {

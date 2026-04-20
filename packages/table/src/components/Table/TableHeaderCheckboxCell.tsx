@@ -1,5 +1,5 @@
-import React, { useContext, forwardRef, type Ref } from 'react';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import React, { useContext, forwardRef, type Ref } from 'react';
 
 import { SizeTableContext } from './TableContext.js';
 import { TableHeaderCell, type TableHeaderCellBaseProps } from './TableHeaderCell.js';
