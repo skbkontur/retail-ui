@@ -11,7 +11,7 @@ import styles from './Table.module.css';
 import { TableDataTids } from './TableDataTids.js';
 import { SizeTableContext } from './TableContext.js';
 
-export interface TableCellBaseProps extends CommonProps, React.TdHTMLAttributes<HTMLTableCellElement> {
+export interface TableCellBaseProps extends CommonProps {
   colSpan?: number;
   width?: CSSProperties['width'];
   rowSpan?: number;

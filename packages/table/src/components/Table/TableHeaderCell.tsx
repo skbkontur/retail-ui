@@ -12,9 +12,7 @@ import styles from './Table.module.css';
 import { TableDataTids } from './TableDataTids.js';
 import { SizeTableContext } from './TableContext.js';
 
-type NativeThProps = Omit<React.ThHTMLAttributes<HTMLTableCellElement>, 'align'>;
-
-export interface TableHeaderCellBaseProps extends CommonProps, NativeThProps {
+export interface TableHeaderCellBaseProps extends CommonProps {
   scope?: 'col' | 'row';
   colSpan?: number;
   rowSpan?: number;
