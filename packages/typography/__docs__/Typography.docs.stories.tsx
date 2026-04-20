@@ -1,9 +1,5 @@
-import React from 'react';
-import type { Meta } from '@storybook/react';
-import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
-import { Text } from '../src/Text';
-import { TextTokens, TTextTokens } from '../src/TextTokens';
 import { injectGlobal, css, cx } from '@emotion/css';
+import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
 import {
   ThemeContext,
   DropdownMenu,
@@ -15,6 +11,11 @@ import {
   Tooltip,
   Link,
 } from '@skbkontur/react-ui';
+import type { Meta } from '@storybook/react';
+import React from 'react';
+
+import { Text } from '../src/Text';
+import { TextTokens, TTextTokens } from '../src/TextTokens';
 
 export default {
   title: 'Typography',

@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { Text } from '../src/Text';
-import styles from './colors.module.css';
 import { TTextSizes, TTextTags } from '../src/types';
+
+import styles from './colors.module.css';
 
 export default {
   title: 'Typography',

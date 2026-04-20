@@ -1,13 +1,21 @@
 {
   "name": "@skbkontur/typography",
-  "description": "Kontur UI Typography",
   "version": "0.2.0",
+  "description": "Kontur UI Typography",
+  "author": "Kontur",
   "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.ts",
+    "./Text.css": "./Text.css",
+    "./Text.module.css": "./Text.module.css",
+    "./text.less": "./text.less",
+    "./text.scss": "./text.scss"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "yarn clean",
@@ -19,13 +27,6 @@
     "build:lint:publint": "publint --pack npm ./dist",
     "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints Text.css Text.module.css text.less text.scss"
   },
-  "exports": {
-    ".": "./index.ts",
-    "./Text.css": "./Text.css",
-    "./Text.module.css": "./Text.module.css",
-    "./text.less": "./text.less",
-    "./text.scss": "./text.scss"
-  },
   "devDependencies": {
     "@babel/preset-typescript": "7.22.5",
     "@babel/register": "7.22.5"
@@ -33,6 +34,5 @@
   "peerDependencies": {
     "react": ">=16.9 <=19",
     "react-dom": ">=16.9 <=19"
-  },
-  "author": "Kontur"
+  }
 }
