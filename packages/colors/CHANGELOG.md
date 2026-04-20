@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.7](/compare/@skbkontur/colors@2.1.6...@skbkontur/colors@2.1.7) (2026-04-20)
+
+**Note:** Version bump only for package @skbkontur/colors
+
+
+
+
+
 # [2.1.6](/compare/@skbkontur/colors@2.1.5...@skbkontur/colors@2.1.6) (2026-03-31)
 
 * **Colors:** simplify package.json exports ([d209f14](https://git.skbkontur.ru/ui/ui-parking-2/-/commit/d209f14))
