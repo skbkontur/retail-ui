@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "react-router-dom": "6.23.1",
-    "@skbkontur/icons": "1.10.0",
+    "@skbkontur/icons": "2.0.10",
     "start-server-and-test": "2.0.13",
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",

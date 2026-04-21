@@ -1,6 +1,6 @@
-import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/TechScreenMonitorIcon16Light.js';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/WeatherMoonIcon16Light.js';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/WeatherSunIcon16Light.js';
+import { IconTechScreenMonitorLight16 } from '@skbkontur/icons/IconTechScreenMonitorLight16';
+import { IconWeatherMoonLight16 } from '@skbkontur/icons/IconWeatherMoonLight16';
+import { IconWeatherSunLight16 } from '@skbkontur/icons/IconWeatherSunLight16';
 import type { ButtonProps, SwitcherItems } from '@skbkontur/react-ui';
 import { Gapped, Hint, Switcher, Tooltip } from '@skbkontur/react-ui';
 import React from 'react';
@@ -63,21 +63,21 @@ export const WithCustomButtonProps: Story = () => {
       label: '',
       value: 'light',
       buttonProps: {
-        icon: <WeatherSunIcon16Light />,
+        icon: <IconWeatherSunLight16 />,
       },
     },
     {
       label: '',
       value: 'system',
       buttonProps: {
-        icon: <TechScreenMonitorIcon16Light />,
+        icon: <IconTechScreenMonitorLight16 />,
       },
     },
     {
       label: '',
       value: 'dark',
       buttonProps: {
-        icon: <WeatherMoonIcon16Light />,
+        icon: <IconWeatherMoonLight16 />,
       },
     },
   ];

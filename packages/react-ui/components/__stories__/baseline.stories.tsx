@@ -1,5 +1,5 @@
-import { JewelCrownIcon16Regular } from '@skbkontur/icons/icons/JewelCrownIcon/JewelCrownIcon16Regular.js';
-import { UiLoadSpinnerIcon16Regular } from '@skbkontur/icons/icons/UiLoadSpinnerIcon/UiLoadSpinnerIcon16Regular.js';
+import { IconJewelCrownRegular16 } from '@skbkontur/icons/IconJewelCrownRegular16';
+import { IconUiLoadSpinnerRegular16 } from '@skbkontur/icons/IconUiLoadSpinnerRegular16';
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
@@ -126,7 +126,7 @@ TextSpinner.storyName = 'Text, Spinner';
 
 export const IconSpinner = () => (
   <div>
-    <UiLoadSpinnerIcon16Regular />
+    <IconUiLoadSpinnerRegular16 />
     <Spinner type="mini" />
   </div>
 );
@@ -161,10 +161,10 @@ const BaselineFont: React.FC<{
     >
       <Gapped>
         <div style={{ width }}>{fontFamily}</div>
-        <JewelCrownIcon16Regular />
+        <IconJewelCrownRegular16 />
         <Link>Ok</Link>
-        <Link icon={<JewelCrownIcon16Regular />}>Ok</Link>
-        <Link loading icon={<JewelCrownIcon16Regular />}>
+        <Link icon={<IconJewelCrownRegular16 />}>Ok</Link>
+        <Link loading icon={<IconJewelCrownRegular16 />}>
           Ok
         </Link>
         <Toggle size={size}>Tg</Toggle>
@@ -181,7 +181,7 @@ const BaselineFont: React.FC<{
         </Radio>
         <Radio value="" size={size} />
         <Kebab size={size}>
-          <MenuItem icon={<JewelCrownIcon16Regular />}>Menu</MenuItem>
+          <MenuItem icon={<IconJewelCrownRegular16 />}>Menu</MenuItem>
         </Kebab>
         <MenuItem size={size} state="hover">
           Menu

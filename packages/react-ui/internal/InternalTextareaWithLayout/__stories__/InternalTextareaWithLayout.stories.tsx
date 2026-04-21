@@ -1,4 +1,4 @@
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
 import React from 'react';
 
 import { Gapped } from '../../../components/Gapped/index.js';
@@ -17,24 +17,24 @@ export const DifferentSizes: Story = () => {
         value={'WithLayout Size: small'}
         autoResize
         rows={1}
-        leftIcon={<CheckAIcon16Regular />}
-        rightIcon={<CheckAIcon16Regular />}
+        leftIcon={<IconCheckARegular16 />}
+        rightIcon={<IconCheckARegular16 />}
       />
       <InternalTextareaWithLayout
         size={'medium'}
         value={'WithLayout Size: medium'}
         autoResize
         rows={1}
-        leftIcon={<CheckAIcon16Regular />}
-        rightIcon={<CheckAIcon16Regular />}
+        leftIcon={<IconCheckARegular16 />}
+        rightIcon={<IconCheckARegular16 />}
       />
       <InternalTextareaWithLayout
         size={'large'}
         value={'WithLayout Size: large'}
         autoResize
         rows={1}
-        leftIcon={<CheckAIcon16Regular />}
-        rightIcon={<CheckAIcon16Regular />}
+        leftIcon={<IconCheckARegular16 />}
+        rightIcon={<IconCheckARegular16 />}
       />
     </Gapped>
   );

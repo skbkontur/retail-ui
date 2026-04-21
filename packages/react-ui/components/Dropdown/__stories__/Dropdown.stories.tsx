@@ -1,5 +1,5 @@
-import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import { IconChildBabyRegular16 } from '@skbkontur/icons/IconChildBabyRegular16';
+import { IconPlusRegular16 } from '@skbkontur/icons/IconPlusRegular16';
 import React, { type JSX } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
@@ -48,7 +48,7 @@ WithOverflow.storyName = 'With overflow';
 WithOverflow.parameters = { creevey: { captureElement: '.dropdown-test-container' } };
 
 export const WithIcon = () => (
-  <Dropdown caption="Care" icon={<ChildBabyIcon16Regular />}>
+  <Dropdown caption="Care" icon={<IconChildBabyRegular16 />}>
     <MenuItem>Menu item</MenuItem>
   </Dropdown>
 );
@@ -56,15 +56,15 @@ WithIcon.storyName = 'With icon';
 WithIcon.parameters = { creevey: { captureElement: '.dropdown-test-container' } };
 
 export const WithMenuItemIcon: Story = () => (
-  <Dropdown caption="Care" icon={<ChildBabyIcon16Regular />}>
-    <MenuItem icon={<PlusIcon16Regular />}>Menu item</MenuItem>
+  <Dropdown caption="Care" icon={<IconChildBabyRegular16 />}>
+    <MenuItem icon={<IconPlusRegular16 />}>Menu item</MenuItem>
     <MenuItem>Another item</MenuItem>
   </Dropdown>
 );
 WithMenuItemIcon.storyName = 'With MenuItem icon';
 
 export const WithIconAndOverflow = () => (
-  <Dropdown icon={<PlusIcon16Regular />} caption="Lorem ipsum dollar all mubarak ibn ahmed" width="100px">
+  <Dropdown icon={<IconPlusRegular16 />} caption="Lorem ipsum dollar all mubarak ibn ahmed" width="100px">
     <MenuItem>Menu item</MenuItem>
   </Dropdown>
 );

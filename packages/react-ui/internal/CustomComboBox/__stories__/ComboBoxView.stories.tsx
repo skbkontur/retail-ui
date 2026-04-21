@@ -1,4 +1,4 @@
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
 import React from 'react';
 
 import { Gapped } from '../../../components/Gapped/index.js';
@@ -43,7 +43,7 @@ export const InputLikeText: Story = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={<CheckAIcon16Regular />} items={new Array(2)} value="Hello" /> ComboBoxView с
+      <ComboBoxView loading rightIcon={<IconCheckARegular16 />} items={new Array(2)} value="Hello" /> ComboBoxView с
       правой иконкой в состоянии загрузки
     </div>
     <ComboBoxView error disabled placeholder="Error and Disabled" />
@@ -57,55 +57,55 @@ export const ComboboxViewMultiline: Story = () => (
     <ComboBoxView size="medium" textValue={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
     <ComboBoxView size="large" textValue={'looooooooooooooooooooooong hello multiline'} viewMode={'multiline'} />
     <ComboBoxView
-      leftIcon={<CheckAIcon16Regular />}
+      leftIcon={<IconCheckARegular16 />}
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      leftIcon={<CheckAIcon16Regular />}
+      leftIcon={<IconCheckARegular16 />}
       size="medium"
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      leftIcon={<CheckAIcon16Regular />}
+      leftIcon={<IconCheckARegular16 />}
       size="large"
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      rightIcon={<CheckAIcon16Regular />}
+      rightIcon={<IconCheckARegular16 />}
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      rightIcon={<CheckAIcon16Regular />}
+      rightIcon={<IconCheckARegular16 />}
       size="medium"
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      rightIcon={<CheckAIcon16Regular />}
+      rightIcon={<IconCheckARegular16 />}
       size="large"
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      leftIcon={<CheckAIcon16Regular />}
-      rightIcon={<CheckAIcon16Regular />}
+      leftIcon={<IconCheckARegular16 />}
+      rightIcon={<IconCheckARegular16 />}
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      leftIcon={<CheckAIcon16Regular />}
-      rightIcon={<CheckAIcon16Regular />}
+      leftIcon={<IconCheckARegular16 />}
+      rightIcon={<IconCheckARegular16 />}
       size="medium"
       textValue={'looooooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}
     />
     <ComboBoxView
-      leftIcon={<CheckAIcon16Regular />}
-      rightIcon={<CheckAIcon16Regular />}
+      leftIcon={<IconCheckARegular16 />}
+      rightIcon={<IconCheckARegular16 />}
       size="large"
       textValue={'looooooooooooooooooooooong hello multiline'}
       viewMode={'multiline'}

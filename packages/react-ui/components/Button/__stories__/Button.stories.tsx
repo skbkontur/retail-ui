@@ -1,15 +1,14 @@
-import { ArchiveBoxIcon16Regular } from '@skbkontur/icons/icons/ArchiveBoxIcon/ArchiveBoxIcon16Regular.js';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
-import { CheckAIcon20Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon20Light.js';
-import { CheckAIcon24Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon24Regular.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
-import { XIcon16Light } from '@skbkontur/icons/icons/XIcon/XIcon16Light.js';
-import { XIcon20Light } from '@skbkontur/icons/icons/XIcon/XIcon20Light.js';
-import { XIcon24Regular } from '@skbkontur/icons/icons/XIcon/XIcon24Regular.js';
-import React from 'react';
+import { IconArchiveBoxRegular16 } from '@skbkontur/icons/IconArchiveBoxRegular16';
+import { IconCheckALight16 } from '@skbkontur/icons/IconCheckALight16';
+import { IconCheckALight20 } from '@skbkontur/icons/IconCheckALight20';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconCheckARegular24 } from '@skbkontur/icons/IconCheckARegular24';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconXLight16 } from '@skbkontur/icons/IconXLight16';
+import { IconXLight20 } from '@skbkontur/icons/IconXLight20';
+import { IconXRegular24 } from '@skbkontur/icons/IconXRegular24';
 import type { ReactElement } from 'react';
+import React from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
@@ -90,12 +89,12 @@ const buttonAsLinkTestingProps: ButtonState[] = [
   { children: 'Link' },
   { disabled: true },
   { loading: true },
-  { icon: <CheckAIcon16Regular /> },
-  { icon: <CheckAIcon16Regular />, disabled: true },
-  { rightIcon: <CheckAIcon16Regular /> },
-  { rightIcon: <CheckAIcon16Regular />, disabled: true },
-  { icon: <CheckAIcon16Regular />, rightIcon: <CheckAIcon16Regular /> },
-  { icon: <CheckAIcon16Regular />, rightIcon: <CheckAIcon16Regular />, disabled: true },
+  { icon: <IconCheckARegular16 /> },
+  { icon: <IconCheckARegular16 />, disabled: true },
+  { rightIcon: <IconCheckARegular16 /> },
+  { rightIcon: <IconCheckARegular16 />, disabled: true },
+  { icon: <IconCheckARegular16 />, rightIcon: <IconCheckARegular16 /> },
+  { icon: <IconCheckARegular16 />, rightIcon: <IconCheckARegular16 />, disabled: true },
   { error: true },
   { warning: true },
 ];
@@ -318,14 +317,14 @@ export const Icon: Story = () => (
   />
 );
 const iconDifferentStates: ButtonState[] = [
-  { icon: <ArchiveBoxIcon16Regular /> },
-  { icon: <ArchiveBoxIcon16Regular />, children: 'Button' },
-  { icon: <CheckAIcon16Regular /> },
-  { icon: <CheckAIcon16Regular />, loading: true },
-  { icon: <CheckAIcon16Regular />, children: 'Button' },
-  { icon: <CheckAIcon16Regular />, children: 'Button', size: 'medium' },
-  { icon: <CheckAIcon16Regular />, children: 'Button', size: 'large' },
-  { icon: <CheckAIcon16Regular />, children: 'Button', loading: true },
+  { icon: <IconArchiveBoxRegular16 /> },
+  { icon: <IconArchiveBoxRegular16 />, children: 'Button' },
+  { icon: <IconCheckARegular16 /> },
+  { icon: <IconCheckARegular16 />, loading: true },
+  { icon: <IconCheckARegular16 />, children: 'Button' },
+  { icon: <IconCheckARegular16 />, children: 'Button', size: 'medium' },
+  { icon: <IconCheckARegular16 />, children: 'Button', size: 'large' },
+  { icon: <IconCheckARegular16 />, children: 'Button', loading: true },
 ];
 
 export const RightIcon: Story = () => (
@@ -337,14 +336,14 @@ export const RightIcon: Story = () => (
   />
 );
 const rightIconDifferentStates: ButtonState[] = [
-  { rightIcon: <CheckAIcon16Light /> },
-  { rightIcon: <CheckAIcon16Light />, children: 'Button' },
-  { rightIcon: <CheckAIcon16Light /> },
-  { rightIcon: <CheckAIcon16Light />, loading: true },
-  { rightIcon: <CheckAIcon16Light />, children: 'Button' },
-  { rightIcon: <CheckAIcon20Light />, children: 'Button', size: 'medium' },
-  { rightIcon: <CheckAIcon24Regular />, children: 'Button', size: 'large' },
-  { rightIcon: <CheckAIcon16Light />, children: 'Button', loading: true },
+  { rightIcon: <IconCheckALight16 /> },
+  { rightIcon: <IconCheckALight16 />, children: 'Button' },
+  { rightIcon: <IconCheckALight16 /> },
+  { rightIcon: <IconCheckALight16 />, loading: true },
+  { rightIcon: <IconCheckALight16 />, children: 'Button' },
+  { rightIcon: <IconCheckALight20 />, children: 'Button', size: 'medium' },
+  { rightIcon: <IconCheckARegular24 />, children: 'Button', size: 'large' },
+  { rightIcon: <IconCheckALight16 />, children: 'Button', loading: true },
 ];
 
 export const BothIcons: Story = () => (
@@ -356,14 +355,14 @@ export const BothIcons: Story = () => (
   />
 );
 const bothIconsDifferentStates: ButtonState[] = [
-  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
-  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button' },
-  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light /> },
-  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, loading: true },
-  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button' },
-  { icon: <CheckAIcon20Light />, rightIcon: <XIcon20Light />, children: 'Button', size: 'medium' },
-  { icon: <CheckAIcon24Regular />, rightIcon: <XIcon24Regular />, children: 'Button', size: 'large' },
-  { icon: <CheckAIcon16Light />, rightIcon: <XIcon16Light />, children: 'Button', loading: true },
+  { icon: <IconCheckALight16 />, rightIcon: <IconXLight16 /> },
+  { icon: <IconCheckALight16 />, rightIcon: <IconXLight16 />, children: 'Button' },
+  { icon: <IconCheckALight16 />, rightIcon: <IconXLight16 /> },
+  { icon: <IconCheckALight16 />, rightIcon: <IconXLight16 />, loading: true },
+  { icon: <IconCheckALight16 />, rightIcon: <IconXLight16 />, children: 'Button' },
+  { icon: <IconCheckALight20 />, rightIcon: <IconXLight20 />, children: 'Button', size: 'medium' },
+  { icon: <IconCheckARegular24 />, rightIcon: <IconXRegular24 />, children: 'Button', size: 'large' },
+  { icon: <IconCheckALight16 />, rightIcon: <IconXLight16 />, children: 'Button', loading: true },
 ];
 
 export const Disabled: Story = () => (
@@ -397,7 +396,7 @@ export const MultilineTextWithLinkButton = () => (
 const disabledDifferentStates: ButtonState[] = [
   {},
   { loading: true },
-  { loading: true, icon: <CheckAIcon16Regular /> },
+  { loading: true, icon: <IconCheckARegular16 /> },
 ];
 
 export const Checked: Story = () => (
@@ -461,11 +460,11 @@ const differentPriorityStates: ButtonState[] = [
 export const IconDifferentContent = () => (
   <Gapped vertical>
     <span>Icon as children</span>
-    <Button>{<CheckAIcon16Regular />}</Button>
-    <Button icon={<CheckAIcon16Regular />} use={'primary'}>
+    <Button>{<IconCheckARegular16 />}</Button>
+    <Button icon={<IconCheckARegular16 />} use={'primary'}>
       Icon with long text and color
     </Button>
-    <Button icon={<CheckAIcon16Regular />} width="200px">
+    <Button icon={<IconCheckARegular16 />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
@@ -473,10 +472,10 @@ export const IconDifferentContent = () => (
 
 export const RightIconDifferentContent = () => (
   <Gapped vertical>
-    <Button rightIcon={<CheckAIcon16Regular />} use={'primary'}>
+    <Button rightIcon={<IconCheckARegular16 />} use={'primary'}>
       Icon with long text and color
     </Button>
-    <Button rightIcon={<CheckAIcon16Regular />} width="200px">
+    <Button rightIcon={<IconCheckARegular16 />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
@@ -484,23 +483,23 @@ export const RightIconDifferentContent = () => (
 
 export const BothIconsDifferentContent = () => (
   <Gapped vertical>
-    <Button icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />} use={'primary'}>
+    <Button icon={<IconCheckARegular16 />} rightIcon={<IconCheckARegular16 />} use={'primary'}>
       Icon with long text and color
     </Button>
-    <Button icon={<CheckAIcon16Regular />} rightIcon={<CheckAIcon16Regular />} width="200px">
+    <Button icon={<IconCheckARegular16 />} rightIcon={<IconCheckARegular16 />} width="200px">
       With icon, fixed width and long-lon-long text
     </Button>
   </Gapped>
 );
 
 export const PlaygroundDefault: Story = () => (
-  <Button icon={getIcon(<CheckAIcon />)} data-tid="test-button">
+  <Button icon={getIcon(<IconCheckARegular16 />)} data-tid="test-button">
     Hello
   </Button>
 );
 
 export const PlaygroundDisabled: Story = () => (
-  <Button icon={getIcon(<CheckAIcon />)} disabled data-tid="test-button">
+  <Button icon={getIcon(<IconCheckARegular16 />)} disabled data-tid="test-button">
     Hello
   </Button>
 );
@@ -523,7 +522,7 @@ export const TextStylesReset = () => (
     <Gapped>
       <span>Inherited Styles</span>
       <Button>
-        <SearchLoupeIcon16Regular />
+        <IconSearchLoupeRegular16 />
       </Button>
       <Button>Button</Button>
       <Button visuallyFocused>Focused</Button>
@@ -564,12 +563,12 @@ const unusedDifferentStates: ButtonState[] = [
 export const IconColor: Story = () => {
   return (
     <Gapped vertical>
-      <Button icon={<CheckAIcon16Regular color="red" />}>Old icon</Button>
-      <Button icon={<CheckAIcon color="red" />}>New icon</Button>
+      <Button icon={<IconCheckARegular16 color="red" />}>Old icon</Button>
+      <Button icon={<IconCheckARegular16 color="red" />}>New icon</Button>
       <Button
         icon={
           <span style={{ color: 'red' }}>
-            <CheckAIcon16Regular />
+            <IconCheckARegular16 />
           </span>
         }
       >
@@ -578,13 +577,13 @@ export const IconColor: Story = () => {
       <Button
         icon={
           <span style={{ color: 'red' }}>
-            <CheckAIcon />
+            <IconCheckARegular16 />
           </span>
         }
       >
         New icon in span
       </Button>
-      <Button theme={{ btnIconColor: 'red' }} icon={<CheckAIcon16Regular />}>
+      <Button theme={{ btnIconColor: 'red' }} icon={<IconCheckARegular16 />}>
         btnIconColor
       </Button>
     </Gapped>
@@ -596,7 +595,7 @@ export const IconAndTextHoverColor: Story = () => {
     <Button
       data-tid="test-button"
       use="text"
-      icon={<CheckAIcon />}
+      icon={<IconCheckARegular16 />}
       theme={{ btnIconHoverColor: 'red', btnTextHoverTextColor: 'red' }}
     >
       Button
@@ -668,7 +667,7 @@ export const ButtonAsLinkIconColor: Story = () => {
       data-tid="test-button"
       theme={{ btnIconColor: 'blue', btnIconHoverColor: 'red' }}
       component="a"
-      icon={<CheckAIcon16Regular />}
+      icon={<IconCheckARegular16 />}
     >
       Button as link
     </Button>
@@ -677,7 +676,7 @@ export const ButtonAsLinkIconColor: Story = () => {
 
 export const ButtonAsLinkIconDisabledColor: Story = () => {
   return (
-    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<CheckAIcon16Regular />} disabled>
+    <Button theme={{ btnIconDisabledColor: 'red' }} component="a" icon={<IconCheckARegular16 />} disabled>
       Button as link
     </Button>
   );

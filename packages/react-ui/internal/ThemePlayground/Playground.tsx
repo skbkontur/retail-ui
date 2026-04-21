@@ -1,10 +1,10 @@
 import type { Emotion } from '@emotion/css/create-instance';
-import { AttachLinkIcon16Regular } from '@skbkontur/icons/icons/AttachLinkIcon/AttachLinkIcon16Regular.js';
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
-import { MinusCircleIcon16Regular } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Regular.js';
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
-import { TrashCanIcon16Regular } from '@skbkontur/icons/icons/TrashCanIcon/TrashCanIcon16Regular.js';
+import { IconAttachLinkRegular16 } from '@skbkontur/icons/IconAttachLinkRegular16';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconMinusCircleRegular16 } from '@skbkontur/icons/IconMinusCircleRegular16';
+import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import React from 'react';
 
 import { Button } from '../../components/Button/index.js';
@@ -150,11 +150,11 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderLinksGroup = () => {
     const propsList: LinkProps[] = [
-      { icon: <AttachLinkIcon16Regular />, children: 'Enabled' },
-      { icon: <CheckAIcon16Regular />, use: 'success', children: 'Success' },
-      { icon: <MinusCircleIcon16Regular />, use: 'danger', children: 'Danger' },
-      { icon: <TrashCanIcon16Regular />, use: 'grayed', children: 'Grayed' },
-      { icon: <TrashCanIcon16Regular />, children: 'Disabled', disabled: true },
+      { icon: <IconAttachLinkRegular16 />, children: 'Enabled' },
+      { icon: <IconCheckARegular16 />, use: 'success', children: 'Success' },
+      { icon: <IconMinusCircleRegular16 />, use: 'danger', children: 'Danger' },
+      { icon: <IconTrashCanRegular16 />, use: 'grayed', children: 'Grayed' },
+      { icon: <IconTrashCanRegular16 />, children: 'Disabled', disabled: true },
     ];
     return (
       <ComponentsGroup title={'Ссылки'} theme={this.theme}>
@@ -195,7 +195,7 @@ export class Playground extends React.Component<PlaygroundProps> {
     const fromProps = getComponentsFromPropsList(<Input width={120} />, propsList);
     return (
       <ComponentsGroup title={'Поле ввода'} theme={this.theme}>
-        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchLoupeIcon16Regular />} />
+        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<IconSearchLoupeRegular16 />} />
         <div>
           <Gapped gap={10}>{fromProps}</Gapped>
         </div>
@@ -258,7 +258,7 @@ export class Playground extends React.Component<PlaygroundProps> {
     return (
       <ComponentsGroup title={'Тултип'} theme={this.theme}>
         <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
-          <Link icon={<QuestionCircleIcon16Regular />} />
+          <Link icon={<IconQuestionCircleRegular16 />} />
         </Tooltip>
       </ComponentsGroup>
     );

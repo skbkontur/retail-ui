@@ -1,5 +1,5 @@
-import { ChildBabyIcon16Regular } from '@skbkontur/icons/icons/ChildBabyIcon/ChildBabyIcon16Regular.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { IconChildBabyRegular16 } from '@skbkontur/icons/IconChildBabyRegular16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import { action } from '@storybook/addon-actions';
 import React, { type CSSProperties } from 'react';
 
@@ -614,7 +614,7 @@ function searchWithCustomElements(query: string) {
   const _items = items.filter((x) => x.name.includes(query.toLowerCase()));
   const disabled = <MenuItem disabled>Nothing was found</MenuItem>;
   return Promise.resolve([
-    <MenuItem key={1} comment="Hello" icon={<ChildBabyIcon16Regular />} disabled>
+    <MenuItem key={1} comment="Hello" icon={<IconChildBabyRegular16 />} disabled>
       World
     </MenuItem>,
     <MenuSeparator key={2} />,
@@ -728,20 +728,20 @@ class ComboBoxWithExternalValue extends React.Component {
 
 export const WithLeftIcon = () => (
   <Gapped vertical>
-    <SimpleCombobox leftIcon={<SearchLoupeIcon16Regular />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox leftIcon={<SearchLoupeIcon16Regular />} size="small" drawArrow={false} />
-    <SimpleCombobox leftIcon={<SearchLoupeIcon16Regular />} size="medium" drawArrow={false} />
-    <SimpleCombobox leftIcon={<SearchLoupeIcon16Regular />} size="large" drawArrow={false} />
+    <SimpleCombobox leftIcon={<IconSearchLoupeRegular16 />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox leftIcon={<IconSearchLoupeRegular16 />} size="small" drawArrow={false} />
+    <SimpleCombobox leftIcon={<IconSearchLoupeRegular16 />} size="medium" drawArrow={false} />
+    <SimpleCombobox leftIcon={<IconSearchLoupeRegular16 />} size="large" drawArrow={false} />
   </Gapped>
 );
 WithLeftIcon.storyName = 'with left icon';
 
 export const WithRightIcon = () => (
   <Gapped vertical>
-    <SimpleCombobox rightIcon={<SearchLoupeIcon16Regular />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox rightIcon={<SearchLoupeIcon16Regular />} size="small" />
-    <SimpleCombobox rightIcon={<SearchLoupeIcon16Regular />} size="medium" />
-    <SimpleCombobox rightIcon={<SearchLoupeIcon16Regular />} size="large" />
+    <SimpleCombobox rightIcon={<IconSearchLoupeRegular16 />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox rightIcon={<IconSearchLoupeRegular16 />} size="small" />
+    <SimpleCombobox rightIcon={<IconSearchLoupeRegular16 />} size="medium" />
+    <SimpleCombobox rightIcon={<IconSearchLoupeRegular16 />} size="large" />
   </Gapped>
 );
 WithRightIcon.storyName = 'with right icon';

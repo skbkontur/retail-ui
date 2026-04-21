@@ -7,6 +7,5 @@
     "useUnknownInCatchVariables": false,
     "stripInternal": true,
     "inlineSources": true
-  },
-  "exclude": ["**/__docs__/**/*"]
+  }
 }

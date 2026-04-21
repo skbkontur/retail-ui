@@ -489,7 +489,7 @@ ExampleError.storyName = 'Состояние ошибки';
 export const ExampleRenderToken: Story = () => {
   const [selectedItems, setSelectedItems] = React.useState(['Красный', 'Синий', 'Зелёный']);
 
-  async function getItems(query) {
+  async function getItems(query: string): Promise<string[]> {
     return ['Красный', 'Синий', 'Зелёный'].filter((s) => s.includes(query));
   }
 

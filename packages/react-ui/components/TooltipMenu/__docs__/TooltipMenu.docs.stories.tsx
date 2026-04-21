@@ -1,6 +1,6 @@
-import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
-import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon32Regular.js';
-import { UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon32Regular.js';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconLightbulbRegular32 } from '@skbkontur/icons/IconLightbulbRegular32';
+import { IconUiMenuBars3HRegular32 } from '@skbkontur/icons/IconUiMenuBars3HRegular32';
 import { Button, Gapped, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -113,7 +113,7 @@ export const Example6: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <UiMenuBars3HIcon32Regular />
+          <IconUiMenuBars3HRegular32 />
         </span>
       }
       menuWidth="300px"
@@ -131,7 +131,7 @@ export const Example7: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <LightbulbIcon32Regular />
+          <IconLightbulbRegular32 />
         </span>
       }
       menuWidth="300px"
@@ -150,7 +150,7 @@ export const Example8: Story = () => {
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <LightbulbIcon32Regular />
+          <IconLightbulbRegular32 />
         </span>
       }
       menuWidth="300px"
@@ -183,8 +183,8 @@ export const Example10: Story = () => {
   return (
     <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   );
@@ -195,8 +195,8 @@ export const Example11: Story = () => {
   return (
     <TooltipMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<CheckAIcon />}>MenuItem1</MenuItem>
-      <MenuItem icon={<CheckAIcon />}>MenuItem2</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   );

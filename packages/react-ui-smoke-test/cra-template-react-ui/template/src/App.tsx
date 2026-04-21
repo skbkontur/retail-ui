@@ -44,7 +44,7 @@ import {
   TooltipMenu,
 } from '@skbkontur/react-ui';
 import React from 'react';
-import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
+import { IconToolPencilLineRegular16 } from '@skbkontur/icons/IconToolPencilLineRegular16';
 
 export const App = () => {
   return (
@@ -93,7 +93,7 @@ export const App = () => {
       <Input />
       <SingleToast />
       <Kebab size="large">
-        <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => SingleToast.push('Nope')}>
+        <MenuItem icon={<IconToolPencilLineRegular16 />} onClick={() => SingleToast.push('Nope')}>
           Редактировать
         </MenuItem>
       </Kebab>

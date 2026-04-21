@@ -1,5 +1,5 @@
-import { TechPhoneSmartIcon64Regular } from '@skbkontur/icons/TechPhoneSmartIcon64Regular.js';
-import { TrashCanIcon64Regular } from '@skbkontur/icons/TrashCanIcon64Regular.js';
+import { IconTechPhoneSmartRegular64 } from '@skbkontur/icons/IconTechPhoneSmartRegular64';
+import { IconTrashCanRegular64 } from '@skbkontur/icons/IconTrashCanRegular64';
 import React from 'react';
 
 import type { Meta } from '../../../typings/stories.js';
@@ -91,7 +91,7 @@ export const Indent = () => (
 
 export const Icon = () => (
   <MiniModal>
-    <MiniModal.Header icon={<TrashCanIcon64Regular />}>Title</MiniModal.Header>
+    <MiniModal.Header icon={<IconTrashCanRegular64 />}>Title</MiniModal.Header>
     <MiniModal.Footer>
       <Button size="medium" use="primary">
         Main
@@ -114,7 +114,7 @@ export const Custom = () => (
 
 export const MobileMiniModalDefault = () => (
   <MiniModal>
-    <MiniModal.Header icon={<TechPhoneSmartIcon64Regular />}>Title mobile</MiniModal.Header>
+    <MiniModal.Header icon={<IconTechPhoneSmartRegular64 />}>Title mobile</MiniModal.Header>
     <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
     <MiniModal.Footer>
       <Button size="medium" use="primary">

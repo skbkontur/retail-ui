@@ -1,6 +1,6 @@
-import { People1Icon16Regular } from '@skbkontur/icons/icons/People1Icon/People1Icon16Regular.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
+import { IconPeople1Regular16 } from '@skbkontur/icons/IconPeople1Regular16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconXRegular16 } from '@skbkontur/icons/IconXRegular16';
 import React from 'react';
 
 import { BGRuler } from '../../../internal/BGRuler.js';
@@ -29,14 +29,14 @@ export default {
 export const SimpleGroupWithInputAndButton: Story = () => (
   <Group width="300px">
     <Input placeholder="Search" width="100%" />
-    <Button icon={<SearchLoupeIcon16Regular />} />
+    <Button icon={<IconSearchLoupeRegular16 />} />
   </Group>
 );
 SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
 
 export const GroupWithAllSupportedComponents: Story = () => (
   <Group>
-    <Button icon={<People1Icon16Regular />} />
+    <Button icon={<IconPeople1Regular16 />} />
     <Input value="" placeholder="Input" />
     <FxInput value="" placeholder="FxInput" onValueChange={console.log} />
     <Autocomplete value="" placeholder="Autocomplete" onValueChange={console.log} />
@@ -45,7 +45,7 @@ export const GroupWithAllSupportedComponents: Story = () => (
     <Select value="" placeholder="Select value" onValueChange={console.log} />
     <Dropdown caption="Dropdown" />
     <DropdownMenu caption={(props) => <Button corners={props.corners}>DropdownMenu</Button>} />
-    <Button icon={<XIcon16Regular />} />
+    <Button icon={<IconXRegular16 />} />
   </Group>
 );
 GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components';
@@ -53,7 +53,7 @@ GroupWithAllSupportedComponents.storyName = 'Group With All Supported Components
 export const SimpleGroupWithCustomInputsWidth: Story = () => (
   <Group>
     <Input placeholder="Search" width="300px" />
-    <Button icon={<SearchLoupeIcon16Regular />} />
+    <Button icon={<IconSearchLoupeRegular16 />} />
     <Input placeholder="Search" width="100px" />
   </Group>
 );
@@ -66,7 +66,7 @@ export const GroupWithInputAndMultipleButtons: Story = () => {
     <Group>
       <Button onClick={() => setValue('')}>Clear</Button>
       <Input value={value} onValueChange={setValue} placeholder="Search" width="100%" />
-      <Button icon={<SearchLoupeIcon16Regular />} />
+      <Button icon={<IconSearchLoupeRegular16 />} />
       <Button>Cancel</Button>
     </Group>
   );
@@ -92,8 +92,8 @@ export const ComplexElements: Story = () => (
     <SingleToast />
 
     <Group>
-      <Button icon={<XIcon16Regular />} onClick={() => SingleToast.push('Clear!')} width="10px" />
-      <Input placeholder="Disabled" disabled rightIcon={<People1Icon16Regular />} width="100%" />
+      <Button icon={<IconXRegular16 />} onClick={() => SingleToast.push('Clear!')} width="10px" />
+      <Input placeholder="Disabled" disabled rightIcon={<IconPeople1Regular16 />} width="100%" />
       <Button onClick={() => SingleToast.push('Push!')} error>
         Push
       </Button>
@@ -117,7 +117,7 @@ export const WithWidth: Story = () => (
           <BGRuler color="#888" left={10} right={9} />
           <Group width={240}>
             <Button>
-              <XIcon16Regular />
+              <IconXRegular16 />
             </Button>
             <Input placeholder="240px" width="100%" />
           </Group>
@@ -125,7 +125,7 @@ export const WithWidth: Story = () => (
           <br />
           <Group>
             <Button>
-              <XIcon16Regular />
+              <IconXRegular16 />
             </Button>
             <Input placeholder="no width" width="100%" />
           </Group>
@@ -152,7 +152,7 @@ WithHintsAndTooltips.storyName = 'With Hints and Tooltips';
 export const WithStretchedInputWrappedInHint: Story = () => (
   <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
     <Group width={500}>
-      <Button icon={<SearchLoupeIcon16Regular />}></Button>
+      <Button icon={<IconSearchLoupeRegular16 />}></Button>
       <Hint manual opened text="I wrap this input">
         <Input placeholder="Wrapped" width="100%" />
       </Hint>
@@ -164,7 +164,7 @@ WithStretchedInputWrappedInHint.storyName = 'With stretched Input wrapped in Hin
 export const WithStretchedInputWrappedInTooltip: Story = () => (
   <div style={{ padding: '64px', border: 'lightgreen 4px solid' }}>
     <Group width={500}>
-      <Button icon={<SearchLoupeIcon16Regular />}></Button>
+      <Button icon={<IconSearchLoupeRegular16 />}></Button>
       <Tooltip render={() => 'I wrap this input'} trigger="opened" pos="top center">
         <Input placeholder="Wrapped" width="100%" />
       </Tooltip>

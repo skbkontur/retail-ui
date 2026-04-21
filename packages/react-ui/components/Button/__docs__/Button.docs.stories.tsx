@@ -1,9 +1,9 @@
-import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light.js';
-import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular.js';
-import { MinusCircleIcon16Light } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Light.js';
-import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light.js';
-import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light.js';
-import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light.js';
+import { IconArrowARightLight20 } from '@skbkontur/icons/IconArrowARightLight20';
+import { IconArrowARightRegular24 } from '@skbkontur/icons/IconArrowARightRegular24';
+import { IconMinusCircleRegular16 } from '@skbkontur/icons/IconMinusCircleRegular16';
+import { IconPlusLight16 } from '@skbkontur/icons/IconPlusLight16';
+import { IconPlusLight20 } from '@skbkontur/icons/IconPlusLight20';
+import { IconTrashCanLight20 } from '@skbkontur/icons/IconTrashCanLight20';
 import { Button, Gapped } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -114,12 +114,12 @@ ExampleAlign.storyName = 'Выравнивание текста';
 export const ExampleIcon: Story = () => {
   return (
     <Gapped gap={5}>
-      <Button icon={<PlusIcon16Light />}></Button>
-      <Button icon={<PlusIcon16Light />}>Создать</Button>
-      <Button size="medium" icon={<PlusIcon20Light />} rightIcon={<ArrowARightIcon20Light />}>
+      <Button icon={<IconPlusLight16 />}></Button>
+      <Button icon={<IconPlusLight16 />}>Создать</Button>
+      <Button size="medium" icon={<IconPlusLight20 />} rightIcon={<IconArrowARightLight20 />}>
         Создать
       </Button>
-      <Button size="large" rightIcon={<ArrowARightIcon24Regular />}>
+      <Button size="large" rightIcon={<IconArrowARightRegular24 />}>
         Создать
       </Button>
     </Gapped>
@@ -176,15 +176,15 @@ export const ExampleLoading: Story = () => {
       <Button width={150} onClick={handleClick} loading={loading}>
         Удалить
       </Button>
-      <Button icon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+      <Button icon={<IconMinusCircleRegular16 />} width={150} onClick={handleClick} loading={loading}>
         Удалить
       </Button>
-      <Button rightIcon={<MinusCircleIcon16Light />} width={150} onClick={handleClick} loading={loading}>
+      <Button rightIcon={<IconMinusCircleRegular16 />} width={150} onClick={handleClick} loading={loading}>
         Удалить
       </Button>
       <Button
-        icon={<MinusCircleIcon16Light />}
-        rightIcon={<MinusCircleIcon16Light />}
+        icon={<IconMinusCircleRegular16 />}
+        rightIcon={<IconMinusCircleRegular16 />}
         width={150}
         onClick={handleClick}
         loading={loading}
@@ -294,7 +294,7 @@ export const ExampleHoverColor: Story = () => {
     <Button
       use="text"
       size="medium"
-      icon={<TrashCanIcon20Light />}
+      icon={<IconTrashCanLight20 />}
       theme={{ btnTextHoverBg: '#ED3F3F', btnTextActiveBg: '#DD3333', btnTextHoverTextColor: '#FFF' }}
     >
       Удалить

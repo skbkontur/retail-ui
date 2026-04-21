@@ -84,7 +84,7 @@
     "@babel/preset-typescript": "^7.24.6",
     "@babel/register": "^7.24.6",
     "@playwright/test": "1.59.1",
-    "@skbkontur/icons": "1.10.0",
+    "@skbkontur/icons": "2.0.10",
     "@skbkontur/storybook-addon-live-examples": "1.0.0-beta.1",
     "@storybook/addon-docs": "8.6.14",
     "@storybook/addon-essentials": "8.6.14",

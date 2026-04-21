@@ -16,7 +16,7 @@ export const ExampleValidation: Story = () => {
   const [value, setValue] = React.useState('');
   const containerRef = React.useRef(null);
 
-  const validate = (v): ValidationInfo | null => {
+  const validate = (v?: string): ValidationInfo | null => {
     if (!v) {
       return { type: 'immediate', message: 'Укажите город' };
     }

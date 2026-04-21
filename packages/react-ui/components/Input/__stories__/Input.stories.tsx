@@ -1,4 +1,4 @@
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import React from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable.js';
@@ -33,16 +33,16 @@ const alignStates: InputState[] = [{ align: 'center' }, { align: 'left' }, { ali
 
 const alignDifferentStates: InputState[] = [
   {},
-  { leftIcon: <SearchLoupeIcon16Regular /> },
-  { rightIcon: <SearchLoupeIcon16Regular /> },
+  { leftIcon: <IconSearchLoupeRegular16 /> },
+  { rightIcon: <IconSearchLoupeRegular16 /> },
   { prefix: 'PR' },
   { suffix: 'SF' },
-  { leftIcon: <SearchLoupeIcon16Regular />, prefix: 'PR' },
-  { leftIcon: <SearchLoupeIcon16Regular />, suffix: 'SF' },
-  { rightIcon: <SearchLoupeIcon16Regular />, prefix: 'PR' },
-  { rightIcon: <SearchLoupeIcon16Regular />, suffix: 'SF' },
-  { leftIcon: <SearchLoupeIcon16Regular />, prefix: 'PR', suffix: 'SF' },
-  { rightIcon: <SearchLoupeIcon16Regular />, prefix: 'PR', suffix: 'SF' },
+  { leftIcon: <IconSearchLoupeRegular16 />, prefix: 'PR' },
+  { leftIcon: <IconSearchLoupeRegular16 />, suffix: 'SF' },
+  { rightIcon: <IconSearchLoupeRegular16 />, prefix: 'PR' },
+  { rightIcon: <IconSearchLoupeRegular16 />, suffix: 'SF' },
+  { leftIcon: <IconSearchLoupeRegular16 />, prefix: 'PR', suffix: 'SF' },
+  { rightIcon: <IconSearchLoupeRegular16 />, prefix: 'PR', suffix: 'SF' },
 ];
 
 export const Borderless: Story = () => (
@@ -70,8 +70,8 @@ const disabledStates: InputState[] = [
   { value: 'Some text' },
   { placeholder: 'Placeholder' },
   { type: 'password', value: 'Value' },
-  { leftIcon: <SearchLoupeIcon16Regular /> },
-  { rightIcon: <SearchLoupeIcon16Regular /> },
+  { leftIcon: <IconSearchLoupeRegular16 /> },
+  { rightIcon: <IconSearchLoupeRegular16 /> },
   { prefix: 'PR' },
   { suffix: 'SF' },
 ];
@@ -91,7 +91,7 @@ export const LeftIcon: Story = () => (
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={iconsLeftStates.map((x) => ({ props: x }))}
-    presetProps={{ leftIcon: <SearchLoupeIcon16Regular /> }}
+    presetProps={{ leftIcon: <IconSearchLoupeRegular16 /> }}
   />
 );
 
@@ -100,11 +100,11 @@ export const RightIcon: Story = () => (
     Component={Input}
     cols={sizeStates.map((x) => ({ props: x }))}
     rows={iconsRightStates.map((x) => ({ props: x }))}
-    presetProps={{ rightIcon: <SearchLoupeIcon16Regular /> }}
+    presetProps={{ rightIcon: <IconSearchLoupeRegular16 /> }}
   />
 );
 
-const iconFunc = () => <SearchLoupeIcon16Regular />;
+const iconFunc = () => <IconSearchLoupeRegular16 />;
 iconFunc.toString = () => '() => <SearchLoupeIcon16Regular />';
 
 const iconsStates: InputState[] = [{}, { defaultValue: 'Value' }, { disabled: true }];
@@ -152,12 +152,12 @@ const inputPrefixOrSuffixStates: InputState[] = [
   {},
   { value: 'Value' },
   { placeholder: 'Placeholder' },
-  { rightIcon: <SearchLoupeIcon16Regular /> },
-  { rightIcon: <SearchLoupeIcon16Regular />, value: 'Value' },
-  { rightIcon: <SearchLoupeIcon16Regular />, placeholder: 'Placeholder' },
-  { leftIcon: <SearchLoupeIcon16Regular /> },
-  { leftIcon: <SearchLoupeIcon16Regular />, value: 'Value' },
-  { leftIcon: <SearchLoupeIcon16Regular />, placeholder: 'Placeholder' },
+  { rightIcon: <IconSearchLoupeRegular16 /> },
+  { rightIcon: <IconSearchLoupeRegular16 />, value: 'Value' },
+  { rightIcon: <IconSearchLoupeRegular16 />, placeholder: 'Placeholder' },
+  { leftIcon: <IconSearchLoupeRegular16 /> },
+  { leftIcon: <IconSearchLoupeRegular16 />, value: 'Value' },
+  { leftIcon: <IconSearchLoupeRegular16 />, placeholder: 'Placeholder' },
 ];
 
 const inputPrefixStates: InputState[] = [...inputPrefixOrSuffixStates, { prefix: 'ooo-long-long-long-johnson' }];
@@ -211,7 +211,7 @@ export const TextStylesReset: Story = () => (
       <Input placeholder="Placeholder" />
       <Input defaultValue="Value" />
       <Input defaultValue="Disabled" disabled />
-      <Input leftIcon={<SearchLoupeIcon16Regular />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+      <Input leftIcon={<IconSearchLoupeRegular16 />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
     </Gapped>
   </div>
 );
@@ -272,22 +272,22 @@ const typeApiTypesDate: InputState[] = [{ type: 'date' }];
 const typeApiTypesTime: InputState[] = [{ type: 'time' }];
 
 const typeApiProps: InputState[] = [
-  { leftIcon: <SearchLoupeIcon16Regular />, value: '123' },
-  { rightIcon: <SearchLoupeIcon16Regular />, value: '123' },
-  { rightIcon: <SearchLoupeIcon16Regular />, placeholder: 'placeholder' },
+  { leftIcon: <IconSearchLoupeRegular16 />, value: '123' },
+  { rightIcon: <IconSearchLoupeRegular16 />, value: '123' },
+  { rightIcon: <IconSearchLoupeRegular16 />, placeholder: 'placeholder' },
   { prefix: 'prefix: ' },
   { suffix: ' suffix' },
 ];
 const typeApiPropsDate: InputState[] = [
-  { rightIcon: <SearchLoupeIcon16Regular /> },
-  { leftIcon: <SearchLoupeIcon16Regular /> },
+  { rightIcon: <IconSearchLoupeRegular16 /> },
+  { leftIcon: <IconSearchLoupeRegular16 /> },
   { value: '2022-05-04' },
   { prefix: 'prefix: ' },
   { suffix: ' suffix' },
 ];
 const typeApiPropsTime: InputState[] = [
-  { rightIcon: <SearchLoupeIcon16Regular /> },
-  { leftIcon: <SearchLoupeIcon16Regular /> },
+  { rightIcon: <IconSearchLoupeRegular16 /> },
+  { leftIcon: <IconSearchLoupeRegular16 /> },
   { value: '18:00' },
   { prefix: 'prefix: ' },
   { suffix: ' suffix' },

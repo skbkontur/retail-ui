@@ -1,5 +1,5 @@
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconUiFilterFunnelRegular16 } from '@skbkontur/icons/IconUiFilterFunnelRegular16';
 import {
   Button,
   ComboBox,
@@ -448,7 +448,7 @@ export const ExampleIcon: Story = () => {
       onValueChange={setSelected}
       placeholder="Введите или выберите значение"
       value={selected}
-      leftIcon={<UiFilterFunnelIcon16Regular />}
+      leftIcon={<IconUiFilterFunnelRegular16 />}
     />
   );
 };
@@ -1049,7 +1049,7 @@ export const ExampleCustom: Story = () => {
             minWidth: '20px',
           }}
         >
-          {item.approved ? <CheckAIcon /> : null}
+          {item.approved ? <IconCheckARegular16 /> : null}
         </span>
         <span
           style={{

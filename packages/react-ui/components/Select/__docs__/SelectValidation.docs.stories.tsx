@@ -12,10 +12,10 @@ export default {
 
 export const ExampleValidation: Story = () => {
   const [value, setValue] = React.useState();
-  const [success, setSuccess] = React.useState(false);
-  const containerRef = React.useRef(null);
+  const [success, setSuccess] = React.useState<boolean>(false);
+  const containerRef = React.useRef<ValidationContainer>(null);
 
-  const validate = (v): ValidationInfo | null => {
+  const validate = (v?: string): ValidationInfo | null => {
     if (!v) {
       return { type: 'submit', message: 'Выберите документ' };
     }
@@ -23,7 +23,7 @@ export const ExampleValidation: Story = () => {
   };
 
   async function handleSubmit() {
-    setSuccess(await containerRef.current?.validate());
+    setSuccess((await containerRef.current?.validate()) ?? false);
   }
 
   const items = ['Счёт-фактура', 'Акт', 'Накладная', 'Договор'];

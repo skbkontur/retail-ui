@@ -1,7 +1,7 @@
-import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/ArrowUiCornerOutUpRightIcon.js';
-import { CheckAIcon } from '@skbkontur/icons/CheckAIcon.js';
-import { HandThumbDownIcon } from '@skbkontur/icons/HandThumbDownIcon.js';
-import { TechPhoneSmartIcon } from '@skbkontur/icons/TechPhoneSmartIcon.js';
+import { IconArrowUiCornerOutUpRightRegular16 } from '@skbkontur/icons/IconArrowUiCornerOutUpRightRegular16';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconHandThumbDownRegular16 } from '@skbkontur/icons/IconHandThumbDownRegular16';
+import { IconTechPhoneSmartRegular16 } from '@skbkontur/icons/IconTechPhoneSmartRegular16';
 import { Button, DropdownMenu, Gapped, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -69,11 +69,11 @@ Example4.storyName = 'Описание элементов';
 export const Example5: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с иконками</Button>}>
-      <MenuItem icon={<CheckAIcon />}>Базовый элемент меню c иконкой</MenuItem>
-      <MenuItem disabled icon={<HandThumbDownIcon />}>
+      <MenuItem icon={<IconCheckARegular16 />}>Базовый элемент меню c иконкой</MenuItem>
+      <MenuItem disabled icon={<IconHandThumbDownRegular16 />}>
         Отключённый элемент меню с иконкой
       </MenuItem>
-      <MenuItem icon={<TechPhoneSmartIcon />} comment="А слева вы можете видеть икону 21-го века">
+      <MenuItem icon={<IconTechPhoneSmartRegular16 />} comment="А слева вы можете видеть икону 21-го века">
         Элемент меню с описанием и иконкой
       </MenuItem>
     </DropdownMenu>
@@ -97,7 +97,7 @@ export const Example6: Story = () => {
       </MenuItem>
       <MenuSeparator />
       <MenuItem
-        icon={<ArrowUiCornerOutUpRightIcon />}
+        icon={<IconArrowUiCornerOutUpRightRegular16 />}
         href="https://guides.kontur.ru/"
         target="_blank"
         rel="noopener noreferrer"

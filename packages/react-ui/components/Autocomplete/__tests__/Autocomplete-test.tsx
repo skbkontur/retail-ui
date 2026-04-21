@@ -1,4 +1,4 @@
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
@@ -150,7 +150,7 @@ describe('<Autocomplete />', () => {
   it('passes leftIcon prop to input', () => {
     const onValueChange = vi.fn();
     const source: any[] = [];
-    const leftIcon = <CheckAIcon16Regular data-tid="my-testy-icon" />;
+    const leftIcon = <IconCheckARegular16 data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, leftIcon };
     render(<Autocomplete {...props} />);
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();
@@ -159,7 +159,7 @@ describe('<Autocomplete />', () => {
   it('passes rightIcon prop to input', () => {
     const onValueChange = vi.fn();
     const source: any[] = [];
-    const rightIcon = <CheckAIcon16Regular data-tid="my-testy-icon" />;
+    const rightIcon = <IconCheckARegular16 data-tid="my-testy-icon" />;
     const props = { value: 'hello', onValueChange, source, rightIcon };
     render(<Autocomplete {...props} />);
     expect(screen.getByTestId('my-testy-icon')).toBeInTheDocument();

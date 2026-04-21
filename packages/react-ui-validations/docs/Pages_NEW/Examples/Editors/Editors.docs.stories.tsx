@@ -1,5 +1,5 @@
-import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon.js';
-import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon/HandThumbUpIcon.js';
+import { IconHandThumbDownRegular16 } from '@skbkontur/icons/IconHandThumbDownRegular16';
+import { IconHandThumbUpRegular16 } from '@skbkontur/icons/IconHandThumbUpRegular16';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/index';
@@ -224,7 +224,7 @@ export const Editors: Story = () => {
         <Form.Line title="Ссылка">
           <ValidationWrapper validationInfo={validationInfo.getNode((x) => x.clicked).get()}>
             <Link
-              icon={data.clicked ? <HandThumbUpIcon /> : <HandThumbDownIcon />}
+              icon={data.clicked ? <IconHandThumbUpRegular16 /> : <IconHandThumbDownRegular16 />}
               onClick={() => handleChange({ clicked: !data.clicked })}
             >
               Нажми меня

@@ -1,6 +1,6 @@
 import type { Emotion } from '@emotion/css/create-instance';
-import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
+import { IconToolPencilLineRegular16 } from '@skbkontur/icons/IconToolPencilLineRegular16';
+import { IconXRegular16 } from '@skbkontur/icons/IconXRegular16';
 import { EventEmitter } from 'eventemitter3';
 import React from 'react';
 
@@ -109,7 +109,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
               </Gapped>
             </div>
             <Hint text={'Изменить значение'}>
-              <Link icon={<ToolPencilLineIcon16Regular />} onClick={this.handleEditLinkClick} />
+              <Link icon={<IconToolPencilLineRegular16 />} onClick={this.handleEditLinkClick} />
             </Hint>
           </Gapped>
         </div>
@@ -146,7 +146,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     return (
       <Hint text={'Вернуться к базовой переменной'}>
         <div className={this.styles.linkRoot()}>
-          <Link icon={<XIcon16Regular />} onClick={this.rollbackToBaseVariable} />
+          <Link icon={<IconXRegular16 />} onClick={this.rollbackToBaseVariable} />
         </div>
       </Hint>
     );

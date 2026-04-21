@@ -1,5 +1,5 @@
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
-import { PlusIcon16Light } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Light.js';
+import { IconCheckALight16 } from '@skbkontur/icons/IconCheckALight16';
+import { IconPlusLight16 } from '@skbkontur/icons/IconPlusLight16';
 import { Kebab, MenuHeader, MenuItem } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -111,7 +111,7 @@ export const ExampleIconsOffset: Story = () => {
         <span>preventIconsOffset="false"</span>
         <Kebab>
           <MenuHeader>Заголовок</MenuHeader>
-          <MenuItem icon={<CheckAIcon16Light />}>Действие 1</MenuItem>
+          <MenuItem icon={<IconCheckALight16 />}>Действие 1</MenuItem>
           <MenuItem>Действие 2</MenuItem>
           <MenuItem>Действие 3</MenuItem>
         </Kebab>
@@ -120,7 +120,7 @@ export const ExampleIconsOffset: Story = () => {
         <span>preventIconsOffset="true"</span>
         <Kebab preventIconsOffset>
           <MenuHeader>Заголовок</MenuHeader>
-          <MenuItem icon={<CheckAIcon16Light />}>Действие 1</MenuItem>
+          <MenuItem icon={<IconCheckALight16 />}>Действие 1</MenuItem>
           <MenuItem>Действие 2</MenuItem>
           <MenuItem>Действие 3</MenuItem>
         </Kebab>
@@ -133,7 +133,7 @@ ExampleIconsOffset.storyName = 'Выравнивание пунктов меню
 /** Пропом `icon` можно задать свою иконку кнопке. */
 export const ExampleIcon: Story = () => {
   return (
-    <Kebab icon={<PlusIcon16Light />}>
+    <Kebab icon={<IconPlusLight16 />}>
       <MenuItem>Действие 1</MenuItem>
       <MenuItem>Действие 2</MenuItem>
       <MenuItem>Действие 3</MenuItem>

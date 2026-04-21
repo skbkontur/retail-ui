@@ -3849,10 +3849,10 @@
     apca-w3 "0.1.9"
     culori "4.0.2"
 
-"@skbkontur/icons@1.10.0":
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-1.10.0.tgz#895508b8e86cda0cecfcccffe5e01cd7fa83fb0a"
-  integrity sha512-k5oY58paD9eGUIAgZF6JeXl9zuvoRSMsgcL1XQg2dFTWY/sptfAWoUBWxOnabBTiYyzRkOKWDrXky/a/rr35KA==
+"@skbkontur/icons@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-2.0.10.tgz#bad9f7b6dff00f9d856d774b4895e94a32b83395"
+  integrity sha512-MEfHKxgAuldaKcOPBraeGtqFBT2oT3+YEBqgEEIFuYrwcyws0cFbXTr5XIqEbnnltcNZg4JBC0lBwXnr3ZfpiA==
 
 "@skbkontur/imask@^7.6.5":
   version "7.6.5"

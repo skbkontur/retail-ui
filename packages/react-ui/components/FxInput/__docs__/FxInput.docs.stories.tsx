@@ -14,16 +14,16 @@ export default meta;
 export const ExampleBasic: Story = () => {
   const FxValue = 100500;
   const [auto, setAuto] = React.useState<boolean>(true);
-  const [value, setValue] = React.useState<number>(FxValue);
+  const [value, setValue] = React.useState<string>(FxValue.toString());
 
-  function handleValueChange(value: number) {
+  function handleValueChange(value: string) {
     setAuto(false);
     setValue(value);
   }
 
   function handleRestore() {
     setAuto(true);
-    setValue(FxValue);
+    setValue(FxValue.toString());
   }
 
   return <FxInput auto={auto} value={value} onValueChange={handleValueChange} onRestore={handleRestore} />;
@@ -86,9 +86,9 @@ ExampleCurrency.storyName = 'Единица измерения';
 /** Проп `mask` задаёт маску для поля. */
 export const ExampleMask: Story = () => {
   const [auto, setAuto] = React.useState<boolean>(true);
-  const [value, setValue] = React.useState<number>('');
+  const [value, setValue] = React.useState<string>('');
 
-  function handleValueChange(value: number) {
+  function handleValueChange(value: string) {
     setAuto(false);
     setValue(value);
   }

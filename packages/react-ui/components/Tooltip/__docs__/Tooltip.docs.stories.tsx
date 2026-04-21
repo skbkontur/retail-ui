@@ -1,6 +1,6 @@
-import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
-import { QuestionCircleIcon20Light } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon20Light.js';
-import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon/SecurityLockClosedIcon20Light.js';
+import { IconDocPlusLight16 } from '@skbkontur/icons/IconDocPlusLight16';
+import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
+import { IconSecurityLockClosedLight20 } from '@skbkontur/icons/IconSecurityLockClosedLight20';
 import { Button, Gapped, Input, Link, ThemeContext, ThemeFactory, Tooltip } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -21,7 +21,7 @@ export const BasicExample: Story = () => {
         <Gapped gap={32}>
           <div style={{ width: 60 }}>hover</div>
           <Tooltip render={tooltipContent}>
-            <QuestionCircleIcon20Light />
+            <IconQuestionCircleLight20 />
           </Tooltip>
           <Tooltip render={tooltipContent} pos="right top">
             <Input placeholder="По наведению" />
@@ -31,7 +31,7 @@ export const BasicExample: Story = () => {
           <div style={{ width: 60 }}>click</div>
           <Tooltip render={tooltipContent} trigger="click">
             <Link component="button">
-              <QuestionCircleIcon20Light />
+              <IconQuestionCircleLight20 />
             </Link>
           </Tooltip>
           <Tooltip render={tooltipContent} trigger="click" pos="right top">
@@ -42,7 +42,7 @@ export const BasicExample: Story = () => {
           <div style={{ width: 60 }}>focus</div>
           <Tooltip render={tooltipContent} trigger="focus">
             <Link component="button">
-              <QuestionCircleIcon20Light />
+              <IconQuestionCircleLight20 />
             </Link>
           </Tooltip>
           <Tooltip render={tooltipContent} trigger="focus" pos="right top">
@@ -93,7 +93,7 @@ export const WithButtonInsideExample: Story = () => {
 
   return (
     <Tooltip render={tooltipContent} pos="right top">
-      <Button disabled icon={<SecurityLockClosedIcon20Light />}>
+      <Button disabled icon={<IconSecurityLockClosedLight20 />}>
         Что-то классное
       </Button>
     </Tooltip>
@@ -216,7 +216,7 @@ export const ContextualHintsExample: Story = () => {
           ref={tooltipRef}
           closeButton={false}
         >
-          <Button icon={<DocPlusIcon16Light />} use="text">
+          <Button icon={<IconDocPlusLight16 />} use="text">
             Добавить запись
           </Button>
         </Tooltip>
@@ -247,7 +247,7 @@ export const CustomDelayExample: Story = () => {
         Задержка: <Input value={delay.toString()} onValueChange={handleDelayChange} />
       </Gapped>
       <Tooltip render={tooltipContent} delayBeforeShow={delay} pos="right top">
-        <QuestionCircleIcon20Light />
+        <IconQuestionCircleLight20 />
       </Tooltip>
     </Gapped>
   );

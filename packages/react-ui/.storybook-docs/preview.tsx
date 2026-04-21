@@ -1,48 +1,44 @@
-import { ArrowARightIcon20Light } from '@skbkontur/icons/ArrowARightIcon20Light.js';
-import { ArrowARightIcon24Regular } from '@skbkontur/icons/ArrowARightIcon24Regular.js';
-import { ArrowUiCornerOutUpRightIcon } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon.js';
-import { CheckAIcon } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon.js';
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
-import { CopyIcon16Regular } from '@skbkontur/icons/icons/CopyIcon/CopyIcon16Regular.js';
-import { DocPlusIcon16Light } from '@skbkontur/icons/icons/DocPlusIcon/DocPlusIcon16Light.js';
-import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon/HandThumbDownIcon.js';
-import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon/HandThumbUpIcon.js';
-import { LightbulbIcon32Regular } from '@skbkontur/icons/icons/LightbulbIcon/index.js';
-import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon.js';
-import { MathFunctionIcon16Regular } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon16Regular.js';
-import { MinusCircleIcon16Light } from '@skbkontur/icons/icons/MinusCircleIcon/MinusCircleIcon16Light.js';
-import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/icons/NotificationBellAlarmIcon/NotificationBellAlarmIcon64Regular.js';
-import { People3Icon } from '@skbkontur/icons/icons/People3Icon/People3Icon.js';
-import {
-  QuestionCircleIcon,
-  QuestionCircleIcon16Light,
-  QuestionCircleIcon16Regular,
-  QuestionCircleIcon20Light,
-} from '@skbkontur/icons/icons/QuestionCircleIcon/index.js';
-import { SecurityLockClosedIcon20Light } from '@skbkontur/icons/icons/SecurityLockClosedIcon/index.js';
-import { TechPhoneSmartIcon } from '@skbkontur/icons/icons/TechPhoneSmartIcon/TechPhoneSmartIcon.js';
-import { TechScreenMonitorIcon16Light } from '@skbkontur/icons/icons/TechScreenMonitorIcon/index.js';
-import { ToolPencilLineIcon, ToolPencilLineIcon24Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/index.js';
-import { TrashCanIcon24Regular } from '@skbkontur/icons/icons/TrashCanIcon/index.js';
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
-import { UiMenuBars3HIcon, UiMenuBars3HIcon32Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/index.js';
-import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/index.js';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/index.js';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
-import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon.js';
-import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid.js';
-import { PlusIcon16Light } from '@skbkontur/icons/PlusIcon16Light.js';
-import { PlusIcon20Light } from '@skbkontur/icons/PlusIcon20Light.js';
-import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon.js';
-import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/SearchLoupeIcon16Regular.js';
-import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light.js';
-import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular.js';
-import { SettingsGearIcon20Regular } from '@skbkontur/icons/SettingsGearIcon20Regular.js';
-import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light.js';
-import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon.js';
-import { TrashCanIcon20Light } from '@skbkontur/icons/TrashCanIcon20Light.js';
+import { IconArrowARightLight20 } from '@skbkontur/icons/IconArrowARightLight20';
+import { IconArrowARightRegular24 } from '@skbkontur/icons/IconArrowARightRegular24';
+import { IconArrowUiCornerOutUpRightRegular16 } from '@skbkontur/icons/IconArrowUiCornerOutUpRightRegular16';
+import { IconCheckALight16 } from '@skbkontur/icons/IconCheckALight16';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconCopyRegular16 } from '@skbkontur/icons/IconCopyRegular16';
+import { IconDocPlusLight16 } from '@skbkontur/icons/IconDocPlusLight16';
+import { IconHandThumbDownRegular16 } from '@skbkontur/icons/IconHandThumbDownRegular16';
+import { IconHandThumbUpRegular16 } from '@skbkontur/icons/IconHandThumbUpRegular16';
+import { IconLightbulbRegular32 } from '@skbkontur/icons/IconLightbulbRegular32';
+import { IconMathFunctionRegular16 } from '@skbkontur/icons/IconMathFunctionRegular16';
+import { IconMinusCircleRegular16 } from '@skbkontur/icons/IconMinusCircleRegular16';
+import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+import { IconNotificationBellAlarmRegular64 } from '@skbkontur/icons/IconNotificationBellAlarmRegular64';
+import { IconNotificationBellAlarmSolid16 } from '@skbkontur/icons/IconNotificationBellAlarmSolid16';
+import { IconPeople3Regular16 } from '@skbkontur/icons/IconPeople3Regular16';
+import { IconPlusLight16 } from '@skbkontur/icons/IconPlusLight16';
+import { IconPlusLight20 } from '@skbkontur/icons/IconPlusLight20';
+import { IconQuestionCircleLight16 } from '@skbkontur/icons/IconQuestionCircleLight16';
+import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
+import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
+import { IconSearchLoupeLight16 } from '@skbkontur/icons/IconSearchLoupeLight16';
+import { IconSearchLoupeLight20 } from '@skbkontur/icons/IconSearchLoupeLight20';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconSearchLoupeRegular24 } from '@skbkontur/icons/IconSearchLoupeRegular24';
+import { IconSecurityLockClosedLight20 } from '@skbkontur/icons/IconSecurityLockClosedLight20';
+import { IconSettingsGearRegular20 } from '@skbkontur/icons/IconSettingsGearRegular20';
+import { IconTechPhoneSmartRegular16 } from '@skbkontur/icons/IconTechPhoneSmartRegular16';
+import { IconTechScreenMonitorLight16 } from '@skbkontur/icons/IconTechScreenMonitorLight16';
+import { IconToolPencilLineLight16 } from '@skbkontur/icons/IconToolPencilLineLight16';
+import { IconToolPencilLineRegular16 } from '@skbkontur/icons/IconToolPencilLineRegular16';
+import { IconToolPencilLineRegular24 } from '@skbkontur/icons/IconToolPencilLineRegular24';
+import { IconTrashCanLight20 } from '@skbkontur/icons/IconTrashCanLight20';
+import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
+import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
+import { IconUiFilterFunnelRegular16 } from '@skbkontur/icons/IconUiFilterFunnelRegular16';
+import { IconUiMenuBars3HRegular16 } from '@skbkontur/icons/IconUiMenuBars3HRegular16';
+import { IconUiMenuBars3HRegular32 } from '@skbkontur/icons/IconUiMenuBars3HRegular32';
+import { IconWeatherMoonLight16 } from '@skbkontur/icons/IconWeatherMoonLight16';
+import { IconWeatherSunLight16 } from '@skbkontur/icons/IconWeatherSunLight16';
+import { IconXRegular16 } from '@skbkontur/icons/IconXRegular16';
 import * as ReactUiValidations from '@skbkontur/react-ui-validations';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import * as DatePickerHelpers from '@skbkontur/react-ui/components/DatePicker/DatePickerHelpers';
@@ -222,51 +218,47 @@ addons.setConfig({
       isLessOrEqual,
       isNullable,
       ViewDateInputValidateChecks,
-      ArrowUiCornerOutUpRightIcon,
-      UiMenuBars3HIcon16Regular,
-      People3Icon,
-      SearchLoupeIcon16Regular,
-      QuestionCircleIcon16Light,
-      QuestionCircleIcon16Regular,
-      QuestionCircleIcon20Light,
-      MathFunctionIcon16Regular,
-      CopyIcon16Regular,
-      TrashCanIcon,
-      MoneyTypeCoinsIcon,
-      NotificationBellAlarmIcon16Solid,
-      CheckAIcon16Light,
-      ArrowARightIcon20Light,
-      ArrowARightIcon24Regular,
-      PlusIcon16Light,
-      PlusIcon20Light,
-      TrashCanIcon20Light,
-      XIcon16Regular,
-      MinusCircleIcon16Light,
-      CheckAIcon,
-      UiMenuBars3HIcon32Regular,
-      HandThumbDownIcon,
-      HandThumbUpIcon,
-      MathFunctionIcon,
-      SearchLoupeIcon,
-      SearchLoupeIcon16Light,
-      SearchLoupeIcon20Light,
-      SearchLoupeIcon24Regular,
-      ToolPencilLineIcon,
-      ToolPencilLineIcon16Light,
-      ToolPencilLineIcon24Regular,
-      TrashCanIcon24Regular,
-      TechPhoneSmartIcon,
-      UiMenuBars3HIcon,
-      QuestionCircleIcon,
-      LightbulbIcon32Regular,
-      NotificationBellAlarmIcon64Regular,
-      UiFilterFunnelIcon16Regular,
-      TechScreenMonitorIcon16Light,
-      WeatherMoonIcon16Light,
-      WeatherSunIcon16Light,
-      SecurityLockClosedIcon20Light,
-      SettingsGearIcon20Regular,
-      DocPlusIcon16Light,
+      IconArrowUiCornerOutUpRightRegular16,
+      IconUiMenuBars3HRegular16,
+      IconPeople3Regular16,
+      IconSearchLoupeRegular16,
+      IconQuestionCircleLight16,
+      IconQuestionCircleRegular16,
+      IconQuestionCircleLight20,
+      IconMathFunctionRegular16,
+      IconCopyRegular16,
+      IconTrashCanRegular16,
+      IconMoneyTypeCoinsRegular16,
+      IconNotificationBellAlarmSolid16,
+      IconCheckALight16,
+      IconArrowARightLight20,
+      IconArrowARightRegular24,
+      IconPlusLight16,
+      IconPlusLight20,
+      IconTrashCanLight20,
+      IconXRegular16,
+      IconMinusCircleRegular16,
+      IconCheckARegular16,
+      IconUiMenuBars3HRegular32,
+      IconHandThumbDownRegular16,
+      IconHandThumbUpRegular16,
+      IconSearchLoupeLight16,
+      IconSearchLoupeLight20,
+      IconSearchLoupeRegular24,
+      IconToolPencilLineRegular16,
+      IconToolPencilLineLight16,
+      IconToolPencilLineRegular24,
+      IconTrashCanRegular24,
+      IconTechPhoneSmartRegular16,
+      IconLightbulbRegular32,
+      IconNotificationBellAlarmRegular64,
+      IconUiFilterFunnelRegular16,
+      IconTechScreenMonitorLight16,
+      IconWeatherMoonLight16,
+      IconWeatherSunLight16,
+      IconSecurityLockClosedLight20,
+      IconSettingsGearRegular20,
+      IconDocPlusLight16,
       ShowcaseGroup,
       ThemeContext,
       ThemeContextPlayground,

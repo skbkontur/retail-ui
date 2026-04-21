@@ -1,5 +1,5 @@
-import { MathFunctionIcon } from '@skbkontur/icons/icons/MathFunctionIcon/MathFunctionIcon.js';
-import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon.js';
+import { IconMathFunctionRegular16 } from '@skbkontur/icons/IconMathFunctionRegular16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import {
   Autocomplete,
   Button,
@@ -119,11 +119,11 @@ export const GroupAddHintsAndTooltipsSupport: Story = () => {
   return (
     <>
       <FeatureFlagToggle {...{ isFlagEnabled, setIsFlagEnabled }} />
-      <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintAndTooltipSupport: isFlagEnabled }}>
+      <ReactUIFeatureFlagsContext.Provider value={{ groupAddHintsAndTooltipsSupport: isFlagEnabled }}>
         <Group width={350}>
           <Hint text="Обрати внимание на скругления">
             <Button>
-              <MathFunctionIcon />
+              <IconMathFunctionRegular16 />
             </Button>
           </Hint>
           <Tooltip render={() => 'Этот Input должен растянуться'}>
@@ -131,7 +131,7 @@ export const GroupAddHintsAndTooltipsSupport: Story = () => {
           </Tooltip>
           <Hint text="Обрати внимание на скругления">
             <Button>
-              <SearchLoupeIcon />
+              <IconSearchLoupeRegular16 />
             </Button>
           </Hint>
         </Group>

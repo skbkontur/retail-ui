@@ -1,4 +1,4 @@
-import { CheckAIcon16Light } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Light.js';
+import { IconCheckALight16 } from '@skbkontur/icons/IconCheckALight16';
 import React from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
@@ -53,7 +53,7 @@ export const Example4: Story = () => {
   return (
     <FileUploader
       initialFiles={[new File(['content'], 'test.pdf')]}
-      renderFile={(props) => <FileUploaderFile {...props} fileTypeIcon={<CheckAIcon16Light color="red" />} />}
+      renderFile={(props) => <FileUploaderFile {...props} fileTypeIcon={<IconCheckALight16 color="red" />} />}
     />
   );
 };

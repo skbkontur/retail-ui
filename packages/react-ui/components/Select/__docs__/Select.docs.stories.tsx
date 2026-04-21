@@ -1,5 +1,5 @@
-import { People3Icon } from '@skbkontur/icons/icons/People3Icon/People3Icon.js';
-import { Button, type ButtonParams, Gapped, Link, Select } from '@skbkontur/react-ui';
+import { IconPeople3Regular16 } from '@skbkontur/icons/IconPeople3Regular16';
+import { Select, Button, Link, Gapped, type ButtonParams } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -269,7 +269,7 @@ export const ExampleRenderButton: Story = () => {
   const renderLinkButton = (params: ButtonParams) => {
     const linkProps = {
       disabled: params.disabled,
-      icon: <People3Icon />,
+      icon: <IconPeople3Regular16 />,
       _button: true,
       _buttonOpened: params.opened,
 

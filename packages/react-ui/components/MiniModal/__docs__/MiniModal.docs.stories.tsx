@@ -1,7 +1,8 @@
-import { MoneyTypeCoinsIcon } from '@skbkontur/icons/MoneyTypeCoinsIcon.js';
-import { NotificationBellAlarmIcon16Solid } from '@skbkontur/icons/NotificationBellAlarmIcon16Solid.js';
-import { NotificationBellAlarmIcon64Regular } from '@skbkontur/icons/NotificationBellAlarmIcon64Regular.js';
-import { TrashCanIcon } from '@skbkontur/icons/TrashCanIcon.js';
+import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+import { IconNotificationBellAlarmRegular64 } from '@skbkontur/icons/IconNotificationBellAlarmRegular64';
+import { IconNotificationBellAlarmSolid16 } from '@skbkontur/icons/IconNotificationBellAlarmSolid16';
+import { IconTrashCanLight16 } from '@skbkontur/icons/IconTrashCanLight16';
+import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { Button, Gapped, MiniModal, ThemeContext } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -38,7 +39,7 @@ export const Example1: Story = () => {
             </MiniModal.Footer>
           </MiniModal>
         )}
-        <Button use="pay" onClick={open} icon={<MoneyTypeCoinsIcon />}>
+        <Button use="pay" onClick={open} icon={<IconMoneyTypeCoinsRegular16 />}>
           Оплата
         </Button>
       </>
@@ -69,7 +70,7 @@ export const Example2: Story = () => {
       <>
         {isOpened && (
           <MiniModal>
-            <MiniModal.Header icon={<TrashCanIcon size={64} color={theme.btnDangerBg} />}>
+            <MiniModal.Header icon={<IconTrashCanRegular16 size={64} color={theme.btnDangerBg} />}>
               Удалить "{name}"?
             </MiniModal.Header>
             <MiniModal.Footer direction="column">
@@ -82,7 +83,7 @@ export const Example2: Story = () => {
             </MiniModal.Footer>
           </MiniModal>
         )}
-        <Button onClick={open} icon={<TrashCanIcon weight="light" />} />
+        <Button onClick={open} icon={<IconTrashCanLight16 />} />
       </>
     );
   };
@@ -133,7 +134,7 @@ export const Example3: Story = () => {
 
     return isOpened ? (
       <MiniModal>
-        <MiniModal.Header icon={<NotificationBellAlarmIcon64Regular />}>Разрешить уведомления?</MiniModal.Header>
+        <MiniModal.Header icon={<IconNotificationBellAlarmRegular64 />}>Разрешить уведомления?</MiniModal.Header>
         <MiniModal.Footer direction="column">
           <Button use="primary" size="medium" onClick={handleAllowAll}>
             Разрешить все
@@ -161,7 +162,7 @@ export const Example3: Story = () => {
       <EnableNotification ref={NotificationEnableRef} setStatus={setStatus} />
       <Gapped vertical>
         <span>
-          <NotificationBellAlarmIcon16Solid /> Статус уведомлений: {status}
+          <IconNotificationBellAlarmSolid16 /> Статус уведомлений: {status}
         </span>
         <Button use="text" theme={{ btnTextBg: '#D6D6D6' }} onClick={NotificationEnableOpen}>
           Разрешить уведомления?

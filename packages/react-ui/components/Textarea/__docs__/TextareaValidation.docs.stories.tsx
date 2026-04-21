@@ -16,7 +16,7 @@ export const ExampleValidation: Story = () => {
       (x) => x,
       (b) => {
         b.invalid((x) => !x, 'Укажите информацию', 'immediate');
-        b.invalid((x) => x.trim().length < 10, 'Минимум 10 символов', 'lostfocus', 'warning');
+        b.invalid((x) => (x as string).trim().length < 10, 'Минимум 10 символов', 'lostfocus', 'warning');
       },
     );
   });

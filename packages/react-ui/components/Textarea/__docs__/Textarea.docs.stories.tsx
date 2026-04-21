@@ -184,12 +184,16 @@ ExampleDisabled.storyName = 'Состояние блокировки';
 
 /** Пропсы `error` и `warning` используются для валидации. */
 export const ExampleError: Story = () => {
-  const [valid, setValid] = React.useState();
+  const [valid, setValid] = React.useState<'error' | 'warning'>('error');
   const [value, setValue] = React.useState('');
 
   return (
     <Gapped vertical>
-      <Switcher items={['error', 'warning']} onValueChange={setValid} value={valid} />
+      <Switcher
+        items={['error', 'warning']}
+        onValueChange={(value) => setValid(value as 'error' | 'warning')}
+        value={valid}
+      />
       <Textarea
         {...{ [valid]: valid }}
         value={value}

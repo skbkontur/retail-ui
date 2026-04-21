@@ -1,4 +1,4 @@
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
+import { IconPlusRegular16 } from '@skbkontur/icons/IconPlusRegular16';
 import { action } from '@storybook/addon-actions';
 import type { CSFStory } from 'creevey';
 import React, { type JSX, useState } from 'react';
@@ -286,7 +286,7 @@ export const UseLink: Story = () => <Select use="link" items={['one', 'two', 'th
 UseLink.storyName = 'use link';
 
 export const UseLinkWithIcon: Story = () => (
-  <Select _icon={<PlusIcon16Regular />} use="link" items={['one', 'two', 'three']} />
+  <Select _icon={<IconPlusRegular16 />} use="link" items={['one', 'two', 'three']} />
 );
 UseLinkWithIcon.storyName = 'use link with icon';
 

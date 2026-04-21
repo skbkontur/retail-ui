@@ -1,4 +1,4 @@
-import { CheckAIcon16Regular } from '@skbkontur/icons/icons/CheckAIcon/CheckAIcon16Regular.js';
+import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
 import { action } from '@storybook/addon-actions';
 import React, { type JSX } from 'react';
 
@@ -46,9 +46,9 @@ Large.storyName = '20px';
 export const KebabWithCustomIcon: Story = () => {
   return (
     <>
-      <SomethingWithKebab size="small" icon={<CheckAIcon16Regular color="#757575" />} />
-      <SomethingWithKebab size="medium" icon={<CheckAIcon16Regular color="#757575" />} />
-      <SomethingWithKebab size="large" icon={<CheckAIcon16Regular color="#757575" />} />
+      <SomethingWithKebab size="small" icon={<IconCheckARegular16 color="#757575" />} />
+      <SomethingWithKebab size="medium" icon={<IconCheckARegular16 color="#757575" />} />
+      <SomethingWithKebab size="large" icon={<IconCheckARegular16 color="#757575" />} />
     </>
   );
 };
@@ -118,8 +118,8 @@ export const WithItemsAndIcons: Story = () => (
   <div style={{ width: 200, textAlign: 'center' }}>
     <Kebab>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
-      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   </div>
@@ -129,8 +129,8 @@ export const WithItemsAndIconsWithoutTextAlignment = () => (
   <div style={{ width: 200, textAlign: 'center' }}>
     <Kebab preventIconsOffset>
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem1</MenuItem>
-      <MenuItem icon={<CheckAIcon16Regular />}>MenuItem2</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
+      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Kebab>
   </div>

@@ -1,5 +1,5 @@
-import { MathFunctionIcon } from '@skbkontur/icons/MathFunctionIcon.js';
-import { SearchLoupeIcon } from '@skbkontur/icons/SearchLoupeIcon.js';
+import { IconMathFunctionRegular16 } from '@skbkontur/icons/IconMathFunctionRegular16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import { Button, DateRangePicker, Group, Hint, Input, Tooltip } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -19,11 +19,11 @@ export const BasicExample: Story = () => {
   return (
     <Group width={350}>
       <Button>
-        <MathFunctionIcon />
+        <IconMathFunctionRegular16 />
       </Button>
       <Input value={value} width="100%" onValueChange={setValue} />
       <Button>
-        <SearchLoupeIcon />
+        <IconSearchLoupeRegular16 />
       </Button>
       <Button>Foo</Button>
     </Group>
@@ -55,12 +55,12 @@ export const WithHint: Story = () => {
   return (
     <Group width={350}>
       <Button>
-        <MathFunctionIcon />
+        <IconMathFunctionRegular16 />
       </Button>
       <Input value={value} width="100%" onValueChange={setValue} />
       <Tooltip render={() => 'Hi!'} trigger="opened" pos="bottom">
         <Button>
-          <SearchLoupeIcon />
+          <IconSearchLoupeRegular16 />
         </Button>
       </Tooltip>
       <Hint text="Hello!">

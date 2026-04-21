@@ -1,7 +1,7 @@
-import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light.js';
-import { SearchLoupeIcon20Light } from '@skbkontur/icons/SearchLoupeIcon20Light.js';
-import { SearchLoupeIcon24Regular } from '@skbkontur/icons/SearchLoupeIcon24Regular.js';
-import { Button, Gapped, Input } from '@skbkontur/react-ui';
+import { IconSearchLoupeLight16 } from '@skbkontur/icons/IconSearchLoupeLight16';
+import { IconSearchLoupeLight20 } from '@skbkontur/icons/IconSearchLoupeLight20';
+import { IconSearchLoupeRegular24 } from '@skbkontur/icons/IconSearchLoupeRegular24';
+import { Button, Gapped, Input, ThemeContext } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -108,16 +108,16 @@ export const ExampleIcon: Story = () => {
   return (
     <Gapped vertical>
       <Gapped>
-        <Input size="small" leftIcon={<SearchLoupeIcon16Light />} />
-        <Input size="small" rightIcon={<SearchLoupeIcon16Light />} />
+        <Input size="small" leftIcon={<IconSearchLoupeLight16 />} />
+        <Input size="small" rightIcon={<IconSearchLoupeLight16 />} />
       </Gapped>
       <Gapped>
-        <Input size="medium" leftIcon={<SearchLoupeIcon20Light />} />
-        <Input size="medium" rightIcon={<SearchLoupeIcon20Light />} />
+        <Input size="medium" leftIcon={<IconSearchLoupeLight20 />} />
+        <Input size="medium" rightIcon={<IconSearchLoupeLight20 />} />
       </Gapped>
       <Gapped>
-        <Input size="large" leftIcon={<SearchLoupeIcon24Regular />} />
-        <Input size="large" rightIcon={<SearchLoupeIcon24Regular />} />
+        <Input size="large" leftIcon={<IconSearchLoupeRegular24 />} />
+        <Input size="large" rightIcon={<IconSearchLoupeRegular24 />} />
       </Gapped>
     </Gapped>
   );
@@ -151,7 +151,7 @@ export const ExampleShowClearIcon: Story = () => {
         value={valueWithIcon}
         onValueChange={setValueWithIcon}
         width="350px"
-        rightIcon={<SearchLoupeIcon16Light />}
+        rightIcon={<IconSearchLoupeLight16 />}
       />
     </Gapped>
   );
@@ -181,7 +181,7 @@ export const ExamplePrefixSuffix: Story = () => {
         gap: '10px',
       }}
     >
-      <Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<SearchLoupeIcon16Light />} />
+      <Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<IconSearchLoupeLight16 />} />
       <Input width={250} suffix="@example.ru" />
     </div>
   );

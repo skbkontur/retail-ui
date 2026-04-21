@@ -1,10 +1,10 @@
 import type { Emotion } from '@emotion/css/create-instance';
 import { getColors } from '@skbkontur/colors/get-colors';
 import * as colors from '@skbkontur/colors/tokens-default/light';
-import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light';
-import { LocationGlobeIcon16Light } from '@skbkontur/icons/icons/LocationGlobeIcon/LocationGlobeIcon16Light';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light';
+import { IconFlagALight16 } from '@skbkontur/icons/IconFlagALight16';
+import { IconLocationGlobeLight16 } from '@skbkontur/icons/IconLocationGlobeLight16';
+import { IconWeatherMoonLight16 } from '@skbkontur/icons/IconWeatherMoonLight16';
+import { IconWeatherSunLight16 } from '@skbkontur/icons/IconWeatherSunLight16';
 import { DocsContext } from '@storybook/addon-docs';
 import type { ModuleExports } from '@storybook/types';
 import React, { useContext, useEffect } from 'react';
@@ -50,7 +50,7 @@ const themes = [...Object.keys(ALL_LIGHT_THEMES), ...Object.keys(ALL_DARK_THEMES
     return `${match[1]}.${match[2]}`;
   };
   const themeType = themeName.includes('LIGHT') ? 'Light' : 'Dark';
-  const themeIcon = themeType === 'Light' ? <WeatherSunIcon16Light /> : <WeatherMoonIcon16Light />;
+  const themeIcon = themeType === 'Light' ? <IconWeatherSunLight16 /> : <IconWeatherMoonLight16 />;
   const themeVersion = parseVersion(themeName);
   return {
     icon: themeIcon,
@@ -291,7 +291,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           caption={
             <div className={styles.menuSelect}>
               <div style={{ color: '#73818c', display: 'flex' }}>
-                {currentTheme?.type === 'Dark' ? <WeatherMoonIcon16Light /> : <WeatherSunIcon16Light />}
+                {currentTheme?.type === 'Dark' ? <IconWeatherMoonLight16 /> : <IconWeatherSunLight16 />}
               </div>
               <div className={styles.selectTextStack}>
                 Theme
@@ -336,7 +336,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           caption={
             <div className={styles.menuSelect}>
               <div style={{ color: '#73818c', display: 'flex' }}>
-                <LocationGlobeIcon16Light />
+                <IconLocationGlobeLight16 />
               </div>
               <div className={styles.selectTextStack}>
                 <span>{currentLocale?.caption || languages[0].caption}</span>
@@ -358,7 +358,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           caption={
             <div className={styles.menuSelect}>
               <div style={{ color: '#73818c', display: 'flex' }}>
-                <FlagAIcon16Light />
+                <IconFlagALight16 />
               </div>
               <div className={styles.selectTextStack}>
                 Feature flags

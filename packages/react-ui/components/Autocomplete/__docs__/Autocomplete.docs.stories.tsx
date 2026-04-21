@@ -1,5 +1,5 @@
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular.js';
-import { SearchLoupeIcon16Light } from '@skbkontur/icons/SearchLoupeIcon16Light.js';
+import { IconSearchLoupeLight16 } from '@skbkontur/icons/IconSearchLoupeLight16';
+import { IconUiFilterFunnelRegular16 } from '@skbkontur/icons/IconUiFilterFunnelRegular16';
 import { Autocomplete, Button, Gapped } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -215,14 +215,14 @@ export const ExampleIcon: Story = () => {
         value={valueLeft}
         onValueChange={setValueLeft}
         placeholder="Введите город на букву А"
-        leftIcon={<SearchLoupeIcon16Light />}
+        leftIcon={<IconSearchLoupeLight16 />}
       />
       <Autocomplete
         source={items}
         value={valueRight}
         onValueChange={setValueRight}
         placeholder="Введите город на букву А"
-        rightIcon={<SearchLoupeIcon16Light />}
+        rightIcon={<IconSearchLoupeLight16 />}
       />
     </Gapped>
   );
@@ -290,7 +290,7 @@ export const ExampleShowClearIcon: Story = () => {
         value={valueWithIcon}
         onValueChange={setValueWithIcon}
         width="350px"
-        rightIcon={<UiFilterFunnelIcon16Regular />}
+        rightIcon={<IconUiFilterFunnelRegular16 />}
       />
     </Gapped>
   );

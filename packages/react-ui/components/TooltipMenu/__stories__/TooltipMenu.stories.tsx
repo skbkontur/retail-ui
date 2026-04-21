@@ -1,5 +1,5 @@
-import { LightbulbIcon16Regular } from '@skbkontur/icons/icons/LightbulbIcon/LightbulbIcon16Regular.js';
-import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
+import { IconLightbulbRegular16 } from '@skbkontur/icons/IconLightbulbRegular16';
+import { IconUiMenuBars3HRegular16 } from '@skbkontur/icons/IconUiMenuBars3HRegular16';
 import React, { type JSX } from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -85,7 +85,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
   <TooltipMenu
     caption={
       <span style={{ display: 'inline-block' }} tabIndex={0}>
-        <UiMenuBars3HIcon16Regular size={32} />
+        <IconUiMenuBars3HRegular16 size={32} />
       </span>
     }
     menuWidth="220px"
@@ -102,7 +102,7 @@ export const MenuInRightPositionOnly = () => (
   <TooltipMenu
     caption={
       <span style={{ display: 'inline-block' }} tabIndex={0}>
-        <LightbulbIcon16Regular size={32} />
+        <IconLightbulbRegular16 size={32} />
       </span>
     }
     menuWidth="160px"
@@ -120,7 +120,7 @@ export const MenuInTopPositionOnlyAlignRight = () => (
   <TooltipMenu
     caption={
       <span style={{ display: 'inline-block' }} tabIndex={0}>
-        <LightbulbIcon16Regular size={32} />
+        <IconLightbulbRegular16 size={32} />
       </span>
     }
     menuWidth="150px"
@@ -149,13 +149,13 @@ export const WithItemsAndIcons = () => (
     <TooltipMenu
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <UiMenuBars3HIcon16Regular size={32} />
+          <IconUiMenuBars3HRegular16 size={32} />
         </span>
       }
     >
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem1</MenuItem>
-      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem2</MenuItem>
+      <MenuItem icon={<IconLightbulbRegular16 />}>MenuItem1</MenuItem>
+      <MenuItem icon={<IconLightbulbRegular16 />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   </div>
@@ -167,13 +167,13 @@ export const WithItemsAndIconsWithoutTextAlignment = () => (
       preventIconsOffset
       caption={
         <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <UiMenuBars3HIcon16Regular size={32} />
+          <IconUiMenuBars3HRegular16 size={32} />
         </span>
       }
     >
       <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem1</MenuItem>
-      <MenuItem icon={<LightbulbIcon16Regular />}>MenuItem2</MenuItem>
+      <MenuItem icon={<IconLightbulbRegular16 />}>MenuItem1</MenuItem>
+      <MenuItem icon={<IconLightbulbRegular16 />}>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </TooltipMenu>
   </div>

@@ -1,4 +1,4 @@
-import { UiFilterFunnelIcon16Regular } from '@skbkontur/icons/icons/UiFilterFunnelIcon/UiFilterFunnelIcon16Regular';
+import { IconUiFilterFunnelRegular16 } from '@skbkontur/icons/IconUiFilterFunnelRegular16';
 import { Dropdown, Gapped, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -73,7 +73,7 @@ ExampleUse.storyName = 'Стиль кнопки';
 /** Проп `icon` добавляет иконку слева от подписи кнопки. */
 export const ExampleIcon: Story = () => {
   return (
-    <Dropdown caption="С иконкой" icon={<UiFilterFunnelIcon16Regular />}>
+    <Dropdown caption="С иконкой" icon={<IconUiFilterFunnelRegular16 />}>
       <MenuItem>Icon 1</MenuItem>
       <MenuItem>Icon 2</MenuItem>
     </Dropdown>

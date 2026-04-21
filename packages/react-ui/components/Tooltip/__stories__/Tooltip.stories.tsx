@@ -1,10 +1,10 @@
-import { QuestionCircleIcon16Regular } from '@skbkontur/icons/icons/QuestionCircleIcon/QuestionCircleIcon16Regular.js';
+import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
 import type { CSSProperties, ForwardedRef, JSX } from 'react';
 import React, { forwardRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 
-import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
 import type { PopupPositionsType } from '../../../internal/Popup/index.js';
+import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
 import { createPropsGetter } from '../../../lib/createPropsGetter.js';
 import type { Story } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
@@ -660,7 +660,7 @@ TooltipWithManualControl.storyName = 'manual control';
 
 export const TooltipWithIconFromPackage = () => (
   <TestTooltip trigger="opened" pos="bottom center">
-    <QuestionCircleIcon16Regular />
+    <IconQuestionCircleRegular16 />
   </TestTooltip>
 );
 TooltipWithIconFromPackage.storyName = 'tooltip with icon';

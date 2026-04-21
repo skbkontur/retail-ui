@@ -44,8 +44,8 @@ import {
   TooltipMenu,
 } from '@skbkontur/react-ui';
 import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
+import { IconToolPencilLineRegular16 } from '@skbkontur/icons/IconToolPencilLineRegular16';
 import React from 'react';
-import { ToolPencilLineIcon16Regular } from '@skbkontur/icons/icons/ToolPencilLineIcon/ToolPencilLineIcon16Regular.js';
 
 export const App = () => {
   return (
@@ -93,7 +93,7 @@ export const App = () => {
       <Hint text="World">Hello</Hint>
       <Input />
       <Kebab size="large">
-        <MenuItem icon={<ToolPencilLineIcon16Regular />} onClick={() => SingleToast.push('Nope')}>
+        <MenuItem icon={<IconToolPencilLineRegular16 />} onClick={() => SingleToast.push('Nope')}>
           Редактировать
         </MenuItem>
       </Kebab>

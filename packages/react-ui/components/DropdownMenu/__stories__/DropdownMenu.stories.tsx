@@ -1,9 +1,9 @@
-import { ArrowADownRightIcon16Regular } from '@skbkontur/icons/icons/ArrowADownRightIcon/ArrowADownRightIcon16Regular.js';
-import { PlusIcon16Regular } from '@skbkontur/icons/icons/PlusIcon/PlusIcon16Regular.js';
-import { SearchLoupeIcon16Regular } from '@skbkontur/icons/icons/SearchLoupeIcon/SearchLoupeIcon16Regular.js';
-import { UiMenuBars3HIcon16Regular } from '@skbkontur/icons/icons/UiMenuBars3HIcon/UiMenuBars3HIcon16Regular.js';
-import { XIcon16Regular } from '@skbkontur/icons/icons/XIcon/XIcon16Regular.js';
-import React, { type JSX, useState } from 'react';
+import { IconArrowADownRightRegular16 } from '@skbkontur/icons/IconArrowADownRightRegular16';
+import { IconPlusRegular16 } from '@skbkontur/icons/IconPlusRegular16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
+import { IconUiMenuBars3HRegular16 } from '@skbkontur/icons/IconUiMenuBars3HRegular16';
+import { IconXRegular16 } from '@skbkontur/icons/IconXRegular16';
+import React, { useState, type JSX } from 'react';
 
 import { CheckAIcon16Regular } from '../../../internal/icons2022/CheckAIcon/CheckAIcon16Regular.js';
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -153,7 +153,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
     menuWidth="300px"
     caption={
       <span tabIndex={0} style={{ display: 'inline-block' }}>
-        <UiMenuBars3HIcon16Regular size={32} />
+        <IconUiMenuBars3HRegular16 size={32} />
       </span>
     }
   >
@@ -170,7 +170,7 @@ export const OnlyStaticElements = () => (
     menuWidth="300px"
     caption={
       <span tabIndex={0} style={{ display: 'inline-block' }}>
-        <UiMenuBars3HIcon16Regular size={32} />
+        <IconUiMenuBars3HRegular16 size={32} />
       </span>
     }
   >
@@ -194,7 +194,7 @@ export const CaptionAcceptsAFunction = () => (
         }}
       >
         <Button use="primary" onClick={captionProps.toggleMenu}>
-          <ArrowADownRightIcon16Regular size={16} />
+          <IconArrowADownRightRegular16 size={16} />
         </Button>
       </span>
     )}
@@ -267,7 +267,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
         }}
       >
         <Input
-          leftIcon={<SearchLoupeIcon16Regular />}
+          leftIcon={<IconSearchLoupeRegular16 />}
           value={this.state.value}
           onValueChange={this.handleInputChange}
           width={220}
@@ -278,7 +278,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
 
   private footer = () => {
     const { hasHeader } = this.state;
-    const icon = hasHeader ? <XIcon16Regular /> : <PlusIcon16Regular />;
+    const icon = hasHeader ? <IconXRegular16 /> : <IconPlusRegular16 />;
     return (
       <div style={{ paddingTop: 4 }}>
         <Button use={'link'} icon={icon} onClick={this.switchHeaderState}>

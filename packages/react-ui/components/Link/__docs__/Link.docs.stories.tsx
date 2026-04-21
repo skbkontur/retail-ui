@@ -1,6 +1,6 @@
-import { CheckAIcon16Light } from '@skbkontur/icons/CheckAIcon16Light.js';
-import { CopyIcon16Regular } from '@skbkontur/icons/CopyIcon16Regular.js';
-import { ToolPencilLineIcon16Light } from '@skbkontur/icons/ToolPencilLineIcon16Light.js';
+import { IconCheckALight16 } from '@skbkontur/icons/IconCheckALight16';
+import { IconCopyRegular16 } from '@skbkontur/icons/IconCopyRegular16';
+import { IconToolPencilLineLight16 } from '@skbkontur/icons/IconToolPencilLineLight16';
 import { Button, Gapped, Link, SingleToast } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -47,8 +47,8 @@ ExampleStyle.storyName = 'Стили';
 export const ExampleIcon: Story = () => {
   return (
     <Gapped gap={20}>
-      <Link icon={<CheckAIcon16Light />}>Ссылка с иконкой слева</Link>
-      <Link rightIcon={<CheckAIcon16Light />}>Ссылка с иконкой справа</Link>
+      <Link icon={<IconCheckALight16 />}>Ссылка с иконкой слева</Link>
+      <Link rightIcon={<IconCheckALight16 />}>Ссылка с иконкой справа</Link>
     </Gapped>
   );
 };
@@ -86,10 +86,10 @@ export const ExampleSpinner: Story = () => {
     <Gapped vertical gap={15}>
       <Gapped gap={20}>
         <Link loading={isLoading}>Обычная ссылка</Link>
-        <Link loading={isLoading} icon={<CheckAIcon16Light />}>
+        <Link loading={isLoading} icon={<IconCheckALight16 />}>
           С иконкой слева
         </Link>
-        <Link loading={isLoading} rightIcon={<CheckAIcon16Light />}>
+        <Link loading={isLoading} rightIcon={<IconCheckALight16 />}>
           С иконкой справа
         </Link>
       </Gapped>
@@ -102,7 +102,7 @@ ExampleSpinner.storyName = 'Состояние загрузки';
 /** Проп `error` переводит сслыку в  состояние ошибки. */
 export const ExampleError: Story = () => {
   return (
-    <Link error icon={<ToolPencilLineIcon16Light />}>
+    <Link error icon={<IconToolPencilLineLight16 />}>
       Заполнить адрес
     </Link>
   );
@@ -186,7 +186,7 @@ export const ExampleCustomLink: Story = () => {
         <td style={tdStyle}>
           <div style={{ display: 'flex' }}>
             <div style={{ width: '80%', whiteSpace: 'pre-line' }}>{stringify(styles).replace(/, /g, '\n')}</div>
-            <Button icon={<CopyIcon16Regular />} use={'text'} onClick={() => copyStyles(styles)} />
+            <Button icon={<IconCopyRegular16 />} use={'text'} onClick={() => copyStyles(styles)} />
           </div>
         </td>
       </tr>
