@@ -42,13 +42,13 @@
         "paths": [
           {
             "name": "react-ui",
-            "message": "Please use relative path or @skbkontur/react-ui instead."
+            "message": "Use a relative import inside packages/react-ui, or @skbkontur/react-ui from other packages. Do not import the bare \"react-ui\" name."
           }
         ],
         "patterns": [
           {
-            "group": ["react-ui/*"],
-            "message": "Please use relative path or @skbkontur/react-ui instead."
+            "group": ["react-ui/*", "react-ui/**"],
+            "message": "The \"react-ui/…\" path alias only matches a single path segment, so deep imports (e.g. react-ui/lib/..., react-ui/typings/...) are wrong here. Use a relative path inside packages/react-ui, or @skbkontur/react-ui from other packages."
           }
         ]
       }
