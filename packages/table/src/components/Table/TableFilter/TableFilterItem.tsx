@@ -15,12 +15,13 @@ export interface TableFilterItemProps extends MenuItemProps {
 }
 
 export const TableFilterItem: FC<TableFilterItemProps> = ({ children, ...rest }) => {
-  const { size } = useContext(SizeTableContext);
+  const { size: contextSize } = useContext(SizeTableContext);
 
   return (
     <CommonWrapper {...rest}>
       {(wrapperRest: CommonWrapperRestProps<TableFilterItemProps>) => {
-        const { onClick, ...menuItemProps } = wrapperRest;
+        const { onClick, size, ...menuItemProps } = wrapperRest;
+        const resolvedSize = size ?? contextSize;
         const handleClick = (e: SyntheticEvent<HTMLElement, Event>) => {
           e.preventDefault();
           onClick?.(e);
@@ -31,7 +32,7 @@ export const TableFilterItem: FC<TableFilterItemProps> = ({ children, ...rest })
             className={styles.FilterItem}
             {...menuItemProps}
             onClick={handleClick}
-            size={size}
+            size={resolvedSize}
             data-tid={TableDataTids.filterItem}
           >
             {children}

@@ -657,6 +657,17 @@ describe('TableFilterItem', () => {
 
     expect(screen.getByText('Item content')).toBeInTheDocument();
   });
+
+  it('reacts to explicit size prop changes', () => {
+    const { rerender } = render(<TableFilterItem size="small">Item content</TableFilterItem>);
+
+    const getRootClassName = () => screen.getByText('Item content').closest('button, a')?.className;
+    const smallClassName = getRootClassName();
+
+    rerender(<TableFilterItem size="large">Item content</TableFilterItem>);
+
+    expect(getRootClassName()).not.toBe(smallClassName);
+  });
 });
 
 describe('TableFilter components - empty/null/undefined props handling', () => {
