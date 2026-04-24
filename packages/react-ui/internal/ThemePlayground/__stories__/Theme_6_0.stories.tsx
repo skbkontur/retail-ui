@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Calendar } from '../../../components/Calendar/Calendar.js';
-import type { Story, Meta } from '../../../typings/stories.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { LIGHT_THEME_6_0 } from '../../../lib/theming/themes/LightTheme.js';
+import type { Story, Meta } from '../../../typings/stories.js';
 
 const meta: Meta = {
   title: 'ThemeVersions/6_0',

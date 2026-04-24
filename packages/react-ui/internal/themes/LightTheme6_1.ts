@@ -1,5 +1,4 @@
 import { createTheme, markThemeVersion } from '../../lib/theming/ThemeHelpers.js';
-
 import { BasicThemeClassForExtension } from './BasicTheme.js';
 import { LightTheme6_0 } from './LightTheme6_0.js';
 
