@@ -1,0 +1,4 @@
+{
+  "**/*.{ts,tsx}": ["oxlint --fix", "oxfmt --write"],
+  "**/*.{js,jsx,json,mdx}": ["oxfmt --write"]
+}
