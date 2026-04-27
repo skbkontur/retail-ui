@@ -47,59 +47,55 @@ export type TooltipTrigger =
   | 'manual';
 
 export interface TooltipProps extends CommonProps {
-  /** Указывает элемент, относительно которого позиционировать тултип. */
-  anchorElement?: HTMLElement;
-
   /** @ignore */
   children?: React.ReactNode;
 
-  /** Задает HTML-атрибут class. */
-  className?: string;
-
-  /** Отображает крестик для закрытия тултипа. По умолчанию крестик виден, если проп *trigger* не равен `hover` или `focus`. */
-  closeButton?: boolean;
-
-  /** Задает функцию, которая возвращает содержимое тултипа. Если функция вернула `null`, то тултип не показывается. */
+  /** Функция, возвращающая содержимое тултипа. При возврате `null` тултип не показывается. */
   render?: Nullable<() => React.ReactNode>;
 
-  /** Задает приоритетное расположение подсказки относительно текста. */
-  pos?: ShortPopupPositionsType | PopupPositionsType;
-
-  /** Задает размер тултипа.
-   * @default 'small' */
+  /** Размер тултипа.
+   * @default small */
   size?: SizeProp;
 
-  /** Задает триггер открытия тултипа. */
+  /** Приоритетное расположение тултипа относительно элемента. */
+  pos?: ShortPopupPositionsType | PopupPositionsType;
+
+  /** Список позиций, которые может занимать тултип. В списке обязательно должна быть позиция из пропа `pos`. */
+  allowedPositions?: PopupPositionsType[];
+
+  /** Триггер открытия тултипа. */
   trigger?: TooltipTrigger;
 
-  /** Задает хендлер, который вызывается при клике по крестику. */
-  onCloseClick?: React.MouseEventHandler<HTMLElement>;
+  /** Показывает крестик для закрытия тултипа.
+   * По умолчанию крестик показывается, если проп `trigger` не равен `hover` или `focus`. */
+  closeButton?: boolean;
 
-  /** Задает хендлер, который вызывается при клике по крестику или снаружи тултипа. */
-  onCloseRequest?: (event?: Event | React.MouseEvent) => void;
-
-  /** Задает хендлер, который вызывается при закрытии тултипа. */
-  onClose?: () => void;
-
-  /** Задает хендлер, который вызывается при открытии тултипа. */
-  onOpen?: () => void;
-
-  /** Задает список позиций, которые тултип будет занимать.
-   * Если положение тултипа в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция.
-   * Обязательно должен включать позицию указанную в `pos`. */
-  allowedPositions?: PopupPositionsType[];
+  /** Элемент, относительно которого позиционируется тултип. */
+  anchorElement?: HTMLElement;
 
   /** Отключает анимацию.
    * @default false */
   disableAnimations?: boolean;
 
-  /** Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`.
-   * Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
-   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически. */
+  /** Оборачивает вложенные элементы в `<span />`.
+   *
+   * _Примечание_: при двух и более вложенных элементах обёртка будет добавлена автоматически. */
   useWrapper?: boolean;
 
-  /** Устанавливает задержку в миллисекундах до появления лоадера. */
+  /** Задержка в миллисекундах до появления тултипа. */
   delayBeforeShow?: number;
+
+  /** Вызывается при клике по крестику. */
+  onCloseClick?: React.MouseEventHandler<HTMLElement>;
+
+  /** Вызывается при клике по крестику или снаружи тултипа. */
+  onCloseRequest?: (event?: Event | React.MouseEvent) => void;
+
+  /** Вызывается при закрытии тултипа. */
+  onClose?: () => void;
+
+  /** Вызывается при открытии тултипа. */
+  onOpen?: () => void;
 }
 
 const DEFAULT_DELAY = 100;
@@ -143,10 +139,10 @@ interface TooltipSizeVariables {
 type DefaultProps = Required<Pick<TooltipProps, 'trigger' | 'disableAnimations' | 'useWrapper' | 'delayBeforeShow'>>;
 
 /**
- * `Tooltip` — это подсказка, которая объясняет состояние контрола или даёт контекстную справку.
+ * Подсказка, которая объясняет состояние контрола или даёт контекстную справку.
  *
- * Открывается по клику, фокусом на элемент или по наведению. В отличие от `Hint`, `Tooltip` может содержать
- * изображения, кнопки, ссылки и прочие интерактивные элементы.
+ * Открывается по клику, фокусу на элемент или наведению.
+ * Может содержать изображения, кнопки, ссылки и прочие интерактивные элементы.
  */
 @withRenderEnvironment
 @rootNode
@@ -294,8 +290,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   /**
-   * Программно открывает тултип.
-   * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
+   * Открывает тултип.
+   * <p>Не работает при `trigger` = "opened" | "closed"`.</p>
    * @public
    */
   public show(): void {
@@ -311,8 +307,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   /**
-   * Программно закрывает тултип.
-   * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
+   * Закрывает тултип.
+   * <p>Не работает при `trigger` = "opened" | "closed"`.</p>
    * @public
    */
   public hide(): void {

@@ -12,14 +12,34 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=138-37147&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { Tooltip } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
 
-## Все пропсы и методы
+## Все пропсы
 
 <PropsTable />
+
+## Использование
+
+Используйте, когда нужно дать более подробную контекстную справку, или в подсказке имеются интерактивные элементы: кнопки, ссылки, изображения.
+
+**Альтернативы и дополнения**
+
+Если для пояснения требуется большой объём текста, лучше написать статью и дать в тултипе ссылку на неё.
+
+Для краткой текстовой подсказки по наведению используйте [Hint](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-hint--docs).
 
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Адаптивность
+
+По умолчанию тултип не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)
