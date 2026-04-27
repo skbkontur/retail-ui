@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.2...@skbkontur/react-ui@6.0.3) (2026-04-27)
+
+
+### Bug Fixes
+
+* **FileUploader:** use SizeControlContext (IF-2679) ([ae208a4](https://github.com/skbkontur/retail-ui/commit/ae208a4780e496bf03780af69cfc2a52f4f14542))
+* restore methods in docs props tables ([7c38641](https://github.com/skbkontur/retail-ui/commit/7c386419f2d8fd62b7775c1465a2c58ee935b67e))
+
+
+
+
+
 ## [6.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.1...@skbkontur/react-ui@6.0.2) (2026-04-13)
 
 
