@@ -1,4 +1,4 @@
-import { Button, Gapped, SingleToast, Toast } from '@skbkontur/react-ui';
+import { Button, Gapped, Toast } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -11,78 +11,189 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: Story = () => {
+export const BasicExample: Story = () => {
   const toastRef = React.useRef<Toast>(null);
-
-  const showNotification = () => {
-    const { current: toast } = toastRef;
-    if (toast) {
-      toast.push('Default text');
-    }
-  };
 
   return (
     <>
       <Toast ref={toastRef} />
-      <Button onClick={showNotification}>Show notification</Button>
+      <Button onClick={() => toastRef.current?.push('Текст тоста')}>Показать тост</Button>
     </>
   );
 };
-Default.storyName = 'Базовый пример использования Toast-а';
+BasicExample.storyName = 'Базовый пример';
 
-export const WithAction: Story = () => {
+/**
+ * Поле `showTime` из второго аргумента метода`push` задаёт длительность показа тоста в миллисекундах.
+ */
+export const PushShowTimeExample: Story = () => {
   const toastRef = React.useRef<Toast>(null);
-
-  const showNotification = () => {
-    const { current: toast } = toastRef;
-    if (toast) {
-      toast.push('Toast with action', {
-        action: { label: 'Cancel', handler: () => toast.push('Canceled') },
-      });
-    }
-  };
 
   return (
     <>
       <Toast ref={toastRef} />
-      <Button onClick={showNotification}>Show notification</Button>
+      <Button onClick={() => toastRef.current?.push('Текст', { showTime: 15_000 })}>Показать 15 с</Button>
     </>
   );
 };
-WithAction.storyName = 'Тост с кнопкой действия';
+PushShowTimeExample.storyName = 'Длительность показа тоста';
 
-export const CustomShowTime: Story = () => {
+/**
+ * Поле `use` из второго аргумента метода `push` задаёт стиль оформления тоста: он будет выглядеть как предупреждение, а не как обычное нейтральное сообщение.
+ */
+export const PushWithUseErrorExample: Story = () => {
   const toastRef = React.useRef<Toast>(null);
-
-  const showNotification = () => {
-    const { current: toast } = toastRef;
-    if (toast) {
-      toast.push('Toast with custom showTime', { showTime: 15_000 });
-    }
-  };
 
   return (
     <>
       <Toast ref={toastRef} />
-      <Button onClick={showNotification}>Show notification</Button>
+      <Button onClick={() => toastRef.current?.push('Ошибка', { use: 'error' })}>Показать ошибку</Button>
     </>
   );
 };
-CustomShowTime.storyName = 'Кастомный showTime';
+PushWithUseErrorExample.storyName = 'Тост в состоянии ошибки';
 
-export const ExampleWithCallbackRef: Story = () => {
+/**
+ * Поле `showCloseIcon` из второго аргумента метода`push` добавляет крестик закрытия рядом с текстом.
+ */
+export const PushWithCloseIconExample: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
+
+  return (
+    <>
+      <Toast ref={toastRef} />
+      <Button onClick={() => toastRef.current?.push('Текст', { showCloseIcon: true })}>Показать с крестиком</Button>
+    </>
+  );
+};
+PushWithCloseIconExample.storyName = 'Иконка закрытия рядом с текстом';
+
+/**
+ * Поле `action` из второго аргумента метода`push` добавляет кнопку с вашим `label` и `handler`;
+ *
+ * При необходимости поле `aria-label` задаёт понятную подпись для скринридеров, если короткий текст на кнопке недостаточен.
+ */
+export const PushWithActionExample: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
+
+  return (
+    <Gapped vertical>
+      <Toast ref={toastRef} />
+      <Gapped>
+        <Button
+          onClick={() =>
+            toastRef.current?.push('Текст', {
+              action: { label: 'Отмена', handler: () => toastRef.current?.close() },
+            })
+          }
+        >
+          С action
+        </Button>
+        <Button
+          onClick={() =>
+            toastRef.current?.push('Текст', {
+              action: {
+                label: 'Ок',
+                handler: () => toastRef.current?.close(),
+                'aria-label': 'Закрыть уведомление',
+              },
+            })
+          }
+        >
+          С action и aria-label
+        </Button>
+      </Gapped>
+    </Gapped>
+  );
+};
+PushWithActionExample.storyName = 'Кнопка действия в тосте';
+
+/**
+ * Метод `push` принимает как строку, так и `ReactNode`.
+ */
+export const PushWithReactNodeExample: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
+
+  return (
+    <>
+      <Toast ref={toastRef} />
+      <Button onClick={() => toastRef.current?.push(<span style={{ color: 'red' }}>Произвольная разметка</span>)}>
+        Показать ReactNode
+      </Button>
+    </>
+  );
+};
+PushWithReactNodeExample.storyName = 'Произвольная разметка в тосте';
+
+/**
+ * Метод `close` сразу убирает тост с экрана — вызывайте его, когда тост нужно снять из кода, минуя таймер, крестик или кнопку действия.
+ */
+export const CloseMethodExample: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
+
+  return (
+    <Gapped>
+      <Toast ref={toastRef} />
+      <Button onClick={() => toastRef.current?.push('Текст')}>Показать тост</Button>
+      <Button onClick={() => toastRef.current?.close()}>close()</Button>
+    </Gapped>
+  );
+};
+CloseMethodExample.storyName = 'Ручное управление закрытием тоста';
+
+/**
+ * Проп `onPush` вызывается сразу после каждого `push`: можно залогировать показ, обновить своё состояние или запомнить последнее уведомление.
+ */
+export const OnPushExample: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
+  const [last, setLast] = React.useState('—');
+
+  return (
+    <Gapped vertical>
+      <Toast
+        ref={toastRef}
+        onPush={(notification) => setLast(typeof notification === 'string' ? notification : 'ReactNode')}
+      />
+      <div>onPush: {last}</div>
+      <Button onClick={() => toastRef.current?.push('Текст')}>Показать тост</Button>
+    </Gapped>
+  );
+};
+OnPushExample.storyName = 'Реакция на показ тоста';
+
+/**
+ * Проп `onClose` срабатывает при любом закрытии — по таймеру, по крестику, по кнопке действия или после вызова `close`.
+ */
+export const OnCloseExample: Story = () => {
+  const toastRef = React.useRef<Toast>(null);
+  const [last, setLast] = React.useState('—');
+
+  return (
+    <Gapped vertical>
+      <Toast ref={toastRef} onClose={() => setLast(String(Date.now()))} />
+      <div>onClose (метка): {last}</div>
+      <Button onClick={() => toastRef.current?.push('Текст')}>Показать тост</Button>
+    </Gapped>
+  );
+};
+OnCloseExample.storyName = 'Реакция на закрытие тоста';
+
+/**
+ * Проп `ref` даёт ссылку на экземпляр `Toast`: из класса с `createRef` так же вызываются методы `push` и `close`, как из функции с `useRef`.
+ */
+export const RefExample: Story = () => {
   class Toaster extends React.Component {
     private notifier = React.createRef<Toast>();
 
     showNotification() {
-      this.notifier.current?.push('Successfully');
+      this.notifier.current?.push('Текст');
     }
 
     render() {
       return (
         <div>
           <Toast ref={this.notifier} />
-          <Button onClick={() => this.showNotification()}>Show notification</Button>
+          <Button onClick={() => this.showNotification()}>Показать тост</Button>
         </div>
       );
     }
@@ -90,97 +201,19 @@ export const ExampleWithCallbackRef: Story = () => {
 
   return <Toaster />;
 };
-ExampleWithCallbackRef.storyName = 'Использование `ref`';
+RefExample.storyName = 'Вызов тоста из классового компонента';
 
-export const ToastWithCross = () => {
+/**
+ * Проп `theme` подмешивает свои переменные к теме из контекста — например, другой фон и цвет текста именно у этого тоста.
+ */
+export const CustomizationThemeExample: Story = () => {
   const toastRef = React.useRef<Toast>(null);
 
-  const showNotification = () => {
-    const { current: toast } = toastRef;
-    if (toast) {
-      toast.push('Toast with cross', { showCloseIcon: true });
-    }
-  };
-
   return (
-    <Gapped>
-      <div>
-        <Toast ref={toastRef} />
-        <Button data-tid="show-instance-toast" onClick={showNotification}>
-          Show Toast
-        </Button>
-      </div>
-    </Gapped>
+    <>
+      <Toast ref={toastRef} theme={{ toastBg: '#00BEA2', toastColor: '#ffffff' }} />
+      <Button onClick={() => toastRef.current?.push('Текст')}>Показать тост</Button>
+    </>
   );
 };
-ToastWithCross.storyName = 'С крестиком для закрытия';
-
-export const ToastWithReactNode = () => {
-  const toastRef = React.useRef<Toast>(null);
-
-  const showNotification = () => {
-    const { current: toast } = toastRef;
-    if (toast) {
-      toast.push(
-        <div>
-          Эту и другую полезную информацию вы найдете в разделе{' '}
-          <a href="/" target="_blank" style={{ color: '#69c5ff', fontWeight: 'bold', textDecoration: 'none' }}>
-            Помощь
-          </a>
-        </div>,
-      );
-    }
-  };
-
-  return (
-    <div>
-      <Toast ref={toastRef} />
-      <Button data-tid="show-toast" onClick={showNotification}>
-        Show toast
-      </Button>
-    </div>
-  );
-};
-ToastWithReactNode.storyName = 'Тост с кастомным ReactNode';
-
-export const ToastWithUseError = () => {
-  const toastRef = React.useRef<Toast>(null);
-
-  const showNotification = () => {
-    const { current: toast } = toastRef;
-
-    if (toast) {
-      toast.push('Toast with use error', { use: 'error' });
-    }
-  };
-
-  return (
-    <Gapped>
-      <div>
-        <Toast ref={toastRef} />
-        <Button data-tid="show-instance-toast" onClick={showNotification}>
-          Show Toast With Error
-        </Button>
-      </div>
-    </Gapped>
-  );
-};
-ToastWithUseError.storyName = 'Тост в состоянии ошибки';
-
-export const SingleToastExample = () => {
-  const showNotification = () => {
-    SingleToast.push('Пример использования SingleToast');
-  };
-
-  return (
-    <Gapped>
-      <div>
-        <SingleToast />
-        <Button data-tid="show-instance-toast" onClick={showNotification}>
-          Show Toast
-        </Button>
-      </div>
-    </Gapped>
-  );
-};
-SingleToastExample.storyName = 'Пример использования статического метода у SingleToast';
+CustomizationThemeExample.storyName = 'Кастомизация: переменные темы';

@@ -20,8 +20,11 @@ import { ToastView } from './ToastView.js';
 import type { ToastViewProps } from './ToastView.js';
 
 export interface Action {
+  /** Текст на кнопке действия. */
   label: string;
+  /** Выполняется при нажатии на кнопку действия. */
   handler: () => void;
+  /** Уточняет доступное имя кнопки для вспомогательных технологий. */
   'aria-label'?: string;
 }
 
@@ -43,29 +46,25 @@ export interface ToastState {
 }
 
 export interface ToastProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
-  /** Задает функцию, которая вызывается при возникновении тоста. */
+  /** Событие появления уведомления. */
   onPush?: (notification: string, action?: Action) => void;
 
-  /** Задает функцию, которая вызывается при закрытии тоста. */
+  /** Событие закрытия уведомления. */
   onClose?: (notification: string, action?: Action) => void;
 
-  /** Задает объект с переменными темы. Он будет объединён с темой из контекста. */
+  /** Переменные темы поверх значений из контекста. */
   theme?: ThemeIn;
 }
 
 /** Объект с конфигурацией отображения Toast-а */
 export interface ToastPushConfig {
+  /** Добавляет кнопку действия в тост. */
   action?: Nullable<Action>;
+  /** Длительность показа в миллисекундах. */
   showTime?: number;
+  /** Показывает кнопку закрытия рядом с текстом. */
   showCloseIcon?: boolean;
-  /**
-   * Определяет стили для тоста.
-   *
-   * - default стиль для отображения по умолчанию
-   * - error стиль для отображения ошибок
-   *
-   * По умолчанию будет использован стиль default.
-   **/
+  /** Определяет стиль оформления: обычный или ошибка (`error`). */
   use?: ToastUse;
 }
 
@@ -81,9 +80,7 @@ export const ToastDataTids = {
 } as const;
 
 /**
- * `Toast` — это короткое немодальное уведомление, которое сообщает пользователю о результате выполнения его команды.
- * Результат может быть положительным, отрицательным или нейтральным.
- *
+ * Тост — это короткое немодальное уведомление о результате действия пользователя: успех, ошибка или нейтральный статус.
  */
 @withRenderEnvironment
 @rootNode
@@ -167,6 +164,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   };
 
   /**
+   * Закрывает текущее уведомление без ожидания таймера.
+   *
    * @public
    */
   public close = (): void => {

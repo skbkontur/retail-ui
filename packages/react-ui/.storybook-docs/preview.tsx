@@ -67,6 +67,7 @@ import * as ReactUi from '../index.js';
 import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup.js';
 import { ThemeContextPlayground } from '../internal/ThemePlayground/ThemeContextPlayground.js';
 import { emit } from '../lib/LayoutEvents.js';
+import { useEmotion } from '../lib/renderEnvironment/RenderEnvironmentContext.js';
 import { ThemeContext } from '../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../lib/theming/ThemeFactory.js';
 import * as ALL_DARK_THEMES from '../lib/theming/themes/DarkTheme.js';
@@ -273,6 +274,7 @@ addons.setConfig({
       parseVersionFromThemeName,
       emit,
       FeatureFlagToggle,
+      useEmotion,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,

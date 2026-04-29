@@ -20,17 +20,19 @@ import { ToastDataTids } from './Toast.js';
 import { getStyles } from './ToastView.styles.js';
 
 export interface ToastViewProps extends Pick<AriaAttributes, 'aria-label'>, CommonProps {
-  /** Задает контент тоста. */
+  /** Отображает контент уведомления. */
   children?: React.ReactNode;
-  /** Добавляет возможность действия и кнопку закрытия у тоста. */
+  /** Добавляет кнопку действия в тост. */
   action?: Nullable<Action>;
+  /** Показывает кнопку закрытия рядом с текстом. */
   showCloseIcon?: boolean;
+  /** Вызывается при закрытии тоста из разметки. */
   onClose?: () => void;
+  /** Вызывается при наведении курсора на тост. */
   onMouseEnter?: () => void;
+  /** Вызывается при уходе курсора с тоста. */
   onMouseLeave?: () => void;
-  /**
-   * Задаёт стили для отображения тоста в зависимости от назначения.
-   **/
+  /** Выбирает стиль оформления: обычный или ошибка (`error`). */
   use?: ToastUse;
 }
 

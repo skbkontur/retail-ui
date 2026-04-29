@@ -1,5 +1,5 @@
 import * as SingleToastStories from './SingleToast.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import { Primary, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +12,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=138-37115&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { SingleToast } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -20,6 +24,47 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Подходит, когда нужны те же короткие уведомления, что и у [Toast](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-toast--docs), но вызывать их из разных модулей без прокидывания `ref`: один раз монтируете `SingleToast` (обычно в корне приложения) и дальше пользуетесь `SingleToast.push` и `SingleToast.close`.
+
+Для корректной работы `SingleToast` должен быть отрисован только **один раз** на странице. После чего его можно вызывать из любого места приложения методом `SingleToast.push`.
+Однако, переданные в компонент пропсы, такие как `theme`, `onPush` и остальные, будут применяться ко всем вызовам.
+
+**Связанные компоненты**
+
+- [Toast](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-toast--docs) — свой экземпляр в дереве и вызовы `push` / `close` через `ref`, если уведомление привязано к части интерфейса.
+
+**Альтернативы и дополнения**
+
+- Долгие операции и уход фокуса с экрана — [Loader](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-loader--docs) и сообщение на месте операции.
+- Ошибки полей формы — [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs), а не тост вместо валидации.
+
+**Когда не использовать**
+
+- Как единственный канал для критичных ошибок, которые пользователь обязан увидеть и подтвердить (лучше модальный сценарий или устойчивое сообщение в контенте).
+- Как замену валидации полей.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Под капотом рендерится [Toast](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-toast--docs): семантика, кнопка действия, крестик и подписи совпадают с документацией `Toast`. Задавайте `aria-label` на `SingleToast` и при необходимости `action['aria-label']` так же, как для обычного `Toast`.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+Поведение как у `Toast`: увеличенный шрифт, фиксированное положение у верхнего края экрана с отступами, текст длиннее трёх строк обрезается многоточием.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-mobiles--docs)
+
+## FAQ
+
+- **Сколько раз монтировать `SingleToast`?** Один раз на страницу / приложение; иначе несколько слоёв и неочевидное поведение.
+- **Чем отличается от `Toast`?** `Toast` — свой `ref` и свой экземпляр в дереве. `SingleToast` — один общий экземпляр и вызовы `SingleToast.push` / `SingleToast.close` из любого места.
+- **Распространяются ли пропы на все `push`?** Да: `theme`, `onPush`, `onClose`, `aria-label`, `className`, `style`, `data-tid` и т.д. задаются на смонтированном `SingleToast` и действуют на последующие показы.
+- **Что делает `SingleToast.push` перед показом?** Сначала вызывается `close` у текущего тоста, затем показывается новое уведомление.
+- **Сколько тост показывается по умолчанию?** Как у `Toast`: около 3 секунд без `action` и около 7 секунд с `action`; своё время — через `showTime` в конфиге `push`.
