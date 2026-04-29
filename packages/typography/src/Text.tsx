@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import type { TTextProps } from './types.js';
 
 import styles from '../Text.module.css';
 
-export const Text: React.FC<TTextProps> = (props) => {
-  const Tag = props.tag;
-  const classKey = `t${props.size}${props.wideColumn ? 'Wide' : ''}`;
+export const Text = forwardRef<HTMLElement, TTextProps>((props, ref) => {
+  const { tag: Tag, className, spacing, size, wideColumn, children, ...rest } = props;
+
+  const classKey = `t${size}${wideColumn ? 'Wide' : ''}`;
 
   return (
     <Tag
-      className={`${styles[classKey] || ''} ${props.spacing ? styles.tSpacing : ''} ${props.className || ''}`}
-      id={props.id}
-      style={props.style}
-      role={props.role}
-      aria-describedby={props['aria-describedby']}
-      aria-label={props['aria-label']}
-      aria-labelledby={props['aria-labelledby']}
-      data-tid={props['data-tid']}
+      ref={ref as React.Ref<any>}
+      className={`${styles[classKey] || ''} ${spacing ? styles.tSpacing : ''} ${className || ''}`}
+      {...rest}
     >
-      {props.children}
+      {children}
     </Tag>
   );
-};
+});
+
+Text.displayName = 'Text';
