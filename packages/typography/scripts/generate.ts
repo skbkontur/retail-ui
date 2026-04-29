@@ -51,9 +51,9 @@ const generateScss = (inputTokens: { [key in TTextTokens]: Record<string, any> }
 
   /// @param {number} $size - Размер
   /// @param {boolean} $spacing [true] - Отступы
-  /// @param {boolean} $wideColumn [false] - Широкая колонка
-  @mixin t($size, $spacing: false, $wideColumn: false) {
-    @if $wideColumn {
+  /// @param {boolean} $wide [false] - Широкая колонка
+  @mixin t($size, $spacing: false, $wide: false) {
+    @if $wide {
       $size-key: '#{$size}Wide';
     } @else {
       $size-key: '#{$size}';
@@ -92,8 +92,8 @@ const generateLess = (inputTokens: { [key in TTextTokens]: Record<string, any> }
       ${tokens.join('\n')}
     }
 
-    .t(@size, @spacing: false, @wideColumn: false) {
-      @size-key: if(@wideColumn, %(e("%aWide"), @size), @size);
+    .t(@size, @spacing: false, @wide: false) {
+      @size-key: if(@wide, %(e("%aWide"), @size), @size);
       @size-props: @typography[@@size-key];
 
       font-size: @size-props[font-size];

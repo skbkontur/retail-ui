@@ -42,9 +42,9 @@ export interface TTextProps
        */
       spacing?: boolean;
       /**
-       * Широкая колонка — от 40 до 60 символов в строке
+       * Широкая колонка — от 40 символов в строке
        * @default false
        */
-      wideColumn?: boolean;
+      wide?: boolean;
       'data-tid'?: string;
     }> {}

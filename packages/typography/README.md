@@ -19,7 +19,7 @@ npm i @skbkontur/typography
 import { Text } from '@skbkontur/typography';
 
 const Component = () => (
-  <Text as="p" size={24} spacing wideColumn>
+  <Text as="p" size={24} spacing wide>
     Параграф 24px в широкой колонке с отступами
   </Text>
 );
@@ -47,7 +47,7 @@ const Component = () => <h2 className={text.t48}>Заголовок 48px</h2>;
 @use '@skbkontur/typography/text' as *;
 
 .component {
-  @include t(40, $spacing: false, $wideColumn: false);
+  @include t(40, $spacing: false, $wide: false);
 }
 ```
 
@@ -57,7 +57,7 @@ const Component = () => <h2 className={text.t48}>Заголовок 48px</h2>;
 @import '@skbkontur/typography/text';
 
 .component {
-  .t(24, @spacing: false, @wideColumn: false);
+  .t(24, @spacing: false, @wide: false);
 }
 ```
 

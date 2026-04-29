@@ -17,17 +17,11 @@ const stylesWrapper = {
   },
 };
 
-const getBlockWrapper = (
-  name: string,
-  component: TTextTags,
-  size: TTextSizes,
-  wideColumn?: boolean,
-  spacing?: boolean
-) => (
+const getBlockWrapper = (name: string, component: TTextTags, size: TTextSizes, wide?: boolean, spacing?: boolean) => (
   <div style={{ ...stylesWrapper.elementStyle }}>
     <div>{name}</div>
     <div style={{ border: '1px solid black' }}>
-      <Text as={component} size={size} wideColumn={wideColumn} spacing={spacing}>
+      <Text as={component} size={size} wide={wide} spacing={spacing}>
         {header}
       </Text>
     </div>
@@ -37,25 +31,25 @@ const getBlockWrapper = (
 export const Default = () => (
   <div>
     {getBlockWrapper(`p 12px`, 'p', 12, false, true)}
-    {getBlockWrapper(`p 12px wideColumn`, 'p', 12, true, true)}
+    {getBlockWrapper(`p 12px wide`, 'p', 12, true, true)}
 
     {getBlockWrapper(`p 14px`, 'p', 14, false, true)}
-    {getBlockWrapper(`p 14px wideColumn`, 'p', 14, true, true)}
+    {getBlockWrapper(`p 14px wide`, 'p', 14, true, true)}
 
     {getBlockWrapper(`p 16px`, 'p', 16, false, true)}
-    {getBlockWrapper(`p 16px wideColumn`, 'p', 16, true, true)}
+    {getBlockWrapper(`p 16px wide`, 'p', 16, true, true)}
 
     {getBlockWrapper(`p 18px`, 'p', 18, false, true)}
-    {getBlockWrapper(`p 18px wideColumn`, 'p', 18, true, true)}
+    {getBlockWrapper(`p 18px wide`, 'p', 18, true, true)}
 
     {getBlockWrapper(`p 20px`, 'p', 20, false, true)}
-    {getBlockWrapper(`p 20px wideColumn`, 'p', 20, true, true)}
+    {getBlockWrapper(`p 20px wide`, 'p', 20, true, true)}
 
     {getBlockWrapper(`p 22px`, 'p', 22, false, true)}
-    {getBlockWrapper(`p 22px wideColumn`, 'p', 22, true, true)}
+    {getBlockWrapper(`p 22px wide`, 'p', 22, true, true)}
 
     {getBlockWrapper(`p 24px`, 'p', 24, false, true)}
-    {getBlockWrapper(`p 24px wideColumn`, 'p', 24, true, true)}
+    {getBlockWrapper(`p 24px wide`, 'p', 24, true, true)}
 
     {getBlockWrapper(`p 28px`, 'p', 28, false, true)}
 

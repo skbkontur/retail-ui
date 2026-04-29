@@ -35,7 +35,7 @@ injectGlobal(`
 
 export const TypographyStory = () => {
   const [hasSpacing, setHasSpacing] = React.useState(true);
-  const [isWideColumn, setIsWideColumn] = React.useState(false);
+  const [isWide, setIsWide] = React.useState(false);
   const isMountRef = React.useRef(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const theme = React.useContext(ThemeContext);
@@ -50,7 +50,7 @@ export const TypographyStory = () => {
     }
 
     containerRef.current?.scrollIntoView({ block: 'end' });
-  }, [hasSpacing, isWideColumn]);
+  }, [hasSpacing, isWide]);
 
   const styles = {
     typography: css`
@@ -78,7 +78,7 @@ export const TypographyStory = () => {
     `,
     demo: css`
       display: grid;
-      grid-template-columns: 350px ${isWideColumn ? '1fr' : '0.8fr'};
+      grid-template-columns: 350px ${isWide ? '1fr' : '0.8fr'};
       align-items: center;
       gap: 16px;
       width: calc(100% - 32px);
@@ -130,12 +130,10 @@ export const TypographyStory = () => {
 
   const getCode = (size: TTextSizes) => {
     return {
-      React: `<Text as="p" size={${size}} ${hasSpacing ? ' spacing' : ''}${
-        isWideColumn ? ' wideColumn' : ''
-      }>Текст</Text>`,
-      CSS: `t${size}${isWideColumn ? 'Wide' : ''} ${hasSpacing ? ' tSpacing' : ''}`,
-      SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWideColumn ? ', $wideColumn: true' : ''});`,
-      Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWideColumn ? ', @wideColumn: true' : ''});`,
+      React: `<Text as="p" size={${size}} ${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
+      CSS: `t${size}${isWide ? 'Wide' : ''} ${hasSpacing ? ' tSpacing' : ''}`,
+      SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWide ? ', $wide: true' : ''});`,
+      Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWide ? ', @wide: true' : ''});`,
     };
   };
 
@@ -145,7 +143,7 @@ export const TypographyStory = () => {
   };
 
   const TypographyTile = ({ size, opened, openMenu }: { size: TTextSizes; opened: boolean; openMenu: () => void }) => {
-    const sizeName = (isWideColumn ? `${size}Wide` : size) as TTextTokens;
+    const sizeName = (isWide ? `${size}Wide` : size) as TTextTokens;
     const { lineHeight, margin } = TextTokens[sizeName];
 
     return (
@@ -153,14 +151,14 @@ export const TypographyStory = () => {
         <div className={styles.demoTitle}>
           <b className={styles.demoSize}>
             {size}
-            {isWideColumn && 'Wide'}
+            {isWide && 'Wide'}
           </b>
           &nbsp; font-size {size} / line-height {lineHeight.replace('px', '')}{' '}
           {hasSpacing ? `/ spacing ${margin.replace('px 0', '')}` : ''}
         </div>
 
         <div className={styles.demoText}>
-          <Text as="p" size={size} wideColumn={isWideColumn} spacing={hasSpacing}>
+          <Text as="p" size={size} wide={isWide} spacing={hasSpacing}>
             {getText(size)}
           </Text>
         </div>
@@ -177,8 +175,8 @@ export const TypographyStory = () => {
         <Toggle checked={hasSpacing} onValueChange={setHasSpacing}>
           Отступы (spacing)
         </Toggle>
-        <Toggle checked={isWideColumn} onValueChange={setIsWideColumn}>
-          Широкая колонка (wideColumn){' '}
+        <Toggle checked={isWide} onValueChange={setIsWide}>
+          Широкая колонка (wide){' '}
           <Tooltip
             useWrapper
             render={() => (
@@ -199,7 +197,7 @@ export const TypographyStory = () => {
       </Gapped>
       {sizes.map(
         (size) =>
-          (!isWideColumn || (isWideColumn && `${size}Wide` in TextTokens)) && (
+          (!isWide || (isWide && `${size}Wide` in TextTokens)) && (
             <DropdownMenu
               caption={({ openMenu, opened }) => <TypographyTile size={size} opened={opened} openMenu={openMenu} />}
               key={size}
