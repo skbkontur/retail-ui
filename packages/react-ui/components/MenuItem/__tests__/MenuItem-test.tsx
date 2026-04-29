@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
 import { Menu } from '../../../internal/Menu/index.js';
+import { SizeControlContext } from '../../../lib/size/SizeControlContext.js';
 import { MenuItem, MenuItemDataTids } from '../MenuItem.js';
 import type { MenuItemState } from '../MenuItem.js';
 
@@ -91,6 +92,42 @@ describe('MenuItem', () => {
     render(<MenuItem data-tid={customDataTid} />);
 
     expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
+  });
+
+  describe('size / SizeControlContext', () => {
+    const getRootFontSize = () => getComputedStyle(screen.getByTestId(MenuItemDataTids.root)).fontSize;
+
+    it('applies size from SizeControlContext', () => {
+      const { unmount: unmountProp } = render(<MenuItem size="medium">x</MenuItem>);
+      const fromProp = getRootFontSize();
+      unmountProp();
+
+      const { unmount: unmountContext } = render(
+        <SizeControlContext.Provider value={{ size: 'medium' }}>
+          <MenuItem>x</MenuItem>
+        </SizeControlContext.Provider>,
+      );
+      const fromContext = getRootFontSize();
+      unmountContext();
+
+      expect(fromContext).toBe(fromProp);
+    });
+
+    it('prefers explicit size prop over SizeControlContext', () => {
+      const { unmount: unmountProp } = render(<MenuItem size="small">x</MenuItem>);
+      const fromPropOnly = getRootFontSize();
+      unmountProp();
+
+      const { unmount: unmountBoth } = render(
+        <SizeControlContext.Provider value={{ size: 'large' }}>
+          <MenuItem size="small">x</MenuItem>
+        </SizeControlContext.Provider>,
+      );
+      const withContextAndProp = getRootFontSize();
+      unmountBoth();
+
+      expect(withContextAndProp).toBe(fromPropOnly);
+    });
   });
 
   it('should pass state to functional children when highlighted by Menu', () => {

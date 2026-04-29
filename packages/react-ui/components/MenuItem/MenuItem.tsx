@@ -13,6 +13,7 @@ import { isBrowser } from '../../lib/globalObject.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { SizeProp } from '../../lib/types/props.js';
@@ -98,6 +99,7 @@ export const MenuItemDataTids = {
  * Сущности в которых может быть использован `MenuItem`: DropdownMenu, Kebab, TooltipMenu и Select.
  */
 @withRenderEnvironment
+@withSize
 @rootNode
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
@@ -109,6 +111,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     highlighted: false,
   };
 
+  private size!: SizeProp;
   private globalObject!: GlobalObject;
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
@@ -202,7 +205,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private getRootSizeClassName() {
-    switch (this.props.size) {
+    switch (this.size) {
       case 'large':
         return this.styles.rootLarge(this.theme);
       case 'medium':
@@ -214,7 +217,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private getIconSizeClassName() {
-    switch (this.props.size) {
+    switch (this.size) {
       case 'large':
         return this.styles.iconLarge(this.theme);
       case 'medium':
@@ -226,7 +229,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private getWithIconSizeClassName() {
-    switch (this.props.size) {
+    switch (this.size) {
       case 'large':
         return this.styles.withIconLarge(this.theme);
       case 'medium':
@@ -243,7 +246,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       icon,
       loose,
       state,
-      size,
+      size: sizeProp,
       _enableIconPadding,
       component,
       onMouseEnter,
