@@ -130,7 +130,7 @@ export const TypographyStory = () => {
 
   const getCode = (size: TTextSizes) => {
     return {
-      React: `<Text tag="p" size={${size}} ${hasSpacing ? ' spacing' : ''}${
+      React: `<Text as="p" size={${size}} ${hasSpacing ? ' spacing' : ''}${
         isWideColumn ? ' wideColumn' : ''
       }>Текст</Text>`,
       CSS: `t${size}${isWideColumn ? 'Wide' : ''} ${hasSpacing ? ' tSpacing' : ''}`,
@@ -160,7 +160,7 @@ export const TypographyStory = () => {
         </div>
 
         <div className={styles.demoText}>
-          <Text tag="p" size={size} wideColumn={isWideColumn} spacing={hasSpacing}>
+          <Text as="p" size={size} wideColumn={isWideColumn} spacing={hasSpacing}>
             {getText(size)}
           </Text>
         </div>

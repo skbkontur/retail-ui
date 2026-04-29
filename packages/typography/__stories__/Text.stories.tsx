@@ -27,7 +27,7 @@ const getBlockWrapper = (
   <div style={{ ...stylesWrapper.elementStyle }}>
     <div>{name}</div>
     <div style={{ border: '1px solid black' }}>
-      <Text tag={component} size={size} wideColumn={wideColumn} spacing={spacing}>
+      <Text as={component} size={size} wideColumn={wideColumn} spacing={spacing}>
         {header}
       </Text>
     </div>
@@ -85,7 +85,7 @@ export const TextWithCustom = () => {
       <div style={{ ...stylesWrapper.elementStyle }}>
         <div>with custom style</div>
         <div style={{ border: '1px solid black' }}>
-          <Text tag="p" size={16} style={{ color: 'blue' }} spacing>
+          <Text as="p" size={16} style={{ color: 'blue' }} spacing>
             {header}
           </Text>
         </div>
@@ -94,7 +94,7 @@ export const TextWithCustom = () => {
       <div style={{ ...stylesWrapper.elementStyle }}>
         <div>with custom className</div>
         <div style={{ border: '1px solid black' }}>
-          <Text tag="p" size={16} className={styles.red} spacing>
+          <Text as="p" size={16} className={styles.red} spacing>
             {header}
           </Text>
         </div>

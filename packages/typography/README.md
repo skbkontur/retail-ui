@@ -19,7 +19,7 @@ npm i @skbkontur/typography
 import { Text } from '@skbkontur/typography';
 
 const Component = () => (
-  <Text tag="p" size={24} spacing wideColumn>
+  <Text as="p" size={24} spacing wideColumn>
     Параграф 24px в широкой колонке с отступами
   </Text>
 );

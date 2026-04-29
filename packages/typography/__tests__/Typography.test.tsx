@@ -7,7 +7,7 @@ import { Text } from '../src/Text';
 describe('Text', () => {
   it('should render correct tag', () => {
     render(
-      <Text tag="p" size={16} data-tid="text-root">
+      <Text as="p" size={16} data-tid="text-root">
         Hello
       </Text>
     );
@@ -19,7 +19,7 @@ describe('Text', () => {
   it('should assign the exact <span> DOM node to the ref', () => {
     const ref = createRef<HTMLElement>();
     render(
-      <Text tag="span" size={14} ref={ref} data-tid="text-ref">
+      <Text as="span" size={14} ref={ref} data-tid="text-ref">
         Ref test
       </Text>
     );
@@ -31,7 +31,7 @@ describe('Text', () => {
   it('should assign the exact <div> DOM node to the ref', () => {
     const ref = createRef<HTMLElement>();
     render(
-      <Text tag="div" size={14} ref={ref} data-tid="text-ref">
+      <Text as="div" size={14} ref={ref} data-tid="text-ref">
         Ref test
       </Text>
     );
