@@ -25,7 +25,6 @@ export default {
   },
 } as Meta;
 
-// Add `position: sticky` for typography controls
 injectGlobal(`
   [data-role=wrapper]:has([data-typography-controls]),
   [data-role=preview]:has([data-typography-controls]) {
@@ -35,7 +34,7 @@ injectGlobal(`
 `);
 
 export const TypographyStory = () => {
-  const [isSpacing, setIsSpacing] = React.useState(true);
+  const [hasSpacing, setHasSpacing] = React.useState(true);
   const [isWideColumn, setIsWideColumn] = React.useState(false);
   const isMountRef = React.useRef(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -51,7 +50,7 @@ export const TypographyStory = () => {
     }
 
     containerRef.current?.scrollIntoView({ block: 'end' });
-  }, [isSpacing, isWideColumn]);
+  }, [hasSpacing, isWideColumn]);
 
   const styles = {
     typography: css`
@@ -122,35 +121,31 @@ export const TypographyStory = () => {
     `,
   };
 
-  const getText = (size) => {
-    if (size > 40) {
-      return 'Дизайн для реального мира';
-    } else if (size > 26) {
-      return 'Виктор Папанек. Дизайн для реального мира';
-    } else if (size > 16) {
-      return 'Типографике в интерфейсах нужно уделять особое внимание.';
-    }
+  const getText = (size: TTextSizes) => {
+    if (size > 40) return 'Дизайн для реального мира';
+    if (size > 26) return 'Виктор Папанек. Дизайн для реального мира';
+    if (size > 16) return 'Типографике в интерфейсах нужно уделять особое внимание.';
     return 'Интерфейсы во многом состоят из текста, и от того как набран этот текст, зависит общее восприятие дизайна и удобство работы с системой.';
   };
 
-  const getCode = (size) => {
+  const getCode = (size: TTextSizes) => {
     return {
-      React: `<Text tag="p" size={${size}} ${!isSpacing ? ' noSpacing' : ''}${
+      React: `<Text tag="p" size={${size}} ${hasSpacing ? ' spacing' : ''}${
         isWideColumn ? ' wideColumn' : ''
       }>Текст</Text>`,
-      CSS: `t${size}${isWideColumn ? 'Wide' : ''} ${!isSpacing ? ' noSpacing' : ''}`,
-      SCSS: `@include t(${size}${!isSpacing ? ', $spacing: false' : ''}${isWideColumn ? ', $wideColumn: true' : ''});`,
-      Less: `.t(${size}${!isSpacing ? ', @spacing: false' : ''}${isWideColumn ? ', @wideColumn: true' : ''});`,
+      CSS: `t${size}${isWideColumn ? 'Wide' : ''} ${hasSpacing ? ' tSpacing' : ''}`,
+      SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWideColumn ? ', $wideColumn: true' : ''});`,
+      Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWideColumn ? ', @wideColumn: true' : ''});`,
     };
   };
 
-  const copyCode = (code) => {
+  const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
-    Toast.push('Код скопирован', null, 1000);
+    SingleToast.push('Код скопирован', { showTime: 1000 });
   };
 
-  const TypographyTile = ({ size, opened, openMenu }) => {
-    const sizeName = isWideColumn ? `${size}Wide` : size;
+  const TypographyTile = ({ size, opened, openMenu }: { size: TTextSizes; opened: boolean; openMenu: () => void }) => {
+    const sizeName = (isWideColumn ? `${size}Wide` : size) as TTextTokens;
     const { lineHeight, margin } = TextTokens[sizeName];
 
     return (
@@ -161,11 +156,11 @@ export const TypographyStory = () => {
             {isWideColumn && 'Wide'}
           </b>
           &nbsp; font-size {size} / line-height {lineHeight.replace('px', '')}{' '}
-          {isSpacing ? `/ spacing ${margin.replace('px 0', '')}` : ''}
+          {hasSpacing ? `/ spacing ${margin.replace('px 0', '')}` : ''}
         </div>
 
         <div className={styles.demoText}>
-          <Text tag="p" size={size} wideColumn={isWideColumn} noSpacing={!isSpacing}>
+          <Text tag="p" size={size} wideColumn={isWideColumn} spacing={hasSpacing}>
             {getText(size)}
           </Text>
         </div>
@@ -173,12 +168,13 @@ export const TypographyStory = () => {
     );
   };
 
-  const sizes = Object.keys(TextTokens).filter((x) => !x.includes('Wide'));
-
+  const sizes = Object.keys(TextTokens)
+    .filter((x) => !x.includes('Wide'))
+    .map(Number) as TTextSizes[];
   return (
     <div className={styles.typography} ref={containerRef}>
       <Gapped gap={28} className={styles.controls} data-typography-controls>
-        <Toggle checked={isSpacing} onValueChange={setIsSpacing}>
+        <Toggle checked={hasSpacing} onValueChange={setHasSpacing}>
           Отступы (spacing)
         </Toggle>
         <Toggle checked={isWideColumn} onValueChange={setIsWideColumn}>
@@ -210,7 +206,7 @@ export const TypographyStory = () => {
             >
               <MenuHeader>Скопировать код</MenuHeader>
               {Object.entries(getCode(size)).map(([lang, code]) => (
-                <MenuItem comment={lang} onClick={() => copyCode(code)}>
+                <MenuItem key={lang} comment={lang} onClick={() => copyCode(code)}>
                   {code}
                 </MenuItem>
               ))}

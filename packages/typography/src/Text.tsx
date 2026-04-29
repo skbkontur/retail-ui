@@ -7,9 +7,10 @@ import styles from '../Text.module.css';
 export const Text: React.FC<TTextProps> = (props) => {
   const Tag = props.tag;
   const classKey = `t${props.size}${props.wideColumn ? 'Wide' : ''}`;
+
   return (
     <Tag
-      className={`${styles[classKey] || ''} ${props.noSpacing ? styles.noSpacing : ''} ${props.className || ''}`}
+      className={`${styles[classKey] || ''} ${props.spacing ? styles.tSpacing : ''} ${props.className || ''}`}
       id={props.id}
       style={props.style}
       role={props.role}

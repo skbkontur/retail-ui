@@ -127,7 +127,7 @@ $typography: (
 /// @param {number} $size - Размер
 /// @param {boolean} $spacing [true] - Отступы
 /// @param {boolean} $wideColumn [false] - Широкая колонка
-@mixin t($size, $spacing: true, $wideColumn: false) {
+@mixin t($size, $spacing: false, $wideColumn: false) {
   @if $wideColumn {
     $size-key: '#{$size}Wide';
   } @else {

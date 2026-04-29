@@ -19,8 +19,8 @@ npm i @skbkontur/typography
 import { Text } from '@skbkontur/typography';
 
 const Component = () => (
-  <Text tag="p" size={24} wideColumn noSpacing>
-    Параграф 24px в широкой колонке без отступов
+  <Text tag="p" size={24} spacing wideColumn>
+    Параграф 24px в широкой колонке с отступами
   </Text>
 );
 ```
@@ -30,7 +30,7 @@ const Component = () => (
 ```js static
 import '@skbkontur/typography/Text.css'; // Подключение в App.tsx / App.jsx
 
-const Component = () => <h2 className="t48 noSpacing">Заголовок 48px без отступов</h2>;
+const Component = () => <h2 className="t48 spacing">Заголовок 48px с отступами</h2>;
 ```
 
 #### CSS Modules
@@ -47,7 +47,7 @@ const Component = () => <h2 className={text.t48}>Заголовок 48px</h2>;
 @use '@skbkontur/typography/text' as *;
 
 .component {
-  @include t(40, $spacing: true, $wideColumn: false);
+  @include t(40, $spacing: false, $wideColumn: false);
 }
 ```
 
@@ -57,7 +57,7 @@ const Component = () => <h2 className={text.t48}>Заголовок 48px</h2>;
 @import '@skbkontur/typography/text';
 
 .component {
-  .t(24, @spacing: true, @wideColumn: false);
+  .t(24, @spacing: false, @wideColumn: false);
 }
 ```
 

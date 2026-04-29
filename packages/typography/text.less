@@ -121,7 +121,7 @@
   };
 };
 
-.t(@size, @spacing: true, @wideColumn: false) {
+.t(@size, @spacing: false, @wideColumn: false) {
   @size-key: if(@wideColumn, %(e('%aWide'), @size), @size);
   @size-props: @typography[@@size-key];
 

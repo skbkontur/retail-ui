@@ -22,12 +22,12 @@ const getBlockWrapper = (
   component: TTextTags,
   size: TTextSizes,
   wideColumn?: boolean,
-  noSpacing?: boolean
+  spacing?: boolean
 ) => (
   <div style={{ ...stylesWrapper.elementStyle }}>
     <div>{name}</div>
     <div style={{ border: '1px solid black' }}>
-      <Text tag={component} size={size} wideColumn={wideColumn} noSpacing={noSpacing}>
+      <Text tag={component} size={size} wideColumn={wideColumn} spacing={spacing}>
         {header}
       </Text>
     </div>
@@ -36,46 +36,46 @@ const getBlockWrapper = (
 
 export const Default = () => (
   <div>
-    {getBlockWrapper(`p 12px`, 'p', 12, false)}
-    {getBlockWrapper(`p 12px wideColumn`, 'p', 12, true)}
+    {getBlockWrapper(`p 12px`, 'p', 12, false, true)}
+    {getBlockWrapper(`p 12px wideColumn`, 'p', 12, true, true)}
 
-    {getBlockWrapper(`p 14px`, 'p', 14, false)}
-    {getBlockWrapper(`p 14px wideColumn`, 'p', 14, true)}
+    {getBlockWrapper(`p 14px`, 'p', 14, false, true)}
+    {getBlockWrapper(`p 14px wideColumn`, 'p', 14, true, true)}
 
-    {getBlockWrapper(`p 16px`, 'p', 16, false)}
-    {getBlockWrapper(`p 16px wideColumn`, 'p', 16, true)}
+    {getBlockWrapper(`p 16px`, 'p', 16, false, true)}
+    {getBlockWrapper(`p 16px wideColumn`, 'p', 16, true, true)}
 
-    {getBlockWrapper(`p 18px`, 'p', 18, false)}
-    {getBlockWrapper(`p 18px wideColumn`, 'p', 18, true)}
+    {getBlockWrapper(`p 18px`, 'p', 18, false, true)}
+    {getBlockWrapper(`p 18px wideColumn`, 'p', 18, true, true)}
 
-    {getBlockWrapper(`p 20px`, 'p', 20, false)}
-    {getBlockWrapper(`p 20px wideColumn`, 'p', 20, true)}
+    {getBlockWrapper(`p 20px`, 'p', 20, false, true)}
+    {getBlockWrapper(`p 20px wideColumn`, 'p', 20, true, true)}
 
-    {getBlockWrapper(`p 22px`, 'p', 22, false)}
-    {getBlockWrapper(`p 22px wideColumn`, 'p', 22, true)}
+    {getBlockWrapper(`p 22px`, 'p', 22, false, true)}
+    {getBlockWrapper(`p 22px wideColumn`, 'p', 22, true, true)}
 
-    {getBlockWrapper(`p 24px`, 'p', 24, false)}
-    {getBlockWrapper(`p 24px wideColumn`, 'p', 24, true)}
+    {getBlockWrapper(`p 24px`, 'p', 24, false, true)}
+    {getBlockWrapper(`p 24px wideColumn`, 'p', 24, true, true)}
 
-    {getBlockWrapper(`p 28px`, 'p', 28, false)}
+    {getBlockWrapper(`p 28px`, 'p', 28, false, true)}
 
-    {getBlockWrapper(`p 32px`, 'p', 32, false)}
+    {getBlockWrapper(`p 32px`, 'p', 32, false, true)}
 
-    {getBlockWrapper(`p 36px`, 'p', 36, false)}
+    {getBlockWrapper(`p 36px`, 'p', 36, false, true)}
 
-    {getBlockWrapper(`p 40px`, 'p', 40, false)}
-
-    {getBlockWrapper(`p 48px`, 'p', 48, false)}
-
-    {getBlockWrapper(`p 56px`, 'p', 56, false)}
-
-    <hr />
-
-    {getBlockWrapper(`p 56px`, 'p', 56, false, true)}
+    {getBlockWrapper(`p 40px`, 'p', 40, false, true)}
 
     {getBlockWrapper(`p 48px`, 'p', 48, false, true)}
 
-    {getBlockWrapper(`p 40px`, 'p', 40, false, true)}
+    {getBlockWrapper(`p 56px`, 'p', 56, false, true)}
+
+    <hr />
+
+    {getBlockWrapper(`p 56px`, 'p', 56, false, false)}
+
+    {getBlockWrapper(`p 48px`, 'p', 48, false, false)}
+
+    {getBlockWrapper(`p 40px`, 'p', 40, false, false)}
   </div>
 );
 
@@ -85,7 +85,7 @@ export const TextWithCustom = () => {
       <div style={{ ...stylesWrapper.elementStyle }}>
         <div>with custom style</div>
         <div style={{ border: '1px solid black' }}>
-          <Text tag="p" size={16} style={{ color: 'blue' }}>
+          <Text tag="p" size={16} style={{ color: 'blue' }} spacing>
             {header}
           </Text>
         </div>
@@ -94,7 +94,7 @@ export const TextWithCustom = () => {
       <div style={{ ...stylesWrapper.elementStyle }}>
         <div>with custom className</div>
         <div style={{ border: '1px solid black' }}>
-          <Text tag="p" size={16} className={styles.red}>
+          <Text tag="p" size={16} className={styles.red} spacing>
             {header}
           </Text>
         </div>

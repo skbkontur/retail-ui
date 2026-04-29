@@ -16,16 +16,15 @@ const generateCss = (inputTokens: { [key in TTextTokens]: Record<string, any> })
       return `.t${token}{
           font-size:${tokenValues.fontSize};
           line-height:${tokenValues.lineHeight};
-          margin:${tokenValues.margin};
+          margin: 0;
           font-weight:${tokenValues.fontWeight};
+        }
+          
+        .t${token}.tSpacing {
+          margin:${tokenValues.margin};
         }`;
     });
-  const res = `${tokens.join('\n\n')}
-
-    .noSpacing {
-      margin: 0;
-    }
-  `;
+  const res = tokens.join('\n\n');
   createFile('./Text.css', res);
   createFile('./Text.module.css', res);
 };
@@ -53,7 +52,7 @@ const generateScss = (inputTokens: { [key in TTextTokens]: Record<string, any> }
   /// @param {number} $size - Размер
   /// @param {boolean} $spacing [true] - Отступы
   /// @param {boolean} $wideColumn [false] - Широкая колонка
-  @mixin t($size, $spacing: true, $wideColumn: false) {
+  @mixin t($size, $spacing: false, $wideColumn: false) {
     @if $wideColumn {
       $size-key: '#{$size}Wide';
     } @else {
@@ -93,7 +92,7 @@ const generateLess = (inputTokens: { [key in TTextTokens]: Record<string, any> }
       ${tokens.join('\n')}
     }
 
-    .t(@size, @spacing: true, @wideColumn: false) {
+    .t(@size, @spacing: false, @wideColumn: false) {
       @size-key: if(@wideColumn, %(e("%aWide"), @size), @size);
       @size-props: @typography[@@size-key];
 

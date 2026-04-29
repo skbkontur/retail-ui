@@ -17,10 +17,10 @@ export interface TTextProps
        */
       tag: TTextTags;
       /**
-       * Отключить отступы
+       * Включить внешние отступы
        * @default false
        */
-      noSpacing?: boolean;
+      spacing?: boolean;
       /**
        * Широкая колонка — от 40 до 60 символов в строке
        * @default false
