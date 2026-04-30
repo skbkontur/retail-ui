@@ -57,7 +57,7 @@ const Component = () => <p className="t-24 t-spacing t-wide">Текст</p>;
 ```js static
 import text from '@skbkontur/typography/Text.module.css';
 
-const Component = () => <p className={`${text.t24} ${text.tSpacing} ${text.tWide}`}>Текст</p>;
+const Component = () => <p className={`${text.t24} ${text.spacing} ${text.wide}`}>Текст</p>;
 ```
 
 #### SCSS mixin

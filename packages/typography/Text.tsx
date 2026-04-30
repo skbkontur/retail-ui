@@ -53,7 +53,7 @@ export interface TextProps
 export const Text = forwardRef<HTMLElement, TextProps>((props, ref) => {
   const { as: Component = 'span', className, spacing, size, wide, children, ...rest } = props;
 
-  const combinedClassName = [styles[`t${size}`], wide && styles.tWide, spacing && styles.tSpacing, className]
+  const combinedClassName = [styles[`t${size}`], wide && styles.wide, spacing && styles.spacing, className]
     .filter(Boolean)
     .join(' ');
 

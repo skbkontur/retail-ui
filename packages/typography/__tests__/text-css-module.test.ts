@@ -13,12 +13,12 @@ describe('Text.module.css content', () => {
   });
 
   it('should contain modifiers', () => {
-    expect(css).toContain('.tSpacing {');
-    expect(css).toContain('.tWide {');
+    expect(css).toContain('.spacing {');
+    expect(css).toContain('.wide {');
   });
 
   it('should contain combined logic', () => {
-    expect(css).toContain('.t14.tSpacing { margin-bottom: 10px; }');
-    expect(css).toContain('.t20.tWide.tSpacing { margin-bottom: 16px; }');
+    expect(css).toContain('.t14.spacing { margin-bottom: 10px; }');
+    expect(css).toContain('.t20.wide.spacing { margin-bottom: 16px; }');
   });
 });

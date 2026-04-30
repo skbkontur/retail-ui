@@ -49,17 +49,17 @@ const generateCssModules = () => {
   margin: 0;
 }
 
-.t${size}.tSpacing {
+.t${size}.spacing {
   margin-bottom: ${token.marginBottom};
 }`);
 
     if ('wideLineHeight' in token) {
       cssRules.push(`
-.t${size}.tWide {
+.t${size}.wide {
   line-height: ${token.wideLineHeight};
 }
 
-.t${size}.tWide.tSpacing {
+.t${size}.wide.spacing {
   margin-bottom: ${token.wideMarginBottom};
 }`);
     }

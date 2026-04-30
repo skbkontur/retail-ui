@@ -122,7 +122,8 @@ export const TypographyStory = () => {
   const getCode = (size: TTextSizes) => {
     return {
       React: `<Text as="p" size={${size}}${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
-      CSS: `t${size}${isWide ? 'Wide' : ''}${hasSpacing ? ' tSpacing' : ''}`,
+      CSS: `t${size}${isWide ? 't-wide' : ''}${hasSpacing ? ' t-spacing' : ''}`,
+      'CSS Module': `\${text.t${size}}${isWide ? ' ${text.wide}' : ''}${hasSpacing ? ' ${text.spacing}' : ''}`,
       SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWide ? ', $wide: true' : ''});`,
       Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWide ? ', @wide: true' : ''});`,
     };
@@ -145,7 +146,7 @@ export const TypographyStory = () => {
         <div className={styles.demoTitle}>
           <b className={styles.demoSize}>
             {size}
-            {isWide && 'Wide'}
+            {isWide && ' wide'}
           </b>
           &nbsp; font-size {size} / line-height {lineHeight} {hasSpacing ? `/ spacing ${margin}` : ''}
         </div>
@@ -159,9 +160,7 @@ export const TypographyStory = () => {
     );
   };
 
-  const sizes = Object.keys(tokens)
-    .filter((x) => !x.includes('Wide'))
-    .map((x) => (isNaN(Number(x)) ? x : Number(x))) as TTextSizes[];
+  const sizes = Object.keys(tokens).map((x) => (isNaN(Number(x)) ? x : Number(x))) as TTextSizes[];
 
   return (
     <div className={styles.typography} ref={containerRef}>
@@ -191,13 +190,17 @@ export const TypographyStory = () => {
       </Gapped>
 
       {sizes.map((size) => {
-        const wideExists = `${size}Wide` in tokens;
-        if (isWide && !wideExists) return null;
+        const token = tokens[size as keyof typeof tokens];
+        const hasWideVersion = 'wideLineHeight' in token;
+
+        if (isWide && !hasWideVersion) {
+          return null;
+        }
 
         return (
           <DropdownMenu
-            caption={({ openMenu, opened }) => <TypographyTile size={size} opened={opened} openMenu={openMenu} />}
             key={String(size)}
+            caption={({ openMenu, opened }) => <TypographyTile size={size} opened={opened} openMenu={openMenu} />}
           >
             <MenuHeader>Скопировать код</MenuHeader>
             {Object.entries(getCode(size)).map(([lang, code]) => (

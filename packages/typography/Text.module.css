@@ -5,15 +5,15 @@
   margin: 0;
 }
 
-.t12.tSpacing {
+.t12.spacing {
   margin-bottom: 8px;
 }
 
-.t12.tWide {
+.t12.wide {
   line-height: 20px;
 }
 
-.t12.tWide.tSpacing {
+.t12.wide.spacing {
   margin-bottom: 10px;
 }
 
@@ -24,15 +24,15 @@
   margin: 0;
 }
 
-.t14.tSpacing {
+.t14.spacing {
   margin-bottom: 10px;
 }
 
-.t14.tWide {
+.t14.wide {
   line-height: 22px;
 }
 
-.t14.tWide.tSpacing {
+.t14.wide.spacing {
   margin-bottom: 12px;
 }
 
@@ -43,15 +43,15 @@
   margin: 0;
 }
 
-.t16.tSpacing {
+.t16.spacing {
   margin-bottom: 12px;
 }
 
-.t16.tWide {
+.t16.wide {
   line-height: 24px;
 }
 
-.t16.tWide.tSpacing {
+.t16.wide.spacing {
   margin-bottom: 12px;
 }
 
@@ -62,15 +62,15 @@
   margin: 0;
 }
 
-.t18.tSpacing {
+.t18.spacing {
   margin-bottom: 12px;
 }
 
-.t18.tWide {
+.t18.wide {
   line-height: 28px;
 }
 
-.t18.tWide.tSpacing {
+.t18.wide.spacing {
   margin-bottom: 14px;
 }
 
@@ -81,15 +81,15 @@
   margin: 0;
 }
 
-.t20.tSpacing {
+.t20.spacing {
   margin-bottom: 14px;
 }
 
-.t20.tWide {
+.t20.wide {
   line-height: 32px;
 }
 
-.t20.tWide.tSpacing {
+.t20.wide.spacing {
   margin-bottom: 16px;
 }
 
@@ -100,15 +100,15 @@
   margin: 0;
 }
 
-.t22.tSpacing {
+.t22.spacing {
   margin-bottom: 14px;
 }
 
-.t22.tWide {
+.t22.wide {
   line-height: 34px;
 }
 
-.t22.tWide.tSpacing {
+.t22.wide.spacing {
   margin-bottom: 16px;
 }
 
@@ -119,15 +119,15 @@
   margin: 0;
 }
 
-.t24.tSpacing {
+.t24.spacing {
   margin-bottom: 16px;
 }
 
-.t24.tWide {
+.t24.wide {
   line-height: 36px;
 }
 
-.t24.tWide.tSpacing {
+.t24.wide.spacing {
   margin-bottom: 18px;
 }
 
@@ -138,7 +138,7 @@
   margin: 0;
 }
 
-.t28.tSpacing {
+.t28.spacing {
   margin-bottom: 18px;
 }
 
@@ -149,7 +149,7 @@
   margin: 0;
 }
 
-.t32.tSpacing {
+.t32.spacing {
   margin-bottom: 20px;
 }
 
@@ -160,7 +160,7 @@
   margin: 0;
 }
 
-.t36.tSpacing {
+.t36.spacing {
   margin-bottom: 22px;
 }
 
@@ -171,7 +171,7 @@
   margin: 0;
 }
 
-.t40.tSpacing {
+.t40.spacing {
   margin-bottom: 24px;
 }
 
@@ -182,7 +182,7 @@
   margin: 0;
 }
 
-.t48.tSpacing {
+.t48.spacing {
   margin-bottom: 28px;
 }
 
@@ -193,6 +193,6 @@
   margin: 0;
 }
 
-.t56.tSpacing {
+.t56.spacing {
   margin-bottom: 32px;
 }
