@@ -11,96 +11,111 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
-  return <Hint text="Подсказка">Базовая</Hint>;
+export const ExampleBasic: Story = () => {
+  return <Hint text="Подсказка">Элемент</Hint>;
 };
-Example1.storyName = 'Базовый пример';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
+/** Проп `maxWidth` задаёт максимальную ширину подсказки */
+export const ExampleMaxWidth: Story = () => {
   return (
-    <Hint text="Редактирование">
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <path
-          fillRule="evenodd"
-          d="M13 12V12.998H8V12H13ZM3 13V11L9 4.99999L11 6.99999L5 13H3ZM13 5L11.5 6.5L9.5 4.5L11 3L13 5Z"
-          clipRule="evenodd"
-        />
-      </svg>
+    <Hint maxWidth="150px" text="Очень длинная подсказка, описывающая этот непонятный элемент">
+      Элемент
     </Hint>
   );
 };
-Example2.storyName = 'Иконка';
+ExampleMaxWidth.storyName = 'Максимальная ширина';
 
-export const Example3: Story = () => {
+/** Проп `pos` позиционирует подсказку относительно элемента.
+ *
+ * Возможные значения:
+ * + `top`, `top center`, `top left`, `top right`;
+ * + `bottom`, `bottom center`, `bottom left`, `bottom right`;
+ * + `left`, `left middle`, `left top`, `left bottom`;
+ * + `right`, `right middle`, `right top`, `right bottom`. */
+export const ExamplePos: Story = () => {
   return (
-    <Hint pos={'left'} text="Подсказка слева">
-      Всегда всплывает слева
+    <Hint pos={'right'} text="Всплывает справа">
+      Элемент
     </Hint>
   );
 };
-Example3.storyName = 'Сторона всплытия';
+ExamplePos.storyName = 'Позиционирование';
 
-export const Example4: Story = () => {
+/** С помощью пропа `allowedPositions` можно определить список доступных позиций для отображения подсказки.
+ * Если подсказка в определенной позиции выходит за край экрана, используется следующая.
+ *
+ * Попробуйте пример ниже с разным положением элемента относительно краёв экрана.
+ */
+export const ExampleAllowedPositions: Story = () => {
   return (
-    <Hint maxWidth="150px" text="Очень много текста, рассказывающего про этот очень непонятный элемент">
-      Очень непонятный элемент
+    <Hint
+      pos={'right middle'}
+      allowedPositions={['right middle', 'top', 'bottom']}
+      text="Подсказка, которая может вылезти за экран"
+    >
+      <div style={{ border: '1px black solid', padding: '4px', textAlign: 'center' }}>Элемент</div>
     </Hint>
   );
 };
-Example4.storyName = 'Ограниченная ширина';
+ExampleAllowedPositions.storyName = 'Доступные позиции для отображения';
 
-export const Example5: Story = () => {
+/** Через проп `manual` можно управлять отображением подсказки вручную. Для этого нужно передавать значения в проп `opened`. */
+export const ExampleManual: Story = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <Hint opened={isOpen} manual text="Подсказка">
-      <Button onFocus={() => setIsOpen(true)} onBlur={() => setIsOpen(false)}>
-        {isOpen ? 'Закрыть подсказку' : 'Открыть подсказку'}
-      </Button>
+      <Button onClick={() => setIsOpen(!isOpen)}>{`${isOpen ? 'Скрыть' : 'Показать'} подсказку`}</Button>
     </Hint>
   );
 };
-Example5.storyName = 'Открытие подсказки при фокусе на кнопку';
+ExampleManual.storyName = 'Ручное управление';
 
-export const Example6: Story = () => {
+/** Проп `disableAnimations` отключает анимацию всплывающей подсказки. */
+export const ExampleDisableAnimations: Story = () => {
   return (
-    <Hint disableAnimations text={'Нет анимации :('}>
-      Есть анимация?
+    <Hint disableAnimations text={'Подсказка'}>
+      Элемент
     </Hint>
   );
 };
-Example6.storyName = 'Всплытие без анимации';
+ExampleDisableAnimations.storyName = 'Всплытие без анимации';
 
-/** Подсказка должна отображаться даже на отключённых компонентах. Из коробки это работает только с контролами `react-ui`.
-Нативные элементы, поддерживающие атрибут `disabled`, отключают необходимые события мыши.
-В подобных случаях следуют использовать проп `useWrapper`: */
-export const Example7: Story = () => {
+/** С помощью пропа `useWrapper` можно обернуть вложенные элементы в `<span />`.
+ *
+ * Это особенно полезно в двух сценариях:
+ * + для правильного позиционирования двух или более вложенных объектов;
+ * + для отображения подсказки у отключённых нативных элементов (аттрибут `disabled` блокирует события мыши).
+ */
+export const ExampleUseWrapper: Story = () => {
   return (
-    <Hint useWrapper text="Подсказка всё равно отображается">
-      <button disabled>native button</button>
+    <Hint useWrapper text="Подсказка">
+      <button disabled>Нативная кнопка</button>
     </Hint>
   );
 };
-Example7.storyName = 'Встроенная обёртка';
+ExampleUseWrapper.storyName = 'Встроенная обёртка';
 
-/** Т.к. встроённая обёртка это `<span>` без стилей, то она может работать некорректно в определённых ситуациях.
-В таких случаях стоит использовать собственную обётку: */
-export const Example8: Story = () => {
+/** Поскольку встроенная обёртка из пропа `useWrapper` — это простой `<span />` без стилей, она может работать некорректно.
+В таких случаях стоит использовать собственную обёртку: */
+export const ExampleCustomWrapper: Story = () => {
   return (
     <>
       <Hint useWrapper text="Подсказка">
         <button disabled style={{ height: 40 }}>
-          useWrapper prop
+          Проп useWrapper
         </button>
       </Hint>
+
       <Hint text="Подсказка">
         <span style={{ display: 'inline-block' }}>
           <button disabled style={{ height: 40 }}>
-            custom wrapper
+            Своя обёртка
           </button>
         </span>
       </Hint>
     </>
   );
 };
-Example8.storyName = 'Кастомная обертка';
+ExampleCustomWrapper.storyName = 'Кастомизация: собственная обёртка';

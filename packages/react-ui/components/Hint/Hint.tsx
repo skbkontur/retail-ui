@@ -25,38 +25,37 @@ export interface HintProps extends CommonProps {
   /** @ignore */
   children?: React.ReactNode;
 
-  /** Переводит отображение подсказки в _"ручной режим"_.
-   В _"ручном режиме"_ подсказку можно активировать только задав значение пропу `opened`. */
-  manual?: boolean;
+  /** Текст подсказки. */
+  text: React.ReactNode;
 
-  /** Задает максимальную ширину подсказки. */
+  /** Максимальная ширина подсказки. */
   maxWidth?: React.CSSProperties['maxWidth'];
 
-  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
-  onMouseEnter?: (event: MouseEventType) => void;
+  /** Приоритетное расположение подсказки относительно текста. */
+  pos?: ShortPopupPositionsType | PopupPinnablePositionsType;
 
-  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
-  onMouseLeave?: (event: MouseEventType) => void;
+  /** Список позиций, которые может занимать подсказка. В списке обязательно должна быть позиция из пропа `pos`. */
+  allowedPositions?: PopupPinnablePositionsType[];
+
+  /** Переводит отображение подсказки в ручной режим, где состояние контролируется значением пропа `opened`. */
+  manual?: boolean;
 
   /** Открывает подсказку. Работает только при `manual=true`. */
   opened?: boolean;
 
-  /** Задает приоритетное расположение подсказки относительно текста. */
-  pos?: ShortPopupPositionsType | PopupPinnablePositionsType;
-
-  /** Задает текст подсказки. */
-  text: React.ReactNode;
-
-  /** Задает список позиций, которые будет занимать хинт. Если положение хинта в определенной позиции будет выходить за край экрана, то будет выбрана следующая позиция. Обязательно должен включать позицию указанную в `pos`. */
-  allowedPositions?: PopupPinnablePositionsType[];
-
   /** Отключает анимацию. */
   disableAnimations?: boolean;
 
-  /** Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`.
-   * Используется для корректного позиционирования хинта при двух и более вложенных элементах.
-   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически. */
+  /** Оборачивает вложенные элементы в `<span />`.
+   *
+   * _Примечание_: при двух и более вложенных элементах обёртка будет добавлена автоматически. */
   useWrapper?: boolean;
+
+  /** Вызывается при наведении курсора (событие `onmouseenter`). */
+  onMouseEnter?: (event: MouseEventType) => void;
+
+  /** Вызывается при уходе курсора с объекта (событие `onmouseleave`). */
+  onMouseLeave?: (event: MouseEventType) => void;
 }
 
 export interface HintState {
@@ -66,12 +65,8 @@ export interface HintState {
 
 type DefaultProps = Required<Pick<HintProps, 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>>;
 
-/**
- * Всплывающая подсказка `Hint`.
- * По умолчанию отображается при наведении на элемент, но можно задать другие условия отображения.
- *
- * Для подсказки, всплывающей по клику используйте Tooltip.
- */
+/** Краткая подсказка, которая объясняет контрол, иконку и добавляет контекста.
+ * Всплывает при наведении на элемент. */
 @withRenderEnvironment
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
