@@ -29,8 +29,6 @@
     "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints text.css Text.module.css text.less text.scss"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "7.22.5",
-    "@babel/register": "7.22.5",
     "@types/less": "^3.0.8",
     "sass": "^1.99.0"
   },
