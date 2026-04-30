@@ -11,26 +11,45 @@ NPM-пакет со стилями типографики из [Kontur.Typograph
 npm i @skbkontur/typography
 ```
 
+NPM-пакет со стилями типографики
+
+- Доступно в виде React-компонента, миксинов для SCSS/Less и CSS-классов (Global/Modules)
+- Управление отступами и поддержка текстов [в широкой колонке](https://guides.kontur.ru/principles/text/text-styles/#Dlya_zagolovkov,_lidov_i_obichnogo_teksta)
+
+## Установка
+
+```bash
+npm i @skbkontur/typography
+```
+
+<Stories title="" includePrimary={true} />
+
 ## Использование
 
+Доступны 5 вариантов использования
+
+<br />
+
 #### React компонент
+
+<ArgTypes />
 
 ```jsx static
 import { Text } from '@skbkontur/typography';
 
 const Component = () => (
   <Text as="p" size={24} spacing wide>
-    Параграф 24px в широкой колонке с отступами
+    Текст
   </Text>
 );
 ```
 
-#### CSS класс (глобально)
+#### CSS
 
 ```js static
-import '@skbkontur/typography/Text.css'; // Подключение в App.tsx / App.jsx
+import '@skbkontur/typography/text.css'; // Подключение в точке входа приложения
 
-const Component = () => <h2 className="t48 spacing">Заголовок 48px с отступами</h2>;
+const Component = () => <p className="t-24 t-spacing t-wide">Текст</p>;
 ```
 
 #### CSS Modules
@@ -38,7 +57,7 @@ const Component = () => <h2 className="t48 spacing">Заголовок 48px с �
 ```js static
 import text from '@skbkontur/typography/Text.module.css';
 
-const Component = () => <h2 className={text.t48}>Заголовок 48px</h2>;
+const Component = () => <p className={`${text.t24} ${text.tSpacing} ${text.tWide}`}>Текст</p>;
 ```
 
 #### SCSS mixin
@@ -60,9 +79,3 @@ const Component = () => <h2 className={text.t48}>Заголовок 48px</h2>;
   .t(24, @spacing: false, @wide: false);
 }
 ```
-
-## Разработка
-
-- Токены типографики расположены в файле `src/TextTokens.ts`
-- `npm run prebuild` — сборка статики CSS/SCSS/Less
-- `npm run build` — сборка пакета

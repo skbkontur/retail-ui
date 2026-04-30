@@ -12,8 +12,8 @@ import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import type { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Text } from '../src/Text';
-import { TextTokens } from '../src/TextTokens';
+import { Text, TextProps } from '../Text.js';
+import { tokens } from '../tokens.js';
 
 export default {
   title: 'Typography',
@@ -40,15 +40,14 @@ export const TypographyStory = () => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const theme = React.useContext(ThemeContext);
 
+  type TTextSizes = TextProps['size'];
+
   React.useEffect(() => {
     isMountRef.current = true;
   }, []);
 
   React.useLayoutEffect(() => {
-    if (!isMountRef.current) {
-      return;
-    }
-
+    if (!isMountRef.current) return;
     containerRef.current?.scrollIntoView({ block: 'end' });
   }, [hasSpacing, isWide]);
 
@@ -56,7 +55,6 @@ export const TypographyStory = () => {
     typography: css`
       display: flex;
       flex-direction: column;
-
       &,
       * {
         font-family: 'Lab Grotesque', 'Helvetica Neue', Roboto, Arial, sans-serif;
@@ -72,10 +70,6 @@ export const TypographyStory = () => {
       border-top: 1px solid ${theme.menuSeparatorBorderColor};
       margin: 0 -20px;
     `,
-    heading: css`
-      padding: 0 16px;
-      width: 50%;
-    `,
     demo: css`
       display: grid;
       grid-template-columns: 350px ${isWide ? '1fr' : '0.8fr'};
@@ -85,21 +79,17 @@ export const TypographyStory = () => {
       padding: 8px 16px;
       border: 0;
       border-radius: 8px;
-      font-family: inherit;
       text-align: left;
       background: none;
       cursor: pointer;
       transition: 0.15s ease;
       color: ${theme.textColorDefault};
-
       &:hover {
         background: ${theme.menuItemHoverBg};
       }
-
       &:focus-visible {
         outline: 2px solid currentColor;
       }
-
       &:active {
         background: ${theme.menuItemSelectedBg};
       }
@@ -122,16 +112,17 @@ export const TypographyStory = () => {
   };
 
   const getText = (size: TTextSizes) => {
-    if (size > 40) return 'Дизайн для реального мира';
-    if (size > 26) return 'Виктор Папанек. Дизайн для реального мира';
-    if (size > 16) return 'Типографике в интерфейсах нужно уделять особое внимание.';
+    const s = Number(size);
+    if (s > 40) return 'Дизайн для реального мира';
+    if (s > 26) return 'Виктор Папанек. Дизайн для реального мира';
+    if (s > 16) return 'Типографике в интерфейсах нужно уделять особое внимание.';
     return 'Интерфейсы во многом состоят из текста, и от того как набран этот текст, зависит общее восприятие дизайна и удобство работы с системой.';
   };
 
   const getCode = (size: TTextSizes) => {
     return {
-      React: `<Text as="p" size={${size}} ${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
-      CSS: `t${size}${isWide ? 'Wide' : ''} ${hasSpacing ? ' tSpacing' : ''}`,
+      React: `<Text as="p" size={${size}}${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
+      CSS: `t${size}${isWide ? 'Wide' : ''}${hasSpacing ? ' tSpacing' : ''}`,
       SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWide ? ', $wide: true' : ''});`,
       Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWide ? ', @wide: true' : ''});`,
     };
@@ -143,18 +134,20 @@ export const TypographyStory = () => {
   };
 
   const TypographyTile = ({ size, opened, openMenu }: { size: TTextSizes; opened: boolean; openMenu: () => void }) => {
-    const sizeName = (isWide ? `${size}Wide` : size) as TTextTokens;
-    const { lineHeight, margin } = TextTokens[sizeName];
+    const tokenKey = (isWide ? `${size}Wide` : size) as keyof typeof tokens;
+    const token = tokens[tokenKey] || tokens[size as keyof typeof tokens];
+
+    const lineHeight = token.lineHeight.replace('px', '');
+    const margin = token.marginBottom ? token.marginBottom.replace('px 0', '') : '0';
 
     return (
-      <div className={cx(styles.demo, { [styles.demoActive]: opened })} tabIndex={0} onClick={() => openMenu()}>
+      <div className={cx(styles.demo, { [styles.demoActive]: opened })} tabIndex={0} onClick={openMenu}>
         <div className={styles.demoTitle}>
           <b className={styles.demoSize}>
             {size}
             {isWide && 'Wide'}
           </b>
-          &nbsp; font-size {size} / line-height {lineHeight.replace('px', '')}{' '}
-          {hasSpacing ? `/ spacing ${margin.replace('px 0', '')}` : ''}
+          &nbsp; font-size {size} / line-height {lineHeight} {hasSpacing ? `/ spacing ${margin}` : ''}
         </div>
 
         <div className={styles.demoText}>
@@ -166,9 +159,10 @@ export const TypographyStory = () => {
     );
   };
 
-  const sizes = Object.keys(TextTokens)
+  const sizes = Object.keys(tokens)
     .filter((x) => !x.includes('Wide'))
-    .map(Number) as TTextSizes[];
+    .map((x) => (isNaN(Number(x)) ? x : Number(x))) as TTextSizes[];
+
   return (
     <div className={styles.typography} ref={containerRef}>
       <Gapped gap={28} className={styles.controls} data-typography-controls>
@@ -181,7 +175,7 @@ export const TypographyStory = () => {
             useWrapper
             render={() => (
               <div style={{ maxWidth: 200 }}>
-                Если длина строки больше 40&nbsp;символов, увеличивается высота строки и абзацный отступ.{' '}
+                Если длина строки больше 40 символов, увеличивается высота строки и абзацный отступ.{' '}
                 <Link
                   target="_blank"
                   href="https://guides.kontur.ru/principles/text/text-styles/#Dlya_zagolovkov,_lidov_i_obichnogo_teksta"
@@ -195,23 +189,27 @@ export const TypographyStory = () => {
           </Tooltip>
         </Toggle>
       </Gapped>
-      {sizes.map(
-        (size) =>
-          (!isWide || (isWide && `${size}Wide` in TextTokens)) && (
-            <DropdownMenu
-              caption={({ openMenu, opened }) => <TypographyTile size={size} opened={opened} openMenu={openMenu} />}
-              key={size}
-            >
-              <MenuHeader>Скопировать код</MenuHeader>
-              {Object.entries(getCode(size)).map(([lang, code]) => (
-                <MenuItem key={lang} comment={lang} onClick={() => copyCode(code)}>
-                  {code}
-                </MenuItem>
-              ))}
-            </DropdownMenu>
-          )
-      )}
+
+      {sizes.map((size) => {
+        const wideExists = `${size}Wide` in tokens;
+        if (isWide && !wideExists) return null;
+
+        return (
+          <DropdownMenu
+            caption={({ openMenu, opened }) => <TypographyTile size={size} opened={opened} openMenu={openMenu} />}
+            key={String(size)}
+          >
+            <MenuHeader>Скопировать код</MenuHeader>
+            {Object.entries(getCode(size)).map(([lang, code]) => (
+              <MenuItem key={lang} comment={lang} onClick={() => copyCode(code)}>
+                {code}
+              </MenuItem>
+            ))}
+          </DropdownMenu>
+        );
+      })}
     </div>
   );
 };
+
 TypographyStory.storyName = 'Типографика';

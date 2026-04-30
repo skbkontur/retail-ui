@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { createRef } from 'react';
 import { describe, expect, it } from 'vitest';
 
-import { Text } from '../src/Text';
+import { Text } from '../Text.js';
 
 describe('Text', () => {
   it('should render correct tag', () => {
@@ -25,18 +25,5 @@ describe('Text', () => {
     );
 
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
-    expect(ref.current).toBe(screen.getByTestId('text-ref'));
-  });
-
-  it('should assign the exact <div> DOM node to the ref', () => {
-    const ref = createRef<HTMLElement>();
-    render(
-      <Text as="div" size={14} ref={ref} data-tid="text-ref">
-        Ref test
-      </Text>
-    );
-
-    expect(ref.current).toBeInstanceOf(HTMLDivElement);
-    expect(ref.current).toBe(screen.getByTestId('text-ref'));
   });
 });

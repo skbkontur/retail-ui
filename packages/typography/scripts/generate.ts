@@ -1,111 +1,166 @@
 import * as fs from 'fs';
 
-import type { TTextTokens } from '../src/TextTokens.ts';
-// @ts-expect-error: its ok to import .ts here
-import { TextTokens } from '../src/TextTokens.ts';
+import { tokens } from '../tokens.js';
 
 function createFile(fileName: string, content: string) {
-  fs.writeFile(fileName, content, () => {});
+  fs.writeFile(fileName, content.trim(), () => {});
 }
 
-const generateCss = (inputTokens: { [key in TTextTokens]: Record<string, any> }) => {
-  const tokens = Object.keys(inputTokens)
-    .sort()
-    .map((token) => {
-      const tokenValues = TextTokens[token as TTextTokens];
-      return `.t${token}{
-          font-size:${tokenValues.fontSize};
-          line-height:${tokenValues.lineHeight};
-          margin: 0;
-          font-weight:${tokenValues.fontWeight};
-        }
-          
-        .t${token}.tSpacing {
-          margin:${tokenValues.margin};
-        }`;
-    });
-  const res = tokens.join('\n\n');
-  createFile('./Text.css', res);
-  createFile('./Text.module.css', res);
+const generateGlobalCss = () => {
+  const cssRules: string[] = [];
+
+  Object.entries(tokens).forEach(([size, token]) => {
+    cssRules.push(`
+.t-${size} {
+  font-size: ${token.fontSize};
+  line-height: ${token.lineHeight};
+  font-weight: ${token.fontWeight};
+  margin: 0;
+}
+
+.t-${size}.t-spacing {
+  margin-bottom: ${token.marginBottom};
+}`);
+
+    if ('wideLineHeight' in token) {
+      cssRules.push(`
+.t-${size}.t-wide {
+  line-height: ${token.wideLineHeight};
+}
+
+.t-${size}.t-wide.t-spacing {
+  margin-bottom: ${token.wideMarginBottom};
+}`);
+    }
+  });
+
+  createFile('./text.css', cssRules.join('\n'));
 };
 
-const generateScss = (inputTokens: { [key in TTextTokens]: Record<string, any> }) => {
-  const tokens = Object.keys(inputTokens)
-    .sort()
-    .map((token) => {
-      const tokenValues = TextTokens[token as TTextTokens];
-      return `"${token}": (
-            font-size:${tokenValues.fontSize},
-            line-height: ${tokenValues.lineHeight},
-            margin: ${tokenValues.margin},
-            font-weight: ${tokenValues.fontWeight}
-          )`;
-    });
-  const res = `
-  @use "sass:map";
-  @use "sass:string";
+const generateCssModules = () => {
+  const cssRules: string[] = [];
 
-  $typography: (
-    ${tokens.join(',\n')}
-  ) !default;
+  Object.entries(tokens).forEach(([size, token]) => {
+    cssRules.push(`
+.t${size} {
+  font-size: ${token.fontSize};
+  line-height: ${token.lineHeight};
+  font-weight: ${token.fontWeight};
+  margin: 0;
+}
 
-  /// @param {number} $size - Размер
-  /// @param {boolean} $spacing [true] - Отступы
-  /// @param {boolean} $wide [false] - Широкая колонка
-  @mixin t($size, $spacing: false, $wide: false) {
-    @if $wide {
-      $size-key: '#{$size}Wide';
-    } @else {
-      $size-key: '#{$size}';
+.t${size}.tSpacing {
+  margin-bottom: ${token.marginBottom};
+}`);
+
+    if ('wideLineHeight' in token) {
+      cssRules.push(`
+.t${size}.tWide {
+  line-height: ${token.wideLineHeight};
+}
+
+.t${size}.tWide.tSpacing {
+  margin-bottom: ${token.wideMarginBottom};
+}`);
     }
-    $style: map.get($typography, $size-key);
+  });
 
-    font-size: map.get($style, font-size);
-    font-weight: map.get($style, font-weight);
-    line-height: map.get($style, line-height);
+  createFile('./Text.module.css', cssRules.join('\n'));
+};
+
+const generateScss = () => {
+  const sassSizeEntries: string[] = [];
+
+  Object.entries(tokens).forEach(([size, token]) => {
+    let entry = `
+  "${size}": (
+    "font-size": ${token.fontSize},
+    "line-height": ${token.lineHeight},
+    "margin-bottom": ${token.marginBottom},
+    "font-weight": ${token.fontWeight}`;
+
+    if ('wideLineHeight' in token) {
+      entry += `,
+    "wide-line-height": ${token.wideLineHeight},
+    "wide-margin-bottom": ${token.wideMarginBottom}`;
+    }
+
+    entry += '\n  )';
+    sassSizeEntries.push(entry);
+  });
+
+  const res = `
+@use "sass:map";
+
+$typography: (${sassSizeEntries.join(',')}
+) !default;
+
+@mixin t($size, $spacing: false, $wide: false) {
+  $style: map.get($typography, "#{$size}");
+
+  @if $style {
+    font-size: map.get($style, "font-size");
+    font-weight: map.get($style, "font-weight");
+    
+    $line-height: map.get($style, "line-height");
+    $margin-bottom: map.get($style, "margin-bottom");
+
+    @if $wide and map.has-key($style, "wide-line-height") {
+      $line-height: map.get($style, "wide-line-height");
+      $margin-bottom: map.get($style, "wide-margin-bottom");
+    }
+
+    line-height: $line-height;
 
     @if $spacing {
-      margin: map.get($style, margin);
+      margin-bottom: $margin-bottom;
     } @else {
-      margin: 0;
+      margin-bottom: 0;
     }
   }
-  `;
+}`;
   createFile('./text.scss', res);
 };
 
-const generateLess = (inputTokens: { [key in TTextTokens]: Record<string, any> }) => {
-  const tokens = Object.keys(inputTokens)
-    .sort()
-    .map((token) => {
-      const tokenValues = TextTokens[token as TTextTokens];
-      return `@${token}: {
-            font-size:${tokenValues.fontSize};
-            font-weight:${tokenValues.fontWeight};
-            line-height:${tokenValues.lineHeight};
-            margin:${tokenValues.margin};
-         }`;
-    });
+const generateLess = () => {
+  const lessEntries: string[] = [];
+
+  Object.entries(tokens).forEach(([size, token]) => {
+    let entry = `
+  @t${size}: {
+    font-size: ${token.fontSize}; 
+    line-height: ${token.lineHeight}; 
+    margin-bottom: ${token.marginBottom}; 
+    font-weight: ${token.fontWeight};
+    wide-line-height: ${'wideLineHeight' in token ? token.wideLineHeight : 'null'};
+    wide-margin-bottom: ${'wideMarginBottom' in token ? token.wideMarginBottom : 'null'};
+  };`;
+    lessEntries.push(entry);
+  });
 
   const res = `
-    @typography: {
-      ${tokens.join('\n')}
-    }
+@typography: {${lessEntries.join('')}
+}
 
-    .t(@size, @spacing: false, @wide: false) {
-      @size-key: if(@wide, %(e("%aWide"), @size), @size);
-      @size-props: @typography[@@size-key];
+.t(@size, @spacing: false, @wide: false) {
+  @size-key: ~"t@{size}";
+  @style: @typography[@@size-key];
 
-      font-size: @size-props[font-size];
-      font-weight: @size-props[font-weight];
-      line-height: @size-props[line-height];
-      margin: if(@spacing, @size-props[margin], 0);
-    }
+  font-size: @style[font-size];
+  font-weight: @style[font-weight];
+  
+  @has-wide: boolean(not(@style[wide-line-height] = null));
+  
+  @line-height-value: if((@wide = true) and (@has-wide = true), @style[wide-line-height], @style[line-height]);
+  line-height: @line-height-value;
 
-    `;
+  @margin-value: if((@wide = true) and (@has-wide = true), @style[wide-margin-bottom], @style[margin-bottom]);
+  margin-bottom: if(@spacing, @margin-value, 0);
+}`;
   createFile('./text.less', res);
 };
 
-[generateCss, generateScss, generateLess].forEach((callBack) => {
-  callBack(TextTokens);
-});
+generateGlobalCss();
+generateCssModules();
+generateScss();
+generateLess();

@@ -1,132 +1,122 @@
 @typography: {
-  @12: {
+  @t12: {
     font-size: 12px;
-    font-weight: 400;
     line-height: 16px;
-    margin: 8px 0;
-  };
-  @12Wide: {
-    font-size: 12px;
+    margin-bottom: 8px;
     font-weight: 400;
-    line-height: 20px;
-    margin: 10px 0;
+    wide-line-height: 20px;
+    wide-margin-bottom: 10px;
   };
-  @14: {
+  @t14: {
     font-size: 14px;
-    font-weight: 400;
     line-height: 20px;
-    margin: 10px 0;
-  };
-  @14Wide: {
-    font-size: 14px;
+    margin-bottom: 10px;
     font-weight: 400;
-    line-height: 22px;
-    margin: 12px 0;
+    wide-line-height: 22px;
+    wide-margin-bottom: 12px;
   };
-  @16: {
+  @t16: {
     font-size: 16px;
-    font-weight: 400;
     line-height: 22px;
-    margin: 12px 0;
-  };
-  @16Wide: {
-    font-size: 16px;
+    margin-bottom: 12px;
     font-weight: 400;
-    line-height: 24px;
-    margin: 12px 0;
+    wide-line-height: 24px;
+    wide-margin-bottom: 12px;
   };
-  @18: {
+  @t18: {
     font-size: 18px;
-    font-weight: 400;
     line-height: 24px;
-    margin: 12px 0;
-  };
-  @18Wide: {
-    font-size: 18px;
+    margin-bottom: 12px;
     font-weight: 400;
-    line-height: 28px;
-    margin: 14px 0;
+    wide-line-height: 28px;
+    wide-margin-bottom: 14px;
   };
-  @20: {
+  @t20: {
     font-size: 20px;
-    font-weight: 400;
     line-height: 28px;
-    margin: 14px 0;
-  };
-  @20Wide: {
-    font-size: 20px;
+    margin-bottom: 14px;
     font-weight: 400;
-    line-height: 32px;
-    margin: 16px 0;
+    wide-line-height: 32px;
+    wide-margin-bottom: 16px;
   };
-  @22: {
+  @t22: {
     font-size: 22px;
-    font-weight: 400;
     line-height: 30px;
-    margin: 14px 0;
-  };
-  @22Wide: {
-    font-size: 22px;
+    margin-bottom: 14px;
     font-weight: 400;
-    line-height: 34px;
-    margin: 16px 0;
+    wide-line-height: 34px;
+    wide-margin-bottom: 16px;
   };
-  @24: {
+  @t24: {
     font-size: 24px;
-    font-weight: 400;
     line-height: 32px;
-    margin: 16px 0;
-  };
-  @24Wide: {
-    font-size: 24px;
+    margin-bottom: 16px;
     font-weight: 400;
-    line-height: 36px;
-    margin: 18px 0;
+    wide-line-height: 36px;
+    wide-margin-bottom: 18px;
   };
-  @28: {
+  @t28: {
     font-size: 28px;
-    font-weight: 700;
     line-height: 36px;
-    margin: 18px 0;
+    margin-bottom: 18px;
+    font-weight: 700;
+    wide-line-height: null;
+    wide-margin-bottom: null;
   };
-  @32: {
+  @t32: {
     font-size: 32px;
-    font-weight: 700;
     line-height: 40px;
-    margin: 20px 0;
+    margin-bottom: 20px;
+    font-weight: 700;
+    wide-line-height: null;
+    wide-margin-bottom: null;
   };
-  @36: {
+  @t36: {
     font-size: 36px;
-    font-weight: 700;
     line-height: 44px;
-    margin: 22px 0;
+    margin-bottom: 22px;
+    font-weight: 700;
+    wide-line-height: null;
+    wide-margin-bottom: null;
   };
-  @40: {
+  @t40: {
     font-size: 40px;
-    font-weight: 700;
     line-height: 48px;
-    margin: 24px 0;
+    margin-bottom: 24px;
+    font-weight: 700;
+    wide-line-height: null;
+    wide-margin-bottom: null;
   };
-  @48: {
+  @t48: {
     font-size: 48px;
-    font-weight: 700;
     line-height: 56px;
-    margin: 28px 0;
-  };
-  @56: {
-    font-size: 56px;
+    margin-bottom: 28px;
     font-weight: 700;
+    wide-line-height: null;
+    wide-margin-bottom: null;
+  };
+  @t56: {
+    font-size: 56px;
     line-height: 64px;
-    margin: 32px 0;
+    margin-bottom: 32px;
+    font-weight: 700;
+    wide-line-height: null;
+    wide-margin-bottom: null;
   };
 };
 
 .t(@size, @spacing: false, @wide: false) {
-  @size-key: if(@wide, %(e('%aWide'), @size), @size);
-  @size-props: @typography[@@size-key];
+  @size-key: ~'t@{size}';
+  @style: @typography[@@size-key];
 
-  font-size: @size-props[font-size];
-  font-weight: @size-props[font-weight];
-  line-height: @size-props[line-height];
-  margin: if(@spacing, @size-props[margin], 0);
+  font-size: @style[font-size];
+  font-weight: @style[font-weight];
+
+  @has-wide: boolean(not(@style[wide-line-height] = null));
+
+  @line-height-value: if((@wide = true) and (@has-wide = true), @style[wide-line-height], @style[line-height]);
+  line-height: @line-height-value;
+
+  @margin-value: if((@wide = true) and (@has-wide = true), @style[wide-margin-bottom], @style[margin-bottom]);
+  margin-bottom: if(@spacing, @margin-value, 0);
 }

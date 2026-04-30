@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Text } from '../src/Text';
-import type { TTextSizes, TTextTags } from '../src/types';
+import { Text, type TextProps } from '../Text.js';
 
 import styles from './colors.module.css';
 
@@ -17,7 +16,13 @@ const stylesWrapper = {
   },
 };
 
-const getBlockWrapper = (name: string, component: TTextTags, size: TTextSizes, wide?: boolean, spacing?: boolean) => (
+const getBlockWrapper = (
+  name: string,
+  component: NonNullable<TextProps['as']>,
+  size: TextProps['size'],
+  wide?: TextProps['wide'],
+  spacing?: TextProps['spacing']
+) => (
   <div style={{ ...stylesWrapper.elementStyle }}>
     <div>{name}</div>
     <div style={{ border: '1px solid black' }}>
@@ -30,46 +35,46 @@ const getBlockWrapper = (name: string, component: TTextTags, size: TTextSizes, w
 
 export const Default = () => (
   <div>
-    {getBlockWrapper(`p 12px`, 'p', 12, false, true)}
-    {getBlockWrapper(`p 12px wide`, 'p', 12, true, true)}
+    {getBlockWrapper('p 12px spacer', 'p', 12, false, true)}
+    {getBlockWrapper('p 12px spacer wide', 'p', 12, true, true)}
 
-    {getBlockWrapper(`p 14px`, 'p', 14, false, true)}
-    {getBlockWrapper(`p 14px wide`, 'p', 14, true, true)}
+    {getBlockWrapper('p 14px spacer', 'p', 14, false, true)}
+    {getBlockWrapper('p 14px spacer wide', 'p', 14, true, true)}
 
-    {getBlockWrapper(`p 16px`, 'p', 16, false, true)}
-    {getBlockWrapper(`p 16px wide`, 'p', 16, true, true)}
+    {getBlockWrapper('p 16px spacer', 'p', 16, false, true)}
+    {getBlockWrapper('p 16px spacer wide', 'p', 16, true, true)}
 
-    {getBlockWrapper(`p 18px`, 'p', 18, false, true)}
-    {getBlockWrapper(`p 18px wide`, 'p', 18, true, true)}
+    {getBlockWrapper('p 18px spacer', 'p', 18, false, true)}
+    {getBlockWrapper('p 18px spacer wide', 'p', 18, true, true)}
 
-    {getBlockWrapper(`p 20px`, 'p', 20, false, true)}
-    {getBlockWrapper(`p 20px wide`, 'p', 20, true, true)}
+    {getBlockWrapper('p 20px spacer', 'p', 20, false, true)}
+    {getBlockWrapper('p 20px spacer wide', 'p', 20, true, true)}
 
-    {getBlockWrapper(`p 22px`, 'p', 22, false, true)}
-    {getBlockWrapper(`p 22px wide`, 'p', 22, true, true)}
+    {getBlockWrapper('p 22px spacer', 'p', 22, false, true)}
+    {getBlockWrapper('p 22px spacer wide', 'p', 22, true, true)}
 
-    {getBlockWrapper(`p 24px`, 'p', 24, false, true)}
-    {getBlockWrapper(`p 24px wide`, 'p', 24, true, true)}
+    {getBlockWrapper('p 24px spacer', 'p', 24, false, true)}
+    {getBlockWrapper('p 24px spacer wide', 'p', 24, true, true)}
 
-    {getBlockWrapper(`p 28px`, 'p', 28, false, true)}
+    {getBlockWrapper('p 28px spacer', 'p', 28, false, true)}
 
-    {getBlockWrapper(`p 32px`, 'p', 32, false, true)}
+    {getBlockWrapper('p 32px spacer', 'p', 32, false, true)}
 
-    {getBlockWrapper(`p 36px`, 'p', 36, false, true)}
+    {getBlockWrapper('p 36px spacer', 'p', 36, false, true)}
 
-    {getBlockWrapper(`p 40px`, 'p', 40, false, true)}
+    {getBlockWrapper('p 40px spacer', 'p', 40, false, true)}
 
-    {getBlockWrapper(`p 48px`, 'p', 48, false, true)}
+    {getBlockWrapper('p 48px spacer', 'p', 48, false, true)}
 
-    {getBlockWrapper(`p 56px`, 'p', 56, false, true)}
+    {getBlockWrapper('p 56px spacer', 'p', 56, false, true)}
 
     <hr />
 
-    {getBlockWrapper(`p 56px`, 'p', 56, false, false)}
+    {getBlockWrapper('p 40px', 'p', 40, false, false)}
 
-    {getBlockWrapper(`p 48px`, 'p', 48, false, false)}
+    {getBlockWrapper('p 48px', 'p', 48, false, false)}
 
-    {getBlockWrapper(`p 40px`, 'p', 40, false, false)}
+    {getBlockWrapper('p 56px', 'p', 56, false, false)}
   </div>
 );
 

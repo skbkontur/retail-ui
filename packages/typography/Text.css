@@ -1,219 +1,198 @@
-.t12 {
+.t-12 {
   font-size: 12px;
   line-height: 16px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t12.tSpacing {
-  margin: 8px 0;
+.t-12.t-spacing {
+  margin-bottom: 8px;
 }
 
-.t12Wide {
-  font-size: 12px;
+.t-12.t-wide {
   line-height: 20px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t12Wide.tSpacing {
-  margin: 10px 0;
+.t-12.t-wide.t-spacing {
+  margin-bottom: 10px;
 }
 
-.t14 {
+.t-14 {
   font-size: 14px;
   line-height: 20px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t14.tSpacing {
-  margin: 10px 0;
+.t-14.t-spacing {
+  margin-bottom: 10px;
 }
 
-.t14Wide {
-  font-size: 14px;
+.t-14.t-wide {
   line-height: 22px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t14Wide.tSpacing {
-  margin: 12px 0;
+.t-14.t-wide.t-spacing {
+  margin-bottom: 12px;
 }
 
-.t16 {
+.t-16 {
   font-size: 16px;
   line-height: 22px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t16.tSpacing {
-  margin: 12px 0;
+.t-16.t-spacing {
+  margin-bottom: 12px;
 }
 
-.t16Wide {
-  font-size: 16px;
+.t-16.t-wide {
   line-height: 24px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t16Wide.tSpacing {
-  margin: 12px 0;
+.t-16.t-wide.t-spacing {
+  margin-bottom: 12px;
 }
 
-.t18 {
+.t-18 {
   font-size: 18px;
   line-height: 24px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t18.tSpacing {
-  margin: 12px 0;
+.t-18.t-spacing {
+  margin-bottom: 12px;
 }
 
-.t18Wide {
-  font-size: 18px;
+.t-18.t-wide {
   line-height: 28px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t18Wide.tSpacing {
-  margin: 14px 0;
+.t-18.t-wide.t-spacing {
+  margin-bottom: 14px;
 }
 
-.t20 {
+.t-20 {
   font-size: 20px;
   line-height: 28px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t20.tSpacing {
-  margin: 14px 0;
+.t-20.t-spacing {
+  margin-bottom: 14px;
 }
 
-.t20Wide {
-  font-size: 20px;
+.t-20.t-wide {
   line-height: 32px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t20Wide.tSpacing {
-  margin: 16px 0;
+.t-20.t-wide.t-spacing {
+  margin-bottom: 16px;
 }
 
-.t22 {
+.t-22 {
   font-size: 22px;
   line-height: 30px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t22.tSpacing {
-  margin: 14px 0;
+.t-22.t-spacing {
+  margin-bottom: 14px;
 }
 
-.t22Wide {
-  font-size: 22px;
+.t-22.t-wide {
   line-height: 34px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t22Wide.tSpacing {
-  margin: 16px 0;
+.t-22.t-wide.t-spacing {
+  margin-bottom: 16px;
 }
 
-.t24 {
+.t-24 {
   font-size: 24px;
   line-height: 32px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
-.t24.tSpacing {
-  margin: 16px 0;
+.t-24.t-spacing {
+  margin-bottom: 16px;
 }
 
-.t24Wide {
-  font-size: 24px;
+.t-24.t-wide {
   line-height: 36px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t24Wide.tSpacing {
-  margin: 18px 0;
+.t-24.t-wide.t-spacing {
+  margin-bottom: 18px;
 }
 
-.t28 {
+.t-28 {
   font-size: 28px;
   line-height: 36px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
-.t28.tSpacing {
-  margin: 18px 0;
+.t-28.t-spacing {
+  margin-bottom: 18px;
 }
 
-.t32 {
+.t-32 {
   font-size: 32px;
   line-height: 40px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
-.t32.tSpacing {
-  margin: 20px 0;
+.t-32.t-spacing {
+  margin-bottom: 20px;
 }
 
-.t36 {
+.t-36 {
   font-size: 36px;
   line-height: 44px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
-.t36.tSpacing {
-  margin: 22px 0;
+.t-36.t-spacing {
+  margin-bottom: 22px;
 }
 
-.t40 {
+.t-40 {
   font-size: 40px;
   line-height: 48px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
-.t40.tSpacing {
-  margin: 24px 0;
+.t-40.t-spacing {
+  margin-bottom: 24px;
 }
 
-.t48 {
+.t-48 {
   font-size: 48px;
   line-height: 56px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
-.t48.tSpacing {
-  margin: 28px 0;
+.t-48.t-spacing {
+  margin-bottom: 28px;
 }
 
-.t56 {
+.t-56 {
   font-size: 56px;
   line-height: 64px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
-.t56.tSpacing {
-  margin: 32px 0;
+.t-56.t-spacing {
+  margin-bottom: 32px;
 }

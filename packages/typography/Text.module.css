@@ -1,219 +1,198 @@
 .t12 {
   font-size: 12px;
   line-height: 16px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t12.tSpacing {
-  margin: 8px 0;
+  margin-bottom: 8px;
 }
 
-.t12Wide {
-  font-size: 12px;
+.t12.tWide {
   line-height: 20px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t12Wide.tSpacing {
-  margin: 10px 0;
+.t12.tWide.tSpacing {
+  margin-bottom: 10px;
 }
 
 .t14 {
   font-size: 14px;
   line-height: 20px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t14.tSpacing {
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
-.t14Wide {
-  font-size: 14px;
+.t14.tWide {
   line-height: 22px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t14Wide.tSpacing {
-  margin: 12px 0;
+.t14.tWide.tSpacing {
+  margin-bottom: 12px;
 }
 
 .t16 {
   font-size: 16px;
   line-height: 22px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t16.tSpacing {
-  margin: 12px 0;
+  margin-bottom: 12px;
 }
 
-.t16Wide {
-  font-size: 16px;
+.t16.tWide {
   line-height: 24px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t16Wide.tSpacing {
-  margin: 12px 0;
+.t16.tWide.tSpacing {
+  margin-bottom: 12px;
 }
 
 .t18 {
   font-size: 18px;
   line-height: 24px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t18.tSpacing {
-  margin: 12px 0;
+  margin-bottom: 12px;
 }
 
-.t18Wide {
-  font-size: 18px;
+.t18.tWide {
   line-height: 28px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t18Wide.tSpacing {
-  margin: 14px 0;
+.t18.tWide.tSpacing {
+  margin-bottom: 14px;
 }
 
 .t20 {
   font-size: 20px;
   line-height: 28px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t20.tSpacing {
-  margin: 14px 0;
+  margin-bottom: 14px;
 }
 
-.t20Wide {
-  font-size: 20px;
+.t20.tWide {
   line-height: 32px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t20Wide.tSpacing {
-  margin: 16px 0;
+.t20.tWide.tSpacing {
+  margin-bottom: 16px;
 }
 
 .t22 {
   font-size: 22px;
   line-height: 30px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t22.tSpacing {
-  margin: 14px 0;
+  margin-bottom: 14px;
 }
 
-.t22Wide {
-  font-size: 22px;
+.t22.tWide {
   line-height: 34px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t22Wide.tSpacing {
-  margin: 16px 0;
+.t22.tWide.tSpacing {
+  margin-bottom: 16px;
 }
 
 .t24 {
   font-size: 24px;
   line-height: 32px;
-  margin: 0;
   font-weight: 400;
+  margin: 0;
 }
 
 .t24.tSpacing {
-  margin: 16px 0;
+  margin-bottom: 16px;
 }
 
-.t24Wide {
-  font-size: 24px;
+.t24.tWide {
   line-height: 36px;
-  margin: 0;
-  font-weight: 400;
 }
 
-.t24Wide.tSpacing {
-  margin: 18px 0;
+.t24.tWide.tSpacing {
+  margin-bottom: 18px;
 }
 
 .t28 {
   font-size: 28px;
   line-height: 36px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .t28.tSpacing {
-  margin: 18px 0;
+  margin-bottom: 18px;
 }
 
 .t32 {
   font-size: 32px;
   line-height: 40px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .t32.tSpacing {
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
 .t36 {
   font-size: 36px;
   line-height: 44px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .t36.tSpacing {
-  margin: 22px 0;
+  margin-bottom: 22px;
 }
 
 .t40 {
   font-size: 40px;
   line-height: 48px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .t40.tSpacing {
-  margin: 24px 0;
+  margin-bottom: 24px;
 }
 
 .t48 {
   font-size: 48px;
   line-height: 56px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .t48.tSpacing {
-  margin: 28px 0;
+  margin-bottom: 28px;
 }
 
 .t56 {
   font-size: 56px;
   line-height: 64px;
-  margin: 0;
   font-weight: 700;
+  margin: 0;
 }
 
 .t56.tSpacing {
-  margin: 32px 0;
+  margin-bottom: 32px;
 }

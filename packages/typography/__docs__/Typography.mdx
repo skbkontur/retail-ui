@@ -26,6 +26,8 @@ npm i @skbkontur/typography
 
 ## Использование
 
+Доступны 5 вариантов использования
+
 <br />
 
 #### React компонент
@@ -37,9 +39,25 @@ import { Text } from '@skbkontur/typography';
 
 const Component = () => (
   <Text as="p" size={24} spacing wide>
-    Параграф 24px в широкой колонке с отступами
+    Текст
   </Text>
 );
+```
+
+#### CSS класс (глобально)
+
+```js static
+import '@skbkontur/typography/text.css'; // Подключение в точке входа приложения
+
+const Component = () => <p className="t-24 t-spacing t-wide">Текст</p>;
+```
+
+#### CSS Modules
+
+```js static
+import text from '@skbkontur/typography/Text.module.css';
+
+const Component = () => <p className={`${text.t24} ${text.tSpacing} ${text.tWide}`}>Текст</p>;
 ```
 
 #### SCSS mixin
@@ -61,25 +79,3 @@ const Component = () => (
   .t(24, @spacing: false, @wide: false);
 }
 ```
-
-#### CSS Modules
-
-```js static
-import text from '@skbkontur/typography/Text.module.css';
-
-const Component = () => <h2 className={`${text.t48} ${text.tSpacing}`}>Заголовок 48px с отступами</h2>;
-```
-
-#### CSS класс (глобально)
-
-```js static
-import '@skbkontur/typography/Text.css'; // Подключение в App.tsx
-
-const Component = () => <h2 className="t40">Заголовок 40px</h2>;
-```
-
-## Разработка
-
-- Токены типографики расположены в файле `src/TextTokens.ts`
-- `npm run prebuild` — сборка статики CSS/SCSS/Less
-- `npm run build` — сборка пакета
