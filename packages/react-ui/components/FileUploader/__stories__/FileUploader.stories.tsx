@@ -243,6 +243,10 @@ export const FileUploaderWithMultiplePrefilledFilesCustomRender = () => (
   />
 );
 
+const fileUploaderTilePreviewDataUrl = `data:image/svg+xml;base64,${btoa(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="160" height="120"><rect fill="#e8f1fa" width="100%" height="100%"/><rect fill="#3d7dcc" x="16" y="16" width="128" height="88" rx="4"/></svg>',
+)}`;
+
 export const FileUploaderWithMultiplePrefilledFilesUploadButtonEndAndPreview = () => (
   <FileUploader
     multiple
@@ -250,9 +254,7 @@ export const FileUploaderWithMultiplePrefilledFilesUploadButtonEndAndPreview = (
     view="tile"
     uploadButtonPosition="end"
     initialFiles={[createFile('test1.txt'), createFile('test2.txt')]}
-    renderFile={(props) => (
-      <FileUploaderFile {...props} previewImg="https://tech.skbkontur.ru/kontur-ui/images/previewImg.png" />
-    )}
+    renderFile={(props) => <FileUploaderFile {...props} previewImg={fileUploaderTilePreviewDataUrl} />}
   />
 );
 
