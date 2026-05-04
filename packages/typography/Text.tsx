@@ -36,6 +36,7 @@ export interface TextProps
         | 'small'
         | 'mark'
         | 'code'
+        | 'legend'
         | 'address';
       /**
        * Включить внешние отступы
