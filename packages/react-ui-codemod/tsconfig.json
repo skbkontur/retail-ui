@@ -2,5 +2,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "moduleDetection": "force"
-  }
+  },
+  "exclude": [
+    "**/__testfixtures__/**",
+    "**/__tests__/**",
+    "lib/**",
+    "customization/variablesConverter.ts",
+    "tsconfig.emit.json",
+    "tsconfig.emit-globals.d.ts"
+  ]
 }

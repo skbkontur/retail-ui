@@ -66,10 +66,10 @@ const RENAMED_VARS: Record<string, string> = {
   tabPaddingY: 'tabPaddingYLarge',
   dropdownMenuSelectedBg: 'menuItemSelectedBg',
   dropdownMenuHoverBg: 'menuItemHoverBg',
-  fileUploaderFontSize:'fileUploaderFontSizeSmall',
-  fileUploaderLineHeight:'fileUploaderLineHeightSmall',
-  fileUploaderPaddingX:'fileUploaderPaddingXSmall',
-  fileUploaderPaddingY:'fileUploaderPaddingYSmall',
+  fileUploaderFontSize: 'fileUploaderFontSizeSmall',
+  fileUploaderLineHeight: 'fileUploaderLineHeightSmall',
+  fileUploaderPaddingX: 'fileUploaderPaddingXSmall',
+  fileUploaderPaddingY: 'fileUploaderPaddingYSmall',
   pickerBg: 'calendarBg',
   pickerBorderRadius: 'calendarBorderRadius',
   tokenDefaultIdleBg: 'tokenBg',
@@ -80,9 +80,10 @@ const RENAMED_VARS: Record<string, string> = {
   tokenDefaultIdleBorderColorHover: 'tokenBorderColorHover',
   tokenDefaultActiveBg: 'tokenBgActive',
   tokenDefaultActiveColor: 'tokenColorActive',
-  tokenDefaultActiveBorderColor: 'tokenBorderColorActive'
+  tokenDefaultActiveBorderColor: 'tokenBorderColorActive',
 };
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API) {
   const j = api.jscodeshift;
   let modified = false;

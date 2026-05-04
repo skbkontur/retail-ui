@@ -606,16 +606,22 @@ const MyTheme = ThemeFactory.create({ /* ... */ })
 ### Переход с кастомизации с помощью `less`
 
 Для перехода с кастомизации посредством переопределения less-переменных, необходимо превратить less-переменные в объект темы.
-Это можно сделать с помощью <a target="_blank" href="https://raw.githubusercontent.com/skbkontur/retail-ui/master/packages/react-ui-codemod/customization/variablesConverter.js">скрипта</a>
+Это можно сделать с помощью [скрипта](../react-ui-codemod/customization/variablesConverter.ts) (исходник на TypeScript; в опубликованном `react-ui-codemod` запускается собранный файл `lib/customization/variablesConverter.js`).
 
 Скрипту необходимо передать два параметра: `variables` - путь до файла с переменными и `output` - путь до файла, в который нужно записать объект темы. Если по пути, переданному в `output`, файла не существует, файл будет создан. В противном случае, он будет перезаписан.
 
-Перед запуском скрипт необходимо скачать и положить в папку с проектом. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмет из зависимостей проекта.
+Перед запуском скрипт необходимо взять из пакета `react-ui-codemod` (например, при разработке в монорепозитории — из `packages/react-ui-codemod`) и положить в папку с проектом, либо сослаться на `node_modules/react-ui-codemod/...` после `npm install`. Перед запуском при локальной разработке из исходников выполните `npm run build:emit` в каталоге `react-ui-codemod`, чтобы появился `lib/`. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмёт из зависимостей проекта.
 
-Пример использования:
+Пример использования (путь к скрипту подставьте под своё расположение пакета):
 
 ```shell
-node variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
+node lib/customization/variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
+```
+
+Из корня опубликованного `node_modules/react-ui-codemod`:
+
+```shell
+node node_modules/react-ui-codemod/lib/customization/variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
 ```
 
 Для следующего содержимого myVariables.less:

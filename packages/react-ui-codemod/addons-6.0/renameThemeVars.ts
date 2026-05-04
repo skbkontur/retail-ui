@@ -2,33 +2,34 @@ import type { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
   // TopBar
-  addonsTopBarTextColor: "addonsTopBarColor",
-  addonsTopBarItemIconGap: "addonsTopBarItemGap",
-  addonsTopBarIconColor: "addonsTopBarItemIconColor",
-  addonsTopBarAvatarItemOutline: "addonsTopBarAvatarOutline",
-  addonsTopBarAvatarItemGap: "addonsTopBarAvatarGap",
-  addonsTopBarAvatarItemHeight: "addonsTopBarAvatarHeight",
-  addonsTopBarAvatarItemPaddingY: "addonsTopBarAvatarPaddingY",
-  addonsTopBarAvatarItemPaddingX: "addonsTopBarAvatarPaddingX",
-  addonsTopBarAvatarItemMarginY: "addonsTopBarAvatarMarginY",
-  addonsTopBarAvatarItemMarginX: "addonsTopBarAvatarMarginX",
+  addonsTopBarTextColor: 'addonsTopBarColor',
+  addonsTopBarItemIconGap: 'addonsTopBarItemGap',
+  addonsTopBarIconColor: 'addonsTopBarItemIconColor',
+  addonsTopBarAvatarItemOutline: 'addonsTopBarAvatarOutline',
+  addonsTopBarAvatarItemGap: 'addonsTopBarAvatarGap',
+  addonsTopBarAvatarItemHeight: 'addonsTopBarAvatarHeight',
+  addonsTopBarAvatarItemPaddingY: 'addonsTopBarAvatarPaddingY',
+  addonsTopBarAvatarItemPaddingX: 'addonsTopBarAvatarPaddingX',
+  addonsTopBarAvatarItemMarginY: 'addonsTopBarAvatarMarginY',
+  addonsTopBarAvatarItemMarginX: 'addonsTopBarAvatarMarginX',
   // Logotype
-  addonsLogoButtonActionColor: "addonsLogoButtonColorAction",
+  addonsLogoButtonActionColor: 'addonsLogoButtonColorAction',
   // UserAvatar
-  addonsUserAvatarBackground: "addonsUserAvatarBg",
-  addonsUserAvatarHoverBackground: "addonsUserAvatarBgHover",
-  addonsUserAvatarActiveBackground: "addonsUserAvatarBgActive",
-  addonsUserAvatarHoverColor: "addonsUserAvatarColorHover",
-  addonsUserAvatarActiveColor: "addonsUserAvatarColorActive",
+  addonsUserAvatarBackground: 'addonsUserAvatarBg',
+  addonsUserAvatarHoverBackground: 'addonsUserAvatarBgHover',
+  addonsUserAvatarActiveBackground: 'addonsUserAvatarBgActive',
+  addonsUserAvatarHoverColor: 'addonsUserAvatarColorHover',
+  addonsUserAvatarActiveColor: 'addonsUserAvatarColorActive',
 };
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API) {
   const j = api.jscodeshift;
   let modified = false;
   const result = j(file.source)
     .find(j.ObjectExpression)
-    .find(j.Identifier, node => RENAMED_VARS[node.name])
-    .replaceWith(path => {
+    .find(j.Identifier, (node) => node.name in RENAMED_VARS)
+    .replaceWith((path) => {
       path.node.name = RENAMED_VARS[path.node.name];
       modified = true;
       return path.node;

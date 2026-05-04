@@ -1,6 +1,7 @@
 import type { API, FileInfo } from 'jscodeshift';
 
-export default function (file: FileInfo, api: API) {
+// oxlint-disable-next-line import/no-default-export
+export default function transform(file: FileInfo, api: API) {
   const j = api.jscodeshift;
   let modified = false;
   const result = j(file.source)

@@ -2,57 +2,58 @@ import type { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
   // SideMenu
-  sideMenuBgColor: "sideMenuBg",
-  sideMenuLargeLineHeight: "sideMenuLineHeightLarge",
-  sideMenuMinimizedWidth: "sideMenuWidthCollapsed",
-  sideMenuWidthForTouchScreens: "sideMenuWidthTouchScreen",
+  sideMenuBgColor: 'sideMenuBg',
+  sideMenuLargeLineHeight: 'sideMenuLineHeightLarge',
+  sideMenuMinimizedWidth: 'sideMenuWidthCollapsed',
+  sideMenuWidthForTouchScreens: 'sideMenuWidthTouchScreen',
   // Header
-  sideMenuHeaderPaddingTopForTouchScreens: "sideMenuHeaderPaddingTopTabletAndMobile",
+  sideMenuHeaderPaddingTopForTouchScreens: 'sideMenuHeaderPaddingTopTabletAndMobile',
   // Divider
-  sideMenuDividerBgColor: "sideMenuDividerBg",
+  sideMenuDividerBgColor: 'sideMenuDividerBg',
   // Item
-  sideMenuItemHoverBg: "sideMenuItemBgHover",
-  sideMenuItemActiveBg: "sideMenuItemBgActive",
-  sideMenuItemDisabledColor: "sideMenuItemColorDisabled",
-  sideMenuNestedMenuPaddingLeft: "sideMenuItemNestedPaddingLeft",
-  sideMenuFocusedItemBoxShadow: "sideMenuItemBoxShadowFocus",
-  sideMenuFocusedItemBoxShadowColor: "sideMenuItemBoxShadowColorFocus",
-  sideMenuSubItemWithSeparatedSubMenuHoverBg: "sideMenuSubItemWithSeparatedSubMenuBgHover",
-  sideMenuSubItemWithSeparatedSubMenuActiveBg: "sideMenuSubItemWithSeparatedSubMenuBgActive",
+  sideMenuItemHoverBg: 'sideMenuItemBgHover',
+  sideMenuItemActiveBg: 'sideMenuItemBgActive',
+  sideMenuItemDisabledColor: 'sideMenuItemColorDisabled',
+  sideMenuNestedMenuPaddingLeft: 'sideMenuItemNestedPaddingLeft',
+  sideMenuFocusedItemBoxShadow: 'sideMenuItemBoxShadowFocus',
+  sideMenuFocusedItemBoxShadowColor: 'sideMenuItemBoxShadowColorFocus',
+  sideMenuSubItemWithSeparatedSubMenuHoverBg: 'sideMenuSubItemWithSeparatedSubMenuBgHover',
+  sideMenuSubItemWithSeparatedSubMenuActiveBg: 'sideMenuSubItemWithSeparatedSubMenuBgActive',
   // ItemContent
-  sideMenuItemContentLargePaddingY: "sideMenuItemContentPaddingYLarge",
-  sideMenuItemContentLargeMultilinePaddingTop: "sideMenuItemContentMultilinePaddingTopLarge",
-  sideMenuItemContentLargeMultilinePaddingBottom: "sideMenuItemContentMultilinePaddingBottomLarge",
-  sideMenuItemContentPaddingYForTouchScreens: "sideMenuItemContentPaddingYTouchScreen",
-  sideMenuSubItemContentLargePaddingY: "sideMenuSubItemContentPaddingYLarge",
-  sideMenuSubItemContentPaddingYForTouchScreens: "sideMenuSubItemContentPaddingYTouchScreen",
+  sideMenuItemContentLargePaddingY: 'sideMenuItemContentPaddingYLarge',
+  sideMenuItemContentLargeMultilinePaddingTop: 'sideMenuItemContentMultilinePaddingTopLarge',
+  sideMenuItemContentLargeMultilinePaddingBottom: 'sideMenuItemContentMultilinePaddingBottomLarge',
+  sideMenuItemContentPaddingYForTouchScreens: 'sideMenuItemContentPaddingYTouchScreen',
+  sideMenuSubItemContentLargePaddingY: 'sideMenuSubItemContentPaddingYLarge',
+  sideMenuSubItemContentPaddingYForTouchScreens: 'sideMenuSubItemContentPaddingYTouchScreen',
   // Icon
-  sideMenuIconLargeMinHeight: "sideMenuIconMinHeightLarge",
-  sideMenuIconLargeLineHeight: "sideMenuIconLineHeightLarge",
-  sideMenuIconLargeSubItemMinHeight: "sideMenuIconSubItemMinHeightLarge",
+  sideMenuIconLargeMinHeight: 'sideMenuIconMinHeightLarge',
+  sideMenuIconLargeLineHeight: 'sideMenuIconLineHeightLarge',
+  sideMenuIconLargeSubItemMinHeight: 'sideMenuIconSubItemMinHeightLarge',
   // Caption
-  sideMenuCaptionLargeFontSize: "sideMenuCaptionFontSizeLarge",
-  sideMenuCaptionLargeLineHeight: "sideMenuCaptionLineHeightLarge",
-  sideMenuCaptionFontSizeForTouchScreens: "sideMenuCaptionFontSizeTouchScreen",
-  sideMenuCaptionLineHeightForTouchScreens: "sideMenuCaptionLineHeightTouchScreen",
-  sideMenuCaptionSubItemFontSizeForTouchScreens: "sideMenuCaptionSubItemFontSizeTouchScreen",
-  sideMenuCaptionSubItemLineHeightForTouchScreens: "sideMenuCaptionSubItemLineHeightTouchScreen",
+  sideMenuCaptionLargeFontSize: 'sideMenuCaptionFontSizeLarge',
+  sideMenuCaptionLargeLineHeight: 'sideMenuCaptionLineHeightLarge',
+  sideMenuCaptionFontSizeForTouchScreens: 'sideMenuCaptionFontSizeTouchScreen',
+  sideMenuCaptionLineHeightForTouchScreens: 'sideMenuCaptionLineHeightTouchScreen',
+  sideMenuCaptionSubItemFontSizeForTouchScreens: 'sideMenuCaptionSubItemFontSizeTouchScreen',
+  sideMenuCaptionSubItemLineHeightForTouchScreens: 'sideMenuCaptionSubItemLineHeightTouchScreen',
   // Marker
-  sideMenuSubItemMarkerFontWeight: "sideMenuMarkerSubItemFontWeight",
-  sideMenuSubItemEmptyMarkerBg: "sideMenuMarkerSubItemEmptyBg",
+  sideMenuSubItemMarkerFontWeight: 'sideMenuMarkerSubItemFontWeight',
+  sideMenuSubItemEmptyMarkerBg: 'sideMenuMarkerSubItemEmptyBg',
   // SeparatedSubMenu
-  sideMenuSeparatedSubMenuBgColor: "sideMenuSeparatedSubMenuBg",
+  sideMenuSeparatedSubMenuBgColor: 'sideMenuSeparatedSubMenuBg',
   // RightBorder
-  sideMenuRightBorderHoverIconColor: "sideMenuRightBorderIconColorHover"
+  sideMenuRightBorderHoverIconColor: 'sideMenuRightBorderIconColorHover',
 };
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API) {
   const j = api.jscodeshift;
   let modified = false;
   const result = j(file.source)
     .find(j.ObjectExpression)
-    .find(j.Identifier, node => RENAMED_VARS[node.name])
-    .replaceWith(path => {
+    .find(j.Identifier, (node) => node.name in RENAMED_VARS)
+    .replaceWith((path) => {
       path.node.name = RENAMED_VARS[path.node.name];
       modified = true;
       return path.node;

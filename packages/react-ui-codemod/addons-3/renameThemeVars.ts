@@ -48,23 +48,24 @@ const RENAMED_VARS: Record<string, string> = {
   logoButtonActionBorderRadius: 'addonsLogoButtonActionBorderRadius',
   logoButtonActionBackground: 'addonsLogoButtonActionBackground',
 
-  userAvatarSize:  'addonsUserAvatarSize',
-  userAvatarBorderRadius:  'addonsUserAvatarBorderRadius',
-  userAvatarBackground:  'addonsUserAvatarBackground',
-  userAvatarHoverBackground:  'addonsUserAvatarHoverBackground',
-  userAvatarActiveBackground:  'addonsUserAvatarActiveBackground',
-  userAvatarColor:  'addonsUserAvatarColor',
-  userAvatarHoverColor:  'addonsUserAvatarHoverColor',
-  userAvatarActiveColor:  'addonsUserAvatarActiveColor',
+  userAvatarSize: 'addonsUserAvatarSize',
+  userAvatarBorderRadius: 'addonsUserAvatarBorderRadius',
+  userAvatarBackground: 'addonsUserAvatarBackground',
+  userAvatarHoverBackground: 'addonsUserAvatarHoverBackground',
+  userAvatarActiveBackground: 'addonsUserAvatarActiveBackground',
+  userAvatarColor: 'addonsUserAvatarColor',
+  userAvatarHoverColor: 'addonsUserAvatarHoverColor',
+  userAvatarActiveColor: 'addonsUserAvatarActiveColor',
 };
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API) {
   const j = api.jscodeshift;
   let modified = false;
   const result = j(file.source)
     .find(j.ObjectExpression)
-    .find(j.Identifier, node => !!RENAMED_VARS[node.name])
-    .replaceWith(path => {
+    .find(j.Identifier, (node) => !!RENAMED_VARS[node.name])
+    .replaceWith((path) => {
       path.node.name = RENAMED_VARS[path.node.name];
       modified = true;
       return path.node;

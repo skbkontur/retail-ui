@@ -1,25 +1,44 @@
 {
   "name": "react-ui-codemod",
   "version": "2.2.1",
-  "main": "index.js",
   "license": "MIT",
   "bin": {
     "react-ui-codemod": "./bin.js"
   },
+  "files": [
+    "babel.config.json",
+    "bin.js",
+    "lib",
+    "addons-3",
+    "addons-6.0",
+    "customization",
+    "font-to-svg",
+    "icons",
+    "react-ui-2.0",
+    "react-ui-4.0",
+    "react-ui-5.0",
+    "react-ui-6.0",
+    "side-menu-4.0"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "build:emit": "tsc -p tsconfig.emit.json",
+    "verify:emit": "tsc -p tsconfig.emit.json && git diff --exit-code -- lib/customization",
+    "prepack": "tsc -p tsconfig.emit.json",
+    "release": "npm publish",
+    "release:unstable": "npm publish --tag=unstable",
+    "lint": "oxlint ."
+  },
   "dependencies": {
     "ast-types": "0.14.2",
     "jscodeshift": "^0.15.2"
-  },
-  "scripts": {
-    "test": "vitest run",
-    "release": "npm publish",
-    "release:unstable": "npm publish --tag=unstable"
   },
   "devDependencies": {
     "@babel/core": "^7.24.6",
     "@babel/preset-env": "^7.24.6",
     "@babel/preset-typescript": "^7.24.6",
     "@types/jscodeshift": "^0.11.11",
+    "typescript": "5.9.3",
     "vitest": "^3.2.4"
   }
 }

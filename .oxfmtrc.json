@@ -14,7 +14,6 @@
     }
   ],
   "ignorePatterns": [
-    "react-ui-codemod",
     "react-ui-smoke-test",
     "react-ui-testing",
     "CHANGELOG.md",

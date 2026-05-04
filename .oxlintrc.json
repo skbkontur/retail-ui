@@ -138,6 +138,7 @@
     "**/bundle/**",
     "**/dist/**",
     "**/.creevey/**",
-    "**/reports/**"
+    "**/reports/**",
+    "**/__testfixtures__/**"
   ]
 }

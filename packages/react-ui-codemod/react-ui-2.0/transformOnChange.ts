@@ -97,7 +97,7 @@ const transformExpression = (api: API, node: any, change: CustomChange, report: 
           const eventNode = node.value.expression.params[0];
           const using = j(node.value.expression.body)
             .find(j.Identifier)
-            .some(nodePath => nodePath.value.name === eventNode.name && nodePath.name !== 'property');
+            .some((nodePath) => nodePath.value.name === eventNode.name && nodePath.name !== 'property');
           if (!using) {
             node.name = change.after;
             node.value.expression.params.shift();
@@ -128,8 +128,8 @@ const transform = (file: FileInfo, api: API, JsxElement: CustomJSXElement) => {
   const result = j(file.source).findJSXElements(JsxElement.name);
 
   let modified = false;
-  JsxElement.changes.forEach(change => {
-    const jsxAttributeCollection = result.find(j.JSXAttribute, n => n.name.name === change.before);
+  JsxElement.changes.forEach((change) => {
+    const jsxAttributeCollection = result.find(j.JSXAttribute, (n) => n.name.name === change.before);
 
     if (!jsxAttributeCollection.length) {
       return;
@@ -157,7 +157,8 @@ const transform = (file: FileInfo, api: API, JsxElement: CustomJSXElement) => {
   return file;
 };
 
-export default function(fileInfo: FileInfo, api: API) {
+// oxlint-disable-next-line import/no-default-export
+export default function (fileInfo: FileInfo, api: API) {
   const originalSource = fileInfo.source;
   const result = listOfComponents.reduce((prev, cur) => {
     return transform(prev, api, cur);

@@ -61,7 +61,8 @@ interface TransformOptions {
   component: string;
 }
 
-export default function (fileInfo: FileInfo, api: API, options: TransformOptions) {
+// oxlint-disable-next-line import/no-default-export
+export default function transform(fileInfo: FileInfo, api: API, options: TransformOptions) {
   const { component } = options;
   const originalSource = fileInfo.source;
   const componentsToTransform = component ? listOfAttributes.filter((c) => c.name === component) : listOfAttributes;

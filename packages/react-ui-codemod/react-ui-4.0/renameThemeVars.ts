@@ -15,6 +15,7 @@ const RENAMED_VARS: Record<string, string> = {
   switcherLabelGapLarge: 'switcherCaptionGapLarge',
 };
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API) {
   const j = api.jscodeshift;
   let modified = false;

@@ -1,4 +1,4 @@
 {
-  "**/*.{ts,tsx}": ["oxlint --fix", "oxfmt --write"],
-  "**/*.{js,jsx,json,mdx}": ["oxfmt --write"]
+  "**/*.{ts,tsx}": ["oxlint --fix", "oxfmt --write --no-error-on-unmatched-pattern"],
+  "**/*.{js,jsx,json,mdx}": ["oxfmt --write --no-error-on-unmatched-pattern"]
 }

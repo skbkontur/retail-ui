@@ -1,25 +1,26 @@
 import type { API, FileInfo } from 'jscodeshift';
 
 const RENAMED_VARS: Record<string, string> = {
-  btnWithIconPaddingLeftSmall: "btnWithIconPaddingSmall",
-  tooltipPaddingY: "tooltipPaddingYSmall",
-  tooltipPaddingX: "tooltipPaddingXSmall",
-  tooltipCloseBtnPadding: "tooltipCloseBtnPaddingSmall",
-  tooltipBorderRadius: "tooltipBorderRadiusSmall",
-  tooltipPinOffsetY: "tooltipPinOffsetYSmall",
-  tooltipPinOffsetX: "tooltipPinOffsetXSmall",
-  tooltipMargin: "tooltipMarginSmall",
-  tooltipPinSize: "tooltipPinSizeSmall",
-  tooltipFontSize: "tooltipFontSizeSmall",
-  tooltipLineHeight: "tooltipLineHeightSmall",
-  mobileSidePageCloseButtonRightPadding: "mobileSidePageCloseButtonPadding",
-  pagingFontSize: "pagingFontSizeSmall",
-  pagingLineHeight: "pagingLineHeightSmall",
-  pagingPageLinkPaddingY: "pagingPageLinkPaddingYSmall",
-  pagingPageLinkPaddingX: "pagingPageLinkPaddingXSmall",
-  pagingDotsPadding: "pagingDotsPaddingSmall"
+  btnWithIconPaddingLeftSmall: 'btnWithIconPaddingSmall',
+  tooltipPaddingY: 'tooltipPaddingYSmall',
+  tooltipPaddingX: 'tooltipPaddingXSmall',
+  tooltipCloseBtnPadding: 'tooltipCloseBtnPaddingSmall',
+  tooltipBorderRadius: 'tooltipBorderRadiusSmall',
+  tooltipPinOffsetY: 'tooltipPinOffsetYSmall',
+  tooltipPinOffsetX: 'tooltipPinOffsetXSmall',
+  tooltipMargin: 'tooltipMarginSmall',
+  tooltipPinSize: 'tooltipPinSizeSmall',
+  tooltipFontSize: 'tooltipFontSizeSmall',
+  tooltipLineHeight: 'tooltipLineHeightSmall',
+  mobileSidePageCloseButtonRightPadding: 'mobileSidePageCloseButtonPadding',
+  pagingFontSize: 'pagingFontSizeSmall',
+  pagingLineHeight: 'pagingLineHeightSmall',
+  pagingPageLinkPaddingY: 'pagingPageLinkPaddingYSmall',
+  pagingPageLinkPaddingX: 'pagingPageLinkPaddingXSmall',
+  pagingDotsPadding: 'pagingDotsPaddingSmall',
 };
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API): string | undefined {
   const j = api.jscodeshift;
   let modified = false;

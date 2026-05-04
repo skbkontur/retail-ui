@@ -18,6 +18,7 @@ interface TransformOptions {
   dedupe: boolean;
 }
 
+// oxlint-disable-next-line import/no-default-export
 export default function transform(file: FileInfo, api: API, options: TransformOptions) {
   const INITIAL_SOURCE = '@skbkontur/react-ui';
   const FINAL_SOURCE = '@skbkontur/react-ui-addons';
@@ -31,7 +32,10 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
   let modified = false;
 
   result
-    .find(j.ImportDeclaration, (node) => typeof node.source.value === 'string' && !!node.source.value.match(INITIAL_SOURCE))
+    .find(
+      j.ImportDeclaration,
+      (node) => typeof node.source.value === 'string' && !!node.source.value.match(INITIAL_SOURCE),
+    )
     .find(j.ImportSpecifier, (node) =>
       componentsToTransform.some((component) => node.imported.name.startsWith(component)),
     )
@@ -41,15 +45,23 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     });
 
   result
-    .find(j.ExportNamedDeclaration, (node) => !!(node.source && typeof node.source.value === 'string' && node.source.value.match(INITIAL_SOURCE)))
-    .find(j.ExportSpecifier, (node) => !!(node.local && componentsToTransform.some((component) => node.local?.name.startsWith(component))))
+    .find(
+      j.ExportNamedDeclaration,
+      (node) => !!(node.source && typeof node.source.value === 'string' && node.source.value.match(INITIAL_SOURCE)),
+    )
+    .find(
+      j.ExportSpecifier,
+      (node) => !!(node.local && componentsToTransform.some((component) => node.local?.name.startsWith(component))),
+    )
     .forEach((exportSpecifier) => {
       moveSpecifierToSeparateExport(api, exportSpecifier, FINAL_SOURCE);
       modified = true;
     });
 
-  const exportAllDeclarations = result.find(j.ExportAllDeclaration, (node) =>
-    typeof node.source.value === 'string' && !!node.source.value.match(INITIAL_SOURCE + '/components/Fias/types'),
+  const exportAllDeclarations = result.find(
+    j.ExportAllDeclaration,
+    (node) =>
+      typeof node.source.value === 'string' && !!node.source.value.match(INITIAL_SOURCE + '/components/Fias/types'),
   );
   if (exportAllDeclarations.length) {
     exportAllDeclarations.replaceWith(() =>

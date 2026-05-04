@@ -126,20 +126,29 @@ npx react-ui-codemod react-ui-2.0/addPropCloud.ts FILES_PATH --component=COMPONE
 | ----------- | -------------------------------------------------------------- | -------------------------------------------- |
 | `component` | Имя отдельного компонента для трансформации, например "Loader" | По умелчанию применяется ко всем компонентам |
 
-### customization/variablesConverter.js
+### customization/variablesConverter
 
 Конвертирует less-переменные в js-объект.
 
-Перед запуском скрипт необходимо скачать и положить в папку с проектом. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмет из зависимостей проекта.
+Перед запуском скрипт необходимо скачать и положить в папку с проектом. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмёт из зависимостей проекта.
 
 ```shell
-node variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
+node lib/customization/variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
 ```
+
+Исходник: `customization/variablesConverter.ts` (перед публикацией и в `prepack` собирается в `lib/`).
+
+## Разработка
+
+`customization/variablesConverter` компилируется в каталог `lib/`; точка входа CLI — `bin.js` в корне пакета (как в `master`).
+
+- `npm run build:emit` — пересобрать `lib/customization/variablesConverter.js` из `customization/variablesConverter.ts`.
+- `npm run verify:emit` — прогнать `tsc` и проверить, что `lib/` совпадает с закоммиченным содержимым (имеет смысл в CI и перед PR, если менялись эти исходники; при расхождении команда завершается с ненулевым кодом).
 
 ## Примеры
 
 ```
-npx react-ui-codemod font-to-svf/transform.js ./src
+npx react-ui-codemod font-to-svg/transform.ts ./src
 npx react-ui-codemod react-ui-2.0/transformImportsAndExports.ts ./src --alias=retail-ui
 npx react-ui-codemod react-ui-2.0/addCloudProp.ts ./src --extensions=ts,tsx --parser=tsx --component=Spinner
 npx react-ui-codemod react-ui-2.0/moveToAddons.ts ./src --parser=flow
