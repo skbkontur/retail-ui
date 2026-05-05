@@ -1,17 +1,38 @@
-import { ArgTypes } from '@storybook/blocks';
-
-import { linkTo } from '@storybook/addon-links';
-import { Link } from '../../Link/index.js';
-import * as MiniModalBodyStories from '../__docs__/MiniModalBody.docs.stories.tsx';
-
+import * as MiniModalBodyStories from './MiniModalBody.docs.stories.tsx';
+import { Description, Primary, Stories } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={MiniModalBodyStories} />
 
-# MiniModalBody
+# MiniModal.Body
 
-Обёртка над <Link onClick={linkTo('Overlay/Modal/ModalBody')}>Modal.Body</Link>
+```jsx
+import { MiniModal } from '@skbkontur/react-ui';
 
-## Все пропсы и методы
+<MiniModal>
+  <MiniModal.Header>Заголовок</MiniModal.Header>
+  <MiniModal.Body>Поясняющий текст</MiniModal.Body>
+  ...
+</MiniModal>;
+```
 
-<ArgTypes />
+<Description />
+
+<Primary />
+
+## Все пропсы
+
+<PropsTable />
+
+Обёртка над [Modal.Body](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalbody--docs) с типографикой мини-модалки. Используется только внутри [MiniModal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-minimodal-minimodal--docs).
+
+## Использование
+
+Необязательный блок: если заголовка и кнопок во футере достаточно, тело можно опустить. Наследуемые пропсы — в [Modal.Body](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalbody--docs).
+
+Примеры — на странице [MiniModal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-minimodal-minimodal--docs).
+
+## Примеры
+
+<Stories title="" includePrimary={false} />

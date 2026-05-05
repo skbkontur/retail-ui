@@ -20,9 +20,15 @@ export const MiniModalDataTids = {
 
 /**
  * `MiniModal` — модальное диалоговое окно, которое предполагает обязательный отклик пользователя по одному из доступных действий. Обёртка над Modal.
- * Закрытие окна по клику на фон или "крестик" не рекомендуется, т.к. у этих действий нет однозначного описания в отличие от кнопок с названиями, наподобие "Сохранить", "Подтвердить" и т.п.
  *
- * По макету предполагается, что все кнопки должны быть среднего размера `size = medium`.
+ * Состоит из набора подкомпонентов:
+ * - `MiniModal.Header`
+ * - `MiniModal.Body`
+ * - `MiniModal.Footer`
+ * - `MiniModal.Indent`
+ *
+ * Тот же набор доступен как `MiniModalHeader`, `MiniModalBody`, `MiniModalFooter`, `MiniModalIndent`.
+ *
  */
 export const MiniModal = forwardRefAndName<
   Modal,

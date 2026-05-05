@@ -1,5 +1,6 @@
 import * as MiniModalStories from './MiniModal.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as MiniModalMobileExamples from './MiniModalMobile.docs.stories.tsx';
+import { Primary, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,14 +13,78 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=138-37529&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { MiniModal } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
 
-## Все пропсы и методы
+## Все пропсы
 
 <PropsTable />
+
+## Использование
+
+Мини-модалка подходит для короткого диалога, где пользователь должен осознанно выбрать действие:
+
+- подтвердить или отменить операцию;
+- прочитать важное уведомление и нажать одну кнопку;
+- выбрать один из нескольких вариантов в футере.
+
+Когда лучше использовать обычное модальное окно (Modal):
+
+- длинные формы;
+- много прокручиваемого контента;
+- проходной сценарий не требующий явного действия — для этого обычно уместен полноформатный [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs).
+
+**Состав компонента**
+
+- `MiniModal.Header` — заголовок и иконка. По умолчанию показывается иконка информации; чтобы оставить только текст, передайте `icon={null}`.
+- `MiniModal.Body` — поясняющий текст. Необязателен, если заголовка и кнопок достаточно.
+- `MiniModal.Footer` — зона действий (кнопки). По гайду дизайна для кнопок используйте `size="medium"`. Другой размер кнопки — отступление: возможен при согласовании с дизайнером или в особых продуктах, но не считается стандартом мини-модалки.
+- `MiniModal.Indent` — вертикальный отступ между группами элементов в зоне футера (часто между группами кнопок), см. пример «Синглтон» ниже.
+
+**Закрытие и `onClose`**
+
+У мини-модалки нет крестика. И eсли `onClose` не передан, нажатие Esc и клик по фону не вызовут колбэк — пользователь не выйдет из сценария без явной кнопки. Если `onClose` передан и не отключено поведение фона через `ignoreBackgroundClick` и т.п., закрытие снова становится возможным с клавиатуры и по фону — как в [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs).
+
+**Тема**
+
+Проп `theme` на корне объединяется с темой из контекста через внутреннюю настройку мини-модалки и позволяет точечно подстроить токены.
+
+**Альтернативы и дополнения**
+
+- [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs) — полноразмерное модальное окно, крестик, гибкая ширина и сценарии с произвольным контентом.
+
+Унаследованные пропсы шапки, тела и футера уточняйте на страницах [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs), [Modal.Body](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalbody--docs), [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs).
 
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Поведение базируется на [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs): фокус внутри окна, поддержка стандартных aria-атрибутов при необходимости переопределения.
+
+Смысл действия не должен опираться только на иконку в шапке — заголовок и подписи кнопок должны быть понятны без контекста дизайна. Кнопку, которая открывает мини-модалку, по возможности сопровождайте `aria-expanded` и `aria-haspopup="dialog"` (см. также раздел про кнопки и модальные окна в [документации Button](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-button--docs)). Порядок фокуса по Tab должен логично вести по кнопкам действий во футере.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+Мобильный режим так же, как у Modal: при ширине вьюпорта `(max-width: 576px)` и `(pointer: coarse)`. Проп `mobileAppearance` задаёт внешний вид в мобильном режиме (тема **≥ 5_2**). У MiniModal по умолчанию используется `"center"` (в отличие от `"auto"` у Modal).
+
+Возможные значения `mobileAppearance`:
+
+- `"auto"` — если футера нет, окно по центру; если футер есть — на весь экран с отступами и скруглениями.
+- `"top"` / `"center"` / `"bottom"` — позиция независимо от футера.
+- `"fullscreen-spacing"` — на весь экран с отступами и скруглениями.
+- `"fullscreen"` — на весь экран.
+
+Чтобы посмотреть мобильный вид на десктопе, сузьте окно браузера и используйте пример ниже (переопределённый медиазапрос темы) или инструменты разработчика.
+
+<Story of={MiniModalMobileExamples.ExampleMobile} />
+
+Подробнее о медиазапросах и переопределении мобильности — в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs).

@@ -7,11 +7,11 @@ import { MiniModalDataTids } from './MiniModal.js';
 import { getStyles } from './MiniModal.styles.js';
 
 /**
- * Отступ между кнопками
+ * Вертикальный отступ между группами элементов в зоне футера мини-модалки.
  *
  * @visibleName MiniModal.Indent
  */
-export const MiniModalIndent = forwardRefAndName<HTMLDivElement, React.InputHTMLAttributes<HTMLDivElement>>(
+export const MiniModalIndent = forwardRefAndName<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   'MiniModalIndent',
   ({ children, ...rest }, ref) => {
     const styles = useStyles(getStyles);

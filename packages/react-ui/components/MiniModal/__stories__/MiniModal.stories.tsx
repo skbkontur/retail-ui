@@ -19,7 +19,7 @@ export const Simple = () => (
   <MiniModal>
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
     </MiniModal.Footer>
@@ -31,7 +31,7 @@ export const Description = () => (
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, voluptatibus?</MiniModal.Body>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
     </MiniModal.Footer>
@@ -42,7 +42,7 @@ export const TwoButtons = () => (
   <MiniModal>
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -54,7 +54,7 @@ export const Column = () => (
   <MiniModal>
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Footer direction="column">
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -66,7 +66,7 @@ export const ThreeButtons = () => (
   <MiniModal>
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -79,7 +79,7 @@ export const Indent = () => (
   <MiniModal>
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -93,7 +93,7 @@ export const Icon = () => (
   <MiniModal>
     <MiniModal.Header icon={<IconTrashCanRegular64 />}>Title</MiniModal.Header>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
     </MiniModal.Footer>
@@ -117,7 +117,7 @@ export const MobileMiniModalDefault = () => (
     <MiniModal.Header icon={<IconTechPhoneSmartRegular64 />}>Title mobile</MiniModal.Header>
     <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -136,7 +136,7 @@ export const MobileMiniModalTop = () => (
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -154,7 +154,7 @@ export const MobileMiniModalCenter = () => (
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -172,7 +172,7 @@ export const MobileMiniModalBottom = () => (
     <MiniModal.Header>Title</MiniModal.Header>
     <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>
@@ -192,7 +192,7 @@ export const MobileMiniModalFullscreen = () => (
       <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
     </div>
     <MiniModal.Footer>
-      <Button size="medium" use="primary">
+      <Button size="medium" use="accent">
         Main
       </Button>
       <Button size="medium">Alt</Button>

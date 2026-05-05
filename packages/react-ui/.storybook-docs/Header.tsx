@@ -17,9 +17,11 @@ export const Header = ({ component, guides, figma }: HeaderProps = {}) => {
   const { css } = useEmotion();
 
   useEffect(() => {
-    checkAccess().then((status) => {
-      setHasAccess(status);
-    });
+    checkAccess()
+      .then((status) => {
+        setHasAccess(status);
+      })
+      .catch((e) => console.log('Error checking access: ', e));
   }, []);
 
   const styles = css`

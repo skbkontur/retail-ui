@@ -30,6 +30,7 @@ import { IconTechScreenMonitorLight16 } from '@skbkontur/icons/IconTechScreenMon
 import { IconToolPencilLineLight16 } from '@skbkontur/icons/IconToolPencilLineLight16';
 import { IconToolPencilLineRegular16 } from '@skbkontur/icons/IconToolPencilLineRegular16';
 import { IconToolPencilLineRegular24 } from '@skbkontur/icons/IconToolPencilLineRegular24';
+import { IconTrashCanLight16 } from '@skbkontur/icons/IconTrashCanLight16';
 import { IconTrashCanLight20 } from '@skbkontur/icons/IconTrashCanLight20';
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
@@ -218,6 +219,7 @@ addons.setConfig({
       isLessOrEqual,
       isNullable,
       ViewDateInputValidateChecks,
+      IconTrashCanLight16,
       IconArrowUiCornerOutUpRightRegular16,
       IconUiMenuBars3HRegular16,
       IconPeople3Regular16,
