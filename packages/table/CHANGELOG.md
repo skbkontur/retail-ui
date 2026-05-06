@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](/compare/@skbkontur/table@0.2.2...@skbkontur/table@0.2.3) (2026-05-06)
+
+
+### Bug Fixes
+
+* **table:** dark theme sticky background color b613518
+
+
+
+
+
 ## [0.2.2](/compare/@skbkontur/table@0.2.1...@skbkontur/table@0.2.2) (2026-04-20)
 
 
