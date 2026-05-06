@@ -21,6 +21,7 @@ export interface TableDropdownFilterProps extends CommonProps {
   searchPlaceholder?: string;
   onSelect: (options: string[]) => void;
   loaderActive?: boolean;
+  withoutSearch?: boolean;
   withoutDefaultIcon?: boolean;
   defaultIcon?: ReactElement;
   iconDefaultColor?: string;
@@ -36,6 +37,7 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
       onSelect,
       searchPlaceholder,
       loaderActive,
+      withoutSearch = false,
       withoutDefaultIcon,
       defaultIcon,
       iconDefaultColor,
@@ -59,9 +61,19 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
       setCurrentSelected(Array.isArray(selectedOptions) ? selectedOptions : []);
     }, [selectedOptions]);
 
+    useEffect(() => {
+      if (withoutSearch && searchTerm) {
+        setSearchTerm('');
+      }
+    }, [withoutSearch, searchTerm]);
+
     const filteredOptions = useMemo(() => {
+      if (withoutSearch) {
+        return options;
+      }
+
       return options.filter((option) => option.toLowerCase().includes(searchTerm.toLowerCase()));
-    }, [options, searchTerm]);
+    }, [options, searchTerm, withoutSearch]);
 
     const toggle = useCallback(
       (item: string) => {
@@ -86,7 +98,7 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
         ref={ref}
         filtered={currentSelected.length > 0}
         data-tid={TableDataTids.dropdownFilter}
-        onOpen={handleOpen}
+        onOpen={withoutSearch ? undefined : handleOpen}
         withoutDefaultIcon={withoutDefaultIcon}
         defaultIcon={defaultIcon}
         iconDefaultColor={iconDefaultColor}
@@ -94,12 +106,14 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
         {...rest}
         popup={
           <>
-            <TableFilterSearch
-              ref={searchInputRef}
-              searchPlaceholder={searchPlaceholderValue}
-              searchQuery={searchTerm}
-              handleSearchQuery={setSearchTerm}
-            />
+            {!withoutSearch && (
+              <TableFilterSearch
+                ref={searchInputRef}
+                searchPlaceholder={searchPlaceholderValue}
+                searchQuery={searchTerm}
+                handleSearchQuery={setSearchTerm}
+              />
+            )}
             <Loader active={loaderActive} type="normal">
               <ScrollContainer maxHeight="50vh">
                 {filteredOptions.length === 0 ? (

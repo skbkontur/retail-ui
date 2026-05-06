@@ -60,6 +60,7 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
       onSelect,
       searchPlaceholder,
       loaderActive,
+      withoutSearch = false,
       onSort,
       sortDirection,
       sortAscLabel,
@@ -89,9 +90,19 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
       setCurrentSelected(Array.isArray(selectedOptions) ? selectedOptions : []);
     }, [selectedOptions]);
 
+    useEffect(() => {
+      if (withoutSearch && searchTerm) {
+        setSearchTerm('');
+      }
+    }, [withoutSearch, searchTerm]);
+
     const filteredOptions = useMemo(() => {
+      if (withoutSearch) {
+        return options;
+      }
+
       return options.filter((option) => option.toLowerCase().includes(searchTerm.toLowerCase()));
-    }, [options, searchTerm]);
+    }, [options, searchTerm, withoutSearch]);
 
     const toggle = useCallback(
       (item: string) => {
@@ -120,7 +131,7 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
         filtered={currentSelected.length > 0}
         sortDirection={sortDirection}
         data-tid={TableDataTids.dropdownSortableFilter}
-        onOpen={handleOpen}
+        onOpen={withoutSearch ? undefined : handleOpen}
         withoutDefaultIcon={withoutDefaultIcon}
         defaultIcon={defaultIcon}
         iconDefaultColor={iconDefaultColor}
@@ -128,12 +139,14 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
         {...rest}
         popup={
           <>
-            <TableFilterSearch
-              ref={searchInputRef}
-              searchPlaceholder={searchPlaceholderValue}
-              searchQuery={searchTerm}
-              handleSearchQuery={setSearchTerm}
-            />
+            {!withoutSearch && (
+              <TableFilterSearch
+                ref={searchInputRef}
+                searchPlaceholder={searchPlaceholderValue}
+                searchQuery={searchTerm}
+                handleSearchQuery={setSearchTerm}
+              />
+            )}
             <Loader active={loaderActive} type="normal">
               <ScrollContainer maxHeight="50vh">
                 {filteredOptions.length === 0 ? (

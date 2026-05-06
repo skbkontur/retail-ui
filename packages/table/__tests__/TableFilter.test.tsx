@@ -174,6 +174,45 @@ describe('TableDropdownFilter', () => {
 
     expect(onSelect).toHaveBeenCalledWith([]);
   });
+
+  it('shows all options after search is disabled', async () => {
+    const renderFilter = (withoutSearch: boolean) => (
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>
+              <Table.DropdownFilter {...defaultProps} withoutSearch={withoutSearch}>
+                Column Header
+              </Table.DropdownFilter>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+      </Table>
+    );
+
+    const { rerender } = render(renderFilter(false));
+
+    await userEvent.click(screen.getByText('Column Header'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+    });
+
+    await userEvent.type(screen.getByRole('textbox'), '1');
+
+    await waitFor(() => {
+      expect(screen.queryByText('Option 2')).not.toBeInTheDocument();
+    });
+
+    rerender(renderFilter(true));
+
+    await waitFor(() => {
+      expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+      expect(screen.getByText('Option 2')).toBeInTheDocument();
+      expect(screen.getByText('Option 3')).toBeInTheDocument();
+    });
+  });
 });
 
 describe('TableDropdownSortableFilter', () => {
@@ -282,6 +321,30 @@ describe('TableDropdownSortableFilter', () => {
     await userEvent.click(descOption);
 
     expect(onSort).toHaveBeenCalledWith('desc');
+  });
+
+  it('hides search when withoutSearch is true', async () => {
+    render(
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>
+              <Table.DropdownSortableFilter {...defaultProps} withoutSearch>
+                Column Header
+              </Table.DropdownSortableFilter>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+      </Table>
+    );
+
+    await userEvent.click(screen.getByText('Column Header'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+    });
+
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   });
 });
 
