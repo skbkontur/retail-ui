@@ -1,4 +1,4 @@
-import { Button, Checkbox, Gapped, Toggle } from '@skbkontur/react-ui';
+import { Button, Checkbox, Gapped, Toggle, Calendar } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -11,44 +11,100 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
     <Gapped gap={20}>
-      <Button use="primary">Сохранить</Button>
-      <Button>Отмена</Button>
+      <Button use="primary">Элемент 1</Button>
+      <Button>Элемент 2</Button>
     </Gapped>
   );
 };
-Example1.storyName = 'Вывод элементов с горизонтальным расположением';
 
-export const Example2: Story = () => {
+/** Проп `vertical` выстраивает элементы вертикально.
+ */
+export const ExampleVertical: Story = () => {
   return (
-    <Gapped vertical gap={20}>
-      <Checkbox checked>Write todos</Checkbox>
-      <Checkbox initialIndeterminate>Work in progress</Checkbox>
-      <Checkbox>Make things done</Checkbox>
+    <Gapped gap={20} vertical>
+      <Button use="primary">Элемент 1</Button>
+      <Button>Элемент 2</Button>
     </Gapped>
   );
 };
-Example2.storyName = 'Вертикальное расположение';
+ExampleVertical.storyName = 'Вертикальное расположение';
 
-/** По умолчанию `Gapped` выстраивает элементы в одну строчку, но с помощью свойства `wrap` можно включить перенос элементов на новую строку.
-При этом между строчками будет отступ равный значению свойста `gap`
-В таком случае из-за особенности верстки `Gapped` может перекрывать элементы расположенные сверху-слева. */
-export const Example3: Story = () => {
+/** Проп `verticalAlign` задаёт расположение элементов относительно вертикальной оси: прижаты к верхней, нижней, базовой линии или находятся посередине.
+ */
+export const ExampleVerticalAlign: Story = () => {
+  return (
+    <Gapped gap={10} vertical>
+      <b>verticalAlign="top</b>
+      <Gapped gap={10} verticalAlign="top">
+        <div
+          style={{
+            width: 300,
+            height: 200,
+            backgroundColor: '#eee',
+            background: 'repeating-linear-gradient(-45deg, #ccc, #ccc 25px, #eee 25px, #eee 225px)',
+          }}
+        />
+        <Gapped gap={20}>
+          <Button use="primary">"Элемент 1"</Button>
+          <Button>Элемент 2</Button>
+        </Gapped>
+      </Gapped>
+      <b>verticalAlign="middle"</b>
+      <Gapped gap={10} verticalAlign="middle">
+        <div
+          style={{
+            width: 300,
+            height: 200,
+            backgroundColor: '#eee',
+            background: 'repeating-linear-gradient(-45deg, #ccc, #ccc 25px, #eee 25px, #eee 225px)',
+          }}
+        />
+        <Gapped gap={20}>
+          <Button use="primary">"Элемент 1"</Button>
+          <Button>Элемент 2</Button>
+        </Gapped>
+      </Gapped>
+      <b>verticalAlign="bottom"</b>
+      <Gapped gap={10} verticalAlign="bottom">
+        <div
+          style={{
+            width: 300,
+            height: 200,
+            backgroundColor: '#eee',
+            background: 'repeating-linear-gradient(-45deg, #ccc, #ccc 25px, #eee 25px, #eee 225px)',
+          }}
+        />
+        <Gapped gap={20}>
+          <Button use="primary">"Элемент 1"</Button>
+          <Button>Элемент 2</Button>
+        </Gapped>
+      </Gapped>
+    </Gapped>
+  );
+};
+ExampleVerticalAlign.storyName = 'Выравнивание по вертикали';
+
+/** Проп `wrap` включает перенос элементов на новую строку, работает при горизонтальном расположении.
+* Между строчками будет отступ заданный в пропе `gap`.
+
+* В такой настройке из-за особенности верстки `Gapped` может перекрывать элементы расположенные сверху-слева. */
+export const ExampleWrap: Story = () => {
   return (
     <>
-      {"U Can't Touch This! => "}
+      {'Элемент 1 '}
       <Toggle />
 
       <div style={{ paddingTop: '10px', position: 'relative', width: '250px' }}>
         <Gapped wrap gap={50}>
-          <Button use="primary">Сохранить</Button>
-          <Button>Отмена</Button>
-          <Checkbox>Я не робот</Checkbox>
+          <Button use="primary">Элемент 2</Button>
+          <Button>Элемент 3</Button>
+          <Checkbox>Элемент 3</Checkbox>
         </Gapped>
       </div>
     </>
   );
 };
-Example3.storyName = 'Wrap';
+ExampleWrap.storyName = 'Перенос элементов на новую строку';

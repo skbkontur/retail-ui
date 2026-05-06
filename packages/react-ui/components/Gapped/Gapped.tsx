@@ -8,10 +8,10 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDeco
 import { isNonNullable } from '../../lib/utils.js';
 
 export interface GappedProps extends CommonProps {
-  /** Задает расстояние между элементами в пикселях. */
+  /** Расстояние между элементами в пикселях. */
   gap?: number;
 
-  /** Задает вертикальное выравнивание. */
+  /** Выравнивает элементы при вертикальном расположении по нужной линии: сверху, снизу, по базовой линии или посередине. */
   verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
 
   /** Располагает элементы по вертикали. */
@@ -32,7 +32,9 @@ export const GappedDataTids = {
 type DefaultProps = Required<Pick<GappedProps, 'wrap' | 'vertical' | 'verticalAlign'>>;
 
 /**
- * Контейнер `Gapped` устанавливает расстояние равное `gap` между элементами.
+ * Контейнер, с помощью которого можно располагать элементы горизонтально или вертикально с нужным расстоянием между элементами.
+ *
+ * По умолчанию располагает элементы горизонтально в одну строку. Расстояние между элементами указывается в пропе `gap`.
  */
 @rootNode
 export class Gapped extends React.Component<GappedProps> {
