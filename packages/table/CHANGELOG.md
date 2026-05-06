@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](/compare/@skbkontur/table@0.2.5...@skbkontur/table@0.2.6) (2026-05-06)
+
+
+### Bug Fixes
+
+* **table:** respect explicit size in filter item 87e77c7
+
+
+
+
+
 ## [0.2.5](/compare/@skbkontur/table@0.2.4...@skbkontur/table@0.2.5) (2026-05-06)
 
 
