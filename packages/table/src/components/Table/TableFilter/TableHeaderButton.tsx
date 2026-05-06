@@ -3,7 +3,7 @@ import { IconArrowCDownLight20 } from '@skbkontur/icons/IconArrowCDownLight20';
 import { IconUiFilterFunnelLight16 } from '@skbkontur/icons/IconUiFilterFunnelLight16';
 import { IconUiFilterFunnelRegular20 } from '@skbkontur/icons/IconUiFilterFunnelRegular20';
 import { IconUiFilterFunnelRegular24 } from '@skbkontur/icons/IconUiFilterFunnelRegular24';
-import { IconUiFilterSortAHighToLowLight16 } from '@skbkontur/icons/IconUiFilterSortAHighToLowLight16';
+import { IconUiFilterSortAHighToLowRegular16 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular16';
 import { IconUiFilterSortAHighToLowRegular20 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular20';
 import { IconUiFilterSortAHighToLowRegular24 } from '@skbkontur/icons/IconUiFilterSortAHighToLowRegular24';
 import { IconUiFilterSortALowToHighRegular16 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular16';
@@ -46,7 +46,7 @@ const FILTER_ICONS = {
 
 const SORT_ICONS = {
   desc: {
-    16: IconUiFilterSortAHighToLowLight16,
+    16: IconUiFilterSortAHighToLowRegular16,
     20: IconUiFilterSortAHighToLowRegular20,
     24: IconUiFilterSortAHighToLowRegular24,
   },
