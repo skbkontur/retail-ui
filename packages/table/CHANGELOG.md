@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](/compare/@skbkontur/table@0.2.3...@skbkontur/table@0.2.4) (2026-05-06)
+
+
+### Bug Fixes
+
+* **table:** support disabling filter search 37327bc
+
+
+
+
+
 ## [0.2.3](/compare/@skbkontur/table@0.2.2...@skbkontur/table@0.2.3) (2026-05-06)
 
 
