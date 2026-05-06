@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](/compare/@skbkontur/table@0.2.4...@skbkontur/table@0.2.5) (2026-05-06)
+
+
+### Bug Fixes
+
+* **table:** align sort icon weights c7a8715
+
+
+
+
+
 ## [0.2.4](/compare/@skbkontur/table@0.2.3...@skbkontur/table@0.2.4) (2026-05-06)
 
 
