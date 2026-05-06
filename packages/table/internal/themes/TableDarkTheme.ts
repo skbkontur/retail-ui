@@ -6,7 +6,7 @@ import type { TableThemeInternal } from './TableLightTheme.js';
 export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
   public static tableBaseSize = '8px';
   public static get tableStickyBackground() {
-    return colors.surfaceHigh;
+    return colors.surfaceBase;
   }
   public static get tableText() {
     return colors.textNeutralHeavy;

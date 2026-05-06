@@ -7,7 +7,7 @@ export const REACT_UI_TABLE_CONSTRUCTOR_THEME_KEY = '__IS_REACT_UI_TABLE_CONSTRU
 export class TableLightTheme extends BasicThemeClassForExtension {
   public static tableBaseSize = '8px';
   public static get tableStickyBackground() {
-    return colors.surfaceHigh;
+    return colors.surfaceBase;
   }
   public static get tableText() {
     return colors.textNeutralHeavy;
