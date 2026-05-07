@@ -39,7 +39,7 @@ export interface TextProps
         | 'legend'
         | 'address';
       /**
-       * Включить внешние отступы
+       * Добавить отступ снизу
        * @default false
        */
       spacing?: boolean;
