@@ -1,4 +1,4 @@
-import { Button, Checkbox, Gapped, Toggle, Calendar } from '@skbkontur/react-ui';
+import { Button, Checkbox, Gapped, Toggle } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';

@@ -10,6 +10,7 @@ const tids = Object.keys(Components).filter((componentName) => {
 export const componentsDataTids: { [key: string]: { [key: string]: string } } = tids.reduce((accum, currTid) => {
   return {
     ...accum,
+    // oxlint-disable-next-line import/namespace
     [currTid.replace('DataTids', '')]: Object.entries(Components[currTid as keyof typeof Components]),
   };
 }, {});
