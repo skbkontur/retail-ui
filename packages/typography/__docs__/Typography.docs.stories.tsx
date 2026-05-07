@@ -26,6 +26,12 @@ export default {
 } as Meta;
 
 injectGlobal(`
+  [data-role="preview"] * {
+    font-family: Lab Grotesque, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   [data-role=wrapper]:has([data-typography-controls]),
   [data-role=preview]:has([data-typography-controls]) {
     overflow: visible !important;
@@ -33,9 +39,39 @@ injectGlobal(`
   }
 `);
 
+/**
+ * Пример текста с заголовками и парагарфами
+ */
+export const ExampleBasic = () => {
+  return (
+    <>
+      <Text as="h1" size={48} spacing>
+        Как создать службу охраны труда
+      </Text>
+      <Text as="h2" size={24} weight="bold" spacing>
+        Когда требуется создавать службу охраны труда
+      </Text>
+      <Text as="p" size={18} spacing wide>
+        Работодатели с численностью более 50 человек создают свою службу охраны труда или вводят в штатное расписание
+        должность специалиста по охране труда в обязательном порядке (ч. 1 ст. 223 ТК РФ). Предприятия с меньшим штатом
+        организуют СОТ с учетом своей специфики.
+      </Text>
+      <Text as="p" size={18} spacing wide>
+        Трудовой кодекс требует создавать СОТ у работодателей, «осуществляющих производственную деятельность». Из-за
+        этой формулировки некоторые думают, что служба охраны труда нужна только на промышленных предприятиях — это
+        заблуждение.
+      </Text>
+    </>
+  );
+};
+
+ExampleBasic.storyName = 'Базовый пример';
+
 export const TypographyStory = () => {
   const [hasSpacing, setHasSpacing] = React.useState(true);
   const [isWide, setIsWide] = React.useState(false);
+  const [weight, setWeight] = React.useState<TextProps['weight'] | null>(null);
+
   const isMountRef = React.useRef(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const theme = React.useContext(ThemeContext);
@@ -49,7 +85,7 @@ export const TypographyStory = () => {
   React.useLayoutEffect(() => {
     if (!isMountRef.current) return;
     containerRef.current?.scrollIntoView({ block: 'end' });
-  }, [hasSpacing, isWide]);
+  }, [hasSpacing, isWide, weight]);
 
   const styles = {
     typography: css`
@@ -64,6 +100,9 @@ export const TypographyStory = () => {
       position: sticky;
       bottom: 0;
       order: 1;
+      display: flex;
+      gap: 24px;
+      align-items: center;
       white-space: nowrap;
       padding: 20px 32px;
       background: ${theme.bgDefault};
@@ -120,8 +159,9 @@ export const TypographyStory = () => {
   };
 
   const getCode = (size: TTextSizes) => {
+    const weightProp = weight ? ` weight="${weight}"` : '';
     return {
-      React: `<Text as="p" size={${size}}${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
+      React: `<Text as="p" size={${size}}${weightProp}${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
       CSS: `t${size}${isWide ? 't-wide' : ''}${hasSpacing ? ' t-spacing' : ''}`,
       'CSS Module': `\${text.t${size}}${isWide ? ' ${text.wide}' : ''}${hasSpacing ? ' ${text.spacing}' : ''}`,
       SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWide ? ', $wide: true' : ''});`,
@@ -152,7 +192,7 @@ export const TypographyStory = () => {
         </div>
 
         <div className={styles.demoText}>
-          <Text as="p" size={size} wide={isWide} spacing={hasSpacing}>
+          <Text as="p" size={size} wide={isWide} spacing={hasSpacing} weight={weight}>
             {getText(size)}
           </Text>
         </div>
@@ -165,7 +205,7 @@ export const TypographyStory = () => {
   return (
     <div className={styles.typography} ref={containerRef}>
       <SingleToast />
-      <Gapped gap={28} className={styles.controls} data-typography-controls>
+      <div className={styles.controls} data-typography-controls>
         <Toggle checked={hasSpacing} onValueChange={setHasSpacing}>
           Отступы (spacing)
         </Toggle>
@@ -176,19 +216,32 @@ export const TypographyStory = () => {
             render={() => (
               <div style={{ maxWidth: 200 }}>
                 Если длина строки больше 40 символов, увеличивается высота строки и абзацный отступ.{' '}
-                <Link
-                  target="_blank"
-                  href="https://guides.kontur.ru/principles/text/text-styles/#Dlya_zagolovkov,_lidov_i_obichnogo_teksta"
-                >
-                  Подробнее в гайде
-                </Link>
               </div>
             )}
           >
             <IconQuestionCircleRegular16 />
           </Tooltip>
         </Toggle>
-      </Gapped>
+
+        <div
+          className={css`
+            flex-grow: 1;
+          `}
+        />
+
+        <Select
+          width={200}
+          value={weight}
+          items={[
+            [null, 'Начертание по умолчанию'],
+            ['regular', 'Regular (400)'],
+            ['medium', 'Medium (500)'],
+            ['bold', 'Bold (700)'],
+          ]}
+          placeholder="Выберите начертание"
+          onValueChange={setWeight}
+        />
+      </div>
 
       {sizes.map((size) => {
         const token = tokens[size as keyof typeof tokens];
@@ -216,4 +269,4 @@ export const TypographyStory = () => {
   );
 };
 
-TypographyStory.storyName = 'Типографика';
+TypographyStory.storyName = 'Стили типографики';
