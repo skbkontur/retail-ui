@@ -105,12 +105,27 @@
   };
 };
 
-.t(@size, @spacing: false, @wide: false) {
+@weights: {
+  @regular: 400;
+  @medium: 500;
+  @bold: 700;
+};
+
+.t(@size, @spacing: false, @wide: false, @weight: default) {
   @size-key: ~'t@{size}';
   @style: @typography[@@size-key];
 
   font-size: @style[font-size];
-  font-weight: @style[font-weight];
+
+  .set-weight() when (@weight = default) {
+    font-weight: @style[font-weight];
+  }
+  .set-weight() when not (@weight = default) {
+    @weight-key: ~'@{weight}';
+    @val: @weights[@@weight-key];
+    font-weight: ~'@{val} !important';
+  }
+  .set-weight();
 
   @has-wide: boolean(not(@style[wide-line-height] = null));
 

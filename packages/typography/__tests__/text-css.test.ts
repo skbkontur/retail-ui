@@ -15,4 +15,10 @@ describe('Text.css content', () => {
     expect(css).toContain('.t-14.t-spacing { margin-bottom: 10px; }');
     expect(css).toContain('.t-20.t-wide.t-spacing { margin-bottom: 16px; }');
   });
+
+  it('should contain standalone weight utilities with !important', () => {
+    expect(css).toContain('.t-regular { font-weight: 400 !important; }');
+    expect(css).toContain('.t-medium { font-weight: 500 !important; }');
+    expect(css).toContain('.t-bold { font-weight: 700 !important; }');
+  });
 });

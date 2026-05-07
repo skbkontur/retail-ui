@@ -95,12 +95,23 @@ $typography: (
   ),
 ) !default;
 
-@mixin t($size, $spacing: false, $wide: false) {
+$weights: (
+  'regular': 400,
+  'medium': 500,
+  'bold': 700,
+);
+
+@mixin t($size, $spacing: false, $wide: false, $weight: null) {
   $style: map.get($typography, '#{$size}');
 
   @if $style {
     font-size: map.get($style, 'font-size');
-    font-weight: map.get($style, 'font-weight');
+
+    @if $weight != null and map.has-key($weights, $weight) {
+      font-weight: map.get($weights, $weight) !important;
+    } @else {
+      font-weight: map.get($style, 'font-weight');
+    }
 
     $line-height: map.get($style, 'line-height');
     $margin-bottom: map.get($style, 'margin-bottom');

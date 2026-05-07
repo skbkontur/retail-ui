@@ -21,4 +21,10 @@ describe('Text.module.css content', () => {
     expect(css).toContain('.t14.spacing { margin-bottom: 10px; }');
     expect(css).toContain('.t20.wide.spacing { margin-bottom: 16px; }');
   });
+
+  it('should contain independent weight utilities with !important', () => {
+    expect(css).toContain('.regular { font-weight: 400 !important; }');
+    expect(css).toContain('.medium { font-weight: 500 !important; }');
+    expect(css).toContain('.bold { font-weight: 700 !important; }');
+  });
 });

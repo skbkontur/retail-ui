@@ -39,6 +39,10 @@ export interface TextProps
         | 'legend'
         | 'address';
       /**
+       * Начертание текста
+       */
+      weight?: 'regular' | 'medium' | 'bold';
+      /**
        * Добавить отступ снизу
        * @default false
        */
@@ -52,9 +56,15 @@ export interface TextProps
     }> {}
 
 export const Text = forwardRef<HTMLElement, TextProps>((props, ref) => {
-  const { as: Component = 'span', className, spacing, size, wide, children, ...rest } = props;
+  const { as: Component = 'span', className, spacing, size, wide, weight, children, ...rest } = props;
 
-  const combinedClassName = [styles[`t${size}`], wide && styles.wide, spacing && styles.spacing, className]
+  const combinedClassName = [
+    styles[`t${size}`],
+    wide && styles.wide,
+    spacing && styles.spacing,
+    weight && styles[weight],
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

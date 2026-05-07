@@ -31,4 +31,9 @@ describe('text.less mixin', () => {
     const css = await renderLess('.test { .t(12, @spacing: false); }');
     expect(css).toContain('margin-bottom: 0');
   });
+
+  it('should render custom weight with !important', async () => {
+    const css = await renderLess('.test { .t(14, @weight: bold); }');
+    expect(css).toContain('font-weight: 700 !important;');
+  });
 });

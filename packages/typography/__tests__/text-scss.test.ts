@@ -35,4 +35,9 @@ describe('text.scss mixin', () => {
     const css = renderScss('.test { @include t(12, $spacing: false); }');
     expect(css).toContain('margin-bottom: 0');
   });
+
+  it('should apply weight with !important when specified', () => {
+    const css = renderScss('.test { @include t(16, $weight: "bold"); }');
+    expect(css).toContain('font-weight: 700 !important;');
+  });
 });

@@ -21,12 +21,13 @@ const getBlockWrapper = (
   component: NonNullable<TextProps['as']>,
   size: TextProps['size'],
   wide?: TextProps['wide'],
-  spacing?: TextProps['spacing']
+  spacing?: TextProps['spacing'],
+  weight?: TextProps['weight']
 ) => (
   <div style={{ ...stylesWrapper.elementStyle }}>
     <div>{name}</div>
     <div style={{ border: '1px solid black' }}>
-      <Text as={component} size={size} wide={wide} spacing={spacing}>
+      <Text as={component} size={size} wide={wide} spacing={spacing} weight={weight}>
         {header}
       </Text>
     </div>
@@ -98,6 +99,25 @@ export const TextWithCustom = () => {
           </Text>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const TextWithWeight = () => {
+  return (
+    <div>
+      {getBlockWrapper('p 20px', 'p', 16, false, false)}
+      {getBlockWrapper('p 48px', 'p', 40, false, false)}
+
+      <hr />
+
+      {getBlockWrapper('p 20px regular', 'p', 20, false, true, 'regular')}
+      {getBlockWrapper('p 20px medium', 'p', 20, false, true, 'medium')}
+      {getBlockWrapper('p 20px bold', 'p', 20, false, true, 'bold')}
+
+      <hr />
+
+      {getBlockWrapper('p 48px regular', 'p', 48, false, true, 'regular')}
     </div>
   );
 };

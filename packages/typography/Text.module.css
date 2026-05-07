@@ -196,3 +196,15 @@
 .t56.spacing {
   margin-bottom: 32px;
 }
+
+.regular {
+  font-weight: 400 !important;
+}
+
+.medium {
+  font-weight: 500 !important;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
