@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.3...@skbkontur/react-ui@6.0.4) (2026-05-07)
+
+
+### Bug Fixes
+
+* **menuItem:** listen size context ([50a92c7](https://github.com/skbkontur/retail-ui/commit/50a92c7c2f55bfe3bd8231d8bdb309f4be07f8eb))
+* **MiniModal:** fix mini modal default width behavior ([8f42d41](https://github.com/skbkontur/retail-ui/commit/8f42d41f72d1788037f76a07401bb6dcea7b712a))
+* **textarea:** position counter by computed paddings ([3f4dcfb](https://github.com/skbkontur/retail-ui/commit/3f4dcfbebb1be1bbf0de968c9770ad025f0c2fd5))
+
+
+
+
+
 ## [6.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.2...@skbkontur/react-ui@6.0.3) (2026-04-27)
 
 
