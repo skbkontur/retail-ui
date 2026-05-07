@@ -164,6 +164,7 @@ export const TypographyStory = () => {
 
   return (
     <div className={styles.typography} ref={containerRef}>
+      <SingleToast />
       <Gapped gap={28} className={styles.controls} data-typography-controls>
         <Toggle checked={hasSpacing} onValueChange={setHasSpacing}>
           Отступы (spacing)
