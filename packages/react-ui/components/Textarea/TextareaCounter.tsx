@@ -5,6 +5,7 @@ import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCirc
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import { isFunction } from '../../lib/utils.js';
 import { Tooltip } from '../Tooltip/index.js';
 import { TextareaDataTids } from './Textarea.js';
@@ -72,15 +73,17 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
       </Tooltip>
     );
 
+    const isNegativeValue = counterValue < 0;
+
     return (
       <div data-tid={TextareaDataTids.counter} className={cx(styles.counterContainer(theme))} style={{ width, height }}>
         <span
           style={counterOffsets}
           className={cx(styles.counter(theme), {
-            [styles.counterError(theme)]: counterValue < 0,
+            [styles.counterError(theme)]: isNegativeValue,
           })}
         >
-          {counterValue}
+          {isThemeGTE(theme, '6.1') && isNegativeValue ? `–${-counterValue}` : counterValue}
           {help && <span className={styles.counterHelp()}>{counterHelp}</span>}
         </span>
       </div>
