@@ -159,13 +159,12 @@ export const TypographyStory = () => {
   };
 
   const getCode = (size: TTextSizes) => {
-    const weightProp = weight ? ` weight="${weight}"` : '';
     return {
-      React: `<Text as="p" size={${size}}${weightProp}${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
-      CSS: `t${size}${isWide ? 't-wide' : ''}${hasSpacing ? ' t-spacing' : ''}`,
-      'CSS Module': `\${text.t${size}}${isWide ? ' ${text.wide}' : ''}${hasSpacing ? ' ${text.spacing}' : ''}`,
-      SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWide ? ', $wide: true' : ''});`,
-      Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWide ? ', @wide: true' : ''});`,
+      React: `<Text as="p" size={${size}}${weight ? ` weight="${weight}"` : ''}${hasSpacing ? ' spacing' : ''}${isWide ? ' wide' : ''}>Текст</Text>`,
+      CSS: `t${size}${weight ? ` t-${weight}` : ''}${isWide ? ' t-wide' : ''}${hasSpacing ? ' t-spacing' : ''}`,
+      'CSS Module': `\${text.t${size}}${weight ? ` \${text.${weight}}` : ''}${isWide ? ` \${text.wide}` : ''}${hasSpacing ? ` \${text.spacing}` : ''}`,
+      SCSS: `@include t(${size}${hasSpacing ? ', $spacing: true' : ''}${isWide ? ', $wide: true' : ''}${weight ? `, $weight: ${weight}` : ''});`,
+      Less: `.t(${size}${hasSpacing ? ', @spacing: true' : ''}${isWide ? ', @wide: true' : ''}${weight ? `, @weight: ${weight}` : ''});`,
     };
   };
 
