@@ -2271,8 +2271,17 @@ export class BasicThemeClass {
   public static spinnerCaptionGapSmall = '6px';
   public static spinnerCaptionGapMedium = '-4px';
   public static spinnerCaptionGapLarge = '-3px';
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link spinnerCaptionGapSmall} */
   public static spinnerCaptionMarginSmall = '0 0 0 6px';
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link spinnerCaptionGapSmall} */
   public static spinnerCaptionMarginMedium = '0 0 0 6px';
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link spinnerCaptionGapSmall} */
   public static spinnerCaptionMarginLarge = '0 0 0 6px';
   //#endregion
   //#region Switcher

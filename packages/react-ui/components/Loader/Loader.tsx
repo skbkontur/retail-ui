@@ -15,9 +15,11 @@ import * as LayoutEvents from '../../lib/LayoutEvents.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
 import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
+import { withSize } from '../../lib/size/SizeDecorator.js';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import type { SizeProp } from '../../lib/types/props.js';
 import type { AnyObject } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import { Spinner } from '../Spinner/index.js';
@@ -26,6 +28,8 @@ import { getStyles } from './Loader.styles.js';
 
 const types = ['mini', 'normal', 'big'] as const;
 
+/** @deprecated Начиная с версии `6.1`, тип и проп устарели в пользу `SizeContext`. Они будут удалены в `7.0`.
+ * @see {@link SizeProp} */
 export type LoaderType = (typeof types)[number];
 
 export interface LoaderProps extends CommonProps {
@@ -37,15 +41,19 @@ export interface LoaderProps extends CommonProps {
   active?: boolean;
 
   /** Подпись под спиннером.
-   * @default  ""
-   */
+   * @default "" */
   caption?: SpinnerProps['caption'];
 
   /** Задает компонент, заменяющий спиннер. */
   component?: React.ReactNode;
 
   /** Размер спиннера и текста.
-   * @default normal. */
+   * @default small */
+  size?: SizeProp;
+
+  /** Размер спиннера и текста.
+   * @deprecated Начиная с версии `6.1`, тип и проп устарели в пользу нового `SizeContext`. Они будут удалены в `7.0`.
+   * @see {@link size} */
   type?: LoaderType;
 
   /** Время в миллисекундах для показа вуали без спиннера.
@@ -70,9 +78,7 @@ export const LoaderDataTids = {
   spinner: 'Loader__Spinner',
 } as const;
 
-type DefaultProps = Required<
-  Pick<LoaderProps, 'type' | 'active' | 'delayBeforeSpinnerShow' | 'minimalDelayBeforeSpinnerHide'>
->;
+type DefaultProps = Required<Pick<LoaderProps, 'active' | 'delayBeforeSpinnerShow' | 'minimalDelayBeforeSpinnerHide'>>;
 
 /**
  * С помощью лоадера можно отобразить процесс выполнения задачи.
@@ -81,12 +87,12 @@ type DefaultProps = Required<
  */
 @withRenderEnvironment
 @rootNode
+@withSize
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
   public static displayName = 'Loader';
 
   public static defaultProps: DefaultProps = {
-    type: 'normal',
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
     minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
@@ -99,6 +105,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private cx!: Emotion['cx'];
   private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
+  private size!: SizeProp;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
   private spinnerContainerNode: Nullable<HTMLDivElement>;
@@ -209,9 +216,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { caption, component } = this.props;
-    const type = this.getProps().type;
+    const { caption, component, size, type } = this.props;
     const { isLoaderActive } = this.state;
+
+    const parsedSize = size || !type ? this.size : this.typeToSize(type);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -234,7 +242,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
                 [this.styles.active(this.theme)]: isLoaderActive,
               })}
             >
-              {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
+              {this.state.isSpinnerVisible && this.renderSpinner(parsedSize, caption, component)}
             </ZIndex>
           )}
         </div>
@@ -250,7 +258,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.spinnerContainerNode = element;
   };
 
-  private renderSpinner(type?: LoaderType, caption?: React.ReactNode, component?: React.ReactNode) {
+  private renderSpinner(size?: SizeProp, caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
         data-tid={LoaderDataTids.spinner}
@@ -265,7 +273,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             this.spinnerNode = element;
           }}
         >
-          {component !== undefined ? component : <Spinner type={type} caption={caption} />}
+          {component !== undefined ? component : <Spinner size={size} caption={caption} />}
         </div>
       </span>
     );
@@ -390,5 +398,16 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private makeUnobservable = () => {
     this.childrenObserver?.disconnect();
     this.childrenObserver = null;
+  };
+
+  private typeToSize = (type: LoaderType) => {
+    switch (type) {
+      case 'mini':
+        return 'small';
+      case 'normal':
+        return 'medium';
+      case 'big':
+        return 'large';
+    }
   };
 }

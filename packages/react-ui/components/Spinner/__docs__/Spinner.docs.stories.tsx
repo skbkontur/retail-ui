@@ -20,9 +20,9 @@ ExampleBasic.storyName = 'Базовый пример';
 export const ExampleType: Story = () => {
   return (
     <Gapped>
-      <Spinner type="big" />
-      <Spinner type="normal" />
-      <Spinner type="mini" />
+      <Spinner size="large" />
+      <Spinner size="medium" />
+      <Spinner size="small" />
     </Gapped>
   );
 };
@@ -31,7 +31,7 @@ ExampleType.storyName = 'Размер спиннера и текста';
 /**
  * Проп `width` задаёт толщину индикатора в пикселях.
  */
-export const ExampleWidth: Story = () => <Spinner width={5} type="mini" />;
+export const ExampleWidth: Story = () => <Spinner width={5} size="small" />;
 ExampleWidth.storyName = 'Толщина индикатора';
 
 /**
@@ -40,9 +40,9 @@ ExampleWidth.storyName = 'Толщина индикатора';
 export const ExampleCaption: Story = () => {
   return (
     <Gapped>
-      <Spinner type="big" caption="big" />
-      <Spinner type="normal" caption="normal" />
-      <Spinner type="mini" caption="mini" />
+      <Spinner size="large" caption="large" />
+      <Spinner size="medium" caption="medium" />
+      <Spinner size="small" caption="small" />
     </Gapped>
   );
 };

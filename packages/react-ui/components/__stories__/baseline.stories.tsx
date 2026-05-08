@@ -119,15 +119,15 @@ TextLargeButton.storyName = 'Text, Large Button';
 export const TextSpinner = () => (
   <div>
     <span>Text</span>
-    <Spinner type="mini" />
+    <Spinner size="small" />
   </div>
 );
 TextSpinner.storyName = 'Text, Spinner';
 
 export const IconSpinner = () => (
   <div>
-    <IconUiLoadSpinnerRegular16 />
-    <Spinner type="mini" />
+    <UiLoadSpinnerIcon16Regular />
+    <Spinner size="small" />
   </div>
 );
 IconSpinner.storyName = 'Icon, Spinner';

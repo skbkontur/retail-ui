@@ -42,7 +42,7 @@ class ContentComponent extends React.Component<React.PropsWithChildren<ContentCo
                   : { ...wrapperStyle, ...additionalStyle }
               }
             >
-              <Loader active type={'big'} {...loaderProps}>
+              <Loader active size="large" {...loaderProps}>
                 {children}
               </Loader>
             </div>
@@ -108,15 +108,15 @@ export const Simple = () => {
 };
 Simple.parameters = { creevey: { skip: true } };
 
-export const TypeBig = () => (
+export const LargeSize = () => (
   <ContentComponent>
     <NumberList itemsCount={10} />
   </ContentComponent>
 );
-TypeBig.storyName = 'Type "big"';
-TypeBig.parameters = { creevey: { skip: true } };
+LargeSize.storyName = 'Large size';
+LargeSize.parameters = { creevey: { skip: true } };
 
-export const TypeBigWithText = () => (
+export const LargeSizeWithText = () => (
   <div style={{ width: 400 }}>
     <h1>
       Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
@@ -142,7 +142,7 @@ export const TypeBigWithText = () => (
       <li>You are the last hope of the universe.</li>
       <li>Hey, guess what you&apos;re accessories to.</li>
     </ol>
-    <Loader active type={'big'}>
+    <Loader active size="large">
       <h1>
         Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
         good vestments.&quot;
@@ -194,8 +194,8 @@ export const TypeBigWithText = () => (
     </ol>
   </div>
 );
-TypeBigWithText.storyName = 'Type "big" with text';
-TypeBigWithText.parameters = { creevey: { skip: true } };
+LargeSizeWithText.storyName = 'Large size with text';
+LargeSizeWithText.parameters = { creevey: { skip: true } };
 
 export const VerticalScroll = () => (
   <ContentComponent>
@@ -219,7 +219,9 @@ export const BothDimensionsScrollableContentWithSpacesAround = () => (
   </ContentComponent>
 );
 BothDimensionsScrollableContentWithSpacesAround.storyName = 'Both dimensions scrollable content with spaces around';
-BothDimensionsScrollableContentWithSpacesAround.parameters = { creevey: { skip: true } };
+BothDimensionsScrollableContentWithSpacesAround.parameters = {
+  creevey: { skip: true },
+};
 
 export const ActiveLoader: Story = () => <LoaderAndButton active />;
 ActiveLoader.storyName = 'Active loader';

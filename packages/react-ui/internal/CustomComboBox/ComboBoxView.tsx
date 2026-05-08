@@ -503,7 +503,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   private renderSpinner = () => (
     <span className={this.styles.spinnerWrapper()}>
-      <Spinner type="mini" caption="" dimmed />
+      <Spinner size="small" caption="" dimmed />
     </span>
   );
 

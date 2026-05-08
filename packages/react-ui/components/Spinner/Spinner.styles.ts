@@ -45,7 +45,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    mini(t: Theme) {
+    small(t: Theme) {
       return emotion.css`
         margin-left: ${t.spinnerCaptionGapSmall};
         font-size: ${t.spinnerFontSizeSmall};
@@ -53,15 +53,7 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    small(t: Theme) {
-      return emotion.css`
-        margin: ${t.spinnerCaptionMarginSmall};
-        font-size: ${t.spinnerFontSizeSmall};
-        line-height: ${t.spinnerLineHeightSmall};
-      `;
-    },
-
-    normal(t: Theme) {
+    medium(t: Theme) {
       return emotion.css`
         display: block;
         font-size: ${t.spinnerFontSizeMedium};
@@ -70,28 +62,12 @@ export const getStyles = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    medium(t: Theme) {
-      return emotion.css`
-        margin: ${t.spinnerCaptionMarginMedium};
-        font-size: ${t.spinnerFontSizeMedium};
-        line-height: ${t.spinnerLineHeightMedium};
-      `;
-    },
-
-    big(t: Theme) {
+    large(t: Theme) {
       return emotion.css`
         display: block;
         font-size: ${t.spinnerFontSizeLarge};
         line-height: ${t.spinnerLineHeightLarge};
         margin-top: ${t.spinnerCaptionGapLarge};
-      `;
-    },
-
-    large(t: Theme) {
-      return emotion.css`
-        font-size: ${t.spinnerFontSizeLarge};
-        line-height: ${t.spinnerLineHeightLarge};
-        margin: ${t.spinnerCaptionMarginLarge};
       `;
     },
 

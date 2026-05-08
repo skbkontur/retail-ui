@@ -66,15 +66,15 @@ class ZSelect extends React.Component {
 }
 
 interface ZLoaderProps {
-  size: number;
+  height: number;
 }
 class ZLoader extends React.Component<ZLoaderProps> {
   public render() {
-    const size = this.props.size + 'px';
-    const style = { height: size, fontSize: '20px', border: 'solid red 1px' };
+    const height = this.props.height + 'px';
+    const style = { height, fontSize: '20px', border: 'solid red 1px' };
     return (
-      <div style={{ width: size }}>
-        <Loader active>
+      <div style={{ width: height }}>
+        <Loader active size="medium">
           <div style={style}>
             <Center>
               <b>
@@ -155,7 +155,7 @@ class ZSample extends React.Component<ZSampleProps> {
         />
         {controls}
         <Gapped>
-          <ZLoader size={150} />
+          <ZLoader height={150} />
           <div
             ref={(e) => {
               this.popupAnchor = e;
@@ -275,7 +275,7 @@ class LoaderCoversTooltip extends React.Component {
   public render() {
     return (
       <div style={{ width: '500px' }}>
-        <Loader type="big" active>
+        <Loader size="large" active>
           <div style={{ height: 100 }} />
           <InputWithTooltip />
         </Loader>
@@ -287,7 +287,7 @@ class LoaderCoversTooltip extends React.Component {
 class ModalWithTooltipInLoader extends React.Component {
   public render() {
     return (
-      <Loader type="big" active>
+      <Loader size="large" active>
         <div style={{ width: '100vw', height: '100vh' }}>
           <ModalWrapper>
             <InputWithTooltip />
@@ -302,7 +302,7 @@ class TooltipNearLoader extends React.Component {
   public render() {
     return (
       <div style={{ display: 'flex', width: 500, paddingBottom: 10 }}>
-        <Loader type="normal" active>
+        <Loader size="medium" active>
           <div style={{ height: 100, width: 250 }} />
           <InputWithTooltip />
         </Loader>
@@ -325,7 +325,7 @@ class NestedElementsInLoader extends React.Component {
 
   public render() {
     return (
-      <Loader type="big" active>
+      <Loader size="large" active>
         <div style={{ width: '100vw', height: '100vh' }}>
           <ModalWrapper caption="First Modal Title">
             <div>
@@ -464,7 +464,7 @@ class LoaderInSidePage extends React.Component {
                   }}
                 >
                   <SidePage.Container>
-                    <ZLoader size={800} />
+                    <ZLoader height={800} />
                   </SidePage.Container>
                 </div>
               </SidePage.Body>
@@ -546,7 +546,7 @@ class BigModalWithLoader extends React.Component {
       <Modal>
         <Modal.Header>Header</Modal.Header>
         <Modal.Body>
-          <ZLoader size={800} />
+          <ZLoader height={800} />
           <p style={{ height: 2000 }}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab fuga, officia magnam dolore quas debitis tenetur
             animi iste ea sunt atque nobis velit rerum dolor voluptatibus sit? Facere, doloribus modi!
@@ -577,7 +577,7 @@ class ElementsInLoaderInModal extends React.Component {
       <Modal>
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
-          <Loader active={active}>
+          <Loader active={active} size="medium">
             <div style={{ padding: '100px' }}>
               <Hint text={'Test'} manual opened>
                 <Gapped gap={10}>
@@ -619,7 +619,7 @@ class LoaderAndSidePage extends React.Component {
             <Toggle checked={active} onValueChange={this.setActive} /> Активировать
           </SidePage.Footer>
         </SidePage>
-        <Loader active={active}>
+        <Loader active={active} size="medium">
           <div style={{ padding: '100px' }}>
             <Button>Open</Button>
           </div>
@@ -633,7 +633,7 @@ class LoaderAndSidePage extends React.Component {
 function ModalInLoaderAndModal() {
   return (
     <div>
-      <Loader active={false}>
+      <Loader active={false} size="medium">
         <Modal>
           <Modal.Header>1</Modal.Header>
           <Modal.Body>
@@ -664,7 +664,7 @@ function ModalInLoaderAndModal() {
 function StickyAndLoader() {
   return (
     <>
-      <Loader type="big" active>
+      <Loader size="large" active>
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i}>
             <p>Ехал лоадер через реку</p>
@@ -730,7 +730,14 @@ function StringZIndexInPortalContent({ withRoot = false }) {
   }, []);
 
   return (
-    <div style={{ zIndex: 'initial', display: 'flex', columnGap: 100, flexDirection: 'column' }}>
+    <div
+      style={{
+        zIndex: 'initial',
+        display: 'flex',
+        columnGap: 100,
+        flexDirection: 'column',
+      }}
+    >
       <div
         style={{
           width: 200,
@@ -741,7 +748,7 @@ function StringZIndexInPortalContent({ withRoot = false }) {
       >
         <Popup opened anchorElement={<div />} pos="bottom left" priority="Modal">
           <MayBeRoot>
-            <Loader caption={null}>
+            <Loader caption={null} size="medium">
               <div style={{ zIndex: 'auto', minWidth: 200 }}>
                 {title}
                 <Classic />
@@ -764,14 +771,18 @@ export const StringZIndexInPortalStory = () => {
   );
 };
 StringZIndexInPortalStory.storyName = 'String z-index in portal';
-StringZIndexInPortalStory.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+StringZIndexInPortalStory.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};
 
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
 LoaderCoversTooltipStory.storyName = 'Loader covers tooltip';
 
 export const ModalWithTooltipInLoaderStory: Story = () => <ModalWithTooltipInLoader />;
 ModalWithTooltipInLoaderStory.storyName = 'Modal With Tooltip In Loader';
-ModalWithTooltipInLoaderStory.parameters = { creevey: { captureElement: null } };
+ModalWithTooltipInLoaderStory.parameters = {
+  creevey: { captureElement: null },
+};
 
 export const NestedElementsInLoaderStory: Story = () => <NestedElementsInLoader />;
 NestedElementsInLoaderStory.storyName = 'Nested elements in loader';
@@ -889,7 +900,9 @@ export const ToastOverEverything: Story = () => {
             <button
               data-tid="static-toast"
               onClick={() =>
-                SingleToast.push('Static Toast', { action: { label: 'Close', handler: SingleToast.close } })
+                SingleToast.push('Static Toast', {
+                  action: { label: 'Close', handler: SingleToast.close },
+                })
               }
             >
               Static Toast
@@ -916,7 +929,13 @@ export const ModalWithDropdown: Story = () => {
           menuWidth="250px"
           disablePortal
         >
-          <div style={{ height: '150px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
+          <div
+            style={{
+              height: '150px',
+              backgroundColor: 'lightblue',
+              overflow: 'hidden',
+            }}
+          >
             <p>{'выпадашка '.repeat(100)}</p>
           </div>
         </Dropdown>
@@ -930,7 +949,13 @@ export const ModalWithDropdown: Story = () => {
           menuWidth="250px"
           disablePortal
         >
-          <div style={{ height: '150px', backgroundColor: 'lightblue', overflow: 'hidden' }}>
+          <div
+            style={{
+              height: '150px',
+              backgroundColor: 'lightblue',
+              overflow: 'hidden',
+            }}
+          >
             <p>{'выпадашка '.repeat(100)}</p>
           </div>
         </Dropdown>
@@ -979,7 +1004,14 @@ function Classic({ withRoot = false }) {
   const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
 
   return (
-    <div style={{ display: 'flex', columnGap: 100, flexDirection: 'column', paddingBottom: 50 }}>
+    <div
+      style={{
+        display: 'flex',
+        columnGap: 100,
+        flexDirection: 'column',
+        paddingBottom: 50,
+      }}
+    >
       <div>
         <Tooltip render={() => 'Tooltip 1'} pos="bottom center" trigger="opened" allowedPositions={['bottom center']}>
           Тултип
@@ -1021,7 +1053,7 @@ function ActiveLoader({ withRoot = false }) {
         }}
       >
         <MayBeRoot>
-          <Loader active caption={null}>
+          <Loader active caption={null} size="medium">
             <div style={{ minWidth: 200 }}>
               {title}
               <Classic />
@@ -1049,7 +1081,7 @@ function DisabledLoaderInPortal({ withRoot = false }) {
       >
         <Popup opened anchorElement={<div />} pos="bottom left" priority="Modal">
           <MayBeRoot>
-            <Loader caption={null}>
+            <Loader caption={null} size="medium">
               <div style={{ minWidth: 200 }}>
                 {title}
                 <Classic />
@@ -1067,7 +1099,14 @@ function Upper({ withRoot = false }) {
   const MayBeRoot = withRoot ? Root : ({ children }: React.PropsWithChildren<any>) => children;
 
   return (
-    <div style={{ display: 'flex', rowGap: 200, flexDirection: 'column', minWidth: 100 }}>
+    <div
+      style={{
+        display: 'flex',
+        rowGap: 200,
+        flexDirection: 'column',
+        minWidth: 100,
+      }}
+    >
       <div>
         <Tooltip
           render={() => (
@@ -1108,13 +1147,33 @@ function Upper({ withRoot = false }) {
 
 const SeveralRoots = (props: { title: string; goldenSample: React.ReactNode; withRoot: React.ReactNode }) => {
   return (
-    <div style={{ padding: 50, display: 'flex', flexDirection: 'column', rowGap: 20, width: 600 }}>
+    <div
+      style={{
+        padding: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: 20,
+        width: 600,
+      }}
+    >
       <h3 style={{ textAlign: 'center' }}>{props.title}</h3>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+      <div
+        style={{
+          display: 'flex',
+          columnGap: 150,
+          justifyContent: 'space-evenly',
+        }}
+      >
         <h3>Эталон</h3>
         <h3>Root</h3>
       </div>
-      <div style={{ display: 'flex', columnGap: 150, justifyContent: 'space-evenly' }}>
+      <div
+        style={{
+          display: 'flex',
+          columnGap: 150,
+          justifyContent: 'space-evenly',
+        }}
+      >
         {props.goldenSample}
         {props.withRoot}
       </div>
@@ -1125,12 +1184,16 @@ const SeveralRoots = (props: { title: string; goldenSample: React.ReactNode; wit
 export const SeveralRootsSimple = () => {
   return <SeveralRoots title="Простой пример" goldenSample={<Classic />} withRoot={<Classic withRoot />} />;
 };
-SeveralRootsSimple.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+SeveralRootsSimple.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};
 
 export const SeveralRootsActiveLoader = () => {
   return <SeveralRoots title="Активный Лоадер" goldenSample={<ActiveLoader />} withRoot={<ActiveLoader withRoot />} />;
 };
-SeveralRootsActiveLoader.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+SeveralRootsActiveLoader.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};
 
 export const SeveralRootsDisabledLoaderInPortal = () => {
   return (
@@ -1148,4 +1211,6 @@ SeveralRootsDisabledLoaderInPortal.parameters = {
 export const SeveralRootsUpper = () => {
   return <SeveralRoots title="Выше всех" goldenSample={<Upper />} withRoot={<Upper withRoot />} />;
 };
-SeveralRootsUpper.parameters = { creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } } };
+SeveralRootsUpper.parameters = {
+  creevey: { skip: { 'enough basic theme': { in: /^(?!\bchrome2022\b)/ } } },
+};

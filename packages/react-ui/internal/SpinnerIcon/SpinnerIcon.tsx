@@ -18,17 +18,17 @@ export interface SpinnerIconProps {
 }
 
 export const sizes = {
-  big: {
+  large: {
     size: 96,
     width: 4,
     radius: 32,
   },
-  normal: {
+  medium: {
     size: 48,
     width: 2,
     radius: 16,
   },
-  mini: {
+  small: {
     size: 16,
     width: 1.5,
     radius: 6,
@@ -41,7 +41,7 @@ const isSizeAlias = (size: unknown): size is keyof typeof sizes => {
 
 export const SpinnerIcon = ({ size, className, inline, width, color }: SpinnerIconProps) => {
   const _size = isSizeAlias(size) ? sizes[size] : size;
-  const currentSize = inline ? sizes.mini : _size;
+  const currentSize = inline ? sizes.small : _size;
 
   const { cx } = useEmotion();
   const styles = useStyles(getStyles);

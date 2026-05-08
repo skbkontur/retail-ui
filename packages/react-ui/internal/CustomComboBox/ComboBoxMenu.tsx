@@ -117,7 +117,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           data-tid={`${ComboBoxMenuDataTids.loading} ${MenuDataTids.root}`}
         >
           <MenuMessage size={this.props.size} as="div">
-            <Spinner type="mini" dimmed />
+            <Spinner size="small" dimmed />
           </MenuMessage>
         </Menu>
       );

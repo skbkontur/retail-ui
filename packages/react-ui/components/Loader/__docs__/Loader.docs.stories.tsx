@@ -87,15 +87,15 @@ export const ExampleSize: Story = () => {
     <>
       <Button onClick={() => setIsActive(!isActive)}>{isActive ? 'Скрыть лоадер' : 'Показать лоадер'}</Button>
 
-      <Loader type="big" caption="big" active={isActive}>
+      <Loader size="large" caption="large" active={isActive}>
         <Content />
       </Loader>
 
-      <Loader type="normal" caption="normal" active={isActive}>
+      <Loader size="medium" caption="medium" active={isActive}>
         <Content />
       </Loader>
 
-      <Loader type="mini" caption="mini" active={isActive}>
+      <Loader size="small" caption="small" active={isActive}>
         <Content />
       </Loader>
     </>
@@ -148,7 +148,7 @@ export const ExampleTime: Story = () => {
         <div style={{ maxWidth: 434, background: '#F2F2F2', borderRadius: 8, marginTop: 8 }}>
           <Loader
             active={loading}
-            type="normal"
+            size="medium"
             caption="Проверяем отчёт"
             delayBeforeSpinnerShow={delayBeforeShow}
             minimalDelayBeforeSpinnerHide={minDisplayTime}

@@ -6,13 +6,13 @@ import { Spinner } from '../Spinner.js';
 
 const reactNodeCaption = (
   <div>
-    <Spinner type="mini" caption={null} /> <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>
+    <Spinner size="small" caption={null} /> <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>
     агрузка ...
   </div>
 );
 const SpinnerLikeIcon = () => (
   <>
-    <Spinner type="mini" caption={null} />
+    <Spinner size="small" caption={null} />
     Загрузка
     <br />
     <CheckAIcon16Regular />
@@ -25,9 +25,7 @@ const meta: Meta = {
   component: Spinner,
   parameters: {
     creevey: {
-      skip: {
-        'kind-skip-0': { stories: ['Big', 'Mini', 'Mini dimmed'] },
-      },
+      skip: {},
     },
   },
   decorators: [
@@ -41,16 +39,15 @@ const meta: Meta = {
 
 export default meta;
 
-export const Normal = () => <Spinner />;
-export const Big = () => <Spinner type="big" />;
-export const Mini = () => <Spinner type="mini" />;
-export const MiniDimmed = () => <Spinner type="mini" dimmed />;
+export const Large = () => <Spinner size="large" />;
+export const Medium = () => <Spinner size="medium" />;
+export const Small = () => <Spinner size="small" />;
+export const Dimmed = () => <Spinner dimmed />;
 export const WithCaption = () => <Spinner caption={'Loading'} />;
-export const WithCustomColor = () => <Spinner type="big" color={'pink'} />;
-export const WithCustomWidth = () => <Spinner type="big" width={10} />;
-MiniDimmed.storyName = 'Mini dimmed';
+export const WithCustomColor = () => <Spinner size="large" color={'pink'} />;
+export const WithCustomWidth = () => <Spinner size="large" width={10} />;
 
-export const WithReactNodeInCaption = () => <Spinner type="big" caption={reactNodeCaption} />;
+export const WithReactNodeInCaption = () => <Spinner size="large" caption={reactNodeCaption} />;
 WithReactNodeInCaption.storyName = 'With ReactNode in caption';
 
 export const SpinnerAndIconSameSizes = () => <SpinnerLikeIcon />;

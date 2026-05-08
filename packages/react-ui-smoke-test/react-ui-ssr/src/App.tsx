@@ -124,7 +124,7 @@ export const App = () => {
         </SidePage.Body>
         <SidePage.Footer panel />
       </SidePage>
-      <Spinner type="big" caption="big" />
+      <Spinner size="large" caption="large" />
       <Sticky side="top" getStop={() => null}>
         {(_) => 'Small loan of a million dollars'}
       </Sticky>

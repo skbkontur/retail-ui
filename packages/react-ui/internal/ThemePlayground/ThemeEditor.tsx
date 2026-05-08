@@ -43,7 +43,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
     return this.state.isLoading ? (
       <div className={this.styles.loaderWrapper()}>
-        <Loader type="big" active className={this.styles.loader()} />
+        <Loader size="large" active className={this.styles.loader()} />
       </div>
     ) : (
       this.renderGroups()

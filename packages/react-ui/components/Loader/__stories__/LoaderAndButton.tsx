@@ -17,7 +17,7 @@ export class LoaderAndButton extends React.Component<LoaderAndButtonProps, Loade
 
   public render() {
     return (
-      <Loader active={this.props.active} type={'big'}>
+      <Loader active={this.props.active} size="large">
         <h1>
           Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
           good vestments.&quot;
