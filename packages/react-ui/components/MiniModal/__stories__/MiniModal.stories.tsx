@@ -112,6 +112,20 @@ export const Custom = () => (
   </MiniModal>
 );
 
+export const MiniModalWidthCustom = () => (
+  <MiniModal width="800">
+    <MiniModal.Header>Title</MiniModal.Header>
+    <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+  </MiniModal>
+);
+
+export const MiniModalWidthUndefined = () => (
+  <MiniModal width={undefined}>
+    <MiniModal.Header>Title</MiniModal.Header>
+    <MiniModal.Body>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, officia?</MiniModal.Body>
+  </MiniModal>
+);
+
 export const MobileMiniModalDefault = () => (
   <MiniModal>
     <MiniModal.Header icon={<IconTechPhoneSmartRegular64 />}>Title mobile</MiniModal.Header>
@@ -200,6 +214,7 @@ export const MobileMiniModalFullscreen = () => (
     </MiniModal.Footer>
   </MiniModal>
 );
+
 MobileMiniModalFullscreen.parameters = {
   viewport: { defaultViewport: 'iphone' },
   creevey: { captureElement: null },
