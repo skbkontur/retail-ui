@@ -77,46 +77,6 @@ export const ExampleWidth: Story = () => {
 };
 ExampleWidth.storyName = 'Ширина';
 
-/** Проп `panel` для [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs) визуально отделяет футер от остальной части модального окна с помощью разделителя. */
-export const ExamplePanel: Story = () => {
-  const [opened, setOpened] = React.useState(false);
-  const [panel, setPanel] = React.useState(true);
-
-  function renderModal() {
-    return (
-      <Modal onClose={close}>
-        <Modal.Header>Заголовок</Modal.Header>
-        <Modal.Body>
-          <p>Контент-зона модального окна</p>
-
-          <div>
-            <Toggle checked={panel} onValueChange={setPanel} /> "panel" {panel ? 'enabled' : 'disabled'}
-          </div>
-        </Modal.Body>
-        <Modal.Footer panel={panel}>
-          <Button onClick={close}>Закрыть</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
-  function open() {
-    setOpened(true);
-  }
-
-  function close() {
-    setOpened(false);
-  }
-
-  return (
-    <div>
-      {opened && renderModal()}
-      <Button onClick={open}>Открыть модальное окно</Button>
-    </div>
-  );
-};
-ExamplePanel.storyName = 'Разделитель перед футером';
-
 /** Проп `sticky` для [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs) закрепляет заголовок вверху модального окна. */
 export const ExampleStickyHeader: Story = () => {
   const [opened, setOpened] = React.useState(false);
@@ -255,6 +215,46 @@ export const ExampleStickyFooter: Story = () => {
 };
 ExampleStickyFooter.storyName = 'Закрепление футера';
 
+/** Проп `panel` для [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs) визуально отделяет футер от остальной части модального окна с помощью разделителя. */
+export const ExamplePanel: Story = () => {
+  const [opened, setOpened] = React.useState(false);
+  const [panel, setPanel] = React.useState(true);
+
+  function renderModal() {
+    return (
+      <Modal onClose={close}>
+        <Modal.Header>Заголовок</Modal.Header>
+        <Modal.Body>
+          <p>Контент-зона модального окна</p>
+
+          <div>
+            <Toggle checked={panel} onValueChange={setPanel} /> "panel" {panel ? 'enabled' : 'disabled'}
+          </div>
+        </Modal.Body>
+        <Modal.Footer panel={panel}>
+          <Button onClick={close}>Закрыть</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function open() {
+    setOpened(true);
+  }
+
+  function close() {
+    setOpened(false);
+  }
+
+  return (
+    <div>
+      {opened && renderModal()}
+      <Button onClick={open}>Открыть модальное окно</Button>
+    </div>
+  );
+};
+ExamplePanel.storyName = 'Разделитель перед футером';
+
 /** Проп `gap` задаёт расстояние между элементами футера в пикселях. */
 export const ExampleGap: Story = () => {
   const [opened, setOpened] = React.useState(false);
@@ -363,7 +363,7 @@ export const ExampleOnClose: Story = () => {
 };
 ExampleOnClose.storyName = 'Закрытие модального окна';
 
-/** Отключает событие `onClose` и блокирует кнопку закрытия модального окна. */
+/** Проп `disableClose` отключает событие `onClose` и блокирует кнопку закрытия модального окна. */
 export const ExampleDisableClose: Story = () => {
   const [opened, setOpened] = React.useState(false);
 

@@ -19,7 +19,7 @@ export const SidePageContainerDataTids = {
 } as const;
 
 /**
- * Контейнер с отступами
+ * Контейнер с отступами для содержимого сайдпейджа.
  *
  * @visibleName SidePage.Container
  */

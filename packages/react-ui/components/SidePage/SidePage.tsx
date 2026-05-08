@@ -34,48 +34,48 @@ import { SidePageFooter } from './SidePageFooter.js';
 import { SidePageHeader } from './SidePageHeader.js';
 export interface SidePageProps
   extends CommonProps, Pick<HTMLAttributes<unknown>, 'role'>, Pick<AriaAttributes, 'aria-label'> {
-  /** Добавляет блокирующий фон, когда сайдпейдж открыт. */
+  /** Блокирует фон, когда сайдпейдж открыт: основная страница затемняется, действия на ней становятся недоступны. */
   blockBackground?: boolean;
 
-  /** Отключает событие onClose, также дизейблит кнопку закрытия сайдпейджа. */
+  /** Отключает событие `onClose` и блокирует кнопку закрытия сайдпейджа. */
   disableClose?: boolean;
 
   /**
-   * Оставляет окно открытым при клике на фон.
+   * Оставляет сайдпейдж открытым, когда пользователь нажал на фон.
    * @deprecated Используйте `ignoreOutsideClick` вместо `ignoreBackgroundClick`
    **/
   ignoreBackgroundClick?: boolean;
   /**
-   * Оставляет окно открытым при клике на фон.
+   * Оставляет сайдпейдж открытым, когда пользователь нажал на фон.
    **/
   ignoreOutsideClick?: boolean;
 
-  /** Задает ширину сайдпейджа. */
+  /** Ширина сайдпейджа. */
   width?: number | string;
 
-  /** Задает ширину сайдпейджаю на мобилке. По умолчанию ширина во весь экран. */
+  /** Ширина сайдпейджа в мобильном режиме. По умолчанию ширина во весь экран. */
   mobileWidth?: number | string;
 
-  /** Задает функцию, которая вызывается при запросе закрытия сайдпейджа пользователем (нажал на фон, на Escape или на крестик). */
+  /** Событие закрытия сайдпейджа пользователем: нажатие на фон, Escape или крестик. */
   onClose?: () => void;
 
-  /** Задает функцию, которая вызывается при завершении анимации открытия сайдпейджа. */
+  /** Событие завершения анимации открытия сайдпейджа. */
   onOpened?: () => void;
 
-  /** Отображает сайдпэйдж слева. */
+  /** Отображает сайдпейдж слева. */
   fromLeft?: boolean;
 
-  /** Отключает анимацию. */
+  /** Отключает анимацию открытия сайдпейджа. */
   disableAnimations?: boolean;
 
-  /** Отключает фокус-лок внутри сайдпейджа.
-   * Работает только при заблокированном фоне: `blockBackground = true`.*/
+  /** Выключает ограничение на фокус вне сайдпейджа.
+   * Работает только при заблокированном фоне `blockBackground = true`.*/
   disableFocusLock?: boolean;
 
-  /** Задает отступ от края экрана. */
+  /** Отступ от края экрана до сайдпейджа. */
   offset?: number | string;
   /**
-   * Задаёт функцию, которая вызывается при клике на фон.
+   * Событие нажатия на фон.
    */
   onOutsideClick?: (e: Event) => void;
 }
@@ -100,13 +100,12 @@ type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'offset' 
 const TRANSITION_TIMEOUT = 200;
 
 /**
- * `SidePage` — это модальное окно, которое открывается поверх основной страницы и занимает всю высоту окна браузера.
+ * Сайдпейдж — это модальное окно, которое открывается поверх основной страницы и занимает всю высоту окна браузера.
  *
- * Используйте его, когда нужно сохранить контекст и показать большое количество данных.
- *
- * Содержит в себе три компоненты: `SidePage.Header`, `SidePage.Body` и `SidePage.Footer`.
- *
- * Для отображения серой плашки в футере в компонент `Footer` необходимо передать пропс `panel`.
+ * Составной компонент, включает в себя:
+ * - «шапку» [SidePage.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-sidepage-sidepageheader--docs), состоящую из заголовка и крестика закрытия окна;
+ * - контент-зону [SidePage.Body](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-sidepage-sidepagebody--docs) и контейнер с отступами [SidePage.Container](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-sidepage-sidepagecontainer--docs);
+ * - футер [SidePage.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-sidepage-sidepagefooter--docs).
  */
 @withRenderEnvironment
 @rootNode

@@ -24,13 +24,13 @@ export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
   /** @ignore */
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 
-  /** Включает серый цвет в футере. */
+  /** Включает разделитель перед футером. */
   panel?: boolean;
 
-  /** Закрепляет футер снизу сайдпейджа. */
+  /** Закрепляет футер снизу сайдпейджа при скролле длинной контент-зоны. */
   sticky?: boolean;
 
-  /** Задает расстояние между элементами футера в пикселях. */
+  /** Расстояние между элементами футера в пикселях. */
   gap?: GappedProps['gap'];
 }
 
@@ -43,7 +43,7 @@ export const SidePageFooterDataTids = {
 } as const;
 
 /**
- * Футер сайдпейджа.
+ * Футер сайдпейджа, где обычно располагаются кнопки основных действий.
  *
  * @visibleName SidePage.Footer
  */

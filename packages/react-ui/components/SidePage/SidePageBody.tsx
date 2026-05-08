@@ -20,7 +20,7 @@ export const SidePageBodyDataTids = {
   root: 'SidePageBody__root',
 } as const;
 /**
- * Тело для сайдпейджа
+ * Контент-зона сайдпейджа.
  *
  * @visibleName SidePage.Body
  */

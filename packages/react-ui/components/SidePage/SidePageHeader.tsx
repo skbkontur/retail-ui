@@ -20,14 +20,15 @@ import type { SidePageContextType } from './SidePageContext.js';
 
 export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-  /** Закрепляет хедер сверху сайдпейджа. */
+  /** Закрепляет заголовок сайдпейджа при скролле длинной контент-зоны.
+   */
   sticky?: boolean;
 
-  /** Определяет, нужно ли показывать ModalSeparator. */
+  /** Определяет, нужно ли показывать разделитель ModalSeparator. */
   hasSeparator?: boolean;
 
   /**
-   * Обрезает длинный заголовок при «залипании» шапки.
+   * Обрезает длинный заголовок. Работает, если включен проп `sticky`.
    * @default false.
    */
   cutTitleOnStuck?: boolean;
@@ -44,7 +45,7 @@ export const SidePageHeaderDataTids = {
 } as const;
 
 /**
- * Шапка сайдпейджа
+ * Шапка сайдпейджа, состоит из заголовка и крестика закрытия.
  *
  * @visibleName SidePage.Header
  */
