@@ -1,5 +1,5 @@
 import * as FileUploaderStories from './FileUploader.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import { Primary, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +12,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=544-43134&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { FileUploader } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -20,39 +24,43 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Контрол может работать в двух режимах: синхронном — отправляет файлы на сервер вместе с данными формы по сабмиту, и асинхронном — отправляет файлы на сервер после их выбора и позволяет сразу отобразить прогресс.
+В каждом из этих режимов можно включить мультивыбор — тогда контрол позволит выбрать и отобразит сразу несколько файлов.
+
+Наследуются стандартные атрибуты [HTMLInputElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file) для `type="file"`, в том числе `accept`, `multiple`, `name`.
+
+**Связанные компоненты**
+
+Строка файла настраивается через `renderFile` и компонент [FileUploaderFile](https://tech.skbkontur.ru/kontur-ui/?path=/docs/input-data-fileuploader-fileuploaderfile--docs).
+
+**Когда не использовать**
+
+Не заменяйте явный выбор пользователем файла в браузере на скрытую загрузку без понятного действия в интерфейсе.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
 
-## Локали по умолчанию (см. [LocaleContext](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-locale--localecontext))
+## Доступность
 
-Любой текст в контроле можно поменять через `LocaleContext`.
+- **Семантика:** видимая область — `<label>` со скрытым `<input type="file" />`.
+- **Клавиатура:** `Tab` переводит фокус на поле выбора файла, у строки файла фокусируемый блок удаления реагирует на `Enter`.
+- **Подсказки:** обрезанное имя доступно через [Hint](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-hint--docs); текст проверки файла может выводиться в [Tooltip](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-tooltip--docs) при `withValidationTooltip` или в плиточном виде.
 
-```typescript static
-interface FileUploaderLocale {
-  chooseFile: string;
-  choosedFile: string;
-  orDragHere: string;
-  requestErrorText: string;
-  errors: string[];
-  warnings: string[];
-}
+Связывайте контрол с подписью через `<label htmlFor>` и `id` на `FileUploader` или через `aria-labelledby` / `aria-label` на наследуемых атрибутах input.
 
-const ru_RU = {
-  chooseFile: 'Выберите файл',
-  choosedFile: 'Выбран файл',
-  orDragHere: 'или перетащите сюда',
-  requestErrorText: 'Файл не удалось загрузить на сервер, повторите попытку позже',
-  errors: ['ошибка', 'ошибки', 'ошибок'],
-  warnings: ['предупреждение', 'предупреждения', 'предупреждений'],
-};
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
 
-const en_GB = {
-  chooseFile: 'Select a file',
-  choosedFile: 'File selected',
-  orDragHere: 'or drag here',
-  requestErrorText: 'The file could not be uploaded to the server, please try again later',
-  errors: ['error', 'errors', 'errors'],
-  warnings: ['warning', 'warnings', 'warnings'],
-};
-```
+## Адаптивность
+
+По умолчанию контрол не меняет свой вид и поведение на мобильных устройствах. Ширину и вид можно задать пропами `width` и `view`.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)
+
+## FAQ
+
+**Почему после выбора файла список не проходит `validateBeforeUpload`?** Убедитесь, что промис разрешается только после проверки; пустой результат означает успех.
+
+**Как показать ошибку загрузки на сервере?** Функция `request` должна завершаться отклонённым промисом. Опционально поднимайте состояние формы в `onRequestError`.

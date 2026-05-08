@@ -25,37 +25,45 @@ import { FileUploaderFileStatus, getFileUploaderTypeIcon } from './fileUtils.js'
 import { useFileUploaderSize } from './hooks/useFileUploaderSize.js';
 
 export interface FileUploaderFileProps extends CommonProps {
+  /** Данные файла и статусы из контекста `FileUploader`. */
   file: FileUploaderAttachedFile;
+  /** Включает отображение размера файла рядом с именем. */
   showSize?: boolean;
+  /** Фон превью в плиточном виде (URL изображения). */
   previewImg?: string;
+  /** Включает мультивыбор файлов. */
   multiple?: boolean;
+  /** Блокирует строку файла. */
   disabled?: boolean;
+  /** Переводит строку файла в состояние "наведенное". */
   hovered?: boolean;
+  /** Переводит строку файла в состояние "фокус". */
   focused?: boolean;
+  /** Размер контрола и вложенных элементов.
+   * @default small */
   size: SizeProp;
-  /** Вид контрола
-   *  - `row` — стандартное отображение в виде инпута
-   *  - `tile` — вид карточки/плитки
+  /** Внешний вид: строка (`row`) или плитка (`tile`).
    *  @default row
    */
   view?: FileUploaderView;
-  /** Состояние ошибки контрола файла */
+  /** Переводит строку файла в состояние валидации "ошибка". */
   error?: boolean;
-  /** Состояние предупреждения контрола файла */
+  /** Переводит строку файла в состояние валидации "предупреждение". */
   warning?: boolean;
-  /** Валидация с тултипом */
+  /** Включает отображение текста валидации во всплывающей подсказке (и в плитке по умолчанию). */
   withValidationTooltip?: boolean;
-  /** Задает приоритетное расположение подсказки относительно контрола */
+  /** Расположение тултипа с текстом валидации. */
   validationTooltipPosition?: ShortPopupPositionsType | PopupPositionsType;
-  /** Использовать иконку для ворнинга (восклицательный знак)*/
+  /** Включает отображение иконки предупреждения (восклицательный знак) при статусе предупреждения у файла. */
   withWarningIcon?: boolean;
+  /** Удаляет файл по `id`. */
   onRemove(id: string): void;
   /**
-   * Добавляет иконку типа файла
+   * Замена стандартной иконки типа файла.
    */
   fileTypeIcon?: React.ReactElement;
   /**
-   * Задаёт показ подсказки с полным именем файла
+   * Включает отображение подсказки с полным именем при обрезке текста (через `Hint`).
    * @default true
    */
   showFilenameHint?: boolean;
@@ -116,7 +124,7 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 /**
- * Компонент файла `FileUploaderFile` из FileUploader для отрисовки загруженного файла.
+ * `FileUploaderFile` показывает одну строку файла внутри `FileUploader`: имя, тип, размер, статусы и удаление.
  */
 export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFileProps>(
   'FileUploaderFile',

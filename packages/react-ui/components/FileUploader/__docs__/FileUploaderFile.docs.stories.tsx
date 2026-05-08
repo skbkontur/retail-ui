@@ -8,62 +8,29 @@ import { FileUploader } from '../FileUploader.js';
 import { FileUploaderFile } from '../FileUploaderFile.js';
 import { createFile } from '../fileUtils.js';
 
-export default {
+const meta: Meta = {
   title: 'Input data/FileUploader/FileUploaderFile',
   component: FileUploaderFile,
   parameters: { creevey: { skip: true } },
-} as Meta;
-
-export const Example1: Story = () => {
-  return (
-    <FileUploader initialFiles={[createFile('example.txt')]} renderFile={(props) => <FileUploaderFile {...props} />} />
-  );
 };
-Example1.storyName = 'Базовый пример';
 
-/**
- * Показом размера файла можно управлять с помощью пропа `showSize`.
- */
-export const Example2: Story = () => {
+export default meta;
+
+export const ExampleBasic: Story = () => {
+  return <FileUploader initialFiles={[createFile('example.txt')]} />;
+};
+ExampleBasic.storyName = 'Базовый пример';
+
+/** Проп `showSize` отображает размер файла. */
+export const ExampleShowSize: Story = () => {
   const initialFile = createFile('text.txt');
   return <FileUploader initialFiles={[initialFile]} renderFile={(props) => <FileUploaderFile {...props} showSize />} />;
 };
+ExampleShowSize.storyName = 'Отображение размера файла';
 
-Example2.storyName = 'Отображение размера файла';
-
-/**
- * Цвет иконок по умолчанию можно поменять через `ThemeContext`.
+/** Проп `showFilenameHint` отображает подсказку с полным именем файла, если оно было обрезано.
  */
-export const Example3: Story = () => {
-  const initialFiles = [createFile('test.pdf')];
-
-  return (
-    <ThemeContext.Provider value={ThemeFactory.create({ fileUploaderFileTypePdfIconColor: 'blue' })}>
-      <FileUploader initialFiles={initialFiles} />
-    </ThemeContext.Provider>
-  );
-};
-
-Example3.storyName = 'Кастомизация цвета иконки типа файла';
-
-/**
- * Для кастомизации иконки типа файла можно использовать проп `renderFile`.
- */
-export const Example4: Story = () => {
-  return (
-    <FileUploader
-      initialFiles={[new File(['content'], 'test.pdf')]}
-      renderFile={(props) => <FileUploaderFile {...props} fileTypeIcon={<IconCheckALight16 color="red" />} />}
-    />
-  );
-};
-
-Example4.storyName = 'Кастомизация иконки по умолчанию';
-
-/**
- * Управлять показом подсказки с полным именем файла можно пропом `showFilenameHint`.
- */
-export const Example5: Story = () => {
+export const ExampleShowFilenameHint: Story = () => {
   const initialFiles = [createFile(`${'long'.repeat(15)}.txt`)];
   return (
     <FileUploader
@@ -72,22 +39,30 @@ export const Example5: Story = () => {
     />
   );
 };
+ExampleShowFilenameHint.storyName = 'Подсказка с полным именем';
 
-Example5.storyName = 'Отключение подсказки с полным именем файла';
+/** Проп `fileTypeIcon` позволяет заменить стандартную иконку типа файла. */
+export const ExampleFileTypeIcon: Story = () => {
+  return (
+    <FileUploader
+      initialFiles={[new File(['content'], 'test.pdf')]}
+      renderFile={(props) => <FileUploaderFile {...props} fileTypeIcon={<IconCheckALight16 color="red" />} />}
+    />
+  );
+};
+ExampleFileTypeIcon.storyName = 'Иконка типа файла';
 
-export const Example6: Story = () => {
+/** Стандартные иконки для каждого типа файла. */
+export const ExampleFileTypeIconsOverview: Story = () => {
   const initialFiles = ['.pdf', '.xml', '.jpg', '.pptx', '.xls', '.txt', '.zip', '.foo', ''].map((ext) =>
     createFile(`example file${ext}`, 'content', ''),
   );
   return <FileUploader multiple size="medium" initialFiles={initialFiles} />;
 };
+ExampleFileTypeIconsOverview.storyName = 'Все виды иконок типов файлов';
 
-Example6.storyName = 'Все иконки типа файла';
-
-/**
- * Обновленное отображение плиткой с возможностью показа превью файла (используй проп `previewImg` и изображение в пропорции 9х12)
- */
-export const Example7 = () => {
+/** Проп `previewImg` позволяет задать превью в плиточном виде (соотношение сторон как в гайде). */
+export const ExamplePreviewImg: Story = () => {
   const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
   return (
     <FileUploader
@@ -101,5 +76,16 @@ export const Example7 = () => {
     />
   );
 };
+ExamplePreviewImg.storyName = 'Превью в плиточном виде';
 
-Example7.storyName = 'Кастомизация превью файла';
+/** Переменные темы `fileUploaderFileType(FileType)IconColor` управляют цветом иконки типа файла (пример на PDF). */
+export const ExampleCustomizationFileTypeIconColor: Story = () => {
+  const initialFiles = [createFile('test.pdf')];
+
+  return (
+    <ThemeContext.Provider value={ThemeFactory.create({ fileUploaderFileTypePdfIconColor: 'blue' })}>
+      <FileUploader initialFiles={initialFiles} />
+    </ThemeContext.Provider>
+  );
+};
+ExampleCustomizationFileTypeIconColor.storyName = 'Кастомизация цвета иконки типа файла';

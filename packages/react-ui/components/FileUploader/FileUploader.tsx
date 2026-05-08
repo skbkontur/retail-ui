@@ -46,95 +46,93 @@ interface _FileUploaderProps
   error?: boolean;
 
   /** Переводит контрол в состояние валидации "предупреждение" */
+  /** Состояние предупреждения всего контрола */
   warning?: boolean;
 
-  /** Задает приоритетное расположение подсказки относительно контрола
+  /** Расположение тултипа с текстом валидации файла.
    * @default 'top left' */
   validationTooltipPosition?: ShortPopupPositionsType | PopupPositionsType;
 
-  /** Использовать тултип для отображения валидации
+  /** Включает отображение текста валидации файла во всплывающей подсказке вместо строки рядом с именем.
    * @default false */
   withValidationTooltip?: boolean;
 
-  /** Использовать иконку для ворнинга (восклицательный знак)
+  /** Включает отображение иконки предупреждения (восклицательный знак) при статусе предупреждения у файла.
    * @default false */
   withWarningIcon?: boolean;
 
-  /** Задает длину компонента. */
+  /** Ширина контрола. */
   width?: React.CSSProperties['width'];
 
-  /** Задаёт размер контрола.
+  /** Размер контрола и вложенных элементов.
    * @default small */
   size?: SizeProp;
 
-  /** Скрывает отображение файлов.
+  /** Скрывает встроенный список файлов.
    * @default false */
   hideFiles?: boolean;
 
-  /** Пользовательский текст для загрузки файла
-   * @default 'Загрузить файл'
+  /** Текст ссылки выбора файла.
+   * @default "Выберите файл"
    */
   uploaderText?: string;
 
-  /** Пользовательская иконка для загрузки файла
-   * @default UploadIcon
+  /** Иконка в кнопке загрузки.
    */
   uploaderIcon?: React.ReactNode;
 
-  /** Вид компонента
-   *  - `row` — строчный вид
-   *  - `tile` — плиточный вид
+  /** Режим отображения списка файлов: строка (`row`) или плитка (`tile`).
    *  @default row
    */
   view?: FileUploaderView;
 
-  /** Отображать ли саммари с детализацией ошибок. Работает с версией темы >= 5_5.
-   *  - `auto` — саммари отображается, если количество загруженных файлов >= validationSummaryStart
-   *  - `enabled` — всегда включено
-   *  - `disabled` — всегда отключено
+  /** Режим блока-саммари по ошибкам и предупреждениям:
+   * - `auto` — от порога `validationSummaryStart`,
+   * - `enabled` / `disabled` — всегда или никогда.
    *  @default auto
    */
   validationSummary?: FileUploaderValidationSummary;
 
-  /** Количество файлов, от которого показываем саммари (при validationSummary = `auto`)
+  /** Порог числа файлов для показа саммари при `validationSummary="auto"`.
    * @default 5 */
   validationSummaryStart?: number;
 
-  /** Позиционирование области загрузки файла
+  /** Расположение кнопки загрузки относительно списка: в начале или в конце.
    * @default start */
   uploadButtonPosition?: FileUploaderUploadButtonPosition;
 
-  /** Задает функцию, через которую отправляются файлы. Используется для отслеживания статуса загрузки файла.
-   * @param {FileUploaderAttachedFile} file - файл, статус загрузки которого необходимо отследить. */
+  /** Включает асинхронный режим загрузки файлов.
+   *  Отклонённый промис помечает файл(ы) ошибкой загрузки.
+   */
   request?: (file: FileUploaderAttachedFile) => Promise<void>;
 
-  /** Задает функцию, которая вызывается при удачной попытке отправки через request. */
+  /** Колбэк после успешного завершения `request` для файла. */
   onRequestSuccess?: (fileId: string) => void;
 
-  /** Задает функцию, которая вызывается при неудачной попытке отправки через request. */
+  /** Колбэк после ошибки `request` для файла. */
   onRequestError?: (fileId: string) => void;
 
-  /** Определяет функцию валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request.
-   * Чтобы вывести валидацию ошибки, промис должен вернуть строку или объект с ошибкой.
-   *  @returns {Promise<Nullable<string | { message: string; status: FileUploaderFileStatus }>>} */
+  /** Проверка файла после выбора и до `request`: строка или `{ message, status }` — ошибка/предупреждение. Пустой результат — файл проходит.
+   */
   validateBeforeUpload?: (
     file: FileUploaderAttachedFile,
   ) => Promise<Nullable<string | { message: string; status: FileUploaderFileStatus }>>;
 
   /**
-   * Задает функцию, которая позволяет кастомизировать файлы. Через нее можно вешать кастомные валидации на каждый файл.
+   * Задаёт метод отрисовки файлов.
    * @default (props: FileUploaderFileProps) => <FileUploaderFile {...props} />
-   * @param {FileUploaderFileProps} props - пропсы компонента `FileUploaderFile`, смотри примеры использования в документации.
-   * @returns {ReactNode} элемент, который отрисовывает контент файла.
    */
   renderFile?: (props: FileUploaderFileProps) => React.ReactNode;
 }
 
 export interface FileUploaderRef extends InstanceWithRootNode {
+  /** Устанавливает фокус на скрытом `input` выбора файла. */
   focus: () => void;
+  /** Снимает фокус с `input` выбора файла. */
   blur: () => void;
-  /** Сбрасывает выбранные файлы */
+  /** Очищает список файлов и значения `input`. */
   reset: () => void;
+  /** Удаляет файл по id с вызовом `onRemove` и `onValueChange`. */
   removeFile: (fileId: string) => void;
 }
 

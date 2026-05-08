@@ -10,9 +10,13 @@ import type { FileUploaderAttachedFile } from './fileUtils.js';
 import { useControlLocale } from './hooks/useControlLocale.js';
 
 export interface FileUploaderControlProviderProps {
+  /** Файлы при первом рендере (в одиночном режиме берётся только первый). */
   initialFiles?: File[];
+  /** Вызывается при добавлении файлов через контрол (перед обновлением состояния списка). */
   onAttach?: (files: FileUploaderAttachedFile[]) => void;
+  /** Вызывается при удалении файла. */
   onRemove?: (fileId: string) => void;
+  /** Вызывается при любом изменении массива прикреплённых файлов. */
   onValueChange?: (files: FileUploaderAttachedFile[]) => void;
 }
 

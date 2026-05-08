@@ -20,56 +20,86 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return <FileUploader />;
 };
-Example1.storyName = 'Синхронный контрол';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
-  const request = () => Promise.resolve();
-
-  return <FileUploader request={request} />;
+/** Проп `size` задаёт размер контрола. По умолчанию `"small"`. */
+export const ExampleSize: Story = () => {
+  return (
+    <Gapped vertical gap={24}>
+      <FileUploader size="small" />
+      <FileUploader size="medium" />
+      <FileUploader size="large" />
+    </Gapped>
+  );
 };
-Example2.storyName = 'Асинхронный контрол';
+ExampleSize.storyName = 'Размер';
 
-export const Example3: Story = () => {
-  const request = () => Promise.reject();
-
-  return <FileUploader request={request} multiple />;
+/** Проп `width` задаёт ширину контрола. */
+export const ExampleWidth: Story = () => {
+  return <FileUploader width={400} />;
 };
-Example3.storyName = 'Multiple контрол';
+ExampleWidth.storyName = 'Ширина';
 
-export const Example4: Story = () => {
+/** Проп `multiple` включает мультивыбор, который позволяет выбрать несколько файлов за одно действие и отобразить список вложений. */
+export const ExampleMultiple: Story = () => {
+  return <FileUploader multiple />;
+};
+ExampleMultiple.storyName = 'Мультивыбор';
+
+/** Проп `view` включает плиточный вид. По умолчанию `"list"`. */
+export const ExampleViewTile: Story = () => {
+  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+  return <FileUploader multiple view="tile" initialFiles={initialFiles} />;
+};
+ExampleViewTile.storyName = 'Плиточный вид';
+
+/** Проп `uploadButtonPosition` задаёт расположение кнопки загрузки. По умолчанию `"start"`. */
+export const ExampleUploadButtonPosition: Story = () => {
+  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+  return <FileUploader multiple initialFiles={initialFiles} uploadButtonPosition="end" />;
+};
+ExampleUploadButtonPosition.storyName = 'Расположение кнопки загрузки';
+
+/** Проп `uploaderText` задаёт текст на кнопке выбора. По умолчанию `"Выберите файл"`. */
+export const ExampleUploaderText: Story = () => {
+  return <FileUploader uploaderText="Добавить файл" />;
+};
+ExampleUploaderText.storyName = 'Текст кнопки выбора';
+
+/** `initialFiles` — файлы, которые будут показаны при первом рендере компонента, в одиночном режиме используется только первый файл. */
+export const ExampleInitialFiles: Story = () => {
   const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
   return <FileUploader multiple initialFiles={initialFiles} />;
 };
-Example4.storyName = 'Файлы по умолчанию';
+ExampleInitialFiles.storyName = 'Начальные файлы';
 
-/**
- *  Для кастомизации отображения файлов можно использовать проп `renderFile`.
- *
- * Более подробные примеры кастомизации отображения файлов можно посмотреть на [странице](https://tech.skbkontur.ru/kontur-ui/?path=/docs/input-data-fileuploader-fileuploaderfile--docs) компонента `FileUploaderFile`.
- */
-export const Example5: Story = () => {
-  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+/** Проп `accept` ограничивает типы файлов для загрузки. Принимает значения HTML-атрибута [accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept). */
+export const ExampleAccept: Story = () => {
+  return <FileUploader multiple accept="image/*" />;
+};
+ExampleAccept.storyName = 'Ограничение типов файлов';
+
+/** Проп `validateBeforeUpload` задаёт сообщения валидации файлов перед отправкой. */
+export const ExampleValidationList: Story = () => {
   return (
     <FileUploader
-      multiple
-      initialFiles={initialFiles}
-      renderFile={(props) => <FileUploaderFile {...props} showSize />}
+      uploaderText="Попробуйте выбрать файл"
+      validateBeforeUpload={({ originalFile }) => {
+        return Promise.resolve(`У файла ${originalFile.name} неверный формат`);
+      }}
     />
   );
 };
-Example5.storyName = 'Кастомизация отображения файлов';
+ExampleValidationList.storyName = 'Валидация файлов перед отправкой';
 
-export const Example6: Story = () => {
-  return <FileUploader multiple accept="image/*" />;
-};
-Example6.storyName = 'Использование `accept`';
-
-export const Example7: Story = () => {
+/** Проп `withValidationTooltip` задаёт отображение текста валидации файла во всплывающей подсказке.*/
+export const ExampleValidationTooltip: Story = () => {
   return (
     <FileUploader
+      uploaderText="Попробуйте выбрать файл"
       withValidationTooltip
       validateBeforeUpload={({ originalFile }) => {
         return Promise.resolve(`У файла ${originalFile.name} неверный формат`);
@@ -77,90 +107,22 @@ export const Example7: Story = () => {
     />
   );
 };
-Example7.storyName = 'Валидация файла (ошибка в тултипе)';
+ExampleValidationTooltip.storyName = 'Сообщение валидации в тултипе';
 
-export const Example8: Story = () => {
-  return (
-    <FileUploader
-      multiple
-      validateBeforeUpload={({ originalFile }) => {
-        return Promise.resolve(`У файла ${originalFile.name} неверный формат`);
-      }}
-    />
-  );
+/** Проп `error` переводит поле в состояние валидации «Ошибка». */
+export const ExampleError: Story = () => {
+  return <FileUploader error />;
 };
-Example8.storyName = 'Валидация файлов в списке перед отправкой на сервер';
+ExampleError.storyName = 'Состояние ошибки';
 
-/**
- * Чтобы указать на ошибку загрузки файла на сервер, функция `request` должна вернуть `Promise` в состоянии `rejected`.
- * Тогда рядом с файлом появится иконка ошибки.
- *
- * Проп `onRequestError` можно использовать для переключения состояния ошибки всей формы.
- */
-export const Example9: Story = () => {
-  const [error, setError] = React.useState(false);
-  const [showError, setShowError] = React.useState(false);
-
-  const request = () =>
-    new Promise<void>((resolve, reject) => {
-      setTimeout(() => (showError ? reject() : resolve()), 1000);
-    });
-  const reject = () => setError(true);
-
-  return (
-    <Gapped vertical>
-      <FileUploader multiple error={error} onRemove={() => setError(false)} request={request} onRequestError={reject} />
-      <Toggle checked={showError} onValueChange={setShowError}>
-        Показывать ошибку загрузки
-      </Toggle>
-    </Gapped>
-  );
-};
-Example9.storyName = 'Валидация файлов в списке на сервере';
-
-export const Example10: Story = () => {
-  return <FileUploader multiple error />;
-};
-Example10.storyName = 'Валидация контрола';
-
-/**
- * В компоненте есть возможность скрыть дефолтный список файлов и нарисовать свой, используя пропы `hideFiles`, `onAttach`, `onRemove` или `onValueChange`.
- *
- * Если требуется удалить файлы вручную, можно использовать метод `removeFile` из `ref`.
- *
- * При его вызове автоматически вызываются колбэки `onValueChange` и `onRemove`.
- */
-export const Example11: Story = () => {
-  const fileUploaderRef = React.useRef<FileUploader>(null);
-  const [fileList, setFileList] = React.useState<FileUploaderAttachedFile[]>([]);
-  return (
-    <div style={{ display: 'inline-grid', gap: '10px' }}>
-      <FileUploader ref={fileUploaderRef} hideFiles multiple onValueChange={(files) => setFileList(files)} />
-      {fileList.map((file) => {
-        return (
-          <Button key={file.id} onClick={() => fileUploaderRef.current?.removeFile(file.id)}>
-            Delete file {file.originalFile.name}
-          </Button>
-        );
-      })}
-    </div>
-  );
-};
-Example11.storyName = 'Ручное управление списком файлов';
-
-/**
- * Саммари будет показано автоматически, если загружено больше 5 файлов (по умолчанию). Работает с версией темы >= 5_5.
- * Попробуй загрузить несколько файлов, в примере уже дописан обработчик на валидацию файлов.
- */
-export const Example14: Story = () => {
+/** Пропсы `validationSummary`, `validationSummaryStart` управляют показом блока с результатом валидации загруженных файлов. */
+export const ExampleValidationSummary: Story = () => {
   function containsCyrillicLetters(str: string): boolean {
-    // Регулярное выражение для проверки наличия символов кириллицы
     const regex = /[\u0400-\u04FF]/;
     return regex.test(str);
   }
 
   function containsDigits(str: string): boolean {
-    // Регулярное выражение для проверки наличия цифр
     const regex = /\d/;
     return regex.test(str);
   }
@@ -190,26 +152,81 @@ export const Example14: Story = () => {
     />
   );
 };
+ExampleValidationSummary.storyName = 'Результат валидации загруженных файлов';
 
-Example14.storyName = 'Саммари с количеством ошибок и предупреждений';
+/** Проп `request` включает асинхронны режим. Прикреплённые файлы отправляются на сервер асинхронно сразу после выбора.
+ *  Выполненный промис считается успешной загрузкой файла, отклонённый — ошибкой. */
+export const ExampleAsyncRequest: Story = () => {
+  const request = () => Promise.resolve();
 
-/**
- * Обновленное отображение плиткой.
- * При мультизагрузке можно настроить позиционирование для области загрузки файла - добавить на старт или в конец
- */
-export const Example15 = () => {
-  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
-  return <FileUploader multiple width={400} view="tile" uploadButtonPosition="end" initialFiles={initialFiles} />;
+  return <FileUploader request={request} />;
 };
+ExampleAsyncRequest.storyName = 'Асинхронный режим';
 
-Example15.storyName = 'Отображение файлов плиткой';
+/**  Пропсы `onRequestError`, `onRequestSuccess` позволяют управлять состоянием формы. */
+export const ExampleValidationRequestError: Story = () => {
+  const [error, setError] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
 
-/**
- * Внешний вид контрола, в том числе цвет текстов, можно настроить через `ThemeContext`.
- *
- * Заменить текст можно через `uploaderText`, а иконку через `uploaderIcon`
- */
-export const Customization: Story = () => {
+  const request = () =>
+    new Promise<void>((resolve, reject) => {
+      setTimeout(() => (showError ? reject() : resolve()), 1000);
+    });
+  const reject = () => setError(true);
+
+  return (
+    <Gapped vertical>
+      <FileUploader
+        multiple
+        error={error}
+        onRemove={() => setError(false)}
+        request={request}
+        onRequestError={reject}
+        onRequestSuccess={() => alert('Файл успешно загружен')}
+      />
+      <Toggle checked={showError} onValueChange={setShowError}>
+        Показывать ошибку загрузки
+      </Toggle>
+    </Gapped>
+  );
+};
+ExampleValidationRequestError.storyName = 'Обработка результата загрузки в асинхронном режиме';
+
+/** Отрисовку строк файлов можно настраивать — менять разметку и параметры по умолчанию.
+ *  Подробнее на странице [FileUploaderFile](https://tech.skbkontur.ru/kontur-ui/?path=/docs/input-data-fileuploader-fileuploaderfile--docs). */
+export const ExampleRenderFile: Story = () => {
+  const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
+  return (
+    <FileUploader
+      multiple
+      initialFiles={initialFiles}
+      renderFile={(props) => <FileUploaderFile {...props} showSize />}
+    />
+  );
+};
+ExampleRenderFile.storyName = 'Собственная отрисовка файла';
+
+/** Проп `hideFiles` позволяет скрыть список файлов. Полезно для реализации своего списка файлов. */
+export const ExampleManualList: Story = () => {
+  const fileUploaderRef = React.useRef<FileUploader>(null);
+  const [fileList, setFileList] = React.useState<FileUploaderAttachedFile[]>([]);
+  return (
+    <div style={{ display: 'inline-grid', gap: '10px' }}>
+      <FileUploader ref={fileUploaderRef} hideFiles multiple onValueChange={(files) => setFileList(files)} />
+      {fileList.map((file) => {
+        return (
+          <Button key={file.id} onClick={() => fileUploaderRef.current?.removeFile(file.id)}>
+            Delete file {file.originalFile.name}
+          </Button>
+        );
+      })}
+    </div>
+  );
+};
+ExampleManualList.storyName = 'Скрытие списка файлов';
+
+/** Переменные темы `fileUploaderLinkColor`, `fileUploaderBorderRadius`, `fileUploaderBorderStyle`. */
+export const ExampleCustomizationTheme: Story = () => {
   const initialFiles = [createFile('test1.txt'), createFile('test2.txt')];
   return (
     <ThemeContext.Provider
@@ -219,9 +236,8 @@ export const Customization: Story = () => {
         fileUploaderBorderStyle: 'dotted',
       })}
     >
-      <FileUploader multiple initialFiles={initialFiles} uploaderText="Добавь файл" />
+      <FileUploader multiple initialFiles={initialFiles} />
     </ThemeContext.Provider>
   );
 };
-
-Customization.storyName = 'Кастомизация внешнего вида';
+ExampleCustomizationTheme.storyName = 'Кастомизация: тема';
