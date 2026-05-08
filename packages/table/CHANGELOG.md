@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](/compare/@skbkontur/table@0.2.6...@skbkontur/table@0.2.7) (2026-05-08)
+
+
+### Bug Fixes
+
+* update react & @skbkontur/react-ui peerDependency 21fad11
+
+
+
+
+
 ## [0.2.6](/compare/@skbkontur/table@0.2.5...@skbkontur/table@0.2.6) (2026-05-06)
 
 
