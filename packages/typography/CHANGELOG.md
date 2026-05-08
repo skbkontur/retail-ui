@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](/compare/@skbkontur/typography@0.2.1...@skbkontur/typography@0.2.2) (2026-05-08)
+
+
+### Bug Fixes
+
+* update react & @skbkontur/react-ui peerDependency 21fad11
+
+
+
+
+
 ## [0.2.1](/compare/@skbkontur/typography@0.2.0...@skbkontur/typography@0.2.1) (2026-04-20)
 
 **Note:** Version bump only for package @skbkontur/typography
