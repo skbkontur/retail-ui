@@ -687,7 +687,7 @@ export const StickyHeaderFooterExample = () => {
     id: i + 1,
     name: `Пользователь ${i + 1}`,
     email: `user${i + 1}@example.com`,
-    status: i % 3 === 0 ? 'Активен' : i % 3 === 1 ? 'Неактивен' : 'Заблокирован',
+    status: ['Активен', 'Неактивен', 'Заблокирован'][i % 3],
     lastLogin: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString('ru-RU'),
   }));
 
@@ -842,7 +842,11 @@ export const ExpandableRowsExample = () => {
   const toggle = (id: number) =>
     setExpanded((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
 
@@ -1310,7 +1314,7 @@ export const SizeExampleStory = () => {
                       {paginatedRows.map((row) => (
                         <>
                           <Table.Row
-                            bottomBorder={true}
+                            bottomBorder
                             checked={checkedRows.has(row.id)}
                             key={row.id}
                             onClick={() => handleRowClick(row.id)}

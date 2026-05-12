@@ -21,7 +21,9 @@ export const Basic = () => {
   const filtered = selectedOptions.length === 0 ? rows : rows.filter((row) => selectedOptions.includes(row.region));
 
   const sortedRows = [...filtered].sort((a, b) => {
-    if (!sorted) return 0;
+    if (!sorted) {
+      return 0;
+    }
     return sorted === 'asc' ? a.amount - b.amount : b.amount - a.amount;
   });
 

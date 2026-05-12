@@ -13,7 +13,7 @@ export default {
 export const Basic = () => {
   return (
     <>
-      <Table.KebabButton active={true} size="small" />
+      <Table.KebabButton active size="small" />
       <Table.KebabButton />
     </>
   );

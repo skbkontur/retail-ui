@@ -27,14 +27,8 @@ import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
 import React from 'react';
 
 import { initialData } from '../__stories__/data';
-import {
-  Table,
-  useTableRowSelection,
-  useTableSort,
-  useTableFilters,
-  ColumnFilterConfig,
-  TableActionBar,
-} from '../index';
+import type { ColumnFilterConfig } from '../index';
+import { Table, useTableRowSelection, useTableSort, useTableFilters, TableActionBar } from '../index';
 
 export default {
   title: 'Accessibility',
@@ -226,7 +220,7 @@ export const AccessibilityExampleStory = () => {
                     <>
                       {paginatedRows.map((row, index) => (
                         <Table.Row
-                          bottomBorder={true}
+                          bottomBorder
                           checked={checkedRows.has(row.id)}
                           key={row.id}
                           onClick={() => handleRowClick(row.id)}
@@ -244,7 +238,7 @@ export const AccessibilityExampleStory = () => {
                           </Table.Cell>
                           <Table.Cell contentCompensator={false}>
                             <Button
-                              size={tableSize === 'small' ? 'small' : tableSize === 'large' ? 'large' : 'medium'}
+                              size={tableSize}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleButtonClick(row.id);

@@ -10,7 +10,11 @@ export default {
   },
 };
 
-type Row = { id: number; name: string; city: string };
+interface Row {
+  id: number;
+  name: string;
+  city: string;
+}
 
 export const LayoutBasics = () => {
   const rows: Row[] = [

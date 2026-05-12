@@ -10,7 +10,11 @@ export default {
   },
 };
 
-type Row = { id: number; city: string; status: 'new' | 'inProgress' | 'done' };
+interface Row {
+  id: number;
+  city: string;
+  status: 'new' | 'inProgress' | 'done';
+}
 
 export const FiltersBasic = () => {
   const source: Row[] = [

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { initialData } from '../__stories__/data';
 import { Table } from '../src/components/Table/Table';

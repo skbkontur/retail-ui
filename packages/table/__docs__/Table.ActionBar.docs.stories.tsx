@@ -107,7 +107,7 @@ export const Basic = () => {
           <Table.Cell>Пример popup caption</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
-              caption={<Table.KebabButton active={true} size="small" />}
+              caption={<Table.KebabButton active size="small" />}
               items={actionItems}
               popup
               itemsVisible={0}

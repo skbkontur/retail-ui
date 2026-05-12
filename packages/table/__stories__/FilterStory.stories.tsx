@@ -4,9 +4,9 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
 import React, { useState, useMemo, useCallback } from 'react';
 
-import { ColumnFilterValues } from '../__stories__/data';
+import type { ColumnFilterValues } from '../__stories__/data';
 import { Table } from '../src/components/Table/Table';
-import { TableDropdownFilterProps } from '../src/components/Table/TableDropdownFilter';
+import type { TableDropdownFilterProps } from '../src/components/Table/TableDropdownFilter';
 import { TableFilter } from '../src/components/Table/TableFilter/TableFilter';
 import { TableFilterItem } from '../src/components/Table/TableFilter/TableFilterItem';
 import { TableFilterSearch } from '../src/components/Table/TableFilter/TableFilterSearch';
@@ -326,7 +326,9 @@ export const FilterWithHookAmountRange = () => {
       accessor: (row: (typeof initialData)[0]) => row.amount,
       stringify: (value: number) => value.toLocaleString('ru-RU'),
       filterPredicate: (row: (typeof initialData)[0], selectedValues: string[]) => {
-        if (selectedValues.length === 0) return true;
+        if (selectedValues.length === 0) {
+          return true;
+        }
         const rowAmount = row.amount;
         const min = minAmount ? Number.parseInt(minAmount, 10) : 0;
         const max = maxAmount ? Number.parseInt(maxAmount, 10) : Infinity;
@@ -525,11 +527,15 @@ export const FilterWithHookAmountCategories = () => {
         return category?.label || '';
       },
       filterPredicate: (row: (typeof initialData)[0], selectedValues: string[]) => {
-        if (selectedValues.length === 0) return true;
+        if (selectedValues.length === 0) {
+          return true;
+        }
         const rowAmount = row.amount;
         return selectedValues.some((categoryLabel) => {
           const category = amountCategories.find((cat) => cat.label === categoryLabel);
-          if (!category) return false;
+          if (!category) {
+            return false;
+          }
           return rowAmount >= category.min && rowAmount <= category.max;
         });
       },
@@ -576,7 +582,9 @@ export const FilterWithHookCustomPredicate = () => {
       accessor: (row: (typeof initialData)[0]) => row.client,
       stringify: (value: string) => value,
       filterPredicate: (row: (typeof initialData)[0], selectedValues: string[]) => {
-        if (!searchText) return true;
+        if (!searchText) {
+          return true;
+        }
         const searchLower = searchText.toLowerCase();
         return (
           row.client.toLowerCase().includes(searchLower) ||
@@ -671,7 +679,9 @@ export const FilterWithHookAndTable = () => {
   }, []);
 
   const sortedRows = useMemo(() => {
-    if (!sortConfig.key || !sortConfig.direction) return filteredRows;
+    if (!sortConfig.key || !sortConfig.direction) {
+      return filteredRows;
+    }
     return [...filteredRows].sort((a, b) => {
       const aValue = a[sortConfig.key as keyof typeof a];
       const bValue = b[sortConfig.key as keyof typeof b];
