@@ -1,21 +1,19 @@
 import { injectGlobal, css, cx } from '@emotion/css';
 import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
-import {
-  ThemeContext,
-  DropdownMenu,
-  Gapped,
-  MenuHeader,
-  MenuItem,
-  Toast,
-  Toggle,
-  Tooltip,
-  Link,
-} from '@skbkontur/react-ui';
+import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Link } from '@skbkontur/react-ui/components/Link';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { Toast } from '@skbkontur/react-ui/components/Toast';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import type { Meta } from '@storybook/react';
 import React from 'react';
 
 import { Text } from '../src/Text';
-import { TextTokens, TTextTokens } from '../src/TextTokens';
+import { TextTokens } from '../src/TextTokens';
 
 export default {
   title: 'Typography',
@@ -48,7 +46,9 @@ export const TypographyStory = () => {
   }, []);
 
   React.useLayoutEffect(() => {
-    if (!isMountRef.current) return;
+    if (!isMountRef.current) {
+      return;
+    }
 
     containerRef.current?.scrollIntoView({ block: 'end' });
   }, [isSpacing, isWideColumn]);
@@ -129,9 +129,8 @@ export const TypographyStory = () => {
       return 'Виктор Папанек. Дизайн для реального мира';
     } else if (size > 16) {
       return 'Типографике в интерфейсах нужно уделять особое внимание.';
-    } else {
-      return 'Интерфейсы во многом состоят из текста, и от того как набран этот текст, зависит общее восприятие дизайна и удобство работы с системой.';
     }
+    return 'Интерфейсы во многом состоят из текста, и от того как набран этот текст, зависит общее восприятие дизайна и удобство работы с системой.';
   };
 
   const getCode = (size) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Text } from '../src/Text';
-import { TTextSizes, TTextTags } from '../src/types';
+import type { TTextSizes, TTextTags } from '../src/types';
 
 import styles from './colors.module.css';
 
