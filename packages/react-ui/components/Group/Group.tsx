@@ -22,7 +22,7 @@ import {
 import { getStyles } from './Group.styles.js';
 
 export interface GroupProps extends CommonProps {
-  /** Задает длину компонента Group. */
+  /** Ширина компонента. */
   width?: React.CSSProperties['width'];
 }
 
@@ -100,9 +100,7 @@ export const GroupDataTids = {
 } as const;
 
 /**
- *  Компонент `Group` используется для создания логически сгруппированных элементов, выровненных по горизонтали.
- *
- *  Длина контейнера настраивается с помощью пропа `width`.
+ *  Контейнер используется для создания логически сгруппированных элементов, выровненных по горизонтали.
  */
 @withRenderEnvironment
 @rootNode

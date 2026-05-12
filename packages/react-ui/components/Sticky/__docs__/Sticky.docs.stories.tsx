@@ -11,7 +11,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   const style = {
     padding: 10,
     background: '#f0f0f0',
@@ -24,14 +24,13 @@ export const Example1: Story = () => {
       <Sticky side="top" getStop={() => stop}>
         {(fixed) => (
           <div style={style}>
-            Header
+            Закреплённый заголовок
             <div>
               fixed: <b>{String(fixed)}</b>
             </div>
           </div>
         )}
       </Sticky>
-      Content
       <div style={{ height: 1000 }} />
       <div
         ref={(el) => {
@@ -43,7 +42,7 @@ export const Example1: Story = () => {
       <Sticky side="bottom" getStop={() => stop} offset={20}>
         {(fixed) => (
           <div style={style}>
-            Footer
+            Закреплённый футер
             <div>
               fixed: <b>{String(fixed)}</b>
             </div>
@@ -54,4 +53,4 @@ export const Example1: Story = () => {
     </div>
   );
 };
-Example1.storyName = 'Базовый пример';
+ExampleBasic.storyName = 'Базовый пример';

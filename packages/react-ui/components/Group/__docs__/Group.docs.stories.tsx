@@ -13,8 +13,29 @@ const meta: Meta = {
 
 export default meta;
 
-export const BasicExample: Story = () => {
-  const [value, setValue] = React.useState('Foo');
+export const ExampleBasic: Story = () => {
+  const [value, setValue] = React.useState('');
+
+  return (
+    <Group>
+      <Button>
+        <IconMathFunctionRegular16 />
+      </Button>
+      <Input value={value} width="100%" onValueChange={setValue} />
+      <Button>
+        <IconSearchLoupeRegular16 />
+      </Button>
+      <Button>Кнопка</Button>
+    </Group>
+  );
+};
+ExampleBasic.storyName = 'Базовый пример';
+
+/**
+ * Проп `width` задаёт ширину контейнера.
+ */
+export const ExampleWidth: Story = () => {
+  const [value, setValue] = React.useState('');
 
   return (
     <Group width={350}>
@@ -25,16 +46,16 @@ export const BasicExample: Story = () => {
       <Button>
         <IconSearchLoupeRegular16 />
       </Button>
-      <Button>Foo</Button>
+      <Button>Кнопка</Button>
     </Group>
   );
 };
-BasicExample.storyName = 'Базовый пример';
+ExampleWidth.storyName = 'Ширина';
 
 /**
  * Пример с группой полей без разделителя в `DateRangePicker`.
  */
-export const UsageInDateRangePicker: Story = () => {
+export const ExampleUsageInDateRangePicker: Story = () => {
   const [valueStart, setValueStart] = React.useState('');
   const [valueEnd, setValueEnd] = React.useState('');
 
@@ -47,10 +68,10 @@ export const UsageInDateRangePicker: Story = () => {
     </DateRangePicker>
   );
 };
-UsageInDateRangePicker.storyName = 'Внутри контрола DateRangePicker';
+ExampleUsageInDateRangePicker.storyName = 'Внутри контрола DateRangePicker';
 
-export const WithHint: Story = () => {
-  const [value, setValue] = React.useState('Foo');
+export const ExampleWithHint: Story = () => {
+  const [value, setValue] = React.useState('');
 
   return (
     <Group width={350}>
@@ -58,15 +79,15 @@ export const WithHint: Story = () => {
         <IconMathFunctionRegular16 />
       </Button>
       <Input value={value} width="100%" onValueChange={setValue} />
-      <Tooltip render={() => 'Hi!'} trigger="opened" pos="bottom">
+      <Tooltip render={() => 'Подсказка в тултипе'} trigger="opened" pos="bottom">
         <Button>
           <IconSearchLoupeRegular16 />
         </Button>
       </Tooltip>
-      <Hint text="Hello!">
-        <Button>Hover me</Button>
+      <Hint text="Подсказка">
+        <Button>Наведи на меня</Button>
       </Hint>
     </Group>
   );
 };
-WithHint.storyName = 'С хинтом или тултипом';
+ExampleWithHint.storyName = 'С хинтом или тултипом';
