@@ -14,28 +14,25 @@ import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegula
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
 import { Kontur } from '@skbkontur/logos/Kontur';
 import { Product } from '@skbkontur/logos/Product';
-import {
-  DropdownMenu,
-  MenuHeader,
-  MenuItem,
-  Select,
-  ThemeContext,
-  Hint,
-  DARK_THEME,
-  LIGHT_THEME,
-  Toast,
-} from '@skbkontur/react-ui';
-import { AddonsTheme } from '@skbkontur/react-ui-addons';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Hint } from '@skbkontur/react-ui/components/Hint';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Link } from '@skbkontur/react-ui/components/Link';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 import { Radio } from '@skbkontur/react-ui/components/Radio';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Select } from '@skbkontur/react-ui/components/Select';
 import { Tabs } from '@skbkontur/react-ui/components/Tabs';
+import { Toast } from '@skbkontur/react-ui/components/Toast';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
+import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
 import { SideMenu } from '@skbkontur/side-menu';
 import type { Meta } from '@storybook/react';
 import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
@@ -661,7 +658,7 @@ export const ColorsPaletteStory = () => {
     for (const key in light) {
       if (dark[key] && typeof light[key] === 'string' && typeof dark[key] === 'string') {
         tokenList.push({
-          key: key,
+          key,
           value: {
             light: light[key],
             dark: dark[key],
@@ -1029,6 +1026,7 @@ export const ColorsPaletteStory = () => {
 
     // Hide hover & pressed
     if (colorFormat === 'iOS/Android (hex-aarrggbb)') {
+      // oxlint-disable-next-line no-param-reassign
       tokens = tokens.filter((t) => !t.key.endsWith('Hover') && !t.key.endsWith('Pressed'));
     }
 
@@ -1042,13 +1040,17 @@ export const ColorsPaletteStory = () => {
 
     const blendWithBackground = (colorStr: string, isDark: boolean): Color | undefined => {
       const parsed = parse(colorStr) as Rgb;
-      if (!parsed) return undefined;
+      if (!parsed) {
+        return undefined;
+      }
 
       const bgColor = isDark
         ? { mode: 'rgb', r: 0, g: 0, b: 0, alpha: 1 }
         : { mode: 'rgb', r: 1, g: 1, b: 1, alpha: 1 };
 
-      if (parsed.alpha === undefined || parsed.alpha === 1) return parsed;
+      if (parsed.alpha === undefined || parsed.alpha === 1) {
+        return parsed;
+      }
 
       const a = parsed.alpha;
       const rgb = {
@@ -1103,9 +1105,15 @@ export const ColorsPaletteStory = () => {
     }
 
     return results.sort((a, b) => {
-      if (a.isFuzzy && b.isFuzzy) return (b.matchPercent || 0) - (a.matchPercent || 0);
-      if (a.isFuzzy && !b.isFuzzy) return 1;
-      if (!a.isFuzzy && b.isFuzzy) return -1;
+      if (a.isFuzzy && b.isFuzzy) {
+        return (b.matchPercent || 0) - (a.matchPercent || 0);
+      }
+      if (a.isFuzzy && !b.isFuzzy) {
+        return 1;
+      }
+      if (!a.isFuzzy && b.isFuzzy) {
+        return -1;
+      }
       return 0;
     });
   };
@@ -1218,6 +1226,7 @@ export const ColorsPaletteStory = () => {
               color.length === 9 ? '#' + color.slice(3, 9) + color.slice(1, 3) : color;
             const displayLightValue = value?.light;
             const displayDarkValue = value?.dark;
+            const opacityFromMatchPercent = (matchPercent: number) => (matchPercent <= 94 ? 0.5 : 1);
 
             return (
               <DropdownMenu
@@ -1227,7 +1236,7 @@ export const ColorsPaletteStory = () => {
                   <button className={styles.dropdownRow}>
                     <span
                       className={styles.colorName}
-                      style={{ opacity: isFuzzy && matchPercent ? (matchPercent <= 94 ? 0.5 : 1) : undefined }}
+                      style={{ opacity: isFuzzy && matchPercent ? opacityFromMatchPercent(matchPercent) : undefined }}
                     >
                       {key}
                       {isFuzzy && matchPercent && (

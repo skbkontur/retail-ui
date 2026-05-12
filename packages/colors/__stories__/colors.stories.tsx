@@ -1,4 +1,4 @@
-import { DropdownMenu, MenuHeader, MenuItem, Toast } from '@skbkontur/react-ui';
+import { Toast } from '@skbkontur/react-ui/components/Toast';
 import React from 'react';
 
 import { brand as brandSwatch } from '../lib/consts/default-swatch';
@@ -6,7 +6,11 @@ import { getColors } from '../lib/get-colors';
 import { getColorsBase } from '../lib/get-colors-base';
 
 type ColorValue = string;
-type ThemeValues = { light: ColorValue; dark: ColorValue };
+
+interface ThemeValues {
+  light: ColorValue;
+  dark: ColorValue;
+}
 
 interface TokenPair {
   key: string;

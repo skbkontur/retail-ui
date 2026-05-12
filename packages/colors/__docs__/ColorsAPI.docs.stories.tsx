@@ -2,7 +2,10 @@ import { parse } from '@babel/core';
 import { css } from '@emotion/css';
 import { type Emotion } from '@emotion/css/create-instance';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
-import { Gapped, Select, Input } from '@skbkontur/react-ui';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Select } from '@skbkontur/react-ui/components/Select';
 import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment';
 import type { Meta } from '@storybook/react';
 import { differenceEuclidean } from 'culori';
@@ -29,7 +32,7 @@ interface BaseTokenDisplay {
 
 type TTransformedTokens = Record<string, TokenPair>;
 
-type TGroupedTokens = Record<string, { key: string; value: TokenPair }[]>;
+type TGroupedTokens = Record<string, Array<{ key: string; value: TokenPair }>>;
 
 const style = document.createElement('style');
 style.innerHTML = `
@@ -572,6 +575,7 @@ export const ColorsPaletteOverridesStory = () => {
   const colorGroups = Object.entries(KonturColors).reduce(
     (acc: Record<string, Record<string, string>>, [colorKey, colorValue]) => {
       const firstWord =
+        // oxlint-disable-next-line typescript/no-non-null-assertion
         ['greenMint', 'blueDark'].find((color) => colorKey.match(color)) || colorKey.match(/^[a-z]+/)![0]!;
       acc[firstWord] = { ...acc[firstWord], [colorKey]: colorValue };
       return acc;
@@ -948,12 +952,16 @@ export const BaseTokensStory = () => {
   };
 
   const safeBrandColor = React.useMemo(() => {
-    if (brand !== 'custom') return brand;
+    if (brand !== 'custom') {
+      return brand;
+    }
     return customBrandColor.trim() !== '' ? customBrandColor : defaultBrandColor;
   }, [brand, customBrandColor]);
 
   const safeAccentColor = React.useMemo(() => {
-    if (accent !== 'custom') return accent;
+    if (accent !== 'custom') {
+      return accent;
+    }
     return customAccentColor.trim() !== '' ? customAccentColor : defaultAccentColor;
   }, [accent, customAccentColor]);
 
@@ -972,14 +980,19 @@ export const BaseTokensStory = () => {
 
     const formatKey = (flatKey: string) => {
       const scaleMatch = flatKey.match(/^(gray|whiteAlpha|blackAlpha|onBrand|onAccent)-(\d+)$/);
-      if (scaleMatch) return `${kebabCaseToCamelCase(scaleMatch[1])}[${scaleMatch[2]}]`;
+      if (scaleMatch) {
+        return `${kebabCaseToCamelCase(scaleMatch[1])}[${scaleMatch[2]}]`;
+      }
       const customizablePaletteMatch = flatKey.match(/(.*)-(vivid|normal|dim)-(\d+)/);
-      if (customizablePaletteMatch)
+      if (customizablePaletteMatch) {
         return `${customizablePaletteMatch[1].replace(/-/g, '.')}.${customizablePaletteMatch[2]}[${
           customizablePaletteMatch[3]
         }]`;
+      }
       const themedMatch = flatKey.match(/^(.*)-(light|dark)$/);
-      if (themedMatch) return `${themedMatch[1].replace(/-/g, '.')}.${themedMatch[2]}`;
+      if (themedMatch) {
+        return `${themedMatch[1].replace(/-/g, '.')}.${themedMatch[2]}`;
+      }
       return flatKey.replace(/-/g, '.');
     };
 
@@ -995,7 +1008,9 @@ export const BaseTokensStory = () => {
 
   const filteredTokens = React.useMemo(() => {
     const cleanFilter = filter.trim().toLowerCase();
-    if (!cleanFilter) return tokensToDisplay;
+    if (!cleanFilter) {
+      return tokensToDisplay;
+    }
 
     const parsedFilterColor = parse(cleanFilter);
 
@@ -1023,7 +1038,9 @@ export const BaseTokensStory = () => {
     return tokens.reduce((acc: Record<string, any[]>, token) => {
       const match = token.key.match(/^([a-z]+)/i);
       const root = match ? match[1] : 'other';
-      if (!acc[root]) acc[root] = [];
+      if (!acc[root]) {
+        acc[root] = [];
+      }
       acc[root].push(token);
       return acc;
     }, {});
@@ -1045,10 +1062,14 @@ export const BaseTokensStory = () => {
   ];
   const sortedGroupedTokens: Record<string, any[]> = {};
   BASE_TOKEN_ORDER.forEach((root) => {
-    if (groupedBaseTokens[root]) sortedGroupedTokens[root] = groupedBaseTokens[root];
+    if (groupedBaseTokens[root]) {
+      sortedGroupedTokens[root] = groupedBaseTokens[root];
+    }
   });
   Object.keys(groupedBaseTokens).forEach((k) => {
-    if (!BASE_TOKEN_ORDER.includes(k)) sortedGroupedTokens[k] = groupedBaseTokens[k];
+    if (!BASE_TOKEN_ORDER.includes(k)) {
+      sortedGroupedTokens[k] = groupedBaseTokens[k];
+    }
   });
 
   return (
