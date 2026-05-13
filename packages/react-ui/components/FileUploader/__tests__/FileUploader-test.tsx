@@ -1,7 +1,9 @@
+import type { Emotion } from '@emotion/css/create-instance';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useRef, useState } from 'react';
 
+import { BasicTheme } from '../../../internal/themes/BasicTheme.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { SizeControlContext } from '../../../lib/size/SizeControlContext.js';
@@ -9,6 +11,7 @@ import type { SizeProp } from '../../../lib/types/props.js';
 import { delay } from '../../../lib/utils.js';
 import { FileUploader, FileUploaderDataTids } from '../FileUploader.js';
 import type { FileUploaderProps } from '../FileUploader.js';
+import { getJsStyles } from '../FileUploader.styles.js';
 import { FileUploaderFile, FileUploaderFileDataTids } from '../FileUploaderFile.js';
 import { FileUploaderFileDataTids as FileUploaderFileListDataTids } from '../FileUploaderFileList/FileUploaderFileList.js';
 import type { FileUploaderAttachedFile } from '../fileUtils.js';
@@ -772,6 +775,22 @@ describe('FileUploader', () => {
       renderComponent();
       await addFiles([createFile('1', '1'), createFile('2', '2'), createFile('3', '3')]);
       expect(getFilesList()).toBeNull();
+    });
+  });
+
+  describe('styles', () => {
+    it('windowDragOver does not throw on calcPulse call', () => {
+      const emotion = {
+        css: () => 'mock-class',
+        keyframes: () => 'mock-keyframes-name',
+      } as Emotion;
+
+      const styles = getJsStyles(emotion);
+      expect(() => styles.windowDragOver(BasicTheme)).not.toThrow();
+
+      const className = styles.windowDragOver(BasicTheme);
+      expect(typeof className).toBe('string');
+      expect(className.length).toBeGreaterThan(0);
     });
   });
 });

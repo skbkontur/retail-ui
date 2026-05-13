@@ -8,9 +8,8 @@ export const globalClasses = prefix('file-uploader')({
   afterLinkText: 'after-link-text',
 });
 export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
-  return {
-    calcPulse(t: Theme) {
-      return keyframes`
+  const calcPulse = (t: Theme) => {
+    return keyframes`
       0% {
         box-shadow: 0 0 0 1px ${t.inputBlinkColor};
       }
@@ -21,8 +20,8 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
         box-shadow: 0 0 0 1px ${t.inputBlinkColor};
       }
     `;
-    },
-
+  };
+  return {
     root(t: Theme) {
       return css`
         display: inline-flex;
@@ -96,7 +95,7 @@ export const getJsStyles = memoizeGetStyles(({ css, keyframes }: Emotion) => {
     windowDragOver(t: Theme) {
       return css`
         border-radius: ${t.fileUploaderBorderRadius};
-        animation: ${this.calcPulse(t)} 1.5s infinite;
+        animation: ${calcPulse(t)} 1.5s infinite;
       `;
     },
 
