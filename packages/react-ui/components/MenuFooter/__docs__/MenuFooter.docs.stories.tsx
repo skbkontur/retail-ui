@@ -11,25 +11,61 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
-    <DropdownMenu menuMaxHeight="10rem" caption={<Button use="primary">Сотрудники компании</Button>}>
-      <MenuItem>Вася</MenuItem>
-      <MenuItem>Петя</MenuItem>
-      <MenuItem>Маша</MenuItem>
-      <MenuFooter>Всего 3 человека</MenuFooter>
+    <DropdownMenu caption={<Button use="accent">Открыть меню</Button>}>
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuItem>Пункт 3</MenuItem>
+      <MenuFooter>Всего 3 пункта</MenuFooter>
     </DropdownMenu>
   );
 };
-Example1.storyName = 'Базовый пример меню с заголовками';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
+/** Проп `size` задаёт размер. По умолчанию: `'small'`. */
+export const ExampleSize: Story = () => {
   return (
-    <Gapped vertical>
-      <MenuFooter size={'small'}>Маленький</MenuFooter>
-      <MenuFooter size={'medium'}>Средний</MenuFooter>
-      <MenuFooter size={'large'}>Большой</MenuFooter>
+    <Gapped vertical gap={20}>
+      <DropdownMenu
+        caption={
+          <Button size="small" use="accent">
+            Маленький
+          </Button>
+        }
+      >
+        <MenuItem size="small">Пункт 1</MenuItem>
+        <MenuItem size="small">Пункт 2</MenuItem>
+        <MenuItem size="small">Пункт 3</MenuItem>
+        <MenuFooter size="small">Размер small</MenuFooter>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={
+          <Button size="medium" use="accent">
+            Средний
+          </Button>
+        }
+      >
+        <MenuItem size="medium">Пункт 1</MenuItem>
+        <MenuItem size="medium">Пункт 2</MenuItem>
+        <MenuItem size="medium">Пункт 3</MenuItem>
+        <MenuFooter size="medium">Размер medium</MenuFooter>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={
+          <Button size="large" use="accent">
+            Большой
+          </Button>
+        }
+      >
+        <MenuItem size="large">Пункт 1</MenuItem>
+        <MenuItem size="large">Пункт 2</MenuItem>
+        <MenuItem size="large">Пункт 3</MenuItem>
+        <MenuFooter size="large">Размер large</MenuFooter>
+      </DropdownMenu>
     </Gapped>
   );
 };
-Example2.storyName = 'Размер';
+ExampleSize.storyName = 'Размер';

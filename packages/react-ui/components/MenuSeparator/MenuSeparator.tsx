@@ -15,9 +15,7 @@ export const MenuSeparatorDataTids = {
 } as const;
 
 /**
- * `MenuSeparator` добавляет разделительную линию между элементами меню.
- *
- * Сущности в которых может быть использован `MenuSeparator`: DropdownMenu, Kebab, TooltipMenu и Select.
+ * Разделитель `MenuSeparator` между элементами меню.
  */
 const MenuSeparator = forwardRefAndName(
   'MenuSeparator',

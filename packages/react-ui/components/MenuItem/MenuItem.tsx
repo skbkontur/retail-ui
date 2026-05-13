@@ -32,16 +32,16 @@ export interface MenuItemProps
    * @ignore */
   _enableIconPadding?: boolean;
 
-  /** Добавляет описание для элемента меню. */
+  /** Описание пункта меню. */
   comment?: React.ReactNode;
 
-  /** Делает компонент недоступным. */
+  /** Блокирует пункт и перекрашивает в серый. */
   disabled?: boolean;
 
-  /** Добавляет иконку элементу меню. */
+  /** Добавляет иконку слева от текста. */
   icon?: React.ReactElement;
 
-  /** Задает размер контрола. */
+  /** Размер кнопки. */
   size?: SizeProp;
 
   /** @ignore */
@@ -49,15 +49,6 @@ export interface MenuItemProps
 
   /** @ignore */
   state?: MenuItemState;
-
-  /** Задает функцию, которая вызывается при клике. */
-  onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-
-  /** Задает функцию, которая вызывается при наведении мышкой (событие `onmouseenter`). */
-  onMouseEnter?: React.MouseEventHandler;
-
-  /** Задает функцию, которая вызывается при уходе мышки с объекта (событие `onmouseleave`). */
-  onMouseLeave?: React.MouseEventHandler;
 
   /** @ignore */
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
@@ -85,6 +76,15 @@ export interface MenuItemProps
   isMobile?: boolean;
   /** @ignore */
   scrollIntoView?: boolean;
+
+  /**`HTML`-событие `onclick`. */
+  onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /**`HTML`-событие `onmouseenter`. */
+  onMouseEnter?: React.MouseEventHandler;
+
+  /**`HTML`-событие `onmouseleave`. */
+  onMouseLeave?: React.MouseEventHandler;
 }
 
 export const MenuItemDataTids = {
@@ -94,9 +94,7 @@ export const MenuItemDataTids = {
 } as const;
 
 /**
- * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
- *
- * Сущности в которых может быть использован `MenuItem`: DropdownMenu, Kebab, TooltipMenu и Select.
+ * Пункт меню `MenuItem` — интерактивный элемент выполнения действий или навигации.
  */
 @withRenderEnvironment
 @withSize

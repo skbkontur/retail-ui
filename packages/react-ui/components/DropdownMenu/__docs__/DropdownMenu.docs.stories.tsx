@@ -1,16 +1,7 @@
 import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
 import { IconUiMenuBars3HRegular32 } from '@skbkontur/icons/IconUiMenuBars3HRegular32';
-import {
-  Button,
-  Checkbox,
-  DropdownMenu,
-  Gapped,
-  MenuHeader,
-  MenuItem,
-  MenuSeparator,
-  ThemeContext,
-  ThemeFactory,
-} from '@skbkontur/react-ui';
+import { Button, Gapped, MenuHeader, MenuItem, MenuSeparator, DropdownMenu, Checkbox } from '@skbkontur/react-ui';
+import type { PopupMenuCaptionProps } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -23,9 +14,9 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+    <DropdownMenu caption={<Button use="accent">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -38,65 +29,122 @@ export const Example1: Story = () => {
     </DropdownMenu>
   );
 };
-Example1.storyName = 'Базовый пример меню';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
+/** В проп `caption` можно передать любой элемент для кнопки открытия. */
+export const ExampleCaption: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню c заданной шириной</Button>} menuWidth={350}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-      <MenuSeparator />
+    <DropdownMenu caption={<Button icon={<IconUiMenuBars3HRegular32 />} aria-label="Открыть меню" />} menuWidth="300px">
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
     </DropdownMenu>
   );
 };
-Example2.storyName = 'Ширина';
+ExampleCaption.storyName = 'Кнопка открытия меню';
 
-export const Example3: Story = () => {
-  return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню c заданной высотой</Button>} menuMaxHeight={150}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </DropdownMenu>
-  );
-};
-Example3.storyName = 'Максимальная высота';
-
-export const Example4: Story = () => {
-  return (
-    <DropdownMenu positions={['left middle']} caption={<Button use="primary">Открыть меню</Button>}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </DropdownMenu>
-  );
-};
-Example4.storyName = 'Выпадашка слева по центру';
-
-export const Example5: Story = () => {
+/** В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню через аргументы `opened`, `openMenu`, `closeMenu` и `toggleMenu`. */
+export const ExampleState: Story = () => {
   return (
     <DropdownMenu
-      header={<p>Это шапка в виде обычного текста</p>}
-      footer={<Button>А это подвал в виде кнопки</Button>}
-      caption={<Button use="primary">Открыть меню</Button>}
+      caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
+        return (
+          <Gapped vertical>
+            <>DropdownMenu opened: {String(opened)}</>
+            <Button onClick={() => toggleMenu()}>Переключить меню</Button>
+            <Button onClick={() => openMenu()}>Открыть меню</Button>
+            <Button onClick={() => closeMenu()}>Закрыть меню</Button>
+          </Gapped>
+        );
+      }}
+    >
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuSeparator />
+      <MenuItem>Пункт 3</MenuItem>
+    </DropdownMenu>
+  );
+};
+ExampleState.storyName = 'Управление состоянием тултип-меню';
+
+/**
+ * Проп `width` управляет шиирой меню.
+ */
+export const ExampleWidth: Story = () => {
+  return (
+    <DropdownMenu menuWidth={350} caption={<Button use="accent">Открыть меню</Button>}>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuSeparator />
+      <MenuItem>Пункт 3</MenuItem>
+    </DropdownMenu>
+  );
+};
+ExampleWidth.storyName = 'Ширина';
+
+/**
+ * Проп `menuMaxHeight` управляет максимальной высотой меню. Если элементы не помещаются, показывается кроллбар.
+ */
+export const ExampleMaxHeight: Story = () => {
+  return (
+    <DropdownMenu caption={<Button use="accent">Открыть меню</Button>} menuMaxHeight={150}>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
+      <MenuSeparator />
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
+    </DropdownMenu>
+  );
+};
+ExampleMaxHeight.storyName = 'Максимальная высота';
+
+/**
+ * Проп `positions` определяет список позиций доступных для расположения выпадашки относительно `caption`
+ */
+export const ExampleMenuPos: Story = () => {
+  return (
+    <Gapped vertical>
+      <DropdownMenu
+        caption={<Button use="accent">Открыть меню "right top"</Button>}
+        menuWidth="300px"
+        positions={['right top', 'right middle', 'right bottom']}
+      >
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={<Button use="accent">Открыть меню "top right"</Button>}
+        menuWidth="300px"
+        positions={['top right']}
+      >
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+      </DropdownMenu>
+    </Gapped>
+  );
+};
+ExampleMenuPos.storyName = 'Позиционирование';
+
+/**
+ * В пропы `header` и `footer` вкладывается контент шапки и подвала.
+ */
+export const ExampleHeaderFooter: Story = () => {
+  return (
+    <DropdownMenu
+      header={<p>Заголовок</p>}
+      footer={<Button>Подвал</Button>}
+      caption={<Button use="accent">Открыть меню</Button>}
     >
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
@@ -104,35 +152,38 @@ export const Example5: Story = () => {
     </DropdownMenu>
   );
 };
-Example5.storyName = 'Меню c шапкой и подвалом';
+ExampleHeaderFooter.storyName = 'Шапка и подвал меню';
 
-export const Example6: Story = () => {
+/**
+ * Проп `preventIconsOffset` отключает выравнивание иконок у пунктов. По умолчанию пункты без иконок выравниваются по тексту пунктов с иконками.
+ */
+export const ExampleIconsAlign: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-      <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
-      <MenuItem>MenuItem3</MenuItem>
-    </DropdownMenu>
+    <Gapped vertical>
+      <DropdownMenu caption={<Button use="accent">Автовыравнивание иконок</Button>}>
+        <MenuHeader>Заголовок</MenuHeader>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem>Пункт меню</MenuItem>
+      </DropdownMenu>
+
+      <DropdownMenu preventIconsOffset caption={<Button use="accent">Без автовыравнивания</Button>}>
+        <MenuHeader>Заголовок</MenuHeader>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem>Пункт меню</MenuItem>
+      </DropdownMenu>
+    </Gapped>
   );
 };
-Example6.storyName = 'Иконка и автовыравнивание текста';
+ExampleIconsAlign.storyName = 'Иконки и автовыравнивание';
 
-export const Example7: Story = () => {
+/**
+ * Проп `disableAnimations` отключает анимацию открытия меню.
+ */
+export const ExampleDisableAnimations: Story = () => {
   return (
-    <DropdownMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
-      <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
-      <MenuItem>MenuItem3</MenuItem>
-    </DropdownMenu>
-  );
-};
-Example7.storyName = 'Иконка и отключенное автовыравнивание текста';
-
-export const Example8: Story = () => {
-  return (
-    <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню без анимации</Button>}>
+    <DropdownMenu disableAnimations caption={<Button use="accent">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -141,89 +192,84 @@ export const Example8: Story = () => {
     </DropdownMenu>
   );
 };
-Example8.storyName = 'Отключенная анимация';
+ExampleDisableAnimations.storyName = 'Отключение анимации';
 
-/** В `caption` можно передать любой элемент. */
-export const Example9: Story = () => {
-  return (
-    <DropdownMenu
-      caption={
-        <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <IconUiMenuBars3HRegular32 />
-        </span>
-      }
-      menuWidth="300px"
-    >
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </DropdownMenu>
-  );
-};
-Example9.storyName = 'Подпись';
+/** Если клик по `MenuItem` не должен закрывать меню, вызовите `event.preventDefault()`. */
+export const ExamplePreventClose: Story = () => {
+  const [onlyActive, setOnlyActive] = React.useState(false);
+  const closeMenuRef = React.useRef<PopupMenuCaptionProps['closeMenu']>(() => undefined);
 
-export const Example10: Story = () => {
-  const [checked, setChecked] = React.useState(false);
+  const renderCaption = ({ openMenu, closeMenu }: PopupMenuCaptionProps) => {
+    closeMenuRef.current = closeMenu;
 
-  let close: () => void;
-
-  const renderCaption = ({ openMenu, closeMenu }: { openMenu: () => void; closeMenu: () => void }) => {
-    close = closeMenu;
     return (
-      <Button onClick={openMenu} use="primary">
-        Открыть меню
+      <Button use="primary" onClick={() => openMenu()}>
+        Настроить фильтр
       </Button>
     );
   };
 
   return (
     <DropdownMenu caption={renderCaption}>
-      <MenuItem onClick={(e) => e.preventDefault()}>Просто пункт</MenuItem>
-      <ThemeContext.Provider value={ThemeFactory.create({ menuItemHoverBg: 'initial' })}>
-        <MenuItem
-          onClick={(e) => {
-            e.preventDefault();
-            setChecked(!checked);
-          }}
-        >
-          <Checkbox checked={checked}>с чекбоксом</Checkbox>
-        </MenuItem>
-      </ThemeContext.Provider>
       <MenuItem
-        onClick={(e) => {
-          e.preventDefault();
-          close();
+        onClick={(event) => {
+          event.preventDefault();
+          setOnlyActive(!onlyActive);
         }}
       >
-        Закрыть
+        <Checkbox checked={onlyActive}>Только активные</Checkbox>
+      </MenuItem>
+      <MenuSeparator />
+      <MenuItem
+        onClick={(event) => {
+          event.preventDefault();
+          closeMenuRef.current();
+        }}
+      >
+        Применить
       </MenuItem>
     </DropdownMenu>
   );
 };
-Example10.storyName = 'Чекбокс внутри MenuItem';
+ExamplePreventClose.storyName = 'Пункт без закрытия меню';
 
-/** (с сохранением поведения MenuItem) */
-export const Example11: Story = () => {
-  const [showItems, setShowItems] = React.useState(false);
+/** Коллбеки `onOpen` и `onClose` вызываются при открытии и закрытии меню. */
+export const ExampleOpenCloseCallbacks: Story = () => {
+  const [status, setStatus] = React.useState('Закрыто');
 
-  const hiddenItems = [
-    <MenuSeparator key="hidden-sep" />,
-    <MenuItem key="hidden-1">А я скрываюсь</MenuItem>,
-    <MenuItem key="hidden-2">И я</MenuItem>,
-    <MenuItem key="hidden-3">Я с вами</MenuItem>,
-  ];
+  return (
+    <Gapped vertical>
+      <DropdownMenu
+        caption={<Button use="primary">Открыть меню</Button>}
+        onOpen={() => setStatus('Открыто')}
+        onClose={() => setStatus('Закрыто')}
+      >
+        <MenuItem>Пункт 1</MenuItem>
+        <MenuItem>Пункт 2</MenuItem>
+      </DropdownMenu>
+      <span>{`Статус меню: ${status}`}</span>
+    </Gapped>
+  );
+};
+ExampleOpenCloseCallbacks.storyName = 'События открытия и закрытия';
+
+/** Публичные методы `open()` и `close()` доступны через `ref`. */
+export const ExampleRefMethods: Story = () => {
+  const dropdownMenuRef = React.useRef<DropdownMenu>(null);
 
   return (
     <Gapped>
-      <Button onClick={() => setShowItems(!showItems)}>{showItems ? 'Спрятать' : 'Показать'} элементы</Button>
-
-      <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-        <MenuItem>Меня видно всегда</MenuItem>
-        <MenuItem>Меня тоже</MenuItem>
-        <MenuItem>Ага, и меня!</MenuItem>
-        {showItems && hiddenItems}
+      <button type="button" onClick={() => dropdownMenuRef.current?.open()}>
+        Открыть через ref
+      </button>
+      <button type="button" onClick={() => dropdownMenuRef.current?.close()}>
+        Закрыть через ref
+      </button>
+      <DropdownMenu ref={dropdownMenuRef} caption={<Button use="primary">Меню</Button>}>
+        <MenuItem>Пункт 1</MenuItem>
+        <MenuItem>Пункт 2</MenuItem>
       </DropdownMenu>
     </Gapped>
   );
 };
-Example11.storyName = 'Условный рендер элементов меню';
+ExampleRefMethods.storyName = 'Кастомизация: управление через ref';

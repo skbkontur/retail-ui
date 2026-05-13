@@ -11,33 +11,62 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
-    <DropdownMenu menuMaxHeight="10rem" caption={<Button use="primary">Сотрудники компании</Button>}>
-      <MenuHeader>Разработчики</MenuHeader>
-      <MenuItem>Вася</MenuItem>
-      <MenuItem>Петя</MenuItem>
-      <MenuItem>Маша</MenuItem>
-      <MenuHeader>Дизайнеры</MenuHeader>
-      <MenuItem>Галя</MenuItem>
-      <MenuItem>Гриша</MenuItem>
-      <MenuItem>Гена</MenuItem>
-      <MenuHeader>Продакты</MenuHeader>
-      <MenuItem>Валя</MenuItem>
-      <MenuItem>Аля</MenuItem>
-      <MenuItem>Артём</MenuItem>
+    <DropdownMenu caption={<Button use="accent">Открыть меню</Button>}>
+      <MenuHeader>Заголовок 1</MenuHeader>
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuItem>Пункт 3</MenuItem>
+      <MenuHeader>Заголовок 2</MenuHeader>
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuItem>Пункт 3</MenuItem>
     </DropdownMenu>
   );
 };
-Example1.storyName = 'Базовый пример меню с заголовками';
+ExampleBasic.storyName = 'Базовый пример';
 
-export const Example2: Story = () => {
+/** Проп `size` задаёт размер. По умолчанию: `'small'`. */
+export const ExampleSize: Story = () => {
   return (
-    <Gapped vertical>
-      <MenuHeader size={'small'}>Маленький</MenuHeader>
-      <MenuHeader size={'medium'}>Средний</MenuHeader>
-      <MenuHeader size={'large'}>Большой</MenuHeader>
+    <Gapped vertical gap={20}>
+      <DropdownMenu
+        caption={
+          <Button size="small" use="accent">
+            Маленький
+          </Button>
+        }
+      >
+        <MenuHeader size="small">Размер small</MenuHeader>
+        <MenuItem size="small">Пункт 1</MenuItem>
+        <MenuItem size="small">Пункт 2</MenuItem>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={
+          <Button size="medium" use="accent">
+            Средний
+          </Button>
+        }
+      >
+        <MenuHeader size="medium">Размер medium</MenuHeader>
+        <MenuItem size="medium">Пункт 1</MenuItem>
+        <MenuItem size="medium">Пункт 2</MenuItem>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={
+          <Button size="large" use="accent">
+            Большой
+          </Button>
+        }
+      >
+        <MenuHeader size="large">Размер large</MenuHeader>
+        <MenuItem size="large">Пункт 1</MenuItem>
+        <MenuItem size="large">Пункт 2</MenuItem>
+      </DropdownMenu>
     </Gapped>
   );
 };
-Example2.storyName = 'Размер';
+ExampleSize.storyName = 'Размер';

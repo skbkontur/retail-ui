@@ -21,37 +21,36 @@ export interface DropdownMenuProps
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     Pick<PopupMenuProps, 'onOpen' | 'onClose' | 'popupMenuId' | 'preventIconsOffset'>,
     CommonProps {
-  /** Максимальная высота меню */
+  /** Максимальная высота меню. */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
-  /** Ширина меню */
+  /** Ширина раскрывающегося меню. */
   menuWidth?: React.CSSProperties['width'];
-  /** Ширина caption */
+  /** Ширина контейнера с `caption`. */
   width?: React.CSSProperties['width'];
 
   /**
-   * Элемент или функция возвращающая элемент,
-   * если передана, используется вместо `caption`,
-   * в таком случае управлять открытием и закрытием меню
-   * придется в этой функции
+   * Элемент или render-функция, по которым открывается меню.
+   *
+   * Если передать функцию, ей нужно самостоятельно вызвать `openMenu`, `closeMenu` или `toggleMenu`.
    */
   caption: PopupMenuProps['caption'];
 
   /**
-   * Произвольный элемент, который будет отрендерен в шапке меню.
+   * Рендерит произвольный элемент в шапке меню.
    *
-   * _Примечание_: контрол MenuHeader передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`.
+   * _Примечание_: `MenuHeader` передается только в `children` меню-контролов. Не передавайте `MenuHeader` в `header`.
    */
   header?: React.ReactNode;
   /**
-   * Произвольный элемент, который будет отрендерен в подвале меню.
+   * Рендерит произвольный элемент в подвале меню.
    *
-   * Перед элементом переданным в `footer` будет отрендерен MenuSeparator.
+   * Перед элементом из `footer` автоматически добавляется `MenuSeparator`.
    */
   footer?: React.ReactNode;
   /**
-   *  Список позиций доступных для расположения выпадашки относительно `caption`.
+   * Список допустимых положений раскрывающегося меню относительно `caption`.
    *
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
+   * Если меню выходит за пределы `viewport` во всех положениях, будет использовано первое положение из списка.
    *
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
@@ -59,7 +58,7 @@ export interface DropdownMenuProps
   positions?: PopupPositionsType[];
 
   /**
-   * Не показывать анимацию
+   * Отключает анимацию раскрывающегося меню.
    */
   disableAnimations?: boolean;
 
@@ -70,7 +69,9 @@ export interface DropdownMenuProps
 type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
 
 /**
- * Выпадающее меню `DropdownMenu` раскрывается по клику на переданный в `caption` элемент.
+ * Выпадающее меню `DropdownMenu`. Раскрывается по клику на переданный в `caption` элемент.
+ *
+ * Поддерживает настройку `header`, `footer`, позиций открытия `positions` и другие настройки внешнего вида.
  */
 @rootNode
 export class DropdownMenu extends React.Component<DropdownMenuProps> {

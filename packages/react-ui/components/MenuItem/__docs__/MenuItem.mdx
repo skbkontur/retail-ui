@@ -8,6 +8,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Header component="MenuItem" />
 
+```jsx
+import { MenuItem } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -16,6 +20,26 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используется в компонентах [DropdownMenu](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-dropdownmenu--docs), [Kebab](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-kebab--docs), [TooltipMenu](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-tooltipmenu--docs) и [Select](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-select--docs)
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Компонент таба по умолчанию имеет семантику кнопки (`component="button"`), подразумевая, что действие происходит на текущей странице. Если при клике на элемент происходит переход на другую страницу или на другую часть страницы, используйте ссылку `component="a"` и `href="..."`.
+
+**Заблокированный пункт**
+
+За блокировку кнопки отвечает специальный атрибут `disabled`. Однако этот атрибут скрывает кнопку от скринридеров — а это не подходит в случаях, когда кнопка разблокируется при заполнении обязательных полей. Для такого случая добавьте атрибуты `aria-disabled=”true”`.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+По умолчанию пункт меню не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)

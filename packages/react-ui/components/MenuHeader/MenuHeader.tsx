@@ -11,14 +11,14 @@ import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles } from './MenuHeader.styles.js';
 
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
-  /** Добавляет отступ иконке. */
+  /** Размер надписи. */
+  size?: SizeProp;
+
+  /** Добавляет отступ слева для выравнивания текста по иконкам MenuItem */
   _enableIconPadding?: boolean;
 
   /** @ignore */
   children: ReactNode;
-
-  /** Задает размер. */
-  size?: SizeProp;
 }
 
 export const MenuHeaderDataTids = {
@@ -26,11 +26,7 @@ export const MenuHeaderDataTids = {
 } as const;
 
 /**
- * Заголовок меню `MenuHeader` используется для того, чтобы разделить элементы меню на категории в рамках одного меню.
- *
- * `MenuHeader`, в отличие от `MenuItem` нельзя затаргетить с клавиатуры.
- *
- * Сущности в которых может быть использован `MenuHeader`: DropdownMenu, Kebab, TooltipMenu и Select.
+ * Заголовок меню `MenuHeader` используется для того, чтобы разграничивать элементы меню на категории.
  */
 
 const MenuHeader = forwardRefAndName(

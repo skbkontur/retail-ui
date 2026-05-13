@@ -1,5 +1,4 @@
 import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
-import { IconLightbulbRegular32 } from '@skbkontur/icons/IconLightbulbRegular32';
 import { IconUiMenuBars3HRegular32 } from '@skbkontur/icons/IconUiMenuBars3HRegular32';
 import { Button, Gapped, MenuHeader, MenuItem, MenuSeparator, TooltipMenu } from '@skbkontur/react-ui';
 import React from 'react';
@@ -14,9 +13,9 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
-    <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
+    <TooltipMenu caption={<Button use="accent">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -29,40 +28,69 @@ export const Example1: Story = () => {
     </TooltipMenu>
   );
 };
-Example1.storyName = 'Базовый пример';
+ExampleBasic.storyName = 'Базовый пример';
 
-/** В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню. */
-export const Example2: Story = () => {
+/** В проп `caption` можно передать любой элемент для кнопки открытия. */
+export const ExampleCaption: Story = () => {
+  return (
+    <TooltipMenu caption={<Button icon={<IconUiMenuBars3HRegular32 />} aria-label="Открыть меню" />} menuWidth="300px">
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
+    </TooltipMenu>
+  );
+};
+ExampleCaption.storyName = 'Кнопка открытия меню';
+
+/** В проп `caption` помимо компонента можно передать функцию, возвращающую компонент, с помощью которой можно управлять текущим состоянием тултип-меню через аргументы `opened`, `openMenu`, `closeMenu` и `toggleMenu`. */
+export const ExampleState: Story = () => {
   return (
     <TooltipMenu
       caption={({ opened, openMenu, closeMenu, toggleMenu }) => {
         return (
-          <>
-            <p>Сейчас тултип-меню {opened ? 'окрыто' : 'закрыто'}</p>
+          <Gapped vertical>
+            <>TooltipMenu opened: {String(opened)}</>
             <Button onClick={() => toggleMenu()}>Переключить меню</Button>
             <Button onClick={() => openMenu()}>Открыть меню</Button>
             <Button onClick={() => closeMenu()}>Закрыть меню</Button>
-          </>
+          </Gapped>
         );
       }}
     >
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
       <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
+      <MenuItem>Пункт 3</MenuItem>
     </TooltipMenu>
   );
 };
-Example2.storyName = 'Управление состоянием тултип-меню';
+ExampleState.storyName = 'Управление состоянием тултип-меню';
 
-export const Example3: Story = () => {
+/**
+ * Проп `width` управляет шиирой меню.
+ */
+export const ExampleWidth: Story = () => {
   return (
-    <TooltipMenu caption={<Button use="primary">Открыть меню с заданной шириной</Button>} menuWidth={350}>
+    <TooltipMenu menuWidth={350} caption={<Button use="accent">Открыть меню</Button>}>
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuSeparator />
+      <MenuItem>Пункт 3</MenuItem>
+    </TooltipMenu>
+  );
+};
+ExampleWidth.storyName = 'Ширина';
+
+/**
+ * Проп `menuMaxHeight` управляет максимальной высотой меню. Если элементы не помещаются, показывается кроллбар.
+ */
+export const ExampleMaxHeight: Story = () => {
+  return (
+    <TooltipMenu caption={<Button use="accent">Открыть меню</Button>} menuMaxHeight={150}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -75,28 +103,14 @@ export const Example3: Story = () => {
     </TooltipMenu>
   );
 };
-Example3.storyName = 'Ширина';
+ExampleMaxHeight.storyName = 'Максимальная высота';
 
-export const Example4: Story = () => {
+/**
+ * Проп `disableAnimations` отключает анимацию открытия меню.
+ */
+export const ExampleDisableAnimations: Story = () => {
   return (
-    <TooltipMenu caption={<Button use="primary">Открыть меню с заданной высотой</Button>} menuMaxHeight={150}>
-      <MenuHeader>Заголовок меню</MenuHeader>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-      <MenuSeparator />
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example4.storyName = 'Максимальная высота';
-
-export const Example5: Story = () => {
-  return (
-    <TooltipMenu disableAnimations caption={<Button use="primary">Открыть меню без анимации</Button>}>
+    <TooltipMenu disableAnimations caption={<Button use="accent">Открыть меню</Button>}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -105,126 +119,76 @@ export const Example5: Story = () => {
     </TooltipMenu>
   );
 };
-Example5.storyName = 'Отключенная анимация';
+ExampleDisableAnimations.storyName = 'Отключение анимации';
 
-/** В `caption` можно передать любой элемент. */
-export const Example6: Story = () => {
+/**
+ * Проп `positions` определяет список позиций доступных для расположения выпадашки относительно `caption`.
+ */
+export const ExampleMenuPos: Story = () => {
   return (
-    <TooltipMenu
-      caption={
-        <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <IconUiMenuBars3HRegular32 />
-        </span>
-      }
-      menuWidth="300px"
-    >
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example6.storyName = 'Подпись';
+    <Gapped vertical>
+      <TooltipMenu
+        caption={<Button use="accent">Открыть меню "right top"</Button>}
+        menuWidth="300px"
+        positions={['right top', 'right middle', 'right bottom']}
+      >
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
+      </TooltipMenu>
 
-export const Example7: Story = () => {
-  return (
-    <TooltipMenu
-      caption={
-        <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <IconLightbulbRegular32 />
-        </span>
-      }
-      menuWidth="300px"
-      positions={['right top', 'right middle', 'right bottom']}
-    >
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example7.storyName = 'Тултип-меню всегда всплывающее справа от `caption`';
-
-export const Example8: Story = () => {
-  return (
-    <TooltipMenu
-      caption={
-        <span style={{ display: 'inline-block' }} tabIndex={0}>
-          <IconLightbulbRegular32 />
-        </span>
-      }
-      menuWidth="300px"
-      positions={['top right']}
-    >
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example8.storyName = 'Тултип-меню всегда всплывающее сверху от `caption` и выравненное по правому краю `caption`';
-
-export const Example9: Story = () => {
-  return (
-    <TooltipMenu
-      header={<p>Это шапка в виде обычного текста</p>}
-      footer={<Button>А это подвал в виде кнопки</Button>}
-      caption={<Button use="primary">Открыть меню</Button>}
-    >
-      <MenuItem>Раз</MenuItem>
-      <MenuItem>Два</MenuItem>
-      <MenuItem>Три</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example9.storyName = 'Тултип-меню c шапкой и подвалом';
-
-export const Example10: Story = () => {
-  return (
-    <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
-      <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
-      <MenuItem>MenuItem3</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example10.storyName = 'Иконки и автовыравнивание';
-
-export const Example11: Story = () => {
-  return (
-    <TooltipMenu preventIconsOffset caption={<Button use="primary">Открыть меню</Button>}>
-      <MenuHeader>MenuHeader</MenuHeader>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem1</MenuItem>
-      <MenuItem icon={<IconCheckARegular16 />}>MenuItem2</MenuItem>
-      <MenuItem>MenuItem3</MenuItem>
-    </TooltipMenu>
-  );
-};
-Example11.storyName = 'Иконки и автовыравнивание';
-
-/** (с сохранением поведения [MenuItem](#/Components/MenuItem)). */
-export const Example12: Story = () => {
-  const [showItems, setShowItems] = React.useState(false);
-
-  const hiddenItems = [
-    <MenuSeparator key="hidden-sep" />,
-    <MenuItem key="hidden-1">А я скрываюсь</MenuItem>,
-    <MenuItem key="hidden-2">И я</MenuItem>,
-    <MenuItem key="hidden-3">Я с вами</MenuItem>,
-  ];
-
-  return (
-    <Gapped>
-      <Button onClick={() => setShowItems(!showItems)}>{showItems ? 'Спрятать' : 'Показать'} элементы</Button>
-
-      <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
-        <MenuItem>Меня видно всегда</MenuItem>
-        <MenuItem>Меня тоже</MenuItem>
-        <MenuItem>Ага, и меня!</MenuItem>
-        {showItems ? <>{hiddenItems}</> : <></>}
+      <TooltipMenu
+        caption={<Button use="accent">Открыть меню "top right"</Button>}
+        menuWidth="300px"
+        positions={['top right']}
+      >
+        <MenuItem>Раз</MenuItem>
+        <MenuItem>Два</MenuItem>
+        <MenuItem>Три</MenuItem>
       </TooltipMenu>
     </Gapped>
   );
 };
-Example12.storyName = 'Условный рендер элементов тултип-меню';
+ExampleMenuPos.storyName = 'Позиционирование';
+
+/**
+ * В пропы `header` и `footer` вкладывается контент шапки и подвала.
+ */
+export const ExampleHeaderFooter: Story = () => {
+  return (
+    <TooltipMenu
+      header={<p>Заголовок</p>}
+      footer={<Button>Подвал</Button>}
+      caption={<Button use="accent">Открыть меню</Button>}
+    >
+      <MenuItem>Раз</MenuItem>
+      <MenuItem>Два</MenuItem>
+      <MenuItem>Три</MenuItem>
+    </TooltipMenu>
+  );
+};
+ExampleHeaderFooter.storyName = 'Меню c шапкой и подвалом';
+
+/**
+ * Проп `preventIconsOffset` отключает выравнивание иконок у пунктов.
+ */
+export const ExampleIconsAlign: Story = () => {
+  return (
+    <Gapped vertical>
+      <TooltipMenu caption={<Button use="accent">Автовыравнивание иконок</Button>}>
+        <MenuHeader>Заголовок</MenuHeader>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem>Пункт меню</MenuItem>
+      </TooltipMenu>
+
+      <TooltipMenu preventIconsOffset caption={<Button use="accent">Без автовыравнивания</Button>}>
+        <MenuHeader>Заголовок</MenuHeader>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+        <MenuItem>Пункт меню</MenuItem>
+      </TooltipMenu>
+    </Gapped>
+  );
+};
+ExampleIconsAlign.storyName = 'Иконки и автовыравнивание';

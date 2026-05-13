@@ -6,11 +6,11 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Meta of={DropdownMenuStories} />
 
-<Header
-  component="DropdownMenu"
-  guides="https://guides.kontur.ru/components/actions/menu-button/"
-  figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=138-37462&t=LhpicPI1NxqnkQAe-11"
-/>
+<Header component="DropdownMenu" />
+
+```jsx
+import { DropdownMenu } from '@skbkontur/react-ui';
+```
 
 <Description />
 
@@ -20,6 +20,45 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте раскрывающееся меню:
+
+- когда меню должно открываться не от стандартной кнопки, а от произвольного элемента с настраиваемым позиционированием открытия;
+- когда названия действий очень длинные;
+- когда действия редко используются или объединены по смыслу.
+
+## Альтернативы и дополнения
+
+- [Dropdown](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-dropdown--docs) — используйте упрощенную версию, если вам не требуется гибкость настройки `caption`, `header`, `footer`, `positions`.
+- [TooltipMenu](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-dropdownmenu--docs) — используйте, если вам нужно меню в тултипе.
+- [Select](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-select--docs) — используйте для выбора значения из набора вариантов.
+- [MenuItem](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-menuitem--docs), [MenuSeparator](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-menuseparator--docs), [MenuHeader](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-menuheader--docs), [MenuFooter](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_menu-menufooter--docs) — элементы внутри меню.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Доступность
+
+Компонент поддерживает aria-атрибуты, если вам необходимо переопределить стандартное поведение.
+
+Рекомендации:
+
+- задавайте понятный текст в `caption`, чтобы действие кнопки-меню было очевидно;
+- если подпись недостаточно описательна, добавляйте `aria-label`;
+- контролируйте фокус после открытия/закрытия меню в сложных сценариях;
+- если используете render-функцию `caption`, вызывайте `openMenu`, `closeMenu` или `toggleMenu` из обработчиков элемента;
+- для полного отключения используйте проп `disabled`: компонент становится недоступен для взаимодействия и клавиатурной навигации;
+- если важно сохранить элемент в потоке озвучивания скринридером, используйте `aria-disabled="true"` и блокируйте действия логически;
+- если клик по пункту не должен закрывать меню, вызывайте `event.preventDefault()` в обработчике `MenuItem`.
+
+ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
+
+## Адаптивность
+
+`DropdownMenu` адаптивен: на мобильных устройствах раскрывающееся меню открывается в мобильном попапе (`MobilePopup`). Поведение включается настройками адаптивности React UI.
+
+В мобильном режиме настройки `menuWidth` и `menuMaxHeight` не ограничивают попап так же, как на десктопе: мобильное меню занимает доступное пространство попапа.
+
+Если нужно настроить пороги переключения между десктопным и мобильным режимами, используйте настройки из раздела [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs).

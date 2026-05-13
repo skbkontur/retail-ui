@@ -13,7 +13,7 @@ export default meta;
 
 export const Example1: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню с разделителями</Button>}>
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
       <MenuItem>У меня есть разделитель</MenuItem>
       <MenuSeparator />
       <MenuItem>У меня тоже!</MenuItem>

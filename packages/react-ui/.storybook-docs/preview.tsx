@@ -131,6 +131,7 @@ const preview: Preview = {
           'Input data',
           'Display data',
           'Menu',
+          ['Dropdown', 'Kebab', 'DropdownMenu', 'TooltipMenu', 'MenuHeader', 'MenuItem', 'MenuSeparator', 'MenuFooter'],
           'Overlay',
           'Layout',
           '*',

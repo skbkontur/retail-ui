@@ -15,86 +15,124 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню с базовыми элементами меню</Button>}>
-      <MenuItem>Базовый элемент меню</MenuItem>
-      <MenuItem>Ещё один базовый элемент меню</MenuItem>
-      <MenuItem>И ещё один</MenuItem>
+    <DropdownMenu caption={<Button use="accent">Открыть меню</Button>}>
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
+      <MenuItem>Пункт 3</MenuItem>
     </DropdownMenu>
   );
 };
-Example1.storyName = 'Меню с базовыми элементами меню';
+ExampleBasic.storyName = 'Меню с базовыми элементами меню';
 
-export const Example2: Story = () => {
+/** Проп `size` задаёт размер. По умолчанию: `'small'`. */
+export const ExampleSize: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню с базовыми и заблокированными элементами</Button>}>
-      <MenuItem>Это базовый элемент меню</MenuItem>
-      <MenuItem disabled>А это заблокированный</MenuItem>
-      <MenuItem>А это снова базовый</MenuItem>
+    <Gapped vertical gap={20}>
+      <DropdownMenu
+        caption={
+          <Button size="small" use="accent">
+            Маленький
+          </Button>
+        }
+      >
+        <MenuItem size="small">Пункт 1</MenuItem>
+        <MenuItem size="small">Пункт 2</MenuItem>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={
+          <Button size="medium" use="accent">
+            Средний
+          </Button>
+        }
+      >
+        <MenuItem size="medium">Пункт 1</MenuItem>
+        <MenuItem size="medium">Пункт 2</MenuItem>
+      </DropdownMenu>
+
+      <DropdownMenu
+        caption={
+          <Button size="large" use="accent">
+            Большой
+          </Button>
+        }
+      >
+        <MenuItem size="large">Пункт 1</MenuItem>
+        <MenuItem size="large">Пункт 2</MenuItem>
+      </DropdownMenu>
+    </Gapped>
+  );
+};
+ExampleSize.storyName = 'Размер';
+
+/**
+ * Проп `comment` добавляет описания к пунктам
+ */
+export const ExampleDescription: Story = () => {
+  return (
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <MenuItem comment="Описание пункта">Пункт меню</MenuItem>
+      <MenuItem comment="Описание пункта">Пункт меню</MenuItem>
+      <MenuItem comment="Описание пункта">Пункт меню</MenuItem>
+      <MenuItem comment="Описание пункта">Пункт меню</MenuItem>
+      <MenuItem comment="Описание пункта">Пункт меню</MenuItem>
+      <MenuItem comment="Описание пункта">Пункт меню</MenuItem>
+    </DropdownMenu>
+  );
+};
+ExampleDescription.storyName = 'Описание элементов';
+
+/** Проп `disabled` делает пункты неактивными и перекрашивает в серый цвет */
+export const ExampleDisabled: Story = () => {
+  return (
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <MenuItem>Пункт меню</MenuItem>
+      <MenuItem>Пункт меню</MenuItem>
+      <MenuItem disabled>Заблокированный пункт меню</MenuItem>
       <MenuItem disabled>И снова заблокированный</MenuItem>
-      <MenuItem disabled>И вот ещё один заблокированный</MenuItem>
+      <MenuItem>Пункт меню</MenuItem>
     </DropdownMenu>
   );
 };
-Example2.storyName = 'Disabled';
+ExampleDisabled.storyName = 'Заблокированные пункты';
 
-/** В пункты меню можно передать проп `isNotSelectable`, чтобы запретить выделение и выбор этого пункта меню */
+/** Проп `isNotSelectable` запрещает выделение и выбор пункта меню */
 export const Example3: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню с базовыми и отключёнными элементами</Button>}>
-      <MenuItem>Это базовый элемент меню</MenuItem>
-      <MenuItem isNotSelectable>А это отключённый</MenuItem>
-      <MenuItem>А это снова базовый</MenuItem>
-      <MenuItem isNotSelectable>И снова отключённый</MenuItem>
-      <MenuItem isNotSelectable>И вот ещё один отключённый</MenuItem>
+    <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+      <MenuItem>Пункт меню</MenuItem>
+      <MenuItem>Пункт меню</MenuItem>
+      <MenuItem isNotSelectable>Пункт меню без выделения и выбора</MenuItem>
+      <MenuItem isNotSelectable>Пункт меню без выделения и выбора</MenuItem>
     </DropdownMenu>
   );
 };
 Example3.storyName = 'Запрет выделения';
 
-export const Example4: Story = () => {
-  return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню с причастными к Pied Piper</Button>}>
-      <MenuItem comment="Системный инженер">Bertram Gilfoyle</MenuItem>
-      <MenuItem comment="Hooli CEO">Gavin Belson</MenuItem>
-      <MenuItem comment="Java-разработчик">Dinesh Chugtai</MenuItem>
-      <MenuItem comment="Основатель Pied Piper">Richard Hendricks</MenuItem>
-      <MenuItem comment="Владелец инкубатора">Erlich Bachman</MenuItem>
-    </DropdownMenu>
-  );
-};
-Example4.storyName = 'Описание элементов';
-
-export const Example5: Story = () => {
+/** Проп `icon` добавляет иконку слева */
+export const ExampleIcons: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с иконками</Button>}>
-      <MenuItem icon={<IconCheckARegular16 />}>Базовый элемент меню c иконкой</MenuItem>
-      <MenuItem disabled icon={<IconHandThumbDownRegular16 />}>
-        Отключённый элемент меню с иконкой
+      <MenuItem icon={<IconCheckARegular16 />}>Пункт меню</MenuItem>
+      <MenuItem icon={<IconTechPhoneSmartRegular16 />} comment="Подпись">
+        Пункт меню
       </MenuItem>
-      <MenuItem icon={<IconTechPhoneSmartRegular16 />} comment="А слева вы можете видеть икону 21-го века">
-        Элемент меню с описанием и иконкой
+      <MenuItem disabled icon={<IconHandThumbDownRegular16 />}>
+        Пункт меню
       </MenuItem>
     </DropdownMenu>
   );
 };
-Example5.storyName = 'Иконки в элементах';
+ExampleIcons.storyName = 'Иконки в элементах';
 
-/** В элементы меню можно передавать проп `href`, чтобы превратить их в ссылку. Лучше выделять такие элементы иконками. */
-export const Example6: Story = () => {
+/** Для указания ссылки используйте `href`. Рекомендуется выделять такие элементы иконками. */
+export const ExampleLink: Story = () => {
   return (
-    <DropdownMenu caption={<Button use="primary">Открыть меню с ссылками</Button>}>
-      <MenuItem href="http://tech.skbkontur.ru/kontur-ui/" target="_blank" rel="noopener noreferrer">
-        Начало документации
-      </MenuItem>
-      <MenuItem
-        href="https://github.com/skbkontur/retail-ui/graphs/contributors"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Список прекрасных людей
-      </MenuItem>
+    <DropdownMenu caption={<Button use="primary">Открыть меню со ссылкой</Button>}>
+      <MenuItem>Пункт 1</MenuItem>
+      <MenuItem>Пункт 2</MenuItem>
       <MenuSeparator />
       <MenuItem
         icon={<IconArrowUiCornerOutUpRightRegular16 />}
@@ -107,15 +145,4 @@ export const Example6: Story = () => {
     </DropdownMenu>
   );
 };
-Example6.storyName = 'Проп href';
-
-export const Example7: Story = () => {
-  return (
-    <Gapped vertical>
-      <MenuItem size={'small'}>Маленький</MenuItem>
-      <MenuItem size={'medium'}>Средний</MenuItem>
-      <MenuItem size={'large'}>Большой</MenuItem>
-    </Gapped>
-  );
-};
-Example7.storyName = 'Размер';
+ExampleLink.storyName = 'Ссылки';
