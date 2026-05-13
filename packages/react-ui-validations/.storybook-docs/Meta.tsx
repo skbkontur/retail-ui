@@ -1,9 +1,9 @@
 import type { Emotion } from '@emotion/css/create-instance';
-import { ArrowUiCornerOutUpRightIcon16Light } from '@skbkontur/icons/icons/ArrowUiCornerOutUpRightIcon/ArrowUiCornerOutUpRightIcon16Light.js';
-import { FlagAIcon16Light } from '@skbkontur/icons/icons/FlagAIcon/FlagAIcon16Light.js';
-import { WeatherMoonIcon16Light } from '@skbkontur/icons/icons/WeatherMoonIcon/WeatherMoonIcon16Light.js';
-import { WeatherSunIcon16Light } from '@skbkontur/icons/icons/WeatherSunIcon/WeatherSunIcon16Light.js';
-import { WeatherSunMoonIcon16Light } from '@skbkontur/icons/icons/WeatherSunMoonIcon/WeatherSunMoonIcon16Light.js';
+import { IconArrowUiCornerOutUpRightLight16 } from '@skbkontur/icons/IconArrowUiCornerOutUpRightLight16';
+import { IconFlagALight16 } from '@skbkontur/icons/IconFlagALight16';
+import { IconWeatherMoonLight16 } from '@skbkontur/icons/IconWeatherMoonLight16';
+import { IconWeatherSunLight16 } from '@skbkontur/icons/IconWeatherSunLight16';
+import { IconWeatherSunMoonLight16 } from '@skbkontur/icons/IconWeatherSunMoonLight16';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu/DropdownMenu';
 import { MenuFooter } from '@skbkontur/react-ui/components/MenuFooter/MenuFooter';
 import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader/MenuHeader';
@@ -14,13 +14,13 @@ import { useStyles } from '@skbkontur/react-ui/lib/renderEnvironment/index';
 import { memoizeGetStyles } from '@skbkontur/react-ui/lib/theming/Emotion';
 import { linkTo } from '@storybook/addon-links';
 import { DocsContext } from '@storybook/blocks';
-import type { ModuleExports } from '@storybook/types';
 import React, { useContext, useEffect } from 'react';
+import type { ModuleExports } from 'storybook/internal/types';
 
 import { validationsFeatureFlagsDefault } from '../index.js';
 const themes = [
-  { icon: <WeatherSunIcon16Light />, caption: 'Light', value: 'LIGHT_THEME' },
-  { icon: <WeatherMoonIcon16Light />, caption: 'Dark', value: 'DARK_THEME' },
+  { icon: <IconWeatherSunLight16 />, caption: 'Light', value: 'LIGHT_THEME' },
+  { icon: <IconWeatherMoonLight16 />, caption: 'Dark', value: 'DARK_THEME' },
 ];
 const allFeatureFlags = Object.keys(validationsFeatureFlagsDefault);
 const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
@@ -143,7 +143,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
         <DropdownMenu
           caption={
             <div className={styles.menuSelect()}>
-              <WeatherSunMoonIcon16Light /> {currentTheme ? currentTheme.caption : themes[0].caption}
+              <IconWeatherSunMoonLight16 /> {currentTheme ? currentTheme.caption : themes[0].caption}
             </div>
           }
         >
@@ -165,7 +165,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
         <DropdownMenu
           caption={
             <div className={styles.menuSelect()}>
-              <FlagAIcon16Light /> Feature flags{' '}
+              <IconFlagALight16 /> Feature flags{' '}
               {currentFeatureFlags.length !== 0 && (
                 <span className={styles.menuContuer()}>{currentFeatureFlags.length}</span>
               )}
@@ -196,7 +196,7 @@ export const Meta = ({ of }: { of?: ModuleExports }) => {
           ))}
           {allFeatureFlags.length !== 0 && <MenuSeparator />}
           <MenuItem onClick={linkTo('Displaying/Feature flags')} style={{ cursor: 'pointer' }}>
-            <ArrowUiCornerOutUpRightIcon16Light /> Подробнее о фича-флагах
+            <IconArrowUiCornerOutUpRightLight16 /> Подробнее о фича-флагах
           </MenuItem>
         </DropdownMenu>
       </div>

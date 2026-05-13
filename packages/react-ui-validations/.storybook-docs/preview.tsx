@@ -1,5 +1,5 @@
-import { HandThumbDownIcon } from '@skbkontur/icons/icons/HandThumbDownIcon';
-import { HandThumbUpIcon } from '@skbkontur/icons/icons/HandThumbUpIcon';
+import { IconHandThumbDownRegular16 } from '@skbkontur/icons/IconHandThumbDownRegular16';
+import { IconHandThumbUpRegular16 } from '@skbkontur/icons/IconHandThumbUpRegular16';
 import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 import { LIVE_EXAMPLES_ADDON_ID } from '@skbkontur/storybook-addon-live-examples';
 import type { Config as LiveConfig } from '@skbkontur/storybook-addon-live-examples';
@@ -79,8 +79,8 @@ addons.setConfig({
       Form,
       isNonNullable,
       styled,
-      HandThumbDownIcon,
-      HandThumbUpIcon,
+      IconHandThumbDownRegular16,
+      IconHandThumbUpRegular16,
       SpaceFiller,
       FeatureFlagToggle,
     },
