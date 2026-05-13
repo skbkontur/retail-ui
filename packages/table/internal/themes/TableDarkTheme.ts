@@ -51,7 +51,7 @@ export class TableDarkTheme extends (class {} as typeof TableThemeInternal) {
     return colors.shapeFaintNeutralAlphaPressed;
   }
   public static get tableRowShadowCheckedActive() {
-    return colors.shapeOtherNeutralPaleSolidPressed;
+    return colors.shapeOtherNeutralFaintSolidPressed;
   }
   public static get tableDangerActiveColor() {
     return colors.textConstHeavyWhite;

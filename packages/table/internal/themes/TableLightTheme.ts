@@ -52,7 +52,7 @@ export class TableLightTheme extends BasicThemeClassForExtension {
     return colors.shapeFaintNeutralAlphaPressed;
   }
   public static get tableRowShadowCheckedActive() {
-    return colors.shapeOtherNeutralPaleSolidPressed;
+    return colors.shapeOtherNeutralFaintSolidPressed;
   }
   public static get tableDangerActiveColor() {
     return colors.textConstHeavyWhite;
