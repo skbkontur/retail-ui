@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.4...@skbkontur/react-ui@6.0.5) (2026-05-13)
+
+
+### Bug Fixes
+
+* **FileUploader:** restore drag and drop animation ([c9c411e](https://github.com/skbkontur/retail-ui/commit/c9c411eb27f8f34772c3e2fd54411bae87c63462))
+
+
+
+
+
 ## [6.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.3...@skbkontur/react-ui@6.0.4) (2026-05-07)
 
 
