@@ -33,46 +33,46 @@ type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
 type OffsetCSSPropsX = 'right' | 'bottom' | 'left';
 
 export interface ScrollContainerProps extends CommonProps {
-  /** Инвертирует цвет скроллбара.
+  /** Инвертирует цвет полосы прокрутки.
    * @default false */
   invert?: boolean;
 
-  /** Задает максимальную высоту. */
+  /** Максимальная высота скролл-контейнера. */
   maxHeight?: React.CSSProperties['maxHeight'];
 
-  /** Задает максимальную ширину. */
+  /** Максимальная ширина скролл-контейнера. */
   maxWidth?: React.CSSProperties['maxWidth'];
 
   /** Отключает скролл окна, когда меню открыто.
    * @default false */
   preventWindowScroll?: boolean;
 
-  /** Задает поведение скролла. (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+  /** Поведение скролла. (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
    * @default 'auto' */
   scrollBehaviour?: ScrollBehaviour;
 
-  /** Задает функцию, которая вызывается при скроле по горизонтали. */
+  /** Событие скролла по горизонтали. */
   onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
 
-  /** Задает функцию, которая вызывается при скроле по вертикали. */
+  /** Событие скролла по вертикали. */
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
 
-  /** Задает функцию, которая вызывается при скроле. */
+  /** Событие скролла. */
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 
   /** Отключает кастомный скролл. */
   disabled?: boolean;
 
-  /** Задает смещение вертикального скроллбара. */
+  /** Смещение вертикальной полосы прокрутки. */
   offsetY?: Partial<Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>>;
 
-  /** Задает смещение горизонтального скроллбара. */
+  /** Смещение горизонтальной полосы прокрутки. */
   offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
 
-  /** Определяет, нужно ли показывать скроллбар. */
+  /** Определяет, нужно ли показывать полосу прокрутки. */
   showScrollBar?: 'always' | 'scroll' | 'hover' | 'never';
 
-  /** Устанавливает задержку в миллисекундах перед скрытием скроллбара.
+  /** Устанавливает задержку в миллисекундах перед скрытием полосы прокрутки.
    * Работает только при hideScrollBar = true или showScrollBar = 'scroll' | 'hover'. */
   hideScrollBarDelay?: number;
 
@@ -100,7 +100,7 @@ interface ScrollContainerState {
 }
 
 /**
- * `ScrollContainer` используется для создания контейнера с кастомными полосами прокрутки, который обеспечивает прокрутку содержимого по горизонтали или вертикали.
+ * Контейнер с кастомными полосами прокрутки при скролле.
  */
 @withRenderEnvironment
 @rootNode
@@ -208,6 +208,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   /**
+   * Прокручивает контейнер так, чтобы указанный элемент оказался в видимой области.
    * @public
    * @param {Element} element
    */
@@ -221,6 +222,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   /**
+   * Прокручивает содержимое контейнера к верхнему краю.
    * @public
    */
   public scrollToTop(): void {
@@ -231,6 +233,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   /**
+   * Прокручивает содержимое контейнера к нижнему краю (максимальной вертикальной позиции).
    * @public
    */
   public scrollToBottom(): void {
@@ -241,6 +244,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   /**
+   * Прокручивает содержимое контейнера к левому краю.
    * @public
    */
   public scrollToLeft(): void {
@@ -251,6 +255,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   /**
+   * Прокручивает содержимое контейнера к правому краю (максимальной горизонтальной позиции).
    * @public
    */
   public scrollToRight(): void {

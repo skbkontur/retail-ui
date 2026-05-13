@@ -6,7 +6,7 @@ import type { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './typ
 import { useResponsiveLayout } from './useResponsiveLayout.js';
 
 interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
-  /** Задает функцию, которая вызывается при изменении лейаута. */
+  /** Событие изменения режима. */
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
 
   /** @ignore */
@@ -17,7 +17,7 @@ interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
 }
 
 /**
- * Компонент `ResponsiveLayout` для определения текущего лэйаута.
+ * `ResponsiveLayout` определяет текущий режим.
  */
 export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(
   props: ResponsiveLayoutProps<T>,
