@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.5...@skbkontur/react-ui@6.0.6) (2026-05-19)
+
+
+### Bug Fixes
+
+* **ComboBox, Select, Dropdown:** add `preventIconsOffset` prop ([2ff25d3](https://github.com/skbkontur/retail-ui/commit/2ff25d3d19f2886715f65718db095cc2ed641f07))
+
+
+
+
+
 ## [6.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.4...@skbkontur/react-ui@6.0.5) (2026-05-13)
 
 
