@@ -11,6 +11,7 @@ import { IconLightbulbRegular32 } from '@skbkontur/icons/IconLightbulbRegular32'
 import { IconMathFunctionRegular16 } from '@skbkontur/icons/IconMathFunctionRegular16';
 import { IconMinusCircleRegular16 } from '@skbkontur/icons/IconMinusCircleRegular16';
 import { IconMoneyTypeCoinsRegular16 } from '@skbkontur/icons/IconMoneyTypeCoinsRegular16';
+import { IconNatureFxLightningALight16 } from '@skbkontur/icons/IconNatureFxLightningALight16';
 import { IconNotificationBellAlarmRegular64 } from '@skbkontur/icons/IconNotificationBellAlarmRegular64';
 import { IconNotificationBellAlarmSolid16 } from '@skbkontur/icons/IconNotificationBellAlarmSolid16';
 import { IconPeople3Regular16 } from '@skbkontur/icons/IconPeople3Regular16';
@@ -262,6 +263,7 @@ addons.setConfig({
       IconSecurityLockClosedLight20,
       IconSettingsGearRegular20,
       IconDocPlusLight16,
+      IconNatureFxLightningALight16,
       ShowcaseGroup,
       ThemeContext,
       ThemeContextPlayground,

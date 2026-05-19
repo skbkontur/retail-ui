@@ -109,6 +109,7 @@ interface ComboBoxViewProps<T>
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
   viewMode?: ComboBoxViewMode;
   maxRows?: number;
+  preventIconsOffset?: boolean;
 }
 
 type DefaultProps<T> = Required<
@@ -252,7 +253,17 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   private getComboBoxMenu = () => {
-    const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount } = this.props;
+    const {
+      items,
+      loading,
+      opened,
+      refMenu,
+      maxMenuHeight,
+      renderTotalCount,
+      renderNotFound,
+      totalCount,
+      preventIconsOffset,
+    } = this.props;
 
     const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
@@ -275,6 +286,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         totalCount={totalCount}
         isMobile={this.isMobileLayout}
         size={this.size}
+        preventIconsOffset={preventIconsOffset}
       />
     );
   };

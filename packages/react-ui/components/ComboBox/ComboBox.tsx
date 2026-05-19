@@ -186,6 +186,9 @@ export interface ComboBoxProps<T>
 
   /** Максимальное количество отображаемых строк, если для поля добавлен проп многострочного режима  — `"multiline"` или `"multiline-editing"`. */
   maxRows?: number;
+
+  /** Отключает выравнивание текста пунктов списка относительно иконок в других пунктах. */
+  preventIconsOffset?: boolean;
 }
 
 export interface ComboBoxItem {

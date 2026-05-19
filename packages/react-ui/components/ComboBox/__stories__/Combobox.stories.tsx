@@ -1,4 +1,5 @@
 import { IconChildBabyRegular16 } from '@skbkontur/icons/IconChildBabyRegular16';
+import { IconPlusRegular16 } from '@skbkontur/icons/IconPlusRegular16';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import { action } from '@storybook/addon-actions';
 import React, { type CSSProperties } from 'react';
@@ -353,6 +354,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           onUnexpectedInput={this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.updateState) : undefined}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
+          preventIconsOffset={this.props.preventIconsOffset}
           ref={(el) => {
             this.combobox = el;
           }}
@@ -1195,3 +1197,20 @@ export const VariousMenuPositionsLongText = () => {
   );
 };
 VariousMenuPositionsLongText.parameters = { creevey: { captureElement: null } };
+
+export const PreventIconsOffset: Story = () => {
+  return (
+    <div style={{ paddingBottom: 200, paddingRight: 40 }}>
+      <ComboBox
+        preventIconsOffset
+        getItems={async () => [
+          { value: 1, label: 'Первый' },
+          { value: 2, label: 'Второй' },
+          { value: 3, label: 'Третий' },
+        ]}
+        renderAddButton={(query) => query && <MenuItem icon={<IconPlusRegular16 />}>Добавить "{query}"</MenuItem>}
+      />
+    </div>
+  );
+};
+PreventIconsOffset.storyName = 'preventIconsOffset';

@@ -86,6 +86,7 @@ export interface CustomComboBoxProps<T>
   onBeforePasteInMask?: MaskedInputOnBeforePasteValue;
   viewMode?: ComboBoxViewMode;
   maxRows?: number;
+  preventIconsOffset?: boolean;
 }
 
 export interface CustomComboBoxState<T> {
@@ -340,6 +341,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       },
       viewMode: this.props.viewMode,
       maxRows: this.props.maxRows,
+      preventIconsOffset: this.props.preventIconsOffset,
     };
 
     return (

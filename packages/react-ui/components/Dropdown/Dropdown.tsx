@@ -37,6 +37,7 @@ const PASS_PROPS = {
   menuPos: true,
   corners: true,
   id: true,
+  preventIconsOffset: true,
   'aria-describedby': true,
   'aria-label': true,
 };
@@ -105,6 +106,9 @@ export interface DropdownProps
 
   /** Вызывается при движении курсора над элементом (событие `onmouseover`). */
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
+
+  /** Отключает выравнивание текста пунктов меню относительно иконок в других пунктах. */
+  preventIconsOffset?: boolean;
 }
 
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;

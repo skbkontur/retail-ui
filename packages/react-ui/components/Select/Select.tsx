@@ -246,6 +246,9 @@ export interface SelectProps<TValue, TItem>
 
   /** Текст заголовка списка в мобильной версии. */
   mobileMenuHeaderText?: string;
+
+  /** Отключает выравнивание текста элементов в списке относительно иконок в других элементах. */
+  preventIconsOffset?: boolean;
 }
 
 export interface SelectState<TValue> {
@@ -562,7 +565,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
-    const { menuWidth, menuPos, menuAlign, positions } = this.getProps();
+    const { menuWidth, menuPos, menuAlign, positions, preventIconsOffset } = this.getProps();
 
     return (
       <Popup
@@ -585,6 +588,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
           align={menuAlign}
+          preventIconsOffset={preventIconsOffset}
         >
           {search}
           {this.getMenuItems(value)}

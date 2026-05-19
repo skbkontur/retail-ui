@@ -1,3 +1,4 @@
+import { IconNatureFxLightningALight16 } from '@skbkontur/icons/IconNatureFxLightningALight16';
 import { IconPlusRegular16 } from '@skbkontur/icons/IconPlusRegular16';
 import { action } from '@storybook/addon-actions';
 import type { CSFStory } from 'creevey';
@@ -542,3 +543,30 @@ export const Size: Story = () => {
     </div>
   );
 };
+
+export const IconInItem: Story = () => (
+  <Select
+    items={[
+      <MenuItem icon={<IconNatureFxLightningALight16 />} key={1}>
+        Первый
+      </MenuItem>,
+      'Второй',
+      'Третий',
+    ]}
+  />
+);
+IconInItem.storyName = 'icon in item';
+
+export const IconInItemPreventOffset: Story = () => (
+  <Select
+    preventIconsOffset
+    items={[
+      <MenuItem icon={<IconNatureFxLightningALight16 />} key={1}>
+        Первый
+      </MenuItem>,
+      'Второй',
+      'Третий',
+    ]}
+  />
+);
+IconInItemPreventOffset.storyName = 'icon in item with preventIconsOffset';

@@ -468,4 +468,14 @@ kind('ComboBox', () => {
       await context.matchImages({ leftTop, leftMiddle, leftBottom, rightTop, rightMiddle, rightBottom });
     });
   });
+
+  story('PreventIconsOffset', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
+    test('prevent icons offset', async (context) => {
+      const page = context.webdriver;
+      await page.locator(tid('ComboBoxView__root')).click();
+      await page.keyboard.type('Новый');
+      await context.matchImage(await context.takeScreenshot());
+    });
+  });
 });

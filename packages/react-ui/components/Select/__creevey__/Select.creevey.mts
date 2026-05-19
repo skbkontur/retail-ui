@@ -217,4 +217,14 @@ kind('Select', () => {
       await context.matchImage(await context.takeScreenshot(), 'ClickedAll');
     });
   });
+
+  story('IconInItem', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
+    clickedTest();
+  });
+
+  story('IconInItemPreventOffset', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
+    clickedTest();
+  });
 });

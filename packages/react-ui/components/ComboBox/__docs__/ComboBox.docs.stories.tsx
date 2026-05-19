@@ -1,4 +1,5 @@
 import { IconCheckARegular16 } from '@skbkontur/icons/IconCheckARegular16';
+import { IconPlusLight16 } from '@skbkontur/icons/IconPlusLight16';
 import { IconUiFilterFunnelRegular16 } from '@skbkontur/icons/IconUiFilterFunnelRegular16';
 import {
   Button,
@@ -563,7 +564,11 @@ export const ExampleMask: Story = () => {
 };
 ExampleMask.storyName = 'Маска ввода';
 
-/** Проп `renderAddButton` позволяет разрешить пользователю добавлять свои значения в список. Используйте проп `renderAddButton`, в котором задаётся функция отрисовки кнопки добавления в выпадающем списке.  */
+/** Проп `renderAddButton` позволяет разрешить пользователю добавлять свои значения в список.
+ * Используйте проп `renderAddButton`, в котором задаётся функция отрисовки кнопки добавления в выпадающем списке.
+ *
+ * Проп `preventIconsOffset` отключает выравнивание текста пунктов списка относительно иконок в других пунктах.
+ * С его помощью можно отключить смещение пунктов в списке, если в кнопке есть иконка "+". */
 export const ExampleAddButton: Story = () => {
   const delay =
     (time: number) =>
@@ -611,6 +616,7 @@ export const ExampleAddButton: Story = () => {
     render() {
       return (
         <ComboBox
+          preventIconsOffset
           error={this.state.error}
           getItems={this.getItems}
           onValueChange={this.handleValueChange}
@@ -649,7 +655,11 @@ export const ExampleAddButton: Story = () => {
       if (!this.state.shouldRenderAddButton) {
         return null;
       }
-      return <MenuItem onClick={this.addItem}>+ Добавить "{this.state.query}"</MenuItem>;
+      return (
+        <MenuItem onClick={this.addItem} icon={<IconPlusLight16 />}>
+          Добавить "{this.state.query}"
+        </MenuItem>
+      );
     }
 
     refComboBox(element: ComboBox<Nullable<Selected>> | null) {

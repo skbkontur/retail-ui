@@ -39,6 +39,7 @@ export interface ComboBoxMenuProps<T> {
   isMobile?: boolean;
   menuId?: string;
   size?: SizeProp;
+  preventIconsOffset?: boolean;
 }
 
 export const ComboBoxMenuDataTids = {
@@ -152,6 +153,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
             maxHeight={maxHeight}
             ref={refMenu}
             disableScrollContainer={isMobile}
+            preventIconsOffset={this.props.preventIconsOffset}
           >
             {renderAddButton}
           </Menu>
@@ -199,6 +201,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
         maxHeight={maxHeight}
         hasMargin={this.props.hasMargin}
         disableScrollContainer={isMobile}
+        preventIconsOffset={this.props.preventIconsOffset}
       >
         {renderedItems}
         {total}

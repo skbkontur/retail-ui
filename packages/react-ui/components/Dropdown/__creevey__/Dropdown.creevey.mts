@@ -129,4 +129,15 @@ kind('Dropdown', () => {
       await context.matchImage(await context.takeScreenshot(), 'ClickedAll');
     });
   });
+
+  story('PreventIconsOffset', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
+    test('clicked', async (context) => {
+      const page = context.webdriver;
+      const element = page.locator('.dropdown-test-container');
+      await page.locator(tid('Dropdown__root')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await element.screenshot(), 'clicked');
+    });
+  });
 });

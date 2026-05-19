@@ -177,3 +177,12 @@ export const Size: Story = () => {
   );
 };
 Size.storyName = 'size';
+
+export const PreventIconsOffset: Story = () => (
+  <Dropdown caption="Меню" preventIconsOffset>
+    <MenuItem icon={<IconPlusRegular16 />}>Первый</MenuItem>
+    <MenuItem>Второй</MenuItem>
+    <MenuItem>Третий</MenuItem>
+  </Dropdown>
+);
+PreventIconsOffset.storyName = 'with preventIconsOffset';

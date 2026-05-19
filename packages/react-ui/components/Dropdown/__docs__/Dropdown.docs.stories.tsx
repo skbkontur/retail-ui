@@ -1,3 +1,4 @@
+import { IconNatureFxLightningALight16 } from '@skbkontur/icons/IconNatureFxLightningALight16';
 import { IconUiFilterFunnelRegular16 } from '@skbkontur/icons/IconUiFilterFunnelRegular16';
 import { Dropdown, Gapped, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 import React from 'react';
@@ -200,6 +201,25 @@ export const ExampleMenuAlign: Story = () => {
   );
 };
 ExampleMenuAlign.storyName = 'Выравнивание выпадающего меню';
+
+/** Проп `preventIconsOffset` отключает выравнивание текста пунктов меню относительно иконок в других пунктах. */
+export const ExamplePreventIconsOffset: Story = () => {
+  return (
+    <Gapped>
+      <Dropdown caption="Без выравнивания" preventIconsOffset>
+        <MenuItem icon={<IconNatureFxLightningALight16 />}>Пункт 1</MenuItem>
+        <MenuItem>Пункт 2</MenuItem>
+        <MenuItem>Пункт 3</MenuItem>
+      </Dropdown>
+      <Dropdown caption="С выравниванием">
+        <MenuItem icon={<IconNatureFxLightningALight16 />}>Пункт 1</MenuItem>
+        <MenuItem>Пункт 2</MenuItem>
+        <MenuItem>Пункт 3</MenuItem>
+      </Dropdown>
+    </Gapped>
+  );
+};
+ExamplePreventIconsOffset.storyName = 'Выравнивание пунктов меню';
 
 /** Проп `disablePortal` отключает рендер через портал. */
 export const ExampleDisablePortal: Story = () => {
