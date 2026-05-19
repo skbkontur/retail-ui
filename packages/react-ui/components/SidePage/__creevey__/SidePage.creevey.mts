@@ -83,19 +83,31 @@ kind('SidePage', () => {
 
     test('open side-page', async (context) => {
       const page = context.webdriver;
-      const pressTab = async () => {
-        await page.keyboard.press('Tab');
-        await page.waitForTimeout(4000);
+      const waitForFocusedElement = async (selector: string) => {
+        await page.waitForFunction(
+          (activeSelector) => document.activeElement?.matches(activeSelector) ?? false,
+          selector,
+        );
+        await page.waitForTimeout(100);
       };
+      const pressTab = async (selector: string) => {
+        await page.keyboard.press('Tab');
+        await waitForFocusedElement(selector);
+      };
+
+      const closeButtonSelector = tid('SidePage__close');
+      const switchSelector = `${tid('SidePage__root')} [role="switch"]`;
+      const footerCloseButtonSelector = `${tid('SidePageFooter__root')} button`;
+
       await page.locator(tid('open-side-page')).click();
       await page.waitForTimeout(1000);
-      await pressTab();
+      await pressTab(closeButtonSelector);
       const firstTimeTabPress = await context.takeScreenshot();
-      await pressTab();
+      await pressTab(switchSelector);
       const secondTimeTabPress = await context.takeScreenshot();
-      await pressTab();
+      await pressTab(footerCloseButtonSelector);
       const thirdTimeTabPress = await context.takeScreenshot();
-      await pressTab();
+      await pressTab(closeButtonSelector);
       const fourthTimeTabPress = await context.takeScreenshot();
       await context.matchImages({
         firstTimeTabPress,

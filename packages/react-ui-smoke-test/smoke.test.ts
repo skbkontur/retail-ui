@@ -149,7 +149,7 @@ async function openPageOnBrowser(screenshotPath: string) {
     console.error(`BROWSER: name: ${msg.name}\nmessage: ${msg.message}\nstack: ${msg.stack}`);
   });
 
-  const applicationHost = `http://${os.hostname()}:3000`;
+  const applicationHost = 'http://127.0.0.1:3000';
   await waitOn({ resources: [applicationHost], timeout: LOAD_PAGE_TIMEOUT });
   await page.goto(applicationHost);
   await page.screenshot({ path: screenshotPath });

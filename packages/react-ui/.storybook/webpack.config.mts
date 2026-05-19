@@ -1,9 +1,19 @@
+import { readFileSync } from 'fs';
 import { join, resolve } from 'path';
 
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Configuration } from 'webpack';
 
 import { hasTestInRule } from '../../../scripts/webpack-type-guards/index.ts';
+
+function getReactMajor(nodeModules: string): number {
+  try {
+    const pkg = JSON.parse(readFileSync(resolve(nodeModules, 'react-dom/package.json'), 'utf8'));
+    return parseInt(pkg.version, 10);
+  } catch {
+    return 19; // fallback to current default
+  }
+}
 
 export default async ({ config }: { config: Configuration }) => {
   config.devtool = 'eval-source-map';
@@ -16,6 +26,25 @@ export default async ({ config }: { config: Configuration }) => {
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx'];
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js'],
+    };
+
+    // When matrix CI swaps react version via set-package-versions, yarn may
+    // hoist a second copy of react inside node_modules/@storybook/…  Force
+    // every import of react / react-dom to resolve to the single top-level
+    // copy so hooks don't break ("Cannot read properties of null").
+    const nodeModules = resolve(__dirname, '../../../node_modules');
+    const reactMajor = getReactMajor(nodeModules);
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: resolve(nodeModules, 'react'),
+      'react-dom': resolve(nodeModules, 'react-dom'),
+      // Storybook's preset detects React version via require.resolve which may
+      // find a stale copy. Force the correct render shim based on the actual
+      // installed version.
+      ...(reactMajor < 18
+        ? { '@storybook/react-dom-shim': resolve(nodeModules, '@storybook/react-dom-shim/dist/react-16') }
+        : {}),
     };
   }
 
@@ -63,7 +92,10 @@ export default async ({ config }: { config: Configuration }) => {
     ];
   }
 
-  if (config.plugins) {
+  // Skip type-checking in matrix CI — the code is written against React 19 types
+  // and won't pass tsc with older @types/react. Runtime behaviour is verified by
+  // vitest and screenshot tests; type correctness is checked on the main pipeline.
+  if (config.plugins && !process.env.REACT_VERSION) {
     config.plugins.push(
       new ForkTsCheckerWebpackPlugin({
         typescript: {

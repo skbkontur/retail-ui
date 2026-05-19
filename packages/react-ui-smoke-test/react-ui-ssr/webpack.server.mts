@@ -6,13 +6,12 @@ export default {
   output: { filename: '[name].js' },
   module: {
     ...config.module,
-    rules: [
-      ...config.module.rules,
+    rules: (config.module.rules as unknown[]).concat([
       {
         test: /\.css$/,
         use: 'null-loader',
       },
-    ],
+    ]),
   },
   devtool: 'inline-source-map',
   target: 'node',

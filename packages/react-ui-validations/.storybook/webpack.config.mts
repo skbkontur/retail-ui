@@ -1,8 +1,18 @@
-import { join } from 'path';
+import { readFileSync } from 'fs';
+import { join, resolve } from 'path';
 
 import type { Configuration } from 'webpack';
 
 import { hasTestInRule } from '../../../scripts/webpack-type-guards/index.ts';
+
+function getReactMajor(nodeModules: string): number {
+  try {
+    const pkg = JSON.parse(readFileSync(resolve(nodeModules, 'react-dom/package.json'), 'utf8'));
+    return parseInt(pkg.version, 10);
+  } catch {
+    return 19;
+  }
+}
 
 export default async ({ config }: { config: Configuration }) => {
   if (config.entry && Array.isArray(config.entry)) {
@@ -13,6 +23,19 @@ export default async ({ config }: { config: Configuration }) => {
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx'];
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js'],
+    };
+
+    // Deduplicate react for matrix CI — see react-ui/.storybook/webpack.config.mts
+    const nodeModules = resolve(__dirname, '../../../node_modules');
+    const reactMajor = getReactMajor(nodeModules);
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: resolve(nodeModules, 'react'),
+      'react-dom': resolve(nodeModules, 'react-dom'),
+      ...(reactMajor < 18
+        ? { '@storybook/react-dom-shim': resolve(nodeModules, '@storybook/react-dom-shim/dist/react-16') }
+        : {}),
     };
   }
 

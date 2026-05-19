@@ -19,6 +19,7 @@
   - [Unit-тесты](#unit-тесты)
   - [Storybook](#storybook)
   - [Скриншотные тесты](#скриншотные-тесты)
+  - [Matrix-совместимость](#matrix-совместимость)
 - [Документация](#документация)
 - [Pull Request](#pull-request)
 - [Соглашения](#соглашения)
@@ -48,8 +49,10 @@
 Команды, доступные в проектах:
 
 - `yarn workspace @skbkontur/react-ui <command>` - контролы
-  - `test` — unit-тесты `Jest` + `Enzyme`
+  - `test` — unit-тесты `Vitest` + `React Testing Library`
   - `creevey:ui` — скриншотные тесты `Creevey`
+  - `lint` — `tsc --noEmit` + `oxlint` + `oxfmt`
+  - `creevey:ci` — CI-режим скриншотных тестов
   - `lint` — `tsc --noEmit` + `oxlint` + `oxfmt`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
@@ -63,6 +66,10 @@
   - `test` — unit-тесты
   - `lint` — линтеры + `oxfmt`
   - `storybook` — Storybook
+  - `fix` — форматирование кода по правилам oxlint и oxfmt
+- `yarn workspace react-ui-smoke-test test` - smoke-тест сборки и запуска тестового приложения
+- `yarn set-testing-package-versions` - подменить версии зависимостей для matrix-прогона
+- `yarn reset-testing-package-versions` - вернуть версии зависимостей к состоянию репозитория
   - `fix` — форматирование кода по правилам oxlint и oxfmt
 
 ## Начало работы
@@ -213,7 +220,7 @@ packages/
 
 Unit-тесты хорошо подходят для тестирования логики работы компонентов и утилит. Они довольно дешевы, и, при прочих равных, стоит отдавать предпочтение им.
 
-Для unit-тестирования в проекте используются [Jest](https://jestjs.io/) и [React Testing Library](https://testing-library.com/docs/react-testing-library/intro). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служит команда `yarn workspace @skbkontur/react-ui test`. Её тоже желательно выполнять перед отправкой своих изменений, чтобы убедиться в том, что они не сломали существующие сценарии.
+Для unit-тестирования в проекте используются [Vitest](https://vitest.dev/) и [React Testing Library](https://testing-library.com/docs/react-testing-library/intro). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служат команды `yarn workspace @skbkontur/react-ui test` и `yarn workspace @skbkontur/react-ui-validations test`. Их желательно выполнять перед отправкой своих изменений, чтобы убедиться в том, что они не сломали существующие сценарии.
 
 В проекте также может присутствовать некоторое количество тестов на [Enzyme](https://airbnb.io/enzyme/). В будущем они будут переписаны с использованием React Testing Library. Для новых тестов стоит сразу использовать RTL.
 
@@ -268,6 +275,77 @@ ButtonWithError.parameters = {
 4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace @skbkontur/react-ui creevey --update`
 
 Существующие тесты обновляются тем же образом (шаги 3 и 4).
+
+### Matrix-совместимость
+
+Matrix-тесты проверяют не только текущий стек репозитория, но и совместимость библиотеки с несколькими версиями React. Для этого перед прогоном временно переписываются версии зависимостей, затем выполняется `yarn install`, а после установки проверяется, что в `node_modules` действительно оказались ожидаемые версии пакетов.
+
+#### Что именно проверяется
+
+- `@skbkontur/react-ui`: unit-тесты, сборка, screenshot-тесты
+- `@skbkontur/react-ui-validations`: unit-тесты, сборка, screenshot-тесты
+- `react-ui-smoke-test`: smoke-тест сборки и запуска тестового приложения
+
+#### Локальный прогон matrix-окружения
+
+1. Выберите целевое окружение. Сейчас поддерживаются `REACT_VERSION=16|17|18|19` и `TYPESCRIPT_VERSION=4|5`.
+2. Установите переменные окружения, например:
+
+```bash
+export REACT_VERSION=18
+export TYPESCRIPT_VERSION=5
+```
+
+3. Подмените версии зависимостей под выбранное окружение:
+
+```bash
+yarn set-testing-package-versions
+```
+
+4. Переустановите зависимости:
+
+```bash
+yarn install
+```
+
+5. Убедитесь, что в `node_modules` действительно установились ожидаемые версии:
+
+```bash
+node scripts/testing/verify-installed-package-versions.mts
+```
+
+6. Прогоните нужные проверки:
+
+```bash
+yarn workspace @skbkontur/react-ui test
+yarn workspace @skbkontur/react-ui-validations test
+yarn workspace react-ui-smoke-test test
+```
+
+7. Для screenshot-тестов используйте тот же стек зависимостей:
+
+```bash
+yarn workspace @skbkontur/react-ui storybook:build
+yarn workspace @skbkontur/react-ui creevey:ci
+
+yarn workspace @skbkontur/react-ui-validations storybook:build
+yarn workspace @skbkontur/react-ui-validations creevey:ci
+```
+
+8. После завершения matrix-прогона обязательно верните репозиторий к штатным версиям:
+
+```bash
+yarn reset-testing-package-versions
+yarn install
+```
+
+#### Как правильно интерпретировать результаты
+
+- Проверка `verify-installed-package-versions.mts` читает версии из реально установленных пакетов, а не из `package.json`. Это источник истины для matrix-прогона.
+- Matrix-прогон проверяет runtime-совместимость. Для старых версий React в matrix-режиме допускается пропуск `tsc`, потому что кодовая база типизирована под актуальные React types.
+- Для `React 16` и `React 17` вместе с React меняются и версии testing-library. Если падает unit-тест, сначала проверьте, не завязан ли он слишком жёстко на форму synthetic event или timing тестового раннера.
+- Для `React 18` и `React 19` частая причина падений — асинхронность, `act(...)`, portal/render timing и поведение concurrent rendering.
+- Локальный успех screenshot-теста не гарантирует успех в CI. Финальный baseline для screenshot-тестов нужно проверять и при необходимости переаппрувливать в том же CI-окружении, где тест реально падает.
 
 # Документация
 

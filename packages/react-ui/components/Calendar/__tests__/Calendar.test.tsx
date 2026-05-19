@@ -152,7 +152,9 @@ describe('Calendar', () => {
 
     render(<Calendar value="02.06.2017" onValueChange={vi.fn()} onMonthChange={onMonthChange} ref={refCalendar} />);
 
-    refCalendar.current?.scrollToMonth(month, year);
+    await act(async () => {
+      await refCalendar.current?.scrollToMonth(month, year);
+    });
 
     await waitFor(() => expect(onMonthChange).toHaveReturnedWith({ month, year }), { timeout: 5000 });
   });

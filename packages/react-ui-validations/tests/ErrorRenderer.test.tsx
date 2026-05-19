@@ -26,7 +26,7 @@ describe('ErrorRenderer', () => {
     expect(screen.getByTestId(dataTid)).toBeInTheDocument();
   });
 
-  it('should pass custom data-tid to text', () => {
+  it('should pass custom data-tid to text', async () => {
     const dataTid = 'data-tid';
     render(
       <ValidationWrapper data-tid={dataTid} validationInfo={validate()} renderMessage={text('right')}>
@@ -34,12 +34,12 @@ describe('ErrorRenderer', () => {
       </ValidationWrapper>,
     );
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
 
     expect(screen.getByTestId(dataTid)).toBeInTheDocument();
   });
 
-  it('should not render text error message when validationInfo is not provided', () => {
+  it('should not render text error message when validationInfo is not provided', async () => {
     const dataTid = 'data-tid';
     render(
       <ValidationWrapper data-tid={dataTid} validationInfo={null} renderMessage={text('right')}>
@@ -47,12 +47,12 @@ describe('ErrorRenderer', () => {
       </ValidationWrapper>,
     );
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
 
     expect(screen.getByTestId(dataTid)).toBeEmptyDOMElement();
   });
 
-  it('should not render tooltip error message when validationInfo is not provided', () => {
+  it('should not render tooltip error message when validationInfo is not provided', async () => {
     const dataTid = 'data-tid';
     render(
       <ValidationWrapper data-tid={dataTid} validationInfo={null} renderMessage={tooltip('left bottom')}>
@@ -60,7 +60,7 @@ describe('ErrorRenderer', () => {
       </ValidationWrapper>,
     );
 
-    userEvent.click(screen.getByRole('textbox'));
+    await userEvent.click(screen.getByRole('textbox'));
 
     expect(screen.queryByTestId(dataTid)).not.toBeInTheDocument();
   });

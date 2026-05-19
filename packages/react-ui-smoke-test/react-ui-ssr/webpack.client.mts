@@ -10,9 +10,7 @@ export default {
   module: {
     ...config.module,
 
-    rules: [
-      ...config.module.rules,
-
+    rules: (config.module.rules as unknown[]).concat([
       {
         test: /\.css$/,
         use: [
@@ -28,7 +26,7 @@ export default {
           },
         ],
       },
-    ],
+    ]),
   },
   devServer: {
     contentBase: join(__dirname, './dist'),

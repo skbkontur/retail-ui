@@ -4,6 +4,7 @@
 .DS_Store
 *.code-workspace
 *.orig
+*.matrix-backup
 
 node_modules
 yarn-debug.log
@@ -15,3 +16,4 @@ browsers/
 
 .scannerwork
 /packages/react-ui-validations/reports/
+packages/**/*.tgz

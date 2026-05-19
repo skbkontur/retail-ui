@@ -9,6 +9,10 @@
       "**/react-router"
     ]
   },
+  "resolutions": {
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
+  },
   "scripts": {
     "commit": "git-cz",
     "release": "env-cmd lerna version",
@@ -20,7 +24,8 @@
     "lint-staged": "lint-staged",
     "typecheck-scripts": "tsc -p ./tsconfig.scripts.json",
     "set-testing-package-versions": "node scripts/testing/set-package-versions.mts",
-    "set-testing-package-versions-local": "cross-env REACT_VERSION=17 TYPESCRIPT_VERSION=4 node scripts/testing/set-package-versions.mts"
+    "set-testing-package-versions-local": "cross-env REACT_VERSION=17 TYPESCRIPT_VERSION=4 node scripts/testing/set-package-versions.mts",
+    "reset-testing-package-versions": "node scripts/testing/set-package-versions.mts --reset"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",

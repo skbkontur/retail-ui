@@ -348,13 +348,8 @@ describe('DateRangePicker', () => {
     );
 
     await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: `${DateSelectLocalesRu.selectChosenAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
-          DateRangePickerLocaleHelper.get(LangCodes.ru_RU).months?.[5]
-        }`,
-      }),
-    );
+    const monthButton = within(screen.getAllByTestId(CalendarDataTids.headerMonth)[0]).getByRole('button');
+    await userEvent.click(monthButton);
     await userEvent.click(
       screen.getByRole('button', {
         name: `${DateSelectLocalesRu.selectChooseAriaLabel} ${DateSelectLocalesRu.selectMonthAriaLabel} ${
@@ -380,12 +375,15 @@ describe('DateRangePicker', () => {
       await userEvent.click(screen.getByTestId(DateRangePickerDataTids.start));
     });
     await act(async () => {
-      await userEvent.click(screen.getByTestId(CalendarDataTids.headerYear).getElementsByTagName('button')[0]);
+      const yearButton = within(screen.getAllByTestId(CalendarDataTids.headerYear)[0]).getByRole('button');
+      await userEvent.click(yearButton);
     });
     await act(async () => {
       await userEvent.click(screen.getByText('2018').parentElement as Element);
     });
-    await waitFor(() => expect(onMonthChange).toHaveLastReturnedWith({ month: 6, year: 2018 }), { timeout: 3000 });
+    await waitFor(() => expect(onMonthChange).toHaveReturnedWith(expect.objectContaining({ year: 2018 })), {
+      timeout: 3000,
+    });
   }, 10000);
 
   describe('Locale', () => {

@@ -7,6 +7,16 @@ import { ThemeContext } from '../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../lib/theming/ThemeFactory.js';
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator.js';
 
+declare global {
+  interface Window {
+    __STORYBOOK_REACT_VERSION__?: string;
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.__STORYBOOK_REACT_VERSION__ = React.version;
+}
+
 const customViewports = {
   iphone: {
     name: 'Iphone',

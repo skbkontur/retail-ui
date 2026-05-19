@@ -3,23 +3,34 @@
     "16": {
       "react": "16",
       "react-dom": "16",
-      "@testing-library/react": "12"
+      "@types/react": "16",
+      "@types/react-dom": "16",
+      "@testing-library/react": "12",
+      "@testing-library/dom": "7"
     },
     "17": {
-      "react": "17",
-      "react-dom": "17",
-      "@testing-library/react": "12"
+      "react": "17.0.2",
+      "react-dom": "17.0.2",
+      "@types/react": "17.0.91",
+      "@types/react-dom": "17.0.26",
+      "@testing-library/react": "12.1.5",
+      "@testing-library/dom": "8.20.1"
     },
     "18": {
-      "react": "18",
-      "react-dom": "18",
-      "@testing-library/react": "15"
+      "react": "18.3.1",
+      "react-dom": "18.3.1",
+      "@types/react": "18.3.28",
+      "@types/react-dom": "18.3.7",
+      "@testing-library/react": "15.0.7",
+      "@testing-library/dom": "10.4.1"
     },
     "19": {
-      "react": "19",
-      "react-dom": "19",
-      "@testing-library/react": "16",
-      "@testing-library/dom": "10"
+      "react": "19.2.5",
+      "react-dom": "19.2.5",
+      "@types/react": "19.2.14",
+      "@types/react-dom": "19.2.3",
+      "@testing-library/react": "16.3.2",
+      "@testing-library/dom": "10.4.1"
     }
   },
   "typescript": {

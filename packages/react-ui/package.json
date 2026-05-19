@@ -48,7 +48,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "creevey": "cross-env BABEL_ENV=cjs creevey test -c .creevey/config.mts --storybook-port=6060",
-    "creevey:ci": "start-server-and-test storybook:serve http://localhost:6060 creevey",
+    "verify:storybook-react-runtime": "node ../../scripts/testing/verify-storybook-runtime-react-version.mts",
+    "creevey:ci": "start-server-and-test storybook:serve http://localhost:6060 \"run-s verify:storybook-react-runtime creevey\"",
     "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.mts --update",
     "creevey:ui": "yarn creevey --ui"
   },
