@@ -1,9 +1,8 @@
+import { css } from '@emotion/css';
 import { Tabs } from '@skbkontur/react-ui';
 import React from 'react';
 
-import { useEmotion } from '../../../lib/renderEnvironment/RenderEnvironmentContext.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import { getStyles } from '../Indicator.styles.js';
 
 const meta: Meta = {
   title: 'Display data/Tabs/Tabs',
@@ -86,15 +85,19 @@ export const WidthExample: Story = () => {
   );
 };
 WidthExample.storyName = 'Ширина группы табов';
+
 /**
  * Проп `indicatorClassName` задаёт кастомный класс подчёркивания табов.
  */
 export const CustomizationExample: Story = () => {
   const [active, setActive] = React.useState('inbox');
-  const emotion = useEmotion();
+  const indicatorClassName = css`
+    height: 5px;
+    background-color: orange;
+  `;
 
   return (
-    <Tabs indicatorClassName={getStyles(emotion).customizationExample()} value={active} onValueChange={setActive}>
+    <Tabs indicatorClassName={indicatorClassName} value={active} onValueChange={setActive}>
       <Tabs.Tab id="inbox">Входящие</Tabs.Tab>
       <Tabs.Tab id="sent">Отправленные</Tabs.Tab>
     </Tabs>

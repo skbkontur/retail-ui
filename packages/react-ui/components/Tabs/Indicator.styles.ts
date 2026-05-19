@@ -37,11 +37,4 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       background: ${t.tabColorError};
     `;
   },
-
-  customizationExample() {
-    return css`
-      height: 5px;
-      background-color: orange;
-    `;
-  },
 }));
