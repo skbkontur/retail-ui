@@ -126,7 +126,7 @@ TextSpinner.storyName = 'Text, Spinner';
 
 export const IconSpinner = () => (
   <div>
-    <UiLoadSpinnerIcon16Regular />
+    <IconUiLoadSpinnerRegular16 />
     <Spinner size="small" />
   </div>
 );
