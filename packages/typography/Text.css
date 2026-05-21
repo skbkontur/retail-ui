@@ -134,7 +134,7 @@
 .t-28 {
   font-size: 28px;
   line-height: 36px;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -145,7 +145,7 @@
 .t-32 {
   font-size: 32px;
   line-height: 40px;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -156,7 +156,7 @@
 .t-36 {
   font-size: 36px;
   line-height: 44px;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -167,7 +167,7 @@
 .t-40 {
   font-size: 40px;
   line-height: 48px;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -178,7 +178,7 @@
 .t-48 {
   font-size: 48px;
   line-height: 56px;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -189,7 +189,7 @@
 .t-56 {
   font-size: 56px;
   line-height: 64px;
-  font-weight: 700;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -198,13 +198,13 @@
 }
 
 .t-regular {
-  font-weight: 400 !important;
+  font-weight: 400;
 }
 
 .t-medium {
-  font-weight: 500 !important;
+  font-weight: 500;
 }
 
 .t-bold {
-  font-weight: 700 !important;
+  font-weight: 700;
 }

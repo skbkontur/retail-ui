@@ -3,7 +3,6 @@
     font-size: 12px;
     line-height: 16px;
     margin-bottom: 8px;
-    font-weight: 400;
     wide-line-height: 20px;
     wide-margin-bottom: 10px;
   };
@@ -11,7 +10,6 @@
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 10px;
-    font-weight: 400;
     wide-line-height: 22px;
     wide-margin-bottom: 12px;
   };
@@ -19,7 +17,6 @@
     font-size: 16px;
     line-height: 22px;
     margin-bottom: 12px;
-    font-weight: 400;
     wide-line-height: 24px;
     wide-margin-bottom: 12px;
   };
@@ -27,7 +24,6 @@
     font-size: 18px;
     line-height: 24px;
     margin-bottom: 12px;
-    font-weight: 400;
     wide-line-height: 28px;
     wide-margin-bottom: 14px;
   };
@@ -35,7 +31,6 @@
     font-size: 20px;
     line-height: 28px;
     margin-bottom: 14px;
-    font-weight: 400;
     wide-line-height: 32px;
     wide-margin-bottom: 16px;
   };
@@ -43,7 +38,6 @@
     font-size: 22px;
     line-height: 30px;
     margin-bottom: 14px;
-    font-weight: 400;
     wide-line-height: 34px;
     wide-margin-bottom: 16px;
   };
@@ -51,7 +45,6 @@
     font-size: 24px;
     line-height: 32px;
     margin-bottom: 16px;
-    font-weight: 400;
     wide-line-height: 36px;
     wide-margin-bottom: 18px;
   };
@@ -59,7 +52,6 @@
     font-size: 28px;
     line-height: 36px;
     margin-bottom: 18px;
-    font-weight: 700;
     wide-line-height: null;
     wide-margin-bottom: null;
   };
@@ -67,7 +59,6 @@
     font-size: 32px;
     line-height: 40px;
     margin-bottom: 20px;
-    font-weight: 700;
     wide-line-height: null;
     wide-margin-bottom: null;
   };
@@ -75,7 +66,6 @@
     font-size: 36px;
     line-height: 44px;
     margin-bottom: 22px;
-    font-weight: 700;
     wide-line-height: null;
     wide-margin-bottom: null;
   };
@@ -83,7 +73,6 @@
     font-size: 40px;
     line-height: 48px;
     margin-bottom: 24px;
-    font-weight: 700;
     wide-line-height: null;
     wide-margin-bottom: null;
   };
@@ -91,7 +80,6 @@
     font-size: 48px;
     line-height: 56px;
     margin-bottom: 28px;
-    font-weight: 700;
     wide-line-height: null;
     wide-margin-bottom: null;
   };
@@ -99,7 +87,6 @@
     font-size: 56px;
     line-height: 64px;
     margin-bottom: 32px;
-    font-weight: 700;
     wide-line-height: null;
     wide-margin-bottom: null;
   };
@@ -118,12 +105,12 @@
   font-size: @style[font-size];
 
   .set-weight() when (@weight = default) {
-    font-weight: @style[font-weight];
+    font-weight: 400;
   }
   .set-weight() when not (@weight = default) {
     @weight-key: ~'@{weight}';
     @val: @weights[@@weight-key];
-    font-weight: ~'@{val} !important';
+    font-weight: ~'@{val}';
   }
   .set-weight();
 

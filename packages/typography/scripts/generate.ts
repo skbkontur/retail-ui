@@ -20,7 +20,7 @@ const generateGlobalCss = () => {
 .t-${size} {
   font-size: ${token.fontSize};
   line-height: ${token.lineHeight};
-  font-weight: ${token.fontWeight};
+  font-weight: 400;
   margin: 0;
 }
 
@@ -43,7 +43,7 @@ const generateGlobalCss = () => {
   Object.entries(weightMap).forEach(([name, value]) => {
     cssRules.push(`
 .t-${name} {
-  font-weight: ${value} !important;
+  font-weight: ${value};
 }`);
   });
 
@@ -58,7 +58,7 @@ const generateCssModules = () => {
 .t${size} {
   font-size: ${token.fontSize};
   line-height: ${token.lineHeight};
-  font-weight: ${token.fontWeight};
+  font-weight: 400;
   margin: 0;
 }
 
@@ -81,7 +81,7 @@ const generateCssModules = () => {
   Object.entries(weightMap).forEach(([name, value]) => {
     cssRules.push(`
 .${name} {
-  font-weight: ${value} !important;
+  font-weight: ${value};
 }`);
   });
 
@@ -96,8 +96,7 @@ const generateScss = () => {
   "${size}": (
     "font-size": ${token.fontSize},
     "line-height": ${token.lineHeight},
-    "margin-bottom": ${token.marginBottom},
-    "font-weight": ${token.fontWeight}`;
+    "margin-bottom": ${token.marginBottom}`;
 
     if ('wideLineHeight' in token) {
       entry += `,
@@ -128,9 +127,9 @@ $weights: (
     font-size: map.get($style, "font-size");
     
     @if $weight != null and map.has-key($weights, $weight) {
-      font-weight: map.get($weights, $weight) !important;
+      font-weight: map.get($weights, $weight);
     } @else {
-      font-weight: map.get($style, "font-weight");
+      font-weight: 400;
     }
     
     $line-height: map.get($style, "line-height");
@@ -162,7 +161,6 @@ const generateLess = () => {
     font-size: ${token.fontSize}; 
     line-height: ${token.lineHeight}; 
     margin-bottom: ${token.marginBottom}; 
-    font-weight: ${token.fontWeight};
     wide-line-height: ${'wideLineHeight' in token ? token.wideLineHeight : 'null'};
     wide-margin-bottom: ${'wideMarginBottom' in token ? token.wideMarginBottom : 'null'};
   };`;
@@ -186,12 +184,12 @@ const generateLess = () => {
   font-size: @style[font-size];
   
   .set-weight() when (@weight = default) {
-    font-weight: @style[font-weight];
+    font-weight: 400;
   }
   .set-weight() when not (@weight = default) {
     @weight-key: ~"@{weight}";
     @val: @weights[@@weight-key];
-    font-weight: ~"@{val} !important";
+    font-weight: ~"@{val}";
   }
   .set-weight();
   

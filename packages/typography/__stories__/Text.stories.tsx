@@ -57,25 +57,25 @@ export const Default = () => (
     {getBlockWrapper('p 24px spacer', 'p', 24, false, true)}
     {getBlockWrapper('p 24px spacer wide', 'p', 24, true, true)}
 
-    {getBlockWrapper('p 28px spacer', 'p', 28, false, true)}
+    {getBlockWrapper('p 28px spacer', 'p', 28, false, true, 'bold')}
 
-    {getBlockWrapper('p 32px spacer', 'p', 32, false, true)}
+    {getBlockWrapper('p 32px spacer', 'p', 32, false, true, 'bold')}
 
-    {getBlockWrapper('p 36px spacer', 'p', 36, false, true)}
+    {getBlockWrapper('p 36px spacer', 'p', 36, false, true, 'bold')}
 
-    {getBlockWrapper('p 40px spacer', 'p', 40, false, true)}
+    {getBlockWrapper('p 40px spacer', 'p', 40, false, true, 'bold')}
 
-    {getBlockWrapper('p 48px spacer', 'p', 48, false, true)}
+    {getBlockWrapper('p 48px spacer', 'p', 48, false, true, 'bold')}
 
-    {getBlockWrapper('p 56px spacer', 'p', 56, false, true)}
+    {getBlockWrapper('p 56px spacer', 'p', 56, false, true, 'bold')}
 
     <hr />
 
-    {getBlockWrapper('p 40px', 'p', 40, false, false)}
+    {getBlockWrapper('p 40px', 'p', 40, false, false, 'bold')}
 
-    {getBlockWrapper('p 48px', 'p', 48, false, false)}
+    {getBlockWrapper('p 48px', 'p', 48, false, false, 'bold')}
 
-    {getBlockWrapper('p 56px', 'p', 56, false, false)}
+    {getBlockWrapper('p 56px', 'p', 56, false, false, 'bold')}
   </div>
 );
 
@@ -107,7 +107,7 @@ export const TextWithWeight = () => {
   return (
     <div>
       {getBlockWrapper('p 20px', 'p', 16, false, false)}
-      {getBlockWrapper('p 48px', 'p', 40, false, false)}
+      {getBlockWrapper('p 48px', 'p', 40, false, false, 'bold')}
 
       <hr />
 

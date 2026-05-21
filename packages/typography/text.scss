@@ -5,7 +5,6 @@ $typography: (
     'font-size': 12px,
     'line-height': 16px,
     'margin-bottom': 8px,
-    'font-weight': 400,
     'wide-line-height': 20px,
     'wide-margin-bottom': 10px,
   ),
@@ -13,7 +12,6 @@ $typography: (
     'font-size': 14px,
     'line-height': 20px,
     'margin-bottom': 10px,
-    'font-weight': 400,
     'wide-line-height': 22px,
     'wide-margin-bottom': 12px,
   ),
@@ -21,7 +19,6 @@ $typography: (
     'font-size': 16px,
     'line-height': 22px,
     'margin-bottom': 12px,
-    'font-weight': 400,
     'wide-line-height': 24px,
     'wide-margin-bottom': 12px,
   ),
@@ -29,7 +26,6 @@ $typography: (
     'font-size': 18px,
     'line-height': 24px,
     'margin-bottom': 12px,
-    'font-weight': 400,
     'wide-line-height': 28px,
     'wide-margin-bottom': 14px,
   ),
@@ -37,7 +33,6 @@ $typography: (
     'font-size': 20px,
     'line-height': 28px,
     'margin-bottom': 14px,
-    'font-weight': 400,
     'wide-line-height': 32px,
     'wide-margin-bottom': 16px,
   ),
@@ -45,7 +40,6 @@ $typography: (
     'font-size': 22px,
     'line-height': 30px,
     'margin-bottom': 14px,
-    'font-weight': 400,
     'wide-line-height': 34px,
     'wide-margin-bottom': 16px,
   ),
@@ -53,7 +47,6 @@ $typography: (
     'font-size': 24px,
     'line-height': 32px,
     'margin-bottom': 16px,
-    'font-weight': 400,
     'wide-line-height': 36px,
     'wide-margin-bottom': 18px,
   ),
@@ -61,37 +54,31 @@ $typography: (
     'font-size': 28px,
     'line-height': 36px,
     'margin-bottom': 18px,
-    'font-weight': 700,
   ),
   '32': (
     'font-size': 32px,
     'line-height': 40px,
     'margin-bottom': 20px,
-    'font-weight': 700,
   ),
   '36': (
     'font-size': 36px,
     'line-height': 44px,
     'margin-bottom': 22px,
-    'font-weight': 700,
   ),
   '40': (
     'font-size': 40px,
     'line-height': 48px,
     'margin-bottom': 24px,
-    'font-weight': 700,
   ),
   '48': (
     'font-size': 48px,
     'line-height': 56px,
     'margin-bottom': 28px,
-    'font-weight': 700,
   ),
   '56': (
     'font-size': 56px,
     'line-height': 64px,
     'margin-bottom': 32px,
-    'font-weight': 700,
   ),
 ) !default;
 
@@ -108,9 +95,9 @@ $weights: (
     font-size: map.get($style, 'font-size');
 
     @if $weight != null and map.has-key($weights, $weight) {
-      font-weight: map.get($weights, $weight) !important;
+      font-weight: map.get($weights, $weight);
     } @else {
-      font-weight: map.get($style, 'font-weight');
+      font-weight: 400;
     }
 
     $line-height: map.get($style, 'line-height');

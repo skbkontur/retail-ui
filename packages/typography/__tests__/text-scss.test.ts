@@ -36,8 +36,8 @@ describe('text.scss mixin', () => {
     expect(css).toContain('margin-bottom: 0');
   });
 
-  it('should apply weight with !important when specified', () => {
+  it('should apply weight', () => {
     const css = renderScss('.test { @include t(16, $weight: "bold"); }');
-    expect(css).toContain('font-weight: 700 !important;');
+    expect(css).toContain('font-weight: 700;');
   });
 });
