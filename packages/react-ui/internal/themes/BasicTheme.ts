@@ -2056,6 +2056,9 @@ export class BasicThemeClass {
   }
   public static textareaCounterColor = colors.textNeutralSoft;
   public static textareaCounterBg = 'transparent';
+  public static textareaCounterBorderRadius = '4px';
+  public static textareaCounterPaddingY = '2px';
+  public static textareaCounterPaddingX = '4px';
   public static get textareaCounterErrorColor() {
     return this.errorText;
   }

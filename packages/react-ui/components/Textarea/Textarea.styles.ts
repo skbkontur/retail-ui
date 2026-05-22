@@ -179,6 +179,12 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       border-radius: 2px;
     `;
   },
+  counter6_1(t: Theme) {
+    return css`
+      border-radius: ${t.textareaCounterBorderRadius};
+      padding: ${t.textareaCounterPaddingY} ${t.textareaCounterPaddingX};
+    `;
+  },
 
   counterError(t: Theme) {
     return css`
