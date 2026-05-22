@@ -36,7 +36,7 @@ import { PopupPin } from './PopupPin.js';
 
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'];
+export const PopupNonPinnablePositions = ['middle center', 'middle left', 'middle right'] as const;
 
 export const PopupPinnablePositions = [
   'top center',
@@ -51,7 +51,7 @@ export const PopupPinnablePositions = [
   'right middle',
   'right top',
   'right bottom',
-];
+] as const;
 
 export const PopupPositions = [...PopupPinnablePositions, ...PopupNonPinnablePositions] as const;
 
@@ -60,6 +60,12 @@ export const DefaultPosition = PopupPositions[0];
 export type PopupPositionsType = (typeof PopupPositions)[number];
 export type PopupPinnablePositionsType = (typeof PopupPinnablePositions)[number];
 export type ShortPopupPositionsType = 'top' | 'bottom' | 'left' | 'right';
+
+const isPopupNonPinnablePosition = (
+  position: PopupPositionsType,
+): position is (typeof PopupNonPinnablePositions)[number] => {
+  return (PopupNonPinnablePositions as readonly PopupPositionsType[]).includes(position);
+};
 
 export const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
@@ -589,14 +595,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     this.lastPopupContentElement = element;
   };
 
-  private renderPin(positionName: string): React.ReactNode {
+  private renderPin(positionName: PopupPositionsType): React.ReactNode {
     const { pinSize, backgroundColor } = this.props;
     const { hasPin } = this.getProps();
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
       hasPin &&
-      !PopupNonPinnablePositions.includes(positionName) && (
+      !isPopupNonPinnablePosition(positionName) && (
         <PopupPin
           popupElement={this.lastPopupContentElement}
           popupPosition={positionName}

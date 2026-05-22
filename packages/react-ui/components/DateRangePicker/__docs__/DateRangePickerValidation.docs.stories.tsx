@@ -43,7 +43,7 @@ export const ExampleValidations: Story = () => {
         <br />в формате ДД.ММ.ГГГГ
       </>
     ),
-    pos: 'top left',
+    pos: 'top left' as const,
     closeButton: false,
   };
 

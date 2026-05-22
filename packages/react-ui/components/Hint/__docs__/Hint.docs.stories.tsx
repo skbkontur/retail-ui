@@ -51,7 +51,7 @@ export const ExampleAllowedPositions: Story = () => {
   return (
     <Hint
       pos={'right middle'}
-      allowedPositions={['right middle', 'top', 'bottom']}
+      allowedPositions={['right middle', 'top center', 'bottom center']}
       text="Подсказка, которая может вылезти за экран"
     >
       <div style={{ border: '1px black solid', padding: '4px', textAlign: 'center' }}>Элемент</div>
