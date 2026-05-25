@@ -1,4 +1,3 @@
-import { css } from '@emotion/css';
 import { Tabs } from '@skbkontur/react-ui';
 import React from 'react';
 
@@ -91,16 +90,15 @@ WidthExample.storyName = 'Ширина группы табов';
  */
 export const CustomizationExample: Story = () => {
   const [active, setActive] = React.useState('inbox');
-  const indicatorClassName = css`
-    height: 5px;
-    background-color: orange;
-  `;
 
   return (
-    <Tabs indicatorClassName={indicatorClassName} value={active} onValueChange={setActive}>
-      <Tabs.Tab id="inbox">Входящие</Tabs.Tab>
-      <Tabs.Tab id="sent">Отправленные</Tabs.Tab>
-    </Tabs>
+    <>
+      <style>{`.indicatorClassName { height: 5px; background-color: orange; }`}</style>
+      <Tabs indicatorClassName="indicatorClassName" value={active} onValueChange={setActive}>
+        <Tabs.Tab id="inbox">Входящие</Tabs.Tab>
+        <Tabs.Tab id="sent">Отправленные</Tabs.Tab>
+      </Tabs>
+    </>
   );
 };
 CustomizationExample.storyName = 'Кастомизация: стиль подчёркивания табов в группе';
