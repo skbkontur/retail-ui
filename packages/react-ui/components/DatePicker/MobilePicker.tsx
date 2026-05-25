@@ -67,6 +67,7 @@ export const MobilePicker: React.FC<MobilePickerProps> = (props) => {
     <ThemeContext.Provider value={theme}>
       <MobilePopup
         opened
+        verticalAlign={'center'}
         headerChildComponent={
           <DateInput
             value={props.value || ''}

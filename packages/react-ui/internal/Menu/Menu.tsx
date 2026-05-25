@@ -20,6 +20,7 @@ import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import { isNonNullable } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import type { CommonProps } from '../CommonWrapper/index.js';
@@ -222,6 +223,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
     };
 
     const isMobile = this.isMobileLayout;
+    const themeGTE6_1 = isThemeGTE(this.theme, '6.1');
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
@@ -230,6 +232,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
             [this.styles.root(this.theme)]: true,
             [this.styles.hasMargin(this.theme)]: hasMargin,
             [this.styles.mobileRoot(this.theme)]: isMobile,
+            [this.styles.mobileRoot_6_1()]: themeGTE6_1 && isMobile,
             [this.styles.shadow(this.theme)]: !isMobile,
           })}
           style={this.getStyle(this.props)}

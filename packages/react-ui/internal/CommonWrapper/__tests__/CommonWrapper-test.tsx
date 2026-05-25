@@ -30,4 +30,16 @@ describe('CommonWrapper', () => {
     expect(element).not.toHaveAttribute('data-visual-state-disabled');
     expect(element).not.toHaveAttribute('data-visual-state-hover');
   });
+
+  it('should throw a warning if there is more than one child', () => {
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    render(
+      <CommonWrapper>
+        <div>Child 1</div>
+        <div>Child 2</div>
+      </CommonWrapper>,
+    );
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy.mock.calls[0][0]).toContain('CommonWrapper expects a single child');
+  });
 });

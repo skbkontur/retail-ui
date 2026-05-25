@@ -227,6 +227,22 @@ export const WithManualPosition: Story = () => {
 };
 WithManualPosition.storyName = 'with manual position';
 
+export const MobileSize = () => (
+  <>
+    <UncontrolledAutocomplete size={'small'} source={['One', 'Two', 'Three']} />
+    <span>With caption</span>
+    <UncontrolledAutocomplete size={'medium'} source={['One', 'Two', 'Three']} />
+    <span>With many items</span>
+    <UncontrolledAutocomplete size={'large'} source={['One', 'Two', 'Three']} />
+  </>
+);
+MobileSize.title = 'Mobile autocomplete size stories';
+MobileSize.parameters = {
+  MobileSize: {
+    defaultViewport: 'iphone',
+  },
+};
+
 export const Size = () => {
   const source = [
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',

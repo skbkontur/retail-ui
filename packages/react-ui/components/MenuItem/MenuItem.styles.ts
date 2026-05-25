@@ -76,6 +76,28 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  rootMobileLarge(t: Theme) {
+    return css`
+      font-size: ${t.mobileMenuItemFontSizeLarge};
+      line-height: ${t.mobileMenuItemLineHeightLarge};
+      padding: ${t.mobileMenuItemPaddingLarge};
+    `;
+  },
+  rootMobileMedium(t: Theme) {
+    return css`
+      font-size: ${t.mobileMenuItemFontSizeMedium};
+      line-height: ${t.mobileMenuItemLineHeightMedium};
+      padding: ${t.mobileMenuItemPaddingMedium};
+    `;
+  },
+  rootMobileSmall(t: Theme) {
+    return css`
+      font-size: ${t.mobileMenuItemFontSizeSmall};
+      line-height: ${t.mobileMenuItemLineHeightSmall};
+      padding: ${t.mobileMenuItemPaddingSmall};
+    `;
+  },
+
   hover(t: Theme) {
     // Color with !important in purpose to override `a:hover`
     return css`

@@ -28,6 +28,30 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  rootMobileLarge(t: Theme) {
+    return css`
+      font-size: ${t.mobileMenuMessageFontSizeLarge};
+      line-height: ${t.mobileMenuMessageLineHeightLarge};
+      padding: ${t.mobileMenuMessagePaddingLarge};
+    `;
+  },
+
+  rootMobileMedium(t: Theme) {
+    return css`
+      font-size: ${t.mobileMenuMessageFontSizeMedium};
+      line-height: ${t.mobileMenuMessageLineHeightMedium};
+      padding: ${t.mobileMenuMessagePaddingMedium};
+    `;
+  },
+
+  rootMobileSmall(t: Theme) {
+    return css`
+      font-size: ${t.mobileMenuMessageFontSizeSmall};
+      line-height: ${t.mobileMenuMessageLineHeightSmall};
+      padding: ${t.mobileMenuMessagePaddingSmall};
+    `;
+  },
+
   rootSmall(t: Theme) {
     return css`
       font-size: ${t.menuMessageFontSizeSmall};

@@ -1399,13 +1399,43 @@ export class BasicThemeClass {
     return this.menuItemTextColor;
   }
   public static menuItemDisplay = 'block';
-  public static menuItemPaddingMobile = '12px 16px';
-  public static get menuItemLineHeightMobile(): string {
+  public static mobileMenuItemPaddingLarge = '12px 16px';
+  public static mobileMenuItemPaddingMedium = '12px 16px';
+  public static mobileMenuItemPaddingSmall = '12px 16px';
+
+  public static get mobileMenuItemLineHeightLarge(): string {
     return this.lineHeightMobile;
   }
+
+  public static get mobileMenuItemLineHeightMedium(): string {
+    return this.lineHeightMobile;
+  }
+
+  public static get mobileMenuItemLineHeightSmall(): string {
+    return this.lineHeightMobile;
+  }
+
+  public static get mobileMenuItemFontSizeLarge(): string {
+    return this.fontSizeMobile;
+  }
+
+  public static get mobileMenuItemFontSizeMedium(): string {
+    return this.fontSizeMobile;
+  }
+
+  public static get mobileMenuItemFontSizeSmall(): string {
+    return this.fontSizeMobile;
+  }
+
   public static get menuItemFontSizeMobile(): string {
     return this.fontSizeMobile;
   }
+
+  public static get menuItemLineHeightMobile(): string {
+    return this.lineHeightMobile;
+  }
+
+  public static menuItemPaddingMobile = '12px 16px';
   public static get menuItemDisabledColor(): string {
     return this.textColorDisabled;
   }
@@ -1426,17 +1456,55 @@ export class BasicThemeClass {
   public static get menuMessageDisplay(): string {
     return this.menuItemDisplay;
   }
-  public static get menuMessagePaddingMobile(): string {
-    return this.menuItemPaddingMobile;
+
+  public static get menuMessageFontSizeMobile(): string {
+    return this.menuItemFontSizeMobile;
   }
 
   public static get menuMessageLineHeightMobile(): string {
     return this.menuItemLineHeightMobile;
   }
 
-  public static get menuMessageFontSizeMobile(): string {
-    return this.menuItemFontSizeMobile;
+  public static get menuMessagePaddingMobile(): string {
+    return this.menuItemPaddingMobile;
   }
+
+  public static get mobileMenuMessagePaddingLarge(): string {
+    return this.mobileMenuItemPaddingLarge;
+  }
+
+  public static get mobileMenuMessagePaddingMedium(): string {
+    return this.mobileMenuItemPaddingMedium;
+  }
+
+  public static get mobileMenuMessagePaddingSmall(): string {
+    return this.mobileMenuItemPaddingSmall;
+  }
+
+  public static get mobileMenuMessageLineHeightLarge(): string {
+    return this.lineHeightMobile;
+  }
+
+  public static get mobileMenuMessageLineHeightMedium(): string {
+    return this.lineHeightMobile;
+  }
+
+  public static get mobileMenuMessageLineHeightSmall(): string {
+    return this.lineHeightMobile;
+  }
+
+  public static get mobileMenuMessageFontSizeLarge(): string {
+    return this.fontSizeMobile;
+  }
+
+  public static get mobileMenuMessageFontSizeMedium(): string {
+    return this.fontSizeMobile;
+  }
+
+  public static get mobileMenuMessageFontSizeSmall(): string {
+    return this.fontSizeMobile;
+  }
+
   public static get menuMessageFontSizeSmall(): string {
     return this.menuItemFontSizeSmall;
   }
@@ -2373,9 +2441,27 @@ export class BasicThemeClass {
   }
   //#endregion
   //#region MobilePopup
+
   public static mobilePopupTopPadding = '80px';
   public static mobilePopupContainerBottomPadding = '8px';
+
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
+
+  public static mobilePopupPositionX = '0px';
+  public static mobilePopupPositionY = '0px';
+
+  public static mobilePopupPaddingSmall = '8px';
+  public static mobilePopupPaddingMedium = '8px';
+  public static mobilePopupPaddingLarge = '8px';
+
+  public static mobilePopupHeaderPaddingSmall = '0px';
+  public static mobilePopupHeaderPaddingMedium = '0px';
+  public static mobilePopupHeaderPaddingLarge = '0px';
+
+  public static mobilePopupFooterPaddingSmall = '0px';
+  public static mobilePopupFooterPaddingMedium = '0px';
+  public static mobilePopupFooterPaddingLarge = '0px';
+
   public static mobilePopupFooterPadding = '16px 16px 16px 16px';
   public static mobilePopupContainerBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize(): string {

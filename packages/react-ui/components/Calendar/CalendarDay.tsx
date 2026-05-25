@@ -61,7 +61,7 @@ export const CalendarDay = memo(
       const theme = useContext(ThemeContext);
       const { cx } = useEmotion();
       const styles = useStyles(getStyles);
-      const isTheme6_1 = isThemeGTE(theme, '6.1');
+      const themeGTE6_1 = isThemeGTE(theme, '6.1');
 
       const { langCode } = useContext(LocaleContext);
       const internalDate = new InternalDate({ langCode, value: date });
@@ -93,7 +93,7 @@ export const CalendarDay = memo(
               [styles.day(theme)]: true,
               [styles.weekend(theme)]: isWeekend,
               [styles.selected(theme)]: isSelected,
-              [styles.selected_6_1(theme)]: isSelected && isTheme6_1,
+              [styles.selected_6_1(theme)]: isSelected && themeGTE6_1,
             },
             className,
           )}

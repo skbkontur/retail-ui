@@ -21,6 +21,7 @@ import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { getRandomID, isNullable } from '../../lib/utils.js';
 import type { Nullable, Override } from '../../typings/utility-types.js';
@@ -270,17 +271,18 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderHints(): React.ReactNode {
     const items = this.state.items;
+    const themeDependantProps = isThemeGTE(this.theme, '6.1') ? { size: this.size } : {};
 
     if (!this.props.value) {
-      return <MenuMessage>{this.locale.enterValue}</MenuMessage>;
+      return <MenuMessage {...themeDependantProps}>{this.locale.enterValue}</MenuMessage>;
     }
 
     if (items?.length === 0 && this.props.value) {
-      return <MenuMessage>{this.locale.notFound}</MenuMessage>;
+      return <MenuMessage {...themeDependantProps}>{this.locale.notFound}</MenuMessage>;
     }
 
     if (isNullable(items) && this.props.value) {
-      return <MenuMessage>{this.locale.updateValue}</MenuMessage>;
+      return <MenuMessage {...themeDependantProps}>{this.locale.updateValue}</MenuMessage>;
     }
 
     return null;
@@ -348,14 +350,24 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       inputMode: this.props.inputMode,
       'aria-label': this.props['aria-label'],
       'aria-controls': this.menuId,
+      size: isThemeGTE(this.theme, '6.1') ? this.size : undefined,
     };
 
     const items = this.state.items;
 
+    const themeDependantProps = isThemeGTE(this.theme, '6.1')
+      ? {
+          footerChildComponent: this.getInput(inputProps),
+          size: this.size,
+        }
+      : {
+          headerChildComponent: this.getInput(inputProps),
+        };
+
     return (
       <MobilePopup
         id={this.menuId}
-        headerChildComponent={this.getInput(inputProps)}
+        {...themeDependantProps}
         caption={this.props.mobileMenuHeaderText}
         opened={this.state.isMobileOpened}
         onCloseRequest={this.handleCloseMobile}

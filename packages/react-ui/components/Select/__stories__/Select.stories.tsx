@@ -17,7 +17,7 @@ const mobileDecorator = (Story: () => JSX.Element) => {
   return (
     <div
       style={{
-        width: '475px',
+        width: '500px',
         height: '100vh',
       }}
     >

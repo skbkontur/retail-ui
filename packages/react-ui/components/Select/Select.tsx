@@ -32,6 +32,7 @@ import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { getRandomID, isFunction, isNonNullable, isReactUINode } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
@@ -609,9 +610,19 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getMobileSearch() : null;
     const value = this.getValue();
 
+    const themeGTE6_1 = isThemeGTE(this.theme, '6.1');
+    const themeDependentProps = themeGTE6_1
+      ? {
+          footerChildComponent: search,
+          size: this.size,
+        }
+      : {
+          headerChildComponent: search,
+        };
+
     return (
       <MobilePopup
-        headerChildComponent={search}
+        {...themeDependentProps}
         caption={this.props.mobileMenuHeaderText}
         onCloseRequest={this.close}
         opened={this.state.opened}

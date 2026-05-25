@@ -283,6 +283,7 @@ export const DateRangePicker = Object.assign(
     const renderMobileCalendar = (theme: Theme) => (
       <MobilePopup
         opened
+        verticalAlign={'center'}
         headerChildComponent={
           <div className={cx(styles.root(theme), styles.inputWrapperWidthFull())}>
             <DateInput

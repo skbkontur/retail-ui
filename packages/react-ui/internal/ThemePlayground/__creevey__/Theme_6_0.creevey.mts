@@ -25,4 +25,91 @@ kind('ThemeVersions/6_0', () => {
       await context.matchImage(await context.takeScreenshot(), 'selected weekend date hover');
     });
   });
+
+  story('AutocompleteMobile6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'mobile only': { in: /^(?!\b(chromeMobile)\b)/ },
+      },
+      captureElement: null,
+    });
+
+    test('opened', async (context) => {
+      const page = context.webdriver;
+      await page.waitForTimeout(500);
+      await page.locator(`${tid('Autocomplete__root')} input`).click();
+      await page.locator(tid('MobilePopup__root')).waitFor();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
+
+  story('SelectMobile6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'mobile only': { in: /^(?!\b(chromeMobile)\b)/ },
+      },
+      captureElement: null,
+    });
+
+    test('opened', async (context) => {
+      const page = context.webdriver;
+      await page.waitForTimeout(500);
+      await page.locator(tid('Select__label')).click();
+      await page.locator(tid('MobilePopup__root')).waitFor();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
+
+  story('DatePickerMobile6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'mobile only': { in: /^(?!\b(chromeMobile)\b)/ },
+      },
+      captureElement: null,
+    });
+
+    test('MobilePicker on iphone opened', async (context) => {
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DatePicker__label')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'MobilePicker on iphone opened');
+    });
+  });
+
+  story('DateRangePickerMobile6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'mobile only': { in: /^(?!\b(chromeMobile)\b)/ },
+      },
+      captureElement: null,
+    });
+
+    test('MobilePicker on iphone opened', async (context) => {
+      const page = context.webdriver;
+      await page.waitForTimeout(1000);
+      await page.locator(tid('DateRangePicker__start')).click();
+      await page.waitForTimeout(2000);
+      await context.matchImage(await context.takeScreenshot(), 'MobilePicker on iphone opened');
+    });
+  });
+
+  story('ComboBoxMobile6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'mobile only': { in: /^(?!\b(chromeMobile)\b)/ },
+      },
+      captureElement: null,
+    });
+
+    test('opened', async (context) => {
+      const page = context.webdriver;
+      await page.waitForTimeout(500);
+      await page.locator(tid('ComboBoxView__root')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
 });

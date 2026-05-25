@@ -8,6 +8,8 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { rootNode } from '../../lib/rootNode/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
+import type { SizeProp } from '../../lib/types/props.js';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll/index.js';
 import { RenderContainer } from '../RenderContainer/index.js';
 import { RenderLayer } from '../RenderLayer/index.js';
@@ -45,6 +47,11 @@ interface MobilePopupProps extends Pick<HTMLAttributes<HTMLDivElement>, 'id'> {
    * Позволяет контролировать текущее состояние всплывающего окна
    */
   opened: boolean;
+  /**
+   * Позволяет отрисовать попап по центру экрана
+   */
+  verticalAlign?: 'center' | 'bottom';
+  size?: SizeProp;
   children?: React.ReactNode;
 }
 
@@ -65,6 +72,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   public static readonly defaultRootNode = null;
 
   private emotion!: Emotion;
+  private cx!: Emotion['cx'];
   private jsStyles!: ReturnType<typeof getJsStyles>;
   private theme!: Theme;
   public getRootNode!: TGetRootNode;
@@ -83,6 +91,8 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   }
 
   public renderMain() {
+    const themeGTE6_1 = isThemeGTE(this.theme, '6.1');
+    const align = this.props.verticalAlign ?? 'bottom';
     const content = (
       <ZIndex id={this.props.id} className={this.jsStyles.zIndex()} priority={'MobilePopup'}>
         <Transition
@@ -93,31 +103,65 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
           timeout={0}
           nodeRef={this.refForTransition}
         >
-          <div className={this.jsStyles.wrapper()} ref={this.refForTransition}>
-            <RenderLayer onClickOutside={this.close}>
-              <div
-                ref={this.setRootNode}
-                data-tid={MobilePopupDataTids.container}
-                className={this.jsStyles.container(this.theme)}
-              >
-                <div data-tid={MobilePopupDataTids.root} className={this.jsStyles.root(this.theme)}>
-                  <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
-                  <div className={this.jsStyles.content(this.theme)}>{this.props.children}</div>
-                  <MobilePopupFooter>{this.props.footerChildComponent}</MobilePopupFooter>
+          {themeGTE6_1 ? (
+            <div className={this.jsStyles.wrapper_6_1(this.theme)} ref={this.refForTransition}>
+              <RenderLayer onClickOutside={this.close}>
+                <div
+                  ref={this.setRootNode}
+                  data-tid={MobilePopupDataTids.container}
+                  className={this.cx(
+                    this.jsStyles.containerBase_6_1(this.theme),
+                    align === 'bottom' && this.jsStyles.containerBottom_6_1(this.theme),
+                  )}
+                >
+                  <div data-tid={MobilePopupDataTids.root} className={this.jsStyles.root_6_1(this.theme)}>
+                    <MobilePopupHeader size={this.props.size} caption={this.props.caption}>
+                      {this.props.headerChildComponent}
+                    </MobilePopupHeader>
+                    <div className={this.getContentClassName_6_1()}>{this.props.children}</div>
+                    <MobilePopupFooter size={this.props.size}>{this.props.footerChildComponent}</MobilePopupFooter>
+                  </div>
                 </div>
-                <div onClick={this.close} className={this.jsStyles.bottomIndent()} />
-              </div>
-            </RenderLayer>
-            <div
-              data-tid={MobilePopupDataTids.backdrop}
-              className={this.jsStyles.bg()}
-              onClick={this.backdropClick}
-              onMouseDown={this.backdropStopPropagation}
-              onPointerDownCapture={this.backdropStopPropagation}
-              onPointerUpCapture={this.backdropStopPropagation}
-            />
-            <HideBodyVerticalScroll />
-          </div>
+              </RenderLayer>
+              <div
+                data-tid={MobilePopupDataTids.backdrop}
+                className={this.jsStyles.bg()}
+                onClick={this.backdropClick}
+                onMouseDown={this.backdropStopPropagation}
+                onPointerDownCapture={this.backdropStopPropagation}
+                onPointerUpCapture={this.backdropStopPropagation}
+              />
+              <HideBodyVerticalScroll />
+            </div>
+          ) : (
+            <div className={this.jsStyles.wrapper()} ref={this.refForTransition}>
+              <RenderLayer onClickOutside={this.close}>
+                <div
+                  ref={this.setRootNode}
+                  data-tid={MobilePopupDataTids.container}
+                  className={this.jsStyles.container(this.theme)}
+                >
+                  <div data-tid={MobilePopupDataTids.root} className={this.jsStyles.root(this.theme)}>
+                    <MobilePopupHeader caption={this.props.caption}>
+                      {this.props.headerChildComponent}
+                    </MobilePopupHeader>
+                    <div className={this.jsStyles.content(this.theme)}>{this.props.children}</div>
+                    <MobilePopupFooter>{this.props.footerChildComponent}</MobilePopupFooter>
+                  </div>
+                  <div onClick={this.close} className={this.jsStyles.bottomIndent()} />
+                </div>
+              </RenderLayer>
+              <div
+                data-tid={MobilePopupDataTids.backdrop}
+                className={this.jsStyles.bg()}
+                onClick={this.backdropClick}
+                onMouseDown={this.backdropStopPropagation}
+                onPointerDownCapture={this.backdropStopPropagation}
+                onPointerUpCapture={this.backdropStopPropagation}
+              />
+              <HideBodyVerticalScroll />
+            </div>
+          )}
         </Transition>
       </ZIndex>
     );
@@ -147,5 +191,18 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
   private backdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     this.backdropStopPropagation(event);
     this.close();
+  };
+
+  private getContentClassName_6_1 = (): string => {
+    switch (this.props.size) {
+      case 'small':
+        return this.jsStyles.contentSmall_6_1(this.theme);
+      case 'medium':
+        return this.jsStyles.contentMedium_6_1(this.theme);
+      case 'large':
+        return this.jsStyles.contentLarge_6_1(this.theme);
+      default:
+        return this.jsStyles.contentSmall_6_1(this.theme);
+    }
   };
 }

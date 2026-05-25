@@ -4,6 +4,7 @@ import { useResponsiveLayout } from '../../components/ResponsiveLayout/index.js'
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import type { CommonProps } from '../CommonWrapper/index.js';
 import { getStyles } from './MenuMessage.styles.js';
@@ -26,7 +27,7 @@ export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>
     const { cx } = useEmotion();
     const styles = useStyles(getStyles);
     const theme = useContext(ThemeContext);
-
+    const themeGTE6_1 = isThemeGTE(theme, '6.1');
     const getMenuMessageSizeClassName = () => {
       switch (size) {
         case 'large':
@@ -39,6 +40,21 @@ export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>
       }
     };
 
+    const getMenuMessageSizeMobileClassName = (): string => {
+      if (!themeGTE6_1) {
+        return cx(styles.rootMobile(theme));
+      }
+      switch (size) {
+        case 'large':
+          return cx(styles.rootMobileLarge(theme));
+        case 'medium':
+          return cx(styles.rootMobileMedium(theme));
+        case 'small':
+        default:
+          return cx(styles.rootMobileSmall(theme));
+      }
+    };
+
     return (
       <Tag
         ref={ref}
@@ -47,7 +63,7 @@ export const MenuMessage = forwardRefAndName<HTMLOrSVGElement, MenuMessageProps>
           getMenuMessageSizeClassName(),
           {
             [styles.root(theme)]: true,
-            [styles.rootMobile(theme)]: isMobile,
+            [getMenuMessageSizeMobileClassName()]: isMobile,
           },
           className,
         )}

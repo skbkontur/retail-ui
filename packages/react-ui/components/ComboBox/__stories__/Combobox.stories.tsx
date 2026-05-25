@@ -786,6 +786,20 @@ MobileSimple.parameters = {
   },
 };
 
+export const MobileSize: Story = () => (
+  <>
+    <SimpleCombobox size={'small'} />
+    <SimpleCombobox size={'medium'} />
+    <SimpleCombobox size={'large'} />
+  </>
+);
+MobileSize.storyName = 'mobile size';
+MobileSize.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
 export const WithManualPosition: Story = () => {
   const [menuPos, setMenuPos] = React.useState<'top' | 'bottom'>('top');
   const [isPortalDisabled, setIsPortalDisabled] = React.useState(false);

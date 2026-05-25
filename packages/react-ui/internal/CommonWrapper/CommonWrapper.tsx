@@ -1,5 +1,6 @@
 import type { Emotion } from '@emotion/css/create-instance';
 import React from 'react';
+import warning from 'warning';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef.js';
 import { getElementRef } from '../../lib/getElementRef.js';
@@ -31,6 +32,11 @@ export class CommonWrapper<P extends CommonPropsWithRootNodeRef> extends React.C
   render() {
     const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
+
+    // TODO: replace count with only in 7.0
+    if (React.Children.count(this.child) > 1) {
+      warning(false, 'CommonWrapper expects a single child');
+    }
 
     const getChildProps = (child: React.ReactElement<CommonProps & React.RefAttributes<any>>) => {
       const childProps: Record<string, unknown> = {

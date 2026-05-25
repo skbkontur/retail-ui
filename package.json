@@ -9,10 +9,6 @@
       "**/react-router"
     ]
   },
-  "resolutions": {
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
-  },
   "scripts": {
     "commit": "git-cz",
     "release": "env-cmd lerna version",
@@ -43,6 +39,10 @@
     "oxlint": "^1.59.0",
     "publint": "^0.3.15",
     "typescript": "5.9.3"
+  },
+  "resolutions": {
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
   },
   "config": {
     "commitizen": {

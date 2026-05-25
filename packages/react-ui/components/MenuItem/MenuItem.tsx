@@ -16,6 +16,7 @@ import { rootNode } from '../../lib/rootNode/index.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
@@ -202,6 +203,22 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
   };
 
+  private getRootMobileSizeClassName(): string {
+    const themeGTE6_1 = isThemeGTE(this.theme, '6.1');
+    if (!themeGTE6_1) {
+      return this.styles.rootMobile(this.theme);
+    }
+    switch (this.props.size) {
+      case 'large':
+        return this.styles.rootMobileLarge(this.theme);
+      case 'medium':
+        return this.styles.rootMobileMedium(this.theme);
+      case 'small':
+      default:
+        return this.styles.rootMobileSmall(this.theme);
+    }
+  }
+
   private getRootSizeClassName() {
     switch (this.size) {
       case 'large':
@@ -280,7 +297,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     const className = this.cx({
       [this.styles.root(this.theme)]: true,
       [this.getRootSizeClassName()]: true,
-      [this.styles.rootMobile(this.theme)]: isMobile,
+      [this.getRootMobileSizeClassName()]: isMobile,
       [this.styles.loose()]: !!loose,
       [this.styles.hover(this.theme)]: this.isHover,
       [this.styles.selected(this.theme)]: this.isSelected,

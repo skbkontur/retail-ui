@@ -19,6 +19,7 @@ import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
 import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { getRandomID, isNonNullable } from '../../lib/utils.js';
 import type { Nullable } from '../../typings/utility-types.js';
@@ -324,6 +325,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       rightIcon = this.renderSpinner();
     }
 
+    const themeGTE6_1 = isThemeGTE(this.theme, '6.1');
     const inputProps: InputProps = {
       autoComplete: 'off',
       autoFocus: true,
@@ -334,15 +336,21 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       value: textValue,
       placeholder,
       rightIcon,
+      size: themeGTE6_1 ? this.size : undefined,
     };
+
+    const themeDependantProps = themeGTE6_1
+      ? {
+          footerChildComponent: <Input ref={this.refMobileInput} {...inputProps} />,
+          size: this.size,
+        }
+      : {
+          headerChildComponent: <Input ref={this.refMobileInput} {...inputProps} />,
+        };
 
     return (
       opened && (
-        <MobilePopup
-          headerChildComponent={<Input ref={this.refMobileInput} {...inputProps} />}
-          onCloseRequest={this.props.onMobileClose}
-          opened
-        >
+        <MobilePopup {...themeDependantProps} onCloseRequest={this.props.onMobileClose} opened>
           {this.getComboBoxMenu()}
         </MobilePopup>
       )

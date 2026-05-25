@@ -23,6 +23,29 @@ export const MobileMenuItemWithIcon = () => {
 };
 MobileMenuItemWithIcon.storyName = 'mobile menu item with icon';
 
+export const MobileMenuItemSize = () => {
+  return (
+    <>
+      <MenuItem size={'small'} isMobile>
+        Small
+      </MenuItem>
+      <MenuItem size={'medium'} isMobile>
+        Medium
+      </MenuItem>
+      <MenuItem size={'large'} isMobile>
+        Large
+      </MenuItem>
+    </>
+  );
+};
+MobileMenuItemSize.storyName = 'mobile menu item wit sizes';
+
+MobileMenuItemSize.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
 export const MenuItemWithIcon = () => {
   return <MenuItem icon={<IconCheckARegular16 />}>Меню айтем с иконкой</MenuItem>;
 };
