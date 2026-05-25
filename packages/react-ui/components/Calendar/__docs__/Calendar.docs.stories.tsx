@@ -13,15 +13,23 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
-  const [date, setDate] = React.useState('01.11.2021');
+export const ExampleBasic: Story = () => {
+  const [date, setDate] = React.useState('01.01.2026');
 
   return <Calendar value={date} onValueChange={setDate} />;
 };
-Example1.storyName = 'Календарь с заданной датой';
+/** С помощью пропсов `minDate` и `maxDate` можно задавать минимально и максимально возможную дату для выбора в календаре. */
+export const ExampleMinMaxDate: Story = () => {
+  const [date, setDate] = React.useState('01.01.2026');
+  const [minDate] = React.useState('01.01.2000');
+  const [maxDate] = React.useState('01.01.2050');
 
-/** Вне зависимости от того, какая дата выбрана в календаре в данный момент - можно изменить отображение начального года и месяца с помощью пропсов `initialMonth` и `initialYear` */
-export const Example2: Story = () => {
+  return <Calendar value={date} onValueChange={setDate} minDate={minDate} maxDate={maxDate} />;
+};
+ExampleMinMaxDate.storyName = 'Минимальная и максимальная даты в календаре';
+
+/** С помощью пропсов `initialMonth` и `initialYear` можно изменить отображение начального года и месяца. Вне зависимости от того, какая дата выбрана в календаре в данный момент. */
+export const ExampleInitialMonthYear: Story = () => {
   const [date, setDate] = React.useState('11.12.2021');
   const initialMonth = 7;
   const initialYear = 2000;
@@ -37,10 +45,12 @@ export const Example2: Story = () => {
     </div>
   );
 };
-Example2.storyName = 'initialMonth и initialYear';
+ExampleInitialMonthYear.storyName = 'Начальные год и месяц';
 
-/** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
-export const Example3: Story = () => {
+/** В проп `isHoliday` можно передать функцию, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend` из [компонента дня](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-calendarday--docs).
+ *
+ * Функция должна вернуть `true` для выходного дня и `false` — для рабочего. */
+export const ExampleIsHoliday: Story = () => {
   const [date, setDate] = React.useState<string | undefined>();
 
   const createRandomHolidays = () => {
@@ -73,12 +83,35 @@ export const Example3: Story = () => {
 
   return <Calendar isHoliday={isHoliday} value={date} onValueChange={setDate} />;
 };
-Example3.storyName = 'isHoliday';
+ExampleIsHoliday.storyName = 'Выходные и праздничные дни';
 
-/** Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`
-- Базовая высота календаря - `330px`
-- Максимальная высота календаря - `450px` */
-export const Example4: Story = () => {
+/** С помощью метода `scrollToMonth` можно реализовать контрол для быстрого скролла к определённому месяцу года.  */
+export const ExampleScrollToMonth: Story = () => {
+  const initialValue = '02.09.2023';
+  const [value, setValue] = React.useState(initialValue);
+  const calendarRef = React.useRef<Calendar>(null);
+
+  return (
+    <>
+      <Gapped gap={8} verticalAlign="top">
+        <Calendar value={value} ref={calendarRef} onValueChange={setValue} />
+
+        <Gapped vertical gap={8}>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(1, 2023)}>I квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(4, 2023)}>II квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(7, 2023)}>III квартал</Button>
+          <Button onClick={() => calendarRef.current?.scrollToMonth(10, 2023)}>IV квартал</Button>
+        </Gapped>
+      </Gapped>
+    </>
+  );
+};
+ExampleScrollToMonth.storyName = 'Скролл к месяцу';
+
+/** Календарю можно задать кастомную высоту с помощью переменной темы `calendarWrapperHeight`:
+- базовая высота календаря — `330px`
+- максимальная высота календаря — `450px` */
+export const ExampleCustomHeight: Story = () => {
   const [date, setDate] = React.useState('01.11.2021');
   const theme = React.useContext(ThemeContext);
 
@@ -88,10 +121,12 @@ export const Example4: Story = () => {
     </ThemeContext.Provider>
   );
 };
-Example4.storyName = 'Высота';
+ExampleCustomHeight.storyName = 'Кастомизация: высота';
 
-/** Для кастомнизации дней в календаре используется проп `renderDay`. Корректная работа подразумевает обязательное использование компонента `<CalendarDay />` и передачу в него всех приходящих в функцию пропсов: `<Calendar renderDay={(props) => <CalendarDay {...props} />} />`. */
-export const Example5: Story = () => {
+/** Для кастомизации дней в календаре используется проп `renderDay`.
+ *
+ * Для корректной работы компонента обязательно используйте компонент `<CalendarDay />` и передайте в него все приходящие в функцию пропсы: `<Calendar renderDay={(props) => <CalendarDay {...props} />} />`. */
+export const ExampleCustomDayRender: Story = () => {
   const initialValue = '02.09.2023';
 
   const [value, setValue] = React.useState(initialValue);
@@ -122,10 +157,10 @@ export const Example5: Story = () => {
 
   return <Calendar value={value} onValueChange={setValue} renderDay={renderDay} />;
 };
-Example5.storyName = 'Кастомный рендер дня';
+ExampleCustomDayRender.storyName = 'Кастомизация: рендер дня';
 
-/** Пример с кастомизацией темы и кастомным рендером дня. */
-export const Example6: Story = () => {
+/** В примере кастомизирована тема календаря и рендер дня. */
+export const ExampleCustomPrice: Story = () => {
   const theme = React.useContext(ThemeContext);
 
   function renderDay(props: CalendarDayProps) {
@@ -162,26 +197,4 @@ export const Example6: Story = () => {
     </ThemeContext.Provider>
   );
 };
-Example6.storyName = 'Календарь с ценами';
-
-export const Example8: Story = () => {
-  const initialValue = '02.09.2023';
-  const [value, setValue] = React.useState(initialValue);
-  const calendarRef = React.useRef<Calendar>(null);
-
-  return (
-    <>
-      <Gapped gap={8} verticalAlign="top">
-        <Calendar value={value} ref={calendarRef} onValueChange={setValue} />
-
-        <Gapped vertical gap={8}>
-          <Button onClick={() => calendarRef.current?.scrollToMonth(1, 2023)}>I квартал</Button>
-          <Button onClick={() => calendarRef.current?.scrollToMonth(4, 2023)}>II квартал</Button>
-          <Button onClick={() => calendarRef.current?.scrollToMonth(7, 2023)}>III квартал</Button>
-          <Button onClick={() => calendarRef.current?.scrollToMonth(10, 2023)}>IV квартал</Button>
-        </Gapped>
-      </Gapped>
-    </>
-  );
-};
-Example8.storyName = 'Скролл к месяцу';
+ExampleCustomPrice.storyName = 'Кастомизация: календарь с ценами';

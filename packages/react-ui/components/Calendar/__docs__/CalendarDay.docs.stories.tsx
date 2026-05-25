@@ -11,38 +11,50 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
+  const date = '20.05.2024';
+  const style = { width: 32, height: 32 };
+
+  return <CalendarDay style={style} date={date} onDayClick={() => {}} />;
+};
+
+/** Для дня календаря доступны флаги:
+ * - `isToday` — помечает ячейку, соответствующую текущей (системной) дате.
+ * - `isSelected` — отмечает, что этот день выбран.
+ * - `isDisabled` — указывает, что день заблокирован и недоступен для выбора.
+ * - `isWeekend` — помечает день как выходной.  */
+export const ExampleIs: Story = () => {
   const date = '20.05.2024';
   const style = { width: 32, height: 32 };
 
   return (
-    <Gapped>
-      <CalendarDay style={style} date={date} onDayClick={() => {}} />
+    <Gapped vertical>
+      <b>isToday:</b>
       <CalendarDay style={style} date={date} isToday onDayClick={() => {}} />
+      <b>isSelected:</b>
       <CalendarDay style={style} date={date} isSelected onDayClick={() => {}} />
+      <b>isDisabled:</b>
       <CalendarDay style={style} date={date} isDisabled onDayClick={() => {}} />
+      <b>isWeekend:</b>
       <CalendarDay style={style} date={date} isWeekend onDayClick={() => {}} />
-      <CalendarDay style={style} date={date} onDayClick={() => {}}>
-        <b>20</b>
-      </CalendarDay>
     </Gapped>
   );
 };
-Example1.storyName = 'Базовый пример';
+ExampleIs.storyName = 'Флаги дат';
 
-/**
+/** Набор функций предназначен для сравнения дат, представленных в виде строк.
 ```js
 import { 
-  isBetween, 
-  isEqual, 
-  isGreater, 
-  isGreaterOrEqual, 
-  isLess, 
-  isLessOrEqual 
+  isEqual,          // Проверяет равенство двух дат.
+  isLess,           // Возвращает true, если дата left строго раньше даты right.
+  isLessOrEqual,    // Возвращает true, если left меньше или равно right
+  isGreater,        // Возвращает true, если left больше right.
+  isGreaterOrEqual, // Возвращает true, если left больше или равно right.
+  isBetween         // Проверяет, попадает ли дата between в диапазон [left, right] включительно.
 } from '@skbkontur/react-ui/lib/date/comparison';
 ```
 */
-export const Example2: Story = () => {
+export const ExampleFunction: Story = () => {
   const date_a = '10.03.2017';
   const date_b = '11.03.2017';
 
@@ -81,4 +93,4 @@ export const Example2: Story = () => {
     </Table>
   );
 };
-Example2.storyName = 'Функции для сравнения строковых дат';
+ExampleFunction.storyName = 'Функции для сравнения строковых дат';

@@ -34,46 +34,46 @@ import { Month } from './Month.js';
 import { MonthViewModel } from './MonthViewModel.js';
 
 export interface CalendarProps extends CommonProps {
-  /** Задает функцию, которая вызывается при изменении value.
+  /** Событие изменения value.
    * @param {string} date - строка в формате `dd.mm.yyyy`. */
   onValueChange?: (date: string) => void;
 
-  /** Задает текущую дату в формате `dd.mm.yyyy`. */
+  /** Текущая дата в формате `dd.mm.yyyy`. */
   value: Nullable<string>;
 
-  /** Задает максимальную возможную дату в формате `dd.mm.yyyy`. */
+  /** Максимальная дата в формате `dd.mm.yyyy`. */
   maxDate?: string;
 
-  /** Задает минимальную возможную дату в формате `dd.mm.yyyy`. */
+  /** Минимальная дата в формате `dd.mm.yyyy`. */
   minDate?: string;
 
-  /** Задает начальную дату периода в формате `dd.mm.yyyy`. */
+  /** Начальная дата периода в формате `dd.mm.yyyy`. */
   periodStartDate?: string;
 
-  /** Задает конечную дату периода в формате `dd.mm.yyyy`. */
+  /** Конечная дата периода в формате `dd.mm.yyyy`. */
   periodEndDate?: string;
 
-  /** Задает функцию для определения праздничных дней.
+  /** Определение праздничных дней.
    * @default (_day, isWeekend) => isWeekend.
    * @param {string} day - строка в формате `dd.mm.yyyy`.
    * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье).
    * @returns {boolean} `true` для выходного или `false` для рабочего дня. */
   isHoliday?: (day: string, isWeekend: boolean) => boolean;
 
-  /** Задает начальный месяц. */
+  /** Начальный месяц. */
   initialMonth?: Range<1, 13>;
 
-  /** Задает начальный год. */
+  /** Начальный год. */
   initialYear?: number;
 
-  /** Задает метод отрисовки дат в календаре.
+  /** Отрисовка дат в календаре.
    * @default (props: CalendarDayProps) => <CalendarDay {...props} />
    * @param {CalendarDayProps} props - параметры дня.
    * @returns {ReactElement} элемент, который отрисовывает контент числа месяца. */
   renderDay?: (props: CalendarDayProps) => React.ReactElement<unknown>;
 
-  /** Задает функцию, которая вызывается при каждом изменении месяца.
-   * @param {CalendarMonthChangeInfo} changeInfo - информация о изменении отображаемого месяца, где
+  /** Событие изменения месяца.
+   * @param {CalendarMonthChangeInfo} changeInfo - информация об изменении отображаемого месяца, где
    * `month: number` - номер текущего отображаемого месяца от 1 до 12,
    * `year: number` - отображаемый год. */
   onMonthChange?: (changeInfo: CalendarMonthChangeInfo) => void;
@@ -102,7 +102,7 @@ export const CalendarDataTids = {
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 /**
- * Компонент календаря `Calendar` из DatePicker'а помогает выбирать дату с помощью мыши.
+ * Блок календаря для выбора даты с помощью мыши. Используется в [поле с датой](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-datepicker--docs).
  */
 @withRenderEnvironment
 @rootNode
@@ -209,7 +209,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   }
 
   /**
-   * Прокручивает календарь до переданной даты
+   * Прокручивает календарь до переданной даты.
    * @public
    */
   public scrollToMonth = async (month: number, year: number): Promise<void> => {
