@@ -30,7 +30,7 @@ export const ExampleLabel: Story = () => {
 };
 ExampleLabel.storyName = 'Название поля';
 
-/** Размер поля задаётся пропом `size`. По умолчанию `"small"`. */
+/** Проп `size` задаёт размер поля. */
 export const ExampleSize: Story = () => {
   return (
     <div
@@ -48,7 +48,7 @@ export const ExampleSize: Story = () => {
 };
 ExampleSize.storyName = 'Размер';
 
-/** Ширину поля можно задать с помощью пропа `width`. Может принимать как абсолютные значения — например, 150, так и относительные — например, 50%. */
+/** Проп `width` задаёт ширину поля. Может принимать как абсолютные значения — например, 150, так и относительные — например, 50%. */
 export const ExampleWidth: Story = () => {
   return (
     <Gapped vertical>
@@ -59,13 +59,13 @@ export const ExampleWidth: Story = () => {
 };
 ExampleWidth.storyName = 'Ширина';
 
-/** Добавить плейсхолдер можно через `placeholder`. Добавляет подсказку, которая отображается внутри поля, пока оно не заполнено. */
+/** В пропе `placeholder` можно задать плейсхолдер в поле. Добавляет подсказку, которая отображается внутри поля, пока оно не заполнено. */
 export const ExamplePlaceholder: Story = () => {
   return <Input placeholder=" Подсказка" />;
 };
 ExamplePlaceholder.storyName = 'Плейсхолдер';
 
-/** Выравнивание текста задаётся пропом `align`. */
+/** Проп `align` выравнивает текст в поле. */
 export const ExampleAlign: Story = () => {
   const [valueLeft, setValueLeft] = React.useState('Left');
   const [valueCenter, setValueCenter] = React.useState('Center');
@@ -201,7 +201,7 @@ export const ExampleBorderless: Story = () => {
 };
 ExampleBorderless.storyName = 'Поле без обводки';
 
-/** Тип поля задаётся пропом `type`. По умолчанию `"text"`.
+/** Проп `type` задаёт тип поля. По умолчанию `"text"`.
  *
  * Это стандартные типы поля ввода в HTML. Тип наделяет компонент нативными свойствами, может влиять на отображение подсказок, валидацию, автоматическое переключение раскладки клавиатуры на мобильных устройствах и другие свойства поведения. Подробнее смотрите в [Справке по HTML](https://developer.mozilla.org/ru/docs/Web/HTML/Reference/Elements/input#type).
  *

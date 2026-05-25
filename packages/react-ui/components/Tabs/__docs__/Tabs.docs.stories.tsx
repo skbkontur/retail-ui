@@ -24,7 +24,7 @@ export const BasicExample: Story = () => {
 BasicExample.storyName = 'Базовый пример';
 
 /**
- * Проп `size` задаёт размер табов в группе. По умолчанию: `'large'`.
+ * Проп `size` задаёт размер табов в группе.
  */
 export const SizeExample: Story = () => {
   const [active, setActive] = React.useState('inbox');

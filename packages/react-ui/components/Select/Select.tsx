@@ -64,10 +64,10 @@ export interface ButtonParams extends Pick<
   /** Задаёт лейбл. */
   label: React.ReactNode;
 
-  /** Задаёт функцию, которая вызывается при клике на компонент. */
+  /** Событие нажатия на компонент. */
   onClick: () => void;
 
-  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
+  /** Событие нажатия кнопки на клавиатуре. */
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
 
   /** Определяет, открыто ли выпадающее меню. */
@@ -133,7 +133,7 @@ export interface SelectProps<TValue, TItem>
   /** Блокирует раскрывающийся список. */
   disabled?: boolean;
 
-  /** Меняет визуальное отображение раскрывающегося списка на состояние ошибки. Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
+  /** Переводит компонент в состояние ошибки. */
   error?: boolean;
 
   /** Отфильтровывает элементы по заданному паттерну. */
@@ -227,7 +227,7 @@ export interface SelectProps<TValue, TItem>
   /** Ширина раскрывающегося списка. */
   width?: number | string;
 
-  /** Меняет визуальное отображение поля на состояние предупреждения. Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
+  /** Переводит компонент в состояние предупреждения. */
   warning?: boolean;
 
   /** Стиль кнопки. Примеры стилей смотрите [в документации компонента Button](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-button--docs). */

@@ -23,6 +23,12 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Базовый пример';
 
+/** У компонента есть набор статических методов: `GlobalLoader.start()`, `GlobalLoader.done()`, `GlobalLoader.reject()`, `GlobalLoader.accept()`.
+ * Запустить лоадер `"start"` — активирует анимацию загрузки.
+ * Завершить `"done"` — переведёт глобальный лоадер в успешное завершённое состояние.
+ * Эмулировать проблему `"reject"` — переведёт глобальный лоадер в состояние с ошибкой.
+ * Вернуться в состояние загрузки `"accept"` — запустит глобальный лоадер с момента остановки при ошибке.
+ */
 export const ExampleStaticMethods: Story = () => {
   return (
     <Gapped>
@@ -35,8 +41,9 @@ export const ExampleStaticMethods: Story = () => {
     </Gapped>
   );
 };
-ExampleStaticMethods.storyName = 'Все статические методы';
+ExampleStaticMethods.storyName = 'Cтатические методы';
 
+/** Вместо статических методов можно воспользоваться управлением через пропсы. */
 export const ExampleMount: Story = () => {
   const [manually, setManually] = React.useState<boolean>(false);
   const [active, setActive] = React.useState<boolean>(false);
@@ -79,6 +86,7 @@ export const ExampleMount: Story = () => {
 };
 ExampleMount.storyName = 'Монтирование';
 
+/** Глобальный лоадер можно запустить в модальном окне. Тогда он перекроет вуаль. */
 export const ExampleInModal: Story = () => {
   const [opened, setOpened] = React.useState<boolean>(false);
 
@@ -115,6 +123,7 @@ export const ExampleInModal: Story = () => {
 };
 ExampleInModal.storyName = 'Статические методы в модальном окне';
 
+/** Через переменные темы можно изменять параметры глобального лоадера. Например, цвет индикатора загрузки. */
 export const ExampleCustomizeColor: Story = () => {
   const [enableTheme, setEnableTheme] = React.useState<boolean>(false);
   const [active, setActive] = React.useState<boolean>(false);

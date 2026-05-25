@@ -63,7 +63,7 @@ export const SpinnerDataTids = {
 type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
- * `Spinner` — это зацикленный индикатор, не отображающий прогресс выполнения задачи.
+ * Зацикленный индикатор, не отображающий прогресс выполнения задачи.
  */
 @withRenderEnvironment
 @rootNode

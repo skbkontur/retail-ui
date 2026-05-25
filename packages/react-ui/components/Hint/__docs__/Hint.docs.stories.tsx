@@ -1,4 +1,4 @@
-import { Button, Hint } from '@skbkontur/react-ui';
+import { Button, Hint, Gapped } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -101,7 +101,7 @@ ExampleUseWrapper.storyName = 'Встроенная обёртка';
 В таких случаях стоит использовать собственную обёртку: */
 export const ExampleCustomWrapper: Story = () => {
   return (
-    <>
+    <Gapped vertical>
       <Hint useWrapper text="Подсказка">
         <button disabled style={{ height: 40 }}>
           Проп useWrapper
@@ -115,7 +115,7 @@ export const ExampleCustomWrapper: Story = () => {
           </button>
         </span>
       </Hint>
-    </>
+    </Gapped>
   );
 };
 ExampleCustomWrapper.storyName = 'Кастомизация: собственная обёртка';

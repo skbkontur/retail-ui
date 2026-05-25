@@ -84,10 +84,10 @@ export interface InputProps
          * При использовании `() => ReactNode` применяются только стили для позиционирования. */
         rightIcon?: InputIconType;
 
-        /** Меняет визуальное отображение поля на состояние «ошибка». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
+        /** Переводит поле в состояние ошибки. */
         error?: boolean;
 
-        /** Меняет визуальное отображение поля на состояние «предупреждение». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
+        /** Переводит поле в состояние предупреждения. */
         warning?: boolean;
 
         /** Убирает обводку поля. */

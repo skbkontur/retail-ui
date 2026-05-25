@@ -25,7 +25,7 @@ export const MenuFooterDataTids = {
 } as const;
 
 /**
- * Футер меню `MenuFooter` — надпись в нижней части меню.
+ * Футер меню — надпись в нижней части меню.
  */
 
 const MenuFooter = forwardRefAndName(

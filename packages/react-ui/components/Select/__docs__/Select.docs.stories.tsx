@@ -18,7 +18,7 @@ export const ExampleBasic: Story = () => {
   return <Select items={items} value={value} onValueChange={setValue} />;
 };
 
-/** Проп `size` задаёт размер раскрывающегося списка. По умолчанию `"small"`. */
+/** Проп `size` задаёт размер раскрывающегося списка. */
 export const ExampleSize: Story = () => {
   const [valueSmall, setValueSmall] = React.useState('Маленький');
   const [valueMedium, setValueMedium] = React.useState('Средний');

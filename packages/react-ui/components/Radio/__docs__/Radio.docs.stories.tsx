@@ -24,7 +24,7 @@ export const ExampleBasic: Story = () => {
   );
 };
 
-/** Проп `size` задаёт размер радиокнопки. По умолчанию: `'small'`. */
+/** Проп `size` задаёт размер радиокнопки. */
 export const ExampleSize: Story = () => {
   const [chosen, setChosen] = React.useState(null);
   return (

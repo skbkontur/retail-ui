@@ -28,10 +28,10 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Меняет визуальное отображение поля на состояние «ошибка». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
+        /** Переводит контрол в состояние ошибки. */
         error?: boolean;
 
-        /** Меняет визуальное отображение поля на состояние «предупреждение». Может быть полезен при разработке собственной валидации, если вы не используете пакет [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs). */
+        /** Переводит контрол в состояние предупреждения. */
         warning?: boolean;
 
         /** Размер радиокнопки. */
@@ -40,22 +40,22 @@ export interface RadioProps<T>
         /** Задаёт состояние фокуса. */
         focused?: boolean;
 
-        /** Задаёт функцию, которая вызывается при изменении `value`. */
+        /** Событие изменения `value`. */
         onValueChange?: (value: T) => void;
 
-        /** Задает HTML-событие `onmouseenter`.
+        /** HTML-событие `onmouseenter`.
          * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задает HTML-событие `onmouseleave`.
+        /** HTML-событие `onmouseleave`.
          * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задает HTML-событие `onmouseover`.
+        /** HTML-событие `onmouseover`.
          * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задаёт значение. */
+        /** Значение. */
         value: T;
       }
     > {}

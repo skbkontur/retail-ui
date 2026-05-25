@@ -11,7 +11,7 @@ import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles } from './MenuHeader.styles.js';
 
 export interface MenuHeaderProps extends CommonProps, Pick<HTMLAttributes<HTMLElement>, 'id'> {
-  /** Размер надписи. */
+  /** Размер заголовка. */
   size?: SizeProp;
 
   /** Добавляет отступ слева для выравнивания текста по иконкам MenuItem */
@@ -26,7 +26,7 @@ export const MenuHeaderDataTids = {
 } as const;
 
 /**
- * Заголовок меню `MenuHeader` используется для того, чтобы разграничивать элементы меню на категории.
+ * Заголовок меню используется для того, чтобы разграничивать элементы меню на категории.
  */
 
 const MenuHeader = forwardRefAndName(
