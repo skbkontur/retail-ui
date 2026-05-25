@@ -47,57 +47,57 @@ export interface DateInputProps
     CommonProps,
     Pick<AriaAttributes, 'aria-describedby' | 'aria-label' | 'aria-labelledby'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'> {
-  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
+  /** Устанавливает фокус на поле после окончания загрузки страницы. */
   autoFocus?: boolean;
 
-  /** Устанавливает значение датаинпута. */
+  /** Значение поля. */
   value?: string;
 
-  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Меняет визуальное отображение поля на состояние ошибки. */
   error?: boolean;
 
-  /** Переводит контрол в состояние валидации "предупреждение". */
+  /** Меняет визуальное отображение поля на состояние предупреждения. */
   warning?: boolean;
 
-  /** Делает компонент недоступным. */
+  /** Блокирует поле. */
   disabled?: boolean;
 
-  /** Задает минимальную возможную дату в формате `dd.mm.yyyy`. */
+  /** Минимальная дата в формате `dd.mm.yyyy`. */
   minDate?: string;
 
-  /** Задает максимальную возможную дату в формате `dd.mm.yyyy` */
+  /** Максимальная дата в формате `dd.mm.yyyy`. */
   maxDate?: string;
 
-  /** Задает ширину поля. */
+  /** Ширина поля. */
   width?: string | number;
 
   /** Добавляет иконку календаря. */
   withIcon?: boolean;
 
-  /** Задает размер поля. */
+  /** Размер поля. */
   size?: SizeProp;
 
-  /** Задает функцию, которая вызывается при потере датаинпутом фокуса. */
+  /** Событие потери полем фокуса. */
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
 
-  /** Задает функцию, которая вызывается при клике на датаинпут. */
+  /** Событие нажатия на поле. */
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
 
-  /** Задает функцию, которая вызывается при получении датаинпутом фокуса. */
+  /** Событие получения полем фокуса. */
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
 
-  /** Задает функцию, которая вызывается при изменении value.
+  /** Событие изменения value.
    * @param value - строка в формате `dd.mm.yyyy`. */
   onValueChange?: (value: string) => void;
 
-  /** Задает функцию, которая вызывается при нажатии кнопки на клавиатуре. */
+  /** Событие нажатия кнопки на клавиатуре. */
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'width'>>;
 
 /**
- * Компонент поля `DateInput` из DatePicker'а помогает выбирать дату с клавиатуры.
+ * Поле ввода для выбора даты с клавиатуры. Используется в [поле с датой](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-datepicker--docs).
  */
 @withRenderEnvironment
 @rootNode

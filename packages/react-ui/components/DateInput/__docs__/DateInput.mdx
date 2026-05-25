@@ -8,6 +8,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Header component="DateInput" guides="https://guides.kontur.ru/components/input-fields/calendar/" />
 
+```jsx
+import { DateInput } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -16,6 +20,22 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте поле с датой, когда нужно ввести дату в формате ДД.ММ.ГГГГ. Отличается от обычного поля ввода наличием маски даты.
+
+Если вам нужно поле ввода даты не только с вводом с клавиатуры, но и с выбором в блоке календаря - используйте - [DatePicker](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-datepicker--docs).
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+Примеры обработок ошибок для поля смотрите на странице компонента [Поле с датой](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-datepicker--docs) в блоке «Валидация».
+
+## Адаптивность
+
+По умолчанию поле ввода даты не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)

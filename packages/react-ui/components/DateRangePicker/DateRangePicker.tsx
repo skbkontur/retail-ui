@@ -70,9 +70,9 @@ export interface DateRangePickerProps
       | 'onMonthChange'
     > {
   /**
-   * Элемент относительно которого открывается календарь,
-   * Если передать значение `focused` - меню будет открываться у зафокусированного элемента.
-   * Если передать ссылку на DOM элемент или ref - меню откроется относительно переданного элемента.
+   * Элемент, относительно которого открывается календарь.
+   * Если передать значение `focused` — меню будет открываться у зафокусированного элемента.
+   * Если передать ссылку на DOM элемент или ref — меню откроется относительно переданного элемента.
    */
   menuAnchorElement?: 'focused' | Element | React.ReactNode | React.RefObject<any>;
   /**
@@ -92,6 +92,7 @@ export interface DateRangePickerRef extends InstanceWithRootNode {
 
 export type DateRangePicker = DateRangePickerRef;
 
+/** Поле выбора периода дат. */
 export const DateRangePicker = Object.assign(
   {
     Start: DateRangePickerStart,
