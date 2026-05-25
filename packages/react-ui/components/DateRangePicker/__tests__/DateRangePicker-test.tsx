@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
@@ -694,5 +694,36 @@ describe('DateRangePicker', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
     });
+  });
+
+  it('should cancel old focus timer when switching inputs', () => {
+    vi.useFakeTimers();
+
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const endInput = screen.getByTestId(DateRangePickerDataTids.end);
+
+    const startSpy = vi.spyOn(startInput, 'focus');
+    const endSpy = vi.spyOn(endInput, 'focus');
+
+    fireEvent.focus(startInput);
+    fireEvent.focus(endInput);
+
+    act(() => {
+      vi.runAllTimers();
+    });
+
+    expect(startSpy).not.toHaveBeenCalled();
+    expect(endSpy).toHaveBeenCalled();
+
+    startSpy.mockRestore();
+    endSpy.mockRestore();
+    vi.useRealTimers();
   });
 });

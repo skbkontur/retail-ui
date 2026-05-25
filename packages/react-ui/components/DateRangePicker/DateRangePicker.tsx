@@ -198,7 +198,7 @@ export const DateRangePicker = Object.assign(
       }
 
       // fix DateInput flushSync warning in React 18
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         const isStart = focusInput === 'start';
         let currentFieldRef;
 
@@ -225,7 +225,9 @@ export const DateRangePicker = Object.assign(
         currentFieldRef = isStart ? startRef : endRef;
         currentFieldRef.current?.focus();
       });
-    }, [focusInput]);
+
+      return () => clearTimeout(timeoutId);
+    }, [focusInput, isMobile, props.useMobileNativeDatePicker]);
 
     const dateRangePickerContextProps: DateRangePickerContextProps = {
       startValue,
