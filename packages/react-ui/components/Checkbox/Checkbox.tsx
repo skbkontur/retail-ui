@@ -31,31 +31,31 @@ export interface CheckboxProps
         /** @ignore */
         children?: React.ReactNode;
 
-        /** Переводит контрол в состояние валидации "ошибка". */
+        /** Переводит контрол в состояние ошибки. */
         error?: boolean;
 
-        /** Переводит контрол в состояние валидации "предупреждение". */
+        /** Переводит контрол в состояние предупреждения. */
         warning?: boolean;
 
-        /** Задает размер. */
+        /** Размер чекбокса. */
         size?: SizeProp;
 
-        /** Задает HTML-событие `onmouseenter`.
+        /** HTML-событие `onmouseenter`.
          * @ignore */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задает HTML-событие `onmouseleave`.
+        /** HTML-событие `onmouseleave`.
          * @ignore */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задает HTML-событие `onmouseover`.
+        /** HTML-событие `onmouseover`.
          * @ignore */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
 
-        /** Задает функцию, вызывающуюся при изменении value. */
+        /** Событие изменения value. */
         onValueChange?: (value: boolean) => void;
 
-        /** Задает HTML-событие `onblur`.
+        /** HTML-событие `onblur`.
          * @ignore */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 
@@ -75,10 +75,7 @@ export const CheckboxDataTids = {
 } as const;
 
 /**
- * `Checkbox` используется для управления параметром с двумя состояниями.
- *
- * Чекбокс не запускает действие немедленно. Как правило, для этого нужно нажать подтверждающую кнопку.
- * Для немедленного включения какого-то режима в интерфейсе лучше подходит Toggle.
+ * Чекбокс используется для управления параметром с двумя состояниями.
  */
 @withRenderEnvironment
 @rootNode
@@ -197,7 +194,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   }
 
   /**
-   * Программная установка фокуса чекбоксу.
+   * Программно устанавливает фокус на чекбокс.
    * @public
    */
   public focus(): void {
@@ -206,7 +203,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   }
 
   /**
-   * Программное снятие фокуса с чекбокса.
+   * Программно снимает фокус с чекбокса.
    * @public
    */
   public blur(): void {

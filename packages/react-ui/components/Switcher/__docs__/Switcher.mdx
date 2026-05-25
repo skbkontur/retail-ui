@@ -1,5 +1,6 @@
 import * as SwitcherStories from './Switcher.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as SwitcherExamples from './SwitcherValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,7 +13,13 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=335-25230&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { Switcher } from '@skbkontur/react-ui';
+```
+
 <Description />
+
+Подпись к свитчеру указывается в пропе `caption`.
 
 <Primary />
 
@@ -20,6 +27,29 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Переключатель используют, когда вариантов выбора немного: от трёх до пяти.
+
+**Когда не использовать**
+
+- Старайтесь не использовать переключатель из двух значений — пользователи не понимают, какой из пунктов выбран.
+- Не используйте переключатель в качестве навигации, для этого лучше подходят [Tabs](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-tabs-tabs--docs).
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+С помощью пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_api-reference) можно добавить валидацию для компонента.
+
+<Story of={SwitcherExamples.ExampleValidation} />
+
+Подробнее о том, как настроить тип, уровень валидации, формат сообщения об ошибке и другие параметры поведения, смотрите в документации пакета [React UI Validations](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-getting-started--docs).
+
+## Адаптивность
+
+По умолчанию свитчер не меняет свой вид и поведение на мобильных устройствах.
+
+ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)

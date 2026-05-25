@@ -11,7 +11,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
   return (
@@ -20,9 +20,28 @@ export const Example1: Story = () => {
     </Checkbox>
   );
 };
-Example1.storyName = 'Базовый пример чекбокса';
+ExampleBasic.storyName = 'Базовый пример чекбокса';
 
-export const Example2: Story = () => {
+/** Проп `size` задаёт размер чекбокса. */
+export const ExampleSize: Story = () => {
+  return (
+    <Gapped vertical>
+      <Checkbox size="small" checked>
+        Маленький
+      </Checkbox>
+      <Checkbox size="medium" checked>
+        Средний
+      </Checkbox>
+      <Checkbox size="large" checked>
+        Большой
+      </Checkbox>
+    </Gapped>
+  );
+};
+ExampleSize.storyName = 'Размер';
+
+/** Проп `error` переводит чекбокс в состояние ошибки, а `warning` — в состояние предупреждения. */
+export const ExampleState: Story = () => {
   const CheckboxWithState = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
     const [checked, setChecked] = React.useState(false);
 
@@ -41,26 +60,10 @@ export const Example2: Story = () => {
     </Gapped>
   );
 };
-Example2.storyName = 'Cостояния';
+ExampleState.storyName = 'Cостояния ошибки и предупреждения';
 
-export const Example3: Story = () => {
-  return (
-    <Gapped vertical>
-      <Checkbox size="small" checked>
-        Маленький
-      </Checkbox>
-      <Checkbox size="medium" checked>
-        Средний
-      </Checkbox>
-      <Checkbox size="large" checked>
-        Большой
-      </Checkbox>
-    </Gapped>
-  );
-};
-Example3.storyName = 'Размер';
-
-export const Example4: Story = () => {
+/** Методы `focus` и `blur` программно управляют состоянием фокуса на чекбоксе. */
+export const ExampleFocusBlur: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
   const checkboxInstance = React.useRef<Checkbox>(null);
@@ -89,11 +92,13 @@ export const Example4: Story = () => {
     </Gapped>
   );
 };
-Example4.storyName = 'focus и blur';
+ExampleFocusBlur.storyName = 'Программная установка фокуса и снятие фокуса';
 
-/** Чекбокс может находится в неопределённом состоянии. <br/> Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
-Это состояние влияет только на внешний вид и не влияет на состояние `checked`. */
-export const Example5: Story = () => {
+/** Чекбокс может находится в неопределённом состоянии.
+ *
+ * Это состояние полностью копирует поведение состояния `indeterminate` ([подробнее](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)) из HTML.
+ * Влияет только на внешний вид и не влияет на состояние `checked`. */
+export const ExampleIndeterminate: Story = () => {
   const [checked, setChecked] = React.useState(false);
 
   const checkboxInstance = React.useRef<Checkbox>(null);
@@ -121,9 +126,9 @@ export const Example5: Story = () => {
     </Gapped>
   );
 };
-Example5.storyName = 'Неопределенное состояние';
+ExampleIndeterminate.storyName = 'Неопределенное состояние';
 
-export const Example6: Story = () => {
+export const ExampleIndeterminateStory: Story = () => {
   const [checkedSiblings, setCheckedSiblings] = React.useState<number[]>([]);
   const siblingCheckboxes = [1, 2];
 
@@ -180,4 +185,4 @@ export const Example6: Story = () => {
     </>
   );
 };
-Example6.storyName = 'Пример использования неопределённого состояния чекбокса';
+ExampleIndeterminateStory.storyName = 'Пример использования неопределённого состояния чекбокса';

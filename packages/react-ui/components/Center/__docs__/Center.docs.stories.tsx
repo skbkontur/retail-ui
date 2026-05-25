@@ -11,7 +11,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Example1: Story = () => {
+export const ExampleBasic: Story = () => {
   const [alignAt, setAlignAt] = React.useState<'left' | 'center' | 'right'>('center');
 
   return (
@@ -32,4 +32,4 @@ export const Example1: Story = () => {
     </Gapped>
   );
 };
-Example1.storyName = 'Пример использования';
+ExampleBasic.storyName = 'Пример использования';
