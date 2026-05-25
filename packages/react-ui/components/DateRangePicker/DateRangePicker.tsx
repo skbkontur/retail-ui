@@ -347,7 +347,7 @@ export const DateRangePicker = Object.assign(
         hasShadow
         priority={ZIndex.priorities.PopupMenu}
         positions={getMenuPositions(props.menuPos, props.menuAlign)}
-        data-tid={DateRangePickerDataTids.root}
+        data-tid={DateRangePickerDataTids.popup}
         anchorElement={getAnchorElement()}
         margin={parseInt(theme.datePickerMenuOffsetY)}
       >

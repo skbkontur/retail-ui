@@ -726,4 +726,82 @@ describe('DateRangePicker', () => {
     endSpy.mockRestore();
     vi.useRealTimers();
   });
+
+  it('should focus DateRangePicker.End after selecting first date in the Calendar', async () => {
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const endInput = screen.getByTestId(DateRangePickerDataTids.end);
+
+    await userEvent.click(startInput);
+
+    const dayCell = screen.getAllByTestId(CalendarDataTids.dayCell)[0];
+    await userEvent.click(dayCell);
+
+    expect(endInput).toHaveFocus();
+  });
+
+  it('should stay open picker after switching between start and end', async () => {
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const endInput = screen.getByTestId(DateRangePickerDataTids.end);
+
+    await userEvent.click(startInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+
+    await userEvent.click(endInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+  });
+
+  it('should save picker after focus external component inside DateRangePicker wrap', async () => {
+    render(
+      <DateRangePicker>
+        <Input data-tid="external-input-inside-wrap" />
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const externalInput = screen.getByTestId('external-input-inside-wrap');
+
+    await userEvent.click(startInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+
+    await userEvent.click(externalInput);
+    expect(screen.queryByTestId(DateRangePickerDataTids.popup)).not.toBeInTheDocument();
+  });
+
+  it('should close picker after focus external component outside DateRangePicker wrap', async () => {
+    render(
+      <>
+        <Input data-tid="external-input-outside-wrap" />
+        <DateRangePicker>
+          <DateRangePicker.Start />
+          <DateRangePicker.End />
+        </DateRangePicker>
+        ,
+      </>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const externalInput = screen.getByTestId('external-input-outside-wrap');
+
+    await userEvent.click(startInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+
+    await userEvent.click(externalInput);
+    expect(screen.queryByTestId(DateRangePickerDataTids.popup)).not.toBeInTheDocument();
+  });
 });

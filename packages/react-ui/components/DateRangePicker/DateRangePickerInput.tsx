@@ -39,7 +39,6 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
     setFocusInput,
     open,
     close,
-    dateRangePickerRef,
     startRef,
     endRef,
   } = useContext(DateRangePickerContext);
@@ -113,11 +112,15 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
       if (isMobile) {
         return;
       }
+
       const nextFocusedElement = e.relatedTarget;
-      if (!dateRangePickerRef.current?.contains(nextFocusedElement)) {
+      const isFocusStart = startRef.current?.getRootNode()?.contains(nextFocusedElement);
+      const isFocusEnd = endRef.current?.getRootNode()?.contains(nextFocusedElement);
+
+      if (!isFocusStart && !isFocusEnd) {
         close();
+        setFocusInput(null);
       }
-      setFocusInput(null);
     },
   };
 
