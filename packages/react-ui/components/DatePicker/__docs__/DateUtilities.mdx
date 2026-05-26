@@ -1,0 +1,64 @@
+import * as DateUtilities from './DateUtilities.docs.stories.tsx';
+import { Primary, Stories, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Header } from '../../../.storybook-docs/Header';
+import { PropsTable } from '../../../.storybook-docs/PropsTable';
+
+<Meta of={DateUtilities} />
+
+# Date Utilities
+
+Набор утилит для сравнения и валидации дат в строках формата `DD.MM.YYYY`.
+
+## Сравнение дат
+
+```jsx
+import {
+  isEqual,
+  isLess,
+  isLessOrEqual,
+  isGreater,
+  isGreaterOrEqual,
+  isBetween,
+} from '@skbkontur/react-ui/lib/date/comparison';
+```
+
+- `isEqual(date1, date2)` — проверяет равенство двух дат.
+- `isLess(date1, date2)` — возвращает true, если дата date1 строго раньше даты date2.
+- `isLessOrEqual(date1, date2)` — возвращает true, если date1 меньше или равно date2.
+- `isGreater(date1, date2)` — возвращает true, если date1 больше date2.
+- `isGreaterOrEqual(date1, date2)` — возвращает true, если date1 больше или равно date2.
+- `isBetween(date1, value, date2)` — проверяет, попадает ли дата value в диапазон [date1, date2] включительно.
+
+<Story of={DateUtilities.ComparisonFunctions} />
+
+## Валидация даты
+
+```jsx
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+```
+
+Проверка даты `DatePicker.validate(value, options)`
+
+- `value` — проверяемая дата.
+- `options.minDate` — минимальная дата.
+- `options.maxDate` — максимальная дата.
+
+<Story of={DateUtilities.DatePickerValidation} />
+
+## Валидация периода
+
+```jsx
+import { DateRangePicker } from '@skbkontur/react-ui/components/DateRangePicker';
+```
+
+Проверка двух дат `DateRangePicker.validate(startValue, endValue, options)`
+
+- `startValue` — дата начала периода.
+- `endValue` — дата окончания периода.
+- `options.minDate` — минимально допустимая дата.
+- `options.maxDate` — максимально допустимая дата.
+- `options.startOptional` — опциональность даты начала.
+- `options.endOptional` — опциональность даты окончания.
+
+<Story of={DateUtilities.DateRangePickerValidation} />
