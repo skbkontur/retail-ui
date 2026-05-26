@@ -3,6 +3,27 @@ import { kind, story, test } from 'creevey';
 
 import { tid, waitForByTid } from '../../__creevey__/helpers.mjs';
 
+const MOBILE_TOAST_VIEWPORT = { width: 375, height: 720 };
+
+const mobileToastShownTest = ({ withClose }: { withClose?: boolean } = {}) => {
+  test('toastShown', async (context) => {
+    const page = context.webdriver;
+    const previousViewport = page.viewportSize();
+    await page.setViewportSize(MOBILE_TOAST_VIEWPORT);
+    await page.mouse.move(0, 0);
+    await page.mouse.click(0, 0);
+    await waitForByTid(page, 'ToastView__root');
+    await context.matchImage(await context.takeScreenshot());
+    if (withClose) {
+      await page.locator(tid('ToastView__close')).click();
+    }
+    await page.locator(tid('ToastView__root')).waitFor({ state: 'hidden', timeout: 15_000 });
+    if (previousViewport) {
+      await page.setViewportSize(previousViewport);
+    }
+  });
+};
+
 const kindTests = ({ withClose }: { withClose?: boolean } = {}) => {
   test('toastShown', async (context) => {
     const page = context.webdriver;
@@ -74,5 +95,21 @@ kind('Toast', () => {
       await context.matchImages({ instanceToast });
       await page.locator(tid('ToastView__root')).waitFor({ state: 'hidden' });
     });
+  });
+
+  story('MobileSimple', () => {
+    mobileToastShownTest();
+  });
+
+  story('MobileSimpleVeryLongText', () => {
+    mobileToastShownTest();
+  });
+
+  story('MobileSimpleWithAction', () => {
+    mobileToastShownTest({ withClose: true });
+  });
+
+  story('MobileSimpleVeryLongTextWithAction', () => {
+    mobileToastShownTest({ withClose: true });
   });
 });

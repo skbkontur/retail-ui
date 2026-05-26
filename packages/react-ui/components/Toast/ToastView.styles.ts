@@ -26,6 +26,18 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  root_6_1() {
+    return css`
+      padding: 0;
+    `;
+  },
+
+  rootMobile(t: Theme) {
+    return css`
+      top: ${t.mobileToastTop};
+    `;
+  },
+
   default(t: Theme) {
     return css`
       background: ${t.toastBg};
@@ -52,11 +64,41 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  wrapper_6_1(t: Theme) {
+    return css`
+      padding: 0 ${t.toastPaddingX};
+    `;
+  },
+
+  content(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddings(t);
+    return css`
+      padding: ${paddingTop} ${t.toastPaddingX} ${paddingBottom};
+    `;
+  },
+
+  ellipsisContent() {
+    return css`
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: start;
+    `;
+  },
+
   closeWrapper(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddings(t);
     return css`
       display: flex;
       margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} 0;
+    `;
+  },
+
+  closeWrapper_6_1() {
+    return css`
+      margin: 0;
     `;
   },
 
@@ -83,6 +125,13 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       }
       padding: ${padding};
       transition: background ${t.transitionDuration} ${t.transitionTimingFunction};
+    `;
+  },
+
+  link_6_1(t: Theme) {
+    return css`
+      margin: 0;
+      padding: 0 ${t.toastLinkPadding};
     `;
   },
 

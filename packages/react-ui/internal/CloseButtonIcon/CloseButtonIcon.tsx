@@ -90,7 +90,7 @@ export const CloseButtonIcon: React.FunctionComponent<CloseButtonIconProps> = ({
           !rest.disabled && focusedByTab && styles.focus(theme),
           rest.disabled && styles.rootDisabled(theme),
         )}
-        style={{ ...style, width: side, height: side }}
+        style={{ width: side, height: side, ...style }}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...rest}

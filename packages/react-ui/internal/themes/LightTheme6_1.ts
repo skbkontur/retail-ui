@@ -9,6 +9,9 @@ export const LightTheme6_1 = createTheme({
     public static textareaCounterBg = colors.surfaceBase;
     public static textareaCounterHelpIconColor = colors.textNeutralSoft;
 
+    public static mobileToastTop = '16px';
+    public static toastCloseBtnSide = '40px';
+
     public static mobilePopupContainerBorderRadius = '8px';
 
     public static mobileMenuItemPaddingLarge = '12px 16px';

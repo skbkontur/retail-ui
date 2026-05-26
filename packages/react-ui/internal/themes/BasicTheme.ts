@@ -1234,6 +1234,9 @@ export class BasicThemeClass {
   public static toastCloseHoverColor = colors.textInvertedNeutralHeavy;
   public static toastCloseHoverColorError = colors.textConstHeavyWhite;
   public static toastCloseSize = '16px';
+  public static toastCloseBtnSide = '0px';
+
+  public static mobileToastTop = '0px';
 
   //#endregion Toast
   //#region Dropdown
