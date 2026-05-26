@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.6...@skbkontur/react-ui@6.0.7) (2026-05-26)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** close picker when focus is not on Start or End inputs ([a61bb1f](https://github.com/skbkontur/retail-ui/commit/a61bb1f8584f52aa013eead232aa2d71885832e0))
+* **DateRangePicker:** fix infinite focus loop between inputs on window blur/focus ([31a666a](https://github.com/skbkontur/retail-ui/commit/31a666ab21148d6f2c43ef8e934f4cf6aeac3a9d))
+* **DateRangePicker:** reset calendar date to `01.01.1900` instead `00.00.0000` on input clear ([029c9b3](https://github.com/skbkontur/retail-ui/commit/029c9b3373793c2e255c57a6ef173a267565b169))
+
+
+
+
+
 ## [6.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.5...@skbkontur/react-ui@6.0.6) (2026-05-19)
 
 
