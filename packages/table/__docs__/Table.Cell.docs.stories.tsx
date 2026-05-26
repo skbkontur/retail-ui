@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { initialData } from '../__stories__/data';
 import { Table } from '../src/components/Table/Table';
 
 export default {
@@ -11,37 +10,36 @@ export default {
   },
 };
 
-export const Basic = () => {
-  const rows = initialData.slice(0, 3);
-  return (
-    <Table hasChecked size="small">
-      <Table.Header sticky>
-        <Table.Row>
-          <Table.HeaderCheckboxCell checked={false} onClick={() => undefined} aria-label="Выбрать все строки" />
-          <Table.HeaderCell width="33.33%">Клиент</Table.HeaderCell>
-          <Table.HeaderCell width="120px" currency>
-            Сумма
-          </Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {rows.map((row) => (
-          <Table.Row key={row.id} onClick={() => console.log('row', row.id)}>
-            <Table.CheckboxCell
-              checked={false}
-              onCheckboxClick={() => undefined}
-              aria-label={`Выбрать ${row.client}`}
-            />
-            <Table.Cell>{row.client}</Table.Cell>
-            <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-      <Table.Footer sticky>
-        <Table.Row>
-          <Table.Cell colSpan={3}>Всего {rows.length} строк</Table.Cell>
-        </Table.Row>
-      </Table.Footer>
-    </Table>
-  );
-};
+export const Basic = () => (
+  <Table size="small">
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell width="180px">Клиент</Table.HeaderCell>
+        <Table.HeaderCell width="160px">Телефон</Table.HeaderCell>
+        <Table.HeaderCell>Комментарий</Table.HeaderCell>
+        <Table.HeaderCell width="120px" currency>
+          Сумма, ₽
+        </Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      <Table.Row>
+        <Table.Cell rowSpan={2}>ООО «Ромашка»</Table.Cell>
+        <Table.Cell noWrap>8 (495) 555-12-34</Table.Cell>
+        <Table.Cell>Договор № 102 от 14.10.2025, подписан в Москве.</Table.Cell>
+        <Table.Cell currency>85 000,00</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell noWrap>8 (495) 555-12-35</Table.Cell>
+        <Table.Cell>Дополнительное соглашение № 1 — продление до конца года.</Table.Cell>
+        <Table.Cell currency>17 500,00</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell colSpan={3}>Итого по контрагенту</Table.Cell>
+        <Table.Cell currency>
+          <strong>102 500,00</strong>
+        </Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
+);

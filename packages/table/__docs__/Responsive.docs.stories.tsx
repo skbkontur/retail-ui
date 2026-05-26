@@ -38,30 +38,25 @@ export const ResponsiveExampleStory = () => {
     {
       key: 'client',
       accessor: (row: TableRow) => row.client,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Клиент',
     },
     {
       key: 'region',
       accessor: (row: TableRow) => row.region,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Регион',
     },
     {
       key: 'amount',
       accessor: (row: TableRow) => row.amount,
-      stringifier: (value: number) => value.toLocaleString('ru-RU'),
-      predicate: (filterValues: string[], value: number) =>
-        filterValues.length === 0 || filterValues.includes(value.toLocaleString('ru-RU')),
+      stringify: (value: number) => value.toLocaleString('ru-RU'),
       label: 'Сумма, ₽',
     },
     {
       key: 'responsibleName',
       accessor: (row: TableRow) => row.responsible.name,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Ответственный',
     },
   ];
@@ -207,7 +202,7 @@ export const ResponsiveExampleStory = () => {
                   Регион
                 </Table.Sort>
               </Table.HeaderCell>
-              <Table.HeaderCell currency width={'33.33%'}>
+              <Table.HeaderCell currency width={'160px'}>
                 <Table.DropdownFilter
                   options={uniqueValues.amount}
                   selectedOptions={columnFilters.get('amount') ?? []}
@@ -216,16 +211,13 @@ export const ResponsiveExampleStory = () => {
                   Сумма, ₽
                 </Table.DropdownFilter>
               </Table.HeaderCell>
-              <Table.HeaderCell currency width={'100px'}>
-                Сумма, ₽
-              </Table.HeaderCell>
               <Table.HeaderCell width={'300px'}>Ответственный</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {sortedRows.length === 0 ? (
               <Table.Row>
-                <Table.Cell colSpan={6}>Нет данных, соответствующих вашему запросу.</Table.Cell>
+                <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
               </Table.Row>
             ) : (
               paginatedRows.map((row) => (
@@ -241,25 +233,12 @@ export const ResponsiveExampleStory = () => {
                     aria-label={`Выбрать строку ${row.client}`}
                   />
                   <Table.Cell>{row.client}</Table.Cell>
+                  <Table.Cell>{row.region}</Table.Cell>
+                  <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
                   <Table.Cell>
-                    11{row.region}
+                    {row.responsible.name}
                     <br />
-                    {row.region}12312
-                  </Table.Cell>
-                  <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-                  <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-                  <Table.Cell>
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
-                    {row.responsible.name}
+                    Старший специалист по сопровождению клиентов
                     {renderActionButtons()}
                   </Table.Cell>
                 </Table.Row>
@@ -268,7 +247,7 @@ export const ResponsiveExampleStory = () => {
           </Table.Body>
           <Table.Footer sticky>
             <Table.Row>
-              <Table.Cell colSpan={6}>
+              <Table.Cell colSpan={5}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <p>
                     Показано {startIndex + 1}-{Math.min(endIndex, sortedRows.length)} из {sortedRows.length} записей

@@ -6,7 +6,7 @@ import * as UseTableFiltersStories from './useTableFilters.docs.stories';
 
 # useTableFilters
 
-Хук для универсальной фильтрации данных таблицы. Поддерживает любые типы значений, строковые и кастомные предикаты, а также возврат уникальных значений для выпадающих фильтров.
+Хук для универсальной фильтрации данных таблицы. Поддерживает любые типы значений, преобразование значений в строки, кастомные предикаты и возврат уникальных значений для выпадающих фильтров.
 
 ## Сигнатура
 
@@ -26,17 +26,18 @@ const { filters, setFilters, setFilter, resetFilters, uniqueValues, filteredRows
 {
   key: K;
   accessor?: (row: T) => any;          // по умолчанию row[key]
-  stringifier?: (value: any) => string; // по умолчанию String(value)
-  predicate?: (selected: string[], value: any) => boolean;
-  filterPredicate?: (row: T, selected: string[]) => boolean; // более общий вариант
+  stringify?: (value: unknown) => string; // по умолчанию String(value)
+  filterPredicate?: (row: T, selectedValues?: string[]) => boolean;
+  label?: string;
+  formatTokenCaption?: (columnKey: K, columnLabel: string, stringifiedValue: string) => string;
 }
 ```
 
 ### Возвращает
 
-- `filters: Map<string, any>` — текущее состояние фильтров.
-- `setFilters(Map)` — заменить все фильтры целиком.
-- `setFilter(key, value)` — установить фильтр для колонки.
+- `filters: Map<K, string[]>` — текущее состояние фильтров.
+- `setFilters(next)` — заменить все фильтры целиком.
+- `setFilter(key, value: string[])` — установить фильтр для колонки.
 - `resetFilters()` — сброс всех фильтров.
 - `uniqueValues: Record<string, string[]>` — уникальные значения по колонкам (для DropdownFilter).
 - `filteredRows: T[]` — массив после применения фильтров.
@@ -58,7 +59,7 @@ const tokens = convertFiltersToTokens();
 
 ## Советы
 
-- Формируйте `columnConfig` так, чтобы `stringifier` совпадал с тем, что рендерится в таблице: это упростит совпадение фильтров.
+- Формируйте `columnConfig` так, чтобы `stringify` совпадал с тем, что рендерится в таблице: это упростит совпадение фильтров.
 - Для сложной логики используйте `filterPredicate`, если нужно учитывать несколько полей строки.
 - Оборачивайте большие наборы данных в `React.useMemo`, чтобы не пересчитывать `uniqueValues` на каждый ререндер.
 

@@ -21,8 +21,7 @@ export const SimpleSelectionExample = () => {
     {
       key: 'city',
       accessor: (row: TableRow) => row.city,
-      stringifier: (value: string) => value,
-      predicate: (selected: string[], value: string) => selected.length === 0 || selected.includes(value),
+      stringify: (value: string) => value,
     },
   ];
 

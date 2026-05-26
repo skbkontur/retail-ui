@@ -23,7 +23,6 @@ import { IconXCircleSolid64 } from '@skbkontur/icons/IconXCircleSolid64';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
-import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import React from 'react';
 
 import { initialData } from '../__stories__/data';
@@ -34,8 +33,8 @@ export default {
 };
 
 export const CheckeredExampleStory = () => {
-  const getSelectedOptions = (filters: Map<string, unknown>, key: string): string[] => {
-    return (filters.get(key) ?? []) as string[];
+  const getSelectedOptions = (filters: Map<string, string[]>, key: string): string[] => {
+    return filters.get(key) ?? [];
   };
 
   const memoizedInitialData = React.useMemo(() => initialData, []);
@@ -44,30 +43,25 @@ export const CheckeredExampleStory = () => {
     {
       key: 'client',
       accessor: (row: TableRow) => row.client,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Клиент',
     },
     {
       key: 'region',
       accessor: (row: TableRow) => row.region,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Регион',
     },
     {
       key: 'amount',
       accessor: (row: TableRow) => row.amount,
-      stringifier: (value: number) => value.toLocaleString('ru-RU'),
-      predicate: (filterValues: string[], value: number) =>
-        filterValues.length === 0 || filterValues.includes(value.toLocaleString('ru-RU')),
+      stringify: (value: number) => value.toLocaleString('ru-RU'),
       label: 'Сумма, ₽',
     },
     {
       key: 'responsibleName',
       accessor: (row: TableRow) => row.responsible.name,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Ответственный',
     },
   ];
@@ -91,7 +85,7 @@ export const CheckeredExampleStory = () => {
   }, []);
 
   return (
-    <div style={{ width: '900px', margin: '10px' }}>
+    <div style={{ width: '900px', maxHeight: '640px', margin: '10px', overflow: 'auto' }}>
       <Table hasChecked={hasChecked}>
         <Table.Header sticky>
           <Table.Row>
@@ -160,65 +154,61 @@ export const CheckeredExampleStory = () => {
               <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
             </Table.Row>
           ) : (
-            <>
-              {sortedRows.map((row) => (
-                <>
-                  <Table.Row checked={checkedRows.has(row.id)} key={row.id} onClick={() => handleRowClick(row.id)}>
-                    <Table.CheckboxCell
-                      checked={isRowChecked(row.id)}
-                      onCheckboxClick={(e) => toggleRow(e, row.id)}
-                      aria-label={`Выбрать строку ${row.client}`}
-                    />
-                    <Table.Cell>{row.client}</Table.Cell>
-                    <Table.Cell>{row.region}</Table.Cell>
-                    <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-                    <Table.Cell>
-                      {row.responsible.name}
-                      <Table.ActionBar
-                        popup
-                        items={[
-                          {
-                            icon: <IconSendPaperplaneRegular16 />,
-                            text: 'Отправить',
-                            onClick: () => console.log('send'),
-                          },
-                          {
-                            icon: <IconTechPrinterRegular16 />,
-                            text: 'Напечатать',
-                            onClick: () => console.log('print'),
-                          },
-                          {
-                            icon: <IconDocsPlusRegular16 />,
-                            text: 'Скопировать',
-                            onClick: () => console.log('copy'),
-                          },
-                          {
-                            icon: <IconMoneyTypeCoinsRegular16 />,
-                            text: 'Уплатить',
-                            onClick: () => console.log('pay'),
-                          },
-                          {
-                            icon: <IconNetDownloadRegular16 />,
-                            text: 'Скачать',
-                            onClick: () => console.log('download'),
-                          },
-                          {
-                            icon: <IconTrashCanRegular16 />,
-                            text: 'Удалить',
-                            onClick: () => console.log('delete'),
-                          },
-                        ]}
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                </>
-              ))}
-            </>
+            sortedRows.map((row) => (
+              <Table.Row checked={checkedRows.has(row.id)} key={row.id} onClick={() => handleRowClick(row.id)}>
+                <Table.CheckboxCell
+                  checked={isRowChecked(row.id)}
+                  onCheckboxClick={(e) => toggleRow(e, row.id)}
+                  aria-label={`Выбрать строку ${row.client}`}
+                />
+                <Table.Cell>{row.client}</Table.Cell>
+                <Table.Cell>{row.region}</Table.Cell>
+                <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
+                <Table.Cell>
+                  {row.responsible.name}
+                  <Table.ActionBar
+                    popup
+                    items={[
+                      {
+                        icon: <IconSendPaperplaneRegular16 />,
+                        text: 'Отправить',
+                        onClick: () => console.log('send'),
+                      },
+                      {
+                        icon: <IconTechPrinterRegular16 />,
+                        text: 'Напечатать',
+                        onClick: () => console.log('print'),
+                      },
+                      {
+                        icon: <IconDocsPlusRegular16 />,
+                        text: 'Скопировать',
+                        onClick: () => console.log('copy'),
+                      },
+                      {
+                        icon: <IconMoneyTypeCoinsRegular16 />,
+                        text: 'Уплатить',
+                        onClick: () => console.log('pay'),
+                      },
+                      {
+                        icon: <IconNetDownloadRegular16 />,
+                        text: 'Скачать',
+                        onClick: () => console.log('download'),
+                      },
+                      {
+                        icon: <IconTrashCanRegular16 />,
+                        text: 'Удалить',
+                        onClick: () => console.log('delete'),
+                      },
+                    ]}
+                  />
+                </Table.Cell>
+              </Table.Row>
+            ))
           )}
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={6}>
+            <Table.Cell colSpan={5}>
               <p>
                 Показано {sortedRows.length} из {memoizedInitialData.length} записей
               </p>
@@ -229,15 +219,15 @@ export const CheckeredExampleStory = () => {
     </div>
   );
 };
-export const AwsomeExample = () => {
+export const AwesomeExample = () => {
   const data = [
     {
       id: 1,
       client: 'ООО «Кавычки»',
-      sex: 'jiraph',
+      clientType: 'Организация',
       phone: '8(910)555-35-35',
-      email: 'kululumpa-lumpa-purururu@kontur.ru',
-      channal: 'teleramm',
+      email: 'billing@kavychki.example',
+      channel: 'Telegram',
       date: '14.10.2025 03:34',
       region: 'Курская обл 46',
       amount: 85000,
@@ -246,10 +236,10 @@ export const AwsomeExample = () => {
     {
       id: 2,
       client: 'Рыков Н. В.',
-      sex: 'jiraph',
+      clientType: 'Физлицо',
       phone: '8(910)555-35-35',
-      email: 'kululumpa-rururu@kontur.ru',
-      channal: 'viber',
+      email: 'rykov@example.ru',
+      channel: 'Viber',
       date: '14.10.2025 03:34',
       region: 'Хакасия 19',
       amount: 127000,
@@ -271,24 +261,15 @@ export const AwsomeExample = () => {
               aria-label="Выбрать все строки"
             />
             <Table.HeaderCell>Клиент</Table.HeaderCell>
-            <Table.HeaderCell>Пол</Table.HeaderCell>
+            <Table.HeaderCell>Тип клиента</Table.HeaderCell>
             <Table.HeaderCell width={'150px'}>Телефон</Table.HeaderCell>
             <Table.HeaderCell>E-mail</Table.HeaderCell>
             <Table.HeaderCell>Канал</Table.HeaderCell>
             <Table.HeaderCell>Дата</Table.HeaderCell>
             <Table.HeaderCell>Регион</Table.HeaderCell>
-            <Table.HeaderCell>Сумма, ₽</Table.HeaderCell>
-            <Table.HeaderCell>
-              <Table.DropdownSortableFilter
-                options={['1', '2']}
-                selectedOptions={['1']}
-                onSelect={(selected: string[]) => console.log('responsibleName', selected)}
-                onSort={(direction: 'asc' | 'desc') => console.log('responsible', direction)}
-              >
-                Ответственный
-              </Table.DropdownSortableFilter>
-            </Table.HeaderCell>
-            <Table.HeaderCell width={'200px'}></Table.HeaderCell>
+            <Table.HeaderCell currency>Сумма, ₽</Table.HeaderCell>
+            <Table.HeaderCell>Ответственный</Table.HeaderCell>
+            <Table.HeaderCell width={'200px'} />
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -300,13 +281,13 @@ export const AwsomeExample = () => {
                 aria-label={`Выбрать строку ${row.client}`}
               />
               <Table.Cell>{row.client}</Table.Cell>
-              <Table.Cell>{row.sex}</Table.Cell>
+              <Table.Cell>{row.clientType}</Table.Cell>
               <Table.Cell noWrap>{row.phone}</Table.Cell>
               <Table.Cell>{row.email}</Table.Cell>
-              <Table.Cell>{row.channal}</Table.Cell>
+              <Table.Cell>{row.channel}</Table.Cell>
               <Table.Cell>{row.date}</Table.Cell>
               <Table.Cell>{row.region}</Table.Cell>
-              <Table.Cell>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
+              <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
               <Table.Cell>{row.responsible.name}</Table.Cell>
               <Table.Cell>
                 <Table.ActionBar
@@ -349,8 +330,8 @@ export const AwsomeExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={6}>
-              <p>Показано записей</p>
+            <Table.Cell colSpan={11}>
+              <p>Показано {data.length} записей</p>
             </Table.Cell>
           </Table.Row>
         </Table.Footer>
@@ -359,15 +340,15 @@ export const AwsomeExample = () => {
   );
 };
 
-export const AwsomeExampleAutoResizing = () => {
+export const AwesomeExampleAutoResizing = () => {
   const data = [
     {
       id: 1,
       client: 'ООО «Кавычки»',
-      sex: 'jiraph',
+      clientType: 'Организация',
       phone: '8(910)555-35-35',
-      email: 'kululumpa-lumpa-purururu@kontur.ru',
-      channal: 'teleramm',
+      email: 'billing@kavychki.example',
+      channel: 'Telegram',
       date: '14.10.2025 03:34',
       region: 'Курская обл 46',
       amount: 85000,
@@ -376,10 +357,10 @@ export const AwsomeExampleAutoResizing = () => {
     {
       id: 2,
       client: 'Рыков Н. В.',
-      sex: 'jiraph',
+      clientType: 'Физлицо',
       phone: '8(910)555-35-35',
-      email: 'kululumpa-rururu@kontur.ru',
-      channal: 'viber',
+      email: 'rykov@example.ru',
+      channel: 'Viber',
       date: '14.10.2025 03:34',
       region: 'Хакасия 19',
       amount: 127000,
@@ -400,7 +381,7 @@ export const AwsomeExampleAutoResizing = () => {
             aria-label="Выбрать все строки"
           />
           <Table.HeaderCell>Клиент</Table.HeaderCell>
-          <Table.HeaderCell>Пол</Table.HeaderCell>
+          <Table.HeaderCell>Тип клиента</Table.HeaderCell>
           <Table.HeaderCell>Телефон</Table.HeaderCell>
           <Table.HeaderCell>E-mail</Table.HeaderCell>
           <Table.HeaderCell>Канал</Table.HeaderCell>
@@ -419,10 +400,10 @@ export const AwsomeExampleAutoResizing = () => {
               aria-label={`Выбрать строку ${row.client}`}
             />
             <Table.Cell>{row.client}</Table.Cell>
-            <Table.Cell>{row.sex}</Table.Cell>
+            <Table.Cell>{row.clientType}</Table.Cell>
             <Table.Cell noWrap>{row.phone}</Table.Cell>
             <Table.Cell>{row.email}</Table.Cell>
-            <Table.Cell>{row.channal}</Table.Cell>
+            <Table.Cell>{row.channel}</Table.Cell>
             <Table.Cell>{row.date}</Table.Cell>
             <Table.Cell>{row.region}</Table.Cell>
             <Table.Cell>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
@@ -439,25 +420,17 @@ export const MultiHeadersExample = () => {
     {
       id: 1,
       client: 'ООО «Кавычки»',
-      sex: 'jiraph',
-      phone: '8(910)555-35-35',
-      email: 'kululumpa-lumpa-purururu@kontur.ru',
-      channal: 'teleramm',
-      date: '14.10.2025 03:34',
-      region: 'Курская обл 46',
-      amount: 85000,
+      phone: '8 (910) 555-35-35',
+      email: 'billing@kavychki.example',
+      channel: 'Telegram',
       responsible: { name: 'Антон Чехов' },
     },
     {
       id: 2,
       client: 'Рыков Н. В.',
-      sex: 'jiraph',
-      phone: '8(910)555-35-35',
-      email: 'kululumpa-rururu@kontur.ru',
-      channal: 'viber',
-      date: '14.10.2025 03:34',
-      region: 'Хакасия 19',
-      amount: 127000,
+      phone: '8 (910) 555-35-35',
+      email: 'rykov@example.ru',
+      channel: 'Viber',
       responsible: { name: 'Алексей Толстой' },
     },
   ];
@@ -476,16 +449,17 @@ export const MultiHeadersExample = () => {
               initialIndeterminate={hasChecked}
               aria-label="Выбрать все строки"
             />
-            <Table.HeaderCell rowSpan={2}>Телефон</Table.HeaderCell>
+            <Table.HeaderCell rowSpan={2}>Клиент</Table.HeaderCell>
             <Table.HeaderCell colSpan={2} bottomBorder>
-              E-mail
+              Контакты
             </Table.HeaderCell>
+            <Table.HeaderCell rowSpan={2}>Ответственный</Table.HeaderCell>
             <Table.HeaderCell rowSpan={2}>Канал</Table.HeaderCell>
-            <Table.HeaderCell rowSpan={2}></Table.HeaderCell>
+            <Table.HeaderCell rowSpan={2} width="80px" />
           </Table.Row>
           <Table.Row>
-            <Table.HeaderCell>Адрес</Table.HeaderCell>
-            <Table.HeaderCell>Домен</Table.HeaderCell>
+            <Table.HeaderCell>Телефон</Table.HeaderCell>
+            <Table.HeaderCell>E-mail</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -496,10 +470,11 @@ export const MultiHeadersExample = () => {
                 onCheckboxClick={(e) => toggleRow(e, row.id)}
                 aria-label={`Выбрать строку ${row.client}`}
               />
+              <Table.Cell>{row.client}</Table.Cell>
               <Table.Cell noWrap>{row.phone}</Table.Cell>
               <Table.Cell>{row.email}</Table.Cell>
               <Table.Cell>{row.responsible.name}</Table.Cell>
-              <Table.Cell>{row.channal}</Table.Cell>
+              <Table.Cell>{row.channel}</Table.Cell>
               <Table.Cell>
                 <Table.ActionBar
                   items={[
@@ -536,31 +511,25 @@ export const BasicTableExample = () => {
     {
       key: 'name',
       accessor: (row: (typeof data)[0]) => row.name,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Имя',
     },
     {
       key: 'age',
       accessor: (row: (typeof data)[0]) => row.age,
-      stringifier: (value: number) => value.toString(),
-      predicate: (filterValues: string[], value: number) =>
-        filterValues.length === 0 || filterValues.includes(value.toString()),
+      stringify: (value: number) => value.toString(),
       label: 'Возраст',
     },
     {
       key: 'city',
       accessor: (row: (typeof data)[0]) => row.city,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Город',
     },
     {
       key: 'salary',
       accessor: (row: (typeof data)[0]) => row.salary,
-      stringifier: (value: number) => value.toLocaleString('ru-RU'),
-      predicate: (filterValues: string[], value: number) =>
-        filterValues.length === 0 || filterValues.includes(value.toLocaleString('ru-RU')),
+      stringify: (value: number) => value.toLocaleString('ru-RU'),
       label: 'Зарплата, ₽',
     },
   ];
@@ -730,7 +699,7 @@ export const StickyHeaderFooterExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={5}>
+            <Table.Cell colSpan={4}>
               <p>Всего пользователей: {data.length}</p>
             </Table.Cell>
           </Table.Row>
@@ -812,22 +781,15 @@ export const PaginationExample = () => {
               <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
             </Table.Row>
           ))}
-          <Table.Row>
-            <Table.Cell colSpan={3}>
-              Страница {page} из {pages}
-            </Table.Cell>
-          </Table.Row>
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
             <Table.Cell colSpan={3}>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <Button disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
-                  Назад
-                </Button>
-                <Button disabled={page === pages} onClick={() => setPage((p) => Math.min(pages, p + 1))}>
-                  Вперёд
-                </Button>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                <span>
+                  Страница {page} из {pages}
+                </span>
+                <Paging activePage={page} pagesCount={pages} onPageChange={setPage} />
               </div>
             </Table.Cell>
           </Table.Row>
@@ -972,51 +934,60 @@ export const FooterExample = () => {
     {
       id: 1,
       organization: 'ООО «Цветочки»',
-      value1: 12.45,
-      value2: 23.45,
-      value3: 34.67,
+      january: 12450,
+      february: 23450,
+      march: 34670,
     },
     {
       id: 2,
       organization: 'ООО «Ромашка»',
-      value1: 123.56,
-      value2: 112.45,
-      value3: 101.24,
+      january: 123560,
+      february: 112450,
+      march: 101240,
     },
     {
       id: 3,
       organization: 'ООО «Василек»',
-      value1: 89.02,
-      value2: 90.13,
-      value3: 78.01,
+      january: 89020,
+      february: 90130,
+      march: 78010,
     },
     {
       id: 4,
       organization: 'ООО «Анютины глазки»',
-      value1: 67.9,
-      value2: 56.78,
-      value3: 45.68,
+      january: 67900,
+      february: 56780,
+      march: 45680,
     },
   ];
 
-  const formatDecimal = (num: number) => {
-    return num.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  };
-
-  const formatLargeNumber = (num: number) => {
-    return num.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  };
+  const formatMoney = (num: number) =>
+    num.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const totals = organizationData.reduce(
+    (acc, row) => ({
+      january: acc.january + row.january,
+      february: acc.february + row.february,
+      march: acc.march + row.march,
+    }),
+    { january: 0, february: 0, march: 0 }
+  );
 
   return (
-    <div style={{ height: '200px', overflow: 'auto' }}>
+    <div style={{ height: '240px', overflow: 'auto' }}>
       <Table size="medium">
-        <Table.Header>
+        <Table.Header sticky>
           <Table.Row>
             <Table.HeaderCell width="40px" />
-            <Table.HeaderCell width="250px"></Table.HeaderCell>
-            <Table.HeaderCell width="150px" currency></Table.HeaderCell>
-            <Table.HeaderCell width="150px" currency></Table.HeaderCell>
-            <Table.HeaderCell width="150px" currency></Table.HeaderCell>
+            <Table.HeaderCell width="250px">Контрагент</Table.HeaderCell>
+            <Table.HeaderCell width="150px" currency>
+              Январь, ₽
+            </Table.HeaderCell>
+            <Table.HeaderCell width="150px" currency>
+              Февраль, ₽
+            </Table.HeaderCell>
+            <Table.HeaderCell width="150px" currency>
+              Март, ₽
+            </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -1029,9 +1000,9 @@ export const FooterExample = () => {
               <Table.Cell>
                 <strong>{row.organization}</strong>
               </Table.Cell>
-              <Table.Cell currency>{formatDecimal(row.value1)}</Table.Cell>
-              <Table.Cell currency>{formatDecimal(row.value2)}</Table.Cell>
-              <Table.Cell currency>{formatDecimal(row.value3)}</Table.Cell>
+              <Table.Cell currency>{formatMoney(row.january)}</Table.Cell>
+              <Table.Cell currency>{formatMoney(row.february)}</Table.Cell>
+              <Table.Cell currency>{formatMoney(row.march)}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
@@ -1042,13 +1013,13 @@ export const FooterExample = () => {
               <strong>Итого</strong>
             </Table.Cell>
             <Table.Cell currency>
-              <strong>{formatLargeNumber(845000.21)}</strong>
+              <strong>{formatMoney(totals.january)}</strong>
             </Table.Cell>
             <Table.Cell currency>
-              <strong>{formatLargeNumber(45000.32)}</strong>
+              <strong>{formatMoney(totals.february)}</strong>
             </Table.Cell>
             <Table.Cell currency>
-              <strong>{formatLargeNumber(800000.09)}</strong>
+              <strong>{formatMoney(totals.march)}</strong>
             </Table.Cell>
           </Table.Row>
         </Table.Footer>
@@ -1062,23 +1033,23 @@ export const GroupedHeadersExample = () => {
     {
       id: 1,
       organization: 'ООО «Ромашка»',
+      rate18: 60000,
+      rate10: 25000,
       totalAmount: 85000,
-      rate18: 85000,
-      rate10: 85000,
     },
     {
       id: 2,
       organization: 'ООО «Василек»',
+      rate18: 92000,
+      rate10: 35000,
       totalAmount: 127000,
-      rate18: 127000,
-      rate10: 127000,
     },
     {
       id: 3,
       organization: 'ООО «Анютины глазки»',
+      rate18: 3500,
+      rate10: 1500,
       totalAmount: 5000,
-      rate18: 5000,
-      rate10: 5000,
     },
   ];
 
@@ -1093,14 +1064,7 @@ export const GroupedHeadersExample = () => {
       <Table size="medium">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell width="250px"></Table.HeaderCell>
-            <Table.HeaderCell width="150px"></Table.HeaderCell>
-            <Table.HeaderCell width="300px" colSpan={2} bottomBorder>
-              Стоимость продаж без НДС
-            </Table.HeaderCell>
-          </Table.Row>
-          <Table.Row>
-            <Table.HeaderCell width="250px">
+            <Table.HeaderCell width="250px" rowSpan={2}>
               <Table.Sort
                 sortDirection={sortConfig.key === 'organization' ? (sortConfig.direction ?? undefined) : undefined}
                 onSort={(direction) => handleSort('organization', direction)}
@@ -1108,7 +1072,7 @@ export const GroupedHeadersExample = () => {
                 Организация
               </Table.Sort>
             </Table.HeaderCell>
-            <Table.HeaderCell width="150px" currency>
+            <Table.HeaderCell width="150px" rowSpan={2} currency>
               <Table.Sort
                 sortDirection={sortConfig.key === 'totalAmount' ? (sortConfig.direction ?? undefined) : undefined}
                 onSort={(direction) => handleSort('totalAmount', direction)}
@@ -1116,6 +1080,11 @@ export const GroupedHeadersExample = () => {
                 Общая сумма, ₽
               </Table.Sort>
             </Table.HeaderCell>
+            <Table.HeaderCell width="300px" colSpan={2} bottomBorder>
+              Стоимость продаж без НДС
+            </Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
             <Table.HeaderCell width="150px" currency>
               <Table.Sort
                 sortDirection={sortConfig.key === 'rate18' ? (sortConfig.direction ?? undefined) : undefined}
@@ -1161,30 +1130,25 @@ export const SizeExampleStory = () => {
     {
       key: 'client',
       accessor: (row: TableRow) => row.client,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Клиент',
     },
     {
       key: 'region',
       accessor: (row: TableRow) => row.region,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Регион',
     },
     {
       key: 'amount',
       accessor: (row: TableRow) => row.amount,
-      stringifier: (value: number) => value.toLocaleString('ru-RU'),
-      predicate: (filterValues: string[], value: number) =>
-        filterValues.length === 0 || filterValues.includes(value.toLocaleString('ru-RU')),
+      stringify: (value: number) => value.toLocaleString('ru-RU'),
       label: 'Сумма, ₽',
     },
     {
       key: 'responsibleName',
       accessor: (row: TableRow) => row.responsible.name,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Ответственный',
     },
   ];
@@ -1241,173 +1205,145 @@ export const SizeExampleStory = () => {
   );
 
   return (
-    <ThemeContext.Consumer>
-      {(baseTheme) => {
-        return (
-          <ThemeContext.Provider value={baseTheme}>
-            <div
-              style={{
-                margin: '10px',
-              }}
-            >
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                <Select<'small' | 'medium' | 'large'>
-                  items={['small', 'medium', 'large']}
-                  value={tableSize}
-                  onValueChange={(value) => setTableSize(value)}
-                />
-              </div>
-              {filterTokens.length > 0 && <Table.FilterResultRow tokens={filterTokens} onResetAll={resetFilters} />}
-              <Table hasChecked={hasChecked} size={tableSize} width={'900px'}>
-                <Table.Header sticky>
-                  <Table.Row>
-                    <Table.HeaderCheckboxCell
-                      checkboxRef={checkboxRef}
-                      onClick={() => selectAll()}
-                      checked={isCheckedAll}
-                      initialIndeterminate={hasChecked}
-                      aria-label="Выбрать все строки"
-                    />
-                    <Table.HeaderCell width={'33.33%'}>
-                      <Table.DropdownSortableFilter
-                        options={uniqueValues.client}
-                        selectedOptions={columnFilters.get('client') ?? []}
-                        onSelect={(selected: string[]) => setFilter('client', selected)}
-                        onSort={(direction) => handleSort('client', direction)}
-                        sortDirection={sortConfig.key === 'client' ? (sortConfig.direction ?? undefined) : undefined}
-                      >
-                        Клиент
-                      </Table.DropdownSortableFilter>
-                    </Table.HeaderCell>
+    <div style={{ margin: '10px' }}>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+        <Select<'small' | 'medium' | 'large'>
+          items={['small', 'medium', 'large']}
+          value={tableSize}
+          onValueChange={(value) => setTableSize(value)}
+        />
+      </div>
+      {filterTokens.length > 0 && <Table.FilterResultRow tokens={filterTokens} onResetAll={resetFilters} />}
+      <Table hasChecked={hasChecked} size={tableSize} width={'900px'}>
+        <Table.Header sticky>
+          <Table.Row>
+            <Table.HeaderCheckboxCell
+              checkboxRef={checkboxRef}
+              onClick={() => selectAll()}
+              checked={isCheckedAll}
+              initialIndeterminate={hasChecked}
+              aria-label="Выбрать все строки"
+            />
+            <Table.HeaderCell width={'33.33%'}>
+              <Table.DropdownSortableFilter
+                options={uniqueValues.client}
+                selectedOptions={columnFilters.get('client') ?? []}
+                onSelect={(selected: string[]) => setFilter('client', selected)}
+                onSort={(direction) => handleSort('client', direction)}
+                sortDirection={sortConfig.key === 'client' ? (sortConfig.direction ?? undefined) : undefined}
+              >
+                Клиент
+              </Table.DropdownSortableFilter>
+            </Table.HeaderCell>
 
-                    <Table.HeaderCell width={'33.33%'}>
-                      <Table.Sort
-                        onSort={(direction) => handleSort('region', direction)}
-                        sortDirection={sortConfig.key === 'region' ? (sortConfig.direction ?? undefined) : undefined}
-                        filtered={(columnFilters.get('region')?.length ?? 0) > 0}
-                      >
-                        Регион
-                      </Table.Sort>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell currency width={'33.33%'}>
-                      <Table.DropdownFilter
-                        options={uniqueValues.amount}
-                        selectedOptions={columnFilters.get('amount') ?? []}
-                        onSelect={(selected: string[]) => setFilter('amount', selected)}
-                      >
-                        Сумма, ₽
-                      </Table.DropdownFilter>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell currency width={'100px'}>
-                      Сумма, ₽
-                    </Table.HeaderCell>
-                    <Table.HeaderCell width={'300px'}>Ответственный</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {sortedRows.length === 0 ? (
-                    <Table.Row>
-                      <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
-                    </Table.Row>
-                  ) : (
-                    <>
-                      {paginatedRows.map((row) => (
-                        <>
-                          <Table.Row
-                            bottomBorder
-                            checked={checkedRows.has(row.id)}
-                            key={row.id}
-                            onClick={() => handleRowClick(row.id)}
-                          >
-                            <Table.CheckboxCell
-                              checked={isRowChecked(row.id)}
-                              onCheckboxClick={(e) => toggleRow(e, row.id)}
-                              aria-label={`Выбрать строку ${row.client}`}
-                            ></Table.CheckboxCell>
-                            <Table.Cell>{row.client}</Table.Cell>
-                            <Table.Cell>{row.region}</Table.Cell>
-                            <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-                            <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-                            <Table.Cell>
-                              {row.responsible.name}
-                              <Table.ActionBar
-                                popup
-                                items={[
-                                  {
-                                    icon: getIcon(
-                                      IconSendPaperplaneRegular16,
-                                      IconSendPaperplaneRegular20,
-                                      IconSendPaperplaneRegular24
-                                    ),
-                                    text: 'Отправить',
-                                    onClick: () => console.log('send'),
-                                  },
-                                  {
-                                    icon: getIcon(
-                                      IconTechPrinterRegular16,
-                                      IconTechPrinterRegular20,
-                                      IconTechPrinterRegular24
-                                    ),
-                                    text: 'Напечатать',
-                                    onClick: () => console.log('print'),
-                                  },
-                                  {
-                                    icon: getIcon(IconDocsPlusRegular16, IconDocsPlusRegular20, IconDocsPlusRegular24),
-                                    text: 'Скопировать',
-                                    onClick: () => console.log('copy'),
-                                  },
-                                  {
-                                    icon: getIcon(
-                                      IconMoneyTypeCoinsRegular16,
-                                      IconMoneyTypeCoinsRegular20,
-                                      IconMoneyTypeCoinsRegular24
-                                    ),
-                                    text: 'Уплатить',
-                                    onClick: () => console.log('pay'),
-                                  },
-                                  {
-                                    icon: getIcon(
-                                      IconNetDownloadRegular16,
-                                      IconNetDownloadRegular20,
-                                      IconNetDownloadRegular24
-                                    ),
-                                    text: 'Скачать',
-                                    onClick: () => console.log('download'),
-                                  },
-                                  {
-                                    icon: getIcon(IconTrashCanRegular16, IconTrashCanRegular20, IconTrashCanRegular24),
-                                    text: 'Удалить',
-                                    onClick: () => console.log('delete'),
-                                  },
-                                ]}
-                              />
-                            </Table.Cell>
-                          </Table.Row>
-                        </>
-                      ))}
-                    </>
-                  )}
-                </Table.Body>
-                <Table.Footer sticky>
-                  <Table.Row>
-                    <Table.Cell colSpan={6}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <p>
-                          Показано {startIndex + 1}-{Math.min(endIndex, sortedRows.length)} из {sortedRows.length}{' '}
-                          записей Выбранно {checkedRows.size} из {sortedRows.length}
-                        </p>
-                        {totalPages > 1 && (
-                          <Paging activePage={currentPage} pagesCount={totalPages} onPageChange={handlePageChange} />
-                        )}
-                      </div>
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Footer>
-              </Table>
-            </div>
-          </ThemeContext.Provider>
-        );
-      }}
-    </ThemeContext.Consumer>
+            <Table.HeaderCell width={'33.33%'}>
+              <Table.Sort
+                onSort={(direction) => handleSort('region', direction)}
+                sortDirection={sortConfig.key === 'region' ? (sortConfig.direction ?? undefined) : undefined}
+                filtered={(columnFilters.get('region')?.length ?? 0) > 0}
+              >
+                Регион
+              </Table.Sort>
+            </Table.HeaderCell>
+            <Table.HeaderCell currency width={'33.33%'}>
+              <Table.DropdownFilter
+                options={uniqueValues.amount}
+                selectedOptions={columnFilters.get('amount') ?? []}
+                onSelect={(selected: string[]) => setFilter('amount', selected)}
+              >
+                Сумма, ₽
+              </Table.DropdownFilter>
+            </Table.HeaderCell>
+            <Table.HeaderCell width={'300px'}>Ответственный</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {sortedRows.length === 0 ? (
+            <Table.Row>
+              <Table.Cell colSpan={5}>Нет данных, соответствующих вашему запросу.</Table.Cell>
+            </Table.Row>
+          ) : (
+            paginatedRows.map((row) => (
+              <Table.Row
+                bottomBorder
+                checked={checkedRows.has(row.id)}
+                key={row.id}
+                onClick={() => handleRowClick(row.id)}
+              >
+                <Table.CheckboxCell
+                  checked={isRowChecked(row.id)}
+                  onCheckboxClick={(e) => toggleRow(e, row.id)}
+                  aria-label={`Выбрать строку ${row.client}`}
+                />
+                <Table.Cell>{row.client}</Table.Cell>
+                <Table.Cell>{row.region}</Table.Cell>
+                <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
+                <Table.Cell>
+                  {row.responsible.name}
+                  <Table.ActionBar
+                    popup
+                    items={[
+                      {
+                        icon: getIcon(
+                          IconSendPaperplaneRegular16,
+                          IconSendPaperplaneRegular20,
+                          IconSendPaperplaneRegular24
+                        ),
+                        text: 'Отправить',
+                        onClick: () => console.log('send'),
+                      },
+                      {
+                        icon: getIcon(IconTechPrinterRegular16, IconTechPrinterRegular20, IconTechPrinterRegular24),
+                        text: 'Напечатать',
+                        onClick: () => console.log('print'),
+                      },
+                      {
+                        icon: getIcon(IconDocsPlusRegular16, IconDocsPlusRegular20, IconDocsPlusRegular24),
+                        text: 'Скопировать',
+                        onClick: () => console.log('copy'),
+                      },
+                      {
+                        icon: getIcon(
+                          IconMoneyTypeCoinsRegular16,
+                          IconMoneyTypeCoinsRegular20,
+                          IconMoneyTypeCoinsRegular24
+                        ),
+                        text: 'Уплатить',
+                        onClick: () => console.log('pay'),
+                      },
+                      {
+                        icon: getIcon(IconNetDownloadRegular16, IconNetDownloadRegular20, IconNetDownloadRegular24),
+                        text: 'Скачать',
+                        onClick: () => console.log('download'),
+                      },
+                      {
+                        icon: getIcon(IconTrashCanRegular16, IconTrashCanRegular20, IconTrashCanRegular24),
+                        text: 'Удалить',
+                        onClick: () => console.log('delete'),
+                      },
+                    ]}
+                  />
+                </Table.Cell>
+              </Table.Row>
+            ))
+          )}
+        </Table.Body>
+        <Table.Footer sticky>
+          <Table.Row>
+            <Table.Cell colSpan={5}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p>
+                  Показано {startIndex + 1}-{Math.min(endIndex, sortedRows.length)} из {sortedRows.length} записей.
+                  Выбрано {checkedRows.size} из {sortedRows.length}
+                </p>
+                {totalPages > 1 && (
+                  <Paging activePage={currentPage} pagesCount={totalPages} onPageChange={handlePageChange} />
+                )}
+              </div>
+            </Table.Cell>
+          </Table.Row>
+        </Table.Footer>
+      </Table>
+    </div>
   );
 };

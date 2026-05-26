@@ -11,19 +11,21 @@ import * as UseTableSortStories from './useTableSort.docs.stories';
 ## Сигнатура
 
 ```ts
-const { sortedRows, sortConfig, handleSort } = useTableSort(rows, initialConfig?);
+const { sortedRows, sortConfig, handleSort } = useTableSort<T, TKey>(rows, initialConfig?, compareFn?, options?);
 ```
 
 ### Принимает
 
 - `rows: T[]` — данные для сортировки (чаще всего результат `useTableFilters`).
-- `initialConfig?: { key?: string | null; direction?: 'asc' | 'desc' }` — стартовое состояние сортировки.
+- `initialConfig?: { key?: TKey; direction?: 'asc' | 'desc' }` — стартовое состояние. Если `key` не указан, сортировка не применяется.
+- `compareFn?: (a: T, b: T, sortConfig) => number` — кастомное сравнение (например, для вложенных полей). Если не передано, используется `Intl.Collator` для строк и числовое сравнение для чисел.
+- `options?: { emptyPlacement?: 'first' | 'last'; locale?: string | string[]; localeOptions?: Intl.CollatorOptions }` — настройки сортировки.
 
 ### Возвращает
 
-- `sortedRows: T[]` — отсортированный массив.
-- `sortConfig: { key: string | null; direction: 'asc' | 'desc' }` — текущее состояние.
-- `handleSort(columnKey, direction)` — применить сортировку для колонки.
+- `sortedRows: T[]` — отсортированный массив. Если `sortConfig.key` отсутствует, возвращается исходный `rows`.
+- `sortConfig: { key?: TKey; direction?: 'asc' | 'desc' }` — текущее состояние.
+- `handleSort(columnKey: TKey, direction: 'asc' | 'desc')` — задать сортировку для колонки.
 
 ## Базовое использование
 
@@ -44,7 +46,7 @@ const { sortedRows, sortConfig, handleSort } = useTableSort(filteredRows, { key:
 ## Советы
 
 - Всегда вызывайте сортировку после фильтров: `useTableFilters` → `useTableSort` → `useTableRowSelection`.
-- Если сортируете по вложенным полям, используйте единый ключ (например `responsible`) и обеспечьте корректный `accessor` в колонке.
+- Если сортируете по вложенным полям, передайте `compareFn`, который сам достанет нужное значение (например, `a.responsible.name`).
 - Храните `rows` в `React.useMemo` для больших таблиц, чтобы не пересортировывать на каждый ререндер.
 
 ## История

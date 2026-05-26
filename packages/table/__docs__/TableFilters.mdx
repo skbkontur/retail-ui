@@ -12,7 +12,7 @@ import * as TableFiltersStories from './TableFilters.docs.stories';
 ## Что входит
 
 - `Table.DropdownFilter` и `Table.DropdownSortableFilter` — базовый и сортируемый фильтры.
-- `Table.Filter`, `Table.FilterItem`, `Table.FilterSearch`, `Table.ActionsDropdownItem` — конструктор выпадающих фильтров.
+- `Table.Filter`, `Table.FilterItem`, `Table.FilterSearch` — конструктор выпадающих фильтров.
 - `Table.FilterResultRow` / `Table.FilterResultCell` / `Table.Token` — отображение активных фильтров.
 
 ## Короткий пример
@@ -31,7 +31,7 @@ const tokens = convertFiltersToTokens();
     selectedOptions={filters.get('status') ?? []}
     onSelect={(next) => setFilter('status', next)}
     onSort={(direction) => handleSort('status', direction)}
-    sort={sortConfig.direction}
+    sortDirection={sortConfig.direction}
   >
     Статус
   </Table.DropdownSortableFilter>

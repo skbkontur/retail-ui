@@ -21,20 +21,17 @@ export const SimpleFiltersExample = () => {
     {
       key: 'name',
       accessor: (row: TableRow) => row.name,
-      stringifier: (value: string) => value,
-      predicate: (selected: string[], value: string) => selected.length === 0 || selected.includes(value),
+      stringify: (value: string) => value,
     },
     {
       key: 'city',
       accessor: (row: TableRow) => row.city,
-      stringifier: (value: string) => value,
-      predicate: (selected: string[], value: string) => selected.length === 0 || selected.includes(value),
+      stringify: (value: string) => value,
     },
     {
       key: 'score',
       accessor: (row: TableRow) => row.score,
-      stringifier: (value: number) => value.toString(),
-      predicate: (selected: string[], value: number) => selected.length === 0 || selected.includes(value.toString()),
+      stringify: (value: number) => value.toString(),
     },
   ];
 

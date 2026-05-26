@@ -61,8 +61,8 @@ import * as TableLayoutStories from './TableLayout.docs.stories';
 
 ## Особенности вёрстки (cheatsheet)
 
-- Ширины колонок: `px`, `%`, `fr` ( fr внутри конвертируются в проценты )
-- Sticky: `Table.Header` / `Table.Footer` с `sticky` для фиксированной шапки/футера.
-- Auto layout: `auto` на `Table` для вложенных таблиц и резиновых контейнеров прокидывает реальный [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/table-layout)
-- Узкие экраны: наружная обёртка с `overflow-x: auto`, внутри `min-width` и `size="small"`.
-- Вложенные таблицы: допускаются внутри `Table.Cell`, не забудьте про `colSpan/rowSpan`.
+- Ширины колонок: `px` и `%`.
+- Sticky: `Table.Header` / `Table.Footer` с пропом `sticky` фиксируют шапку/футер при прокрутке внешнего контейнера.
+- Auto layout: проп `auto` на `Table` включает нативный [`table-layout: auto`](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) — пригождается для вложенных таблиц и резиновых контейнеров.
+- Узкие экраны: наружная обёртка с `overflow-x: auto`, внутри `Table` с `minWidth` и `size="small"`.
+- Вложенные таблицы: допускаются внутри `Table.Cell`. Не забудьте про `colSpan` / `rowSpan` во внешней таблице.

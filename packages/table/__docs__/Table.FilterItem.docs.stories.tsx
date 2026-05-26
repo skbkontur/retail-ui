@@ -13,48 +13,52 @@ export default {
 
 export const Basic = () => {
   const rows = initialData.slice(0, 4);
-  const options = ['Москва', 'Казань', 'Екатеринбург', 'Краснодар'];
+  const statuses = [
+    { value: 'new', label: 'Новый' },
+    { value: 'inProgress', label: 'В работе' },
+    { value: 'done', label: 'Готово' },
+    { value: 'archived', label: 'В архиве', disabled: true },
+  ];
 
-  const [search, setSearch] = React.useState('');
-  const [selected, setSelected] = React.useState<string[]>([]);
+  const [selected, setSelected] = React.useState<string[]>(['new']);
+  const toggleStatus = (status: string) =>
+    setSelected((prev) => (prev.includes(status) ? prev.filter((item) => item !== status) : [...prev, status]));
 
-  const filteredOptions = options.filter((option) => option.toLowerCase().includes(search.toLowerCase()));
-  const toggleOption = (option: string) =>
-    setSelected((prev) => (prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]));
-
-  const visibleRows = selected.length === 0 ? rows : rows.filter((row) => selected.includes(row.region));
+  const CheckIcon = (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3.5 8.5l3 3 6-6" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+    </svg>
+  );
 
   return (
     <Table size="small">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Клиент</Table.HeaderCell>
-          <Table.Filter
-            filtered={selected.length > 0}
-            popup={
-              <>
-                <Table.FilterSearch
-                  searchQuery={search}
-                  handleSearchQuery={setSearch}
-                  searchPlaceholder="Искать город"
-                />
-                {filteredOptions.map((option) => (
-                  <Table.FilterItem key={option} onClick={() => toggleOption(option)}>
-                    {option}
-                  </Table.FilterItem>
-                ))}
-              </>
-            }
-          >
-            Регион
-          </Table.Filter>
+          <Table.HeaderCell>
+            <Table.Filter
+              filtered={selected.length > 0}
+              popup={statuses.map((status) => (
+                <Table.FilterItem
+                  key={status.value}
+                  disabled={status.disabled}
+                  icon={selected.includes(status.value) ? CheckIcon : undefined}
+                  onClick={() => toggleStatus(status.value)}
+                >
+                  {status.label}
+                </Table.FilterItem>
+              ))}
+            >
+              Статус
+            </Table.Filter>
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {visibleRows.map((row) => (
+        {rows.map((row) => (
           <Table.Row key={row.id}>
             <Table.Cell>{row.client}</Table.Cell>
-            <Table.Cell>{row.region}</Table.Cell>
+            <Table.Cell>{statuses.find((s) => selected.includes(s.value))?.label ?? '—'}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>

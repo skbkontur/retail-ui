@@ -10,13 +10,20 @@ export default {
   },
 };
 
-interface Row {
-  id: number;
-  city: string;
-  status: 'new' | 'inProgress' | 'done';
-}
-
 export const FiltersBasic = () => {
+  type Status = 'new' | 'inProgress' | 'done';
+  interface Row {
+    id: number;
+    city: string;
+    status: Status;
+  }
+
+  const statusLabel: Record<Status, string> = {
+    new: 'Новый',
+    inProgress: 'В работе',
+    done: 'Готово',
+  };
+
   const source: Row[] = [
     { id: 1, city: 'Москва', status: 'new' },
     { id: 2, city: 'Екатеринбург', status: 'inProgress' },
@@ -28,19 +35,17 @@ export const FiltersBasic = () => {
     {
       key: 'city',
       accessor: (row: Row) => row.city,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Город',
     },
     {
       key: 'status',
       accessor: (row: Row) => row.status,
-      stringifier: (value: Row['status']) => value,
-      predicate: (filterValues: string[], value: Row['status']) =>
-        filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: Status) => statusLabel[value],
       label: 'Статус',
     },
   ];
+
   const { filters, setFilter, uniqueValues, filteredRows, convertFiltersToTokens, resetFilters } = useTableFilters(
     source,
     columnConfig
@@ -79,7 +84,7 @@ export const FiltersBasic = () => {
         {sortedRows.map((row) => (
           <Table.Row key={row.id}>
             <Table.Cell>{row.city}</Table.Cell>
-            <Table.Cell>{row.status}</Table.Cell>
+            <Table.Cell>{statusLabel[row.status]}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
@@ -88,6 +93,19 @@ export const FiltersBasic = () => {
 };
 
 export const FilterChips = () => {
+  type Status = 'new' | 'inProgress' | 'done';
+  interface Row {
+    id: number;
+    city: string;
+    status: Status;
+  }
+
+  const statusLabel: Record<Status, string> = {
+    new: 'Новый',
+    inProgress: 'В работе',
+    done: 'Готово',
+  };
+
   const source: Row[] = [
     { id: 1, city: 'Москва', status: 'new' },
     { id: 2, city: 'Екатеринбург', status: 'inProgress' },
@@ -99,16 +117,13 @@ export const FilterChips = () => {
     {
       key: 'city',
       accessor: (row: Row) => row.city,
-      stringifier: (value: string) => value,
-      predicate: (filterValues: string[], value: string) => filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: string) => value,
       label: 'Город',
     },
     {
       key: 'status',
       accessor: (row: Row) => row.status,
-      stringifier: (value: Row['status']) => value,
-      predicate: (filterValues: string[], value: Row['status']) =>
-        filterValues.length === 0 || filterValues.includes(value),
+      stringify: (value: Status) => statusLabel[value],
       label: 'Статус',
     },
   ];
@@ -139,7 +154,6 @@ export const FilterChips = () => {
               options={uniqueValues.status}
               selectedOptions={filters.get('status') ?? []}
               onSelect={(selected: string[]) => setFilter('status', selected)}
-              loaderActive={false}
             >
               Статус
             </Table.DropdownFilter>
@@ -151,7 +165,7 @@ export const FilterChips = () => {
         {filteredRows.map((row) => (
           <Table.Row key={row.id}>
             <Table.Cell>{row.city}</Table.Cell>
-            <Table.Cell>{row.status}</Table.Cell>
+            <Table.Cell>{statusLabel[row.status]}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>

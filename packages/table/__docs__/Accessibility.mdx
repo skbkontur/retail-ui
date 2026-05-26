@@ -18,7 +18,7 @@ import * as AccessibilityStories from './Accessibility.docs.stories';
 - **Кнопки** - действия внутри ячеек
 - **Действия** - меню действий с кнопками и выпадающими опциями
 
-Используйте `e.stopPropagation()` для интерактивных эелментов внутри интерактивной строки. В особых случаях можно пребегать к обработке через `closeset`
+Используйте `e.stopPropagation()` для интерактивных элементов внутри интерактивной строки. В особых случаях можно прибегать к обработке через `closest`.
 
 ## Пример использования
 
@@ -76,10 +76,14 @@ import { Link } from '@skbkontur/react-ui/components/Link';
 import { Button } from '@skbkontur/react-ui/components/Button';
 
 <Table.Cell>
-  <Button onClick={(e) => {
-      e.stopPropagation()
-      handleAction(row.id)
-    }>Выполнить</Button>
+  <Button
+    onClick={(e) => {
+      e.stopPropagation();
+      handleAction(row.id);
+    }}
+  >
+    Выполнить
+  </Button>
 </Table.Cell>;
 ```
 
@@ -89,7 +93,7 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 
 ```tsx
 <Table.ActionBar
-  popup/ Используйте для абсолютного позиционирования
+  popup // используйте для абсолютного позиционирования внутри ячейки
   items={[
     {
       icon: <SendPaperplaneIcon20Regular />,

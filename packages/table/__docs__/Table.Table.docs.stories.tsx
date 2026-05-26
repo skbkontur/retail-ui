@@ -13,35 +13,53 @@ export default {
 
 export const Basic = () => {
   const rows = initialData.slice(0, 3);
+
+  const renderHeader = () => (
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Клиент</Table.HeaderCell>
+        <Table.HeaderCell>Регион</Table.HeaderCell>
+        <Table.HeaderCell currency>Сумма, ₽</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+  );
+
+  const renderRows = () =>
+    rows.map((row) => (
+      <Table.Row key={row.id}>
+        <Table.Cell>{row.client}</Table.Cell>
+        <Table.Cell>{row.region}</Table.Cell>
+        <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
+      </Table.Row>
+    ));
+
   return (
-    <Table hasChecked size="small">
-      <Table.Header sticky>
-        <Table.Row>
-          <Table.HeaderCheckboxCell checked={false} onClick={() => undefined} aria-label="Выбрать все строки" />
-          <Table.HeaderCell width="33.33%">Клиент</Table.HeaderCell>
-          <Table.HeaderCell width="120px" currency>
-            Сумма
-          </Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {rows.map((row) => (
-          <Table.Row key={row.id} onClick={() => console.log('row', row.id)}>
-            <Table.CheckboxCell
-              checked={false}
-              onCheckboxClick={() => undefined}
-              aria-label={`Выбрать ${row.client}`}
-            />
-            <Table.Cell>{row.client}</Table.Cell>
-            <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-      <Table.Footer sticky>
-        <Table.Row>
-          <Table.Cell colSpan={3}>Всего {rows.length} строк</Table.Cell>
-        </Table.Row>
-      </Table.Footer>
-    </Table>
+    <div style={{ display: 'grid', gap: 24, padding: 12 }}>
+      <section>
+        <h4 style={{ margin: '0 0 8px' }}>Фиксированная ширина</h4>
+        <Table size="small" width="640px">
+          {renderHeader()}
+          <Table.Body>{renderRows()}</Table.Body>
+        </Table>
+      </section>
+
+      <section>
+        <h4 style={{ margin: '0 0 8px' }}>table-layout: auto</h4>
+        <Table size="small" auto>
+          {renderHeader()}
+          <Table.Body>{renderRows()}</Table.Body>
+        </Table>
+      </section>
+
+      <section>
+        <h4 style={{ margin: '0 0 8px' }}>minWidth + overflow контейнер</h4>
+        <div style={{ width: 360, overflowX: 'auto', border: '1px dashed #c4c8d4', padding: 4 }}>
+          <Table size="small" minWidth="640px">
+            {renderHeader()}
+            <Table.Body>{renderRows()}</Table.Body>
+          </Table>
+        </div>
+      </section>
+    </div>
   );
 };

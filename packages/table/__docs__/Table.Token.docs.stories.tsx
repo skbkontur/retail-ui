@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { initialData } from '../__stories__/data';
 import { Table } from '../src/components/Table/Table';
 
 export default {
@@ -12,31 +11,23 @@ export default {
 };
 
 export const Basic = () => {
-  const rows = initialData.slice(0, 2);
-  const tokens = [
-    { key: 'city', caption: 'Город: Москва', onRemove: () => console.log('remove city') },
-    { key: 'status', caption: 'Статус: Новый', onRemove: () => console.log('remove status') },
-  ];
+  const [tokens, setTokens] = React.useState([
+    { key: 'city', caption: 'Город: Москва' },
+    { key: 'status', caption: 'Статус: Новый' },
+    { key: 'amount', caption: 'Сумма: до 500 000 ₽' },
+  ]);
+
+  const removeToken = (key: string) => setTokens((prev) => prev.filter((token) => token.key !== key));
 
   return (
-    <Table size="small">
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Клиент</Table.HeaderCell>
-          <Table.HeaderCell>Регион</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        <Table.FilterResultRow colSpan={2} tokens={tokens} onResetAll={() => console.log('reset filters')}>
-          Применены фильтры
-        </Table.FilterResultRow>
-        {rows.map((row) => (
-          <Table.Row key={row.id}>
-            <Table.Cell>{row.client}</Table.Cell>
-            <Table.Cell>{row.region}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, padding: 12 }}>
+      {tokens.length === 0 ? (
+        <span>Все токены сброшены</span>
+      ) : (
+        tokens.map((token) => (
+          <Table.Token key={token.key} caption={token.caption} onRemove={() => removeToken(token.key)} />
+        ))
+      )}
+    </div>
   );
 };

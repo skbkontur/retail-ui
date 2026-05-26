@@ -57,16 +57,20 @@ export const Basic = () => {
 
   const customMenu = [
     {
-      text: <MenuHeader>Заголовок меню</MenuHeader>,
+      key: 'custom-menu-header',
+      text: <MenuHeader key="custom-menu-header">Заголовок меню</MenuHeader>,
     },
     {
-      text: <MenuItem>Раз</MenuItem>,
+      key: 'custom-menu-one',
+      text: <MenuItem key="custom-menu-one">Раз</MenuItem>,
     },
     {
-      text: <MenuSeparator />,
+      key: 'custom-menu-separator',
+      text: <MenuSeparator key="custom-menu-separator" />,
     },
     {
-      text: <MenuItem>Раз</MenuItem>,
+      key: 'custom-menu-two',
+      text: <MenuItem key="custom-menu-two">Два</MenuItem>,
     },
   ];
 
@@ -74,8 +78,8 @@ export const Basic = () => {
     <Table>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Имя</Table.HeaderCell>
-          <Table.HeaderCell width="240px">Экшены</Table.HeaderCell>
+          <Table.HeaderCell>Документ</Table.HeaderCell>
+          <Table.HeaderCell width="240px">Действия</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -107,7 +111,9 @@ export const Basic = () => {
           <Table.Cell>Пример popup caption</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
-              caption={<Table.KebabButton active size="small" />}
+              caption={({ opened, openMenu }) => (
+                <Table.KebabButton active={opened} size="small" onClick={() => openMenu()} />
+              )}
               items={actionItems}
               popup
               itemsVisible={0}
@@ -115,7 +121,7 @@ export const Basic = () => {
           </Table.Cell>
         </Table.Row>
         <Table.Row onClick={() => console.log(12)}>
-          <Table.Cell>Пример popup caption with opennead to active</Table.Cell>
+          <Table.Cell>Пример popup caption с кастомным меню</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
               caption={({ opened, openMenu }) => (
@@ -128,10 +134,12 @@ export const Basic = () => {
           </Table.Cell>
         </Table.Row>
         <Table.Row onClick={() => console.log(12)}>
-          <Table.Cell>Пример popup caption with opennead to active</Table.Cell>
+          <Table.Cell>Пример popup caption с активным состоянием</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
-              caption={({ opened }) => <Table.KebabButton active={opened} size="small" />}
+              caption={({ opened, openMenu }) => (
+                <Table.KebabButton active={opened} size="small" onClick={() => openMenu()} />
+              )}
               items={actionItems}
               popup
               itemsVisible={0}

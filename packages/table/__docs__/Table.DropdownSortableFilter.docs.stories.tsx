@@ -31,17 +31,19 @@ export const Basic = () => {
     <Table size="small">
       <Table.Header>
         <Table.Row>
-          <Table.DropdownSortableFilter
-            options={options}
-            selectedOptions={selectedOptions}
-            onSelect={setSelectedOptions}
-            sortDirection={sorted}
-            onSort={setSorted}
-            sortAscLabel="Сумма по возрастанию"
-            sortDescLabel="Сумма по убыванию"
-          >
-            Регион
-          </Table.DropdownSortableFilter>
+          <Table.HeaderCell>
+            <Table.DropdownSortableFilter
+              options={options}
+              selectedOptions={selectedOptions}
+              onSelect={setSelectedOptions}
+              sortDirection={sorted}
+              onSort={setSorted}
+              sortAscLabel="Сумма по возрастанию"
+              sortDescLabel="Сумма по убыванию"
+            >
+              Регион
+            </Table.DropdownSortableFilter>
+          </Table.HeaderCell>
           <Table.HeaderCell width="140px">Сумма</Table.HeaderCell>
         </Table.Row>
       </Table.Header>

@@ -12,37 +12,31 @@ export default {
 };
 
 export const Basic = () => {
-  const rows = initialData.slice(0, 3);
+  const rows = initialData.slice(0, 4);
+  const tokens = [{ key: 'city', caption: 'Город: Москва', onRemove: () => console.log('remove city') }];
 
   return (
-    <Table hasChecked size="small">
-      <Table.Header sticky>
+    <Table size="small">
+      <Table.Header>
         <Table.Row>
-          <Table.HeaderCheckboxCell checked={false} onClick={() => undefined} aria-label="Выбрать все строки" />
-          <Table.HeaderCell width="33.33%">Клиент</Table.HeaderCell>
+          <Table.HeaderCell width="50%">Клиент</Table.HeaderCell>
           <Table.HeaderCell width="120px" currency>
-            Сумма
+            Сумма, ₽
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
+        <Table.FilterResultRow colSpan={2} tokens={tokens} onResetAll={() => console.log('reset')} />
         {rows.map((row) => (
-          <Table.Row key={row.id} onClick={() => console.log('row', row.id)}>
-            <Table.CheckboxCell
-              checked={false}
-              onCheckboxClick={() => undefined}
-              aria-label={`Выбрать ${row.client}`}
-            />
+          <Table.Row key={row.id}>
             <Table.Cell>{row.client}</Table.Cell>
             <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
           </Table.Row>
         ))}
-      </Table.Body>
-      <Table.Footer sticky>
         <Table.Row>
-          <Table.Cell colSpan={3}>Всего {rows.length} строк</Table.Cell>
+          <Table.Cell colSpan={2}>Это служебная строка, которую можно положить прямо в Table.Body</Table.Cell>
         </Table.Row>
-      </Table.Footer>
+      </Table.Body>
     </Table>
   );
 };

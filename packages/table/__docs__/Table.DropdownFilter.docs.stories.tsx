@@ -22,14 +22,16 @@ export const Basic = () => {
     <Table size="small">
       <Table.Header>
         <Table.Row>
-          <Table.DropdownFilter
-            options={options}
-            selectedOptions={selectedOptions}
-            onSelect={setSelectedOptions}
-            searchPlaceholder="Найти регион"
-          >
-            Регион
-          </Table.DropdownFilter>
+          <Table.HeaderCell>
+            <Table.DropdownFilter
+              options={options}
+              selectedOptions={selectedOptions}
+              onSelect={setSelectedOptions}
+              searchPlaceholder="Найти регион"
+            >
+              Регион
+            </Table.DropdownFilter>
+          </Table.HeaderCell>
           <Table.HeaderCell>Клиент</Table.HeaderCell>
         </Table.Row>
       </Table.Header>

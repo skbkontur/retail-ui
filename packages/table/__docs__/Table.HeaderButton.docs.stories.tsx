@@ -12,19 +12,21 @@ export default {
 };
 
 export const Basic = () => {
-  const rows = initialData.slice(0, 3);
+  const rows = initialData.slice(0, 5);
 
-  const [filtered, setFiltered] = React.useState(false);
-
-  const visibleRows = filtered ? rows.slice(0, 1) : rows;
+  const [onlyVip, setOnlyVip] = React.useState(false);
+  const vipIds = new Set([rows[0]?.id, rows[2]?.id]);
+  const visibleRows = onlyVip ? rows.filter((row) => vipIds.has(row.id)) : rows;
 
   return (
     <Table size="small">
       <Table.Header>
         <Table.Row>
-          <Table.HeaderButton filtered={filtered} onClick={() => setFiltered((prev) => !prev)}>
-            Клиенты
-          </Table.HeaderButton>
+          <Table.HeaderCell>
+            <Table.HeaderButton filtered={onlyVip} onClick={() => setOnlyVip((prev) => !prev)}>
+              Клиенты {onlyVip ? '(только VIP)' : ''}
+            </Table.HeaderButton>
+          </Table.HeaderCell>
           <Table.HeaderCell>Регион</Table.HeaderCell>
         </Table.Row>
       </Table.Header>

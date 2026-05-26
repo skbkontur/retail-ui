@@ -12,11 +12,15 @@ export default {
 };
 
 export const Basic = () => {
-  const rows = initialData.slice(0, 2);
-  const tokens = [
-    { key: 'city', caption: 'Город: Москва', onRemove: () => console.log('remove city') },
-    { key: 'status', caption: 'Статус: Новый', onRemove: () => console.log('remove status') },
-  ];
+  const rows = initialData.slice(0, 3);
+  const [tokens, setTokens] = React.useState([
+    { key: 'city', caption: 'Город: Москва' },
+    { key: 'status', caption: 'Статус: Новый' },
+  ]);
+  const tokensWithRemove = tokens.map((token) => ({
+    ...token,
+    onRemove: () => setTokens((prev) => prev.filter((t) => t.key !== token.key)),
+  }));
 
   return (
     <Table size="small">
@@ -27,9 +31,11 @@ export const Basic = () => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        <Table.FilterResultRow colSpan={2} tokens={tokens} onResetAll={() => console.log('reset filters')}>
-          Применены фильтры
-        </Table.FilterResultRow>
+        <Table.Row>
+          <Table.FilterResultCell colSpan={2} tokens={tokensWithRemove} onResetAll={() => setTokens([])}>
+            <strong>Активные фильтры:</strong>
+          </Table.FilterResultCell>
+        </Table.Row>
         {rows.map((row) => (
           <Table.Row key={row.id}>
             <Table.Cell>{row.client}</Table.Cell>

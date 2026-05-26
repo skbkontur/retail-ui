@@ -48,14 +48,14 @@ const container = { maxWidth: 420, width: '100%', overflowX: 'auto' };
 
 # Горизонтальный скролл
 
-<Story of={Table.AwsomeExample} />
+<Story of={Table.AwesomeExample} />
 
 # table-layout: auto
 
 CSS свойство [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/table-layout) со значением
-auto позволяет автоматически высчитывать ширин колонок. Полезен, но при разных данных и фильтрациях таблица может "прыгать"
+auto позволяет автоматически высчитывать ширину колонок. Полезен, но при разных данных и фильтрациях таблица может "прыгать"
 
-<Story of={Table.AwsomeExampleAutoResizing} />
+<Story of={Table.AwesomeExampleAutoResizing} />
 
 # Многоуровневые заголовки
 
@@ -129,13 +129,13 @@ auto позволяет автоматически высчитывать шир
 
 # Размеры таблицы
 
-Таблица поддерживает три размера: `small`, `medium` и `large`. Размер влияет на отступы, высоту строк и размер иконок в действиях.
+Таблица поддерживает три размера: `small`, `medium` и `large`. Размер влияет на отступы, высоту строк и подходящий размер иконок в действиях.
 
 ```tsx
 <Table size="small">{/* содержимое таблицы */}</Table>
 ```
 
-При изменении размера таблицы рекомендуется также изменять размер иконок в действиях:
+Под каждый размер таблицы используйте иконки соответствующего шага: `*Regular16` для `small`, `*Regular20` для `medium`, `*Regular24` для `large`.
 
 ```tsx
 const getIcon = (Icon16, Icon20, Icon24) => {
@@ -150,12 +150,6 @@ const getIcon = (Icon16, Icon20, Icon24) => {
       return <Icon20 />;
   }
 };
-```
-
-Можно передать проп `size`, полный список находится [в Контур.Гайдах](https://guides.kontur.ru/re/sources/icons/#bag-briefcase)
-
-```tsx
-<CdnIcon icon="bag-briefcase" size={24} weight="regular" />
 ```
 
 <Story of={Table.SizeExampleStory} />

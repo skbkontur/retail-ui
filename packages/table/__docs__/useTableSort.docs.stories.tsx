@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Table, useTableFilters, useTableSort } from '..';
+import { Table, useTableSort } from '..';
 
 export default {
   title: 'Hooks/useTableSort',
@@ -15,47 +15,31 @@ export const SimpleSortExample = () => {
     { id: 5, name: 'Дмитрий', city: 'СПб', score: 79 },
   ];
 
-  type TableRow = (typeof data)[0];
+  const { sortedRows, sortConfig, handleSort } = useTableSort(data, { key: 'name', direction: 'asc' });
 
-  const columnConfig = [
-    {
-      key: 'city',
-      accessor: (row: TableRow) => row.city,
-      stringifier: (value: string) => value,
-      predicate: (selected: string[], value: string) => selected.length === 0 || selected.includes(value),
-    },
-  ];
-
-  const { filteredRows } = useTableFilters<TableRow, string>(data, columnConfig);
-  const { sortedRows, sortConfig, handleSort } = useTableSort(filteredRows, { key: 'name', direction: 'asc' });
+  const sortFor = (key: 'name' | 'city' | 'score') =>
+    sortConfig.key === key ? (sortConfig.direction ?? undefined) : undefined;
 
   return (
     <div style={{ width: 520, padding: 12 }}>
-      <h4>Простая сортировка по имени и баллу</h4>
+      <h4>Сортировка по имени, городу и баллу</h4>
       <Table>
         <Table.Header sticky>
           <Table.Row>
             <Table.HeaderCell width={'200px'}>
-              <Table.DropdownSortableFilter
-                options={['Иван', 'Мария', 'Алексей', 'Елена', 'Дмитрий']}
-                selectedOptions={[]}
-                onSelect={() => {}}
-                onSort={(direction) => handleSort('name', direction)}
-                sortDirection={sortConfig.key === 'name' ? (sortConfig.direction ?? undefined) : undefined}
-              >
+              <Table.Sort sortDirection={sortFor('name')} onSort={(direction) => handleSort('name', direction)}>
                 Имя
-              </Table.DropdownSortableFilter>
+              </Table.Sort>
             </Table.HeaderCell>
             <Table.HeaderCell width={'160px'}>
-              <Table.DropdownSortableFilter
-                options={[]}
-                selectedOptions={[]}
-                onSelect={() => {}}
-                onSort={(direction) => handleSort('score', direction)}
-                sortDirection={sortConfig.key === 'score' ? (sortConfig.direction ?? undefined) : undefined}
-              >
+              <Table.Sort sortDirection={sortFor('city')} onSort={(direction) => handleSort('city', direction)}>
+                Город
+              </Table.Sort>
+            </Table.HeaderCell>
+            <Table.HeaderCell width={'120px'}>
+              <Table.Sort sortDirection={sortFor('score')} onSort={(direction) => handleSort('score', direction)}>
                 Балл
-              </Table.DropdownSortableFilter>
+              </Table.Sort>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -63,6 +47,7 @@ export const SimpleSortExample = () => {
           {sortedRows.map((row) => (
             <Table.Row key={row.id}>
               <Table.Cell>{row.name}</Table.Cell>
+              <Table.Cell>{row.city}</Table.Cell>
               <Table.Cell>{row.score}</Table.Cell>
             </Table.Row>
           ))}

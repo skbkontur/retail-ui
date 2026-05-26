@@ -22,13 +22,21 @@ const { checkedRows, setCheckedRows, isCheckedAll, hasChecked, checkboxRef, sele
 ### Возвращает
 
 - `checkedRows: Set<T['id']>` — выбранные ID.
-- `setCheckedRows(Set)` — установить выбранные строки вручную.
+- `setCheckedRows: React.Dispatch<React.SetStateAction<Set<T['id']>>>` — установить выбранные строки вручную.
 - `isCheckedAll: boolean` — все строки выбраны.
 - `hasChecked: boolean` — есть выбранные строки (для indeterminate).
-- `checkboxRef: RefObject<HTMLInputElement>` — ref для HeaderCheckboxCell (indeterminate).
+- `checkboxRef: RefObject<Checkbox>` — ref на `Checkbox` из `@skbkontur/react-ui` для управления indeterminate в `HeaderCheckboxCell`.
 - `selectAll()` — выбрать/снять все.
-- `toggleRow(event, rowId)` — переключить выбор строки (не забудьте `event.stopPropagation()` если строка кликабельна).
-- `isRowChecked(rowId)` — проверка выбранности строки.
+- `toggleRow(event, rowId)` — переключить выбор строки. Внутри сам вызовет `event.stopPropagation()`, поэтому отдельный вызов не нужен.
+- `isRowChecked(rowId): boolean` — проверка выбранности строки.
+
+### Опции
+
+```ts
+useTableRowSelection(rows, { initialCheckedRows?: Set<T['id']> });
+```
+
+- `initialCheckedRows` — стартовое состояние выбора. При изменении пропа состояние пересинхронизируется.
 
 ## Базовый пример
 
@@ -54,8 +62,8 @@ const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow
 ## Советы
 
 - Применяйте после сортировки: `useTableFilters` → `useTableSort` → `useTableRowSelection`.
-- Для интерактивных строк добавьте `event.stopPropagation()` в чекбокс, чтобы клик не срабатывал на саму строку.
-- Если данные перезаписываются, убедитесь, что `id` остаются стабильными — иначе выбранные строки собьются.
+- `toggleRow` сам останавливает всплытие — если строка кликабельна, дополнительный `event.stopPropagation()` не нужен.
+- Если данные перезаписываются, убедитесь, что `id` остаются стабильными — иначе выбор сбросится при следующей перезаписи `rows`.
 
 ## История
 

@@ -27,15 +27,8 @@ export const LayoutBasics = () => {
       <Table.Header sticky>
         <Table.Row>
           <Table.HeaderCheckboxCell checked={false} onClick={() => undefined} aria-label="Выбрать все строки" />
-          <Table.HeaderCell bottomBorder width="200px">
-            Имя
-          </Table.HeaderCell>
+          <Table.HeaderCell width="200px">Имя</Table.HeaderCell>
           <Table.HeaderCell width="50%">Город</Table.HeaderCell>
-        </Table.Row>
-        <Table.Row>
-          <Table.HeaderCell checkboxCell />
-          <Table.HeaderCell>Колонка 1</Table.HeaderCell>
-          <Table.HeaderCell>Колонка 2</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -65,7 +58,7 @@ export const WidthsAndSpans = () => (
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell width="120px">Статус</Table.HeaderCell>
-        <Table.HeaderCell width="40%">Описание</Table.HeaderCell>
+        <Table.HeaderCell width="40%">Задача</Table.HeaderCell>
         <Table.HeaderCell width="60%" colSpan={2}>
           Ответственный
         </Table.HeaderCell>
@@ -74,18 +67,18 @@ export const WidthsAndSpans = () => (
     <Table.Body>
       <Table.Row>
         <Table.Cell>В работе</Table.Cell>
-        <Table.Cell noWrap>Поддерживается `colSpan` и `rowSpan`</Table.Cell>
+        <Table.Cell noWrap>Подключить интеграцию с CRM</Table.Cell>
         <Table.Cell>Ирина</Table.Cell>
         <Table.Cell>Команда поддержки</Table.Cell>
       </Table.Row>
       <Table.Row>
         <Table.Cell rowSpan={2}>Новое</Table.Cell>
-        <Table.Cell>Собирать статистику</Table.Cell>
+        <Table.Cell>Собрать статистику обращений</Table.Cell>
         <Table.Cell colSpan={2}>Сервис аналитики</Table.Cell>
       </Table.Row>
       <Table.Row>
-        <Table.Cell>Отправить отчёт</Table.Cell>
-        <Table.Cell>Спринт Апрель</Table.Cell>
+        <Table.Cell>Отправить отчёт за апрель</Table.Cell>
+        <Table.Cell>Андрей</Table.Cell>
         <Table.Cell>CRM</Table.Cell>
       </Table.Row>
     </Table.Body>
