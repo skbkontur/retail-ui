@@ -804,4 +804,25 @@ describe('DateRangePicker', () => {
     await userEvent.click(externalInput);
     expect(screen.queryByTestId(DateRangePickerDataTids.popup)).not.toBeInTheDocument();
   });
+
+  it('should fallback to min date year in calendar header on invalid date input', async () => {
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start value="10.10.2025" />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+
+    const getYearButton = () => within(screen.getByTestId(CalendarDataTids.headerYear)).getByRole('button');
+
+    await userEvent.dblClick(startInput);
+
+    await userEvent.type(startInput, '{backspace}');
+    expect(getYearButton()).toHaveTextContent('2025');
+
+    await userEvent.type(startInput, '1');
+    expect(getYearButton()).toHaveTextContent('1900');
+  });
 });
