@@ -934,32 +934,31 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
-    const defaultCoordinates = {
+    const getDefaultCoordinates = () => ({
       top: anchorRect.top - popupRect.height - margin,
-      left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
-    };
+      left: PopupHelper.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+    });
     switch (position.direction) {
       case 'top':
-        return defaultCoordinates;
-
+        return getDefaultCoordinates();
       case 'middle':
         return {
           top: anchorRect.top + anchorRect.height / 2 - popupRect.height / 2,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+          left: PopupHelper.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'bottom':
         return {
           top: anchorRect.top + anchorRect.height + margin,
-          left: this.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
+          left: PopupHelper.getHorizontalPosition(anchorRect, popupRect, position.align, popupOffset),
         };
       case 'left':
         return {
-          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
+          top: PopupHelper.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
           left: anchorRect.left - popupRect.width - margin,
         };
       case 'right':
         return {
-          top: this.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
+          top: PopupHelper.getVerticalPosition(anchorRect, popupRect, position.align, popupOffset),
           left: anchorRect.left + anchorRect.width + margin,
         };
       default:
@@ -967,7 +966,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           false,
           `Unexpected align '${position.direction}'. Must be one of - 'top', 'bottom', 'left', 'right', 'center', 'middle'. Returning default value.`,
         );
-        return defaultCoordinates;
+        return getDefaultCoordinates();
     }
   }
 
@@ -991,44 +990,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           `Unexpected align '${align}'. Must be one of - 'top', 'bottom', 'left', 'right', 'center', 'middle'. Returning default value.`,
         );
         return defaultPinOffset;
-    }
-  }
-
-  private getHorizontalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
-    const defaultHorizontalPosition = anchorRect.left - (popupRect.width - anchorRect.width) / 2;
-
-    switch (align) {
-      case 'left':
-        return anchorRect.left - popupOffset;
-      case 'center':
-        return defaultHorizontalPosition;
-      case 'right':
-        return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
-      default:
-        warning(
-          false,
-          `Unexpected align '${align}'. Must be one of - 'left', 'center', 'right'. Returning default value.`,
-        );
-        return defaultHorizontalPosition;
-    }
-  }
-
-  private getVerticalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
-    const defaultVerticalPosition = anchorRect.top - popupOffset;
-
-    switch (align) {
-      case 'top':
-        return defaultVerticalPosition;
-      case 'middle':
-        return anchorRect.top - (popupRect.height - anchorRect.height) / 2;
-      case 'bottom':
-        return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
-      default:
-        warning(
-          false,
-          `Unexpected align '${align}'. Must be one of - 'top', 'middle', 'bottom'. Returning default value.`,
-        );
-        return defaultVerticalPosition;
     }
   }
 }

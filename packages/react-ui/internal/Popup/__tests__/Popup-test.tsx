@@ -179,6 +179,28 @@ describe('Popup fallback position logic', () => {
     expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
   });
 
+  it.each(['left middle', 'right middle'] as const)(
+    'should not call horizontal position helper for side position %s',
+    (position) => {
+      const { popup } = mountPopup();
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const getHorizontalPositionSpy = vi.spyOn(PopupHelper, 'getHorizontalPosition');
+      const margin = parseInt(popup['theme'].popupMargin);
+
+      const result = popup['getCoordinates'](
+        { top: 10, left: 20, width: 30, height: 40 },
+        { top: 0, left: 0, width: 50, height: 60 },
+        position,
+      );
+
+      expect(getHorizontalPositionSpy).not.toHaveBeenCalled();
+      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(result).toEqual(
+        position === 'left middle' ? { top: 0, left: 20 - 50 - margin } : { top: 0, left: 20 + 30 + margin },
+      );
+    },
+  );
+
   it('среди кандидатов по площади игнорирует partially visible позиции слева', () => {
     const { popup } = mountPopup();
     const bestCandidate = (popup as any).pickBestAreaCandidate(

@@ -1,3 +1,5 @@
+import warning from 'warning';
+
 import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { getOwnerGlobalObject } from '../../lib/globalObject.js';
@@ -27,6 +29,44 @@ function getPositionObject(position: string): PositionObject {
     direction: x[0],
     align: x[1],
   };
+}
+
+function getHorizontalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
+  const defaultHorizontalPosition = anchorRect.left - (popupRect.width - anchorRect.width) / 2;
+
+  switch (align) {
+    case 'left':
+      return anchorRect.left - popupOffset;
+    case 'center':
+      return defaultHorizontalPosition;
+    case 'right':
+      return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
+    default:
+      warning(
+        false,
+        `Unexpected align '${align}'. Must be one of - 'left', 'center', 'right'. Returning default value.`,
+      );
+      return defaultHorizontalPosition;
+  }
+}
+
+function getVerticalPosition(anchorRect: Rect, popupRect: Rect, align: string, popupOffset: number) {
+  const defaultVerticalPosition = anchorRect.top - popupOffset;
+
+  switch (align) {
+    case 'top':
+      return defaultVerticalPosition;
+    case 'middle':
+      return anchorRect.top - (popupRect.height - anchorRect.height) / 2;
+    case 'bottom':
+      return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
+    default:
+      warning(
+        false,
+        `Unexpected align '${align}'. Must be one of - 'top', 'middle', 'bottom'. Returning default value.`,
+      );
+      return defaultVerticalPosition;
+  }
 }
 
 function getElementAbsoluteRect(element: Element): Rect {
@@ -236,6 +276,8 @@ function _getViewProperty(getProperty: (e: Element) => number, globalObject: Glo
 
 export const PopupHelper = {
   getPositionObject,
+  getHorizontalPosition,
+  getVerticalPosition,
   getElementAbsoluteRect,
   isFullyVisible: isAbsoluteRectFullyVisible,
   canBecomeFullyVisible,
