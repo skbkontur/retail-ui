@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 
 import { Button } from '../../../components/Button/index.js';
 import { Center } from '../../../components/Center/index.js';
@@ -944,13 +944,13 @@ ModalWithDropdown.parameters = { creevey: { captureElement: null } };
 
 function Root({ children }: React.PropsWithChildren<any>) {
   const rootRef = React.useRef<HTMLDivElement>(null);
-  const reactRoot = React.useRef<ReturnType<typeof createRoot>>(null);
+  const reactRoot = React.useRef<ReactRoot | null>(null);
   const theme = React.useContext(ThemeContext);
 
   React.useEffect(() => {
     if (rootRef.current && children) {
       const App = () => children;
-      reactRoot.current = createRoot(rootRef.current);
+      reactRoot.current = createCompatibleRoot(rootRef.current);
       reactRoot.current.render(
         <ThemeContext.Provider value={theme}>
           <App />
@@ -967,6 +967,34 @@ function Root({ children }: React.PropsWithChildren<any>) {
   );
 
   return <div ref={rootRef} style={{ display: 'inline-block' }} />;
+}
+
+interface ReactRoot {
+  render(children: React.ReactNode): void;
+  unmount(): void;
+}
+
+function createCompatibleRoot(container: HTMLElement): ReactRoot {
+  let createRoot: undefined | ((element: HTMLElement) => ReactRoot);
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    createRoot = require('react-dom/client').createRoot;
+  } catch {
+    // React 17 doesn't expose react-dom/client.
+  }
+
+  if (createRoot) {
+    return createRoot(container);
+  }
+
+  return {
+    render(children) {
+      (ReactDOM as any).render(children, container);
+    },
+    unmount() {
+      (ReactDOM as any).unmountComponentAtNode(container);
+    },
+  };
 }
 
 function Classic({ withRoot = false }) {

@@ -33,6 +33,9 @@ export default async ({ config }: { config: Configuration }) => {
       ...config.resolve.alias,
       react: resolve(nodeModules, 'react'),
       'react-dom': resolve(nodeModules, 'react-dom'),
+      // React 17 has no exports map, so @skbkontur/icons' bare
+      // `react/jsx-runtime` import must point to the physical runtime file.
+      'react/jsx-runtime': resolve(nodeModules, 'react/jsx-runtime.js'),
       ...(reactMajor < 18
         ? { '@storybook/react-dom-shim': resolve(nodeModules, '@storybook/react-dom-shim/dist/react-16') }
         : {}),
