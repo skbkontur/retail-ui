@@ -35,6 +35,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   rootMobile(t: Theme) {
     return css`
       top: ${t.mobileToastTop};
+      font-size: ${t.mobileToastFontSize};
     `;
   },
 

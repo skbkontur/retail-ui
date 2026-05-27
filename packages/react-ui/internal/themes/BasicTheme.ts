@@ -1237,6 +1237,7 @@ export class BasicThemeClass {
   public static toastCloseBtnSide = '0px';
 
   public static mobileToastTop = '0px';
+  public static mobileToastFontSize = '0px';
 
   //#endregion Toast
   //#region Dropdown

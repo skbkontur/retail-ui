@@ -11,6 +11,9 @@ export const LightTheme6_1 = createTheme({
 
     public static mobileToastTop = '16px';
     public static toastCloseBtnSide = '40px';
+    public static get mobileToastFontSize(): string {
+      return this.fontSizeMedium;
+    }
 
     public static mobilePopupContainerBorderRadius = '8px';
 
