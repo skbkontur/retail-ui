@@ -2,17 +2,18 @@ import { injectGlobal, css, cx } from '@emotion/css';
 import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
 import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Link } from '@skbkontur/react-ui/components/Link';
 import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import { Toast } from '@skbkontur/react-ui/components/Toast';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { SingleToast } from '@skbkontur/react-ui/components/SingleToast';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import type { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Text, TextProps } from '../Text.js';
+import type { TextProps } from '../Text.js';
+import { Text } from '../Text.js';
 import { tokens } from '../tokens.js';
 
 export default {
@@ -44,24 +45,16 @@ injectGlobal(`
  */
 export const ExampleBasic = () => {
   return (
-    <>
-      <Text as="h1" size={48} spacing>
-        Как создать службу охраны труда
-      </Text>
-      <Text as="h2" size={24} weight="bold" spacing>
+    <Gapped vertical gap={12}>
+      <Text as="h2" size={24} weight="bold">
         Когда требуется создавать службу охраны труда
       </Text>
-      <Text as="p" size={18} spacing wide>
+      <Text as="p" size={18} wide>
         Работодатели с численностью более 50 человек создают свою службу охраны труда или вводят в штатное расписание
         должность специалиста по охране труда в обязательном порядке (ч. 1 ст. 223 ТК РФ). Предприятия с меньшим штатом
         организуют СОТ с учетом своей специфики.
       </Text>
-      <Text as="p" size={18} spacing wide>
-        Трудовой кодекс требует создавать СОТ у работодателей, «осуществляющих производственную деятельность». Из-за
-        этой формулировки некоторые думают, что служба охраны труда нужна только на промышленных предприятиях — это
-        заблуждение.
-      </Text>
-    </>
+    </Gapped>
   );
 };
 
@@ -70,7 +63,7 @@ ExampleBasic.storyName = 'Базовый пример';
 export const TypographyStory = () => {
   const [hasSpacing, setHasSpacing] = React.useState(true);
   const [isWide, setIsWide] = React.useState(false);
-  const [weight, setWeight] = React.useState<TextProps['weight'] | null>(null);
+  const [weight, setWeight] = React.useState<TextProps['weight']>('regular');
 
   const isMountRef = React.useRef(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -83,7 +76,9 @@ export const TypographyStory = () => {
   }, []);
 
   React.useLayoutEffect(() => {
-    if (!isMountRef.current) return;
+    if (!isMountRef.current) {
+      return;
+    }
     containerRef.current?.scrollIntoView({ block: 'end' });
   }, [hasSpacing, isWide, weight]);
 
@@ -152,9 +147,15 @@ export const TypographyStory = () => {
 
   const getText = (size: TTextSizes) => {
     const s = Number(size);
-    if (s > 40) return 'Дизайн для реального мира';
-    if (s > 26) return 'Виктор Папанек. Дизайн для реального мира';
-    if (s > 16) return 'Типографике в интерфейсах нужно уделять особое внимание.';
+    if (s > 40) {
+      return 'Дизайн для реального мира';
+    }
+    if (s > 26) {
+      return 'Виктор Папанек. Дизайн для реального мира';
+    }
+    if (s > 16) {
+      return 'Типографике в интерфейсах нужно уделять особое внимание.';
+    }
     return 'Интерфейсы во многом состоят из текста, и от того как набран этот текст, зависит общее восприятие дизайна и удобство работы с системой.';
   };
 
