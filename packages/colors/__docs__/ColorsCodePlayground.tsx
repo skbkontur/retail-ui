@@ -459,7 +459,7 @@ const Libs = () => {
 
   const getUseSnippet = () => {
     if (format === 'ts') {
-      const pkg = `@skbkontur/colors/default-${mainTheme}`;
+      const pkg = `@skbkontur/colors/tokens-default/${mainTheme}`;
       return `${kw('import')} * ${kw('as')} colors ${kw('from')} ${val(pkg)};\n\n${kw('const')} App = () => (\n  ${tag(
         '&lt;div'
       )} ${prop('style')}={{ ${cssProp('background')}: colors.shapeBoldAccent }}${tag('&gt;')}\n    Контент\n  ${tag(
