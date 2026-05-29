@@ -1,79 +1,79 @@
 export const tokens = {
-  12: {
+  '12': {
     fontSize: '12px',
     lineHeight: '16px',
     marginBottom: '8px',
     wideLineHeight: '20px',
     wideMarginBottom: '10px',
   },
-  14: {
+  '14': {
     fontSize: '14px',
     lineHeight: '20px',
     marginBottom: '10px',
     wideLineHeight: '22px',
     wideMarginBottom: '12px',
   },
-  16: {
+  '16': {
     fontSize: '16px',
     lineHeight: '22px',
     marginBottom: '12px',
     wideLineHeight: '24px',
     wideMarginBottom: '12px',
   },
-  18: {
+  '18': {
     fontSize: '18px',
     lineHeight: '24px',
     marginBottom: '12px',
     wideLineHeight: '28px',
     wideMarginBottom: '14px',
   },
-  20: {
+  '20': {
     fontSize: '20px',
     lineHeight: '28px',
     marginBottom: '14px',
     wideLineHeight: '32px',
     wideMarginBottom: '16px',
   },
-  22: {
+  '22': {
     fontSize: '22px',
     lineHeight: '30px',
     marginBottom: '14px',
     wideLineHeight: '34px',
     wideMarginBottom: '16px',
   },
-  24: {
+  '24': {
     fontSize: '24px',
     lineHeight: '32px',
     marginBottom: '16px',
     wideLineHeight: '36px',
     wideMarginBottom: '18px',
   },
-  28: {
+  '28': {
     fontSize: '28px',
     lineHeight: '36px',
     marginBottom: '18px',
   },
-  32: {
+  '32': {
     fontSize: '32px',
     lineHeight: '40px',
     marginBottom: '20px',
   },
-  36: {
+  '36': {
     fontSize: '36px',
     lineHeight: '44px',
     marginBottom: '22px',
   },
-  40: {
+  '40': {
     fontSize: '40px',
     lineHeight: '48px',
     marginBottom: '24px',
   },
-  48: {
+  '48': {
     fontSize: '48px',
     lineHeight: '56px',
     marginBottom: '28px',
   },
-  56: {
+  '56': {
     fontSize: '56px',
     lineHeight: '64px',
     marginBottom: '32px',
