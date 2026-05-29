@@ -35,7 +35,6 @@ export interface TextProps
         | 'cite'
         | 'small'
         | 'mark'
-        | 'code'
         | 'legend'
         | 'address';
       /**
