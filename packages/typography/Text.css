@@ -5,16 +5,8 @@
   margin: 0;
 }
 
-.t-12.t-spacing {
-  margin-bottom: 8px;
-}
-
 .t-12.t-wide {
   line-height: 20px;
-}
-
-.t-12.t-wide.t-spacing {
-  margin-bottom: 10px;
 }
 
 .t-14 {
@@ -24,16 +16,8 @@
   margin: 0;
 }
 
-.t-14.t-spacing {
-  margin-bottom: 10px;
-}
-
 .t-14.t-wide {
   line-height: 22px;
-}
-
-.t-14.t-wide.t-spacing {
-  margin-bottom: 12px;
 }
 
 .t-16 {
@@ -43,16 +27,8 @@
   margin: 0;
 }
 
-.t-16.t-spacing {
-  margin-bottom: 12px;
-}
-
 .t-16.t-wide {
   line-height: 24px;
-}
-
-.t-16.t-wide.t-spacing {
-  margin-bottom: 12px;
 }
 
 .t-18 {
@@ -62,16 +38,8 @@
   margin: 0;
 }
 
-.t-18.t-spacing {
-  margin-bottom: 12px;
-}
-
 .t-18.t-wide {
   line-height: 28px;
-}
-
-.t-18.t-wide.t-spacing {
-  margin-bottom: 14px;
 }
 
 .t-20 {
@@ -81,16 +49,8 @@
   margin: 0;
 }
 
-.t-20.t-spacing {
-  margin-bottom: 14px;
-}
-
 .t-20.t-wide {
   line-height: 32px;
-}
-
-.t-20.t-wide.t-spacing {
-  margin-bottom: 16px;
 }
 
 .t-22 {
@@ -100,16 +60,8 @@
   margin: 0;
 }
 
-.t-22.t-spacing {
-  margin-bottom: 14px;
-}
-
 .t-22.t-wide {
   line-height: 34px;
-}
-
-.t-22.t-wide.t-spacing {
-  margin-bottom: 16px;
 }
 
 .t-24 {
@@ -119,16 +71,8 @@
   margin: 0;
 }
 
-.t-24.t-spacing {
-  margin-bottom: 16px;
-}
-
 .t-24.t-wide {
   line-height: 36px;
-}
-
-.t-24.t-wide.t-spacing {
-  margin-bottom: 18px;
 }
 
 .t-28 {
@@ -138,19 +82,11 @@
   margin: 0;
 }
 
-.t-28.t-spacing {
-  margin-bottom: 18px;
-}
-
 .t-32 {
   font-size: 32px;
   line-height: 40px;
   font-weight: 400;
   margin: 0;
-}
-
-.t-32.t-spacing {
-  margin-bottom: 20px;
 }
 
 .t-36 {
@@ -160,19 +96,11 @@
   margin: 0;
 }
 
-.t-36.t-spacing {
-  margin-bottom: 22px;
-}
-
 .t-40 {
   font-size: 40px;
   line-height: 48px;
   font-weight: 400;
   margin: 0;
-}
-
-.t-40.t-spacing {
-  margin-bottom: 24px;
 }
 
 .t-48 {
@@ -182,19 +110,11 @@
   margin: 0;
 }
 
-.t-48.t-spacing {
-  margin-bottom: 28px;
-}
-
 .t-56 {
   font-size: 56px;
   line-height: 64px;
   font-weight: 400;
   margin: 0;
-}
-
-.t-56.t-spacing {
-  margin-bottom: 32px;
 }
 
 .t-regular {

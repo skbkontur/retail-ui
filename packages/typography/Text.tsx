@@ -43,11 +43,6 @@ export interface TextProps
        */
       weight?: 'regular' | 'medium' | 'bold';
       /**
-       * Добавить отступ снизу
-       * @default false
-       */
-      spacing?: boolean;
-      /**
        * Широкая колонка — от 40 символов в строке
        * @default false
        */
@@ -56,15 +51,9 @@ export interface TextProps
     }> {}
 
 export const Text = forwardRef<HTMLElement, TextProps>((props, ref) => {
-  const { as: Component = 'span', className, spacing, size, wide, weight, children, ...rest } = props;
+  const { as: Component = 'span', className, size, wide, weight, children, ...rest } = props;
 
-  const combinedClassName = [
-    styles[`t${size}`],
-    wide && styles.wide,
-    spacing && styles.spacing,
-    weight && styles[weight],
-    className,
-  ]
+  const combinedClassName = [styles[`t${size}`], wide && styles.wide, weight && styles[weight], className]
     .filter(Boolean)
     .join(' ');
 

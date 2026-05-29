@@ -22,20 +22,12 @@ const generateGlobalCss = () => {
   line-height: ${token.lineHeight};
   font-weight: 400;
   margin: 0;
-}
-
-.t-${size}.t-spacing {
-  margin-bottom: ${token.marginBottom};
 }`);
 
     if ('wideLineHeight' in token) {
       cssRules.push(`
 .t-${size}.t-wide {
   line-height: ${token.wideLineHeight};
-}
-
-.t-${size}.t-wide.t-spacing {
-  margin-bottom: ${token.wideMarginBottom};
 }`);
     }
   });
@@ -60,20 +52,12 @@ const generateCssModules = () => {
   line-height: ${token.lineHeight};
   font-weight: 400;
   margin: 0;
-}
-
-.t${size}.spacing {
-  margin-bottom: ${token.marginBottom};
 }`);
 
     if ('wideLineHeight' in token) {
       cssRules.push(`
 .t${size}.wide {
   line-height: ${token.wideLineHeight};
-}
-
-.t${size}.wide.spacing {
-  margin-bottom: ${token.wideMarginBottom};
 }`);
     }
   });
@@ -95,13 +79,11 @@ const generateScss = () => {
     let entry = `
   "${size}": (
     "font-size": ${token.fontSize},
-    "line-height": ${token.lineHeight},
-    "margin-bottom": ${token.marginBottom}`;
+    "line-height": ${token.lineHeight}`;
 
     if ('wideLineHeight' in token) {
       entry += `,
-    "wide-line-height": ${token.wideLineHeight},
-    "wide-margin-bottom": ${token.wideMarginBottom}`;
+    "wide-line-height": ${token.wideLineHeight}`;
     }
 
     entry += '\n  )';
@@ -120,7 +102,7 @@ $weights: (
   "bold": 700
 );
 
-@mixin t($size, $spacing: false, $wide: false, $weight: null) {
+@mixin t($size, $wide: false, $weight: null) {
   $style: map.get($typography, "#{$size}");
 
   @if $style {
@@ -133,20 +115,13 @@ $weights: (
     }
     
     $line-height: map.get($style, "line-height");
-    $margin-bottom: map.get($style, "margin-bottom");
 
     @if $wide and map.has-key($style, "wide-line-height") {
       $line-height: map.get($style, "wide-line-height");
-      $margin-bottom: map.get($style, "wide-margin-bottom");
     }
 
     line-height: $line-height;
-
-    @if $spacing {
-      margin-bottom: $margin-bottom;
-    } @else {
-      margin-bottom: 0;
-    }
+    margin: 0;
   }
 }`;
   createFile('./text.scss', res);
@@ -160,9 +135,7 @@ const generateLess = () => {
   @t${size}: {
     font-size: ${token.fontSize}; 
     line-height: ${token.lineHeight}; 
-    margin-bottom: ${token.marginBottom}; 
     wide-line-height: ${'wideLineHeight' in token ? token.wideLineHeight : 'null'};
-    wide-margin-bottom: ${'wideMarginBottom' in token ? token.wideMarginBottom : 'null'};
   };`;
     lessEntries.push(entry);
   });
@@ -177,11 +150,12 @@ const generateLess = () => {
   @bold: 700;
 };
 
-.t(@size, @spacing: false, @wide: false, @weight: default) {
+.t(@size, @wide: false, @weight: default) {
   @size-key: ~"t@{size}";
   @style: @typography[@@size-key];
 
   font-size: @style[font-size];
+  margin: 0;
   
   .set-weight() when (@weight = default) {
     font-weight: 400;
@@ -197,9 +171,6 @@ const generateLess = () => {
   
   @line-height-value: if((@wide = true) and (@has-wide = true), @style[wide-line-height], @style[line-height]);
   line-height: @line-height-value;
-
-  @margin-value: if((@wide = true) and (@has-wide = true), @style[wide-margin-bottom], @style[margin-bottom]);
-  margin-bottom: if(@spacing, @margin-value, 0);
 }`;
   createFile('./text.less', res);
 };

@@ -13,13 +13,7 @@ describe('Text.module.css content', () => {
   });
 
   it('should contain modifiers', () => {
-    expect(css).toContain('.spacing {');
     expect(css).toContain('.wide {');
-  });
-
-  it('should contain combined logic', () => {
-    expect(css).toContain('.t14.spacing { margin-bottom: 10px; }');
-    expect(css).toContain('.t20.wide.spacing { margin-bottom: 16px; }');
   });
 
   it('should contain independent weight utilities', () => {

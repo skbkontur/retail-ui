@@ -17,19 +17,7 @@ describe('text.less mixin', () => {
 
     expect(css).toContain('font-size: 14px');
     expect(css).toContain('line-height: 20px');
-    expect(css).toContain('margin-bottom: 0');
-  });
-
-  it('should render wide variant with spacing for size 18', async () => {
-    const css = await renderLess('.test { .t(18, @spacing: true, @wide: true); }');
-
-    expect(css).toContain('line-height: 28px');
-    expect(css).toContain('margin-bottom: 14px');
-  });
-
-  it('should reset margin to 0 when spacing is false', async () => {
-    const css = await renderLess('.test { .t(12, @spacing: false); }');
-    expect(css).toContain('margin-bottom: 0');
+    expect(css).toContain('margin: 0');
   });
 
   it('should render custom weight', async () => {

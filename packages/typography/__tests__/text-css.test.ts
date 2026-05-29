@@ -11,11 +11,6 @@ describe('Text.css content', () => {
     expect(css).toContain('.t-28 { font-size: 28px; line-height: 36px; font-weight: 400; margin: 0; }');
   });
 
-  it('should contain combined selectors', () => {
-    expect(css).toContain('.t-14.t-spacing { margin-bottom: 10px; }');
-    expect(css).toContain('.t-20.t-wide.t-spacing { margin-bottom: 16px; }');
-  });
-
   it('should contain standalone weight utilities with', () => {
     expect(css).toContain('.t-regular { font-weight: 400; }');
     expect(css).toContain('.t-medium { font-weight: 500; }');

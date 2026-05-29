@@ -2,93 +2,67 @@
   @t12: {
     font-size: 12px;
     line-height: 16px;
-    margin-bottom: 8px;
     wide-line-height: 20px;
-    wide-margin-bottom: 10px;
   };
   @t14: {
     font-size: 14px;
     line-height: 20px;
-    margin-bottom: 10px;
     wide-line-height: 22px;
-    wide-margin-bottom: 12px;
   };
   @t16: {
     font-size: 16px;
     line-height: 22px;
-    margin-bottom: 12px;
     wide-line-height: 24px;
-    wide-margin-bottom: 12px;
   };
   @t18: {
     font-size: 18px;
     line-height: 24px;
-    margin-bottom: 12px;
     wide-line-height: 28px;
-    wide-margin-bottom: 14px;
   };
   @t20: {
     font-size: 20px;
     line-height: 28px;
-    margin-bottom: 14px;
     wide-line-height: 32px;
-    wide-margin-bottom: 16px;
   };
   @t22: {
     font-size: 22px;
     line-height: 30px;
-    margin-bottom: 14px;
     wide-line-height: 34px;
-    wide-margin-bottom: 16px;
   };
   @t24: {
     font-size: 24px;
     line-height: 32px;
-    margin-bottom: 16px;
     wide-line-height: 36px;
-    wide-margin-bottom: 18px;
   };
   @t28: {
     font-size: 28px;
     line-height: 36px;
-    margin-bottom: 18px;
     wide-line-height: null;
-    wide-margin-bottom: null;
   };
   @t32: {
     font-size: 32px;
     line-height: 40px;
-    margin-bottom: 20px;
     wide-line-height: null;
-    wide-margin-bottom: null;
   };
   @t36: {
     font-size: 36px;
     line-height: 44px;
-    margin-bottom: 22px;
     wide-line-height: null;
-    wide-margin-bottom: null;
   };
   @t40: {
     font-size: 40px;
     line-height: 48px;
-    margin-bottom: 24px;
     wide-line-height: null;
-    wide-margin-bottom: null;
   };
   @t48: {
     font-size: 48px;
     line-height: 56px;
-    margin-bottom: 28px;
     wide-line-height: null;
-    wide-margin-bottom: null;
   };
   @t56: {
     font-size: 56px;
     line-height: 64px;
-    margin-bottom: 32px;
     wide-line-height: null;
-    wide-margin-bottom: null;
   };
 };
 
@@ -98,11 +72,12 @@
   @bold: 700;
 };
 
-.t(@size, @spacing: false, @wide: false, @weight: default) {
+.t(@size, @wide: false, @weight: default) {
   @size-key: ~'t@{size}';
   @style: @typography[@@size-key];
 
   font-size: @style[font-size];
+  margin: 0;
 
   .set-weight() when (@weight = default) {
     font-weight: 400;
@@ -118,7 +93,4 @@
 
   @line-height-value: if((@wide = true) and (@has-wide = true), @style[wide-line-height], @style[line-height]);
   line-height: @line-height-value;
-
-  @margin-value: if((@wide = true) and (@has-wide = true), @style[wide-margin-bottom], @style[margin-bottom]);
-  margin-bottom: if(@spacing, @margin-value, 0);
 }
