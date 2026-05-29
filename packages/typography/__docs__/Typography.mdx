@@ -1,5 +1,6 @@
 import * as TypographyStories from './Typography.docs.stories';
-import { Stories, ArgTypes } from '@storybook/blocks';
+import { TypographyPlayground } from './TypographyPlayground';
+import { Primary, Stories, ArgTypes, Unstyled } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 
@@ -11,10 +12,7 @@ import { Header } from '../../../.storybook-docs/Header';
   figma="https://www.figma.com/file/RJRrswYmC25f5aZNghcFww?node-id=196-6491&t=FdUnvncPmv5oNQuZ-0&type=design&mode=design"
 />
 
-NPM-пакет со стилями типографики
-
-- Доступно в виде React-компонента, CSS-классов и миксинов для SCSS/Less
-- Управление параметрами текста: отступам (spacing), жирностью (weight) и межстрочными интервалами (wide)
+NPM-пакет со стилями типографики. Доступно 5 вариантов использования: React, CSS, CSS-модули и миксины для SCSS/Less
 
 ## Установка
 
@@ -22,23 +20,36 @@ NPM-пакет со стилями типографики
 npm i @skbkontur/typography
 ```
 
-<Stories title="" includePrimary={true} />
+### Базовый пример
+
+<Primary />
+
+<Unstyled>
+  <div style={{ marginBottom: 64 }}>
+    <TypographyPlayground />
+  </div>
+</Unstyled>
+
+<Stories title="" includePrimary={false} />
 
 ## Использование
 
-Доступны 5 вариантов использования
+Доступно 5 вариантов использования: в виде React-компонента, глобальный CSS, CSS-модули и миксины для SCSS/Less
 
 <br />
 
 #### React компонент
 
-<ArgTypes />
+<details>
+  <summary>Открыть таблицу с пропами</summary>
+  <ArgTypes />
+</details>
 
 ```jsx static
 import { Text } from '@skbkontur/typography';
 
 const Component = () => (
-  <Text as="p" size={24} spacing wide>
+  <Text as="p" size="24" wide weight="bold">
     Текст
   </Text>
 );
@@ -49,7 +60,7 @@ const Component = () => (
 ```js static
 import '@skbkontur/typography/text.css'; // Подключение в точке входа приложения
 
-const Component = () => <p className="t-24 t-spacing t-wide">Текст</p>;
+const Component = () => <p className="t-24 t-wide t-bold">Текст</p>;
 ```
 
 #### CSS Modules
@@ -57,7 +68,7 @@ const Component = () => <p className="t-24 t-spacing t-wide">Текст</p>;
 ```js static
 import text from '@skbkontur/typography/Text.module.css';
 
-const Component = () => <p className={`${text.t24} ${text.spacing} ${text.wide}`}>Текст</p>;
+const Component = () => <p className={`${text.t24} ${text.wide} ${text.bold}`}>Текст</p>;
 ```
 
 #### SCSS mixin
@@ -66,7 +77,7 @@ const Component = () => <p className={`${text.t24} ${text.spacing} ${text.wide}`
 @use '@skbkontur/typography/text' as *;
 
 .component {
-  @include t(40, $spacing: false, $wide: false);
+  @include t(24, $wide: false, $weight: bold);
 }
 ```
 
@@ -76,6 +87,6 @@ const Component = () => <p className={`${text.t24} ${text.spacing} ${text.wide}`
 @import '@skbkontur/typography/text';
 
 .component {
-  .t(24, @spacing: false, @wide: false);
+  .t(24, @wide: false, @weight: bold);
 }
 ```
