@@ -3,14 +3,13 @@ import { Select } from '@skbkontur/react-ui/components/Select';
 import { SingleToast } from '@skbkontur/react-ui/components/SingleToast';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
-import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
 import React from 'react';
 
 import { Text } from '../Text.js';
 import { tokens } from '../tokens.js';
 
 type TTextSizes = string;
-type TWeight = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+type TWeight = '400' | '500' | '700';
 type TTag =
   | 'span'
   | 'div'
@@ -33,15 +32,9 @@ type TTag =
   | 'address';
 
 const WEIGHT_MAP: Array<{ value: TWeight; label: string }> = [
-  { value: '100', label: 'thin' },
-  { value: '200', label: 'extra-light' },
-  { value: '300', label: 'light' },
   { value: '400', label: 'regular' },
   { value: '500', label: 'medium' },
-  { value: '600', label: 'semi-bold' },
   { value: '700', label: 'bold' },
-  { value: '800', label: 'extra-bold' },
-  { value: '900', label: 'black' },
 ];
 
 const TAG_OPTIONS: TTag[] = [
@@ -61,7 +54,6 @@ const TAG_OPTIONS: TTag[] = [
   'cite',
   'small',
   'mark',
-  'code',
   'legend',
   'address',
 ];
