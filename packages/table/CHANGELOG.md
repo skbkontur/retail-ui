@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](/compare/@skbkontur/table@0.2.8...@skbkontur/table@0.3.0) (2026-06-02)
+
+
+### Features
+
+* **table:** align dividers with column text and skip them under utility cells de15bbd
+
+
+
+
+
 ## [0.2.8](/compare/@skbkontur/table@0.2.7...@skbkontur/table@0.2.8) (2026-05-13)
 
 
