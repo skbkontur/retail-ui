@@ -64,7 +64,8 @@ export const SimpleSelectionExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={4}>Выбрано: {checkedRows.size}</Table.Cell>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={3}>Выбрано: {checkedRows.size}</Table.Cell>
           </Table.Row>
         </Table.Footer>
       </Table>

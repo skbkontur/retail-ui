@@ -46,7 +46,8 @@ export const LayoutBasics = () => {
       </Table.Body>
       <Table.Footer sticky>
         <Table.Row>
-          <Table.Cell colSpan={3}>Показано {rows.length} записей</Table.Cell>
+          <Table.Cell checkboxCell />
+          <Table.Cell colSpan={2}>Показано {rows.length} записей</Table.Cell>
         </Table.Row>
       </Table.Footer>
     </Table>

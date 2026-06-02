@@ -16,6 +16,8 @@ export interface TableCellBaseProps extends CommonProps {
   width?: CSSProperties['width'];
   rowSpan?: number;
   checkboxCell?: boolean;
+  withoutBottomBorder?: boolean;
+  withoutBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;
   vAlign?: CSSProperties['verticalAlign'];
@@ -30,6 +32,8 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
       colSpan,
       rowSpan,
       checkboxCell,
+      withoutBottomBorder,
+      withoutBottomBorderInset,
       noWrap,
       currency,
       width,
@@ -71,6 +75,8 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
               [checkboxCellSizeClass]: checkboxCell,
               [tableCellSizeClass]: !checkboxCell,
               [tableCellTextSizeClass]: contentCompensator,
+              [styles.WithoutBottomBorder]: withoutBottomBorder ?? checkboxCell,
+              [styles.WithoutBottomBorderInset]: withoutBottomBorderInset,
               [styles.NoWrapCell]: noWrap,
               [styles.Currency]: currency,
             })}

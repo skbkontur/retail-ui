@@ -208,10 +208,9 @@ export const CheckeredExampleStory = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={5}>
-              <p>
-                Показано {sortedRows.length} из {memoizedInitialData.length} записей
-              </p>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={4}>
+              Показано {sortedRows.length} из {memoizedInitialData.length} записей
             </Table.Cell>
           </Table.Row>
         </Table.Footer>
@@ -330,9 +329,8 @@ export const AwesomeExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={11}>
-              <p>Показано {data.length} записей</p>
-            </Table.Cell>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={10}>Показано {data.length} записей</Table.Cell>
           </Table.Row>
         </Table.Footer>
       </Table>
@@ -639,10 +637,9 @@ export const BasicTableExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={5}>
-              <p>
-                Показано {sortedRows.length} из {data.length} записей
-              </p>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={4}>
+              Показано {sortedRows.length} из {data.length} записей
             </Table.Cell>
           </Table.Row>
         </Table.Footer>
@@ -818,7 +815,7 @@ export const ExpandableRowsExample = () => {
     <Table>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell width="32px" />
+          <Table.HeaderCell width="32px" withoutBottomBorder />
           <Table.HeaderCell>Клиент</Table.HeaderCell>
           <Table.HeaderCell>Регион</Table.HeaderCell>
           <Table.HeaderCell currency>Сумма, ₽</Table.HeaderCell>
@@ -830,14 +827,16 @@ export const ExpandableRowsExample = () => {
           return (
             <React.Fragment key={row.id}>
               <Table.Row onClick={() => toggle(row.id)}>
-                <Table.Cell>{isExpanded ? <IconArrowCDownRegular16 /> : <IconArrowCRightRegular16 />}</Table.Cell>
+                <Table.Cell withoutBottomBorder>
+                  {isExpanded ? <IconArrowCDownRegular16 /> : <IconArrowCRightRegular16 />}
+                </Table.Cell>
                 <Table.Cell>{row.client}</Table.Cell>
                 <Table.Cell>{row.region}</Table.Cell>
                 <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
               </Table.Row>
               {isExpanded && (
                 <Table.Row>
-                  <Table.Cell></Table.Cell>
+                  <Table.Cell withoutBottomBorder />
                   <Table.Cell colSpan={3}>
                     <Table size="small">
                       <Table.Header>
@@ -977,7 +976,7 @@ export const FooterExample = () => {
       <Table size="medium">
         <Table.Header sticky>
           <Table.Row>
-            <Table.HeaderCell width="40px" />
+            <Table.HeaderCell width="40px" withoutBottomBorder />
             <Table.HeaderCell width="250px">Контрагент</Table.HeaderCell>
             <Table.HeaderCell width="150px" currency>
               Январь, ₽
@@ -993,7 +992,7 @@ export const FooterExample = () => {
         <Table.Body>
           {organizationData.map((row, index) => (
             <Table.Row key={row.id}>
-              <Table.Cell>
+              <Table.Cell withoutBottomBorder>
                 {index === 0 && <IconDocsPlusRegular16 />}
                 {index === 2 && <IconTechPrinterRegular16 />}
               </Table.Cell>
@@ -1008,7 +1007,7 @@ export const FooterExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell />
+            <Table.Cell withoutBottomBorder />
             <Table.Cell>
               <strong>Итого</strong>
             </Table.Cell>
@@ -1330,12 +1329,13 @@ export const SizeExampleStory = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={5}>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={4}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p>
+                <span>
                   Показано {startIndex + 1}-{Math.min(endIndex, sortedRows.length)} из {sortedRows.length} записей.
                   Выбрано {checkedRows.size} из {sortedRows.length}
-                </p>
+                </span>
                 {totalPages > 1 && (
                   <Paging activePage={currentPage} pagesCount={totalPages} onPageChange={handlePageChange} />
                 )}

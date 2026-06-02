@@ -207,10 +207,9 @@ export const FrankTableExampleStory = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={6}>
-              <p>
-                Показано {sortedRows.length} из {memoizedInitialData.length} записей
-              </p>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={5}>
+              Показано {sortedRows.length} из {memoizedInitialData.length} записей
             </Table.Cell>
           </Table.Row>
         </Table.Footer>

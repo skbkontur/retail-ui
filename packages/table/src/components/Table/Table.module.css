@@ -23,6 +23,16 @@
   --table-header-bottom-border-opacity: 1;
 }
 
+.TableHeader > .TableRow:last-child > .TableHeaderCell.WithoutBottomBorder,
+.TableHeader > .TableRow:not(:last-child) > .TableHeaderCell[rowspan].WithoutBottomBorder {
+  --table-header-bottom-border-opacity: 0;
+}
+
+.TableHeader > .TableRow:last-child > :not(.WithoutBottomBorder) ~ .TableHeaderCell.WithoutBottomBorder,
+.TableHeader > .TableRow:not(:last-child) > :not(.WithoutBottomBorder) ~ .TableHeaderCell[rowspan].WithoutBottomBorder {
+  --table-header-bottom-border-opacity: 1;
+}
+
 @supports (selector(:has(*))) {
   .TableHeader:has(
       + .TableBody > .ClickableTableRow:hover:first-child,
@@ -74,14 +84,15 @@
   vertical-align: baseline;
   padding: 8px 0 8px 0;
   --table-header-bottom-border-opacity: 0;
+  --table-header-bottom-border-inset: 0px;
 }
 
 .TableHeaderCell::after {
   content: '';
   position: absolute;
-  left: 0;
+  left: var(--table-header-bottom-border-inset);
   bottom: 0;
-  width: 100%;
+  width: calc(100% - var(--table-header-bottom-border-inset));
   height: 1px;
   pointer-events: none;
   background: var(--table-border);
@@ -94,14 +105,17 @@
 
 .PaddingForHeaderSmall {
   padding: 4px 0 4px 0;
+  --table-header-bottom-border-inset-size: 13px;
 }
 
 .PaddingForHeaderMedium {
   padding: 8px 0 8px 0;
+  --table-header-bottom-border-inset-size: 17px;
 }
 
 .PaddingForHeaderLarge {
   padding: 16px 0 16px 0;
+  --table-header-bottom-border-inset-size: 21px;
 }
 
 .PaddingForSimpleHeader {
@@ -118,6 +132,16 @@
 
 .PaddingForSimpleHeaderLarge {
   padding: 28px 21px 28px 21px;
+}
+
+.TableHeader
+  > .TableRow:first-child
+  > .TableHeaderCell:nth-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
+  --table-header-bottom-border-inset: var(--table-header-bottom-border-inset-size, 0px);
+}
+
+.TableHeader > .TableRow > .TableHeaderCell[rowspan] {
+  vertical-align: bottom;
 }
 
 .CheckboxHeaderCell {
@@ -153,14 +177,15 @@
 
 .BottomBorder > .TableCell {
   --table-bottom-border-opacity: 1;
+  --table-bottom-border-inset: 0px;
 }
 
 .BottomBorder > .TableCell::after {
   content: '';
   position: absolute;
-  left: 0;
+  left: var(--table-bottom-border-inset);
   bottom: 0;
-  width: 100%;
+  width: calc(100% - var(--table-bottom-border-inset));
   height: 1px;
   background: var(--table-border);
   opacity: var(--table-bottom-border-opacity);
@@ -172,6 +197,18 @@
 
 .BottomBorder > .TableCell:last-child::after {
   border-bottom-right-radius: inherit;
+}
+
+.BottomBorder > .TableCell.WithoutBottomBorder {
+  --table-bottom-border-opacity: 0;
+}
+
+.BottomBorder > :not(.WithoutBottomBorder) ~ .TableCell.WithoutBottomBorder {
+  --table-bottom-border-opacity: 1;
+}
+
+.BottomBorder > .TableCell:nth-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
+  --table-bottom-border-inset: var(--table-bottom-border-inset-size, 0px);
 }
 
 .BottomBorderInset {
@@ -330,14 +367,17 @@
 
 .TableCellSmall {
   padding: 4px 8px 4px 13px;
+  --table-bottom-border-inset-size: 13px;
 }
 
 .TableCellMedium {
   padding: 8px 10px 8px 17px;
+  --table-bottom-border-inset-size: 17px;
 }
 
 .TableCellLarge {
   padding: 16px 12px 16px 21px;
+  --table-bottom-border-inset-size: 21px;
 }
 
 .TableCellTextSmall {
@@ -437,14 +477,15 @@
 .TableFooter > .TableRow:first-child > .TableCell {
   position: relative;
   --table-footer-top-border-opacity: 1;
+  --table-footer-top-border-inset: 0px;
 }
 
 .TableFooter > .TableRow:first-child > .TableCell::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: var(--table-footer-top-border-inset);
   top: 0;
-  width: 100%;
+  width: calc(100% - var(--table-footer-top-border-inset));
   height: 1px;
   background: var(--table-border);
   opacity: var(--table-footer-top-border-opacity);
@@ -456,6 +497,20 @@
 
 .TableFooter > .TableRow:first-child > .TableCell:last-child::before {
   border-top-right-radius: inherit;
+}
+
+.TableFooter > .TableRow:first-child > .TableCell.WithoutBottomBorder {
+  --table-footer-top-border-opacity: 0;
+}
+
+.TableFooter > .TableRow:first-child > :not(.WithoutBottomBorder) ~ .TableCell.WithoutBottomBorder {
+  --table-footer-top-border-opacity: 1;
+}
+
+.TableFooter
+  > .TableRow:first-child
+  > .TableCell:nth-child(1 of :not(.WithoutBottomBorder)):not(.WithoutBottomBorderInset) {
+  --table-footer-top-border-inset: var(--table-bottom-border-inset-size, 0px);
 }
 
 .StickyTableFooter {

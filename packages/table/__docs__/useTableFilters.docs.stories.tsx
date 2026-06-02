@@ -115,7 +115,8 @@ export const SimpleFiltersExample = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={4}>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={3}>
               Показано {sortedRows.length} из {data.length}. Выбрано: {checkedRows.size}
             </Table.Cell>
           </Table.Row>

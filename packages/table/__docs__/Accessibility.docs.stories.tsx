@@ -248,11 +248,12 @@ export const AccessibilityExampleStory = () => {
         </Table.Body>
         <Table.Footer sticky>
           <Table.Row>
-            <Table.Cell colSpan={4}>
+            <Table.Cell checkboxCell />
+            <Table.Cell colSpan={3}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p>
+                <span>
                   Показано {startIndex + 1}-{Math.min(endIndex, sortedRows.length)} из {sortedRows.length} записей
-                </p>
+                </span>
                 {totalPages > 1 && (
                   <Paging activePage={currentPage} pagesCount={totalPages} onPageChange={handlePageChange} />
                 )}

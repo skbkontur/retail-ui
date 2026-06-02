@@ -21,6 +21,8 @@ export interface TableHeaderCellBaseProps extends CommonProps {
   align?: CSSProperties['textAlign'];
   bottomBorder?: boolean;
   checkboxCell?: boolean;
+  withoutBottomBorder?: boolean;
+  withoutBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;
 }
@@ -36,6 +38,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
       align,
       bottomBorder,
       checkboxCell,
+      withoutBottomBorder,
+      withoutBottomBorderInset,
       noWrap,
       currency,
       className,
@@ -77,6 +81,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
                 [styles.PaddingForSimpleHeader]: isString,
                 [paddingForSimpleHeaderSizeClass]: isString,
                 [styles.BottomBorderInset]: bottomBorder,
+                [styles.WithoutBottomBorder]: withoutBottomBorder ?? checkboxCell,
+                [styles.WithoutBottomBorderInset]: withoutBottomBorderInset,
                 [styles.NoWrapCell]: noWrap,
                 [styles.Currency]: currency,
               }
