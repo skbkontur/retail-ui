@@ -1,9 +1,11 @@
+import { IconQuestionCircleLight16 } from '@skbkontur/icons/IconQuestionCircleLight16';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import React from 'react';
 
 import { ComponentTable } from '../../../internal/ComponentTable.js';
 import type { Meta, Story } from '../../../typings/stories.js';
-import { Gapped } from '../../Gapped/index.js';
+import { Gapped } from '../../Gapped/Gapped.js';
+import { Hint } from '../../Hint/Hint.js';
 import { Input } from '../Input.js';
 import type { InputProps } from '../Input.js';
 
@@ -396,3 +398,51 @@ export const ClearCrossSizes: Story = () => {
     </Gapped>
   );
 };
+
+const InputWithCounter = ({ ...props }: InputProps) => {
+  const [value, setValue] = React.useState('');
+  return <Input showLengthCounter lengthCounter={10} value={value} onValueChange={setValue} {...props} />;
+};
+
+export const Counter: Story = () => <InputWithCounter />;
+Counter.storyName = 'lengthCounter';
+
+export const CounterHelp: Story = () => (
+  <div style={{ paddingBottom: 64, paddingRight: 64 }}>
+    <InputWithCounter counterHelp="Help" />
+  </div>
+);
+CounterHelp.storyName = 'counterHelp';
+
+export const CounterHelpFunction: Story = () => (
+  <div style={{ paddingBottom: 64, paddingRight: 64 }}>
+    <InputWithCounter
+      counterHelp={() => (
+        <Hint text="Help">
+          <IconQuestionCircleLight16 data-tid="customHelpIcon" />
+        </Hint>
+      )}
+    />
+  </div>
+);
+CounterHelpFunction.storyName = 'function counterHelp';
+
+export const CounterWithSize: Story = () => (
+  <Gapped vertical gap={8}>
+    <InputWithCounter placeholder="small" counterHelp="Help" size="small" data-tid="inputSmall" />
+    <InputWithCounter placeholder="medium" counterHelp="Help" size="medium" data-tid="inputMedium" />
+    <InputWithCounter placeholder="large" counterHelp="Help" size="large" data-tid="inputLarge" />
+  </Gapped>
+);
+CounterWithSize.storyName = 'lengthCounter with size';
+
+export const CounterWithOtherProps: Story = () => (
+  <Gapped vertical gap={8}>
+    <InputWithCounter placeholder="suffix" suffix="руб." data-tid="inputSuffix" />
+    <InputWithCounter placeholder="rightIcon" rightIcon={<IconSearchLoupeRegular16 />} data-tid="inputRightIcon" />
+    <InputWithCounter placeholder="cross" showClearIcon="always" data-tid="inputCross" />
+    <InputWithCounter placeholder="cross + suffix" showClearIcon="always" suffix="руб." data-tid="inputCrossSuffix" />
+    <InputWithCounter placeholder="cross + help" showClearIcon="always" counterHelp="Help" data-tid="inputCrossHelp" />
+  </Gapped>
+);
+CounterWithOtherProps.storyName = 'lengthCounter with other props';

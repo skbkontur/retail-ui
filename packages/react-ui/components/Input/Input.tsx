@@ -1,6 +1,6 @@
 import type { Emotion } from '@emotion/css/create-instance';
 import invariant from 'invariant';
-import type { AriaAttributes, ClassAttributes, HTMLAttributes, JSX, ReactElement } from 'react';
+import type { AriaAttributes, ClassAttributes, HTMLAttributes, JSX, ReactElement, ReactNode } from 'react';
 import React, { createRef } from 'react';
 import warning from 'warning';
 
@@ -8,6 +8,7 @@ import { ClearCrossIcon } from '../../internal/ClearCrossIcon/ClearCrossIcon.js'
 import type { CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
 import { FocusControlWrapper } from '../../internal/FocusControlWrapper/index.js';
+import { RenderLayer } from '../../internal/RenderLayer/index.js';
 import { blink } from '../../lib/blink.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers.js';
@@ -128,6 +129,23 @@ export interface InputProps
         /** Выделяет введённое значение при фокусе в поле. Работает с типами `text`, `password`, `tel`, `search`, `url`. */
         selectAllOnFocus?: boolean;
 
+        /** Отображает счётчик введённых символов. */
+        showLengthCounter?: boolean;
+
+        /** Допустимое количество символов в поле. Отображается в счётчике символов.
+         * @default maxLength */
+        lengthCounter?: number;
+
+        /** Подсказка для счётчика символов.
+         *
+         * Если передать `ReactNode`, рисует тултип со встроенной иконкой.
+         * Если передать функцию, рисует произвольный элемент.
+         * @example
+         * ```
+         * counterHelp={() => <Hint text="..."><Icon /></Hint>}
+         * ``` */
+        counterHelp?: ReactNode | (() => ReactNode);
+
         /** Устанавливает обработчик на случай некорректного ввода.
          * Если передан onUnexpectedInput, он будет вызван при ошибке, а эффект мигания можно запустить вручную через публичный метод blink.
          * @param {string} value - значение поля. */
@@ -151,11 +169,14 @@ export interface InputState {
   focused: boolean;
   hovered: boolean;
   clearCrossShowed: boolean;
+  isCounterVisible: boolean;
 }
 
 export const InputDataTids = {
   root: 'Input__root',
   clearCross: 'Input__clearCross',
+  counter: 'Input__counter',
+  counterHelpIcon: 'Input__counterHelpIcon',
 } as const;
 
 type DefaultProps = Required<Pick<InputProps, 'type' | 'showClearIcon'>>;
@@ -212,6 +233,7 @@ export class Input extends React.Component<InputProps, InputState> {
   public state: InputState = {
     focused: false,
     hovered: false,
+    isCounterVisible: false,
     clearCrossShowed: this.getClearCrossShowed({
       focused: false,
       hasInitialValue: Boolean(this.props.value || this.props.defaultValue),
@@ -350,6 +372,9 @@ export class Input extends React.Component<InputProps, InputState> {
       size,
       placeholder,
       selectAllOnFocus,
+      showLengthCounter,
+      lengthCounter,
+      counterHelp,
       disabled,
       onUnexpectedInput,
       prefix,
@@ -363,7 +388,7 @@ export class Input extends React.Component<InputProps, InputState> {
       ...rest
     } = props;
 
-    const { focused } = this.state;
+    const { focused, isCounterVisible } = this.state;
 
     const labelProps = {
       className: this.cx(this.styles.root(this.theme), this.getSizeClassName(), {
@@ -416,18 +441,34 @@ export class Input extends React.Component<InputProps, InputState> {
       );
     };
     return (
-      <InputLayout
-        leftIcon={leftIcon}
-        rightIcon={getRightIcon()}
-        prefix={prefix}
-        suffix={suffix}
-        labelProps={labelProps}
-        context={{ disabled: Boolean(disabled), focused, size: this.size }}
+      <RenderLayer
+        onFocusOutside={this.handleCloseCounterHelp}
+        onClickOutside={this.handleCloseCounterHelp}
+        active={isCounterVisible}
       >
-        {input}
-      </InputLayout>
+        <InputLayout
+          leftIcon={leftIcon}
+          rightIcon={getRightIcon()}
+          prefix={prefix}
+          suffix={suffix}
+          value={value}
+          showLengthCounter={showLengthCounter}
+          isCounterVisible={isCounterVisible}
+          lengthCounter={lengthCounter}
+          counterHelp={counterHelp}
+          onCloseCounterHelp={this.handleCloseCounterHelp}
+          maxLength={this.props.maxLength}
+          size={this.size}
+          labelProps={labelProps}
+          context={{ disabled: Boolean(disabled), focused, size: this.size }}
+        >
+          {input}
+        </InputLayout>
+      </RenderLayer>
     );
   };
+
+  private handleCloseCounterHelp = () => this.setState({ isCounterVisible: false });
 
   private getSizeClassName() {
     switch (this.size) {
@@ -507,6 +548,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({
       focused: true,
+      isCounterVisible: true,
       clearCrossShowed: this.getClearCrossShowed({ focused: true, hovered: this.state.hovered }),
     });
 

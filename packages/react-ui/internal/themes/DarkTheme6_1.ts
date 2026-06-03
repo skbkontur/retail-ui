@@ -6,6 +6,9 @@ import { DarkTheme6_0 } from './DarkTheme6_0.js';
 
 export const DarkTheme6_1 = createTheme({
   themeClass: class DarkTheme6_1 extends BasicThemeClassForExtension {
+    public static inputCounterColor = colors.textNeutralSoft;
+    public static inputCounterHelpIconColor = colors.textNeutralSoft;
+
     public static textareaCounterBg = colors.surfaceBase;
     public static textareaCounterHelpIconColor = colors.textNeutralSoft;
 

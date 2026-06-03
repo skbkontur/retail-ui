@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import React from 'react';
 
 import { useStyles } from '../../../lib/renderEnvironment/index.js';
@@ -9,17 +10,18 @@ import { InputLayoutAsideText } from './InputLayoutAsideText.js';
 export interface InputLayoutAsideProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
   text: InputProps['prefix'] | InputProps['suffix'];
+  counter?: ReactElement;
   side: 'left' | 'right';
 }
 
-export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = ({ icon, text, side }) => {
+export const InputLayoutAside: React.FunctionComponent<InputLayoutAsideProps> = ({ icon, text, counter, side }) => {
   const stylesLayout = useStyles(getStylesLayout);
   const asideClassName = stylesLayout.aside();
 
   const _icon = <InputLayoutAsideIcon key="icon" icon={icon} side={side} />;
   const _text = <InputLayoutAsideText key="text" text={text} />;
 
-  const child = side === 'left' ? [_icon, _text] : [_text, _icon];
+  const child = side === 'left' ? [_icon, _text] : [_text, counter, _icon];
 
   return <span className={asideClassName}>{child}</span>;
 };

@@ -1,7 +1,7 @@
 import { IconSearchLoupeLight16 } from '@skbkontur/icons/IconSearchLoupeLight16';
 import { IconSearchLoupeLight20 } from '@skbkontur/icons/IconSearchLoupeLight20';
 import { IconSearchLoupeRegular24 } from '@skbkontur/icons/IconSearchLoupeRegular24';
-import { Button, Gapped, Input, ThemeContext } from '@skbkontur/react-ui';
+import { Button, Gapped, Input } from '@skbkontur/react-ui';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -188,6 +188,16 @@ export const ExamplePrefixSuffix: Story = () => {
 };
 ExamplePrefixSuffix.storyName = 'Префикс и суфикс';
 
+/** За отображение счётчика введённых символов отвечают пропсы:
+ * - `showLengthCounter` — отображает счётчик символов.
+ * - `lengthCounter` — допустимое количество символов в поле. Отображается в счётчике символов.
+ * - `counterHelp` — добавляет подсказку к счётчику символов. */
+export const ExampleLengthCounter: Story = () => {
+  const [value, setValue] = React.useState('');
+  return <Input showLengthCounter lengthCounter={10} counterHelp="Подсказка" value={value} onValueChange={setValue} />;
+};
+ExampleLengthCounter.storyName = 'Счётчик введённых символов';
+
 /** Поле без обводки задаётся пропом `borderless`. */
 export const ExampleBorderless: Story = () => {
   const [valueAlways, setValueAlways] = React.useState('Обычное поле');
@@ -264,23 +274,3 @@ export const ExampleOnUnexpectedInput: Story = () => {
   );
 };
 ExampleOnUnexpectedInput.storyName = 'Обработчик некорректного ввода';
-
-export const ExampleCounter: Story = () => {
-  const maxLength = 15;
-  const [value, setValue] = React.useState('Очень длинная строка');
-  const theme = React.useContext(ThemeContext);
-  const charsRemaining = maxLength - value.length;
-  const suffixColor = charsRemaining >= 0 ? theme.gray : theme.errorText;
-  return (
-    <Input
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      suffix={
-        <span style={{ color: suffixColor, fontVariantNumeric: 'tabular-nums' }}>
-          &nbsp;&nbsp;{String(charsRemaining).replace('-', '−')}
-        </span>
-      }
-    />
-  );
-};
-ExampleCounter.storyName = 'Кастомизация: счетчик введённых символов';

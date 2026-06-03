@@ -85,7 +85,7 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('title', 'someTitle');
   });
 
-  it('handels onClick event', async () => {
+  it('handles onClick event', async () => {
     const onClick = vi.fn();
     render(<Input value="some value to copy" onClick={onClick} />);
     const element = screen.getByRole('textbox');
@@ -93,21 +93,21 @@ describe('<Input />', () => {
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseUp event', () => {
+  it('handles onMouseUp event', () => {
     const onMouseUp = vi.fn();
     render(<Input value="some value to copy" onMouseUp={onMouseUp} />);
     fireEvent.mouseUp(screen.getByRole('textbox'));
     expect(onMouseUp).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseDown event', () => {
+  it('handles onMouseDown event', () => {
     const onMouseDown = vi.fn();
     render(<Input value="some value to copy" onMouseDown={onMouseDown} />);
     fireEvent.mouseDown(screen.getByRole('textbox'));
     expect(onMouseDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyUp event', async () => {
+  it('handles onKeyUp event', async () => {
     const onKeyUp = vi.fn();
     render(<Input value="some value to copy" onKeyUp={onKeyUp} />);
     await userEvent.type(screen.getByRole('textbox'), '{enter}');
@@ -115,7 +115,7 @@ describe('<Input />', () => {
     expect(onKeyUp).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onInput event', async () => {
+  it('handles onInput event', async () => {
     const onInput = vi.fn();
     render(<Input onInput={onInput} />);
     const element = screen.getByRole('textbox');
@@ -124,17 +124,17 @@ describe('<Input />', () => {
     expect(onInput).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onCopy event', async () => {
+  it('handles onCopy event', async () => {
     const onCopy = vi.fn();
     render(<Input value="Method works" onCopy={onCopy} />);
     fireEvent.copy(screen.getByRole('textbox'));
     expect(onCopy).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onPaste event', async () => {
+  it('handles onPaste event', async () => {
     const onPaste = vi.fn();
     render(<Input onPaste={onPaste} />);
-    const text = 'It handels onPaste event';
+    const text = 'It handles onPaste event';
     const element = screen.getByRole('textbox');
     await userEvent.click(element);
     await userEvent.paste(text);
@@ -352,7 +352,7 @@ describe('<Input />', () => {
     expect(input).toHaveValue('a');
   });
 
-  it('handels onBlur event', async () => {
+  it('handles onBlur event', async () => {
     const onBlur = vi.fn();
     render(<Input onBlur={onBlur} />);
 
@@ -362,7 +362,7 @@ describe('<Input />', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', async () => {
+  it('handles onFocus event', async () => {
     const onFocus = vi.fn();
     render(<Input onFocus={onFocus} />);
 
@@ -371,7 +371,7 @@ describe('<Input />', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', async () => {
+  it('handles onKeyDown event', async () => {
     const onKeyDown = vi.fn();
     render(<Input onKeyDown={onKeyDown} />);
 
@@ -380,7 +380,7 @@ describe('<Input />', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyPress event', async () => {
+  it('handles onKeyPress event', async () => {
     const onKeyPress = vi.fn();
     render(<Input onKeyPress={onKeyPress} />);
 
@@ -636,6 +636,40 @@ describe('<Input />', () => {
 
       await userEvent.click(getTextbox());
       expect(queryClearCross()).not.toBeInTheDocument();
+    });
+  });
+  describe('counter helper tooltip', () => {
+    it('renders counterHelp with text content', async () => {
+      render(<Input counterHelp="Hello" lengthCounter={10} showLengthCounter />);
+
+      await userEvent.click(screen.getByRole('textbox'));
+
+      const helpIcon = screen.getByTestId(InputDataTids.counterHelpIcon);
+      expect(helpIcon).toBeInTheDocument();
+
+      await userEvent.click(helpIcon);
+      expect(screen.getByText('Hello')).toBeInTheDocument();
+    });
+
+    it('renders counterHelp with react element content', async () => {
+      render(<Input counterHelp={() => <span>Help me</span>} lengthCounter={10} showLengthCounter />);
+
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.getByText('Help me')).toBeInTheDocument();
+    });
+
+    it('keeps counter visible when clicking on tooltip content', async () => {
+      render(<Input showLengthCounter lengthCounter={10} counterHelp="Help text" />);
+
+      await userEvent.click(screen.getByRole('textbox'));
+      expect(screen.getByTestId(InputDataTids.counter)).toBeInTheDocument();
+
+      await userEvent.click(screen.getByTestId(InputDataTids.counterHelpIcon));
+      expect(screen.getByText('Help text')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByText('Help text'));
+
+      expect(screen.getByTestId(InputDataTids.counter)).toBeInTheDocument();
     });
   });
 });

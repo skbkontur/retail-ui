@@ -143,4 +143,116 @@ kind('Input', () => {
       skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } },
     });
   });
+
+  story('Counter', () => {
+    test('base', async (context) => {
+      const page = context.webdriver;
+
+      const input = page.locator(tid('Input__root'));
+      await input.click();
+      await page.waitForTimeout(500);
+      const focused = await context.takeScreenshot();
+
+      await page.keyboard.type('Text');
+      await page.waitForTimeout(500);
+      const typed = await context.takeScreenshot();
+
+      await page.keyboard.type('MoreText');
+      await page.waitForTimeout(500);
+      const typedOverLimit = await context.takeScreenshot();
+
+      await context.matchImages({ focused, typed, typedOverLimit });
+    });
+  });
+
+  story('CounterHelp', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } });
+    test('base', async (context) => {
+      const page = context.webdriver;
+
+      const input = page.locator(tid('Input__root'));
+      await input.click();
+      await page.waitForTimeout(500);
+      const focused = await context.takeScreenshot();
+
+      const helpIcon = page.locator(tid('Input__counterHelpIcon'));
+      await helpIcon.click();
+      await page.waitForTimeout(500);
+      const opened = await context.takeScreenshot();
+
+      const crossIcon = page.locator(tid('Tooltip__crossIcon'));
+      await crossIcon.click();
+      await page.waitForTimeout(500);
+      const closed = await context.takeScreenshot();
+
+      await context.matchImages({ focused, opened, closed });
+    });
+  });
+
+  story('CounterHelpFunction', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } });
+    test('base', async (context) => {
+      const page = context.webdriver;
+      const input = page.locator(tid('Input__root'));
+      await input.click();
+      await page.waitForTimeout(500);
+      const helpIcon = page.locator(tid('customHelpIcon'));
+      await helpIcon.hover();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'opened');
+    });
+  });
+
+  story('CounterWithSize', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } });
+    test('base', async (context) => {
+      const page = context.webdriver;
+
+      await page.locator(tid('inputSmall')).click();
+      await page.waitForTimeout(500);
+      const small = await context.takeScreenshot();
+
+      await page.locator(tid('inputMedium')).click();
+      await page.waitForTimeout(500);
+      const medium = await context.takeScreenshot();
+
+      await page.locator(tid('inputLarge')).click();
+      await page.waitForTimeout(500);
+      const large = await context.takeScreenshot();
+
+      await context.matchImages({ small, medium, large });
+    });
+  });
+
+  story('CounterWithOtherProps', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'no themes': { in: /^(?!\b(chrome2022)\b)/ } } });
+    test('base', async (context) => {
+      const page = context.webdriver;
+
+      await page.locator(tid('inputSuffix')).click();
+      await page.waitForTimeout(500);
+      const suffix = await context.takeScreenshot();
+
+      await page.locator(tid('inputRightIcon')).click();
+      await page.waitForTimeout(500);
+      const rightIcon = await context.takeScreenshot();
+
+      await page.locator(tid('inputCross')).click();
+      await page.keyboard.type('Text');
+      await page.waitForTimeout(500);
+      const cross = await context.takeScreenshot();
+
+      await page.locator(tid('inputCrossSuffix')).click();
+      await page.keyboard.type('Text');
+      await page.waitForTimeout(500);
+      const crossSuffix = await context.takeScreenshot();
+
+      await page.locator(tid('inputCrossHelp')).click();
+      await page.keyboard.type('Text');
+      await page.waitForTimeout(500);
+      const crossHelp = await context.takeScreenshot();
+
+      await context.matchImages({ suffix, rightIcon, cross, crossSuffix, crossHelp });
+    });
+  });
 });

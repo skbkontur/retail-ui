@@ -7,10 +7,14 @@ import { ComboBox } from '../../../components/ComboBox/ComboBox.js';
 import { DatePicker } from '../../../components/DatePicker/DatePicker.js';
 import { DateRangePicker } from '../../../components/DateRangePicker/DateRangePicker.js';
 import { Select } from '../../../components/Select/Select.js';
+import { Textarea } from '../../../components/Textarea/Textarea.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { LIGHT_THEME_6_0 } from '../../../lib/theming/themes/LightTheme.js';
 import type { Story, Meta } from '../../../typings/stories.js';
 import type { Nullable } from '../../../typings/utility-types.js';
+
+const TEXT_SAMPLE =
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
 
 const mobileDecorator = (Story: () => JSX.Element) => (
   <div
@@ -151,3 +155,42 @@ export const ComboBoxMobile6_0: Story = () => {
 ComboBoxMobile6_0.storyName = 'ComboBox mobile 6.0';
 ComboBoxMobile6_0.parameters = mobileChromeParameters;
 ComboBoxMobile6_0.decorators = [mobileDecorator];
+
+const textareaCounterBlockStyle = { padding: '20px 0' };
+
+export const TextareaCounter6_0: Story = () => {
+  return (
+    <div style={{ width: 550 }}>
+      <div id="CounterPlain" style={textareaCounterBlockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE.split('').join(' ')}
+          width={400}
+          lengthCounter={700}
+          showLengthCounter
+          spellCheck={false}
+        />
+      </div>
+      <div id="CounterAutoresizeTextarea" style={textareaCounterBlockStyle}>
+        <Textarea value={TEXT_SAMPLE} width={400} lengthCounter={50} autoResize showLengthCounter spellCheck={false} />
+      </div>
+      <div id="CounterWithHelp" style={textareaCounterBlockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxLength={50}
+          showLengthCounter
+          counterHelp={'test'}
+          spellCheck={false}
+        />
+      </div>
+    </div>
+  );
+};
+TextareaCounter6_0.storyName = 'Textarea counter 6.0';
+TextareaCounter6_0.parameters = {
+  creevey: {
+    skip: {
+      'no themes': { in: /^(?!\b(chrome2022)\b)/ },
+    },
+  },
+};

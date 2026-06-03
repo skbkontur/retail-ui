@@ -112,4 +112,43 @@ kind('ThemeVersions/6_0', () => {
       await context.matchImage(await context.takeScreenshot(), 'opened');
     });
   });
+
+  story('TextareaCounter6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'flacky scrollbars height': {
+          in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'firefox2022', 'firefox2022Dark'],
+        },
+      },
+    });
+
+    test('Focus', async (context) => {
+      const page = context.webdriver;
+      await page.locator('#CounterPlain textarea').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'Focus');
+    });
+
+    test('FocusAutoresize', async (context) => {
+      const page = context.webdriver;
+      await page.locator('#CounterAutoresizeTextarea textarea').first().click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'FocusAutoresize');
+    });
+
+    test('CounterWithHelp', async (context) => {
+      const page = context.webdriver;
+      await page.locator('#CounterWithHelp textarea').click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'CounterWithHelp');
+    });
+
+    test('CounterWithHelpOpened', async (context) => {
+      const page = context.webdriver;
+      await page.locator('#CounterWithHelp textarea').click();
+      await page.locator(tid('TextareaCounter__helpIcon')).click();
+      await page.waitForTimeout(1000);
+      await context.matchImage(await context.takeScreenshot(), 'CounterWithHelpOpened');
+    });
+  });
 });

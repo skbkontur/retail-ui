@@ -57,7 +57,7 @@ type DefaultProps = Required<Pick<InputLikeTextProps, 'showClearIcon'>>;
 @withRenderEnvironment
 @withSize
 @rootNode
-export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
+export class InputLikeText extends React.Component<InputLikeTextProps, Omit<InputLikeTextState, 'isCounterVisible'>> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
   public static displayName = 'InputLikeText';
 

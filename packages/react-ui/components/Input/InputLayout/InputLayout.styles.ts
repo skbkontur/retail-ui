@@ -58,5 +58,36 @@ export const getStylesLayout = memoizeGetStyles((emotion: Emotion) => {
         color: ${t.inputPlaceholderColorDisabled};
       `;
     },
+    counter(t: Theme) {
+      return emotion.css`
+        font-variant-numeric: tabular-nums;
+        color: ${t.inputCounterColor};
+      `;
+    },
+    counterSmall(t: Theme) {
+      return emotion.css`
+        margin-left: ${t.inputCounterMarginLeftSmall};
+      `;
+    },
+    counterMedium(t: Theme) {
+      return emotion.css`
+        margin-left: ${t.inputCounterMarginLeftMedium};
+      `;
+    },
+    counterLarge(t: Theme) {
+      return emotion.css`
+        margin-left: ${t.inputCounterMarginLeftLarge};
+      `;
+    },
+    counterError(t: Theme) {
+      return emotion.css`
+        color: ${t.inputCounterColorError};
+      `;
+    },
+    counterHelp(t: Theme) {
+      return emotion.css`
+        margin-left: ${t.inputCounterHelpMarginLeft};
+      `;
+    },
   };
 });

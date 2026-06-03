@@ -1911,7 +1911,15 @@ export class BasicThemeClass {
   }
   public static inputBlinkColor = colors.shapeFaintNeutralAlpha;
   public static inputColorScheme = 'light';
-
+  public static inputCounterColor = colors.textNeutralSoft;
+  public static get inputCounterColorError() {
+    return this.errorText;
+  }
+  public static inputCounterMarginLeftSmall = '4px';
+  public static inputCounterMarginLeftMedium = '6px';
+  public static inputCounterMarginLeftLarge = '8px';
+  public static inputCounterHelpIconColor = colors.textNeutralSoft;
+  public static inputCounterHelpMarginLeft = '4px';
   //#endregion Input
   //#region Checkbox
   public static get checkboxFontSizeSmall(): string {
