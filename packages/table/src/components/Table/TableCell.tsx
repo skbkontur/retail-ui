@@ -16,8 +16,10 @@ export interface TableCellBaseProps extends CommonProps {
   width?: CSSProperties['width'];
   rowSpan?: number;
   checkboxCell?: boolean;
-  withoutBottomBorder?: boolean;
-  withoutBottomBorderInset?: boolean;
+  /** Скрывает нижнюю границу у ячейки. Автоматически применяется для `checkboxCell`. */
+  noBottomBorder?: boolean;
+  /** Исключает ячейку из расчёта отступа нижней границы, чтобы она начиналась со следующей ячейки. */
+  noBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;
   vAlign?: CSSProperties['verticalAlign'];
@@ -32,8 +34,8 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
       colSpan,
       rowSpan,
       checkboxCell,
-      withoutBottomBorder,
-      withoutBottomBorderInset,
+      noBottomBorder,
+      noBottomBorderInset,
       noWrap,
       currency,
       width,
@@ -75,8 +77,8 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
               [checkboxCellSizeClass]: checkboxCell,
               [tableCellSizeClass]: !checkboxCell,
               [tableCellTextSizeClass]: contentCompensator,
-              [styles.WithoutBottomBorder]: withoutBottomBorder ?? checkboxCell,
-              [styles.WithoutBottomBorderInset]: withoutBottomBorderInset,
+              [styles.WithoutBottomBorder]: noBottomBorder ?? checkboxCell,
+              [styles.WithoutBottomBorderInset]: noBottomBorderInset,
               [styles.NoWrapCell]: noWrap,
               [styles.Currency]: currency,
             })}

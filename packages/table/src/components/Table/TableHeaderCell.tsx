@@ -21,8 +21,10 @@ export interface TableHeaderCellBaseProps extends CommonProps {
   align?: CSSProperties['textAlign'];
   bottomBorder?: boolean;
   checkboxCell?: boolean;
-  withoutBottomBorder?: boolean;
-  withoutBottomBorderInset?: boolean;
+  /** Скрывает нижнюю границу у ячейки шапки. Автоматически применяется для `checkboxCell`. */
+  noBottomBorder?: boolean;
+  /** Исключает ячейку из расчёта отступа нижней границы, чтобы она начиналась со следующей ячейки. */
+  noBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;
 }
@@ -38,8 +40,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
       align,
       bottomBorder,
       checkboxCell,
-      withoutBottomBorder,
-      withoutBottomBorderInset,
+      noBottomBorder,
+      noBottomBorderInset,
       noWrap,
       currency,
       className,
@@ -81,8 +83,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
                 [styles.PaddingForSimpleHeader]: isString,
                 [paddingForSimpleHeaderSizeClass]: isString,
                 [styles.BottomBorderInset]: bottomBorder,
-                [styles.WithoutBottomBorder]: withoutBottomBorder ?? checkboxCell,
-                [styles.WithoutBottomBorderInset]: withoutBottomBorderInset,
+                [styles.WithoutBottomBorder]: noBottomBorder ?? checkboxCell,
+                [styles.WithoutBottomBorderInset]: noBottomBorderInset,
                 [styles.NoWrapCell]: noWrap,
                 [styles.Currency]: currency,
               }
