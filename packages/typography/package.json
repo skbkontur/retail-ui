@@ -7,11 +7,12 @@
   "sideEffects": false,
   "exports": {
     ".": "./index.ts",
+    "./Heading": "./Heading.ts",
     "./Text": "./Text.ts",
-    "./text.css": "./text.css",
-    "./Text.module.css": "./Text.module.css",
-    "./text.less": "./text.less",
-    "./text.scss": "./text.scss"
+    "./t.css": "./t.css",
+    "./t.module.css": "./t.module.css",
+    "./t.less": "./t.less",
+    "./t.scss": "./t.scss"
   },
   "publishConfig": {
     "access": "public",
@@ -23,14 +24,15 @@
     "build": "run-s build:* build:lint:*",
     "build:static": "node --import=tsx ./scripts/generate.ts && node ../../scripts/run-oxfmt.mjs --write .",
     "build:tsc": "yarn tsc --outDir dist",
-    "build:copyfiles": "copyfiles text.css Text.module.css text.less text.scss package.json README.md CHANGELOG.md dist",
+    "build:copyfiles": "copyfiles t.css t.module.css t.less t.scss package.json README.md CHANGELOG.md dist",
     "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",
     "build:lint:publint": "publint --pack npm ./dist",
-    "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints text.css Text.module.css text.less text.scss"
+    "build:lint:attw": "attw --config-path ../../.attw.json ./dist --exclude-entrypoints t.css t.module.css t.less t.scss"
   },
   "devDependencies": {
     "@types/less": "^3.0.8",
-    "sass": "^1.99.0"
+    "less": "^4.6.4",
+    "sass": "^1.100.0"
   },
   "peerDependencies": {
     "react": ">=16.9 <20",

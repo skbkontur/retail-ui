@@ -1,0 +1,326 @@
+@mixin t-heading-xs($weight: bold, $reset: false) {
+  font-size: 28px;
+  line-height: 36px;
+  @if $weight == 'regular' {
+    font-weight: 400;
+  } @else if $weight == 'medium' {
+    font-weight: 500;
+  } @else {
+    font-weight: 700;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-heading-s($weight: bold, $reset: false) {
+  font-size: 32px;
+  line-height: 40px;
+  @if $weight == 'regular' {
+    font-weight: 400;
+  } @else if $weight == 'medium' {
+    font-weight: 500;
+  } @else {
+    font-weight: 700;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-heading-m($weight: bold, $reset: false) {
+  font-size: 36px;
+  line-height: 44px;
+  @if $weight == 'regular' {
+    font-weight: 400;
+  } @else if $weight == 'medium' {
+    font-weight: 500;
+  } @else {
+    font-weight: 700;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-heading-l($weight: bold, $reset: false) {
+  font-size: 40px;
+  line-height: 48px;
+  @if $weight == 'regular' {
+    font-weight: 400;
+  } @else if $weight == 'medium' {
+    font-weight: 500;
+  } @else {
+    font-weight: 700;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-heading-xl($weight: bold, $reset: false) {
+  font-size: 48px;
+  line-height: 56px;
+  @if $weight == 'regular' {
+    font-weight: 400;
+  } @else if $weight == 'medium' {
+    font-weight: 500;
+  } @else {
+    font-weight: 700;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-heading-2xl($weight: bold, $reset: false) {
+  font-size: 56px;
+  line-height: 64px;
+  @if $weight == 'regular' {
+    font-weight: 400;
+  } @else if $weight == 'medium' {
+    font-weight: 500;
+  } @else {
+    font-weight: 700;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-xs($weight: regular, $reset: false) {
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-s($weight: regular, $reset: false) {
+  font-size: 14px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-m($weight: regular, $reset: false) {
+  font-size: 16px;
+  line-height: 22px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-l($weight: regular, $reset: false) {
+  font-size: 18px;
+  line-height: 24px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-xl($weight: regular, $reset: false) {
+  font-size: 20px;
+  line-height: 28px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-2xl($weight: regular, $reset: false) {
+  font-size: 22px;
+  line-height: 30px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-3xl($weight: regular, $reset: false) {
+  font-size: 24px;
+  line-height: 32px;
+  font-variant-numeric: tabular-nums;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-xs($weight: regular, $reset: false) {
+  font-size: 12px;
+  line-height: 20px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-s($weight: regular, $reset: false) {
+  font-size: 14px;
+  line-height: 22px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-m($weight: regular, $reset: false) {
+  font-size: 16px;
+  line-height: 24px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-l($weight: regular, $reset: false) {
+  font-size: 18px;
+  line-height: 28px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-xl($weight: regular, $reset: false) {
+  font-size: 20px;
+  line-height: 32px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-2xl($weight: regular, $reset: false) {
+  font-size: 22px;
+  line-height: 34px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@mixin t-body-wide-3xl($weight: regular, $reset: false) {
+  font-size: 24px;
+  line-height: 36px;
+  @if $weight == 'medium' {
+    font-weight: 500;
+  } @else if $weight == 'bold' {
+    font-weight: 700;
+  } @else {
+    font-weight: 400;
+  }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}

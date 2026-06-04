@@ -1,0 +1,143 @@
+.t-reset {
+  margin: 0;
+  padding: 0;
+}
+
+.t-heading-xs {
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+.t-heading-s {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+}
+
+.t-heading-m {
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 700;
+}
+
+.t-heading-l {
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+}
+
+.t-heading-xl {
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 700;
+}
+
+.t-heading-2xl {
+  font-size: 56px;
+  line-height: 64px;
+  font-weight: 700;
+}
+
+.t-body-xs {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-s {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-m {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-l {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-xl {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-2xl {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-3xl {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body-wide-xs {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.t-body-wide-s {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.t-body-wide-m {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.t-body-wide-l {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.t-body-wide-xl {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+.t-body-wide-2xl {
+  font-size: 22px;
+  line-height: 34px;
+  font-weight: 400;
+}
+
+.t-body-wide-3xl {
+  font-size: 24px;
+  line-height: 36px;
+  font-weight: 400;
+}
+
+.t-regular {
+  font-weight: 400;
+}
+
+.t-medium {
+  font-weight: 500;
+}
+
+.t-bold {
+  font-weight: 700;
+}

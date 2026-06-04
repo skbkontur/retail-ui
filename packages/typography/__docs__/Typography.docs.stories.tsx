@@ -3,6 +3,7 @@ import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import type { Meta } from '@storybook/react';
 import React from 'react';
 
+import { Heading } from '../Heading.js';
 import { Text } from '../Text.js';
 
 export default {
@@ -35,13 +36,13 @@ injectGlobal(`
 export const ExampleBasic = () => {
   return (
     <Gapped vertical gap={12}>
-      <Text as="h2" size="24" weight="bold">
-        Когда требуется создавать службу охраны труда
-      </Text>
-      <Text as="p" size="18" wide>
-        Работодатели с численностью более 50 человек создают свою службу охраны труда или вводят в штатное расписание
-        должность специалиста по охране труда в обязательном порядке (ч. 1 ст. 223 ТК РФ). Предприятия с меньшим штатом
-        организуют СОТ с учетом своей специфики.
+      <Heading as="h2" use="heading-xs">
+        Документация Kontur UI
+      </Heading>
+      <Text as="p" use="body-wide-l">
+        Набор готовых React-компонентов, токенов, шаблонов и принципов, которые помогают разработчикам быстро и
+        предсказуемо собирать пользовательские интерфейсы. Подходит для команд, которым важны консистентность и
+        увеличение скорости вывода продуктов в продакшн.
       </Text>
     </Gapped>
   );

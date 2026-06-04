@@ -1,81 +1,112 @@
-export const tokens = {
-  '12': {
-    fontSize: '12px',
-    lineHeight: '16px',
-    marginBottom: '8px',
-    wideLineHeight: '20px',
-    wideMarginBottom: '10px',
+export const headingTokens = {
+  'heading-xs': {
+    'font-size': '28px',
+    'line-height': '36px',
+    'font-weight': '700',
   },
-  '14': {
-    fontSize: '14px',
-    lineHeight: '20px',
-    marginBottom: '10px',
-    wideLineHeight: '22px',
-    wideMarginBottom: '12px',
+  'heading-s': {
+    'font-size': '32px',
+    'line-height': '40px',
+    'font-weight': '700',
   },
-  '16': {
-    fontSize: '16px',
-    lineHeight: '22px',
-    marginBottom: '12px',
-    wideLineHeight: '24px',
-    wideMarginBottom: '12px',
+  'heading-m': {
+    'font-size': '36px',
+    'line-height': '44px',
+    'font-weight': '700',
   },
-  '18': {
-    fontSize: '18px',
-    lineHeight: '24px',
-    marginBottom: '12px',
-    wideLineHeight: '28px',
-    wideMarginBottom: '14px',
+  'heading-l': {
+    'font-size': '40px',
+    'line-height': '48px',
+    'font-weight': '700',
   },
-  '20': {
-    fontSize: '20px',
-    lineHeight: '28px',
-    marginBottom: '14px',
-    wideLineHeight: '32px',
-    wideMarginBottom: '16px',
+  'heading-xl': {
+    'font-size': '48px',
+    'line-height': '56px',
+    'font-weight': '700',
   },
-  '22': {
-    fontSize: '22px',
-    lineHeight: '30px',
-    marginBottom: '14px',
-    wideLineHeight: '34px',
-    wideMarginBottom: '16px',
+  'heading-2xl': {
+    'font-size': '56px',
+    'line-height': '64px',
+    'font-weight': '700',
   },
-  '24': {
-    fontSize: '24px',
-    lineHeight: '32px',
-    marginBottom: '16px',
-    wideLineHeight: '36px',
-    wideMarginBottom: '18px',
+};
+
+export const bodyTokens = {
+  'body-xs': {
+    'font-size': '12px',
+    'line-height': '16px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-  '28': {
-    fontSize: '28px',
-    lineHeight: '36px',
-    marginBottom: '18px',
+  'body-s': {
+    'font-size': '14px',
+    'line-height': '20px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-  '32': {
-    fontSize: '32px',
-    lineHeight: '40px',
-    marginBottom: '20px',
+  'body-m': {
+    'font-size': '16px',
+    'line-height': '22px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-  '36': {
-    fontSize: '36px',
-    lineHeight: '44px',
-    marginBottom: '22px',
+  'body-l': {
+    'font-size': '18px',
+    'line-height': '24px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-  '40': {
-    fontSize: '40px',
-    lineHeight: '48px',
-    marginBottom: '24px',
+  'body-xl': {
+    'font-size': '20px',
+    'line-height': '28px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-  '48': {
-    fontSize: '48px',
-    lineHeight: '56px',
-    marginBottom: '28px',
+  'body-2xl': {
+    'font-size': '22px',
+    'line-height': '30px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-  '56': {
-    fontSize: '56px',
-    lineHeight: '64px',
-    marginBottom: '32px',
+  'body-3xl': {
+    'font-size': '24px',
+    'line-height': '32px',
+    'font-weight': '400',
+    'font-variant-numeric': 'tabular-nums',
   },
-} as const;
+  'body-wide-xs': {
+    'font-size': '12px',
+    'line-height': '20px',
+    'font-weight': '400',
+  },
+  'body-wide-s': {
+    'font-size': '14px',
+    'line-height': '22px',
+    'font-weight': '400',
+  },
+  'body-wide-m': {
+    'font-size': '16px',
+    'line-height': '24px',
+    'font-weight': '400',
+  },
+  'body-wide-l': {
+    'font-size': '18px',
+    'line-height': '28px',
+    'font-weight': '400',
+  },
+  'body-wide-xl': {
+    'font-size': '20px',
+    'line-height': '32px',
+    'font-weight': '400',
+  },
+  'body-wide-2xl': {
+    'font-size': '22px',
+    'line-height': '34px',
+    'font-weight': '400',
+  },
+  'body-wide-3xl': {
+    'font-size': '24px',
+    'line-height': '36px',
+    'font-weight': '400',
+  },
+};

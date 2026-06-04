@@ -1,10 +1,32 @@
 import * as fs from 'fs';
 
-import { tokens } from '../tokens.js';
+import { headingTokens, bodyTokens } from '../tokens.js';
+
+interface Token {
+  'font-size': string;
+  'line-height': string;
+  'font-weight'?: string;
+  'font-variant-numeric'?: string;
+}
 
 function createFile(fileName: string, content: string) {
   fs.writeFile(fileName, content.trim(), () => {});
 }
+
+const toCamelCaseWithCapsSize = (str: string) => {
+  const parts = str.split('-');
+  return parts
+    .map((part, index) => {
+      if (index === 0) {
+        return part;
+      }
+      if (index === parts.length - 1) {
+        return part.toUpperCase();
+      }
+      return part.charAt(0).toUpperCase() + part.slice(1);
+    })
+    .join('');
+};
 
 const weightMap = {
   regular: 400,
@@ -12,167 +34,145 @@ const weightMap = {
   bold: 700,
 };
 
-const generateGlobalCss = () => {
-  const cssRules: string[] = [];
-
-  Object.entries(tokens).forEach(([size, token]) => {
-    cssRules.push(`
-.t-${size} {
-  font-size: ${token.fontSize};
-  line-height: ${token.lineHeight};
-  font-weight: 400;
+const resetCss = `.reset {
   margin: 0;
-}`);
+  padding: 0;
+}`;
 
-    if ('wideLineHeight' in token) {
-      cssRules.push(`
-.t-${size}.t-wide {
-  line-height: ${token.wideLineHeight};
-}`);
-    }
+const generateGlobalCss = () => {
+  const cssRules: string[] = [resetCss.replace('.reset', '.t-reset')];
+
+  Object.entries(headingTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    cssRules.push(
+      `.t-${key} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 700; }`
+    );
+  });
+
+  Object.entries(bodyTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    const variantStr = token['font-variant-numeric'] ? ` font-variant-numeric: ${token['font-variant-numeric']};` : '';
+    cssRules.push(
+      `.t-${key} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 400;${variantStr} }`
+    );
   });
 
   Object.entries(weightMap).forEach(([name, value]) => {
-    cssRules.push(`
-.t-${name} {
-  font-weight: ${value};
-}`);
+    cssRules.push(`.t-${name} { font-weight: ${value}; }`);
   });
 
-  createFile('./text.css', cssRules.join('\n'));
+  createFile('./t.css', cssRules.join('\n\n'));
 };
 
 const generateCssModules = () => {
-  const cssRules: string[] = [];
+  const cssRules: string[] = [resetCss];
 
-  Object.entries(tokens).forEach(([size, token]) => {
-    cssRules.push(`
-.t${size} {
-  font-size: ${token.fontSize};
-  line-height: ${token.lineHeight};
-  font-weight: 400;
-  margin: 0;
-}`);
+  Object.entries(headingTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    cssRules.push(
+      `.${toCamelCaseWithCapsSize(key)} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 700; }`
+    );
+  });
 
-    if ('wideLineHeight' in token) {
-      cssRules.push(`
-.t${size}.wide {
-  line-height: ${token.wideLineHeight};
-}`);
-    }
+  Object.entries(bodyTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    const variantStr = token['font-variant-numeric'] ? ` font-variant-numeric: ${token['font-variant-numeric']};` : '';
+    cssRules.push(
+      `.${toCamelCaseWithCapsSize(key)} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 400;${variantStr} }`
+    );
   });
 
   Object.entries(weightMap).forEach(([name, value]) => {
-    cssRules.push(`
-.${name} {
-  font-weight: ${value};
-}`);
+    cssRules.push(`.${name} { font-weight: ${value}; }`);
   });
 
-  createFile('./Text.module.css', cssRules.join('\n'));
+  createFile('./t.module.css', cssRules.join('\n\n'));
 };
 
 const generateScss = () => {
-  const sassSizeEntries: string[] = [];
+  const scssMixins: string[] = [];
 
-  Object.entries(tokens).forEach(([size, token]) => {
-    let entry = `
-  "${size}": (
-    "font-size": ${token.fontSize},
-    "line-height": ${token.lineHeight}`;
-
-    if ('wideLineHeight' in token) {
-      entry += `,
-    "wide-line-height": ${token.wideLineHeight}`;
-    }
-
-    entry += '\n  )';
-    sassSizeEntries.push(entry);
+  Object.entries(headingTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    scssMixins.push(`
+@mixin t-${key}($weight: bold, $reset: false) {
+  font-size: ${token['font-size']};
+  line-height: ${token['line-height']};
+  @if $weight == 'regular' { font-weight: 400; }
+  @else if $weight == 'medium' { font-weight: 500; }
+  @else { font-weight: 700; }
+  @if $reset {
+    margin: 0;
+    padding: 0;
+  }
+}`);
   });
 
-  const res = `
-@use "sass:map";
-
-$typography: (${sassSizeEntries.join(',')}
-) !default;
-
-$weights: (
-  "regular": 400,
-  "medium": 500,
-  "bold": 700
-);
-
-@mixin t($size, $wide: false, $weight: null) {
-  $style: map.get($typography, "#{$size}");
-
-  @if $style {
-    font-size: map.get($style, "font-size");
-    
-    @if $weight != null and map.has-key($weights, $weight) {
-      font-weight: map.get($weights, $weight);
-    } @else {
-      font-weight: 400;
-    }
-    
-    $line-height: map.get($style, "line-height");
-
-    @if $wide and map.has-key($style, "wide-line-height") {
-      $line-height: map.get($style, "wide-line-height");
-    }
-
-    line-height: $line-height;
+  Object.entries(bodyTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    const variantStr = token['font-variant-numeric']
+      ? `\n  font-variant-numeric: ${token['font-variant-numeric']};`
+      : '';
+    scssMixins.push(`
+@mixin t-${key}($weight: regular, $reset: false) {
+  font-size: ${token['font-size']};
+  line-height: ${token['line-height']};${variantStr}
+  @if $weight == 'medium' { font-weight: 500; }
+  @else if $weight == 'bold' { font-weight: 700; }
+  @else { font-weight: 400; }
+  @if $reset {
     margin: 0;
+    padding: 0;
   }
-}`;
-  createFile('./text.scss', res);
+}`);
+  });
+
+  createFile('./t.scss', scssMixins.join('\n\n'));
 };
 
 const generateLess = () => {
-  const lessEntries: string[] = [];
+  const lessMixins: string[] = [];
 
-  Object.entries(tokens).forEach(([size, token]) => {
-    let entry = `
-  @t${size}: {
-    font-size: ${token.fontSize}; 
-    line-height: ${token.lineHeight}; 
-    wide-line-height: ${'wideLineHeight' in token ? token.wideLineHeight : 'null'};
-  };`;
-    lessEntries.push(entry);
+  Object.entries(headingTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    lessMixins.push(`
+.t-${key}(@weight: bold, @reset: false) {
+  font-size: ${token['font-size']};
+  line-height: ${token['line-height']};
+  .set-weight() when (@weight = regular) { font-weight: 400; }
+  .set-weight() when (@weight = medium) { font-weight: 500; }
+  .set-weight() when (@weight = bold) { font-weight: 700; }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}`);
   });
 
-  const res = `
-@typography: {${lessEntries.join('')}
-}
-
-@weights: {
-  @regular: 400;
-  @medium: 500;
-  @bold: 700;
-};
-
-.t(@size, @wide: false, @weight: default) {
-  @size-key: ~"t@{size}";
-  @style: @typography[@@size-key];
-
-  font-size: @style[font-size];
-  margin: 0;
-  
-  .set-weight() when (@weight = default) {
-    font-weight: 400;
-  }
-  .set-weight() when not (@weight = default) {
-    @weight-key: ~"@{weight}";
-    @val: @weights[@@weight-key];
-    font-weight: ~"@{val}";
-  }
+  Object.entries(bodyTokens).forEach(([key, rawToken]) => {
+    const token = rawToken as Token;
+    const variantStr = token['font-variant-numeric']
+      ? `\n  font-variant-numeric: ${token['font-variant-numeric']};`
+      : '';
+    lessMixins.push(`
+.t-${key}(@weight: regular, @reset: false) {
+  font-size: ${token['font-size']};
+  line-height: ${token['line-height']};${variantStr}
+  .set-weight() when (@weight = regular) { font-weight: 400; }
+  .set-weight() when (@weight = medium) { font-weight: 500; }
+  .set-weight() when (@weight = bold) { font-weight: 700; }
   .set-weight();
-  
-  @has-wide: boolean(not(@style[wide-line-height] = null));
-  
-  @line-height-value: if((@wide = true) and (@has-wide = true), @style[wide-line-height], @style[line-height]);
-  line-height: @line-height-value;
-}`;
-  createFile('./text.less', res);
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}`);
+  });
+
+  createFile('./t.less', lessMixins.join('\n\n'));
 };
 
 generateGlobalCss();

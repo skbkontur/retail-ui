@@ -1,9 +1,6 @@
 # Библиотека типографики
 
-NPM-пакет со стилями типографики из [Kontur.Typography](https://www.figma.com/design/8NdXy4RQisot40DZI5aG9S/%E2%9A%A1%EF%B8%8F-Kontur-Typography?node-id=251-9&p=f&t=F08piH72ZqK1P8Ab-0).
-
-- Доступно в виде React-компонента, CSS-классов и миксинов для SCSS/Less
-- Управление параметрами текста: отступам (spacing), жирностью (weight) и межстрочными интервалами (wide)
+NPM-пакет со стилями типографики продуктов Контура
 
 ## Установка
 
@@ -13,56 +10,107 @@ npm i @skbkontur/typography
 
 ## Использование
 
-Доступны 5 вариантов использования
+Доступно **5 вариантов** использования: в виде React-компонента, глобальный CSS, CSS-модули и миксины для SCSS/Less
 
 <br />
 
-#### React компонент
+### 1. React компоненты
 
-<ArgTypes />
+Компоненты разделены по семантике на `<Heading>` для заголовков и `<Text>` для основного текста.
+
+<details>
+  <summary>Открыть таблицу с пропами</summary>
+
+**Heading**
+
+<ArgTypes of={Heading} />
+
+**Text**
+
+  <ArgTypes of={Text} />
+</details>
 
 ```jsx static
-import { Text } from '@skbkontur/typography';
+import { Heading, Text } from '@skbkontur/typography';
 
 const Component = () => (
-  <Text as="p" size={24} spacing wide>
-    Текст
-  </Text>
+  <>
+    <Heading as="h2" use="heading-xs">
+      Заголовок
+    </Heading>
+    <Text as="p" use="body-m">
+      Текст
+    </Text>
+  </>
 );
 ```
 
-#### CSS
+### 2. CSS класс
 
-```js static
-import '@skbkontur/typography/text.css'; // Подключение в точке входа приложения
+- `.t-*` — стиль текста
+- `.t-[regular|medium|bold]` — классы для изменения начертиния
+- `.t-reset` — класс для обнуления внешних отступов
 
-const Component = () => <p className="t-24 t-spacing t-wide">Текст</p>;
+```jsx static
+import '@skbkontur/typography/t.css'; // Подключение в точке входа приложения
+
+const Component = () => (
+  <>
+    <h2 className="t-heading-xl">Заголовок</h2>
+    <p className="t-body-wide-m">Текст</p>
+  </>
+);
 ```
 
-#### CSS Modules
+### 3. CSS Modules
 
-```js static
-import text from '@skbkontur/typography/Text.module.css';
+- `t.*` — стиль текста
+- `t.[regular|medium|bold]` — классы для изменения начертания
+- `t.reset` — класс для сброса внешних отступов
 
-const Component = () => <p className={`${text.t24} ${text.spacing} ${text.wide}`}>Текст</p>;
+```jsx static
+import t from '@skbkontur/typography/t.module.css';
+
+const Component = () => (
+  <>
+    <h2 className={t.headingXl}>Заголовок</h2>
+    <p className={t.bodyWideM}>Текст</p>
+  </>
+);
 ```
 
-#### SCSS mixin
+### 4. SCSS mixin
+
+- `@include t-*()` — стиль текста
+- `$weight: [regular|medium|bold]` — начертание
+- `$reset: [true|false]` — сброс внешних отступов (по умолчанию false)
 
 ```css static
-@use '@skbkontur/typography/text' as *;
+@use '@skbkontur/typography/t.scss' as *;
+
+.header {
+  @include t-heading-xl;
+}
 
 .component {
-  @include t(40, $spacing: false, $wide: false);
+  @include t-body-m($weight: bold);
 }
 ```
 
-#### Less mixin
+### 5. Less mixin
+
+- `.t-*()` — стиль текста
+- `@weight: [regular|medium|bold]` — начертание
+- `@reset: [true|false]` — сброс внешних отступов (по умолчанию false)
 
 ```css static
-@import '@skbkontur/typography/text';
+@import '@skbkontur/typography/t.less';
 
-.component {
-  .t(24, @spacing: false, @wide: false);
+.header {
+  .t-heading-xl();
+}
+
+.paragraph {
+  .t-body-m(@weight: bold);
 }
 ```

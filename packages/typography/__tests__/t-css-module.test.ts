@@ -3,17 +3,17 @@ import path from 'path';
 
 import { describe, it, expect } from 'vitest';
 
-const css = fs.readFileSync(path.resolve(__dirname, '../Text.module.css'), 'utf8').replace(/\s+/g, ' ');
+const css = fs.readFileSync(path.resolve(__dirname, '../t.module.css'), 'utf8').replace(/\s+/g, ' ');
 
-describe('Text.module.css content', () => {
+describe('t.module.css content', () => {
   it('should contain camelCase classes', () => {
-    expect(css).toContain('.t16 {');
-    expect(css).toContain('font-size: 16px;');
-    expect(css).toContain('font-weight: 700;');
+    expect(css).toContain('.bodyM {');
+    expect(css).toContain('.bodyXL {');
+    expect(css).toContain('.bodyWide3XL {');
   });
 
-  it('should contain modifiers', () => {
-    expect(css).toContain('.wide {');
+  it('should contain reset modifiers', () => {
+    expect(css).toContain('.reset { margin: 0; padding: 0; }');
   });
 
   it('should contain independent weight utilities', () => {

@@ -1,0 +1,406 @@
+.t-heading-xs(@weight: bold, @reset: false) {
+  font-size: 28px;
+  line-height: 36px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-s(@weight: bold, @reset: false) {
+  font-size: 32px;
+  line-height: 40px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-m(@weight: bold, @reset: false) {
+  font-size: 36px;
+  line-height: 44px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-l(@weight: bold, @reset: false) {
+  font-size: 40px;
+  line-height: 48px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-xl(@weight: bold, @reset: false) {
+  font-size: 48px;
+  line-height: 56px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-2xl(@weight: bold, @reset: false) {
+  font-size: 56px;
+  line-height: 64px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-xs(@weight: regular, @reset: false) {
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-s(@weight: regular, @reset: false) {
+  font-size: 14px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-m(@weight: regular, @reset: false) {
+  font-size: 16px;
+  line-height: 22px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-l(@weight: regular, @reset: false) {
+  font-size: 18px;
+  line-height: 24px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-xl(@weight: regular, @reset: false) {
+  font-size: 20px;
+  line-height: 28px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-2xl(@weight: regular, @reset: false) {
+  font-size: 22px;
+  line-height: 30px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-3xl(@weight: regular, @reset: false) {
+  font-size: 24px;
+  line-height: 32px;
+  font-variant-numeric: tabular-nums;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-xs(@weight: regular, @reset: false) {
+  font-size: 12px;
+  line-height: 20px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-s(@weight: regular, @reset: false) {
+  font-size: 14px;
+  line-height: 22px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-m(@weight: regular, @reset: false) {
+  font-size: 16px;
+  line-height: 24px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-l(@weight: regular, @reset: false) {
+  font-size: 18px;
+  line-height: 28px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-xl(@weight: regular, @reset: false) {
+  font-size: 20px;
+  line-height: 32px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-2xl(@weight: regular, @reset: false) {
+  font-size: 22px;
+  line-height: 34px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-body-wide-3xl(@weight: regular, @reset: false) {
+  font-size: 24px;
+  line-height: 36px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
