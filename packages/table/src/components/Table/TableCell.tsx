@@ -24,6 +24,12 @@ export interface TableCellBaseProps extends CommonProps {
   vAlign?: CSSProperties['verticalAlign'];
   onClick?: MouseEventHandler<HTMLTableCellElement>;
   contentCompensator?: boolean;
+  /**
+   * Убирает padding и contentCompensator у ячейки и разрешает контенту
+   * визуально выходить за её границы. Используется для «висящих» иконок
+   * в первой колонке width:0.
+   */
+  noPaddingRight?: boolean;
 }
 
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
@@ -43,6 +49,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
       style,
       onClick: onClickProp,
       contentCompensator = true,
+      noPaddingRight = false,
       ...rest
     },
     ref
@@ -75,9 +82,10 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
               [styles.CheckboxCell]: checkboxCell,
               [checkboxCellSizeClass]: checkboxCell,
               [tableCellSizeClass]: !checkboxCell,
-              [tableCellTextSizeClass]: contentCompensator,
+              [tableCellTextSizeClass]: contentCompensator && !noPaddingRight,
               [styles.WithoutBottomBorder]: noBottomBorder ?? checkboxCell,
               [styles.WithoutBottomBorderInset]: noBottomBorderInset,
+              [styles.NoPaddingRightCell]: noPaddingRight,
               [styles.NoWrapCell]: noWrap,
               [styles.Currency]: currency,
             })}

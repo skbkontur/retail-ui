@@ -215,6 +215,10 @@
   --table-header-bottom-border-opacity: 1;
 }
 
+.ForceBottomBorderInset {
+  --table-header-bottom-border-inset: var(--table-header-bottom-border-inset-size, 0px);
+}
+
 .ClickableTableRow.BottomBorder:focus-within > .TableCell,
 .ClickableTableRow.BottomBorder:hover > .TableCell {
   --table-bottom-border-opacity: 0;
@@ -651,6 +655,27 @@
       var(--table-row-shadow-checked-active);
     background: var(--table-row-shadow-checked-active);
   }
+}
+
+.TableCell.NoPaddingRightCell,
+.TableHeaderCell.NoPaddingRightCell {
+  padding-right: 0;
+}
+
+/* The cell/header immediately after the icon column gets 8px left gap */
+.TableCell.NoPaddingRightCell + .TableCell {
+  padding-left: 8px;
+  --table-bottom-border-inset-size: 8px;
+}
+
+.TableHeaderCell.NoPaddingRightCell + .TableHeaderCell {
+  padding-left: 8px;
+  --table-header-bottom-border-inset: 8px;
+}
+
+.TableHeader > .TableRow:last-child > .NoPaddingRightCell,
+.TableHeader > .TableRow:not(:last-child) > .NoPaddingRightCell[rowspan] {
+  --table-header-bottom-border-opacity: 0;
 }
 
 .ActionsDropdownItem {

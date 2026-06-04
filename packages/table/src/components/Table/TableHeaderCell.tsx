@@ -24,8 +24,20 @@ export interface TableHeaderCellBaseProps extends CommonProps {
   noBottomBorder?: boolean;
   /** Исключает ячейку из расчёта отступа нижней границы, чтобы она начиналась со следующей ячейки. */
   noBottomBorderInset?: boolean;
+  /**
+   * Принудительно применяет --table-header-bottom-border-inset из
+   * --table-header-bottom-border-inset-size. Нужно на ячейке, которая
+   * визуально первая, но не является :nth-child(1 of ...) — например,
+   * когда перед ней стоит noPaddingRight-колонка.
+   */
+  forceBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;
+  /**
+   * Убирает правый padding у header-ячейки. Парная опция для
+   * Table.Cell с тем же пропом — для иконок-индикаторов в первой колонке.
+   */
+  noPaddingRight?: boolean;
 }
 
 export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellBaseProps>(
@@ -41,8 +53,10 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
       checkboxCell,
       noBottomBorder,
       noBottomBorderInset,
+      forceBottomBorderInset,
       noWrap,
       currency,
+      noPaddingRight = false,
       className,
       style,
       ...rest
@@ -78,6 +92,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
               [styles.BottomBorderInset]: bottomBorder,
               [styles.WithoutBottomBorder]: noBottomBorder ?? checkboxCell,
               [styles.WithoutBottomBorderInset]: noBottomBorderInset,
+              [styles.ForceBottomBorderInset]: forceBottomBorderInset,
+              [styles.NoPaddingRightCell]: noPaddingRight,
               [styles.NoWrapCell]: noWrap,
               [styles.Currency]: currency,
             })}
