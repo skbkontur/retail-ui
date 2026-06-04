@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](/compare/@skbkontur/typography@0.2.2...@skbkontur/typography@1.0.0) (2026-06-04)
+
+
+### Features
+
+
+New typography use `heading*` `body*`, `bodyWide*` styles from Kontur Typography Figma styles. Now use scale `use="heading-xs"` instead numbers `size={56}`.
+
+Syles contains 3-4 base params: `font-size`, `line-height`, `font-weight`, `font-feauture-setting`. `noSpacing` have been removed, use resets and own spacings.
+
+
+* **Common:** Add tabular-nums (monospace nums) for `body` style 703d87d
+- **Common:** Add `reset` styles param; in React by default 703d87d
+* **Common:** Add weight param React/CSS/SCSS/Less 64b00e7
+* **Common:** Remove `wideColumn` param, work with `body-wide-*` d55fa4a
+* **Common:** Remove `noSpacing` param 064805f 5505ef4
+- **Common:** Rename modules: `t.css`, `t.module.css`, `t.scss`, `t.less` 703d87d
+* **React:** add `<Heading>` component 703d87d
+* **React:** add all HTMLElement props in React components 703d87d
+* **React:** add `use` prop 3ae4a80
+* **React:** rename `tag` → `as` prop 3ae4a80
+* **React:** add more tag support in `as` prop 38b9fc7
+* **React:** add defaults for `as` prop (Heading: `<div>`, Text: `<span>`) 3ae4a80
+* **CSS:** use `.t-dash-case` format db1fbd9
+* **CSS Modules:** use `t.camelCase` format, remove `t` prefix aafb59a
+* **SCSS:** rename `@include t(56)` → `t-heading-*()` for better autocomplete 703d87d
+* **Less:** rename `.t(56)` → `t-heading-*()` for better autocomplete 703d87d
+
+
+### Bug Fixes
+
+* **Typography:** remove legacy if(), deprecated in sass 1.95 10945e0
+* **React:** use forwardRef for react-ui `Tooltip` / `Hint` compability 7008ebe
+
+
+
+
 ## [0.2.2](/compare/@skbkontur/typography@0.2.1...@skbkontur/typography@0.2.2) (2026-05-08)
 
 
