@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](/compare/@skbkontur/table@0.3.1...@skbkontur/table@0.3.2) (2026-06-04)
+
+
+### Bug Fixes
+
+* **table:** forward all cell props in TableCheckboxCell and TableHeaderCheckboxCell 346e0fe
+
+
+
+
+
 ## [0.3.1](/compare/@skbkontur/table@0.3.0...@skbkontur/table@0.3.1) (2026-06-04)
 
 **Note:** Version bump only for package @skbkontur/table
