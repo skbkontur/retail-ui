@@ -145,7 +145,23 @@
 }
 
 .CheckboxHeaderCell {
-  padding: 4px 16px 4px 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.CheckboxHeaderCell.CheckboxCellSmall {
+  padding-top: calc(10px - var(--table-checkbox-padding-y-small, 6px));
+  padding-bottom: calc(10px - var(--table-checkbox-padding-y-small, 6px));
+}
+
+.CheckboxHeaderCell.CheckboxCellMedium {
+  padding-top: calc(13px - var(--table-checkbox-padding-y-medium, 9px));
+  padding-bottom: calc(13px - var(--table-checkbox-padding-y-medium, 9px));
+}
+
+.CheckboxHeaderCell.CheckboxCellLarge {
+  padding-top: calc(16px - var(--table-checkbox-padding-y-large, 12px));
+  padding-bottom: calc(16px - var(--table-checkbox-padding-y-large, 12px));
 }
 
 .TableHeaderCell.NoWrapCell {

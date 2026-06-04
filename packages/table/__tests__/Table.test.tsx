@@ -1,3 +1,5 @@
+import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
@@ -18,6 +20,24 @@ describe('Table', () => {
     );
 
     expect(container.querySelector('table')).toBeInTheDocument();
+  });
+
+  it('passes checkbox vertical padding from theme to css variables', () => {
+    const theme = ThemeFactory.create({ checkboxPaddingYSmall: '0px' });
+    const { container } = render(
+      <ThemeContext.Provider value={theme}>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCheckboxCell checked={false} />
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      </ThemeContext.Provider>
+    );
+
+    const table = container.querySelector('table');
+    expect(table?.style.getPropertyValue('--table-checkbox-padding-y-small')).toBe('0px');
   });
 
   it('passes ref to table element', () => {

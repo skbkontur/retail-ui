@@ -52,6 +52,8 @@ interface WidthWrapperProps {
   children: ReactNode;
 }
 
+const normalizeCssLength = (value: string): string => (value === '0' ? '0px' : value);
+
 const WidthWrapper = ({ width, minWidth, maxWidth, children }: WidthWrapperProps) => {
   if (width || minWidth || maxWidth) {
     return (
@@ -132,6 +134,9 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
                   '--table-row-checked-active': tableTheme.tableRowCheckedActive,
                   '--table-row-shadow-checked-active': tableTheme.tableRowShadowCheckedActive,
                   '--table-danger-active-color': tableTheme.tableDangerActiveColor,
+                  '--table-checkbox-padding-y-small': normalizeCssLength(tableTheme.checkboxPaddingYSmall),
+                  '--table-checkbox-padding-y-medium': normalizeCssLength(tableTheme.checkboxPaddingYMedium),
+                  '--table-checkbox-padding-y-large': normalizeCssLength(tableTheme.checkboxPaddingYLarge),
                 } as CSSProperties
               }
               className={cx(styles.Table, {
