@@ -1,0 +1,18 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as TableConstructorStories from './TableConstructor.docs.stories';
+
+<Meta of={TableConstructorStories} />
+
+# Конструктор таблицы
+
+Интерактивная демка фич `@skbkontur/table`. Переключателями включаются:
+
+- размер (`small` / `medium` / `large`);
+- режим `ActionBar`: `off` / inline / popup / отдельная ячейка с popup;
+- колонка чекбоксов;
+- иконка-индикатор в первой колонке (`noPaddingRight`);
+- иконка внутри ячейки рядом с текстом;
+- опасное действие (`danger: true`).
+
+<Story of={TableConstructorStories.TableConstructor} />
