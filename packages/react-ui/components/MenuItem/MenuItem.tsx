@@ -139,12 +139,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   public componentDidMount() {
-    if (this.props.scrollIntoView && this.rootRef) {
+    if (this.props.scrollIntoView && this.isHtmlElement(this.rootRef)) {
       scrollYCenterIntoNearestScrollable(this.rootRef);
     }
-    if (this.rootRef && isBrowser(this.globalObject)) {
+    if (this.isHtmlElement(this.rootRef)) {
+      const computedStyle = this.rootRef.ownerDocument?.defaultView?.getComputedStyle(this.rootRef);
       this.setState({
-        iconOffsetTop: this.globalObject.getComputedStyle(this.rootRef).getPropertyValue('padding-top'),
+        iconOffsetTop: computedStyle?.getPropertyValue('padding-top') ?? '',
       });
     }
     if (this.contentRef.current && !this.props.isNotSelectable) {
@@ -398,8 +399,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
     this.context.onItemClick?.(e);
   };
 
-  private setRootRef = (element: HTMLElement) => {
-    this.rootRef = element;
+  private setRootRef = (element: HTMLElement | null) => {
+    this.rootRef = this.isHtmlElement(element) ? element : null;
   };
 
   private getComponent = () => {
@@ -422,6 +423,15 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private hasIconAmongItems = () => {
     return Boolean(this.context.navigation?.items.some((item) => item.props.icon));
+  };
+
+  private isHtmlElement = (element: Nullable<unknown>): element is HTMLElement => {
+    if (!element || !isBrowser(this.globalObject)) {
+      return false;
+    }
+
+    const HTMLElementCtor = this.globalObject.HTMLElement;
+    return Boolean(HTMLElementCtor && element instanceof HTMLElementCtor);
   };
 }
 

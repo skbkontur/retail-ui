@@ -379,7 +379,7 @@ export const Validations: StoryFn = () => {
         <br />в формате ДД.ММ.ГГГГ
       </>
     ),
-    pos: 'top left',
+    pos: 'top left' as const,
     closeButton: false,
   };
 

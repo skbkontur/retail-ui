@@ -23,7 +23,7 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Базовый пример';
 
-/** Проп `size` задаёт размер. По умолчанию: `'small'`. */
+/** Проп `size` задаёт размер. */
 export const ExampleSize: Story = () => {
   return (
     <Gapped vertical gap={20}>

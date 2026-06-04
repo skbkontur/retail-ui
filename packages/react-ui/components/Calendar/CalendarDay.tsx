@@ -26,17 +26,17 @@ export interface CalendarDayProps extends React.HTMLAttributes<HTMLButtonElement
   /** Устанавливает, является ли день выходным. */
   isWeekend?: boolean;
 
-  /** Задает день. */
+  /** Задаёт день. */
   date: string;
 
-  /** Задает функцию, которая вызывается при клике на день. Необходима для внутренней работы Calendar. Не предназначена для переопределения. Вместо этого, следует использовать стандартный `onClick`.
+  /** Событие нажатия на день. Необходима для внутренней работы [календаря](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-calendar--docs). Не предназначена для переопределения. Вместо этого, следует использовать стандартный `onClick`.
    * @internal @ignore
    */
   onDayClick: () => void;
 }
 
 /**
- * Компонент дня `CalendarDay` из Calendar.
+ * Компонент дня из [блока календаря](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-calendar--docs).
  *
  * @visibleName Calendar.Day
  */

@@ -19,7 +19,7 @@ export interface CenterProps
     Override<
       React.HTMLAttributes<HTMLDivElement>,
       {
-        /** Задает выравнивание контента по горизонтали */
+        /** Выравнивает контент по горизонтали: слева, по центру или справа. */
         align?: HorizontalAlign;
       }
     > {}
@@ -32,9 +32,9 @@ type DefaultProps = Required<Pick<CenterProps, 'align'>>;
 type DefaultizedCenterProps = DefaultizedProps<CenterProps, DefaultProps>;
 
 /**
- * `Center` — контейнер, который центрирует элементы внутри себя.
+ * Контейнер, который центрирует элементы внутри себя.
  *
- * Выравнивание задается пропом `align`.
+ * Выравнивание задаётся пропом `align`: слева, по центру или справа.
  */
 @withRenderEnvironment
 @rootNode

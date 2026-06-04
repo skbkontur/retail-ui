@@ -15,7 +15,7 @@ export const ExampleBasic: Story = () => {
   return <Token>mail@example.ru</Token>;
 };
 
-/** Проп `size` задаёт размер токена. По умолчанию `"small"`. */
+/** Проп `size` задаёт размер токена. */
 export const ExampleSize: Story = () => {
   return (
     <Gapped vertical>

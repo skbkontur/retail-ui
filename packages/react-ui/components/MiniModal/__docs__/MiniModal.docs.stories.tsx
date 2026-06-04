@@ -16,7 +16,6 @@ const meta: Meta = {
 
 export default meta;
 
-/** Самый простой вариант использования: */
 export const ExampleBasic: Story = () => {
   const PayNotifice = () => {
     const [isOpened, setIsOpened] = React.useState(false);

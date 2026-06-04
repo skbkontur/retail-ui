@@ -54,38 +54,37 @@ export interface DatePickerProps
     Pick<CalendarProps, 'isHoliday' | 'minDate' | 'maxDate' | 'renderDay' | 'onMonthChange'>,
     Pick<HTMLAttributes<HTMLElement>, 'id'>,
     CommonProps {
-  /** Устанавливает фокус на контроле после окончания загрузки страницы. */
+  /** Устанавливает фокус на поле с датой после окончания загрузки страницы. */
 
   autoFocus?: boolean;
 
-  /** Делает компонент недоступным. */
+  /** Блокирует поле с датой. Поле становится недоступно для редактирования. */
   disabled?: boolean;
 
-  /** Отображает кнопку "Сегодня" в календаре. */
+  /** Отображает в календаре кнопку «Сегодня», которая меняет выбранное значение на текущую дату. */
   enableTodayLink?: boolean;
 
-  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Меняет визуальное отображение поля на состояние «ошибка». */
   error?: boolean;
 
-  /** Задает nекущую позицию выпадающего окна вручную. */
+  /** Расположение календаря — над или под полем. */
   menuPos?: 'top' | 'bottom';
 
-  /** Задает выравнивание меню. */
+  /** Выравнивание выпадающего окна с календарём. */
   menuAlign?: 'left' | 'right';
 
-  /** Задает размер контрола. */
+  /** Размер поля с датой. */
   size?: SizeProp;
 
   /**
-   * Строка формата `dd.mm.yyyy`
-   * Задает значение автокомплита.
+   * Значение поля в формате `dd.mm.yyyy`.
    */
   value?: string | null;
 
-  /** Переводит контрол в состояние валидации "предупреждение". */
+  /** Меняет визуальное отображение поля на состояние «предупреждение». */
   warning?: boolean;
 
-  /** Задает ширину автокомплита. */
+  /** Ширина поля с датой. */
   width?: number | string;
 
   /** Задает функцию, которая вызывается при потере датапикером фокуса. */
@@ -132,11 +131,8 @@ export const DatePickerDataTids = {
 type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate'>>;
 
 /**
- * Поле `DatePicker` помогает вводить дату с клавиатуры или выбирать ее с помощью мыши.
+ * Поле с датой помогает вводить дату с клавиатуры или выбирать её с помощью мыши.
  *
- * Используйте поле с датой, когда нужно ввести дату в формате ДД.ММ.ГГГГ.
- *
- * Поле с датой отличается от обычного поля ввода наличием иконки, маски и блока календаря.
  */
 @withRenderEnvironment
 @responsiveLayout
@@ -215,6 +211,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   }
 
   /**
+   * Программно снимает фокус с поля.
    * @public
    */
   public blur(): void {
@@ -225,6 +222,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   }
 
   /**
+   * Программно устанавливает фокус на поле.
    * @public
    */
   public focus(opts?: { withoutOpenDropdown?: boolean }): void {
@@ -242,7 +240,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerS
   }
 
   /**
-   * Закрывает выпадашку выбора дня
+   * Закрывает раскрывающийся блок календаря с выбором дня.
    * @public
    */
   public close(): void {

@@ -147,6 +147,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private captionWrapper: HTMLSpanElement | null = null;
   private savedFocusableElement: HTMLElement | null = null;
   private menu: Nullable<Menu> = null;
+  private shouldRestoreFocusOnClose = false;
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
 
@@ -227,6 +228,27 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
+  public componentDidUpdate(_prevProps: PopupMenuProps, prevState: PopupMenuState): void {
+    if (prevState.menuVisible === this.state.menuVisible) {
+      return;
+    }
+
+    const focusShouldBeRestored = !this.state.menuVisible && this.shouldRestoreFocusOnClose;
+
+    if (focusShouldBeRestored) {
+      this.restoreFocus();
+    }
+
+    if (this.state.menuVisible) {
+      this.props.onOpen?.();
+    } else {
+      this.props.onClose?.();
+      this.shouldRestoreFocusOnClose = false;
+    }
+
+    this.props.onChangeMenuState?.(this.state.menuVisible, focusShouldBeRestored);
+  }
+
   private menuRef = (element: Nullable<Menu>) => {
     this.menu = element;
   };
@@ -301,27 +323,19 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private showMenu = (firstItemShouldBeSelected?: boolean): void => {
     this.saveFocus();
-    this.setState(
-      {
-        menuVisible: true,
-        firstItemShouldBeSelected,
-      },
-      () => {
-        this.handleChangeMenuVisible(false);
-      },
-    );
+    this.shouldRestoreFocusOnClose = false;
+    this.setState({
+      menuVisible: true,
+      firstItemShouldBeSelected,
+    });
   };
 
   private hideMenu = (restoreFocus?: boolean): void => {
-    this.setState(
-      {
-        menuVisible: false,
-        firstItemShouldBeSelected: false,
-      },
-      () => {
-        this.handleChangeMenuVisible(!!restoreFocus);
-      },
-    );
+    this.shouldRestoreFocusOnClose = !!restoreFocus;
+    this.setState({
+      menuVisible: false,
+      firstItemShouldBeSelected: false,
+    });
   };
 
   private toggleMenu = (): void => {
@@ -356,24 +370,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     if (this.savedFocusableElement) {
       this.savedFocusableElement.focus();
       this.savedFocusableElement = null;
-    }
-  };
-
-  private handleChangeMenuVisible = (focusShouldBeRestored: boolean): void => {
-    if (focusShouldBeRestored) {
-      this.restoreFocus();
-    }
-
-    if (this.state.menuVisible && this.props.onOpen) {
-      this.props.onOpen();
-    }
-
-    if (!this.state.menuVisible && this.props.onClose) {
-      this.props.onClose();
-    }
-
-    if (typeof this.props.onChangeMenuState === 'function') {
-      this.props.onChangeMenuState(this.state.menuVisible, focusShouldBeRestored);
     }
   };
 

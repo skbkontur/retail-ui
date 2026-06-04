@@ -1,6 +1,7 @@
 import React, { forwardRef, useContext, useEffect, useImperativeHandle } from 'react';
 import type { Ref } from 'react';
 
+import { MIN_FULLDATE, MAX_FULLDATE } from '../../lib/date/constants.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl.js';
 import { isNonNullable } from '../../lib/utils.js';
@@ -39,7 +40,6 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
     setFocusInput,
     open,
     close,
-    dateRangePickerRef,
     startRef,
     endRef,
   } = useContext(DateRangePickerContext);
@@ -63,11 +63,11 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
     if (isStart) {
       setStartOptional(props.optional || false);
       setStartDisabled(props.disabled || false);
-      setMinDate(props.minDate || '');
+      setMinDate(props.minDate || MIN_FULLDATE);
     } else if (isEnd) {
       setEndOptional(props.optional || false);
       setEndDisabled(props.disabled || false);
-      setMaxDate(props.maxDate || '');
+      setMaxDate(props.maxDate || MAX_FULLDATE);
     }
   }, [props.optional, props.disabled, props.minDate, props.maxDate]);
 
@@ -113,11 +113,15 @@ const DateRangePickerInput = forwardRef((props: DateRangePickerInputProps, ref: 
       if (isMobile) {
         return;
       }
+
       const nextFocusedElement = e.relatedTarget;
-      if (!dateRangePickerRef.current?.contains(nextFocusedElement)) {
+      const isFocusStart = startRef.current?.getRootNode()?.contains(nextFocusedElement);
+      const isFocusEnd = endRef.current?.getRootNode()?.contains(nextFocusedElement);
+
+      if (!isFocusStart && !isFocusEnd) {
         close();
+        setFocusInput(null);
       }
-      setFocusInput(null);
     },
   };
 

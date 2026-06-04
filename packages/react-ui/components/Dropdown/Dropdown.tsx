@@ -65,10 +65,10 @@ export interface DropdownProps
   /** Блокирует компонент. */
   disabled?: boolean;
 
-  /** Показывает состояние ошибки. */
+  /** Переводит кнопку-меню в состояние ошибки. */
   error?: boolean;
 
-  /** Показывает состояние предупреждения. */
+  /** Переводит кнопку-меню в состояние предупреждения. */
   warning?: boolean;
 
   /** Ограничивает максимальную высоту раскрывающегося меню. */
@@ -92,19 +92,19 @@ export interface DropdownProps
   /** @ignore */
   corners?: React.CSSProperties;
 
-  /** Вызывается при закрытии раскрывающегося меню. */
+  /** Событие закрытия раскрывающегося меню. */
   onClose?: () => void;
 
-  /** Вызывается при открытии раскрывающегося меню. */
+  /** Событие открытия раскрывающегося меню. */
   onOpen?: () => void;
 
-  /** Вызывается при наведении курсора (событие `onmouseenter`). Разницу с `onMouseOver` смотрите в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave). */
+  /** Событие наведения курсора (событие `onmouseenter`). Разницу с `onMouseOver` смотрите в [документации](https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave). */
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
 
-  /** Вызывается при уходе курсора с элемента (событие `onmouseleave`). */
+  /** Событие ухода курсора с элемента (событие `onmouseleave`). */
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
 
-  /** Вызывается при движении курсора над элементом (событие `onmouseover`). */
+  /** Событие движения курсора над элементом (событие `onmouseover`). */
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 
   /** Отключает выравнивание текста пунктов меню относительно иконок в других пунктах. */
@@ -118,14 +118,7 @@ export const DropdownDataTids = {
 } as const;
 
 /**
- * Кнопка-меню `Dropdown` открывает раскрывающееся меню с командами, объединенными по смыслу.
- *
- * Используйте кнопку-меню:
- * * когда не хватает места для нескольких кнопок.
- * * когда названия действий очень длинные.
- * * когда действия редко используются или объединены по смыслу.
- *
- * Не используйте `Dropdown` для выбора значения из набора вариантов. В таком случае воспользуйтесь компонентом `Select`.
+ * Кнопка-меню содержит несколько команд, объединенных по смыслу..
  */
 @rootNode
 export class Dropdown extends React.Component<DropdownProps> {

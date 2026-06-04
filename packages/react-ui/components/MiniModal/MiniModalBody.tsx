@@ -9,7 +9,7 @@ import { MiniModalDataTids } from './MiniModal.js';
 import { getStyles } from './MiniModal.styles.js';
 
 /**
- * Текстовый блок пояснения в мини-модалке. Обёртка над Modal.Body.
+ * Текстовый блок пояснения в мини-модалке.
  *
  * @visibleName MiniModal.Body
  */

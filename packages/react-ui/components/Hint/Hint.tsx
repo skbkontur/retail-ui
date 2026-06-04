@@ -3,8 +3,12 @@ import React from 'react';
 
 import type { CommonProps } from '../../internal/CommonWrapper/index.js';
 import { CommonWrapper } from '../../internal/CommonWrapper/index.js';
-import { DUMMY_LOCATION, Popup } from '../../internal/Popup/index.js';
-import type { PopupPinnablePositionsType, ShortPopupPositionsType } from '../../internal/Popup/index.js';
+import { DefaultPosition, Popup, PopupPinnablePositions } from '../../internal/Popup/index.js';
+import type {
+  PopupPinnablePositionsType,
+  PopupPositionsType,
+  ShortPopupPositionsType,
+} from '../../internal/Popup/index.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { isTestEnv } from '../../lib/currentEnvironment.js';
 import type { SafeTimer } from '../../lib/globalObject.js';
@@ -20,6 +24,10 @@ import type { Nullable } from '../../typings/utility-types.js';
 import { getStyles } from './Hint.styles.js';
 
 const HINT_BORDER_COLOR = 'transparent';
+
+const isPinnablePosition = (position: PopupPositionsType): position is PopupPinnablePositionsType => {
+  return (PopupPinnablePositions as readonly PopupPositionsType[]).includes(position);
+};
 
 export interface HintProps extends CommonProps {
   /** @ignore */
@@ -85,7 +93,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public state: HintState = {
     opened: this.getProps().manual ? !!this.getProps().opened : false,
-    position: DUMMY_LOCATION.position,
+    position: DefaultPosition,
   };
 
   private timer: SafeTimer;
@@ -162,7 +170,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           pos={this.props.pos}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
-          onPositionChange={(position) => this.setState({ position })}
+          onPositionChange={(position) => {
+            if (isPinnablePosition(position)) {
+              this.setState({ position });
+            }
+          }}
           disableAnimations={disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}

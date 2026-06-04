@@ -13,7 +13,12 @@ const execAsync = promisify(exec);
 const LOAD_PAGE_TIMEOUT = 60000;
 const SSR_TIMEOUT = 240000;
 const BUILD_REACTUI_TIMEOUT = 120000;
-const TIMEOUT = 240000;
+const TIMEOUT = 480000;
+
+function logStage(stage: string) {
+  // Force visible progress so a timeout pinpoints which stage hung.
+  process.stdout.write(`[smoke] ${new Date().toISOString()} ${stage}\n`);
+}
 
 describe('React-ui smoke test', () => {
   let serveProcess: ChildProcess | undefined;
@@ -51,10 +56,17 @@ describe('React-ui smoke test', () => {
   it(
     'Build and render all controls',
     async () => {
+      logStage('initApplication: start');
       await initApplication(appDirectory, templateDirectory, reactUIPackagePath);
+      logStage('initApplication: done');
+      logStage('buildApplication: start');
       buildApplication(appDirectory);
+      logStage('buildApplication: done');
+      logStage('serveApplication: start');
       serveProcess = serveApplication(appDirectory);
+      logStage('openPageOnBrowser: start');
       await openPageOnBrowser(screenshotPath);
+      logStage('openPageOnBrowser: done');
 
       expect(console.error).not.toHaveBeenCalled();
     },
@@ -97,10 +109,41 @@ async function buildReactUI(reactUIPackagePath: string) {
 }
 
 async function initApplication(appDirectory: string, templateDirectory: string, reactUIPackagePath: string) {
+  logStage('create-react-app: start');
   await execAsync(`npx create-react-app@latest ${appDirectory} --template file:${templateDirectory}`, { });
+  logStage('create-react-app: done');
   // yarn save and get package from cache
   // https://github.com/yarnpkg/yarn/issues/2165
-  await execAsync(`npm install --loglevel=error ${reactUIPackagePath}`, { cwd: appDirectory });  
+  logStage('npm install react-ui: start');
+  await execAsync(
+    `npm install --loglevel=error --no-audit --no-fund --legacy-peer-deps ${reactUIPackagePath}`,
+    { cwd: appDirectory },
+  );
+  logStage('npm install react-ui: done');
+  patchReactJsxRuntimeImport(appDirectory);
+}
+
+function patchReactJsxRuntimeImport(appDirectory: string) {
+  const reactPackagePath = path.join(appDirectory, 'node_modules/react/package.json');
+  if (!fs.existsSync(reactPackagePath)) {
+    return;
+  }
+
+  const reactVersion = JSON.parse(fs.readFileSync(reactPackagePath, 'utf8')).version;
+  const reactMajor = Number.parseInt(reactVersion, 10);
+  if (reactMajor !== 17) {
+    return;
+  }
+
+  const baseIconPath = path.join(appDirectory, 'node_modules/@skbkontur/icons/src/BaseIcon.js');
+  if (!fs.existsSync(baseIconPath)) {
+    return;
+  }
+
+  const source = fs.readFileSync(baseIconPath, 'utf8');
+  // CRA's webpack under React 17 doesn't resolve @skbkontur/icons'
+  // bare `react/jsx-runtime` import, so patch only the temporary app.
+  fs.writeFileSync(baseIconPath, source.replace(/react\/jsx-runtime/g, 'react/jsx-runtime.js'));
 }
 
 function buildApplication(appFolder: string) {

@@ -1,5 +1,6 @@
 import * as DatePickerStories from './DatePicker.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as DatePickerExamples from './DatePickerValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,6 +13,10 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=537-21687&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { DatePicker } from '@skbkontur/react-ui';
+```
+
 <Description />
 
 <Primary />
@@ -20,6 +25,32 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <PropsTable />
 
+## Использование
+
+Используйте поле с датой, когда нужно ввести дату в формате ДД.ММ.ГГГГ. Отличается от обычного поля ввода наличием иконки, маски и блока календаря.
+
+Составной компонент, включает в себя:
+
+- [DateInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-dateinput--docs) — компонент поля с маской для выбора даты с клавиатуры.
+- [Calendar](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-calendar--docs) — компонент календаря для выбора даты с помощью мыши.
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Валидация
+
+Для сравнения и валидации дат в строках формата `DD.MM.YYYY` доступен набор утилит [Date Utilities](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-date-utilities--docs).
+
+Пример с обработкой ошибок, когда пользователь ввёл невалидную дату.
+
+<Story of={DatePickerExamples.ExampleValidation} />
+
+## Адаптивность
+
+Поле с датой адаптивно: на мобильных устройствах блок календаря открывается на весь экран устройства и становится фокусным активным элементом, что упрощает работу с ним. Мобильный режим активируется при ширине вьюпорта `(max-width: 576px)` и наличии сенсорного экрана `(pointer: coarse)`.
+
+Через проп `useMobileNativeDatePicker` можно изменить режим на нативный календарь мобильного устройства.
+Обратите внимание, что [календарь в iOS не поддерживает](https://bugs.webkit.org/show_bug.cgi?id=225639) `minDate` и `maxDate`.
+
+Вы можете передавать свои медиазапросы, больше о настройке адаптивности читайте в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs).

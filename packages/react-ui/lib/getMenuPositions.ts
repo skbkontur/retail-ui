@@ -32,21 +32,19 @@ type MenuAlignment = (typeof MENU_ALIGNMENTS)[keyof typeof MENU_ALIGNMENTS];
  *
  */
 export function getMenuPositions(menuPos?: MenuPosition, menuAlign?: MenuAlignment): PopupPositionsType[] {
-  if (menuPos === undefined && menuAlign === undefined) {
-    return [
-      POPUP_POSITIONS.BOTTOM_LEFT,
-      POPUP_POSITIONS.TOP_LEFT,
-      POPUP_POSITIONS.BOTTOM_RIGHT,
-      POPUP_POSITIONS.TOP_RIGHT,
-    ];
-  }
-
-  if (menuPos !== undefined && menuAlign === undefined) {
-    return [`${menuPos} ${MENU_ALIGNMENTS.LEFT}`, `${menuPos} ${MENU_ALIGNMENTS.RIGHT}`];
-  }
-
-  if (menuPos === undefined && menuAlign !== undefined) {
+  if (menuPos === undefined) {
+    if (menuAlign === undefined) {
+      return [
+        POPUP_POSITIONS.BOTTOM_LEFT,
+        POPUP_POSITIONS.TOP_LEFT,
+        POPUP_POSITIONS.BOTTOM_RIGHT,
+        POPUP_POSITIONS.TOP_RIGHT,
+      ];
+    }
     return [`${MENU_POSITIONS.BOTTOM} ${menuAlign}`, `${MENU_POSITIONS.TOP} ${menuAlign}`];
+  }
+  if (menuAlign === undefined) {
+    return [`${menuPos} ${MENU_ALIGNMENTS.LEFT}`, `${menuPos} ${MENU_ALIGNMENTS.RIGHT}`];
   }
 
   return [`${menuPos} ${menuAlign}`];

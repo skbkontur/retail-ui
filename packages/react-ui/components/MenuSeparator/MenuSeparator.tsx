@@ -15,7 +15,7 @@ export const MenuSeparatorDataTids = {
 } as const;
 
 /**
- * Разделитель `MenuSeparator` между элементами меню.
+ * Разделитель между элементами меню.
  */
 const MenuSeparator = forwardRefAndName(
   'MenuSeparator',

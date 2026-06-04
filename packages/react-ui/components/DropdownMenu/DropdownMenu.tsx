@@ -69,8 +69,9 @@ export interface DropdownMenuProps
 type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
 
 /**
- * Выпадающее меню `DropdownMenu`. Раскрывается по клику на переданный в `caption` элемент.
+ * Раскрывающееся меню.
  *
+ * Раскрывается по клику на переданный в `caption` элемент.
  * Поддерживает настройку `header`, `footer`, позиций открытия `positions` и другие настройки внешнего вида.
  */
 @rootNode

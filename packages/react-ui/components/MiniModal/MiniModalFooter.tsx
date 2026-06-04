@@ -15,7 +15,7 @@ interface MiniModalFooterProps extends ModalFooterProps {
 }
 
 /**
- * Футер мини-модалки: зона действий с раскладкой кнопок. Обёртка над Modal.Footer.
+ * Футер мини-модалки: зона действий с раскладкой кнопок.
  *
  * @visibleName MiniModal.Footer
  */

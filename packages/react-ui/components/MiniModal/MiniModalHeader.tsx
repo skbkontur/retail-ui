@@ -17,7 +17,7 @@ interface MiniModalHeaderProps extends ModalHeaderProps {
 }
 
 /**
- * Шапка мини-модалки: заголовок и опциональная иконка. Обёртка над Modal.Header.
+ * Шапка мини-модалки: заголовок и опциональная иконка.
  *
  * @visibleName MiniModal.Header
  */

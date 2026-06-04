@@ -58,7 +58,7 @@ export const ExampleBasic: Story = () => {
       .then(delay(500))
       .then(maybeReject);
 
-  const [selected, setSelected] = React.useState<Nullable<Selected>>({ value: 3, label: 'Third' });
+  const [selected, setSelected] = React.useState<Nullable<Selected>>({ value: 1, label: 'Абакан' });
 
   const [error, setError] = React.useState(false);
 

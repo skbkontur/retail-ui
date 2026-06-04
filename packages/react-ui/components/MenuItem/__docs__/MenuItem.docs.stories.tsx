@@ -26,7 +26,7 @@ export const ExampleBasic: Story = () => {
 };
 ExampleBasic.storyName = 'Меню с базовыми элементами меню';
 
-/** Проп `size` задаёт размер. По умолчанию: `'small'`. */
+/** Проп `size` задаёт размер. */
 export const ExampleSize: Story = () => {
   return (
     <Gapped vertical gap={20}>
@@ -68,7 +68,7 @@ export const ExampleSize: Story = () => {
 ExampleSize.storyName = 'Размер';
 
 /**
- * Проп `comment` добавляет описания к пунктам
+ * Проп `comment` добавляет описания к пунктам.
  */
 export const ExampleDescription: Story = () => {
   return (
@@ -84,7 +84,7 @@ export const ExampleDescription: Story = () => {
 };
 ExampleDescription.storyName = 'Описание элементов';
 
-/** Проп `disabled` делает пункты неактивными и перекрашивает в серый цвет */
+/** Проп `disabled` делает пункты неактивными и перекрашивает в серый цвет. */
 export const ExampleDisabled: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
@@ -98,7 +98,7 @@ export const ExampleDisabled: Story = () => {
 };
 ExampleDisabled.storyName = 'Заблокированные пункты';
 
-/** Проп `isNotSelectable` запрещает выделение и выбор пункта меню */
+/** Проп `isNotSelectable` запрещает выделение и выбор пункта меню. */
 export const Example3: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
@@ -111,7 +111,7 @@ export const Example3: Story = () => {
 };
 Example3.storyName = 'Запрет выделения';
 
-/** Проп `icon` добавляет иконку слева */
+/** Проп `icon` добавляет иконку слева. */
 export const ExampleIcons: Story = () => {
   return (
     <DropdownMenu caption={<Button use="primary">Открыть меню с иконками</Button>}>

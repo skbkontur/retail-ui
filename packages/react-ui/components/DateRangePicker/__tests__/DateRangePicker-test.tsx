@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
@@ -694,5 +694,135 @@ describe('DateRangePicker', () => {
 
       expect(screen.getAllByTestId(CalendarDataTids.dayCell)[0]).toHaveAttribute('aria-label', ariaLabel);
     });
+  });
+
+  it('should cancel old focus timer when switching inputs', () => {
+    vi.useFakeTimers();
+
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const endInput = screen.getByTestId(DateRangePickerDataTids.end);
+
+    const startSpy = vi.spyOn(startInput, 'focus');
+    const endSpy = vi.spyOn(endInput, 'focus');
+
+    fireEvent.focus(startInput);
+    fireEvent.focus(endInput);
+
+    act(() => {
+      vi.runAllTimers();
+    });
+
+    expect(startSpy).not.toHaveBeenCalled();
+    expect(endSpy).toHaveBeenCalled();
+
+    startSpy.mockRestore();
+    endSpy.mockRestore();
+    vi.useRealTimers();
+  });
+
+  it('should focus DateRangePicker.End after selecting first date in the Calendar', async () => {
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const endInput = screen.getByTestId(DateRangePickerDataTids.end);
+
+    await userEvent.click(startInput);
+
+    const dayCell = screen.getAllByTestId(CalendarDataTids.dayCell)[0];
+    await userEvent.click(dayCell);
+
+    expect(endInput).toHaveFocus();
+  });
+
+  it('should stay open picker after switching between start and end', async () => {
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const endInput = screen.getByTestId(DateRangePickerDataTids.end);
+
+    await userEvent.click(startInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+
+    await userEvent.click(endInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+  });
+
+  it('should save picker after focus external component inside DateRangePicker wrap', async () => {
+    render(
+      <DateRangePicker>
+        <Input data-tid="external-input-inside-wrap" />
+        <DateRangePicker.Start />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const externalInput = screen.getByTestId('external-input-inside-wrap');
+
+    await userEvent.click(startInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+
+    await userEvent.click(externalInput);
+    expect(screen.queryByTestId(DateRangePickerDataTids.popup)).not.toBeInTheDocument();
+  });
+
+  it('should close picker after focus external component outside DateRangePicker wrap', async () => {
+    render(
+      <>
+        <Input data-tid="external-input-outside-wrap" />
+        <DateRangePicker>
+          <DateRangePicker.Start />
+          <DateRangePicker.End />
+        </DateRangePicker>
+        ,
+      </>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+    const externalInput = screen.getByTestId('external-input-outside-wrap');
+
+    await userEvent.click(startInput);
+    expect(screen.getByTestId(DateRangePickerDataTids.popup)).toBeInTheDocument();
+
+    await userEvent.click(externalInput);
+    expect(screen.queryByTestId(DateRangePickerDataTids.popup)).not.toBeInTheDocument();
+  });
+
+  it('should fallback to min date year in calendar header on invalid date input', async () => {
+    render(
+      <DateRangePicker>
+        <DateRangePicker.Start value="10.10.2025" />
+        <DateRangePicker.End />
+      </DateRangePicker>,
+    );
+
+    const startInput = screen.getByTestId(DateRangePickerDataTids.start);
+
+    const getYearButton = () => within(screen.getByTestId(CalendarDataTids.headerYear)).getByRole('button');
+
+    await userEvent.dblClick(startInput);
+
+    await userEvent.type(startInput, '{backspace}');
+    expect(getYearButton()).toHaveTextContent('2025');
+
+    await userEvent.type(startInput, '1');
+    expect(getYearButton()).toHaveTextContent('1900');
   });
 });

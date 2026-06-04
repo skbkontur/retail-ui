@@ -7,10 +7,8 @@ import {
   LangCodes,
   LocaleContext,
   Select,
-  Tooltip,
 } from '@skbkontur/react-ui';
 import type { CalendarDayProps } from '@skbkontur/react-ui';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -24,56 +22,94 @@ const meta: Meta = {
 
 export default meta;
 
-/** Пример с обработкой ошибок, когда пользователь ввел невалидную дату. */
-export const Example1: Story = () => {
-  const [value, setValue] = React.useState('');
-  const [error, setError] = React.useState(false);
-  const [tooltip, setTooltip] = React.useState(false);
+export const ExampleBasic: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
 
-  const minDate = '22.12.2012';
-  const maxDate = '02.05.2018';
+  return <DatePicker value={value} onValueChange={setValue} />;
+};
 
-  const unvalidate = () => {
-    setError(false);
-    setTooltip(false);
-  };
-
-  const validate = () => {
-    const errorNew = !!value && !DatePicker.validate(value, { minDate, maxDate });
-    setError(errorNew);
-    setTooltip(errorNew);
-  };
-
-  const removeTooltip = () => setTooltip(false);
+/** Проп `size` задаёт размер поля с датой. */
+export const ExampleSize: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
 
   return (
-    <Gapped gap={10} vertical>
-      <ViewDateInputValidateChecks value={value} minDate={minDate} maxDate={maxDate} />
-      <pre>
-        minDate = {minDate}
-        <br />
-        maxDate = {maxDate}
-      </pre>
-
-      <Tooltip trigger={tooltip ? 'opened' : 'closed'} render={() => 'Невалидная дата'} onCloseClick={removeTooltip}>
-        <DatePicker
-          error={error}
-          value={value}
-          onValueChange={setValue}
-          onFocus={unvalidate}
-          onBlur={validate}
-          minDate={minDate}
-          maxDate={maxDate}
-          enableTodayLink
-        />
-      </Tooltip>
+    <Gapped vertical>
+      <DatePicker value={value} onValueChange={setValue} size={'small'} />
+      <DatePicker value={value} onValueChange={setValue} size={'medium'} />
+      <DatePicker value={value} onValueChange={setValue} size={'large'} />
     </Gapped>
   );
 };
-Example1.storyName = 'Валидация';
+ExampleSize.storyName = 'Размер';
 
-/** В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня. */
-export const Example2: Story = () => {
+/** Проп `width` задаёт ширину поля с датой. */
+export const ExampleWidth: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} width={'300px'} />;
+};
+ExampleWidth.storyName = 'Ширина';
+
+/** Проп `enableTodayLink` добавляет в календарь кнопку «Сегодня», которая меняет выбранное значение на текущую дату. */
+export const ExampleEnableTodayLink: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} enableTodayLink />;
+};
+ExampleEnableTodayLink.storyName = 'Кнопка «Сегодня»';
+
+/**
+ * Проп `menuPos` фиксирует расположение выпадающего окна с календарём. Оно может быть под полем — `"bottom"` или над ним — `"top"`.
+ *
+ * По умолчанию календарь отображается под полем, а если не хватает места, то динамически меняет расположение и показывается над полем.
+ */
+export const ExampleMenuPos: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} menuPos={'top'} />;
+};
+ExampleMenuPos.storyName = 'Расположение календаря';
+
+/**
+ * Проп `menuAlign` выравнивает выпадающее окно с календарём. Оно может быть прикреплено к левому краю — `"left"` или к правому — `"right"`.
+ */
+export const ExampleMenuAlign: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} menuAlign={'right'} />;
+};
+ExampleMenuAlign.storyName = 'Выравнивание календаря';
+
+/**
+ * Проп `disabled` переводит поле в состояние блокировки. Поле визуально приглушается и становится недоступно для редактирования.
+ */
+export const ExampleDisabled: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} disabled />;
+};
+ExampleDisabled.storyName = 'Состояние блокировки';
+
+/** Проп `error` переводит поле в состояние ошибки. */
+export const ExampleError: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} error />;
+};
+ExampleError.storyName = 'Состояние ошибки';
+
+/** Проп `warning` переводит поле в состояние предупреждения. */
+export const ExampleWarning: Story = () => {
+  const [value, setValue] = React.useState('12.05.2026');
+
+  return <DatePicker value={value} onValueChange={setValue} warning />;
+};
+ExampleWarning.storyName = 'Состояние предупреждения';
+
+/** В проп `isHoliday` можно передать функцию, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend` из [компонента дня](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-calendarday--docs).
+ *
+ * Функция должна вернуть `true` для выходного дня и `false` — для рабочего. */
+export const ExampleIsHoliday: Story = () => {
   const [value, setValue] = React.useState('');
 
   const createRandomHolidays = () => {
@@ -106,9 +142,10 @@ export const Example2: Story = () => {
 
   return <DatePicker isHoliday={isHoliday} value={value} onValueChange={setValue} enableTodayLink />;
 };
-Example2.storyName = '`isHoliday`';
+ExampleIsHoliday.storyName = 'Выходные и праздничные дни';
 
-export const Example4: Story = () => {
+/** В примере показано, как менять формат отображения даты в рантайме: порядок компонентов день/месяц/год и разделитель между ними. */
+export const ExampleDatePickerFormatting: Story = () => {
   class DatePickerFormatting extends React.Component<any, any> {
     constructor(props: Record<string, never>) {
       super(props);
@@ -162,10 +199,10 @@ export const Example4: Story = () => {
 
   return <DatePickerFormatting />;
 };
-Example4.storyName = 'Ручное форматирование даты';
+ExampleDatePickerFormatting.storyName = 'Форматирование даты';
 
-/** Подробный пример в компоненте Calendar. */
-export const Example5: Story = () => {
+/** Вы можете кастомизировать части поля с датой. В примере ниже задан кастомный вид для дня календаря. Ещё примеры кастомизации смотрите в компоненте [Calendar](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-calendar--docs). */
+export const ExampleCustomDayRender: Story = () => {
   const [value, setValue] = React.useState('12.05.2022');
 
   const renderDay = (props: CalendarDayProps) => {
@@ -181,4 +218,4 @@ export const Example5: Story = () => {
 
   return <DatePicker value={value} onValueChange={setValue} renderDay={renderDay} />;
 };
-Example5.storyName = 'Кастомный рендер дня';
+ExampleCustomDayRender.storyName = 'Кастомизация: рендер дня';

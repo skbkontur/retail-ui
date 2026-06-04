@@ -41,12 +41,12 @@ type FileUploaderOverriddenProps = 'size';
 
 interface _FileUploaderProps
   extends CommonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
-  /** Переводит контрол в состояние валидации "ошибка". */
+  /** Переводит контрол в состояние ошибки. */
   /** Состояние ошибки всего контрола */
   error?: boolean;
 
-  /** Переводит контрол в состояние валидации "предупреждение" */
-  /** Состояние предупреждения всего контрола */
+  /** Переводит контрол в состояние предупреждения. */
+  /** Состояние предупреждения всего контрола. */
   warning?: boolean;
 
   /** Расположение тултипа с текстом валидации файла.
@@ -581,9 +581,7 @@ const _FileUploader = forwardRefAndName<FileUploaderRef, _FileUploaderProps>('Fi
 export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
 /**
- * `FileUploader` — контрол для выбора пользователем файла на компьютере и отображения статуса его отправки на сервер.
- *
- * Можно использовать для синхронной отправки данных, например, в форме. Или же можно использовать в асинхронном режиме.
+ * Контрол для выбора пользователем файла на компьютере и отображения статуса его отправки на сервер.
  */
 export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(
   React.memo(_FileUploader),

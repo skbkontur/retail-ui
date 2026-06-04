@@ -1,5 +1,6 @@
 import * as DateRangePickerStories from './DateRangePicker.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as DateRangePickerExamples from './DateRangePickerValidation.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
@@ -12,19 +13,22 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
   figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=537-21687&t=LhpicPI1NxqnkQAe-11"
 />
 
+```jsx
+import { DateRangePicker } from '@skbkontur/react-ui';
+```
+
 <Description />
 
-Компонент выбора периода состоит из 3-х дочерних компонентов:
+Составной компонент, включает в себя:
 
-- `<DateRangePicker.Start>` — начало периода с настройками как у `DateInput`
-- `<DateRangePicker.End>` — окончание периода с настройками как у `DateInput`
-- `<DateRangePicker.Separator>` — разделитель между полями
+- `<DateRangePicker.Start>` — начало периода с настройками как у [DateInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-dateinput--docs).
+- `<DateRangePicker.End>` — окончание периода с настройками как у [DateInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_date-components-dateinput--docs).
+- `<DateRangePicker.Separator>` — разделитель между полями.
 
 Значения задается через пропсы у компонентов `Start` и `End`:
 
-- 2 значения указываются в пропах `value={'dd.mm.yyyy'}` (формат настраивается)
-- Пустыми значениями считаются `""`, `null` и `undefined`
-- Минимальная дата задаётся в `Start` через `minDate`, максимальная — в `End` через `maxDate`
+- 2 значения указываются в пропcах `value={'dd.mm.yyyy'}` (формат настраивается)
+- Пустыми значениями считаются `""`, `null` и `undefined`.
 
 <Primary />
 
@@ -34,88 +38,22 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 
 <Stories title="" includePrimary={false} />
 
+## Валидация
+
+Для валидаций используйте `DateRangePicker.validate(startValue, endValue, options)`, который принимает:
+
+- `startValue` и `endValue` — проверяемые значения `'dd.mm.yyyy'`
+- `options` — объект с настройками `{ startOptional, endOptional, minDate, maxDate }`
+
+Возвращается валидация полей `Start` и `End` в формате `[true, false]`.
+
+<Story of={DateRangePickerExamples.ExampleValidations} />
+
 ## Адаптивность
 
-На мобильных устройствах доступны 2 варианта отображения:
+Поле адаптивно: на мобильных устройствах блок календаря открывается на весь экран устройства и становится фокусным активным элементом, что упрощает работу с ним. Мобильный режим активируется при ширине вьюпорта `(max-width: 576px)` и наличии сенсорного экрана `(pointer: coarse)`.
 
-- Адаптивная версия в попапе (по умолчанию)
+Через проп `useMobileNativeDatePicker` можно изменить режим на нативный календарь мобильного устройства.
+Обратите внимание, что [календарь в iOS не поддерживает](https://bugs.webkit.org/show_bug.cgi?id=225639) `minDate` и `maxDate`.
 
-- 2 нативных календаря через `useMobileNativeDatePicker`. <br /> Ограничение: [календарь в iOS не поддерживает параметры min и max](https://bugs.webkit.org/show_bug.cgi?id=225639)
-
-## Локали по умолчанию
-
-```typescript static
-interface DateRangePickerLocale {
-  today?: string;
-  months?: string[];
-  order?: DateOrder;
-  separator?: DateSeparator;
-  todayAriaLabel?: string;
-  selectMonthAriaLabel?: string;
-  selectYearAriaLabel?: string;
-  selectChosenAriaLabel?: string;
-  dayCellChooseDateAriaLabel?: string;
-  startDateLabel?: string;
-  endDateLabel?: string;
-  startDateEmpty?: string;
-  endDateEmpty?: string;
-}
-
-const ru_RU = {
-  today: 'Сегодня',
-  months: [
-    'Январь',
-    'Февраль',
-    'Март',
-    'Апрель',
-    'Май',
-    'Июнь',
-    'Июль',
-    'Август',
-    'Сентябрь',
-    'Октябрь',
-    'Ноябрь',
-    'Декабрь',
-  ],
-  order: DateOrder.DMY,
-  separator: DateSeparator.Dot,
-  todayAriaLabel: 'Перейти к сегодняшней дате',
-  selectMonthAriaLabel: 'месяц',
-  selectYearAriaLabel: 'год',
-  selectChosenAriaLabel: 'Выбранный',
-  dayCellChooseDateAriaLabel: 'Выбрать дату',
-  startDateLabel: 'Дата начала',
-  endDateLabel: 'Дата окончания',
-  startDateEmpty: 'Без первой даты',
-  endDateEmpty: 'Без второй даты',
-};
-
-const en_GB = {
-  today: 'Endday',
-  months: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ],
-  order: DateOrder.MDY,
-  separator: DateSeparator.Slash,
-  todayAriaLabel: "Go end today's date",
-  selectMonthAriaLabel: 'month',
-  selectYearAriaLabel: 'year',
-  selectChosenAriaLabel: 'Chosen',
-  dayCellChooseDateAriaLabel: 'Choose date',
-  startDateLabel: 'Start date',
-  endDateLabel: 'End date',
-  startDateEmpty: 'No start date',
-  endDateEmpty: 'No end date',
-};
-```
+Вы можете передавать свои медиазапросы, больше о настройке адаптивности читайте в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs).

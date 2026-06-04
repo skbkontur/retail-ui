@@ -41,7 +41,7 @@ export interface ItemComponentProps {
   /** Номер страницы. */
   pageNumber: number | 'forward';
 
-  /** Вызывается при клике на элемент. */
+  /** Событие нажатия на элемент. */
   onClick: () => void;
 
   /** HTML-атрибут `class`. */
@@ -58,7 +58,7 @@ export interface PagingProps extends CommonProps {
   /** Номер текущей страницы. */
   activePage: number;
 
-  /** Вызывается при переключении страницы. */
+  /** Событие переключения страницы. */
   onPageChange: (pageNumber: number) => void;
 
   /** Размер пейджинга.

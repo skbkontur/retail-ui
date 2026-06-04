@@ -85,16 +85,16 @@ export interface TooltipProps extends CommonProps {
   /** Задержка в миллисекундах до появления тултипа. */
   delayBeforeShow?: number;
 
-  /** Вызывается при клике по крестику. */
+  /** Событие нажатия на крестик. */
   onCloseClick?: React.MouseEventHandler<HTMLElement>;
 
-  /** Вызывается при клике по крестику или снаружи тултипа. */
+  /** Событие нажатия на крестик или снаружи тултипа. */
   onCloseRequest?: (event?: Event | React.MouseEvent) => void;
 
-  /** Вызывается при закрытии тултипа. */
+  /** Событие закрытия тултипа. */
   onClose?: () => void;
 
-  /** Вызывается при открытии тултипа. */
+  /** Событие открытия тултипа. */
   onOpen?: () => void;
 }
 

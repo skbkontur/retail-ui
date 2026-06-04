@@ -136,6 +136,8 @@ const preview: Preview = {
           ['Dropdown', 'Kebab', 'DropdownMenu', 'TooltipMenu', 'MenuHeader', 'MenuItem', 'MenuSeparator', 'MenuFooter'],
           'Overlay',
           'Layout',
+          'Date Components',
+          ['DatePicker', 'DateRangePicker', 'DateInput', 'Calendar', 'CalendarDay', 'Date Utilties'],
           '*',
         ],
       },

@@ -13,7 +13,7 @@ import { PopupHelper } from '../PopupHelper.js';
 describe('Popup', () => {
   vi.setConfig({ testTimeout: 10000 });
 
-  it('по дефолту открывается в первой переданной позиции', async () => {
+  it('opens in the first passed position by default', async () => {
     const anchor = document.createElement('button');
 
     const { rerender } = render(
@@ -33,7 +33,7 @@ describe('Popup', () => {
     expect(screen.getByTestId(PopupDataTids.root)).toHaveAttribute('data-visual-state-position-bottom-right');
   });
 
-  it('одна и та же позиция при каждом открытии', async () => {
+  it('uses the same position on every open', async () => {
     const anchor = document.createElement('button');
 
     anchor.id = 'test-id';
@@ -114,7 +114,7 @@ describe('Popup fallback position logic', () => {
     vi.restoreAllMocks();
   });
 
-  it('сохраняет текущую позицию, когда она может стать видимой после скролла', () => {
+  it('keeps current position when it can become fully visible after scroll', () => {
     const popupElement = document.createElement('div');
     const { popup, anchorElement } = mountPopup({
       positions: ['bottom left', 'top left'],
@@ -145,7 +145,7 @@ describe('Popup fallback position logic', () => {
     expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
   });
 
-  it('выбирает первую полностью видимую позицию до fallback-эвристики', () => {
+  it('picks first fully visible position before fallback heuristic', () => {
     const popupElement = document.createElement('div');
     const { popup, anchorElement } = mountPopup({
       positions: ['bottom left', 'top left', 'bottom right'],
@@ -179,7 +179,29 @@ describe('Popup fallback position logic', () => {
     expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
   });
 
-  it('среди кандидатов по площади игнорирует partially visible позиции слева', () => {
+  it.each(['left middle', 'right middle'] as const)(
+    'should not call horizontal position helper for side position %s',
+    (position) => {
+      const { popup } = mountPopup();
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const getHorizontalPositionSpy = vi.spyOn(PopupHelper, 'getHorizontalPosition');
+      const margin = parseInt(popup['theme'].popupMargin);
+
+      const result = popup['getCoordinates'](
+        { top: 10, left: 20, width: 30, height: 40 },
+        { top: 0, left: 0, width: 50, height: 60 },
+        position,
+      );
+
+      expect(getHorizontalPositionSpy).not.toHaveBeenCalled();
+      expect(consoleSpy).not.toHaveBeenCalled();
+      expect(result).toEqual(
+        position === 'left middle' ? { top: 0, left: 20 - 50 - margin } : { top: 0, left: 20 + 30 + margin },
+      );
+    },
+  );
+
+  it('ignores partially visible left positions among area candidates', () => {
     const { popup } = mountPopup();
     const bestCandidate = (popup as any).pickBestAreaCandidate(
       [
@@ -206,7 +228,7 @@ describe('Popup fallback position logic', () => {
     expect(bestCandidate?.position).toBe('top left');
   });
 
-  it('при равной видимой площади предпочитает позицию из исходного positions', () => {
+  it('prefers position from original positions when visible area is equal', () => {
     const { popup } = mountPopup();
     const bestCandidate = (popup as any).pickBestAreaCandidate(
       [
@@ -233,7 +255,7 @@ describe('Popup fallback position logic', () => {
     expect(bestCandidate?.position).toBe('top left');
   });
 
-  it('при наличии видимой площади выбирает area-based fallback', () => {
+  it('picks area-based fallback when there is visible area', () => {
     const { popup } = mountPopup();
     const candidateByPosition = {
       'bottom center': {
@@ -289,7 +311,7 @@ describe('Popup fallback position logic', () => {
     expect(bestPosition).toBe('top left');
   });
 
-  it('если видимой площади нет, откатывается к минимальному overflowCount', () => {
+  it('falls back to minimum overflowCount when there is no visible area', () => {
     const { popup } = mountPopup();
     const candidateByPosition = {
       'bottom center': {

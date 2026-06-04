@@ -76,9 +76,9 @@ ExampleSize.storyName = 'Размер';
 export const ExampleWidth: Story = () => {
   return <Button width={150}>Закрыть</Button>;
 };
-ExampleWidth.storyName = 'Увеличение ширины';
+ExampleWidth.storyName = 'Ширина';
 
-/** Задаётся пропом `align`. */
+/** Проп `align` задаёт выравнивание текста внутри кнопки. */
 export const ExampleAlign: Story = () => {
   return (
     <div

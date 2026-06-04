@@ -125,7 +125,7 @@ export const ExampleStickyHeader: Story = () => {
 };
 ExampleStickyHeader.storyName = 'Закрепление заголовка';
 
-/** Проп `cutTitleOnStuck` для [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs) обрезает часть длинного заголовка, если включен проп закрепления — `sticky`  */
+/** Проп `cutTitleOnStuck` для [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs) обрезает часть длинного заголовка, если включен проп закрепления — `sticky`.  */
 export const ExampleCutHeader: Story = () => {
   const [opened, setOpened] = React.useState(false);
 
