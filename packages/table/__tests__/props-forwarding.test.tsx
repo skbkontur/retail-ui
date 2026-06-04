@@ -297,6 +297,120 @@ describe('Props Forwarding', () => {
     });
   });
 
+  describe('Table.CheckboxCell', () => {
+    it('forwards style to td', () => {
+      const { container } = render(
+        <Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.CheckboxCell
+                checked={false}
+                onCheckboxClick={vi.fn()}
+                aria-label="select"
+                style={{ color: 'red' }}
+              />
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      );
+
+      const cell = container.querySelector('td');
+      expect(cell).toHaveStyle({ color: 'red' });
+    });
+
+    it('forwards className to td', () => {
+      const { container } = render(
+        <Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.CheckboxCell
+                checked={false}
+                onCheckboxClick={vi.fn()}
+                aria-label="select"
+                className="custom-class"
+              />
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      );
+
+      const cell = container.querySelector('td');
+      expect(cell).toHaveClass('custom-class');
+    });
+
+    it('forwards vAlign to td', () => {
+      const { container } = render(
+        <Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.CheckboxCell checked={false} onCheckboxClick={vi.fn()} aria-label="select" vAlign="top" />
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      );
+
+      const cell = container.querySelector('td');
+      expect(cell).toHaveStyle({ verticalAlign: 'top' });
+    });
+  });
+
+  describe('Table.HeaderCheckboxCell', () => {
+    it('forwards style to th', () => {
+      const { container } = render(
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCheckboxCell
+                checked={false}
+                onClick={vi.fn()}
+                aria-label="select all"
+                style={{ color: 'blue' }}
+              />
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      );
+
+      const cell = container.querySelector('th');
+      expect(cell).toHaveStyle({ color: 'blue' });
+    });
+
+    it('forwards className to th', () => {
+      const { container } = render(
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCheckboxCell
+                checked={false}
+                onClick={vi.fn()}
+                aria-label="select all"
+                className="custom-header-class"
+              />
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      );
+
+      const cell = container.querySelector('th');
+      expect(cell).toHaveClass('custom-header-class');
+    });
+
+    it('forwards vAlign to th', () => {
+      const { container } = render(
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCheckboxCell checked={false} onClick={vi.fn()} aria-label="select all" vAlign="bottom" />
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      );
+
+      const cell = container.querySelector('th');
+      expect(cell).toHaveStyle({ verticalAlign: 'bottom' });
+    });
+  });
+
   describe('Table.FilterResultRow', () => {
     it('forwards data-tid attribute', () => {
       render(

@@ -11,11 +11,47 @@ export interface TableCheckboxCellBaseProps extends TableCellBaseProps {
 }
 
 export const TableCheckboxCell = forwardRef<HTMLTableCellElement, TableCheckboxCellBaseProps>(
-  ({ checked, onCheckboxClick, onClick, ...rest }, ref) => {
+  (
+    {
+      checked,
+      onCheckboxClick,
+      onClick,
+      colSpan,
+      rowSpan,
+      width,
+      vAlign,
+      noBottomBorder,
+      noBottomBorderInset,
+      noWrap,
+      currency,
+      contentCompensator,
+      className,
+      style,
+      'data-tid': dataTid,
+      ...rest
+    },
+    ref
+  ) => {
     const { size } = useContext(SizeTableContext);
 
     return (
-      <TableCell ref={ref} checkboxCell onClick={onClick}>
+      <TableCell
+        ref={ref}
+        checkboxCell
+        onClick={onClick}
+        colSpan={colSpan}
+        rowSpan={rowSpan}
+        width={width}
+        vAlign={vAlign}
+        noBottomBorder={noBottomBorder}
+        noBottomBorderInset={noBottomBorderInset}
+        noWrap={noWrap}
+        currency={currency}
+        contentCompensator={contentCompensator}
+        className={className}
+        style={style}
+        data-tid={dataTid}
+      >
         <Checkbox checked={checked} onClick={onCheckboxClick} size={size} {...rest} />
       </TableCell>
     );
