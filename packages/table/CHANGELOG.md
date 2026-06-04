@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](/compare/@skbkontur/table@0.3.3...@skbkontur/table@0.3.4) (2026-06-04)
+
+
+### Bug Fixes
+
+* **table:** support leading icon cells f961433
+
+
+
+
+
 # [0.3.3](/compare/@skbkontur/table@0.3.2...@skbkontur/table@0.3.3) (2026-06-04)
 
 
