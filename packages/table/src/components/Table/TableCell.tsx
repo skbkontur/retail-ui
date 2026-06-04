@@ -9,7 +9,6 @@ import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
-import textStyles from '@skbkontur/typography/Text.module.css';
 
 export interface TableCellBaseProps extends CommonProps {
   colSpan?: number;
@@ -72,7 +71,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
             ref={ref}
             colSpan={colSpan}
             rowSpan={rowSpan}
-            className={cx(styles.TableCell, typographyClass, textStyles.noSpacing, className, {
+            className={cx(styles.TableCell, typographyClass, className, {
               [styles.CheckboxCell]: checkboxCell,
               [checkboxCellSizeClass]: checkboxCell,
               [tableCellSizeClass]: !checkboxCell,

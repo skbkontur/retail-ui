@@ -10,7 +10,6 @@ import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
-import textStyles from '@skbkontur/typography/Text.module.css';
 
 export interface TableHeaderCellBaseProps extends CommonProps {
   scope?: 'col' | 'row';
@@ -71,24 +70,17 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
             }}
             colSpan={colSpan}
             rowSpan={rowSpan}
-            className={cx(
-              styles.TableHeaderCell,
-              typographyClass,
-              textStyles.noSpacing,
-              paddingForHeaderSizeClass,
-              className,
-              {
-                [styles.CheckboxHeaderCell]: checkboxCell,
-                [checkboxCellSizeClass]: checkboxCell,
-                [styles.PaddingForSimpleHeader]: isString,
-                [paddingForSimpleHeaderSizeClass]: isString,
-                [styles.BottomBorderInset]: bottomBorder,
-                [styles.WithoutBottomBorder]: noBottomBorder ?? checkboxCell,
-                [styles.WithoutBottomBorderInset]: noBottomBorderInset,
-                [styles.NoWrapCell]: noWrap,
-                [styles.Currency]: currency,
-              }
-            )}
+            className={cx(styles.TableHeaderCell, typographyClass, paddingForHeaderSizeClass, className, {
+              [styles.CheckboxHeaderCell]: checkboxCell,
+              [checkboxCellSizeClass]: checkboxCell,
+              [styles.PaddingForSimpleHeader]: isString,
+              [paddingForSimpleHeaderSizeClass]: isString,
+              [styles.BottomBorderInset]: bottomBorder,
+              [styles.WithoutBottomBorder]: noBottomBorder ?? checkboxCell,
+              [styles.WithoutBottomBorderInset]: noBottomBorderInset,
+              [styles.NoWrapCell]: noWrap,
+              [styles.Currency]: currency,
+            })}
             data-tid={checkboxCell ? TableDataTids.headerCheckboxCell : TableDataTids.headerCell}
           >
             {children}
