@@ -23,6 +23,8 @@ export const TokenActions = {
   REMOVE_EDITING_TOKEN_INDEX: 'REMOVE_EDITING_TOKEN_INDEX',
   SET_TEMPORARY_QUERY: 'SET_TEMPORARY_QUERY',
   REMOVE_TEMPORARY_QUERY: 'REMOVE_TEMPORARY_QUERY',
+  SET_SHOW_MOBILE_POPUP: 'SET_SHOW_MOBILE_POPUP',
+  SET_CLOSE_MOBILE_POPUP: 'SET_CLOSE_MOBILE_POPUP',
 };
 
 export type TokenInputActionType = keyof typeof TokenActions;
@@ -87,6 +89,18 @@ export function tokenInputReducer<T = string>(
     }
     case TokenActions.REMOVE_TEMPORARY_QUERY: {
       return { reservedInputValue: undefined };
+    }
+    case TokenActions.SET_SHOW_MOBILE_POPUP: {
+      return { showMobilePopup: true };
+    }
+    case TokenActions.SET_CLOSE_MOBILE_POPUP: {
+      return {
+        showMobilePopup: false,
+        inFocus: false,
+        preventBlur: false,
+        autocompleteItems: undefined,
+        activeTokens: [],
+      };
     }
     default:
       return state;

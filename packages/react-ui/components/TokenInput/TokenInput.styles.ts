@@ -78,6 +78,12 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  labelNonInteractive() {
+    return css`
+      pointer-events: none;
+    `;
+  },
+
   input(t: Theme) {
     return css`
       background: transparent;

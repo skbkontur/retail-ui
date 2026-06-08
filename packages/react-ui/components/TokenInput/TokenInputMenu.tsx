@@ -66,7 +66,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     );
   }
 
-  public getMenuRef = (): any | null => this.menu;
+  public getMenuRef = (): Menu | null => this.menu;
 
   private getPopupMarginSize(t: Theme) {
     switch (this.props.size) {
@@ -118,7 +118,6 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         margin={menuAlign === 'left' ? 1 : parseInt(this.getPopupMarginSize(this.theme))}
         hasShadow
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
-        withoutMobile
         onPositionChange={this.handleMenuPositionChange}
       >
         <ComboBoxMenu

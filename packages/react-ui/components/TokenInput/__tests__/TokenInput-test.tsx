@@ -1,11 +1,13 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
+import { MobilePopupDataTids } from '../../../internal/MobilePopup/index.js';
 import { PopupIds } from '../../../internal/Popup/index.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import type { LocaleContextProps } from '../../../lib/locale/index.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 import { delay } from '../../../lib/utils.js';
 import { MenuItemDataTids } from '../../MenuItem/index.js';
 import { Token, TokenDataTids } from '../../Token/index.js';
@@ -347,6 +349,14 @@ describe('<TokenInput />', () => {
     await userEvent.type(tokenInput, 'aaa,bbb,ccc');
     delay(1);
     expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
+  });
+
+  it.each(extendedDelimiters)('should add token on onChange with delimiter %j', async (delimiter) => {
+    await assertTokenAddedOnDelimiterChange(delimiter);
+  });
+
+  it('should handle multiple tokens from onChange with mixed extended delimiters', async () => {
+    await assertMixedDelimitersOnChange();
   });
 
   it('should not handle default separators when custom separators', async () => {
@@ -750,6 +760,125 @@ describe('<TokenInput />', () => {
   });
 });
 
+describe('mobile TokenInput', () => {
+  const calcMatches = (query: string) => query === LIGHT_THEME.mobileMediaQuery;
+  const oldMatchMedia = window.matchMedia;
+  const matchMediaMock = vi.fn().mockImplementation((query) => ({
+    matches: calcMatches(query),
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+
+  const getVariousItems = async (q: string) =>
+    Promise.resolve(
+      ['First Element', 'Second', 'El1', 'El2', 'El3', 'Fourth Element With Long Text'].filter(
+        (x) => x.toLowerCase().includes(q.toLowerCase()) || x.toString() === q,
+      ),
+    );
+
+  const openMobilePopup = async () => {
+    await act(async () => {
+      await userEvent.click(screen.getByRole('textbox'));
+      await delay(0);
+    });
+  };
+
+  beforeEach(() => {
+    window.matchMedia = matchMediaMock;
+  });
+
+  afterEach(() => {
+    window.matchMedia = oldMatchMedia;
+  });
+
+  it.each([
+    ['Combined', TokenInputType.Combined],
+    ['WithReference', TokenInputType.WithReference],
+  ] as const)('should open mobile popup on focus for %s', async (_name, type) => {
+    render(
+      <TokenInput type={type} getItems={getVariousItems} selectedItems={['First Element']} onValueChange={vi.fn()} />,
+    );
+
+    await openMobilePopup();
+
+    expect(screen.getByTestId(MobilePopupDataTids.container)).toBeInTheDocument();
+  });
+
+  it.each([
+    ['Combined', TokenInputType.Combined],
+    ['WithReference', TokenInputType.WithReference],
+  ] as const)('should show menu in mobile popup when typing for %s', async (_name, type) => {
+    render(
+      <TokenInput type={type} getItems={getVariousItems} selectedItems={['First Element']} onValueChange={vi.fn()} />,
+    );
+
+    await openMobilePopup();
+
+    const popupTextarea = within(screen.getByTestId(MobilePopupDataTids.container)).getByRole('textbox');
+
+    await act(async () => {
+      await userEvent.type(popupTextarea, '1');
+      await delay(0);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('El1')).toBeInTheDocument();
+    });
+  });
+
+  it('should not open mobile popup for WithoutReference on focus', async () => {
+    render(
+      <TokenInput type={TokenInputType.WithoutReference} selectedItems={['First Element']} onValueChange={vi.fn()} />,
+    );
+
+    await openMobilePopup();
+
+    expect(screen.queryByTestId(MobilePopupDataTids.root)).not.toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+  });
+
+  it.each(extendedDelimiters)('should add token on onChange with delimiter %j (mobile)', async (delimiter) => {
+    await assertTokenAddedOnDelimiterChange(delimiter);
+  });
+
+  it('should handle multiple tokens from onChange with mixed extended delimiters (mobile)', async () => {
+    await assertMixedDelimitersOnChange();
+  });
+
+  it('should keep mobile popup open after removing token via close icon', async () => {
+    const onValueChange = vi.fn();
+    render(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={getVariousItems}
+        selectedItems={['First Element', 'Second']}
+        onValueChange={onValueChange}
+        renderToken={(item, tokenProps) => (
+          <Token key={item.toString()} {...tokenProps}>
+            {item}
+          </Token>
+        )}
+      />,
+    );
+
+    await openMobilePopup();
+
+    const popup = screen.getByTestId(MobilePopupDataTids.container);
+
+    await act(async () => {
+      await userEvent.click(within(popup).getAllByTestId(TokenDataTids.removeIcon)[0]);
+      await delay(0);
+    });
+
+    expect(screen.getByTestId(MobilePopupDataTids.container)).toBeInTheDocument();
+    expect(onValueChange).toHaveBeenCalledWith(['Second']);
+  });
+});
+
 function TokenInputWithState({
   disabledToken,
   customDelimiters,
@@ -773,8 +902,12 @@ function TokenInputWithState({
   );
 }
 
-const SimpleTokenInput = (props: { customDelimiters?: string[]; type?: TokenInputType }) => {
-  const [selectedItems, setSelectedItems] = useState(['']);
+const SimpleTokenInput = (props: {
+  customDelimiters?: string[];
+  type?: TokenInputType;
+  initialSelectedItems?: string[];
+}) => {
+  const [selectedItems, setSelectedItems] = useState(props.initialSelectedItems ?? ['']);
 
   return (
     <TokenInput
@@ -786,6 +919,48 @@ const SimpleTokenInput = (props: { customDelimiters?: string[]; type?: TokenInpu
     />
   );
 };
+
+const extendedDelimiters = ['.', ',', ';', ' ', ':', '-', '+'] as const;
+
+async function assertTokenAddedOnDelimiterChange(delimiter: string) {
+  render(
+    <SimpleTokenInput
+      type={TokenInputType.WithoutReference}
+      customDelimiters={[delimiter]}
+      initialSelectedItems={[]}
+    />,
+  );
+  const tokenInput = screen.getByRole('textbox');
+  fireEvent.change(tokenInput, { target: { value: `token${delimiter}` } });
+  await delay(1);
+  expect(screen.getByText('token')).toBeInTheDocument();
+}
+
+async function assertMixedDelimitersOnChange() {
+  render(
+    <SimpleTokenInput
+      type={TokenInputType.WithoutReference}
+      customDelimiters={[...extendedDelimiters]}
+      initialSelectedItems={[]}
+    />,
+  );
+  const tokenInput = screen.getByRole('textbox');
+  fireEvent.change(tokenInput, { target: { value: 'aaa,bbb,' } });
+  await delay(1);
+  expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(2);
+
+  cleanup();
+  render(
+    <SimpleTokenInput
+      type={TokenInputType.WithoutReference}
+      customDelimiters={[...extendedDelimiters]}
+      initialSelectedItems={[]}
+    />,
+  );
+  fireEvent.change(screen.getByRole('textbox'), { target: { value: 'aaa.bbb;ccc ' } });
+  await delay(1);
+  expect(screen.queryAllByTestId(TokenDataTids.root)).toHaveLength(3);
+}
 
 function TokenInputWithSelectedItem() {
   const [selectedItems, setSelectedItems] = useState(['xxx']);

@@ -75,11 +75,16 @@ const meta: Meta = {
   title: 'TokenInput',
   component: TokenInput,
   decorators: [
-    (Story: () => JSX.Element) => (
-      <div className="tokens-test-container" style={{ margin: 40, height: 200, width: 400, padding: 4 }}>
-        <Story />
-      </div>
-    ),
+    (Story: () => JSX.Element, context) => {
+      if (!/mobile/i.test(context.name)) {
+        return (
+          <div className="tokens-test-container" style={{ margin: 40, height: 200, width: 400, padding: 4 }}>
+            <Story />
+          </div>
+        );
+      }
+      return <Story />;
+    },
   ],
 };
 
@@ -462,3 +467,66 @@ export const MaxHeightAndPlaceholder: Story = () => (
   <Wrapper getItems={getExtendedItems} placeholder="Placeholder" maxHeight={200} type={TokenInputType.Combined} />
 );
 MaxHeightAndPlaceholder.storyName = 'maxHeight and placeholder';
+
+export const MobileCombined: Story = () => {
+  const [selectedItemsCombined, setSelectedItemsCombined] = React.useState<string[]>(['First Element']);
+  return (
+    <TokenInput
+      autoFocus
+      placeholder="Ткни в меня"
+      type={TokenInputType.Combined}
+      getItems={getVariousItems}
+      selectedItems={selectedItemsCombined}
+      onValueChange={setSelectedItemsCombined}
+    />
+  );
+};
+
+MobileCombined.parameters = {
+  creevey: { skip: true },
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
+export const MobileWithoutReference: Story = () => {
+  const [selectedItemsWithoutReference, setSelectedItemsWithoutReference] = React.useState<string[]>(['First Element']);
+
+  return (
+    <TokenInput
+      autoFocus
+      placeholder="Ткни в меня"
+      type={TokenInputType.WithoutReference}
+      getItems={getVariousItems}
+      selectedItems={selectedItemsWithoutReference}
+      onValueChange={setSelectedItemsWithoutReference}
+    />
+  );
+};
+MobileWithoutReference.parameters = {
+  creevey: { skip: true },
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
+export const MobileWithReference: Story = () => {
+  const [selectedItemsWithReference, setSelectedItemsWithReference] = React.useState<string[]>(['First Element']);
+
+  return (
+    <TokenInput
+      autoFocus
+      placeholder="Ткни в меня"
+      type={TokenInputType.WithReference}
+      getItems={getVariousItems}
+      selectedItems={selectedItemsWithReference}
+      onValueChange={setSelectedItemsWithReference}
+    />
+  );
+};
+MobileWithReference.parameters = {
+  creevey: { skip: true },
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};

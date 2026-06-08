@@ -9,6 +9,7 @@ import type {
   KeyboardEvent,
   KeyboardEventHandler,
   MouseEventHandler,
+  ReactElement,
   ReactNode,
 } from 'react';
 import React from 'react';
@@ -28,6 +29,7 @@ import {
   isKeyArrowVertical,
   isKeyBackspace,
   isKeyComma,
+  isCodeComma,
   isKeyDelete,
   isKeyEnter,
   isKeyEscape,
@@ -48,6 +50,7 @@ import { emptyHandler, getRandomID, isFunction } from '../../lib/utils.js';
 import type { AnyObject } from '../../lib/utils.js';
 import { MenuItem } from '../MenuItem/index.js';
 import type { MenuItemState } from '../MenuItem/index.js';
+import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { ScrollContainer } from '../ScrollContainer/index.js';
 import type { TokenProps, TokenSize } from '../Token/index.js';
 import { Token } from '../Token/index.js';
@@ -57,6 +60,7 @@ import { TokenInputLocaleHelper } from './locale/index.js';
 import { TextWidthHelper } from './TextWidthHelper.js';
 import { getStyles } from './TokenInput.styles.js';
 import { TokenInputMenu } from './TokenInputMenu.js';
+import { TokenInputMobileMenu } from './TokenInputMobileMenu.js';
 import type { TokenInputAction } from './TokenInputReducer.js';
 import { tokenInputReducer } from './TokenInputReducer.js';
 
@@ -211,6 +215,7 @@ export interface TokenInputState<T> {
   inputValueHeight: number;
   preventBlur?: boolean;
   loading?: boolean;
+  showMobilePopup?: boolean;
 }
 
 export type TokenInputExtendedItem<T> = T | (() => React.ReactElement<T>) | React.ReactElement<T>;
@@ -226,6 +231,7 @@ export const DefaultState = {
   preventBlur: false,
   inputValueWidth: 2,
   inputValueHeight: 22,
+  showMobilePopup: false,
 };
 
 export const TokenInputDataTids = {
@@ -276,6 +282,7 @@ const defaultRenderToken = <T extends AnyObject>(
 
 /** Поле с токенами — это поле ввода со списком подсказок. Значения в поле отображаются в виде отдельных токенов — компонент [Token](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-token--docs).
  */
+@responsiveLayout
 @withRenderEnvironment
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
@@ -332,8 +339,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private styles!: ReturnType<typeof getStyles>;
   private theme!: Theme;
   private size!: SizeProp;
+  private isMobileLayout!: boolean;
   private input: HTMLTextAreaElement | null = null;
-  private tokensInputMenu: TokenInputMenu<T> | null = null;
+  private tokensInputMenu: TokenInputMenu<T> | TokenInputMobileMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
   private scrollContainerRef = React.createRef<HTMLDivElement>();
@@ -366,6 +374,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
       this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
     }
+    if (!prevState.showMobilePopup && this.state.showMobilePopup && this.usesMobilePopup) {
+      this.globalObject.requestAnimationFrame?.(() => {
+        this.input?.focus({ preventScroll: true });
+        this.tryGetItems(this.state.inputValue);
+      });
+    }
+  }
+
+  private get usesMobilePopup(): boolean {
+    return this.isMobileLayout && this.type !== TokenInputType.WithoutReference;
+  }
+
+  private isInlineInteractive(): boolean {
+    return !(this.usesMobilePopup && !!this.state.showMobilePopup);
   }
 
   public componentWillUnmount() {
@@ -435,14 +457,60 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       logWarning(false, `getItems is required for "Combined" and "WithReference" modes.`);
     }
+    const { onMouseEnter, onMouseLeave } = this.getProps();
+    const { showMobilePopup } = this.state;
 
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          {this.renderInlineField()}
+          {this.usesMobilePopup && showMobilePopup && this.renderMobileMenu()}
+        </div>
+      </CommonWrapper>
+    );
+  }
+
+  private renderInlineField = (): ReactElement => {
+    return this.renderTokenInputField({
+      variant: 'inline',
+      interactive: this.isInlineInteractive(),
+      fieldWidth: this.getProps().width,
+      showMenu: Boolean(
+        !this.isMobileLayout &&
+        this.type !== TokenInputType.WithoutReference &&
+        this.isCursorVisible &&
+        this.state.activeTokens.length === 0 &&
+        (this.isInputValueChanged || !this.props.hideMenuIfEmptyInputValue),
+      ),
+    });
+  };
+
+  private renderMobilePopupFooter = (): ReactElement => {
+    return this.renderTokenInputField({
+      variant: 'mobileFooter',
+      interactive: true,
+      fieldWidth: '100%',
+      showMenu: false,
+    });
+  };
+
+  private renderTokenInputField = ({
+    variant,
+    interactive,
+    fieldWidth,
+    showMenu,
+  }: {
+    variant: 'inline' | 'mobileFooter';
+    interactive: boolean;
+    fieldWidth: React.CSSProperties['width'];
+    showMenu: boolean;
+  }): ReactElement => {
     const {
       maxMenuHeight,
       error,
       warning,
       disabled,
       renderNotFound,
-      hideMenuIfEmptyInputValue,
       inputMode,
       renderTotalCount,
       totalCount,
@@ -451,24 +519,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       maxHeight,
     } = this.props;
 
-    const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
-
-    const {
-      activeTokens,
-      inFocus,
-      inputValueWidth,
-      inputValueHeight,
-      inputValue,
-      reservedInputValue,
-      autocompleteItems,
-      loading,
-    } = this.state;
-
-    const showMenu =
-      this.type !== TokenInputType.WithoutReference &&
-      this.isCursorVisible &&
-      activeTokens.length === 0 &&
-      (this.isInputValueChanged || !hideMenuIfEmptyInputValue);
+    const { selectedItems, menuWidth, menuAlign, renderItem } = this.getProps();
+    const isMobileFooter = variant === 'mobileFooter';
+    const { inFocus, inputValueWidth, inputValueHeight, inputValue, reservedInputValue, autocompleteItems, loading } =
+      this.state;
 
     const theme = this.theme;
 
@@ -477,13 +531,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       width: inputValueWidth,
       height: inputValueHeight,
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
-      caretColor: this.isCursorVisible ? undefined : 'transparent',
+      caretColor: this.isCursorVisible && interactive ? undefined : 'transparent',
     };
 
     const labelClassName = this.cx(this.styles.label(theme), this.getLabelSizeClassName(), {
-      [this.styles.hovering(this.theme)]: !inFocus && !disabled && !warning && !error,
+      [this.styles.labelNonInteractive()]: !interactive,
+      [this.styles.hovering(this.theme)]: interactive && !inFocus && !disabled && !warning && !error,
       [this.styles.labelDisabled(theme)]: !!disabled,
-      [this.styles.labelFocused(theme)]: !!inFocus,
+      [this.styles.labelFocused(theme)]: interactive && !!inFocus,
       [this.styles.error(theme)]: !!error,
       [this.styles.warning(theme)]: !!warning,
     });
@@ -503,30 +558,36 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         hideCloseButton={Boolean(placeholder)}
       >
         <textarea
-          id={this.textareaId}
-          ref={this.inputRef}
+          id={isMobileFooter || interactive ? this.textareaId : undefined}
+          ref={isMobileFooter ? this.mobileInputRef : this.inlineInputRef}
           value={inputValue}
           style={inputInlineStyles}
           spellCheck={false}
           disabled={disabled}
+          readOnly={!interactive}
+          tabIndex={!interactive ? -1 : undefined}
           className={inputClassName}
           placeholder={placeholder}
-          onFocus={this.handleInputFocus}
-          onBlur={this.handleInputBlur}
-          onChange={this.handleChangeInputValue}
-          onKeyDown={this.handleKeyDown}
-          onPaste={this.handleInputPaste}
+          onFocus={interactive ? this.handleInputFocus : undefined}
+          onBlur={interactive ? this.handleInputBlur : undefined}
+          onChange={interactive ? this.handleChangeInputValue : undefined}
+          onKeyDown={interactive ? this.handleKeyDown : undefined}
+          onPaste={interactive ? this.handleInputPaste : undefined}
           inputMode={inputMode}
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedby}
+          aria-label={isMobileFooter || interactive ? ariaLabel : undefined}
+          aria-describedby={isMobileFooter || interactive ? ariaDescribedby : undefined}
+          aria-hidden={!interactive ? true : undefined}
+          autoFocus={isMobileFooter}
         />
       </TokenView>
     );
 
     const inner = (
       <>
-        <TextWidthHelper ref={this.textHelperRef} text={inputValue} theme={this.theme} size={this.size} />
-        {this.renderTokensStart()}
+        {isMobileFooter ? null : (
+          <TextWidthHelper ref={this.textHelperRef} text={inputValue} theme={this.theme} size={this.size} />
+        )}
+        {this.renderTokensStart(interactive)}
         {inputNode}
         {showMenu && (
           <TokenInputMenu
@@ -549,7 +610,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             size={this.size}
           />
         )}
-        {this.renderTokensEnd()}
+        {this.renderTokensEnd(interactive)}
         {this.isEditingMode ? (
           <TokenView size={this.size}>
             <span className={this.styles.reservedInput(theme)}>{reservedInputValue}</span>
@@ -558,41 +619,76 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       </>
     );
 
-    const container = maxHeight ? (
-      <ScrollContainer
-        className={this.styles.inputPlaceholderScrollWrapper()}
-        scrollRef={this.scrollContainerRef}
-        maxHeight={maxHeight}
-        showScrollBar="always"
-        style={{ width: '100%' }}
-      >
-        {inner}
-      </ScrollContainer>
-    ) : (
-      inner
-    );
+    const container =
+      maxHeight && !isMobileFooter ? (
+        <ScrollContainer
+          className={this.styles.inputPlaceholderScrollWrapper()}
+          scrollRef={this.scrollContainerRef}
+          maxHeight={maxHeight}
+          showScrollBar="always"
+          style={{ width: '100%' }}
+        >
+          {inner}
+        </ScrollContainer>
+      ) : (
+        inner
+      );
+
+    const labelStyle: React.CSSProperties = {
+      width: fieldWidth,
+    };
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-          <label
-            ref={this.wrapperRef}
-            style={{ width }}
-            className={labelClassName}
-            onMouseDown={this.handleWrapperMouseDown}
-            onMouseUp={this.handleWrapperMouseUp}
-            // Для корректной работы скролла приходится ломать связь label с полем ввода
-            // Иначе любой клик внутри label вызывает фокус и автоскроллинг к полю ввода
-            htmlFor={maxHeight ? 'fake-id' : this.textareaId}
-            aria-controls={this.rootId}
-            data-tid={TokenInputDataTids.label}
-          >
-            {container}
-          </label>
-        </div>
-      </CommonWrapper>
+      <label
+        ref={isMobileFooter ? this.mobileWrapperRef : this.inlineWrapperRef}
+        style={labelStyle}
+        className={labelClassName}
+        onMouseDown={interactive ? this.handleWrapperMouseDown : undefined}
+        onMouseUp={interactive ? this.handleWrapperMouseUp : undefined}
+        // Для корректной работы скролла приходится ломать связь label с полем ввода
+        // Иначе любой клик внутри label вызывает фокус и автоскроллинг к полю ввода
+        htmlFor={!interactive || maxHeight ? 'fake-id' : this.textareaId}
+        aria-controls={interactive ? this.rootId : undefined}
+        aria-hidden={!interactive ? true : undefined}
+        data-tid={isMobileFooter || interactive ? TokenInputDataTids.label : undefined}
+      >
+        {container}
+      </label>
     );
-  }
+  };
+
+  private renderMobileMenu = (): ReactElement => {
+    const { maxMenuHeight, renderNotFound, renderTotalCount, totalCount } = this.props;
+
+    const { renderItem } = this.getProps();
+    const { autocompleteItems, loading } = this.state;
+
+    return (
+      <TokenInputMobileMenu
+        popupMenuId={this.rootId}
+        ref={(node) => {
+          this.tokensInputMenuRef(node);
+        }}
+        items={autocompleteItems}
+        loading={loading}
+        opened
+        maxMenuHeight={maxMenuHeight}
+        renderNotFound={renderNotFound}
+        renderItem={renderItem}
+        onValueChange={this.selectItem}
+        renderAddButton={this.renderAddButton}
+        renderTotalCount={renderTotalCount}
+        totalCount={totalCount}
+        size={this.size}
+        mobileFooterComponent={this.renderMobilePopupFooter()}
+        onCloseRequest={() =>
+          this.dispatch({
+            type: 'SET_CLOSE_MOBILE_POPUP',
+          })
+        }
+      />
+    );
+  };
 
   /**
    * Сбрасывает введённое пользователем значение.
@@ -653,17 +749,36 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return state.inFocus && (this.isInputValueChanged || state.activeTokens.length === 0);
   }
 
-  private inputRef = (node: HTMLTextAreaElement) => {
-    this.input = node;
+  private inlineInputRef = (node: HTMLTextAreaElement | null) => {
+    if (!this.usesMobilePopup || !this.state.showMobilePopup) {
+      this.input = node;
+    }
   };
-  private tokensInputMenuRef = (node: TokenInputMenu<T>) => {
+
+  private mobileInputRef = (node: HTMLTextAreaElement | null) => {
+    if (this.usesMobilePopup && !!this.state.showMobilePopup) {
+      this.input = node;
+    }
+  };
+
+  private tokensInputMenuRef = (node: TokenInputMenu<T> | TokenInputMobileMenu<T> | null) => {
     this.tokensInputMenu = node;
   };
+
   private textHelperRef = (node: TextWidthHelper) => {
     this.textHelper = node;
   };
-  private wrapperRef = (node: HTMLLabelElement) => {
-    this.wrapper = node;
+
+  private inlineWrapperRef = (node: HTMLLabelElement | null) => {
+    if (!this.usesMobilePopup || !this.state.showMobilePopup) {
+      this.wrapper = node;
+    }
+  };
+
+  private mobileWrapperRef = (node: HTMLLabelElement | null) => {
+    if (this.usesMobilePopup && !!this.state.showMobilePopup) {
+      this.wrapper = node;
+    }
   };
 
   private dispatch = (action: TokenInputAction, cb?: () => void) => {
@@ -683,12 +798,25 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private handleInputFocus = (event: FocusEvent<HTMLTextAreaElement>) => {
-    this.dispatch({ type: 'SET_FOCUS_IN' });
-    this.getProps().onFocus(event);
+    if (this.usesMobilePopup) {
+      if (!this.state.showMobilePopup) {
+        this.dispatch({ type: 'SET_SHOW_MOBILE_POPUP' });
+        return;
+      }
+    }
+
+    if (!this.state.inFocus) {
+      this.dispatch({ type: 'SET_FOCUS_IN' });
+      this.getProps().onFocus(event);
+    }
   };
 
   private handleInputBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
     const isBlurToMenu = this.isBlurToMenu(event);
+
+    if (this.usesMobilePopup) {
+      return;
+    }
 
     if (!isBlurToMenu) {
       this.handleOutsideBlur();
@@ -818,6 +946,68 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     event.clipboardData.setData('text/plain', tokens.join(delimiters[0]));
   };
 
+  private get isDelimiterInputEnabled(): boolean {
+    return this.type !== TokenInputType.WithReference;
+  }
+
+  private inputValueEndsWithDelimiter(value: string): boolean {
+    return this.getProps().delimiters.some((delimiter) => value.endsWith(delimiter));
+  }
+
+  private splitValueByDelimiters(value: string): string[] {
+    const pattern = this.getProps()
+      .delimiters.map((delimiter) => delimiter.replace(/[\\^\-[\]]/g, '\\$&'))
+      .join('');
+    return value.split(new RegExp(`[${pattern}]+`));
+  }
+
+  private isDelimiterKeyEvent(e: KeyboardEvent<HTMLTextAreaElement>, delimiter: string): boolean {
+    if (delimiter === ',') {
+      return e.key === delimiter || isKeyComma(e) || isCodeComma(e);
+    }
+    return e.key === delimiter;
+  }
+
+  private tryApplyDelimiterFromInputValue(rawValue: string): boolean {
+    const { delimiters, selectedItems, valueToItem, onValueChange } = this.getProps();
+    const trailingDelimiter = delimiters.find((delimiter) => rawValue.endsWith(delimiter));
+    if (!trailingDelimiter) {
+      return false;
+    }
+
+    const valueWithoutTrailingDelimiter = rawValue.slice(0, rawValue.length - trailingDelimiter.length);
+
+    if (this.isEditingMode) {
+      if (valueWithoutTrailingDelimiter !== '') {
+        this.dispatch({ type: 'UPDATE_QUERY', payload: valueWithoutTrailingDelimiter }, () => {
+          this.finishTokenEdit();
+        });
+      }
+      return true;
+    }
+
+    if (valueWithoutTrailingDelimiter === '') {
+      this.dispatch({ type: 'CLEAR_INPUT' });
+      this.tryGetItems();
+      return true;
+    }
+
+    const tokens = this.splitValueByDelimiters(valueWithoutTrailingDelimiter);
+    const items = tokens
+      .filter(Boolean)
+      .map((token) => valueToItem(token))
+      .filter((item) => item && !this.hasValueInItems(selectedItems, item));
+
+    if (items.length > 0) {
+      onValueChange(selectedItems.concat(items));
+    }
+
+    this.dispatch({ type: 'CLEAR_INPUT' });
+    this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
+    this.tryGetItems();
+    return true;
+  }
+
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
     if (this.type === TokenInputType.WithReference || !event.clipboardData) {
       return;
@@ -827,7 +1017,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
-      const tokens = paste.trim().split(new RegExp(`[${delimiters.join('')}]+`));
+      const tokens = this.splitValueByDelimiters(paste.trim());
       const items = tokens
         .filter(Boolean)
         .map((token) => valueToItem(token))
@@ -877,7 +1067,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const selectItemIndex = autocompleteItemsUniqueSimple.findIndex(
         (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
-      setTimeout(() => this.menuRef?.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex), 0);
+      const highlightIndex = selectItemIndex < 0 ? 0 : selectItemIndex;
+      const applyMenuHighlight = () => this.menuRef?.highlightItem(highlightIndex);
+      this.globalObject.requestAnimationFrame?.(applyMenuHighlight);
     }
   };
 
@@ -899,8 +1091,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     e.stopPropagation();
 
     if (
-      (this.type !== TokenInputType.WithReference &&
-        this.getProps().delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))) ||
+      (this.isDelimiterInputEnabled && this.getProps().delimiters.some((key) => this.isDelimiterKeyEvent(e, key))) ||
       (isKeyEnter(e) && this.type === TokenInputType.WithoutReference)
     ) {
       e.preventDefault();
@@ -964,6 +1155,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private focusInput = (options?: FocusOptions) => {
     this.globalObject.requestAnimationFrame?.(() => this.input?.focus(options));
+    if (this.usesMobilePopup && !this.state.showMobilePopup) {
+      this.dispatch({ type: 'SET_SHOW_MOBILE_POPUP' });
+    }
   };
 
   private selectInputText = () => {
@@ -1074,7 +1268,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const filteredActiveTokens = this.state.activeTokens.filter((_) => !this.isEqual(_, item));
 
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });
-    if (filteredActiveTokens.length === 0) {
+    if (filteredActiveTokens.length === 0 && !(this.usesMobilePopup && this.state.showMobilePopup)) {
       this.focusInput({ preventScroll: true });
     }
 
@@ -1096,7 +1290,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleTokenEdit = (itemNew: T) => {
     const { selectedItems, valueToString } = this.getProps();
-    const editingTokenIndex = selectedItems.findIndex((item) => item === itemNew);
+    const editingTokenIndex = selectedItems.findIndex((item) => this.isEqual(item, itemNew));
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.isInputValueChanged) {
@@ -1178,6 +1372,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.isInputValueChanged && query === '') {
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     }
+    if (this.isDelimiterInputEnabled && this.inputValueEndsWithDelimiter(query)) {
+      if (this.tryApplyDelimiterFromInputValue(query)) {
+        return;
+      }
+    }
     this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
       this.tryGetItems(query);
     });
@@ -1187,32 +1386,28 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private highlightMenuItem = () => {
-    if (
-      this.menuRef &&
-      this.state.autocompleteItems &&
-      this.state.autocompleteItems.length > 0 &&
-      this.type !== TokenInputType.Combined
-    ) {
+    if (this.menuRef && this.state.autocompleteItems && this.state.autocompleteItems.length > 0) {
       this.menuRef.highlightItem(0);
     }
   };
 
-  private renderTokensStart = () => {
+  private renderTokensStart = (interactive = true) => {
     const { editingTokenIndex } = this.state;
     const selectedItems = this.getProps().selectedItems;
     const delimiter = editingTokenIndex >= 0 ? editingTokenIndex : selectedItems.length;
-    return selectedItems.slice(0, delimiter).map(this.renderToken);
+    return selectedItems.slice(0, delimiter).map((x, index) => this.renderToken(x, index, interactive));
   };
 
-  private renderTokensEnd = () => {
+  private renderTokensEnd = (interactive = true) => {
     if (this.state.editingTokenIndex >= 0) {
+      const startIndex = this.state.editingTokenIndex + 1;
       return this.getProps()
-        .selectedItems.slice(this.state.editingTokenIndex + 1)
-        .map(this.renderToken);
+        .selectedItems.slice(startIndex)
+        .map((x, index) => this.renderToken(x, startIndex + index, interactive));
     }
   };
 
-  private renderToken = (item: T, index: number) => {
+  private renderToken = (item: T, index: number, interactive = true) => {
     const { renderToken = defaultRenderToken, disabled } = this.props;
 
     const isActive = this.state.activeTokens.includes(item);
@@ -1220,6 +1415,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // TODO useCallback
     const handleIconClick: React.MouseEventHandler<HTMLElement> = (event) => {
       event.stopPropagation();
+
       if (!this.isEditingMode) {
         this.handleRemoveToken(item);
       }
@@ -1228,6 +1424,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // TODO useCallback
     const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
+
       if (!this.isEditingMode) {
         this.handleTokenClick(event, item);
       }
@@ -1235,7 +1432,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
-      if (!this.isEditingMode && !disabled) {
+
+      if (!this.isEditingMode && !disabled && interactive) {
         this.handleTokenEdit(item);
       }
     };
@@ -1245,15 +1443,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       {
         size: this.size,
         isActive,
-        onClick: handleTokenClick,
-        onDoubleClick: handleTokenDoubleClick,
-        onRemove: handleIconClick,
+        onClick: interactive ? handleTokenClick : undefined,
+        onDoubleClick: interactive ? handleTokenDoubleClick : undefined,
+        onRemove: interactive ? handleIconClick : undefined,
         disabled,
       },
       index,
     );
 
-    this.memoizedTokens.set(this.props.selectedItems?.indexOf(item), renderedToken);
+    if (interactive) {
+      this.memoizedTokens.set(this.props.selectedItems?.indexOf(item), renderedToken);
+    }
     return renderedToken;
   };
 

@@ -1,7 +1,7 @@
 import 'creevey/playwright';
 import { kind, story, test } from 'creevey';
 
-import { tid, waitForPopup } from '../../__creevey__/helpers.mjs';
+import { tid, waitForAnimationFrame, waitForPopup } from '../../__creevey__/helpers.mjs';
 
 kind('DateRangePicker', () => {
   story('MinMax', () => {
@@ -105,9 +105,9 @@ kind('DateRangePicker', () => {
 
     test('MobilePicker on iphone opened', async (context) => {
       const page = context.webdriver;
-      await page.waitForTimeout(1000);
       await page.locator(tid('DateRangePicker__start')).click();
-      await page.waitForTimeout(2000);
+      await waitForAnimationFrame(page);
+      await page.waitForTimeout(1000);
       await context.matchImage(await context.takeScreenshot(), 'MobilePicker on iphone opened');
     });
   });
