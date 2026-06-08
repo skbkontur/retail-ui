@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](/compare/@skbkontur/table@0.3.4...@skbkontur/table@0.3.5) (2026-06-08)
+
+
+### Bug Fixes
+
+* **table:** fix icons version 7f82383
+
+
+
+
+
 ## [0.3.4](/compare/@skbkontur/table@0.3.3...@skbkontur/table@0.3.4) (2026-06-04)
 
 
