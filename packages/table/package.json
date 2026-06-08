@@ -29,7 +29,7 @@
   "dependencies": {
     "@skbkontur/colors": "^2.1.7",
     "@skbkontur/global-object": "^0.4.5",
-    "@skbkontur/icons": "2.0.1",
+    "@skbkontur/icons": "^2.0.1",
     "@skbkontur/typography": "^1.0.0",
     "classnames": "^2"
   },
