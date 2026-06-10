@@ -369,7 +369,7 @@ export class BasicThemeClass {
   public static btnDefaultHoverBgStart = 'none';
   public static btnDefaultHoverBgEnd = 'none';
   // TODO: create token in colors package
-  public static btnDefaultActiveBg = '#f2f2f2';
+  public static btnDefaultActiveBg = '#e4e4e4';
   public static get btnDefaultHoverBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
