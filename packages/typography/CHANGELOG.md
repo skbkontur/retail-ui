@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](/compare/@skbkontur/typography@1.0.0...@skbkontur/typography@1.0.1) (2026-06-10)
+
+
+### Bug Fixes
+
+* **Typography:** update typography heading tokens d854cfd
+
+
+
+
+
 # [1.0.0](/compare/@skbkontur/typography@0.2.2...@skbkontur/typography@1.0.0) (2026-06-04)
 
 
