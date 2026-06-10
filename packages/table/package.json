@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/table",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Table",
   "author": "Kontur",
   "type": "module",
@@ -30,7 +30,7 @@
     "@skbkontur/colors": "^2.1.7",
     "@skbkontur/global-object": "^0.4.5",
     "@skbkontur/icons": "^2.0.1",
-    "@skbkontur/typography": "^1.0.0",
+    "@skbkontur/typography": "^1.0.1",
     "classnames": "^2"
   },
   "devDependencies": {
