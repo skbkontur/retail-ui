@@ -1,4 +1,44 @@
-.t-heading-xs(@weight: bold, @reset: false) {
+.t-heading-s(@weight: bold, @reset: false) {
+  font-size: 20px;
+  line-height: 28px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-m(@weight: bold, @reset: false) {
+  font-size: 24px;
+  line-height: 32px;
+  .set-weight() when (@weight = regular) {
+    font-weight: 400;
+  }
+  .set-weight() when (@weight = medium) {
+    font-weight: 500;
+  }
+  .set-weight() when (@weight = bold) {
+    font-weight: 700;
+  }
+  .set-weight();
+  .set-reset() when (@reset = true) {
+    margin: 0;
+    padding: 0;
+  }
+  .set-reset();
+}
+
+.t-heading-l(@weight: bold, @reset: false) {
   font-size: 28px;
   line-height: 36px;
   .set-weight() when (@weight = regular) {
@@ -18,7 +58,7 @@
   .set-reset();
 }
 
-.t-heading-s(@weight: bold, @reset: false) {
+.t-heading-xl(@weight: bold, @reset: false) {
   font-size: 32px;
   line-height: 40px;
   .set-weight() when (@weight = regular) {
@@ -38,7 +78,7 @@
   .set-reset();
 }
 
-.t-heading-m(@weight: bold, @reset: false) {
+.t-heading-2xl(@weight: bold, @reset: false) {
   font-size: 36px;
   line-height: 44px;
   .set-weight() when (@weight = regular) {
@@ -58,7 +98,7 @@
   .set-reset();
 }
 
-.t-heading-l(@weight: bold, @reset: false) {
+.t-heading-3xl(@weight: bold, @reset: false) {
   font-size: 40px;
   line-height: 48px;
   .set-weight() when (@weight = regular) {
@@ -78,7 +118,7 @@
   .set-reset();
 }
 
-.t-heading-xl(@weight: bold, @reset: false) {
+.t-heading-4xl(@weight: bold, @reset: false) {
   font-size: 48px;
   line-height: 56px;
   .set-weight() when (@weight = regular) {
@@ -98,7 +138,7 @@
   .set-reset();
 }
 
-.t-heading-2xl(@weight: bold, @reset: false) {
+.t-heading-5xl(@weight: bold, @reset: false) {
   font-size: 56px;
   line-height: 64px;
   .set-weight() when (@weight = regular) {

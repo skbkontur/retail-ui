@@ -10,7 +10,7 @@ describe('Text.css content', () => {
     expect(css).toContain(
       '.t-body-m { font-size: 16px; line-height: 22px; font-weight: 400; font-variant-numeric: tabular-nums; }'
     );
-    expect(css).toContain('.t-heading-xs { font-size: 28px; line-height: 36px; font-weight: 700; }');
+    expect(css).toContain('.t-heading-s { font-size: 20px; line-height: 28px; font-weight: 700; }');
   });
 
   it('should contain standalone weight utilities with', () => {

@@ -1,30 +1,40 @@
 export const headingTokens = {
-  'heading-xs': {
+  'heading-s': {
+    'font-size': '20px',
+    'line-height': '28px',
+    'font-weight': '700',
+  },
+  'heading-m': {
+    'font-size': '24px',
+    'line-height': '32px',
+    'font-weight': '700',
+  },
+  'heading-l': {
     'font-size': '28px',
     'line-height': '36px',
     'font-weight': '700',
   },
-  'heading-s': {
+  'heading-xl': {
     'font-size': '32px',
     'line-height': '40px',
     'font-weight': '700',
   },
-  'heading-m': {
+  'heading-2xl': {
     'font-size': '36px',
     'line-height': '44px',
     'font-weight': '700',
   },
-  'heading-l': {
+  'heading-3xl': {
     'font-size': '40px',
     'line-height': '48px',
     'font-weight': '700',
   },
-  'heading-xl': {
+  'heading-4xl': {
     'font-size': '48px',
     'line-height': '56px',
     'font-weight': '700',
   },
-  'heading-2xl': {
+  'heading-5xl': {
     'font-size': '56px',
     'line-height': '64px',
     'font-weight': '700',
