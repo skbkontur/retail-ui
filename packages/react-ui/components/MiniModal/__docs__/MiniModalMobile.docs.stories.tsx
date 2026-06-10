@@ -16,7 +16,7 @@ export const ExampleMobile: Story = () => {
   const renderModal = () => (
     <ThemeContext.Provider
       value={ThemeFactory.create({
-        mobileMediaQuery: '(max-width: 576px)',
+        mobileMediaQuery: '(max-width: 767.98px)',
       })}
     >
       <MiniModal mobileAppearance={position} onClose={() => setOpened(false)}>

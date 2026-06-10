@@ -98,6 +98,8 @@ export const DarkTheme6_1 = createTheme({
     public static mobilePopupFooterPaddingSmall = '0 6px 6px';
     public static mobilePopupFooterPaddingMedium = '0 6px 6px';
     public static mobilePopupFooterPaddingLarge = '0 8px 8px';
+
+    public static mobileMediaQuery: string = '(max-width: 767.98px)';
   },
   prototypeTheme: DarkTheme6_0,
   themeMarkers: [markAsDarkTheme, markThemeVersion('6.1')],

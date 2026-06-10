@@ -161,7 +161,7 @@ const preview: Preview = {
               <ThemeContext.Provider
                 value={ThemeFactory.create(
                   {
-                    mobileMediaQuery: '(max-width: 576px)',
+                    mobileMediaQuery: '(max-width: 767.98px)',
                   },
                   theme,
                 )}

@@ -69,7 +69,7 @@ export const ExampleMobile: Story = () => {
     return (
       <ThemeContext.Provider
         value={ThemeFactory.create({
-          mobileMediaQuery: '(max-width: 576px)',
+          mobileMediaQuery: '(max-width: 767.98px)',
         })}
       >
         <Modal mobileAppearance={position} onClose={() => setOpened(false)}>

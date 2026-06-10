@@ -3,8 +3,6 @@ import type { Preview } from '@storybook/react';
 import React from 'react';
 
 import { isTestEnv } from '../lib/currentEnvironment.js';
-import { ThemeContext } from '../lib/theming/ThemeContext.js';
-import { ThemeFactory } from '../lib/theming/ThemeFactory.js';
 import { ThemeDecorator } from './decorators/Theme/ThemeDecorator.js';
 
 declare global {
@@ -76,26 +74,6 @@ const preview: Preview = {
         <Story />
       </div>
     ),
-    (Story) => {
-      return (
-        <ThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <ThemeContext.Provider
-                value={ThemeFactory.create(
-                  {
-                    mobileMediaQuery: '(max-width: 576px)',
-                  },
-                  theme,
-                )}
-              >
-                <Story />
-              </ThemeContext.Provider>
-            );
-          }}
-        </ThemeContext.Consumer>
-      );
-    },
   ],
 };
 
