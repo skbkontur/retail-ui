@@ -85,7 +85,7 @@ export class ToastView extends React.Component<ToastViewProps> {
       use === 'error' ? this.styles.toastActionErrorColor(this.theme) : this.styles.toastActionDefaultColor(this.theme);
     const toastActionClassNames = this.cx(
       this.styles.link(this.theme),
-      isTheme6_1 && this.styles.link_6_1(this.theme),
+      isTheme6_1 && this.styles.link6_1(this.theme),
 
       toastActionColorsClassName,
     );
@@ -112,7 +112,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     const close =
       action || showCloseIcon ? (
-        <span className={this.cx(this.styles.closeWrapper(this.theme), isTheme6_1 && this.styles.closeWrapper_6_1())}>
+        <span className={this.cx(this.styles.closeWrapper(this.theme), isTheme6_1 && this.styles.closeWrapper6_1())}>
           <CloseButtonIcon
             aria-label={this.locale.closeButtonAriaLabel}
             data-tid={ToastDataTids.close}
@@ -127,15 +127,12 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     const rootClassName = this.cx(
       this.styles.root(this.theme),
-      isTheme6_1 && this.styles.root_6_1(),
+      isTheme6_1 && this.styles.root6_1(),
       isTheme6_1 && this.isMobileLayout && this.styles.rootMobile(this.theme),
       this.styles[use ?? 'default'](this.theme),
     );
 
-    const wrapperClassName = this.cx(
-      this.styles.wrapper(this.theme),
-      isTheme6_1 && this.styles.wrapper_6_1(this.theme),
-    );
+    const wrapperClassName = this.cx(this.styles.wrapper(this.theme), isTheme6_1 && this.styles.wrapper6_1(this.theme));
 
     return (
       <CommonWrapper {...this.props}>

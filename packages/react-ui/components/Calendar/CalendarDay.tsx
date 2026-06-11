@@ -93,7 +93,7 @@ export const CalendarDay = memo(
               [styles.day(theme)]: true,
               [styles.weekend(theme)]: isWeekend,
               [styles.selected(theme)]: isSelected,
-              [styles.selected_6_1(theme)]: isSelected && themeGTE6_1,
+              [styles.selected6_1(theme)]: isSelected && themeGTE6_1,
             },
             className,
           )}

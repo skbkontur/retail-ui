@@ -232,7 +232,7 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
             [this.styles.root(this.theme)]: true,
             [this.styles.hasMargin(this.theme)]: hasMargin,
             [this.styles.mobileRoot(this.theme)]: isMobile,
-            [this.styles.mobileRoot_6_1()]: themeGTE6_1 && isMobile,
+            [this.styles.mobileRoot6_1()]: themeGTE6_1 && isMobile,
             [this.styles.shadow(this.theme)]: !isMobile,
           })}
           style={this.getStyle(this.props)}

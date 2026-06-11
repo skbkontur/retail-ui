@@ -51,8 +51,8 @@ export class MobilePopupHeader extends React.Component<React.PropsWithChildren<M
       }
 
       return (
-        <div className={this.getRootSizeClassName_6_1()}>
-          <div className={this.getContainerClassName_6_1()}>
+        <div className={this.getRootSizeClassName6_1()}>
+          <div className={this.getContainerClassName6_1()}>
             {caption && (
               <div
                 className={this.cx({
@@ -93,27 +93,27 @@ export class MobilePopupHeader extends React.Component<React.PropsWithChildren<M
     );
   }
 
-  private getContainerClassName_6_1 = (): string => {
+  private getContainerClassName6_1 = (): string => {
     switch (this.props.size) {
       case 'large':
-        return this.jsStyles.containerLarge_6_1(this.theme);
+        return this.jsStyles.containerLarge6_1(this.theme);
       case 'medium':
-        return this.jsStyles.containerMedium_6_1(this.theme);
+        return this.jsStyles.containerMedium6_1(this.theme);
       case 'small':
       default:
-        return this.jsStyles.containerSmall_6_1(this.theme);
+        return this.jsStyles.containerSmall6_1(this.theme);
     }
   };
 
-  private getRootSizeClassName_6_1 = (): string => {
+  private getRootSizeClassName6_1 = (): string => {
     switch (this.props.size) {
       case 'large':
-        return this.jsStyles.rootLarge_6_1(this.theme);
+        return this.jsStyles.rootLarge6_1(this.theme);
       case 'medium':
-        return this.jsStyles.rootMedium_6_1(this.theme);
+        return this.jsStyles.rootMedium6_1(this.theme);
       case 'small':
       default:
-        return this.jsStyles.rootSmall_6_1(this.theme);
+        return this.jsStyles.rootSmall6_1(this.theme);
     }
   };
 }

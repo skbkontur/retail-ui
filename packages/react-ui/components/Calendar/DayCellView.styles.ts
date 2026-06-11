@@ -65,7 +65,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  selected_6_1(t: Theme) {
+  selected6_1(t: Theme) {
     return css`
       @media (hover: hover) {
         &:hover {

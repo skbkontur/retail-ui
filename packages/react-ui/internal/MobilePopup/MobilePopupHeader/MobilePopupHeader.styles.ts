@@ -4,14 +4,14 @@ import { memoizeGetStyles } from '../../../lib/theming/Emotion.js';
 import type { Theme } from '../../../lib/theming/Theme.js';
 
 export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
-  const rootBase_6_1 = (t: Theme) => css`
+  const rootBase6_1 = (t: Theme) => css`
     position: relative;
     background: ${t.menuBgDefault};
     border-top-left-radius: ${t.mobilePopupContainerBorderRadius};
     border-top-right-radius: ${t.mobilePopupContainerBorderRadius};
   `;
 
-  const containerBase_6_1 = () => css`
+  const containerBase6_1 = () => css`
     display: flex;
     flex-direction: column;
   `;
@@ -37,44 +37,44 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
-    rootSmall_6_1(t: Theme) {
+    rootSmall6_1(t: Theme) {
       return css`
-        ${rootBase_6_1(t)};
+        ${rootBase6_1(t)};
         padding-top: ${t.mobilePopupPaddingSmall};
       `;
     },
 
-    rootMedium_6_1(t: Theme) {
+    rootMedium6_1(t: Theme) {
       return css`
-        ${rootBase_6_1(t)};
+        ${rootBase6_1(t)};
         padding-top: ${t.mobilePopupPaddingMedium};
       `;
     },
 
-    rootLarge_6_1(t: Theme) {
+    rootLarge6_1(t: Theme) {
       return css`
-        ${rootBase_6_1(t)};
+        ${rootBase6_1(t)};
         padding-top: ${t.mobilePopupPaddingLarge};
       `;
     },
 
-    containerSmall_6_1(t: Theme) {
+    containerSmall6_1(t: Theme) {
       return css`
-        ${containerBase_6_1()};
+        ${containerBase6_1()};
         padding: ${t.mobilePopupHeaderPaddingSmall};
       `;
     },
 
-    containerMedium_6_1(t: Theme) {
+    containerMedium6_1(t: Theme) {
       return css`
-        ${containerBase_6_1()};
+        ${containerBase6_1()};
         padding: ${t.mobilePopupHeaderPaddingMedium};
       `;
     },
 
-    containerLarge_6_1(t: Theme) {
+    containerLarge6_1(t: Theme) {
       return css`
-        ${containerBase_6_1()};
+        ${containerBase6_1()};
         padding: ${t.mobilePopupHeaderPaddingLarge};
       `;
     },

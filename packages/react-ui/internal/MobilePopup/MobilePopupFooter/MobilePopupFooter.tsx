@@ -43,21 +43,21 @@ export class MobilePopupFooter extends React.Component<Props> {
     }
 
     if (themeGTE6_1) {
-      return <div className={this.getRootSizeClassName_6_1()}>{children}</div>;
+      return <div className={this.getRootSizeClassName6_1()}>{children}</div>;
     }
 
     return <div className={this.jsStyles.root(this.theme)}>{children}</div>;
   }
 
-  private getRootSizeClassName_6_1 = (): string => {
+  private getRootSizeClassName6_1 = (): string => {
     switch (this.props.size) {
       case 'large':
-        return this.jsStyles.rootLarge_6_1(this.theme);
+        return this.jsStyles.rootLarge6_1(this.theme);
       case 'medium':
-        return this.jsStyles.rootMedium_6_1(this.theme);
+        return this.jsStyles.rootMedium6_1(this.theme);
       case 'small':
       default:
-        return this.jsStyles.rootSmall_6_1(this.theme);
+        return this.jsStyles.rootSmall6_1(this.theme);
     }
   };
 }

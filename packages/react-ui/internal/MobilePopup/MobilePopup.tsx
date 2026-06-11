@@ -104,21 +104,21 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
           nodeRef={this.refForTransition}
         >
           {themeGTE6_1 ? (
-            <div className={this.jsStyles.wrapper_6_1(this.theme)} ref={this.refForTransition}>
+            <div className={this.jsStyles.wrapper6_1(this.theme)} ref={this.refForTransition}>
               <RenderLayer onClickOutside={this.close}>
                 <div
                   ref={this.setRootNode}
                   data-tid={MobilePopupDataTids.container}
                   className={this.cx(
-                    this.jsStyles.containerBase_6_1(this.theme),
-                    align === 'bottom' && this.jsStyles.containerBottom_6_1(this.theme),
+                    this.jsStyles.containerBase6_1(this.theme),
+                    align === 'bottom' && this.jsStyles.containerBottom6_1(this.theme),
                   )}
                 >
-                  <div data-tid={MobilePopupDataTids.root} className={this.jsStyles.root_6_1(this.theme)}>
+                  <div data-tid={MobilePopupDataTids.root} className={this.jsStyles.root6_1(this.theme)}>
                     <MobilePopupHeader size={this.props.size} caption={this.props.caption}>
                       {this.props.headerChildComponent}
                     </MobilePopupHeader>
-                    <div className={this.getContentClassName_6_1()}>{this.props.children}</div>
+                    <div className={this.getContentClassName6_1()}>{this.props.children}</div>
                     <MobilePopupFooter size={this.props.size}>{this.props.footerChildComponent}</MobilePopupFooter>
                   </div>
                 </div>
@@ -193,16 +193,16 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
     this.close();
   };
 
-  private getContentClassName_6_1 = (): string => {
+  private getContentClassName6_1 = (): string => {
     switch (this.props.size) {
       case 'small':
-        return this.jsStyles.contentSmall_6_1(this.theme);
+        return this.jsStyles.contentSmall6_1(this.theme);
       case 'medium':
-        return this.jsStyles.contentMedium_6_1(this.theme);
+        return this.jsStyles.contentMedium6_1(this.theme);
       case 'large':
-        return this.jsStyles.contentLarge_6_1(this.theme);
+        return this.jsStyles.contentLarge6_1(this.theme);
       default:
-        return this.jsStyles.contentSmall_6_1(this.theme);
+        return this.jsStyles.contentSmall6_1(this.theme);
     }
   };
 }

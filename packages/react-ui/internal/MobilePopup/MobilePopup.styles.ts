@@ -4,7 +4,7 @@ import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 
 export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
-  const content_6_1 = (t: Theme) => {
+  const content6_1 = (t: Theme) => {
     return css`
       background-color: ${t.bgDefault};
       overflow-y: scroll;
@@ -55,7 +55,7 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
-    root_6_1(t: Theme) {
+    root6_1(t: Theme) {
       return css`
         width: 100%;
         height: 100%;
@@ -71,7 +71,7 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
-    wrapper_6_1(t: Theme) {
+    wrapper6_1(t: Theme) {
       return css`
         position: fixed;
         top: ${t.mobilePopupPositionY};
@@ -83,28 +83,28 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
-    contentSmall_6_1(t: Theme) {
+    contentSmall6_1(t: Theme) {
       return css`
-        ${content_6_1(t)}
+        ${content6_1(t)}
         padding: ${t.mobilePopupPaddingSmall};
       `;
     },
 
-    contentMedium_6_1(t: Theme) {
+    contentMedium6_1(t: Theme) {
       return css`
-        ${content_6_1(t)}
+        ${content6_1(t)}
         padding: ${t.mobilePopupPaddingMedium};
       `;
     },
 
-    contentLarge_6_1(t: Theme) {
+    contentLarge6_1(t: Theme) {
       return css`
-        ${content_6_1(t)}
+        ${content6_1(t)}
         padding: ${t.mobilePopupPaddingLarge};
       `;
     },
 
-    containerBase_6_1(t: Theme) {
+    containerBase6_1(t: Theme) {
       return css`
         position: absolute;
         z-index: 100000;
@@ -112,7 +112,7 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
-    containerBottom_6_1(t: Theme) {
+    containerBottom6_1(t: Theme) {
       return css`
         bottom: 0;
         max-height: calc(100vh - (2 * ${t.mobilePopupPositionY}));

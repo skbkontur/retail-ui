@@ -28,7 +28,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  mobileRoot_6_1() {
+  mobileRoot6_1() {
     return css`
       padding: 0;
     `;

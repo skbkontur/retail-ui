@@ -4,7 +4,7 @@ import { memoizeGetStyles } from '../../../lib/theming/Emotion.js';
 import type { Theme } from '../../../lib/theming/Theme.js';
 
 export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
-  const rootBase_6_1 = (t: Theme) => css`
+  const rootBase6_1 = (t: Theme) => css`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -24,21 +24,21 @@ export const getJsStyles = memoizeGetStyles(({ css }: Emotion) => {
       `;
     },
 
-    rootSmall_6_1(t: Theme) {
+    rootSmall6_1(t: Theme) {
       return css`
-        ${rootBase_6_1(t)};
+        ${rootBase6_1(t)};
         padding: ${t.mobilePopupFooterPaddingSmall};
       `;
     },
-    rootMedium_6_1(t: Theme) {
+    rootMedium6_1(t: Theme) {
       return css`
-        ${rootBase_6_1(t)};
+        ${rootBase6_1(t)};
         padding: ${t.mobilePopupFooterPaddingMedium};
       `;
     },
-    rootLarge_6_1(t: Theme) {
+    rootLarge6_1(t: Theme) {
       return css`
-        ${rootBase_6_1(t)};
+        ${rootBase6_1(t)};
         padding: ${t.mobilePopupFooterPaddingLarge};
       `;
     },

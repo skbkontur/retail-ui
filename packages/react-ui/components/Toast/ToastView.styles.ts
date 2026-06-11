@@ -26,7 +26,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  root_6_1() {
+  root6_1() {
     return css`
       padding: 0;
     `;
@@ -65,7 +65,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  wrapper_6_1(t: Theme) {
+  wrapper6_1(t: Theme) {
     return css`
       padding: 0 ${t.toastPaddingX};
     `;
@@ -97,7 +97,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  closeWrapper_6_1() {
+  closeWrapper6_1() {
     return css`
       margin: 0;
     `;
@@ -129,7 +129,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  link_6_1(t: Theme) {
+  link6_1(t: Theme) {
     return css`
       margin: 0;
       padding: 0 ${t.toastLinkPadding};
