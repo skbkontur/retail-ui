@@ -42,6 +42,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
 
   return (
     <Button
+      use={'default'}
       size={props.size}
       onClick={props.onRestore}
       borderless={props.borderless}

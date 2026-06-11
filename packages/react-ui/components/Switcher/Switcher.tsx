@@ -235,6 +235,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
       const isChecked = value === itemValue;
       const commonButtonProps = {
+        use: 'default',
         'aria-checked': isChecked,
         role,
         checked: isChecked,
@@ -246,7 +247,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         size,
         disabled,
         corners: getButtonCorners(i === 0, i === items.length - 1),
-      };
+      } satisfies ButtonProps;
 
       const buttonProps = {
         ...commonButtonProps,

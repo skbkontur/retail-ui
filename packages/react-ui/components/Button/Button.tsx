@@ -17,6 +17,7 @@ import { withSize } from '../../lib/size/SizeDecorator.js';
 import type { Theme, ThemeIn } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { ButtonLinkAllowedValues } from '../../lib/types/button-link.js';
 import type { PolymorphicPropsWithoutRef } from '../../lib/types/polymorphic-component.js';
 import type { SizeProp } from '../../lib/types/props.js';
@@ -164,7 +165,7 @@ export const ButtonDataTids = {
   spinner: 'Button__spinner',
 } as const;
 
-type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'use' | 'type' | 'component'>>;
+type DefaultProps = Required<Pick<ButtonProps<ButtonLinkAllowedValues>, 'type' | 'component'>>;
 
 const SpanComponent: React.FunctionComponent<HTMLAttributes<HTMLSpanElement>> = ({ children, ...rest }) => {
   return <span {...rest}>{children}</span>;
@@ -183,7 +184,6 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
   public static __BUTTON__ = true;
 
   public static defaultProps: DefaultProps = {
-    use: 'default',
     // By default, the type attribute is 'submit'. IE8 will fire a click event
     // on this button if somewhere on the page user presses Enter while some
     // input is focused. So we set type to 'button' by default.
@@ -306,7 +306,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       theme,
       ...rest
     } = props;
-    const { use, component, children, 'aria-disabled': ariaDisabled } = this.getProps();
+    const {
+      use = isThemeGTE(this.theme, '6.1') ? 'outline' : 'default',
+      component,
+      children,
+      'aria-disabled': ariaDisabled,
+    } = this.getProps();
 
     const sizeClass = this.getSizeClassName();
 
