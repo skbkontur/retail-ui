@@ -12,6 +12,10 @@ export const LightTheme6_1 = createTheme({
     public static mobilePopupContainerBorderRadius = '8px';
 
     public static mobileMediaQuery: string = '(max-width: 767.98px)';
+
+    public static modalBg = colors.surfaceBase;
+
+    public static sidePageBgDefault = colors.surfaceBase;
   },
   prototypeTheme: LightTheme6_0,
   themeMarkers: [markThemeVersion('6.1')],

@@ -15,6 +15,10 @@ export const DarkTheme6_1 = createTheme({
     public static mobilePopupContainerBorderRadius = '8px';
 
     public static mobileMediaQuery: string = '(max-width: 767.98px)';
+
+    public static modalBg = colors.surfaceBase;
+
+    public static sidePageBgDefault = colors.surfaceBase;
   },
   prototypeTheme: DarkTheme6_0,
   themeMarkers: [markAsDarkTheme, markThemeVersion('6.1')],
