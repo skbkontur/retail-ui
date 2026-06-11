@@ -38,4 +38,17 @@ export const VARIABLES_GROUPS = [
   { title: 'react-ui-validations', prefix: 'validations' },
 ];
 
-export const DEPRECATED_VARIABLES: Array<keyof Theme> = [];
+export const DEPRECATED_VARIABLES: Array<keyof Theme> = [
+  'menuItemFontSizeMobile',
+  'menuItemLineHeightMobile',
+  'menuItemPaddingMobile',
+  'menuMessageFontSizeMobile',
+  'menuMessageLineHeightMobile',
+  'menuMessagePaddingMobile',
+  'mobilePopupFooterPadding',
+  'mobilePopupHeaderPadding',
+  'spinnerCaptionMarginLarge',
+  'spinnerCaptionMarginMedium',
+  'spinnerCaptionMarginSmall',
+  'toastCloseSize',
+];

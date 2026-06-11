@@ -1233,11 +1233,16 @@ export class BasicThemeClass {
   public static toastCloseColorError = colors.textConstSoftWhite;
   public static toastCloseHoverColor = colors.textInvertedNeutralHeavy;
   public static toastCloseHoverColorError = colors.textConstHeavyWhite;
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link toastCloseBtnSide} */
   public static toastCloseSize = '16px';
-  public static toastCloseBtnSide = '0px';
+  public static toastCloseBtnSide = '40px';
 
-  public static mobileToastTop = '0px';
-  public static mobileToastFontSize = '0px';
+  public static mobileToastTop = '16px';
+  public static get mobileToastFontSize(): string {
+    return this.fontSizeMedium;
+  }
 
   //#endregion Toast
   //#region Dropdown
@@ -1404,8 +1409,8 @@ export class BasicThemeClass {
   }
   public static menuItemDisplay = 'block';
   public static mobileMenuItemPaddingLarge = '12px 16px';
-  public static mobileMenuItemPaddingMedium = '12px 16px';
-  public static mobileMenuItemPaddingSmall = '12px 16px';
+  public static mobileMenuItemPaddingMedium = '9px 12px';
+  public static mobileMenuItemPaddingSmall = '6px 8px';
 
   public static get mobileMenuItemLineHeightLarge(): string {
     return this.lineHeightMobile;
@@ -1420,25 +1425,34 @@ export class BasicThemeClass {
   }
 
   public static get mobileMenuItemFontSizeLarge(): string {
-    return this.fontSizeMobile;
+    return this.fontSizeLarge;
   }
 
   public static get mobileMenuItemFontSizeMedium(): string {
-    return this.fontSizeMobile;
+    return this.fontSizeMedium;
   }
 
   public static get mobileMenuItemFontSizeSmall(): string {
-    return this.fontSizeMobile;
+    return this.fontSizeSmall;
   }
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobileMenuItemFontSizeLarge} */
   public static get menuItemFontSizeMobile(): string {
     return this.fontSizeMobile;
   }
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobileMenuItemLineHeightLarge} */
   public static get menuItemLineHeightMobile(): string {
     return this.lineHeightMobile;
   }
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobileMenuItemPaddingLarge} */
   public static menuItemPaddingMobile = '12px 16px';
   public static get menuItemDisabledColor(): string {
     return this.textColorDisabled;
@@ -1461,14 +1475,23 @@ export class BasicThemeClass {
     return this.menuItemDisplay;
   }
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobileMenuMessageFontSizeLarge} */
   public static get menuMessageFontSizeMobile(): string {
     return this.menuItemFontSizeMobile;
   }
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobileMenuMessageLineHeightLarge} */
   public static get menuMessageLineHeightMobile(): string {
     return this.menuItemLineHeightMobile;
   }
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobileMenuMessagePaddingLarge} */
   public static get menuMessagePaddingMobile(): string {
     return this.menuItemPaddingMobile;
   }
@@ -1486,27 +1509,27 @@ export class BasicThemeClass {
   }
 
   public static get mobileMenuMessageLineHeightLarge(): string {
-    return this.lineHeightMobile;
+    return this.menuItemLineHeightLarge;
   }
 
   public static get mobileMenuMessageLineHeightMedium(): string {
-    return this.lineHeightMobile;
+    return this.menuItemLineHeightMedium;
   }
 
   public static get mobileMenuMessageLineHeightSmall(): string {
-    return this.lineHeightMobile;
+    return this.menuItemLineHeightSmall;
   }
 
   public static get mobileMenuMessageFontSizeLarge(): string {
-    return this.fontSizeMobile;
+    return this.mobileMenuItemFontSizeLarge;
   }
 
   public static get mobileMenuMessageFontSizeMedium(): string {
-    return this.fontSizeMobile;
+    return this.mobileMenuItemFontSizeMedium;
   }
 
   public static get mobileMenuMessageFontSizeSmall(): string {
-    return this.fontSizeMobile;
+    return this.mobileMenuItemFontSizeSmall;
   }
 
   public static get menuMessageFontSizeSmall(): string {
@@ -2458,23 +2481,29 @@ export class BasicThemeClass {
   public static mobilePopupTopPadding = '80px';
   public static mobilePopupContainerBottomPadding = '8px';
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobilePopupHeaderPaddingLarge} */
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
 
-  public static mobilePopupPositionX = '0px';
-  public static mobilePopupPositionY = '0px';
+  public static mobilePopupPositionX = '16px';
+  public static mobilePopupPositionY = '16px';
 
-  public static mobilePopupPaddingSmall = '8px';
-  public static mobilePopupPaddingMedium = '8px';
+  public static mobilePopupPaddingSmall = '6px';
+  public static mobilePopupPaddingMedium = '6px';
   public static mobilePopupPaddingLarge = '8px';
 
-  public static mobilePopupHeaderPaddingSmall = '0px';
-  public static mobilePopupHeaderPaddingMedium = '0px';
-  public static mobilePopupHeaderPaddingLarge = '0px';
+  public static mobilePopupHeaderPaddingSmall = '6px 8px 4px 14px';
+  public static mobilePopupHeaderPaddingMedium = '8px 12px 6px 18px';
+  public static mobilePopupHeaderPaddingLarge = '12px 16px 8px 24px';
 
-  public static mobilePopupFooterPaddingSmall = '0px';
-  public static mobilePopupFooterPaddingMedium = '0px';
-  public static mobilePopupFooterPaddingLarge = '0px';
+  public static mobilePopupFooterPaddingSmall = '0 6px 6px';
+  public static mobilePopupFooterPaddingMedium = '0 6px 6px';
+  public static mobilePopupFooterPaddingLarge = '0 8px 8px';
 
+  /**
+   * @deprecated Не работает с версии `6.1` и будет удалена в `7.0`.
+   * @see {@link mobilePopupFooterPaddingLarge} */
   public static mobilePopupFooterPadding = '16px 16px 16px 16px';
   public static mobilePopupContainerBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize(): string {
