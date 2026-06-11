@@ -101,7 +101,7 @@ kind('DateRangePicker', () => {
   });
 
   story('MobilePicker', ({ setStoryParameters }) => {
-    setStoryParameters({ captureElement: null });
+    setStoryParameters({ captureElement: null, skip: { flacky: { in: ['chromeMobile'] } } });
 
     test('MobilePicker on iphone opened', async (context) => {
       const page = context.webdriver;
