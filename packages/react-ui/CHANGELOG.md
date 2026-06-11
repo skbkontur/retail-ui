@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.7...@skbkontur/react-ui@6.0.8) (2026-06-10)
+
+
+### Bug Fixes
+
+* **Button:** update :active button state ([8354319](https://github.com/skbkontur/retail-ui/commit/8354319d8c78d2dfb64b087ab7ebfe79746f4dfc))
+* **Hint:** change Popup pos type from string to PopupPositionsType ([c6d9254](https://github.com/skbkontur/retail-ui/commit/c6d92545f26d23d354e17875b98d1999a233ed04))
+* **Popup:** avoid unnecessary horizontal position warnings ([5dfecc4](https://github.com/skbkontur/retail-ui/commit/5dfecc47d6d5098afa00b5f809692571cc2055d0))
+
+
+
+
+
 ## [6.0.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.6...@skbkontur/react-ui@6.0.7) (2026-05-26)
 
 
