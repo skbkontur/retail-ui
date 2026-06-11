@@ -3,6 +3,8 @@ import warning from 'warning';
 import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { getOwnerGlobalObject } from '../../lib/globalObject.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { PopupPositionsType } from './Popup.js';
 
 export interface Rect {
@@ -15,6 +17,7 @@ export interface Rect {
 export interface Offset {
   top: number;
   left: number;
+  right?: number;
 }
 
 export interface PositionObject {
@@ -269,6 +272,14 @@ function getOrderedFallbackCandidates(
   return candidates;
 }
 
+function getPopupViewportSidePadding(theme: Theme, isMobile: boolean): number {
+  if (!isMobile || !isThemeGTE(theme, '6.1')) {
+    return 0;
+  }
+
+  return parseInt(theme.popupViewportSidePadding) || 0;
+}
+
 function _getViewProperty(getProperty: (e: Element) => number, globalObject: GlobalObject): number {
   const views = [globalObject.document?.documentElement, globalObject.document?.body];
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
@@ -279,6 +290,7 @@ export const PopupHelper = {
   getHorizontalPosition,
   getVerticalPosition,
   getElementAbsoluteRect,
+  getPopupViewportSidePadding,
   isFullyVisible: isAbsoluteRectFullyVisible,
   canBecomeFullyVisible,
   getViewportAbsoluteRect,

@@ -1,8 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+﻿import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React, { type JSX } from 'react';
 
+import { eventListenersMap } from '../../../components/ResponsiveLayout/ResponsiveLayoutEvents.js';
 import * as ResponsiveLayoutHooks from '../../../components/ResponsiveLayout/useResponsiveLayout.js';
 import type { InstanceWithRootNode } from '../../../lib/rootNode/rootNodeDecorator.js';
+import { LIGHT_THEME } from '../../../lib/theming/themes/LightTheme.js';
 import { delay } from '../../../lib/utils.js';
 import { MobilePopupDataTids } from '../../MobilePopup/index.js';
 import { PopupDataTids } from '../index.js';
@@ -111,7 +113,191 @@ describe('Popup fallback position logic', () => {
   };
 
   afterEach(() => {
+    cleanup();
+    eventListenersMap.clear();
     vi.restoreAllMocks();
+  });
+
+  describe('on mobile', () => {
+    const oldMatchMedia = window.matchMedia;
+    const matchMediaMock = vi.fn().mockImplementation((query) => ({
+      matches: query === LIGHT_THEME.mobileMediaQuery,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }));
+
+    beforeAll(() => {
+      eventListenersMap.clear();
+      window.matchMedia = matchMediaMock;
+    });
+
+    beforeEach(() => {
+      eventListenersMap.clear();
+    });
+
+    afterEach(() => {
+      cleanup();
+      eventListenersMap.clear();
+    });
+
+    afterAll(() => {
+      eventListenersMap.clear();
+      window.matchMedia = oldMatchMedia;
+    });
+
+    const setupMobileTopBottomMocks = (popup: unknown, anchorElement: HTMLElement) => {
+      vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) =>
+        element === anchorElement
+          ? { top: 50, left: 50, width: 100, height: 30 }
+          : { top: 0, left: 0, width: 200, height: 120 },
+      );
+      vi.spyOn(popup as any, 'getCoordinates').mockImplementation((_anchorRect, _popupRect, position) => {
+        switch (position) {
+          case 'top center':
+            return { top: -50, left: 16 };
+          case 'bottom center':
+            return { top: 90, left: 16 };
+          default:
+            return { top: 0, left: 0 };
+        }
+      });
+      vi.spyOn(PopupHelper, 'isFullyVisible').mockImplementation((coordinates) => coordinates.top >= 16);
+    };
+
+    it.each([
+      [
+        'uses bottom position when top does not fit in viewport',
+        { pos: 'top center' as const, withPreviousLocation: false },
+        {
+          coordinates: { top: 90, left: 16 },
+          position: 'bottom center',
+          isFullyVisible: true,
+          pinOffset: 0,
+        },
+      ],
+      [
+        'repositions from top to bottom instead of keeping scrollable top position',
+        { withPreviousLocation: true },
+        'bottom center',
+      ],
+    ])('%s', (_label, mountOptions, expected) => {
+      const popupElement = document.createElement('div');
+      const { popup, anchorElement } = mountPopup({
+        positions: ['top center', 'bottom center'],
+        tryPreserveFirstRenderedPosition: true,
+        ...('pos' in mountOptions ? { pos: mountOptions.pos } : {}),
+      });
+
+      setupMobileTopBottomMocks(popup, anchorElement);
+
+      const previousLocation = mountOptions.withPreviousLocation
+        ? {
+            position: 'top center' as const,
+            coordinates: { top: -50, left: 16 },
+            isFullyVisible: false,
+            pinOffset: 0,
+          }
+        : undefined;
+
+      const result = (popup as any).getLocation(popupElement, previousLocation);
+
+      if (typeof expected === 'string') {
+        expect(result?.position).toBe(expected);
+      } else {
+        expect(result).toEqual(expected);
+      }
+    });
+
+    const themePinOffsetX = parseInt(LIGHT_THEME.popupPinOffsetX);
+
+    it.each([
+      ['shifts popup left', -14, themePinOffsetX - 14],
+      ['shifts popup right', 50, themePinOffsetX + 50],
+    ])('compensates pin offset for left align when viewport clamp %s', (_label, pinOffset, expectedOffset) => {
+      const { popup } = mountPopup();
+
+      (popup as any).layout = { isMobile: true };
+      (popup as any).state = {
+        location: {
+          position: 'bottom left',
+          coordinates: { top: 100, left: 16 },
+          isFullyVisible: true,
+          pinOffset,
+        },
+      };
+
+      expect((popup as any).getPinOffset('left')).toBe(expectedOffset);
+    });
+
+    it('selects bottom left with positive pinOffset for wide mobile tooltip below anchor', () => {
+      const popupElement = document.createElement('div');
+      const mobilePositions = [
+        'top right',
+        'top center',
+        'top left',
+        'bottom left',
+        'bottom center',
+        'bottom right',
+      ] as const;
+      const { popup, anchorElement } = mountPopup({
+        positions: [...mobilePositions],
+        pos: 'top',
+        tryPreserveFirstRenderedPosition: true,
+      });
+
+      (popup as any).layout = { isMobile: true };
+      vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) => {
+        if (element === anchorElement) {
+          return { top: 50, left: 8, width: 120, height: 36 };
+        }
+
+        return { top: 0, left: 0, width: 343, height: 300 };
+      });
+      vi.spyOn(PopupHelper, 'getViewportAbsoluteRect').mockReturnValue({ top: 0, left: 0, width: 375, height: 812 });
+      vi.spyOn(popup as any, 'getViewportSidePadding').mockReturnValue(16);
+      vi.spyOn(popup as any, 'getCoordinates').mockImplementation((_anchorRect, _popupRect, position) => {
+        switch (position) {
+          case 'top right':
+          case 'top center':
+          case 'top left':
+            return { top: -100, left: 8 };
+          case 'bottom left':
+            return { top: 94, left: 8 };
+          case 'bottom center':
+            return { top: 94, left: -53 };
+          case 'bottom right':
+            return { top: 94, left: 100 };
+          default:
+            return { top: 0, left: 0 };
+        }
+      });
+      vi.spyOn(PopupHelper, 'isFullyVisible').mockImplementation((coordinates) => coordinates.top >= 16);
+
+      const result = (popup as any).getLocation(popupElement);
+
+      expect(result?.position).toBe('bottom left');
+      expect(result?.pinOffset).toBeGreaterThan(0);
+    });
+  });
+
+  it('returns zero pin offset for center align on desktop', () => {
+    const { popup } = mountPopup();
+
+    (popup as any).isMobileLayout = false;
+    (popup as any).state = {
+      location: {
+        position: 'top center',
+        coordinates: { top: 10, left: 20 },
+        isFullyVisible: true,
+        pinOffset: 50,
+      },
+    };
+
+    expect((popup as any).getPinOffset('center') === 0).toBe(true);
   });
 
   it('keeps current position when it can become fully visible after scroll', () => {
@@ -141,6 +327,7 @@ describe('Popup fallback position logic', () => {
       coordinates: { top: -20, left: 10 },
       position: 'top left',
       isFullyVisible: true,
+      pinOffset: 0,
     });
     expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
   });
@@ -175,8 +362,68 @@ describe('Popup fallback position logic', () => {
       coordinates: { top: 20, left: 20 },
       position: 'top left',
       isFullyVisible: true,
+      pinOffset: 0,
     });
     expect(pickFallbackPositionSpy).not.toHaveBeenCalled();
+  });
+
+  it('detects location change when only pinOffset changes', () => {
+    const { popup } = mountPopup();
+
+    const previousLocation = {
+      position: 'top center' as const,
+      coordinates: { top: 10, left: 20 },
+      isFullyVisible: true,
+      pinOffset: 0,
+    };
+    const nextLocation = {
+      position: 'top center' as const,
+      coordinates: { top: 10, left: 20 },
+      isFullyVisible: true,
+      pinOffset: 15,
+    };
+
+    expect((popup as any).locationEquals(previousLocation, nextLocation)).toBe(false);
+  });
+
+  it('renders pin after desktop fallback from top to bottom', async () => {
+    const anchor = document.createElement('button');
+    Object.defineProperty(anchor, 'offsetWidth', { configurable: true, value: 100 });
+    Object.defineProperty(anchor, 'offsetHeight', { configurable: true, value: 30 });
+
+    vi.spyOn(PopupHelper, 'getElementAbsoluteRect').mockImplementation((element) => {
+      if (element === anchor) {
+        return { top: 50, left: 50, width: 100, height: 30 };
+      }
+
+      const htmlElement = element as HTMLElement;
+      return {
+        top: 0,
+        left: 0,
+        width: htmlElement.offsetWidth || 200,
+        height: htmlElement.offsetHeight || 120,
+      };
+    });
+    vi.spyOn(PopupHelper, 'isFullyVisible').mockImplementation((coordinates) => coordinates.top >= 0);
+    vi.spyOn(PopupHelper, 'canBecomeFullyVisible').mockReturnValue(false);
+
+    render(
+      <Popup
+        hasPin
+        positions={['top left', 'bottom left']}
+        pos="top left"
+        tryPreserveFirstRenderedPosition
+        opened
+        anchorElement={anchor}
+        disableAnimations
+      >
+        Test content
+      </Popup>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId(PopupDataTids.popupPin)).toBeInTheDocument();
+    });
   });
 
   it.each(['left middle', 'right middle'] as const)(
@@ -435,6 +682,7 @@ describe('rootNode', () => {
     });
 
     afterEach(() => {
+      cleanup();
       vi.restoreAllMocks();
     });
 

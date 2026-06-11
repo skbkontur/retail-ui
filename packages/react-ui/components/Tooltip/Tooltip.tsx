@@ -26,6 +26,7 @@ import type { SizeProp } from '../../lib/types/props.js';
 import { isNullable } from '../../lib/utils.js';
 import type { MouseEventType } from '../../typings/event-types.js';
 import type { Nullable } from '../../typings/utility-types.js';
+import { ResponsiveLayout } from '../ResponsiveLayout/ResponsiveLayout.js';
 import { getStyles } from './Tooltip.styles.js';
 
 export type TooltipTrigger =
@@ -126,6 +127,15 @@ const DefaultPositions: PopupPositionsType[] = [
   'bottom right',
 ];
 
+const MobilePositions: PopupPositionsType[] = [
+  'top right',
+  'top center',
+  'top left',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+];
+
 interface TooltipSizeVariables {
   closeButtonStyle: string;
   contentStyle: string;
@@ -168,8 +178,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public static delay = DEFAULT_DELAY;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
+  private static triggersToOverrideOnMobile: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
+  private isMobileLayout = false;
   private globalObject!: GlobalObject;
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
@@ -229,7 +241,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
                 theme,
               )}
             >
-              {this.renderMain()}
+              <ResponsiveLayout>
+                {(layout) => {
+                  this.isMobileLayout = layout.isMobile;
+                  return this.renderMain();
+                }}
+              </ResponsiveLayout>
             </ThemeContext.Provider>
           );
         }}
@@ -258,7 +275,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton(): React.JSX.Element | null {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.getProps().trigger)
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.getTrigger())
         : this.props.closeButton;
 
     if (!hasCross) {
@@ -298,7 +315,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (this.state.opened) {
       return;
     }
-    const trigger = this.getProps().trigger;
+    const trigger = this.getTrigger();
     if (trigger === 'opened' || trigger === 'closed') {
       warning(false, `Function 'show' is not supported with trigger specified '${trigger}'`);
       return;
@@ -312,7 +329,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
    * @public
    */
   public hide(): void {
-    const trigger = this.getProps().trigger;
+    const trigger = this.getTrigger();
     if (trigger === 'opened' || trigger === 'closed') {
       warning(false, `Function 'hide' is not supported with trigger specified '${trigger}'`);
       return;
@@ -339,7 +356,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     popupProps: Partial<PopupProps>,
     content: JSX.Element | null,
   ) {
-    const { disableAnimations, trigger } = this.getProps();
+    const { disableAnimations } = this.getProps();
+    const trigger = this.getTrigger();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
@@ -347,11 +365,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           anchorElement={anchorElement}
           hasPin
           hasShadow
-          maxWidth="none"
+          {...(this.isMobileLayout ? {} : { maxWidth: 'none' })}
           opened={this.state.opened}
           disableAnimations={disableAnimations}
           positions={this.getPositions()}
-          pos={this.props.pos}
+          pos={this.getPos()}
           ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
@@ -366,10 +384,29 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  private getPositions = (): PopupPositionsType[] =>
-    this.props.allowedPositions
-      ? this.props.allowedPositions.filter((item) => DefaultPositions.includes(item))
-      : DefaultPositions;
+  private getTrigger = (): TooltipTrigger => {
+    const trigger = this.getProps().trigger;
+    return this.isMobileLayout && Tooltip.triggersToOverrideOnMobile.includes(trigger) ? 'click' : trigger;
+  };
+
+  private getPos = (): TooltipProps['pos'] => {
+    const positions = this.getPositions();
+    const pos = this.props.pos;
+
+    if (pos && positions.some((item) => item.startsWith(pos))) {
+      return pos;
+    }
+
+    return positions[0];
+  };
+
+  private getPositions = (): PopupPositionsType[] => {
+    const validPositions = this.isMobileLayout ? MobilePositions : DefaultPositions;
+
+    return this.props.allowedPositions
+      ? this.props.allowedPositions.filter((item) => validPositions.includes(item))
+      : validPositions;
+  };
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
@@ -381,7 +418,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   } {
     const props = this.props;
     const useWrapper = !!props.children && this.getProps().useWrapper;
-    const trigger = this.getProps().trigger;
+    const trigger = this.getTrigger();
 
     const defaultPopupAndLayerProps: ReturnType<typeof this.getPopupAndLayerProps> = {
       popupProps: {
@@ -475,6 +512,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   private handleMouseEnter = (event: MouseEventType) => {
+    if (this.isMobileLayout) {
+      return;
+    }
+
     const isHoverAnchor = this.getProps().trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
@@ -485,7 +526,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    const trigger = this.getProps().trigger;
+    if (this.isMobileLayout) {
+      return;
+    }
+
+    const trigger = this.getTrigger();
     if (
       (trigger === 'hover&focus' && this.state.focused) ||
       (trigger === 'hover' && event.relatedTarget === this.contentElement)
@@ -503,6 +548,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleClick = () => {
+    if (this.isMobileLayout && this.state.opened) {
+      this.close();
+      return;
+    }
+
     this.open();
   };
 
@@ -530,7 +580,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleBlur = () => {
-    const trigger = this.getProps().trigger;
+    const trigger = this.getTrigger();
     if (trigger === 'hover&focus' && this.clickedOutside) {
       this.close();
     }

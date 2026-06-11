@@ -1,7 +1,8 @@
 import 'creevey/playwright';
 import { kind, story, test } from 'creevey';
+import type { Page } from 'playwright-core';
 
-import { tid, waitForPopup } from '../../__creevey__/helpers.mjs';
+import { tid, waitForAnimationFrame, waitForPopup } from '../../__creevey__/helpers.mjs';
 
 kind('Tooltip', () => {
   story('FocusTooltip', () => {
@@ -350,6 +351,100 @@ kind('Tooltip', () => {
       await page.locator(tid('tooltip_anchor_1')).hover();
       await waitForPopup(page);
       await context.matchImage(await context.takeScreenshot(), 'hover by dynamic anchor');
+    });
+  });
+
+  story('MobileTooltip', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'only mobile': { in: /^(?!\b(chromeMobile)\b)/ } },
+      captureElement: null,
+    });
+    test('opensToBottom', async (context) => {
+      const page = context.webdriver;
+      const anchor = page.locator('#test-element').getByRole('button', { name: 'Открыт cнизу' });
+
+      await anchor.click();
+      await waitForAnimationFrame(page);
+      await waitForPopup(page);
+      await context.matchImage(await context.takeScreenshot(), 'opensToBottom');
+    });
+
+    test('opensToTop', async (context) => {
+      const page = context.webdriver;
+      const anchor = page.locator('#test-element').getByRole('button', { name: 'Открыть сверху' });
+
+      await anchor.click();
+      await waitForAnimationFrame(page);
+      await waitForPopup(page);
+      await context.matchImage(await context.takeScreenshot(), 'opensToTop');
+    });
+  });
+
+  story('Mobile tooltip horizontal scroll', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'only mobile': { in: /^(?!\b(chromeMobile)\b)/ } },
+      captureElement: null,
+    });
+
+    const scrollScroller = async (page: Page, scrollLeft: number | 'max') => {
+      await page.evaluate(
+        ({ left, scrollerTid }) => {
+          const scroller = document.querySelector(`[data-tid~="${scrollerTid}"]`);
+          if (!scroller) {
+            return;
+          }
+
+          scroller.scrollLeft = left === 'max' ? scroller.scrollWidth - scroller.clientWidth : left;
+        },
+        { left: scrollLeft, scrollerTid: 'MobileTooltipHorizontalScroll__scroller' },
+      );
+    };
+
+    const waitForHorizontalScrollTooltips = async (page: Page) => {
+      await page.locator(tid('PopupContent')).nth(0).waitFor();
+      await page.locator(tid('PopupContent')).nth(1).waitFor();
+      await waitForAnimationFrame(page);
+    };
+
+    const waitForPinHidden = async (page: Page, pinIndex: number) => {
+      await page.waitForFunction(
+        (index) => {
+          const pins = document.querySelectorAll('[data-tid~="PopupPin__root"]');
+          const pin = pins[index];
+
+          if (!pin) {
+            return false;
+          }
+
+          const style = getComputedStyle(pin);
+
+          return style.visibility === 'hidden' && Number(style.opacity) === 0;
+        },
+        pinIndex,
+        { timeout: 5000 },
+      );
+      await page.evaluate(() => {
+        document.querySelectorAll('[data-tid~="PopupPin__root"]').forEach((pin) => {
+          (pin as HTMLElement).style.transition = 'none';
+        });
+      });
+      await waitForAnimationFrame(page);
+    };
+
+    test('pin hides at left edge', async (context) => {
+      const page = context.webdriver;
+      await waitForHorizontalScrollTooltips(page);
+      await scrollScroller(page, 'max');
+      await waitForPinHidden(page, 0);
+      await context.matchImage(await context.takeScreenshot(), 'pin hides at left edge');
+    });
+
+    test('pin hides at right edge', async (context) => {
+      const page = context.webdriver;
+      await waitForHorizontalScrollTooltips(page);
+      await scrollScroller(page, 0);
+      await waitForPinHidden(page, 1);
+      await context.matchImage(await context.takeScreenshot(), 'pin hides at right edge');
     });
   });
 });

@@ -1,3 +1,4 @@
+import type { StoryContext } from '@storybook/react';
 import React, { type JSX } from 'react';
 
 import { PopupPinnablePositions } from '../../../internal/Popup/index.js';
@@ -15,11 +16,17 @@ const meta: Meta = {
   title: 'Hint',
   component: Hint,
   decorators: [
-    (Story: () => JSX.Element) => (
-      <div style={{ padding: '100px 300px' }}>
-        <Story />
-      </div>
-    ),
+    (Story: () => JSX.Element, context: StoryContext) => {
+      console.log(context.name);
+      if (context.name === 'Mobile Hint') {
+        return <Story />;
+      }
+      return (
+        <div style={{ padding: '100px 300px' }}>
+          <Story />
+        </div>
+      );
+    },
   ],
 };
 
@@ -350,3 +357,20 @@ export const HintNearScreenEdge = () => (
   </>
 );
 HintNearScreenEdge.storyName = 'hint near screen edge';
+
+export const MobileHint = () => (
+  <Hint
+    text="Something will never be changed asd asf asf asf asf asfa sfasf asf asf asf asf af as fasf asf as f"
+    manual
+    opened
+    maxWidth={500}
+    pos={'bottom center'}
+  >
+    <span className="hint-content">Hint has maxWidth of 500px</span>
+  </Hint>
+);
+MobileHint.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};

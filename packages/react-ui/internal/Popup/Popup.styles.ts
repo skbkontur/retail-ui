@@ -11,6 +11,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       border: ${t.popupBorder} ${t.popupBorderColor};
       display: flex;
       width: max-content;
+      overflow: visible;
     `;
   },
 

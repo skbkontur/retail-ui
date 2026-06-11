@@ -1,8 +1,14 @@
-import type { Emotion } from '@emotion/css/create-instance';
+﻿import type { Emotion } from '@emotion/css/create-instance';
 import React from 'react';
 import warning from 'warning';
 
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator.js';
+import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import type { GlobalObject } from '../../lib/globalObject.js';
+import * as LayoutEvents from '../../lib/LayoutEvents.js';
 import { withRenderEnvironment } from '../../lib/renderEnvironment/index.js';
+import type { Theme } from '../../lib/theming/Theme.js';
+import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import type { Nullable } from '../../typings/utility-types.js';
 import { PopupDataTids } from './Popup.js';
 import type { PositionObject, Rect } from './PopupHelper.js';
@@ -23,51 +29,132 @@ interface PopupPinProps {
   popupPosition: string;
 
   /**
-   * Сторона пина без учёта границы.
-   * Пин представляет собой равносторонний треугольник, высота от попапа
-   * до "носика" пина будет соответствовать формуле (size* √3)/2
+   * Высота пина в px. Ширина основания = 2 × size для top/bottom, для left/right наоборот.
    */
   size: number;
 }
 
+interface ClampedPinPosition {
+  left: number;
+  top: number;
+  hidden: boolean;
+}
+
 @withRenderEnvironment
+@responsiveLayout
 export class PopupPin extends React.Component<PopupPinProps> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
   public static displayName = 'PopupPin';
 
   private positionObject!: PositionObject;
+  private theme!: Theme;
+  private isMobileLayout!: boolean;
 
   private styles!: ReturnType<typeof getStyles>;
   private emotion!: Emotion;
   private cx!: Emotion['cx'];
+  private globalObject!: GlobalObject;
+  private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>> = null;
+  private layoutUpdateId: Nullable<number> = null;
+  private cachedPopupElement: Nullable<Element> = null;
+
+  public componentDidMount() {
+    this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent, this.globalObject);
+    this.scheduleRemeasure();
+  }
+
+  public componentDidUpdate(prevProps: PopupPinProps) {
+    if (
+      prevProps.popupPosition !== this.props.popupPosition ||
+      prevProps.offset !== this.props.offset ||
+      prevProps.popupElement !== this.props.popupElement
+    ) {
+      this.scheduleRemeasure();
+    }
+  }
+
+  public componentWillUnmount() {
+    this.cancelScheduledRemeasure();
+    this.layoutEventsToken?.remove();
+    this.layoutEventsToken = null;
+  }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return this.renderPinContent();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  private renderPinContent() {
     this.styles = getStyles(this.emotion);
 
-    if (!this.props.popupElement) {
+    if (this.props.popupElement) {
+      this.cachedPopupElement = this.props.popupElement;
+    }
+
+    const popupElement = this.props.popupElement || this.cachedPopupElement;
+
+    if (!popupElement) {
       return null;
     }
 
     this.positionObject = PopupHelper.getPositionObject(this.props.popupPosition);
 
-    const coords = this.getPinCoordinates(this.props.popupElement);
-    if (!coords || !coords.left || !coords.top) {
+    const coords = this.getPinCoordinates(popupElement);
+    if (!coords || typeof coords.left !== 'number' || typeof coords.top !== 'number') {
       return null;
     }
 
-    const inlineStyle = this.getPinInlineStyle(coords.left, coords.top);
+    const popupRect = this.getPopupElementRect(popupElement);
+    const clampedPosition = this.applyEdgeClamp(coords, popupRect);
+    const inlineStyle = this.getPinInlineStyle(clampedPosition.left, clampedPosition.top);
     const directionalStyle = this.getPinDirectionalStyle();
     if (!inlineStyle || !directionalStyle) {
       return null;
     }
 
+    const pinEdgePadding = this.getPinEdgePadding();
+
     return (
       <div
         data-tid={PopupDataTids.popupPin}
-        className={this.cx(this.styles.pin(), directionalStyle)}
+        className={this.cx(
+          this.styles.pin(),
+          pinEdgePadding > 0 && this.styles.pinAnimated(),
+          clampedPosition.hidden && this.styles.pinHidden(),
+          directionalStyle,
+        )}
         style={inlineStyle}
       ></div>
     );
+  }
+
+  private getPinEdgePadding(): number {
+    return PopupHelper.getPopupViewportSidePadding(this.theme, this.isMobileLayout);
+  }
+
+  private handleLayoutEvent = () => {
+    this.scheduleRemeasure();
+  };
+
+  private scheduleRemeasure() {
+    this.cancelScheduledRemeasure();
+    this.layoutUpdateId = this.globalObject.requestAnimationFrame?.(() => {
+      this.layoutUpdateId = null;
+      this.forceUpdate();
+    });
+  }
+
+  private cancelScheduledRemeasure() {
+    if (this.layoutUpdateId && this.layoutUpdateId !== null) {
+      this.globalObject.cancelAnimationFrame?.(this.layoutUpdateId);
+      this.layoutUpdateId = null;
+    }
   }
 
   private getPopupOppositeDirection() {
@@ -131,8 +218,58 @@ export class PopupPin extends React.Component<PopupPinProps> {
     }
   };
 
+  private clampValue(value: number, min: number, max: number) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  private applyEdgeClamp(coords: { left: number; top: number }, popupRect: Rect): ClampedPinPosition {
+    const pinEdgePadding = this.getPinEdgePadding();
+
+    if (pinEdgePadding <= 0) {
+      return { left: coords.left, top: coords.top, hidden: false };
+    }
+
+    const { direction } = this.positionObject;
+    const pinSpan = 2 * this.props.size;
+
+    if (direction === 'top' || direction === 'bottom') {
+      const minLeft = pinEdgePadding;
+      const maxLeft = popupRect.width - pinSpan - pinEdgePadding;
+      const clampedLeft = this.clampValue(coords.left, minLeft, maxLeft);
+      const centerOffset = coords.left - clampedLeft;
+
+      return {
+        left: clampedLeft,
+        top: coords.top,
+        hidden: centerOffset !== 0,
+      };
+    }
+
+    const minTop = pinEdgePadding;
+    const maxTop = popupRect.height - pinSpan - pinEdgePadding;
+    const clampedTop = this.clampValue(coords.top, minTop, maxTop);
+    const centerOffset = coords.top - clampedTop;
+
+    return {
+      left: coords.left,
+      top: clampedTop,
+      hidden: centerOffset !== 0,
+    };
+  }
+
+  private getPopupElementRect(popupElement: Element): Rect {
+    const rect = getDOMRect(popupElement);
+
+    return {
+      top: 0,
+      left: 0,
+      width: rect.width,
+      height: rect.height,
+    };
+  }
+
   private getPinCoordinates = (popupElement: Element) => {
-    const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
+    const popupRect = this.getPopupElementRect(popupElement);
     const { direction, align } = this.positionObject;
 
     const defaultPinCoordinates = {
@@ -191,7 +328,7 @@ export class PopupPin extends React.Component<PopupPinProps> {
       case 'left':
         return this.props.offset;
       case 'center':
-        return defaultLetfCoordinate;
+        return defaultLetfCoordinate + this.props.offset;
       case 'right':
         return popupRect.width - this.props.offset - 2 * this.props.size;
       default:

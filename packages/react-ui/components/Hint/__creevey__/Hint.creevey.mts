@@ -42,4 +42,11 @@ kind('Hint', () => {
       await context.matchImage(await context.takeScreenshot(), 'open');
     });
   });
+
+  story('MobileHint', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'only mobile': { in: /^(?!\b(chromeMobile)\b)/ } },
+      captureElement: null,
+    });
+  });
 });

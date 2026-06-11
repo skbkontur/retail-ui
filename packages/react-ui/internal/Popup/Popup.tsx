@@ -1,4 +1,4 @@
-import type { Emotion } from '@emotion/css/create-instance';
+﻿import type { Emotion } from '@emotion/css/create-instance';
 import type { HTMLAttributes, Ref } from 'react';
 import React from 'react';
 import { Transition } from 'react-transition-group';
@@ -74,6 +74,7 @@ export const DUMMY_LOCATION: PopupLocation = {
     left: -9999,
   },
   isFullyVisible: false,
+  pinOffset: 0,
 };
 
 export interface PopupHandlerProps {
@@ -121,9 +122,8 @@ export interface PopupProps
    */
   pinOffset?: number;
   /**
-   * Сторона пина без учёта границы.
-   * Пин представляет собой равносторонний треугольник, высота от попапа
-   * до "носика" пина будет соответствовать формуле (size* √3)/2
+   * Высота пина в px. Ширина основания = 2 × size (для top/bottom).
+   * Значения по размерам: small 8, medium 10, large 12.
    */
   pinSize?: number;
   /**
@@ -182,6 +182,7 @@ interface PopupLocation {
   };
   position: PopupPositionsType;
   isFullyVisible: boolean;
+  pinOffset: number;
 }
 
 export interface PopupState {
@@ -524,7 +525,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const relativeShift = this.getRelativeShift();
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = {
-      maxWidth,
+      maxWidth: this.getMobileMaxWidth(maxWidth),
       top: location.coordinates.top + relativeShift.top,
       left: location.coordinates.left + relativeShift.left,
     };
@@ -565,7 +566,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseLeave={this.handleMouseLeave}
             >
               {this.content(children)}
-              {(!this.isMobileLayout || this.props.withoutMobile) && this.renderPin(location.position)}
+              {location !== DUMMY_LOCATION &&
+                (!this.isMobileLayout || this.props.withoutMobile) &&
+                this.renderPin(location.position)}
             </ZIndex>
           </CommonWrapper>
         )}
@@ -591,8 +594,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupContentElement = (element: HTMLDivElement) => {
-    this.lastPopupContentElement = element;
+  private refPopupContentElement = (element: Nullable<HTMLDivElement>) => {
+    if (element) {
+      this.lastPopupContentElement = element;
+    }
   };
 
   private renderPin(positionName: PopupPositionsType): React.ReactNode {
@@ -645,7 +650,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.props.onPositionChange?.(location.position, location.isFullyVisible);
     }
 
-    if (!this.locationEquals(this.state.location, location)) {
+    const stateChanged = !this.locationEquals(this.state.location, location);
+
+    if (stateChanged) {
       this.setState({ location });
     }
   };
@@ -660,7 +667,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     return (
-      x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
+      x.coordinates.left === y.coordinates.left &&
+      x.coordinates.top === y.coordinates.top &&
+      x.position === y.position &&
+      x.pinOffset === y.pinOffset
     );
   }
 
@@ -725,9 +735,20 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const position = location.position;
     const coordinates = this.getCoordinates(anchorRect, popupRect, position);
-    const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject);
+    const locationAfterPadding = this.applyMobileViewportPadding(
+      {
+        coordinates,
+        position,
+        isFullyVisible: PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject),
+        pinOffset: 0,
+      },
+      popupRect,
+    );
+    const isFullyVisible = locationAfterPadding.isFullyVisible;
     const canBecomeVisible =
-      !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates, this.globalObject);
+      !this.isMobileLayout &&
+      !isFullyVisible &&
+      PopupHelper.canBecomeFullyVisible(position, coordinates, this.globalObject);
 
     const shouldReuseCurrentLocation =
       // если нужно сохранить первоначальную позицию и Попап целиком
@@ -741,7 +762,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return null;
     }
 
-    return { coordinates, position, isFullyVisible: true };
+    return {
+      ...locationAfterPadding,
+      isFullyVisible: isFullyVisible || canBecomeVisible,
+    };
   }
 
   private tryGetFirstFullyVisibleLocation(
@@ -751,8 +775,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   ): Nullable<PopupLocation> {
     for (const position of positions) {
       const coordinates = this.getCoordinates(anchorRect, popupRect, position);
-      if (PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject)) {
-        return { coordinates, position, isFullyVisible: true };
+      const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject);
+
+      if (!this.isMobileLayout && isFullyVisible) {
+        return { coordinates, position, isFullyVisible: true, pinOffset: 0 };
+      }
+
+      if (this.isMobileLayout) {
+        const location = this.buildLocationForPosition(position, anchorRect, popupRect);
+
+        if (location.isFullyVisible) {
+          return location;
+        }
       }
     }
 
@@ -765,15 +799,127 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     popupRect: Rect,
     tryBestFallbackPosition: boolean,
   ): PopupLocation {
+    if (this.isMobileLayout) {
+      const mobileFallback = this.getMobileVerticalFallbackLocation(positions, anchorRect, popupRect);
+      if (mobileFallback) {
+        return mobileFallback;
+      }
+    }
+
     const position = tryBestFallbackPosition
       ? this.pickBestFallbackPosition(positions, anchorRect, popupRect)
       : positions[0];
     const coordinates = this.getCoordinates(anchorRect, popupRect, position);
 
+    return this.applyMobileViewportPadding(
+      {
+        coordinates,
+        position,
+        isFullyVisible: PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject),
+        pinOffset: 0,
+      },
+      popupRect,
+    );
+  }
+
+  private getMobileVerticalFallbackLocation(
+    positions: Readonly<PopupPositionsType[]>,
+    anchorRect: Rect,
+    popupRect: Rect,
+  ): Nullable<PopupLocation> {
+    const isFullyVisible = (position: PopupPositionsType) =>
+      this.buildLocationForPosition(position, anchorRect, popupRect).isFullyVisible;
+
+    const topPosition = positions.find((position) => position.startsWith('top') && isFullyVisible(position));
+
+    if (topPosition) {
+      return this.buildLocationForPosition(topPosition, anchorRect, popupRect);
+    }
+
+    const bottomPosition = positions.find((position) => position.startsWith('bottom') && isFullyVisible(position));
+
+    if (bottomPosition) {
+      return this.buildLocationForPosition(bottomPosition, anchorRect, popupRect);
+    }
+
+    const fallbackPosition =
+      positions.find((position) => position.startsWith('bottom')) ??
+      positions.find((position) => position.startsWith('top'));
+
+    if (!fallbackPosition) {
+      return null;
+    }
+
+    return this.buildLocationForPosition(fallbackPosition, anchorRect, popupRect);
+  }
+
+  private buildLocationForPosition(position: PopupPositionsType, anchorRect: Rect, popupRect: Rect): PopupLocation {
+    const coordinates = this.getCoordinates(anchorRect, popupRect, position);
+
+    return this.applyMobileViewportPadding(
+      {
+        coordinates,
+        position,
+        isFullyVisible: false,
+        pinOffset: 0,
+      },
+      popupRect,
+    );
+  }
+
+  private getViewportSidePadding(): number {
+    return PopupHelper.getPopupViewportSidePadding(this.theme, this.isMobileLayout);
+  }
+
+  private getMobileMaxWidth(maxWidth: PopupProps['maxWidth']) {
+    const viewportSidePadding = this.getViewportSidePadding();
+
+    if (this.isMobileLayout && isNullable(maxWidth) && viewportSidePadding > 0) {
+      return `calc(100dvw - ${viewportSidePadding * 2}px)`;
+    }
+
+    return maxWidth;
+  }
+
+  private applyMobileViewportPadding(location: PopupLocation, popupRect: Rect): PopupLocation {
+    if (!this.isMobileLayout || this.getViewportSidePadding() === 0) {
+      return location;
+    }
+
+    const { coordinates, pinOffset } = this.normalizeCoordinates(location.coordinates, popupRect);
+
     return {
+      ...location,
       coordinates,
-      position,
+      pinOffset,
       isFullyVisible: PopupHelper.isFullyVisible(coordinates, popupRect, this.globalObject),
+    };
+  }
+
+  private normalizeCoordinates(coordinates: Offset, popupRect: Rect) {
+    const viewportSidePadding = this.getViewportSidePadding();
+    let normalizedLeft = coordinates.left;
+    let pinOffset = 0;
+
+    const viewport = PopupHelper.getViewportAbsoluteRect(this.globalObject);
+    const popupRight = normalizedLeft + popupRect.width;
+    const distanceToLeft = normalizedLeft - viewport.left;
+    const distanceToRight = viewport.left + viewport.width - popupRight;
+
+    if (distanceToLeft < viewportSidePadding) {
+      normalizedLeft = viewport.left + viewportSidePadding;
+      pinOffset = normalizedLeft - coordinates.left;
+    } else if (distanceToRight < viewportSidePadding) {
+      normalizedLeft = viewport.left + viewport.width - viewportSidePadding - popupRect.width;
+      pinOffset = normalizedLeft - coordinates.left;
+    }
+
+    return {
+      coordinates: {
+        ...coordinates,
+        left: Math.round(normalizedLeft),
+      },
+      pinOffset,
     };
   }
 
@@ -909,7 +1055,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return Math.max(
       0,
-      this.getPinOffset(position.align) + (pinSize || parseInt(this.theme.popupPinSize)) - anchorSize / 2,
+      this.getPinOffset(position.align, false) + (pinSize || parseInt(this.theme.popupPinSize)) - anchorSize / 2,
     );
   }
 
@@ -976,20 +1122,22 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  private getPinOffset(align: string) {
+  private getPinOffset(align: string, useLocationPinOffset = true) {
     const { pinOffset } = this.props;
     const defaultPinOffset = pinOffset || parseInt(this.theme.popupPinOffsetY);
+    const pinOffsetFromState = useLocationPinOffset && this.isMobileLayout ? (this.state.location?.pinOffset ?? 0) : 0;
 
     switch (align) {
       case 'top':
       case 'bottom':
         return defaultPinOffset;
       case 'left':
+        return (pinOffset || parseInt(this.theme.popupPinOffsetX)) + pinOffsetFromState;
       case 'right':
-        return pinOffset || parseInt(this.theme.popupPinOffsetX);
+        return (pinOffset || parseInt(this.theme.popupPinOffsetX)) + pinOffsetFromState;
       case 'center':
       case 'middle':
-        return 0;
+        return -pinOffsetFromState;
       default:
         warning(
           false,

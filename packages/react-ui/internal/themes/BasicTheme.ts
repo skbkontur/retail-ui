@@ -1782,6 +1782,7 @@ export class BasicThemeClass {
   public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
+  public static popupViewportSidePadding = '16px';
   public static popupMenuMenuOffsetY = '0px';
   //#endregion Popup
   //#region Input

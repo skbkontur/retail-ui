@@ -1,6 +1,6 @@
 import { IconQuestionCircleRegular16 } from '@skbkontur/icons/IconQuestionCircleRegular16';
 import type { CSSProperties, ForwardedRef, JSX } from 'react';
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 
 import type { PopupPositionsType } from '../../../internal/Popup/index.js';
@@ -746,3 +746,72 @@ export const WithSizes: Story = () => {
   );
 };
 WithSizes.storyName = 'With sizes';
+
+const MOBILE_LONG_TOOLTIP_CONTENT = (
+  <span>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    <br />
+    <br />
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    <br />
+    <br />
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </span>
+);
+
+export const MobileTooltip: Story = () => (
+  <Gapped vertical gap={500}>
+    <Tooltip trigger="click" size="medium" pos="top" disableAnimations render={() => MOBILE_LONG_TOOLTIP_CONTENT}>
+      <Button>Открыт cнизу</Button>
+    </Tooltip>
+    <Tooltip trigger="click" size="medium" pos="bottom" disableAnimations render={() => MOBILE_LONG_TOOLTIP_CONTENT}>
+      <Button>Открыть сверху</Button>
+    </Tooltip>
+  </Gapped>
+);
+MobileTooltip.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
+
+export const MobileTooltipHorizontalScroll = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scroller = scrollRef.current;
+    if (scroller) {
+      scroller.scrollLeft = scroller.scrollWidth - scroller.clientWidth;
+    }
+  }, []);
+
+  return (
+    <div
+      ref={scrollRef}
+      data-tid="MobileTooltipHorizontalScroll__scroller"
+      style={{ overflow: 'auto', width: 500, height: 400, backgroundColor: '#fcc' }}
+    >
+      <div style={{ width: 2000, height: 120, position: 'relative' }}>
+        <div data-tid="MobileTooltipHorizontalScroll__leftAnchor" style={{ position: 'absolute', left: 16, top: 16 }}>
+          <Tooltip trigger="opened" pos="bottom center" disableAnimations render={() => 'Lorem Ipsum'}>
+            <span>Scroll right → pin hides left</span>
+          </Tooltip>
+        </div>
+        <div data-tid="MobileTooltipHorizontalScroll__rightAnchor" style={{ position: 'absolute', right: 16, top: 16 }}>
+          <Tooltip trigger="opened" pos="bottom center" disableAnimations render={() => 'Lorem Ipsum'}>
+            <span>Scroll left → pin hides right</span>
+          </Tooltip>
+        </div>
+      </div>
+    </div>
+  );
+};
+MobileTooltipHorizontalScroll.storyName = 'Mobile tooltip horizontal scroll';
+MobileTooltipHorizontalScroll.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+};
