@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](/compare/@skbkontur/table@0.3.6...@skbkontur/table@0.3.7) (2026-06-11)
+
+
+### Bug Fixes
+
+* **table:** Shift+click on checkbox selects row range df83f5b
+
+
+
+
+
 ## [0.3.6](/compare/@skbkontur/table@0.3.5...@skbkontur/table@0.3.6) (2026-06-10)
 
 **Note:** Version bump only for package @skbkontur/table
