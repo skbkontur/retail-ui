@@ -56,6 +56,7 @@ export function useTableRowSelection<T extends RowLike>(
   const initialCheckedRowsRef = useRef<Set<T['id']> | undefined>(
     initialCheckedRows ? new Set(initialCheckedRows) : undefined
   );
+  const lastClickedRowRef = useRef<T['id'] | null>(null);
 
   const areSetsEqual = useCallback((a: Set<T['id']>, b: Set<T['id']>) => {
     if (a.size !== b.size) {
@@ -139,10 +140,37 @@ export function useTableRowSelection<T extends RowLike>(
     });
   }, [rows, setCheckedRows]);
 
+  const getRowIndexById = useCallback((rowId: T['id']) => rows.findIndex((r) => r.id === rowId), [rows]);
+
+  const getRowsInRange = useCallback(
+    (fromIndex: number, toIndex: number): Array<T['id']> => {
+      const start = Math.min(fromIndex, toIndex);
+      const end = Math.max(fromIndex, toIndex);
+      return rows.slice(start, end + 1).map((r) => r.id);
+    },
+    [rows]
+  );
+
   const toggleRow = useCallback(
     (e: SyntheticEvent<HTMLElement> | undefined, rowId: T['id']) => {
       if (e) {
         e.stopPropagation();
+        if ((e as unknown as React.MouseEvent).shiftKey) {
+          (e as unknown as React.MouseEvent).preventDefault();
+          const currentIndex = getRowIndexById(rowId);
+          const lastIdx = lastClickedRowRef.current !== null ? getRowIndexById(lastClickedRowRef.current) : -1;
+          if (lastIdx !== -1) {
+            const rangeIds = getRowsInRange(lastIdx, currentIndex);
+            setCheckedRows((prev) => {
+              const next = new Set(prev);
+              for (const id of rangeIds) {
+                next.add(id);
+              }
+              return next;
+            });
+            return;
+          }
+        }
       }
       setCheckedRows((prev) => {
         const next = new Set(prev);
@@ -153,8 +181,9 @@ export function useTableRowSelection<T extends RowLike>(
         }
         return next;
       });
+      lastClickedRowRef.current = rowId;
     },
-    [setCheckedRows]
+    [setCheckedRows, getRowIndexById, getRowsInRange]
   );
 
   const isRowChecked = useCallback((rowId: T['id']) => checkedRows.has(rowId), [checkedRows]);
