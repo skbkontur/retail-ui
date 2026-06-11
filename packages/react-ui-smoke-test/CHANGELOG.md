@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](/compare/react-ui-smoke-test@3.3.2...react-ui-smoke-test@3.4.0) (2026-06-11)
+
+
+### Features
+
+* **Spinner:** replace `type` prop for `size` 9b4bfab
+
+
+
+
+
 ## [3.3.2](/compare/react-ui-smoke-test@3.3.1...react-ui-smoke-test@3.3.2) (2026-06-10)
 
 **Note:** Version bump only for package react-ui-smoke-test

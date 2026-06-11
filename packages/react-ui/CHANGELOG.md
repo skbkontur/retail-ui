@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.8...@skbkontur/react-ui@6.1.0) (2026-06-11)
+
+
+### Bug Fixes
+
+* **Button:** change default use to outline ([efd82f2](https://github.com/skbkontur/retail-ui/commit/efd82f21e507e0e4355da7cf22dde4bf44c52900))
+* **Calendar, DatePicker:** use correct hover style for selected day ([0c27a46](https://github.com/skbkontur/retail-ui/commit/0c27a46c6b978614af95636b14e17a1a833a2573))
+* **MobilePopup:** update mobile layout ([de02c6b](https://github.com/skbkontur/retail-ui/commit/de02c6bf4ee6f4c9ecb096c72f967ec64426adcc))
+* **Modal, SidePage, MiniModal:** update bg color from SurfaceHigh to SurfaceBase ([e2e3d5d](https://github.com/skbkontur/retail-ui/commit/e2e3d5d3fbc6f3a4babff0678d442b23e8fb8e65))
+* **Textarea:** update counter design ([fa329bc](https://github.com/skbkontur/retail-ui/commit/fa329bcc4b946f13183dcf253a1923e4c41fb6f1))
+* **Textarea:** use minus character in counter ([7367193](https://github.com/skbkontur/retail-ui/commit/7367193fa6a685ce4bc565363d65f3cb5c10aee3))
+* **Toast:** change font size to 16px on mobile ([c59b479](https://github.com/skbkontur/retail-ui/commit/c59b47921238bbcecbee6c4ae0e9b309faed879e))
+* **Tooltip, Hint, Popup:** update adaptive layout ([4416555](https://github.com/skbkontur/retail-ui/commit/4416555f596c2a0688145ac9e52c9b6cca82c5dc))
+
+
+### Features
+
+* **Input:** add length counter ([762f5c0](https://github.com/skbkontur/retail-ui/commit/762f5c013199a1824f003374d2e5fbdb67840eb9))
+* **Spinner:** replace `type` prop for `size` ([9b4bfab](https://github.com/skbkontur/retail-ui/commit/9b4bfab59abcbce696f35f455a28bac0bd86af3c))
+* **Toast:** add adaptive layout for mobile ([1878927](https://github.com/skbkontur/retail-ui/commit/1878927dcd365582023ffff9f95113cf0abc325b))
+* **TokenInput:** add adaptive layout for mobile ([0456e7a](https://github.com/skbkontur/retail-ui/commit/0456e7a9db57c1644b17abd35efee2910981e88e))
+
+
+
+
+
 ## [6.0.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.7...@skbkontur/react-ui@6.0.8) (2026-06-10)
 
 
