@@ -68,12 +68,41 @@ function filesToExports(dir: string, baseDir: string = dir): ExportsObject {
   return exports;
 }
 
+function fixSourceMapSources(dir: string): void {
+  if (!existsSync(dir)) {
+    return;
+  }
+
+  for (const file of readdirSync(dir)) {
+    const fullPath = join(dir, file);
+    const stat = statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      fixSourceMapSources(fullPath);
+      continue;
+    }
+
+    if (stat.isFile() && file.endsWith('.js.map')) {
+      const sourceMap = JSON.parse(readFileSync(fullPath, 'utf-8')) as {
+        sources?: string[];
+        sourcesContent?: string[];
+      };
+      if (!sourceMap.sourcesContent) {
+        throw new Error('Source maps should contain sourcesContent. Please check your tsconfig.json settings.');
+      }
+      sourceMap.sources = sourceMap.sources?.map((source) => source.replace(/^.*[\\/]/, ''));
+      writeFileSync(fullPath, JSON.stringify(sourceMap));
+    }
+  }
+}
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildDir = join(__dirname, '..', 'build');
 
 const buildPackageJsonPath = join(buildDir, 'package.json');
 replaceTSToJS(buildPackageJsonPath);
 const buildPackageJson = JSON.parse(readFileSync(buildPackageJsonPath, 'utf-8'));
+fixSourceMapSources(buildDir);
 
 // Update package.json exports field:
 // 1. Replace .ts to .js in package.json
