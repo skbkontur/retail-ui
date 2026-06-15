@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.0...@skbkontur/react-ui@6.1.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* **react-ui:** repair published sourcemap sources ([35eb6ce](https://github.com/skbkontur/retail-ui/commit/35eb6ce81d69da41c4635ad2009ec51f99fccdb7))
+
+
+
+
+
 # [6.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.0.8...@skbkontur/react-ui@6.1.0) (2026-06-11)
 
 
