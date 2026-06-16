@@ -8,10 +8,23 @@
   --table-radius-small: 12px;
   --table-radius-medium: 16px;
   --table-radius-large: 20px;
+  --table-radius: var(--table-radius-small);
 }
 
 .TableLayoutAuto {
   table-layout: auto;
+}
+
+.TableSmall {
+  --table-radius: var(--table-radius-small);
+}
+
+.TableMedium {
+  --table-radius: var(--table-radius-medium);
+}
+
+.TableLarge {
+  --table-radius: var(--table-radius-large);
 }
 
 .TableHeader {
@@ -293,8 +306,17 @@
 }
 
 .TableRow:focus-visible {
-  outline: var(--table-outline-width) solid var(--table-outline);
-  outline-offset: 2px;
+  outline: none;
+  z-index: 3;
+}
+
+.TableRow:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: var(--table-outline-width) solid var(--table-outline);
+  border-radius: calc(var(--table-radius) + 2px);
+  pointer-events: none;
   z-index: 3;
 }
 
