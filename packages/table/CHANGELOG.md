@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](/compare/@skbkontur/table@0.3.7...@skbkontur/table@0.3.8) (2026-06-16)
+
+
+### Bug Fixes
+
+* **table:** improve accessibility 510f074
+
+
+
+
+
 ## [0.3.7](/compare/@skbkontur/table@0.3.6...@skbkontur/table@0.3.7) (2026-06-11)
 
 
