@@ -83,6 +83,8 @@ export const TableActionBar: FC<TableActionBarProps> = (props) => {
   const renderInlineItem = (item: TableActionItem, index: number) => {
     const { key, text, icon, onClick, danger, ...itemRest } = item;
 
+    const ariaLabel = itemRest['aria-label'] ?? (typeof text === 'string' ? text : undefined);
+
     const btnContent = (
       <DangerWrapper danger={danger}>
         <Button
@@ -93,6 +95,7 @@ export const TableActionBar: FC<TableActionBarProps> = (props) => {
           icon={icon}
           onClick={onClick}
           {...itemRest}
+          aria-label={ariaLabel}
         />
       </DangerWrapper>
     );

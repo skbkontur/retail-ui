@@ -3,4 +3,7 @@ export interface TableLocale {
   noResultsLabel: string;
   sortAscLabel: string;
   sortDescLabel: string;
+  appliedFiltersLabel: string;
+  removeTokenLabel: string;
+  resetAllFiltersLabel: string;
 }

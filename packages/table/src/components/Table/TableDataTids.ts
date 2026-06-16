@@ -18,6 +18,8 @@ export const TableDataTids = {
   filterResultRow: 'Table__filterResultRow',
   filterResultCell: 'Table__filterResultCell',
   appliedFilterToken: 'Table__token',
+  appliedFiltersList: 'Table__appliedFiltersList',
+  removeToken: 'Table__removeToken',
   roundButton: 'Table__roundButton',
   roundButtonsWrapper: 'Table__roundButtonsWrapper',
   actionsDropdownItem: 'Table__actionsDropdownItem',

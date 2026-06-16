@@ -3,6 +3,7 @@ import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import cx from 'classnames';
 import React, { useContext, forwardRef, type CSSProperties } from 'react';
 
+import type { SortDirection } from '../../hooks/useTableSort.js';
 import { getCheckboxSize } from '../../utils/getCheckboxSize.js';
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
 import { getTypographyClass } from '../../utils/getTypographyClass.js';
@@ -33,12 +34,49 @@ export interface TableHeaderCellBaseProps extends CommonProps {
   forceBottomBorderInset?: boolean;
   noWrap?: boolean;
   currency?: boolean;
-  /**
-   * Убирает правый padding у header-ячейки. Парная опция для
-   * Table.Cell с тем же пропом — для иконок-индикаторов в первой колонке.
-   */
   noPaddingRight?: boolean;
+  sortable?: boolean;
+  sortDirection?: SortDirection;
 }
+
+const ARIA_SORT_BY_DIRECTION: Record<SortDirection, 'ascending' | 'descending'> = {
+  asc: 'ascending',
+  desc: 'descending',
+};
+
+interface SortableChildProps {
+  children?: React.ReactNode;
+  sortDirection?: SortDirection;
+  'data-tid'?: string;
+}
+
+const getTableSortChildState = (
+  children: React.ReactNode
+): { hasTableSortChild: boolean; sortDirection?: SortDirection } => {
+  for (const child of React.Children.toArray(children)) {
+    if (!React.isValidElement<{ children?: React.ReactNode }>(child)) {
+      continue;
+    }
+
+    const childProps = child.props as SortableChildProps;
+    const childType = child.type as { displayName?: string } | string;
+    const isTableSortChild =
+      (typeof childType !== 'string' &&
+        (childType.displayName === 'TableSort' || childType.displayName === 'TableDropdownSortableFilter')) ||
+      childProps['data-tid'] === TableDataTids.sort;
+
+    if (isTableSortChild) {
+      return { hasTableSortChild: true, sortDirection: childProps.sortDirection };
+    }
+
+    const nestedState = getTableSortChildState(childProps.children);
+    if (nestedState.hasTableSortChild) {
+      return nestedState;
+    }
+  }
+
+  return { hasTableSortChild: false };
+};
 
 export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellBaseProps>(
   (
@@ -59,6 +97,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
       noPaddingRight = false,
       className,
       style,
+      sortable,
+      sortDirection,
       ...rest
     },
     ref
@@ -70,12 +110,22 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellB
     const paddingForSimpleHeaderSizeClass = styles[getSizeModifier('PaddingForSimpleHeader', size)];
     const paddingForHeaderSizeClass = styles[getSizeModifier('PaddingForHeader', size)];
     const checkboxCellSizeClass = styles[getSizeModifier('CheckboxCell', size)];
+
+    const tableSortChildState = getTableSortChildState(children);
+    const ariaSortDirection = sortDirection ?? tableSortChildState.sortDirection;
+    const isSortable = sortable || sortDirection !== undefined || tableSortChildState.hasTableSortChild;
+    let ariaSort: 'ascending' | 'descending' | 'none' | undefined;
+    if (isSortable) {
+      ariaSort = ariaSortDirection ? ARIA_SORT_BY_DIRECTION[ariaSortDirection] : 'none';
+    }
+
     return (
       <CommonWrapper {...rest}>
         {(wrapperRest: CommonWrapperRestProps<typeof rest>) => (
           <th
             {...wrapperRest}
             ref={ref}
+            aria-sort={ariaSort}
             style={{
               verticalAlign: vAlign,
               textAlign: align,

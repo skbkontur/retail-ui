@@ -20,10 +20,11 @@ export interface TableRowProps extends CommonProps, React.HTMLAttributes<HTMLTab
   checked?: boolean;
   bottomBorder?: boolean;
   tabIndex?: number;
+  expanded?: boolean;
 }
 
 export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ children, onClick, checked, bottomBorder, tabIndex, className, ...rest }, ref) => {
+  ({ children, onClick, checked, bottomBorder, tabIndex, className, expanded, ...rest }, ref) => {
     const internalRef = useRef<HTMLTableRowElement | null>(null);
 
     useImperativeHandle(ref, () => internalRef.current as HTMLTableRowElement, []);
@@ -46,45 +47,40 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
     };
 
     const computedTabIndex = tabIndex ?? (onClick ? 0 : undefined);
+
+    const focusSiblingRow = (key: 'ArrowUp' | 'ArrowDown') => {
+      const currentRow = internalRef.current;
+      if (!currentRow) {
+        return false;
+      }
+
+      const stepKey = key === 'ArrowUp' ? 'previousElementSibling' : 'nextElementSibling';
+      let sibling: Element | null = currentRow[stepKey];
+      while (sibling) {
+        if (sibling instanceof HTMLTableRowElement && sibling.tabIndex >= 0) {
+          sibling.focus({ preventScroll: true });
+          sibling.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+          return true;
+        }
+        sibling = sibling[stepKey];
+      }
+      return false;
+    };
+
     const onKeyDown = (e: KeyboardEvent<HTMLTableRowElement>) => {
+      const arrowKey: 'ArrowUp' | 'ArrowDown' | null = e.key === 'ArrowUp' || e.key === 'ArrowDown' ? e.key : null;
+
       if (e.target !== e.currentTarget) {
         return;
       }
+
       if (e.key === 'Enter' || e.key === ' ') {
         handleClick?.(e as unknown as MouseEvent<HTMLTableRowElement>);
         return;
       }
 
-      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-        const currentRow = internalRef.current;
-        if (!currentRow) {
-          return;
-        }
-
-        const tbody = currentRow.closest('tbody');
-        if (!tbody) {
-          return;
-        }
-
-        const rows = Array.from(tbody.querySelectorAll('tr')).filter(
-          (row) => row === currentRow || row.tabIndex >= 0
-        ) as HTMLTableRowElement[];
-
-        const currentIndex = rows.indexOf(currentRow);
-        if (currentIndex === -1) {
-          return;
-        }
-
-        let targetIndex: number;
-        if (e.key === 'ArrowUp') {
-          targetIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
-        } else {
-          targetIndex = currentIndex < rows.length - 1 ? currentIndex + 1 : currentIndex;
-        }
-
-        if (targetIndex !== currentIndex) {
-          rows[targetIndex].focus();
-        }
+      if (arrowKey && focusSiblingRow(arrowKey)) {
+        e.preventDefault();
       }
     };
 
@@ -94,6 +90,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
           <tr
             {...wrapperRest}
             tabIndex={computedTabIndex}
+            aria-expanded={expanded}
             ref={rowRef}
             onClick={handleClick}
             onKeyDown={onKeyDown}

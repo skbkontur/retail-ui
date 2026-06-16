@@ -5,4 +5,7 @@ export const componentsLocales: TableLocale = {
   noResultsLabel: 'Нет результатов',
   sortAscLabel: 'По возрастанию',
   sortDescLabel: 'По убыванию',
+  appliedFiltersLabel: 'Применённые фильтры',
+  removeTokenLabel: 'Удалить фильтр',
+  resetAllFiltersLabel: 'Сбросить фильтры',
 };

@@ -15,13 +15,22 @@ import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import cx from 'classnames';
-import React, { useContext, forwardRef, type ComponentRef, type MouseEventHandler, type ReactElement } from 'react';
+import React, {
+  useContext,
+  useState,
+  forwardRef,
+  type ComponentRef,
+  type FocusEventHandler,
+  type MouseEventHandler,
+  type ReactElement,
+} from 'react';
 
 import { getTableTheme } from '../../../../lib/theming/ThemeHelpers.js';
 import type { SortDirection } from '../../../hooks/useTableSort.js';
 import type { SizeProp } from '../../../reactUiCompat/useSizeContext.js';
 import { getIconSize } from '../../../utils/getIconSize.js';
 import { getSizeModifier } from '../../../utils/getSizeModifier.js';
+import { forceFocusVisibleAttribute } from '../focusFilterButton.js';
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
 
@@ -36,6 +45,8 @@ export interface TableHeaderButtonProps extends CommonProps {
   hovered?: boolean;
   iconDefaultColor?: string;
   iconActiveColor?: string;
+  onFocus?: FocusEventHandler<HTMLElement>;
+  onBlur?: FocusEventHandler<HTMLElement>;
 }
 
 const FILTER_ICONS = {
@@ -122,6 +133,13 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
   ({ children, ...rest }, ref) => {
     const { size } = useContext(SizeTableContext);
     const tableTheme = getTableTheme(useContext(ThemeContext));
+    const [forceVisualFocus, setForceVisualFocus] = useState(false);
+    const handleForcedFocus: FocusEventHandler<HTMLElement> = (event) => {
+      if (event.currentTarget.getAttribute(forceFocusVisibleAttribute) === 'true') {
+        event.currentTarget.removeAttribute(forceFocusVisibleAttribute);
+        setForceVisualFocus(true);
+      }
+    };
 
     return (
       <CommonWrapper {...rest}>
@@ -134,8 +152,18 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
             hovered,
             iconDefaultColor = tableTheme.tableDefaultIconColor,
             iconActiveColor = tableTheme.tableActiveIconColor,
+            onFocus,
+            onBlur,
             ...buttonProps
           } = wrapperRest;
+          const handleFocus: FocusEventHandler<HTMLElement> = (event) => {
+            handleForcedFocus(event);
+            onFocus?.(event);
+          };
+          const handleBlur: FocusEventHandler<HTMLElement> = (event) => {
+            setForceVisualFocus(false);
+            onBlur?.(event);
+          };
           const icon = getHeaderIcon(
             sortDirection,
             filtered,
@@ -162,7 +190,16 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
                   )}
                 >
                   <div className={cx(styles.ClickableHeaderWrapper)}>
-                    <Button ref={ref} use="text" size={size} data-tid={TableDataTids.clickableHeader} {...buttonProps}>
+                    <Button
+                      ref={ref}
+                      use="text"
+                      size={size}
+                      data-tid={TableDataTids.clickableHeader}
+                      visuallyFocused={forceVisualFocus}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                      {...buttonProps}
+                    >
                       {children}
                       {icon && <span className={iconSpacingClass}>{icon}</span>}
                     </Button>

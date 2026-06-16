@@ -824,9 +824,15 @@ export const ExpandableRowsExample = () => {
       <Table.Body>
         {data.map((row) => {
           const isExpanded = expanded.has(row.id);
+          // испоьзуйте React.useId появился в React 18
+          const detailsId = `expandable-row-${row.id}-details`;
           return (
             <React.Fragment key={row.id}>
-              <Table.Row onClick={() => toggle(row.id)}>
+              <Table.Row
+                onClick={() => toggle(row.id)}
+                expanded={isExpanded}
+                aria-controls={isExpanded ? detailsId : undefined}
+              >
                 <Table.Cell noBottomBorder>
                   {isExpanded ? <IconArrowCDownRegular16 /> : <IconArrowCRightRegular16 />}
                 </Table.Cell>
@@ -835,7 +841,7 @@ export const ExpandableRowsExample = () => {
                 <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
               </Table.Row>
               {isExpanded && (
-                <Table.Row>
+                <Table.Row id={detailsId}>
                   <Table.Cell noBottomBorder />
                   <Table.Cell colSpan={3}>
                     <Table size="small">
