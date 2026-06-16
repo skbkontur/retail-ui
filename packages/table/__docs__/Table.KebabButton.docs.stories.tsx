@@ -48,7 +48,7 @@ export const Basic = () => {
             <Table.Cell>Договор поставки</Table.Cell>
             <Table.Cell>
               <Table.ActionBar
-                popup
+                overlay
                 itemsVisible={0}
                 items={actionItems}
                 caption={({ opened, openMenu }) => (

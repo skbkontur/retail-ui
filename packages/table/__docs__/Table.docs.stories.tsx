@@ -167,7 +167,7 @@ export const CheckeredExampleStory = () => {
                 <Table.Cell>
                   {row.responsible.name}
                   <Table.ActionBar
-                    popup
+                    overlay
                     items={[
                       {
                         icon: <IconSendPaperplaneRegular16 />,
@@ -1286,7 +1286,7 @@ export const SizeExampleStory = () => {
                 <Table.Cell>
                   {row.responsible.name}
                   <Table.ActionBar
-                    popup
+                    overlay
                     items={[
                       {
                         icon: getIcon(

@@ -83,13 +83,13 @@ describe('TableActionBar', () => {
     expect(onClick).toHaveBeenCalled();
   });
 
-  it('renders all items in kebab when popup prop is true', () => {
+  it('renders all items in kebab when overlay prop is true', () => {
     render(
       <Table>
         <Table.Body>
           <Table.Row>
             <Table.Cell>
-              <TableActionBar items={createItems(3)} itemsVisible={0} popup />
+              <TableActionBar items={createItems(3)} itemsVisible={0} overlay />
             </Table.Cell>
           </Table.Row>
         </Table.Body>
@@ -102,13 +102,13 @@ describe('TableActionBar', () => {
     expect(screen.getByTestId(TableDataTids.actionsKebabButton)).toBeInTheDocument();
   });
 
-  it('renders with popup class when popup prop is true', () => {
+  it('renders with overlay class when overlay prop is true', () => {
     const { container } = render(
       <Table>
         <Table.Body>
           <Table.Row>
             <Table.Cell>
-              <TableActionBar items={createItems(1)} popup />
+              <TableActionBar items={createItems(1)} overlay />
             </Table.Cell>
           </Table.Row>
         </Table.Body>

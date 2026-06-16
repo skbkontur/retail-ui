@@ -182,7 +182,7 @@ export const CheckeredTableExampleStory = () => {
                       {row.responsible.name}
                       {row.responsible.name}
                       <Table.ActionBar
-                        popup
+                        overlay
                         items={[
                           {
                             icon: <IconSendPaperplaneRegular20 />,

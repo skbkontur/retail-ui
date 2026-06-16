@@ -112,7 +112,7 @@ export const ResponsiveExampleStory = () => {
 
   const renderActionButtons = () => (
     <Table.ActionBar
-      popup
+      overlay
       items={[
         {
           icon: getIcon(IconSendPaperplaneRegular16, IconSendPaperplaneRegular20, IconSendPaperplaneRegular24),

@@ -58,12 +58,12 @@ interface TableActionBarPropsWithItems extends CommonProps {
   caption?: PopupMenuProps['caption'];
   items: TableActionItem[];
   itemsVisible?: number;
-  popup?: boolean;
+  overlay?: boolean;
 }
 
 interface TableActionBarPropsWithoutItems extends CommonProps {
   caption: PopupMenuProps['caption'];
-  popup?: boolean;
+  overlay?: boolean;
 }
 
 export type TableActionBarProps = TableActionBarPropsWithItems | TableActionBarPropsWithoutItems;
@@ -76,7 +76,7 @@ export const TableActionBar: FC<TableActionBarProps> = (props) => {
   const { size } = useContext(SizeTableContext);
   const [isKebabOpen, setIsKebabOpen] = useState(false);
 
-  const { popup, caption, ...rest } = props;
+  const { overlay, caption, ...rest } = props;
   const items = hasItems(props) ? props.items : [];
   const itemsVisible = hasItems(props) ? (props.itemsVisible ?? 4) : 0;
 
@@ -151,7 +151,7 @@ export const TableActionBar: FC<TableActionBarProps> = (props) => {
       </div>
     );
 
-    if (popup) {
+    if (overlay) {
       const popupActionBarSizeClass = styles[getSizeModifier('PopupActionBar', size ?? 'small')];
       return (
         <div className={cx(styles.PopupActionBar, popupActionBarSizeClass)} data-tid={TableDataTids.popupActionBar}>

@@ -69,11 +69,11 @@ export const Default = () => (
       <Table.ActionBar items={actionItems} />
     </SizeTableContext.Provider>
 
-    <h4>With popup (Floating)</h4>
+    <h4>With overlay (Floating)</h4>
     <div style={{ position: 'relative', border: '1px solid #ccc', height: 60, padding: 10 }}>
       Row Content
       <SizeTableContext.Provider value={{ size: 'medium' }}>
-        <Table.ActionBar items={actionItems} popup />
+        <Table.ActionBar items={actionItems} overlay />
       </SizeTableContext.Provider>
     </div>
   </div>

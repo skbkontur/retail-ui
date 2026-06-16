@@ -163,7 +163,7 @@ export const FrankTableExampleStory = () => {
                           {row.responsible.name}
                           {row.responsible.name}
                           <Table.ActionBar
-                            popup
+                            overlay
                             items={[
                               {
                                 icon: <IconSendPaperplaneRegular20 />,

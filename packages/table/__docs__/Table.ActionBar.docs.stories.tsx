@@ -92,56 +92,56 @@ export const Basic = () => {
         <Table.Row>
           <Table.Cell>Пример с popup</Table.Cell>
           <Table.Cell>
-            <Table.ActionBar items={actionItems.slice(0, 3)} popup />
+            <Table.ActionBar items={actionItems.slice(0, 3)} overlay />
           </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Пример popup</Table.Cell>
           <Table.Cell>
-            <Table.ActionBar items={actionItems} popup />
+            <Table.ActionBar items={actionItems} overlay />
           </Table.Cell>
         </Table.Row>
         <Table.Row onClick={() => console.log(12)}>
           <Table.Cell>Пример popup</Table.Cell>
           <Table.Cell>
-            <Table.ActionBar items={actionItems} popup itemsVisible={1} />
+            <Table.ActionBar items={actionItems} overlay itemsVisible={1} />
           </Table.Cell>
         </Table.Row>
         <Table.Row onClick={() => console.log(12)}>
-          <Table.Cell>Пример popup caption</Table.Cell>
+          <Table.Cell>Пример overlay caption</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
               caption={({ opened, openMenu }) => (
                 <Table.KebabButton active={opened} size="small" onClick={() => openMenu()} />
               )}
               items={actionItems}
-              popup
+              overlay
               itemsVisible={0}
             />
           </Table.Cell>
         </Table.Row>
         <Table.Row onClick={() => console.log(12)}>
-          <Table.Cell>Пример popup caption с кастомным меню</Table.Cell>
+          <Table.Cell>Пример overlay caption с кастомным меню</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
               caption={({ opened, openMenu }) => (
                 <Table.KebabButton active={opened} size="small" onClick={() => openMenu()} />
               )}
               items={customMenu}
-              popup
+              overlay
               itemsVisible={0}
             />
           </Table.Cell>
         </Table.Row>
         <Table.Row onClick={() => console.log(12)}>
-          <Table.Cell>Пример popup caption с активным состоянием</Table.Cell>
+          <Table.Cell>Пример overlay caption с активным состоянием</Table.Cell>
           <Table.Cell>
             <Table.ActionBar
               caption={({ opened, openMenu }) => (
                 <Table.KebabButton active={opened} size="small" onClick={() => openMenu()} />
               )}
               items={actionItems}
-              popup
+              overlay
               itemsVisible={0}
             />
           </Table.Cell>

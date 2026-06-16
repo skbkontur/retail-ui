@@ -267,7 +267,7 @@ export const TableConstructor = () => {
               <Table.Cell>{row.region}</Table.Cell>
               <Table.Cell currency>
                 {row.amount.toLocaleString('ru-RU')}
-                {actionsMode === 'popup' && <Table.ActionBar popup items={items} />}
+                {actionsMode === 'popup' && <Table.ActionBar overlay items={items} />}
               </Table.Cell>
               {actionsMode === 'separate' && (
                 <Table.Cell contentCompensator={false}>

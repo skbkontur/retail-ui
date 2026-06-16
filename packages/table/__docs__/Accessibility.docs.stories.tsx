@@ -198,7 +198,7 @@ export const AccessibilityExampleStory = () => {
                     </Link>
                   </div>
                   <Table.ActionBar
-                    popup
+                    overlay
                     items={[
                       {
                         icon: getIcon(
