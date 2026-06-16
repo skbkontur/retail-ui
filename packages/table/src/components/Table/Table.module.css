@@ -277,7 +277,7 @@
     --table-bottom-border-opacity: 0;
   }
 
-  .TableBody:has(+ .TableFooter) > .BottomBorder:nth-last-child(1 of .TableRow) > .TableCell {
+  .TableBody > .BottomBorder:nth-last-child(1 of .TableRow) > .TableCell {
     --table-bottom-border-opacity: 0;
   }
 }

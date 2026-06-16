@@ -18,6 +18,12 @@ import styles from './Table.module.css';
 export interface TableRowProps extends CommonProps, React.HTMLAttributes<HTMLTableRowElement> {
   onClick?: MouseEventHandler<HTMLTableRowElement>;
   checked?: boolean;
+  /**
+   * Рисует нижнюю границу-разделитель под строкой.
+   * У последней строки списка граница не отображается (список «открыт» снизу),
+   * а при наведении/выделении соседних строк временно скрывается.
+   * Отступ границы у первой ячейки можно убрать через `noBottomBorderInset` на ячейке.
+   */
   bottomBorder?: boolean;
   tabIndex?: number;
   expanded?: boolean;
