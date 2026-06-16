@@ -6,7 +6,7 @@ import { SizeTableContext } from './TableContext.js';
 
 export interface TableCheckboxCellBaseProps extends TableCellBaseProps {
   checked: boolean;
-  onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onCheckboxClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   'aria-label': string;
 }
 
