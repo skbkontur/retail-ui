@@ -17,8 +17,8 @@ export interface TableFilterProps extends CommonProps {
   onOpen?: () => void;
   withoutDefaultIcon?: boolean;
   defaultIcon?: ReactElement;
-  iconDefaultColor?: string;
-  iconActiveColor?: string;
+  iconDefaultColor?: React.CSSProperties['color'];
+  iconActiveColor?: React.CSSProperties['color'];
 }
 export const TableFilter = forwardRef<ComponentRef<typeof Button>, TableFilterProps>(
   ({ children, popup, ...rest }, ref) => (

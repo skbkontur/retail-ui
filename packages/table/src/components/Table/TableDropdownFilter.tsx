@@ -24,8 +24,8 @@ export interface TableDropdownFilterProps extends CommonProps {
   withoutSearch?: boolean;
   withoutDefaultIcon?: boolean;
   defaultIcon?: ReactElement;
-  iconDefaultColor?: string;
-  iconActiveColor?: string;
+  iconDefaultColor?: React.CSSProperties['color'];
+  iconActiveColor?: React.CSSProperties['color'];
 }
 
 export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, TableDropdownFilterProps>(

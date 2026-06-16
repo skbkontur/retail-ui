@@ -43,8 +43,8 @@ export interface TableHeaderButtonProps extends CommonProps {
   defaultIcon?: ReactElement;
   onClick?: MouseEventHandler<HTMLElement>;
   hovered?: boolean;
-  iconDefaultColor?: string;
-  iconActiveColor?: string;
+  iconDefaultColor?: React.CSSProperties['color'];
+  iconActiveColor?: React.CSSProperties['color'];
   onFocus?: FocusEventHandler<HTMLElement>;
   onBlur?: FocusEventHandler<HTMLElement>;
 }
@@ -86,8 +86,8 @@ const getHeaderIcon = (
   filtered?: boolean,
   withoutDefaultIcon?: boolean,
   defaultIcon?: ReactElement,
-  iconDefaultColor?: string,
-  iconActiveColor?: string,
+  iconDefaultColor?: React.CSSProperties['color'],
+  iconActiveColor?: React.CSSProperties['color'],
   size: SizeProp = 'small'
 ): ReactElement | undefined => {
   const iconSize = getIconSize(size);
