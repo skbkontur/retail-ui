@@ -93,7 +93,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
             style={{ verticalAlign: vAlign, width, ...style }}
             onClick={onClick}
           >
-            <div>{children}</div>
+            {children}
           </td>
         )}
       </CommonWrapper>
