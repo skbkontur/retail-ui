@@ -35,32 +35,32 @@
 
 @supports (selector(:has(*))) {
   .TableHeader:has(
-      + .TableBody > .ClickableTableRow:hover:first-child,
-      + .TableBody > .CheckedRow:first-child,
-      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .ClickableTableRow:hover:nth-child(1 of .TableRow),
+      + .TableBody > .CheckedRow:nth-child(1 of .TableRow),
+      + .TableBody > .ClickableTableRow:focus-within:nth-child(1 of .TableRow),
       + .TableBody > .TableRow > .FilterResultCell
     )
     > .TableRow:last-child
     > .TableHeaderCell,
   .TableHeader:has(
-      + .TableBody > .ClickableTableRow:hover:first-child,
-      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .ClickableTableRow:hover:nth-child(1 of .TableRow),
+      + .TableBody > .ClickableTableRow:focus-within:nth-child(1 of .TableRow),
       + .TableBody > .TableRow > .FilterResultCell
     )
     > .TableRow:last-child
     > .TableHeaderCell,
   .TableHeader:has(
-      + .TableBody > .ClickableTableRow:hover:first-child,
-      + .TableBody > .CheckedRow:first-child,
-      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .ClickableTableRow:hover:nth-child(1 of .TableRow),
+      + .TableBody > .CheckedRow:nth-child(1 of .TableRow),
+      + .TableBody > .ClickableTableRow:focus-within:nth-child(1 of .TableRow),
       + .TableBody > .TableRow > .FilterResultCell
     )
     > .TableRow:not(:last-child)
     > .TableHeaderCell[rowspan],
   .TableHeader:has(
-      + .TableBody > .ClickableTableRow:hover:first-child,
-      + .TableBody > .CheckedRow:first-child,
-      + .TableBody > .ClickableTableRow:focus-within:first-child,
+      + .TableBody > .ClickableTableRow:hover:nth-child(1 of .TableRow),
+      + .TableBody > .CheckedRow:nth-child(1 of .TableRow),
+      + .TableBody > .ClickableTableRow:focus-within:nth-child(1 of .TableRow),
       + .TableBody > .TableRow > .FilterResultCell
     )
     > .TableRow:not(:last-child)
@@ -264,7 +264,7 @@
     --table-bottom-border-opacity: 0;
   }
 
-  .TableBody:has(+ .TableFooter) > .BottomBorder:last-child > .TableCell {
+  .TableBody:has(+ .TableFooter) > .BottomBorder:nth-last-child(1 of .TableRow) > .TableCell {
     --table-bottom-border-opacity: 0;
   }
 }
@@ -542,20 +542,29 @@
 }
 
 @supports (selector(:has(*))) {
-  .TableBody:has(.ClickableTableRow.CheckedRow:hover:last-child) + .TableFooter > .TableRow:first-child > .TableCell,
-  .TableBody:has(.ClickableTableRow.CheckedRow:focus-within:last-child)
+  .TableBody:has(.ClickableTableRow.CheckedRow:hover:nth-last-child(1 of .TableRow))
+    + .TableFooter
+    > .TableRow:first-child
+    > .TableCell,
+  .TableBody:has(.ClickableTableRow.CheckedRow:focus-within:nth-last-child(1 of .TableRow))
     + .TableFooter
     > .TableRow:first-child
     > .TableCell {
     --table-footer-top-border-opacity: 0;
   }
 
-  .TableBody:has(.CheckedRow:last-child) + .TableFooter > .TableRow:first-child > .TableCell {
+  .TableBody:has(.CheckedRow:nth-last-child(1 of .TableRow)) + .TableFooter > .TableRow:first-child > .TableCell {
     --table-footer-top-border-opacity: 0;
   }
 
-  .TableBody:has(.ClickableTableRow:hover:last-child) + .TableFooter > .TableRow:first-child > .TableCell,
-  .TableBody:has(.ClickableTableRow:focus-within:last-child) + .TableFooter > .TableRow:first-child > .TableCell {
+  .TableBody:has(.ClickableTableRow:hover:nth-last-child(1 of .TableRow))
+    + .TableFooter
+    > .TableRow:first-child
+    > .TableCell,
+  .TableBody:has(.ClickableTableRow:focus-within:nth-last-child(1 of .TableRow))
+    + .TableFooter
+    > .TableRow:first-child
+    > .TableCell {
     --table-footer-top-border-opacity: 0;
   }
 }
