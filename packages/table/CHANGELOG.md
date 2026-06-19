@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](/compare/@skbkontur/table@0.3.9...@skbkontur/table@0.4.0) (2026-06-19)
+
+
+### Bug Fixes
+
+* **table:** hide bottom border on the last row a896d35
+* **table:** round row focus ring to match cell border-radius cb62125
+
+
+* feat(table)!: rename TableActionBar popup prop to overlay 490e64b
+
+
+### Features
+
+* **table:** add row virtualization support dd3f26f
+* **table:** make onCheckboxClick optional on TableCheckboxCell 5210ca5
+
+
+### BREAKING CHANGES
+
+* TableActionBar popup prop is renamed to overlay; replace popup with overlay for the floating ActionBar mode.
+
+
+
+
+
 ## [0.3.9](/compare/@skbkontur/table@0.3.8...@skbkontur/table@0.3.9) (2026-06-19)
 
 
