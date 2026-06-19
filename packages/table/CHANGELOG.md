@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.9](/compare/@skbkontur/table@0.3.8...@skbkontur/table@0.3.9) (2026-06-19)
+
+
+### Bug Fixes
+
+* **table:** use checkbox padding theme for header compensation c88e98d
+
+
+
+
+
 ## [0.3.8](/compare/@skbkontur/table@0.3.7...@skbkontur/table@0.3.8) (2026-06-16)
 
 
