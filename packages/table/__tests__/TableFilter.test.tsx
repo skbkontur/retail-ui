@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -213,6 +213,61 @@ describe('TableDropdownFilter', () => {
       expect(screen.getByText('Option 3')).toBeInTheDocument();
     });
   });
+
+  it('does not update parent state during render when an option is toggled', async () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    const onSelect = vi.fn();
+
+    const Harness = () => {
+      const [selected, setSelected] = useState<string[]>([]);
+
+      return (
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Table.DropdownFilter
+                  options={['Option 1', 'Option 2', 'Option 3']}
+                  selectedOptions={selected}
+                  onSelect={(value) => {
+                    onSelect(value);
+                    setSelected(value);
+                  }}
+                  withoutSearch
+                >
+                  Column Header
+                </Table.DropdownFilter>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      );
+    };
+
+    render(<Harness />);
+    await userEvent.click(screen.getByText('Column Header'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+    });
+
+    const firstOption = screen.getByText('Option 1');
+    const secondOption = screen.getByText('Option 2');
+
+    act(() => {
+      firstOption.click();
+      secondOption.click();
+    });
+
+    const renderPhaseWarning = consoleError.mock.calls.find(
+      ([message]) => typeof message === 'string' && message.includes('while rendering a different component')
+    );
+    consoleError.mockRestore();
+
+    expect(renderPhaseWarning).toBeUndefined();
+    expect(onSelect).toHaveBeenLastCalledWith(['Option 1', 'Option 2']);
+  });
 });
 
 describe('TableDropdownSortableFilter', () => {
@@ -345,6 +400,62 @@ describe('TableDropdownSortableFilter', () => {
     });
 
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+  });
+
+  it('does not update parent state during render when an option is toggled', async () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    const onSelect = vi.fn();
+
+    const Harness = () => {
+      const [selected, setSelected] = useState<string[]>([]);
+
+      return (
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Table.DropdownSortableFilter
+                  options={['Option 1', 'Option 2', 'Option 3']}
+                  selectedOptions={selected}
+                  onSelect={(value) => {
+                    onSelect(value);
+                    setSelected(value);
+                  }}
+                  onSort={vi.fn()}
+                  withoutSearch
+                >
+                  Column Header
+                </Table.DropdownSortableFilter>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      );
+    };
+
+    render(<Harness />);
+    await userEvent.click(screen.getByText('Column Header'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Option 1')).toBeInTheDocument();
+    });
+
+    const firstOption = screen.getByText('Option 1');
+    const secondOption = screen.getByText('Option 2');
+
+    act(() => {
+      firstOption.click();
+      secondOption.click();
+    });
+
+    const renderPhaseWarning = consoleError.mock.calls.find(
+      ([message]) => typeof message === 'string' && message.includes('while rendering a different component')
+    );
+    consoleError.mockRestore();
+
+    expect(renderPhaseWarning).toBeUndefined();
+    expect(onSelect).toHaveBeenLastCalledWith(['Option 1', 'Option 2']);
   });
 });
 

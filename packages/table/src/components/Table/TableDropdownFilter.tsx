@@ -1,13 +1,13 @@
 import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import type { Input } from '@skbkontur/react-ui/components/Input';
 import { Loader } from '@skbkontur/react-ui/components/Loader';
 import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
 import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
-import React, { useState, useMemo, useCallback, useContext, useEffect, forwardRef, useRef } from 'react';
+import React, { useContext, forwardRef } from 'react';
 import type { ReactElement, ComponentRef } from 'react';
 
+import { useTableDropdownFilter } from '../../hooks/useTableDropdownFilter.js';
 import { TableLocaleHelper } from '../../locale/index.js';
 import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
@@ -49,49 +49,16 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
     const { size } = useContext(SizeTableContext);
     const locale = useLocaleForControl('Table', TableLocaleHelper);
     const searchPlaceholderValue = searchPlaceholder ?? locale.searchPlaceholder;
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentSelected, setCurrentSelected] = useState<string[]>([]);
-    const searchInputRef = useRef<Input>(null);
 
-    const handleOpen = useCallback(() => {
-      setTimeout(() => searchInputRef.current?.focus(), 0);
-    }, []);
-
-    useEffect(() => {
-      setCurrentSelected(Array.isArray(selectedOptions) ? selectedOptions : []);
-    }, [selectedOptions]);
-
-    useEffect(() => {
-      if (withoutSearch && searchTerm) {
-        setSearchTerm('');
-      }
-    }, [withoutSearch, searchTerm]);
-
-    const filteredOptions = useMemo(() => {
-      if (withoutSearch) {
-        return options;
-      }
-
-      return options.filter((option) => option.toLowerCase().includes(searchTerm.toLowerCase()));
-    }, [options, searchTerm, withoutSearch]);
-
-    const toggle = useCallback(
-      (item: string) => {
-        setCurrentSelected((prevSelected) => {
-          const newSelected = new Set(prevSelected);
-
-          if (newSelected.has(item)) {
-            newSelected.delete(item);
-          } else {
-            newSelected.add(item);
-          }
-          const result = Array.from(newSelected);
-          onSelect(result);
-          return result;
-        });
-      },
-      [onSelect]
-    );
+    const {
+      selectedOptions: currentSelected,
+      searchTerm,
+      setSearchTerm,
+      searchInputRef,
+      handleOpen,
+      filteredOptions,
+      toggle,
+    } = useTableDropdownFilter({ options, selectedOptions, onSelect, withoutSearch });
 
     return (
       <TableFilter
