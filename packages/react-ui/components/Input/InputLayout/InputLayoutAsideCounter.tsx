@@ -1,6 +1,7 @@
 import type { SyntheticEvent } from 'react';
 import React, { useCallback } from 'react';
 
+import { MINUS_SIGN } from '../../../components/CurrencyInput/constants.js';
 import { Tooltip } from '../../../components/Tooltip/Tooltip.js';
 import { QuestionCircleIcon16Light } from '../../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon16Light.js';
 import { QuestionCircleIcon20Regular } from '../../../internal/icons2022/QuestionCircleIcon/QuestionCircleIcon20Regular.js';
@@ -95,7 +96,7 @@ export const InputLayoutAsideCounter: React.FunctionComponent<InputLayoutAsideCo
         [stylesLayout.counterError(theme)]: isNegativeValue,
       })}
     >
-      {isNegativeValue ? `–${-counterValue}` : counterValue}
+      {isNegativeValue ? `${MINUS_SIGN}${-counterValue}` : counterValue}
       {help && <span className={stylesLayout.counterHelp(theme)}>{counterHelp}</span>}
     </span>
   );

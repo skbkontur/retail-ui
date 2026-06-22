@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import type { SizeProp } from '../../lib/types/props.js';
 import { isFunction } from '../../lib/utils.js';
+import { MINUS_SIGN } from '../CurrencyInput/constants.js';
 import { Tooltip } from '../Tooltip/index.js';
 import { TextareaDataTids } from './Textarea.js';
 import type { TextareaProps } from './Textarea.js';
@@ -102,7 +103,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
             [styles.counterError(theme)]: isNegativeValue,
           })}
         >
-          {isThemeGTE6_1 && isNegativeValue ? `–${-counterValue}` : counterValue}
+          {isThemeGTE6_1 && isNegativeValue ? `${MINUS_SIGN}${-counterValue}` : counterValue}
           {help && <span className={styles.counterHelp()}>{counterHelp}</span>}
         </span>
       </div>
