@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](/compare/@skbkontur/table@1.0.1...@skbkontur/table@1.0.2) (2026-06-23)
+
+
+### Bug Fixes
+
+* **table:** fix opacity shadow on non clickable row 4e2eba2
+
+
+
+
+
 ## [1.0.1](/compare/@skbkontur/table@1.0.0...@skbkontur/table@1.0.1) (2026-06-23)
 
 
