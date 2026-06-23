@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](/compare/@skbkontur/table@1.0.0...@skbkontur/table@1.0.1) (2026-06-23)
+
+
+### Bug Fixes
+
+* **table:** avoid parent state update during render in dropdown filters ac185ab
+
+
+
+
+
 # [1.0.0](/compare/@skbkontur/table@0.4.0...@skbkontur/table@0.5.0) (2026-06-23)
 
 
