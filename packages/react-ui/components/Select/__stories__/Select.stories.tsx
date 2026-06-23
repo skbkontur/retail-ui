@@ -5,6 +5,7 @@ import type { CSFStory } from 'creevey';
 import React, { type JSX, useState } from 'react';
 
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers.js';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext.js';
 import type { Meta, Story } from '../../../typings/stories.js';
 import { Button } from '../../Button/index.js';
 import { Gapped } from '../../Gapped/index.js';
@@ -570,3 +571,16 @@ export const IconInItemPreventOffset: Story = () => (
   />
 );
 IconInItemPreventOffset.storyName = 'icon in item with preventIconsOffset';
+
+export const ScrollToSelectedItemOnOpen: Story = () => {
+  const [value, setValue] = useState('ten');
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ selectAutoScrollToSelectedItem: true }}>
+      <Select
+        value={value}
+        onValueChange={setValue}
+        items={['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']}
+      />
+    </ReactUIFeatureFlagsContext.Provider>
+  );
+};

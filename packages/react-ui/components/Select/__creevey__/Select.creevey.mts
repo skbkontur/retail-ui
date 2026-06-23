@@ -227,4 +227,9 @@ kind('Select', () => {
     setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } } });
     clickedTest();
   });
+
+  story('ScrollToSelectedItemOnOpen', ({ setStoryParameters }) => {
+    setStoryParameters({ skip: { 'chrome only': { in: /^(?!\bchrome2022\b)/ } }, captureElement: null });
+    clickedTest();
+  });
 });

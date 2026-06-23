@@ -20,6 +20,9 @@ import {
   isKeyEscape,
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers.js';
+import { getFullReactUIFlagsContext } from '../../lib/featureFlagsContext/FeatureFlagsHelpers.js';
+import type { ReactUIFeatureFlags } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext.js';
+import { ReactUIFeatureFlagsContext } from '../../lib/featureFlagsContext/ReactUIFeatureFlagsContext.js';
 import { filterProps } from '../../lib/filterProps.js';
 import { getMenuPositions } from '../../lib/getMenuPositions.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
@@ -322,6 +325,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private getProps = createPropsGetter(Select.defaultProps);
   public getRootNode!: TGetRootNode;
   private setRootNode!: TSetRootNode;
+  private featureFlags!: ReactUIFeatureFlags;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -337,17 +341,24 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.styles = getStyles(this.emotion);
 
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = ThemeFactory.create(
-            {
-              menuOffsetY: theme.selectMenuOffsetY,
-            },
-            theme,
+      <ReactUIFeatureFlagsContext.Consumer>
+        {(flags) => {
+          this.featureFlags = getFullReactUIFlagsContext(flags);
+          return (
+            <ThemeContext.Consumer>
+              {(theme) => {
+                this.theme = ThemeFactory.create(
+                  {
+                    menuOffsetY: theme.selectMenuOffsetY,
+                  },
+                  theme,
+                );
+                return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+              }}
+            </ThemeContext.Consumer>
           );
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
-      </ThemeContext.Consumer>
+      </ReactUIFeatureFlagsContext.Consumer>
     );
   }
 
@@ -675,6 +686,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         return (
           <MenuItem
             key={i}
+            scrollIntoView={this.featureFlags.selectAutoScrollToSelectedItem && this.areValuesEqual(iValue, value)}
             state={this.areValuesEqual(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}

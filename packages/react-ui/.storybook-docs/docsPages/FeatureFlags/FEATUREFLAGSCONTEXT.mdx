@@ -22,7 +22,11 @@ import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
 function ExampleComponent() {
   return (
-    <ReactUIFeatureFlagsContext.Provider value={{}}>
+    <ReactUIFeatureFlagsContext.Provider
+      value={{
+        selectAutoScrollToSelectedItem: true,
+      }}
+    >
       {/* Внутри будут работать все фича-флаги с true */}
     </ReactUIFeatureFlagsContext.Provider>
   );
@@ -31,13 +35,23 @@ function ExampleComponent() {
 
 Механизм работы: новая функциональность применяется или не применяется в зависимости от того, был ли передан со значением true соответствующий флаг или нет.
 
-Флаги задаются с помощью `ValidationsFeatureFlagsContext.Provider`.
+Флаги задаются с помощью `ReactUIFeatureFlagsContext.Provider`.
 
 ```jsx static
 import { ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 
-<ReactUIFeatureFlagsContext.Provider value={{ flagName: true }}>{/* ... */}</ReactUIFeatureFlagsContext.Provider>;
+<ReactUIFeatureFlagsContext.Provider value={{ selectAutoScrollToSelectedItem: true }}>
+  {/* ... */}
+</ReactUIFeatureFlagsContext.Provider>;
 ```
+
+## Список фича-флагов
+
+### selectAutoScrollToSelectedItem
+
+Флаг включает автоскролл к выбранному значению при открытии меню.
+
+<Story of={FeatureFlagsStories.SelectAutoScrollToSelectedItem} />
 
 ## Объект со всеми флагами
 
