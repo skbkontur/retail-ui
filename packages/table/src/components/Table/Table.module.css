@@ -640,6 +640,12 @@
     background: var(--table-row-shadow-hover);
   }
 
+  .TableRow:not(.ClickableTableRow):focus-within .PopupActionBar,
+  .TableRow:not(.ClickableTableRow):hover .PopupActionBar {
+    opacity: 1;
+    background: var(--table-sticky-background);
+  }
+
   .Hover.Hover {
     opacity: 1;
     background: var(--table-row-hover);
@@ -666,6 +672,11 @@
 
   .PopupActionBar:has(.Hover) {
     opacity: 1;
+    background: var(--table-sticky-background);
+  }
+
+  .TableRow:not(.ClickableTableRow):focus-within .PopupActionBar,
+  .TableRow:not(.ClickableTableRow):hover .PopupActionBar {
     background: var(--table-sticky-background);
   }
 

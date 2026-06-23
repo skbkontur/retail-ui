@@ -115,6 +115,7 @@ export const TableConstructor = () => {
   const [inlineIcon, setInlineIcon] = React.useState(true);
 
   const [rowDividers, setRowDividers] = React.useState(true);
+  const [rowClick, setRowClick] = React.useState(true);
 
   const [actionsEnabled, setActionsEnabled] = React.useState(true);
   const [actionsOverlay, setActionsOverlay] = React.useState(false);
@@ -213,6 +214,7 @@ export const TableConstructor = () => {
 
   const code = React.useMemo(() => {
     const rowBottomBorder = rowDividers ? ' bottomBorder' : '';
+    const rowClickProp = rowClick ? ' onClick={() => console.log(row.id)}' : '';
     const itemsVisibleProp = actionsKebab ? ' itemsVisible={0}' : '';
 
     const itemsLines = [
@@ -261,7 +263,7 @@ export const TableConstructor = () => {
       `    </Table.Header>`,
       `    <Table.Body>`,
       `      {data.map((row) => (`,
-      `        <Table.Row key={row.id}${rowBottomBorder}>`,
+      `        <Table.Row key={row.id}${rowBottomBorder}${rowClickProp}>`,
       ...(checkboxes
         ? [`          <Table.CheckboxCell {...rowProps(row)} aria-label={\`Выбрать строку \${row.name}\`} />`]
         : []),
@@ -300,6 +302,7 @@ export const TableConstructor = () => {
     leadingIcon,
     inlineIcon,
     rowDividers,
+    rowClick,
     actionsEnabled,
     actionsOverlay,
     actionsKebab,
@@ -311,6 +314,7 @@ export const TableConstructor = () => {
     const sz = iconSize(size);
     const roundPx = (value: string) => `${Math.round(parseFloat(value))}px`;
     const itemsVisibleProp = actionsKebab ? ' itemsVisible={0}' : '';
+    const rowClickProp = rowClick ? ' onClick={() => console.log(row.id)}' : '';
 
     const imports = [`import React from 'react';`];
     imports.push(
@@ -430,7 +434,7 @@ export const TableConstructor = () => {
       `        </Table.Header>`,
       `        <Table.Body>`,
       `          {data.map((row) => (`,
-      `            <Table.Row key={row.id}${checkboxes ? ` checked={checkedRows.has(row.id)}` : ''}${rowDividers ? ` bottomBorder` : ''}>`,
+      `            <Table.Row key={row.id}${checkboxes ? ` checked={checkedRows.has(row.id)}` : ''}${rowDividers ? ` bottomBorder` : ''}${rowClickProp}>`,
       ...(checkboxes
         ? [
             `              <Table.CheckboxCell`,
@@ -473,6 +477,7 @@ export const TableConstructor = () => {
     leadingIcon,
     inlineIcon,
     rowDividers,
+    rowClick,
     actionsEnabled,
     actionsOverlay,
     actionsKebab,
@@ -521,6 +526,9 @@ export const TableConstructor = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <Toggle checked={rowDividers} onValueChange={setRowDividers}>
               Разделители строк
+            </Toggle>
+            <Toggle checked={rowClick} onValueChange={setRowClick}>
+              Клик по строке
             </Toggle>
           </div>
         </div>
@@ -572,7 +580,7 @@ export const TableConstructor = () => {
               key={row.id}
               checked={checkedRows.has(row.id)}
               bottomBorder={rowDividers}
-              onClick={() => console.log('row click', row.id)}
+              onClick={rowClick ? () => console.log('row click', row.id) : undefined}
             >
               {checkboxes && (
                 <Table.CheckboxCell
