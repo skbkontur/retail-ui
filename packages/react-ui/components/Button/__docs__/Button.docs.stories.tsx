@@ -220,7 +220,7 @@ export const ExampleTheme: Story = () => {
   return (
     <Gapped>
       <Button
-        use="primary"
+        use="accent"
         theme={{
           btnPrimaryBg: '#26AD50',
           btnPrimaryBorderColor: '#26AD50',
@@ -233,7 +233,7 @@ export const ExampleTheme: Story = () => {
         Открыть
       </Button>
       <Button
-        use="primary"
+        use="accent"
         theme={{
           btnPrimaryBg: '#00B59A',
           btnPrimaryBorderColor: '#00B59A',
@@ -246,7 +246,7 @@ export const ExampleTheme: Story = () => {
         Открыть
       </Button>
       <Button
-        use="primary"
+        use="accent"
         theme={{
           btnPrimaryBg: '#2291FF',
           btnPrimaryBorderColor: '#2291FF',
@@ -259,7 +259,7 @@ export const ExampleTheme: Story = () => {
         Открыть
       </Button>
       <Button
-        use="primary"
+        use="accent"
         theme={{
           btnPrimaryBg: '#366AF3',
           btnPrimaryBorderColor: '#366AF3',
@@ -272,7 +272,7 @@ export const ExampleTheme: Story = () => {
         Открыть
       </Button>
       <Button
-        use="primary"
+        use="accent"
         theme={{
           btnPrimaryBg: '#B750D1',
           btnPrimaryBorderColor: '#B750D1',

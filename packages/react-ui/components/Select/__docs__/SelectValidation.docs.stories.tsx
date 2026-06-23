@@ -34,7 +34,7 @@ export const ExampleValidation: Story = () => {
         <ValidationWrapper validationInfo={validate(value)}>
           <Select items={items} value={value} onValueChange={setValue} placeholder="Выберите" />
         </ValidationWrapper>
-        <Button use={success ? 'success' : 'primary'} onClick={handleSubmit}>
+        <Button use={success ? 'success' : 'accent'} onClick={handleSubmit}>
           {success ? 'Готово' : 'Отправить'}
         </Button>
       </Gapped>
