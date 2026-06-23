@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](/compare/@skbkontur/table@0.4.0...@skbkontur/table@0.5.0) (2026-06-23)
+
+
+### Bug Fixes
+
+* **table:** remove useless devDependencies from table a3b170a
+
+
+### Features
+
+* **table:** migrate CSS injection to Adopted Stylesheets 03f13bf
+
+
+
+
+
 # [0.4.0](/compare/@skbkontur/table@0.3.9...@skbkontur/table@0.4.0) (2026-06-19)
 
 

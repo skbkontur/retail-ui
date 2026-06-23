@@ -1,8 +1,8 @@
 {
   "name": "@skbkontur/table",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "Table",
-  "author": "Kontur",
+  "author": "holkin@skbkontur.ru",
   "type": "module",
   "sideEffects": false,
   "exports": {
