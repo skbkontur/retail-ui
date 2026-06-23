@@ -106,7 +106,7 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
     const size = sizeProp ?? sizeContext.size;
     const tableTheme = getTableTheme(useContext(ThemeContext));
     const tableSizeClassName = styles[getSizeModifier('Table', size)];
-    const tableRef = useTableStyleSync(ref, styles.Table);
+    const tableRef = useTableStyleSync(ref);
 
     return (
       <SizeTableContext.Provider value={{ size }}>
