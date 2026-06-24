@@ -332,7 +332,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
 
     const isAriaDisabled = ariaDisabled === true || ariaDisabled === 'true';
     const nonInteractive = disabled || loading;
-    const { style, styleActive } = this.getUseStyle();
+    const { style, styleActive } = this.getUseStyle(use);
 
     const rootClassName = this.cx(
       this.styles.root(this.theme),
@@ -497,12 +497,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     return icon;
   }
 
-  private getUseStyle() {
+  private getUseStyle(use: ButtonUse) {
     let style;
     let styleActive;
     const { styles, activeStyles } = this;
 
-    switch (this.props.use) {
+    switch (use) {
       case 'primary':
       case 'accent':
         style = styles.accent(this.theme);
