@@ -513,6 +513,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onKeyDown: params.onKeyDown,
       active: params.opened,
       size: params.size,
+      // TODO: remove in React UI 7.x with use="default"
+      _noWarningForUseDefault: true,
     };
     const use = this.getProps().use;
 

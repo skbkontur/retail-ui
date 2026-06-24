@@ -54,6 +54,12 @@ export interface ButtonInnerProps extends CommonProps {
   /** @ignore */
   _noRightPadding?: boolean;
 
+  /**
+   * @ignore
+   * @deprecated Проп будет удален вместе с use="default" в 7.0
+   */
+  _noWarningForUseDefault?: boolean;
+
   /** Применяет к кнопке стили псевдокласса `:active`. */
   active?: boolean;
 
@@ -227,10 +233,12 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       this.props.use !== 'backless',
       '[Button]: `use="backless"` has been deprecated. Please, use `use="outline"` instead.',
     );
-    warning(
-      this.props.use !== 'default',
-      '[Button]: `use="default"` has been deprecated. Please, use `use="outline"` or `use="fill"` instead.',
-    );
+    if (!this.props._noWarningForUseDefault) {
+      warning(
+        this.props.use !== 'default',
+        '[Button]: `use="default"` has been deprecated. Please, use `use="outline"` or `use="fill"` instead.',
+      );
+    }
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
@@ -300,6 +308,7 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
       rightIcon,
       _noPadding,
       _noRightPadding,
+      _noWarningForUseDefault,
       visuallyFocused,
       align,
       disableFocus,
