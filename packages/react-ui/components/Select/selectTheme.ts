@@ -6,6 +6,8 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
   const baseTheme = ThemeFactory.create(
     {
       btnDefaultBg: theme.selectDefaultBg,
+      btnDefaultHoverBg: theme.selectHoverBg,
+      btnDefaultActiveBg: theme.selectActiveBg,
 
       btnBorderWidth: theme.selectBorderWidth,
       btnOutlineWidth: theme.selectOutlineWidth,
