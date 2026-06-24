@@ -146,7 +146,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, Omit<Inpu
   };
 
   public componentDidMount() {
-    if (this.node) {
+    if (this.node && !this.props.disabled) {
       MouseDrag.listen(this.node).onMouseDragStart(this.handleMouseDragStart).onMouseDragEnd(this.handleMouseDragEnd);
     }
   }

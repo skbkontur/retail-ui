@@ -197,6 +197,11 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       background-color: ${t.inputDisabledBg};
       border-color: ${t.inputDisabledBorderColor};
       box-shadow: none;
+      cursor: default;
+
+      & * {
+        cursor: default;
+      }
     `;
   },
 
