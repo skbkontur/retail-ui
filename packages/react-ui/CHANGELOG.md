@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.1...@skbkontur/react-ui@6.1.2) (2026-06-24)
+
+
+### Bug Fixes
+
+* **Button:** update styles for `use` value by default ([87c54a2](https://github.com/skbkontur/retail-ui/commit/87c54a2fd383b0c87d867ce33620e91a6aee0782))
+* **DatePicker,ComboBox,Input:** show `cursor: default` & fix selection for disabled state ([11c9573](https://github.com/skbkontur/retail-ui/commit/11c95730ac615759477c8f4bd885185bb77ee7c8))
+* **Select:** add auto scroll to selected item on menu open ([ee4ca3b](https://github.com/skbkontur/retail-ui/commit/ee4ca3b41f2680af6dc6a7d1d03be16d62d07a01))
+* **Select:** remove internal warning about deprecated `<Button use="default">` ([fc32733](https://github.com/skbkontur/retail-ui/commit/fc32733296e4a9a9f14c81cac96b7a35d3932add))
+* **Select:** use hover/active color tokens in dark theme ([2bd7fab](https://github.com/skbkontur/retail-ui/commit/2bd7fabc9acbddb860786e099e84e36b9d78a2eb))
+* **Textarea, Input:** use correct minus sign in counter ([36b6557](https://github.com/skbkontur/retail-ui/commit/36b65571c121df112ca5bb12e049f6f0529d4d3e))
+
+
+
+
+
 ## [6.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.0...@skbkontur/react-ui@6.1.1) (2026-06-15)
 
 
