@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.2...@skbkontur/react-ui@6.1.3) (2026-06-25)
+
+
+### Bug Fixes
+
+* **Switcher:** remove internal warning about deprecated `<Button use="default">` ([cbcff01](https://github.com/skbkontur/retail-ui/commit/cbcff0122e21b3b9dba332bbbda9db8db9970d4c))
+
+
+
+
+
 ## [6.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.1...@skbkontur/react-ui@6.1.2) (2026-06-24)
 
 
