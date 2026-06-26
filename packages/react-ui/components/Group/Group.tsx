@@ -18,6 +18,7 @@ import {
   isPasswordInput,
   isSelect,
   isTooltip,
+  isTimePicker,
 } from '../../lib/utils.js';
 import { getStyles } from './Group.styles.js';
 
@@ -85,7 +86,8 @@ const tryPassCorners = (child: React.ReactNode, isFirstChild: boolean, isLastChi
     isCurrencyInput(child) ||
     isSelect(child) ||
     isDropdown(child) ||
-    isDropdownMenu(child)
+    isDropdownMenu(child) ||
+    isTimePicker(child)
   ) {
     return React.cloneElement<(typeof child)['props']>(child, { corners: { ...corners, ...child.props.corners } });
   }

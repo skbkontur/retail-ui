@@ -39,6 +39,7 @@ export * from './components/Sticky/index.js';
 export * from './components/Switcher/index.js';
 export * from './components/Tabs/index.js';
 export * from './components/Textarea/index.js';
+export * from './components/TimePicker/index.js';
 export * from './components/Toast/index.js';
 export * from './components/SingleToast/index.js';
 export * from './components/Toggle/index.js';

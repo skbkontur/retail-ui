@@ -67,7 +67,16 @@ export interface InputProps
   extends
     CommonProps,
     Pick<HTMLAttributes<unknown>, 'role'>,
-    Pick<AriaAttributes, 'aria-describedby' | 'aria-controls' | 'aria-label'>,
+    Pick<
+      AriaAttributes,
+      | 'aria-describedby'
+      | 'aria-controls'
+      | 'aria-label'
+      | 'aria-haspopup'
+      | 'aria-expanded'
+      | 'aria-activedescendant'
+      | 'aria-placeholder'
+    >,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {

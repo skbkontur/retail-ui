@@ -12,6 +12,7 @@ import type { HintProps } from '../components/Hint/index.js';
 import type { InputProps } from '../components/Input/index.js';
 import type { PasswordInputProps } from '../components/PasswordInput/index.js';
 import type { SelectProps } from '../components/Select/index.js';
+import type { TimePickerProps } from '../components/TimePicker/index.js';
 import type { TooltipProps } from '../components/Tooltip/index.js';
 import type { GlobalObject } from '../lib/globalObject.js';
 import { isBrowser } from '../lib/globalObject.js';
@@ -234,6 +235,7 @@ export const isDropdown = isReactUIComponent<DropdownProps>('Dropdown');
 export const isDropdownMenu = isReactUIComponent<DropdownMenuProps>('DropdownMenu');
 export const isHint = isReactUIComponent<HintProps>('Hint');
 export const isTooltip = isReactUIComponent<TooltipProps>('Tooltip');
+export const isTimePicker = isReactUIComponent<TimePickerProps>('TimePicker');
 
 export const isKonturIcon = (icon: React.ReactElement): boolean => {
   return Object.prototype.hasOwnProperty.call(icon?.type, '__KONTUR_ICON__');

@@ -5,6 +5,7 @@ import type { PagingLocale } from '../../components/Paging/locale/index.js';
 import type { PasswordInputLocale } from '../../components/PasswordInput/locale/index.js';
 import type { SelectLocale } from '../../components/Select/locale/index.js';
 import type { SidePageLocale } from '../../components/SidePage/locale/index.js';
+import type { TimePickerLocale } from '../../components/TimePicker/locale/index.js';
 import type { TokenLocale } from '../../components/Token/locale/index.js';
 import type { TokenInputLocale } from '../../components/TokenInput/locale/index.js';
 import type { ComboBoxLocale } from '../../internal/CustomComboBox/locale/index.js';
@@ -21,6 +22,7 @@ export interface LocaleControls {
   FileUploader?: Partial<FileUploaderLocale>;
   PasswordInput?: Partial<PasswordInputLocale>;
   SidePage?: Partial<SidePageLocale>;
+  TimePicker?: Partial<TimePickerLocale>;
 }
 
 export enum LangCodes {
