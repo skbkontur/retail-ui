@@ -97,7 +97,10 @@ export const Header = ({ component, guides, figma }: HeaderProps = {}) => {
         )}
 
         {hasAccess && component && (
-          <a href={`https://git.skbkontur.ru/ui/react-ui/-/tree/master/${COMPONENT_PATH}/${component}`} target="_blank">
+          <a
+            href={`https://git.skbkontur.ru/ui/kontur-ui/-/tree/master/${COMPONENT_PATH}/${component}`}
+            target="_blank"
+          >
             <img
               src="https://git.skbkontur.ru/assets/favicon-72a2cad5025aa931d6ea56c3201d1f18e68a8cd39788c7c80d5b2b82aa5143ef.png"
               alt=""
