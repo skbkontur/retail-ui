@@ -1,23 +1,19 @@
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import React, { useRef } from 'react';
 
 import { Table, useTableRowSelection } from '..';
 
 /**
- * Песочница для исследования IF-2767: поддерживает ли `@skbkontur/table` виртуализацию строк.
+ * Виртуализация строк `@skbkontur/table` через `@tanstack/react-virtual`.
  *
- * Здесь намеренно НЕ используется внешняя библиотека (react-window / @tanstack/react-virtual),
- * чтобы не тянуть зависимость в монорепо. Вместо неё — минимальный «оконный» виртуализатор
- * на спейсер-строках: сверху и снизу от видимого окна рендерятся пустые `<tr>` нужной высоты,
- * а в DOM присутствует только окно видимых строк. Это самый совместимый с нативной
- * вёрсткой `<table>` способ (сохраняет `table-layout: fixed` и синхронизацию ширин колонок).
+ * Виртуализатор headless — он не навязывает свою вёрстку, поэтому нативная `<table>`
+ * сохраняет `table-layout: fixed` и синхронизацию ширин колонок. Окно видимых строк
+ * обрамляется спейсер-строками: сверху и снизу рендерятся пустые `<tr>` суммарной высотой
+ * скрытых строк, а в DOM присутствуют только видимые `<tr>` + overscan.
  *
- * Что демонстрирует стори (см. отчёт IF-2767):
- *  - спейсер-строки становятся `:first-child` / `:last-child` у `<tbody>` и ломают связанные селекторы;
- *  - нижняя граница последней строки перед футером не убирается;
- *  - граница хедера не реагирует на hover первой строки;
- *  - навигация стрелками упирается в спейсер на краю окна;
- *  - Shift+click и «выбрать все» продолжают работать (логика на индексах данных, не на DOM).
+ * Выбор строк (`useTableRowSelection`) работает на индексах данных, а не на DOM, поэтому
+ * Shift+click и «выбрать все» корректны и для строк за пределами видимого окна.
  */
 export default {
   title: 'Table/VirtualizedTable',
@@ -48,49 +44,32 @@ function makeRows(count: number): Row[] {
 const COLUMN_COUNT = 5;
 const ROW_HEIGHT = 33;
 const VIEWPORT_HEIGHT = 420;
-const OVERSCAN = 4;
-
-/** Минимальный виртуализатор: считает окно видимых строк по scrollTop контейнера. */
-function useWindowVirtualizer(scrollRef: React.RefObject<HTMLDivElement>, rowCount: number) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const [viewport, setViewport] = useState(VIEWPORT_HEIGHT);
-
-  useLayoutEffect(() => {
-    const el = scrollRef.current;
-    if (!el) {
-      return;
-    }
-    setViewport(el.clientHeight);
-    const onScroll = () => setScrollTop(el.scrollTop);
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => el.removeEventListener('scroll', onScroll);
-  }, [scrollRef]);
-
-  const start = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN);
-  const visibleCount = Math.ceil(viewport / ROW_HEIGHT) + OVERSCAN * 2;
-  const end = Math.min(rowCount, start + visibleCount);
-  const paddingTop = start * ROW_HEIGHT;
-  const paddingBottom = Math.max(0, (rowCount - end) * ROW_HEIGHT);
-
-  return { start, end, paddingTop, paddingBottom };
-}
+const OVERSCAN = 8;
 
 export const VirtualizedTableStory = () => {
   const data = React.useMemo(() => makeRows(2000), []);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { start, end, paddingTop, paddingBottom } = useWindowVirtualizer(scrollRef, data.length);
+
+  const rowVirtualizer = useVirtualizer({
+    count: data.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => ROW_HEIGHT,
+    overscan: OVERSCAN,
+  });
 
   const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
     useTableRowSelection(data);
 
-  const visibleRows = data.slice(start, end);
+  const virtualRows = rowVirtualizer.getVirtualItems();
+  const totalSize = rowVirtualizer.getTotalSize();
+  const paddingTop = virtualRows.length > 0 ? virtualRows[0].start : 0;
+  const paddingBottom = virtualRows.length > 0 ? totalSize - virtualRows[virtualRows.length - 1].end : 0;
 
   return (
     <div style={{ width: 900, margin: 16 }}>
       <p style={{ font: '14px sans-serif', color: '#666' }}>
-        Виртуализация на спейсер-строках. Видимое окно: строки {start + 1}–{end} из {data.length}. Скролльте список,
-        наводите курсор на первую/последнюю видимую строку, проверяйте границы, Shift+click по чекбоксам и навигацию
-        стрелками (Tab в строку → ↑/↓).
+        Виртуализация на `@tanstack/react-virtual`. В DOM — только видимое окно из {virtualRows.length} строк (включая
+        overscan) из {data.length}. Скролльте список, проверяйте Shift+click по чекбоксам и «выбрать все».
       </p>
       <div
         ref={scrollRef}
@@ -121,24 +100,27 @@ export const VirtualizedTableStory = () => {
                 <td colSpan={COLUMN_COUNT} style={{ padding: 0, border: 'none' }} />
               </tr>
             )}
-            {visibleRows.map((row) => (
-              <Table.Row
-                key={row.id}
-                bottomBorder
-                checked={isRowChecked(row.id)}
-                onClick={() => console.log(`row click ${row.id}`)}
-              >
-                <Table.CheckboxCell
-                  aria-label={`Выбрать строку ${row.id}`}
+            {virtualRows.map((virtualRow) => {
+              const row = data[virtualRow.index];
+              return (
+                <Table.Row
+                  key={row.id}
+                  bottomBorder
                   checked={isRowChecked(row.id)}
-                  onCheckboxClick={(e) => toggleRow(e, row.id)}
-                />
-                <Table.Cell>{row.client}</Table.Cell>
-                <Table.Cell>{row.region}</Table.Cell>
-                <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
-                <Table.Cell>{row.responsible}</Table.Cell>
-              </Table.Row>
-            ))}
+                  onClick={() => console.log(`row click ${row.id}`)}
+                >
+                  <Table.CheckboxCell
+                    aria-label={`Выбрать строку ${row.id}`}
+                    checked={isRowChecked(row.id)}
+                    onCheckboxClick={(e) => toggleRow(e, row.id)}
+                  />
+                  <Table.Cell>{row.client}</Table.Cell>
+                  <Table.Cell>{row.region}</Table.Cell>
+                  <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
+                  <Table.Cell>{row.responsible}</Table.Cell>
+                </Table.Row>
+              );
+            })}
             {paddingBottom > 0 && (
               <tr aria-hidden style={{ height: paddingBottom }}>
                 <td colSpan={COLUMN_COUNT} style={{ padding: 0, border: 'none' }} />
@@ -160,8 +142,8 @@ export const VirtualizedTableStory = () => {
 };
 
 /**
- * Эталон без виртуализации (короткий список) — для сравнения корректного поведения границ,
- * скруглений, sticky-футера и навигации стрелками со сломанным виртуализированным вариантом.
+ * Эталон без виртуализации (короткий список) — для сравнения границ, скруглений,
+ * sticky-футера и навигации стрелками с виртуализированным вариантом.
  */
 export const NonVirtualizedReference = () => {
   const data = React.useMemo(() => makeRows(8), []);

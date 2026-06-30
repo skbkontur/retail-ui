@@ -1,12 +1,9 @@
-import { IconArrowRoundTimeForwardRegular16 } from '@skbkontur/icons/IconArrowRoundTimeForwardRegular16';
-import { IconArrowRoundTimeForwardRegular20 } from '@skbkontur/icons/IconArrowRoundTimeForwardRegular20';
-import { IconArrowRoundTimeForwardRegular24 } from '@skbkontur/icons/IconArrowRoundTimeForwardRegular24';
 import { IconBookmarkRegular16 } from '@skbkontur/icons/IconBookmarkRegular16';
 import { IconBookmarkRegular20 } from '@skbkontur/icons/IconBookmarkRegular20';
 import { IconBookmarkRegular24 } from '@skbkontur/icons/IconBookmarkRegular24';
-import { IconDocsPlusRegular16 } from '@skbkontur/icons/IconDocsPlusRegular16';
-import { IconDocsPlusRegular20 } from '@skbkontur/icons/IconDocsPlusRegular20';
-import { IconDocsPlusRegular24 } from '@skbkontur/icons/IconDocsPlusRegular24';
+import { IconCheckCircleSolid16 } from '@skbkontur/icons/IconCheckCircleSolid16';
+import { IconCheckCircleSolid20 } from '@skbkontur/icons/IconCheckCircleSolid20';
+import { IconCheckCircleSolid24 } from '@skbkontur/icons/IconCheckCircleSolid24';
 import { IconSendPaperplaneRegular16 } from '@skbkontur/icons/IconSendPaperplaneRegular16';
 import { IconSendPaperplaneRegular20 } from '@skbkontur/icons/IconSendPaperplaneRegular20';
 import { IconSendPaperplaneRegular24 } from '@skbkontur/icons/IconSendPaperplaneRegular24';
@@ -16,18 +13,30 @@ import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegula
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
+import { IconWarningTriangleSolid16 } from '@skbkontur/icons/IconWarningTriangleSolid16';
+import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
+import { IconWarningTriangleSolid24 } from '@skbkontur/icons/IconWarningTriangleSolid24';
+import { IconXCircleSolid16 } from '@skbkontur/icons/IconXCircleSolid16';
+import { IconXCircleSolid20 } from '@skbkontur/icons/IconXCircleSolid20';
+import { IconXCircleSolid24 } from '@skbkontur/icons/IconXCircleSolid24';
+import { Radio } from '@skbkontur/react-ui/components/Radio';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Text } from '@skbkontur/typography';
+import { compressToEncodedURIComponent } from 'lz-string';
 import React from 'react';
 
 import { Table, useTableRowSelection } from '../index';
 
 export default {
-  title: 'Examples/Table Constructor',
+  title: 'Table Constructor',
 };
 
+type Size = 'small' | 'medium' | 'large';
+type Status = 'ok' | 'warning' | 'error';
+
 export const TableConstructor = () => {
-  type Size = 'small' | 'medium' | 'large';
   const tableWidth = 950;
   const iconWidthBySize = {
     small: 16,
@@ -68,6 +77,7 @@ export const TableConstructor = () => {
         article: '923812939',
         type: 'Материал',
         stock: null,
+        status: 'error' as Status,
       },
       {
         id: 2,
@@ -75,6 +85,7 @@ export const TableConstructor = () => {
         article: '12345678',
         type: null,
         stock: '50 шт',
+        status: 'ok' as Status,
       },
       {
         id: 3,
@@ -82,6 +93,7 @@ export const TableConstructor = () => {
         article: null,
         type: 'Товар',
         stock: '5 шт',
+        status: 'warning' as Status,
       },
       {
         id: 4,
@@ -89,6 +101,7 @@ export const TableConstructor = () => {
         article: '34985723',
         type: 'Товар',
         stock: null,
+        status: 'error' as Status,
       },
       {
         id: 5,
@@ -96,6 +109,7 @@ export const TableConstructor = () => {
         article: '23894723',
         type: null,
         stock: '20 шт',
+        status: 'ok' as Status,
       },
       {
         id: 6,
@@ -103,6 +117,7 @@ export const TableConstructor = () => {
         article: '57389201',
         type: 'Товар',
         stock: '8 шт',
+        status: 'warning' as Status,
       },
     ],
     []
@@ -120,54 +135,81 @@ export const TableConstructor = () => {
   const [actionsEnabled, setActionsEnabled] = React.useState(true);
   const [actionsOverlay, setActionsOverlay] = React.useState(false);
   const [actionsKebab, setActionsKebab] = React.useState(false);
-  const [withDanger, setWithDanger] = React.useState(true);
 
-  const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
+  const { isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
     useTableRowSelection(initialData);
 
   const getIcon = React.useCallback(
-    (Icon16: React.ComponentType, Icon20: React.ComponentType, Icon24: React.ComponentType) => {
+    (
+      Icon16: React.ComponentType<{ color?: string }>,
+      Icon20: React.ComponentType<{ color?: string }>,
+      Icon24: React.ComponentType<{ color?: string }>,
+      color?: string
+    ) => {
       switch (size) {
         case 'small':
-          return <Icon16 />;
-        case 'medium':
-          return <Icon20 />;
+          return <Icon16 color={color} />;
         case 'large':
-          return <Icon24 />;
+          return <Icon24 color={color} />;
         default:
-          return <Icon20 />;
+          return <Icon20 color={color} />;
       }
     },
     [size]
   );
 
-  const actionItems = [
+  const statusColors: Record<Status, string> = {
+    ok: '#3fad53',
+    warning: '#f59f00',
+    error: '#e3000f',
+  };
+
+  const getStatusIcon = React.useCallback(
+    (status: Status) => {
+      switch (status) {
+        case 'ok':
+          return getIcon(IconCheckCircleSolid16, IconCheckCircleSolid20, IconCheckCircleSolid24, statusColors.ok);
+        case 'warning':
+          return getIcon(
+            IconWarningTriangleSolid16,
+            IconWarningTriangleSolid20,
+            IconWarningTriangleSolid24,
+            statusColors.warning
+          );
+        case 'error':
+          return getIcon(IconXCircleSolid16, IconXCircleSolid20, IconXCircleSolid24, statusColors.error);
+        default:
+          return null;
+      }
+    },
+    [getIcon]
+  );
+
+  const items = [
     {
       key: 'send',
       icon: getIcon(IconSendPaperplaneRegular16, IconSendPaperplaneRegular20, IconSendPaperplaneRegular24),
       text: 'Отправить',
     },
     {
+      key: 'delete',
+      icon: getIcon(IconTrashCanRegular16, IconTrashCanRegular20, IconTrashCanRegular24),
+      text: 'Удалить',
+      danger: true,
+    },
+    {
       key: 'print',
       icon: getIcon(IconTechPrinterRegular16, IconTechPrinterRegular20, IconTechPrinterRegular24),
       text: 'Напечатать',
     },
-    {
-      key: 'copy',
-      icon: getIcon(IconDocsPlusRegular16, IconDocsPlusRegular20, IconDocsPlusRegular24),
-      text: 'Скопировать',
-    },
   ];
-  const dangerItem = {
-    key: 'delete',
-    icon: getIcon(IconTrashCanRegular16, IconTrashCanRegular20, IconTrashCanRegular24),
-    text: 'Удалить',
-    danger: true,
-  };
-  const items = withDanger ? [actionItems[0], dangerItem, actionItems[1]] : actionItems;
+
+  const overlayActions = actionsEnabled && actionsOverlay;
+  const separateActionsColumn = actionsEnabled && !actionsOverlay;
   const itemsVisible = actionsKebab ? 0 : undefined;
 
-  const separateActionsColumn = actionsEnabled && !actionsOverlay;
+  const bodyUseBySize = { small: 'body-s', medium: 'body-m', large: 'body-l' } as const;
+  const nameUse = bodyUseBySize[size];
 
   const sectionTitle: React.CSSProperties = {
     fontSize: 11,
@@ -178,7 +220,6 @@ export const TableConstructor = () => {
     marginBottom: 10,
   };
   const subtitle: React.CSSProperties = {
-    fontSize: 12,
     color: '#858585',
     marginTop: 2,
   };
@@ -213,105 +254,8 @@ export const TableConstructor = () => {
   };
 
   const code = React.useMemo(() => {
-    const rowBottomBorder = rowDividers ? ' bottomBorder' : '';
-    const rowClickProp = rowClick ? ' onClick={() => console.log(row.id)}' : '';
-    const itemsVisibleProp = actionsKebab ? ' itemsVisible={0}' : '';
-
-    const itemsLines = [
-      `  const items = [`,
-      `    { key: 'send', icon: <IconSendPaperplaneRegular${iconSize(size)} />, text: 'Отправить' },`,
-      ...(withDanger
-        ? [`    { key: 'delete', icon: <IconTrashCanRegular${iconSize(size)} />, text: 'Удалить', danger: true },`]
-        : []),
-      `    { key: 'print', icon: <IconTechPrinterRegular${iconSize(size)} />, text: 'Напечатать' },`,
-      `    { key: 'copy', icon: <IconDocsPlusRegular${iconSize(size)} />, text: 'Скопировать' },`,
-      `  ];`,
-    ];
-
-    const nameInner = inlineIcon
-      ? [
-          `          <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, fontWeight: 600 }}>`,
-          `            <IconBookmarkRegular${iconSize(size)} />`,
-          `            {row.name}`,
-          `          </span>`,
-        ]
-      : [`          <span style={{ fontWeight: 600 }}>{row.name}</span>`];
-    const nameCell = [
-      `        <Table.Cell${leadingIcon ? ` style={{ paddingLeft: 8 }}` : ''}>`,
-      ...nameInner,
-      `          <div style={{ fontSize: 12, color: '#858585', marginTop: 2 }}>`,
-      `            {row.article ? \`Артикул: \${row.article}\` : '—'}`,
-      `          </div>`,
-      `        </Table.Cell>`,
-    ];
-
-    const lines = [
-      ...itemsLines,
-      ``,
-      `  <Table size="${size}" hasChecked={hasChecked}>`,
-      `    <Table.Header>`,
-      `      <Table.Row>`,
-      ...(checkboxes
-        ? [`        <Table.HeaderCheckboxCell {...selectAllProps} aria-label="Выбрать все строки" />`]
-        : []),
-      ...(leadingIcon ? [`        <Table.HeaderCell width="..." noPaddingRight />`] : []),
-      `        <Table.HeaderCell${leadingIcon ? ` style={{ paddingLeft: 8 }}` : ''}>Товар</Table.HeaderCell>`,
-      `        <Table.HeaderCell>Тип</Table.HeaderCell>`,
-      `        <Table.HeaderCell currency>Остаток</Table.HeaderCell>`,
-      ...(separateActionsColumn ? [`        <Table.HeaderCell width="..." />`] : []),
-      `      </Table.Row>`,
-      `    </Table.Header>`,
-      `    <Table.Body>`,
-      `      {data.map((row) => (`,
-      `        <Table.Row key={row.id}${rowBottomBorder}${rowClickProp}>`,
-      ...(checkboxes
-        ? [`          <Table.CheckboxCell {...rowProps(row)} aria-label={\`Выбрать строку \${row.name}\`} />`]
-        : []),
-      ...(leadingIcon
-        ? [
-            `          <Table.Cell noPaddingRight>`,
-            `            <IconArrowRoundTimeForwardRegular${iconSize(size)} />`,
-            `          </Table.Cell>`,
-          ]
-        : []),
-      ...nameCell.map((l) => `  ${l}`),
-      `          <Table.Cell>{row.type ?? '—'}</Table.Cell>`,
-      `          <Table.Cell currency>`,
-      `            {row.stock ?? '—'}`,
-      ...(actionsEnabled && actionsOverlay
-        ? [`            <Table.ActionBar overlay items={items}${itemsVisibleProp} />`]
-        : []),
-      `          </Table.Cell>`,
-      ...(separateActionsColumn
-        ? [
-            `          <Table.Cell contentCompensator={false}>`,
-            `            <Table.ActionBar items={items}${itemsVisibleProp} />`,
-            `          </Table.Cell>`,
-          ]
-        : []),
-      `        </Table.Row>`,
-      `      ))}`,
-      `    </Table.Body>`,
-      `  </Table>`,
-    ];
-
-    return lines.join('\n');
-  }, [
-    size,
-    checkboxes,
-    leadingIcon,
-    inlineIcon,
-    rowDividers,
-    rowClick,
-    actionsEnabled,
-    actionsOverlay,
-    actionsKebab,
-    withDanger,
-    separateActionsColumn,
-  ]);
-
-  const fullCode = React.useMemo(() => {
     const sz = iconSize(size);
+    const nameTextUse = bodyUseBySize[size];
     const roundPx = (value: string) => `${Math.round(parseFloat(value))}px`;
     const itemsVisibleProp = actionsKebab ? ' itemsVisible={0}' : '';
     const rowClickProp = rowClick ? ' onClick={() => console.log(row.id)}' : '';
@@ -323,34 +267,32 @@ export const TableConstructor = () => {
         : `import { Table } from '@skbkontur/table';`
     );
     if (leadingIcon) {
-      imports.push(
-        `import { IconArrowRoundTimeForwardRegular${sz} } from '@skbkontur/icons/IconArrowRoundTimeForwardRegular${sz}';`
-      );
+      imports.push(`import { IconCheckCircleSolid${sz} } from '@skbkontur/icons/IconCheckCircleSolid${sz}';`);
+      imports.push(`import { IconWarningTriangleSolid${sz} } from '@skbkontur/icons/IconWarningTriangleSolid${sz}';`);
+      imports.push(`import { IconXCircleSolid${sz} } from '@skbkontur/icons/IconXCircleSolid${sz}';`);
     }
     if (inlineIcon) {
       imports.push(`import { IconBookmarkRegular${sz} } from '@skbkontur/icons/IconBookmarkRegular${sz}';`);
     }
     if (actionsEnabled) {
       imports.push(`import { IconSendPaperplaneRegular${sz} } from '@skbkontur/icons/IconSendPaperplaneRegular${sz}';`);
-      if (withDanger) {
-        imports.push(`import { IconTrashCanRegular${sz} } from '@skbkontur/icons/IconTrashCanRegular${sz}';`);
-      }
+      imports.push(`import { IconTrashCanRegular${sz} } from '@skbkontur/icons/IconTrashCanRegular${sz}';`);
       imports.push(`import { IconTechPrinterRegular${sz} } from '@skbkontur/icons/IconTechPrinterRegular${sz}';`);
-      imports.push(`import { IconDocsPlusRegular${sz} } from '@skbkontur/icons/IconDocsPlusRegular${sz}';`);
     }
+    imports.push(`import { Text } from '@skbkontur/typography';`);
 
     const data = `const data = [
-  { id: 1, name: 'Гвозди металлические 34 кг 1 мм на 5 мм обработанные', article: '923812939', type: 'Материал', stock: null },
-  { id: 2, name: 'Шурупы 50 шт', article: '12345678', type: null, stock: '50 шт' },
-  { id: 3, name: 'Подшипники роликовые', article: null, type: 'Товар', stock: '5 шт' },
-  { id: 4, name: 'Ключи комбинированные', article: '34985723', type: 'Товар', stock: null },
-  { id: 5, name: 'Отвертки набор', article: '23894723', type: null, stock: '20 шт' },
-  { id: 6, name: 'Плоскогубцы', article: '57389201', type: 'Товар', stock: '8 шт' },
+  { id: 1, name: 'Гвозди металлические 34 кг 1 мм на 5 мм обработанные', article: '923812939', type: 'Материал', stock: null, status: 'error' },
+  { id: 2, name: 'Шурупы 50 шт', article: '12345678', type: null, stock: '50 шт', status: 'ok' },
+  { id: 3, name: 'Подшипники роликовые', article: null, type: 'Товар', stock: '5 шт', status: 'warning' },
+  { id: 4, name: 'Ключи комбинированные', article: '34985723', type: 'Товар', stock: null, status: 'error' },
+  { id: 5, name: 'Отвертки набор', article: '23894723', type: null, stock: '20 шт', status: 'ok' },
+  { id: 6, name: 'Плоскогубцы', article: '57389201', type: 'Товар', stock: '8 шт', status: 'warning' },
 ];`;
 
     const selectionLines = checkboxes
       ? [
-          `  const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =`,
+          `  const { isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =`,
           `    useTableRowSelection(data);`,
           ``,
         ]
@@ -360,46 +302,60 @@ export const TableConstructor = () => {
       ? [
           `  const items = [`,
           `    { key: 'send', icon: <IconSendPaperplaneRegular${sz} />, text: 'Отправить' },`,
-          ...(withDanger
-            ? [`    { key: 'delete', icon: <IconTrashCanRegular${sz} />, text: 'Удалить', danger: true },`]
-            : []),
+          `    { key: 'delete', icon: <IconTrashCanRegular${sz} />, text: 'Удалить', danger: true },`,
           `    { key: 'print', icon: <IconTechPrinterRegular${sz} />, text: 'Напечатать' },`,
-          `    { key: 'copy', icon: <IconDocsPlusRegular${sz} />, text: 'Скопировать' },`,
           `  ];`,
           ``,
         ]
       : [];
 
-    const nameCellLines = inlineIcon
+    const statusIconLines = leadingIcon
       ? [
-          `              <Table.Cell${leadingIcon ? ` style={{ paddingLeft: 8 }}` : ''}>`,
-          `                <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, fontWeight: 600 }}>`,
+          `  const statusIcon = {`,
+          `    ok: <IconCheckCircleSolid${sz} color="${statusColors.ok}" />,`,
+          `    warning: <IconWarningTriangleSolid${sz} color="${statusColors.warning}" />,`,
+          `    error: <IconXCircleSolid${sz} color="${statusColors.error}" />,`,
+          `  };`,
+          ``,
+        ]
+      : [];
+
+    const nameInnerLines = inlineIcon
+      ? [
+          `                <span style={{ display: 'inline-flex', gap: 6, alignItems: 'baseline' }}>`,
           `                  <IconBookmarkRegular${sz} />`,
-          `                  {row.name}`,
+          `                  <Text use="${nameTextUse}" weight="bold">{row.name}</Text>`,
           `                </span>`,
-          `                <div style={{ fontSize: 12, color: '#858585', marginTop: 2 }}>`,
-          `                  {row.article ? \`Артикул: \${row.article}\` : '—'}`,
-          `                </div>`,
+        ]
+      : [`                <Text use="${nameTextUse}" weight="bold">{row.name}</Text>`];
+
+    const nameCellLines = [
+      `              <Table.Cell${leadingIcon ? ` style={{ paddingLeft: 8 }}` : ''}>`,
+      ...nameInnerLines,
+      `                <Text as="div" use="body-xs" style={{ color: '#858585', marginTop: 2 }}>`,
+      `                  {row.article ? \`Артикул: \${row.article}\` : '—'}`,
+      `                </Text>`,
+      `              </Table.Cell>`,
+    ];
+
+    const stockCellLines = overlayActions
+      ? [
+          `              <Table.Cell currency>`,
+          `                {row.stock ?? '—'}`,
+          `                <Table.ActionBar overlay items={items}${itemsVisibleProp} />`,
           `              </Table.Cell>`,
         ]
-      : [
-          `              <Table.Cell${leadingIcon ? ` style={{ paddingLeft: 8 }}` : ''}>`,
-          `                <span style={{ fontWeight: 600 }}>{row.name}</span>`,
-          `                <div style={{ fontSize: 12, color: '#858585', marginTop: 2 }}>`,
-          `                  {row.article ? \`Артикул: \${row.article}\` : '—'}`,
-          `                </div>`,
-          `              </Table.Cell>`,
-        ];
+      : [`              <Table.Cell currency>{row.stock ?? '—'}</Table.Cell>`];
 
-    const stockCellLines =
-      actionsEnabled && actionsOverlay
-        ? [
-            `              <Table.Cell currency>`,
-            `                {row.stock ?? '—'}`,
-            `                <Table.ActionBar overlay items={items}${itemsVisibleProp} />`,
-            `              </Table.Cell>`,
-          ]
-        : [`              <Table.Cell currency>{row.stock ?? '—'}</Table.Cell>`];
+    const footerLines = [
+      `        <Table.Footer>`,
+      `          <Table.Row>`,
+      ...(checkboxes ? [`            <Table.Cell checkboxCell noBottomBorder />`] : []),
+      ...(leadingIcon ? [`            <Table.Cell noPaddingRight noBottomBorder />`] : []),
+      `            <Table.Cell colSpan={${footerColspan}}>Всего записей: {data.length}</Table.Cell>`,
+      `          </Table.Row>`,
+      `        </Table.Footer>`,
+    ];
 
     const lines = [
       ...imports,
@@ -408,6 +364,7 @@ export const TableConstructor = () => {
       ``,
       `export default function App() {`,
       ...selectionLines,
+      ...statusIconLines,
       ...itemsLines,
       `  return (`,
       `    <div style={{ width: ${tableWidth} }}>`,
@@ -434,7 +391,7 @@ export const TableConstructor = () => {
       `        </Table.Header>`,
       `        <Table.Body>`,
       `          {data.map((row) => (`,
-      `            <Table.Row key={row.id}${checkboxes ? ` checked={checkedRows.has(row.id)}` : ''}${rowDividers ? ` bottomBorder` : ''}${rowClickProp}>`,
+      `            <Table.Row key={row.id}${checkboxes ? ` checked={isRowChecked(row.id)}` : ''}${rowDividers ? ` bottomBorder` : ''}${rowClickProp}>`,
       ...(checkboxes
         ? [
             `              <Table.CheckboxCell`,
@@ -447,7 +404,7 @@ export const TableConstructor = () => {
       ...(leadingIcon
         ? [
             `              <Table.Cell noPaddingRight noBottomBorder>`,
-            `                <IconArrowRoundTimeForwardRegular${sz} />`,
+            `                {statusIcon[row.status]}`,
             `              </Table.Cell>`,
           ]
         : []),
@@ -457,13 +414,16 @@ export const TableConstructor = () => {
       ...(separateActionsColumn
         ? [
             `              <Table.Cell contentCompensator={false}>`,
-            `                <Table.ActionBar items={items}${itemsVisibleProp} />`,
+            `                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>`,
+            `                  <Table.ActionBar items={items}${itemsVisibleProp} />`,
+            `                </div>`,
             `              </Table.Cell>`,
           ]
         : []),
       `            </Table.Row>`,
       `          ))}`,
       `        </Table.Body>`,
+      ...footerLines,
       `      </Table>`,
       `    </div>`,
       `  );`,
@@ -481,8 +441,9 @@ export const TableConstructor = () => {
     actionsEnabled,
     actionsOverlay,
     actionsKebab,
-    withDanger,
+    overlayActions,
     separateActionsColumn,
+    footerColspan,
     leadingIconColumnWidth,
     actionsColumnWidth,
     nameColumnWidth,
@@ -491,14 +452,14 @@ export const TableConstructor = () => {
   ]);
 
   const openInCodex = () => {
-    const compressed = compressToEncodedURIComponent(fullCode);
+    const compressed = compressToEncodedURIComponent(code);
     window.open(`https://codex.skbkontur.ru/#/sandbox#code=${compressed}`, '_blank');
   };
 
   return (
     <div style={{ width: tableWidth }}>
       <h2>Конструктор таблицы</h2>
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40, marginBottom: 24 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 48, marginBottom: 24, flexWrap: 'wrap' }}>
         <div>
           <div style={sectionTitle}>Размер</div>
           <Switcher
@@ -508,44 +469,48 @@ export const TableConstructor = () => {
           />
         </div>
         <div>
+          <div style={sectionTitle}>Строки</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <Toggle checked={rowDividers} onValueChange={setRowDividers}>
+              Разделители
+            </Toggle>
+            <Toggle checked={rowClick} onValueChange={setRowClick}>
+              Кликабельность
+            </Toggle>
+          </div>
+        </div>
+        <div>
           <div style={sectionTitle}>Колонки</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <Toggle checked={checkboxes} onValueChange={setCheckboxes}>
               Чекбоксы
             </Toggle>
             <Toggle checked={leadingIcon} onValueChange={setLeadingIcon}>
-              Иконка-индикатор
+              Иконка-статус
             </Toggle>
             <Toggle checked={inlineIcon} onValueChange={setInlineIcon}>
               Иконка в ячейке
             </Toggle>
-          </div>
-        </div>
-        <div>
-          <div style={sectionTitle}>Строки</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <Toggle checked={rowDividers} onValueChange={setRowDividers}>
-              Разделители строк
-            </Toggle>
-            <Toggle checked={rowClick} onValueChange={setRowClick}>
-              Клик по строке
-            </Toggle>
-          </div>
-        </div>
-        <div>
-          <div style={sectionTitle}>ActionBar</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <Toggle checked={actionsEnabled} onValueChange={setActionsEnabled}>
               Действия со строкой
             </Toggle>
-            <Toggle checked={actionsOverlay} onValueChange={setActionsOverlay} disabled={!actionsEnabled}>
-              Поверх содержимого
-            </Toggle>
+          </div>
+        </div>
+        <div>
+          <div style={sectionTitle}>Расположение действий</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <RadioGroup
+              value={actionsOverlay ? 'overlay' : 'column'}
+              onValueChange={(value) => setActionsOverlay(value === 'overlay')}
+              disabled={!actionsEnabled}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <Radio value="column">Отдельной колонкой</Radio>
+                <Radio value="overlay">Поверх строки</Radio>
+              </div>
+            </RadioGroup>
             <Toggle checked={actionsKebab} onValueChange={setActionsKebab} disabled={!actionsEnabled}>
-              Скрыть в кебаб
-            </Toggle>
-            <Toggle checked={withDanger} onValueChange={setWithDanger} disabled={!actionsEnabled}>
-              Опасное действие
+              Свернуть в кебаб-меню
             </Toggle>
           </div>
         </div>
@@ -578,7 +543,7 @@ export const TableConstructor = () => {
           {initialData.map((row) => (
             <Table.Row
               key={row.id}
-              checked={checkedRows.has(row.id)}
+              checked={isRowChecked(row.id)}
               bottomBorder={rowDividers}
               onClick={rowClick ? () => console.log('row click', row.id) : undefined}
             >
@@ -591,34 +556,36 @@ export const TableConstructor = () => {
               )}
               {leadingIcon && (
                 <Table.Cell noPaddingRight noBottomBorder>
-                  {getIcon(
-                    IconArrowRoundTimeForwardRegular16,
-                    IconArrowRoundTimeForwardRegular20,
-                    IconArrowRoundTimeForwardRegular24
-                  )}
+                  {getStatusIcon(row.status)}
                 </Table.Cell>
               )}
               <Table.Cell style={leadingIcon ? { paddingLeft: 8 } : undefined}>
                 {inlineIcon ? (
-                  <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 6, fontWeight: 600 }}>
+                  <span style={{ display: 'inline-flex', gap: 6, alignItems: 'baseline' }}>
                     {getIcon(IconBookmarkRegular16, IconBookmarkRegular20, IconBookmarkRegular24)}
-                    {row.name}
+                    <Text use={nameUse} weight="bold">
+                      {row.name}
+                    </Text>
                   </span>
                 ) : (
-                  <span style={{ fontWeight: 600 }}>{row.name}</span>
+                  <Text use={nameUse} weight="bold">
+                    {row.name}
+                  </Text>
                 )}
-                <div style={subtitle}>{row.article ? `Артикул: ${row.article}` : '—'}</div>
+                <Text as="div" use="body-xs" style={subtitle}>
+                  {row.article ? `Артикул: ${row.article}` : '—'}
+                </Text>
               </Table.Cell>
               <Table.Cell>{row.type ?? '—'}</Table.Cell>
               <Table.Cell currency>
                 {row.stock ?? '—'}
-                {actionsEnabled && actionsOverlay && (
-                  <Table.ActionBar overlay items={items} itemsVisible={itemsVisible} />
-                )}
+                {overlayActions && <Table.ActionBar overlay items={items} itemsVisible={itemsVisible} />}
               </Table.Cell>
               {separateActionsColumn && (
                 <Table.Cell contentCompensator={false}>
-                  <Table.ActionBar items={items} itemsVisible={itemsVisible} />
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Table.ActionBar items={items} itemsVisible={itemsVisible} />
+                  </div>
                 </Table.Cell>
               )}
             </Table.Row>
