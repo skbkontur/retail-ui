@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](/compare/@skbkontur/table@1.0.2...@skbkontur/table@1.0.3) (2026-07-01)
+
+
+### Bug Fixes
+
+* **table:** export public component prop types 7806e92
+* **table:** fix focus test 9704039
+
+
+
+
+
 ## [1.0.2](/compare/@skbkontur/table@1.0.1...@skbkontur/table@1.0.2) (2026-06-23)
 
 
