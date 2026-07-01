@@ -1,16 +1,16 @@
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import React, { useContext, forwardRef } from 'react';
 
-import { TableCell, type TableCellBaseProps } from './TableCell.js';
+import { TableCell, type TableCellProps } from './TableCell.js';
 import { SizeTableContext } from './TableContext.js';
 
-export interface TableCheckboxCellBaseProps extends TableCellBaseProps {
+export interface TableCheckboxCellProps extends TableCellProps {
   checked: boolean;
   onCheckboxClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   'aria-label': string;
 }
 
-export const TableCheckboxCell = forwardRef<HTMLTableCellElement, TableCheckboxCellBaseProps>(
+export const TableCheckboxCell = forwardRef<HTMLTableCellElement, TableCheckboxCellProps>(
   (
     {
       checked,

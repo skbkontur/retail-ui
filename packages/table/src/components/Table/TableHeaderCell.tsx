@@ -12,7 +12,7 @@ import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
 
-export interface TableHeaderCellBaseProps extends CommonProps {
+export interface TableHeaderCellProps extends CommonProps {
   scope?: 'col' | 'row';
   colSpan?: number;
   rowSpan?: number;
@@ -78,7 +78,7 @@ const getTableSortChildState = (
   return { hasTableSortChild: false };
 };
 
-export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellBaseProps>(
+export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
   (
     {
       children,

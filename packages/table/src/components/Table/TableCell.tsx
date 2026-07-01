@@ -10,7 +10,7 @@ import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
 
-export interface TableCellBaseProps extends CommonProps {
+export interface TableCellProps extends CommonProps {
   colSpan?: number;
   width?: CSSProperties['width'];
   rowSpan?: number;
@@ -32,7 +32,7 @@ export interface TableCellBaseProps extends CommonProps {
   noPaddingRight?: boolean;
 }
 
-export const TableCell = forwardRef<HTMLTableCellElement, TableCellBaseProps>(
+export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
   (
     {
       children,

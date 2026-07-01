@@ -35,7 +35,7 @@ import { useTableStyleSync } from './useTableStyleSync.js';
 
 import styles from './Table.module.css';
 
-interface TableProps extends CommonProps {
+export interface TableProps extends CommonProps {
   width?: CSSProperties['width'];
   minWidth?: CSSProperties['minWidth'];
   maxWidth?: CSSProperties['maxWidth'];
@@ -180,3 +180,16 @@ Table.__KONTUR_REACT_UI__ = 'Table';
 Table.displayName = 'Table';
 
 export { TableHeaderCell, TableCell, TableCheckboxCell, TableHeaderCheckboxCell };
+export type { TableBodyProps } from './TableBody.js';
+export type { TableCellProps } from './TableCell.js';
+export type { TableCheckboxCellProps } from './TableCheckboxCell.js';
+export type { TableDropdownFilterProps } from './TableDropdownFilter.js';
+export type { TableDropdownSortableFilterProps } from './TableDropdownSortableFilter.js';
+export type { TableFooterProps } from './TableFooter.js';
+export type { TableHeaderProps } from './TableHeader.js';
+export type { TableHeaderCellProps } from './TableHeaderCell.js';
+export type { TableHeaderCheckboxCellProps } from './TableHeaderCheckboxCell.js';
+export type { TableKebabButtonProps } from './TableActionBar/TableKebabButton.js';
+export type { TableRowProps } from './TableRow.js';
+export type { TableSortProps } from './TableSort.js';
+export type { TableTokenProps } from './FilterResult/TableToken.js';

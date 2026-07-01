@@ -16,7 +16,7 @@ const KEBAB_ICONS = {
   large: MenuKebabIcon24,
 } as const;
 
-interface TableKebabButtonProps extends ButtonProps {
+export interface TableKebabButtonProps extends ButtonProps {
   active?: boolean;
   size?: ButtonProps['size'];
 }

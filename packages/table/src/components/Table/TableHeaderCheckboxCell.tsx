@@ -2,9 +2,9 @@ import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import React, { useContext, forwardRef, type Ref } from 'react';
 
 import { SizeTableContext } from './TableContext.js';
-import { TableHeaderCell, type TableHeaderCellBaseProps } from './TableHeaderCell.js';
+import { TableHeaderCell, type TableHeaderCellProps } from './TableHeaderCell.js';
 
-export interface TableHeaderCheckboxCellBaseProps extends TableHeaderCellBaseProps {
+export interface TableHeaderCheckboxCellProps extends TableHeaderCellProps {
   checkboxRef?: Ref<Checkbox>;
   onClick?: () => void;
   checked: boolean;
@@ -12,7 +12,7 @@ export interface TableHeaderCheckboxCellBaseProps extends TableHeaderCellBasePro
   'aria-label': string;
 }
 
-export const TableHeaderCheckboxCell = forwardRef<HTMLTableCellElement, TableHeaderCheckboxCellBaseProps>(
+export const TableHeaderCheckboxCell = forwardRef<HTMLTableCellElement, TableHeaderCheckboxCellProps>(
   (
     {
       checkboxRef,
