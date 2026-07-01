@@ -413,7 +413,6 @@ export const WithItemToId: Story = () => {
         </Token>
       )}
       valueToItem={(value) => ({ id: Date.now().toString(), text: value, description: '' }) as RefItem}
-      renderValue={(item) => item.text}
       renderItem={(item) => (
         <div key={item.id}>
           {item.text} ({item.description})

@@ -34,11 +34,6 @@ export const ExampleBasic: Story = () => {
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}
       placeholder="Выберите или введите значения"
-      renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps}>
-          {item}
-        </Token>
-      )}
     />
   );
 };
@@ -408,11 +403,6 @@ export const ExampleDelimiters: Story = () => {
         type={TokenInputType.Combined}
         placeholder="Выберите или введите значения"
         delimiters={['.']}
-        renderToken={(item, tokenProps) => (
-          <Token key={item} {...tokenProps}>
-            {item}
-          </Token>
-        )}
       />
     </LocaleContext.Provider>
   );
@@ -442,11 +432,6 @@ export const ExampleDisabled: Story = () => {
       onValueChange={setSelectedItems}
       placeholder="Выберите или введите значения"
       disabled
-      renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps}>
-          {item}
-        </Token>
-      )}
     />
   );
 };
@@ -475,11 +460,6 @@ export const ExampleError: Story = () => {
       onValueChange={setSelectedItems}
       placeholder="Выберите или введите значения"
       error
-      renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps}>
-          {item}
-        </Token>
-      )}
     />
   );
 };
@@ -602,10 +582,10 @@ export const ExampleCustomItems: Story = () => {
     { id: '4', value: 'Зелёный' },
   ];
   const renderItem = (item: { id: string; value: string }) => item.value;
-  const renderValue = (value: { id: string; value: string }) => value.value;
-  const valueToItem = (item: string) => ({
+  const valueToString = (value: { id: string; value: string }) => value.value;
+  const valueToItem = (value: string) => ({
     id: Math.random().toString(),
-    value: item,
+    value,
   });
   const getModelItems = async (query: string): Promise<Array<{ id: string; value: string }>> => {
     await delay(400);
@@ -617,9 +597,8 @@ export const ExampleCustomItems: Story = () => {
       <TokenInput
         selectedItems={selectedItems}
         renderItem={renderItem}
-        renderValue={renderValue}
         valueToItem={valueToItem}
-        valueToString={renderValue}
+        valueToString={valueToString}
         getItems={getModelItems}
         onValueChange={setSelectedItems}
         placeholder="Выберите или введите значение"

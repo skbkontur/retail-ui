@@ -124,7 +124,7 @@ export interface TokenInputProps<T>
   menuAlign?: TokenInputMenuAlign;
 
   /** Задаёт функцию поиска значений, которая должна возвращать Promise с массивом значений. По умолчанию ожидаются строки.
-   * Элементы могут быть любого типа. В этом случае необходимо определить свойства `renderItem`, `valueToString`. */
+   * Элементы могут быть любого типа. В этом случае необходимо определить свойства `renderItem`, `renderToken`, `valueToString` и `valueToItem`. */
   getItems?: (query: string) => Promise<Array<TokenInputExtendedItem<T>>>;
 
   /** Ограничивает отображение выпадающего списка при фокусе на пустом поле: выпадающий список появится, только когда будет введён хотя бы один символ токена. */
@@ -133,7 +133,9 @@ export interface TokenInputProps<T>
   /** Отрисовывает элемент списка. */
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode | null;
 
-  /** Отрисовывает выбранное значение. */
+  /** Отрисовывает выбранное значение.
+   * @deprecated Используйте `renderToken` для отрисовки выбранного значения и `valueToString` для преобразования значения в строку.
+   */
   renderValue?: (item: T) => React.ReactNode;
 
   /** Возвращает строковое представление `value`. Необходимо при фокусировке.
@@ -151,7 +153,9 @@ export interface TokenInputProps<T>
   /** Отрисовывает сообщение о пустом результате поиска. При `renderAddButton` не работает. */
   renderNotFound?: () => React.ReactNode;
 
-  /** Преобразует значение в элемент списка. */
+  /** Преобразовывает значение в элемент списка.
+   * @default value => value
+   */
   valueToItem?: (value: string) => T;
 
   /** Сравнивает полученные результаты с `value`. */
@@ -261,7 +265,6 @@ type DefaultProps<T> = Required<
   >
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
   item: T,
