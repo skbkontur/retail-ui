@@ -12,8 +12,6 @@ import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular2
 import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
 import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
-import { Kontur } from '@skbkontur/logos/Kontur';
-import { Product } from '@skbkontur/logos/Product';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
@@ -34,6 +32,7 @@ import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
 import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
 import { SideMenu } from '@skbkontur/side-menu';
+import { CdnLogo } from '@skbkontur/ui-cdn-components';
 import type { Meta } from '@storybook/react';
 import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
 import React from 'react';
@@ -512,10 +511,7 @@ export const ColorsExampleStory = () => {
 }
       `}</style>
             <SideMenu>
-              <SideMenu.Header
-                konturLogo={<Kontur color={c.textNeutralHeavy} />}
-                productLogo={<Product color={c.shapeBoldBrandOriginal} />}
-              />
+              <SideMenu.Header productLogo={<CdnLogo logo="product" />} />
               <SideMenu.Body>
                 <SideMenu.Item icon={<IconDocTextRegular24 />} caption="Документы" />
                 <SideMenu.Item icon={<IconPeople2Regular24 />} caption="Команда" />
@@ -1001,7 +997,7 @@ export const ColorsPaletteStory = () => {
         format: outputFormatParam,
       }),
     });
-  } catch (error) {
+  } catch {
     tokenList = generateTokenList({
       light: getColors({
         brand: '#FFDD2D',
