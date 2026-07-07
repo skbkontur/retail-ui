@@ -272,14 +272,12 @@ export class PopupPin extends React.Component<PopupPinProps> {
     const popupRect = this.getPopupElementRect(popupElement);
     const { direction, align } = this.positionObject;
 
-    const defaultPinCoordinates = {
-      top: popupRect.height,
-      left: this.getPinLeftCoordinate(popupRect, align),
-    };
-
     switch (direction) {
       case 'top':
-        return defaultPinCoordinates;
+        return {
+          top: popupRect.height,
+          left: this.getPinLeftCoordinate(popupRect, align),
+        };
       case 'bottom':
         return {
           top: -2 * this.props.size,
@@ -300,7 +298,10 @@ export class PopupPin extends React.Component<PopupPinProps> {
           false,
           `Can't get coordinates: invalid direction '${direction}'. Must be one of - 'top', 'right', 'bottom', 'left'.`,
         );
-        return defaultPinCoordinates;
+        return {
+          top: popupRect.height,
+          left: this.getPinLeftCoordinate(popupRect, align),
+        };
     }
   };
 
