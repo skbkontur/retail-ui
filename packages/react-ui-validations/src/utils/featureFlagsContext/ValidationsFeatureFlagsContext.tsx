@@ -1,8 +1,12 @@
 import React from 'react';
 
-export interface ValidationsFeatureFlags {}
+export interface ValidationsFeatureFlags {
+  validationTooltipExtendedPositions?: boolean;
+}
 
-export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {};
+export const validationsFeatureFlagsDefault: ValidationsFeatureFlags = {
+  validationTooltipExtendedPositions: false,
+};
 
 export const ValidationsFeatureFlagsContext =
   React.createContext<ValidationsFeatureFlags>(validationsFeatureFlagsDefault);

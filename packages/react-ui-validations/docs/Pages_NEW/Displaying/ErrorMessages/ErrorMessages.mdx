@@ -23,7 +23,12 @@ import { Meta } from '../../../../.storybook-docs/Meta';
 
 Сообщение внутри тултипа рендерится с помощью функции `tooltip`.
 
-Функция принимает один аргумент, который позволяет задать позицию отображения тултипа. Может принимать все значения, которые принимает проп `pos` компонента `Tooltip`.
+Функция принимает один аргумент, который позволяет задать позицию отображения тултипа. Тип аргумента — `TooltipExtendedPosition`,
+то есть те же значения, что принимает prop `pos` компонента `Tooltip`.
+
+Полные позиции вроде `top left` и `right middle` (`TooltipPosition`) работают без дополнительной настройки.
+Короткие (`top`, `left`, `right`, `bottom`) и центрированные (`middle center`, `middle left`, `middle right`) позиции
+требуют фича-флага `validationTooltipExtendedPositions`. Подробнее — на странице [Feature flags](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-feature-flags--docs).
 
 Пример кода:
 

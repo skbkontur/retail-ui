@@ -19,7 +19,7 @@ import type {
   ValidationContextType,
   ValidationContextWrapperProps,
 } from './src/ValidationContextWrapper.js';
-import type { TooltipPosition, ValidationTooltipProps } from './src/ValidationTooltip.js';
+import type { TooltipExtendedPosition, TooltipPosition, ValidationTooltipProps } from './src/ValidationTooltip.js';
 import { ValidationTooltip } from './src/ValidationTooltip.js';
 import type { ValidationInfo, ValidationWrapperProps } from './src/ValidationWrapper.js';
 import { ValidationWrapper } from './src/ValidationWrapper.js';
@@ -45,6 +45,7 @@ export type {
   ValidateArgumentType,
   ValidationContextSettings,
   TooltipPosition,
+  TooltipExtendedPosition,
   ValidationInfo,
   Validation,
   RenderErrorMessage,

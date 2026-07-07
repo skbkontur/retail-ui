@@ -1,6 +1,13 @@
+import type { TooltipProps } from '@skbkontur/react-ui/components/Tooltip/Tooltip';
 import React from 'react';
+import warning from 'warning';
 
 import { ReactUiDetection, Tooltip } from './ReactUiDetection.js';
+import { getFullValidationsFlagsContext } from './utils/featureFlagsContext/FeatureFlagsHelpers.js';
+import { ValidationsFeatureFlagsContext } from './utils/featureFlagsContext/ValidationsFeatureFlagsContext.js';
+import { isStandardTooltipPosition } from './utils/tooltipPositions.js';
+
+export type TooltipExtendedPosition = NonNullable<TooltipProps['pos']>;
 
 export type TooltipPosition =
   | 'top left'
@@ -19,7 +26,7 @@ export type TooltipPosition =
 export interface ValidationTooltipProps {
   children: React.ReactElement<any>;
   error: boolean;
-  pos?: TooltipPosition;
+  pos?: TooltipExtendedPosition;
   render?: () => React.ReactNode;
   'data-tid'?: string;
 }
@@ -31,19 +38,34 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render(): React.JSX.Element {
     const { children, pos, error, render, ...rest } = this.props;
 
-    const onlyChild = React.Children.only(children);
-    const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
+    return (
+      <ValidationsFeatureFlagsContext.Consumer>
+        {(flags) => {
+          const { validationTooltipExtendedPositions } = getFullValidationsFlagsContext(flags);
 
-    return ReactUiDetection.isRadioGroup(child) ||
-      ReactUiDetection.isTokenInput(child) ||
-      ReactUiDetection.isSwitcher(child) ? (
-      <Tooltip useWrapper={false} pos={pos} render={error ? render : undefined} trigger={'hover&focus'} {...rest}>
-        {child}
-      </Tooltip>
-    ) : (
-      <Tooltip pos={pos} render={error ? render : undefined} trigger={'hover&focus'} {...rest}>
-        {children}
-      </Tooltip>
+          if (pos && !isStandardTooltipPosition(pos) && !validationTooltipExtendedPositions) {
+            warning(
+              false,
+              `Extended tooltip position '${pos}' requires validationTooltipExtendedPositions feature flag.`,
+            );
+          }
+
+          const onlyChild = React.Children.only(children);
+          const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
+
+          return ReactUiDetection.isRadioGroup(child) ||
+            ReactUiDetection.isTokenInput(child) ||
+            ReactUiDetection.isSwitcher(child) ? (
+            <Tooltip useWrapper={false} pos={pos} render={error ? render : undefined} trigger={'hover&focus'} {...rest}>
+              {child}
+            </Tooltip>
+          ) : (
+            <Tooltip pos={pos} render={error ? render : undefined} trigger={'hover&focus'} {...rest}>
+              {children}
+            </Tooltip>
+          );
+        }}
+      </ValidationsFeatureFlagsContext.Consumer>
     );
   }
 }

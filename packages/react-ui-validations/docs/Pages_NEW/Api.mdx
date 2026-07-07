@@ -134,13 +134,32 @@ type RenderErrorMessage =
 </ValidationWrapper>
 ```
 
-### `tooltip(pos: string): RenderErrorMessage`
+### `tooltip(pos: TooltipExtendedPosition): RenderErrorMessage`
 
 Возвращает функцию для рендеринга сообщения об ошибке в виде тултипа. Используется для передачи в renderMessage.
 
 Аргументы:
 
-- `pos`: строка передаваемая в соответствующий prop react-ui Tooltip-а.
+- `pos`: позиция, передаваемая в prop `pos` компонента `Tooltip` из react-ui.
+
+Тип `TooltipExtendedPosition` совпадает с `TooltipProps['pos']` и включает:
+
+- **стандартные** позиции (`TooltipPosition`): `top left`, `top center`, `right middle` и другие полные значения с направлением и выравниванием;
+- **расширенные** позиции: короткие `top` | `bottom` | `left` | `right` и центрированные `middle center` | `middle left` | `middle right`.
+
+Стандартные позиции работают без дополнительных настроек. Для расширенных позиций включите фича-флаг
+[`validationTooltipExtendedPositions`](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui-validations_displaying-feature-flags--docs#validationtooltipextendedpositions).
+Без флага в dev-режиме появится предупреждение, но позиция всё равно будет передана в `Tooltip`.
+
+```jsx static
+import { tooltip, ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations';
+
+<ValidationsFeatureFlagsContext.Provider value={{ validationTooltipExtendedPositions: true }}>
+  <ValidationWrapper validationInfo={{ ... }} renderMessage={tooltip('top')}>
+    {/* ... */}
+  </ValidationWrapper>
+</ValidationsFeatureFlagsContext.Provider>
+```
 
 ### `text(pos: 'right' | 'bottom'): RenderErrorMessage`
 

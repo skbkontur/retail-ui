@@ -40,6 +40,18 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 </ValidationsFeatureFlagsContext.Provider>;
 ```
 
+## Список фича-флагов
+
+### validationTooltipExtendedPositions
+
+Позволяет использовать в `tooltip()` расширенные позиции тултипа: короткие (`top`, `bottom`, `left`, `right`)
+и центрированные (`middle center`, `middle left`, `middle right`).
+
+Без флага расширенные позиции всё равно передаются в `Tooltip`, но в dev-режиме выводится предупреждение.
+Стандартные позиции (`top left`, `right middle` и т.д.) от флага не зависят.
+
+<Story of={FeatureFlagsStories.ExtendedTooltipPositions} />
+
 ## Объект со всеми флагами
 
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
