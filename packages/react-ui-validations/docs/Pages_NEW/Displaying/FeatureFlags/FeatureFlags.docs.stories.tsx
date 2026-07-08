@@ -13,11 +13,6 @@ const meta: Meta = {
 
 export default meta;
 
-// /** Пустая история нужна, чтобы страница нормально собиралась */
-// export const Default: Story = () => {
-//   return <div />;
-// };
-
 export const ExtendedTooltipPositions: Story = () => {
   const [value, setValue] = React.useState('abc');
 
