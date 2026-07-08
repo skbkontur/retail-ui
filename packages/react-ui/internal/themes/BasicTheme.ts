@@ -308,6 +308,9 @@ export class BasicThemeClass {
   //#endregion
   //#region Button
   public static btnBackgroundClip = 'padding-box';
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
   public static btnBorderColorTransition = '';
@@ -355,29 +358,71 @@ export class BasicThemeClass {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '20px';
   public static btnIconSizeLarge = '24px';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillBg}. */
   public static btnDefaultBg = '#fff';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillBg}. */
   public static btnDefaultBgStart = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillBg}. */
   public static btnDefaultBgEnd = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"`. */
   public static get btnDefaultCheckedBorderColor(): string {
     return this.btnCheckedBg;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"`. */
   public static get btnDefaultTextColor(): string {
     return this.textColorDefault;
   }
   // TODO: create token in colors package
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillHoverBg}. */
   public static btnDefaultHoverBg = '#f2f2f2';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillHoverBg}. */
   public static btnDefaultHoverBgStart = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillHoverBg}. */
   public static btnDefaultHoverBgEnd = 'none';
   // TODO: create token in colors package
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"` и переменные {@link btnFillActiveBg}. */
   public static btnDefaultActiveBg = '#e4e4e4';
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"`. */
   public static get btnDefaultHoverBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"`. */
   public static btnDefaultHoverTextColor = colors.textNeutralHeavy;
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"`. */
   public static get btnDefaultActiveBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"` или `use="fill"`. */
   public static btnDefaultBorderColor = colors.lineNeutralPale;
+  /**
+   * @deprecated Связана с устаревшим `use="default"`. Будет удалена в `7.0`.
+   * Используйте `use="fill"`. */
   public static btnDefaultActiveShadow = 'none';
   public static btnSuccessBg = colors.shapeBoldSuccess;
   public static get btnSuccessBorderColor(): string {
@@ -403,26 +448,65 @@ export class BasicThemeClass {
   public static btnFillHoverBg = colors.shapeOtherBaseHover;
   public static btnFillActiveBg = colors.shapeOtherBasePressed;
 
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryBg = colors.shapeBoldAccent;
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryHoverBg = colors.shapeBoldAccentHover;
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryActiveBg = colors.shapeBoldAccentPressed;
 
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryHoverTextColor = '';
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static get btnPrimaryBorderColor(): string {
     return this.btnPrimaryBg;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static get btnPrimaryHoverBorderColor(): string {
     return this.btnPrimaryHoverBg;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static get btnPrimaryActiveBorderColor(): string {
     return this.btnPrimaryActiveBg;
   }
 
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryBgStart = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryBgEnd = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryTextColor = colors.textOnAccentBoldHeavy;
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryHoverBgStart = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryHoverBgEnd = 'none';
+  /**
+   * @deprecated Связана с устаревшим `use="primary"`. Будет удалена в `7.0`.
+   * Используйте `use="accent"`. */
   public static btnPrimaryActiveShadow = 'none';
   public static btnDangerBg = colors.shapeBoldError;
   public static btnDangerHoverBg = colors.shapeBoldErrorHover;
@@ -516,52 +600,100 @@ export class BasicThemeClass {
     const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
     return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkColor(): string {
     return this.linkColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkHoverColor(): string {
     return this.linkHoverColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkActiveColor(): string {
     return this.linkActiveColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkHoverTextDecoration(): string {
     return this.linkHoverTextDecoration;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkTextDecorationColor(): string {
     return this.linkTextDecorationColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkTextDecorationStyle(): string {
     return this.linkTextDecorationStyle;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkHoverTextDecorationStyle(): string {
     return this.linkTextDecorationStyle;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkTextUnderlineOffset(): string {
     return this.linkTextUnderlineOffset;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkTextDecorationThickness(): string {
     return this.linkTextDecorationThickness;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkTextUnderlineOpacity(): string {
     return this.linkTextUnderlineOpacity;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkLineBorderBottomStyle(): string {
     return this.linkLineBorderBottomStyle;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkHoverLineBorderBottomStyle(): string {
     return this.btnLinkLineBorderBottomStyle;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkLineBorderBottomWidth(): string {
     return this.linkLineBorderBottomWidth;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkLineBorderBottomOpacity(): string {
     return this.linkLineBorderBottomOpacity;
   }
 
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkIconMarginRight(): string {
     return this.linkIconMarginRight;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkIconMarginLeft(): string {
     return this.linkIconMarginRight;
   }
@@ -572,28 +704,58 @@ export class BasicThemeClass {
   public static get btnBorderColorFocus(): string {
     return this.borderColorFocus;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="link"`. Будет удалена в `7.0`.
+   * Используйте компонент `Link`. */
   public static get btnLinkDisabledColor(): string {
     return this.linkDisabledColor;
   }
   public static get btnDisabledTextColor(): string {
     return this.textColorDisabled;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static btnBacklessBg = 'transparent';
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static btnBacklessHoverBg = colors.shapeOtherBacklessHover;
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static btnBacklessActiveBg = colors.shapeOtherBacklessPressed;
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static get btnBacklessActiveBorderColor(): string {
     return this.btnBacklessBorderColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static get btnBacklessBorderColor(): string {
     return this.btnDefaultBorderColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static get btnBacklessDisabledBorderColor(): string {
     return this.btnDisabledBorderColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static get btnBacklessHoverBorderColor(): string {
     return this.btnBacklessBorderColor;
   }
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static btnBacklessHoverTextColor = '';
+  /**
+   * @deprecated Связана с устаревшим `use="backless"`. Будет удалена в `7.0`.
+   * Используйте `use="outline"`. */
   public static get btnBacklessTextColor(): string {
     return this.btnDefaultTextColor;
   }

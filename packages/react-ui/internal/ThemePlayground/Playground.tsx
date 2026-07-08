@@ -167,20 +167,22 @@ export class Playground extends React.Component<PlaygroundProps> {
 
   private renderButtonsGroup = () => {
     const propsList: ButtonProps[] = [
-      { children: 'Default' },
-      { children: 'Primary', use: 'primary' },
+      { children: 'Outline (Default)', use: 'outline' },
+      { children: 'Accent', use: 'accent' },
+      { children: 'Fill', use: 'fill' },
+      { children: 'Text', use: 'text' },
       { children: 'Danger', use: 'danger' },
-      { children: 'Pay', use: 'pay' },
       { children: 'Success', use: 'success' },
+      { children: 'Pay', use: 'pay' },
       { children: 'Disabled', disabled: true },
       { children: 'Back', arrow: 'left', size: 'medium', width: 110 },
-      { children: 'Forward', arrow: true, size: 'medium', use: 'primary', width: 110 },
+      { children: 'Forward', arrow: true, size: 'medium', use: 'accent', width: 110 },
       { children: 'Loading', size: 'medium', loading: true },
     ];
 
     return (
       <ComponentsGroup title={'Кнопки'} theme={this.theme}>
-        {getComponentsFromPropsList(<Button width={120} size={'small'} />, propsList)}
+        {getComponentsFromPropsList(<Button width={140} size={'small'} />, propsList)}
       </ComponentsGroup>
     );
   };
