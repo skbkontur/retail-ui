@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.3...@skbkontur/react-ui@6.1.4) (2026-07-14)
+
+
+### Bug Fixes
+
+* **KeyListener:** create only one instance per globalObject ([6f39bd8](https://github.com/skbkontur/retail-ui/commit/6f39bd8c0a5b84d474910efbd45d2d02c1cfe1d5))
+* **PopupPin:** remove dev mode warning on correct position ([55dfc0d](https://github.com/skbkontur/retail-ui/commit/55dfc0d4aaa57565f25f7cd52ef56ce4dd4b95ce))
+
+
+
+
+
 ## [6.1.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.2...@skbkontur/react-ui@6.1.3) (2026-06-25)
 
 

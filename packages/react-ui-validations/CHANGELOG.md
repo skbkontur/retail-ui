@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.0.2...@skbkontur/react-ui-validations@3.0.3) (2026-07-14)
+
+
+### Bug Fixes
+
+* **Button:** update styles for `use` value by default ([87c54a2](https://github.com/skbkontur/retail-ui/commit/87c54a2fd383b0c87d867ce33620e91a6aee0782))
+* **ValidationTooltip:** align tooltip pos type with Tooltip ([da8dbe6](https://github.com/skbkontur/retail-ui/commit/da8dbe6fc7d77084cc5e2543256318afbfb4e13a))
+
+
+
+
+
 ## [3.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.0.1...@skbkontur/react-ui-validations@3.0.2) (2026-04-08)
 
 
