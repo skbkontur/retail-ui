@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.4...@skbkontur/react-ui@6.1.5) (2026-07-15)
+
+
+### Bug Fixes
+
+* **react-ui:** break import cycles and guard compound slots ([ab0aa18](https://github.com/skbkontur/retail-ui/commit/ab0aa1832c06b082df39646fcf2d3c38fa0aacc1))
+
+
+
+
+
 ## [6.1.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.3...@skbkontur/react-ui@6.1.4) (2026-07-14)
 
 
