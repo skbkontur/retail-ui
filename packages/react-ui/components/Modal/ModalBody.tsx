@@ -13,7 +13,7 @@ import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
 import { getModalBodyTheme } from './getModalBodyTheme.js';
-import { ModalZIndexPriority } from './Modal.js';
+import { ModalZIndexPriority } from './Modal.constants.js';
 import { getStyles } from './Modal.styles.js';
 import { ModalContext } from './ModalContext.js';
 

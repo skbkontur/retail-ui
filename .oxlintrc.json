@@ -54,6 +54,7 @@
       }
     ],
     "import/no-duplicates": "warn",
+    "import/no-cycle": ["error", { "ignoreExternal": true }],
     "import/no-default-export": "error",
     "react/jsx-boolean-value": "error",
     "react/no-find-dom-node": "off",

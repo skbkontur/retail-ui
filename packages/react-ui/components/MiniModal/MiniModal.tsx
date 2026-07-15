@@ -9,14 +9,9 @@ import { MiniModalBody } from './MiniModalBody.js';
 import { MiniModalFooter } from './MiniModalFooter.js';
 import { MiniModalHeader } from './MiniModalHeader.js';
 import { MiniModalIndent } from './MiniModalIndent.js';
+import { MiniModalDataTids } from './tids.js';
 
-export const MiniModalDataTids = {
-  icon: 'MiniModal__icon',
-  title: 'MiniModal__title',
-  description: 'MiniModal__description',
-  actions: 'MiniModal__actions',
-  indent: 'MiniModal__indent',
-} as const;
+export { MiniModalDataTids };
 
 /**
  * Модальное диалоговое окно, которое предполагает обязательный отклик пользователя по одному из доступных действий. Обёртка над Modal.

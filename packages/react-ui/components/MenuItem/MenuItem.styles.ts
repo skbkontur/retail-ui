@@ -3,17 +3,9 @@ import type { Emotion } from '@emotion/css/create-instance';
 import { resetButton } from '../../lib/styles/Mixins.js';
 import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins.js';
+import { getMenuItemPaddings, iconSizeMixin, menuItemSizeMixin, withIconSizeMixin } from './MenuItem.mixins.js';
 
-export const getMenuItemPaddings = ({
-  menuItemPaddingX,
-  menuItemPaddingY,
-}: Record<'menuItemPaddingX' | 'menuItemPaddingY', string>): Record<'paddingX' | 'paddingY', string> => {
-  const paddingX = menuItemPaddingX;
-  const paddingY = menuItemPaddingY;
-
-  return { paddingX, paddingY };
-};
+export { getMenuItemPaddings };
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {

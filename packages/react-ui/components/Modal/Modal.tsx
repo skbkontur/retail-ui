@@ -24,6 +24,7 @@ import { catchUnreachableWarning } from '../../lib/typeGuards.js';
 import { isNonNullable } from '../../lib/utils.js';
 import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { getModalTheme } from './getModalTheme.js';
+import { ModalDataTids, ModalZIndexPriority } from './Modal.constants.js';
 import { getStyles } from './Modal.styles.js';
 import { ModalBody } from './ModalBody.js';
 import { ModalClose } from './ModalClose.js';
@@ -31,6 +32,8 @@ import { ModalContext } from './ModalContext.js';
 import type { ModalContextProps } from './ModalContext.js';
 import { ModalFooter } from './ModalFooter.js';
 import { ModalHeader } from './ModalHeader.js';
+
+export { ModalDataTids, ModalZIndexPriority };
 
 let mountedModalsCount = 0;
 
@@ -85,17 +88,6 @@ export interface ModalState {
   hasFooter: boolean;
   hasPanel: boolean;
 }
-
-export const ModalDataTids = {
-  container: 'modal-container',
-  content: 'modal-content',
-  close: 'modal-close',
-} as const;
-
-export const ModalZIndexPriority = {
-  Cross: 2,
-  Content: 1,
-} as const;
 
 type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role' | 'mobileAppearance'>>;
 

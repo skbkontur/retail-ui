@@ -1,6 +1,5 @@
 import { memo } from '../../lib/memo.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { getMonthInHumanFormat } from './CalendarUtils.js';
 import { themeConfig } from './config.js';
 import { DayCellViewModel } from './DayCellViewModel.js';
 
@@ -92,7 +91,7 @@ const getMonthHeight = memo(
     return weeks * dayHeight + titleHeight + marginBottom + rowSpacing * 2 + rowSpacing * (weeks - 1);
   },
 );
-const getMonthsDays = memo((month: number, year: number) => new Date(year, getMonthInHumanFormat(month), 0).getDate());
+const getMonthsDays = memo((month: number, year: number) => new Date(year, month + 1, 0).getDate());
 
 const getMonthOffset = memo((month: number, year: number) => {
   const day = new Date(year, month, 1).getDay() - 1;

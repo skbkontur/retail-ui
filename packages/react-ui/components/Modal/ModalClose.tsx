@@ -8,7 +8,7 @@ import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/in
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { ResponsiveLayout } from '../ResponsiveLayout/index.js';
 import { ModalLocaleHelper } from './locale/index.js';
-import { ModalDataTids } from './Modal.js';
+import { ModalDataTids } from './Modal.constants.js';
 import { getStyles } from './Modal.styles.js';
 import type { CloseProps } from './ModalContext.js';
 

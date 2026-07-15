@@ -1,7 +1,8 @@
 import type { Emotion } from '@emotion/css/create-instance';
 
-import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
+import { memoizeGetStyles } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
+import { globalClasses } from './Toggle.classes.js';
 import {
   buttonSizeMixin,
   captionSizeMixin,
@@ -11,14 +12,7 @@ import {
   toggleSizeMixin,
 } from './Toggle.mixins.js';
 
-export const globalClasses = prefix('toggle')({
-  handle: 'handle',
-  container: 'container',
-  disabled: 'disabled',
-  containerDisabled: 'container-disabled',
-  containerLoading: 'container-loading',
-  background: 'background',
-});
+export { globalClasses };
 
 export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   root(t: Theme) {

@@ -5,11 +5,11 @@ import { useResponsiveLayout } from '../../components/ResponsiveLayout/index.js'
 import { DateSelect } from '../../internal/DateSelect/index.js';
 import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { CalendarDataTids } from './Calendar.js';
 import { CalendarContext } from './CalendarContext.js';
 import * as CDS from './CalendarDateShape.js';
 import { themeConfig } from './config.js';
 import { getStyles } from './MonthView.styles.js';
+import { CalendarDataTids } from './tids.js';
 
 export const getMinMonth = (year: number, minDate: Nullable<CDS.CalendarDateShape>): number => {
   let min = 0;

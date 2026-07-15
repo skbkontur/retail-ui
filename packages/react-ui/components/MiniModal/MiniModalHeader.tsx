@@ -7,8 +7,8 @@ import { useEmotion, useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
 import { Modal } from '../Modal/index.js';
 import type { ModalHeaderProps } from '../Modal/index.js';
-import { MiniModalDataTids } from './MiniModal.js';
 import { getStyles } from './MiniModal.styles.js';
+import { MiniModalDataTids } from './tids.js';
 
 interface MiniModalHeaderProps extends ModalHeaderProps {
   /** Задает иконку в шапку компонента.

@@ -1,4 +1,12 @@
-import { getMenuItemPaddings } from './MenuItem.styles.js';
+export const getMenuItemPaddings = ({
+  menuItemPaddingX,
+  menuItemPaddingY,
+}: Record<'menuItemPaddingX' | 'menuItemPaddingY', string>): Record<'paddingX' | 'paddingY', string> => {
+  const paddingX = menuItemPaddingX;
+  const paddingY = menuItemPaddingY;
+
+  return { paddingX, paddingY };
+};
 
 export const menuItemSizeMixin = (
   menuItemPaddingX: string,

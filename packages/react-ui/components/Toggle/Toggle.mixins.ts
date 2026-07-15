@@ -1,5 +1,5 @@
 import { isChrome } from '../../lib/client.js';
-import { globalClasses } from './Toggle.styles.js';
+import { globalClasses } from './Toggle.classes.js';
 
 export const toggleSizeMixin = (fontSize: string, toggleHeight: string, toggleWidth: string): string => {
   return `

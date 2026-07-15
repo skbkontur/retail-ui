@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
 import { useStyles } from '../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
-import { MiniModalDataTids } from './MiniModal.js';
 import { getStyles } from './MiniModal.styles.js';
+import { MiniModalDataTids } from './tids.js';
 
 /**
  * Вертикальный отступ между группами элементов в зоне футера мини-модалки.

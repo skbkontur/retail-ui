@@ -32,6 +32,9 @@ import * as CalendarUtils from './CalendarUtils.js';
 import { themeConfig } from './config.js';
 import { Month } from './Month.js';
 import { MonthViewModel } from './MonthViewModel.js';
+import { CalendarDataTids } from './tids.js';
+
+export { CalendarDataTids };
 
 export interface CalendarProps extends CommonProps {
   /** Событие изменения value.
@@ -90,14 +93,6 @@ export interface CalendarMonthChangeInfo {
   month: number;
   year: number;
 }
-
-export const CalendarDataTids = {
-  root: 'Calendar__root',
-  month: 'MonthView__month',
-  dayCell: 'DayCellView__root',
-  headerMonth: 'MonthView__headerMonth',
-  headerYear: 'MonthView__headerYear',
-} as const;
 
 type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 

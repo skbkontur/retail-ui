@@ -1,6 +1,5 @@
 import type { InternalDate } from './InternalDate.js';
 import { InternalDateGetter } from './InternalDateGetter.js';
-import { InternalDateTransformer } from './InternalDateTransformer.js';
 import type { InternalDateComponentRaw, InternalDateComponentsNumber, InternalDateComponentsRaw } from './types.js';
 import { InternalDateComponentType } from './types.js';
 
@@ -77,7 +76,7 @@ export class InternalDateValidator {
   }
 
   public static compareWithNativeDate({ year, month, date }: InternalDateComponentsNumber): boolean {
-    const nativeDate = InternalDateTransformer.componentsToNativeDate({ year, month, date });
+    const nativeDate = new Date(Date.UTC(year, month - 1, date));
     return (
       nativeDate.getUTCFullYear() === year && nativeDate.getUTCMonth() + 1 === month && nativeDate.getUTCDate() === date
     );
