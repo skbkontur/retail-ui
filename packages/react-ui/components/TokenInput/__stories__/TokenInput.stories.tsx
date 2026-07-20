@@ -482,7 +482,7 @@ export const MobileCombined: Story = () => {
 };
 
 MobileCombined.parameters = {
-  creevey: { skip: true },
+  creevey: { captureElement: null },
   viewport: {
     defaultViewport: 'iphone',
   },
@@ -503,7 +503,7 @@ export const MobileWithoutReference: Story = () => {
   );
 };
 MobileWithoutReference.parameters = {
-  creevey: { skip: true },
+  creevey: { captureElement: null },
   viewport: {
     defaultViewport: 'iphone',
   },
