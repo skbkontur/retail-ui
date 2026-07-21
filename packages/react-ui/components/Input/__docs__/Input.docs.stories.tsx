@@ -171,7 +171,7 @@ export const ExampleSelectAllOnFocus: Story = () => {
 };
 ExampleSelectAllOnFocus.storyName = 'Выделение всего значения при фокусе';
 
-/** Внутри поля можно отобразить префикс  — через проп `prefix` или суфикс — `suffix`. Префикс отображает контент слева от вводимого текста, суфикс — справа. */
+/** Внутри поля можно отобразить префикс  — через проп `prefix` или суффикс — `suffix`. Префикс отображает контент слева от вводимого текста, суффикс — справа. */
 export const ExamplePrefixSuffix: Story = () => {
   return (
     <div
@@ -186,7 +186,7 @@ export const ExamplePrefixSuffix: Story = () => {
     </div>
   );
 };
-ExamplePrefixSuffix.storyName = 'Префикс и суфикс';
+ExamplePrefixSuffix.storyName = 'Префикс и суффикс';
 
 /** За отображение счётчика введённых символов отвечают пропсы:
  * - `showLengthCounter` — отображает счётчик символов.
