@@ -364,7 +364,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     } else {
       anchor = <span>{anchorElement}</span>;
     }
-
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {

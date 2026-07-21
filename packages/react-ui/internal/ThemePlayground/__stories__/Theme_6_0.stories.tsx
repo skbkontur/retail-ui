@@ -8,6 +8,7 @@ import { DatePicker } from '../../../components/DatePicker/DatePicker.js';
 import { DateRangePicker } from '../../../components/DateRangePicker/DateRangePicker.js';
 import { Select } from '../../../components/Select/Select.js';
 import { Textarea } from '../../../components/Textarea/Textarea.js';
+import { TokenInput } from '../../../components/TokenInput/TokenInput.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { LIGHT_THEME_6_0 } from '../../../lib/theming/themes/LightTheme.js';
 import type { Story, Meta } from '../../../typings/stories.js';
@@ -155,6 +156,27 @@ export const ComboBoxMobile6_0: Story = () => {
 ComboBoxMobile6_0.storyName = 'ComboBox mobile 6.0';
 ComboBoxMobile6_0.parameters = mobileChromeParameters;
 ComboBoxMobile6_0.decorators = [mobileDecorator];
+
+const TOKEN_INPUT_COLORS = ['Красный', 'Оранжевый', 'Жёлтый', 'Зелёный', 'Голубой', 'Синий', 'Фиолетовый'];
+
+export const TokenInputMobile6_0: Story = () => {
+  const [selectedItems, setSelectedItems] = React.useState(['Красный', 'Синий']);
+
+  return (
+    <TokenInput
+      autoFocus
+      getItems={(q) =>
+        Promise.resolve(TOKEN_INPUT_COLORS.filter((x) => x.toLowerCase().includes(q.toLowerCase()) || x === q))
+      }
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      placeholder="Выберите или введите значения"
+    />
+  );
+};
+TokenInputMobile6_0.storyName = 'TokenInput mobile 6.0';
+TokenInputMobile6_0.parameters = mobileChromeParameters;
+TokenInputMobile6_0.decorators = [mobileDecorator];
 
 const textareaCounterBlockStyle = { padding: '20px 0' };
 

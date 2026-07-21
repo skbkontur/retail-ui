@@ -113,6 +113,15 @@ kind('ThemeVersions/6_0', () => {
     });
   });
 
+  story('TokenInputMobile6_0', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'mobile only': { in: /^(?!\b(chromeMobile)\b)/ },
+      },
+      captureElement: null,
+    });
+  });
+
   story('TextareaCounter6_0', ({ setStoryParameters }) => {
     setStoryParameters({
       skip: {
