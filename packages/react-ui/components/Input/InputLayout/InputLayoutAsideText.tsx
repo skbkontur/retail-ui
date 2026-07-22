@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useEmotion, useStyles } from '../../../lib/renderEnvironment/index.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../../lib/theming/ThemeHelpers.js';
 import type { InputProps } from '../Input.js';
 import { getStylesLayout } from './InputLayout.styles.js';
 import { InputLayoutContext } from './InputLayoutContext.js';
@@ -15,11 +16,18 @@ export const InputLayoutAsideText: React.FunctionComponent<InputLayoutAsideTextP
   const { cx } = useEmotion();
   const stylesLayout = useStyles(getStylesLayout);
   const { disabled } = React.useContext(InputLayoutContext);
-
+  const themeGTE6_3 = isThemeGTE(theme, '6.3');
   const asideClassName = stylesLayout.aside();
 
   return text ? (
-    <span className={cx(asideClassName, stylesLayout.text(theme), disabled && stylesLayout.textDisabled(theme))}>
+    <span
+      className={cx(
+        asideClassName,
+        stylesLayout.text(theme),
+        themeGTE6_3 && stylesLayout.text6_3(theme),
+        disabled && stylesLayout.textDisabled(theme),
+      )}
+    >
       {text}
     </span>
   ) : null;

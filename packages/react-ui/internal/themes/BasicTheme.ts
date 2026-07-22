@@ -2223,6 +2223,7 @@ export class BasicThemeClass {
     return this.placeholderColor;
   }
 
+  public static inputAffixColor = colors.textNeutralSoft;
   public static get inputPlaceholderColorLight(): string {
     return this.placeholderColorLight;
   }

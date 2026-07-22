@@ -20,4 +20,12 @@ kind('ThemeVersions/6_2', () => {
       await context.matchImage(await context.takeScreenshot(), 'withMenu');
     });
   });
+
+  story('InputAffixColor6_2', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: {
+        'no themes': { in: /^(?!\b(chrome2022)\b)/ },
+      },
+    });
+  });
 });

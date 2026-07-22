@@ -563,6 +563,7 @@ export const DarkTheme6_0 = createTheme({
     public static get inputPlaceholderColor(): string {
       return this.placeholderColor;
     }
+    public static inputAffixColor = colors.textNeutralSoft;
     public static get inputPlaceholderColorLight(): string {
       return this.placeholderColorLight;
     }
