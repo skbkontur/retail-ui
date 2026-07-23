@@ -68,6 +68,76 @@
       font-family: monospace;
       font-size: 14px;
     }
+
+    details {
+      margin-top: 8px;
+      margin-bottom: 40px;
+    }
+
+    & > details summary {
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.04);
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 4px;
+      padding: 16px;
+      background: #fcfdff;
+      border: 1px solid #d9dfe3;
+      color: #222 !important;
+      user-select: none;
+      transition: background-color 0.1s ease;
+      cursor: pointer;
+    }
+
+    & > details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    & > details summary::marker {
+      content: none;
+    }
+
+    & > details summary:before {
+      content: '';
+      display: inline-block;
+      position: relative;
+      top: 3px;
+      left: -4.5px;
+      width: 16px;
+      height: 16px;
+      background: url(https://s.kontur.ru/common-v2/icons-ui/black/arrow-c-right/arrow-c-right-16-Regular.svg);
+      transition: transform 0.1s ease;
+    }
+
+    & > details:not([open]):hover summary {
+      background: #f9fafc !important;
+      border: 1px solid #dde4ea;
+    }
+
+    & > details:not([open]):active summary {
+      background: #f6f7fb !important;
+      border: 1px solid #d1dae1;
+    }
+
+    & > details[open] summary {
+      border: 1px solid #dde4ea;
+    }
+
+    & > details[open] summary:before {
+      transform: rotate(90deg);
+    }
+
+    & > details[open] summary,
+    & > details[open] summary:hover {
+      background: #f9fafc !important;
+    }
+
+    & > details[open] summary:active {
+      background: #f5f7fb !important;
+    }
+
+    & > details[open] table {
+      margin-top: 4px !important;
+    }
   }
 
   .toc-list-item.is-active-li > a {
@@ -170,7 +240,7 @@
     font-size: 14px !important;
   }
 
-  .toc-link[class*="node-name--H3"] {
+  .toc-link[class*='node-name--H3'] {
     display: none;
   }
 
