@@ -56,7 +56,7 @@ export const TokenDataTids = {
 
 /** Токены — это значение заданного формата внутри поля ввода. Например, номера телефонов, почты, ИНН, СНИЛС, статусы, группы и другие.
  *
- * Используется ак значение внутри [TokenInput](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-tokeninput--docs).
+ * Используется как значение внутри `TokenInput`.
  */
 @withRenderEnvironment
 @rootNode

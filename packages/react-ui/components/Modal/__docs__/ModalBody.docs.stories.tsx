@@ -4,7 +4,7 @@ import type { Meta } from '../../../typings/stories.js';
 import { ModalBody } from '../ModalBody.js';
 
 const meta: Meta = {
-  title: 'Overlay/Modal/ModalBody',
+  title: 'Overlay/Modal',
   component: ModalBody,
   parameters: { creevey: { skip: true } },
 };

@@ -4,19 +4,19 @@ import React from 'react';
 import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
-  title: 'Input data/TokenInput/Token',
+  title: 'Input data/TokenInput',
   component: Token,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ExampleBasic: Story = () => {
+export const ExampleTokenBasic: Story = () => {
   return <Token>mail@example.ru</Token>;
 };
 
 /** Проп `size` задаёт размер токена. */
-export const ExampleSize: Story = () => {
+export const ExampleTokenSize: Story = () => {
   return (
     <Gapped vertical>
       <Token size="small">Маленький</Token>
@@ -25,7 +25,7 @@ export const ExampleSize: Story = () => {
     </Gapped>
   );
 };
-ExampleSize.storyName = 'Размер';
+ExampleTokenSize.storyName = 'Размер';
 
 /** Проп `isActive` переводит токен в активное состояние. По умолчанию, это происходит, когда токен находится в фокусе. */
 export const ExampleIsActive: Story = () => {
@@ -39,10 +39,10 @@ export const ExampleIsActive: Story = () => {
 ExampleIsActive.storyName = 'Активный токен';
 
 /** Проп `disabled` блокирует токен. */
-export const ExampleDisabled: Story = () => {
+export const ExampleTokenDisabled: Story = () => {
   return <Token disabled>mail@example.ru</Token>;
 };
-ExampleDisabled.storyName = 'Состояние блокировки';
+ExampleTokenDisabled.storyName = 'Состояние блокировки';
 
 /** Проп `error` меняет визуальное отображение поля на состояние ошибки, а `warning` — на предупреждение. */
 export const ExampleErrorWarning: Story = () => {

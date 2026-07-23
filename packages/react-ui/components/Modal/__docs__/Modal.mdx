@@ -1,9 +1,12 @@
 import * as ModalStories from './Modal.docs.stories.tsx';
+import * as ModalHeaderStories from './ModalHeader.docs.stories.tsx';
+import * as ModalFooterStories from './ModalFooter.docs.stories.tsx';
 import * as ModalExamples from './ModalMobile.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import { Modal, ModalHeader, ModalFooter, ModalBody } from '@skbkontur/react-ui';
 
 <Meta of={ModalStories} />
 
@@ -25,9 +28,115 @@ import { Modal } from '@skbkontur/react-ui';
 
 <PropsTable />
 
+## Использование
+
+Модальное окно — составной компонент, включает в себя подкомпоненты структуры:
+
+```js
+<Modal>
+  <Modal.Header> // «шапка», состоит из заголовка и крестика закрытия окна
+  <Modal.Body> // контент-зона
+  <Modal.Footer> // футер
+```
+
 ## Примеры
 
-<Stories title="" includePrimary={false} />
+### Ширина
+
+Проп `width` задаёт ширину модального окна.
+
+<Story of={ModalStories.ExampleWidth} />
+
+### Закрытие модального окна
+
+Проп `alignTop` перемещает модальное окно в верхнюю часть страницы.
+
+<Story of={ModalStories.ExampleOnClose} />
+
+### Расположение в верхней части страницы
+
+Cобытие `onClose` задаёт функцию, которая вызывается, когда пользователь запросил закрытие окна — нажал на фон, Escape или крестик.
+
+<Story of={ModalStories.ExampleAlignTop} />
+
+### Блокировка крестика и отключение события onClose
+
+Проп `disableClose` отключает событие `onClose` и блокирует кнопку закрытия модального окна.
+
+<Story of={ModalStories.ExampleDisableClose} />
+
+### Блокировка закрытия при клике вне модального окна
+
+Проп `ignoreBackgroundClick` оставляет модальное окно открытым, когда пользователь кликнул на фон.
+
+<Story of={ModalStories.ExampleIgnoreBackgroundClick} />
+
+### Скрытие крестика закрытия
+
+Проп `noClose` скрывает крестик закрытия.
+
+<Story of={ModalStories.ExampleNoClose} />
+
+## Modal.Header
+
+<Description of={Modal.Header} />
+
+<details>
+  <summary>Пропсы для Modal.Header </summary>
+  <ArgTypes of={Modal.Header} />
+</details>
+
+### Примеры
+
+#### Закрепление заголовка
+
+Проп `sticky` закрепляет заголовок вверху модального окна.
+
+<Story of={ModalHeaderStories.ExampleStickyHeader} />
+
+#### Транкейт заголовка при закреплении через sticky
+
+Проп `cutTitleOnStuck` обрезает часть длинного заголовка, если включен проп закрепления — `sticky`
+
+<Story of={ModalHeaderStories.ExampleCutHeader} />
+
+### Modal.Body
+
+<Description of={Modal.Body} />
+
+<details>
+  <summary>Пропсы для Modal.Body </summary>
+  <ArgTypes of={Modal.Body} />
+</details>
+
+### Modal.Footer
+
+<Description of={Modal.Footer} />
+
+<details>
+  <summary>Пропсы для Modal.Footer </summary>
+  <ArgTypes of={Modal.Footer} />
+</details>
+
+### Примеры
+
+#### Закрепление футера
+
+Проп `sticky` для закрепляет футер снизу модального окна. На десктопе — `true`, на мобильных — `false`.
+
+<Story of={ModalFooterStories.ExampleStickyFooter} />
+
+#### Разделитель перед футером
+
+Проп `panel` визуально отделяет футер от остальной части модального окна с помощью разделителя.
+
+<Story of={ModalFooterStories.ExamplePanel} />
+
+#### Расстояние между элементами в футере
+
+Проп `gap` задаёт расстояние между элементами футера в пикселях.
+
+<Story of={ModalFooterStories.ExampleGap} />
 
 ## Доступность
 

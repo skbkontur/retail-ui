@@ -15,15 +15,6 @@ export { MiniModalDataTids };
 
 /**
  * Модальное диалоговое окно, которое предполагает обязательный отклик пользователя по одному из доступных действий. Обёртка над Modal.
- *
- * Состоит из набора подкомпонентов:
- * - `MiniModal.Header`
- * - `MiniModal.Body`
- * - `MiniModal.Footer`
- * - `MiniModal.Indent`
- *
- * Тот же набор доступен как `MiniModalHeader`, `MiniModalBody`, `MiniModalFooter`, `MiniModalIndent`.
- *
  */
 export const MiniModal = forwardRefAndName<
   Modal,

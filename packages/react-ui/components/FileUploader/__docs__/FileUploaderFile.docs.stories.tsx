@@ -9,17 +9,17 @@ import { FileUploaderFile } from '../FileUploaderFile.js';
 import { createFile } from '../fileUtils.js';
 
 const meta: Meta = {
-  title: 'Input data/FileUploader/FileUploaderFile',
+  title: 'Input data/FileUploader',
   component: FileUploaderFile,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ExampleBasic: Story = () => {
+export const ExampleFileBasic: Story = () => {
   return <FileUploader initialFiles={[createFile('example.txt')]} />;
 };
-ExampleBasic.storyName = 'Базовый пример';
+ExampleFileBasic.storyName = 'Базовый пример';
 
 /** Проп `showSize` отображает размер файла. */
 export const ExampleShowSize: Story = () => {

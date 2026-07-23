@@ -7,14 +7,14 @@ import { MiniModalHeader } from '../MiniModalHeader.js';
 import { MiniModalIndent } from '../MiniModalIndent.js';
 
 const meta: Meta = {
-  title: 'Overlay/MiniModal/MiniModalIndent',
+  title: 'Overlay/MiniModal',
   component: MiniModalIndent,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ExampleBasic: Story = () => {
+export const ExampleIndentBasic: Story = () => {
   const [opened, setOpened] = React.useState(false);
   const close = () => setOpened(false);
 
@@ -41,7 +41,7 @@ export const ExampleBasic: Story = () => {
     </>
   );
 };
-ExampleBasic.storyName = 'Базовый пример';
+ExampleIndentBasic.storyName = 'Базовый пример';
 
 export const ExampleTwoGroups: Story = () => {
   const [opened, setOpened] = React.useState(false);

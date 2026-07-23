@@ -7,14 +7,14 @@ import { MiniModalBody } from '../MiniModalBody.js';
 import { MiniModalHeader } from '../MiniModalHeader.js';
 
 const meta: Meta = {
-  title: 'Overlay/MiniModal/MiniModalBody',
+  title: 'Overlay/MiniModal',
   component: MiniModalBody,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ExampleBasic: Story = () => {
+export const ExampleBodyBasic: Story = () => {
   const [opened, setOpened] = React.useState(false);
   const close = () => setOpened(false);
 
@@ -35,7 +35,7 @@ export const ExampleBasic: Story = () => {
     </>
   );
 };
-ExampleBasic.storyName = 'Базовый пример';
+ExampleBodyBasic.storyName = 'Базовый пример';
 
 export const ExampleLongerText: Story = () => {
   const [opened, setOpened] = React.useState(false);

@@ -1,8 +1,13 @@
 import * as SidePageStories from './SidePage.docs.stories.tsx';
-import { Primary, ArgTypes, Stories, Description } from '@storybook/blocks';
+import * as SidePageHeaderStories from './SidePageHeader.docs.stories.tsx';
+import * as SidePageBodyStories from './SidePageBody.docs.stories.tsx';
+import * as SidePageFooterStories from './SidePageFooter.docs.stories.tsx';
+import * as SidePageContainerStories from './SidePageContainer.docs.stories.tsx';
+import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import { SidePage } from '@skbkontur/react-ui';
 
 <Meta of={SidePageStories} />
 
@@ -30,12 +35,88 @@ import { SidePage } from '@skbkontur/react-ui';
 
 **Когда не использовать**
 
-Не используйте сайдпейдж для коротких сообщений и подтверждений, для этого лучше подходит [модальное окно](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs).
+Не используйте сайдпейдж для коротких сообщений и подтверждений, для этого лучше подходит [модальное окно](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal--docs).
 Также сайдпейдж не может заменить полноценную страницу, потому что ограничен по ширине.
+
+**Связанные компоненты**
+
+Составной компонент, включает в себя подкомпоненты структуры:
+
+```jsx
+<SidePage>
+  <SidePage.Header> // шапка сайдпейджа, состоит из заголовка и крестика закрытия
+  <SidePage.Body> // контент-зона
+    <SidePage.Container> // контейнер с отступами для содержимого сайдпейджа
+  <SidePage.Footer> // футер
+```
 
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## SidePage.Header
+
+<Description of={SidePage.Header} />
+
+<details>
+  <summary>Пропсы для SidePage.Header </summary>
+  <ArgTypes of={SidePage.Header} />
+</details>
+
+### Примеры
+
+#### Закрепление заголовка
+
+Проп `sticky` закрепляет заголовок при прокрутке содержимого. По умолчанию закрепление включено.
+
+<Story of={SidePageHeaderStories.ExampleHeaderSticky} />
+
+#### Транкейт заголовка при закреплении заголовка
+
+Проп `cutTitleOnStuck` обрезает часть длинного заголовка в шапке при прокрутке содержимого, если включен проп закрепления заголовка — `sticky`.
+
+<Story of={SidePageHeaderStories.ExampleCutTitleOnStuck} />
+
+## SidePage.Container
+
+<Description of={SidePage.Container} />
+
+<details>
+  <summary>Пропсы для SidePage.Container </summary>
+  <ArgTypes of={SidePage.Container} />
+</details>
+
+## SidePage.Body
+
+<Description of={SidePage.Body} />
+
+<details>
+  <summary>Пропсы для SidePage.Body </summary>
+  <ArgTypes of={SidePage.Body} />
+</details>
+
+## SidePage.Footer
+
+<Description of={SidePage.Footer} />
+
+<details>
+  <summary>Пропсы для SidePage.Footer </summary>
+  <ArgTypes of={SidePage.Footer} />
+</details>
+
+### Примеры
+
+#### Разделитель перед футером
+
+Проп `panel` визуально отделяет футер от остальной части сайдпейджа с помощью разделителя.
+
+<Story of={SidePageFooterStories.ExamplePanel} />
+
+#### Закрепление футера
+
+Проп `sticky` закрепляет футер при прокрутке содержимого. По умолчанию закрепление включено.
+
+<Story of={SidePageFooterStories.ExampleStickyFooter} />
 
 ## Доступность
 

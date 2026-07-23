@@ -124,7 +124,7 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 /**
- * `FileUploaderFile` показывает одну строку файла внутри [FileUploader](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-fileuploader-fileuploader--docs): имя, тип, размер, статусы и удаление.
+ * `FileUploaderFile` показывает одну строку файла внутри `FileUploader`: имя, тип, размер, статусы и удаление.
  */
 export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFileProps>(
   'FileUploaderFile',

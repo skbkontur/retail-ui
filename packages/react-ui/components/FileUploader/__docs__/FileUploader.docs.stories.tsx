@@ -13,7 +13,7 @@ import type { Meta, Story } from '../../../typings/stories.js';
 import { type FileUploaderAttachedFile, FileUploaderFileStatus, createFile } from '../fileUtils.js';
 
 const meta: Meta = {
-  title: 'Input data/FileUploader/FileUploader',
+  title: 'Input data/FileUploader',
   component: FileUploader,
   parameters: { creevey: { skip: true } },
 };

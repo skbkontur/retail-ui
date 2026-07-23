@@ -4,14 +4,14 @@ import React from 'react';
 import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
-  title: 'Display data/Tabs/Tab',
+  title: 'Display data/Tabs',
   component: Tab,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const BasicExample: Story = () => {
+export const ExampleTabBasic: Story = () => {
   return (
     <Tabs value="tab">
       <Tab id="tab">Tab</Tab>
@@ -21,7 +21,7 @@ export const BasicExample: Story = () => {
 
 /** С помощью пропа `component` можно изменять корневой элемент `<Tab />`.
 Проп может принимать компоненты, функции и строки. */
-export const ComponentPropExample: Story = () => {
+export const ExampleComponentProp: Story = () => {
   const [active, setActive] = React.useState('/fuji');
 
   const NavLink = (props: React.ComponentProps<'a'>) => <a {...props}>{props.children}</a>;
@@ -43,12 +43,12 @@ export const ComponentPropExample: Story = () => {
     </Tabs>
   );
 };
-ComponentPropExample.storyName = 'Изменение корневого компонента Tab';
+ExampleComponentProp.storyName = 'Изменение корневого компонента';
 
 /**
  * Проп `disabled` блокирует таб, делая его недоступным для нажатия.
  */
-export const DisabledExample: Story = () => {
+export const ExampleDisabled: Story = () => {
   const [active, setActive] = React.useState('/tab');
   return (
     <Tabs value={active} onValueChange={setActive}>
@@ -59,12 +59,12 @@ export const DisabledExample: Story = () => {
     </Tabs>
   );
 };
-DisabledExample.storyName = 'Блокировка таба';
+ExampleDisabled.storyName = 'Блокировка таба';
 
 /**
  * Пропсы `primary`, `success`, `warning` и `error` задают визуальное состояние выбранного таба.
  */
-export const VisualStateExample: Story = () => {
+export const ExampleVisualState: Story = () => {
   return (
     <Gapped gap={10}>
       <Tabs value="primary">
@@ -90,10 +90,10 @@ export const VisualStateExample: Story = () => {
     </Gapped>
   );
 };
-VisualStateExample.storyName = 'Визуальные состояния выбранного таба: primary, success, warning, error';
+ExampleVisualState.storyName = 'Визуальные состояния выбранного таба';
 
 /** Используя переменные `tabColorPrimary`, `tabColorSuccess`, `tabColorWarning` и `tabColorError` можно изменить цвет активного состояния, а библиотека автоматически подберёт цвет подчёркивания при наведении. */
-export const CustomizationExample: Story = () => {
+export const ExampleCustomization: Story = () => {
   const getRandomColor = () => '#' + Math.random().toString(16).substr(-6);
   const updateColors = () => {
     return {
@@ -138,4 +138,4 @@ export const CustomizationExample: Story = () => {
     </>
   );
 };
-CustomizationExample.storyName = 'Кастомизация: цвет активного состояния';
+ExampleCustomization.storyName = 'Кастомизация: цвет активного состояния';

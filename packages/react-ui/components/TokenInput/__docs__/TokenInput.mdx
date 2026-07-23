@@ -1,9 +1,11 @@
 import * as TokenInputStories from './TokenInput.docs.stories.tsx';
 import * as TokenInputExamples from './TokenInputValidation.docs.stories.tsx';
+import * as TokenStories from './Token.docs.stories.tsx';
 import { Primary, ArgTypes, Stories, Description, Story } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import { Token } from '@skbkontur/react-ui';
 
 <Meta of={TokenInputStories} />
 
@@ -31,9 +33,53 @@ import { TokenInput } from '@skbkontur/react-ui';
 
 Поле с токенами похоже на [комбобокс](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-combobox--docs), но используется в случаях, когда нужно указать сразу много однородных элементов — токенов.
 
+**Связанные компоненты**
+
+Токен реализован через отдельный компонент `Token` (см.ниже).
+
+```jsx
+<TokenInput>
+  <Token> // токен
+```
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Token
+
+```jsx
+import { Token } from '@skbkontur/react-ui';
+```
+
+<Description of={Token} />
+
+<Story of={TokenStories.ExampleTokenBasic} />
+
+<details>
+  <summary>Пропсы для Token </summary>
+  <ArgTypes of={Token} />
+</details>
+
+### Примеры
+
+#### Размер
+
+Проп `size` задаёт размер токена.
+
+<Story of={TokenStories.ExampleTokenSize} />
+
+#### Активный токен
+
+Проп `disabled` блокирует токен.
+
+<Story of={TokenStories.ExampleTokenDisabled} />
+
+#### Состояния ошибки и предупреждения
+
+Проп `error` меняет визуальное отображение поля на состояние ошибки, а `warning` — на предупреждение.
+
+<Story of={TokenStories.ExampleErrorWarning} />
 
 ## Доступность
 

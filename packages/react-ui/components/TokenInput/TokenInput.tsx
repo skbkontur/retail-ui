@@ -283,7 +283,7 @@ const defaultRenderToken = <T extends AnyObject>(
   </Token>
 );
 
-/** Поле с токенами — это поле ввода со списком подсказок. Значения в поле отображаются в виде отдельных токенов — компонент [Token](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-tokeninput-token--docs).
+/** Поле с токенами — это поле ввода со списком подсказок. Значения в поле отображаются в виде отдельных токенов.
  */
 @responsiveLayout
 @withRenderEnvironment

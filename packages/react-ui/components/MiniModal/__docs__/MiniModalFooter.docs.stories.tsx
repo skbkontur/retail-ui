@@ -7,7 +7,7 @@ import { MiniModalFooter } from '../MiniModalFooter.js';
 import { MiniModalHeader } from '../MiniModalHeader.js';
 
 const meta: Meta = {
-  title: 'Overlay/MiniModal/MiniModalFooter',
+  title: 'Overlay/MiniModal',
   component: MiniModalFooter,
   parameters: { creevey: { skip: true } },
 };
@@ -15,7 +15,7 @@ const meta: Meta = {
 export default meta;
 
 /** Две кнопки — два прямых ребёнка: раскладка `row` (при `direction="row"`). */
-export const ExampleBasic: Story = () => {
+export const ExampleFooterBasic: Story = () => {
   const [opened, setOpened] = React.useState(false);
   const close = () => setOpened(false);
 
@@ -38,7 +38,7 @@ export const ExampleBasic: Story = () => {
     </>
   );
 };
-ExampleBasic.storyName = 'Базовый пример';
+ExampleFooterBasic.storyName = 'Базовый пример';
 
 /** Три кнопки — принудительно column. */
 export const ExampleThreeButtons: Story = () => {

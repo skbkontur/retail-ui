@@ -6,14 +6,14 @@ import { MiniModal } from '../MiniModal.js';
 import { MiniModalHeader } from '../MiniModalHeader.js';
 
 const meta: Meta = {
-  title: 'Overlay/MiniModal/MiniModalHeader',
+  title: 'Overlay/MiniModal',
   component: MiniModalHeader,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const ExampleBasic: Story = () => {
+export const ExampleHeaderBasic: Story = () => {
   const [opened, setOpened] = React.useState(false);
   const close = () => setOpened(false);
 
@@ -33,7 +33,7 @@ export const ExampleBasic: Story = () => {
     </>
   );
 };
-ExampleBasic.storyName = 'Базовый пример';
+ExampleHeaderBasic.storyName = 'Базовый пример';
 
 export const ExampleWithoutIcon: Story = () => {
   const [opened, setOpened] = React.useState(false);

@@ -6,7 +6,7 @@ import type { Meta, Story } from '../../../typings/stories.js';
 import { cities } from '../../ComboBox/__mocks__/cities.js';
 
 const meta: Meta = {
-  title: 'Input data/TokenInput/TokenInput',
+  title: 'Input data/TokenInput',
   component: TokenInput,
   parameters: { creevey: { skip: true } },
 };

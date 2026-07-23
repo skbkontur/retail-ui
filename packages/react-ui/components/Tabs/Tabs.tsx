@@ -37,7 +37,7 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
   /** Идентификатор активного таба. Совпадает с `id` выбранного `<Tab />`. */
   value: T;
 
-  /** Вызывается при смене активного таба. */
+  /** Событие смены активного таба. */
   onValueChange?: (value: T) => void;
 
   /** Располагает табы вертикально.
@@ -59,7 +59,7 @@ export const TabsDataTids = {
 type DefaultProps = Required<Pick<TabsProps, 'vertical' | 'size'>>;
 
 /**
- * Контейнер для компонента [Tab](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-tabs-tab--doc). Группирует табы и позволяет управлять их состоянием.
+ * Табы группируют контент и помогают в навигации.
  */
 @withRenderEnvironment
 @rootNode

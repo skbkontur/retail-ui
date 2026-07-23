@@ -9,7 +9,7 @@ import React from 'react';
 import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
-  title: 'Overlay/MiniModal/MiniModal',
+  title: 'Overlay/MiniModal',
   component: MiniModal,
   parameters: { creevey: { skip: true } },
 };

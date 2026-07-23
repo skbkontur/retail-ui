@@ -1,8 +1,10 @@
 import * as TabsStories from './Tabs.docs.stories.tsx';
+import * as TabStories from './Tab.docs.stories.tsx';
 import { Primary, ArgTypes, Story, Stories, Description } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import { Tabs } from '@skbkontur/react-ui';
 
 <Meta of={TabsStories} />
 
@@ -33,9 +35,56 @@ import { Tabs } from '@skbkontur/react-ui';
 - Для основной навигации. Для этого лучше подходит главное меню на цветной плашке — оно более заметно на странице.
 - Для состояний — для этого есть [RadioGroup](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs), [Toggle](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-toggle--docs) и [Switcher](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-switcher--docs).
 
+**Связанные компоненты**
+
+Таб реализован через подкомпонент `Tabs.Tab` (см.ниже).
+
+```jsx
+<Tabs>
+  <Tabs.Tab> // один таб
+```
+
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## Tabs.Tab
+
+<Description of={Tabs.Tab} />
+
+<Story of={TabStories.ExampleTabBasic} />
+
+<details>
+  <summary>Пропсы для Tabs.Tab </summary>
+  <ArgTypes of={Tabs.Tab} />
+</details>
+
+### Примеры
+
+#### Изменение корневого компонента
+
+С помощью пропа `component` можно изменять корневой элемент `<Tab />`.
+Проп может принимать компоненты, функции и строки.
+
+<Story of={TabStories.ExampleComponentProp} />
+
+#### Блокировка таба
+
+Проп `disabled` блокирует таб, делая его недоступным для нажатия.
+
+<Story of={TabStories.ExampleDisabled} />
+
+#### Визуальные состояния выбранного таба
+
+Пропсы `primary`, `success`, `warning` и `error` задают визуальное состояние выбранного таба.
+
+<Story of={TabStories.ExampleVisualState} />
+
+#### Кастомизация: цвет активного состояния
+
+Используя переменные `tabColorPrimary`, `tabColorSuccess`, `tabColorWarning` и `tabColorError` можно изменить цвет активного состояния, а библиотека автоматически подберёт цвет подчёркивания при наведении.
+
+<Story of={TabStories.ExampleCustomization} />
 
 ## Доступность
 
@@ -44,6 +93,7 @@ import { Tabs } from '@skbkontur/react-ui';
 **Рекомендации**
 
 - Используйте `aria-describedby` для связи группы табов с элементом, содержащим дополнительное, развёрнутое описание.
+- Используйте `aria-label`, чтобы задать доступное имя таба для пользователей скринридеров.
 
 ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
 

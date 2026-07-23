@@ -26,7 +26,7 @@ export const SwitcherDataTids = {
 } as const;
 
 export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, CommonProps {
-  /** Задает список элементов в свитчере. Это массив строк или объектов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }` */
+  /** Задаёт список элементов в свитчере. Это массив строк или объектов типа `{ label: string, value: string, buttonProps?: Partial<ButtonProps> }` */
   items: SwitcherItems[];
 
   /** Значение свитчера. */
@@ -50,7 +50,7 @@ export interface SwitcherProps extends Pick<HTMLAttributes<unknown>, 'role'>, Co
   /** Блокирует свитчер. */
   disabled?: boolean;
 
-  /** Задает функцию отрисовки элемента. Параметр `renderDefault` - это встроенная дефолтная функция отрисовки элемента, которую можно вызывать в `renderItem`. */
+  /** Задаёт функцию отрисовки элемента. Параметр `renderDefault` - это встроенная дефолтная функция отрисовки элемента, которую можно вызывать в `renderItem`. */
   renderItem?: (
     label: string,
     value: string,
@@ -74,7 +74,7 @@ interface SwitcherItem {
 }
 
 /**
- * Переключатель — это замена группе радиокнопок. Переключатель меньше по высоте, это позволяет делать формы компактнее.
+ * Переключатель используется для выбора одного значения из нескольких. Похож на [группу радиокнопок]https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs), но более компактный.
  */
 @withRenderEnvironment
 @rootNode

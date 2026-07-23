@@ -92,11 +92,6 @@ export interface ModalState {
 type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock' | 'role' | 'mobileAppearance'>>;
 
 /** Модальное окно — это эмуляция диалогового окна браузера, оно появляется поверх страницы в ответ на действия пользователя и блокирует доступ к основному содержимому страницы.
- *
- * Составной компонент, включает в себя:
- * - «шапку» [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs), состоящую из заголовка и крестика закрытия окна;
- * - контент-зону [Modal.Body](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalbody--docs);
- * - футер [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs).
  */
 @withRenderEnvironment
 @rootNode

@@ -54,16 +54,16 @@ export interface TabProps<T extends string = string>
   /** Делает таб недоступным. */
   disabled?: boolean;
 
-  /** Переводит таб в состояние валидации "Ошибка". */
+  /** Переводит таб в состояние ошибки. */
   error?: boolean;
 
-  /** Переводит таб в состояние валидации "Предупреждение". */
+  /** Переводит таб в состояние предупреждения. */
   warning?: boolean;
 
-  /** Переводит таб в состояние валидации "Успех". */
+  /** Переводит таб в состояние успеха. */
   success?: boolean;
 
-  /** Задаёт визульное состояние главного элемента. */
+  /** Визульное состояние главного элемента. */
   primary?: boolean;
 }
 
@@ -76,7 +76,6 @@ type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 /**
  * Табы группируют контент и помогают в навигации.
  *
- * Для создания группы табов используйте специальный контейнер - компонент [Tabs](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_display-data-tabs-tabs--docs).
  */
 @withRenderEnvironment
 @rootNode

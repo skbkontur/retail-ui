@@ -4,14 +4,14 @@ import React from 'react';
 import type { Meta, Story } from '../../../typings/stories.js';
 
 const meta: Meta = {
-  title: 'Display data/Tabs/Tabs',
+  title: 'Display data/Tabs',
   component: Tabs,
   parameters: { creevey: { skip: true } },
 };
 
 export default meta;
 
-export const BasicExample: Story = () => {
+export const ExampleBasic: Story = () => {
   const [active, setActive] = React.useState('inbox');
 
   return (
@@ -21,7 +21,7 @@ export const BasicExample: Story = () => {
     </Tabs>
   );
 };
-BasicExample.storyName = 'Базовый пример';
+ExampleBasic.storyName = 'Базовый пример';
 
 /**
  * Проп `size` задаёт размер табов в группе.

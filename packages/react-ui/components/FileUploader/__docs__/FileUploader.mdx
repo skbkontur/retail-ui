@@ -1,8 +1,10 @@
 import * as FileUploaderStories from './FileUploader.docs.stories.tsx';
-import { Primary, Stories, Description, Story } from '@storybook/blocks';
+import * as FileUploaderFileStories from './FileUploaderFile.docs.stories.tsx';
+import { Primary, Stories, Description, Story, ArgTypes } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import { FileUploaderFile } from '@skbkontur/react-ui';
 
 <Meta of={FileUploaderStories} />
 
@@ -41,11 +43,65 @@ import { FileUploader } from '@skbkontur/react-ui';
 
 **Связанные компоненты**
 
-Строка файла настраивается через `renderFile` и компонент [FileUploaderFile](https://tech.skbkontur.ru/kontur-ui/?path=/docs/input-data-fileuploader-fileuploaderfile--docs).
+Строка файла реализована через отдельный компонент `FileUploaderFile` (см.ниже).
+
+```js
+<FileUploader>
+  <FileUploaderFile> // строка файла
+```
 
 ## Примеры
 
 <Stories title="" includePrimary={false} />
+
+## FileUploaderFile
+
+```jsx
+import { FileUploaderFile } from '@skbkontur/react-ui';
+```
+
+Строка файла настраивается через `renderFile` и компонент `FileUploaderFile`.
+
+<Description of={FileUploaderFile} />
+
+<Story of={FileUploaderFileStories.ExampleFileBasic} />
+
+<details>
+  <summary>Пропсы для FileUploaderFile </summary>
+  <ArgTypes of={FileUploaderFile} />
+</details>
+
+### Примеры
+
+#### Отображение размера файла
+
+Проп `showSize` отображает размер файла.
+
+<Story of={FileUploaderFileStories.ExampleShowSize} />
+
+#### Подсказка с полным именем
+
+Проп `showFilenameHint` отображает подсказку с полным именем файла, если оно было обрезано.
+
+<Story of={FileUploaderFileStories.ExampleShowFilenameHint} />
+
+#### Иконка типа файла
+
+Проп `fileTypeIcon` позволяет заменить стандартную иконку типа файла.
+
+<Story of={FileUploaderFileStories.ExampleFileTypeIcon} />
+
+#### Превью в плиточном виде
+
+Проп `previewImg` позволяет задать превью в плиточном виде (соотношение сторон как в гайде).
+
+<Story of={FileUploaderFileStories.ExamplePreviewImg} />
+
+#### Кастомизация цвета иконки типа файла
+
+Переменные темы `fileUploaderFileType(FileType)IconColor` управляют цветом иконки типа файла (пример на PDF).
+
+<Story of={FileUploaderFileStories.ExampleCustomizationFileTypeIconColor} />
 
 ## Доступность
 
@@ -55,11 +111,13 @@ import { FileUploader } from '@skbkontur/react-ui';
 
 Связывайте контрол с подписью через `<label htmlFor>` и `id` на `FileUploader` или через `aria-labelledby` / `aria-label` на наследуемых атрибутах input.
 
+Строка файла (FileUploaderFile) использует [Tooltip](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-tooltip--docs) и [Hint](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-hint--docs). Удаление — фокусируемая кнопка с активацией по `Enter`.
+
 ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
 
 ## Адаптивность
 
-По умолчанию контрол не меняет свой вид и поведение на мобильных устройствах. Ширину и вид можно задать пропами `width` и `view`.
+По умолчанию контрол не меняет свой вид и поведение на мобильных устройствах. Ширину и вид можно задать пропсами `width` и `view`.
 
 ℹ️ **Полезно:** [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)
 
@@ -67,7 +125,7 @@ import { FileUploader } from '@skbkontur/react-ui';
 
 **Почему после выбора файла список не проходит `validateBeforeUpload`?**
 
-Убедитесь, что промис разрешается только после проверки; пустой результат означает успех.
+Убедитесь, что промис разрешается только после проверки. Пустой результат означает успех.
 
 **Как показать ошибку загрузки на сервере?**
 

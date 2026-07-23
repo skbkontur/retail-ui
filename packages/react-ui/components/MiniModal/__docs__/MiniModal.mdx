@@ -1,9 +1,14 @@
 import * as MiniModalStories from './MiniModal.docs.stories.tsx';
 import * as MiniModalMobileExamples from './MiniModalMobile.docs.stories.tsx';
-import { Primary, Stories, Description, Story } from '@storybook/blocks';
+import * as MiniModalHeaderStories from './MiniModalHeader.docs.stories.tsx';
+import * as MiniModalBodyStories from './MiniModalBody.docs.stories.tsx';
+import * as MiniModalFooterStories from './MiniModalFooter.docs.stories.tsx';
+import * as MiniModalIndentStories from './MiniModalIndent.docs.stories.tsx';
+import { Primary, Stories, Description, Story, ArgTypes } from '@storybook/blocks';
 import { Meta } from '../../../.storybook-docs/Meta';
 import { Header } from '../../../.storybook-docs/Header';
 import { PropsTable } from '../../../.storybook-docs/PropsTable';
+import { MiniModal } from '@skbkontur/react-ui';
 
 <Meta of={MiniModalStories} />
 
@@ -33,42 +38,127 @@ import { MiniModal } from '@skbkontur/react-ui';
 - прочитать важное уведомление и нажать одну кнопку;
 - выбрать один из нескольких вариантов в футере.
 
-Когда лучше использовать обычное модальное окно (Modal):
+**Связанные компоненты**
+
+Составной компонент, включает в себя подкомпоненты структуры:
+
+```jsx
+<MiniModal>
+  <MiniModal.Header> // заголовок и иконка
+  <MiniModal.Body> // текстовый блок пояснения
+  <MiniModal.Footer> // футер
+    <MiniModal.Indent> // вертикальный отступ между группами элементов в зоне футера
+```
+
+**Когда не использовать**
+
+В следующих случаях лучше использовать обычное модальное окно [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal--docs):
 
 - длинные формы;
 - много прокручиваемого контента;
-- проходной сценарий не требующий явного действия — для этого обычно уместен полноформатный [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs).
-
-Составной компонент, включает в себя:
-
-- `MiniModal.Header` — заголовок и иконка. По умолчанию показывается иконка информации; чтобы оставить только текст, передайте `icon={null}`.
-- `MiniModal.Body` — поясняющий текст. Необязателен, если заголовка и кнопок достаточно.
-- `MiniModal.Footer` — зона действий (кнопки). По гайду дизайна для кнопок используйте `size="medium"`. Другой размер кнопки — отступление: возможен при согласовании с дизайнером или в особых продуктах, но не считается стандартом мини-модалки.
-- `MiniModal.Indent` — вертикальный отступ между группами элементов в зоне футера (часто между группами кнопок), см. пример «Синглтон» ниже.
+- проходной сценарий не требующий явного действия.
 
 **Закрытие и `onClose`**
 
-У мини-модалки нет крестика. И eсли `onClose` не передан, нажатие Esc и клик по фону не вызовут колбэк — пользователь не выйдет из сценария без явной кнопки. Если `onClose` передан и не отключено поведение фона через `ignoreBackgroundClick` и т.п., закрытие снова становится возможным с клавиатуры и по фону — как в [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs).
+У мини-модалки нет крестика. И eсли `onClose` не передан, нажатие Esc и клик по фону не вызовут колбэк — пользователь не выйдет из сценария без явной кнопки. Если `onClose` передан и не отключено поведение фона через `ignoreBackgroundClick` и т.п., закрытие снова становится возможным с клавиатуры и по фону — как в обычном модальном окне.
 
 **Тема**
 
 Проп `theme` на корне объединяется с темой из контекста через внутреннюю настройку мини-модалки и позволяет точечно подстроить токены.
 
-**Альтернативы и дополнения**
-
-- [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs) — полноразмерное модальное окно, крестик, гибкая ширина и сценарии с произвольным контентом.
-
-Унаследованные пропсы шапки, тела и футера уточняйте на страницах [Modal.Header](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalheader--docs), [Modal.Body](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalbody--docs), [Modal.Footer](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modalfooter--docs).
-
 ## Примеры
 
 <Stories title="" includePrimary={false} />
 
+## MiniModal.Header
+
+<Description of={MiniModal.Header} />
+
+<Story of={MiniModalHeaderStories.ExampleHeaderBasic} />
+
+<details>
+  <summary>Пропсы для MiniModal.Header </summary>
+  <ArgTypes of={MiniModal.Header} />
+</details>
+
+#### Только текст, без иконки
+
+По умолчанию в шапке показывается иконка информации. Чтобы оставить только текст, передайте `icon={null}`.
+
+<Story of={MiniModalHeaderStories.ExampleWithoutIcon} />
+
+## MiniModal.Body
+
+<Description of={MiniModal.Body} />
+
+Необязательный блок: если заголовка и кнопок в футере достаточно, тело можно опустить.
+
+<Story of={MiniModalBodyStories.ExampleBodyBasic} />
+
+<details>
+  <summary>Пропсы для MiniModal.Body </summary>
+  <ArgTypes of={MiniModal.Body} />
+</details>
+
+#### Длинный текст в теле
+
+<Story of={MiniModalBodyStories.ExampleLongerText} />
+
+## MiniModal.Footer
+
+<Description of={MiniModal.Footer} />
+
+<Story of={MiniModalFooterStories.ExampleFooterBasic} />
+
+<details>
+  <summary>Пропсы для MiniModal.Footer </summary>
+  <ArgTypes of={MiniModal.Footer} />
+</details>
+
+Проп `direction="row"` задаёт горизонтальную раскладку только при ровно двух дочерних элементах. Если дочерний элемент один или их больше двух, используется column (независимо от `direction`).
+
+По гайду дизайна кнопки в мини-модалке — `size="medium"`. Другой размер — отступление, согласуйте с дизайнером. Между группами действий в футере можно вставить `MiniModal.Indent`.
+
+Подсчёт `Children` для раскладки — через `React.Children.count`: одна обёртка (например, Fragment вокруг двух кнопок) считается одним ребёнком. Подробнее — в разделе «MiniModal.Footer, React.Children и Fragment» на странице [MiniModal]
+
+### Примеры
+
+#### Три кнопки столбиком
+
+Три кнопки — принудительно column.
+
+<Story of={MiniModalFooterStories.ExampleThreeButtons} />
+
+#### Две кнопки в ряд через Fragment
+
+Две кнопки в одном Fragment — для футера как один ребёнок, будет column.
+
+<Story of={MiniModalFooterStories.ExampleTwoButtonsInsideFragment} />
+
+## MiniModal.Indent
+
+<Description of={MiniModal.Indent} />
+
+Вертикальный отступ между группами элементов в зоне `MiniModal.Footer` (на практике — между группами кнопок). Не является частью [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal--docs) — специфичен для мини-модалки.
+
+Вставляйте `MiniModal.Indent` внутри `MiniModal.Footer`, когда нужно визуально разделить группы действий (см. пример «Синглтон»).
+
+<Story of={MiniModalIndentStories.ExampleIndentBasic} />
+
+<details>
+  <summary>Пропсы для MiniModal.Indent </summary>
+  <ArgTypes of={MiniModal.Indent} />
+</details>
+
+#### Две группы кнопок
+
+<Story of={MiniModalIndentStories.ExampleTwoGroups} />
+
 ## Доступность
 
-Поведение базируется на [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal-modal--docs): фокус внутри окна, поддержка стандартных aria-атрибутов при необходимости переопределения.
+Поведение базируется на [Modal](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_overlay-modal--docs): фокус внутри окна, поддержка стандартных aria-атрибутов при необходимости переопределения.
 
-Смысл действия не должен опираться только на иконку в шапке — заголовок и подписи кнопок должны быть понятны без контекста дизайна. Кнопку, которая открывает мини-модалку, по возможности сопровождайте `aria-expanded` и `aria-haspopup="dialog"` (см. также раздел про кнопки и модальные окна в [документации Button](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-button--docs)). Порядок фокуса по Tab должен логично вести по кнопкам действий во футере.
+Смысл действия не должен опираться только на иконку в шапке — заголовок и подписи кнопок должны быть понятны без контекста дизайна. Кнопку, которая открывает мини-модалку, по возможности сопровождайте `aria-expanded` и `aria-haspopup="dialog"` (см. также раздел про кнопки и модальные окна в [документации Button](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_button-button--docs)). Порядок фокуса по Tab должен логично вести по кнопкам действий в футере.
 
 ℹ️ **Полезно:** [Чек-лист доступности](https://tech.skbkontur.ru/kontur-ui/?path=/docs/accessibility--docs)
 
@@ -87,4 +177,4 @@ import { MiniModal } from '@skbkontur/react-ui';
 
 <Story of={MiniModalMobileExamples.ExampleMobile} />
 
-Подробнее о медиазапросах и переопределении мобильности — в статье [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs).
+ℹ️ Полезно: [Адаптивность компонентов](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_information-responsive--docs)
