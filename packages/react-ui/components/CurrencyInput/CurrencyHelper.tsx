@@ -217,29 +217,28 @@ export class CurrencyHelper {
     integer: string;
     delimiter: string;
     fraction: string;
-    exponent: string;
   } | null {
-    const match = /^(-)?(\d*)?(\.)?(\d*)?(e)?([-+]?\d+)?$/.exec(value);
+    const match = /^(-)?(\d*)?(\.)?(\d*)?$/.exec(value);
     if (!match) {
       return null;
     }
-    const [, sign = '', integer = '', delimiter = '', fraction = '', , exponent = ''] = match;
-    return { sign, integer, delimiter, fraction, exponent };
+    const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
+    return { sign, integer, delimiter, fraction };
   }
 
   private static toDecimalString = (number: number) => {
     if (!number.toString().includes('e')) {
       return number.toString();
     }
-    const destructed = this.destructString(number.toExponential());
-    if (destructed === null) {
+    const match = /^(-)?(\d*)(?:\.(\d*))?e([+-]?\d+)$/.exec(number.toExponential());
+    if (!match) {
       return '';
     }
-    const { sign = '', integer, fraction, exponent } = destructed;
-    const intExponent = parseInt(exponent || '0');
+    const [, sign = '', integer = '', fraction = '', exponent = '0'] = match;
+    const intExponent = parseInt(exponent);
     if (intExponent > 0) {
       return [sign, integer, fraction, '0'.repeat(intExponent - fraction.length)].join('');
     }
-    return [sign, '0.', ' 0'.repeat(-intExponent - 1), integer, fraction].join('');
+    return [sign, '0.', '0'.repeat(-intExponent - 1), integer, fraction].join('');
   };
 }

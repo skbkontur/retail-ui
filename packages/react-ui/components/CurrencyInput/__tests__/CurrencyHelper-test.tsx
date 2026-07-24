@@ -292,6 +292,13 @@ describe('CurrencyHelper', () => {
       { value: '1,23', integerDigits: 1, expected: true },
       { value: '1,23', integerDigits: 2, expected: true },
       { value: '123,45', integerDigits: 2, expected: false },
+
+      { value: '123.1+23', expected: false },
+      { value: '123.1-23', expected: false },
+      { value: '123.1e23', expected: false },
+      { value: '123.1e+23', expected: false },
+      { value: '123.1e-23', expected: false },
+      { value: '1e-7', expected: false },
     ].forEach((x) => {
       it(`parse('${x.value}', ${x.integerDigits}, ${x.fractionDigits}) === ${x.expected}`, () => {
         const actual = CurrencyHelper.isValidString(x.value, {

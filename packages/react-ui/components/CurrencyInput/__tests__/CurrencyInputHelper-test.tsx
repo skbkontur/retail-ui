@@ -336,6 +336,36 @@ describe('CurrencyInputHelper', () => {
         integerDigits: 2,
         expected: { value: '\u221299,21', position: 6 },
       },
+      {
+        value: '123,123',
+        start: 5,
+        end: 5,
+        input: '+',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '123,123',
+        start: 5,
+        end: 5,
+        input: '-',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '123,123',
+        start: 5,
+        end: 5,
+        input: 'e',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
     ].forEach((x) => {
       it(`safeInsert('${x.value}', ${x.start}, ${x.end}, '${x.input}', ${x.fractionDigits}, ${x.unsigned}, ${
         x.integerDigits
