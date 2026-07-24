@@ -149,7 +149,7 @@ export class CurrencyHelper {
     return result;
   }
 
-  public static isValidString(value: string, options: DecimalOptions): boolean {
+  public static isValidString(value: string, options: DecimalOptions, previousValue?: string): boolean {
     const unformattedValue = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(unformattedValue);
 
@@ -179,7 +179,13 @@ export class CurrencyHelper {
     }
 
     if (isNonNullable(options.fractionDigits) && fractionDigits > options.fractionDigits) {
-      return false;
+      if (previousValue === undefined) {
+        return false;
+      }
+      const previousDestructed = CurrencyHelper.destructString(CurrencyHelper.unformatString(previousValue));
+      if (!previousDestructed || fractionDigits > previousDestructed.fraction.length) {
+        return false;
+      }
     }
 
     return integerDigits + fractionDigits <= MAX_SAFE_DIGITS;

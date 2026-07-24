@@ -54,7 +54,7 @@ export class CurrencyInputHelper {
     const suffix = value.substring(end);
 
     const combined = prefix + input + suffix;
-    if (CurrencyHelper.isValidString(combined, options)) {
+    if (CurrencyHelper.isValidString(combined, options, value)) {
       return CurrencyInputHelper.insert(value, start, end, input);
     }
     return null;

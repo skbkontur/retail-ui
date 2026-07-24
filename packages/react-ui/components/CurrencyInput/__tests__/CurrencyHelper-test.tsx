@@ -303,5 +303,18 @@ describe('CurrencyHelper', () => {
         expect(actual).toBe(expected);
       });
     });
+
+    [
+      { value: '0,123', previousValue: '0,1234', fractionDigits: 2, expected: true },
+      { value: '0,123', previousValue: '0,123', fractionDigits: 2, expected: true },
+      { value: '0,1234', previousValue: '0,123', fractionDigits: 2, expected: false },
+      { value: '0,12', previousValue: '0,123', fractionDigits: 2, expected: true },
+      { value: '10,123', previousValue: '0,123', fractionDigits: 2, expected: true },
+    ].forEach((x) => {
+      it(`isValidString('${x.value}', { fractionDigits: ${x.fractionDigits} }, '${x.previousValue}') === ${x.expected}`, () => {
+        const actual = CurrencyHelper.isValidString(x.value, { fractionDigits: x.fractionDigits }, x.previousValue);
+        expect(actual).toBe(x.expected);
+      });
+    });
   });
 });
