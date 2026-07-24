@@ -227,14 +227,14 @@ describe('CurrencyInputHelper', () => {
         expected: null,
       },
       {
-        value: '0,123',
-        start: 4,
-        end: 5,
+        value: '0,1234',
+        start: 5,
+        end: 6,
         input: '',
         fractionDigits: 2,
         unsigned: false,
         integerDigits: null,
-        expected: { value: '0,12', position: 4 },
+        expected: { value: '0,123', position: 5 },
       },
       {
         value: '0,123',
