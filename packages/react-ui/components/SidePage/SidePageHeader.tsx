@@ -9,6 +9,7 @@ import type { TGetRootNode, TSetRootNode } from '../../lib/rootNode/index.js';
 import { getRootNode, rootNode } from '../../lib/rootNode/index.js';
 import type { Theme } from '../../lib/theming/Theme.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
+import { isThemeGTE } from '../../lib/theming/ThemeHelpers.js';
 import { isFunction } from '../../lib/utils.js';
 import { ModalSeparator } from '../Modal/ModalSeparator.js';
 import { responsiveLayout } from '../ResponsiveLayout/decorator.js';
@@ -179,10 +180,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   private renderClose = (fixed: boolean) => {
+    const themeGTE6_3 = isThemeGTE(this.theme, '6.3');
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
     return (
       <div
         className={this.cx(this.styles.wrapperClose(this.theme), {
+          [this.styles.wrapperClose6_3()]: themeGTE6_3,
           [this.styles.wrapperCloseFixed(this.theme)]: fixed,
           [this.styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
         })}

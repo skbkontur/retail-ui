@@ -1,3 +1,5 @@
+import { IconQuestionCircleLight16 } from '@skbkontur/icons/IconQuestionCircleLight16';
+import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
 import React, { useCallback, useState } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
@@ -6,9 +8,11 @@ import type { Shape } from '../../../typings/utility-types.js';
 import { Button } from '../../Button/index.js';
 import { Gapped } from '../../Gapped/index.js';
 import { Input } from '../../Input/index.js';
+import { Link } from '../../Link/index.js';
 import { Modal } from '../../Modal/index.js';
 import { Textarea } from '../../Textarea/index.js';
 import { Toggle } from '../../Toggle/index.js';
+import { Tooltip } from '../../Tooltip/index.js';
 import { SidePage } from '../SidePage.js';
 
 const textSample = (
@@ -984,3 +988,58 @@ MobileSidepageWithMobileWidth.parameters = {
   viewport: { defaultViewport: 'iphone' },
   creevey: { captureElement: null },
 };
+
+export const SidePageWithTooltipInHeader: Story = () => {
+  return (
+    <SidePage>
+      <SidePage.Header>
+        <div style={{ height: 32 }} />
+        <Tooltip
+          pos="bottom right"
+          render={() => (
+            <div style={{ width: 400 }}>
+              <p>
+                Обратите внимание, в&nbsp;этом разделе не&nbsp;отображается уплата по&nbsp;налогам в&nbsp;счет переплаты
+                прошлых лет, а&nbsp;также суммы, зарезервированные на&nbsp;ЕНС.
+              </p>
+              <p>
+                Здесь отображаются только суммы, признанные единым налоговым платежом (ЕНП).{' '}
+                <Link theme={{ linkLineBorderBottomColor: 'transparent' }} target="_blank">
+                  Подробнее
+                </Link>
+              </p>
+              <p>
+                Если вы&nbsp;хотите посмотреть все операции пополнения и&nbsp;начисления, повлиявшие на&nbsp;сальдо ЕНС,
+                переходите в&nbsp;раздел История операций по&nbsp;ЕНС.
+              </p>
+            </div>
+          )}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#f0f0f0',
+              width: 290,
+              height: 32,
+              padding: '6px 8px 6px 16px',
+              borderRadius: 8,
+              marginLeft: 'auto',
+              marginRight: -60,
+            }}
+          >
+            <div style={{ marginRight: 6 }}>
+              <IconSearchLoupeRegular16 color="#e0e0e0" />
+            </div>
+            Каких данных нет в этом разделе
+            <div style={{ marginLeft: 'auto' }}>
+              <IconQuestionCircleLight16 />
+            </div>
+          </div>
+        </Tooltip>
+      </SidePage.Header>
+    </SidePage>
+  );
+};
+SidePageWithTooltipInHeader.storyName = 'SidePage with Tooltip in header';
+SidePageWithTooltipInHeader.parameters = { creevey: { skip: true } };

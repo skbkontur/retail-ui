@@ -280,6 +280,13 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
+  wrapperClose6_3() {
+    return css`
+      height: auto;
+      padding-bottom: 0;
+    `;
+  },
+
   mobileWrapperClose(t: Theme) {
     return css`
       line-height: ${t.mobileSidePageHeaderLineHeight};
