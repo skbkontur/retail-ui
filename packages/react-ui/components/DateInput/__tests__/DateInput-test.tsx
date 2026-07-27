@@ -388,6 +388,19 @@ describe('DateInput as InputlikeText', () => {
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });
 
+  it('blinks when entered digit does not change value', async () => {
+    const blinkMock = vi.fn();
+    const inputLikeTextRef = React.createRef<DateInput>();
+    renderRTL(<DateInput ref={inputLikeTextRef} />);
+
+    if (inputLikeTextRef.current) {
+      inputLikeTextRef.current.blink = blinkMock;
+    }
+    await userEvent.type(getInput(), '33');
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+  });
+
   it('should focus if autoFocus prop passed', () => {
     renderRTL(<DateInput autoFocus />);
 

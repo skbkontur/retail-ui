@@ -495,12 +495,17 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.setState({ selected });
     }
 
-    const { inputMode } = this.iDateMediator.inputKey(event.key, selected, this.state.inputMode);
+    const { inputMode, changed } = this.iDateMediator.inputKey(event.key, selected, this.state.inputMode);
+
+    if (!changed) {
+      this.blink();
+    }
 
     if (!inputMode) {
       this.ignoringDelimiter = true;
       this.shiftSelection(1);
     }
+
     this.updateValue({ inputMode });
   };
 }
