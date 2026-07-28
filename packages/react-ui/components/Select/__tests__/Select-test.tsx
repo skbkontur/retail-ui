@@ -3,9 +3,13 @@ import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
 import { MenuDataTids } from '../../../internal/Menu/index.js';
+import * as scrollDom from '../../../lib/dom/scrollYCenterIntoNearestScrollable.js';
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/ReactUIFeatureFlagsContext.js';
 import { defaultLangCode } from '../../../lib/locale/constants.js';
 import { LangCodes, LocaleContext } from '../../../lib/locale/index.js';
 import { MenuItemDataTids } from '../../MenuItem/index.js';
+import * as ResponsiveLayoutHooks from '../../ResponsiveLayout/useResponsiveLayout.js';
+import { ScrollContainer } from '../../ScrollContainer/index.js';
 import { SelectLocaleHelper } from '../locale/index.js';
 import { Select, SelectDataTids, SelectIds } from '../Select.js';
 
@@ -528,5 +532,73 @@ describe('Select', () => {
       expect(screen.queryByText(itemsObject.eighth)).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: itemsObject.ninth })).not.toBeInTheDocument();
     });
+  });
+});
+
+describe('selectAutoScrollToSelectedItem', () => {
+  const flushAnimationFrames = async () => {
+    await act(async () => {
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      });
+    });
+  };
+
+  it('scrolls menu without document scroll on open', async () => {
+    const scrollIntoViewSpy = vi.spyOn(scrollDom, 'scrollYCenterIntoNearestScrollable');
+    document.documentElement.scrollTo = vi.fn();
+    const documentScrollTo = vi.spyOn(document.documentElement, 'scrollTo');
+    const scrollContainerScrollTo = vi.spyOn(ScrollContainer.prototype, 'scrollTo');
+
+    const items = Array.from({ length: 20 }, (_, index) => `item-${index + 1}`);
+
+    render(
+      <ReactUIFeatureFlagsContext.Provider value={{ selectAutoScrollToSelectedItem: true }}>
+        <Select value="item-20" items={items} maxMenuHeight={100} />
+      </ReactUIFeatureFlagsContext.Provider>,
+    );
+
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
+    await flushAnimationFrames();
+
+    expect(scrollIntoViewSpy).not.toHaveBeenCalled();
+    expect(documentScrollTo).not.toHaveBeenCalled();
+    expect(scrollContainerScrollTo).toHaveBeenCalled();
+
+    scrollIntoViewSpy.mockRestore();
+    documentScrollTo.mockRestore();
+    scrollContainerScrollTo.mockRestore();
+  });
+
+  it('scrolls mobile popup to selected item on open', async () => {
+    const responsiveLayoutSpy = vi
+      .spyOn(ResponsiveLayoutHooks, 'useResponsiveLayout')
+      .mockReturnValue({ isMobile: true });
+    const scrollIntoViewSpy = vi.spyOn(scrollDom, 'scrollYCenterIntoNearestScrollable');
+    const scrollContainerScrollTo = vi.spyOn(ScrollContainer.prototype, 'scrollTo');
+
+    const items = Array.from({ length: 20 }, (_, index) => `item-${index + 1}`);
+
+    render(
+      <ReactUIFeatureFlagsContext.Provider value={{ selectAutoScrollToSelectedItem: true }}>
+        <Select value="item-20" items={items} />
+      </ReactUIFeatureFlagsContext.Provider>,
+    );
+
+    await act(async () => {
+      await userEvent.click(screen.getByRole('button'));
+    });
+    await flushAnimationFrames();
+
+    expect(scrollIntoViewSpy).toHaveBeenCalled();
+    expect(scrollContainerScrollTo).not.toHaveBeenCalled();
+
+    responsiveLayoutSpy.mockRestore();
+    scrollIntoViewSpy.mockRestore();
+    scrollContainerScrollTo.mockRestore();
   });
 });

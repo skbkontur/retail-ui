@@ -330,6 +330,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
       this.globalObject.addEventListener?.('popstate', this.close);
+      this.scheduleScrollToSelectedItem();
     }
     if (prevState.opened && !this.state.opened) {
       this.globalObject.removeEventListener?.('popstate', this.close);
@@ -640,7 +641,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         onCloseRequest={this.close}
         opened={this.state.opened}
       >
-        <Menu onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
+        <Menu onItemClick={this.close} disableScrollContainer maxHeight={'auto'} ref={this.refMenu}>
           {this.getMenuItems(value)}
         </Menu>
       </MobilePopup>
@@ -688,7 +689,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         return (
           <MenuItem
             key={i}
-            scrollIntoView={this.featureFlags.selectAutoScrollToSelectedItem && this.areValuesEqual(iValue, value)}
             state={this.areValuesEqual(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}
@@ -822,6 +822,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
     return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual(value1, value2);
   }
+
+  private scheduleScrollToSelectedItem = (): void => {
+    if (this.featureFlags.selectAutoScrollToSelectedItem) {
+      this.globalObject.requestAnimationFrame?.(() => {
+        this.menu?.scrollToSelectedMenuItem();
+      });
+    }
+  };
 
   private buttonRef = (element: FocusableReactElement | null) => {
     this.buttonElement = element;

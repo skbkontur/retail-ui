@@ -10,6 +10,7 @@ import { ScrollContainer } from '../../components/ScrollContainer/index.js';
 import type { ScrollContainerScrollStateY } from '../../components/ScrollContainer/index.js';
 import { createPropsGetter } from '../../lib/createPropsGetter.js';
 import { getDOMRect } from '../../lib/dom/getDOMRect.js';
+import { scrollYCenterIntoNearestScrollable } from '../../lib/dom/scrollYCenterIntoNearestScrollable.js';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
 import type { GlobalObject } from '../../lib/globalObject.js';
 import { isBrowser } from '../../lib/globalObject.js';
@@ -208,6 +209,29 @@ export class Menu extends React.PureComponent<MenuProps, MenuState> {
 
   public highlightItem(index: number) {
     this.menuNavigation.highlightByIndex(index);
+  }
+
+  /**
+   * Прокручивает список к пункту с `state="selected"` без навигационного highlight.
+   * @public
+   */
+  public scrollToSelectedMenuItem(): void {
+    const selectedItem = this.menuNavigation.items.find((item) => item.props.state === 'selected' && item.isEnabled());
+    if (!selectedItem) {
+      return;
+    }
+
+    const rootNode = getRootNode(selectedItem);
+    if (!isInstanceOf(rootNode, this.globalObject.HTMLElement)) {
+      return;
+    }
+
+    if (this.props.disableScrollContainer) {
+      scrollYCenterIntoNearestScrollable(rootNode);
+      return;
+    }
+
+    this.scrollContainer?.scrollTo(rootNode);
   }
 
   private renderMain() {
