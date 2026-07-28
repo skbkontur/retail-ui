@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.5...@skbkontur/react-ui@6.1.6) (2026-07-28)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** allow editing of positive invalid values ([484949b](https://github.com/skbkontur/retail-ui/commit/484949b7aaf68041c16ba05546f569cf07dac564))
+* **CurrencyInput:** forbid scientific notation in user input ([71e127f](https://github.com/skbkontur/retail-ui/commit/71e127fc321dfb12cdbd40404e8c12637c89058b))
+* **DateInput:** blink on input same number ([401290d](https://github.com/skbkontur/retail-ui/commit/401290dc26bf0468497466fbeb6648beb8c1e2b4))
+* **Select:** use correct scroll method on open ([0338e5c](https://github.com/skbkontur/retail-ui/commit/0338e5cd402f97e4f8e866a941dc69d3477ee0b2))
+
+
+
+
+
 ## [6.1.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.4...@skbkontur/react-ui@6.1.5) (2026-07-15)
 
 
