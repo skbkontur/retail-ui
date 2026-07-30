@@ -40,6 +40,18 @@ export const ExampleSize: Story = () => {
 };
 ExampleSize.storyName = 'Размер';
 
+/** Проп `comment` задаёт второстепенный пояснительный текст под основным текстом чекбокса. */
+export const ExampleComment: Story = () => {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <Checkbox checked={checked} onValueChange={setChecked} comment="Поясняющий текст">
+      Обычный чекбокс
+    </Checkbox>
+  );
+};
+ExampleComment.storyName = 'Поясняющий текст';
+
 /** Проп `error` переводит чекбокс в состояние ошибки, а `warning` — в состояние предупреждения. */
 export const ExampleState: Story = () => {
   const CheckboxWithState = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {

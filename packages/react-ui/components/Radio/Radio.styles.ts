@@ -5,9 +5,11 @@ import type { Theme } from '../../lib/theming/Theme.js';
 import {
   afterOutlineMixin,
   circleSizeMixin,
+  disabledTextColorMixin,
   outlineColorMixin,
   radioCheckedMixin,
   radioSizeMixin,
+  subcaptionMixin,
 } from './Radio.mixins.js';
 
 export const globalClasses = prefix('radio')({
@@ -208,7 +210,6 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
   caption(t: Theme) {
     return css`
       display: ${t.radioCaptionDisplay};
-      padding-left: ${t.radioCaptionGap};
       white-space: normal;
       color: ${t.radioTextColor};
     `;
@@ -216,13 +217,49 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
 
   captionDisabled(t: Theme) {
     return css`
-      color: ${t.textColorDisabled};
+      ${disabledTextColorMixin(t.textColorDisabled)};
     `;
   },
 
   placeholder() {
     return css`
       display: inline-block;
+    `;
+  },
+
+  captionWrapper(t: Theme) {
+    return css`
+      display: inline-block;
+      padding-left: ${t.radioCaptionGap};
+    `;
+  },
+
+  subcaption(t: Theme) {
+    return css`
+      margin-top: 2px;
+      color: ${t.radioCommentTextColor};
+    `;
+  },
+
+  subcaptionDisabled(t: Theme) {
+    return css`
+      ${disabledTextColorMixin(t.textColorDisabled)};
+    `;
+  },
+
+  subcaptionSmall(t: Theme) {
+    return css`
+      ${subcaptionMixin(t.radioCommentFontSizeSmall, t.radioCommentLineHeightSmall)};
+    `;
+  },
+  subcaptionMedium(t: Theme) {
+    return css`
+      ${subcaptionMixin(t.radioCommentFontSizeMedium, t.radioCommentLineHeightMedium)};
+    `;
+  },
+  subcaptionLarge(t: Theme) {
+    return css`
+      ${subcaptionMixin(t.radioCommentFontSizeLarge, t.radioCommentLineHeightLarge)};
     `;
   },
 }));

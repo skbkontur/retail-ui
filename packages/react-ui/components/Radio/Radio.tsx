@@ -57,6 +57,9 @@ export interface RadioProps<T>
 
         /** Значение. */
         value: T;
+
+        /** Задаёт второстепенный пояснительный текст под основным текстом радиокнопки. */
+        comment?: React.ReactNode;
       }
     > {}
 
@@ -257,7 +260,12 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         <span {...radioProps}>
           <span className={this.styles.placeholder()} />
         </span>
-        {this.props.children && this.renderCaption()}
+        {this.props.children && (
+          <div className={this.styles.captionWrapper(this.theme)}>
+            {this.renderCaption()}
+            {this.props.comment && this.renderComment()}
+          </div>
+        )}
       </label>
     );
   };
@@ -271,6 +279,30 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     });
 
     return <div className={captionClassNames}>{this.props.children}</div>;
+  }
+
+  private getSubcaptionSizeClassName() {
+    switch (this.size) {
+      case 'large':
+        return this.styles.subcaptionLarge(this.theme);
+      case 'medium':
+        return this.styles.subcaptionMedium(this.theme);
+      case 'small':
+      default:
+        return this.styles.subcaptionSmall(this.theme);
+    }
+  }
+
+  private renderComment() {
+    return (
+      <div
+        className={this.cx(this.styles.subcaption(this.theme), this.getSubcaptionSizeClassName(), {
+          [this.styles.subcaptionDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
+        })}
+      >
+        {this.props.comment}
+      </div>
+    );
   }
 
   private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {

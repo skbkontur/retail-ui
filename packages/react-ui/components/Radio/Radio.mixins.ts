@@ -68,3 +68,16 @@ export const outlineColorMixin = (shadow: string, borderColor: string): string =
     border-color: ${borderColor};
   `;
 };
+
+export const subcaptionMixin = (fontSize: string, lineHeight: string): string => {
+  return `
+    font-size: ${fontSize};
+    line-height: ${lineHeight};
+  `;
+};
+
+export const disabledTextColorMixin = (textColor: string): string => {
+  return `
+    color: ${textColor};
+  `;
+};

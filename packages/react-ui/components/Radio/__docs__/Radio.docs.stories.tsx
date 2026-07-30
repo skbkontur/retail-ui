@@ -45,6 +45,25 @@ export const ExampleSize: Story = () => {
 };
 ExampleSize.storyName = 'Размер';
 
+/** Проп `comment` задаёт второстепенный пояснительный текст под основным текстом радиокнопки. */
+export const ExampleComment: Story = () => {
+  const [chosen, setChosen] = React.useState(1);
+
+  return (
+    <RadioGroup value={chosen} onValueChange={setChosen}>
+      <Gapped vertical>
+        <Radio value={1} comment="Поясняющий текст">
+          Первый вариант
+        </Radio>
+        <Radio value={2} comment="Поясняющий текст">
+          Второй вариант
+        </Radio>
+      </Gapped>
+    </RadioGroup>
+  );
+};
+ExampleComment.storyName = 'Поясняющий текст';
+
 /** У радиокнопки есть несколько пропсов состояний:
  * - `disabled` — блокирует радиокнопку.
  * - `checked` — делает радиокнопку контролируемым и выбранным по умолчанию элементом.

@@ -96,3 +96,31 @@ export const Size: Story = () => {
     </div>
   );
 };
+
+export const WithComment: Story = () => {
+  return (
+    <Gapped vertical>
+      <Radio value={'value'} comment="Маленький" size="small">
+        Size: small
+      </Radio>
+      <Radio value={'value'} comment="Средний" size="medium">
+        Size: medium
+      </Radio>
+      <Radio value={'value'} comment="Большой" size="large">
+        Size: large
+      </Radio>
+      <Radio value={'value'} disabled comment="Маленький" size="small">
+        Size: small disabled
+      </Radio>
+      <Radio value={'value'} disabled comment="Средний" size="medium">
+        Size: medium disabled
+      </Radio>
+      <Radio value={'value'} disabled comment="Большой" size="large">
+        Size: large disabled
+      </Radio>
+      <Radio value={'value'} comment={<span>React node</span>} size="medium">
+        With ReactNode comment
+      </Radio>
+    </Gapped>
+  );
+};
