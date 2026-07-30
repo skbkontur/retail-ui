@@ -45,7 +45,6 @@ export const DarkTheme6_0 = createTheme({
     public static borderColorError = colors.lineErrorBold;
     public static borderColorWarning = colors.lineWarningBold;
     public static fixedPanelShadow = 'none';
-    public static commentTextColor = colors.textNeutralSoft;
     //#endregion Common variables
     //#region CloseIcon, CloseButtonIcon
     public static closeBtnIconColor = colors.textNeutralPale;

@@ -47,7 +47,6 @@ export const DEPRECATED_VARIABLES: Array<keyof Theme> = [
   'menuMessagePaddingMobile',
   'mobilePopupFooterPadding',
   'mobilePopupHeaderPadding',
-  'radioCaptionDisplay',
   'spinnerCaptionMarginLarge',
   'spinnerCaptionMarginMedium',
   'spinnerCaptionMarginSmall',

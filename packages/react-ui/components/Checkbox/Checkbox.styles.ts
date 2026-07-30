@@ -2,7 +2,7 @@ import type { Emotion } from '@emotion/css/create-instance';
 
 import { memoizeGetStyles, prefix } from '../../lib/theming/Emotion.js';
 import type { Theme } from '../../lib/theming/Theme.js';
-import { boxWrapperSizeMixin, checkboxSizeMixin, disabledTextColorMixin, subcaptionMixin } from './Checkbox.mixins.js';
+import { boxWrapperSizeMixin, checkboxSizeMixin } from './Checkbox.mixins.js';
 
 export const globalClasses = prefix('checkbox')({
   box: 'box',
@@ -237,48 +237,6 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       color: ${t.checkboxTextColorDefault};
       padding-left: ${t.checkboxCaptionGap};
-    `;
-  },
-
-  captionWrapper(t: Theme) {
-    return css`
-      display: inline-block;
-      padding-left: ${t.checkboxCaptionGap};
-    `;
-  },
-
-  captionNoGap() {
-    return css`
-      padding-left: 0;
-    `;
-  },
-
-  subcaption(t: Theme) {
-    return css`
-      margin-top: 2px;
-      color: ${t.checkboxCommentTextColor};
-    `;
-  },
-
-  subcaptionDisabled(t: Theme) {
-    return css`
-      ${disabledTextColorMixin(t.checkboxTextColorDisabled)};
-    `;
-  },
-
-  subcaptionSmall(t: Theme) {
-    return css`
-      ${subcaptionMixin(t.checkboxCommentFontSizeSmall, t.checkboxCommentLineHeightSmall)};
-    `;
-  },
-  subcaptionMedium(t: Theme) {
-    return css`
-      ${subcaptionMixin(t.checkboxCommentFontSizeMedium, t.checkboxCommentLineHeightMedium)};
-    `;
-  },
-  subcaptionLarge(t: Theme) {
-    return css`
-      ${subcaptionMixin(t.checkboxCommentFontSizeLarge, t.checkboxCommentLineHeightLarge)};
     `;
   },
 }));

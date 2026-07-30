@@ -7,10 +7,8 @@ import {
   buttonSizeMixin,
   captionSizeMixin,
   containerSizeMixin,
-  disabledTextColorMixin,
   handleMixin,
   inputSizeMixin,
-  subcaptionMixin,
   toggleSizeMixin,
 } from './Toggle.mixins.js';
 
@@ -340,59 +338,6 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     return css`
       color: ${t.toggleTextColor};
       padding: 0 ${t.toggleCaptionGap} 0 0;
-    `;
-  },
-
-  captionWrapper() {
-    return css`
-      display: inline-block;
-    `;
-  },
-
-  captionWrapperGap(t: Theme) {
-    return css`
-      padding: 0 0 0 ${t.toggleCaptionGap};
-    `;
-  },
-
-  captionWrapperGapLeft(t: Theme) {
-    return css`
-      padding: 0 ${t.toggleCaptionGap} 0 0;
-    `;
-  },
-
-  captionNoGap() {
-    return css`
-      padding: 0;
-    `;
-  },
-
-  subcaption(t: Theme) {
-    return css`
-      margin-top: 2px;
-      color: ${t.toggleCommentTextColor};
-    `;
-  },
-
-  subcaptionDisabled(t: Theme) {
-    return css`
-      ${disabledTextColorMixin(t.textColorDisabled)};
-    `;
-  },
-
-  subcaptionSmall(t: Theme) {
-    return css`
-      ${subcaptionMixin(t.toggleCommentFontSizeSmall, t.toggleCommentLineHeightSmall)};
-    `;
-  },
-  subcaptionMedium(t: Theme) {
-    return css`
-      ${subcaptionMixin(t.toggleCommentFontSizeMedium, t.toggleCommentLineHeightMedium)};
-    `;
-  },
-  subcaptionLarge(t: Theme) {
-    return css`
-      ${subcaptionMixin(t.toggleCommentFontSizeLarge, t.toggleCommentLineHeightLarge)};
     `;
   },
 }));

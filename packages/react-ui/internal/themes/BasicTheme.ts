@@ -84,13 +84,6 @@ export class BasicThemeClass {
 
   public static transitionDuration = '100ms';
   public static transitionTimingFunction = 'cubic-bezier(0.5, 1, 0.89, 1)';
-  public static commentFontSizeSmall = '12px';
-  public static commentFontSizeMedium = '14px';
-  public static commentFontSizeLarge = '16px';
-  public static commentLineHeightSmall = '16px';
-  public static commentLineHeightMedium = '20px';
-  public static commentLineHeightLarge = '22px';
-  public static commentTextColor = colors.textNeutralSoft;
   //#endregion Common variables
   //#region Link
   public static linkColor = colors.textAccentHeavy;
@@ -1907,28 +1900,6 @@ export class BasicThemeClass {
   public static toggleCaptionGap = '8px';
   public static toggleButtonOffsetY = '0px';
 
-  public static get toggleCommentFontSizeSmall(): string {
-    return this.commentFontSizeSmall;
-  }
-  public static get toggleCommentFontSizeMedium(): string {
-    return this.commentFontSizeMedium;
-  }
-  public static get toggleCommentFontSizeLarge(): string {
-    return this.commentFontSizeLarge;
-  }
-  public static get toggleCommentLineHeightSmall(): string {
-    return this.commentLineHeightSmall;
-  }
-  public static get toggleCommentLineHeightMedium(): string {
-    return this.commentLineHeightMedium;
-  }
-  public static get toggleCommentLineHeightLarge(): string {
-    return this.commentLineHeightLarge;
-  }
-  public static get toggleCommentTextColor(): string {
-    return this.commentTextColor;
-  }
-
   public static get toggleOutlineColorFocus(): string {
     return this.outlineColorFocus;
   }
@@ -2161,28 +2132,6 @@ export class BasicThemeClass {
   public static checkboxBoxSizeMedium = '20px';
   public static checkboxBoxSizeLarge = '24px';
   public static checkboxCaptionGap = '8px';
-
-  public static get checkboxCommentFontSizeSmall(): string {
-    return this.commentFontSizeSmall;
-  }
-  public static get checkboxCommentFontSizeMedium(): string {
-    return this.commentFontSizeMedium;
-  }
-  public static get checkboxCommentFontSizeLarge(): string {
-    return this.commentFontSizeLarge;
-  }
-  public static get checkboxCommentLineHeightSmall(): string {
-    return this.commentLineHeightSmall;
-  }
-  public static get checkboxCommentLineHeightMedium(): string {
-    return this.commentLineHeightMedium;
-  }
-  public static get checkboxCommentLineHeightLarge(): string {
-    return this.commentLineHeightLarge;
-  }
-  public static get checkboxCommentTextColor(): string {
-    return this.commentTextColor;
-  }
 
   public static get checkboxPaddingYSmall(): string {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
@@ -2419,29 +2368,6 @@ export class BasicThemeClass {
     return this.controlLineHeightLarge;
   }
 
-  public static get radioCommentFontSizeSmall(): string {
-    return this.commentFontSizeSmall;
-  }
-  public static get radioCommentFontSizeMedium(): string {
-    return this.commentFontSizeMedium;
-  }
-  public static get radioCommentFontSizeLarge(): string {
-    return this.commentFontSizeLarge;
-  }
-  public static get radioCommentLineHeightSmall(): string {
-    return this.commentLineHeightSmall;
-  }
-  public static get radioCommentLineHeightMedium(): string {
-    return this.commentLineHeightMedium;
-  }
-  public static get radioCommentLineHeightLarge(): string {
-    return this.commentLineHeightLarge;
-  }
-
-  public static get radioCommentTextColor(): string {
-    return this.commentTextColor;
-  }
-
   public static radioCaptionGap = '8px';
 
   public static get radioPaddingYSmall(): string {
@@ -2510,9 +2436,6 @@ export class BasicThemeClass {
   public static get radioDisabledShadow(): string {
     return `0 0 0 ${this.radioBorderWidth} ${colors.lineNeutralFaint}`;
   }
-  /**
-   * @deprecated Не используется. Будет удалена в `7.0`.
-   */
   public static radioCaptionDisplay = 'inline-flex';
   public static radioBorderWidthCompensation = '0px';
   public static radioCircleOffsetY = '1px';

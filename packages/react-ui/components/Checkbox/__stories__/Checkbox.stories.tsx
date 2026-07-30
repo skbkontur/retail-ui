@@ -257,34 +257,6 @@ export const Size: Story = () => {
 };
 Size.storyName = 'size';
 
-export const WithComment: Story = () => {
-  return (
-    <Gapped vertical>
-      <Checkbox comment="Маленький" size="small">
-        Size: small
-      </Checkbox>
-      <Checkbox comment="Средний" size="medium">
-        Size: medium
-      </Checkbox>
-      <Checkbox comment="Большой" size="large">
-        Size: large
-      </Checkbox>
-      <Checkbox disabled comment="Маленький" size="small">
-        Size: small disabled
-      </Checkbox>
-      <Checkbox disabled comment="Средний" size="medium">
-        Size: medium disabled
-      </Checkbox>
-      <Checkbox disabled comment="Большой" size="large">
-        Size: large disabled
-      </Checkbox>
-      <Checkbox comment={<span>React node</span>} size="medium">
-        With ReactNode comment
-      </Checkbox>
-    </Gapped>
-  );
-};
-
 export const CustomHoverSize: Story = () => {
   return (
     <Gapped vertical>

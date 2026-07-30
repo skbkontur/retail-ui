@@ -200,39 +200,3 @@ export const Disabled = () => (
   </RadioGroup>
 );
 Disabled.storyName = 'disabled';
-
-export const WithComment: Story = () => {
-  return (
-    <Gapped gap={10}>
-      <RadioGroup defaultValue="One">
-        <Gapped gap={10} vertical>
-          <Radio value="One" comment="Первый элемент" size="small">
-            First element
-          </Radio>
-          <Radio value="Two" comment="Второй элемент" size="medium">
-            Second element
-          </Radio>
-          <Radio value="Three" comment="Третий элемент" size="large">
-            Third element
-          </Radio>
-          <Radio value="Seven" comment={<span>React node</span>} size="medium">
-            With ReactNode comment
-          </Radio>
-        </Gapped>
-      </RadioGroup>
-      <RadioGroup defaultValue="Two">
-        <Gapped gap={10} vertical>
-          <Radio value="Four" disabled comment="Первый элемент" size="small">
-            First element disabled
-          </Radio>
-          <Radio value="Five" disabled comment="Второй элемент" size="medium">
-            Second element disabled
-          </Radio>
-          <Radio value="Six" disabled comment="Третий элемент" size="large">
-            Third element disabled
-          </Radio>
-        </Gapped>
-      </RadioGroup>
-    </Gapped>
-  );
-};

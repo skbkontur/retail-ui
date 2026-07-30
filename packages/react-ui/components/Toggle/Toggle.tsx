@@ -72,9 +72,6 @@ export interface ToggleProps
 
   /** Отключает анимацию. */
   disableAnimations?: boolean;
-
-  /** Задаёт второстепенный пояснительный текст под основным текстом тогла. */
-  comment?: React.ReactNode;
 }
 
 export interface ToggleState {
@@ -231,18 +228,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
   }
 
-  private getSubcaptionSizeClassName() {
-    switch (this.size) {
-      case 'large':
-        return this.styles.subcaptionLarge(this.theme);
-      case 'medium':
-        return this.styles.subcaptionMedium(this.theme);
-      case 'small':
-      default:
-        return this.styles.subcaptionSmall(this.theme);
-    }
-  }
-
   private renderMain() {
     const {
       children,
@@ -250,7 +235,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       error,
       id,
       name,
-      comment,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
     } = this.props;
@@ -273,6 +257,16 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       [globalClasses.disabled]: !!disabled,
       [this.styles.disableAnimation()]: disableAnimations,
     });
+
+    let caption = null;
+    if (children) {
+      const captionClass = this.cx(this.getCaptionSizeClassName(), {
+        [this.styles.caption(this.theme)]: true,
+        [this.styles.captionLeft(this.theme)]: captionPosition === 'left',
+        [this.styles.disabledCaption(this.theme)]: !!disabled,
+      });
+      caption = <span className={captionClass}>{children}</span>;
+    }
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -311,45 +305,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               })}
             />
           </div>
-          {children &&
-            (comment ? (
-              <div
-                className={this.cx(this.styles.captionWrapper(), {
-                  [this.styles.captionWrapperGap(this.theme)]: captionPosition !== 'left',
-                  [this.styles.captionWrapperGapLeft(this.theme)]: captionPosition === 'left',
-                })}
-              >
-                {this.renderCaption(disabled, captionPosition, true)}
-                {this.renderComment(disabled)}
-              </div>
-            ) : (
-              this.renderCaption(disabled, captionPosition, false)
-            ))}
+          {caption}
         </label>
       </CommonWrapper>
-    );
-  }
-
-  private renderCaption(disabled: boolean, captionPosition: 'left' | 'right', noGap: boolean) {
-    const captionClass = this.cx(this.getCaptionSizeClassName(), {
-      [this.styles.caption(this.theme)]: true,
-      [this.styles.captionLeft(this.theme)]: captionPosition === 'left',
-      [this.styles.disabledCaption(this.theme)]: !!disabled,
-      [this.styles.captionNoGap()]: noGap,
-    });
-
-    return <div className={captionClass}>{this.props.children}</div>;
-  }
-
-  private renderComment(disabled: boolean) {
-    return (
-      <div
-        className={this.cx(this.styles.subcaption(this.theme), this.getSubcaptionSizeClassName(), {
-          [this.styles.subcaptionDisabled(this.theme)]: !!disabled,
-        })}
-      >
-        {this.props.comment}
-      </div>
     );
   }
 

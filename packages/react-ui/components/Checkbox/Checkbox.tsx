@@ -61,9 +61,6 @@ export interface CheckboxProps
 
         /** Устанавливает начальное [неопределенное состояние чекбокса](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate). */
         initialIndeterminate?: boolean;
-
-        /** Задаёт второстепенный пояснительный текст под основным текстом чекбокса. */
-        comment?: React.ReactNode;
       }
     > {}
 
@@ -251,7 +248,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       onClick,
       type,
       initialIndeterminate,
-      comment,
       'aria-describedby': ariaDescribedby,
       'aria-label': ariaLabel,
       ...rest
@@ -293,6 +289,15 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       ref: this.input,
     };
 
+    let caption = null;
+    if (this.props.children) {
+      const captionClass = this.cx({
+        [this.styles.caption(this.theme)]: true,
+        [this.styles.disabled(this.theme)]: Boolean(props.disabled),
+      });
+      caption = <span className={captionClass}>{this.props.children}</span>;
+    }
+
     const box = (
       <div
         className={this.cx(this.getBoxWrapperSizeClassName(), {
@@ -326,52 +331,10 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
           <input {...inputProps} aria-label={ariaLabel} aria-describedby={ariaDescribedby} />
         </FocusControlWrapper>
         {box}
-        {this.props.children &&
-          (comment ? (
-            <div className={this.styles.captionWrapper(this.theme)}>
-              {this.renderCaption(Boolean(props.disabled), true)}
-              {this.renderComment(Boolean(props.disabled))}
-            </div>
-          ) : (
-            this.renderCaption(Boolean(props.disabled), false)
-          ))}
+        {caption}
       </label>
     );
   };
-
-  private getSubcaptionSizeClassName() {
-    switch (this.size) {
-      case 'large':
-        return this.styles.subcaptionLarge(this.theme);
-      case 'medium':
-        return this.styles.subcaptionMedium(this.theme);
-      case 'small':
-      default:
-        return this.styles.subcaptionSmall(this.theme);
-    }
-  }
-
-  private renderCaption(disabled: boolean, noGap: boolean) {
-    const captionClass = this.cx({
-      [this.styles.caption(this.theme)]: true,
-      [this.styles.disabled(this.theme)]: disabled,
-      [this.styles.captionNoGap()]: noGap,
-    });
-
-    return <div className={captionClass}>{this.props.children}</div>;
-  }
-
-  private renderComment(disabled: boolean) {
-    return (
-      <div
-        className={this.cx(this.styles.subcaption(this.theme), this.getSubcaptionSizeClassName(), {
-          [this.styles.subcaptionDisabled(this.theme)]: disabled,
-        })}
-      >
-        {this.props.comment}
-      </div>
-    );
-  }
 
   private handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {
