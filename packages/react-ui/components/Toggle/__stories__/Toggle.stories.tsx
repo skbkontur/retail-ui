@@ -244,3 +244,34 @@ export const Size: Story = () => {
   );
 };
 Size.storyName = 'size';
+
+export const WithComment: Story = () => {
+  return (
+    <Gapped vertical>
+      <Toggle comment="Маленький" size="small">
+        Size: small
+      </Toggle>
+      <Toggle comment="Средний" size="medium">
+        Size: medium
+      </Toggle>
+      <Toggle comment="Большой" size="large">
+        Size: large
+      </Toggle>
+      <Toggle disabled comment="Маленький" size="small">
+        Size: small disabled
+      </Toggle>
+      <Toggle disabled comment="Средний" size="medium">
+        Size: medium disabled
+      </Toggle>
+      <Toggle disabled comment="Большой" size="large">
+        Size: large disabled
+      </Toggle>
+      <Toggle comment="Слева" captionPosition="left" size="medium">
+        Caption left
+      </Toggle>
+      <Toggle comment={<span>React node</span>} size="medium">
+        With ReactNode comment
+      </Toggle>
+    </Gapped>
+  );
+};

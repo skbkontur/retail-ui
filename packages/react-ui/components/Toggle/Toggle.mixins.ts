@@ -42,6 +42,19 @@ export const captionSizeMixin = (fontSize: string, toggleHeight: string): string
   `;
 };
 
+export const subcaptionMixin = (fontSize: string, lineHeight: string): string => {
+  return `
+    font-size: ${fontSize};
+    line-height: ${lineHeight};
+  `;
+};
+
+export const disabledTextColorMixin = (textColor: string): string => {
+  return `
+    color: ${textColor};
+  `;
+};
+
 export const handleMixin = (toggleHandleSize: string, toggleHandleBorderRadius: string): string => {
   return `
     border-radius: ${toggleHandleBorderRadius};

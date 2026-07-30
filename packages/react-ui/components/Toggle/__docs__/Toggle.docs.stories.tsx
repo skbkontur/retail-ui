@@ -32,6 +32,18 @@ export const ExampleSize: Story = () => {
 };
 ExampleSize.storyName = 'Размер';
 
+/** Проп `comment` задаёт второстепенный пояснительный текст под основным текстом тогла. */
+export const ExampleComment: Story = () => {
+  const [checked, setChecked] = React.useState(false);
+
+  return (
+    <Toggle checked={checked} onValueChange={setChecked} comment="Поясняющий текст">
+      Обычный тогл
+    </Toggle>
+  );
+};
+ExampleComment.storyName = 'Поясняющий текст';
+
 /** Проп `captionPosition` определяет, с какой стороны от переключателя находится его название. */
 export const ExampleCaptionPosition: Story = () => {
   const [checked, setChecked] = React.useState(false);
