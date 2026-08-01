@@ -10,6 +10,9 @@ import { vi } from 'vitest';
 import waitOn from 'wait-on';
 
 const execAsync = promisify(exec);
+// Pinned so the smoke test doesn't silently follow whatever npm publishes as `latest`.
+const CRA_VERSION = '5.1.0';
+const REACT_SCRIPTS_VERSION = '5.0.1';
 const LOAD_PAGE_TIMEOUT = 60000;
 const SSR_TIMEOUT = 240000;
 const BUILD_REACTUI_TIMEOUT = 120000;
@@ -110,7 +113,16 @@ async function buildReactUI(reactUIPackagePath: string) {
 
 async function initApplication(appDirectory: string, templateDirectory: string, reactUIPackagePath: string) {
   logStage('create-react-app: start');
-  await execAsync(`npx create-react-app@latest ${appDirectory} --template file:${templateDirectory}`, { });
+  // CRA picks yarn when it sees a yarn user agent, and then pings registry.yarnpkg.com
+  // to decide whether it may install online. On CI that host doesn't resolve, so CRA
+  // falls back to `yarn add --offline` against an empty cache and fails to find
+  // react-scripts. Hiding the yarn user agent keeps CRA on npm, which reaches
+  // registry.npmjs.org just fine.
+  const { npm_config_user_agent, ...craEnv } = process.env;
+  await execAsync(
+    `npx create-react-app@${CRA_VERSION} ${appDirectory} --template file:${templateDirectory} --scripts-version ${REACT_SCRIPTS_VERSION}`,
+    { env: craEnv },
+  );
   logStage('create-react-app: done');
   // yarn save and get package from cache
   // https://github.com/yarnpkg/yarn/issues/2165
