@@ -2903,7 +2903,9 @@ export class BasicThemeClass {
   public static fileUploaderWarningBgHoverColor = colors.shapeFaintWarningHover;
   public static fileUploaderWarningTextColor = colors.textWarningHeavy;
 
-  public static fileUploaderValidationTextColor = colors.textWarningHeavy;
+  public static get fileUploaderValidationTextColor(): string {
+    return this.fileUploaderTextColorDefault;
+  }
   public static fileUploaderLinkHoverTextDecoration = 'none';
   public static fileUploaderHoveredBg = colors.shapeOtherBacklessHover;
   public static fileUploaderActiveBg = colors.shapeOtherBacklessPressed;
