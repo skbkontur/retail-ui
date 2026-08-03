@@ -100,7 +100,7 @@ describe('PasswordInput', () => {
     expect(screen.queryByDisplayValue(inputValue)).not.toHaveFocus();
   });
 
-  it('handels onKeyPress event', async () => {
+  it('handles onKeyPress event', async () => {
     const onKeyPress = vi.fn();
     const inputValue = 'input';
 
@@ -111,7 +111,7 @@ describe('PasswordInput', () => {
     expect(onKeyPress).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', async () => {
+  it('handles onKeyDown event', async () => {
     const onKeyDown = vi.fn();
     const inputValue = 'input';
 
@@ -150,6 +150,17 @@ describe('PasswordInput', () => {
 
     expect(screen.getByTestId(customDataTid)).toBeInTheDocument();
     expect(screen.getByTestId(InputDataTids.root)).toBeInTheDocument();
+  });
+
+  it('does not forward detectCapsLock to the native input', () => {
+    const createElementSpy = vi.spyOn(React, 'createElement');
+    render(<PasswordInput detectCapsLock />);
+    const inputCreations = createElementSpy.mock.calls.filter(([type]) => type === 'input');
+    expect(inputCreations.length).toBeGreaterThan(0);
+    for (const [, props] of inputCreations) {
+      expect(props).not.toHaveProperty('detectCapsLock');
+    }
+    createElementSpy.mockRestore();
   });
 
   describe('a11y', () => {

@@ -13,7 +13,7 @@ describe('Toggle', () => {
     expect(toggle).toHaveFocus();
   });
 
-  it('handels onValueChange event', async () => {
+  it('handles onValueChange event', async () => {
     const onValueChange = vi.fn();
 
     render(<Toggle onValueChange={onValueChange}>Toggle</Toggle>);
@@ -23,7 +23,7 @@ describe('Toggle', () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onChange event', async () => {
+  it('handles onChange event', async () => {
     const onChange = vi.fn();
 
     render(<Toggle onChange={onChange}>Toggle</Toggle>);
@@ -33,7 +33,7 @@ describe('Toggle', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', async () => {
+  it('handles onFocus event', async () => {
     const onFocus = vi.fn();
 
     render(<Toggle onFocus={onFocus}>Toggle</Toggle>);
@@ -43,7 +43,7 @@ describe('Toggle', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onBlur event', async () => {
+  it('handles onBlur event', async () => {
     const onBlur = vi.fn();
 
     render(<Toggle onBlur={onBlur}>Toggle</Toggle>);

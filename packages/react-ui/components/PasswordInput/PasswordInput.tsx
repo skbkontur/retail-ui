@@ -234,6 +234,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
+    const { detectCapsLock, ...rest } = props;
     return (
       <RenderLayer
         active={this.state.focused}
@@ -244,11 +245,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
           <Input
             ref={this.refInput}
             type={this.state.visible ? 'text' : 'password'}
+            {...rest}
             onKeyDown={this.handleKeydown}
             onKeyPress={this.handleKeyPress}
             rightIcon={this.renderEye()}
             onFocus={this.handleFocus}
-            {...props}
           />
         </div>
       </RenderLayer>

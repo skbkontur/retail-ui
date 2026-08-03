@@ -97,10 +97,10 @@ describe('Textarea', () => {
     expect(input).toHaveValue('a');
   });
 
-  it('handels onPaste event', async () => {
+  it('handles onPaste event', async () => {
     const onPaste = vi.fn();
     render(<Textarea onPaste={onPaste} />);
-    const text = 'It handels onPaste event';
+    const text = 'It handles onPaste event';
     const element = screen.getByRole('textbox');
     await userEvent.click(element);
     await userEvent.paste(text);
@@ -108,7 +108,7 @@ describe('Textarea', () => {
     expect(onPaste).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', async () => {
+  it('handles onFocus event', async () => {
     const onFocus = vi.fn();
     render(<Textarea onFocus={onFocus} />);
 
@@ -117,9 +117,9 @@ describe('Textarea', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onCut event', async () => {
+  it('handles onCut event', async () => {
     const onCut = vi.fn();
-    render(<Textarea onCut={onCut} value={'It handels onCut event'} selectAllOnFocus />);
+    render(<Textarea onCut={onCut} value={'It handles onCut event'} selectAllOnFocus />);
 
     await userEvent.click(screen.getByRole('textbox'));
     fireEvent.cut(screen.getByRole('textbox'));
@@ -127,7 +127,7 @@ describe('Textarea', () => {
     expect(onCut).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', async () => {
+  it('handles onKeyDown event', async () => {
     const onKeyDown = vi.fn();
     render(<Textarea onKeyDown={onKeyDown} />);
 
@@ -136,7 +136,7 @@ describe('Textarea', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onValueChange event', () => {
+  it('handles onValueChange event', () => {
     const onValueChange = vi.fn();
 
     render(<Textarea onValueChange={onValueChange} value="" />);
@@ -148,7 +148,7 @@ describe('Textarea', () => {
     expect(value).toBe('Hello');
   });
 
-  it('handels onChange event', () => {
+  it('handles onChange event', () => {
     const onChange = vi.fn();
 
     render(<Textarea onChange={onChange} value="" />);

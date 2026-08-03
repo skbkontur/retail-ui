@@ -36,7 +36,7 @@ describe('Button', () => {
     expect(onClick.mock.calls).toHaveLength(1);
   });
 
-  it('handels onBlur event', async () => {
+  it('handles onBlur event', async () => {
     const onBlur = vi.fn();
     render(<Button onBlur={onBlur} />);
 
@@ -46,7 +46,7 @@ describe('Button', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onFocus event', async () => {
+  it('handles onFocus event', async () => {
     const onFocus = vi.fn();
     render(<Button onFocus={onFocus} />);
 
@@ -55,7 +55,7 @@ describe('Button', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onKeyDown event', async () => {
+  it('handles onKeyDown event', async () => {
     const onKeyDown = vi.fn();
     render(<Button onKeyDown={onKeyDown} />);
 
@@ -64,7 +64,7 @@ describe('Button', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseEnter event', async () => {
+  it('handles onMouseEnter event', async () => {
     const onMouseEnter = vi.fn();
     render(<Button onMouseEnter={onMouseEnter} />);
 
@@ -73,7 +73,7 @@ describe('Button', () => {
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('handels onMouseOver event', async () => {
+  it('handles onMouseOver event', async () => {
     const onMouseOver = vi.fn();
     render(<Button onMouseOver={onMouseOver} />);
 

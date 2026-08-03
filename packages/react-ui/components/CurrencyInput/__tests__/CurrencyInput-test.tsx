@@ -241,7 +241,7 @@ describe('CurrencyInput', () => {
     expect(onPaste.mock.lastCall?.[0].clipboardData.getData('text/plain')).toBe(PASTE_TEXT);
   });
 
-  describe('Cursor handels', () => {
+  describe('Cursor handles', () => {
     const Comp = () => {
       const [value, setValue] = useState<Nullable<number>>(12300.45);
       return <CurrencyInput value={value} onValueChange={setValue} />;
