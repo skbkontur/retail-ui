@@ -569,10 +569,13 @@ export class Input extends React.Component<InputProps, InputState> {
     const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
 
     if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
-      this.handleUnexpectedInput();
+      this.blink();
     }
   };
 
+  /**
+   * @deprecated Remove in 7.0. Refactor maxLength validation to run in handleKeyDown instead.
+   */
   private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.props.onKeyPress) {
       this.props.onKeyPress(event);

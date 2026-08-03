@@ -308,21 +308,21 @@ describe('<Input />', () => {
     expect(blinkMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedInput', async () => {
+  it('does not call onUnexpectedInput when deleting from an empty field', async () => {
     const unexpectedInputHandlerMock = vi.fn();
     render(<Input onUnexpectedInput={unexpectedInputHandlerMock} />);
     const element = screen.getByRole('textbox');
 
     await userEvent.type(element, '{backspace}');
 
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+    expect(unexpectedInputHandlerMock).not.toHaveBeenCalled();
 
     await userEvent.type(element, '123');
     expect(screen.getByRole('textbox')).toHaveValue('123');
 
     await userEvent.type(element, '{backspace}');
 
-    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+    expect(unexpectedInputHandlerMock).not.toHaveBeenCalled();
   });
 
   it('should clear the value when an empty string passed', async () => {
