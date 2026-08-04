@@ -5,6 +5,8 @@ export enum KeyboardEventCodes {
   KeyC = 'KeyC',
   KeyV = 'KeyV',
   KeyX = 'KeyX',
+  KeyY = 'KeyY',
+  KeyZ = 'KeyZ',
   Enter = 'Enter',
   Tab = 'Tab',
   CapsLock = 'CapsLock',

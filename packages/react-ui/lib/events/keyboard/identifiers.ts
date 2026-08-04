@@ -24,6 +24,12 @@ export const isShortcutCut: IS = (e) =>
 
 export const isShortcutSelectAll: IS = (e) => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
 
+export const isShortcutUndo: IS = (e) =>
+  (isMac ? e.metaKey : e.ctrlKey) && !e.shiftKey && extractCode(e) === Codes.KeyZ;
+
+export const isShortcutRedo: IS = (e) =>
+  (isMac ? e.metaKey : e.ctrlKey) && (extractCode(e) === Codes.KeyY || (e.shiftKey && extractCode(e) === Codes.KeyZ));
+
 export const isShortcutJumpCaret: IS = (e) => (isMac ? e.altKey : e.ctrlKey) && isKeyArrowHorizontal(e);
 
 export const isKeyEscape: IS = (e) => e.key === 'Escape' || e.key === 'Esc';

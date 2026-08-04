@@ -26,6 +26,8 @@ export const KeyboardMapKeys: { [code in Codes]: KeyboardKey[] } = {
   [Codes.KeyC]: [[67, STANDARD]],
   [Codes.KeyV]: [[86, STANDARD]],
   [Codes.KeyX]: [[88, STANDARD]],
+  [Codes.KeyY]: [[89, STANDARD]],
+  [Codes.KeyZ]: [[90, STANDARD]],
   [Codes.NumpadDecimal]: [
     [110, NUMPAD],
     [46, NUMPAD],

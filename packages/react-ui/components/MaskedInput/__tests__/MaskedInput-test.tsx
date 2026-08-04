@@ -1,15 +1,81 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import type { RenderOptions } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React, { useState } from 'react';
 
+import { ReactUIFeatureFlagsContext } from '../../../lib/featureFlagsContext/index.js';
 import { Input } from '../../Input/index.js';
 import type { InputProps } from '../../Input/Input.js';
 import { MaskedInput } from '../MaskedInput.js';
 import type { MaskedInputProps } from '../MaskedInput.js';
 
+const legacyMaskedInputFlags = { maskedInputUseLegacyBehavior: true } as const;
+
+function renderLegacy(ui: React.ReactElement, options?: RenderOptions) {
+  return render(
+    <ReactUIFeatureFlagsContext.Provider value={legacyMaskedInputFlags}>{ui}</ReactUIFeatureFlagsContext.Provider>,
+    options,
+  );
+}
+
+function renderTestComponent(
+  Comp: typeof Input | typeof MaskedInput,
+  props: MaskedInputProps | InputProps,
+  extraProps: Partial<MaskedInputProps & InputProps> = {},
+) {
+  const mergedProps = { ...props, ...extraProps };
+
+  if (Comp === MaskedInput) {
+    return renderLegacy(<MaskedInput {...(mergedProps as MaskedInputProps)} />);
+  }
+
+  return render(<Input {...(mergedProps as InputProps)} />);
+}
+
 describe('MaskedInput', () => {
   it('renders without crash', () => {
     expect(() => render(<MaskedInput mask="99:99" />)).not.toThrow();
+  });
+
+  it('renders MaskedInputV2 by default', () => {
+    render(<MaskedInput mask="99:99" maskChar="_" alwaysShowMask />);
+
+    expect(screen.getByTestId('masked-input-overlay')).toBeInTheDocument();
+  });
+
+  it('renders MaskedInputLegacy when maskedInputUseLegacyBehavior flag is enabled', () => {
+    renderLegacy(<MaskedInput mask="99:99" />);
+
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    expect(screen.queryByTestId('masked-input-overlay')).not.toBeInTheDocument();
+  });
+
+  it('pastes and fires onValueChange by default with MaskedInputV2', async () => {
+    const onValueChange = vi.fn();
+    const Comp = () => {
+      const [value, setValue] = useState('');
+      return (
+        <MaskedInput
+          mask="99:99"
+          value={value}
+          onValueChange={(nextValue) => {
+            setValue(nextValue);
+            onValueChange(nextValue);
+          }}
+          imaskProps={{ lazy: true }}
+        />
+      );
+    };
+
+    render(<Comp />);
+    const input = screen.getByRole<HTMLInputElement>('textbox');
+    const user = userEvent.setup();
+
+    await user.click(input);
+    await user.paste('1234');
+
+    expect(input).toHaveValue('12:34');
+    expect(onValueChange).toHaveBeenLastCalledWith('12:34');
   });
 
   describe.each([
@@ -19,13 +85,13 @@ describe('MaskedInput', () => {
     ['+9+9+', 'X', '+X+X+'],
   ])('mask "%s" with maskChar "%s" -> "%s"', (mask, maskChar, maskPlaceholder) => {
     it('`alwaysShowMask` is false', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={false} />);
+      renderLegacy(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask={false} />);
 
       expect(screen.getByRole('textbox')).toHaveValue('');
     });
 
     it('`alwaysShowMask` is true', () => {
-      render(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask />);
+      renderLegacy(<MaskedInput maskChar={maskChar} mask={mask} alwaysShowMask />);
 
       expect(screen.getByRole('textbox')).toHaveValue(maskPlaceholder);
     });
@@ -39,13 +105,13 @@ describe('MaskedInput', () => {
     ['99:aa', '11:22', '11:__'],
   ])('mask "%s" pass value "%s" -> "%s"', (mask, value, expectedValue) => {
     it('when mounting', () => {
-      render(<MaskedInput value={value} maskChar="_" mask={mask} alwaysShowMask />);
+      renderLegacy(<MaskedInput value={value} maskChar="_" mask={mask} alwaysShowMask />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(expectedValue);
     });
 
     it('when entering', () => {
-      render(<MaskedInput maskChar="_" mask={mask} />);
+      renderLegacy(<MaskedInput maskChar="_" mask={mask} />);
 
       const input = screen.getByRole('textbox');
       fireEvent.change(input, { target: { value } });
@@ -56,7 +122,7 @@ describe('MaskedInput', () => {
 
   it('should accept `null` as value', () => {
     // @ts-expect-error: `Input` technically can't accept `null` as a `value`
-    expect(() => render(<MaskedInput value={null} mask="99:99" />)).not.toThrow();
+    expect(() => renderLegacy(<MaskedInput value={null} mask="99:99" />)).not.toThrow();
   });
 
   it.each([
@@ -69,21 +135,21 @@ describe('MaskedInput', () => {
   ])(
     `mask '%s' - pass value '%s' and defaultValue '%s' - state value '%s'`,
     (mask, inputValue, defaultValue, expected) => {
-      render(<MaskedInput maskChar="_" mask={mask} value={inputValue} defaultValue={defaultValue} />);
+      renderLegacy(<MaskedInput maskChar="_" mask={mask} value={inputValue} defaultValue={defaultValue} />);
       const input = screen.getByRole('textbox');
       expect(input).toHaveValue(expected);
     },
   );
 
   it('custom format chars', () => {
-    render(<MaskedInput value={'123'} mask="XX:XX" formatChars={{ X: '[0-9]' }} />);
+    renderLegacy(<MaskedInput value={'123'} mask="XX:XX" formatChars={{ X: '[0-9]' }} />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12:3');
   });
 
   it('fixed symbols on focus', () => {
-    render(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" alwaysShowMask />);
+    renderLegacy(<MaskedInput maskChar="_" mask="+7 (999) 999 99 99" alwaysShowMask />);
 
     const input = screen.getByRole('textbox');
     input.focus();
@@ -107,7 +173,7 @@ describe('MaskedInput', () => {
 
     const beforePasteValueHandler = vi.fn((value) => value.slice(3));
 
-    render(<Component onBeforePasteValue={beforePasteValueHandler} />);
+    renderLegacy(<Component onBeforePasteValue={beforePasteValueHandler} />);
 
     await userEvent.click(screen.getByRole('textbox'));
     await userEvent.paste('+7 (912) 043-22-28');
@@ -122,13 +188,171 @@ describe('MaskedInput', () => {
     ['+7 (', '+7 ('],
     ['+7 (9', '+7 (9'],
   ])(`focus and blur with value '%s'`, (value, expectedValue) => {
-    render(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
+    renderLegacy(<MaskedInput mask="+7 (999) 999 99 99" value={value} />);
 
     const input = screen.getByRole('textbox');
     input.focus();
     input.blur();
 
     expect(input).toHaveValue(expectedValue);
+  });
+
+  describe('programmatic focus caret position', () => {
+    /**
+     * В браузере programmatic `focus()` / `ref.focus()` часто оставляет selection в 0.
+     * V2 ставит каретку после typed-части через единый selection intent.
+     */
+    function expectCaretAfterEnteredValue(input: HTMLInputElement) {
+      expect(input.selectionStart).toBe(input.selectionEnd);
+      expect(input.selectionStart).toBe(input.value.length);
+    }
+
+    function focusViaRef(phoneRef: React.RefObject<Input | null>) {
+      act(() => {
+        phoneRef.current?.focus();
+      });
+
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      expect(input).toHaveFocus();
+      return input;
+    }
+
+    it('places caret after entered value when focused via ref.focus()', () => {
+      const phoneRef = React.createRef<Input>();
+      const Comp = () => {
+        const [value, setValue] = useState('912247');
+        return (
+          <MaskedInput
+            ref={phoneRef}
+            mask="+7 (999) 999-99-99"
+            type="tel"
+            value={value}
+            onValueChange={setValue}
+            placeholder="+7 (___) ___-__-__"
+          />
+        );
+      };
+      render(<Comp />);
+
+      const input = focusViaRef(phoneRef);
+
+      expect(input).toHaveValue('+7 (912) 247-');
+      expectCaretAfterEnteredValue(input);
+    });
+
+    it('places caret after entered value on repeated ref.focus() after blur', () => {
+      const phoneRef = React.createRef<Input>();
+      const Comp = () => {
+        const [value, setValue] = useState('+7 (912) 247');
+        return (
+          <MaskedInput ref={phoneRef} mask="+7 (999) 999-99-99" type="tel" value={value} onValueChange={setValue} />
+        );
+      };
+      render(<Comp />);
+
+      act(() => {
+        phoneRef.current?.focus();
+      });
+      act(() => {
+        phoneRef.current?.blur();
+      });
+
+      const input = focusViaRef(phoneRef);
+
+      expect(input).toHaveValue('+7 (912) 247-');
+      expectCaretAfterEnteredValue(input);
+    });
+
+    it('places caret after entered value when alwaysShowMask', () => {
+      const phoneRef = React.createRef<Input>();
+      render(<MaskedInput ref={phoneRef} mask="+7 (999) 999-99-99" type="tel" value="912247" alwaysShowMask />);
+
+      const input = focusViaRef(phoneRef);
+
+      expect(input).toHaveValue('+7 (912) 247-');
+      expectCaretAfterEnteredValue(input);
+    });
+
+    it('places caret after leading fixed chars on Tab focus of empty field', async () => {
+      const user = userEvent.setup();
+      render(
+        <>
+          <button type="button">Before</button>
+          <MaskedInput mask="+7 999 999-99-99" />
+        </>,
+      );
+
+      const before = screen.getByRole('button', { name: 'Before' });
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      before.focus();
+      await user.tab();
+
+      expect(input).toHaveFocus();
+      expect(input).toHaveValue('+7 ');
+      await waitFor(() => {
+        expect(input.selectionStart).toBe(3);
+        expect(input.selectionEnd).toBe(3);
+      });
+    });
+
+    it('cancels pending caret placement when focus moves away', async () => {
+      vi.useFakeTimers();
+      try {
+        const phoneRef = React.createRef<Input>();
+        render(
+          <>
+            <MaskedInput ref={phoneRef} mask="+7 999 999-99-99" value="912247" />
+            <button type="button">After</button>
+          </>,
+        );
+        const input = screen.getByRole<HTMLInputElement>('textbox');
+        const after = screen.getByRole('button', { name: 'After' });
+        const setSelectionRangeSpy = vi.spyOn(input, 'setSelectionRange');
+
+        act(() => {
+          phoneRef.current?.focus();
+          after.focus();
+        });
+        expect(after).toHaveFocus();
+        const callsAfterBlur = setSelectionRangeSpy.mock.calls.length;
+
+        await act(async () => {
+          await vi.runAllTimersAsync();
+        });
+        expect(after).toHaveFocus();
+        expect(setSelectionRangeSpy).toHaveBeenCalledTimes(callsAfterBlur);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+  });
+
+  describe('selectAll via button', () => {
+    it('selects typed value when selectAll() is called from a button (SelectAllByButton)', async () => {
+      const user = userEvent.setup();
+      const Comp = () => {
+        const ref = React.useRef<Input>(null);
+        return (
+          <>
+            <MaskedInput ref={ref} mask="+7 999 999-99-99" value="+7 123 654" alwaysShowMask />
+            <button data-tid="select-all" onClick={() => ref.current?.selectAll()}>
+              Select all
+            </button>
+          </>
+        );
+      };
+      render(<Comp />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      await user.click(screen.getByRole('button', { name: 'Select all' }));
+
+      expect(input).toHaveFocus();
+      await waitFor(() => {
+        expect(input.selectionStart).toBe(0);
+        expect(input.selectionEnd).toBe(input.value.length);
+      });
+    });
   });
 
   describe('onUnexpectedInput', () => {
@@ -154,7 +378,7 @@ describe('MaskedInput', () => {
           />
         );
       };
-      render(<Comp />);
+      renderLegacy(<Comp />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       await userEvent.type(input, keys);
@@ -173,7 +397,7 @@ describe('MaskedInput', () => {
       ['9--9--9--9', '123{backspace}{backspace}', '1--2--'],
       ['9--9---9---9', '123{backspace}{backspace}', '1--2---'],
     ])(`%s > %s > "%s"`, async (mask, keys, expected) => {
-      render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
+      renderLegacy(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       await userEvent.type(input, keys);
@@ -189,7 +413,7 @@ describe('MaskedInput', () => {
       ['9-9-9-9', '1-', '1-'],
       ['9-9-9-9', '1-2-3', '1-2-3-'],
     ])(`%s > %s > "%s"`, async (mask, paste, expected) => {
-      render(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
+      renderLegacy(<MaskedInput mask={mask} imaskProps={{ lazy: true }} />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       input.focus();
@@ -213,7 +437,7 @@ describe('MaskedInput', () => {
 
       it('onValueChange don`t fire on focus when value is empty', () => {
         const valueChangeEvent = vi.fn();
-        render(<Comp {...props} onValueChange={valueChangeEvent} />);
+        renderTestComponent(Comp, props, { onValueChange: valueChangeEvent });
 
         const input = screen.getByRole('textbox');
         input.focus();
@@ -223,7 +447,7 @@ describe('MaskedInput', () => {
 
       it('onValueChange don`t fire on blur when value is empty', () => {
         const valueChangeEvent = vi.fn();
-        render(<Comp {...props} onValueChange={valueChangeEvent} />);
+        renderTestComponent(Comp, props, { onValueChange: valueChangeEvent });
 
         const input = screen.getByRole('textbox');
         input.focus();
@@ -234,7 +458,7 @@ describe('MaskedInput', () => {
 
       it('onValueChange don`t fire on focus when value is not empty', () => {
         const valueChangeEvent = vi.fn();
-        render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
+        renderTestComponent(Comp, props, { value: '123', onValueChange: valueChangeEvent });
 
         const input = screen.getByRole('textbox');
         input.focus();
@@ -244,7 +468,7 @@ describe('MaskedInput', () => {
 
       it('onValueChange don`t fire on blur when value is not empty', () => {
         const valueChangeEvent = vi.fn();
-        render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
+        renderTestComponent(Comp, props, { value: '123', onValueChange: valueChangeEvent });
 
         const input = screen.getByRole('textbox');
         input.focus();
@@ -255,7 +479,7 @@ describe('MaskedInput', () => {
 
       it('onValueChange don`t fire on mount when value is not empty', () => {
         const valueChangeEvent = vi.fn();
-        render(<Comp {...props} value="123" onValueChange={valueChangeEvent} />);
+        renderTestComponent(Comp, props, { value: '123', onValueChange: valueChangeEvent });
 
         expect(valueChangeEvent).not.toHaveBeenCalled();
       });
@@ -271,7 +495,7 @@ describe('MaskedInput', () => {
         // ['onChange', 1],     imask перехватывает onChange, поэтому его тестировать не надо
       ])('event "%s" fires the same number of times as input event', (eventName, method, event) => {
         const handler = vi.fn();
-        render(<Comp defaultValue="123" {...{ ...props, [eventName]: handler }} />);
+        renderTestComponent(Comp, props, { defaultValue: '123', [eventName]: handler });
         const input = screen.getByRole('textbox');
 
         method(input, event);
@@ -283,7 +507,7 @@ describe('MaskedInput', () => {
 
   describe('horizontal scroll on arrow keys', () => {
     it('scrolls left when caret moves left out of visible area', () => {
-      render(<MaskedInput mask="99999999999999999999" value="12345678901234567890" />);
+      renderLegacy(<MaskedInput mask="99999999999999999999" value="12345678901234567890" />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       Object.defineProperty(input, 'scrollWidth', { value: 500, configurable: true });
@@ -299,7 +523,7 @@ describe('MaskedInput', () => {
     });
 
     it('scrolls right when caret moves right out of visible area', () => {
-      render(<MaskedInput mask="99999999999999999999" value="12345678901234567890" />);
+      renderLegacy(<MaskedInput mask="99999999999999999999" value="12345678901234567890" />);
       const input = screen.getByRole<HTMLInputElement>('textbox');
 
       Object.defineProperty(input, 'scrollWidth', { value: 500, configurable: true });
@@ -321,7 +545,7 @@ describe('MaskedInput', () => {
       const Comp = () => {
         return <MaskedInput mask="{+7} (999) 999-99-99" onValueChange={(v) => (value = v)} />;
       };
-      render(<Comp />);
+      renderLegacy(<Comp />);
 
       const input = screen.getByRole<HTMLInputElement>('textbox');
       await userEvent.type(input, '1');
@@ -335,7 +559,7 @@ describe('MaskedInput', () => {
       const Comp = () => {
         return <MaskedInput mask="{+7} (999) 999-99-99" onValueChange={(v) => (value = v)} unmask />;
       };
-      render(<Comp />);
+      renderLegacy(<Comp />);
 
       const input = screen.getByRole<HTMLInputElement>('textbox');
       await userEvent.type(input, '1');
@@ -349,7 +573,7 @@ describe('MaskedInput', () => {
       const Comp = () => {
         return <MaskedInput mask="+7 (999) 999-99-99" onValueChange={(v) => (value = v)} unmask />;
       };
-      render(<Comp />);
+      renderLegacy(<Comp />);
 
       const input = screen.getByRole<HTMLInputElement>('textbox');
       await userEvent.type(input, '1');

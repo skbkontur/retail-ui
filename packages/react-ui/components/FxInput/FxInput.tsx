@@ -18,8 +18,7 @@ import type { CurrencyInputProps } from '../CurrencyInput/index.js';
 import { Group } from '../Group/index.js';
 import { Input } from '../Input/index.js';
 import type { InputProps } from '../Input/Input.js';
-import { MaskedInput } from '../MaskedInput/index.js';
-import type { MaskedInputProps } from '../MaskedInput/index.js';
+import { MaskedInput, type MaskedInputProps } from '../MaskedInput/index.js';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn.js';
 import { MathFunctionIcon } from './MathFunctionIcon.js';
 

@@ -62,6 +62,10 @@ import React from 'react';
 import { cities } from '../components/ComboBox/__mocks__/cities.js';
 import { getCities } from '../components/ComboBox/__mocks__/getCities.js';
 import { createFile } from '../components/FileUploader/fileUtils.js';
+import {
+  DynamicMaskSection,
+  DynamicMaskWithUnmaskSection,
+} from '../components/MaskedInput/__docs__/MaskedInput.examples.js';
 import { getStyles } from '../components/Tabs/Indicator.styles.js';
 import * as ReactUi from '../index.js';
 import { ShowcaseGroup } from '../internal/ThemePlayground/ShowcaseGroup.js';
@@ -277,6 +281,8 @@ addons.setConfig({
       emit,
       FeatureFlagToggle,
       useEmotion,
+      DynamicMaskSection,
+      DynamicMaskWithUnmaskSection,
     },
     decorators: [ThemeDecorator, LocaleDecorator, FeatureFlagsDecorator],
   } as LiveConfig,

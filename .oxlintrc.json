@@ -25,7 +25,12 @@
     "no-lonely-if": "warn",
     "yoda": "warn",
     "eqeqeq": "error",
-    "no-implicit-coercion": ["error", { "allow": ["!!", "+"] }],
+    "no-implicit-coercion": [
+      "error",
+      {
+        "allow": ["!!", "+"]
+      }
+    ],
     "new-cap": "error",
     "curly": "warn",
     "no-unused-expressions": "off",
@@ -60,7 +65,12 @@
     "react/no-find-dom-node": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
-    "typescript/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "typescript/no-unused-vars": [
+      "warn",
+      {
+        "ignoreRestSiblings": true
+      }
+    ],
     "typescript/no-explicit-any": "off",
     "typescript/no-use-before-define": "off",
     "typescript/no-non-null-assertion": "error",
@@ -68,7 +78,12 @@
     "typescript/consistent-type-definitions": ["error", "interface"],
     "typescript/no-var-requires": "off",
     "typescript/ban-types": "error",
-    "typescript/array-type": ["warn", { "default": "array-simple" }],
+    "typescript/array-type": [
+      "warn",
+      {
+        "default": "array-simple"
+      }
+    ],
     "typescript/consistent-type-imports": "error",
     "typescript/ban-ts-comment": "off",
     "typescript/explicit-module-boundary-types": "off",
@@ -81,6 +96,12 @@
     "vitest/require-mock-type-parameters": "off"
   },
   "overrides": [
+    {
+      "files": ["*/**/*test.tsx"],
+      "rules": {
+        "typescript/no-non-null-assertion": "off"
+      }
+    },
     {
       "files": [
         "**/vitest.config.{mts,ts}",

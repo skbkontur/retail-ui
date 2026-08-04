@@ -78,11 +78,23 @@ export default async ({ config }: { config: Configuration }) => {
   }
 
   if (config.module?.rules) {
+    const reactImaskDir = /components[\\/]MaskedInputV2[\\/]react-imask/;
+
     config.module.rules = [
       {
         test: /\.(j|t)sx?$/,
+        include: reactImaskDir,
         loader: 'babel-loader',
-        exclude: /node_modules[/\\](?!@skbkontur[/\\]colors)/,
+        options: {
+          babelrc: false,
+          presets: [['@babel/preset-env', { modules: false, targets: { esmodules: true } }], '@babel/typescript'],
+          plugins: [['@babel/plugin-transform-runtime', { useESModules: true, version: '7.16.5' }]],
+        },
+      },
+      {
+        test: /\.(j|t)sx?$/,
+        loader: 'babel-loader',
+        exclude: [/node_modules[/\\](?!@skbkontur[/\\]colors)/, reactImaskDir],
         options: {
           babelrc: false,
           extends: join(__dirname, '../.babelrc.cjs'),

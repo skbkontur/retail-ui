@@ -14,7 +14,7 @@ import { PropsTable } from '../../../.storybook-docs/PropsTable';
 />
 
 ```jsx
-import { MaskedInput } from '@skbkontur/react-ui';
+import { MaskedInput, MaskedInputMasks, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 ```
 
 <Description />
@@ -32,6 +32,16 @@ import { MaskedInput } from '@skbkontur/react-ui';
 Компонент наследует часть базовых пропcов от компонента Input — размер, ширина, иконка в поле и так далее. Они включены в таблицу пропсов выше.  
 Примеры для базовых пропсов вы можете посмотреть на странице [Input](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-input--docs).
 Из пропсов Input исключены некоторые неприменимые к полю с маской пропсы и сокращен список возможных значений для пропа `type`.
+
+Для legacy-реализации маски включите фичафлаг `maskedInputUseLegacyBehavior` в `ReactUIFeatureFlagsContext`:
+
+```jsx
+<ReactUIFeatureFlagsContext.Provider value={{ maskedInputUseLegacyBehavior: true }}>
+  <MaskedInput mask="+7 (999) 999-99-99" value={value} onValueChange={setValue} />
+</ReactUIFeatureFlagsContext.Provider>
+```
+
+По умолчанию используется исправленная реализация MaskedInputV2 — провайдер не нужен.
 
 **Когда не использовать**
 

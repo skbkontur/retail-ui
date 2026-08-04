@@ -1,4 +1,4 @@
-import { Gapped, MaskedInput } from '@skbkontur/react-ui';
+import { Gapped, MaskedInput, ReactUIFeatureFlagsContext } from '@skbkontur/react-ui';
 import { ValidationContainer, type ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import React from 'react';
 
@@ -25,5 +25,24 @@ export const ExampleValidation: Story = () => {
         </ValidationWrapper>
       </Gapped>
     </ValidationContainer>
+  );
+};
+
+export const ExampleValidationWithLegacyBehavior: Story = () => {
+  const [value, setValue] = React.useState<string>('/');
+  function validate(value: string): Nullable<ValidationInfo> {
+    return !/^\d*$/.test(value) ? { message: 'Только цифры', type: 'immediate' } : null;
+  }
+  return (
+    <ReactUIFeatureFlagsContext.Provider value={{ maskedInputUseLegacyBehavior: true }}>
+      <ValidationContainer>
+        <Gapped>
+          <label htmlFor="input-id">Номер</label>
+          <ValidationWrapper validationInfo={validate(value)}>
+            <MaskedInput mask="9999" placeholder={'Только цифры'} value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+        </Gapped>
+      </ValidationContainer>
+    </ReactUIFeatureFlagsContext.Provider>
   );
 };
