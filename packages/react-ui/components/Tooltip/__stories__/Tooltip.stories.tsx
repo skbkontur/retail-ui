@@ -11,7 +11,9 @@ import { Button } from '../../Button/index.js';
 import { Checkbox } from '../../Checkbox/index.js';
 import { Gapped } from '../../Gapped/index.js';
 import { Input } from '../../Input/index.js';
+import { RadioGroup } from '../../RadioGroup/index.js';
 import { Textarea } from '../../Textarea/index.js';
+import { Toggle } from '../../Toggle/index.js';
 import type { TooltipProps, TooltipTrigger } from '../Tooltip.js';
 import { Tooltip } from '../Tooltip.js';
 
@@ -814,4 +816,26 @@ MobileTooltipHorizontalScroll.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
+};
+
+export const MobileControlledInputsWithTooltipClick = () => {
+  const [checked, setChecked] = useState(false);
+  const [value, setValue] = useState<string | null>(null);
+  const [enabled, setEnabled] = useState(false);
+
+  return (
+    <Gapped vertical>
+      <Tooltip trigger="focus" render={() => 'Tooltip'}>
+        <Checkbox checked={checked} onValueChange={setChecked}>
+          Checkbox
+        </Checkbox>
+      </Tooltip>
+      <Tooltip trigger="focus" render={() => 'Tooltip'}>
+        <RadioGroup value={value} items={['one', 'two']} onValueChange={setValue} />
+      </Tooltip>
+      <Tooltip trigger="focus" render={() => 'Tooltip'}>
+        <Toggle checked={enabled} onValueChange={setEnabled} />
+      </Tooltip>
+    </Gapped>
+  );
 };

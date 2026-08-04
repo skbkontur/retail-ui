@@ -447,4 +447,32 @@ kind('Tooltip', () => {
       await context.matchImage(await context.takeScreenshot(), 'pin hides at right edge');
     });
   });
+
+  story('MobileControlledInputsWithTooltipClick', ({ setStoryParameters }) => {
+    setStoryParameters({
+      skip: { 'only mobile': { in: /^(?!\b(chromeMobile)\b)/ } },
+      captureElement: null,
+    });
+
+    test('tap checks checkbox', async (context) => {
+      const page = context.webdriver;
+      await page.locator(tid('Checkbox__root')).click();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'tap checks checkbox');
+    });
+
+    test('tap checks radio button', async (context) => {
+      const page = context.webdriver;
+      await page.locator(tid('Radio__root')).first().click();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'tap checks radio button');
+    });
+
+    test('tap checks toggle', async (context) => {
+      const page = context.webdriver;
+      await page.locator(tid('Toggle__root')).click();
+      await page.waitForTimeout(500);
+      await context.matchImage(await context.takeScreenshot(), 'tap checks toggle');
+    });
+  });
 });

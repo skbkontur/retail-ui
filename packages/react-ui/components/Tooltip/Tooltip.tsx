@@ -190,6 +190,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private size!: SizeProp;
   private sizeVariables!: TooltipSizeVariables;
   private hoverTimeout: SafeTimer;
+  private clickTimeout: Nullable<number>;
   private contentElement: Nullable<HTMLElement> = null;
   private clickedOutside = true;
   public getRootNode!: TGetRootNode;
@@ -216,6 +217,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public componentWillUnmount() {
     this.clearHoverTimeout();
+    this.clearClickTimeout();
   }
 
   public render(): React.JSX.Element {
@@ -511,6 +513,13 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
   }
 
+  private clearClickTimeout() {
+    if (this.clickTimeout) {
+      this.globalObject.cancelAnimationFrame?.(this.clickTimeout);
+      this.clickTimeout = null;
+    }
+  }
+
   private handleMouseEnter = (event: MouseEventType) => {
     if (this.isMobileLayout) {
       return;
@@ -548,12 +557,23 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleClick = () => {
-    if (this.isMobileLayout && this.state.opened) {
-      this.close();
-      return;
-    }
+    const toggleOpenState = () => {
+      if (this.isMobileLayout && this.state.opened) {
+        this.close();
+        return;
+      }
+      this.open();
+    };
 
-    this.open();
+    if (this.isMobileLayout) {
+      // Don't lose change event of Checkbox/RadioGroup/Toggle on mobile tap
+      this.clickTimeout = this.globalObject.requestAnimationFrame?.(() => {
+        this.clickTimeout = null;
+        toggleOpenState();
+      });
+    } else {
+      toggleOpenState();
+    }
   };
 
   private handleClickOutsideAnchor = (event: Event) => {
