@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.6...@skbkontur/react-ui@6.1.7) (2026-08-04)
+
+
+### Bug Fixes
+
+* **Input:** don't run onUnexpectedInput on empty value deletion ([153f398](https://github.com/skbkontur/retail-ui/commit/153f398487e40dca5b4b74b3562c5429a71face7))
+* **PasswordInput:** remove React does not recognize the "detectCapsLock" warning ([605e742](https://github.com/skbkontur/retail-ui/commit/605e742e980c3ee013fbc22284c4a8e42b05e52c))
+* **Tooltip:** fix mobile tap for RadioGroup/Checkbox/Toggle ([9af55fb](https://github.com/skbkontur/retail-ui/commit/9af55fb4a1c7cd6e998ed53091ac047f3cd65331))
+
+
+
+
+
 ## [6.1.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.5...@skbkontur/react-ui@6.1.6) (2026-07-28)
 
 
