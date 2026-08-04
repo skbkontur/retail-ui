@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.7...@skbkontur/react-ui@6.2.0) (2026-08-04)
+
+
+### Features
+
+* **MaskedInput:** rewrite MaskedInput, add maskedInputUseLegacyBehavior feature flag ([24ee111](https://github.com/skbkontur/retail-ui/commit/24ee111d47b33dc26bb59cd2d8b932742fe7db89))
+    * Ctrl+Z and Ctrl+Y bug: text did not change back after undo
+    * Text color bug: mask colors did not update when deleting characters
+    * Add support for browser input autofill
+    * Cursor jump bug: clicking the input moved the cursor to the end, then to the start
+    * "Ghost text" bug when clicking and holding the left mouse button
+    * "Ghost paste" bug when pressing Ctrl+V over selected text
+    * Mask settings (maskChar, formatChars, alwaysShowMask, unmask) keeping "ghost text" after losing focus
+    * Ctrl+V bug: phone numbers duplicated the first digit and cut off the end
+    * Wrong input behavior with Android Yandex Keyboard (IME mode)
+
+* **Radio, Toggle, Checkbox:** add comment prop ([af2e9aa](https://github.com/skbkontur/retail-ui/commit/af2e9aa047f7053c696f610cf49fc8dcfdb364bf))
+
+
+### Bug Fixes
+
+* **FileUploader:** add locale for file sizes ([27aa146](https://github.com/skbkontur/retail-ui/commit/27aa146ff37c488fdb1b634c80a2e62df16ec0da))
+* **FileUploader:** use correct text color for uploaded file validation ([9f5ed8d](https://github.com/skbkontur/retail-ui/commit/9f5ed8dd0b0b61187f4cfd64b63d5dbdcb204f54))
+
+
+
+
+
 ## [6.1.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.6...@skbkontur/react-ui@6.1.7) (2026-08-04)
 
 
