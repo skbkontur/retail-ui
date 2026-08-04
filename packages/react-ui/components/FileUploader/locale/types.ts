@@ -3,4 +3,5 @@ export interface FileUploaderLocale {
   requestErrorText: string;
   errors: string[];
   warnings: string[];
+  fileSizeUnits: string[];
 }

@@ -211,6 +211,19 @@ describe('FileUploader', () => {
       expect(screen.getByTestId(FileUploaderDataTids.link)).toHaveTextContent(expectedText);
     });
 
+    it('render locale for file size', async () => {
+      const file = createFile('test.txt');
+      const renderFile: FileUploaderProps['renderFile'] = (props) => <FileUploaderFile {...props} showSize />;
+      render(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+          <FileUploader renderFile={renderFile} />
+        </LocaleContext.Provider>,
+      );
+      await addFiles([file]);
+
+      expect(screen.getByTestId(FileUploaderFileDataTids.fileSize)).toHaveTextContent('7 Bytes');
+    });
+
     it('render custom locale', () => {
       const customText = 'custom text';
       renderComponent({
@@ -641,7 +654,7 @@ describe('FileUploader', () => {
 
   describe('renderFile', () => {
     const fileItem = 'fileItem';
-    const fileSize = '7 Bytes';
+    const fileSize = '7 Байт';
     const renderFile = () => fileItem;
     const renderFileWithProps: FileUploaderProps['renderFile'] = (props) => {
       return <FileUploaderFile {...props} showSize />;

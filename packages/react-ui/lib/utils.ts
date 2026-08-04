@@ -6,6 +6,7 @@ import type { ButtonProps } from '../components/Button/index.js';
 import type { CurrencyInputProps } from '../components/CurrencyInput/index.js';
 import type { DropdownProps } from '../components/Dropdown/index.js';
 import type { DropdownMenuProps } from '../components/DropdownMenu/index.js';
+import { FileUploaderLocaleHelper } from '../components/FileUploader/locale/index.js';
 import type { FxInputProps } from '../components/FxInput/index.js';
 import type { HintProps } from '../components/Hint/index.js';
 import type { InputProps } from '../components/Input/index.js';
@@ -14,6 +15,8 @@ import type { SelectProps } from '../components/Select/index.js';
 import type { TooltipProps } from '../components/Tooltip/index.js';
 import type { GlobalObject } from '../lib/globalObject.js';
 import { isBrowser } from '../lib/globalObject.js';
+import { defaultLangCode } from './locale/constants.js';
+import type { LangCodes } from './locale/types.js';
 import { isForwardRef, isMemo } from './react-is.js';
 
 export { delay } from './delay.js';
@@ -104,7 +107,6 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 };
 
 const KB = 1024;
-const UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
 const calculateDecimals = (decimals: number) => {
   if (decimals < 0) {
@@ -114,9 +116,11 @@ const calculateDecimals = (decimals: number) => {
   return 0;
 };
 
-export const formatBytes = (bytes: number, decimals = 2): string | null => {
+export const formatBytes = (bytes: number, decimals = 2, locale: LangCodes = defaultLangCode): string | null => {
+  const { fileSizeUnits } = FileUploaderLocaleHelper.get(locale);
+
   if (bytes === 0) {
-    return '0 Bytes';
+    return `0 ${fileSizeUnits[0]}`;
   }
 
   if (!bytes) {
@@ -128,7 +132,7 @@ export const formatBytes = (bytes: number, decimals = 2): string | null => {
   const i = Math.floor(Math.log2(bytes) / Math.log2(KB));
   const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(calculatedDecimals));
 
-  return `${formattedBytes} ${UNITS[i]}`;
+  return `${formattedBytes} ${fileSizeUnits[i]}`;
 };
 
 /**

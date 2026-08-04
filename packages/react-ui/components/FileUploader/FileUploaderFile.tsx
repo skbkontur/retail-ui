@@ -9,6 +9,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect.js';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers.js';
 import { useKeyListener } from '../../lib/events/keyListener.js';
 import { forwardRefAndName } from '../../lib/forwardRefAndName.js';
+import { LocaleContext } from '../../lib/locale/LocaleContext.js';
 import { useEmotion, useGlobal, useStyles } from '../../lib/renderEnvironment/index.js';
 import { truncate } from '../../lib/stringUtils.js';
 import { ThemeContext } from '../../lib/theming/ThemeContext.js';
@@ -159,6 +160,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const textHelperRef = useRef<TextWidthHelper>(null);
     const fileNameElementRef = useRef<HTMLSpanElement>(null);
 
+    const { langCode } = useContext(LocaleContext);
     const theme = useContext(ThemeContext);
     const globalObject = useGlobal();
 
@@ -173,7 +175,7 @@ export const FileUploaderFile = forwardRefAndName<HTMLDivElement, FileUploaderFi
     const jsViewStyles = isTileView ? jsTileStyles : jsRowStyles;
     const validationTooltipPositionByView = validationTooltipPosition || (isTileView ? 'top center' : 'top left');
 
-    const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
+    const formattedSize = useMemo(() => formatBytes(fileSize, 1, langCode), [fileSize, langCode]);
 
     useEffect(() => {
       const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name, isTileView);

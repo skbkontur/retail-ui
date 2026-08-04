@@ -5,4 +5,5 @@ export const componentsLocales: FileUploaderLocale = {
   requestErrorText: 'The file could not be uploaded to the server, please try again later',
   errors: ['error', 'errors', 'errors'],
   warnings: ['warning', 'warnings', 'warnings'],
+  fileSizeUnits: ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 };

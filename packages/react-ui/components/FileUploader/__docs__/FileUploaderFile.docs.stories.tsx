@@ -1,6 +1,8 @@
 import { IconCheckALight16 } from '@skbkontur/icons/IconCheckALight16';
 import React from 'react';
 
+import { LocaleContext } from '../../../lib/locale/LocaleContext.js';
+import { LangCodes } from '../../../lib/locale/types.js';
 import { ThemeContext } from '../../../lib/theming/ThemeContext.js';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory.js';
 import type { Meta, Story } from '../../../typings/stories.js';
@@ -89,3 +91,13 @@ export const ExampleCustomizationFileTypeIconColor: Story = () => {
   );
 };
 ExampleCustomizationFileTypeIconColor.storyName = 'Кастомизация цвета иконки типа файла';
+
+export const ExampleLocaleShowSize: Story = () => {
+  const initialFile = createFile('text.txt');
+  return (
+    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+      <FileUploader initialFiles={[initialFile]} renderFile={(props) => <FileUploaderFile {...props} showSize />} />
+    </LocaleContext.Provider>
+  );
+};
+ExampleLocaleShowSize.storyName = 'Локализация размера файла';
