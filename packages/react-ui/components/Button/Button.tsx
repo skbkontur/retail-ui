@@ -554,15 +554,15 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
     const { icon, rightIcon, children } = this.getProps();
     const isIconOnlyWithoutText = (!!icon || !!rightIcon) && !children;
     const hasSingleIconOnly = !!icon !== !!rightIcon && !children;
-    const themeGTE6_2 = isThemeGTE(this.theme, '6.2');
+    const themeGTE6_4 = isThemeGTE(this.theme, '6.4');
 
     switch (this.size) {
       case 'large': {
         const commonClasses = {
           [this.styles.sizeLargeWithIcon(this.theme)]: !!icon,
           [this.styles.sizeLargeWithRightIcon(this.theme)]: !!rightIcon,
-          [this.styles.sizeLargeWithIconOnly(this.theme)]: hasSingleIconOnly && themeGTE6_2,
-          [this.styles.sizeLargeWithIconWithoutText(this.theme)]: isIconOnlyWithoutText && !themeGTE6_2,
+          [this.styles.sizeLargeWithIconOnly(this.theme)]: hasSingleIconOnly && themeGTE6_4,
+          [this.styles.sizeLargeWithIconWithoutText(this.theme)]: isIconOnlyWithoutText && !themeGTE6_4,
         };
 
         return this.cx(this.styles.sizeLarge(this.theme), commonClasses);
@@ -571,8 +571,8 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
         const commonClasses = {
           [this.styles.sizeMediumWithIcon(this.theme)]: !!icon,
           [this.styles.sizeMediumWithRightIcon(this.theme)]: !!rightIcon,
-          [this.styles.sizeMediumWithIconOnly(this.theme)]: hasSingleIconOnly && themeGTE6_2,
-          [this.styles.sizeMediumWithIconWithoutText(this.theme)]: isIconOnlyWithoutText && !themeGTE6_2,
+          [this.styles.sizeMediumWithIconOnly(this.theme)]: hasSingleIconOnly && themeGTE6_4,
+          [this.styles.sizeMediumWithIconWithoutText(this.theme)]: isIconOnlyWithoutText && !themeGTE6_4,
         };
 
         return this.cx(this.styles.sizeMedium(this.theme), commonClasses);
@@ -582,8 +582,8 @@ export class Button<C extends ButtonLinkAllowedValues = typeof BUTTON_DEFAULT_CO
         const commonClasses = {
           [this.styles.sizeSmallWithIcon(this.theme)]: !!icon,
           [this.styles.sizeSmallWithRightIcon(this.theme)]: !!rightIcon,
-          [this.styles.sizeSmallWithIconOnly(this.theme)]: hasSingleIconOnly && themeGTE6_2,
-          [this.styles.sizeSmallWithIconWithoutText(this.theme)]: isIconOnlyWithoutText && !themeGTE6_2,
+          [this.styles.sizeSmallWithIconOnly(this.theme)]: hasSingleIconOnly && themeGTE6_4,
+          [this.styles.sizeSmallWithIconWithoutText(this.theme)]: isIconOnlyWithoutText && !themeGTE6_4,
         };
 
         return this.cx(this.styles.sizeSmall(this.theme), commonClasses);

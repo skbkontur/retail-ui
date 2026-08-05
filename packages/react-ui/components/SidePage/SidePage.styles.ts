@@ -280,7 +280,7 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  wrapperClose6_3() {
+  wrapperClose6_4() {
     return css`
       height: auto;
       padding-bottom: 0;

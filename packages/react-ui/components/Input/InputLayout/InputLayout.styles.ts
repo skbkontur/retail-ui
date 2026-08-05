@@ -54,7 +54,7 @@ export const getStylesLayout = memoizeGetStyles((emotion: Emotion) => {
       `;
     },
 
-    text6_3(t: Theme) {
+    text6_4(t: Theme) {
       return emotion.css`
         color: ${t.inputAffixColor};
       `;

@@ -180,12 +180,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   private renderClose = (fixed: boolean) => {
-    const themeGTE6_3 = isThemeGTE(this.theme, '6.3');
+    const themeGTE6_4 = isThemeGTE(this.theme, '6.4');
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
     return (
       <div
         className={this.cx(this.styles.wrapperClose(this.theme), {
-          [this.styles.wrapperClose6_3()]: themeGTE6_3,
+          [this.styles.wrapperClose6_4()]: themeGTE6_4,
           [this.styles.wrapperCloseFixed(this.theme)]: fixed,
           [this.styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
         })}

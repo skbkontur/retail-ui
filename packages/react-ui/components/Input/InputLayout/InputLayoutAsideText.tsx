@@ -16,7 +16,7 @@ export const InputLayoutAsideText: React.FunctionComponent<InputLayoutAsideTextP
   const { cx } = useEmotion();
   const stylesLayout = useStyles(getStylesLayout);
   const { disabled } = React.useContext(InputLayoutContext);
-  const themeGTE6_3 = isThemeGTE(theme, '6.3');
+  const themeGTE6_4 = isThemeGTE(theme, '6.4');
   const asideClassName = stylesLayout.aside();
 
   return text ? (
@@ -24,7 +24,7 @@ export const InputLayoutAsideText: React.FunctionComponent<InputLayoutAsideTextP
       className={cx(
         asideClassName,
         stylesLayout.text(theme),
-        themeGTE6_3 && stylesLayout.text6_3(theme),
+        themeGTE6_4 && stylesLayout.text6_4(theme),
         disabled && stylesLayout.textDisabled(theme),
       )}
     >

@@ -304,17 +304,17 @@ export class BasicThemeClass {
 
   public static tokenInputPopupOffset = '2px';
   /**
-   * @deprecated Не работает с версии => `6.3` и будет удалена в `7.0`.
+   * @deprecated Не работает с версии => `6.4` и будет удалена в `7.0`.
    * @see {@link tokenInputMenuOffsetY}
    */
   public static tokenInputPopupMarginSmall = '7px';
   /**
-   * @deprecated Не работает с версии => `6.3` и будет удалена в `7.0`.
+   * @deprecated Не работает с версии => `6.4` и будет удалена в `7.0`.
    * @see {@link tokenInputMenuOffsetY}
    */
   public static tokenInputPopupMarginMedium = '10px';
   /**
-   * @deprecated Не работает с версии => `6.3` и будет удалена в `7.0`.
+   * @deprecated Не работает с версии => `6.4` и будет удалена в `7.0`.
    * @see {@link tokenInputMenuOffsetY}
    */
   public static tokenInputPopupMarginLarge = '13px';

@@ -160,7 +160,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       return true;
     }
 
-    if (!isThemeGTE(this.theme, '6.3')) {
+    if (!isThemeGTE(this.theme, '6.4')) {
       return false;
     }
 
@@ -168,7 +168,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
   }
 
   private shouldUpgradeToRootAnchor(position: PopupPositionsType): boolean {
-    if (this.state.useRootAnchor || !isThemeGTE(this.theme, '6.3') || this.props.menuAlign !== 'cursor') {
+    if (this.state.useRootAnchor || !isThemeGTE(this.theme, '6.4') || this.props.menuAlign !== 'cursor') {
       return false;
     }
 
@@ -185,7 +185,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     const t = this.theme;
     const menuOffsetY = parseInt(t.tokenInputMenuOffsetY, 10) || 0;
 
-    if (isThemeGTE(t, '6.3')) {
+    if (isThemeGTE(t, '6.4')) {
       return menuOffsetY;
     }
 
