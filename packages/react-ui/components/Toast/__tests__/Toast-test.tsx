@@ -3,9 +3,16 @@ import React from 'react';
 
 import { Toast, ToastDataTids } from '../Toast.js';
 
-vi.useFakeTimers();
-
 describe('Toast', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.clearAllTimers();
+    vi.useRealTimers();
+  });
+
   it('renders', () => {
     act(() => {
       expect(() => render(<Toast />)).not.toThrow();
@@ -37,7 +44,7 @@ describe('Toast', () => {
       toastRef.current?.push('message');
     });
     act(() => {
-      vi.runAllTimers();
+      vi.advanceTimersByTime(3000);
     });
     expect(screen.queryByTestId(ToastDataTids.toastView)).not.toBeInTheDocument();
   });
@@ -48,9 +55,6 @@ describe('Toast', () => {
     render(<Toast onPush={onPush} ref={toastRef} />);
     act(() => {
       toastRef.current?.push('somemessage');
-    });
-    act(() => {
-      vi.runAllTimers();
     });
     expect(onPush.mock.calls[0][0]).toBe('somemessage');
     expect(onPush.mock.calls).toHaveLength(1);
@@ -64,7 +68,7 @@ describe('Toast', () => {
       toastRef.current?.push('message');
     });
     act(() => {
-      vi.runAllTimers();
+      vi.advanceTimersByTime(3000);
     });
     expect(onClose.mock.calls[0][0]).toBe('message');
     expect(onClose.mock.calls).toHaveLength(1);
