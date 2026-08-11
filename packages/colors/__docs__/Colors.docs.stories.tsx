@@ -31,8 +31,6 @@ import { Tooltip } from '@skbkontur/react-ui/components/Tooltip/Tooltip';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
 import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
-import { SideMenu } from '@skbkontur/side-menu';
-import { CdnLogo } from '@skbkontur/ui-cdn-components';
 import type { Meta } from '@storybook/react';
 import { parse, differenceEuclidean, type Color, type Rgb } from 'culori';
 import React from 'react';
@@ -396,6 +394,86 @@ export const ColorsExampleStory = () => {
   height: auto;
 }
 
+.side-nav {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 64px;
+  padding: 12px 8px;
+  background: ${c.surfaceHigh};
+  border-right: 1px solid ${c.lineNeutralPale};
+}
+
+.side-nav__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+  color: ${c.textOnBrandOriginalHeavy};
+  background: ${c.shapeBoldBrandOriginal};
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.side-nav__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.side-nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  color: ${c.textNeutralSoft};
+}
+
+.side-nav__item--active {
+  color: ${c.textAccentHeavy};
+  background: ${c.shapeFaintBrand};
+}
+
+.side-nav__marker {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: ${c.shapeBoldBrandOriginal};
+}
+
+.side-nav__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  margin-top: auto;
+}
+
+.side-nav__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-top: 8px;
+  border-radius: 50%;
+  color: ${c.textOnBrandOriginalHeavy};
+  background: ${c.shapeBoldAccent};
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .container {
   overflow-y: auto;
   display: flex;
@@ -511,20 +589,33 @@ export const ColorsExampleStory = () => {
   background-color: ${c.shapeFaintWarning};
 }
       `}</style>
-            <SideMenu>
-              <SideMenu.Header productLogo={<CdnLogo logo="product" />} />
-              <SideMenu.Body>
-                <SideMenu.Item icon={<IconDocTextRegular24 />} caption="Документы" />
-                <SideMenu.Item icon={<IconPeople2Regular24 />} caption="Команда" />
-                <SideMenu.Item icon={<IconCommentRectTextRegular24 />} caption="Сообщения" marker={1} />
-                <SideMenu.Item icon={<IconMarketShoppingBasketRegular24 />} caption="Товары" />
-              </SideMenu.Body>
-              <SideMenu.Footer>
-                <SideMenu.Organisations icon={<IconStackHDownRegular24 />} />
-                <SideMenu.Item icon={<IconSettingsGearRegular24 />} caption="Настройки" />
-                <SideMenu.Avatar userName="Кирилл Лаптев" />
-              </SideMenu.Footer>
-            </SideMenu>
+            <nav className="side-nav" aria-label="Demo navigation">
+              <div className="side-nav__logo">K</div>
+              <div className="side-nav__body">
+                <div className="side-nav__item side-nav__item--active">
+                  <IconDocTextRegular24 />
+                </div>
+                <div className="side-nav__item">
+                  <IconPeople2Regular24 />
+                </div>
+                <div className="side-nav__item">
+                  <IconCommentRectTextRegular24 />
+                  <span className="side-nav__marker" />
+                </div>
+                <div className="side-nav__item">
+                  <IconMarketShoppingBasketRegular24 />
+                </div>
+              </div>
+              <div className="side-nav__footer">
+                <div className="side-nav__item">
+                  <IconStackHDownRegular24 />
+                </div>
+                <div className="side-nav__item">
+                  <IconSettingsGearRegular24 />
+                </div>
+                <div className="side-nav__avatar">КЛ</div>
+              </div>
+            </nav>
 
             <div className="container">
               <header className="header">

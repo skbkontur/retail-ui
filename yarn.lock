@@ -2549,13 +2549,6 @@
   resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.25.4.tgz#0b17ec8a70b2385827d52314c1253160a0b9bacc"
   integrity sha512-nOT2vZNw6hJ+z43oP1SPea/G/6AbN6X+bGNhNuq8NtRHy4wsMhw765IKLNmnjek7GvjWBYQ8Q5VBoYTFg9y1UQ==
 
-"@fingerprintjs/fingerprintjs@3.4.1":
-  version "3.4.1"
-  resolved "https://registry.npmjs.org/@fingerprintjs/fingerprintjs/-/fingerprintjs-3.4.1.tgz#d13228a4cf520f271322113d2179c194cdc34283"
-  integrity sha512-i3TqlaIdF+4qDHP6OStMtLXCnvnoo2C156rNPm9/kIglUtnLAF45+sGkZZmVQB+58dDF0mNpaiqvKHNSR8J1Hg==
-  dependencies:
-    tslib "^2.4.1"
-
 "@gar/promisify@^1.0.1":
   version "1.1.3"
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
@@ -4243,81 +4236,15 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
-"@skbkontur/bell-widget-npm-loader@^0.3.0":
-  version "0.3.14"
-  resolved "https://registry.npmjs.org/@skbkontur/bell-widget-npm-loader/-/bell-widget-npm-loader-0.3.14.tgz#c517c9547bdc442e4ae77cd3f9eaa47b7f3c374d"
-  integrity sha512-OwqTFdjPMvTmAq1y3Aqil0fpB6JfOFdRz7gbTN90/KVnRLc35v2CygQyYvdRLrWpGRRWKOEHT1akFB2/spQ2nw==
-  dependencies:
-    "@skbkontur/global-object" "^0.4.4"
-    "@skbkontur/km-tracker" "^2.5.15"
-    "@skbkontur/loader-builder" "^8.0.0"
-    "@skbkontur/operation-result" "^1.6.0"
-    "@skbkontur/ui-helpers" "^3.3.3"
-    "@tanstack/react-virtual" "^3.13.23"
-    "@types/react" "*"
-    "@types/react-dom" "*"
-    dayjs "^1.11.13"
-    markdown-to-jsx "^9.7.16"
-    react "^18.2.0"
-    react-dom "^18.2.0"
-    react-responsive-overflow-list "^0.4.1"
-
-"@skbkontur/empty-state@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.npmjs.org/@skbkontur/empty-state/-/empty-state-2.0.2.tgz#01f102772022b10303ee660bd08a239f9dd0f75c"
-  integrity sha512-3thqT8nszQsGeucEu7fNTCzR4kRwJLywQk8YPNNageAT7qzpgEVx3wp9QNSuZKKxUoaXlaJIAZbXwuqFU7+8KQ==
-  dependencies:
-    "@skbkontur/colors" "^2.1.7"
-
-"@skbkontur/global-object@^0.4.4":
-  version "0.4.5"
-  resolved "https://registry.npmjs.org/@skbkontur/global-object/-/global-object-0.4.5.tgz#44a3533b7b1364f060543154f16ccdb50538ca56"
-  integrity sha512-2I7edEAXPcGPCG+l8+DBMonKigWO/tmQpkKB/SeX0r5CCrd2JZNhrB/8IeawUxHfoe1psrq604epoh0icyT09Q==
-
 "@skbkontur/icons@2.0.10":
   version "2.0.10"
   resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-2.0.10.tgz#bad9f7b6dff00f9d856d774b4895e94a32b83395"
   integrity sha512-MEfHKxgAuldaKcOPBraeGtqFBT2oT3+YEBqgEEIFuYrwcyws0cFbXTr5XIqEbnnltcNZg4JBC0lBwXnr3ZfpiA==
 
-"@skbkontur/icons@^2.0.0":
-  version "2.0.13"
-  resolved "https://registry.npmjs.org/@skbkontur/icons/-/icons-2.0.13.tgz#7c5d8a5b0edcd90b969714c539e7787f3d05bda2"
-  integrity sha512-kNiiam3lki2lVZ/h9G93mE0C3euH7JU+KBP8UldYlKmRCFHpZ6HFn8CRtPo9n1nQdMj78n1BpNvOovSqGrJrjQ==
-
 "@skbkontur/imask@^7.6.5":
   version "7.6.5"
   resolved "https://registry.npmjs.org/@skbkontur/imask/-/imask-7.6.5.tgz#e70fa0e957fe27b024e06620a9b2fdf8fc7b1e12"
   integrity sha512-ki6gzDaiO65FY0zthlD17vvZlc5smaWVAoR+0JHWVuEmG+gxEScGxU7rp9AUKnsHZdG2GdFCg1LoMEe1NrvSWQ==
-
-"@skbkontur/km-tracker@^2.5.15":
-  version "2.5.16"
-  resolved "https://registry.npmjs.org/@skbkontur/km-tracker/-/km-tracker-2.5.16.tgz#5aad1cdafcf8986b799fd85f2eccf209b4ba75f9"
-  integrity sha512-cfFtTXKTk6wGbhDEr00iODiJ2VIyPguas8vFyiYu2FEivZPbvT9c5BrdHyIDJVr3ciswBSIoMo0cD50NXrRQqA==
-  dependencies:
-    "@skbkontur/kontur.fingerprint" "1.0.6"
-    detect-node "^2.0.3"
-    web-vitals "^5.0.0"
-
-"@skbkontur/kontur.fingerprint@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/@skbkontur/kontur.fingerprint/-/kontur.fingerprint-1.0.6.tgz#f209a13f47753e0a7c0e462b75b04c6aed9f5d40"
-  integrity sha512-zbC+w0IFbTv+E46VCqa6JOqDObkC7vqwPQbAkhJ6RIUlbfYLVRpxhEk02qnY/0w0KiHwOEETwpMoPgC+mqHxJA==
-  dependencies:
-    "@fingerprintjs/fingerprintjs" "3.4.1"
-
-"@skbkontur/loader-builder@^8.0.0":
-  version "8.3.0"
-  resolved "https://registry.npmjs.org/@skbkontur/loader-builder/-/loader-builder-8.3.0.tgz#52e1dca867b50503bff45ed690436a7fd3e46cea"
-  integrity sha512-DGD9EIFShreKxgneiCcHzY3qZjoKv/gsd9ZFs/HxSOPy2oNpH+AB7NuJnXTgujo9xJBmyUII6LP226CtDL1YIg==
-  dependencies:
-    "@skbkontur/operation-result" "^1.8.2"
-
-"@skbkontur/operation-result@^1.6.0", "@skbkontur/operation-result@^1.8.2", "@skbkontur/operation-result@^1.8.3":
-  version "1.8.13"
-  resolved "https://registry.npmjs.org/@skbkontur/operation-result/-/operation-result-1.8.13.tgz#b5c6afb9344a38dabcf752fe3036c2f36b1829b9"
-  integrity sha512-Dk1IBoXYd6EM6Ac29TCu6TnFplIMDdvcPAXqtmnQTydrvurK2zhXPlvEy6JUTkBVJgFo+8SNQb1W4dUGACourw==
-  dependencies:
-    tslib "^2.8.1"
 
 "@skbkontur/react-imask@^7.6.5":
   version "7.6.5"
@@ -4326,30 +4253,6 @@
   dependencies:
     "@skbkontur/imask" "^7.6.5"
     prop-types "^15.8.1"
-
-"@skbkontur/react-ui-addons@^6.0.6":
-  version "6.0.6"
-  resolved "https://registry.npmjs.org/@skbkontur/react-ui-addons/-/react-ui-addons-6.0.6.tgz#e82a00dbee8929026e78b399309012a6ad16b811"
-  integrity sha512-1VgVQH5arfRDe2bbElgeOZZzVTTU7VqI1Tw8jP4qkpaWyIfWz1agzVGWuAdFeVv5Y0MVxGFv851IM/n+SPm1LA==
-  dependencies:
-    "@skbkontur/colors" "^2.1.7"
-    classnames "2.5.1"
-    lodash.isequal "4.5.0"
-    tslib "^2.8.0"
-    warning "4.0.3"
-
-"@skbkontur/side-menu@^4.0.9":
-  version "4.0.9"
-  resolved "https://registry.npmjs.org/@skbkontur/side-menu/-/side-menu-4.0.9.tgz#90ff39ff0315600c569c3bca41940f576a06cc39"
-  integrity sha512-ov5XDeusy/rKM03LX+2roXaC2SX9UqytZMnUSAlcxkiJMOx9DVKoBk/nMwqP+qecwcw41xt42coE43XpoKLzJQ==
-  dependencies:
-    "@skbkontur/bell-widget-npm-loader" "^0.3.0"
-    "@skbkontur/colors" "^2.1.7"
-    "@skbkontur/empty-state" "^2.0.2"
-    "@skbkontur/icons" "^2.0.0"
-    "@skbkontur/react-ui-addons" "^6.0.6"
-    "@skbkontur/widget-consumer-react-utils" "^1.6.12"
-    tslib "^2.8.0"
 
 "@skbkontur/storybook-addon-live-examples@1.0.0-beta.1":
   version "1.0.0-beta.1"
@@ -4360,26 +4263,6 @@
     react-live "^4.1.8"
     remark-mdx-code-meta "^2.0.0"
     typescript "^4"
-
-"@skbkontur/ui-cdn-components@^2.1.7":
-  version "2.1.7"
-  resolved "https://registry.npmjs.org/@skbkontur/ui-cdn-components/-/ui-cdn-components-2.1.7.tgz#7207aaf80c5ba5a98fd266cb2da3a3a106f5aaaf"
-  integrity sha512-giDKqR88xkB64BFvKC8ma74rKY76FrLlO7cmhpD2yo0bpkDM3SNZeiVOnVrrUC0HXy+rS1N+Hsx0q4jXlqHFbA==
-  dependencies:
-    "@skbkontur/global-object" "^0.4.4"
-    tslib "^2.8.0"
-
-"@skbkontur/ui-helpers@^3.3.3":
-  version "3.3.3"
-  resolved "https://registry.npmjs.org/@skbkontur/ui-helpers/-/ui-helpers-3.3.3.tgz#d80d3428500e662609ec524b1e4bc7bc82ad450a"
-  integrity sha512-5RpJusmjg8+yzVjzsTM7zF+JkgpmospWac5YFevnC6Bj2zI95YvtQQNm4KSlFRoMji6qf7/OfI009jVnFNMGGg==
-
-"@skbkontur/widget-consumer-react-utils@^1.6.12":
-  version "1.6.12"
-  resolved "https://registry.npmjs.org/@skbkontur/widget-consumer-react-utils/-/widget-consumer-react-utils-1.6.12.tgz#e4345c33b8ed6aa152ffc7c45bd6aeff08d56685"
-  integrity sha512-as2xHK834XDptAOfFhBxDorYOtNpvQBZbfDorAmrdx5QhLao4g37JLbgyVxUbZ0QiD4Xv+kKHHscy+O/SGCfQQ==
-  dependencies:
-    "@skbkontur/operation-result" "^1.8.3"
 
 "@storybook/addon-actions@8.6.14":
   version "8.6.14"
@@ -4646,18 +4529,6 @@
   version "8.6.14"
   resolved "https://registry.npmjs.org/@storybook/theming/-/theming-8.6.14.tgz#78c6dc878f705de70c67f2b2d08b8313b985d81a"
   integrity sha512-r4y+LsiB37V5hzpQo+BM10PaCsp7YlZ0YcZzQP1OCkPlYXmUAFy2VvDKaFRpD8IeNPKug2u4iFm/laDEbs03dg==
-
-"@tanstack/react-virtual@^3.13.23":
-  version "3.14.9"
-  resolved "https://registry.npmjs.org/@tanstack/react-virtual/-/react-virtual-3.14.9.tgz#b735e93a059a25f577a9577d7f014343ec7205a5"
-  integrity sha512-qZyr0FZDP8rDC4WBhsryIZmAd9bveJvFGUJJtskWaew6/0dTRS6wZxnR6VQ5bY2KwL3LjerrHqQLk3a0GKcPXQ==
-  dependencies:
-    "@tanstack/virtual-core" "3.17.7"
-
-"@tanstack/virtual-core@3.17.7":
-  version "3.17.7"
-  resolved "https://registry.npmjs.org/@tanstack/virtual-core/-/virtual-core-3.17.7.tgz#d64525d2c97a53a22f32f55246efdd679af2c392"
-  integrity sha512-bp+v10y65sp2H7WpWfIMyxTNfl8ZVfxFTLRjPIFRryi6FV/J33z4IS53WO4pTk36KlvJ4iLiQz+oaydDC1xbcA==
 
 "@testing-library/dom@^10.0.0":
   version "10.0.0"
@@ -5173,11 +5044,6 @@
   version "1.2.7"
   resolved "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.7.tgz#50ae4353eaaddc04044279812f52c8c65857dbcb"
   integrity sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==
-
-"@types/react-dom@*":
-  version "19.2.4"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.4.tgz#165ab5e97dfb081847b0f6755060cf40a3f6666b"
-  integrity sha512-Bsc+QHgp+P/F02XDzNCY9jnZNCUuLki36KT7VKrTXXLdHf+vHMNZnW1rVu5DNW/rCK+fya3DATySbLM4yhtKUw==
 
 "@types/react-dom@19.2.3":
   version "19.2.3"
@@ -7107,11 +6973,6 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
-  integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
-
 clean-css@^5.2.2:
   version "5.3.3"
   resolved "https://registry.npmjs.org/clean-css/-/clean-css-5.3.3.tgz#b330653cd3bd6b75009cc25c714cae7b93351ccd"
@@ -8063,11 +7924,6 @@ dateformat@^3.0.0:
   resolved "https://registry.npmjs.org/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
-dayjs@^1.11.13:
-  version "1.11.21"
-  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.21.tgz#57f87562e62de76f3c704bd2b8d522fc33068eb2"
-  integrity sha512-98IT+HOahAisibz/yjKbzuOBwYcjJ7BCLPzARyHiyEBmRz4fatF+KPJszEHXsGYjUG234aH/cOjW1wwTbKUZlA==
-
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0:
   version "2.6.9"
   resolved "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -8368,11 +8224,6 @@ detect-node-es@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/detect-node-es/-/detect-node-es-1.1.0.tgz#163acdf643330caa0b4cd7c21e7ee7755d6fa493"
   integrity sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==
-
-detect-node@^2.0.3:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/detect-node/-/detect-node-2.1.0.tgz#c9c70775a49c3d03bc2c06d9a73be550f978f8b1"
-  integrity sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==
 
 detect-node@^2.0.4:
   version "2.0.4"
@@ -12308,7 +12159,7 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
 
-lodash.isequal@4.5.0, lodash.isequal@^4.5.0:
+lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
@@ -12682,11 +12533,6 @@ markdown-to-jsx@^6.11.4:
   dependencies:
     prop-types "^15.6.2"
     unquote "^1.1.0"
-
-markdown-to-jsx@^9.7.16:
-  version "9.10.2"
-  resolved "https://registry.npmjs.org/markdown-to-jsx/-/markdown-to-jsx-9.10.2.tgz#c94bb2c00d8a3e68a1d38049d0c1187dffe4c638"
-  integrity sha512-iR9GadlIox0q1uXnpqdxpF02Vb1WDmZ/QIXWjBR5htzjUEEhyIWbM65LuVKavdwJaVo4q95C/F2OOyNjWe91ig==
 
 markdown@^0.5.0:
   version "0.5.0"
@@ -15260,7 +15106,7 @@ react-docgen@^7.0.0:
     resolve "^1.22.1"
     strip-indent "^4.0.0"
 
-react-dom@19.2.1, "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", react-dom@^18.2.0:
+react-dom@19.2.1, "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0":
   version "19.2.1"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-19.2.1.tgz#ce3527560bda4f997e47d10dab754825b3061f59"
   integrity sha512-ibrK8llX2a4eOskq1mXKu/TGZj9qzomO+sNfO98M6d9zIPOEhlBkMkBUBLd1vgS0gQsLDBzA+8jJBVXDnfHmJg==
@@ -15331,11 +15177,6 @@ react-live@^4.1.8:
     prism-react-renderer "^2.4.0"
     sucrase "^3.35.0"
     use-editable "^2.3.3"
-
-react-responsive-overflow-list@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/react-responsive-overflow-list/-/react-responsive-overflow-list-0.4.1.tgz#2f17663165e3c1b20953c1e104e84f492c95a662"
-  integrity sha512-UYM/NTVMcwIO72RhtmbeXD96kY5jF/rRdDEXZMqLL19t0289BGdISZ6k/AUjUkDtmAOEmgNT+6t5CLWfZAcALw==
 
 react-router-dom@^6.23.1:
   version "6.23.1"
@@ -15451,7 +15292,7 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@19.2.1, "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", react@^18.2.0:
+react@19.2.1, "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0":
   version "19.2.1"
   resolved "https://registry.npmjs.org/react/-/react-19.2.1.tgz#8600fa205e58e2e807f6ef431c9f6492591a2700"
   integrity sha512-DGrYcCWK7tvYMnWh79yrPHt+vdx9tY+1gPZa7nJQtO/p8bLTDaHp4dzwEhQB7pZ4Xe3ok4XKuEPrVuc+wlpkmw==
@@ -18130,11 +17971,6 @@ tslib@^1.9.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.4.1, tslib@^2.8.0, tslib@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
-  integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
-
 tsx@^4.19.4:
   version "4.20.3"
   resolved "https://registry.npmjs.org/tsx/-/tsx-4.20.3.tgz#f913e4911d59ad177c1bcee19d1035ef8dd6e2fb"
@@ -18964,7 +18800,7 @@ wait-on@^7.2.0:
     minimist "^1.2.8"
     rxjs "^7.8.1"
 
-warning@4.0.3, warning@^4.0.3:
+warning@^4.0.3:
   version "4.0.3"
   resolved "https://registry.npmjs.org/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
   integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
@@ -18992,11 +18828,6 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
-
-web-vitals@^5.0.0:
-  version "5.3.0"
-  resolved "https://registry.npmjs.org/web-vitals/-/web-vitals-5.3.0.tgz#a67f57f229fdf68be99eb99d3725946def284ff3"
-  integrity sha512-q6LWsLatGYZp5VGBIOvbTj6JBV2nOmC8KvWztXBmwJcfFAzhwKwbOxhUH306XY3CcaZDUlSmSuNPBsCn0bFu+g==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
