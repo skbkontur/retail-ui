@@ -14,6 +14,7 @@ const runSnapshotTests = (dirPath: string, suiteName: string) => {
 
   const files = fs.readdirSync(dirPath).filter((file) => file.endsWith('.json'));
 
+  // oxlint-disable-next-line jest/valid-title
   describe(suiteName, () => {
     test.each(files)('Snapshot comparison: %s', async (fileName) => {
       const filePath = path.join(dirPath, fileName);

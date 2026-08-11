@@ -172,7 +172,9 @@ export const GetColorsConfiguratorStory = () => {
       </div>
 
       <div style={rowStyle}>
-        <label style={labelStyle}>System</label>
+        <label htmlFor="" style={labelStyle}>
+          System
+        </label>
         <Gapped>
           <Input
             width={controlWidth}
@@ -246,7 +248,9 @@ export const GetColorsConfiguratorStory = () => {
       )}
 
       <div style={rowStyle}>
-        <label style={labelStyle}>Overrides</label>
+        <label htmlFor="" style={labelStyle}>
+          Overrides
+        </label>
         <span style={{ color: '#999', fontSize: '12px', marginTop: '8px' }}>
           Переопределение токенов со ссылкой на базовые палитры (см. ниже в разделе «Переопределение токенов overrides»)
         </span>

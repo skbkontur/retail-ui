@@ -4,10 +4,6 @@
 // @see https://stackoverflow.com/a/67235617
 
 module.exports = {
-  presets: [
-    "@babel/preset-env",
-    "@babel/typescript",
-    ["@babel/preset-react", { runtime: "automatic" }],
-  ],
-  plugins: ["@babel/plugin-transform-runtime", ["@babel/plugin-proposal-decorators", { legacy: true }]],
+  presets: ['@babel/preset-env', '@babel/typescript', ['@babel/preset-react', { runtime: 'automatic' }]],
+  plugins: ['@babel/plugin-transform-runtime', ['@babel/plugin-proposal-decorators', { legacy: true }]],
 };
