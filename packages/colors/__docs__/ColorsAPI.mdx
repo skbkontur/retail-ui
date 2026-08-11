@@ -1,0 +1,65 @@
+import * as ColorsCustomAPI from './ColorsAPI.docs.stories';
+import { Stories } from '@storybook/blocks';
+import { Meta } from '../.storybook-docs/Meta';
+import { Header } from '../.storybook-docs/Header';
+
+<Meta of={ColorsCustomAPI} />
+
+<Header
+  title="Kontur Colors API"
+  packageName="colors"
+  guides="https://guides.kontur.ru/principles/base/color/"
+  figma="https://www.figma.com/design/XVgPCAAFhEbIiQDDznkdat/%F0%9F%9A%A7-Kontur-Colors?m=auto&t=cg9j7F8DpdELh2px-6"
+/>
+
+Библиотека Colors содержит JS API для продвинутых сценариев:
+
+- Генерация палитр для произвольных HEX-цветов, а не только брендовых
+- Создание/расширение цветовых палитр с собственными семантическими токенами
+- Генерация цветов в форматах для разных платформ (oklch, hex, rgba и др.)
+- Генерация CSS-стилей с настраиваемыми селекторами
+- Перекраска интерфейсов в любой цвет на лету
+
+<br />
+
+## Генерация палитр
+
+С помощью функции `getColors` можно переопределять настройки генератора цветов:
+
+- **brand** — брендовый цвет `red | orange | green | mint | blue | blueDeep | violet | purple | #custom-hex`
+- **accent** — акцентный цвет `gray | brand | #custom-hex` (по умолчанию gray)
+- **theme** — тема `light | dark | all`. Режим `all` возвращает токены для обеих тем сразу
+- **system** — настройка образцов цветов состояний warning/error/success
+- **overrides** — переопределение/добавление токенов со ссылкой на базовые палитры
+- **format** — формат цвета `'hex/rgba' | 'oklch' | 'hex-aarrggbb'` (по умолчанию hex/rgba)
+- **output** — формат возвращаемых данных `'object' | 'css'` (по умолчанию object)
+- **outputSelectors** — кастомные шаблоны селекторов для CSS. Поддерживают плейсхолдеры `$brand`, `$accent`, `$theme`.
+
+```ts
+import { getColors } from '@skbkontur/colors/get-colors';
+
+getColors({
+  brand: 'red' | 'orange' | 'green' | 'mint' | 'blue' | 'blueDeep' | 'violet' | 'purple' | string,
+  accent: 'gray' | 'brand' | string,
+  theme: 'light' | 'dark' | 'all',
+  format: 'hex/rgba' | 'oklch' | 'hex-aarrggbb',
+  output: 'object' | 'css',
+  outputSelectors: {
+    light: string,
+    dark: string,
+  },
+  system: {
+    warning: string,
+    error: string,
+    success: string,
+  },
+  overrides: (base, defaults, params) => {
+    return {
+      light: { ...defaults.light /* кастомные токены */ },
+      dark: { ...defaults.dark /* кастомные токены */ },
+    };
+  },
+});
+```
+
+<Stories title="" includePrimary={true} />

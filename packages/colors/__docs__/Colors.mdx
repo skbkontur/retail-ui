@@ -1,0 +1,73 @@
+import * as ColorsStories from './Colors.docs.stories';
+import { Stories, Unstyled } from '@storybook/blocks';
+import { Meta } from '../.storybook-docs/Meta';
+import { Header } from '../.storybook-docs/Header';
+import { ColorsCodePlayground } from './ColorsCodePlayground';
+
+<Meta of={ColorsStories} />
+
+<Header
+  title="Kontur Colors"
+  packageName="colors"
+  guides="https://guides.kontur.ru/principles/base/color/"
+  figma="https://www.figma.com/design/XVgPCAAFhEbIiQDDznkdat/%F0%9F%9A%A7-Kontur-Colors?m=auto&t=cg9j7F8DpdELh2px-6"
+  extension="https://chromewebstore.google.com/detail/kontur-ui/oiekpgnfbdafebmcjlbaapekngfnjfom?authuser=0&hl=en&pli=1"
+/>
+
+Kontur Colors — библиотека цветов для продуктов Контура.
+
+```bash
+npm i @skbkontur/colors
+```
+
+**Возможности**
+
+- Содержит цветовые схемы для каждого брендового цвета
+- Построена на семантических токенах
+- Поддерживает тёмные темы
+- Доступность. Контрастность цветов по APCA W3
+- Полностью синхронизирована с переменными Figma
+
+**Совместимость с любыми веб-фреймворками и платформами**
+
+- Работает на CSS-переменных `var(--k-color-token-name)` доступных через JS/SCSS/Less
+- Конфигурация сразу нескольких схем через HTML-атрибуты `data-k-brand`, `data-k-accent`, `data-k-theme`
+- Доступны [выгрузки из 14 цветовых схем в виде JSON](https://app.unpkg.com/@skbkontur/colors/files/tokens-mobile) для приложений iOS/Android, языков C#/Java/Python и других платформ.
+- [Расширеный JS API](./?path=/docs/colors-colors-api--docs) для генерации палитр любых оттенков и создания кастомных токенов
+
+<hr style={{ margin: '40px 0 -40px' }} />
+
+<Stories title="" includePrimary={true} />
+
+## Подключение
+
+<Unstyled>
+  <ColorsCodePlayground />
+</Unstyled>
+
+<br />
+
+## Colors API: генерация палитр и кастомные токены
+
+Библиотека Colors содержит JS API для продвинутых сценариев:
+
+- Генерация палитр для произвольных HEX-цветов, а не только брендовых
+- Создание/расширение цветовых палитр с собственными семантическими токенами
+- Генерация цветов в форматах для разных платформ (oklch, hex, rgba и др.)
+- Перекраска интерфейсов в любой цвет на лету
+
+Функция `getColors` позволяет получать цвета для произвольных `brand`, `accent` и `theme`. Настраивать образцы оттенков `warning`, `error`. Указывать формат цвета, задавать кастомные токены со ссылками на сгенерированные палитры и другие параметры.
+
+```js static
+import { getColors } from '@skbkontur/colors/get-colors';
+
+const colors = getColors({ brand: 'orange', accent: 'gray', theme: 'light' });
+
+const text = `
+  <div style="color: ${colors.textNeutralHeavy}">
+    Блок с текстом
+  </div>
+`;
+```
+
+[Более подробно в разделе Colors API →](https://tech.skbkontur.ru/kontur-ui/?path=/docs/colors_colors-api--docs)

@@ -1,0 +1,11 @@
+__tests__/
+__stories__/
+tokens-default/*.ts
+yarn.lock
+tsconfig.json
+scripts
+**/*.tsx
+**/*.ts
+**/*.mdx
+!**/*.d.ts
+CHANGELOG.md

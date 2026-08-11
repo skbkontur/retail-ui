@@ -1,0 +1,12 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-css-modules"],
+  "rules": {
+    "no-descending-specificity": null,
+    "declaration-colon-newline-after": null,
+    "value-list-comma-newline-after": null,
+    "color-hex-case": null,
+    "color-hex-length": null,
+    "no-missing-end-of-source-newline": null
+  },
+  "ignoreFiles": ["**/colors/*.{css,scss,less}", "**/table/**/*.css", ".cache/**"]
+}

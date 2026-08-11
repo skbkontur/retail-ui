@@ -17,3 +17,5 @@ browsers/
 .scannerwork
 /packages/react-ui-validations/reports/
 packages/**/*.tgz
+
+dist
