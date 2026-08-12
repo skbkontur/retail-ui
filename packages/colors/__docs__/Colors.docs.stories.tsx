@@ -1,14 +1,8 @@
 import { css, injectGlobal } from '@emotion/css';
 import { IconArrowALeftRegular24 } from '@skbkontur/icons/IconArrowALeftRegular24';
-import { IconCommentRectTextRegular24 } from '@skbkontur/icons/IconCommentRectTextRegular24';
-import { IconDocTextRegular24 } from '@skbkontur/icons/IconDocTextRegular24';
-import { IconMarketShoppingBasketRegular24 } from '@skbkontur/icons/IconMarketShoppingBasketRegular24';
 import { IconNaturePlantFlowerSolid20 } from '@skbkontur/icons/IconNaturePlantFlowerSolid20';
-import { IconPeople2Regular24 } from '@skbkontur/icons/IconPeople2Regular24';
 import { IconQuestionCircleLight20 } from '@skbkontur/icons/IconQuestionCircleLight20';
 import { IconSearchLoupeRegular16 } from '@skbkontur/icons/IconSearchLoupeRegular16';
-import { IconSettingsGearRegular24 } from '@skbkontur/icons/IconSettingsGearRegular24';
-import { IconStackHDownRegular24 } from '@skbkontur/icons/IconStackHDownRegular24';
 import { IconWarningTriangleSolid20 } from '@skbkontur/icons/IconWarningTriangleSolid20';
 import { IconWeatherMoonRegular16 } from '@skbkontur/icons/IconWeatherMoonRegular16';
 import { IconWeatherSunRegular16 } from '@skbkontur/icons/IconWeatherSunRegular16';
@@ -394,86 +388,6 @@ export const ColorsExampleStory = () => {
   height: auto;
 }
 
-.side-nav {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 64px;
-  padding: 12px 8px;
-  background: ${c.surfaceHigh};
-  border-right: 1px solid ${c.lineNeutralPale};
-}
-
-.side-nav__logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 16px;
-  border-radius: 8px;
-  color: ${c.textOnBrandOriginalHeavy};
-  background: ${c.shapeBoldBrandOriginal};
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.side-nav__body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-}
-
-.side-nav__item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  color: ${c.textNeutralSoft};
-}
-
-.side-nav__item--active {
-  color: ${c.textAccentHeavy};
-  background: ${c.shapeFaintBrand};
-}
-
-.side-nav__marker {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: ${c.shapeBoldBrandOriginal};
-}
-
-.side-nav__footer {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-  margin-top: auto;
-}
-
-.side-nav__avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin-top: 8px;
-  border-radius: 50%;
-  color: ${c.textOnBrandOriginalHeavy};
-  background: ${c.shapeBoldAccent};
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .container {
   overflow-y: auto;
   display: flex;
@@ -589,34 +503,6 @@ export const ColorsExampleStory = () => {
   background-color: ${c.shapeFaintWarning};
 }
       `}</style>
-            <nav className="side-nav" aria-label="Demo navigation">
-              <div className="side-nav__logo">K</div>
-              <div className="side-nav__body">
-                <div className="side-nav__item side-nav__item--active">
-                  <IconDocTextRegular24 />
-                </div>
-                <div className="side-nav__item">
-                  <IconPeople2Regular24 />
-                </div>
-                <div className="side-nav__item">
-                  <IconCommentRectTextRegular24 />
-                  <span className="side-nav__marker" />
-                </div>
-                <div className="side-nav__item">
-                  <IconMarketShoppingBasketRegular24 />
-                </div>
-              </div>
-              <div className="side-nav__footer">
-                <div className="side-nav__item">
-                  <IconStackHDownRegular24 />
-                </div>
-                <div className="side-nav__item">
-                  <IconSettingsGearRegular24 />
-                </div>
-                <div className="side-nav__avatar">КЛ</div>
-              </div>
-            </nav>
-
             <div className="container">
               <header className="header">
                 <Button use="text" icon={<IconArrowALeftRegular24 color={c.textNeutralHeavy} />} size="medium" />

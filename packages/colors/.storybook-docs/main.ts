@@ -12,6 +12,7 @@ const config: StorybookConfig = {
         docsMode: true,
       },
     },
+    '@skbkontur/storybook-addon-live-examples',
   ],
   framework: '@storybook/react-webpack5',
 
