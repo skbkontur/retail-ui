@@ -74,7 +74,7 @@ interface SwitcherItem {
 }
 
 /**
- * Переключатель используется для выбора одного значения из нескольких. Похож на [группу радиокнопок]https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs), но более компактный.
+ * Переключатель используется для выбора одного значения из нескольких. Похож на [группу радиокнопок](https://tech.skbkontur.ru/kontur-ui/?path=/docs/react-ui_input-data-radiogroup--docs), но более компактный.
  */
 @withRenderEnvironment
 @rootNode
