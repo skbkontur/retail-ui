@@ -6,6 +6,7 @@ import { bodyTokens, headingTokens } from '../tokens.js';
 
 import styles from './colors.module.css';
 
+// oxlint-disable-next-line import/no-default-export
 export default {
   title: 'Typography',
 };

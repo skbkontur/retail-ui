@@ -6,6 +6,7 @@ import React from 'react';
 import { Heading } from '../Heading.js';
 import { Text } from '../Text.js';
 
+// oxlint-disable-next-line import/no-default-export
 export default {
   title: 'Typography',
   component: Text,

@@ -2,3 +2,4 @@
 **/*.js.map
 **/*.d.ts
 !types.d.ts
+.storybook/build
