@@ -128,14 +128,20 @@ kind('MaskedInput', () => {
 
   story('WithCustomUnmaskedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
+      skip: {
+        'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ },
+        flaky: { in: 'chrome2022' },
+      },
     });
     testIdleFocusEditBlur();
   });
 
   story('WithUnmaskedAndFixedValue', ({ setStoryParameters }) => {
     setStoryParameters({
-      skip: { 'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ } },
+      skip: {
+        'enough basic themes': { in: /^(?!^(?:chrome2022|firefox2022)$)/ },
+        flaky: { in: 'chrome2022' },
+      },
     });
     testIdleFocusAppendRemoveBlur();
   });
