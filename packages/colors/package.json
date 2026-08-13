@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/colors",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "license": "UNLICENSED",
   "author": "Kontur",
   "type": "module",
@@ -91,7 +91,7 @@
     "@babel/preset-react": "^7.24.6",
     "@babel/preset-typescript": "^7.24.6",
     "@skbkontur/icons": "2.0.10",
-    "@skbkontur/react-ui": ">=5 <=6",
+    "@skbkontur/react-ui": "^6.2.1",
     "@skbkontur/storybook-addon-live-examples": "1.0.0-beta.1",
     "@storybook/addon-docs": "8.6.14",
     "@storybook/addon-essentials": "8.6.14",

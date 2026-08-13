@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.8](/compare/@skbkontur/colors@2.1.7...@skbkontur/colors@2.1.8) (2026-08-13)
+
+* **Colors:** remove scripts folder from package
+
+
+
+
+
 ## [2.1.7](/compare/@skbkontur/colors@2.1.6...@skbkontur/colors@2.1.7) (2026-04-20)
 
 **Note:** Version bump only for package @skbkontur/colors

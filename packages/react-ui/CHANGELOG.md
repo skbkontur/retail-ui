@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.2.0...@skbkontur/react-ui@6.2.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* Move `react-docgen` dependency to devDependencies
+
+
+
+
+
 # [6.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.1.7...@skbkontur/react-ui@6.2.0) (2026-08-04)
 
 

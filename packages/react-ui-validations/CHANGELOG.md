@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.0.3...@skbkontur/react-ui-validations@3.0.4) (2026-08-13)
+
+
+### Bug Fixes
+
+* **ValidationTooltip:** anchor pin to control root instead of inline wrapper ([db8129b](https://github.com/skbkontur/retail-ui/commit/db8129bb449b6c89a6bc64179c74d7fcc0f9f6ba))
+
+
+
+
+
 ## [3.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui-validations@3.0.2...@skbkontur/react-ui-validations@3.0.3) (2026-07-14)
 
 
