@@ -1,6 +1,4 @@
 import { Meta } from '@storybook/blocks';
-import { Link } from '@skbkontur/react-ui/components/Link/Link';
-import { linkTo } from '@storybook/addon-links';
 import { Story } from '@storybook/blocks';
 import * as FeatureFlagsStories from './FeatureFlags.docs.stories';
 
@@ -21,7 +19,11 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 
 function ExampleComponent() {
   return (
-    <ValidationsFeatureFlagsContext.Provider value={{}}>
+    <ValidationsFeatureFlagsContext.Provider
+      value={{
+        validationTooltipExtendedPositions: true,
+      }}
+    >
       {/* Внутри будут работать все фича-флаги с true */}
     </ValidationsFeatureFlagsContext.Provider>
   );
@@ -57,7 +59,7 @@ import { ValidationsFeatureFlagsContext } from '@skbkontur/react-ui-validations'
 Чтобы получить объект со всеми флагами, необходимо применить вспомогательную функцию getFullValidationsFlagsContext к объекту заданных флагов:
 
 ```jsx static
-import { getFullValidationsFlagsContext } from '@skbkontur/react-ui-validtions';
+import { getFullValidationsFlagsContext } from '@skbkontur/react-ui-validations';
 
 getFullValidationsFlagsContext(useContext(ValidationsFeatureFlagsContext));
 ```

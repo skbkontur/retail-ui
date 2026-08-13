@@ -21,3 +21,7 @@ export const waitForByTid = async (page: Page, tidName: string) => {
 export const waitForPopup = async (page: Page) => {
   await page.locator(tid('PopupContent')).waitFor();
 };
+
+export const waitForValidationTooltip = async (page: Page) => {
+  await page.locator(tid('Tooltip__content')).filter({ hasText: 'Ошибка!' }).waitFor();
+};

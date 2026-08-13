@@ -15,11 +15,6 @@ const meta: Meta = {
 
 export default meta;
 
-/** Пустая история нужна, чтобы страница нормально собиралась */
-// export const Default: Story = () => {
-//   return <div />;
-// };
-
 export const SelectAutoScrollToSelectedItem: Story = () => {
   const [isFlagEnabled, setIsFlagEnabled] = React.useState(true);
   const [value, setValue] = React.useState('ten');

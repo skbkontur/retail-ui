@@ -4,7 +4,7 @@ import type { Meta } from '@storybook/react';
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 
 import { ValidationContainer, ValidationWrapper, text } from '../index.js';
-import { IframeRenderer } from './StoryHelpers';
+import { IframeRenderer } from './StoryHelpers.js';
 
 const meta: Meta = {
   title: 'ValidationWrapper',
