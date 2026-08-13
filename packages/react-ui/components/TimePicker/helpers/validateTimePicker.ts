@@ -1,6 +1,7 @@
 import type { Nullable } from '../../../typings/utility-types.js';
+import { EMPTY_VALUE } from './TimePicker.constants.js';
 import type { TimeFormat } from './TimePicker.shared.js';
-import { getTimeDisplayValue, isTimeValueOutOfRange, normalizeTimeValue } from './TimePicker.value.js';
+import { isTimeValueOutOfRange, normalizeTimeValue } from './TimePicker.value.js';
 
 export interface TimePickerValidationOptions {
   format?: TimeFormat;
@@ -9,19 +10,18 @@ export interface TimePickerValidationOptions {
 }
 
 export const validateTimePicker = (value: Nullable<string>, options: TimePickerValidationOptions = {}): boolean => {
-  if (!value) {
+  const timeValue = value ?? EMPTY_VALUE;
+
+  if (!timeValue) {
     return false;
   }
 
   const { format = 'HH:mm', minTime, maxTime } = options;
 
-  if (getTimeDisplayValue(value, format) !== value) {
+  // Нормализованное значение уже канонично, поэтому отдельная проверка display-формы не нужна.
+  if (normalizeTimeValue(timeValue, format) !== timeValue) {
     return false;
   }
 
-  if (normalizeTimeValue(value, format) !== value) {
-    return false;
-  }
-
-  return !isTimeValueOutOfRange(value, format, minTime, maxTime);
+  return !isTimeValueOutOfRange(timeValue, format, minTime, maxTime);
 };

@@ -2,7 +2,7 @@ import {
   DIGIT_REGEXP,
   EMPTY_SEGMENT,
   EMPTY_VALUE,
-  FIRST_DIGIT_MAX_BY_SEGMENT,
+  HOURS_FIRST_DIGIT_MAX,
   TIME_PLACEHOLDER_CHAR,
   TIME_SEGMENT_LENGTH,
   ZERO_PAD_CHAR,
@@ -47,10 +47,6 @@ export const deleteTimeSegmentDigit = (value: string, segment: TimeSegment, form
 export const commitTimeSegmentOnLeave = (value: string, segment: TimeSegment, format: TimeFormat): string => {
   const nextValue = normalizeEditableSegment(getTimeSegmentValue(value, segment, format), segment);
 
-  if (nextValue === EMPTY_SEGMENT) {
-    return replaceTimeSegment(value, segment, EMPTY_SEGMENT, format);
-  }
-
   return replaceTimeSegment(value, segment, nextValue, format);
 };
 
@@ -76,11 +72,7 @@ export const shiftTimeSegmentValue = (
   return replaceTimeSegment(value, segment, String(next).padStart(TIME_SEGMENT_LENGTH, ZERO_PAD_CHAR), format);
 };
 
-/**
- * Обрабатывает ввод одной цифры в активный сегмент.
- * Возвращает следующее display-значение и метаданные для UI:
- * нужно ли завершить сегмент, перейти к следующему сегменту или показать анимацию ошибки.
- */
+/** Обрабатывает ввод одной цифры в активный сегмент. */
 export const formatDigitToTimeSegment = (
   value: string,
   segment: TimeSegment,
@@ -94,24 +86,18 @@ export const formatDigitToTimeSegment = (
   const shouldAppend = hasPendingSingleDigit(currentSegmentValue);
 
   const currentDigits = shouldAppend ? getDigits(currentSegmentValue) : '';
-  const firstDigitThreshold = FIRST_DIGIT_MAX_BY_SEGMENT[segment];
 
   if (currentDigits.length === 0) {
-    if (segment === 'hours' && Number(digit) > firstDigitThreshold) {
-      const nextValue = replaceTimeSegment(value, segment, `0${digit}`, format);
-
+    // Первая цифра часов больше двух не может быть десятками, поэтому сегмент завершается сразу.
+    if (segment === 'hours' && Number(digit) > HOURS_FIRST_DIGIT_MAX) {
       return {
-        isFinalPart: nextSegment === null,
-        isCompletedPart: true,
         shouldBlink: false,
         selectedSegment: nextSegment ?? segment,
-        nextValue,
+        nextValue: replaceTimeSegment(value, segment, `0${digit}`, format),
       };
     }
 
     return {
-      isFinalPart: false,
-      isCompletedPart: false,
       shouldBlink: false,
       selectedSegment: segment,
       nextValue: replaceTimeSegment(value, segment, `${digit}${TIME_PLACEHOLDER_CHAR}`, format),
@@ -119,37 +105,21 @@ export const formatDigitToTimeSegment = (
   }
 
   if (segment === 'hours' && currentDigits === '2' && Number(digit) > 3) {
-    return {
-      isFinalPart: false,
-      isCompletedPart: false,
-      shouldBlink: true,
-      selectedSegment: segment,
-      nextValue: value,
-    };
+    return { shouldBlink: true, selectedSegment: segment, nextValue: value };
   }
 
   if (segment !== 'hours' && Number(`${currentDigits}${digit}`) > getTimeSegmentMax(segment)) {
-    return {
-      isFinalPart: false,
-      isCompletedPart: false,
-      shouldBlink: true,
-      selectedSegment: segment,
-      nextValue: value,
-    };
+    return { shouldBlink: true, selectedSegment: segment, nextValue: value };
   }
 
-  const nextValue = replaceTimeSegment(
-    value,
-    segment,
-    String(Number(`${currentDigits}${digit}`)).padStart(TIME_SEGMENT_LENGTH, ZERO_PAD_CHAR),
-    format,
-  );
-
   return {
-    isFinalPart: nextSegment === null,
-    isCompletedPart: true,
     shouldBlink: false,
     selectedSegment: nextSegment ?? segment,
-    nextValue,
+    nextValue: replaceTimeSegment(
+      value,
+      segment,
+      String(Number(`${currentDigits}${digit}`)).padStart(TIME_SEGMENT_LENGTH, ZERO_PAD_CHAR),
+      format,
+    ),
   };
 };

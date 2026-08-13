@@ -1,5 +1,8 @@
-import type { ReactNode } from 'react';
+import { isValidElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
+import type { MenuItemProps } from '../../MenuItem/index.js';
+import { isMenuItem } from '../../MenuItem/index.js';
 import {
   DIGIT_REGEXP,
   EMPTY_SEGMENT,
@@ -23,22 +26,85 @@ export interface TimeItem {
   label?: ReactNode;
 }
 
+/** Элемент со временем: строка в формате `HH:mm[:ss]` или объект. */
+export type TimeItemValue = string | TimeItem;
+
 /**
- * Результат ввода одной цифры в активный сегмент.
- * Содержит следующее display-значение и инструкции для UI по выбору сегмента и необходимости blink.
+ * React-элемент выпадающего списка: сам элемент или функция, возвращающая его.
+ * Параметры типа заданы как `any`, чтобы тип совпадал с тем, что дает инлайн-разметка в `source`:
+ * иначе TypeScript не отличает React-элемент от элемента со временем и не выводит тип элемента.
  */
+export type TimePickerMenuElement = ReactElement<any, any> | (() => ReactElement<any, any>);
+
+/** Элемент, который можно передать в `source`: элемент со временем или React-элемент. */
+export type TimePickerExtendedItem<T extends TimeItemValue = TimeItemValue> = T | TimePickerMenuElement;
+
+export type TimePickerSource<T extends TimeItemValue = TimeItemValue> =
+  | Array<TimePickerExtendedItem<T>>
+  | ((query: string) => Array<TimePickerExtendedItem<T>> | Promise<Array<TimePickerExtendedItem<T>>>);
+
+/** Разобранный элемент выпадающего списка: исходный элемент, его время, подпись и доступность. */
+export interface TimePickerResolvedItem<T extends TimeItemValue = TimeItemValue> {
+  item: T;
+  value: string;
+  label?: ReactNode;
+  disabled: boolean;
+}
+
+/** Элемент выпадающего списка: разобранный элемент со временем или React-элемент. */
+export type TimePickerMenuItem<T extends TimeItemValue = TimeItemValue> =
+  | TimePickerResolvedItem<T>
+  | TimePickerMenuElement;
+
+const isNotMenuElement = (item: unknown): boolean => typeof item !== 'function' && !isValidElement(item);
+
+/** Проверяет, что элемент источника содержит время, а не является React-элементом. */
+export const isTimeItem = <T extends TimeItemValue>(item: TimePickerExtendedItem<T>): item is T =>
+  isNotMenuElement(item);
+
+/** Проверяет, что элемент выпадающего списка содержит время, а не является React-элементом. */
+export const isTimeMenuItem = <T extends TimeItemValue>(
+  item: TimePickerMenuItem<T>,
+): item is TimePickerResolvedItem<T> => isNotMenuElement(item);
+
+/**
+ * Проверяет, что элемент выпадающего списка — это `MenuItem`, по которому можно ходить с клавиатуры.
+ * Заблокированные и невыбираемые пункты в навигации не участвуют, как и элементы-функции:
+ * последние отрисовываются как есть, поэтому кликом по ним по-прежнему управляет их собственный `onClick`.
+ */
+export const isNavigableMenuElement = <T extends TimeItemValue>(
+  item: TimePickerMenuItem<T>,
+): item is ReactElement<MenuItemProps> => {
+  if (typeof item === 'function' || !isValidElement(item) || !isMenuItem(item)) {
+    return false;
+  }
+
+  const { disabled, isNotSelectable } = item.props as MenuItemProps;
+
+  return !disabled && !isNotSelectable;
+};
+
+/** Проверяет, что на элементе выпадающего списка может стоять выделение с клавиатуры. */
+export const isHighlightableMenuItem = <T extends TimeItemValue>(item: TimePickerMenuItem<T>): boolean =>
+  isTimeMenuItem(item) ? !item.disabled : isNavigableMenuElement(item);
+
+export const getTimeItemValue = (item: TimeItemValue): string => (typeof item === 'string' ? item : item.value);
+
+export const getTimeItemLabel = (item: TimeItemValue): ReactNode => (typeof item === 'string' ? undefined : item.label);
+
+export const isTimeItemDisabled = (item: TimeItemValue): boolean => typeof item !== 'string' && Boolean(item.disabled);
+
+export const isTimeItemObject = (item: TimeItemValue): item is TimeItem => typeof item !== 'string';
+
+/** Результат ввода одной цифры: следующее display-значение, сегмент под выделением и признак вспышки. */
 export interface TimeDigitInputResult {
-  isFinalPart: boolean;
-  isCompletedPart: boolean;
   nextValue: string;
   selectedSegment: TimeSegment;
   shouldBlink: boolean;
 }
 
-/** Возвращает массив сегментов, используемых в заданном формате времени. */
 export const getTimeSegments = (format: TimeFormat): TimeSegment[] => TIME_SEGMENTS_BY_FORMAT[format];
 
-/** Возвращает верхнюю границу допустимого значения для конкретного сегмента. */
 export const getTimeSegmentMax = (segment: TimeSegment): number =>
   segment === 'hours' ? HOURS_MAX_VALUE : MINUTES_AND_SECONDS_MAX_VALUE;
 
@@ -57,33 +123,23 @@ export const sanitizeSegment = (segment: string): string =>
     .join('')
     .padEnd(TIME_SEGMENT_LENGTH, TIME_PLACEHOLDER_CHAR);
 
-/**
- * Нормализует сегмент для committed-значения.
- * Пустой сегмент преобразуется в `00`, а значения выше максимума — к максимуму сегмента.
- */
-export const normalizeTimeSegment = (segmentValue: string, segment: TimeSegment): string => {
+const normalizeSegment = (segmentValue: string, segment: TimeSegment, emptyResult: string): string => {
   const digits = getDigits(segmentValue);
 
   if (!digits) {
-    return '00';
+    return emptyResult;
   }
 
   return String(Math.min(Number(digits), getTimeSegmentMax(segment))).padStart(TIME_SEGMENT_LENGTH, ZERO_PAD_CHAR);
 };
 
-/**
- * Нормализует сегмент для режима редактирования.
- * В отличие от committed-нормализации, полностью пустой сегмент остается пустым.
- */
-export const normalizeEditableSegment = (segmentValue: string, segment: TimeSegment): string => {
-  const digits = getDigits(segmentValue);
+/** Нормализует сегмент для committed-значения: пустой сегмент становится `00`. */
+export const normalizeTimeSegment = (segmentValue: string, segment: TimeSegment): string =>
+  normalizeSegment(segmentValue, segment, '00');
 
-  if (!digits) {
-    return EMPTY_SEGMENT;
-  }
-
-  return String(Math.min(Number(digits), getTimeSegmentMax(segment))).padStart(TIME_SEGMENT_LENGTH, ZERO_PAD_CHAR);
-};
+/** Нормализует сегмент для режима редактирования: полностью пустой сегмент остается пустым. */
+export const normalizeEditableSegment = (segmentValue: string, segment: TimeSegment): string =>
+  normalizeSegment(segmentValue, segment, EMPTY_SEGMENT);
 
 /** Проверяет, что сегмент содержит одну введенную цифру и ожидает вторую. */
 export const hasPendingSingleDigit = (segmentValue: string): boolean =>

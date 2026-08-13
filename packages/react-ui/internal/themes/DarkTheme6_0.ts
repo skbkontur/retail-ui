@@ -928,6 +928,10 @@ export const DarkTheme6_0 = createTheme({
     public static popupBackground = colors.surfaceHigh;
     //#endregion
 
+    //#region TimePicker
+    public static timePickerPopupBg = colors.shapeOtherField;
+    //#endregion TimePicker
+
     //#region ScrollContainer
     public static scrollContainerScrollBarColor = colors.shapeSoftNeutralAlpha;
     public static scrollContainerScrollBarInvertColor = colors.shapeInvertedNeutralSoftAlpha;

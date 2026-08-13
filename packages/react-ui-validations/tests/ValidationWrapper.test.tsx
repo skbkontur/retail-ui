@@ -1,5 +1,5 @@
-import { ThemeFactory } from '@skbkontur/react-ui';
-import { act, render, screen } from '@testing-library/react';
+import { ThemeFactory, TimePicker, TimePickerDataTids } from '@skbkontur/react-ui';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 import { vi } from 'vitest';
@@ -98,6 +98,76 @@ describe('ValidationWrapper', () => {
         </ValidationContainer>,
       );
       expect(screen.queryByText(inputValue)).toBeInTheDocument();
+    });
+  });
+
+  describe('TimePicker', () => {
+    it('should suppress error highlighting on typing until blur', async () => {
+      render(
+        <ValidationContainer>
+          <ValidationWrapper validationInfo={{ type: 'immediate', level: 'error', message: 'message' }}>
+            <TimePicker />
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+
+      const input = screen.getByRole('textbox');
+      const timePicker = screen.getByTestId('TimePicker__root');
+      expect(timePicker).toHaveAttribute('data-visual-state-error');
+
+      fireEvent.focus(input);
+      fireEvent.keyDown(input, { key: '1' });
+
+      expect(timePicker).not.toHaveAttribute('data-visual-state-error');
+
+      fireEvent.blur(input);
+
+      await waitFor(() => {
+        expect(timePicker).toHaveAttribute('data-visual-state-error');
+      });
+    });
+
+    it('should call `onInputValueChange` passed to TimePicker', () => {
+      const onInputValueChange = vi.fn();
+      render(
+        <ValidationContainer>
+          <ValidationWrapper validationInfo={null}>
+            <TimePicker onInputValueChange={onInputValueChange} />
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+
+      const input = screen.getByRole('textbox');
+      fireEvent.focus(input);
+      fireEvent.keyDown(input, { key: '9' });
+
+      expect(onInputValueChange).toHaveBeenLastCalledWith('09');
+    });
+
+    it('should focus TimePicker without opening its dropdown on submit', async () => {
+      const TestContainer = () => {
+        const containerRef = React.useRef<ValidationContainer>(null);
+
+        return (
+          <ValidationContainer ref={containerRef} disableSmoothScroll>
+            <ValidationWrapper validationInfo={{ type: 'submit', level: 'error', message: 'message' }}>
+              <TimePicker source={['09:00', '12:00']} />
+            </ValidationWrapper>
+            <button onClick={() => containerRef.current?.validate()}>Submit</button>
+          </ValidationContainer>
+        );
+      };
+
+      render(<TestContainer />);
+
+      act(() => {
+        screen.getByRole('button').click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('textbox')).toHaveFocus();
+      });
+      expect(screen.queryByTestId(TimePickerDataTids.popup)).not.toBeInTheDocument();
     });
   });
 

@@ -3,6 +3,8 @@ import { getOwnerGlobalObject, isBrowser } from '../../../lib/globalObject.js';
 
 /**
  * Прокручивает ближайший scrollable-контейнер так, чтобы выбранный элемент оказался ближе к центру viewport контейнера.
+ * Отличается от библиотечной `scrollYCenterIntoNearestScrollable` тем, что смещение считается от текущего `scrollTop`:
+ * центр — это дельта относительно контейнера, поэтому библиотечная версия верна только для непрокрученного меню.
  */
 export const scrollSelectedItemIntoView = (element: HTMLElement): void => {
   const globalObject = getOwnerGlobalObject(element);

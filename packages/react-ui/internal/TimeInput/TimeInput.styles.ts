@@ -25,4 +25,10 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
       color: ${t.textColorDefault};
     `;
   },
+
+  rightIconDisabled(t: Theme) {
+    return css`
+      color: ${t.inputTextColorDisabled};
+    `;
+  },
 }));

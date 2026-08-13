@@ -26,6 +26,10 @@ import { linkTo } from '@storybook/addon-links';
 <ValidationWrapper validationInfo={{ type: 'immediate', message: '...' }}>//...</ValidationWrapper>
 ```
 
+Обратите внимание: у `TimePicker` событие `onValueChange` срабатывает только при коммите значения (потеря фокуса, выбор элемента из списка, нативный пикер).
+Поэтому мгновенная валидация, вычисляемая по `value`, обновится только после коммита.
+Для валидации по мере ввода используйте событие `onInputValueChange`.
+
 ### Пример
 
 <Story of={DocsStories.ImmediateValidation} />

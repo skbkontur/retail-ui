@@ -21,17 +21,20 @@ export interface NativeTimeInputProps {
   minTime?: Nullable<string>;
   maxTime?: Nullable<string>;
   onValueChange?(value: string): void;
+  onBlur?(event: React.FocusEvent<HTMLInputElement>): void;
 }
 
 export interface NativeTimeInputRef {
   focus(): void;
+  blur(): void;
   click(): void;
+  getNode(): HTMLInputElement | null;
 }
 
 export const NativeTimeInput = forwardRefAndName<NativeTimeInputRef, NativeTimeInputProps>(
   'NativeTimeInput',
   (props, ref) => {
-    const { value, minTime, maxTime, format, disabled, onValueChange, 'data-tid': dataTid } = props;
+    const { value, minTime, maxTime, format, disabled, onValueChange, onBlur, 'data-tid': dataTid } = props;
 
     const jsStyles = getJsStyles(useEmotion());
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -42,9 +45,13 @@ export const NativeTimeInput = forwardRefAndName<NativeTimeInputRef, NativeTimeI
         focus() {
           inputRef.current?.focus();
         },
+        blur() {
+          inputRef.current?.blur();
+        },
         click() {
           inputRef.current?.click();
         },
+        getNode: () => inputRef.current,
       }),
       [],
     );
@@ -61,6 +68,7 @@ export const NativeTimeInput = forwardRefAndName<NativeTimeInputRef, NativeTimeI
         min={minTime ? getTimeForNative(minTime, format) : getDefaultMinTime(format)}
         max={maxTime ? getTimeForNative(maxTime, format) : getDefaultMaxTime(format)}
         value={getTimeForNative(value, format) ?? ''}
+        onBlur={onBlur}
         onChange={(event) => {
           onValueChange?.(getTimeForComponent(event.target.value, format));
         }}

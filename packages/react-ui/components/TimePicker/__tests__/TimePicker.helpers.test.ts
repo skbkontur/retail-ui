@@ -1,3 +1,5 @@
+import { createElement } from 'react';
+
 import { TIME_PLACEHOLDER_CHAR, TIME_SEPARATOR, EMPTY_SEGMENT } from '../helpers/TimePicker.constants.js';
 import {
   commitTimeSegmentOnLeave,
@@ -5,13 +7,18 @@ import {
   formatDigitToTimeSegment,
   shiftTimeSegmentValue,
 } from '../helpers/TimePicker.editing.js';
+import { isTimeMenuItem } from '../helpers/TimePicker.shared.js';
 import {
+  filterTimeItems,
+  getExternalTimeDisplayValue,
   getTimeDisplayValue,
+  getTimeFilterQuery,
   getEmptyDisplayValue,
   isTimeValueOutOfRange,
   normalizeTimeValue,
   parsePastedTimeValue,
   replaceTimeSegment,
+  resolveTimeItems,
   serializeTimeValue,
 } from '../helpers/TimePicker.value.js';
 
@@ -66,54 +73,61 @@ describe('TimePicker helpers', () => {
     );
   });
 
-  it('auto-completes one digit in hours when digit is greater than 2', () => {
-    const result = formatDigitToTimeSegment(getEmptyDisplayValue('HH:mm'), 'hours', '9', 'HH:mm');
+  const PH = TIME_PLACEHOLDER_CHAR;
+  const emptyHHmm = getEmptyDisplayValue('HH:mm');
 
-    expect(result.nextValue).toBe(`09${TIME_SEPARATOR}${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}`);
-    expect(result.selectedSegment).toBe('minutes');
-    expect(result.isCompletedPart).toBe(true);
-  });
+  it.each([
+    [
+      'auto-completes one digit in hours when digit is greater than 2',
+      emptyHHmm,
+      'hours',
+      '9',
+      `09${TIME_SEPARATOR}${PH}${PH}`,
+      'minutes',
+      false,
+    ],
+    [
+      'keeps hours pending after first digit 1',
+      emptyHHmm,
+      'hours',
+      '1',
+      `1${PH}${TIME_SEPARATOR}${PH}${PH}`,
+      'hours',
+      false,
+    ],
+    [
+      'blinks on invalid second digit after 2 in hours',
+      `2${PH}${TIME_SEPARATOR}${PH}${PH}`,
+      'hours',
+      '5',
+      `2${PH}${TIME_SEPARATOR}${PH}${PH}`,
+      'hours',
+      true,
+    ],
+    [
+      'keeps minutes pending after first digit 6',
+      emptyHHmm,
+      'minutes',
+      '6',
+      `${PH}${PH}${TIME_SEPARATOR}6${PH}`,
+      'minutes',
+      false,
+    ],
+    [
+      'blinks on invalid second digit after pending 6 in minutes',
+      `${PH}${PH}${TIME_SEPARATOR}6${PH}`,
+      'minutes',
+      '5',
+      `${PH}${PH}${TIME_SEPARATOR}6${PH}`,
+      'minutes',
+      true,
+    ],
+  ] as const)('%s', (_name, value, segment, digit, nextValue, selectedSegment, shouldBlink) => {
+    const result = formatDigitToTimeSegment(value, segment, digit, 'HH:mm');
 
-  it('keeps hours pending after first digit 1', () => {
-    const result = formatDigitToTimeSegment(getEmptyDisplayValue('HH:mm'), 'hours', '1', 'HH:mm');
-
-    expect(result.nextValue).toBe(
-      `1${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}`,
-    );
-    expect(result.selectedSegment).toBe('hours');
-    expect(result.isCompletedPart).toBe(false);
-    expect(result.shouldBlink).toBe(false);
-  });
-
-  it('blinks on invalid second digit after 2 in hours', () => {
-    const initialValue = `2${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}`;
-    const result = formatDigitToTimeSegment(initialValue, 'hours', '5', 'HH:mm');
-
-    expect(result.nextValue).toBe(initialValue);
-    expect(result.selectedSegment).toBe('hours');
-    expect(result.isCompletedPart).toBe(false);
-    expect(result.shouldBlink).toBe(true);
-  });
-
-  it('keeps minutes pending after first digit 6', () => {
-    const result = formatDigitToTimeSegment(getEmptyDisplayValue('HH:mm'), 'minutes', '6', 'HH:mm');
-
-    expect(result.nextValue).toBe(
-      `${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}6${TIME_PLACEHOLDER_CHAR}`,
-    );
-    expect(result.selectedSegment).toBe('minutes');
-    expect(result.isCompletedPart).toBe(false);
-    expect(result.shouldBlink).toBe(false);
-  });
-
-  it('blinks on invalid second digit after pending 6 in minutes', () => {
-    const initialValue = `${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}6${TIME_PLACEHOLDER_CHAR}`;
-    const result = formatDigitToTimeSegment(initialValue, 'minutes', '5', 'HH:mm');
-
-    expect(result.nextValue).toBe(initialValue);
-    expect(result.selectedSegment).toBe('minutes');
-    expect(result.isCompletedPart).toBe(false);
-    expect(result.shouldBlink).toBe(true);
+    expect(result.nextValue).toBe(nextValue);
+    expect(result.selectedSegment).toBe(selectedSegment);
+    expect(result.shouldBlink).toBe(shouldBlink);
   });
 
   it('normalizes pending minutes on leave', () => {
@@ -142,6 +156,36 @@ describe('TimePicker helpers', () => {
     expect(parsePastedTimeValue('9:5', 'HH:mm')).toBe('09:05');
     expect(parsePastedTimeValue('1:23:45', 'HH:mm:ss')).toBe('01:23:45');
     expect(parsePastedTimeValue('1:23:45', 'HH:mm')).toBe('01:23');
+    expect(parsePastedTimeValue('12.30', 'HH:mm')).toBe('12:30');
+    expect(parsePastedTimeValue('12 30', 'HH:mm')).toBe('12:30');
+    expect(parsePastedTimeValue('9.5', 'HH:mm')).toBe('09:05');
+    expect(parsePastedTimeValue('9 5', 'HH:mm')).toBe('09:05');
+    expect(parsePastedTimeValue('9-5', 'HH:mm')).toBe('09:05');
+    expect(parsePastedTimeValue('1.2.3', 'HH:mm')).toBe('01:02');
+    expect(parsePastedTimeValue('1.2.3', 'HH:mm:ss')).toBe('01:02:03');
+    expect(parsePastedTimeValue('  12:30  ', 'HH:mm')).toBe('12:30');
+    expect(parsePastedTimeValue('1230', 'HH:mm')).toBe('12:30');
+  });
+
+  it('rejects pasted values that only look like they contain a time', () => {
+    expect(parsePastedTimeValue('2026-08-01', 'HH:mm')).toBe('');
+    expect(parsePastedTimeValue('2026-08-01T12:30', 'HH:mm')).toBe('');
+    expect(parsePastedTimeValue('hello 42', 'HH:mm')).toBe('');
+    expect(parsePastedTimeValue('встреча в 9', 'HH:mm')).toBe('');
+    expect(parsePastedTimeValue('1234567', 'HH:mm')).toBe('');
+    expect(parsePastedTimeValue('-5:-5', 'HH:mm')).toBe('');
+  });
+
+  it('pads single-digit segments of the external value', () => {
+    expect(getExternalTimeDisplayValue('9:00', 'HH:mm')).toBe('09:00');
+    expect(getExternalTimeDisplayValue('9:5', 'HH:mm')).toBe('09:05');
+    expect(getExternalTimeDisplayValue('09:00', 'HH:mm')).toBe('09:00');
+    expect(getExternalTimeDisplayValue('9:00:5', 'HH:mm:ss')).toBe('09:00:05');
+    expect(getExternalTimeDisplayValue('', 'HH:mm')).toBe('');
+  });
+
+  it('keeps a partial external value without a separator partial', () => {
+    expect(getExternalTimeDisplayValue('1', 'HH:mm')).toBe(`1${TIME_PLACEHOLDER_CHAR}:${EMPTY_SEGMENT}`);
   });
 
   it('checks time values against min and max range', () => {
@@ -174,5 +218,56 @@ describe('TimePicker helpers', () => {
     expect(replaceTimeSegment(`12${TIME_SEPARATOR}34`, 'hours', EMPTY_SEGMENT, 'HH:mm')).toBe(
       `${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}34`,
     );
+  });
+
+  it('builds filter query from display value', () => {
+    expect(getTimeFilterQuery('', 'HH:mm')).toBe('');
+    expect(getTimeFilterQuery(getEmptyDisplayValue('HH:mm'), 'HH:mm')).toBe('');
+    expect(
+      getTimeFilterQuery(
+        `1${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}`,
+        'HH:mm',
+      ),
+    ).toBe('1');
+    expect(getTimeFilterQuery(`12${TIME_SEPARATOR}3${TIME_PLACEHOLDER_CHAR}`, 'HH:mm')).toBe(`12${TIME_SEPARATOR}3`);
+    expect(getTimeFilterQuery('12:34', 'HH:mm')).toBe('12:34');
+    expect(getTimeFilterQuery(`${TIME_PLACEHOLDER_CHAR}${TIME_PLACEHOLDER_CHAR}${TIME_SEPARATOR}34`, 'HH:mm')).toBe(
+      `${TIME_SEPARATOR}34`,
+    );
+  });
+
+  it('filters items by segment prefixes', () => {
+    const items = [{ value: '09:00' }, { value: '12:00' }, { value: '12:30' }, { value: '12:35' }, { value: '19:30' }];
+
+    expect(filterTimeItems(items, '', 'HH:mm')).toEqual(items);
+    expect(filterTimeItems(items, '1', 'HH:mm')).toEqual([
+      { value: '12:00' },
+      { value: '12:30' },
+      { value: '12:35' },
+      { value: '19:30' },
+    ]);
+    expect(filterTimeItems(items, '12:3', 'HH:mm')).toEqual([{ value: '12:30' }, { value: '12:35' }]);
+    expect(filterTimeItems(items, '22', 'HH:mm')).toEqual([]);
+    expect(filterTimeItems(items, `${TIME_SEPARATOR}30`, 'HH:mm')).toEqual([{ value: '12:30' }, { value: '19:30' }]);
+  });
+
+  it('resolves items for rendering keeping the source item as is', () => {
+    const element = createElement('span', { key: 'header' });
+    const item = { value: '10:00', label: 'Обед', disabled: true };
+
+    const resolved = resolveTimeItems(['09:00', item, element], 'HH:mm');
+
+    expect(resolved).toEqual([
+      { item: '09:00', value: '09:00', label: undefined, disabled: false },
+      { item, value: '10:00', label: 'Обед', disabled: true },
+      element,
+    ]);
+    expect(resolved[2]).toBe(element);
+  });
+
+  it('disables resolved items out of the min and max range', () => {
+    const resolved = resolveTimeItems(['09:00', '12:00', '19:00'], 'HH:mm', '10:00', '18:00');
+
+    expect(resolved.map((item) => isTimeMenuItem(item) && item.disabled)).toEqual([true, false, true]);
   });
 });

@@ -134,7 +134,7 @@ export class ValidationWrapperInternal extends React.Component<
     ) : (
       <span ref={this.setRootNode} />
     );
-    if (ReactUiDetection.isComboBox(clonedChild)) {
+    if (ReactUiDetection.isComboBox(clonedChild) || ReactUiDetection.isTimePicker(clonedChild)) {
       clonedChild = React.cloneElement(clonedChild, {
         onInputValueChange: (...args: any[]) => {
           this.isChanging = true;

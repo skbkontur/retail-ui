@@ -23,7 +23,6 @@ export interface TimeInputRef {
   focus(): void;
   blur(): void;
   blink(): void;
-  isFragment(el: HTMLElement | EventTarget | null): boolean;
   isAllSelected(): boolean;
   getSegment(el: HTMLElement | EventTarget | null): TimeSegment | null;
   selectSegment(segment: TimeSegment): void;
@@ -72,7 +71,6 @@ export const TimeInput = forwardRefAndName<TimeInputRef, TimeInputProps>('TimeIn
       blur: () => inputLikeTextRef.current?.blur(),
       blink: () => inputLikeTextRef.current?.blink(),
       getNode: () => inputLikeTextRef.current?.getNode() ?? null,
-      isFragment: (el) => fragmentsRef.current?.isFragment(el) ?? false,
       getSegment: (el) => fragmentsRef.current?.getSegment(el) ?? null,
       selectAll: () => {
         const rootNode = fragmentsRef.current?.getRootNode() ?? null;
@@ -139,7 +137,9 @@ export const TimeInput = forwardRefAndName<TimeInputRef, TimeInputProps>('TimeIn
   const resolvedRightIcon =
     rightIcon === undefined ? (
       <span
-        className={cx(styles.rightIcon(), styles.rightIconDefault(theme), {
+        className={cx(styles.rightIcon(), {
+          [styles.rightIconDefault(theme)]: !disabled,
+          [styles.rightIconDisabled(theme)]: disabled,
           [styles.rightIconInteractive()]: hasDropdown && !disabled,
         })}
       >

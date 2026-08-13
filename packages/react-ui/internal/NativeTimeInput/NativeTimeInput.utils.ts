@@ -14,21 +14,13 @@ const normalizeNativeTime = (value: string, format: TimeFormat): string => {
   return format === 'HH:mm' ? normalizedTime.slice(0, 5) : normalizedTime;
 };
 
-export const getTimeForNative = (componentTime: Nullable<string>, format: TimeFormat): string | undefined => {
-  if (!componentTime) {
-    return undefined;
-  }
+/** Приводит время компонента к форме нативного инпута. Пустое значение отдается как отсутствующее. */
+export const getTimeForNative = (componentTime: Nullable<string>, format: TimeFormat): string | undefined =>
+  componentTime ? normalizeNativeTime(componentTime, format) : undefined;
 
-  return normalizeNativeTime(componentTime, format);
-};
-
-export const getTimeForComponent = (nativeTime: Nullable<string>, format: TimeFormat): string => {
-  if (!nativeTime) {
-    return '';
-  }
-
-  return normalizeNativeTime(nativeTime, format);
-};
+/** Приводит время нативного инпута к форме компонента. Пустое значение отдается пустой строкой. */
+export const getTimeForComponent = (nativeTime: Nullable<string>, format: TimeFormat): string =>
+  nativeTime ? normalizeNativeTime(nativeTime, format) : '';
 
 export const getDefaultMinTime = (format: TimeFormat): string =>
   format === 'HH:mm' ? DEFAULT_NATIVE_MIN_TIME.slice(0, 5) : DEFAULT_NATIVE_MIN_TIME;

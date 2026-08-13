@@ -1237,41 +1237,39 @@ export class BasicThemeClass {
   //#endregion DatePicker
 
   //#region TimePicker
-  public static timePickerItemGapSmall = '8px';
-  public static timePickerItemGapMedium = '8px';
+  public static timePickerItemGapSmall = '4px';
+  public static timePickerItemGapMedium = '6px';
   public static timePickerItemGapLarge = '8px';
 
   public static timePickerSuffixGapSmall = '4px';
   public static timePickerSuffixGapMedium = '6px';
   public static timePickerSuffixGapLarge = '8px';
 
-  public static timePickerInputMinWidthSmall = '60px';
-  public static timePickerInputMinWidthMedium = '74px';
-  public static timePickerInputMinWidthLarge = '88px';
+  public static timePickerInputMinWidthSmall = '58px';
+  public static timePickerInputMinWidthMedium = '71px';
+  public static timePickerInputMinWidthLarge = '85px';
 
-  public static timePickerInputMinWidthWithSecondsSmall = '86px';
-  public static timePickerInputMinWidthWithSecondsMedium = '102px';
-  public static timePickerInputMinWidthWithSecondsLarge = '120px';
+  public static timePickerInputMinWidthWithSecondsSmall = '79px';
+  public static timePickerInputMinWidthWithSecondsMedium = '95px';
+  public static timePickerInputMinWidthWithSecondsLarge = '112px';
 
-  public static timePickerInputMinWidthWithIconSmall = '80px';
-  public static timePickerInputMinWidthWithIconMedium = '100px';
-  public static timePickerInputMinWidthWithIconLarge = '120px';
+  public static timePickerInputMinWidthWithIconSmall = '78px';
+  public static timePickerInputMinWidthWithIconMedium = '97px';
+  public static timePickerInputMinWidthWithIconLarge = '117px';
 
-  public static timePickerInputMinWidthWithIconAndSecondsSmall = '106px';
-  public static timePickerInputMinWidthWithIconAndSecondsMedium = '128px';
-  public static timePickerInputMinWidthWithIconAndSecondsLarge = '152px';
+  public static timePickerInputMinWidthWithIconAndSecondsSmall = '99px';
+  public static timePickerInputMinWidthWithIconAndSecondsMedium = '121px';
+  public static timePickerInputMinWidthWithIconAndSecondsLarge = '144px';
 
   public static timePickerSeparatorOffsetTopSmall = '-1px';
   public static timePickerSeparatorOffsetTopMedium = '-1px';
   public static timePickerSeparatorOffsetTopLarge = '-2px';
 
   public static timePickerSeparatorPaddingXSmall = '1px';
-  public static timePickerSeparatorPaddingXMedium = '2px';
+  public static timePickerSeparatorPaddingXMedium = '1px';
   public static timePickerSeparatorPaddingXLarge = '2px';
 
-  public static get timePickerPopupBg(): string {
-    return this.bgSecondary;
-  }
+  public static timePickerPopupBg = colors.shapeOtherField;
   public static get timePickerPopupBorderRadius(): string {
     return this.menuBorderRadius;
   }

@@ -31,36 +31,39 @@ export const getStyles = memoizeGetStyles(({ css }: Emotion) => ({
     `;
   },
 
-  itemSmall(t: Theme) {
-    return css`
-      gap: ${t.timePickerItemGapSmall};
-    `;
-  },
-
-  itemMedium(t: Theme) {
-    return css`
-      gap: ${t.timePickerItemGapMedium};
-    `;
-  },
-
-  itemLarge(t: Theme) {
-    return css`
-      gap: ${t.timePickerItemGapLarge};
-    `;
-  },
-
   itemValue() {
     return css`
-      font-variant-numeric: tabular-nums;
       white-space: nowrap;
     `;
   },
 
-  itemLabel(t: Theme) {
+  itemLabel() {
+    return css`
+      white-space: nowrap;
+    `;
+  },
+
+  itemLabelSmall(t: Theme) {
+    return css`
+      margin-left: ${t.timePickerItemGapSmall};
+    `;
+  },
+
+  itemLabelMedium(t: Theme) {
+    return css`
+      margin-left: ${t.timePickerItemGapMedium};
+    `;
+  },
+
+  itemLabelLarge(t: Theme) {
+    return css`
+      margin-left: ${t.timePickerItemGapLarge};
+    `;
+  },
+
+  itemLabelColor(t: Theme) {
     return css`
       color: ${t.menuItemCommentColor};
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
     `;
   },
 }));

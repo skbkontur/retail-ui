@@ -3,22 +3,46 @@ import React from 'react';
 
 import type { Meta, Story } from '../../../typings/stories.js';
 import { Gapped } from '../../Gapped/index.js';
+import type { TimeItem } from '../helpers/TimePicker.shared.js';
 import { TimePicker } from '../TimePicker.js';
+
+/**
+ * Типы, раскрытые для таблицы пропов: в коде это дженерики `TimePickerSource<T>` и `T`,
+ * которые сами по себе не рассказывают, что можно передать.
+ * Элементы источника прячутся за `Item`, иначе сигнатура `source` повторяет их трижды.
+ */
+const TIME_ITEM_TYPE = "'09:00' | { value: '09:00', label?, disabled?, ...ownFields }";
+const MENU_ELEMENT_TYPE = '<MenuHeader /> | <MenuItem /> | <MenuSeparator /> | <MenuFooter />';
 
 const meta: Meta = {
   title: 'Input data/TimePicker',
   component: TimePicker,
   parameters: { creevey: { skip: true } },
+  argTypes: {
+    source: {
+      table: {
+        type: {
+          summary: [
+            'Item[] | ((query: string) => Item[] | Promise<Item[]>),',
+            `где Item = ${TIME_ITEM_TYPE} | ${MENU_ELEMENT_TYPE}`,
+          ].join(' '),
+        },
+      },
+    },
+    renderItem: {
+      table: { type: { summary: `(item: ${TIME_ITEM_TYPE}, state: MenuItemState) => ReactNode` } },
+    },
+  },
 };
 
 export default meta;
 
 export const ExampleBasic: Story = () => {
-  const [value, setValue] = React.useState('');
+  const [time, setTime] = React.useState('');
 
-  const items = [{ value: '08:00' }, { value: '09:00' }, { value: '10:00' }, { value: '11:00' }];
+  const items: TimeItem[] = [{ value: '08:00' }, { value: '09:00' }, { value: '10:00' }, { value: '11:00' }];
 
-  return <TimePicker value={value} items={items} onValueChange={setValue} />;
+  return <TimePicker value={time} source={items} onValueChange={setTime} />;
 };
 
 /** Проп `size` задаёт размер поля. */
@@ -53,11 +77,14 @@ export const ExampleFormats: Story = () => {
 };
 ExampleFormats.storyName = 'Форматы';
 
-/** Проп `items` позволяет передать массив элементов формата `TimeItem`. */
-export const ExampleItems: Story = () => {
-  const [value, setValue] = React.useState('');
+/** Проп `source` задаёт элементы выпадающего меню: массив либо функцию запроса.
+ * Элементы можно задать строками со временем или объектами `{ value, label?, disabled? }`
+ * с любыми дополнительными полями — в `onValueChange` приходит только время выбранного элемента.
+ */
+export const ExampleSource: Story = () => {
+  const [time, setTime] = React.useState('');
 
-  const items = [
+  const items: TimeItem[] = [
     { value: '08:00' },
     { value: '09:00' },
     { value: '10:00' },
@@ -73,15 +100,15 @@ export const ExampleItems: Story = () => {
     { value: '20:00' },
   ];
 
-  return <TimePicker items={items} value={value} onValueChange={setValue} />;
+  return <TimePicker source={items} value={time} onValueChange={setTime} />;
 };
-ExampleItems.storyName = 'Массив элементов в выпадающем меню';
+ExampleSource.storyName = 'Выпадающее меню';
 
-/** Проп `items` позволяет передать массив элементов с дополнительной информацией через `label`. */
-export const ExampleItemsWithInfo: Story = () => {
-  const [value, setValue] = React.useState('');
+/** Элементы `source` могут содержать дополнительную подпись в поле `label`. */
+export const ExampleSourceWithInfo: Story = () => {
+  const [time, setTime] = React.useState('');
 
-  const items = [
+  const items: TimeItem[] = [
     { value: '08:00', label: '30 мин' },
     { value: '08:30', label: '1 ч' },
     { value: '09:00', label: '1 ч 30 мин' },
@@ -109,15 +136,15 @@ export const ExampleItemsWithInfo: Story = () => {
     { value: '20:00', label: '12 ч 30 мин' },
   ];
 
-  return <TimePicker items={items} value={value} onValueChange={setValue} />;
+  return <TimePicker source={items} value={time} onValueChange={setTime} />;
 };
-ExampleItemsWithInfo.storyName = 'Массив элементов в выпадающем меню c дополнительной информацией';
+ExampleSourceWithInfo.storyName = 'Элементы с дополнительной информацией';
 
-/** В проп `items` можно передать недоступные значения через `disabled`. */
-export const ExampleItemsWithDisabled: Story = () => {
-  const [value, setValue] = React.useState('');
+/** Элемент из `source` можно сделать недоступным через `disabled`. */
+export const ExampleSourceWithDisabled: Story = () => {
+  const [time, setTime] = React.useState('');
 
-  const items = [
+  const items: TimeItem[] = [
     { value: '08:00' },
     { value: '09:00' },
     { value: '10:00', disabled: true },
@@ -133,18 +160,17 @@ export const ExampleItemsWithDisabled: Story = () => {
     { value: '20:00' },
   ];
 
-  return <TimePicker items={items} value={value} onValueChange={setValue} />;
+  return <TimePicker source={items} value={time} onValueChange={setTime} />;
 };
-ExampleItemsWithDisabled.storyName = 'Массив элементов в выпадающем меню с заблокированными значениями';
+ExampleSourceWithDisabled.storyName = 'Заблокированные значения';
 
-/** Пропы `minTime` и `maxTime` ограничивают только доступность переданных элементов в выпадающем меню.
- * Ручной ввод и изменение значения стрелками в инпуте при этом не ограничиваются и могут валидироваться на уровне продукта.
- * Исключение — режим `useMobileNativeTimePicker`: там `minTime` и `maxTime` дополнительно передаются в нативный `input[type='time']` как ограничения браузера.
+/** Пропы `minTime` и `maxTime` ограничивают только доступность элементов в выпадающем меню.
+ * Ручной ввод они не ограничивают — его можно проверить через `TimePicker.validate`.
  */
-export const ExampleItemsWithMinMax: Story = () => {
-  const [value, setValue] = React.useState('');
+export const ExampleSourceWithMinMax: Story = () => {
+  const [time, setTime] = React.useState('');
 
-  const items = [
+  const items: TimeItem[] = [
     { value: '08:00' },
     { value: '09:00' },
     { value: '10:00' },
@@ -163,12 +189,11 @@ export const ExampleItemsWithMinMax: Story = () => {
   return (
     <Gapped vertical gap={24}>
       Минимальное время 12:00, максимальное 16:00
-      <TimePicker items={items} minTime={'12:00'} maxTime={'16:00'} value={value} onValueChange={setValue} />
+      <TimePicker source={items} minTime={'12:00'} maxTime={'16:00'} value={time} onValueChange={setTime} />
     </Gapped>
   );
 };
-ExampleItemsWithMinMax.storyName =
-  'Массив элементов в выпадающем меню с ограничением минимального и максимального значений';
+ExampleSourceWithMinMax.storyName = 'Ограничение минимального и максимального значений';
 
 /** По умолчанию `TimePicker` показывает иконку часов справа.
  * Через `rightIcon` её можно заменить или скрыть, передав `null`.
@@ -219,7 +244,9 @@ export const ExampleWarning: Story = () => {
 };
 ExampleWarning.storyName = 'Состояние предупреждения';
 
-/** Проп `useMobileNativeTimePicker` включает нативный редактор времени на мобильном устройстве */
+/** Проп `useMobileNativeTimePicker` включает нативный редактор времени в мобильной вёрстке.
+ * Вёрстка определяется медиазапросом темы, поэтому нативный пикер включится и в узком окне десктопного браузера.
+ */
 export const ExampleMobileNative: Story = () => {
   const [value, setValue] = React.useState('');
 

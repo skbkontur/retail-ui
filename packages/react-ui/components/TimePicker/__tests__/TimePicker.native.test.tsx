@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 
 vi.mock('../../../lib/client.js', async () => {
@@ -6,16 +6,31 @@ vi.mock('../../../lib/client.js', async () => {
 
   return {
     ...actual,
-    isMobile: true,
     isIOS: false,
   };
 });
 
 import { TimePickerDataTids } from '../helpers/TimePicker.constants.js';
-import type { TimePickerProps } from '../TimePicker.js';
+import type { TimeItem } from '../helpers/TimePicker.shared.js';
+import type { TimePickerProps, TimePickerRef } from '../TimePicker.js';
 import { TimePicker } from '../TimePicker.js';
+import { createMobileLayoutMock } from './mobileLayoutMock.js';
 
-const ControlledTimePicker = (props: Omit<TimePickerProps, 'value' | 'onValueChange'>) => {
+const mobileLayout = createMobileLayoutMock();
+
+beforeAll(() => {
+  mobileLayout.install();
+});
+
+afterAll(() => {
+  mobileLayout.restore();
+});
+
+beforeEach(() => {
+  mobileLayout.setMobileLayout(true);
+});
+
+const ControlledTimePicker = (props: Omit<TimePickerProps<TimeItem>, 'value' | 'onValueChange'>) => {
   const [value, setValue] = React.useState('');
 
   return <TimePicker {...props} value={value} onValueChange={setValue} />;
@@ -47,8 +62,8 @@ describe('<TimePicker /> native mobile mode', () => {
     expect(screen.getByRole('textbox')).toHaveTextContent('12:34:56');
   });
 
-  it('opens native input instead of popup on click when items are passed', async () => {
-    render(<TimePicker items={items} useMobileNativeTimePicker />);
+  it('opens native input instead of popup on click when source is passed', async () => {
+    render(<TimePicker source={items} useMobileNativeTimePicker />);
 
     const input = screen.getByRole('textbox');
     const nativeInput = (await screen.findByTestId(TimePickerDataTids.nativeInput)) as HTMLInputElement;
@@ -64,14 +79,98 @@ describe('<TimePicker /> native mobile mode', () => {
     }
   });
 
-  it('handles blur in mobile native mode without desktop cleanup', () => {
+  it('opens the native picker instead of the dropdown through public ref', async () => {
+    const ref = React.createRef<TimePickerRef>();
+    const clickSpy = vi.spyOn(HTMLInputElement.prototype, 'click').mockImplementation(() => undefined);
+
+    try {
+      render(<TimePicker ref={ref} useMobileNativeTimePicker source={items} value={''} />);
+
+      await screen.findByTestId(TimePickerDataTids.nativeInput);
+
+      act(() => {
+        ref.current?.open();
+      });
+
+      expect(clickSpy).toHaveBeenCalled();
+      expect(screen.queryByTestId(TimePickerDataTids.popup)).not.toBeInTheDocument();
+      expect(screen.getByTestId(TimePickerDataTids.input)).not.toHaveAttribute('aria-expanded');
+      expect(screen.getByTestId(TimePickerDataTids.input)).not.toHaveAttribute('aria-controls');
+    } finally {
+      clickSpy.mockRestore();
+    }
+  });
+
+  it('handles blur in mobile native mode without desktop cleanup', async () => {
     const onBlur = vi.fn();
 
     render(<TimePicker useMobileNativeTimePicker value={'12:34'} onBlur={onBlur} />);
 
+    fireEvent.focus(screen.getByRole('textbox'));
     fireEvent.blur(screen.getByRole('textbox'));
 
     expect(screen.getByRole('textbox')).toHaveTextContent('12:34');
-    expect(onBlur).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('commits the value typed in the desktop version when the layout becomes mobile', async () => {
+    mobileLayout.setMobileLayout(false);
+
+    const onValueChange = vi.fn();
+    const Controlled = () => {
+      const [value, setValue] = React.useState('');
+
+      return (
+        <TimePicker
+          useMobileNativeTimePicker
+          value={value}
+          onValueChange={(time) => {
+            onValueChange(time);
+            setValue(time);
+          }}
+        />
+      );
+    };
+
+    render(<Controlled />);
+
+    const input = screen.getByRole('textbox');
+
+    act(() => {
+      input.focus();
+    });
+
+    fireEvent.keyDown(input, { key: '1' });
+    fireEvent.keyDown(input, { key: '0' });
+    fireEvent.keyDown(input, { key: '3' });
+    fireEvent.keyDown(input, { key: '0' });
+
+    mobileLayout.setMobileLayout(true);
+
+    await waitFor(() => {
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+    });
+    expect(onValueChange).toHaveBeenLastCalledWith('10:30');
+    expect(input).toHaveTextContent('10:30');
+  });
+
+  it('replaces the opened dropdown with the native picker when the layout becomes mobile', async () => {
+    mobileLayout.setMobileLayout(false);
+
+    render(<ControlledTimePicker source={items} useMobileNativeTimePicker />);
+
+    fireEvent.click(screen.getByRole('textbox'));
+
+    expect(await screen.findByTestId(TimePickerDataTids.popup)).toBeInTheDocument();
+    expect(screen.queryByTestId(TimePickerDataTids.nativeInput)).not.toBeInTheDocument();
+
+    mobileLayout.setMobileLayout(true);
+
+    await waitFor(() => {
+      expect(screen.getByTestId(TimePickerDataTids.nativeInput)).toBeInTheDocument();
+    });
+    expect(screen.queryByTestId(TimePickerDataTids.popup)).not.toBeInTheDocument();
   });
 });

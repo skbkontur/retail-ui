@@ -11,7 +11,6 @@ import type { SizeProp } from '../../lib/types/props.js';
 import { getStyles } from './TimeFragments.styles.js';
 
 export interface TimeFragmentsRef {
-  isFragment(el: HTMLElement | EventTarget | null): boolean;
   getSegment(el: HTMLElement | EventTarget | null): TimeSegment | null;
   getRootNode(): HTMLSpanElement | null;
 }
@@ -23,6 +22,35 @@ export interface TimeFragmentsProps {
 
   onSelectSegment?(segment: TimeSegment, event: React.MouseEvent<HTMLSpanElement>): void;
 }
+
+const getEmptyPlaceholderClassName = (
+  styles: ReturnType<typeof getStyles>,
+  theme: Theme,
+  size: SizeProp,
+  format: TimeFormat,
+): string => {
+  if (format === 'HH:mm:ss') {
+    switch (size) {
+      case 'large':
+        return styles.emptyPlaceholderWithSecondsLarge(theme);
+      case 'medium':
+        return styles.emptyPlaceholderWithSecondsMedium(theme);
+      case 'small':
+      default:
+        return styles.emptyPlaceholderWithSecondsSmall(theme);
+    }
+  }
+
+  switch (size) {
+    case 'large':
+      return styles.emptyPlaceholderLarge(theme);
+    case 'medium':
+      return styles.emptyPlaceholderMedium(theme);
+    case 'small':
+    default:
+      return styles.emptyPlaceholderSmall(theme);
+  }
+};
 
 const getSeparatorSizeClassName = (styles: ReturnType<typeof getStyles>, theme: Theme, size: SizeProp): string => {
   switch (size) {
@@ -47,7 +75,9 @@ export const TimeFragments = forwardRefAndName<TimeFragmentsRef, TimeFragmentsPr
 
   const rootRef = useRef<HTMLSpanElement>(null);
 
-  const rootClassName = cx(styles.root(), styles.selected(theme));
+  const rootClassName = cx(styles.root(), styles.selected(theme), {
+    [getEmptyPlaceholderClassName(styles, theme, size, format)]: !value,
+  });
   const maskClassName = styles.mask(theme);
   const separatorSizeClassName = getSeparatorSizeClassName(styles, theme, size);
 
@@ -69,21 +99,13 @@ export const TimeFragments = forwardRefAndName<TimeFragmentsRef, TimeFragmentsPr
     [format],
   );
 
-  const isFragment = useCallback(
-    (el: HTMLElement | EventTarget | null): boolean => {
-      return getSegment(el) !== null;
-    },
-    [getSegment],
-  );
-
   useImperativeHandle(
     ref,
     () => ({
-      isFragment,
       getSegment,
       getRootNode: () => rootRef.current,
     }),
-    [getSegment, isFragment],
+    [getSegment],
   );
 
   const segments = getTimeSegments(format);
@@ -117,11 +139,14 @@ export const TimeFragments = forwardRefAndName<TimeFragmentsRef, TimeFragmentsPr
               nodes.push(
                 <span
                   key={`separator-${index}`}
+                  data-separator={''}
                   className={cx(maskClassName, styles.separator(), separatorSizeClassName, {
                     [styles.separatorFilled()]: !segmentValue.includes(TIME_PLACEHOLDER_CHAR),
                   })}
                 >
-                  {TIME_SEPARATOR}
+                  <span aria-hidden className={styles.separatorText()}>
+                    {TIME_SEPARATOR}
+                  </span>
                 </span>,
               );
             }

@@ -34,12 +34,14 @@ export const ExampleRequiredValidation: Story = () => {
 };
 ExampleRequiredValidation.storyName = 'Обязательное поле';
 
-/** Внешняя валидация позволяет проверить, что значение времени попадает в допустимый диапазон. */
+/** Внешняя валидация позволяет проверить, что значение времени попадает в допустимый диапазон.
+ * `TimePicker.validate` принимает время строкой, поэтому значение из `onValueChange` можно проверять как есть.
+ */
 export const ExampleRangeValidation: Story = () => {
-  const [value, setValue] = React.useState('07:30');
+  const [time, setTime] = React.useState('07:30');
 
-  const validateRange = (currentValue: string): ValidationInfo | null => {
-    if (currentValue && !TimePicker.validate(currentValue, { minTime: '09:00', maxTime: '18:00' })) {
+  const validateRange = (currentTime: string): ValidationInfo | null => {
+    if (currentTime && !TimePicker.validate(currentTime, { minTime: '09:00', maxTime: '18:00' })) {
       return { message: 'Время должно быть в диапазоне с 09:00 до 18:00', type: 'immediate' };
     }
 
@@ -48,8 +50,8 @@ export const ExampleRangeValidation: Story = () => {
 
   return (
     <ValidationContainer>
-      <ValidationWrapper validationInfo={validateRange(value)}>
-        <TimePicker value={value} onValueChange={setValue} />
+      <ValidationWrapper validationInfo={validateRange(time)}>
+        <TimePicker value={time} onValueChange={setTime} />
       </ValidationWrapper>
     </ValidationContainer>
   );

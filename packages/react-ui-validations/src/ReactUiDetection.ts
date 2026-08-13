@@ -19,6 +19,10 @@ export class ReactUiDetection {
     return ReactUiDetection.checkType(element, 'DatePicker');
   }
 
+  public static isTimePicker(element: unknown): boolean {
+    return ReactUiDetection.checkType(element, 'TimePicker');
+  }
+
   public static isRadioGroup(element: unknown): boolean {
     return ReactUiDetection.checkType(element, 'RadioGroup');
   }
