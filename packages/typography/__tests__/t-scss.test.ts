@@ -10,7 +10,7 @@ const renderScss = (content: string) => {
     `@use "${sassFileName}" as *;
 
     ${content}`,
-    { loadPaths: [path.resolve(__dirname, '..')] }
+    { loadPaths: [path.resolve(__dirname, '..')] },
   );
   return result.css;
 };

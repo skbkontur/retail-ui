@@ -8,7 +8,7 @@ const css = fs.readFileSync(path.resolve(__dirname, '../t.css'), 'utf8').replace
 describe('Text.css content', () => {
   it('should contain base classes', () => {
     expect(css).toContain(
-      '.t-body-m { font-size: 16px; line-height: 22px; font-weight: 400; font-variant-numeric: tabular-nums; }'
+      '.t-body-m { font-size: 16px; line-height: 22px; font-weight: 400; font-variant-numeric: tabular-nums; }',
     );
     expect(css).toContain('.t-heading-s { font-size: 20px; line-height: 28px; font-weight: 700; }');
   });

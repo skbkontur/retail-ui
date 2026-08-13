@@ -45,7 +45,7 @@ const generateGlobalCss = () => {
   Object.entries(headingTokens).forEach(([key, rawToken]) => {
     const token = rawToken as Token;
     cssRules.push(
-      `.t-${key} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 700; }`
+      `.t-${key} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 700; }`,
     );
   });
 
@@ -53,7 +53,7 @@ const generateGlobalCss = () => {
     const token = rawToken as Token;
     const variantStr = token['font-variant-numeric'] ? ` font-variant-numeric: ${token['font-variant-numeric']};` : '';
     cssRules.push(
-      `.t-${key} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 400;${variantStr} }`
+      `.t-${key} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 400;${variantStr} }`,
     );
   });
 
@@ -70,7 +70,7 @@ const generateCssModules = () => {
   Object.entries(headingTokens).forEach(([key, rawToken]) => {
     const token = rawToken as Token;
     cssRules.push(
-      `.${toCamelCaseWithCapsSize(key)} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 700; }`
+      `.${toCamelCaseWithCapsSize(key)} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 700; }`,
     );
   });
 
@@ -78,7 +78,7 @@ const generateCssModules = () => {
     const token = rawToken as Token;
     const variantStr = token['font-variant-numeric'] ? ` font-variant-numeric: ${token['font-variant-numeric']};` : '';
     cssRules.push(
-      `.${toCamelCaseWithCapsSize(key)} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 400;${variantStr} }`
+      `.${toCamelCaseWithCapsSize(key)} { font-size: ${token['font-size']}; line-height: ${token['line-height']}; font-weight: 400;${variantStr} }`,
     );
   });
 

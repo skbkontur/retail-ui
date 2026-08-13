@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig",
-  "exclude": ["node_modules", "__stories__", "__tests__"],
-  "include": ["src", "index.ts", "../../types/**/*", "./types.d.ts", "Text.tsx", "tokens.ts"]
+  "exclude": ["node_modules", "__stories__", "__tests__", "dist"],
+  "include": ["index.ts", "Heading.tsx", "Text.tsx", "tokens.ts", "utils/**/*.ts", "./types.d.ts"]
 }

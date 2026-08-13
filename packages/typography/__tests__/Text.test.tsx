@@ -9,7 +9,7 @@ describe('Text', () => {
     render(
       <Text as="p" use="body-m" data-tid="text-root">
         Hello
-      </Text>
+      </Text>,
     );
 
     const element = screen.getByTestId('text-root');
@@ -21,7 +21,7 @@ describe('Text', () => {
     render(
       <Text as="span" use="body-s" ref={ref} data-tid="text-ref">
         Ref test
-      </Text>
+      </Text>,
     );
 
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);

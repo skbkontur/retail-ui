@@ -9,7 +9,7 @@ describe('Text', () => {
     render(
       <Heading as="h2" use="heading-xl" data-tid="text-ref">
         Hello
-      </Heading>
+      </Heading>,
     );
 
     const element = screen.getByTestId('text-ref');
@@ -21,7 +21,7 @@ describe('Text', () => {
     render(
       <Heading as="span" use="heading-xs" ref={ref} data-tid="text-ref">
         Ref test
-      </Heading>
+      </Heading>,
     );
 
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
