@@ -1,0 +1,70 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as UseTableRowSelectionStories from './useTableRowSelection.docs.stories';
+
+<Meta of={UseTableRowSelectionStories} />
+
+# useTableRowSelection
+
+Хук для выбора строк таблицы. Поддерживает одиночный и массовый выбор, indeterminate состояние чекбокса «выбрать всё» и работает поверх отсортированных данных.
+
+## Сигнатура
+
+```ts
+const { checkedRows, setCheckedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
+  useTableRowSelection(rows);
+```
+
+### Принимает
+
+- `rows: T[]` — массив строк. Каждая строка должна иметь уникальный `id: string | number`.
+
+### Возвращает
+
+- `checkedRows: Set<T['id']>` — выбранные ID.
+- `setCheckedRows: React.Dispatch<React.SetStateAction<Set<T['id']>>>` — установить выбранные строки вручную.
+- `isCheckedAll: boolean` — все строки выбраны.
+- `hasChecked: boolean` — есть выбранные строки (для indeterminate).
+- `checkboxRef: RefObject<Checkbox>` — ref на `Checkbox` из `@skbkontur/react-ui` для управления indeterminate в `HeaderCheckboxCell`.
+- `selectAll()` — выбрать/снять все.
+- `toggleRow(event, rowId)` — переключить выбор строки. Внутри сам вызовет `event.stopPropagation()`, поэтому отдельный вызов не нужен.
+- `isRowChecked(rowId): boolean` — проверка выбранности строки.
+
+### Опции
+
+```ts
+useTableRowSelection(rows, { initialCheckedRows?: Set<T['id']> });
+```
+
+- `initialCheckedRows` — стартовое состояние выбора. При изменении пропа состояние пересинхронизируется.
+
+## Базовый пример
+
+```tsx
+const { checkedRows, isCheckedAll, hasChecked, checkboxRef, selectAll, toggleRow, isRowChecked } =
+  useTableRowSelection(sortedRows);
+
+<Table.HeaderCheckboxCell
+  checkboxRef={checkboxRef}
+  checked={isCheckedAll}
+  onClick={selectAll}
+  initialIndeterminate={hasChecked}
+  aria-label="Выбрать все строки"
+/>;
+
+<Table.CheckboxCell
+  checked={isRowChecked(row.id)}
+  onCheckboxClick={(e) => toggleRow(e, row.id)}
+  aria-label={`Выбрать строку ${row.name}`}
+/>;
+```
+
+## Советы
+
+- Применяйте после сортировки: `useTableFilters` → `useTableSort` → `useTableRowSelection`.
+- `toggleRow` сам останавливает всплытие — если строка кликабельна, дополнительный `event.stopPropagation()` не нужен.
+- Если данные перезаписываются, убедитесь, что `id` остаются стабильными — иначе выбор сбросится при следующей перезаписи `rows`.
+
+## История
+
+<Story of={UseTableRowSelectionStories.SimpleSelectionExample} />

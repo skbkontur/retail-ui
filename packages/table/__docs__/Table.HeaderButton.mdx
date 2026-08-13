@@ -1,0 +1,18 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableHeaderButtonStories from './Table.HeaderButton.docs.stories';
+
+<Meta of={TableHeaderButtonStories} />
+
+# Table.HeaderButton
+
+Заголовок с фильтрами/сортировкой и выделением.
+
+## Пример
+
+<Story of={TableHeaderButtonStories.Basic} />
+
+## Пропсы
+
+<ArgTypes of={Table.HeaderButton} />

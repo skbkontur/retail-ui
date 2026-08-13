@@ -1,0 +1,54 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as UseTableSortStories from './useTableSort.docs.stories';
+
+<Meta of={UseTableSortStories} />
+
+# useTableSort
+
+Хук для сортировки данных таблицы. Работает поверх уже отфильтрованных строк, поддерживает начальную конфигурацию и сортировку по строковым/числовым и вложенным полям.
+
+## Сигнатура
+
+```ts
+const { sortedRows, sortConfig, handleSort } = useTableSort<T, TKey>(rows, initialConfig?, compareFn?, options?);
+```
+
+### Принимает
+
+- `rows: T[]` — данные для сортировки (чаще всего результат `useTableFilters`).
+- `initialConfig?: { key?: TKey; direction?: 'asc' | 'desc' }` — стартовое состояние. Если `key` не указан, сортировка не применяется.
+- `compareFn?: (a: T, b: T, sortConfig) => number` — кастомное сравнение (например, для вложенных полей). Если не передано, используется `Intl.Collator` для строк и числовое сравнение для чисел.
+- `options?: { emptyPlacement?: 'first' | 'last'; locale?: string | string[]; localeOptions?: Intl.CollatorOptions }` — настройки сортировки.
+
+### Возвращает
+
+- `sortedRows: T[]` — отсортированный массив. Если `sortConfig.key` отсутствует, возвращается исходный `rows`.
+- `sortConfig: { key?: TKey; direction?: 'asc' | 'desc' }` — текущее состояние.
+- `handleSort(columnKey: TKey, direction: 'asc' | 'desc')` — задать сортировку для колонки.
+
+## Базовое использование
+
+```tsx
+const { sortedRows, sortConfig, handleSort } = useTableSort(filteredRows, { key: 'name', direction: 'asc' });
+
+<Table.DropdownSortableFilter
+  options={uniqueValues.name}
+  selectedOptions={filters.get('name') ?? []}
+  onSelect={(selected) => setFilter('name', selected)}
+  onSort={(direction) => handleSort('name', direction)}
+  sortDirection={sortConfig.key === 'name' ? sortConfig.direction : undefined}
+>
+  Имя
+</Table.DropdownSortableFilter>;
+```
+
+## Советы
+
+- Всегда вызывайте сортировку после фильтров: `useTableFilters` → `useTableSort` → `useTableRowSelection`.
+- Если сортируете по вложенным полям, передайте `compareFn`, который сам достанет нужное значение (например, `a.responsible.name`).
+- Храните `rows` в `React.useMemo` для больших таблиц, чтобы не пересортировывать на каждый ререндер.
+
+## История
+
+<Story of={UseTableSortStories.SimpleSortExample} />

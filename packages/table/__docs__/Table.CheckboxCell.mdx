@@ -1,0 +1,18 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableCheckboxCellStories from './Table.CheckboxCell.docs.stories';
+
+<Meta of={TableCheckboxCellStories} />
+
+# Table.CheckboxCell
+
+Чекбокс в строке таблицы для показа выбранных записей.
+
+## Пример
+
+<Story of={TableCheckboxCellStories.Basic} />
+
+## Пропсы
+
+<ArgTypes of={Table.CheckboxCell} />

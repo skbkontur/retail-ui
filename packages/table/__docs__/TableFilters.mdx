@@ -1,0 +1,54 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableFiltersStories from './TableFilters.docs.stories';
+
+<Meta of={TableFiltersStories} />
+
+# Table.Filters
+
+Фильтрация, сортировка из шапки и вывод активных фильтров.
+
+## Что входит
+
+- `Table.DropdownFilter` и `Table.DropdownSortableFilter` — базовый и сортируемый фильтры.
+- `Table.Filter`, `Table.FilterItem`, `Table.FilterSearch` — конструктор выпадающих фильтров.
+- `Table.FilterResultRow` / `Table.FilterResultCell` / `Table.Token` — отображение активных фильтров.
+
+## Короткий пример
+
+```tsx
+const { filters, setFilter, uniqueValues, filteredRows, convertFiltersToTokens, resetFilters } = useTableFilters(
+  data,
+  columnConfig
+);
+const { sortConfig, handleSort } = useTableSort(filteredRows);
+const tokens = convertFiltersToTokens();
+
+<Table.HeaderCell>
+  <Table.DropdownSortableFilter
+    options={uniqueValues.status}
+    selectedOptions={filters.get('status') ?? []}
+    onSelect={(next) => setFilter('status', next)}
+    onSort={(direction) => handleSort('status', direction)}
+    sortDirection={sortConfig.direction}
+  >
+    Статус
+  </Table.DropdownSortableFilter>
+</Table.HeaderCell>;
+
+{
+  tokens.length > 0 && <Table.FilterResultRow tokens={tokens} onResetAll={resetFilters} />;
+}
+```
+
+## Примеры
+
+**Фильтры по колонкам + сортировка**
+
+- `DropdownSortableFilter` + `DropdownFilter`
+- `useTableFilters` + `useTableSort`
+- токены фильтров перед таблицей
+
+<Story of={TableFiltersStories.FiltersBasic} />
+<Story of={TableFiltersStories.FilterChips} />

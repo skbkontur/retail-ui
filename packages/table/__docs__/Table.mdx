@@ -1,0 +1,155 @@
+import { Primary, ArgTypes, Story, Description } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as Table from './Table.docs.stories';
+import { Header } from '../../../.storybook-docs/Header';
+
+<Meta of={Table} />
+
+<Header
+  title="Table"
+  packageName="table"
+  guides="https://guides.kontur.ru/principles/tables/tables/"
+  figma="https://www.figma.com/design/Qy1L9c9HbuAexIx7Q6DoqE/%E2%9A%A1%EF%B8%8F-Kontur-UI-2.0?node-id=5749-27987&t=OGAalvTDa32DRsMA-11"
+/>
+
+Пакет с компонентами для вёрстки таблиц
+
+**Возможности**
+
+- Компоненты &lt;Table.\* /&gt; с частями HTML-таблиц
+- Фильтры и сортировки
+- Выбор нескольких строк
+- Действия со строками
+- Вложенные таблицы
+
+## Как подключить
+
+```bash
+npm i @skbkontur/table
+```
+
+```tsx
+import { Table, useTableFilters, useTableSort, useTableRowSelection } from '@skbkontur/table';
+```
+
+```tsx
+const container = { maxWidth: 420, width: '100%', overflowX: 'auto' };
+
+<div style={container}>
+  <Table size="small" minWidth="920px">
+    {/* колонки и строки */}
+  </Table>
+</div>;
+```
+
+# Пример таблицы
+
+<Story of={Table.CheckeredExampleStory} />
+
+# Горизонтальный скролл
+
+<Story of={Table.AwesomeExample} />
+
+# table-layout: auto
+
+CSS свойство [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/table-layout) со значением
+auto позволяет автоматически высчитывать ширину колонок. Полезен, но при разных данных и фильтрациях таблица может "прыгать"
+
+<Story of={Table.AwesomeExampleAutoResizing} />
+
+# Многоуровневые заголовки
+
+<Story of={Table.MultiHeadersExample} />
+
+# Простой пример
+
+<Story of={Table.BasicTableExample} />
+
+# Залипающий заголовок и подвал
+
+<Story of={Table.StickyHeaderFooterExample} />
+
+# Числовые столбцы
+
+<Story of={Table.CurrencyFormattingExample} />
+
+# Многостраничный пример
+
+<Story of={Table.PaginationExample} />
+
+# Пример с развёртывающимися строками
+
+<Story of={Table.ExpandableRowsExample} />
+
+# Пример пустых/ошибочных состояний
+
+<Story of={Table.EmptyErrorStateExample} />
+
+# Подвал с итоговой строкой
+
+Пример таблицы с иконками в строках и итоговой строкой в футере. Используйте `Table.Footer` для создания итоговой строки:
+
+```tsx
+<Table.Footer sticky>
+  <Table.Row>
+    <Table.Cell />
+    <Table.Cell>
+      <strong>Итого</strong>
+    </Table.Cell>
+    <Table.Cell currency>
+      <strong>{formatNumber(total)}</strong>
+    </Table.Cell>
+  </Table.Row>
+</Table.Footer>
+```
+
+<Story of={Table.FooterExample} />
+
+# Группировка заголовков colSpan и rowSpan
+
+Пример таблицы с многоуровневыми заголовками. Используйте `colSpan` для объединения ячеек по горизонтали и `rowSpan` для объединения по вертикали:
+
+```tsx
+<Table.Header>
+  <Table.Row>
+    <Table.HeaderCell rowSpan={2}>Организация</Table.HeaderCell>
+    <Table.HeaderCell rowSpan={2}>Общая сумма, ₽</Table.HeaderCell>
+    <Table.HeaderCell colSpan={2} bottomBorder>
+      Стоимость продаж без НДС
+    </Table.HeaderCell>
+  </Table.Row>
+  <Table.Row>
+    <Table.HeaderCell>По ставке 18 %</Table.HeaderCell>
+    <Table.HeaderCell>По ставке 10 %</Table.HeaderCell>
+  </Table.Row>
+</Table.Header>
+```
+
+<Story of={Table.GroupedHeadersExample} />
+
+# Размеры таблицы
+
+Таблица поддерживает три размера: `small`, `medium` и `large`. Размер влияет на отступы, высоту строк и подходящий размер иконок в действиях.
+
+```tsx
+<Table size="small">{/* содержимое таблицы */}</Table>
+```
+
+Под каждый размер таблицы используйте иконки соответствующего шага: `*Regular16` для `small`, `*Regular20` для `medium`, `*Regular24` для `large`.
+
+```tsx
+const getIcon = (Icon16, Icon20, Icon24) => {
+  switch (tableSize) {
+    case 'small':
+      return <Icon16 />;
+    case 'medium':
+      return <Icon20 />;
+    case 'large':
+      return <Icon24 />;
+    default:
+      return <Icon20 />;
+  }
+};
+```
+
+<Story of={Table.SizeExampleStory} />

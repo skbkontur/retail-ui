@@ -1,0 +1,15 @@
+import { Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import * as VirtualizationStories from './Virtualization.docs.stories';
+
+<Meta of={VirtualizationStories} />
+
+# Виртуализация строк
+
+Принцип в трёх шагах:
+
+1. оборачиваем `Table` в скролл-контейнер фиксированной высоты с `overflow: auto`;
+2. заводим `useVirtualizer`, отдавая ему количество строк, ссылку на скролл-контейнер и предполагаемую высоту строки;
+3. рендерим спейсер-строку сверху, затем видимое окно, затем спейсер-строку снизу.
+
+<Story of={VirtualizationStories.VirtualizationExampleStory} />

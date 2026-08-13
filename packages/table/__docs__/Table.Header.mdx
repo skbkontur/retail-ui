@@ -1,0 +1,18 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableHeaderStories from './Table.Header.docs.stories';
+
+<Meta of={TableHeaderStories} />
+
+# Table.Header
+
+Шапка таблицы с поддержкой sticky-позиционирования.
+
+## Пример
+
+<Story of={TableHeaderStories.Basic} />
+
+## Пропсы
+
+<ArgTypes of={Table.Header} />

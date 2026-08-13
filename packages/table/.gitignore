@@ -1,0 +1,8 @@
+**/*.js
+**/*.js.map
+**/*.d.ts
+**/*.mjs
+**/*.mjs.map
+**/*.d.mts
+!types.d.ts
+!src/reactUiCompat/react-ui-size.d.ts

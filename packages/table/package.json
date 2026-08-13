@@ -1,0 +1,61 @@
+{
+  "name": "@skbkontur/table",
+  "version": "1.0.4",
+  "description": "Table",
+  "author": "holkin@skbkontur.ru",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.ts"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "yarn clean",
+    "build": "run-s build:* build:lint:*",
+    "build:tsc": "yarn tsc",
+    "build:vite": "vite build",
+    "build:copyfiles": "copyfiles package.json README.md CHANGELOG.md dist",
+    "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",
+    "build:lint:publint": "publint --pack npm ./dist",
+    "build:lint:attw": "attw --config-path ../../.attw.json ./dist",
+    "dev": "vite build --watch --mode development",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@skbkontur/colors": "^2.1.7",
+    "@skbkontur/global-object": "^0.4.5",
+    "@skbkontur/icons": "^2.0.1",
+    "@skbkontur/typography": "^1.0.1",
+    "classnames": "^2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "12.1.5",
+    "@testing-library/user-event": "13.5.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "jsdom": "15.2.1",
+    "rimraf": "^6.0.1",
+    "terser": "^5.36.0",
+    "typescript": ">=5.0.0",
+    "vite": "^6.3.6",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-dts": "4.0.3",
+    "vitest": "^2.1.6"
+  },
+  "peerDependencies": {
+    "@skbkontur/react-ui": ">=5.1.0 <=6",
+    "react": ">=16.9 <20",
+    "react-dom": ">=16.9 <20"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-arm64": "^0.24.0",
+    "@esbuild/linux-arm64": "^0.24.0",
+    "@rollup/rollup-darwin-arm64": "^4.52.5",
+    "@rollup/rollup-linux-x64-gnu": "^4.52.5"
+  }
+}

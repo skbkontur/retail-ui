@@ -1,0 +1,45 @@
+.ClickableHeaderWrapper {
+  margin-bottom: 0px;
+  display: inline-block;
+  line-height: normal; /* Use react-ui DropdownMenu caption container wrapper styles */
+}
+
+.ClickableHeaderWrapper button:focus[data-table-force-focus-visible='true'] {
+  position: relative;
+  z-index: 2;
+  box-shadow:
+    inset 0 0 0 var(--table-outline-width, 2px) var(--table-outline),
+    0 0 0 var(--table-outline-width, 2px) var(--table-outline) !important;
+}
+
+.FilterSearch {
+  width: 100%;
+}
+
+.FilterItem {
+  padding: 4px 8px;
+}
+
+.IconSpacingSmall {
+  margin-left: 4px;
+}
+
+.IconSpacingMedium {
+  margin-left: 6px;
+}
+
+.IconSpacingLarge {
+  margin-left: 8px;
+}
+
+.DoubleIconGapSmall {
+  margin-right: 2px;
+}
+
+.DoubleIconGapMedium {
+  margin-right: 4px;
+}
+
+.DoubleIconGapLarge {
+  margin-right: 6px;
+}

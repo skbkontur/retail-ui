@@ -1,0 +1,68 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableLayoutStories from './TableLayout.docs.stories';
+
+<Meta of={TableLayoutStories} />
+
+# Table.Layout
+
+Коротко о том, как собрать таблицу: базовая разметка, sticky-шапка/футер, чекбоксы и управление ширинами.
+
+## Что входит
+
+- `Table`, `Table.Header`, `Table.Body`, `Table.Footer` — оболочки таблицы и sticky-поведение.
+- `Table.Row`, `Table.Cell` — строки и ячейки с `colSpan`/`rowSpan`, `width`, `vAlign`, `noWrap`, `currency`.
+- Чекбоксы: `Table.CheckboxCell` и `Table.HeaderCheckboxCell` для массового выбора.
+
+## Короткий пример
+
+```tsx
+<Table hasChecked size="small">
+  <Table.Header sticky>
+    <Table.Row>
+      <Table.HeaderCheckboxCell aria-label="Выбрать все строки" />
+      <Table.HeaderCell width="33.33%">Имя</Table.HeaderCell>
+      <Table.HeaderCell width="180px">E-mail</Table.HeaderCell>
+      <Table.HeaderCell width="120px" currency>
+        Сумма, ₽
+      </Table.HeaderCell>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    {rows.map((row) => (
+      <Table.Row key={row.id}>
+        <Table.CheckboxCell aria-label={`Выбрать строку ${row.name}`} />
+        <Table.Cell>{row.name}</Table.Cell>
+        <Table.Cell noWrap>{row.email}</Table.Cell>
+        <Table.Cell currency>{row.amount.toLocaleString('ru-RU')}</Table.Cell>
+      </Table.Row>
+    ))}
+  </Table.Body>
+</Table>
+```
+
+## Примеры
+
+**Базовая таблица со sticky-шапкой и футером**
+
+- `hasChecked` включает колонку под чекбоксы
+- `Table.HeaderCheckboxCell` + `Table.CheckboxCell` для выбора
+- sticky на шапке и футере
+
+<Story of={TableLayoutStories.LayoutBasics} />
+<Story of={TableLayoutStories.WidthsAndSpans} />
+
+**Работа с ширинами и объединением ячеек**
+
+- `width` поддерживает `px`, `%`
+- `colSpan`/`rowSpan` для многоуровневых заголовков и ячеек
+- `vAlign` и `noWrap` для выравнивания и фикса переноса
+
+## Особенности вёрстки (cheatsheet)
+
+- Ширины колонок: `px` и `%`.
+- Sticky: `Table.Header` / `Table.Footer` с пропом `sticky` фиксируют шапку/футер при прокрутке внешнего контейнера.
+- Auto layout: проп `auto` на `Table` включает нативный [`table-layout: auto`](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) — пригождается для вложенных таблиц и резиновых контейнеров.
+- Узкие экраны: наружная обёртка с `overflow-x: auto`, внутри `Table` с `minWidth` и `size="small"`.
+- Вложенные таблицы: допускаются внутри `Table.Cell`. Не забудьте про `colSpan` / `rowSpan` во внешней таблице.

@@ -1,0 +1,18 @@
+import { ArgTypes, Story } from '@storybook/blocks';
+import { Meta } from '../../../.storybook-docs/Meta';
+import { Table } from '../src/components/Table/Table';
+import * as TableStories from './Table.Table.docs.stories';
+
+<Meta of={TableStories} />
+
+# Table
+
+Каркас таблицы с размерами, шириной и поддержкой sticky.
+
+## Пример
+
+<Story of={TableStories.Basic} />
+
+## Пропсы
+
+<ArgTypes of={Table} />
