@@ -63,7 +63,7 @@
     "prebuild": "yarn clean && node --import=tsx scripts/create-tokens-from-figma.ts",
     "build": "run-s build:* build:lint:*",
     "build:static": "node --import=tsx scripts/create-tokens-files.ts && yarn format",
-    "build:tsc": "yarn tsc --outDir dist",
+    "build:tsc": "yarn tsc --outDir dist -p prod.tsconfig.json",
     "build:copyfiles": "copyfiles package.json README.md CHANGELOG.md tokens/* tokens-default/* tokens-mobile/* colors.* dist",
     "build:snapshots": "node --import=tsx scripts/create-tokens-snapshots.ts && node ../../scripts/run-oxfmt.mjs --write __snapshots__",
     "build:exports": "node ../../scripts/generate-exports.mts ./dist/package.json",
