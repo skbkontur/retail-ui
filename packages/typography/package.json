@@ -41,9 +41,6 @@
     "storybook:docs-build": "storybook build --docs -c .storybook-docs -o .storybook/build --quiet",
     "storybook:docs": "storybook dev --docs -p 6065 -c .storybook-docs"
   },
-  "dependencies": {
-    "tslib": "2.6.2"
-  },
   "devDependencies": {
     "@babel/core": "^7.24.6",
     "@babel/plugin-proposal-decorators": "7.24.6",
