@@ -51,7 +51,8 @@ const columnConfig = [
     key: 'salary',
     accessor: (row) => row.salary,
     stringifier: (value) => value.toLocaleString('ru-RU'),
-    predicate: (filterValues, value) => filterValues.length === 0 || filterValues.includes(value.toLocaleString('ru-RU')),
+    predicate: (filterValues, value) =>
+      filterValues.length === 0 || filterValues.includes(value.toLocaleString('ru-RU')),
     label: 'Зарплата, ₽',
   },
 ];
@@ -91,7 +92,7 @@ export const MyTable = () => {
               selectedOptions={selectedNames}
               onSelect={(selected) => setFilter('name', selected)}
               onSort={(direction) => handleSort('name', direction)}
-              sortDirection={sortConfig.key === 'name' ? sortConfig.direction ?? undefined : undefined}
+              sortDirection={sortConfig.key === 'name' ? (sortConfig.direction ?? undefined) : undefined}
             >
               Имя
               {selectedNames.length > 0 && ` (${selectedNames.length})`}
@@ -178,26 +179,32 @@ export const MyTable = () => {
 Все компоненты доступны через `Table.*` (например, `Table.Header`, `Table.Row`).
 
 ### Table
+
 Основной контейнер таблицы.
+
 - `hasChecked?: boolean` — резервирует место под колонку с чекбоксами.
 - `auto?: boolean` — включает автоматическое изменение размера таблицы (table-layout: auto).
 - `size?: 'small' | 'medium' | 'large'` — размер отступов.
 
 ### Структура (Header, Body, Footer)
+
 - `Table.Header`, `Table.Body`, `Table.Footer` — семантические контейнеры.
 - `sticky?: boolean` — для Header/Footer, фиксирует их при скролле.
 
 ### Ячейки и Строки
+
 - `Table.Row`: `checked`, `onClick`.
 - `Table.Cell`, `Table.HeaderCell`: `width`, `colSpan`, `rowSpan`, `currency` (выравнивание по правому краю), `noWrap`, `vAlign` (только HeaderCell).
 - `Table.CheckboxCell`, `Table.HeaderCheckboxCell`: Специализированные ячейки для чекбоксов.
 
 ### Фильтры
+
 - `Table.DropdownFilter`: Выпадающий список для фильтрации.
 - `Table.DropdownSortableFilter`: Выпадающий список с возможностью сортировки.
 - `Table.FilterResultRow`: Строка отображения выбранных фильтров с кнопкой сброса.
 
 ### Действия (ActionBar)
+
 Компонент `Table.ActionBar` позволяет создавать панели действий в ячейках.
 
 ```tsx
@@ -217,14 +224,17 @@ export const MyTable = () => {
 ## Хуки
 
 ### useTableFilters
+
 Управляет состоянием фильтров. Принимает данные и конфигурацию колонок.
 Возвращает: `filters`, `setFilter`, `uniqueValues`, `filteredRows` и др.
 
 ### useTableSort
+
 Управляет сортировкой. Принимает отфильтрованные строки.
 Возвращает: `sortedRows`, `handleSort`, `sortConfig`.
 
 ### useTableRowSelection
+
 Управляет выбором строк.
 Возвращает: `checkedRows`, `isCheckedAll`, `hasChecked`, `checkboxRef`, `selectAll`, `toggleRow`.
 

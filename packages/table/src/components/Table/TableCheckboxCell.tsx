@@ -30,7 +30,7 @@ export const TableCheckboxCell = forwardRef<HTMLTableCellElement, TableCheckboxC
       'data-tid': dataTid,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const { size } = useContext(SizeTableContext);
 
@@ -55,7 +55,7 @@ export const TableCheckboxCell = forwardRef<HTMLTableCellElement, TableCheckboxC
         <Checkbox checked={checked} onClick={onCheckboxClick} size={size} {...rest} />
       </TableCell>
     );
-  }
+  },
 );
 
 TableCheckboxCell.displayName = 'TableCheckboxCell';

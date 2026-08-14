@@ -38,23 +38,23 @@ export interface UseTableRowSelectionOptions<Id extends RowLike['id'] = RowLike[
  */
 export function useTableRowSelection<T extends RowLike>(
   rows: T[],
-  options?: UseTableRowSelectionOptions<T['id']>
+  options?: UseTableRowSelectionOptions<T['id']>,
 ): {
   readonly checkedRows: Set<T['id']>;
   readonly setCheckedRows: React.Dispatch<React.SetStateAction<Set<T['id']>>>;
   readonly isCheckedAll: boolean;
   readonly hasChecked: boolean;
-  readonly checkboxRef: React.RefObject<Checkbox>;
+  readonly checkboxRef: React.RefObject<Checkbox | null>;
   readonly selectAll: () => void;
   readonly toggleRow: (e: SyntheticEvent<HTMLElement> | undefined, rowId: T['id']) => void;
   readonly isRowChecked: (rowId: T['id']) => boolean;
 } {
   const initialCheckedRows = options?.initialCheckedRows;
   const [checkedRows, setCheckedRows] = useState<Set<T['id']>>(() =>
-    initialCheckedRows ? new Set(initialCheckedRows) : new Set()
+    initialCheckedRows ? new Set(initialCheckedRows) : new Set(),
   );
   const initialCheckedRowsRef = useRef<Set<T['id']> | undefined>(
-    initialCheckedRows ? new Set(initialCheckedRows) : undefined
+    initialCheckedRows ? new Set(initialCheckedRows) : undefined,
   );
   const lastClickedRowRef = useRef<T['id'] | null>(null);
 
@@ -148,7 +148,7 @@ export function useTableRowSelection<T extends RowLike>(
       const end = Math.max(fromIndex, toIndex);
       return rows.slice(start, end + 1).map((r) => r.id);
     },
-    [rows]
+    [rows],
   );
 
   const toggleRow = useCallback(
@@ -183,7 +183,7 @@ export function useTableRowSelection<T extends RowLike>(
       });
       lastClickedRowRef.current = rowId;
     },
-    [setCheckedRows, getRowIndexById, getRowsInRange]
+    [setCheckedRows, getRowIndexById, getRowsInRange],
   );
 
   const isRowChecked = useCallback((rowId: T['id']) => checkedRows.has(rowId), [checkedRows]);

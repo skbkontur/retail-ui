@@ -1,6 +1,5 @@
+import { Table, useTableSort } from '@skbkontur/table';
 import React from 'react';
-
-import { Table, useTableSort } from '..';
 
 export default {
   title: 'Hooks/useTableSort',

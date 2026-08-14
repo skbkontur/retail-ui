@@ -69,7 +69,7 @@ const isFilterEmpty = (value: FilterValue | undefined) => !value || value.length
  */
 export function useTableFilters<T, K extends string>(
   rows: T[],
-  columns: Array<ColumnFilterConfig<T, K>>
+  columns: Array<ColumnFilterConfig<T, K>>,
 ): {
   filters: FiltersState<K>;
   setFilters: React.Dispatch<React.SetStateAction<FiltersState<K>>>;
@@ -118,14 +118,17 @@ export function useTableFilters<T, K extends string>(
   const getRawValue = useCallback(
     (row: T, col: ColumnFilterConfig<T, K>) =>
       col.accessor ? col.accessor(row) : (row as Record<string, unknown>)[col.key],
-    []
+    [],
   );
 
-  const uniqueValuesCache = useRef<{
-    rows: T[];
-    columns: Array<ColumnFilterConfig<T, K>>;
-    result: Record<K, string[]>;
-  }>();
+  const uniqueValuesCache = useRef<
+    | {
+        rows: T[];
+        columns: Array<ColumnFilterConfig<T, K>>;
+        result: Record<K, string[]>;
+      }
+    | undefined
+  >(undefined);
 
   const uniqueValues = useMemo(() => {
     const cached = uniqueValuesCache.current;

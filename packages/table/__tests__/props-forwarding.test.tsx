@@ -14,7 +14,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-table')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const table = container.querySelector('[data-testid="test-table-id"]');
@@ -43,7 +43,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const table = container.querySelector('table');
@@ -58,7 +58,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const table = container.querySelector('table');
@@ -75,7 +75,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-row')).toBeInTheDocument();
@@ -89,7 +89,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const row = container.querySelector('tr');
@@ -104,11 +104,11 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const row = container.querySelector('tr');
-      expect(row).toHaveStyle({ backgroundColor: 'red' });
+      expect(row).toHaveStyle({ backgroundColor: 'rgb(255, 0, 0)' });
     });
   });
 
@@ -121,7 +121,7 @@ describe('Props Forwarding', () => {
               <Table.Cell data-tid="test-cell">Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-cell')).toBeInTheDocument();
@@ -135,7 +135,7 @@ describe('Props Forwarding', () => {
               <Table.Cell className="custom-cell-class">Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('td');
@@ -150,7 +150,7 @@ describe('Props Forwarding', () => {
               <Table.Cell style={{ textAlign: 'center' }}>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('td');
@@ -167,7 +167,7 @@ describe('Props Forwarding', () => {
               <Table.HeaderCell data-tid="test-header-cell">Header</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-header-cell')).toBeInTheDocument();
@@ -181,7 +181,7 @@ describe('Props Forwarding', () => {
               <Table.HeaderCell className="custom-header-class">Header</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const headerCell = container.querySelector('th');
@@ -196,7 +196,7 @@ describe('Props Forwarding', () => {
               <Table.HeaderCell style={{ fontWeight: 'bold' }}>Header</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const headerCell = container.querySelector('th');
@@ -213,7 +213,7 @@ describe('Props Forwarding', () => {
               <Table.HeaderCell>Header</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-header')).toBeInTheDocument();
@@ -227,7 +227,7 @@ describe('Props Forwarding', () => {
               <Table.HeaderCell>Header</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const thead = container.querySelector('thead');
@@ -244,7 +244,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-body')).toBeInTheDocument();
@@ -258,7 +258,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Content</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const tbody = container.querySelector('tbody');
@@ -275,7 +275,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Footer</Table.Cell>
             </Table.Row>
           </Table.Footer>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-footer')).toBeInTheDocument();
@@ -289,7 +289,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Footer</Table.Cell>
             </Table.Row>
           </Table.Footer>
-        </Table>
+        </Table>,
       );
 
       const tfoot = container.querySelector('tfoot');
@@ -311,11 +311,11 @@ describe('Props Forwarding', () => {
               />
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('td');
-      expect(cell).toHaveStyle({ color: 'red' });
+      expect(cell).toHaveStyle({ color: 'rgb(255, 0, 0)' });
     });
 
     it('forwards className to td', () => {
@@ -331,7 +331,7 @@ describe('Props Forwarding', () => {
               />
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('td');
@@ -346,7 +346,7 @@ describe('Props Forwarding', () => {
               <Table.CheckboxCell checked={false} onCheckboxClick={vi.fn()} aria-label="select" vAlign="top" />
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('td');
@@ -368,11 +368,11 @@ describe('Props Forwarding', () => {
               />
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('th');
-      expect(cell).toHaveStyle({ color: 'blue' });
+      expect(cell).toHaveStyle({ color: 'rgb(0, 0, 255)' });
     });
 
     it('forwards className to th', () => {
@@ -388,7 +388,7 @@ describe('Props Forwarding', () => {
               />
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('th');
@@ -403,7 +403,7 @@ describe('Props Forwarding', () => {
               <Table.HeaderCheckboxCell checked={false} onClick={vi.fn()} aria-label="select all" vAlign="bottom" />
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const cell = container.querySelector('th');
@@ -420,7 +420,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Filter Result</Table.Cell>
             </Table.FilterResultRow>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByTestId('test-filter-row')).toBeInTheDocument();
@@ -434,7 +434,7 @@ describe('Props Forwarding', () => {
               <Table.Cell>Filter Result</Table.Cell>
             </Table.FilterResultRow>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const row = container.querySelector('tr');

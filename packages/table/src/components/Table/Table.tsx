@@ -1,11 +1,10 @@
-import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import cx from 'classnames';
 import React, { useContext, type ReactNode, type FC, forwardRef, type CSSProperties } from 'react';
 
 import { TableLightTheme } from '../../../internal/themes/TableLightTheme.js';
 import { getTableTheme } from '../../../lib/theming/ThemeHelpers.js';
+import { CommonWrapper, type CommonProps } from '../../reactUiCompat/CommonWrapper.js';
 import type { SizeProp } from '../../reactUiCompat/useSizeContext.js';
 import { useSizeContextCompat } from '../../reactUiCompat/useSizeContext.js';
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
@@ -152,7 +151,7 @@ export const Table: TableComponent = forwardRef<HTMLTableElement, TableProps>(
         </WidthWrapper>
       </SizeTableContext.Provider>
     );
-  }
+  },
 ) as unknown as TableComponent;
 
 Table.Header = TableHeader;

@@ -1,9 +1,8 @@
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import cx from 'classnames';
 import React, { useContext, forwardRef, type CSSProperties } from 'react';
 
 import type { SortDirection } from '../../hooks/useTableSort.js';
+import { CommonWrapper, type CommonProps, type CommonWrapperRestProps } from '../../reactUiCompat/CommonWrapper.js';
 import { getCheckboxSize } from '../../utils/getCheckboxSize.js';
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
 import { getTypographyClass } from '../../utils/getTypographyClass.js';
@@ -51,7 +50,7 @@ interface SortableChildProps {
 }
 
 const getTableSortChildState = (
-  children: React.ReactNode
+  children: React.ReactNode,
 ): { hasTableSortChild: boolean; sortDirection?: SortDirection } => {
   for (const child of React.Children.toArray(children)) {
     if (!React.isValidElement<{ children?: React.ReactNode }>(child)) {
@@ -101,7 +100,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
       sortDirection,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const isString = typeof children === 'string';
     const { size } = useContext(SizeTableContext);
@@ -154,7 +153,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
         )}
       </CommonWrapper>
     );
-  }
+  },
 );
 
 TableHeaderCell.displayName = 'TableHeaderCell';

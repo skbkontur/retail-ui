@@ -1,10 +1,9 @@
 import type { MenuItemProps } from '@skbkontur/react-ui/components/MenuItem';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import type { CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import React, { useContext } from 'react';
 import type { SyntheticEvent, FC } from 'react';
 
+import { CommonWrapper, type CommonWrapperRestProps } from '../../../reactUiCompat/CommonWrapper.js';
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
 

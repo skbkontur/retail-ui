@@ -1,5 +1,5 @@
 import { Story } from '@storybook/blocks';
-import { Meta } from '../../../.storybook-docs/Meta';
+import { Meta } from '../.storybook-docs/Meta';
 import * as UseTableFiltersStories from './useTableFilters.docs.stories';
 
 <Meta of={UseTableFiltersStories} />
@@ -48,7 +48,7 @@ const { filters, setFilters, setFilter, resetFilters, uniqueValues, filteredRows
 ```tsx
 const { filters, setFilter, uniqueValues, filteredRows, resetFilters, convertFiltersToTokens } = useTableFilters(
   data,
-  columnConfig
+  columnConfig,
 );
 
 const tokens = convertFiltersToTokens();

@@ -20,11 +20,11 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Link } from '@skbkontur/react-ui/components/Link';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import type { ColumnFilterConfig } from '@skbkontur/table';
+import { Table, useTableRowSelection, useTableSort, useTableFilters } from '@skbkontur/table';
 import React from 'react';
 
 import { initialData } from '../__stories__/data';
-import type { ColumnFilterConfig } from '../index';
-import { Table, useTableRowSelection, useTableSort, useTableFilters } from '../index';
 
 export default {
   title: 'Accessibility',
@@ -117,7 +117,7 @@ export const AccessibilityExampleStory = () => {
           return <Icon20 />;
       }
     },
-    [tableSize]
+    [tableSize],
   );
 
   return (
@@ -204,7 +204,7 @@ export const AccessibilityExampleStory = () => {
                         icon: getIcon(
                           IconSendPaperplaneRegular16,
                           IconSendPaperplaneRegular20,
-                          IconSendPaperplaneRegular24
+                          IconSendPaperplaneRegular24,
                         ),
                         text: 'Отправить',
                         onClick: () => console.log('Клик по Отправить'),
@@ -224,7 +224,7 @@ export const AccessibilityExampleStory = () => {
                         icon: getIcon(
                           IconMoneyTypeCoinsRegular16,
                           IconMoneyTypeCoinsRegular20,
-                          IconMoneyTypeCoinsRegular24
+                          IconMoneyTypeCoinsRegular24,
                         ),
                         text: 'Уплатить',
                         onClick: () => console.log('Клик по Уплатить'),

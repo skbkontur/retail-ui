@@ -22,9 +22,9 @@ import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
 import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
+import { Table, useTableRowSelection, useTableSort, useTableFilters } from '@skbkontur/table';
 import React, { useCallback, useState } from 'react';
 
-import { Table, useTableRowSelection, useTableSort, useTableFilters } from '..';
 import { initialData } from '../__stories__/data';
 
 export default {
@@ -139,7 +139,7 @@ export const SizeTableExampleStory = () => {
           return <Icon20 />;
       }
     },
-    [tableSize]
+    [tableSize],
   );
 
   return (
@@ -264,7 +264,7 @@ export const SizeTableExampleStory = () => {
                                     icon: getIcon(
                                       IconSendPaperplaneRegular16,
                                       IconSendPaperplaneRegular20,
-                                      IconSendPaperplaneRegular24
+                                      IconSendPaperplaneRegular24,
                                     ),
                                     text: 'Отправить',
                                   },
@@ -272,7 +272,7 @@ export const SizeTableExampleStory = () => {
                                     icon: getIcon(
                                       IconTechPrinterRegular16,
                                       IconTechPrinterRegular20,
-                                      IconTechPrinterRegular24
+                                      IconTechPrinterRegular24,
                                     ),
                                     text: 'Напечатать',
                                   },
@@ -284,7 +284,7 @@ export const SizeTableExampleStory = () => {
                                     icon: getIcon(
                                       IconMoneyTypeCoinsRegular16,
                                       IconMoneyTypeCoinsRegular20,
-                                      IconMoneyTypeCoinsRegular24
+                                      IconMoneyTypeCoinsRegular24,
                                     ),
                                     text: 'Уплатить',
                                   },
@@ -292,7 +292,7 @@ export const SizeTableExampleStory = () => {
                                     icon: getIcon(
                                       IconNetDownloadRegular16,
                                       IconNetDownloadRegular20,
-                                      IconNetDownloadRegular24
+                                      IconNetDownloadRegular24,
                                     ),
                                     text: 'Скачать',
                                   },

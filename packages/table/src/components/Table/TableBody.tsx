@@ -1,8 +1,7 @@
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import cx from 'classnames';
 import React, { forwardRef } from 'react';
 
+import { CommonWrapper, type CommonProps, type CommonWrapperRestProps } from '../../reactUiCompat/CommonWrapper.js';
 import { TableDataTids } from './TableDataTids.js';
 
 import styles from './Table.module.css';
@@ -20,6 +19,6 @@ export const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
         )}
       </CommonWrapper>
     );
-  }
+  },
 );
 TableBody.displayName = 'TableBody';

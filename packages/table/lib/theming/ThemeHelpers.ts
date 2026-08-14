@@ -27,8 +27,8 @@ export const createTableTheme = (theme: ReactUITheme | TableTheme): TableTheme =
     theme,
     Object.assign(
       Object.getOwnPropertyDescriptors(TableThemeInternal),
-      isDarkTheme(theme) ? Object.getOwnPropertyDescriptors(TableDarkThemeInternal) : {}
-    )
+      isDarkTheme(theme) ? Object.getOwnPropertyDescriptors(TableDarkThemeInternal) : {},
+    ),
   );
 
   for (const key of Object.keys(TableTheme)) {
@@ -78,7 +78,7 @@ const memoize = <A extends AnyObject, R>(fn: (() => R) | ((arg: A) => R)): (() =
 };
 
 export const memoizeStyle = <S extends { [className: string]: (() => string) | ((t: TableTheme) => string) }>(
-  styles: S
+  styles: S,
 ): S => {
   Object.keys(styles).forEach((className) => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
   return styles;

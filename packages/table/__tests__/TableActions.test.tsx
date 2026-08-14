@@ -29,7 +29,7 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByTestId('action-1')).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByTestId('action-1')).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const kebabButton = screen.getByTestId(TableDataTids.actionsKebabButton);
@@ -93,7 +93,7 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(screen.queryByTestId('action-1')).not.toBeInTheDocument();
@@ -112,7 +112,7 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     // Check if the wrapper having data-tid=popupActionBar is present
@@ -130,7 +130,7 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const button = screen.getByTestId('action-1').querySelector('button');
@@ -156,14 +156,11 @@ describe('TableActionBar', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const btn = screen.getByTestId('neg-action');
-    // Button from react-ui might wrap content or apply style to root.
-    // TableActionBar applies style={...} to Button.
-    // We check if the element (or its child?) has the style.
-    // The Button component passes style prop to root button usually.
-    expect(btn).toHaveStyle('color: var(--table-red)');
+    // danger красится классом `.Danger` (var(--table-danger-active-color)), не inline style
+    expect(btn.className).toMatch(/Danger/);
   });
 });

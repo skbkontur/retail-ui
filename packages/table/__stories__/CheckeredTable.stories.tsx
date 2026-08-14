@@ -7,9 +7,9 @@ import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import { Table, useTableRowSelection, useTableSort, useTableFilters } from '@skbkontur/table';
 import React, { useCallback, useState } from 'react';
 
-import { Table, useTableRowSelection, useTableSort, useTableFilters } from '..';
 import { initialData } from './data';
 
 export default {

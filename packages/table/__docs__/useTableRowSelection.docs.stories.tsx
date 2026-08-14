@@ -1,6 +1,5 @@
+import { Table, useTableFilters, useTableSort, useTableRowSelection } from '@skbkontur/table';
 import React from 'react';
-
-import { Table, useTableFilters, useTableSort, useTableRowSelection } from '..';
 
 export default {
   title: 'Hooks/useTableRowSelection',

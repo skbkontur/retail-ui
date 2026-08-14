@@ -23,11 +23,10 @@ import { Radio } from '@skbkontur/react-ui/components/Radio';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Switcher } from '@skbkontur/react-ui/components/Switcher';
 import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Table, useTableRowSelection } from '@skbkontur/table';
 import { Text } from '@skbkontur/typography';
 import { compressToEncodedURIComponent } from 'lz-string';
 import React from 'react';
-
-import { Table, useTableRowSelection } from '../index';
 
 export default {
   title: 'Table Constructor',
@@ -120,7 +119,7 @@ export const TableConstructor = () => {
         status: 'warning' as Status,
       },
     ],
-    []
+    [],
   );
 
   const [size, setSize] = React.useState<Size>('medium');
@@ -144,7 +143,7 @@ export const TableConstructor = () => {
       Icon16: React.ComponentType<{ color?: string }>,
       Icon20: React.ComponentType<{ color?: string }>,
       Icon24: React.ComponentType<{ color?: string }>,
-      color?: string
+      color?: string,
     ) => {
       switch (size) {
         case 'small':
@@ -155,7 +154,7 @@ export const TableConstructor = () => {
           return <Icon20 color={color} />;
       }
     },
-    [size]
+    [size],
   );
 
   const statusColors: Record<Status, string> = {
@@ -174,7 +173,7 @@ export const TableConstructor = () => {
             IconWarningTriangleSolid16,
             IconWarningTriangleSolid20,
             IconWarningTriangleSolid24,
-            statusColors.warning
+            statusColors.warning,
           );
         case 'error':
           return getIcon(IconXCircleSolid16, IconXCircleSolid20, IconXCircleSolid24, statusColors.error);
@@ -182,7 +181,7 @@ export const TableConstructor = () => {
           return null;
       }
     },
-    [getIcon]
+    [getIcon],
   );
 
   const items = [
@@ -264,7 +263,7 @@ export const TableConstructor = () => {
     imports.push(
       checkboxes
         ? `import { Table, useTableRowSelection } from '@skbkontur/table';`
-        : `import { Table } from '@skbkontur/table';`
+        : `import { Table } from '@skbkontur/table';`,
     );
     if (leadingIcon) {
       imports.push(`import { IconCheckCircleSolid${sz} } from '@skbkontur/icons/IconCheckCircleSolid${sz}';`);

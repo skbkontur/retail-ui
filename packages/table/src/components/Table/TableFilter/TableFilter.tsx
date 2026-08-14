@@ -1,10 +1,9 @@
 import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { DropdownMenu } from '@skbkontur/react-ui/components/DropdownMenu';
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import React, { forwardRef, type ComponentRef, type ReactNode, type ReactElement } from 'react';
 
 import type { SortDirection } from '../../../hooks/useTableSort.js';
+import { CommonWrapper, type CommonProps, type CommonWrapperRestProps } from '../../../reactUiCompat/CommonWrapper.js';
 import { TableDataTids } from '../TableDataTids.js';
 import { TableHeaderButton } from './TableHeaderButton.js';
 
@@ -23,7 +22,7 @@ export interface TableFilterProps extends CommonProps {
 export const TableFilter = forwardRef<ComponentRef<typeof Button>, TableFilterProps>(
   ({ children, popup, ...rest }, ref) => (
     <CommonWrapper {...rest}>
-      {(wrapperRest: CommonWrapperRestProps<TableFilterProps>) => {
+      {(wrapperRest: CommonWrapperRestProps<Omit<TableFilterProps, 'popup'>>) => {
         const {
           filtered,
           sortDirection,
@@ -61,6 +60,6 @@ export const TableFilter = forwardRef<ComponentRef<typeof Button>, TableFilterPr
         );
       }}
     </CommonWrapper>
-  )
+  ),
 );
 TableFilter.displayName = 'TableFilter';

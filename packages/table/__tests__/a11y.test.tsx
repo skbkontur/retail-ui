@@ -24,20 +24,27 @@ const FilterResultFocusExample = ({
   const removeToken = (caption: string) => {
     setTokens((prev) => prev.filter((token) => token !== caption));
   };
-  const filter =
-    filterKind === 'base' ? (
-      <Table.Filter popup={<Table.FilterItem>Фильтр</Table.FilterItem>} filtered={tokens.length > 0}>
-        {filterLabel}
-      </Table.Filter>
-    ) : filterKind === 'sortable' ? (
-      <Table.DropdownSortableFilter options={[]} selectedOptions={[]} onSelect={() => {}}>
-        {filterLabel}
-      </Table.DropdownSortableFilter>
-    ) : (
+  const filter = (() => {
+    if (filterKind === 'base') {
+      return (
+        <Table.Filter popup={<Table.FilterItem>Фильтр</Table.FilterItem>} filtered={tokens.length > 0}>
+          {filterLabel}
+        </Table.Filter>
+      );
+    }
+    if (filterKind === 'sortable') {
+      return (
+        <Table.DropdownSortableFilter options={[]} selectedOptions={[]} onSelect={() => {}}>
+          {filterLabel}
+        </Table.DropdownSortableFilter>
+      );
+    }
+    return (
       <Table.DropdownFilter options={[]} selectedOptions={[]} onSelect={() => {}}>
         {filterLabel}
       </Table.DropdownFilter>
     );
+  })();
   const filterResult =
     tokens.length > 0 ? (
       <Table.FilterResultRow
@@ -76,7 +83,7 @@ const FilterResultFocusExample = ({
 
 const renderHeaderCell = (
   children: React.ReactNode,
-  headerCellProps: Partial<React.ComponentProps<typeof Table.HeaderCell>> = {}
+  headerCellProps: Partial<React.ComponentProps<typeof Table.HeaderCell>> = {},
 ) =>
   render(
     <Table>
@@ -85,7 +92,7 @@ const renderHeaderCell = (
           <Table.HeaderCell {...headerCellProps}>{children}</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-    </Table>
+    </Table>,
   );
 
 const removeTokenWithKeyboard = (caption = 'City: Moscow') => {
@@ -113,7 +120,7 @@ describe('Table a11y', () => {
               <Table.Cell>Row 2</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const body = screen.getByTestId('body');
@@ -135,7 +142,7 @@ describe('Table a11y', () => {
               <Table.Cell>Row</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const row = screen.getByRole('row');
@@ -152,7 +159,7 @@ describe('Table a11y', () => {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const headerCell = screen.getByRole('columnheader', { name: 'Name column' });
@@ -168,7 +175,7 @@ describe('Table a11y', () => {
               <Table.CheckboxCell checked onCheckboxClick={() => {}} aria-label="Select row" />
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'Select row');
@@ -182,7 +189,7 @@ describe('Table a11y', () => {
               <Table.HeaderCheckboxCell checked onClick={() => {}} aria-label="Select all rows" />
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'Select all rows');
@@ -208,7 +215,7 @@ describe('Table a11y', () => {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const button = screen.getByRole('button');
@@ -235,7 +242,7 @@ describe('Table a11y', () => {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       const button = screen.getByRole('button');
@@ -257,7 +264,7 @@ describe('Table a11y', () => {
       render(
         <Table.Filter popup={<Table.FilterItem aria-label="Reset filter">Reset</Table.FilterItem>} filtered>
           Trigger
-        </Table.Filter>
+        </Table.Filter>,
       );
 
       const button = screen.getByRole('button');
@@ -279,7 +286,7 @@ describe('Table a11y', () => {
               onResetAll={onResetAll}
             />
           </tbody>
-        </table>
+        </table>,
       );
 
       expect(screen.getByText('City: Moscow')).toBeInTheDocument();
@@ -307,7 +314,7 @@ describe('Table a11y', () => {
       render(
         <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <FilterResultFocusExample initialTokens={['City: Moscow']} />
-        </LocaleContext.Provider>
+        </LocaleContext.Provider>,
       );
 
       expect(screen.getByRole('button', { name: 'Remove filter: City: Moscow' })).toBeInTheDocument();
@@ -333,7 +340,7 @@ describe('Table a11y', () => {
         <>
           <FilterResultFocusExample initialTokens={[]} filterLabel="Страна" />
           <FilterResultFocusExample initialTokens={['City: Moscow']} filterResultOutsideTable filterLabel="Город" />
-        </>
+        </>,
       );
 
       removeTokenWithKeyboard();
@@ -458,7 +465,7 @@ describe('Table a11y', () => {
               <Table.Cell>Row 2</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const input = screen.getByTestId('cell-input') as HTMLInputElement;
@@ -484,7 +491,7 @@ describe('Table a11y', () => {
               <Table.Cell>Row 2</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const spin = screen.getByTestId('spin');
@@ -506,7 +513,7 @@ describe('Table a11y', () => {
               <Table.Cell>Row 2</Table.Cell>
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       const button = screen.getByRole('button', { name: 'Action' });

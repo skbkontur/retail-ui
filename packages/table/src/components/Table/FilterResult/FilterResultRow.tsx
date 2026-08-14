@@ -1,8 +1,7 @@
-import type { CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import cx from 'classnames';
 import React, { forwardRef } from 'react';
 
+import { CommonWrapper, type CommonWrapperRestProps } from '../../../reactUiCompat/CommonWrapper.js';
 import { Table } from '../Table.js';
 import { TableDataTids } from '../TableDataTids.js';
 import type { IAppliedFiltersProps } from './FilterResultCell.js';
@@ -25,6 +24,6 @@ export const TableFilterResultRow = forwardRef<HTMLTableRowElement, IAppliedFilt
         )}
       </CommonWrapper>
     );
-  }
+  },
 );
 TableFilterResultRow.displayName = 'TableFilterResultRow';

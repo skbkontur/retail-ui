@@ -30,7 +30,7 @@ describe('TableDropdownFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('TableDropdownFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -69,7 +69,7 @@ describe('TableDropdownFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -99,7 +99,7 @@ describe('TableDropdownFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -130,7 +130,7 @@ describe('TableDropdownFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -159,7 +159,7 @@ describe('TableDropdownFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -261,7 +261,7 @@ describe('TableDropdownFilter', () => {
     });
 
     const renderPhaseWarning = consoleError.mock.calls.find(
-      ([message]) => typeof message === 'string' && message.includes('while rendering a different component')
+      ([message]) => typeof message === 'string' && message.includes('while rendering a different component'),
     );
     consoleError.mockRestore();
 
@@ -292,7 +292,7 @@ describe('TableDropdownSortableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -308,7 +308,7 @@ describe('TableDropdownSortableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -333,7 +333,7 @@ describe('TableDropdownSortableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -362,7 +362,7 @@ describe('TableDropdownSortableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -390,7 +390,7 @@ describe('TableDropdownSortableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     await userEvent.click(screen.getByText('Column Header'));
@@ -450,7 +450,7 @@ describe('TableDropdownSortableFilter', () => {
     });
 
     const renderPhaseWarning = consoleError.mock.calls.find(
-      ([message]) => typeof message === 'string' && message.includes('while rendering a different component')
+      ([message]) => typeof message === 'string' && message.includes('while rendering a different component'),
     );
     consoleError.mockRestore();
 
@@ -470,7 +470,7 @@ describe('TableSort', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -486,7 +486,7 @@ describe('TableSort', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('button')).toBeInTheDocument();
@@ -503,7 +503,7 @@ describe('TableSort', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const button = screen.getByText('Column Header');
@@ -522,7 +522,7 @@ describe('TableSort', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -538,7 +538,7 @@ describe('TableSort', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -558,7 +558,7 @@ describe('TableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -570,13 +570,13 @@ describe('TableFilter', () => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>
-              <TableFilter filtered={true} popup={<div>Popup content</div>}>
+              <TableFilter filtered popup={<div>Popup content</div>}>
                 Column Header
               </TableFilter>
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -594,7 +594,7 @@ describe('TableFilter', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const header = screen.getByText('Column Header');
@@ -617,7 +617,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -633,7 +633,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('svg')).toBeInTheDocument();
@@ -649,7 +649,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('svg')).toBeInTheDocument();
@@ -665,7 +665,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('svg')).toBeInTheDocument();
@@ -683,7 +683,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const svgs = container.querySelectorAll('svg');
@@ -700,7 +700,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('svg')).not.toBeInTheDocument();
@@ -717,7 +717,7 @@ describe('TableHeaderButton', () => {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const button = screen.getByText('Column Header');
@@ -800,7 +800,7 @@ describe('TableFilter components - empty/null/undefined props handling', () => {
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-        </Table>
+        </Table>,
       );
 
       expect(screen.getByText('Column Header')).toBeInTheDocument();
@@ -815,7 +815,7 @@ describe('TableFilter components - empty/null/undefined props handling', () => {
           searchPlaceholder={testValue as string}
           searchQuery=""
           handleSearchQuery={handleSearchQuery}
-        />
+        />,
       );
 
       expect(screen.getByRole('textbox')).toBeInTheDocument();

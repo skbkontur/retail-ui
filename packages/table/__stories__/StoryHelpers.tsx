@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot, type Root as ReactDomRoot } from 'react-dom/client';
 
 export const Root = (props: any) => <div style={{ display: 'inline-block', padding: 10 }} {...props} />;
 
@@ -23,27 +23,52 @@ export const Grid = ({ col = 1, row = 1, gap = '10px', children, id = 'grid' }: 
 };
 
 export const ShadowDOMRenderer = ({ children }: any) => {
-  const shadowRef = React.useRef<HTMLDivElement>(null);
+  const hostRef = React.useRef<HTMLDivElement>(null);
+  const reactRootRef = React.useRef<ReactDomRoot | null>(null);
 
   React.useEffect(() => {
-    if (shadowRef.current) {
-      shadowRef.current.attachShadow({ mode: 'open' });
-      const root = shadowRef.current.shadowRoot;
-      ReactDOM.render(children, root);
+    const host = hostRef.current;
+    if (!host) {
+      return;
     }
+
+    const shadow = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
+    let mountNode = shadow.querySelector<HTMLElement>('[data-table-story-root]');
+    if (!mountNode) {
+      mountNode = document.createElement('div');
+      mountNode.setAttribute('data-table-story-root', '');
+      shadow.appendChild(mountNode);
+    }
+
+    reactRootRef.current ??= createRoot(mountNode);
+    reactRootRef.current.render(children);
+
+    return () => {
+      reactRootRef.current?.unmount();
+      reactRootRef.current = null;
+    };
   }, [children]);
 
-  return <div ref={shadowRef} />;
+  return <div ref={hostRef} />;
 };
 
 export const IframeRenderer = ({ children, extraHTML = '', width = 780, height = 230, id = '' }: any) => {
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
+  const reactRootRef = React.useRef<ReactDomRoot | null>(null);
 
   React.useEffect(() => {
-    if (iframeRef.current) {
-      const contentWindow: any = iframeRef.current.contentWindow;
-      const root = contentWindow.document ?? contentWindow.contentDocument;
-      root.write(`
+    const iframe = iframeRef.current;
+    if (!iframe) {
+      return;
+    }
+
+    const doc = iframe.contentWindow?.document ?? iframe.contentDocument;
+    if (!doc) {
+      return;
+    }
+
+    doc.open();
+    doc.write(`
         ${extraHTML}
         <link nonce="my-super-nonce" rel="stylesheet" href="https://s.kontur.ru/common-v2/fonts/LabGrotesque/LabGrotesque.css" />
         <style nonce="my-super-nonce">
@@ -59,9 +84,21 @@ export const IframeRenderer = ({ children, extraHTML = '', width = 780, height =
         </style>
         <div id="root" />
       `);
+    doc.close();
 
-      ReactDOM.render(children, root.getElementById('root'));
+    const mountNode = doc.getElementById('root');
+    if (!mountNode) {
+      return;
     }
+
+    reactRootRef.current?.unmount();
+    reactRootRef.current = createRoot(mountNode);
+    reactRootRef.current.render(children);
+
+    return () => {
+      reactRootRef.current?.unmount();
+      reactRootRef.current = null;
+    };
   }, [children, extraHTML]);
 
   return <iframe ref={iframeRef} src="" frameBorder={0} title="x" width={width} height={height} id={id} />;
@@ -69,13 +106,22 @@ export const IframeRenderer = ({ children, extraHTML = '', width = 780, height =
 
 export const DelayedAttachmentRenderer = ({ children }: any) => {
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const reactRootRef = React.useRef<ReactDomRoot | null>(null);
 
   React.useEffect(() => {
     const nestedDiv = document.createElement('div');
-    ReactDOM.render(children, nestedDiv);
-    setTimeout(() => {
+    reactRootRef.current = createRoot(nestedDiv);
+    reactRootRef.current.render(children);
+
+    const timeoutId = window.setTimeout(() => {
       rootRef.current?.appendChild(nestedDiv);
     });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      reactRootRef.current?.unmount();
+      reactRootRef.current = null;
+    };
   }, [children]);
 
   return <div ref={rootRef} />;

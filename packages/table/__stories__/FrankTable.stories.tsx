@@ -6,9 +6,9 @@ import { IconTechPrinterRegular20 } from '@skbkontur/icons/IconTechPrinterRegula
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+import { Table, TableFilterResultRow, useTableRowSelection, useTableSort, useTableFilters } from '@skbkontur/table';
 import React from 'react';
 
-import { Table, TableFilterResultRow, useTableRowSelection, useTableSort, useTableFilters } from '..';
 import { initialData } from '../__stories__/data';
 
 export default {

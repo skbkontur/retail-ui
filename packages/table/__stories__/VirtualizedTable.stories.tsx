@@ -1,8 +1,7 @@
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Table, useTableRowSelection } from '@skbkontur/table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { useRef } from 'react';
-
-import { Table, useTableRowSelection } from '..';
 
 /**
  * Виртуализация строк `@skbkontur/table` через `@tanstack/react-virtual`.

@@ -1,5 +1,5 @@
 export const memo = <A extends Record<string, unknown>, R>(
-  fn: (() => R) | ((arg: A) => R)
+  fn: (() => R) | ((arg: A) => R),
 ): (() => R) | ((arg: A) => R) => {
   const cache = new WeakMap();
   return (arg: A) => {

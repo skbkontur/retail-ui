@@ -62,7 +62,7 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
       iconActiveColor,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const { size } = useContext(SizeTableContext);
     const locale = useLocaleForControl('Table', TableLocaleHelper);
@@ -134,6 +134,6 @@ export const TableDropdownSortableFilter = forwardRef<ComponentRef<typeof Button
         {children}
       </TableFilter>
     );
-  }
+  },
 );
 TableDropdownSortableFilter.displayName = 'TableDropdownSortableFilter';

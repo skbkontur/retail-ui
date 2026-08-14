@@ -10,8 +10,6 @@ import { IconUiFilterSortALowToHighRegular16 } from '@skbkontur/icons/IconUiFilt
 import { IconUiFilterSortALowToHighRegular20 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular20';
 import { IconUiFilterSortALowToHighRegular24 } from '@skbkontur/icons/IconUiFilterSortALowToHighRegular24';
 import { Button } from '@skbkontur/react-ui/components/Button/Button';
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import cx from 'classnames';
@@ -27,6 +25,7 @@ import React, {
 
 import { getTableTheme } from '../../../../lib/theming/ThemeHelpers.js';
 import type { SortDirection } from '../../../hooks/useTableSort.js';
+import { CommonWrapper, type CommonProps, type CommonWrapperRestProps } from '../../../reactUiCompat/CommonWrapper.js';
 import type { SizeProp } from '../../../reactUiCompat/useSizeContext.js';
 import { getIconSize } from '../../../utils/getIconSize.js';
 import { getSizeModifier } from '../../../utils/getSizeModifier.js';
@@ -88,7 +87,7 @@ const getHeaderIcon = (
   defaultIcon?: ReactElement,
   iconDefaultColor?: React.CSSProperties['color'],
   iconActiveColor?: React.CSSProperties['color'],
-  size: SizeProp = 'small'
+  size: SizeProp = 'small',
 ): ReactElement | undefined => {
   const iconSize = getIconSize(size);
   const isActive = filtered || sortDirection;
@@ -171,7 +170,7 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
             defaultIcon,
             iconDefaultColor,
             iconActiveColor,
-            size
+            size,
           );
           const iconSpacingClass = icon ? styles[getSizeModifier('IconSpacing', size ?? 'small')] : undefined;
 
@@ -186,7 +185,7 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
                         filtered || sortDirection || hovered ? theme.btnDefaultTextColor : theme.menuHeaderColor,
                       btnTextBg: hovered ? theme.btnTextHoverBg : theme.btnTextBg,
                     },
-                    theme
+                    theme,
                   )}
                 >
                   <div className={cx(styles.ClickableHeaderWrapper)}>
@@ -211,6 +210,6 @@ export const TableHeaderButton = forwardRef<ComponentRef<typeof Button>, TableHe
         }}
       </CommonWrapper>
     );
-  }
+  },
 );
 TableHeaderButton.displayName = 'TableHeaderButton';

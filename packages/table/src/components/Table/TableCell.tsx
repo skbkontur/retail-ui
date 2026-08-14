@@ -1,8 +1,7 @@
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import cx from 'classnames';
 import React, { useContext, useCallback, forwardRef, type CSSProperties, type MouseEventHandler } from 'react';
 
+import { CommonWrapper, type CommonProps, type CommonWrapperRestProps } from '../../reactUiCompat/CommonWrapper.js';
 import { getSizeModifier } from '../../utils/getSizeModifier.js';
 import { getTypographyClass } from '../../utils/getTypographyClass.js';
 import { SizeTableContext } from './TableContext.js';
@@ -52,7 +51,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
       noPaddingRight = false,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const { size } = useContext(SizeTableContext);
     const onClick = useCallback(
@@ -62,7 +61,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
         }
         onClickProp?.(e);
       },
-      [checkboxCell, onClickProp]
+      [checkboxCell, onClickProp],
     );
 
     const typographyClass = getTypographyClass(size);
@@ -98,7 +97,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
         )}
       </CommonWrapper>
     );
-  }
+  },
 );
 
 TableCell.displayName = 'TableCell';

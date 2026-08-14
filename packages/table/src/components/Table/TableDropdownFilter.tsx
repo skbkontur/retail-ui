@@ -2,13 +2,13 @@ import type { Button } from '@skbkontur/react-ui/components/Button/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 import { Loader } from '@skbkontur/react-ui/components/Loader';
 import { ScrollContainer } from '@skbkontur/react-ui/components/ScrollContainer';
-import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { useLocaleForControl } from '@skbkontur/react-ui/lib/locale/useLocaleForControl';
 import React, { useContext, forwardRef } from 'react';
 import type { ReactElement, ComponentRef } from 'react';
 
 import { useTableDropdownFilter } from '../../hooks/useTableDropdownFilter.js';
 import { TableLocaleHelper } from '../../locale/index.js';
+import type { CommonProps } from '../../reactUiCompat/CommonWrapper.js';
 import { SizeTableContext } from './TableContext.js';
 import { TableDataTids } from './TableDataTids.js';
 import { TableFilter } from './TableFilter/TableFilter.js';
@@ -44,7 +44,7 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
       iconActiveColor,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const { size } = useContext(SizeTableContext);
     const locale = useLocaleForControl('Table', TableLocaleHelper);
@@ -102,6 +102,6 @@ export const TableDropdownFilter = forwardRef<ComponentRef<typeof Button>, Table
         {children}
       </TableFilter>
     );
-  }
+  },
 );
 TableDropdownFilter.displayName = 'TableDropdownFilter';

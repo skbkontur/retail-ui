@@ -31,7 +31,7 @@ type CompareFn<T> = (a: T, b: T) => number;
 
 function createDefaultCompareFn<T extends Record<TKey, unknown>, TKey extends string>(
   sortConfig: SortConfig<TKey>,
-  options: UseTableSortOptions
+  options: UseTableSortOptions,
 ): CompareFn<T> {
   const emptyPlacement = options.emptyPlacement ?? 'last';
   const collator = new Intl.Collator(options.locale, {
@@ -136,7 +136,7 @@ export function useTableSort<T extends Record<TKey, unknown>, TKey extends strin
   rows: T[],
   initialConfig: SortConfig<TKey> = { key: undefined, direction: 'asc' },
   compareFn: ((a: T, b: T, sortConfig: SortConfig<TKey>) => number) | undefined = undefined,
-  options: UseTableSortOptions = {}
+  options: UseTableSortOptions = {},
 ): {
   readonly sortedRows: T[];
   readonly sortConfig: SortConfig<TKey>;
@@ -158,7 +158,7 @@ export function useTableSort<T extends Record<TKey, unknown>, TKey extends strin
 
   const defaultCompareFn = useMemo(
     () => createDefaultCompareFn<T, TKey>(sortConfig, options),
-    [sortConfig, options.emptyPlacement, options.locale, options.localeOptions]
+    [sortConfig, options.emptyPlacement, options.locale, options.localeOptions],
   );
 
   const finalCompareFn = compareFn ?? defaultCompareFn;

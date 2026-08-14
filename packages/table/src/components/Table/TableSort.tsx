@@ -40,7 +40,7 @@ export const TableSort = forwardRef<ComponentRef<typeof Button>, TableSortProps>
         }
         onClick?.(event);
       },
-      [sortDirection, onSort, onClick]
+      [sortDirection, onSort, onClick],
     );
 
     return (
@@ -55,6 +55,6 @@ export const TableSort = forwardRef<ComponentRef<typeof Button>, TableSortProps>
         {children}
       </TableHeaderButton>
     );
-  }
+  },
 );
 TableSort.displayName = 'TableSort';

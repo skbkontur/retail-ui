@@ -29,11 +29,11 @@ const getCandidateTableRoots = (anchor: HTMLElement): ParentNode[] => {
 
   const following = tableRoots.find(
     // eslint-disable-next-line no-bitwise
-    (tableRoot) => anchor.compareDocumentPosition(tableRoot) & Node.DOCUMENT_POSITION_FOLLOWING
+    (tableRoot) => anchor.compareDocumentPosition(tableRoot) & Node.DOCUMENT_POSITION_FOLLOWING,
   );
   const preceding = tableRoots.find(
     // eslint-disable-next-line no-bitwise
-    (tableRoot) => anchor.compareDocumentPosition(tableRoot) & Node.DOCUMENT_POSITION_PRECEDING
+    (tableRoot) => anchor.compareDocumentPosition(tableRoot) & Node.DOCUMENT_POSITION_PRECEDING,
   );
 
   for (const candidate of [following, preceding]) {

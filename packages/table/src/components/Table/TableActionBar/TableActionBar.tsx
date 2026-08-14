@@ -2,8 +2,6 @@ import type { ButtonProps } from '@skbkontur/react-ui/components/Button';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Hint } from '@skbkontur/react-ui/components/Hint';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import type { CommonProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { PopupMenu } from '@skbkontur/react-ui/internal/PopupMenu';
 import type { PopupMenuProps } from '@skbkontur/react-ui/internal/PopupMenu';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
@@ -12,6 +10,7 @@ import cx from 'classnames';
 import type { FC, ReactNode, ReactElement } from 'react';
 import React, { useContext, useState, isValidElement } from 'react';
 
+import { CommonWrapper, type CommonProps } from '../../../reactUiCompat/CommonWrapper.js';
 import { getSizeModifier } from '../../../utils/getSizeModifier.js';
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
@@ -35,7 +34,7 @@ const DangerWrapper: FC<DangerWrapperProps> = ({ danger, children }) =>
               btnTextActiveBg: theme.btnDangerActiveBg,
               btnTextHoverTextColor: theme.btnDangerTextColor,
             },
-            theme
+            theme,
           )}
         >
           {children}

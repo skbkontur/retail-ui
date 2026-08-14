@@ -3,9 +3,8 @@ import { IconSendPaperplaneDiagRegular16 } from '@skbkontur/icons/IconSendPaperp
 import { IconTechPrinterRegular16 } from '@skbkontur/icons/IconTechPrinterRegular16';
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Table } from '@skbkontur/table';
 import React from 'react';
-
-import { Table } from '../src/components/Table/Table';
 
 export default {
   title: 'Table',

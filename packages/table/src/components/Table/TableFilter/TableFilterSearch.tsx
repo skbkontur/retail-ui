@@ -1,12 +1,11 @@
 import { Input } from '@skbkontur/react-ui/components/Input';
 import type { Input as InputType } from '@skbkontur/react-ui/components/Input';
 import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import type { CommonProps, CommonWrapperRestProps } from '@skbkontur/react-ui/internal/CommonWrapper';
-import { CommonWrapper } from '@skbkontur/react-ui/internal/CommonWrapper';
 import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import React, { useContext, forwardRef } from 'react';
 
+import { CommonWrapper, type CommonProps, type CommonWrapperRestProps } from '../../../reactUiCompat/CommonWrapper.js';
 import { SizeTableContext } from '../TableContext.js';
 import { TableDataTids } from '../TableDataTids.js';
 
@@ -32,7 +31,7 @@ export const TableFilterSearch = forwardRef<InputType, TableFilterSearchProps>((
                   {
                     menuItemHoverBg: 'initial',
                   },
-                  theme
+                  theme,
                 )}
               >
                 <MenuItem onClick={(e) => e.preventDefault()} size={size} {...menuItemProps}>

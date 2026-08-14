@@ -18,10 +18,10 @@ import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import { Table, useTableFilters, useTableRowSelection, useTableSort } from '@skbkontur/table';
 import React from 'react';
 
 import { initialData } from '../__stories__/data';
-import { Table, useTableFilters, useTableRowSelection, useTableSort } from '../index';
 
 export default {
   title: 'Responsive',
@@ -107,7 +107,7 @@ export const ResponsiveExampleStory = () => {
           return <Icon20 />;
       }
     },
-    [tableSize]
+    [tableSize],
   );
 
   const renderActionButtons = () => (

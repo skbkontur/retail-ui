@@ -59,7 +59,7 @@ export function useTableDropdownFilter({
       selectedRef.current = result;
       onSelect(result);
     },
-    [onSelect]
+    [onSelect],
   );
 
   return {

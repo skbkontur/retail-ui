@@ -30,7 +30,7 @@ export const FilterStory = () => {
         [column]: selectedOptions,
       }));
     },
-    []
+    [],
   );
 
   const handleSort = useCallback((columnKey: string, direction: 'asc' | 'desc') => {
@@ -58,7 +58,7 @@ interface CustomDropdownFilterProps extends TableDropdownFilterProps {
 const CustomDropdownFilter = React.forwardRef<HTMLDivElement, CustomDropdownFilterProps>(
   (
     { children, options, selectedOptions, onSelect, searchPlaceholder = 'Поиск...', onSort, sortDirection, ...rest },
-    ref
+    ref,
   ) => {
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -78,7 +78,7 @@ const CustomDropdownFilter = React.forwardRef<HTMLDivElement, CustomDropdownFilt
         }
         onSelect(newSelection);
       },
-      [onSelect, selectedOptions]
+      [onSelect, selectedOptions],
     );
 
     const hasSelected = Array.isArray(selectedOptions) && selectedOptions.length > 0;
@@ -124,7 +124,7 @@ const CustomDropdownFilter = React.forwardRef<HTMLDivElement, CustomDropdownFilt
         </TableFilter>
       </div>
     );
-  }
+  },
 );
 export const FilterWayBill = () => {
   const [wayBillFilter, setWayBillFilter] = useState({
@@ -412,7 +412,7 @@ export const FilterWithHookMultiple = () => {
 
   const { filters, setFilter, uniqueValues, filteredRows, resetFilters, convertFiltersToTokens } = useTableFilters(
     initialData,
-    columnConfig
+    columnConfig,
   );
 
   const selectedClients = filters.get('client') || [];

@@ -16,9 +16,8 @@ import { IconTechPrinterRegular24 } from '@skbkontur/icons/IconTechPrinterRegula
 import { IconTrashCanRegular16 } from '@skbkontur/icons/IconTrashCanRegular16';
 import { IconTrashCanRegular20 } from '@skbkontur/icons/IconTrashCanRegular20';
 import { IconTrashCanRegular24 } from '@skbkontur/icons/IconTrashCanRegular24';
+import { Table, useTableRowSelection } from '@skbkontur/table';
 import React from 'react';
-
-import { Table, useTableRowSelection } from '../index';
 
 export default {
   title: 'Table/Constructor Variations',
@@ -180,7 +179,7 @@ const DemoTable = ({
                   {getIcon(
                     IconArrowRoundTimeForwardRegular16,
                     IconArrowRoundTimeForwardRegular20,
-                    IconArrowRoundTimeForwardRegular24
+                    IconArrowRoundTimeForwardRegular24,
                   )}
                 </Table.Cell>
               )}

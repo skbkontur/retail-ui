@@ -41,7 +41,7 @@ describe('API and prop forwarding', () => {
             <Table.HeaderCell>Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const table = container.querySelector('[data-testid="table-props"]') as HTMLTableElement;
@@ -63,7 +63,7 @@ describe('Localization', () => {
         >
           Locale
         </TableDropdownSortableFilter>
-      </LocaleContext.Provider>
+      </LocaleContext.Provider>,
     );
 
     await userEvent.click(screen.getByRole('button', { name: /locale/i }));

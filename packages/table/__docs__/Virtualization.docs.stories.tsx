@@ -1,7 +1,6 @@
+import { Table, useTableRowSelection } from '@skbkontur/table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React from 'react';
-
-import { Table, useTableRowSelection } from '../index';
 
 export default {
   title: 'Virtualization',
@@ -26,7 +25,7 @@ export const VirtualizationExampleStory = () => {
         amount: 5000 + ((i * 7919) % 990000),
         responsible: NAMES[i % NAMES.length],
       })),
-    []
+    [],
   );
 
   const scrollRef = React.useRef<HTMLDivElement>(null);

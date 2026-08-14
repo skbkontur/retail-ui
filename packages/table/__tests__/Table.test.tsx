@@ -16,7 +16,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('table')).toBeInTheDocument();
@@ -33,7 +33,7 @@ describe('Table', () => {
             </Table.Row>
           </Table.Header>
         </Table>
-      </ThemeContext.Provider>
+      </ThemeContext.Provider>,
     );
 
     const table = container.querySelector('table');
@@ -49,7 +49,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(ref.current).toBeInstanceOf(HTMLTableElement);
@@ -63,7 +63,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('table')).toHaveClass('custom-table');
@@ -77,7 +77,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const table = container.querySelector('table');
@@ -92,7 +92,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const table = container.querySelector('table');
@@ -107,7 +107,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const table = container.querySelector('table');
@@ -122,7 +122,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const table = container.querySelector('table');
@@ -137,7 +137,7 @@ describe('Table', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const table = container.querySelector('table');
@@ -154,7 +154,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('tr')).toBeInTheDocument();
@@ -169,7 +169,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row = screen.getByTestId('clickable-row');
@@ -187,7 +187,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row = screen.getByTestId('row');
@@ -206,7 +206,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row = screen.getByTestId('row');
@@ -227,7 +227,7 @@ describe('Table.Row', () => {
             <Table.Cell>Row 2</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row1 = screen.getByTestId('row1');
@@ -250,7 +250,7 @@ describe('Table.Row', () => {
             <Table.Cell>Row 2</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row1 = screen.getByTestId('row1');
@@ -270,7 +270,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row = container.querySelector('tr');
@@ -285,7 +285,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row = container.querySelector('tr');
@@ -300,7 +300,7 @@ describe('Table.Row', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const row = screen.getByTestId('row');
@@ -317,7 +317,7 @@ describe('Table.Cell', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('td')).toBeInTheDocument();
@@ -332,7 +332,7 @@ describe('Table.Cell', () => {
             <Table.Cell checkboxCell>Checkbox</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -347,7 +347,7 @@ describe('Table.Cell', () => {
             <Table.Cell noWrap>Long text content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -362,7 +362,7 @@ describe('Table.Cell', () => {
             <Table.Cell currency>1000</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -377,7 +377,7 @@ describe('Table.Cell', () => {
             <Table.Cell width="200px">Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -392,7 +392,7 @@ describe('Table.Cell', () => {
             <Table.Cell vAlign="bottom">Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -407,7 +407,7 @@ describe('Table.Cell', () => {
             <Table.Cell colSpan={3}>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -426,7 +426,7 @@ describe('Table.Cell', () => {
             <Table.Cell>More</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = container.querySelector('td');
@@ -446,7 +446,7 @@ describe('Table.Cell', () => {
             </Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const cell = screen.getByTestId('checkbox-cell');
@@ -466,7 +466,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell>Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('th')).toBeInTheDocument();
@@ -481,7 +481,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell scope="col">Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -496,7 +496,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell bottomBorder>Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -511,7 +511,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell vAlign="bottom">Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -526,7 +526,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell width="150px">Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -541,7 +541,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell colSpan={2}>Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -560,7 +560,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell>Sub</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -575,7 +575,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell noWrap>Long Header Text</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -590,7 +590,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell currency>Amount, ₽</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -605,7 +605,7 @@ describe('Table.HeaderCell', () => {
             <Table.HeaderCell checkboxCell>✓</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const headerCell = container.querySelector('th');
@@ -622,7 +622,7 @@ describe('Table.CheckboxCell', () => {
             <Table.CheckboxCell checked={false} onCheckboxClick={() => {}} />
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const checkbox = container.querySelector('input[type="checkbox"]');
@@ -638,7 +638,7 @@ describe('Table.CheckboxCell', () => {
             <Table.CheckboxCell checked={false} onCheckboxClick={onCheckboxClick} />
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const checkbox = container.querySelector('input[type="checkbox"]');
@@ -654,10 +654,10 @@ describe('Table.CheckboxCell', () => {
       <Table>
         <Table.Body>
           <Table.Row>
-            <Table.CheckboxCell checked={true} onCheckboxClick={() => {}} />
+            <Table.CheckboxCell checked onCheckboxClick={() => {}} />
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     const checkbox = container.querySelector('input[type="checkbox"]') as HTMLInputElement;
@@ -674,7 +674,7 @@ describe('Table.HeaderCheckboxCell', () => {
             <Table.HeaderCheckboxCell checked={false} />
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const checkbox = container.querySelector('input[type="checkbox"]');
@@ -689,7 +689,7 @@ describe('Table.HeaderCheckboxCell', () => {
             <Table.HeaderCheckboxCell checked={false} initialIndeterminate />
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const checkbox = container.querySelector('input[type="checkbox"]');
@@ -705,7 +705,7 @@ describe('Table.HeaderCheckboxCell', () => {
             <Table.HeaderCheckboxCell checked={false} onClick={onClick} />
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     const checkbox = container.querySelector('input[type="checkbox"]');
@@ -726,7 +726,7 @@ describe('Table.Header', () => {
             <Table.HeaderCell>Header</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('thead')).toBeInTheDocument();
@@ -742,7 +742,7 @@ describe('Table.Body', () => {
             <Table.Cell>Content</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('tbody')).toBeInTheDocument();
@@ -758,7 +758,7 @@ describe('Table.Footer', () => {
             <Table.Cell>Footer</Table.Cell>
           </Table.Row>
         </Table.Footer>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('tfoot')).toBeInTheDocument();
@@ -774,7 +774,7 @@ describe('Table.FilterResultRow', () => {
             <Table.Cell>Filter Result</Table.Cell>
           </Table.FilterResultRow>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(container.querySelector('tr')).toBeInTheDocument();
@@ -790,7 +790,7 @@ describe('Table.FilterResultCell', () => {
             <Table.FilterResultCell tokens={[]} onResetAll={vi.fn()} colSpan={2} />
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(screen.queryByText(/фильтр/i)).not.toBeInTheDocument();
@@ -809,7 +809,7 @@ describe('Table.FilterResultCell', () => {
             <Table.FilterResultCell tokens={tokens} onResetAll={vi.fn()} colSpan={2} />
           </Table.Row>
         </Table.Body>
-      </Table>
+      </Table>,
     );
 
     expect(screen.getByText('Filter 1')).toBeInTheDocument();
@@ -827,7 +827,7 @@ describe('Table - empty/null/undefined props handling', () => {
               <Table.FilterResultCell tokens={testValue as any} onResetAll={testValue as any} />
             </Table.Row>
           </Table.Body>
-        </Table>
+        </Table>,
       );
 
       expect(document.querySelector('td')).toBeInTheDocument();

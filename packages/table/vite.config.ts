@@ -1,11 +1,13 @@
 import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import dts from 'vite-plugin-dts';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
 const external = [...Object.keys(packageJson.peerDependencies || {}), '@skbkontur/global-object'];
 
@@ -34,6 +36,11 @@ export default defineConfig({
       outDir: 'dist',
       include: ['index.ts', 'src/**/*.ts', 'src/**/*.tsx', 'src/**/*.d.ts'],
       exclude: ['**/*.stories.tsx', '**/*.stories.ts', '__stories__', '__tests__', '__docs__'],
+      compilerOptions: {
+        // Типчек table уже делает build:tsc. Без noCheck vite-plugin-dts тянет
+        // workspace-source react-ui через paths и сыпет чужими TS2612/TS2339.
+        noCheck: true,
+      },
     }),
   ],
   build: {

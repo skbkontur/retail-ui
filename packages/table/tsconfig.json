@@ -22,8 +22,12 @@
     "incremental": true,
     "composite": false,
     "types": ["node"],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      // Source-exports react-ui: `./components/*` → `*.tsx`, а компоненты — директории с index.
+      "@skbkontur/react-ui": ["../react-ui/index.ts"],
+      "@skbkontur/react-ui/*": ["../react-ui/*"]
     }
   },
   "exclude": [
@@ -38,5 +42,12 @@
     "src/components/TableExample",
     "vite.config.ts"
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "index.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.d.ts",
+    "index.ts",
+    // Как у react-ui-validations: типы для __KONTUR_REACT_UI__ и stylis при workspace-link.
+    "../react-ui/typings/**/*"
+  ]
 }

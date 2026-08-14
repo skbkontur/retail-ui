@@ -118,6 +118,7 @@
     {
       "files": [
         "**/__stories__/**/*",
+        "**/__docs__/**/*",
         "**/stories/**/*",
         "**/docs/**/*",
         "**/*.stories.tsx",
@@ -128,7 +129,9 @@
         "**/.storybook-docs/**/*.{ts,tsx,mts}"
       ],
       "rules": {
-        "typescript/explicit-module-boundary-types": "off"
+        "typescript/explicit-module-boundary-types": "off",
+        // CSF / Storybook meta: default export обязателен
+        "import/no-default-export": "off"
       }
     },
     {

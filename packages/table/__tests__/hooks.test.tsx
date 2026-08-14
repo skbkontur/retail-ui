@@ -1,8 +1,14 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import * as React from 'react';
 import { describe, test, expect, vi } from 'vitest';
 
-import { useTableSort, useTableRowSelection, useTableFilters, SortConfig, ColumnFilterConfig } from '../src/hooks';
+import {
+  useTableSort,
+  useTableRowSelection,
+  useTableFilters,
+  type SortConfig,
+  type ColumnFilterConfig,
+} from '../src/hooks';
 
 describe('useTableSort', () => {
   const testData = [
@@ -118,7 +124,7 @@ describe('useTableSort', () => {
     };
 
     const { result } = renderHook(() =>
-      useTableSort(dataWithResponsible, { key: undefined, direction: 'asc' }, compareFn)
+      useTableSort(dataWithResponsible, { key: undefined, direction: 'asc' }, compareFn),
     );
 
     act(() => {
@@ -204,7 +210,7 @@ describe('useTableSort', () => {
     ];
 
     const { result } = renderHook(() =>
-      useTableSort(dataWithNulls, { key: undefined, direction: 'asc' }, undefined, { emptyPlacement: 'first' })
+      useTableSort(dataWithNulls, { key: undefined, direction: 'asc' }, undefined, { emptyPlacement: 'first' }),
     );
 
     act(() => {
@@ -227,11 +233,11 @@ describe('useTableSort', () => {
   });
 
   test('passes locale and options to Intl.Collator', () => {
-    const originalCollator = Intl.Collator;
-    const calls: { locale: any; opts: Intl.CollatorOptions | undefined }[] = [];
+    const OriginalCollator = Intl.Collator;
+    const calls: Array<{ locale: any; opts: Intl.CollatorOptions | undefined }> = [];
     const collatorSpy = vi.spyOn(Intl, 'Collator').mockImplementation((locale, opts) => {
       calls.push({ locale, opts });
-      return new originalCollator(locale as any, opts as any);
+      return new OriginalCollator(locale as any, opts as any);
     });
 
     try {
@@ -244,7 +250,7 @@ describe('useTableSort', () => {
         useTableSort(data, { key: 'name', direction: 'asc' }, undefined, {
           locale: ['ru', 'en'],
           localeOptions: { sensitivity: 'variant', numeric: false },
-        })
+        }),
       );
 
       act(() => {
@@ -476,7 +482,7 @@ describe('useTableRowSelection', () => {
   test('updates selection when initialCheckedRows changes', () => {
     const { result, rerender } = renderHook(
       ({ initialCheckedRows }) => useTableRowSelection(testData, { initialCheckedRows }),
-      { initialProps: { initialCheckedRows: new Set<number>([1]) } }
+      { initialProps: { initialCheckedRows: new Set<number>([1]) } },
     );
 
     expect(result.current.isRowChecked(1)).toBe(true);
@@ -686,7 +692,7 @@ describe('useTableFilters', () => {
           accessor: (row) => row.city,
           filterPredicate: (row, selected) => (selected ? row.city === selected[0] && row.age > 25 : false),
         },
-      ])
+      ]),
     );
 
     act(() => {

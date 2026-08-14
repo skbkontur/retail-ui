@@ -6,3 +6,6 @@
 **/*.d.mts
 !types.d.ts
 !src/reactUiCompat/react-ui-size.d.ts
+/dist
+/reports/
+/.storybook/build

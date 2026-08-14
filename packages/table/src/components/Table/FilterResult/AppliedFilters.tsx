@@ -37,7 +37,7 @@ const getResetIcon = (size: SizeProp) => {
   return RESET_ICONS[iconSize];
 };
 
-export const AppliedFilters = ({ tokens, onResetAll }: AppliedFiltersProps): JSX.Element => {
+export const AppliedFilters = ({ tokens, onResetAll }: AppliedFiltersProps): React.JSX.Element => {
   const { size } = useContext(SizeTableContext);
   const locale = useLocaleForControl('Table', TableLocaleHelper);
   const listRef = useRef<HTMLUListElement | null>(null);

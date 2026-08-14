@@ -22,9 +22,9 @@ import { ThemeContext } from '@skbkontur/react-ui/lib/theming/ThemeContext';
 import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import { DARK_THEME } from '@skbkontur/react-ui/lib/theming/themes/DarkTheme';
 import { LIGHT_THEME } from '@skbkontur/react-ui/lib/theming/themes/LightTheme';
+import { Table, useTableFilters, useTableRowSelection, useTableSort } from '@skbkontur/table';
 import React from 'react';
 
-import { Table, useTableFilters, useTableRowSelection, useTableSort } from '..';
 import { initialData } from '../__stories__/data';
 
 export default {
@@ -141,7 +141,7 @@ export const AdaptiveSizeTableExampleStory = () => {
           return <Icon20 />;
       }
     },
-    [tableSize]
+    [tableSize],
   );
 
   const renderActionButtons = () => (

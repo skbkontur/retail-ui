@@ -23,10 +23,10 @@ import { IconXCircleSolid64 } from '@skbkontur/icons/IconXCircleSolid64';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Paging } from '@skbkontur/react-ui/components/Paging';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import { Table, useTableFilters, useTableSort, useTableRowSelection } from '@skbkontur/table';
 import React from 'react';
 
 import { initialData } from '../__stories__/data';
-import { Table, useTableFilters, useTableSort, useTableRowSelection } from '../index';
 
 export default {
   title: 'Table',
@@ -974,7 +974,7 @@ export const FooterExample = () => {
       february: acc.february + row.february,
       march: acc.march + row.march,
     }),
-    { january: 0, february: 0, march: 0 }
+    { january: 0, february: 0, march: 0 },
   );
 
   return (
@@ -1206,7 +1206,7 @@ export const SizeExampleStory = () => {
           return <Icon20 />;
       }
     },
-    [tableSize]
+    [tableSize],
   );
 
   return (
@@ -1292,7 +1292,7 @@ export const SizeExampleStory = () => {
                         icon: getIcon(
                           IconSendPaperplaneRegular16,
                           IconSendPaperplaneRegular20,
-                          IconSendPaperplaneRegular24
+                          IconSendPaperplaneRegular24,
                         ),
                         text: 'Отправить',
                         onClick: () => console.log('send'),
@@ -1311,7 +1311,7 @@ export const SizeExampleStory = () => {
                         icon: getIcon(
                           IconMoneyTypeCoinsRegular16,
                           IconMoneyTypeCoinsRegular20,
-                          IconMoneyTypeCoinsRegular24
+                          IconMoneyTypeCoinsRegular24,
                         ),
                         text: 'Уплатить',
                         onClick: () => console.log('pay'),

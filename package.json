@@ -6,7 +6,14 @@
       "packages/@skbkontur/*"
     ],
     "nohoist": [
-      "**/react-router"
+      "**/react-router",
+      "@skbkontur/table/vite",
+      "@skbkontur/table/rollup",
+      "@skbkontur/table/@rollup/**",
+      "@skbkontur/table/vite-plugin-css-injected-by-js",
+      "@skbkontur/table/vite-plugin-lib-inject-css",
+      "@skbkontur/table/vite-plugin-dts",
+      "@skbkontur/table/@skbkontur/icons"
     ]
   },
   "scripts": {

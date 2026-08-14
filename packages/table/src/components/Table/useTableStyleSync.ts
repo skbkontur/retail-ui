@@ -71,6 +71,6 @@ export function useTableStyleSync(ref: ForwardedRef<HTMLTableElement>): (node: H
         (ref as MutableRefObject<HTMLTableElement | null>).current = node;
       }
     },
-    [ref]
+    [ref],
   );
 }

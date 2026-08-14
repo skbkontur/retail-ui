@@ -1,6 +1,5 @@
+import { Table, useTableFilters, useTableSort } from '@skbkontur/table';
 import React from 'react';
-
-import { Table, useTableFilters, useTableSort } from '..';
 
 export default {
   title: 'Filters',
@@ -48,7 +47,7 @@ export const FiltersBasic = () => {
 
   const { filters, setFilter, uniqueValues, filteredRows, convertFiltersToTokens, resetFilters } = useTableFilters(
     source,
-    columnConfig
+    columnConfig,
   );
   const { sortedRows, handleSort, sortConfig } = useTableSort(filteredRows, { direction: 'asc' });
   const tokens = convertFiltersToTokens();
@@ -130,7 +129,7 @@ export const FilterChips = () => {
 
   const { filters, setFilter, uniqueValues, filteredRows, convertFiltersToTokens, resetFilters } = useTableFilters(
     source,
-    columnConfig
+    columnConfig,
   );
 
   const chips = convertFiltersToTokens();

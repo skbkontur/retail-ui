@@ -1,5 +1,5 @@
 import { ArgTypes, Story } from '@storybook/blocks';
-import { Meta } from '../../../.storybook-docs/Meta';
+import { Meta } from '../.storybook-docs/Meta';
 import { Table } from '../src/components/Table/Table';
 import * as TableFiltersStories from './TableFilters.docs.stories';
 
@@ -20,7 +20,7 @@ import * as TableFiltersStories from './TableFilters.docs.stories';
 ```tsx
 const { filters, setFilter, uniqueValues, filteredRows, convertFiltersToTokens, resetFilters } = useTableFilters(
   data,
-  columnConfig
+  columnConfig,
 );
 const { sortConfig, handleSort } = useTableSort(filteredRows);
 const tokens = convertFiltersToTokens();

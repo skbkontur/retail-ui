@@ -100,7 +100,7 @@ export const TableToken = forwardRef<HTMLElement, TableTokenProps>(
                   tokenPaddingYSmall: '4px',
                   tokenPaddingXSmall: '8px',
                 },
-                theme
+                theme,
               )}
             >
               <Token className={className} onRemove={onRemove} data-tid={TableDataTids.appliedFilterToken}>
@@ -111,6 +111,6 @@ export const TableToken = forwardRef<HTMLElement, TableTokenProps>(
         </ThemeContext.Consumer>
       </span>
     );
-  }
+  },
 );
 TableToken.displayName = 'TableToken';
