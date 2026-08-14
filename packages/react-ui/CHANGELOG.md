@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.2.1...@skbkontur/react-ui@6.3.0) (2026-08-14)
+
+
+### Features
+
+Add new TimePicker component ([5225e1d](https://github.com/skbkontur/retail-ui/commit/5225e1d155670e05516d379765db3ad989c9df99), [62098f9](https://github.com/skbkontur/retail-ui/commit/62098f90bac1b99fb2325b3ac201aeddd90cd4f4))
+
+* Supports 2 mask formats (`HH:mm`, `HH:mm:ss`) with segmented typing and slot navigation
+* Dropdown list for preset time slots via the `source` prop (`string[]`, `T[]`, or an `async` function)
+* Range limits for time values via `minTime` and `maxTime`
+* TokenInput/ComboBox-like props: `onValueChange`, `onInputValueChange`, `onUnexpectedInput`
+* Auto-fix value on blur, segment switch, or paste
+* Paste correction (e.g., automatically fixing `25:88` → `23:59`)
+* Value checking via `TimePicker.validate(value, { minTime, maxTime })`
+* Ref methods: `open()`, `focus({ withoutOpenDropdown })`
+* Mobile friendly with a native picker (`useMobileNativeTimePicker`)
+* Compatible with `@skbkontur/react-ui-validations`
+* Customization via 3 sizes, `timePicker*` theme tokens, suffix, and custom `rightIcon`
+* Custom `renderItem(item, state)` prop for custom dropdown items
+* A11y support (ARIA attributes, keyboard navigation)
+
+
+
+
+
 ## [6.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@6.2.0...@skbkontur/react-ui@6.2.1) (2026-08-13)
 
 
