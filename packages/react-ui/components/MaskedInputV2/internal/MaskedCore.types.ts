@@ -21,8 +21,9 @@ export interface MaskedCoreProps extends Omit<React.InputHTMLAttributes<HTMLInpu
   currentRaw: string;
   /** Колбэк изменения raw от пользовательского ввода или paste. */
   onRawChange: (newRaw: string, source: 'input' | 'paste', cursorPos?: number) => void;
-  /** Колбэк отклонённого ввода (невалидный символ или граничное удаление). */
-  onUnexpectedInput: () => void;
+  /** Колбэк отклонённого ввода (невалидный символ или граничное удаление).
+   * `blinkOnly` — только мигнуть рамкой, не сообщая наружу (удаление в пустом поле). */
+  onUnexpectedInput: (blinkOnly?: boolean) => void;
   onUndo?: () => void;
   onRedo?: () => void;
   /** Ref на нативный `<input>` внутри MaskedCore. */

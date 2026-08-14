@@ -41,11 +41,11 @@ describe('MaskedInputV2 — input', () => {
     it.each<[MaskedInputV2Props, string, number]>([
       [{ mask: '9-9-9-9' }, '123', 0],
       [{ mask: '9-9-9-9' }, '12345', 1],
-      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 4],
+      [{ mask: '9-9-9-9' }, `1234${'{backspace}'.repeat(8)}`, 0],
       [{ mask: '9-9-9-9' }, 'a', 1],
-      [{ mask: '9-9-9-9' }, '{backspace}', 1],
+      [{ mask: '9-9-9-9' }, '{backspace}', 0],
       [{ mask: '9-9-9-9', unmask: true }, '12345', 1],
-      [{ mask: '9-9-9-9', unmask: true }, `1234${'{backspace}'.repeat(8)}`, 4],
+      [{ mask: '9-9-9-9', unmask: true }, `1234${'{backspace}'.repeat(8)}`, 0],
     ])('%j > %s > %s times', async (props, keys, expectedCount) => {
       const handleUnexpectedInput = vi.fn();
       const Comp = () => {
@@ -66,6 +66,30 @@ describe('MaskedInputV2 — input', () => {
       await userEvent.type(input, keys);
 
       expect(handleUnexpectedInput).toHaveBeenCalledTimes(expectedCount);
+    });
+
+    it('does not fire on deletion in empty input', async () => {
+      const onUnexpectedInput = vi.fn();
+      render(<MaskedInputV2 mask="+7 999 999-99-99" onUnexpectedInput={onUnexpectedInput} />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      await userEvent.click(input);
+      await userEvent.type(input, '{backspace}{delete}', { skipClick: true });
+
+      expect(onUnexpectedInput).not.toHaveBeenCalled();
+    });
+
+    it('fires on deletion at the start of filled input', async () => {
+      const onUnexpectedInput = vi.fn();
+      render(<MaskedInputV2 mask="+7 999 999-99-99" onUnexpectedInput={onUnexpectedInput} />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+
+      await userEvent.type(input, '912');
+      input.setSelectionRange(0, 0);
+      fireEvent.select(input);
+      await userEvent.type(input, '{backspace}', { skipClick: true, initialSelectionStart: 0, initialSelectionEnd: 0 });
+
+      expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
     });
   });
 

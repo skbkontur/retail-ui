@@ -470,9 +470,9 @@ export const MaskedInputV2 = forwardRefAndName(
       }
     }
 
-    function triggerUnexpectedInput() {
+    function triggerUnexpectedInput(blinkOnly?: boolean) {
       const blink = inputRef.current?.blink.bind(inputRef.current) ?? (() => undefined);
-      onUnexpectedInput ? onUnexpectedInput(maskState.outputValue, blink) : blink();
+      onUnexpectedInput && !blinkOnly ? onUnexpectedInput(maskState.outputValue, blink) : blink();
     }
 
     function handleFocus(e: React.FocusEvent<HTMLInputElement>) {

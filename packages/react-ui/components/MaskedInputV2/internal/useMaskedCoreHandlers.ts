@@ -248,7 +248,8 @@ export function useMaskedCoreHandlers(props: MaskedCoreHandlerProps) {
     });
 
     if (!result) {
-      onUnexpectedInput();
+      // Удаление в пустом поле пользователь ошибкой не считает — как в Input, только мигаем рамкой.
+      onUnexpectedInput(currentRaw === '');
       return;
     }
 
