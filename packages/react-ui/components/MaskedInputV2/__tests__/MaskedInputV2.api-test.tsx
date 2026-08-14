@@ -339,11 +339,78 @@ describe('MaskedInputV2 — api', () => {
       const input = screen.getByRole<HTMLInputElement>('textbox');
       expect(input).not.toHaveAttribute('maxLength');
     });
+  });
 
-    it('ignores showClearIcon prop', () => {
-      // @ts-ignore
-      render(<MaskedInputV2 mask="999" showClearIcon="always" value="123" />);
-      expect(screen.queryByTestId('Input__clearCross')).not.toBeInTheDocument();
+  describe('showClearIcon', () => {
+    const ClearIconComp = ({ onValueChange }: { onValueChange?: (value: string) => void } = {}) => {
+      const [value, setValue] = useState('');
+      return (
+        <MaskedInputV2
+          mask="999999999999"
+          showClearIcon="auto"
+          value={value}
+          onValueChange={(nextValue) => {
+            setValue(nextValue);
+            onValueChange?.(nextValue);
+          }}
+        />
+      );
+    };
+    const getClearCross = () => screen.queryByTestId('Input__clearCross');
+
+    it('does not show clear cross on empty focused input', async () => {
+      render(<ClearIconComp />);
+
+      await userEvent.click(screen.getByRole('textbox'));
+
+      expect(getClearCross()).not.toBeInTheDocument();
+    });
+
+    it('shows clear cross right after typing', async () => {
+      render(<ClearIconComp />);
+
+      await userEvent.type(screen.getByRole('textbox'), '12');
+
+      expect(getClearCross()).toBeInTheDocument();
+    });
+
+    it('hides clear cross when value is deleted from keyboard', async () => {
+      render(<ClearIconComp />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.type(input, '12');
+
+      await userEvent.type(input, '{backspace}{backspace}', { skipClick: true });
+
+      expect(getClearCross()).not.toBeInTheDocument();
+    });
+
+    it('restores cleared value by undo', async () => {
+      render(<ClearIconComp />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.type(input, '123');
+
+      await userEvent.click(getClearCross() as HTMLElement);
+      await userEvent.click(input);
+      await userEvent.type(input, '{Control>}z{/Control}', { skipClick: true });
+
+      expect(input).toHaveValue('123');
+    });
+
+    it('clears value for good and calls onValueChange', async () => {
+      const onValueChange = vi.fn();
+      render(<ClearIconComp onValueChange={onValueChange} />);
+      const input = screen.getByRole<HTMLInputElement>('textbox');
+      await userEvent.type(input, '12');
+      onValueChange.mockClear();
+
+      await userEvent.click(getClearCross() as HTMLElement);
+
+      expect(onValueChange).toHaveBeenCalledTimes(1);
+      expect(onValueChange).toHaveBeenCalledWith('');
+      await userEvent.tab();
+      await userEvent.click(input);
+      expect(input).toHaveValue('');
+      expect(getClearCross()).not.toBeInTheDocument();
     });
   });
 

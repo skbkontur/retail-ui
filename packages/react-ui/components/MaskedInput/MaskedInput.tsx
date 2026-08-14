@@ -86,10 +86,7 @@ export const getSafeMaskInputType = (type?: InputType): MaskInputType | undefine
 export interface MaskedInputProps
   extends
     MaskedProps,
-    Omit<
-      InputProps,
-      'showClearIcon' | 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'
-    > {
+    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'> {
   type?: MaskInputType;
 }
 

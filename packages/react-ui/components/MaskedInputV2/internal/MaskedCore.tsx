@@ -55,6 +55,7 @@ export const MaskedCore = forwardRefAndName(
       onFocus,
       onPaste,
       onBlur,
+      onChange: inputOnChange,
       placeholder,
       className,
       disabled,
@@ -213,6 +214,16 @@ export const MaskedCore = forwardRefAndName(
 
       return () => globalObject.clearTimeout?.(timer);
     }, [applySelectionIntent, coreInputRef, focused, globalObject, requestSelectionIntent, selectionIntent]);
+
+    // Значение маски живёт в React-состоянии, а Input пересчитывает своё (показ крестика очистки)
+    // только в onChange, которого при удалении и undo не бывает — они идут через keydown.
+    // Поэтому дёргаем его сами на каждое изменение значения.
+    useEffect(() => {
+      const el = coreInputRef.current;
+      if (el) {
+        inputOnChange?.({ target: el, currentTarget: el } as React.ChangeEvent<HTMLInputElement>);
+      }
+    }, [maskState.typedValue]);
 
     useEffect(() => {
       if (!focused) {

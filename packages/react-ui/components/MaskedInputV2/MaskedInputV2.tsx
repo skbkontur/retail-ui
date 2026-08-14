@@ -121,10 +121,7 @@ function getMaskInputMode(
 export interface MaskedInputV2Props
   extends
     MaskedInputV2MaskedProps,
-    Omit<
-      InputProps,
-      'showClearIcon' | 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'
-    > {
+    Omit<InputProps, 'mask' | 'maxLength' | 'type' | 'alwaysShowMask' | 'onUnexpectedInput' | 'maskChar'> {
   type?: MaskInputType;
 
   /** @ignore */
@@ -146,12 +143,14 @@ export const MaskedInputV2 = forwardRefAndName(
       onValueChange,
       onUnexpectedInput,
       onBeforePasteValue,
+      // Значение меняет MaskedCore, поэтому onChange к Input не относится:
+      // иначе потребитель получил бы внутреннее событие пересчёта крестика очистки.
+      onChange: _onChange,
       element: _element,
       className,
       // @ts-expect-error: могут передавать игнорируя ошибку
       maxLength,
-      // @ts-expect-error: могут передавать игнорируя ошибку
-      showClearIcon: _showClearIcon,
+      showClearIcon,
       selectAllOnFocus,
       type,
       __fromMaskedInputFacade,
@@ -304,6 +303,10 @@ export const MaskedInputV2 = forwardRefAndName(
         {...inputProps}
         type={getSafeMaskInputType(type)}
         inputMode={getMaskInputMode(type, inputProps.inputMode)}
+        // Непустоту значения Input считает по value нативного инпута, где лежат символы маски,
+        // поэтому на пустом значении крестик выключаем сами.
+        showClearIcon={raw === '' ? 'never' : showClearIcon}
+        onValueChange={handleInputValueChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onSelect={handleSelect}
@@ -328,6 +331,24 @@ export const MaskedInputV2 = forwardRefAndName(
         }
       />
     );
+
+    // Клик по крестику очистки Input отдаёт наружу через onValueChange, а сам чистит поле
+    // записью в DOM — мимо модели маски, из-за чего значение вернулось бы при следующем рендере.
+    // Поэтому очищаем через raw, как при обычном вводе.
+    function handleInputValueChange(value: string) {
+      if (value !== '') {
+        return;
+      }
+
+      // При очистке крестиком raw ещё не пуст — записываем шаг в историю, чтобы undo вернул значение.
+      // При удалении с клавиатуры сюда приходит уже применённый пустой raw, шаг записан в handleRawChange.
+      if (raw !== '') {
+        pushHistory('', 0);
+      }
+
+      setRaw('');
+      pendingCursorRestoreRef.current = 0;
+    }
 
     function handleRawChange(input: string, source: 'input' | 'paste', cursorPos?: number) {
       if (source === 'paste') {

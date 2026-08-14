@@ -8,10 +8,7 @@ export type MaskedSelectionIntent = 'caret-end' | 'select-all' | null;
 /**
  * Пропсы headless-слоя {@link MaskedCore}: прозрачный `<input>` + overlay маски.
  */
-export interface MaskedCoreProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'onChange' | 'defaultValue'
-> {
+export interface MaskedCoreProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'defaultValue'> {
   /** Вычисленное состояние маски для отображения. */
   maskState: MaskState;
   /** Карта слотов для clipboard/delete/navigation. */
